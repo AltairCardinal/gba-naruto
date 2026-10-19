@@ -1,0 +1,632 @@
+ROOT 0626B4 nodes=98 children=[] frontiers=[]
+0626B4 f0b5     push   {r4, r5, r6, r7, lr}
+0626B6 5746     mov    r7, sl
+0626B8 4e46     mov    r6, sb
+0626BA 4546     mov    r5, r8
+0626BC e0b4     push   {r5, r6, r7}
+0626BE 82b0     sub    sp, #8
+0626C0 0090     str    r0, [sp]
+0626C2 0191     str    r1, [sp, #4]
+0626C4 0a98     ldr    r0, [sp, #0x28]
+0626C6 0b99     ldr    r1, [sp, #0x2c]
+0626C8 0c9c     ldr    r4, [sp, #0x30]
+0626CA 0d9d     ldr    r5, [sp, #0x34]
+0626CC 1204     lsls   r2, r2, #0x10
+0626CE 120c     lsrs   r2, r2, #0x10
+0626D0 9246     mov    sl, r2
+0626D2 1b04     lsls   r3, r3, #0x10
+0626D4 1b0c     lsrs   r3, r3, #0x10
+0626D6 9c46     mov    ip, r3
+0626D8 0004     lsls   r0, r0, #0x10
+0626DA 070c     lsrs   r7, r0, #0x10
+0626DC 0904     lsls   r1, r1, #0x10
+0626DE 090c     lsrs   r1, r1, #0x10
+0626E0 8946     mov    sb, r1
+0626E2 2404     lsls   r4, r4, #0x10
+0626E4 240c     lsrs   r4, r4, #0x10
+0626E6 a046     mov    r8, r4
+0626E8 7f23     movs   r3, #0x7f
+0626EA 1f4c     ldr    r4, [pc, #0x7c]
+0626EC 1f48     ldr    r0, [pc, #0x7c]
+0626EE 2218     adds   r2, r4, r0
+0626F0 1068     ldr    r0, [r2]
+0626F2 0321     movs   r1, #3
+0626F4 0840     ands   r0, r1
+0626F6 0028     cmp    r0, #0
+0626F8 10d0     beq    #0x806271c
+0626FA 261c     adds   r6, r4, #0
+0626FC 0324     movs   r4, #3
+0626FE 1804     lsls   r0, r3, #0x10
+062700 1b49     ldr    r1, [pc, #0x6c]
+062702 4018     adds   r0, r0, r1
+062704 030c     lsrs   r3, r0, #0x10
+062706 0114     asrs   r1, r0, #0x10
+062708 0029     cmp    r1, #0
+06270A 07db     blt    #0x806271c
+06270C 0801     lsls   r0, r1, #4
+06270E 401a     subs   r0, r0, r1
+062710 8000     lsls   r0, r0, #2
+062712 8219     adds   r2, r0, r6
+062714 1068     ldr    r0, [r2]
+062716 2040     ands   r0, r4
+062718 0028     cmp    r0, #0
+06271A f0d1     bne    #0x80626fe
+06271C 1804     lsls   r0, r3, #0x10
+06271E 0014     asrs   r0, r0, #0x10
+062720 0121     movs   r1, #1
+062722 4942     rsbs   r1, r1, #0
+062724 8842     cmp    r0, r1
+062726 25d0     beq    #0x8062774
+062728 0120     movs   r0, #1
+06272A 0543     orrs   r5, r0
+06272C 1560     str    r5, [r2]
+06272E 0020     movs   r0, #0
+062730 0021     movs   r1, #0
+062732 6346     mov    r3, ip
+062734 9380     strh   r3, [r2, #4]
+062736 d780     strh   r7, [r2, #6]
+062738 5181     strh   r1, [r2, #0xa]
+06273A 1181     strh   r1, [r2, #8]
+06273C d074     strb   r0, [r2, #0x13]
+06273E 8020     movs   r0, #0x80
+062740 4000     lsls   r0, r0, #1
+062742 d081     strh   r0, [r2, #0xe]
+062744 9081     strh   r0, [r2, #0xc]
+062746 4846     mov    r0, sb
+062748 1082     strh   r0, [r2, #0x10]
+06274A 4346     mov    r3, r8
+06274C 9374     strb   r3, [r2, #0x12]
+06274E 5046     mov    r0, sl
+062750 9082     strh   r0, [r2, #0x14]
+062752 d182     strh   r1, [r2, #0x16]
+062754 1183     strh   r1, [r2, #0x18]
+062756 0099     ldr    r1, [sp]
+062758 d161     str    r1, [r2, #0x1c]
+06275A 019b     ldr    r3, [sp, #4]
+06275C 1362     str    r3, [r2, #0x20]
+06275E 0e98     ldr    r0, [sp, #0x38]
+062760 9062     str    r0, [r2, #0x28]
+062762 101c     adds   r0, r2, #0
+062764 07e0     b      #0x8062776
+062774 0020     movs   r0, #0
+062776 02b0     add    sp, #8
+062778 38bc     pop    {r3, r4, r5}
+06277A 9846     mov    r8, r3
+06277C a146     mov    sb, r4
+06277E aa46     mov    sl, r5
+062780 f0bc     pop    {r4, r5, r6, r7}
+062782 02bc     pop    {r1}
+062784 0847     bx     r1
+ROOT 062788 nodes=8 children=[] frontiers=[]
+062788 0168     ldr    r1, [r0]
+06278A 0222     movs   r2, #2
+06278C 5242     rsbs   r2, r2, #0
+06278E 1140     ands   r1, r2
+062790 0222     movs   r2, #2
+062792 1143     orrs   r1, r2
+062794 0160     str    r1, [r0]
+062796 7047     bx     lr
+ROOT 062798 nodes=9 children=[] frontiers=[]
+062798 0022     movs   r2, #0
+06279A 8182     strh   r1, [r0, #0x14]
+06279C c282     strh   r2, [r0, #0x16]
+06279E 0283     strh   r2, [r0, #0x18]
+0627A0 0168     ldr    r1, [r0]
+0627A2 024a     ldr    r2, [pc, #8]
+0627A4 1140     ands   r1, r2
+0627A6 0160     str    r1, [r0]
+0627A8 7047     bx     lr
+ROOT 0627B0 nodes=0 children=[] frontiers=[{'kind': 'missing_source_root', 'target': 403376}]
+ROOT 062924 nodes=0 children=[] frontiers=[{'kind': 'missing_source_root', 'target': 403748}]
+ROOT 06321C nodes=0 children=[] frontiers=[{'kind': 'missing_source_root', 'target': 406044}]
+ROOT 08AA50 nodes=266 children=[402852, 403336, 407044, 415156, 415516, 419672, 420424, 421140, 567372, 639200] frontiers=[]
+08AA50 f0b5     push   {r4, r5, r6, r7, lr}
+08AA52 5746     mov    r7, sl
+08AA54 4e46     mov    r6, sb
+08AA56 4546     mov    r5, r8
+08AA58 e0b4     push   {r5, r6, r7}
+08AA5A 86b0     sub    sp, #0x18
+08AA5C 051c     adds   r5, r0, #0
+08AA5E 184f     ldr    r7, [pc, #0x60]
+08AA60 b020     movs   r0, #0xb0
+08AA62 8000     lsls   r0, r0, #2
+08AA64 c019     adds   r0, r0, r7
+08AA66 8246     mov    sl, r0
+08AA68 2e1c     adds   r6, r5, #0
+08AA6A 2c36     adds   r6, #0x2c
+08AA6C b878     ldrb   r0, [r7, #2]
+08AA6E daf7a1fd bl     #0x80655b4
+08AA72 041c     adds   r4, r0, #0
+08AA74 a98d     ldrh   r1, [r5, #0x2c]
+08AA76 0029     cmp    r1, #0
+08AA78 16d1     bne    #0x808aaa8
+08AA7A ff20     movs   r0, #0xff
+08AA7C 7080     strh   r0, [r6, #2]
+08AA7E 1020     movs   r0, #0x10
+08AA80 a885     strh   r0, [r5, #0x2c]
+08AA82 b180     strh   r1, [r6, #4]
+08AA84 0320     movs   r0, #3
+08AA86 daf795fd bl     #0x80655b4
+08AA8A 041c     adds   r4, r0, #0
+08AA8C 05aa     add    r2, sp, #0x14
+08AA8E 0d48     ldr    r0, [pc, #0x34]
+08AA90 0068     ldr    r0, [r0]
+08AA92 0130     adds   r0, #1
+08AA94 0c49     ldr    r1, [pc, #0x30]
+08AA96 0988     ldrh   r1, [r1]
+08AA98 0843     orrs   r0, r1
+08AA9A 1080     strh   r0, [r2]
+08AA9C 211c     adds   r1, r4, #0
+08AA9E 1e31     adds   r1, #0x1e
+08AAA0 0a4a     ldr    r2, [pc, #0x28]
+08AAA2 05a8     add    r0, sp, #0x14
+08AAA4 11f01cfb bl     #0x809c0e0
+08AAA8 a17d     ldrb   r1, [r4, #0x16]
+08AAAA 7088     ldrh   r0, [r6, #2]
+08AAAC 8842     cmp    r0, r1
+08AAAE 0fd0     beq    #0x808aad0
+08AAB0 7180     strh   r1, [r6, #2]
+08AAB2 a07d     ldrb   r0, [r4, #0x16]
+08AAB4 7870     strb   r0, [r7, #1]
+08AAB6 b088     ldrh   r0, [r6, #4]
+08AAB8 0121     movs   r1, #1
+08AABA 0843     orrs   r0, r1
+08AABC b080     strh   r0, [r6, #4]
+08AABE fae0     b      #0x808acb6
+08AAD0 b188     ldrh   r1, [r6, #4]
+08AAD2 0222     movs   r2, #2
+08AAD4 9146     mov    sb, r2
+08AAD6 4846     mov    r0, sb
+08AAD8 0840     ands   r0, r1
+08AADA 0004     lsls   r0, r0, #0x10
+08AADC 000c     lsrs   r0, r0, #0x10
+08AADE 8046     mov    r8, r0
+08AAE0 0028     cmp    r0, #0
+08AAE2 15d0     beq    #0x808ab10
+08AAE4 0848     ldr    r0, [pc, #0x20]
+08AAE6 0840     ands   r0, r1
+08AAE8 b080     strh   r0, [r6, #4]
+08AAEA f81c     adds   r0, r7, #3
+08AAEC 7f78     ldrb   r7, [r7, #1]
+08AAEE c019     adds   r0, r0, r7
+08AAF0 0178     ldrb   r1, [r0]
+08AAF2 8800     lsls   r0, r1, #2
+08AAF4 4018     adds   r0, r0, r1
+08AAF6 8000     lsls   r0, r0, #2
+08AAF8 0449     ldr    r1, [pc, #0x10]
+08AAFA 4518     adds   r5, r0, r1
+08AAFC 5046     mov    r0, sl
+08AAFE 291c     adds   r1, r5, #0
+08AB00 fff7a4fe bl     #0x808a84c
+08AB04 d7e0     b      #0x808acb6
+08AB10 0123     movs   r3, #1
+08AB12 181c     adds   r0, r3, #0
+08AB14 0840     ands   r0, r1
+08AB16 0028     cmp    r0, #0
+08AB18 00d1     bne    #0x808ab1c
+08AB1A cce0     b      #0x808acb6
+08AB1C 2e48     ldr    r0, [pc, #0xb8]
+08AB1E 0840     ands   r0, r1
+08AB20 0221     movs   r1, #2
+08AB22 0843     orrs   r0, r1
+08AB24 b080     strh   r0, [r6, #4]
+08AB26 7878     ldrb   r0, [r7, #1]
+08AB28 f91c     adds   r1, r7, #3
+08AB2A 4118     adds   r1, r0, r1
+08AB2C 0a78     ldrb   r2, [r1]
+08AB2E 9100     lsls   r1, r2, #2
+08AB30 8918     adds   r1, r1, r2
+08AB32 8900     lsls   r1, r1, #2
+08AB34 294a     ldr    r2, [pc, #0xa4]
+08AB36 8d18     adds   r5, r1, r2
+08AB38 0130     adds   r0, #1
+08AB3A 0093     str    r3, [sp]
+08AB3C 0421     movs   r1, #4
+08AB3E 0191     str    r1, [sp, #4]
+08AB40 4146     mov    r1, r8
+08AB42 0291     str    r1, [sp, #8]
+08AB44 0221     movs   r1, #2
+08AB46 0022     movs   r2, #0
+08AB48 0223     movs   r3, #2
+08AB4A dbf77dff bl     #0x8066a48
+08AB4E 0120     movs   r0, #1
+08AB50 daf730fd bl     #0x80655b4
+08AB54 041c     adds   r4, r0, #0
+08AB56 2068     ldr    r0, [r4]
+08AB58 4a46     mov    r2, sb
+08AB5A 1043     orrs   r0, r2
+08AB5C 2060     str    r0, [r4]
+08AB5E daf7ddfd bl     #0x806571c
+08AB62 0320     movs   r0, #3
+08AB64 dcf7d6f8 bl     #0x8066d14
+08AB68 1d49     ldr    r1, [pc, #0x74]
+08AB6A 6878     ldrb   r0, [r5, #1]
+08AB6C 8000     lsls   r0, r0, #2
+08AB6E 4018     adds   r0, r0, r1
+08AB70 0068     ldr    r0, [r0]
+08AB72 0321     movs   r1, #3
+08AB74 0091     str    r1, [sp]
+08AB76 0021     movs   r1, #0
+08AB78 0322     movs   r2, #3
+08AB7A 0023     movs   r3, #0
+08AB7C dbf7ecfd bl     #0x8066758
+08AB80 2979     ldrb   r1, [r5, #4]
+08AB82 8800     lsls   r0, r1, #2
+08AB84 4018     adds   r0, r0, r1
+08AB86 4000     lsls   r0, r0, #1
+08AB88 1649     ldr    r1, [pc, #0x58]
+08AB8A 4018     adds   r0, r0, r1
+08AB8C 0521     movs   r1, #5
+08AB8E 0091     str    r1, [sp]
+08AB90 0021     movs   r1, #0
+08AB92 0322     movs   r2, #3
+08AB94 0023     movs   r3, #0
+08AB96 dbf7dffd bl     #0x8066758
+08AB9A e878     ldrb   r0, [r5, #3]
+08AB9C c000     lsls   r0, r0, #3
+08AB9E 1249     ldr    r1, [pc, #0x48]
+08ABA0 4018     adds   r0, r0, r1
+08ABA2 4146     mov    r1, r8
+08ABA4 0091     str    r1, [sp]
+08ABA6 0021     movs   r1, #0
+08ABA8 0322     movs   r2, #3
+08ABAA 0823     movs   r3, #8
+08ABAC dbf7d4fd bl     #0x8066758
+08ABB0 0320     movs   r0, #3
+08ABB2 daf7fffc bl     #0x80655b4
+08ABB6 041c     adds   r4, r0, #0
+08ABB8 3830     adds   r0, #0x38
+08ABBA 0c49     ldr    r1, [pc, #0x30]
+08ABBC 0d22     movs   r2, #0xd
+08ABBE 0723     movs   r3, #7
+08ABC0 d8f720fd bl     #0x8063604
+08ABC4 0024     movs   r4, #0
+08ABC6 ab22     movs   r2, #0xab
+08ABC8 9200     lsls   r2, r2, #2
+08ABCA b818     adds   r0, r7, r2
+08ABCC 0068     ldr    r0, [r0]
+08ABCE 0028     cmp    r0, #0
+08ABD0 0ed0     beq    #0x808abf0
+08ABD2 d7f7d9fd bl     #0x8062788
+08ABD6 0fe0     b      #0x808abf8
+08ABF0 a17c     ldrb   r1, [r4, #0x12]
+08ABF2 0120     movs   r0, #1
+08ABF4 041c     adds   r4, r0, #0
+08ABF6 4c40     eors   r4, r1
+08ABF8 6978     ldrb   r1, [r5, #1]
+08ABFA c800     lsls   r0, r1, #3
+08ABFC 4018     adds   r0, r0, r1
+08ABFE 0001     lsls   r0, r0, #4
+08AC00 1649     ldr    r1, [pc, #0x58]
+08AC02 4018     adds   r0, r0, r1
+08AC04 5821     movs   r1, #0x58
+08AC06 0091     str    r1, [sp]
+08AC08 0022     movs   r2, #0
+08AC0A 0192     str    r2, [sp, #4]
+08AC0C 0294     str    r4, [sp, #8]
+08AC0E 1449     ldr    r1, [pc, #0x50]
+08AC10 0391     str    r1, [sp, #0xc]
+08AC12 0492     str    r2, [sp, #0x10]
+08AC14 0021     movs   r1, #0
+08AC16 d423     movs   r3, #0xd4
+08AC18 d7f7c4fc bl     #0x80625a4
+08AC1C 021c     adds   r2, r0, #0
+08AC1E ab21     movs   r1, #0xab
+08AC20 8900     lsls   r1, r1, #2
+08AC22 7818     adds   r0, r7, r1
+08AC24 0260     str    r2, [r0]
+08AC26 a87c     ldrb   r0, [r5, #0x12]
+08AC28 0028     cmp    r0, #0
+08AC2A 03d0     beq    #0x808ac34
+08AC2C 1068     ldr    r0, [r2]
+08AC2E 0d49     ldr    r1, [pc, #0x34]
+08AC30 0840     ands   r0, r1
+08AC32 1060     str    r0, [r2]
+08AC34 e878     ldrb   r0, [r5, #3]
+08AC36 0028     cmp    r0, #0
+08AC38 16d0     beq    #0x808ac68
+08AC3A ac22     movs   r2, #0xac
+08AC3C 9200     lsls   r2, r2, #2
+08AC3E bb18     adds   r3, r7, r2
+08AC40 1a68     ldr    r2, [r3]
+08AC42 1068     ldr    r0, [r2]
+08AC44 0749     ldr    r1, [pc, #0x1c]
+08AC46 0840     ands   r0, r1
+08AC48 1060     str    r0, [r2]
+08AC4A 1968     ldr    r1, [r3]
+08AC4C e878     ldrb   r0, [r5, #3]
+08AC4E 8000     lsls   r0, r0, #2
+08AC50 e122     movs   r2, #0xe1
+08AC52 9200     lsls   r2, r2, #2
+08AC54 8018     adds   r0, r0, r2
+08AC56 0882     strh   r0, [r1, #0x10]
+08AC58 0fe0     b      #0x808ac7a
+08AC68 ac21     movs   r1, #0xac
+08AC6A 8900     lsls   r1, r1, #2
+08AC6C 7818     adds   r0, r7, r1
+08AC6E 0268     ldr    r2, [r0]
+08AC70 1068     ldr    r0, [r2]
+08AC72 8021     movs   r1, #0x80
+08AC74 8902     lsls   r1, r1, #0xa
+08AC76 0843     orrs   r0, r1
+08AC78 1060     str    r0, [r2]
+08AC7A a878     ldrb   r0, [r5, #2]
+08AC7C 0028     cmp    r0, #0
+08AC7E 11d0     beq    #0x808aca4
+08AC80 ad22     movs   r2, #0xad
+08AC82 9200     lsls   r2, r2, #2
+08AC84 bb18     adds   r3, r7, r2
+08AC86 1a68     ldr    r2, [r3]
+08AC88 1068     ldr    r0, [r2]
+08AC8A 0549     ldr    r1, [pc, #0x14]
+08AC8C 0840     ands   r0, r1
+08AC8E 1060     str    r0, [r2]
+08AC90 1968     ldr    r1, [r3]
+08AC92 a878     ldrb   r0, [r5, #2]
+08AC94 8000     lsls   r0, r0, #2
+08AC96 e622     movs   r2, #0xe6
+08AC98 9200     lsls   r2, r2, #2
+08AC9A 8018     adds   r0, r0, r2
+08AC9C 0882     strh   r0, [r1, #0x10]
+08AC9E 0ae0     b      #0x808acb6
+08ACA4 ad21     movs   r1, #0xad
+08ACA6 8900     lsls   r1, r1, #2
+08ACA8 7818     adds   r0, r7, r1
+08ACAA 0268     ldr    r2, [r0]
+08ACAC 1068     ldr    r0, [r2]
+08ACAE 8021     movs   r1, #0x80
+08ACB0 8902     lsls   r1, r1, #0xa
+08ACB2 0843     orrs   r0, r1
+08ACB4 1060     str    r0, [r2]
+08ACB6 06b0     add    sp, #0x18
+08ACB8 38bc     pop    {r3, r4, r5}
+08ACBA 9846     mov    r8, r3
+08ACBC a146     mov    sb, r4
+08ACBE aa46     mov    sl, r5
+08ACC0 f0bc     pop    {r4, r5, r6, r7}
+08ACC2 01bc     pop    {r0}
+08ACC4 0047     bx     r0
+ROOT 08EE40 nodes=0 children=[] frontiers=[{'kind': 'missing_source_root', 'target': 585280}]
+ROOT 08A84C nodes=221 children=[400000, 400076, 403124, 403336, 567220, 575244, 576076, 639196, 639308] frontiers=[]
+08A84C f0b5     push   {r4, r5, r6, r7, lr}
+08A84E 5746     mov    r7, sl
+08A850 4e46     mov    r6, sb
+08A852 4546     mov    r5, r8
+08A854 e0b4     push   {r5, r6, r7}
+08A856 93b0     sub    sp, #0x4c
+08A858 8246     mov    sl, r0
+08A85A 0d91     str    r1, [sp, #0x34]
+08A85C 0020     movs   r0, #0
+08A85E 0e90     str    r0, [sp, #0x38]
+08A860 0024     movs   r4, #0
+08A862 08a9     add    r1, sp, #0x20
+08A864 8946     mov    sb, r1
+08A866 6a46     mov    r2, sp
+08A868 2c32     adds   r2, #0x2c
+08A86A 1292     str    r2, [sp, #0x48]
+08A86C 6b46     mov    r3, sp
+08A86E 3033     adds   r3, #0x30
+08A870 1193     str    r3, [sp, #0x44]
+08A872 2004     lsls   r0, r4, #0x10
+08A874 0714     asrs   r7, r0, #0x10
+08A876 0d98     ldr    r0, [sp, #0x34]
+08A878 0530     adds   r0, #5
+08A87A c019     adds   r0, r0, r7
+08A87C 8046     mov    r8, r0
+08A87E 0078     ldrb   r0, [r0]
+08A880 4001     lsls   r0, r0, #5
+08A882 0a21     movs   r1, #0xa
+08A884 11f062fc bl     #0x809c14c
+08A888 0004     lsls   r0, r0, #0x10
+08A88A 040c     lsrs   r4, r0, #0x10
+08A88C 3802     lsls   r0, r7, #8
+08A88E 0521     movs   r1, #5
+08A890 11f05cfc bl     #0x809c14c
+08A894 0004     lsls   r0, r0, #0x10
+08A896 0614     asrs   r6, r0, #0x10
+08A898 301c     adds   r0, r6, #0
+08A89A d7f7f1f8 bl     #0x8061a80
+08A89E 7d00     lsls   r5, r7, #1
+08A8A0 6a46     mov    r2, sp
+08A8A2 5219     adds   r2, r2, r5
+08A8A4 1432     adds   r2, #0x14
+08A8A6 0004     lsls   r0, r0, #0x10
+08A8A8 0014     asrs   r0, r0, #0x10
+08A8AA 2104     lsls   r1, r4, #0x10
+08A8AC 0c14     asrs   r4, r1, #0x10
+08A8AE 011c     adds   r1, r0, #0
+08A8B0 6143     muls   r1, r4, r1
+08A8B2 081c     adds   r0, r1, #0
+08A8B4 8030     adds   r0, #0x80
+08A8B6 0028     cmp    r0, #0
+08A8B8 01da     bge    #0x808a8be
+08A8BA 214b     ldr    r3, [pc, #0x84]
+08A8BC c818     adds   r0, r1, r3
+08A8BE 0012     asrs   r0, r0, #8
+08A8C0 2030     adds   r0, #0x20
+08A8C2 1080     strh   r0, [r2]
+08A8C4 301c     adds   r0, r6, #0
+08A8C6 d7f701f9 bl     #0x8061acc
+08A8CA 4946     mov    r1, sb
+08A8CC 4a19     adds   r2, r1, r5
+08A8CE 0004     lsls   r0, r0, #0x10
+08A8D0 0014     asrs   r0, r0, #0x10
+08A8D2 011c     adds   r1, r0, #0
+08A8D4 6143     muls   r1, r4, r1
+08A8D6 081c     adds   r0, r1, #0
+08A8D8 8030     adds   r0, #0x80
+08A8DA 0028     cmp    r0, #0
+08A8DC 01da     bge    #0x808a8e2
+08A8DE 184b     ldr    r3, [pc, #0x60]
+08A8E0 c818     adds   r0, r1, r3
+08A8E2 0012     asrs   r0, r0, #8
+08A8E4 2021     movs   r1, #0x20
+08A8E6 081a     subs   r0, r1, r0
+08A8E8 1080     strh   r0, [r2]
+08A8EA 4246     mov    r2, r8
+08A8EC 1078     ldrb   r0, [r2]
+08A8EE 0028     cmp    r0, #0
+08A8F0 01d0     beq    #0x808a8f6
+08A8F2 0123     movs   r3, #1
+08A8F4 0e93     str    r3, [sp, #0x38]
+08A8F6 781c     adds   r0, r7, #1
+08A8F8 0004     lsls   r0, r0, #0x10
+08A8FA 040c     lsrs   r4, r0, #0x10
+08A8FC 0014     asrs   r0, r0, #0x10
+08A8FE 0428     cmp    r0, #4
+08A900 b7dd     ble    #0x808a872
+08A902 0120     movs   r0, #1
+08A904 4042     rsbs   r0, r0, #0
+08A906 0b90     str    r0, [sp, #0x2c]
+08A908 0e49     ldr    r1, [pc, #0x38]
+08A90A 0f4a     ldr    r2, [pc, #0x3c]
+08A90C 1298     ldr    r0, [sp, #0x48]
+08A90E 11f0e5fb bl     #0x809c0dc
+08A912 0024     movs   r4, #0
+08A914 4846     mov    r0, sb
+08A916 0f90     str    r0, [sp, #0x3c]
+08A918 2021     movs   r1, #0x20
+08A91A 1091     str    r1, [sp, #0x40]
+08A91C 2027     movs   r7, #0x20
+08A91E 0b48     ldr    r0, [pc, #0x2c]
+08A920 0c90     str    r0, [sp, #0x30]
+08A922 1198     ldr    r0, [sp, #0x44]
+08A924 0a49     ldr    r1, [pc, #0x28]
+08A926 0b4a     ldr    r2, [pc, #0x2c]
+08A928 11f0d8fb bl     #0x809c0dc
+08A92C 2004     lsls   r0, r4, #0x10
+08A92E 0114     asrs   r1, r0, #0x10
+08A930 051c     adds   r5, r0, #0
+08A932 0429     cmp    r1, #4
+08A934 10d0     beq    #0x808a958
+08A936 481c     adds   r0, r1, #1
+08A938 0004     lsls   r0, r0, #0x10
+08A93A 000c     lsrs   r0, r0, #0x10
+08A93C 0de0     b      #0x808a95a
+08A958 0020     movs   r0, #0
+08A95A 2d14     asrs   r5, r5, #0x10
+08A95C 6e00     lsls   r6, r5, #1
+08A95E 6a46     mov    r2, sp
+08A960 9219     adds   r2, r2, r6
+08A962 1432     adds   r2, #0x14
+08A964 9146     mov    sb, r2
+08A966 1178     ldrb   r1, [r2]
+08A968 0f9b     ldr    r3, [sp, #0x3c]
+08A96A 9e19     adds   r6, r3, r6
+08A96C 3278     ldrb   r2, [r6]
+08A96E 0404     lsls   r4, r0, #0x10
+08A970 e413     asrs   r4, r4, #0xf
+08A972 6846     mov    r0, sp
+08A974 0019     adds   r0, r0, r4
+08A976 1430     adds   r0, #0x14
+08A978 8046     mov    r8, r0
+08A97A 0378     ldrb   r3, [r0]
+08A97C 0f98     ldr    r0, [sp, #0x3c]
+08A97E 0419     adds   r4, r0, r4
+08A980 2078     ldrb   r0, [r4]
+08A982 0090     str    r0, [sp]
+08A984 0f20     movs   r0, #0xf
+08A986 0190     str    r0, [sp, #4]
+08A988 2248     ldr    r0, [pc, #0x88]
+08A98A 0290     str    r0, [sp, #8]
+08A98C 5046     mov    r0, sl
+08A98E 01f0bdfe bl     #0x808c70c
+08A992 4146     mov    r1, r8
+08A994 0b78     ldrb   r3, [r1]
+08A996 2078     ldrb   r0, [r4]
+08A998 0090     str    r0, [sp]
+08A99A 0f22     movs   r2, #0xf
+08A99C 0192     str    r2, [sp, #4]
+08A99E 1d48     ldr    r0, [pc, #0x74]
+08A9A0 0290     str    r0, [sp, #8]
+08A9A2 5046     mov    r0, sl
+08A9A4 1099     ldr    r1, [sp, #0x40]
+08A9A6 3a1c     adds   r2, r7, #0
+08A9A8 01f0b0fe bl     #0x808c70c
+08A9AC 4946     mov    r1, sb
+08A9AE 0b78     ldrb   r3, [r1]
+08A9B0 3078     ldrb   r0, [r6]
+08A9B2 0090     str    r0, [sp]
+08A9B4 0f22     movs   r2, #0xf
+08A9B6 0192     str    r2, [sp, #4]
+08A9B8 1648     ldr    r0, [pc, #0x58]
+08A9BA 0290     str    r0, [sp, #8]
+08A9BC 5046     mov    r0, sl
+08A9BE 1099     ldr    r1, [sp, #0x40]
+08A9C0 3a1c     adds   r2, r7, #0
+08A9C2 01f0a3fe bl     #0x808c70c
+08A9C6 fff7f5fe bl     #0x808a7b4
+08A9CA 0135     adds   r5, #1
+08A9CC 2d04     lsls   r5, r5, #0x10
+08A9CE 2c0c     lsrs   r4, r5, #0x10
+08A9D0 2d14     asrs   r5, r5, #0x10
+08A9D2 042d     cmp    r5, #4
+08A9D4 a3dd     ble    #0x808a91e
+08A9D6 5046     mov    r0, sl
+08A9D8 0f21     movs   r1, #0xf
+08A9DA 02f037f8 bl     #0x808ca4c
+08A9DE 0e99     ldr    r1, [sp, #0x38]
+08A9E0 0029     cmp    r1, #0
+08A9E2 1fd1     bne    #0x808aa24
+08A9E4 0c48     ldr    r0, [pc, #0x30]
+08A9E6 af22     movs   r2, #0xaf
+08A9E8 9200     lsls   r2, r2, #2
+08A9EA 8418     adds   r4, r0, r2
+08A9EC 2368     ldr    r3, [r4]
+08A9EE 002b     cmp    r3, #0
+08A9F0 23d1     bne    #0x808aa3a
+08A9F2 0a48     ldr    r0, [pc, #0x28]
+08A9F4 0a49     ldr    r1, [pc, #0x28]
+08A9F6 7122     movs   r2, #0x71
+08A9F8 0092     str    r2, [sp]
+08A9FA eb22     movs   r2, #0xeb
+08A9FC 9200     lsls   r2, r2, #2
+08A9FE 0192     str    r2, [sp, #4]
+08AA00 0f22     movs   r2, #0xf
+08AA02 0292     str    r2, [sp, #8]
+08AA04 0822     movs   r2, #8
+08AA06 0392     str    r2, [sp, #0xc]
+08AA08 0493     str    r3, [sp, #0x10]
+08AA0A 0022     movs   r2, #0
+08AA0C a923     movs   r3, #0xa9
+08AA0E d7f751fe bl     #0x80626b4
+08AA12 11e0     b      #0x808aa38
+08AA24 0948     ldr    r0, [pc, #0x24]
+08AA26 af23     movs   r3, #0xaf
+08AA28 9b00     lsls   r3, r3, #2
+08AA2A c418     adds   r4, r0, r3
+08AA2C 2068     ldr    r0, [r4]
+08AA2E 0028     cmp    r0, #0
+08AA30 03d0     beq    #0x808aa3a
+08AA32 d7f7a9fe bl     #0x8062788
+08AA36 0020     movs   r0, #0
+08AA38 2060     str    r0, [r4]
+08AA3A 13b0     add    sp, #0x4c
+08AA3C 38bc     pop    {r3, r4, r5}
+08AA3E 9846     mov    r8, r3
+08AA40 a146     mov    sb, r4
+08AA42 aa46     mov    sl, r5
+08AA44 f0bc     pop    {r4, r5, r6, r7}
+08AA46 01bc     pop    {r0}
+08AA48 0047     bx     r0
+ROOT 08A4D8 nodes=20 children=[] frontiers=[]
+08A4D8 00b5     push   {lr}
+08A4DA 0006     lsls   r0, r0, #0x18
+08A4DC 0849     ldr    r1, [pc, #0x20]
+08A4DE 420f     lsrs   r2, r0, #0x1d
+08A4E0 9200     lsls   r2, r2, #2
+08A4E2 5218     adds   r2, r2, r1
+08A4E4 f821     movs   r1, #0xf8
+08A4E6 4905     lsls   r1, r1, #0x15
+08A4E8 0140     ands   r1, r0
+08A4EA 090e     lsrs   r1, r1, #0x18
+08A4EC 0120     movs   r0, #1
+08A4EE 8840     lsls   r0, r1
+08A4F0 1268     ldr    r2, [r2]
+08A4F2 0240     ands   r2, r0
+08A4F4 002a     cmp    r2, #0
+08A4F6 00d0     beq    #0x808a4fa
+08A4F8 0122     movs   r2, #1
+08A4FA 101c     adds   r0, r2, #0
+08A4FC 02bc     pop    {r1}
+08A4FE 0847     bx     r1

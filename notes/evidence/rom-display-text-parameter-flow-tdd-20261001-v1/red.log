@@ -1,0 +1,1421 @@
+FFFFFFFFFFFFFFE.FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEF
+======================================================================
+ERROR: test_no_rom_writes_or_natural_execution_claim (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_no_rom_writes_or_natural_execution_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 90, in test_no_rom_writes_or_natural_execution_claim
+    result = self.prove(self.rom)
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 24, in prove
+    return prove_parameter_flow(rom, **kwargs)
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_display_text_parameter_flow.py", line 5, in prove_parameter_flow
+    raise ValueError("display parameter flow not implemented")
+ValueError: display parameter flow not implemented
+
+======================================================================
+ERROR: test_real_rom_all_92_paths_and_both_display_bridges (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_real_rom_all_92_paths_and_both_display_bridges)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 32, in test_real_rom_all_92_paths_and_both_display_bridges
+    results = [self.prove(self.rom, row) for row in self.paths]
+               ~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 24, in prove
+    return prove_parameter_flow(rom, **kwargs)
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_display_text_parameter_flow.py", line 5, in prove_parameter_flow
+    raise ValueError("display parameter flow not implemented")
+ValueError: display parameter flow not implemented
+
+======================================================================
+FAIL: test_early_control_flow_and_unknown_encodings_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_early_control_flow_and_unknown_encodings_rejected) (half='0xe000')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 57, in test_early_control_flow_and_unknown_encodings_rejected
+    with self.assertRaisesRegex(ValueError, 'unsupported|control'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unsupported|control" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_early_control_flow_and_unknown_encodings_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_early_control_flow_and_unknown_encodings_rejected) (half='0xd000')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 57, in test_early_control_flow_and_unknown_encodings_rejected
+    with self.assertRaisesRegex(ValueError, 'unsupported|control'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unsupported|control" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_early_control_flow_and_unknown_encodings_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_early_control_flow_and_unknown_encodings_rejected) (half='0x4700')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 57, in test_early_control_flow_and_unknown_encodings_rejected
+    with self.assertRaisesRegex(ValueError, 'unsupported|control'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unsupported|control" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_early_control_flow_and_unknown_encodings_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_early_control_flow_and_unknown_encodings_rejected) (half='0xbd00')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 57, in test_early_control_flow_and_unknown_encodings_rejected
+    with self.assertRaisesRegex(ValueError, 'unsupported|control'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unsupported|control" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_early_control_flow_and_unknown_encodings_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_early_control_flow_and_unknown_encodings_rejected) (half='0xf000')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 57, in test_early_control_flow_and_unknown_encodings_rejected
+    with self.assertRaisesRegex(ValueError, 'unsupported|control'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unsupported|control" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_early_control_flow_and_unknown_encodings_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_early_control_flow_and_unknown_encodings_rejected) (half='0x0')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 57, in test_early_control_flow_and_unknown_encodings_rejected
+    with self.assertRaisesRegex(ValueError, 'unsupported|control'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unsupported|control" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_early_control_flow_and_unknown_encodings_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_early_control_flow_and_unknown_encodings_rejected) (half='0x468d')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 57, in test_early_control_flow_and_unknown_encodings_rejected
+    with self.assertRaisesRegex(ValueError, 'unsupported|control'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unsupported|control" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_early_control_flow_and_unknown_encodings_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_early_control_flow_and_unknown_encodings_rejected) (half='0x468f')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 57, in test_early_control_flow_and_unknown_encodings_rejected
+    with self.assertRaisesRegex(ValueError, 'unsupported|control'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "unsupported|control" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_high_register_mov_and_stack_load_cannot_clobber_r0 (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_high_register_mov_and_stack_load_cannot_clobber_r0) (half='0x4608')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 50, in test_high_register_mov_and_stack_load_cannot_clobber_r0
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_high_register_mov_and_stack_load_cannot_clobber_r0 (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_high_register_mov_and_stack_load_cannot_clobber_r0) (half='0x9800')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 50, in test_high_register_mov_and_stack_load_cannot_clobber_r0
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_high_register_mov_and_stack_load_cannot_clobber_r0 (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_high_register_mov_and_stack_load_cannot_clobber_r0) (half='0x3001')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 50, in test_high_register_mov_and_stack_load_cannot_clobber_r0
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_high_register_mov_and_stack_load_cannot_clobber_r0 (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_high_register_mov_and_stack_load_cannot_clobber_r0) (half='0x1c08')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 50, in test_high_register_mov_and_stack_load_cannot_clobber_r0
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_high_register_mov_and_stack_load_cannot_clobber_r0 (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_high_register_mov_and_stack_load_cannot_clobber_r0) (half='0x4801')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 50, in test_high_register_mov_and_stack_load_cannot_clobber_r0
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_literal_register_or_target_change_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_literal_register_or_target_change_rejected)
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 64, in test_literal_register_or_target_change_rejected
+    with self.assertRaisesRegex(ValueError, 'literal.*r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "literal.*r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6eda4')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6ee30')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6ee48')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6f00c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6f028')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6f040')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6f07c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6f08a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6f3f8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6f418')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6f530')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x6f544')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70918')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70950')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70a3c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70a62')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70a90')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70ab8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70af0')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70b1c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70b48')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70b74')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70b98')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70bc0')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70bd8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70c30')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70c56')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70c6c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70c98')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70cb0')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70cdc')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70cf2')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70d10')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70d1a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x70d3c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x7120a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x7121a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x71f80')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x71fac')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x71fc8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x71fe4')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x72000')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x7201c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x7204c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x72078')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x7324a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x73254')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x7325e')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x73838')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x73858')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x77dae')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x77dcc')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x77ef4')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x77f04')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x77f14')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x77f24')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x77f64')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x77fe2')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x78164')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x78174')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x781e2')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x781f0')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x7825e')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x7829a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x782a8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x78abc')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x791f8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x8e26e')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x8e4ec')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x8e50c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x8e784')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x8e792')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x8e9d8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x8ea0a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x8ea42')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x8eb98')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x900f4')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x900fe')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x91100')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x91114')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x9113a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x9115e')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x9116c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x91216')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x9129a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x912c8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x9136a')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x915e8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x915f8')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x91608')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x91b98')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_r0_overwrite_at_every_real_path_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_r0_overwrite_at_every_real_path_rejected) (site='0x91d4c')
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 43, in test_r0_overwrite_at_every_real_path_rejected
+    with self.assertRaisesRegex(ValueError, 'r0'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+AssertionError: "r0" does not match "display parameter flow not implemented"
+
+======================================================================
+FAIL: test_wrong_call_target_or_missing_bl_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_wrong_call_target_or_missing_bl_rejected)
+----------------------------------------------------------------------
+ValueError: display parameter flow not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 72, in test_wrong_call_target_or_missing_bl_rejected
+    with self.assertRaisesRegex(ValueError, 'callee'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "callee" does not match "display parameter flow not implemented"
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.207s
+
+FAILED (failures=107, errors=2)

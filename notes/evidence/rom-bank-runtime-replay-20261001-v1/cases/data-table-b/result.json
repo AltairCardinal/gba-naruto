@@ -1,0 +1,21 @@
+{
+  "bank": "data-table-b",
+  "command": [
+    "python3",
+    "tools/verify_data_table_b_message0_pointer_ab.py",
+    "artifacts/data-table-b-message0-pointer-pixel-ab-v1",
+    "--binary",
+    "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+  ],
+  "exit_code": 0,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "different_pixel_count": 928,
+    "message_id": 0,
+    "verified": true
+  },
+  "seconds": 0.812,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "828aeafa98e2ffded348f749be187fb493f63606eb3766ba200194320a92afdf",
+  "timed_out": false
+}

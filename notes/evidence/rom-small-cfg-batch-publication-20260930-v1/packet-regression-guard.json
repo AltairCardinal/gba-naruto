@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 57594,
+  "peak_tree_rss_mib": 534.3984375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 -m unittest tests.test_rom_small_cfg_callback_gaps_producer tests.test_rom_small_cfg_callback_gaps_independent_verifier tests.test_rom_small_cfg_callback_gaps_parent_boundary_gates tests.test_rom_small_cfg_wrappers_producer tests.test_rom_small_cfg_wrappers_independent_verifier tests.test_rom_small_cfg_wrappers_parent_decoder tests.test_rom_small_cfg_dispatcher_parent_packet tests.test_rom_small_cfg_dispatcher_dispatch_decode tests.test_rom_small_cfg_event_gaps_packet tests.test_rom_small_cfg_dependency_packets tests.test_rom_small_cfg_batch_coverage -v > build/experiments/active/small-cfg-tier2/acceptance-20260930-v1/packet-regression.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T11:53:39.618218Z",
+  "finished_at": "2026-09-30T11:54:58.198440Z"
+}

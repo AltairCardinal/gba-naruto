@@ -1,0 +1,38 @@
+{
+  "bounded_vector_cases": 512,
+  "declared_thumb_instructions": 88472,
+  "default_vector_cases": 3,
+  "exact_outputs": [
+    "writer-domain.json",
+    "summary.json",
+    "coupled-writers.json"
+  ],
+  "external_mgba_source_required_for_replay": false,
+  "fresh_source_verifier_calls": 2,
+  "independent_batch_processes": true,
+  "natural_execution_proven": false,
+  "promotion_bytes": 0,
+  "runtime_launches": 0,
+  "source_reference_confirmation": {
+    "commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8",
+    "external_source_required_for_replay": false,
+    "files": {
+      "include/mgba/internal/gba/memory.h": {
+        "head_blob_sha256": "fca671fc3bc5ab06641f6259ebf092688e1ba1ddd8eb80e4fba9a43cda44fb41",
+        "matches_recorded_source": true
+      },
+      "src/gba/dma.c": {
+        "head_blob_sha256": "cd4c795f69ec16373e475b4c902e863e4a6db61cd2b9f1c4d851496d3202b9d1",
+        "matches_recorded_source": true
+      },
+      "src/gba/memory.c": {
+        "head_blob_sha256": "501dbbca7d5d7cbaa86240de2d6a4e2e1186b50f74dde11bcf2f323c4af8c437",
+        "matches_recorded_source": true
+      }
+    },
+    "reference_sha256": "7cb64dc9feccfe5f3b369d4515a470975c4a8eae8ddefb7c55398c6104d26f26",
+    "schema": "iwram-bus-reference-commit-confirmation-v1"
+  },
+  "store_transfers": 9730,
+  "unit_tests": 16
+}

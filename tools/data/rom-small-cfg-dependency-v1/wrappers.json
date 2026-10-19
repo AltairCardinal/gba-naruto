@@ -1,0 +1,1228 @@
+{
+  "baseline_archive": {
+    "path": "notes/evidence/rom-evidence-selector-repair-20260905/coverage-after.json.gz",
+    "sha256": "f996d62735f43b00fc3375b1e74423aac6b331edbca0943ae3033c2ceea0942b",
+    "size": 1759704
+  },
+  "baseline_raw_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+  "baseline_raw_size": 31426933,
+  "code_ranges": [
+    [
+      503272,
+      503294
+    ],
+    [
+      506012,
+      506034
+    ],
+    [
+      639276,
+      639278
+    ]
+  ],
+  "expected_blocks": [
+    [
+      503272,
+      503290
+    ],
+    [
+      503290,
+      503294
+    ],
+    [
+      506012,
+      506030
+    ],
+    [
+      506030,
+      506034
+    ],
+    [
+      639276,
+      639278
+    ]
+  ],
+  "expected_frontiers": [
+    {
+      "reason": "indirect_pc_target",
+      "register": 0,
+      "source": 503292
+    },
+    {
+      "reason": "indirect_pc_target",
+      "register": 0,
+      "source": 506032
+    },
+    {
+      "reason": "indirect_pc_target",
+      "register": 7,
+      "source": 639276
+    }
+  ],
+  "expected_literal_bindings": [
+    [
+      503276,
+      503296,
+      "e06b0202"
+    ],
+    [
+      506016,
+      506036,
+      "e06b0202"
+    ]
+  ],
+  "expected_nodes": [
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 503274
+        }
+      ],
+      "flow": "linear",
+      "offset": 503272,
+      "raw_hex": "00b5",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 503276
+        }
+      ],
+      "flow": "linear",
+      "offset": 503274,
+      "raw_hex": "0006",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 503278
+        }
+      ],
+      "flow": "linear",
+      "offset": 503276,
+      "raw_hex": "0449",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 503280
+        }
+      ],
+      "flow": "linear",
+      "offset": 503278,
+      "raw_hex": "800d",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 503282
+        }
+      ],
+      "flow": "linear",
+      "offset": 503280,
+      "raw_hex": "c431",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 503284
+        }
+      ],
+      "flow": "linear",
+      "offset": 503282,
+      "raw_hex": "4018",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 503286
+        }
+      ],
+      "flow": "linear",
+      "offset": 503284,
+      "raw_hex": "0068",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "call_target",
+          "scope": "opaque",
+          "target": 503228
+        },
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 503290
+        }
+      ],
+      "flow": "call",
+      "offset": 503286,
+      "raw_hex": "fff7e1ff",
+      "size": 4
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 503292
+        }
+      ],
+      "flow": "linear",
+      "offset": 503290,
+      "raw_hex": "01bc",
+      "size": 2
+    },
+    {
+      "edges": [],
+      "flow": "indirect_branch",
+      "offset": 503292,
+      "raw_hex": "0047",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 506014
+        }
+      ],
+      "flow": "linear",
+      "offset": 506012,
+      "raw_hex": "00b5",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 506016
+        }
+      ],
+      "flow": "linear",
+      "offset": 506014,
+      "raw_hex": "0006",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 506018
+        }
+      ],
+      "flow": "linear",
+      "offset": 506016,
+      "raw_hex": "0449",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 506020
+        }
+      ],
+      "flow": "linear",
+      "offset": 506018,
+      "raw_hex": "800d",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 506022
+        }
+      ],
+      "flow": "linear",
+      "offset": 506020,
+      "raw_hex": "c431",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 506024
+        }
+      ],
+      "flow": "linear",
+      "offset": 506022,
+      "raw_hex": "4018",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 506026
+        }
+      ],
+      "flow": "linear",
+      "offset": 506024,
+      "raw_hex": "0068",
+      "size": 2
+    },
+    {
+      "edges": [
+        {
+          "kind": "call_target",
+          "scope": "opaque",
+          "target": 505992
+        },
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 506030
+        }
+      ],
+      "flow": "call",
+      "offset": 506026,
+      "raw_hex": "fff7edff",
+      "size": 4
+    },
+    {
+      "edges": [
+        {
+          "kind": "fallthrough",
+          "scope": "internal",
+          "target": 506032
+        }
+      ],
+      "flow": "linear",
+      "offset": 506030,
+      "raw_hex": "01bc",
+      "size": 2
+    },
+    {
+      "edges": [],
+      "flow": "indirect_branch",
+      "offset": 506032,
+      "raw_hex": "0047",
+      "size": 2
+    },
+    {
+      "edges": [],
+      "flow": "indirect_branch",
+      "offset": 639276,
+      "raw_hex": "3847",
+      "size": 2
+    }
+  ],
+  "expected_producers": [
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/0",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-000-07e070",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                516208,
+                516542
+              ]
+            }
+          ],
+          "intersection": [
+            516306,
+            516310
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-000-07e070"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              516208,
+              516542
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fcf789fe",
+      "size": 4,
+      "source": 516306,
+      "target": 503272
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/2",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-002-07e1c8",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                516552,
+                516920
+              ]
+            }
+          ],
+          "intersection": [
+            516684,
+            516688
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-002-07e1c8"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              516552,
+              516920
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fcf7ccfd",
+      "size": 4,
+      "source": 516684,
+      "target": 503272
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/4",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-004-07e340",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                516928,
+                517306
+              ]
+            }
+          ],
+          "intersection": [
+            517060,
+            517064
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-004-07e340"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              516928,
+              517306
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fcf710fd",
+      "size": 4,
+      "source": 517060,
+      "target": 503272
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/6",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-006-07e4c4",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                517316,
+                517694
+              ]
+            }
+          ],
+          "intersection": [
+            517448,
+            517452
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-006-07e4c4"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              517316,
+              517694
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fcf74efc",
+      "size": 4,
+      "source": 517448,
+      "target": 503272
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/8",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-008-07e648",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                517704,
+                517994
+              ]
+            }
+          ],
+          "intersection": [
+            517808,
+            517812
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-008-07e648"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              517704,
+              517994
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fcf79afb",
+      "size": 4,
+      "source": 517808,
+      "target": 503272
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/15",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-015-07e8a8",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                518312,
+                518486
+              ]
+            }
+          ],
+          "intersection": [
+            518474,
+            518478
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-015-07e8a8"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              518312,
+              518486
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fcf74dfa",
+      "size": 4,
+      "source": 518474,
+      "target": 503272
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/0",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-000-07e070",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                516208,
+                516542
+              ]
+            }
+          ],
+          "intersection": [
+            516312,
+            516316
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-000-07e070"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              516208,
+              516542
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fdf7e0fb",
+      "size": 4,
+      "source": 516312,
+      "target": 506012
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/2",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-002-07e1c8",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                516552,
+                516920
+              ]
+            }
+          ],
+          "intersection": [
+            516690,
+            516694
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-002-07e1c8"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              516552,
+              516920
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fdf723fb",
+      "size": 4,
+      "source": 516690,
+      "target": 506012
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/4",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-004-07e340",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                516928,
+                517306
+              ]
+            }
+          ],
+          "intersection": [
+            517066,
+            517070
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-004-07e340"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              516928,
+              517306
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fdf767fa",
+      "size": 4,
+      "source": 517066,
+      "target": 506012
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/6",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-006-07e4c4",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                517316,
+                517694
+              ]
+            }
+          ],
+          "intersection": [
+            517454,
+            517458
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-006-07e4c4"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              517316,
+              517694
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fdf7a5f9",
+      "size": 4,
+      "source": 517454,
+      "target": 506012
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/8",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-008-07e648",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                517704,
+                517994
+              ]
+            }
+          ],
+          "intersection": [
+            517814,
+            517818
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-008-07e648"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              517704,
+              517994
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fdf7f1f8",
+      "size": 4,
+      "source": 517814,
+      "target": 506012
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/10",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-010-07e774",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                518004,
+                518198
+              ]
+            }
+          ],
+          "intersection": [
+            518128,
+            518132
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-010-07e774"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              518004,
+              518198
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fdf754f8",
+      "size": 4,
+      "source": 518128,
+      "target": 506012
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/17",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-017-07e968",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                518504,
+                518612
+              ]
+            }
+          ],
+          "intersection": [
+            518506,
+            518510
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-017-07e968"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              518504,
+              518612
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fcf797ff",
+      "size": 4,
+      "source": 518506,
+      "target": 506012
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/20",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-020-07ea00",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                518656,
+                518776
+              ]
+            }
+          ],
+          "intersection": [
+            518736,
+            518740
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-020-07ea00"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              518656,
+              518776
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fcf724ff",
+      "size": 4,
+      "source": 518736,
+      "target": 506012
+    },
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "text_bg_task_closure_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-text-bg-task-closure-v1/rom-text-bg-task-closure.json",
+              "evidence_selector": "/promotion/code_ranges/17",
+              "evidence_sha256": "014c4b8c4fd098e8049511df55f248505e4d680be5b394592cab92e26c512a0c",
+              "id": "text-bg-task-closure-code-08c7bc",
+              "independent_verifier_path": "tools/verify_rom_text_bg_task_closure.py",
+              "independent_verifier_sha256": "9e29205f8e32dc37cb0d50843ae86e96abee6270d0294ed9fc9c24c494859a50",
+              "mode": "thumb",
+              "primary_class": "armv4t_text_bg_task_dependency_closure_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-text-bg-task-closure-v1/manifest.json",
+              "promotion_manifest_sha256": "fd632dd3d8762fa7f7b2492917fff814628587255e3853973013757e9346dd0d",
+              "range": [
+                575420,
+                575616
+              ]
+            }
+          ],
+          "intersection": [
+            575488,
+            575492
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "text-bg-task-closure-code-08c7bc"
+            ],
+            "primary_class": "armv4t_text_bg_task_dependency_closure_thumb_code",
+            "range": [
+              575420,
+              575616
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "0ff094fc",
+      "size": 4,
+      "source": 575488,
+      "target": 639276
+    }
+  ],
+  "expected_summary": {
+    "basic_block_count": 5,
+    "claim_count": 5,
+    "code_bytes": 46,
+    "frontier_count": 3,
+    "instruction_count": 21,
+    "literal_bytes": 8,
+    "opaque_call_count": 2,
+    "producer_count": 15,
+    "promotion_bytes": 54,
+    "root_count": 3,
+    "structured_return_count": 0
+  },
+  "holes": [
+    [
+      503294,
+      503296
+    ],
+    [
+      506034,
+      506036
+    ]
+  ],
+  "literal_ranges": [
+    [
+      503296,
+      503300
+    ],
+    [
+      506036,
+      506040
+    ]
+  ],
+  "opaque_entries": [
+    503228,
+    505992
+  ],
+  "output_contract": {
+    "baseline": "raw_sha256/raw_size from exact raw input; archive_reference from public contract; archive_observed_during_this_build=false",
+    "closure": "nodes, blocks, code_ranges, literal_ranges, literal_bindings, frontiers, holes, summary; derive all graph members, summary exact expected_summary",
+    "producers": "exact expected_producers including full preflight owner intersections, derived raw scan ordered by roots then source; verify actual baseline owner ranges/segments/claims fields equal the frozen provenance",
+    "promotion": "claim_count/promotion_bytes/claims, five code and literal rows in ascending range; each row id=three-direct-wrapper-{kind}-{index:02d}-{start:06x} where kind is reachable_thumb_code or consumed_literal_words and index is global zero based 0..4; keys id/kind/range/bytes_sha256/baseline_owners; baseline_owners are full unmodified segments intersecting range and all unknown",
+    "references": "rom/upstream_inputs/roots/scope copied as normative reference fields, not claimed observed by pure builder",
+    "top_level_keys": [
+      "schema",
+      "rom",
+      "upstream_inputs",
+      "baseline",
+      "roots",
+      "producers",
+      "root_pointer_occurrences",
+      "closure",
+      "promotion",
+      "scope"
+    ]
+  },
+  "output_schema": "rom-three-direct-wrapper-cfg-v1",
+  "producer_rules": [
+    "Implement pure build_payload(rom, baseline_raw, contract_raw)->dict and derive_closure(rom, roots, code_ranges, literal_ranges, opaque_entries, holes)->dict; no file IO/publication/import of upstream producers or verifiers in implementation.",
+    "Pin this complete CONTRACT SHA in implementation; production build verifies exact ROM and raw baseline SHA/size before parse. Parent independent verifier binds source files and compressed baseline, replays raw upstream membership and opaque entries.",
+    "Implement scan_producers(rom, targets) for full-ROM aligned Thumb B/BL/Bcond target-limited syntactic hits including final 2-byte halfword; not a global code claim. Production results must exactly match ordered raw fields of expected_producers, then verify baseline provenance before copying.",
+    "Decode every actual node and derive worklist, full code/literal domains, maximal basic blocks split after calls, indirect frontiers, literal loads, preserved holes. Support only Thumb-1 encodings needed by frozen wrappers plus generic B/conditionalB/BL for hidden inputs; unknown/high-reg PC writes/SWI fail closed. No structured return inference from POP/BX. Entering code middle, literal, hole, outside ROM, or unlisted opaque target fails.",
+    "BL targets in opaque_entries stop at exact entry; continue fallthrough. BX remains indirect_pc_target with register. Literal PC formula aligned(source+4)+imm8*4 and every declared literal word needs actual LDR consumer. Every supplied code byte must be reached exactly once, no instruction overlap.",
+    "Root Thumb pointer occurrence scan must cover unaligned byte offsets too; bind exact denominator to public contract.",
+    "All five promotion ranges must be wholly unknown in continuous immutable baseline; copy full baseline segment objects. Do not claim either two-byte hole or any adjacent bytes.",
+    "TDD RED/GREEN, real integration, hidden relocated same-structure oracle, synthetic B/BL/Bcond sign and last-halfword tests, branch-to-instruction-middle/literal/hole, missing literal word, input/owner/scope mutation. No accepted receipt or canonical write."
+  ],
+  "publication_contract": {
+    "canonical_and_formal_acceptance_deferred_to_batch_integration": true,
+    "failed_stages_retained_without_name_based_cleanup": true,
+    "immutable_precoverage_required": true,
+    "independent_candidate_verification_required": true,
+    "publisher_requires_atomic_noreplace_and_member_identity": true,
+    "pure_payload_is_not_acceptance": true,
+    "version": 1
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "root_pointer_occurrences": {
+    "0x807ade9": [],
+    "0x807b89d": [],
+    "0x809c12d": []
+  },
+  "roots": [
+    503272,
+    506012,
+    639276
+  ],
+  "schema": "rom-three-direct-wrapper-public-contract-v1",
+  "scope": {
+    "canonical_promoted": false,
+    "classification": "producer-bound finite Thumb code and consumed literal words",
+    "computed_indirect_producers_exhausted": false,
+    "global_direct_code_denominator": false,
+    "holes_classified": false,
+    "natural_reachability": false,
+    "opaque_callee_stack_effects_proven": false,
+    "source_full_lifecycle_replayed_here": false,
+    "structured_return": false
+  },
+  "upstream_inputs": [
+    {
+      "path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+      "sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+      "size": 4350
+    },
+    {
+      "path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+      "sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+      "size": 5936694
+    },
+    {
+      "path": "artifacts/rom-cfg-proven-roots-v1/manifest.json",
+      "sha256": "ea1230fe24cf111a91044c059468a1467e46c471363780b23c2a0311bab8644a",
+      "size": 5186
+    },
+    {
+      "path": "artifacts/rom-cfg-proven-roots-v1/rom-cfg-proven-roots.json",
+      "sha256": "7fdee7d0d62d3a8c82bfe7b03804e9cb0e3d213ebdf63acce6b0533045aecf54",
+      "size": 1024474
+    },
+    {
+      "path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+      "sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+      "size": 37061
+    },
+    {
+      "path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+      "size": 34133
+    },
+    {
+      "path": "artifacts/rom-text-bg-task-closure-v1/manifest.json",
+      "sha256": "fd632dd3d8762fa7f7b2492917fff814628587255e3853973013757e9346dd0d",
+      "size": 1148
+    },
+    {
+      "path": "artifacts/rom-text-bg-task-closure-v1/rom-text-bg-task-closure.json",
+      "sha256": "014c4b8c4fd098e8049511df55f248505e4d680be5b394592cab92e26c512a0c",
+      "size": 20175
+    },
+    {
+      "path": "tools/_vendor/capstone/__init__.py",
+      "sha256": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+      "size": 42474
+    },
+    {
+      "path": "tools/_vendor/capstone/arm.py",
+      "sha256": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+      "size": 2071
+    },
+    {
+      "path": "tools/_vendor/capstone/arm_const.py",
+      "sha256": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+      "size": 16464
+    },
+    {
+      "path": "tools/_vendor/capstone/lib/libcapstone.dylib",
+      "sha256": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f",
+      "size": 7308696
+    },
+    {
+      "path": "tools/export_rom_cfg_inventory.py",
+      "sha256": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+      "size": 40396
+    },
+    {
+      "path": "tools/export_rom_cfg_proven_roots_v13.py",
+      "sha256": "7017045fc098faff14e1726873a05a379123222ee878d771e3bdb4b5d5a70c8c",
+      "size": 40788
+    },
+    {
+      "path": "tools/rom_event_handler_cfg_contract.py",
+      "sha256": "42ff03212b40d435093c8de589b5750f704d0e3b5910e4a6dc2b7f1c5e657ae9",
+      "size": 9242
+    },
+    {
+      "path": "tools/thumb_branch.py",
+      "sha256": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+      "size": 3084
+    },
+    {
+      "path": "tools/verify_rom_cfg_inventory.py",
+      "sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+      "size": 45183
+    },
+    {
+      "path": "tools/verify_rom_cfg_proven_roots.py",
+      "sha256": "693d9381f429346376a6400bea20025ca0c56e1e68d0bf3164b070ea722aa4d7",
+      "size": 36912
+    },
+    {
+      "path": "tools/verify_rom_cfg_proven_roots_v13.py",
+      "sha256": "a687af7750e9a177b47883f1b540d555bd4c666d92865d56e521f85174c869a7",
+      "size": 39526
+    },
+    {
+      "path": "tools/verify_rom_event_handler_cfg.py",
+      "sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+      "size": 22929
+    },
+    {
+      "path": "tools/verify_rom_text_bg_task_closure.py",
+      "sha256": "9e29205f8e32dc37cb0d50843ae86e96abee6270d0294ed9fc9c24c494859a50",
+      "size": 19636
+    }
+  ]
+}

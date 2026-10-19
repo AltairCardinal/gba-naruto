@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 4488,
+  "peak_tree_rss_mib": 0.80078125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "python3 build/experiments/active/reverse-work-plan/research-20261001-v1/inventory.py > build/experiments/active/reverse-work-plan/research-20261001-v1/inventory.json 2> build/experiments/active/reverse-work-plan/research-20261001-v1/stderr.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T18:19:44.681613Z",
+  "finished_at": "2026-09-30T18:19:45.719136Z"
+}

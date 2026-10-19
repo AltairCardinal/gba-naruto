@@ -1,0 +1,79 @@
+test_every_logical_alias_is_checked (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_every_logical_alias_is_checked) ... ok
+test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) ... ok
+test_valid_domain_and_flip_flags (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_valid_domain_and_flip_flags) ... ok
+test_actual_cli_rejects_linked_indices_before_capacity_and_output (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_actual_cli_rejects_linked_indices_before_capacity_and_output) ... ok
+test_full_matrix_in_relocated_root_real_cli_and_isolated_environment (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_full_matrix_in_relocated_root_real_cli_and_isolated_environment) ... ok
+test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) ... ok
+test_real_output_faults_fail_without_publishing_verified_result (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_real_output_faults_fail_without_publishing_verified_result) ... ok
+test_build_manifest_dispatch_applies_map_resource_edit (tests.test_import_map_resources.ImportMapResourcesTests.test_build_manifest_dispatch_applies_map_resource_edit) ... ERROR
+test_catalog_has_166_content_resources_and_217_physical_slots (tests.test_import_map_resources.ImportMapResourcesTests.test_catalog_has_166_content_resources_and_217_physical_slots) ... ok
+test_edit_updates_every_physical_alias_with_fixed_length_guards (tests.test_import_map_resources.ImportMapResourcesTests.test_edit_updates_every_physical_alias_with_fixed_length_guards) ... ERROR
+test_independent_writeback_audit_verifier_rejects_resigned_tamper (tests.test_import_map_resources.ImportMapResourcesTests.test_independent_writeback_audit_verifier_rejects_resigned_tamper) ... ok
+test_noop_all_resources_emits_no_patches (tests.test_import_map_resources.ImportMapResourcesTests.test_noop_all_resources_emits_no_patches) ... ok
+test_rejects_atomic_alias_overflow_stale_provenance_and_duplicates (tests.test_import_map_resources.ImportMapResourcesTests.test_rejects_atomic_alias_overflow_stale_provenance_and_duplicates) ... ok
+test_rejects_layout_indices_outside_linked_metatile_resources (tests.test_import_map_resources.ImportMapResourcesTests.test_rejects_layout_indices_outside_linked_metatile_resources) ... ok
+test_rejects_metatile_indices_outside_linked_tiles_and_palettes (tests.test_import_map_resources.ImportMapResourcesTests.test_rejects_metatile_indices_outside_linked_tiles_and_palettes) ... ok
+test_writeback_audit_closes_complete_denominator_and_records_overflow (tests.test_import_map_resources.ImportMapResourcesTests.test_writeback_audit_closes_complete_denominator_and_records_overflow) ... FAIL
+test_battle_effect_capacity_uses_vram_safe_encoding (tests.test_vram_safe_fixed_slot_audits.VramSafeFixedSlotAuditTests.test_battle_effect_capacity_uses_vram_safe_encoding) ... ok
+test_bg_capacity_uses_vram_safe_encoding (tests.test_vram_safe_fixed_slot_audits.VramSafeFixedSlotAuditTests.test_bg_capacity_uses_vram_safe_encoding) ... ok
+test_map_capacity_uses_vram_safe_encoding (tests.test_vram_safe_fixed_slot_audits.VramSafeFixedSlotAuditTests.test_map_capacity_uses_vram_safe_encoding) ... ok
+test_menu_portrait_overflow_is_reported_instead_of_raising (tests.test_vram_safe_fixed_slot_audits.VramSafeFixedSlotAuditTests.test_menu_portrait_overflow_is_reported_instead_of_raising) ... ok
+test_actual_output_and_build_report_faults_are_detected (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_actual_output_and_build_report_faults_are_detected) ... ok
+test_all_resources_build_and_read_back_or_reject_capacity (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_all_resources_build_and_read_back_or_reject_capacity) ... ok
+test_cli_missing_input_is_json_failure (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_cli_missing_input_is_json_failure) ... ok
+test_cli_runs_in_relocated_root_with_isolated_build_environment (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_cli_runs_in_relocated_root_with_isolated_build_environment) ... ok
+test_contract_and_repository_drift_fail_before_build (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_contract_and_repository_drift_fail_before_build) ... ok
+test_missing_and_symbolic_input_fail_closed (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_missing_and_symbolic_input_fail_closed) ... ok
+test_unmanaged_or_completed_run_rejected_before_writes (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_unmanaged_or_completed_run_rejected_before_writes) ... ok
+
+======================================================================
+ERROR: test_build_manifest_dispatch_applies_map_resource_edit (tests.test_import_map_resources.ImportMapResourcesTests.test_build_manifest_dispatch_applies_map_resource_edit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_import_map_resources.py", line 339, in test_build_manifest_dispatch_applies_map_resource_edit
+    expected_patches = resolve_map_resource_patches(
+        temp_root,
+        local_spec,
+        rom=self.base,
+    )
+  File "/Users/altair/github/gba-naruto-reverse/tools/import_map_resources.py", line 360, in resolve_map_resource_patches
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: tile_graphics/34cf11df93495221b7c763fe9344d2e1b2391d79ef16e23ae4cd4b681e35d6c0 encoded size 13958 does not fit every physical slot (0x0B9F80:13957)
+
+======================================================================
+ERROR: test_edit_updates_every_physical_alias_with_fixed_length_guards (tests.test_import_map_resources.ImportMapResourcesTests.test_edit_updates_every_physical_alias_with_fixed_length_guards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_import_map_resources.py", line 126, in test_edit_updates_every_physical_alias_with_fixed_length_guards
+    patches = resolve_map_resource_patches(
+        ROOT,
+    ...<3 lines>...
+        rom=self.base,
+    )
+  File "/Users/altair/github/gba-naruto-reverse/tools/import_map_resources.py", line 360, in resolve_map_resource_patches
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: tile_graphics/954fa15925b8b9fa6ad7f37d53de62f3565943fbc6f43751a99a0ae50cf5d4f9 encoded size 8570 does not fit every physical slot (0x0ED2D0:8568, 0x10986C:8568)
+
+======================================================================
+FAIL: test_writeback_audit_closes_complete_denominator_and_records_overflow (tests.test_import_map_resources.ImportMapResourcesTests.test_writeback_audit_closes_complete_denominator_and_records_overflow)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_import_map_resources.py", line 383, in test_writeback_audit_closes_complete_denominator_and_records_overflow
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        135,
+        ^^^^
+        payload["summary"]["mutation_fit_all_alias_content_count"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+AssertionError: 135 != 70
+
+----------------------------------------------------------------------
+Ran 27 tests in 149.828s
+
+FAILED (failures=1, errors=2)

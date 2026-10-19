@@ -1,0 +1,202 @@
+{
+  "completed_count": 6,
+  "passed_count": 6,
+  "promotion_bytes": 0,
+  "rows": [
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-inventory-v2"
+      ],
+      "exit_code": 0,
+      "guard_degraded": false,
+      "guard_peak_tree_rss_mib": 139.08984375,
+      "guard_reason": "completed",
+      "name": "inventory-v2",
+      "report": {
+        "budget_exhausted": false,
+        "closed_root_count": 4,
+        "control_flow_oracle": "armv4t-raw-encoding",
+        "decoded_basic_block_count": 7725,
+        "decoded_instruction_count": 40872,
+        "errors": [],
+        "frontier_count": 366,
+        "frontier_open_root_count": 259,
+        "independently_rebuilt_instruction_count": 40872,
+        "reachable_instruction_bytes": 86184,
+        "root_count": 263,
+        "schema": "rom-cfg-inventory-verification-v2",
+        "verified": true
+      },
+      "verified": true
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_inventory_v3.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-inventory-v3"
+      ],
+      "exit_code": 0,
+      "guard_degraded": false,
+      "guard_peak_tree_rss_mib": 150.671875,
+      "guard_reason": "completed",
+      "name": "inventory-v3",
+      "report": {
+        "control_flow_oracle": "armv4t-raw-encoding",
+        "decoded_basic_block_count": 891,
+        "errors": [],
+        "frontier_count": 16,
+        "independently_rebuilt_instruction_count": 4698,
+        "new_entry_seed_count": 101,
+        "reachable_instruction_bytes": 9902,
+        "resolved_frontier_count": 29,
+        "schema": "rom-cfg-inventory-verification-v3",
+        "verified": true
+      },
+      "verified": true
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v6.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v6"
+      ],
+      "exit_code": 0,
+      "guard_degraded": false,
+      "guard_peak_tree_rss_mib": 178.23828125,
+      "guard_reason": "completed",
+      "name": "roots-v6",
+      "report": {
+        "baseline_cross_edge_count": 916,
+        "control_flow_oracle": "armv4t-raw-encoding",
+        "decoded_basic_block_count": 2305,
+        "decoded_instruction_count": 12564,
+        "errors": [],
+        "frontier_count": 85,
+        "independently_rebuilt_instruction_count": 12564,
+        "reachable_instruction_bytes": 27224,
+        "root_count": 5,
+        "schema": "rom-cfg-proven-roots-verification-v6",
+        "verified": true
+      },
+      "verified": true
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v17.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/rom-cfg-proven-roots-v17"
+      ],
+      "exit_code": 0,
+      "guard_degraded": false,
+      "guard_peak_tree_rss_mib": 235.7890625,
+      "guard_reason": "completed",
+      "name": "roots-v17",
+      "report": {
+        "accepted_producer_count": 2,
+        "code_bytes": 2092,
+        "errors": [],
+        "instruction_count": 950,
+        "literal_bytes": 308,
+        "literal_word_count": 77,
+        "precoverage_sha256": "4e8ab6b090825901ab7b055326e64a6a16343ec95ac33cfe5e0dbe7721eb2440",
+        "preserved_unknown_gap_count": 5,
+        "promotion_bytes": 2400,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root_count": 1,
+        "schema": "rom-cfg-proven-roots-v17-verification-v1",
+        "verified": true
+      },
+      "verified": true
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v18.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/rom-cfg-proven-roots-v18"
+      ],
+      "exit_code": 0,
+      "guard_degraded": false,
+      "guard_peak_tree_rss_mib": 243.1640625,
+      "guard_reason": "completed",
+      "name": "roots-v18",
+      "report": {
+        "accepted_producer_count": 4,
+        "code_bytes": 1386,
+        "errors": [],
+        "instruction_count": 617,
+        "literal_bytes": 96,
+        "literal_word_count": 24,
+        "precoverage_sha256": "23eb0ceaf4d38b8cadb74e05ddf8686de454d5e73c433da26073075d1fa71e78",
+        "preserved_unknown_gap_count": 4,
+        "promotion_bytes": 1482,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root_count": 2,
+        "schema": "rom-cfg-proven-roots-v18-verification-v1",
+        "verified": true
+      },
+      "verified": true
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_battle_controller_cfg.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-battle-controller-cfg-v1"
+      ],
+      "exit_code": 0,
+      "guard_degraded": false,
+      "guard_peak_tree_rss_mib": 76.16015625,
+      "guard_reason": "completed",
+      "name": "battle-controller",
+      "report": {
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "controller_sha256": "c9bdc220590a851fa331960bcb32be90eb9ac7248a5cd3dabb9f8afa0b674bc1",
+        "dispatcher_default_state_count": 65498,
+        "dispatcher_nondefault_state_count": 38,
+        "errors": [],
+        "root_count": 38,
+        "schema": "rom-battle-controller-cfg-verification-v1",
+        "summary": {
+          "decoded_basic_block_count": 739,
+          "decoded_instruction_count": 2756,
+          "frontier_count": 5,
+          "frontier_reasons": {
+            "decode_failure": 1,
+            "indirect_pc_target": 2,
+            "unsupported_armv4t_instruction": 2
+          },
+          "opaque_baseline_edge_count": 9,
+          "opaque_external_edge_count": 227,
+          "reachable_instruction_bytes": 6172,
+          "skipped_root_count": 1
+        },
+        "verified": true
+      },
+      "verified": true
+    }
+  ],
+  "schema": "renderer-source-replay-v1",
+  "scope": "Historical source CFG semantic replay only; no new literal-to-renderer flow, Tier1, canonical or natural execution proof."
+}

@@ -1,0 +1,70 @@
+test_boot_dma_configuration_and_zero_fill_ranges (__main__.CoupledWriterTests.test_boot_dma_configuration_and_zero_fill_ranges) ... ERROR
+test_boot_nonzero_source_and_unsupported_dma_mode_are_rejected (__main__.CoupledWriterTests.test_boot_nonzero_source_and_unsupported_dma_mode_are_rejected) ... ERROR
+test_saved_byte_initializer_clears_saved_without_changing_counter (__main__.CoupledWriterTests.test_saved_byte_initializer_clears_saved_without_changing_counter) ... ERROR
+test_vector_default_restoration_can_alias_counter_if_slot_is_29 (__main__.CoupledWriterTests.test_vector_default_restoration_can_alias_counter_if_slot_is_29) ... ERROR
+test_vector_register_all_u8_slots_and_high_byte_truncation (__main__.CoupledWriterTests.test_vector_register_all_u8_slots_and_high_byte_truncation) ... ERROR
+
+======================================================================
+ERROR: test_boot_dma_configuration_and_zero_fill_ranges (__main__.CoupledWriterTests.test_boot_dma_configuration_and_zero_fill_ranges)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "build/experiments/active/animation-writer-domain/domains-20261001-v1/test_coupled_probe.py", line 11, in setUp
+    self.m=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.m)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-writer-domain/domains-20261001-v1/coupled_probe.py'
+
+======================================================================
+ERROR: test_boot_nonzero_source_and_unsupported_dma_mode_are_rejected (__main__.CoupledWriterTests.test_boot_nonzero_source_and_unsupported_dma_mode_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "build/experiments/active/animation-writer-domain/domains-20261001-v1/test_coupled_probe.py", line 11, in setUp
+    self.m=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.m)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-writer-domain/domains-20261001-v1/coupled_probe.py'
+
+======================================================================
+ERROR: test_saved_byte_initializer_clears_saved_without_changing_counter (__main__.CoupledWriterTests.test_saved_byte_initializer_clears_saved_without_changing_counter)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "build/experiments/active/animation-writer-domain/domains-20261001-v1/test_coupled_probe.py", line 11, in setUp
+    self.m=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.m)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-writer-domain/domains-20261001-v1/coupled_probe.py'
+
+======================================================================
+ERROR: test_vector_default_restoration_can_alias_counter_if_slot_is_29 (__main__.CoupledWriterTests.test_vector_default_restoration_can_alias_counter_if_slot_is_29)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "build/experiments/active/animation-writer-domain/domains-20261001-v1/test_coupled_probe.py", line 11, in setUp
+    self.m=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.m)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-writer-domain/domains-20261001-v1/coupled_probe.py'
+
+======================================================================
+ERROR: test_vector_register_all_u8_slots_and_high_byte_truncation (__main__.CoupledWriterTests.test_vector_register_all_u8_slots_and_high_byte_truncation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "build/experiments/active/animation-writer-domain/domains-20261001-v1/test_coupled_probe.py", line 11, in setUp
+    self.m=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.m)
+                                                 ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-writer-domain/domains-20261001-v1/coupled_probe.py'
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.003s
+
+FAILED (errors=5)

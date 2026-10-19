@@ -1,0 +1,82 @@
+{
+  "artifacts/map-canvases-v1/manifest.json": {
+    "reason": "contract-bound fixture input",
+    "sha256": "12a231a570a1cb9e56bec7e2f87cb6de4ac48d673765b1ba536bbc5b0137e19c",
+    "size": 186282
+  },
+  "cases/graphics-append-one-tile/output.gba": {
+    "reason": "reconstructable output ROM",
+    "sha256": "10a0088819f9e77a5d710898124b71ac7ed375211a68995a4ca8934eb6d582cd",
+    "size": 16777216
+  },
+  "cases/mutate-all/output.gba": {
+    "reason": "reconstructable output ROM",
+    "sha256": "859eba9d84856b355b4b806467b151c6b813156efeb13e27a602b79af9f310ec",
+    "size": 16777216
+  },
+  "cases/mutate-overflow-subset/output.gba": {
+    "reason": "reconstructable output ROM",
+    "sha256": "35bcf45d7db803692cbf5c2f9ccc2f33305a1a0b6aa3498fa118597430f61187",
+    "size": 16777216
+  },
+  "cases/preserve-all/output.gba": {
+    "reason": "reconstructable output ROM",
+    "sha256": "64fc632d2d2ee3e61f3f1ce211420d8145640a27dc2a40063bc8d011b6218403",
+    "size": 16777216
+  },
+  "rom/base.gba": {
+    "reason": "contract-bound fixture input",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "sequel/image-resource-regions.json": {
+    "reason": "contract-bound fixture input",
+    "sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "size": 2699
+  },
+  "sequel/rom-layout.json": {
+    "reason": "contract-bound fixture input",
+    "sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "size": 2484
+  },
+  "tools/build_mod.py": {
+    "reason": "contract-bound fixture input",
+    "sha256": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "size": 60537
+  },
+  "tools/extract_tileset.py": {
+    "reason": "contract-bound fixture input",
+    "sha256": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "size": 14279
+  },
+  "tools/gba_image_export.py": {
+    "reason": "contract-bound fixture input",
+    "sha256": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "size": 9593
+  },
+  "tools/image_resource_regions.py": {
+    "reason": "contract-bound fixture input",
+    "sha256": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "size": 5436
+  },
+  "tools/import_map_resource_relocations.py": {
+    "reason": "contract-bound fixture input",
+    "sha256": "6e804b74db0c1f6462cd535c578bd133be1859a4dd0817a9e8ae75ef114532e2",
+    "size": 18368
+  },
+  "tools/import_map_resources.py": {
+    "reason": "contract-bound fixture input",
+    "sha256": "d53fc8a7df6769f08dad9f245e03b45023d8d2c8a5e16e7510d5f0aca098ae05",
+    "size": 15820
+  },
+  "tools/patch_safety.py": {
+    "reason": "contract-bound fixture input",
+    "sha256": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "size": 8082
+  },
+  "tools/rom_layout.py": {
+    "reason": "contract-bound fixture input",
+    "sha256": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "size": 10688
+  }
+}

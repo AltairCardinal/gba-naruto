@@ -1,0 +1,47 @@
+{
+  "changed_implementation": {
+    "tests/test_import_battle_effect_resources.py": {
+      "current": "a6e8519ff82f5b719e57bcbe0b04fd090f881aba20e1c0ad309cd131a4598583",
+      "old": "1331e9586a1d46fef82931a2c1bc4c2bee63fd30d6df382b3e41698561f38293"
+    }
+  },
+  "current_runtime_executed": false,
+  "old_identity": {
+    "battle-effect-resource-writeback.json": "3f7ed416b584980695198bf93a7bb6d61345d977e83ca2ba93c25b9bf3f0a534",
+    "manifest.json": "47970ba90a761de5eeb67eebaea574558b2e780b8483129e22a02dbd61d3cb3c"
+  },
+  "scope": {
+    "all_content_resources_audited": true,
+    "all_logical_references_accounted": true,
+    "all_physical_slots_audited": true,
+    "arbitrary_edit_capacity_complete": false,
+    "atomic_all_alias_capacity_gate": true,
+    "deterministic_first_unit_mutation_audited": true,
+    "explicit_physical_slot_targeting_available": true,
+    "generic_image_writeback_complete": false,
+    "guarded_in_place_importer_available": true,
+    "original_roundtrip_capacity_complete": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "vram_safe_encoding_audited": true
+  },
+  "semantic_payload_unchanged": true,
+  "summary": {
+    "content_resource_count": 34,
+    "logical_reference_count": 36,
+    "minimum_mutation_slot_margin": -2,
+    "minimum_original_slot_margin": 0,
+    "mutation_fit_all_alias_content_count": 23,
+    "mutation_fit_logical_reference_count": 24,
+    "mutation_fit_slot_count": 24,
+    "mutation_overflow_content_count": 11,
+    "mutation_overflow_logical_reference_count": 12,
+    "mutation_overflow_slot_count": 11,
+    "original_roundtrip_fit_content_count": 34,
+    "original_roundtrip_fit_slot_count": 35,
+    "physical_slot_count": 35
+  },
+  "two_regenerations_byte_exact": true,
+  "verified": true
+}

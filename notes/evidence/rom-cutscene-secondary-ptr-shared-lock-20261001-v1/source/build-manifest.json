@@ -1,0 +1,46 @@
+{
+  "allocation": {
+    "after_color": 32736,
+    "before_color": 32767,
+    "decompressed_sha256": "b45bb67b45bde042e28402533deebac3cdf88f5676ebad671fd54fd409125581",
+    "encoded_sha256": "b0bae6be5e34cd89b03a28adf1af2d168aa44f904218cc67796f9a39aae69073",
+    "offset": 12194544,
+    "palette_color_index": 1,
+    "region": "cutscene-obj-bundle",
+    "region_owner": "cutscene_obj_resources",
+    "shared_by_both_variants": true,
+    "size": 22
+  },
+  "edit": {
+    "after_pointer": 146412272,
+    "before_pointer": 146409828,
+    "field": "secondary_ptr",
+    "offset": 5496700,
+    "record_id": "1",
+    "resource_id": 1
+  },
+  "isolation": {
+    "changed_rom_offsets": [
+      5496700,
+      5496701
+    ],
+    "other_bytes_equal": true
+  },
+  "parent_baseline_sha256": "4da5caf8e6aedf78182b13e75829931398dfb61aee7b7f5f45cd6ec324a33c16",
+  "parent_manifest_sha256": "34e8cf88ed9d57ff6a6e5c4148d3a3af8f055c50923b7e62f0e369e3dc356e3f",
+  "runtime_verified": false,
+  "schema": "cutscene-obj-id1-secondary-ptr-ab-build-v1",
+  "source_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "variants": {
+    "baseline": {
+      "rom_path": "baseline/baseline.gba",
+      "rom_sha256": "762ea6794d93eb7bac79f2d1ccd58bfe8f67a625d3ff4be2aff2ddf8aefa5816",
+      "rom_size": 16777216
+    },
+    "candidate": {
+      "rom_path": "candidate/candidate.gba",
+      "rom_sha256": "76974bcda32477926fe2397b4a48b87bdf956eacc5af7db4f41966026ce67c9d",
+      "rom_size": 16777216
+    }
+  }
+}

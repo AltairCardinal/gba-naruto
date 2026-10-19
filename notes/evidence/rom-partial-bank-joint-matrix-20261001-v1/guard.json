@@ -1,0 +1,21 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 37717,
+  "peak_tree_rss_mib": 148.67578125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "build/experiments/active/partial-bank-matrix/four-bank-20261001-v1/matrix.py",
+    "--root",
+    ".",
+    "--plan",
+    "build/experiments/active/partial-bank-matrix/four-bank-20261001-v1/plan.json",
+    "--output",
+    "build/experiments/active/partial-bank-matrix/four-bank-20261001-v1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T15:06:56.355805Z",
+  "finished_at": "2026-10-01T15:07:48.028135Z"
+}

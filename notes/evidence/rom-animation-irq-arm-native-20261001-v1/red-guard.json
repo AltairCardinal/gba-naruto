@@ -1,0 +1,21 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 77950,
+  "peak_tree_rss_mib": 0.72265625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "build/experiments/active/animation-irq-arm/arm-20261001-v1",
+    "-p",
+    "test_arm_probe.py"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T11:37:00.731977Z",
+  "finished_at": "2026-10-01T11:37:01.782989Z"
+}

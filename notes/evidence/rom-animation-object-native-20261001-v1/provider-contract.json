@@ -1,0 +1,558 @@
+{
+  "architecture": "x86_64",
+  "build_defines": [
+    "-DBUILD_GLES2",
+    "-DBUILD_GLES3",
+    "-DENABLE_DEBUGGERS",
+    "-DENABLE_DIRECTORIES",
+    "-DENABLE_GDB_STUB",
+    "-DENABLE_SCRIPTING",
+    "-DENABLE_VFS",
+    "-DENABLE_VFS_FD",
+    "-DHAVE_CRC32",
+    "-DHAVE_FREELOCALE",
+    "-DHAVE_FUTIMENS",
+    "-DHAVE_FUTIMES",
+    "-DHAVE_LOCALE",
+    "-DHAVE_LOCALTIME_R",
+    "-DHAVE_NEWLOCALE",
+    "-DHAVE_PTHREAD_CREATE",
+    "-DHAVE_PTHREAD_SETNAME_NP",
+    "-DHAVE_REALPATH",
+    "-DHAVE_SETLOCALE",
+    "-DHAVE_SNPRINTF_L",
+    "-DHAVE_STRDUP",
+    "-DHAVE_STRLCPY",
+    "-DHAVE_STRNDUP",
+    "-DHAVE_STRTOF_L",
+    "-DHAVE_USELOCALE",
+    "-DHAVE_VASPRINTF",
+    "-DHAVE_XLOCALE",
+    "-DLUA_VERSION_ONLY=\"5.5\"",
+    "-DM_CORE_GB",
+    "-DM_CORE_GBA",
+    "-DUSE_DISCORD_RPC",
+    "-DUSE_EDITLINE",
+    "-DUSE_EPOXY",
+    "-DUSE_FFMPEG",
+    "-DUSE_FREETYPE",
+    "-DUSE_LIBSWRESAMPLE",
+    "-DUSE_LIBZIP",
+    "-DUSE_LUA",
+    "-DUSE_LZMA",
+    "-DUSE_PNG",
+    "-DUSE_PTHREADS",
+    "-DUSE_SQLITE3",
+    "-DUSE_ZLIB",
+    "-D_7ZIP_PPMD_SUPPPORT",
+    "-D_DARWIN_C_SOURCE"
+  ],
+  "compiler": "Apple clang version 16.0.0 (clang-1600.0.26.6)\nTarget: x86_64-apple-darwin23.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+  "files": {
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-build/build.ninja": {
+      "sha256": "cbf7692d5dc57e99033ca4ce9de6d2149539b280fe9e241bb7789b2606e2c8d1",
+      "size": 1076078
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-build/include/mgba/flags.h": {
+      "sha256": "34ba42e6985fe5191168538913b18c7c048604d6e4db98305c6884604a6fa1f1",
+      "size": 2611
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-build/libmgba.0.11.0.dylib": {
+      "sha256": "0f84fde81a26843207dcac5080da014e38fa0d66726498bc3a6b6d6b5c925b0b",
+      "size": 2168176
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/audio-buffer.h": {
+      "sha256": "fb5a70288c05f3d48f6cefb9033d687731c1b2a51c94b09b720d0fd0914e0f12",
+      "size": 1188
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/circle-buffer.h": {
+      "sha256": "faf77895f4882c957c03ab3fdbfb978a49bae3fae25fc936b6b642c0724b7f15",
+      "size": 1588
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/common.h": {
+      "sha256": "ec13354a050e4a7432232214b9991dd74000980ab2b8949389af0871cc1b799f",
+      "size": 12589
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/configuration.h": {
+      "sha256": "b7d35ccd44aa5366e72a02005c7585c8a0b4434867ae48597fb915348aeeff42",
+      "size": 2088
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/dllexports.h": {
+      "sha256": "96871f8861195f4ff9fedd861ff07ed5b0a10a0e7642d6a780a8221cafd163d4",
+      "size": 523
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/geometry.h": {
+      "sha256": "a0f1ac2eaa0a38e101ed95c5c17e2ca079c15e953f438757cdfdfe59a41a4668",
+      "size": 704
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/image.h": {
+      "sha256": "203d64c14d479da4bca33c0343f4efa76e2870483158fc0c8ad9e1fc4ebef7b9",
+      "size": 10663
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/sha1.h": {
+      "sha256": "ade62beb8909ffe678dbcf093cff893fdd2f1a6732d1c5b3748f78e552721190",
+      "size": 796
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/table.h": {
+      "sha256": "e30841e105b4f70e917c6d758e1d78fab8068d5461198abcf765a0cb31aa046d",
+      "size": 4219
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/vector.h": {
+      "sha256": "ae8d9ed36475bda93ab3d2ff581163cedd289b2275c5254b76ba9e4285696375",
+      "size": 4475
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba-util/vfs.h": {
+      "sha256": "4c829529f21c424196b4d1efe25ce11227312437cf1aa5028cae94a741bf6656",
+      "size": 3583
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/core/config.h": {
+      "sha256": "010093e4be456563d787661ff7f0c05dff6ec925d772e9e92aac41b963df78fb",
+      "size": 4236
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/core/core.h": {
+      "sha256": "e77d0b72af5b76d9b66292968359122a15ab5c4c624d684af7ad339fa700e7a9",
+      "size": 8825
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/core/cpu.h": {
+      "sha256": "7ecb55841bf4c1db741cf3369f4ec0003339cbfbc344d4f3fa468a227ea61538",
+      "size": 833
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/core/directories.h": {
+      "sha256": "5b05c8373421f85d05752c19e71d989d4afc782eca03586ffe1f594ba1437685",
+      "size": 1231
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/core/input.h": {
+      "sha256": "68faca8aa39cc52e3ff85a0698f23113d796ef55d471eed8c0598968a9940bdb",
+      "size": 4062
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/core/interface.h": {
+      "sha256": "da6ea4e344c46be5943859a24c0149c12a803b3e951c07140cc795cab09651de",
+      "size": 4748
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/core/log.h": {
+      "sha256": "c90656a9e5d34b5cdded45eac7a855937f1d53f6de55093d8fa40caaff80447a",
+      "size": 2586
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/core/timing.h": {
+      "sha256": "0bc98ea66ded4856a258786dc19c3c2a6e19cf4c1046211b93d9304729aa1915",
+      "size": 1600
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/debugger/debugger.h": {
+      "sha256": "8aff13acb5ade4e5f028867a3c33317765c4f7805b50b9ae348501c0a645ae89",
+      "size": 7751
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/gba/interface.h": {
+      "sha256": "d75c2c6bdcef009197252dcfbe059ae61084b137eeab677f818a837e3226038d",
+      "size": 4703
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/arm/arm.h": {
+      "sha256": "47822ffc4592230f6045dd2d8677dec5d72f518bff0b42e15ff26b5c77330bef",
+      "size": 5022
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gb/audio.h": {
+      "sha256": "b5e99b1037871faf851999d6d7912e80c0b4cb9f22db9bd1e5e6c54b2e6670df",
+      "size": 6783
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/audio.h": {
+      "sha256": "018b9be7ae2e56026f14e5c2d1493ff6b8a6ec0e23b284b6f83f8f3ad7b1f661",
+      "size": 6927
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/cart/ereader.h": {
+      "sha256": "387d2700f1441e6f1b8cc430d56072a22371e0153564d794e52b4d9c2a04ca1a",
+      "size": 3547
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/cart/gpio.h": {
+      "sha256": "5df78350ed05e70ec647eb5a927305319a155b8bd7cc6e7e6b006f370cb84585",
+      "size": 2821
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/cart/matrix.h": {
+      "sha256": "c6ebe5d3fd60cece4303934609083f8cd541d481ed97d5a61287db25fb845344",
+      "size": 916
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/cart/unlicensed.h": {
+      "sha256": "8522a46be559959c652733f2e2647610e9521d18a853d48751b9fd633b418cee",
+      "size": 1938
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/dma.h": {
+      "sha256": "845473a31a826a7c0bf55c7b7bd5de56bdd05dec4c8d5b91b0532cc3b9f401d0",
+      "size": 2022
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/gba.h": {
+      "sha256": "b50fc8ae1467f9ac1c6be3ba8452e22027571ff5c886695edb9be529d7962d4e",
+      "size": 4429
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/memory.h": {
+      "sha256": "fca671fc3bc5ab06641f6259ebf092688e1ba1ddd8eb80e4fba9a43cda44fb41",
+      "size": 5138
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/savedata.h": {
+      "sha256": "30481cada83cc0e3a88b55298f3081cc660e18e55ca7f5a57356e6f2a75224dc",
+      "size": 3546
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/sio.h": {
+      "sha256": "e98dd06d0b6ecaef4e1857c28628621e0ced3d7b85319cd202eabaf2b5e76d01",
+      "size": 2755
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/sio/gbp.h": {
+      "sha256": "69c64e1df153897d4d96e1e1359c3564632ae337e74e5d952ef3665fc348f3b5",
+      "size": 895
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/timer.h": {
+      "sha256": "0ef8ecd7b1844a7e2498e7dce7c020d3a65ecdae0fb181fec9d4a4d64042a1a6",
+      "size": 965
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/include/mgba/internal/gba/video.h": {
+      "sha256": "5121b0486b889ff134deafbfeac42afa9dc0e1e134affb106c6b6bcf78824500",
+      "size": 7500
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/src/arm/arm.c": {
+      "sha256": "c241587e974ac29aa09ed4992c9244c7ac65fad938e61d45836dc457f57129d2",
+      "size": 7340
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/src/arm/isa-arm.c": {
+      "sha256": "22063ad7c73d39265a4b1be963a33eeff6400514ea70f4e9b4e923d39e8afb47",
+      "size": 32480
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/src/arm/isa-thumb.c": {
+      "sha256": "84c95dbb3295423ad81c0ee67d8b84d873399723363c59a82772e515e3a5b9f4",
+      "size": 15420
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/src/gba/bios.c": {
+      "sha256": "bc20e3598c823118cc9933395239ba7826fb6614ded46d4e922ee926ede15ee5",
+      "size": 30101
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/src/gba/core.c": {
+      "sha256": "f66fbfc4d7310c9ff14753f323d9f62a82165c7620acfa367042a2eb3db6a5c4",
+      "size": 65486
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/src/gba/hle-bios.c": {
+      "sha256": "dfcf0b107efa70b96ddeec079b0fe189f40d282ae69e5fbfee38a0cacd8f2abc",
+      "size": 7186
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/src/gba/hle-bios.s": {
+      "sha256": "be2fc35e5e1980b63f4204b8c28c9bd4f6cc8011ca48827dd1bf436d2ade9bb8",
+      "size": 6878
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/src/gba/memory.c": {
+      "sha256": "501dbbca7d5d7cbaa86240de2d6a4e2e1186b50f74dde11bcf2f323c4af8c437",
+      "size": 65084
+    },
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-source/src/util/sha1.c": {
+      "sha256": "c0d44a2ccb0f71b109942f6bc64d297888a417582b6d9c5ef61fc1f096133113",
+      "size": 7143
+    },
+    "/usr/local/Cellar/dav1d/1.5.3/lib/libdav1d.7.dylib": {
+      "sha256": "f683e320513c47159619a02ede615fbd90426600bb8b19009117427cf0c49c10",
+      "size": 2286384
+    },
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libavcodec.62.28.100.dylib": {
+      "sha256": "50d5c792471a73a52f5d11438415e3de99d279edb23e01f5ba1657902777dc57",
+      "size": 11340120
+    },
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libavfilter.11.14.100.dylib": {
+      "sha256": "3892f9bce62f14f1bbf8a75e3b1701108349b2950f2f5ad964e746bcfadb0cf2",
+      "size": 3309848
+    },
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libavformat.62.12.100.dylib": {
+      "sha256": "c77b3fad71afe32416d9056d22a6fff34b502485de3fd5cd7ec5159fa70b372b",
+      "size": 2210096
+    },
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libavutil.60.26.100.dylib": {
+      "sha256": "9d5686915f127e184336389f3566e3d802f0c396775106db26170942bb1541e9",
+      "size": 708072
+    },
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libswresample.6.3.100.dylib": {
+      "sha256": "d855cecf87d455e5a92a574f3630b8d7d282ae0ef437554ed68649bdfee21f83",
+      "size": 111328
+    },
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libswscale.9.5.100.dylib": {
+      "sha256": "2fe958dc75848246988631ae1aacd7003f60ed4f7ed83e9dc575f12f3555c30f",
+      "size": 839112
+    },
+    "/usr/local/Cellar/freetype/2.14.3/lib/libfreetype.6.dylib": {
+      "sha256": "23c57bffa9fde184c38ddebd2592e79e4ee7e2e8973468bbfb74153ad2ab3d1c",
+      "size": 635168
+    },
+    "/usr/local/Cellar/lame/3.100/lib/libmp3lame.0.dylib": {
+      "sha256": "6b31e81f7919fff14c5dfd523164fe721e009f17965aeb828ddd47f160e43c7c",
+      "size": 317584
+    },
+    "/usr/local/Cellar/libepoxy/1.5.10/lib/libepoxy.0.dylib": {
+      "sha256": "3e1c009bb9a1c1e205467d8a80385017c719f6ecf91000d164d27c40bf143b90",
+      "size": 1085272
+    },
+    "/usr/local/Cellar/libpng/1.6.56/lib/libpng16.16.dylib": {
+      "sha256": "16d7c05054eea78081da7964897ceac2381d988460e397591877ab98b94c591c",
+      "size": 172744
+    },
+    "/usr/local/Cellar/libvpx/1.16.0/lib/libvpx.12.dylib": {
+      "sha256": "4c53a460072b526da9e7e923787e2a2f8af6b87991e9ac98f3af88737a635663",
+      "size": 2311296
+    },
+    "/usr/local/Cellar/libzip/1.11.4_1/lib/libzip.5.5.dylib": {
+      "sha256": "46264183e1325df9e2d0a47056bb75d3d6364e67571a575d40cfb49acade7f4a",
+      "size": 107408
+    },
+    "/usr/local/Cellar/lua/5.5.0/lib/liblua.5.5.0.dylib": {
+      "sha256": "242423da31a34e1238f33a4b6fbb88eb70c681f512a65daefbedd7f6b1dee5c3",
+      "size": 216528
+    },
+    "/usr/local/Cellar/openssl@3/3.6.1/lib/libcrypto.3.dylib": {
+      "sha256": "cb13cfbb9f38b863f99a3f2b014dc6d5fcb0953fec730e8ad5cbbd0c534bed9a",
+      "size": 5170512
+    },
+    "/usr/local/Cellar/openssl@3/3.6.1/lib/libssl.3.dylib": {
+      "sha256": "97432fbe6913fa2c0994708309ef0232652e6254958bbfa05827f3aca6c66c84",
+      "size": 879240
+    },
+    "/usr/local/Cellar/opus/1.6.1/lib/libopus.0.dylib": {
+      "sha256": "d4606b7dbad0d4ec4364f15b470d727b95b4e33873d00a171678cdbfa02c14c9",
+      "size": 375872
+    },
+    "/usr/local/Cellar/svt-av1/4.1.0/lib/libSvtAv1Enc.4.1.0.dylib": {
+      "sha256": "9d542d032b02def09cea52484fc669daca952e515a7c24f05628db139b10c95e",
+      "size": 5367568
+    },
+    "/usr/local/Cellar/x264/r3222/lib/libx264.165.dylib": {
+      "sha256": "7fb743fcac6aeb1db61c87eb2e547f0d91270c52af04c5dc9fe67a300d70585e",
+      "size": 1661872
+    },
+    "/usr/local/Cellar/x265/4.1/lib/libx265.215.dylib": {
+      "sha256": "dfed18f583431f4754bfae2281c2e96c5e12014883d26b8ce6e9b69096ed926e",
+      "size": 17787728
+    },
+    "/usr/local/Cellar/xz/5.8.2/lib/liblzma.5.dylib": {
+      "sha256": "9f95518295c94625c294ffb78675fbf866985d71b0d8d7c7b70ebe009f1643b6",
+      "size": 145488
+    },
+    "/usr/local/Cellar/zstd/1.5.7_1/lib/libzstd.1.5.7.dylib": {
+      "sha256": "aeca708a0c07df66cc08b35f7461760dfada8193f2b673b52f6270b5d87ae23a",
+      "size": 742256
+    }
+  },
+  "library_links": {
+    "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-build/libmgba.0.11.0.dylib": [
+      "@rpath/libmgba.0.11.dylib",
+      "/usr/lib/libedit.3.dylib",
+      "/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL",
+      "/usr/local/opt/ffmpeg/lib/libavcodec.62.dylib",
+      "/usr/local/opt/ffmpeg/lib/libavfilter.11.dylib",
+      "/usr/local/opt/ffmpeg/lib/libavformat.62.dylib",
+      "/usr/local/opt/ffmpeg/lib/libavutil.60.dylib",
+      "/usr/local/opt/ffmpeg/lib/libswscale.9.dylib",
+      "/usr/local/opt/ffmpeg/lib/libswresample.6.dylib",
+      "/System/Library/Frameworks/VideoDecodeAcceleration.framework/Versions/A/VideoDecodeAcceleration",
+      "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+      "/usr/lib/libz.1.dylib",
+      "/usr/local/opt/libpng/lib/libpng16.16.dylib",
+      "/usr/local/opt/libzip/lib/libzip.5.dylib",
+      "/usr/local/opt/libepoxy/lib/libepoxy.0.dylib",
+      "/usr/lib/libsqlite3.dylib",
+      "/usr/local/opt/freetype/lib/libfreetype.6.dylib",
+      "/usr/local/opt/lua/lib/liblua.5.5.dylib",
+      "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+      "/usr/lib/libSystem.B.dylib",
+      "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation"
+    ],
+    "/usr/local/Cellar/dav1d/1.5.3/lib/libdav1d.7.dylib": [
+      "/usr/local/opt/dav1d/lib/libdav1d.7.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libavcodec.62.28.100.dylib": [
+      "/usr/local/opt/ffmpeg/lib/libavcodec.62.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libswresample.6.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libavutil.60.dylib",
+      "/usr/local/opt/libvpx/lib/libvpx.12.dylib",
+      "/usr/lib/libSystem.B.dylib",
+      "/usr/lib/libiconv.2.dylib",
+      "/usr/local/opt/dav1d/lib/libdav1d.7.dylib",
+      "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+      "/usr/local/opt/lame/lib/libmp3lame.0.dylib",
+      "/usr/local/opt/opus/lib/libopus.0.dylib",
+      "/usr/local/opt/svt-av1/lib/libSvtAv1Enc.4.dylib",
+      "/usr/local/opt/x264/lib/libx264.165.dylib",
+      "/usr/local/opt/x265/lib/libx265.215.dylib",
+      "/usr/lib/libz.1.dylib",
+      "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+      "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+      "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+      "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+      "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+      "/usr/local/opt/openssl@3/lib/libssl.3.dylib",
+      "/usr/local/opt/openssl@3/lib/libcrypto.3.dylib"
+    ],
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libavfilter.11.14.100.dylib": [
+      "/usr/local/opt/ffmpeg/lib/libavfilter.11.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libswscale.9.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libavformat.62.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libavcodec.62.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libswresample.6.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libavutil.60.dylib",
+      "/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL",
+      "/usr/lib/libSystem.B.dylib",
+      "/usr/lib/libz.1.dylib",
+      "/System/Library/Frameworks/Metal.framework/Versions/A/Metal",
+      "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+      "/System/Library/Frameworks/CoreImage.framework/Versions/A/CoreImage",
+      "/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit",
+      "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+      "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+      "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+      "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices",
+      "/usr/lib/libbz2.1.0.dylib",
+      "/usr/local/opt/openssl@3/lib/libssl.3.dylib",
+      "/usr/local/opt/openssl@3/lib/libcrypto.3.dylib",
+      "/usr/local/opt/libvpx/lib/libvpx.12.dylib",
+      "/usr/lib/libiconv.2.dylib",
+      "/usr/local/opt/dav1d/lib/libdav1d.7.dylib",
+      "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+      "/usr/local/opt/lame/lib/libmp3lame.0.dylib",
+      "/usr/local/opt/opus/lib/libopus.0.dylib",
+      "/usr/local/opt/svt-av1/lib/libSvtAv1Enc.4.dylib",
+      "/usr/local/opt/x264/lib/libx264.165.dylib",
+      "/usr/local/opt/x265/lib/libx265.215.dylib",
+      "/System/Library/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics",
+      "/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation",
+      "/usr/lib/libobjc.A.dylib"
+    ],
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libavformat.62.12.100.dylib": [
+      "/usr/local/opt/ffmpeg/lib/libavformat.62.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libavcodec.62.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libswresample.6.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libavutil.60.dylib",
+      "/usr/lib/libSystem.B.dylib",
+      "/usr/lib/libbz2.1.0.dylib",
+      "/usr/lib/libz.1.dylib",
+      "/usr/local/opt/openssl@3/lib/libssl.3.dylib",
+      "/usr/local/opt/openssl@3/lib/libcrypto.3.dylib",
+      "/usr/local/opt/libvpx/lib/libvpx.12.dylib",
+      "/usr/lib/libiconv.2.dylib",
+      "/usr/local/opt/dav1d/lib/libdav1d.7.dylib",
+      "/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox",
+      "/usr/local/opt/lame/lib/libmp3lame.0.dylib",
+      "/usr/local/opt/opus/lib/libopus.0.dylib",
+      "/usr/local/opt/svt-av1/lib/libSvtAv1Enc.4.dylib",
+      "/usr/local/opt/x264/lib/libx264.165.dylib",
+      "/usr/local/opt/x265/lib/libx265.215.dylib",
+      "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+      "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+      "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+      "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+      "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+    ],
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libavutil.60.26.100.dylib": [
+      "/usr/local/opt/ffmpeg/lib/libavutil.60.dylib",
+      "/usr/lib/libSystem.B.dylib",
+      "/usr/lib/libz.1.dylib",
+      "/usr/local/opt/openssl@3/lib/libssl.3.dylib",
+      "/usr/local/opt/openssl@3/lib/libcrypto.3.dylib",
+      "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+      "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+      "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+      "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+      "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+    ],
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libswresample.6.3.100.dylib": [
+      "/usr/local/opt/ffmpeg/lib/libswresample.6.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libavutil.60.dylib",
+      "/usr/lib/libSystem.B.dylib",
+      "/usr/lib/libz.1.dylib",
+      "/usr/local/opt/openssl@3/lib/libssl.3.dylib",
+      "/usr/local/opt/openssl@3/lib/libcrypto.3.dylib",
+      "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+      "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+      "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+      "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+      "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+    ],
+    "/usr/local/Cellar/ffmpeg/8.1/lib/libswscale.9.5.100.dylib": [
+      "/usr/local/opt/ffmpeg/lib/libswscale.9.dylib",
+      "/usr/local/Cellar/ffmpeg/8.1/lib/libavutil.60.dylib",
+      "/usr/lib/libSystem.B.dylib",
+      "/usr/lib/libz.1.dylib",
+      "/usr/local/opt/openssl@3/lib/libssl.3.dylib",
+      "/usr/local/opt/openssl@3/lib/libcrypto.3.dylib",
+      "/System/Library/Frameworks/VideoToolbox.framework/Versions/A/VideoToolbox",
+      "/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation",
+      "/System/Library/Frameworks/CoreMedia.framework/Versions/A/CoreMedia",
+      "/System/Library/Frameworks/CoreVideo.framework/Versions/A/CoreVideo",
+      "/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices"
+    ],
+    "/usr/local/Cellar/freetype/2.14.3/lib/libfreetype.6.dylib": [
+      "/usr/local/opt/freetype/lib/libfreetype.6.dylib",
+      "/usr/lib/libz.1.dylib",
+      "/usr/lib/libbz2.1.0.dylib",
+      "/usr/local/opt/libpng/lib/libpng16.16.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/lame/3.100/lib/libmp3lame.0.dylib": [
+      "/usr/local/opt/lame/lib/libmp3lame.0.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/libepoxy/1.5.10/lib/libepoxy.0.dylib": [
+      "/usr/local/opt/libepoxy/lib/libepoxy.0.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/libpng/1.6.56/lib/libpng16.16.dylib": [
+      "/usr/local/opt/libpng/lib/libpng16.16.dylib",
+      "/usr/lib/libz.1.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/libvpx/1.16.0/lib/libvpx.12.dylib": [
+      "/usr/local/opt/libvpx/lib/libvpx.12.dylib",
+      "/usr/lib/libSystem.B.dylib",
+      "/usr/lib/libc++.1.dylib"
+    ],
+    "/usr/local/Cellar/libzip/1.11.4_1/lib/libzip.5.5.dylib": [
+      "/usr/local/opt/libzip/lib/libzip.5.dylib",
+      "/usr/lib/libbz2.1.0.dylib",
+      "/usr/local/opt/xz/lib/liblzma.5.dylib",
+      "/usr/local/opt/zstd/lib/libzstd.1.dylib",
+      "/usr/lib/libz.1.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/lua/5.5.0/lib/liblua.5.5.0.dylib": [
+      "/usr/local/opt/lua/lib/liblua.5.5.dylib",
+      "/usr/lib/libSystem.B.dylib",
+      "/usr/lib/libedit.3.dylib"
+    ],
+    "/usr/local/Cellar/openssl@3/3.6.1/lib/libcrypto.3.dylib": [
+      "/usr/local/opt/openssl@3/lib/libcrypto.3.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/openssl@3/3.6.1/lib/libssl.3.dylib": [
+      "/usr/local/opt/openssl@3/lib/libssl.3.dylib",
+      "/usr/local/Cellar/openssl@3/3.6.1/lib/libcrypto.3.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/opus/1.6.1/lib/libopus.0.dylib": [
+      "/usr/local/opt/opus/lib/libopus.0.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/svt-av1/4.1.0/lib/libSvtAv1Enc.4.1.0.dylib": [
+      "/usr/local/opt/svt-av1/lib/libSvtAv1Enc.4.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/x264/r3222/lib/libx264.165.dylib": [
+      "/usr/local/opt/x264/lib/libx264.165.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/x265/4.1/lib/libx265.215.dylib": [
+      "/usr/local/opt/x265/lib/libx265.215.dylib",
+      "/usr/lib/libSystem.B.dylib",
+      "/usr/lib/libc++.1.dylib"
+    ],
+    "/usr/local/Cellar/xz/5.8.2/lib/liblzma.5.dylib": [
+      "/usr/local/opt/xz/lib/liblzma.5.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ],
+    "/usr/local/Cellar/zstd/1.5.7_1/lib/libzstd.1.5.7.dylib": [
+      "/usr/local/opt/zstd/lib/libzstd.1.dylib",
+      "/usr/lib/libSystem.B.dylib"
+    ]
+  },
+  "native_binary_sha256": "e1d2a565536541d987d0445b6dcac535c9a7f867cdae10518c3a44f25d607dc7",
+  "policy": "fixed local native provider, event processing suppressed, artificial RAM/register/IO fixtures; no hardware or natural reachability claim",
+  "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8",
+  "system": "ProductName:\t\tmacOS\nProductVersion:\t\t14.8.4\nBuildVersion:\t\t23J319\n"
+}

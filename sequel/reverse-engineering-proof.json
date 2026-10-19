@@ -27,7 +27,7 @@
       "evidence": [
         {
           "path": "sequel/rom-byte-coverage.json",
-          "sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6"
+          "sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2"
         },
         {
           "path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
@@ -756,6 +756,18 @@
         {
           "path": "artifacts/rom-post-story-dependency-precoverage-v1/rom-byte-coverage.json.gz",
           "sha256": "88365f670c9c820760cc1e199f48a1ec6583d1f9ec41b5e86a69866c06baa6b6"
+        },
+        {
+          "path": "artifacts/rom-small-cfg-dependency-batch-v1/manifest.json",
+          "sha256": "1fb38be9cacc64857d308fdb48dd750718ee12a69a5c990b9985538daf9b8ff3"
+        },
+        {
+          "path": "artifacts/rom-small-cfg-dependency-batch-v1/rom-small-cfg-dependency-batch.json",
+          "sha256": "4420a02756dfc59f73e8e051440d174fafa590d62086e3812e96960f8ea0336d"
+        },
+        {
+          "path": "tools/data/rom-small-cfg-dependency-publication-v1.json",
+          "sha256": "9f8390a6db4c32add3d723e57483f94b7f3d70cb5c483eb2cd6983818cd3fc6a"
         }
       ],
       "verifiers": [
@@ -766,7 +778,7 @@
             "--root",
             "."
           ],
-          "script_sha256": "e4c1f07efd2673d9229da8a7532d7874e615cbf1d7705ccd32171558df028509",
+          "script_sha256": "50ed7936141e9afd71a03dab4263cc44f2a07f66b42b76b6636f0a54fdd2b510",
           "contract": {
             "format": "json",
             "assertions": {
@@ -774,10 +786,10 @@
               "/verified": true,
               "/state_inventory_complete": true,
               "/semantic_classification_complete": false,
-              "/summary/unknown_bytes": 87749,
-              "/summary/classified_bytes": 6203707,
-              "/summary/claim_count": 16891,
-              "/summary/segment_count": 18664,
+              "/summary/unknown_bytes": 87631,
+              "/summary/classified_bytes": 6203825,
+              "/summary/claim_count": 16912,
+              "/summary/segment_count": 18675,
               "/summary/fast_audit_four_packet_bytes": 7140,
               "/summary/fast_audit_four_packet_claim_count": 116,
               "/summary/fast_audit_immutable_baseline_sha256": "064370aa0eca861d99d96e4ee15be4b50c569bea86c67a279d4084517e543baa",
@@ -931,16 +943,16 @@
               "/summary/scene_visual_source_bytes": 3257,
               "/summary/scene_visual_source_claim_count": 29,
               "/summary/scene_visual_source_class_bytes": {
-                "scene_visual_shared_obj_palette_bgr555": 64,
+                "scene_visual_animation_records": 192,
                 "scene_visual_background_palette_bgr555": 2304,
                 "scene_visual_definition_records": 697,
-                "scene_visual_animation_records": 192
+                "scene_visual_shared_obj_palette_bgr555": 64
               },
               "/summary/scene_visual_source_class_claim_counts": {
-                "scene_visual_shared_obj_palette_bgr555": 2,
+                "scene_visual_animation_records": 9,
                 "scene_visual_background_palette_bgr555": 9,
                 "scene_visual_definition_records": 9,
-                "scene_visual_animation_records": 9
+                "scene_visual_shared_obj_palette_bgr555": 2
               },
               "/summary/scene_visual_source_range_denominator_sha256": "13dc504bebbff131700bb77869afb29e98a2f032d60bab4165eba90bcb2be7df",
               "/summary/cutscene_obj_source_promotion_batch": "rom-cutscene-obj-source-ranges-v1",
@@ -948,16 +960,16 @@
               "/summary/cutscene_obj_source_bytes": 400,
               "/summary/cutscene_obj_source_claim_count": 28,
               "/summary/cutscene_obj_source_class_bytes": {
-                "cutscene_obj_definition_records": 240,
-                "cutscene_obj_definition_pointer_table": 40,
+                "cutscene_obj_animation_pointer_table": 40,
                 "cutscene_obj_animation_timeline": 80,
-                "cutscene_obj_animation_pointer_table": 40
+                "cutscene_obj_definition_pointer_table": 40,
+                "cutscene_obj_definition_records": 240
               },
               "/summary/cutscene_obj_source_class_claim_counts": {
-                "cutscene_obj_definition_records": 10,
-                "cutscene_obj_definition_pointer_table": 4,
+                "cutscene_obj_animation_pointer_table": 4,
                 "cutscene_obj_animation_timeline": 10,
-                "cutscene_obj_animation_pointer_table": 4
+                "cutscene_obj_definition_pointer_table": 4,
+                "cutscene_obj_definition_records": 10
               },
               "/summary/cutscene_obj_source_range_denominator_sha256": "c332e0ded3ae305162f774ffe1dfbbc5bbda14b534f5dd87b4f368337b8fb5a8",
               "/summary/cutscene_obj_alignment_gap_promotion_batch": "rom-cutscene-obj-palette-definition-alignment-gap-coverage-v1",
@@ -999,16 +1011,16 @@
               "/summary/battle_effect_sprite_source_bytes": 11120,
               "/summary/battle_effect_sprite_source_claim_count": 237,
               "/summary/battle_effect_sprite_source_class_bytes": {
-                "battle_effect_sprite_component_records": 9452,
-                "battle_effect_sprite_definition_pointer_table": 712,
+                "battle_effect_sprite_animation_pointer_table": 92,
                 "battle_effect_sprite_animation_timeline": 864,
-                "battle_effect_sprite_animation_pointer_table": 92
+                "battle_effect_sprite_component_records": 9452,
+                "battle_effect_sprite_definition_pointer_table": 712
               },
               "/summary/battle_effect_sprite_source_class_claim_counts": {
-                "battle_effect_sprite_component_records": 178,
-                "battle_effect_sprite_definition_pointer_table": 18,
+                "battle_effect_sprite_animation_pointer_table": 18,
                 "battle_effect_sprite_animation_timeline": 23,
-                "battle_effect_sprite_animation_pointer_table": 18
+                "battle_effect_sprite_component_records": 178,
+                "battle_effect_sprite_definition_pointer_table": 18
               },
               "/summary/battle_effect_sprite_source_claim_denominator_sha256": "c30b25fbed4a80914e8bc9e8d33ec7545e47a01a005866460323ac8c9b84ba30",
               "/summary/cfg_v3_extension_code_bytes": 9060,
@@ -1176,18 +1188,18 @@
               "/summary/directsound_pitch_lookup_range_vector_sha256": "ac877e8eec80edbdab3d1b6f3991fc8a93dfc497a66c298dc9ee0c29034431bd",
               "/summary/directsound_pitch_lookup_packed_bytes_sha256": "cdf62999570f66a283667ed85f535da4e04f8cbf5ea8a33ef66d1bee8ab0e850",
               "/summary/directsound_pitch_lookup_class_bytes": {
-                "armv4t_directsound_pitch_high32_interwork_code": 16,
                 "armv4t_directsound_pitch_consumer_thumb_code": 92,
-                "directsound_pitch_table_pointer_literals": 8,
+                "armv4t_directsound_pitch_high32_interwork_code": 16,
+                "directsound_pitch_frequency_u32_table": 48,
                 "directsound_pitch_scale_descriptor_table": 180,
-                "directsound_pitch_frequency_u32_table": 48
+                "directsound_pitch_table_pointer_literals": 8
               },
               "/summary/directsound_pitch_lookup_class_claim_counts": {
-                "armv4t_directsound_pitch_high32_interwork_code": 1,
                 "armv4t_directsound_pitch_consumer_thumb_code": 1,
-                "directsound_pitch_table_pointer_literals": 1,
+                "armv4t_directsound_pitch_high32_interwork_code": 1,
+                "directsound_pitch_frequency_u32_table": 1,
                 "directsound_pitch_scale_descriptor_table": 1,
-                "directsound_pitch_frequency_u32_table": 1
+                "directsound_pitch_table_pointer_literals": 1
               },
               "/summary/directsound_pitch_lookup_producer_count": 2,
               "/summary/directsound_pitch_lookup_consumer_instruction_count": 44,
@@ -1282,11 +1294,11 @@
               "/summary/artifact_bound_alignment_gap_packed_bytes_sha256": "659d36ca563ba4622daabb36a71dafaf6060cdcbf89bb12e75426198496d272c",
               "/summary/artifact_bound_alignment_gap_independent_verifier_report_sha256": "58c8b2f9badfa2bb40edb570ddef879ab56412bdf4e477e9e16f074ebc121d28",
               "/summary/cfg_reachable_arm_code_bytes": 956,
-              "/summary/cfg_reachable_thumb_code_bytes": 173058,
-              "/summary/cfg_promoted_unknown_bytes": 174046,
-              "/summary/cfg_primary_claim_count": 4059,
-              "/summary/cfg_code_claim_kind_count": 54,
-              "/summary/cfg_code_claim_kind_denominator_sha256": "c8ffed470f28393f8a829d3312ac74083d60ae4e719d82614993d6b973fa3f11",
+              "/summary/cfg_reachable_thumb_code_bytes": 173136,
+              "/summary/cfg_promoted_unknown_bytes": 174124,
+              "/summary/cfg_primary_claim_count": 4064,
+              "/summary/cfg_code_claim_kind_count": 55,
+              "/summary/cfg_code_claim_kind_denominator_sha256": "8ab38e245e80c2d3a1ca9f143f0e17554d3132fc826cda2dc285ab35fdc6eb69",
               "/summary/cfg_proven_roots_v3_extension_code_bytes": 110,
               "/summary/cfg_proven_roots_v3_extension_code_claim_count": 8,
               "/summary/cfg_proven_roots_v4_extension_code_bytes": 1044,
@@ -4883,6 +4895,34 @@
               "/packed_bytes_sha256": "a318a3e999a3a89c53f42fd3fec03c7608ab325d01061136e2915fe9e4e6af5c",
               "/range_denominator_sha256": "c033bedb7b9fcd65e29bdc39cd6a9249ec3909f953d75f1a5e6c1352f1b8a181",
               "/coverage_sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+            }
+          }
+        },
+        {
+          "command": [
+            "python3",
+            "-I",
+            "-S",
+            "tools/verify_rom_small_cfg_dependency_batch.py",
+            "--root",
+            ".",
+            "--artifact-dir",
+            "artifacts/rom-small-cfg-dependency-batch-v1"
+          ],
+          "script_sha256": "013d4ca34c378d158e4e4673e7904a6253e4d78052743a30f333b2d75bf17fad",
+          "contract": {
+            "format": "json",
+            "assertions": {
+              "/schema": "rom-small-cfg-dependency-batch-v1-verification-v1",
+              "/verified": true,
+              "/promotion_bytes": 118,
+              "/claim_count": 21,
+              "/packet_count": 4,
+              "/payload_sha256": "4420a02756dfc59f73e8e051440d174fafa590d62086e3812e96960f8ea0336d",
+              "/natural_runtime_reachability_claimed": false,
+              "/full_upstream_lifecycle_replayed_here": false,
+              "/canonical_promoted": false,
+              "/errors": []
             }
           }
         }

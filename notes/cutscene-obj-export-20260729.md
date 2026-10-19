@@ -119,6 +119,35 @@ page fault 与 swap 均为 0。
 
 本里程碑完全离线读取 ROM，没有启动 mGBA，也没有写入 `butano-sequel/`。
 
+## 2026-08-21 ROM coverage 与正式证明接入
+
+新增 additive artifact `artifacts/rom-cutscene-obj-source-ranges-v1/`，把上述旧静态导出
+成果的 ROM 来源范围合同化；它不替代原 `cutscene-obj-v1` 导出 manifest。独立 verifier
+从两个固定四记录根表重建 4 个资源 ID、10 个 frame 与 10 个 animation，固定 28 段、
+400 字节分母：component definition record 10/240、definition pointer table 4/40、
+animation timeline 10/80、animation pointer table 4/40。28 段在接入前均完整属于
+current unknown，且没有 primary overlap。
+
+- artifact manifest SHA-256：
+  `a0e97ec43858a145a7c26dc71c5b89dfe8c4d9a5d6074ccad88c4ae56e03afd5`
+- independent verifier SHA-256：
+  `a1075b8885378fe2c26c1c262126ad8098bb81c171a805cb3e08ed0d8217c446`
+- coverage SHA-256：
+  `2ff9bc857e182c4bfeeaa572929569801549765ef1d3566cf10c17334125b9d1`
+- proof spec SHA-256：
+  `1e695563b49712dd82aeab33677e06b39cbbf120712e8e3baa93ee73bac2c038`
+- formal report SHA-256：
+  `65605bc56f29e641bc0f19821c32512ca69a6da6025a6b2f2d726f1055e00beb`
+- guard SHA-256：
+  `ff643d70bc31774ef40ee9e274cf701406a7c513e55479f7166c72fa88fd7fd1`
+
+接入后 classified 6,105,778、unknown 185,678、claim 13,929、segment 16,171
+（97.0487%）。受守卫正式审计的 66/66 唯一 verifier 与 ROM byte gate 56/56 均通过，
+`bad=0`、峰值 RSS 523.1171875 MiB；报告仍正确保持 `complete=false` 与 175 blockers。
+本合同只证明固定来源范围、parser stride、终止符和指针关系；不关闭
+`final_runtime_sequence=false`，也不声明未知 component 字段语义、完整场景顺序、对象
+清理、最终屏幕合成、graphics/palette 扩张、编辑/重定位安全、相邻间隙或 free space。
+
 ## 剩余边界
 
 1. 这 10 个 frame 的静态像素、单 task 播放时长和停止策略已闭合；调用者层面的完整

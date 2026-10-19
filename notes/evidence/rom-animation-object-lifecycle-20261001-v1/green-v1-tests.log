@@ -1,0 +1,16 @@
+test_allocator_overwrites_only_documented_fields_and_truncates_arguments (__main__.LifecycleTests.test_allocator_overwrites_only_documented_fields_and_truncates_arguments) ... ok
+test_alternate_allocator_non_bios_path_binds_table_entry (__main__.LifecycleTests.test_alternate_allocator_non_bios_path_binds_table_entry) ... ok
+test_alternate_bios_path_stops_at_real_call_instead_of_stub (__main__.LifecycleTests.test_alternate_bios_path_stops_at_real_call_instead_of_stub) ... ok
+test_direct_allocator_selects_each_of_128_highest_free_slots (__main__.LifecycleTests.test_direct_allocator_selects_each_of_128_highest_free_slots) ... ok
+test_disable_reserves_slot_until_real_active_filter_clears_bit1 (__main__.LifecycleTests.test_disable_reserves_slot_until_real_active_filter_clears_bit1) ... ok
+test_filter_scans_128_slots_and_rebuilds_exact_active_list (__main__.LifecycleTests.test_filter_scans_128_slots_and_rebuilds_exact_active_list) ... ok
+test_full_pool_returns_null_without_pool_write_or_129th_read (__main__.LifecycleTests.test_full_pool_returns_null_without_pool_write_or_129th_read) ... ok
+test_initializer_clears_exactly_144_flags_words_and_preserves_poison (__main__.LifecycleTests.test_initializer_clears_exactly_144_flags_words_and_preserves_poison) ... ok
+test_restore_counter_preserves_all_256_byte_values_when_saved_nonzero (__main__.LifecycleTests.test_restore_counter_preserves_all_256_byte_values_when_saved_nonzero) ... ok
+test_restore_guard_and_argument_fallthrough_keep_counter_and_saved (__main__.LifecycleTests.test_restore_guard_and_argument_fallthrough_keep_counter_and_saved) ... ok
+test_source_hole_budget_and_unexpected_opcode_fail_closed (__main__.LifecycleTests.test_source_hole_budget_and_unexpected_opcode_fail_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 7.080s
+
+OK

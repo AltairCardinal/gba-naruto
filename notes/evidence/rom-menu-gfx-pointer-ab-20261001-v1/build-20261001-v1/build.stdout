@@ -1,0 +1,51 @@
+{
+  "allocation": {
+    "after_index": 14,
+    "before_index": 52,
+    "decompressed_sha256": "68cef61a871dc615f25502d40840735f2493a7b97c8514236d6dc083527e1d41",
+    "encoded_sha256": "efbda517fad5e0e4306fddbe9e5d2bbff4efba86d1a6df973e72d053bc6611d4",
+    "offset": 11013484,
+    "region": "menu-portraits",
+    "region_owner": "menu_portrait_resources",
+    "shared_by_both_variants": true,
+    "size": 3306,
+    "stream_byte_offset": 5184
+  },
+  "bank_sha256": "8e9cf0a4289ff2701ad9643181532a6e8283177875b38d34d6eced5948a6cfe7",
+  "edit": {
+    "after_pointer": 145231212,
+    "before_pointer": 145227776,
+    "field": "gfx_ptr_0",
+    "offset": 5918228,
+    "record_id": "1",
+    "resource_id": 0,
+    "variant": 0
+  },
+  "isolation": {
+    "changed_rom_offsets": [
+      5918228,
+      5918229
+    ],
+    "other_bytes_equal": true
+  },
+  "parent_manifest_sha256": "1b2ec1560b5492ef90c354646f44a5f9ba872384ae3e6831984030474811bd69",
+  "parent_rom_sha256": {
+    "baseline": "202301cc0bcb246269e200db3c5ced1aa3ec8e7547e2f21c26d81df5db95fc3a",
+    "candidate": "26a08a91628c4fc511a796db27a29518c7303e8a7294665afbf21b99dce42311"
+  },
+  "runtime_verified": false,
+  "schema": "menu-portrait-gfx-pointer-ab-build-v1",
+  "source_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "variants": {
+    "baseline": {
+      "rom_path": "baseline/baseline.gba",
+      "rom_sha256": "5e1c7a4d3c00a9d506b5ba81fd2cf0fbd174675a9aa31f4dbba5b66ae7ac4323",
+      "rom_size": 16777216
+    },
+    "candidate": {
+      "rom_path": "candidate/candidate.gba",
+      "rom_sha256": "c8e707b8484782934cc07e9497219eec4028cf761123b3ae4ba3d14978e63442",
+      "rom_size": 16777216
+    }
+  }
+}

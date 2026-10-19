@@ -1,0 +1,25 @@
+{
+  "bank": "palettes",
+  "command": [
+    "python3",
+    "tools/verify_motion_effect_parameter_pixel_ab.py",
+    "--root",
+    ".",
+    "--artifact",
+    "artifacts/motion-effect-parameter-pixel-ab-v1"
+  ],
+  "exit_code": 0,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "errors": [],
+    "field": "y_offset",
+    "natural_gameplay_route": true,
+    "pixel_change_count": 286,
+    "record_id": 0,
+    "verified": true
+  },
+  "seconds": 1.048,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "86cbd1edf0549ee43512875023f7e259cfe90470215498d85f208a35666fdfac",
+  "timed_out": false
+}

@@ -1,0 +1,23 @@
+{
+  "bank": "menu-ui",
+  "command": [
+    "python3",
+    "tools/verify_menu_portrait_pixel_ab_evidence.py",
+    "--root",
+    ".",
+    "--artifact",
+    "artifacts/menu-portrait-pixel-ab-v1"
+  ],
+  "exit_code": 1,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "errors": [
+      "portrait independent implementation hash mismatch"
+    ],
+    "verified": false
+  },
+  "seconds": 0.135,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "5d83f73e6940692b74c7cea2710ade6586cf2aaf92c48b355ee453ee9f8f382a",
+  "timed_out": false
+}

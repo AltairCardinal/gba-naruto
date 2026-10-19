@@ -1,0 +1,69 @@
+.FFF...FE
+======================================================================
+ERROR: test_replays_real_shared_lock_capture (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_replays_real_shared_lock_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 27, in test_replays_real_shared_lock_capture
+    result = verify_source(ROOT, SOURCE)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 233, in verify_source
+    return _verify_source(root, source)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 192, in _verify_source
+    raise ValueError("snapshot version changed")
+ValueError: snapshot version changed
+
+======================================================================
+FAIL: test_rejects_other_memory_domain_change (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_other_memory_domain_change)
+----------------------------------------------------------------------
+ValueError: snapshot version changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 114, in test_rejects_other_memory_domain_change
+    with self.assertRaisesRegex(ValueError, "memory domain"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "memory domain" does not match "snapshot version changed"
+
+======================================================================
+FAIL: test_rejects_resigned_extra_input (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_resigned_extra_input)
+----------------------------------------------------------------------
+ValueError: snapshot version changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 58, in test_rejects_resigned_extra_input
+    with self.assertRaisesRegex(ValueError, "input protocol"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "input protocol" does not match "snapshot version changed"
+
+======================================================================
+FAIL: test_rejects_resigned_png_replacement (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_resigned_png_replacement)
+----------------------------------------------------------------------
+ValueError: snapshot version changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 90, in test_rejects_resigned_png_replacement
+    with self.assertRaisesRegex(ValueError, "renderer|pixels"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "renderer|pixels" does not match "snapshot version changed"
+
+======================================================================
+FAIL: test_rejects_zero_input_memory_change (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_zero_input_memory_change)
+----------------------------------------------------------------------
+ValueError: snapshot version changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 102, in test_rejects_zero_input_memory_change
+    with self.assertRaisesRegex(ValueError, "zero input"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "zero input" does not match "snapshot version changed"
+
+----------------------------------------------------------------------
+Ran 9 tests in 4.814s
+
+FAILED (failures=4, errors=1)

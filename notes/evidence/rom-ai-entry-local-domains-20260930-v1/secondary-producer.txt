@@ -1,0 +1,20 @@
+rom=rom/base.gba
+start=0x080742BE
+focus=0x0807434E
+size=0x130
+
+   0x080742BE: bl       #0x8085a74
+   0x080742C2: lsls     r0, r0, #0x18
+   0x080742C4: lsrs     r4, r0, #0x18
+   0x080742C6: movs     r0, #1
+   0x080742C8: bl       #0x809c574
+   0x080742CC: cmp      r4, #0
+   0x080742CE: beq      #0x80742be
+   0x080742D0: b        #0x80743bc
+   0x080742D2: movs     r0, r0
+   0x080742D4: ldr      r4, [r0]
+   0x080742D6: lsls     r2, r0, #8
+   0x080742D8: asrs     r5, r3, #0x1d
+   0x080742DA: lsrs     r0, r0, #0x20
+   0x080742DC: ldr      r0, [r0, #0x24]
+   0x080742DE: lsls     r2, r0, #8

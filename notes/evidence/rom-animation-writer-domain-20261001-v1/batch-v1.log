@@ -1,0 +1,25 @@
+test_all_128_pool_records_and_partial_critical_fields (test_writer_domain.WriterDomainTests.test_all_128_pool_records_and_partial_critical_fields) ... ok
+test_all_raw_single_store_classes_keep_fixed_instruction_denominator (test_writer_domain.WriterDomainTests.test_all_raw_single_store_classes_keep_fixed_instruction_denominator) ... ok
+test_dma_register_write_keeps_indirect_memory_effect_obligation (test_writer_domain.WriterDomainTests.test_dma_register_write_keeps_indirect_memory_effect_obligation) ... ok
+test_multiple_stores_keep_every_register_and_unknown_push_alias (test_writer_domain.WriterDomainTests.test_multiple_stores_keep_every_register_and_unknown_push_alias) ... ok
+test_partition_hole_empty_multiple_and_rom_overflow_fail_closed (test_writer_domain.WriterDomainTests.test_partition_hole_empty_multiple_and_rom_overflow_fail_closed) ... ok
+test_raw_immediate_and_register_address_expressions (test_writer_domain.WriterDomainTests.test_raw_immediate_and_register_address_expressions) ... ok
+test_roots_include_calls_missing_predecessors_and_all_disconnected_cycles (test_writer_domain.WriterDomainTests.test_roots_include_calls_missing_predecessors_and_all_disconnected_cycles) ... ok
+test_unknown_and_not_reached_addresses_remain_possible_writers (test_writer_domain.WriterDomainTests.test_unknown_and_not_reached_addresses_remain_possible_writers) ... ok
+test_word_halfword_alignment_and_iwram_mirrors (test_writer_domain.WriterDomainTests.test_word_halfword_alignment_and_iwram_mirrors) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.039s
+
+OK
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-writer-domain/domains-20261001-v1/inventory.py", line 161, in <module>
+    main(Path(sys.argv[1]))
+    ~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-writer-domain/domains-20261001-v1/inventory.py", line 104, in main
+    add_range(start, end)
+    ~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-writer-domain/domains-20261001-v1/inventory.py", line 77, in add_range
+    assert instruction['accepted'] and at + instruction['size'] <= end
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,54 @@
+rom=rom/base.gba
+start=0x0806E26C
+focus=0x0806E26C
+size=0x64
+
+=> 0x0806E26C: adds     r0, r1, #6
+   0x0806E26E: lsls     r0, r0, #0x18
+   0x0806E270: lsrs     r0, r0, #0x18
+   0x0806E272: cmp      r0, #2
+   0x0806E274: bhi      #0x806e2e0
+   0x0806E276: mvns     r0, r1
+   0x0806E278: lsls     r0, r0, #0x18
+   0x0806E27A: lsrs     r1, r0, #0x18
+   0x0806E27C: subs     r0, r1, #3
+   0x0806E27E: ldr      r6, [pc, #0x50]
+   0x0806E280: add      r6, r8
+   0x0806E282: adds     r0, r0, r6
+   0x0806E284: ldrb     r0, [r0]
+   0x0806E286: cmp      r0, #0
+   0x0806E288: beq      #0x806e328
+   0x0806E28A: movs     r0, #0xbc
+   0x0806E28C: muls     r0, r1, r0
+   0x0806E28E: ldr      r1, [pc, #0x44]
+   0x0806E290: adds     r0, r0, r1
+   0x0806E292: ldrb     r1, [r5, #2]
+   0x0806E294: ldrb     r2, [r5, #3]
+   0x0806E296: ldrb     r3, [r5, #4]
+   0x0806E298: ldrb     r4, [r5, #1]
+   0x0806E29A: str      r4, [sp]
+   0x0806E29C: ldr      r4, [r5, #8]
+   0x0806E29E: str      r4, [sp, #4]
+   0x0806E2A0: bl       #0x806aa64
+   0x0806E2A4: lsls     r0, r0, #0x18
+   0x0806E2A6: lsrs     r2, r0, #0x18
+   0x0806E2A8: ldr      r1, [pc, #0x2c]
+   0x0806E2AA: movs     r0, #0xea
+   0x0806E2AC: lsls     r0, r0, #1
+   0x0806E2AE: muls     r2, r0, r2
+   0x0806E2B0: adds     r2, r2, r1
+   0x0806E2B2: ldr      r3, [pc, #0x28]
+   0x0806E2B4: ldrb     r0, [r5]
+   0x0806E2B6: mvns     r0, r0
+   0x0806E2B8: lsls     r0, r0, #0x18
+   0x0806E2BA: lsrs     r0, r0, #0x18
+   0x0806E2BC: subs     r0, #3
+   0x0806E2BE: adds     r0, r0, r6
+   0x0806E2C0: ldrb     r1, [r0]
+   0x0806E2C2: movs     r0, #0xac
+   0x0806E2C4: muls     r0, r1, r0
+   0x0806E2C6: adds     r0, r0, r3
+   0x0806E2C8: ldrb     r0, [r0, #2]
+   0x0806E2CA: adds     r2, #0xcd
+   0x0806E2CC: strb     r0, [r2]
+   0x0806E2CE: b        #0x806e328

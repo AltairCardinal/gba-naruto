@@ -1,0 +1,122 @@
+test_allocator_call_discards_stack_facts_even_with_register_contract (__main__.FlowTests.test_allocator_call_discards_stack_facts_even_with_register_contract) ... ERROR
+test_allocator_preservation_requires_explicit_raw_contract (__main__.FlowTests.test_allocator_preservation_requires_explicit_raw_contract) ... ERROR
+test_branch_narrows_unknown_stack_load_to_zero (__main__.FlowTests.test_branch_narrows_unknown_stack_load_to_zero) ... ERROR
+test_budget_failure_is_explicit (__main__.FlowTests.test_budget_failure_is_explicit) ... ERROR
+test_changed_allocator_restore_is_not_accepted (__main__.FlowTests.test_changed_allocator_restore_is_not_accepted) ... ERROR
+test_extra_root_removes_unproven_dominance (__main__.FlowTests.test_extra_root_removes_unproven_dominance) ... ERROR
+test_join_does_not_select_one_successful_predecessor (__main__.FlowTests.test_join_does_not_select_one_successful_predecessor) ... ERROR
+test_unknown_callee_does_not_preserve_high_register_constants (__main__.FlowTests.test_unknown_callee_does_not_preserve_high_register_constants) ... ERROR
+test_unknown_store_invalidates_loaded_stack_origin (__main__.FlowTests.test_unknown_store_invalidates_loaded_stack_origin) ... ERROR
+
+======================================================================
+ERROR: test_allocator_call_discards_stack_facts_even_with_register_contract (__main__.FlowTests.test_allocator_call_discards_stack_facts_even_with_register_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_flow.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/flow.py'
+
+======================================================================
+ERROR: test_allocator_preservation_requires_explicit_raw_contract (__main__.FlowTests.test_allocator_preservation_requires_explicit_raw_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_flow.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/flow.py'
+
+======================================================================
+ERROR: test_branch_narrows_unknown_stack_load_to_zero (__main__.FlowTests.test_branch_narrows_unknown_stack_load_to_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_flow.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/flow.py'
+
+======================================================================
+ERROR: test_budget_failure_is_explicit (__main__.FlowTests.test_budget_failure_is_explicit)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_flow.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/flow.py'
+
+======================================================================
+ERROR: test_changed_allocator_restore_is_not_accepted (__main__.FlowTests.test_changed_allocator_restore_is_not_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_flow.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/flow.py'
+
+======================================================================
+ERROR: test_extra_root_removes_unproven_dominance (__main__.FlowTests.test_extra_root_removes_unproven_dominance)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_flow.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/flow.py'
+
+======================================================================
+ERROR: test_join_does_not_select_one_successful_predecessor (__main__.FlowTests.test_join_does_not_select_one_successful_predecessor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_flow.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/flow.py'
+
+======================================================================
+ERROR: test_unknown_callee_does_not_preserve_high_register_constants (__main__.FlowTests.test_unknown_callee_does_not_preserve_high_register_constants)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_flow.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/flow.py'
+
+======================================================================
+ERROR: test_unknown_store_invalidates_loaded_stack_origin (__main__.FlowTests.test_unknown_store_invalidates_loaded_stack_origin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_flow.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/flow.py'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.004s
+
+FAILED (errors=9)

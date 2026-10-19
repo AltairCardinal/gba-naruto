@@ -1,0 +1,47 @@
+{
+  "build_cli_cases": 35,
+  "files": {
+    ".experiment.json": {
+      "sha256": "af0530a7a25839633491b83be9dfd5df0130c853498a66c51094bf9bcda21fe3",
+      "size": 402
+    },
+    ".inventory.json": {
+      "sha256": "c00cf01d3c31baa13a8d59328cf919c31e0486b2e1e0cea6c25e0bb92eea2e7a",
+      "size": 1055
+    },
+    "portability.json": {
+      "sha256": "58acf4f55181ad4731d532822a164f11a0d526c95eede5fed03bbce88326560c",
+      "size": 3037
+    },
+    "portable-stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "portable-stdout.json": {
+      "sha256": "2da707c38a0fede7dc287c751964e354df2745286ba299a73dd3254a286d3432",
+      "size": 52644
+    },
+    "replay-guard.json": {
+      "sha256": "c1db2ebbdda24bbc837bf62a89591236d9f969d88fc1bf1c0265dc2272ce7ff2",
+      "size": 553
+    },
+    "replay.py": {
+      "sha256": "6f96f42c1220bb8b5b8235cb952ea91284134b58f9aa4037f146886931afff99",
+      "size": 2860
+    },
+    "result-replayed.json": {
+      "sha256": "2da707c38a0fede7dc287c751964e354df2745286ba299a73dd3254a286d3432",
+      "size": 52644
+    },
+    "validation.json": {
+      "sha256": "f021f04d931f3873c40cd0a3ba927b3b4bbff688f26edcbeafd0cf91d91e1675",
+      "size": 289
+    }
+  },
+  "parent_manifest_sha256": "f42351ff19d45cde094e8bc413b85f460c35ab2e788d92c2789db4bfec5c95dd",
+  "resources": 34,
+  "result_exact": true,
+  "runtime_executed": false,
+  "schema": "reverse-work-receipt-v1",
+  "status": "verified_permanent_script_replay"
+}

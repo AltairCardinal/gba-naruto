@@ -1,0 +1,111 @@
+EEEEEEEEEE
+======================================================================
+ERROR: test_bank_and_source_drift_fail_closed (tests.test_map_sprites_partial_bank.PartialBankTests.test_bank_and_source_drift_fail_closed) (name='sequel/content/map-sprites/bank.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 47, in test_bank_and_source_drift_fail_closed
+    verify_partial_bank(root)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+======================================================================
+ERROR: test_bank_and_source_drift_fail_closed (tests.test_map_sprites_partial_bank.PartialBankTests.test_bank_and_source_drift_fail_closed) (name='tools/render_mode0_checkpoint.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 47, in test_bank_and_source_drift_fail_closed
+    verify_partial_bank(root)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+======================================================================
+ERROR: test_binding_cannot_relabel_claims (tests.test_map_sprites_partial_bank.PartialBankTests.test_binding_cannot_relabel_claims)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 103, in test_binding_cannot_relabel_claims
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+======================================================================
+ERROR: test_contract_drift_fails_closed (tests.test_map_sprites_partial_bank.PartialBankTests.test_contract_drift_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 64, in test_contract_drift_fails_closed
+    verify_partial_bank(root)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+======================================================================
+ERROR: test_evidence_drift_fails_closed (tests.test_map_sprites_partial_bank.PartialBankTests.test_evidence_drift_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 56, in test_evidence_drift_fails_closed
+    verify_partial_bank(root)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+======================================================================
+ERROR: test_existing_auditor_accepts_cli_contract (tests.test_map_sprites_partial_bank.PartialBankTests.test_existing_auditor_accepts_cli_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 78, in test_existing_auditor_accepts_cli_contract
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+======================================================================
+ERROR: test_partial_proof_cannot_pass_exhaustive_bank_gate (tests.test_map_sprites_partial_bank.PartialBankTests.test_partial_proof_cannot_pass_exhaustive_bank_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 91, in test_partial_proof_cannot_pass_exhaustive_bank_gate
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+======================================================================
+ERROR: test_real_evidence_has_one_of_86_cells (tests.test_map_sprites_partial_bank.PartialBankTests.test_real_evidence_has_one_of_86_cells)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 27, in test_real_evidence_has_one_of_86_cells
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+======================================================================
+ERROR: test_symlink_and_missing_input_fail_closed (tests.test_map_sprites_partial_bank.PartialBankTests.test_symlink_and_missing_input_fail_closed) (symbolic=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 75, in test_symlink_and_missing_input_fail_closed
+    verify_partial_bank(root)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+======================================================================
+ERROR: test_symlink_and_missing_input_fail_closed (tests.test_map_sprites_partial_bank.PartialBankTests.test_symlink_and_missing_input_fail_closed) (symbolic=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_sprites_partial_bank.py", line 75, in test_symlink_and_missing_input_fail_closed
+    verify_partial_bank(root)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_map_sprites_partial_bank.py", line 4, in verify_partial_bank
+    raise NotImplementedError("partial bank contract not implemented")
+NotImplementedError: partial bank contract not implemented
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.125s
+
+FAILED (errors=10)

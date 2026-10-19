@@ -1,0 +1,205 @@
+{
+  "auditor_bank_check": {
+    "bank": "cutscene-scripts",
+    "blockers": [
+      "cutscene-scripts: unresolved limitations remain (4)",
+      "cutscene-scripts: coverage status='artifact_verified_natural_victory_load', expected 'exhaustive'",
+      "cutscene-scripts: record coverage is not exhaustively ID-bound",
+      "cutscene-scripts: field coverage is not exhaustive",
+      "cutscene-scripts: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+    ],
+    "classification": "runtime_verified",
+    "complete": false,
+    "contracted_verifier_count": 1,
+    "coverage_status": "artifact_verified_natural_victory_load",
+    "declared_records_covered": 1,
+    "declared_records_total": 8,
+    "evidence_valid": true,
+    "hash_bound_verifier_count": 1,
+    "limitations_count": 4,
+    "proof_bound": true
+  },
+  "auditor_cli": {
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "tools/verify_cutscene_obj_secondary_ptr_ab.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "notes/evidence/rom-cutscene-secondary-ptr-shared-lock-20261001-v1/contract-tier1-20261001-v1/final",
+      "--bank-contract"
+    ],
+    "contract_ok": true,
+    "exit_code": 0,
+    "label": "cutscene-scripts"
+  },
+  "bank": "cutscene-scripts",
+  "bank_sha256": "791f8173103259290c57b29908e010362c29de9caaa3c983e1e7b0336cb406a4",
+  "changed_pixel_count": 778,
+  "coverage": {
+    "cells_covered": [
+      {
+        "field_id": "secondary_ptr",
+        "record_id": "1"
+      }
+    ],
+    "cells_total": 16,
+    "cells_uncovered": [
+      {
+        "field_id": "primary_ptr",
+        "record_id": "0"
+      },
+      {
+        "field_id": "secondary_ptr",
+        "record_id": "0"
+      },
+      {
+        "field_id": "primary_ptr",
+        "record_id": "1"
+      },
+      {
+        "field_id": "primary_ptr",
+        "record_id": "2"
+      },
+      {
+        "field_id": "secondary_ptr",
+        "record_id": "2"
+      },
+      {
+        "field_id": "primary_ptr",
+        "record_id": "3"
+      },
+      {
+        "field_id": "secondary_ptr",
+        "record_id": "3"
+      },
+      {
+        "field_id": "primary_ptr",
+        "record_id": "4"
+      },
+      {
+        "field_id": "secondary_ptr",
+        "record_id": "4"
+      },
+      {
+        "field_id": "primary_ptr",
+        "record_id": "5"
+      },
+      {
+        "field_id": "secondary_ptr",
+        "record_id": "5"
+      },
+      {
+        "field_id": "primary_ptr",
+        "record_id": "6"
+      },
+      {
+        "field_id": "secondary_ptr",
+        "record_id": "6"
+      },
+      {
+        "field_id": "primary_ptr",
+        "record_id": "7"
+      },
+      {
+        "field_id": "secondary_ptr",
+        "record_id": "7"
+      }
+    ],
+    "field_ids_covered": [
+      "secondary_ptr"
+    ],
+    "field_ids_total": [
+      "primary_ptr",
+      "secondary_ptr"
+    ],
+    "record_ids_covered": [
+      "1"
+    ],
+    "record_ids_total": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "records_covered": 1,
+    "records_total": 8,
+    "status": "artifact_verified_natural_victory_load"
+  },
+  "limitations": [
+    "Only first-table record 1 secondary_ptr has isolated natural victory-load evidence.",
+    "The other 15 record/field cells are outside this packet; second-table records have different semantics.",
+    "Physical GBA execution, arbitrary navigation and exhaustive bank semantics are unverified.",
+    "No ROM-byte classification, live bank catalog or release gate is promoted by this packet."
+  ],
+  "live_coverage": {
+    "field_ids_covered": [
+      "primary_ptr"
+    ],
+    "field_ids_total": [
+      "primary_ptr",
+      "secondary_ptr"
+    ],
+    "records_covered": 1,
+    "records_total": 8,
+    "status": "artifact_verified_natural_route"
+  },
+  "negative_claim_checks": [
+    {
+      "auditor_result": {
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "tools/verify_cutscene_obj_secondary_ptr_ab.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "notes/evidence/rom-cutscene-secondary-ptr-shared-lock-20261001-v1/contract-tier1-20261001-v1/final",
+          "--bank-contract"
+        ],
+        "contract_ok": false,
+        "exit_code": 0,
+        "label": "cutscene-scripts"
+      },
+      "blockers": [
+        "cutscene-scripts: verifier contract mismatch: /record_ids_covered=['1'], expected ['0', '1', '2', '3', '4', '5', '6', '7']"
+      ],
+      "changed_assertion": "/record_ids_covered",
+      "expected_rejection": true
+    },
+    {
+      "auditor_result": {
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "tools/verify_cutscene_obj_secondary_ptr_ab.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "notes/evidence/rom-cutscene-secondary-ptr-shared-lock-20261001-v1/contract-tier1-20261001-v1/final",
+          "--bank-contract"
+        ],
+        "contract_ok": false,
+        "exit_code": 0,
+        "label": "cutscene-scripts"
+      },
+      "blockers": [
+        "cutscene-scripts: verifier contract mismatch: /physical_gba_verified=False, expected True"
+      ],
+      "changed_assertion": "/physical_gba_verified",
+      "expected_rejection": true
+    }
+  ],
+  "new_runtime_samples": 0,
+  "result_scope_flags": {
+    "exhaustive": false,
+    "natural_victory_load": true,
+    "physical_gba_verified": false,
+    "zero_input_sample_count": 3
+  },
+  "scope": "natural_victory_palette_load",
+  "seconds": 27.656,
+  "source_artifact": "notes/evidence/rom-cutscene-secondary-ptr-shared-lock-20261001-v1/contract-tier1-20261001-v1/final"
+}

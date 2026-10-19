@@ -1,0 +1,19 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 7461,
+  "peak_tree_rss_mib": 216.984375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "notes/evidence/rom-map-resource-relocation-roundtrip-20261002-v1/replay.py",
+    "--root",
+    "build/experiments/active/map-relocation-replay/portable-20261002-v1/provided-rom",
+    "--output",
+    "build/experiments/active/map-relocation-replay/portable-20261002-v1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T17:02:36.441069Z",
+  "finished_at": "2026-10-01T17:03:00.236691Z"
+}

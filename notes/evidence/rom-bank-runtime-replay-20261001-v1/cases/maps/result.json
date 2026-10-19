@@ -1,0 +1,34 @@
+{
+  "bank": "maps",
+  "command": [
+    "python3",
+    "tools/verify_map41_primary_layout_pixel_ab_evidence.py",
+    "--root",
+    ".",
+    "--artifact",
+    "artifacts/map41-primary-layout-pixel-ab-v1"
+  ],
+  "exit_code": 0,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "errors": [],
+    "schema": "map41-primary-layout-pixel-ab-verification-v1",
+    "summary": {
+      "differing_pixel_count": 204,
+      "natural_entry": true,
+      "runtime_layout_word": "0x0201BF08",
+      "screen_bbox": [
+        8,
+        0,
+        39,
+        7
+      ],
+      "vram_differing_byte_count": 8
+    },
+    "verified": true
+  },
+  "seconds": 0.495,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "7f3d6c6a30b3e5b3ac7893e9566811eeb7fae80bbd059228a11ab47774173647",
+  "timed_out": false
+}

@@ -1,0 +1,117 @@
+test_all_resources_build_and_read_back_or_reject_capacity (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_all_resources_build_and_read_back_or_reject_capacity) ... ERROR
+test_cli_missing_input_is_json_failure (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_cli_missing_input_is_json_failure) ... FAIL
+test_cli_runs_in_relocated_root_with_isolated_build_environment (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_cli_runs_in_relocated_root_with_isolated_build_environment) ... ERROR
+test_contract_and_repository_drift_fail_before_build (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_contract_and_repository_drift_fail_before_build) ... 
+  test_contract_and_repository_drift_fail_before_build (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_contract_and_repository_drift_fail_before_build) (name='tools/data/battle-effect-fixed-roundtrip-contract-v1.json') ... ERROR
+  test_contract_and_repository_drift_fail_before_build (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_contract_and_repository_drift_fail_before_build) (name='tools/import_battle_effect_resources.py') ... ERROR
+  test_contract_and_repository_drift_fail_before_build (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_contract_and_repository_drift_fail_before_build) (name='rom/base.gba') ... ERROR
+test_missing_and_symbolic_input_fail_closed (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_missing_and_symbolic_input_fail_closed) ... 
+  test_missing_and_symbolic_input_fail_closed (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_missing_and_symbolic_input_fail_closed) (symbolic=False) ... ERROR
+  test_missing_and_symbolic_input_fail_closed (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_missing_and_symbolic_input_fail_closed) (symbolic=True) ... ERROR
+test_unmanaged_or_completed_run_rejected_before_writes (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_unmanaged_or_completed_run_rejected_before_writes) ... ERROR
+
+======================================================================
+ERROR: test_all_resources_build_and_read_back_or_reject_capacity (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_all_resources_build_and_read_back_or_reject_capacity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_battle_effect_fixed_roundtrip.py", line 31, in test_all_resources_build_and_read_back_or_reject_capacity
+    result = run_roundtrip(root, run)
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_battle_effect_fixed_roundtrip.py", line 4, in run_roundtrip
+    raise NotImplementedError("fixed resource roundtrip matrix not implemented")
+NotImplementedError: fixed resource roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_cli_runs_in_relocated_root_with_isolated_build_environment (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_cli_runs_in_relocated_root_with_isolated_build_environment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_battle_effect_fixed_roundtrip.py", line 69, in test_cli_runs_in_relocated_root_with_isolated_build_environment
+    result = json.loads(completed.stdout)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+======================================================================
+ERROR: test_contract_and_repository_drift_fail_before_build (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_contract_and_repository_drift_fail_before_build) (name='tools/data/battle-effect-fixed-roundtrip-contract-v1.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_battle_effect_fixed_roundtrip.py", line 83, in test_contract_and_repository_drift_fail_before_build
+    run_roundtrip(root, run)
+    ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_battle_effect_fixed_roundtrip.py", line 4, in run_roundtrip
+    raise NotImplementedError("fixed resource roundtrip matrix not implemented")
+NotImplementedError: fixed resource roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_contract_and_repository_drift_fail_before_build (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_contract_and_repository_drift_fail_before_build) (name='tools/import_battle_effect_resources.py')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_battle_effect_fixed_roundtrip.py", line 83, in test_contract_and_repository_drift_fail_before_build
+    run_roundtrip(root, run)
+    ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_battle_effect_fixed_roundtrip.py", line 4, in run_roundtrip
+    raise NotImplementedError("fixed resource roundtrip matrix not implemented")
+NotImplementedError: fixed resource roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_contract_and_repository_drift_fail_before_build (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_contract_and_repository_drift_fail_before_build) (name='rom/base.gba')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_battle_effect_fixed_roundtrip.py", line 83, in test_contract_and_repository_drift_fail_before_build
+    run_roundtrip(root, run)
+    ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_battle_effect_fixed_roundtrip.py", line 4, in run_roundtrip
+    raise NotImplementedError("fixed resource roundtrip matrix not implemented")
+NotImplementedError: fixed resource roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_missing_and_symbolic_input_fail_closed (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_missing_and_symbolic_input_fail_closed) (symbolic=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_battle_effect_fixed_roundtrip.py", line 97, in test_missing_and_symbolic_input_fail_closed
+    run_roundtrip(root, run)
+    ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_battle_effect_fixed_roundtrip.py", line 4, in run_roundtrip
+    raise NotImplementedError("fixed resource roundtrip matrix not implemented")
+NotImplementedError: fixed resource roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_missing_and_symbolic_input_fail_closed (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_missing_and_symbolic_input_fail_closed) (symbolic=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_battle_effect_fixed_roundtrip.py", line 97, in test_missing_and_symbolic_input_fail_closed
+    run_roundtrip(root, run)
+    ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_battle_effect_fixed_roundtrip.py", line 4, in run_roundtrip
+    raise NotImplementedError("fixed resource roundtrip matrix not implemented")
+NotImplementedError: fixed resource roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_unmanaged_or_completed_run_rejected_before_writes (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_unmanaged_or_completed_run_rejected_before_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_battle_effect_fixed_roundtrip.py", line 107, in test_unmanaged_or_completed_run_rejected_before_writes
+    run_roundtrip(root, unmanaged)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_battle_effect_fixed_roundtrip.py", line 4, in run_roundtrip
+    raise NotImplementedError("fixed resource roundtrip matrix not implemented")
+NotImplementedError: fixed resource roundtrip matrix not implemented
+
+======================================================================
+FAIL: test_cli_missing_input_is_json_failure (tests.test_battle_effect_fixed_roundtrip.FixedRoundtripTests.test_cli_missing_input_is_json_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_battle_effect_fixed_roundtrip.py", line 120, in test_cli_missing_input_is_json_failure
+    self.assertEqual(completed.returncode, 1, completed.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : 
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.349s
+
+FAILED (failures=1, errors=8)

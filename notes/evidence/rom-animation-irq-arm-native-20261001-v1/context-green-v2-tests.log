@@ -1,0 +1,24 @@
+test_raw_save_and_resume_register_crossing (test_arm_probe.ContextTests.test_raw_save_and_resume_register_crossing) ... ERROR
+test_slot_domains (test_arm_probe.ContextTests.test_slot_domains) ... ok
+test_wait_zero_is_wrapping_skip (test_arm_probe.ContextTests.test_wait_zero_is_wrapping_skip) ... ok
+test_copy_offsets_and_noncode_tail (test_arm_probe.ContractTests.test_copy_offsets_and_noncode_tail) ... ok
+test_protocol_rejects_outside_fixture (test_arm_probe.ContractTests.test_protocol_rejects_outside_fixture) ... ok
+test_raster_first_oracle (test_arm_probe.ContractTests.test_raster_first_oracle) ... ok
+test_real_rom_native_snapshot_and_callbacks (test_arm_probe.ContractTests.test_real_rom_native_snapshot_and_callbacks) ... ok
+test_second_callback_both_branches (test_arm_probe.ContractTests.test_second_callback_both_branches) ... ok
+
+======================================================================
+ERROR: test_raw_save_and_resume_register_crossing (test_arm_probe.ContextTests.test_raw_save_and_resume_register_crossing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/test_arm_probe.py", line 28, in test_raw_save_and_resume_register_crossing
+    saved,resumed=p.context_pair(2,1)
+                  ~~~~~~~~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/arm_probe.py", line 130, in context_pair
+    raise ValueError('wait/select oracle')
+ValueError: wait/select oracle
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.318s
+
+FAILED (errors=1)

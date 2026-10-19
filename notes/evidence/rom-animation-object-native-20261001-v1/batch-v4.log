@@ -1,0 +1,49 @@
+test_callback_tail_preserves_critical_indices (test_object_native.NativeJointTests.test_callback_tail_preserves_critical_indices) ... ok
+test_descriptor_sentinel_suffix_is_not_read (test_object_native.NativeJointTests.test_descriptor_sentinel_suffix_is_not_read) ... ok
+test_lookup_certificate_rejects_changed_bound (test_object_native.NativeJointTests.test_lookup_certificate_rejects_changed_bound) ... ok
+test_null_tail_handle_remains_invalid (test_object_native.NativeJointTests.test_null_tail_handle_remains_invalid) ... ok
+test_persistent_allocate_dispatch_release_and_reuse (test_object_native.NativeJointTests.test_persistent_allocate_dispatch_release_and_reuse) ... ok
+test_sequence_sentinel_is_rejected_for_descriptor_binding (test_object_native.NativeJointTests.test_sequence_sentinel_is_rejected_for_descriptor_binding) ... ok
+test_allocator_preserves_stale_context (test_object_native.NativeLifecycleTests.test_allocator_preserves_stale_context) ... ok
+test_alternate_depth_field_changes_full_sort (test_object_native.NativeLifecycleTests.test_alternate_depth_field_changes_full_sort) ... ok
+test_callback_initialization_uses_real_bios (test_object_native.NativeLifecycleTests.test_callback_initialization_uses_real_bios) ... ok
+test_full_allocator_returns_null (test_object_native.NativeLifecycleTests.test_full_allocator_returns_null) ... ok
+test_lookup_missing_is_index_ten (test_object_native.NativeLifecycleTests.test_lookup_missing_is_index_ten) ... ok
+test_native_source_budget_rejects_execution_escape (test_object_native.NativeLifecycleTests.test_native_source_budget_rejects_execution_escape) ... ok
+test_selection_reads_before_freeze (test_object_native.NativeLifecycleTests.test_selection_reads_before_freeze) ... ok
+test_sort_full_return_and_mode_keys (test_object_native.NativeLifecycleTests.test_sort_full_return_and_mode_keys) ... ok
+test_stale_context_skips_bios_init (test_object_native.NativeLifecycleTests.test_stale_context_skips_bios_init) ... ok
+test_timer_wrap_and_negative_duration (test_object_native.NativeLifecycleTests.test_timer_wrap_and_negative_duration) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 1.349s
+
+OK
+VERIFY fixed lifecycle and long-callback source graphs
+RUN 258 allocator cases
+RUN all u8 needles at ten matches and no-match
+RUN 768 callback fast paths including actual embedded BIOS initialization
+callback context=0 slot=0
+callback context=0 slot=64
+callback context=0 slot=128
+callback context=0 slot=192
+callback context=1 slot=0
+callback context=1 slot=64
+callback context=1 slot=128
+callback context=1 slot=192
+callback context=65535 slot=0
+callback context=65535 slot=64
+callback context=65535 slot=128
+callback context=65535 slot=192
+RUN callback tail byte boundaries and handle alias roles
+callback-tail 0/774
+callback-tail 128/774
+callback-tail 256/774
+callback-tail 384/774
+callback-tail 512/774
+callback-tail 640/774
+callback-tail 768/774
+RUN full scan and sort against separate insertion oracle
+RUN 672 native vs bounded Thumb advance cases
+RUN descriptor head paths for eight descriptors
+PASSED 5381 native traces / 16 tests / 3 fresh source verifiers

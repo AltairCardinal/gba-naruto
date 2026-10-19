@@ -1,0 +1,186 @@
+test_rejects_extra_guard_option (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_extra_guard_option) ... ERROR
+test_rejects_forged_marker_or_library (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_forged_marker_or_library) ... 
+  test_rejects_forged_marker_or_library (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_forged_marker_or_library) (name='runtime/input-candidate/guard.json.done.json') ... ERROR
+  test_rejects_forged_marker_or_library (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_forged_marker_or_library) (name='preflight-result.json') ... ERROR
+test_rejects_input_version_in_new_output (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_input_version_in_new_output) ... ERROR
+test_rejects_other_memory_domain_change (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_other_memory_domain_change) ... ERROR
+test_rejects_relabelled_plan (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_relabelled_plan) ... ERROR
+test_rejects_resigned_extra_input (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_resigned_extra_input) ... ERROR
+test_rejects_resigned_png_replacement (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_resigned_png_replacement) ... ERROR
+test_rejects_reused_run_identity (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_reused_run_identity) ... ERROR
+test_rejects_symlink_or_extra_raw_file (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_symlink_or_extra_raw_file) ... 
+  test_rejects_symlink_or_extra_raw_file (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_symlink_or_extra_raw_file) (symbolic=False) ... ERROR
+  test_rejects_symlink_or_extra_raw_file (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_symlink_or_extra_raw_file) (symbolic=True) ... ERROR
+test_rejects_wrong_record_relabel (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_wrong_record_relabel) ... ERROR
+test_rejects_wrong_shared_lock (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_wrong_shared_lock) ... ERROR
+test_rejects_zero_input_memory_change (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_zero_input_memory_change) ... ERROR
+test_replays_real_shared_lock_capture (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_replays_real_shared_lock_capture) ... ERROR
+
+======================================================================
+ERROR: test_rejects_extra_guard_option (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_extra_guard_option)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 133, in test_rejects_extra_guard_option
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_forged_marker_or_library (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_forged_marker_or_library) (name='runtime/input-candidate/guard.json.done.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 78, in test_rejects_forged_marker_or_library
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_forged_marker_or_library (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_forged_marker_or_library) (name='preflight-result.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 78, in test_rejects_forged_marker_or_library
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_input_version_in_new_output (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_input_version_in_new_output)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 155, in test_rejects_input_version_in_new_output
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_other_memory_domain_change (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_other_memory_domain_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 114, in test_rejects_other_memory_domain_change
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_relabelled_plan (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_relabelled_plan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 122, in test_rejects_relabelled_plan
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_resigned_extra_input (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_resigned_extra_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 58, in test_rejects_resigned_extra_input
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_resigned_png_replacement (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_resigned_png_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 90, in test_rejects_resigned_png_replacement
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_reused_run_identity (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_reused_run_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 143, in test_rejects_reused_run_identity
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_symlink_or_extra_raw_file (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_symlink_or_extra_raw_file) (symbolic=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 169, in test_rejects_symlink_or_extra_raw_file
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_symlink_or_extra_raw_file (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_symlink_or_extra_raw_file) (symbolic=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 169, in test_rejects_symlink_or_extra_raw_file
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_wrong_record_relabel (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_wrong_record_relabel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 66, in test_rejects_wrong_record_relabel
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_wrong_shared_lock (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_wrong_shared_lock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 48, in test_rejects_wrong_shared_lock
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_rejects_zero_input_memory_change (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_zero_input_memory_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 102, in test_rejects_zero_input_memory_change
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+======================================================================
+ERROR: test_replays_real_shared_lock_capture (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_replays_real_shared_lock_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 26, in test_replays_real_shared_lock_capture
+    result = verify_source(ROOT, SOURCE)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 5, in verify_source
+    raise NotImplementedError('menu graphics-pointer source verification not implemented')
+NotImplementedError: menu graphics-pointer source verification not implemented
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.291s
+
+FAILED (errors=15)

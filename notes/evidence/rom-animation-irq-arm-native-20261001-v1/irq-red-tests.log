@@ -1,0 +1,45 @@
+test_raw_save_and_resume_register_crossing (test_arm_probe.ContextTests.test_raw_save_and_resume_register_crossing) ... ERROR
+test_slot_domains (test_arm_probe.ContextTests.test_slot_domains) ... ok
+test_wait_zero_is_wrapping_skip (test_arm_probe.ContextTests.test_wait_zero_is_wrapping_skip) ... ok
+test_copy_offsets_and_noncode_tail (test_arm_probe.ContractTests.test_copy_offsets_and_noncode_tail) ... ok
+test_protocol_rejects_outside_fixture (test_arm_probe.ContractTests.test_protocol_rejects_outside_fixture) ... ok
+test_raster_first_oracle (test_arm_probe.ContractTests.test_raster_first_oracle) ... ok
+test_real_rom_native_snapshot_and_callbacks (test_arm_probe.ContractTests.test_real_rom_native_snapshot_and_callbacks) ... ok
+test_second_callback_both_branches (test_arm_probe.ContractTests.test_second_callback_both_branches) ... ok
+test_banked_dispatch_both_callbacks (test_arm_probe.IrqTests.test_banked_dispatch_both_callbacks) ... ERROR
+test_dispatch_upper_line_returns_without_callback_stores (test_arm_probe.IrqTests.test_dispatch_upper_line_returns_without_callback_stores) ... ERROR
+test_wrong_copy_entry_is_rejected (test_arm_probe.IrqTests.test_wrong_copy_entry_is_rejected) ... ok
+
+======================================================================
+ERROR: test_raw_save_and_resume_register_crossing (test_arm_probe.ContextTests.test_raw_save_and_resume_register_crossing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/test_arm_probe.py", line 28, in test_raw_save_and_resume_register_crossing
+    saved,resumed=p.context_pair(2,1)
+                  ~~~~~~~~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/arm_probe.py", line 130, in context_pair
+    raise ValueError('wait/select oracle')
+ValueError: wait/select oracle
+
+======================================================================
+ERROR: test_banked_dispatch_both_callbacks (test_arm_probe.IrqTests.test_banked_dispatch_both_callbacks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/test_arm_probe.py", line 46, in test_banked_dispatch_both_callbacks
+    row=p.irq_case(root,159,255,active)
+        ^^^^^^^^^^
+AttributeError: module 'arm_probe' has no attribute 'irq_case'
+
+======================================================================
+ERROR: test_dispatch_upper_line_returns_without_callback_stores (test_arm_probe.IrqTests.test_dispatch_upper_line_returns_without_callback_stores)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/test_arm_probe.py", line 57, in test_dispatch_upper_line_returns_without_callback_stores
+    row=p.irq_case(0x690,160,255,True)
+        ^^^^^^^^^^
+AttributeError: module 'arm_probe' has no attribute 'irq_case'
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.368s
+
+FAILED (errors=3)

@@ -1,0 +1,14 @@
+E
+======================================================================
+ERROR: test_existing_target_limited_bl_denominator_is_historical_reference (tests.test_analyze_rom_ai_entry_domains.AiEntryDomainsTests.test_existing_target_limited_bl_denominator_is_historical_reference)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_analyze_rom_ai_entry_domains.py", line 61, in test_existing_target_limited_bl_denominator_is_historical_reference
+    source=report['historical_planner_direct_bl_denominator']
+           ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'historical_planner_direct_bl_denominator'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.359s
+
+FAILED (errors=1)

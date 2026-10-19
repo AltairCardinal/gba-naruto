@@ -1,0 +1,17 @@
+E
+======================================================================
+ERROR: test_analyze_rom_renderer_handler_graphs (unittest.loader._FailedTest.test_analyze_rom_renderer_handler_graphs)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_analyze_rom_renderer_handler_graphs
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_analyze_rom_renderer_handler_graphs.py", line 5, in <module>
+    from tools.analyze_rom_renderer_handler_graphs import analyze, walk_handler
+ModuleNotFoundError: No module named 'tools.analyze_rom_renderer_handler_graphs'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

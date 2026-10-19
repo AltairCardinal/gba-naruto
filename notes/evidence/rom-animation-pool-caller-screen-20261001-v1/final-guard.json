@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 48387,
+  "peak_tree_rss_mib": 199.9765625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "PYTHONPATH=. python3 build/experiments/active/animation-pool-callers/batch-20261001-v1/callers.py > build/experiments/active/animation-pool-callers/batch-20261001-v1/callers-v3.json 2> build/experiments/active/animation-pool-callers/batch-20261001-v1/final-stderr.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T19:22:27.504660Z",
+  "finished_at": "2026-09-30T19:22:29.581534Z"
+}

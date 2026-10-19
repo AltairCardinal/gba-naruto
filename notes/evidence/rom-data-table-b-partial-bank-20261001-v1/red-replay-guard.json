@@ -1,0 +1,19 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 19430,
+  "peak_tree_rss_mib": 67.875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "build/experiments/active/data-table-b-typed-contract/partial-20261001-v1/run_tests.py",
+    "--stub",
+    "--log",
+    "build/experiments/active/data-table-b-typed-contract/partial-20261001-v1/red-replay.log",
+    "tests.test_data_table_b_partial_bank"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T14:42:13.430265Z",
+  "finished_at": "2026-10-01T14:42:15.513074Z"
+}

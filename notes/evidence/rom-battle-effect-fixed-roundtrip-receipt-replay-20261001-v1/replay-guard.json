@@ -1,0 +1,19 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 55047,
+  "peak_tree_rss_mib": 117.0390625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "notes/evidence/rom-battle-effect-fixed-roundtrip-20261001-v1/replay.py",
+    "--root",
+    ".",
+    "--output",
+    "build/experiments/active/battle-effect-roundtrip-replay/receipt-20261001-v1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T15:54:33.454368Z",
+  "finished_at": "2026-10-01T15:54:42.757420Z"
+}

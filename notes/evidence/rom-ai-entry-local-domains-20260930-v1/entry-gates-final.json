@@ -1,0 +1,2044 @@
+{
+  "decision": "keep_unknown",
+  "deferred_obligations": [
+    "all scorer/planner incoming producers",
+    "loop exhaustion slot 13 state",
+    "callee 0x067158 and planner intermediate side effects",
+    "all CD writers/copies and controlling state lifecycle"
+  ],
+  "gates": {
+    "planner_nonzero": {
+      "count": 255,
+      "domain": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255
+      ],
+      "first_above_7": 8,
+      "maximum": 255,
+      "minimum": 1
+    },
+    "primary_selected_candidate": {
+      "count": 254,
+      "domain": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254
+      ],
+      "first_above_7": 8,
+      "maximum": 254,
+      "minimum": 1
+    },
+    "secondary_selected_candidate": {
+      "count": 256,
+      "domain": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        177,
+        178,
+        179,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255
+      ],
+      "first_above_7": 8,
+      "maximum": 255,
+      "minimum": 0
+    }
+  },
+  "historical_coverage_sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+  "historical_planner_direct_bl_denominator": {
+    "inputs": {
+      "artifacts/rom-cfg-proven-roots-v2/manifest.json": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+      "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba"
+    },
+    "original_all_targets_denominator_sha256": "8cc04030df779e573950c4d1ad00b480368444439af3cc4ec97f62624c6c76c3",
+    "producer_offsets": [
+      475738,
+      475982
+    ],
+    "raw_scan_replayed_here": false,
+    "scan_range": [
+      0,
+      6291456
+    ],
+    "scope": "historical Thumb BL-only fixed-target scan; excludes other incoming modes",
+    "target_offset": 545272
+  },
+  "incoming_producer_denominator_complete": false,
+  "known_planner_producers": [
+    475738,
+    475982
+  ],
+  "natural_runtime_reachability_proved": false,
+  "points": [
+    {
+      "offset": 475712,
+      "owner": {
+        "bytes_sha256": "620efecc2f70408fc77569e9d0ba7bd4b36f654af0941198c0985609967c82ac",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0028-0741dc",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475612,
+          475738
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 12,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0741dc",
+            "range": [
+              475612,
+              475634
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741f2",
+            "range": [
+              475634,
+              475642
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741fa",
+            "range": [
+              475642,
+              475648
+            ]
+          },
+          {
+            "block_id": "block-thumb-074200",
+            "range": [
+              475648,
+              475666
+            ]
+          },
+          {
+            "block_id": "block-thumb-074212",
+            "range": [
+              475666,
+              475682
+            ]
+          },
+          {
+            "block_id": "block-thumb-074222",
+            "range": [
+              475682,
+              475692
+            ]
+          },
+          {
+            "block_id": "block-thumb-07422c",
+            "range": [
+              475692,
+              475706
+            ]
+          },
+          {
+            "block_id": "block-thumb-07423a",
+            "range": [
+              475706,
+              475716
+            ]
+          },
+          {
+            "block_id": "block-thumb-074244",
+            "range": [
+              475716,
+              475720
+            ]
+          },
+          {
+            "block_id": "block-thumb-074248",
+            "range": [
+              475720,
+              475730
+            ]
+          },
+          {
+            "block_id": "block-thumb-074252",
+            "range": [
+              475730,
+              475736
+            ]
+          },
+          {
+            "block_id": "block-thumb-074258",
+            "range": [
+              475736,
+              475738
+            ]
+          }
+        ]
+      },
+      "raw_hex": "ff28"
+    },
+    {
+      "offset": 475714,
+      "owner": {
+        "bytes_sha256": "620efecc2f70408fc77569e9d0ba7bd4b36f654af0941198c0985609967c82ac",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0028-0741dc",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475612,
+          475738
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 12,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0741dc",
+            "range": [
+              475612,
+              475634
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741f2",
+            "range": [
+              475634,
+              475642
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741fa",
+            "range": [
+              475642,
+              475648
+            ]
+          },
+          {
+            "block_id": "block-thumb-074200",
+            "range": [
+              475648,
+              475666
+            ]
+          },
+          {
+            "block_id": "block-thumb-074212",
+            "range": [
+              475666,
+              475682
+            ]
+          },
+          {
+            "block_id": "block-thumb-074222",
+            "range": [
+              475682,
+              475692
+            ]
+          },
+          {
+            "block_id": "block-thumb-07422c",
+            "range": [
+              475692,
+              475706
+            ]
+          },
+          {
+            "block_id": "block-thumb-07423a",
+            "range": [
+              475706,
+              475716
+            ]
+          },
+          {
+            "block_id": "block-thumb-074244",
+            "range": [
+              475716,
+              475720
+            ]
+          },
+          {
+            "block_id": "block-thumb-074248",
+            "range": [
+              475720,
+              475730
+            ]
+          },
+          {
+            "block_id": "block-thumb-074252",
+            "range": [
+              475730,
+              475736
+            ]
+          },
+          {
+            "block_id": "block-thumb-074258",
+            "range": [
+              475736,
+              475738
+            ]
+          }
+        ]
+      },
+      "raw_hex": "01d0"
+    },
+    {
+      "offset": 475716,
+      "owner": {
+        "bytes_sha256": "620efecc2f70408fc77569e9d0ba7bd4b36f654af0941198c0985609967c82ac",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0028-0741dc",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475612,
+          475738
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 12,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0741dc",
+            "range": [
+              475612,
+              475634
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741f2",
+            "range": [
+              475634,
+              475642
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741fa",
+            "range": [
+              475642,
+              475648
+            ]
+          },
+          {
+            "block_id": "block-thumb-074200",
+            "range": [
+              475648,
+              475666
+            ]
+          },
+          {
+            "block_id": "block-thumb-074212",
+            "range": [
+              475666,
+              475682
+            ]
+          },
+          {
+            "block_id": "block-thumb-074222",
+            "range": [
+              475682,
+              475692
+            ]
+          },
+          {
+            "block_id": "block-thumb-07422c",
+            "range": [
+              475692,
+              475706
+            ]
+          },
+          {
+            "block_id": "block-thumb-07423a",
+            "range": [
+              475706,
+              475716
+            ]
+          },
+          {
+            "block_id": "block-thumb-074244",
+            "range": [
+              475716,
+              475720
+            ]
+          },
+          {
+            "block_id": "block-thumb-074248",
+            "range": [
+              475720,
+              475730
+            ]
+          },
+          {
+            "block_id": "block-thumb-074252",
+            "range": [
+              475730,
+              475736
+            ]
+          },
+          {
+            "block_id": "block-thumb-074258",
+            "range": [
+              475736,
+              475738
+            ]
+          }
+        ]
+      },
+      "raw_hex": "0028"
+    },
+    {
+      "offset": 475718,
+      "owner": {
+        "bytes_sha256": "620efecc2f70408fc77569e9d0ba7bd4b36f654af0941198c0985609967c82ac",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0028-0741dc",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475612,
+          475738
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 12,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0741dc",
+            "range": [
+              475612,
+              475634
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741f2",
+            "range": [
+              475634,
+              475642
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741fa",
+            "range": [
+              475642,
+              475648
+            ]
+          },
+          {
+            "block_id": "block-thumb-074200",
+            "range": [
+              475648,
+              475666
+            ]
+          },
+          {
+            "block_id": "block-thumb-074212",
+            "range": [
+              475666,
+              475682
+            ]
+          },
+          {
+            "block_id": "block-thumb-074222",
+            "range": [
+              475682,
+              475692
+            ]
+          },
+          {
+            "block_id": "block-thumb-07422c",
+            "range": [
+              475692,
+              475706
+            ]
+          },
+          {
+            "block_id": "block-thumb-07423a",
+            "range": [
+              475706,
+              475716
+            ]
+          },
+          {
+            "block_id": "block-thumb-074244",
+            "range": [
+              475716,
+              475720
+            ]
+          },
+          {
+            "block_id": "block-thumb-074248",
+            "range": [
+              475720,
+              475730
+            ]
+          },
+          {
+            "block_id": "block-thumb-074252",
+            "range": [
+              475730,
+              475736
+            ]
+          },
+          {
+            "block_id": "block-thumb-074258",
+            "range": [
+              475736,
+              475738
+            ]
+          }
+        ]
+      },
+      "raw_hex": "04d1"
+    },
+    {
+      "offset": 475728,
+      "owner": {
+        "bytes_sha256": "620efecc2f70408fc77569e9d0ba7bd4b36f654af0941198c0985609967c82ac",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0028-0741dc",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475612,
+          475738
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 12,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0741dc",
+            "range": [
+              475612,
+              475634
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741f2",
+            "range": [
+              475634,
+              475642
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741fa",
+            "range": [
+              475642,
+              475648
+            ]
+          },
+          {
+            "block_id": "block-thumb-074200",
+            "range": [
+              475648,
+              475666
+            ]
+          },
+          {
+            "block_id": "block-thumb-074212",
+            "range": [
+              475666,
+              475682
+            ]
+          },
+          {
+            "block_id": "block-thumb-074222",
+            "range": [
+              475682,
+              475692
+            ]
+          },
+          {
+            "block_id": "block-thumb-07422c",
+            "range": [
+              475692,
+              475706
+            ]
+          },
+          {
+            "block_id": "block-thumb-07423a",
+            "range": [
+              475706,
+              475716
+            ]
+          },
+          {
+            "block_id": "block-thumb-074244",
+            "range": [
+              475716,
+              475720
+            ]
+          },
+          {
+            "block_id": "block-thumb-074248",
+            "range": [
+              475720,
+              475730
+            ]
+          },
+          {
+            "block_id": "block-thumb-074252",
+            "range": [
+              475730,
+              475736
+            ]
+          },
+          {
+            "block_id": "block-thumb-074258",
+            "range": [
+              475736,
+              475738
+            ]
+          }
+        ]
+      },
+      "raw_hex": "dfd9"
+    },
+    {
+      "offset": 475732,
+      "owner": {
+        "bytes_sha256": "620efecc2f70408fc77569e9d0ba7bd4b36f654af0941198c0985609967c82ac",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0028-0741dc",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475612,
+          475738
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 12,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0741dc",
+            "range": [
+              475612,
+              475634
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741f2",
+            "range": [
+              475634,
+              475642
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741fa",
+            "range": [
+              475642,
+              475648
+            ]
+          },
+          {
+            "block_id": "block-thumb-074200",
+            "range": [
+              475648,
+              475666
+            ]
+          },
+          {
+            "block_id": "block-thumb-074212",
+            "range": [
+              475666,
+              475682
+            ]
+          },
+          {
+            "block_id": "block-thumb-074222",
+            "range": [
+              475682,
+              475692
+            ]
+          },
+          {
+            "block_id": "block-thumb-07422c",
+            "range": [
+              475692,
+              475706
+            ]
+          },
+          {
+            "block_id": "block-thumb-07423a",
+            "range": [
+              475706,
+              475716
+            ]
+          },
+          {
+            "block_id": "block-thumb-074244",
+            "range": [
+              475716,
+              475720
+            ]
+          },
+          {
+            "block_id": "block-thumb-074248",
+            "range": [
+              475720,
+              475730
+            ]
+          },
+          {
+            "block_id": "block-thumb-074252",
+            "range": [
+              475730,
+              475736
+            ]
+          },
+          {
+            "block_id": "block-thumb-074258",
+            "range": [
+              475736,
+              475738
+            ]
+          }
+        ]
+      },
+      "raw_hex": "f2f780ff"
+    },
+    {
+      "offset": 475738,
+      "owner": {
+        "bytes_sha256": "d6d0920cff2e69678848152e5b2a504f58a1d5f3f54e9d0aee707e53a373d3db",
+        "claim_kind": "cfg_proven_roots_v2_direct_thumb_bl_producer",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+        "evidence_selector": "/producer_denominator/producers/1",
+        "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+        "global_code_map_claimed": false,
+        "global_thumb_bl_denominator_claimed": false,
+        "id": "cfg-proven-roots-v2-producer-01-07425a",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+        "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+        "limitations": [
+          "This proves one aligned Thumb BL producer targeting the three fixed roots, not natural execution.",
+          "The denominator is complete only for BL instructions targeting these three roots."
+        ],
+        "mode": "thumb",
+        "primary_class": "thumb_bl_direct_call_producer",
+        "producer_denominator_sha256": "8cc04030df779e573950c4d1ad00b480368444439af3cc4ec97f62624c6c76c3",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v2",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+        "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+        "range": [
+          475738,
+          475742
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "target_file_offset": 545272
+      },
+      "raw_hex": "10f0cdff"
+    },
+    {
+      "offset": 475938,
+      "owner": {
+        "bytes_sha256": "b05967b064b5ffe2de336a08b81153434d800e1b8f853d8de358d1df2dc8465b",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0030-0742e4",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475876,
+          475982
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 8,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0742e4",
+            "range": [
+              475876,
+              475884
+            ]
+          },
+          {
+            "block_id": "block-thumb-0742ec",
+            "range": [
+              475884,
+              475914
+            ]
+          },
+          {
+            "block_id": "block-thumb-07430a",
+            "range": [
+              475914,
+              475930
+            ]
+          },
+          {
+            "block_id": "block-thumb-07431a",
+            "range": [
+              475930,
+              475940
+            ]
+          },
+          {
+            "block_id": "block-thumb-074324",
+            "range": [
+              475940,
+              475960
+            ]
+          },
+          {
+            "block_id": "block-thumb-074338",
+            "range": [
+              475960,
+              475974
+            ]
+          },
+          {
+            "block_id": "block-thumb-074346",
+            "range": [
+              475974,
+              475980
+            ]
+          },
+          {
+            "block_id": "block-thumb-07434c",
+            "range": [
+              475980,
+              475982
+            ]
+          }
+        ]
+      },
+      "raw_hex": "10d8"
+    },
+    {
+      "offset": 475976,
+      "owner": {
+        "bytes_sha256": "b05967b064b5ffe2de336a08b81153434d800e1b8f853d8de358d1df2dc8465b",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0030-0742e4",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475876,
+          475982
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 8,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0742e4",
+            "range": [
+              475876,
+              475884
+            ]
+          },
+          {
+            "block_id": "block-thumb-0742ec",
+            "range": [
+              475884,
+              475914
+            ]
+          },
+          {
+            "block_id": "block-thumb-07430a",
+            "range": [
+              475914,
+              475930
+            ]
+          },
+          {
+            "block_id": "block-thumb-07431a",
+            "range": [
+              475930,
+              475940
+            ]
+          },
+          {
+            "block_id": "block-thumb-074324",
+            "range": [
+              475940,
+              475960
+            ]
+          },
+          {
+            "block_id": "block-thumb-074338",
+            "range": [
+              475960,
+              475974
+            ]
+          },
+          {
+            "block_id": "block-thumb-074346",
+            "range": [
+              475974,
+              475980
+            ]
+          },
+          {
+            "block_id": "block-thumb-07434c",
+            "range": [
+              475980,
+              475982
+            ]
+          }
+        ]
+      },
+      "raw_hex": "f2f706ff"
+    },
+    {
+      "offset": 475982,
+      "owner": {
+        "bytes_sha256": "3b211d366439e34a2b302b9d6666b2e041d3c92a97864d82ad3addc7c57dc5dd",
+        "claim_kind": "cfg_proven_roots_v2_direct_thumb_bl_producer",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+        "evidence_selector": "/producer_denominator/producers/2",
+        "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+        "global_code_map_claimed": false,
+        "global_thumb_bl_denominator_claimed": false,
+        "id": "cfg-proven-roots-v2-producer-02-07434e",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+        "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+        "limitations": [
+          "This proves one aligned Thumb BL producer targeting the three fixed roots, not natural execution.",
+          "The denominator is complete only for BL instructions targeting these three roots."
+        ],
+        "mode": "thumb",
+        "primary_class": "thumb_bl_direct_call_producer",
+        "producer_denominator_sha256": "8cc04030df779e573950c4d1ad00b480368444439af3cc4ec97f62624c6c76c3",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v2",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+        "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+        "range": [
+          475982,
+          475986
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "target_file_offset": 545272
+      },
+      "raw_hex": "10f053ff"
+    },
+    {
+      "offset": 545310,
+      "owner": {
+        "bytes_sha256": "0fcb2715d1e5c429c9dca5a47d5d7a48b831a08d9da933143123946dfcf814ba",
+        "claim_kind": "cfg_proven_roots_v2_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+        "fixed_direct_producer_count": 5,
+        "fixed_root_count": 3,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "4cb6844907b0a0679c52e5ac9b251d3cc1b5db8d1d1cf1108c9b4ee507a14a1a",
+        "id": "cfg-proven-roots-v2-thumb-0073-0851f8",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+        "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+        "limitations": [
+          "Only current-unknown bytes reached from the three fixed direct-call roots are promoted.",
+          "The three frozen CFG baselines are opaque; 27 indirect targets and one unsupported instruction remain open.",
+          "Natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v2",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+        "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+        "range": [
+          545272,
+          545332
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 2,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0851f8",
+            "range": [
+              545272,
+              545314
+            ]
+          },
+          {
+            "block_id": "block-thumb-085222",
+            "range": [
+              545314,
+              545332
+            ]
+          }
+        ]
+      },
+      "raw_hex": "002a"
+    },
+    {
+      "offset": 545312,
+      "owner": {
+        "bytes_sha256": "0fcb2715d1e5c429c9dca5a47d5d7a48b831a08d9da933143123946dfcf814ba",
+        "claim_kind": "cfg_proven_roots_v2_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+        "fixed_direct_producer_count": 5,
+        "fixed_root_count": 3,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "4cb6844907b0a0679c52e5ac9b251d3cc1b5db8d1d1cf1108c9b4ee507a14a1a",
+        "id": "cfg-proven-roots-v2-thumb-0073-0851f8",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+        "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+        "limitations": [
+          "Only current-unknown bytes reached from the three fixed direct-call roots are promoted.",
+          "The three frozen CFG baselines are opaque; 27 indirect targets and one unsupported instruction remain open.",
+          "Natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v2",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+        "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+        "range": [
+          545272,
+          545332
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 2,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0851f8",
+            "range": [
+              545272,
+              545314
+            ]
+          },
+          {
+            "block_id": "block-thumb-085222",
+            "range": [
+              545314,
+              545332
+            ]
+          }
+        ]
+      },
+      "raw_hex": "0cd1"
+    },
+    {
+      "offset": 545542,
+      "owner": {
+        "bytes_sha256": "3486e7c5882d86def0c97aab9cf2bcba853794c498ebd7cbcb23fd3cf2ec3eea",
+        "claim_kind": "cfg_proven_roots_v2_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+        "fixed_direct_producer_count": 5,
+        "fixed_root_count": 3,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "4cb6844907b0a0679c52e5ac9b251d3cc1b5db8d1d1cf1108c9b4ee507a14a1a",
+        "id": "cfg-proven-roots-v2-thumb-0076-085304",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+        "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+        "limitations": [
+          "Only current-unknown bytes reached from the three fixed direct-call roots are promoted.",
+          "The three frozen CFG baselines are opaque; 27 indirect targets and one unsupported instruction remain open.",
+          "Natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v2",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+        "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+        "range": [
+          545540,
+          545608
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 7,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-085304",
+            "range": [
+              545540,
+              545546
+            ]
+          },
+          {
+            "block_id": "block-thumb-08530a",
+            "range": [
+              545546,
+              545552
+            ]
+          },
+          {
+            "block_id": "block-thumb-085310",
+            "range": [
+              545552,
+              545586
+            ]
+          },
+          {
+            "block_id": "block-thumb-085332",
+            "range": [
+              545586,
+              545592
+            ]
+          },
+          {
+            "block_id": "block-thumb-085338",
+            "range": [
+              545592,
+              545598
+            ]
+          },
+          {
+            "block_id": "block-thumb-08533e",
+            "range": [
+              545598,
+              545604
+            ]
+          },
+          {
+            "block_id": "block-thumb-085344",
+            "range": [
+              545604,
+              545608
+            ]
+          }
+        ]
+      },
+      "raw_hex": "fef7b5ff"
+    }
+  ],
+  "promotion_bytes": 0,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema": "rom-ai-entry-local-domains-preflight-v1",
+  "scope": "individual fixed-byte predicates only; no cross-callee or lifecycle composition",
+  "scorer_index_domain_closed": false,
+  "verified": true
+}

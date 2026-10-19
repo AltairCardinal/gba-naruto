@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 87168,
+  "peak_tree_rss_mib": 533.33203125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 tools/audit_reverse_engineering_proof.py --root . --execute-verifiers --trusted-spec-sha256 465a13104b6c9a6d0ea418ca513dd0be732438634f1124a3a531c893b11db568 --output build/experiments/active/small-cfg-tier2/acceptance-20260930-v1/formal-report.json --allow-incomplete > build/experiments/active/small-cfg-tier2/acceptance-20260930-v1/formal-stdout.json 2> build/experiments/active/small-cfg-tier2/acceptance-20260930-v1/formal-stderr.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T12:38:33.441575Z",
+  "finished_at": "2026-09-30T13:18:16.902120Z"
+}

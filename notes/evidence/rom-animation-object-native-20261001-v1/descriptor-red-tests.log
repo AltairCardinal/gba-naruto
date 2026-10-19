@@ -1,0 +1,38 @@
+test_callback_tail_preserves_critical_indices (test_object_native.NativeJointTests.test_callback_tail_preserves_critical_indices) ... ok
+test_descriptor_sentinel_suffix_is_not_read (test_object_native.NativeJointTests.test_descriptor_sentinel_suffix_is_not_read) ... ERROR
+test_lookup_certificate_rejects_changed_bound (test_object_native.NativeJointTests.test_lookup_certificate_rejects_changed_bound) ... ok
+test_null_tail_handle_remains_invalid (test_object_native.NativeJointTests.test_null_tail_handle_remains_invalid) ... ok
+test_persistent_allocate_dispatch_release_and_reuse (test_object_native.NativeJointTests.test_persistent_allocate_dispatch_release_and_reuse) ... ok
+test_sequence_sentinel_is_rejected_for_descriptor_binding (test_object_native.NativeJointTests.test_sequence_sentinel_is_rejected_for_descriptor_binding) ... ERROR
+test_allocator_preserves_stale_context (test_object_native.NativeLifecycleTests.test_allocator_preserves_stale_context) ... ok
+test_callback_initialization_uses_real_bios (test_object_native.NativeLifecycleTests.test_callback_initialization_uses_real_bios) ... ok
+test_full_allocator_returns_null (test_object_native.NativeLifecycleTests.test_full_allocator_returns_null) ... ok
+test_lookup_missing_is_index_ten (test_object_native.NativeLifecycleTests.test_lookup_missing_is_index_ten) ... ok
+test_native_source_budget_rejects_execution_escape (test_object_native.NativeLifecycleTests.test_native_source_budget_rejects_execution_escape) ... ok
+test_selection_reads_before_freeze (test_object_native.NativeLifecycleTests.test_selection_reads_before_freeze) ... ok
+test_sort_full_return_and_mode_keys (test_object_native.NativeLifecycleTests.test_sort_full_return_and_mode_keys) ... ok
+test_stale_context_skips_bios_init (test_object_native.NativeLifecycleTests.test_stale_context_skips_bios_init) ... ok
+test_timer_wrap_and_negative_duration (test_object_native.NativeLifecycleTests.test_timer_wrap_and_negative_duration) ... ok
+
+======================================================================
+ERROR: test_descriptor_sentinel_suffix_is_not_read (test_object_native.NativeJointTests.test_descriptor_sentinel_suffix_is_not_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/test_object_native.py", line 58, in test_descriptor_sentinel_suffix_is_not_read
+    rows=p.descriptor_heads(sequence=0x458550,descriptor_table=0x45854C)
+         ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'object_native' has no attribute 'descriptor_heads'
+
+======================================================================
+ERROR: test_sequence_sentinel_is_rejected_for_descriptor_binding (test_object_native.NativeJointTests.test_sequence_sentinel_is_rejected_for_descriptor_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/test_object_native.py", line 63, in test_sequence_sentinel_is_rejected_for_descriptor_binding
+    with self.assertRaises(ValueError):p.descriptor_heads(sequence=0x458554,descriptor_table=0x45854C)
+                                       ^^^^^^^^^^^^^^^^^^
+AttributeError: module 'object_native' has no attribute 'descriptor_heads'
+
+----------------------------------------------------------------------
+Ran 15 tests in 1.328s
+
+FAILED (errors=2)

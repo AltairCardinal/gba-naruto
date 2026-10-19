@@ -1,0 +1,45 @@
+test_rejects_extra_guard_option (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_extra_guard_option) ... FAIL
+test_rejects_forged_marker_or_library (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_forged_marker_or_library) ... ok
+test_rejects_input_version_in_new_output (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_input_version_in_new_output) ... ok
+test_rejects_other_memory_domain_change (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_other_memory_domain_change) ... ok
+test_rejects_relabelled_plan (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_relabelled_plan) ... FAIL
+test_rejects_resigned_extra_input (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_resigned_extra_input) ... ok
+test_rejects_resigned_png_replacement (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_resigned_png_replacement) ... ok
+test_rejects_reused_run_identity (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_reused_run_identity) ... FAIL
+test_rejects_second_table_relabel (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_second_table_relabel) ... ok
+test_rejects_symlink_or_extra_raw_file (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_symlink_or_extra_raw_file) ... ok
+test_rejects_wrong_shared_lock (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_wrong_shared_lock) ... ok
+test_rejects_zero_input_memory_change (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_zero_input_memory_change) ... ok
+test_replays_real_shared_lock_capture (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_replays_real_shared_lock_capture) ... ok
+
+======================================================================
+FAIL: test_rejects_extra_guard_option (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_extra_guard_option)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 132, in test_rejects_extra_guard_option
+    with self.assertRaisesRegex(ValueError, "guard command"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_relabelled_plan (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_relabelled_plan)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 121, in test_rejects_relabelled_plan
+    with self.assertRaisesRegex(ValueError, "plan"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_rejects_reused_run_identity (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_reused_run_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 142, in test_rejects_reused_run_identity
+    with self.assertRaisesRegex(ValueError, "run identity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 13 tests in 15.930s
+
+FAILED (failures=3)

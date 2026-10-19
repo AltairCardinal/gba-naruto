@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-critical-writers/writers-20261001-v1/writers.py", line 122, in <module>
+    try:main()
+        ~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-critical-writers/writers-20261001-v1/writers.py", line 90, in main
+    assert next(r for r in rows['sequence_selection']['reads'] if r['at']==0x6298c)['address']==['object',0x14]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

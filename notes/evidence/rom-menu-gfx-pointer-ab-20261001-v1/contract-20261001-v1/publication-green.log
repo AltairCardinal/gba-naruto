@@ -1,0 +1,102 @@
+test_archive_traversal_duplicate_and_symlink_rejected (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_archive_traversal_duplicate_and_symlink_rejected) ... ERROR
+test_bad_capture_cannot_be_published (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_bad_capture_cannot_be_published) ... ok
+test_cli_contract_is_partial_and_cannot_pass_full_bank_gate (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_cli_contract_is_partial_and_cannot_pass_full_bank_gate) ... ERROR
+test_exporter_cli_and_rejected_output_boundaries (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_exporter_cli_and_rejected_output_boundaries) ... FAIL
+test_managed_promotion_double_replay_and_no_replace (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_managed_promotion_double_replay_and_no_replace) ... ERROR
+test_offline_relocation_keeps_exact_identity (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_offline_relocation_keeps_exact_identity) ... ERROR
+test_resigned_pixel_or_scope_claim_rejected (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_resigned_pixel_or_scope_claim_rejected) ... ERROR
+
+======================================================================
+ERROR: test_archive_traversal_duplicate_and_symlink_rejected (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_archive_traversal_duplicate_and_symlink_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 73, in test_archive_traversal_duplicate_and_symlink_rejected
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_menu_portrait_pointer_ab.py", line 37, in export_artifact
+    'baseline.png': objects['runtime/input-baseline/frame512.png'],
+                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'runtime/input-baseline/frame512.png'
+
+======================================================================
+ERROR: test_cli_contract_is_partial_and_cannot_pass_full_bank_gate (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_cli_contract_is_partial_and_cannot_pass_full_bank_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 98, in test_cli_contract_is_partial_and_cannot_pass_full_bank_gate
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_menu_portrait_pointer_ab.py", line 37, in export_artifact
+    'baseline.png': objects['runtime/input-baseline/frame512.png'],
+                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'runtime/input-baseline/frame512.png'
+
+======================================================================
+ERROR: test_managed_promotion_double_replay_and_no_replace (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_managed_promotion_double_replay_and_no_replace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 38, in test_managed_promotion_double_replay_and_no_replace
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_menu_portrait_pointer_ab.py", line 37, in export_artifact
+    'baseline.png': objects['runtime/input-baseline/frame512.png'],
+                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'runtime/input-baseline/frame512.png'
+
+======================================================================
+ERROR: test_offline_relocation_keeps_exact_identity (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_offline_relocation_keeps_exact_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 51, in test_offline_relocation_keeps_exact_identity
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_menu_portrait_pointer_ab.py", line 37, in export_artifact
+    'baseline.png': objects['runtime/input-baseline/frame512.png'],
+                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'runtime/input-baseline/frame512.png'
+
+======================================================================
+ERROR: test_resigned_pixel_or_scope_claim_rejected (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_resigned_pixel_or_scope_claim_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 58, in test_resigned_pixel_or_scope_claim_rejected
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_menu_portrait_pointer_ab.py", line 37, in export_artifact
+    'baseline.png': objects['runtime/input-baseline/frame512.png'],
+                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'runtime/input-baseline/frame512.png'
+
+======================================================================
+FAIL: test_exporter_cli_and_rejected_output_boundaries (tests.test_menu_portrait_pointer_publication.MenuPointerPublicationTests.test_exporter_cli_and_rejected_output_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_publication.py", line 126, in test_exporter_cli_and_rejected_output_boundaries
+    self.assertEqual(proc.returncode, 0, proc.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_menu_portrait_pointer_ab.py", line 82, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_menu_portrait_pointer_ab.py", line 77, in main
+    export_artifact(args.root, args.source_dir, args.output)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_menu_portrait_pointer_ab.py", line 37, in export_artifact
+    'baseline.png': objects['runtime/input-baseline/frame512.png'],
+                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: 'runtime/input-baseline/frame512.png'
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 9.847s
+
+FAILED (failures=1, errors=5)

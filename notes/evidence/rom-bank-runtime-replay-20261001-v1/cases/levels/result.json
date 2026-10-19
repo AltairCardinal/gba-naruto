@@ -1,0 +1,21 @@
+{
+  "bank": "levels",
+  "command": [
+    "python3",
+    "tools/verify_levels_status_per_level_ab.py",
+    "artifacts/levels-status-per-level-ab-v1",
+    "--binary",
+    "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+  ],
+  "exit_code": 0,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "baseline_output_a": 18,
+    "candidate_output_a": 2,
+    "verified": true
+  },
+  "seconds": 0.746,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "06f6ded91ee4cc0085aa54767b1b489efdee2891494684a6565c52daae6422a2",
+  "timed_out": false
+}

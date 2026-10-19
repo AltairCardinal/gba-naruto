@@ -1,0 +1,713 @@
+{
+  "canonical": {
+    "claim_count": 16912,
+    "classified_bytes": 6203825,
+    "segment_count": 18675,
+    "unknown_bytes": 87631
+  },
+  "declared_records_covered": 23,
+  "declared_records_total": 2954,
+  "gates": {
+    "clean_rebuild": {
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "clean-checkout",
+          "pinned-toolchain",
+          "deterministic-rom"
+        ]
+      },
+      "limitations": [
+        "The normal build suite passes, but no clean-clone run reconstructs every promoted artifact and ROM from pinned dependencies."
+      ],
+      "status": "partial"
+    },
+    "editor_roundtrip": {
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "map-editor",
+          "level-editor",
+          "story-editor",
+          "character-editor"
+        ]
+      },
+      "limitations": [
+        "Database mirror and patch-generation integrity passes, but there is no UI-level extract-edit-build-boot acceptance matrix for every editor domain."
+      ],
+      "status": "partial"
+    },
+    "emulator_regression": {
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "base-rom-regression-matrix",
+          "rebuilt-rom-regression-matrix"
+        ]
+      },
+      "limitations": [
+        "A hash-bound guarded mGBA artifact can be replayed offline, but no required regression matrix covers the complete rebuilt-ROM acceptance surface."
+      ],
+      "status": "partial"
+    },
+    "logic_modification": {
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "menu-logic",
+          "battle-logic"
+        ]
+      },
+      "limitations": [
+        "Patch bytes and safety contracts pass offline, but menu and battle logic modifications are not covered by an exhaustive runtime behavior matrix."
+      ],
+      "status": "partial"
+    },
+    "physical_hardware": {
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "original-gba-release-smoke"
+        ]
+      },
+      "limitations": [
+        "No physical GBA, flash cartridge capture or hardware test report is available in the current environment."
+      ],
+      "status": "blocked_external"
+    },
+    "resource_roundtrip": {
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "graphics",
+          "audio",
+          "text",
+          "maps",
+          "levels",
+          "story",
+          "characters"
+        ]
+      },
+      "limitations": [
+        "The bound fixed-slot audits cover seven image-resource families, but not every extracted graphics, audio, text, map, and script resource.",
+        "The current battle-effect writeback artifact fails its implementation-hash verifier and must be regenerated or superseded."
+      ],
+      "status": "partial"
+    },
+    "rom_byte_coverage": {
+      "coverage": {
+        "case_ids_covered": [],
+        "case_ids_total": [
+          "all-rom-bytes-semantically-classified"
+        ]
+      },
+      "limitations": [
+        "The manifest explicitly accounts for all 6291456 bytes, but 87749 bytes (1.3947%) remain semantically unknown.",
+        "The 2026-09-05 post-story four-packet Tier-2 milestone classifies exactly 978 previously unknown bytes in 21 disjoint claims: four fixed-index u8 table-tail bytes, 80 story-selector dependency instruction bytes, 778 task-callback closure bytes, and 116 CFG proven-roots v21 bytes. The packets replay the same immutable precoverage artifact. Five two-byte task-callback holes remain unknown; the cross-owner BL at 0x06347C is decoded in full but only its unknown suffix at 0x06347E..0x063480 is newly claimed. The callback and v21 BX frontiers remain unresolved and no structured return is claimed for either packet. CFG aggregation has 54 active claim kinds. Natural reachability, global or indirect producer exhaustiveness, opaque callee stack or memory effects, adjacent padding, editing, relocation, write-back, and free space remain unclaimed.",
+        "The 2026-09-05 story-dependency four-packet Tier-2 milestone classifies exactly 4382 previously unknown bytes in 77 disjoint claims: 1932 bytes in 32 claims from nine producer-bound story callback dependency closures, 1150 bytes in 18 claims from the continuation-proven CFG v20 root, 854 bytes in 19 claims from the accepted story-next dependency CFG, and 446 bytes in eight claims from the boot register-init dependency CFG. All coverage-dependent packets replay the same immutable pre-promotion coverage artifact; documented two-byte holes, three unresolved boot register-init BX frontiers, three unresolved story-next BX frontiers, and the boot-handoff-owned 24-byte outside-worklist exclusion remain unclaimed or retain their prior owners. Natural runtime reachability, global caller or indirect-target exhaustiveness, loaded literal business meaning, ABI or compiler intent, editing, relocation, write-back, padding intent, and free or allocatable space remain unclaimed.",
+        "The 2026-09-05 scene-source four-packet Tier-2 milestone classifies exactly 4231 previously unknown bytes in 141 disjoint claims: 1254 bytes in 14 claims from the bounded v17/v18 helper CFG, 42 bytes in two claims from four fixed pair tables, 1920 bytes in 52 claims from the prebattle menu-controller CFG, and 1015 bytes in 73 claims from 71 parser-bounded source records plus two fixed OBJ definition/animation closures. Its three coverage-dependent packet verifiers replay the exact immutable pre-promotion coverage artifact after canonical promotion. The 90 verified alignment bytes remain separate claims and 199 residual bytes remain unknown; natural runtime reachability, global consumer or code exhaustiveness, field business meaning, editing, relocation, write-back, padding intent, and free or allocatable space remain unclaimed.",
+        "The 2026-09-04 four-packet Tier-2 milestone classifies exactly 4862 previously unknown bytes in 61 disjoint claims: 2532 bytes from the bounded boot-state dispatcher and five zero-frontier Thumb closures, 1136 bytes from twelve fixed two-level animation descriptors, 1162 bytes from a seven-slot battle-distance dispatcher and its zero-frontier closure, and 32 bytes from one unsigned-index-guarded eight-row two-u16 lookup table. The two-byte range at 0x53F30E..0x53F310 and all documented code holes remain unknown. Natural runtime reachability, business field meaning, signed destination interpretation, adjacent padding, editing, relocation, write-back, and free or allocatable space remain unclaimed.",
+        "The combined CFG proven-roots v17 packet classifies exactly 2400 previously unknown bytes in [0x091676,0x091FE0): 2092 reachable Thumb instruction bytes and 308 exact words consumed by closure-wide LDR-literal instructions. Two classified BL producers bind root 0x0914D8; five two-byte zero gaps totaling 10 bytes remain explicitly unknown. Natural runtime reachability, global code or indirect-target exhaustiveness, literal business meaning, alignment padding, adjacent bytes, editing, relocation, write-back, and free or allocatable space remain unclaimed.",
+        "The four 2026-09-01 fast-audit packets classify exactly 7140 previously unknown bytes in 116 disjoint claims: 4062 event-handler CFG bytes, 2096 sprite-component source bytes, 778 direct-BL-proven Thumb instruction bytes, and 204 instruction-consumed literal bytes. Their original four independent verifiers are replayed unchanged against the immutable compressed coverage baseline while one unified integration verifier checks the exact current canonical claims. Natural runtime reachability, global code or consumer exhaustiveness, loaded-value business meaning, adjacent bytes, editing, relocation, write-back, and free or allocatable space remain unclaimed.",
+        "Four accepted consumer code-slice packets classify exactly 2120 current-unknown bytes across five frozen ranges: 1856 battle-status-bar caller bytes, 164 profile-selector bytes, 64 chapter-selector bytes, and 36 sprite-loader-tail bytes. Each packet binds exact ROM bytes, a finite source consumer or producer denominator, baseline unknown ownership, and an independent post-coverage owner check. Natural runtime reachability, complete surrounding functions or CFGs, adjacent bytes, editing, relocation, write-back, and free or allocatable space remain unclaimed.",
+        "The CFG consumed-literal batches classify exactly 14492 previously unknown bytes as 1220 merged range claims: v2 contributes 6796 bytes, proven-roots v6 contributes 2980 bytes, proven-roots v1 contributes 1396 bytes, v3 contributes 1220 bytes, the proven-roots v2/v3/v4/v5/v7/v8/v9 batch contributes 1256 bytes, the battle-controller CFG contributes 536 bytes, and the v2 consumer-slice-shadowed packet contributes 308 bytes. Each word is independently reconstructed from a frozen accepted Thumb CFG and a raw PC-relative LDR literal instruction. Loaded-value business meaning, pointer validity, runtime reachability beyond the accepted source CFGs, adjacent bytes, editing, relocation and free-space safety remain unclaimed.",
+        "The CFG proven-roots v15 packet classifies exactly 450 previously unknown bytes across four accepted frozen Thumb closures: 398 reachable instruction bytes and 52 consumed literal bytes. One rejected root remains unclassified because its candidate range has literal/code overlap and an unbound raw Thumb BL match; three unresolved indirect-PC frontiers and 386 hole bytes remain unknown. Natural execution, global caller/code/indirect-target denominators, callee business semantics, literal business meaning, adjacent bytes, editing, relocation and free-space safety remain unclaimed.",
+        "The CFG proven-roots v14 packet classifies exactly 160 previously unknown bytes across two frozen Thumb closures: 120 reachable instruction bytes and 40 consumed literal bytes. Five direct BL producers are bound to accepted V12/V13 nodes and current coverage owners; the bx r0 sites at 0x0624FE and 0x062546 remain explicit unresolved indirect-PC frontiers. Natural execution, global caller/code/indirect-target denominators, callee business semantics, literal business meaning, adjacent bytes, editing, relocation and free-space safety remain unclaimed.",
+        "The battle sound selector artifact classifies exactly one 256-byte current-unknown u8 table at [0x0053E496,0x0053E596), bound to five direct pointer-literal consumer paths. Natural index or path reachability, exhaustive computed/RAM/indirect consumers, value or gameplay semantics, playback success, editing, write-back, relocation, and free or allocatable space remain unclaimed.",
+        "The battle-condition records artifact binds the complete 47-battle by 3-variant physical table and its raw interpreter layout, but the coverage projection classifies only 84 baseline-current-unknown fragments totaling 2,772 current-unknown bytes: 41 raw 4-byte variant-prefix fragments totaling 164 bytes and 43 predicate-record fragments totaling 2,608 bytes. Existing fixed-table and positions-aux primary owners are preserved, and the 144-byte right-side zero gap at [0x00596CCC,0x00596D5C) remains unknown. Natural battle or variant reachability, exhaustive consumers, business semantics for prefixes, predicate payload words or byte 3, handlers 4/5 use, editing, write-back, relocation, and free or allocatable space remain unclaimed.",
+        "The frozen 31-row dialogue-font SJIS lookup table contributes exactly the five exact current-unknown empty rows at indices 26..30, totaling 40 bytes. This is not a padding, reserved-space, free-space, editable, relocatable, globally unreachable, natural-runtime, all-consumers, or complete Unicode mapping claim.",
+        "The additive motion-spawn/sequence-descriptor claim classifies exactly the two current-unknown bytes at file [0x0053EF2E,0x0053EF30) as the 4-byte alignment gap between the frozen 15×10-byte motion-spawn table ending in its explicit terminator and the frozen 22×24-byte sequence-descriptor table. It does not claim padding, reserved or free space, natural runtime reachability, global unreachability, broader table semantics, editing or relocation safety, safe allocation, adjacent bytes, or consumer completeness.",
+        "The additive battle-presentation/tile-assets claim classifies exactly the two current-unknown bytes at file [0x005A320A,0x005A320C) as the 4-byte alignment gap between the frozen 79×10-byte battle-presentation binding table ending at an exact fixed-count boundary and the frozen 79×68-byte tile-assets table. It does not claim padding, reserved or free space, natural runtime reachability, global unreachability, broader table semantics, editing or relocation safety, safe allocation, adjacent bytes, or consumer completeness.",
+        "The additive runtime-state/handler-table claim classifies exactly the two current-unknown bytes at file [0x0053E696,0x0053E698) as the 4-byte alignment gap between the frozen 256×1-byte runtime-state selector table ending at an exact fixed-count boundary and the frozen 256×8-byte handler-pair table. It does not claim padding, reserved or free space, natural runtime reachability, global unreachability, broader table semantics, cross-table dataflow, editing or relocation safety, safe allocation, adjacent bytes, or consumer completeness.",
+        "The parser-bound zero-padding artifact classifies exactly 198 current-unknown zero bytes across 142 frozen M4A wave-alignment or chapter-terminal-to-fixed-root ranges. Nine structurally rejected ranges and two contract-excluded ranges remain unclaimed; arbitrary zero holes, free or allocatable space, natural execution, editing, and relocation safety are not proven.",
+        "The startup inventory classifies 584 bytes across the reset vector, GBA header, display handoff, reachable bootstrap, four consumed literals, IRQ callback, and two IRQ literals; the unreferenced word at 0x0000C4..0x0000C8 remains unknown.",
+        "The chapter-script inventory classifies 334060 interpreter-consumed script bytes and 251 renderer-consumed speaker-label bytes reached from 200 non-null slots in four fixed-ROM pointer tables; a separate additive artifact classifies only the 337 post-NUL zero-padding bytes in 49 actually referenced speaker-label slots, while unreferenced slots and natural gameplay reachability remain unclaimed.",
+        "The eleven consumer-typed renderer text tables classify exactly 22588 bytes across 625 unique parser-bounded targets; inter-record gaps, natural gameplay index coverage, and Unicode decoding remain unclaimed.",
+        "The fixed 46-slot profile table classifies exactly 6798 parser-consumed bytes plus 38 bytes in 19 independently verified two-zero alignment gaps; natural runtime evidence binds only profile ID 0, while other IDs, field semantics, Unicode decoding, and editing safety remain unclaimed.",
+        "The eleven fixed consumer text tables classify exactly 3000 pointer-table bytes and 11177 renderer-consumed bytes across 735 unique records; the mixed 24-slot UI resource table at 0x005A7FCC is excluded, while inter-record gaps, runtime index bounds, natural gameplay reachability, Unicode decoding, and editing safety remain unclaimed.",
+        "The fixed 45-slot training table has one null slot and classifies 2505 interpreter-consumed command-script bytes across 44 records; natural execution of every ID, Unicode decoding, and safe writeback remain unclaimed.",
+        "The fixed 38-slot value-range selector classifies its 152-byte inclusive range map and 862 renderer-consumed text bytes; the 152-byte pointer table is owned by candidate adjudication, while runtime input bounds, natural execution of every range, Unicode decoding, and safe writeback remain unclaimed.",
+        "The fixed 46-row selector source domain classifies 324 renderer-consumed bytes from its exact mapped slots; a separate independently rebuilt artifact classifies the complete 46x20-byte source-record table at 0x59F5F0..0x59F988 (920 bytes) without assigning field semantics to bytes 2..19. The independently bounded three-way configuration family classifies another 316 copy-parser-consumed text bytes plus 176 configuration and pointer bytes, while an additive artifact classifies 918 post-NUL zero-padding bytes in the 84 referenced direct/configured slots. The 17 unreferenced physical slots, a broader 63-slot denominator, the byte at 0x59F988 and adjacent profile data, natural reachability, Unicode decoding, editing or writeback safety, and allocatable-space status remain unclaimed.",
+        "The ten frozen selector source windows contain exactly 2754 bytes, but only their 19 current-unknown promotion ranges totaling 1252 bytes are classified here; 1502 bytes with existing primary classifications are preserved without re-claiming, and bridge/mapper promotion counts remain zero. Pure instruction identity, natural runtime reachability, global caller completeness, safe editing or relocation, allocatable space, and new field semantics are not claimed.",
+        "The menu-portrait palette inventory classifies 70 distinct physical 128-byte BGR555 ranges totaling 8960 bytes for 74 catalog resources and 311 fixed logical outputs; record 0's five zero pairs are sentinels, the selector truncates inputs to u8 without a bounds check, equal-content palettes remain distinct physical ranges, and the shared 0x084098C4 palette is one physical claim for five resources. Natural runtime reachability, runtime pixel equivalence, independent alias editing, pointer rewriting, relocation, graphics bytes, adjacent gaps, arbitrary image fit, and allocatable space remain unclaimed.",
+        "Only the frozen 52 short all-zero ranges between independently parsed pointer-reachable LZ77 endpoints and their fixed menu-portrait palette starts are classified; padding intent, runtime consumption, a generic alignment rule, exhaustive menu gaps, editing or relocation safety, and free or allocatable space are not claimed.",
+        "Only the frozen 84 short all-zero ranges totaling 165 bytes between independently parsed aligned pointer-reachable LZ77 endpoints and fixed tile-BG palette source starts are classified. The two nonzero long gaps and seven heterogeneous direct-CpuSet/reuse short gaps remain outside this contract; padding, reserved/free/allocatable space, natural runtime reachability, global unreachability, fixed-consumer exhaustiveness, final pixel equivalence, editing safety, and relocation safety are not claimed.",
+        "Only the frozen 12 two-byte all-zero ranges totaling 24 bytes between independently verified boot Thumb code terminals and their consumed literal pools are classified as align4 gaps. The source artifact's wider envelope gaps remain historical non-claims; instructions, padding, reserved/free/allocatable space, complete boot runtime, natural execution reachability, global code/literal denominators, indirect-target resolution, editing, and relocation safety are not claimed.",
+        "The direct CpuSet/CpuFastSet inventory's complete twelve-source denominator contributes exactly six previously unknown 32-byte BGR555 source ranges totaling 192 bytes; six other sources retain their existing primary owners. Each promoted range is bound to at least one fixed already-bound transfer operation and the independent direct-CpuSet verifier, while overlapping supersets, natural runtime reachability, final pixel equivalence, editing or relocation safety, adjacent bytes, and allocatable-space status remain unclaimed.",
+        "The scene-visual source-range inventory classifies exactly 29 complete current-unknown ranges totaling 3257 bytes: 64 shared-OBJ-palette bytes, 2304 background-palette bytes, 697 parser-bounded definition bytes, and 192 animation bytes. The existing 31-byte pack-05 LZ77 primary overlap remains owned by its prior claim and is not reclassified. Other scene sources, natural reachability, final-pixel equivalence, editing or relocation safety, adjacent gaps, and allocatable space remain unclaimed.",
+        "The fixed positions auxiliary dispatch inventory classifies exactly 144 complete 64-byte tables totaling 9216 current-unknown bytes across 48 groups, three variants, and sixteen 4-byte cells per table. The artifact binds the frozen range denominator and independent ROM reconstruction, but does not claim natural reachability of every group, variant, tag, or cell; common semantics for cell bytes 1..3; runtime group or variant bounds; exhaustive consumer coverage; ABI, editing, writeback, or relocation safety; adjacent variant headers; the final post-candidate gap; or free or allocatable space.",
+        "The Cutscene OBJ source-range inventory classifies exactly 28 complete current-unknown ranges totaling 400 bytes for four fixed resource IDs: 240 bytes in ten component definition records, 40 bytes in four definition pointer tables, 80 bytes in ten animation timelines, and 40 bytes in four animation pointer tables. The fixed parser stride, terminators, and pointer relationships are verified, while unknown component field semantics, natural runtime reachability, final scene composition, graphics or palette expansion, editing or relocation safety, adjacent gaps, and allocatable space remain unclaimed.",
+        "For four fixed Cutscene OBJ resource IDs, a separate independent verifier classifies exactly four 2-byte ranges totaling 8 bytes between each strict type-0x10 palette parser endpoint and its rooted slot-0 first definition record as the exact 4-byte alignment gap. This does not claim padding, reserved, free, or allocatable space; natural runtime reachability; global unreachability; a complete Cutscene gap denominator; editing or relocation safety; final-pixel equivalence; unknown definition-field semantics; generic LZ alignment; neighboring bytes; or compiler authorship.",
+        "The fixed 79-slot battle-message table classifies 1411 renderer-consumed bytes and all 1329 bytes of inter-record zero padding, while its 316-byte pointer table remains owned by data-table-b. The preceding 140 bytes, runtime index bounds, natural execution beyond ID 0, Unicode decoding, safe writeback, physical-GBA behavior, and allocatable-space status remain unclaimed.",
+        "The fixed BL/BX-pc/ARM-B interwork spine classifies 414 bytes: one closed 92-instruction ARM root, nine consumed literals, and three producer instructions. A separate additive coverage claim classifies the skipped C0 46 / Thumb MOV r8,r8 two-byte alignment NOP while preserving the artifact scope. Full reset-to-root natural reachability, global unreachability, the sibling veneer, RAM targets, editing, relocation, allocatable space, and the surrounding 0x24C..0x9F2E region remain unclaimed.",
+        "The task scheduler core artifact classifies exactly 264 bounded Thumb instruction bytes and 44 consumed literal bytes; 138 already-owned bytes remain provenance and three two-byte gaps remain unknown. Dynamic callback targets, callback lifecycle, natural runtime reachability, global caller/code/indirect denominators, scheduler business semantics, editing, relocation, and allocatable space remain unclaimed.",
+        "The MPlayMain scheduler artifact classifies exactly 600 bounded Thumb instruction bytes and 12 consumed literal bytes; two already-owned veneer bytes remain provenance and two bytes remain unknown. Dynamic callback targets and RAM values, callback lifecycle, natural runtime reachability, global caller/code/indirect or computed-producer denominators, scheduler semantics, editing, relocation, writeback, and allocatable space remain unclaimed.",
+        "The SoundMain relocated-CFG artifact classifies exactly 916 bounded mixed ARM/Thumb instruction bytes and 8 consumed literal bytes; the three two-byte alignment gaps remain unknown for a separate post-acceptance artifact, and the existing two-byte return veneer remains owned provenance. Computed or indirect producers, dynamic IWRAM state, natural runtime reachability, broader audio semantics, editing, relocation, writeback, and allocatable space remain unclaimed.",
+        "A separate immutable SoundMain boundary verifier classifies exactly three two-byte zero ranges totaling six bytes between accepted mixed-ISA code or consumed-literal structures under the exact align4 equation. The source artifact's deferred-unknown statement remains a scope-local historical receipt and is superseded only for these three ranges. No instruction, NOP, padding, reserved/free/allocatable-space, natural reachability, global unreachability, compiler-authorship, editing, writeback, relocation, right-structure semantic extension, or exhaustive SoundMain-gap claim is made.",
+        "The M4A initializer-chain artifact classifies exactly 390 bounded Thumb instruction bytes and 128 instruction-consumed literal bytes in three target-limited roots. The raw producer at 0x061E28 and the two-byte return-to-pool gap at 0x09B1E6 remain unknown; dynamic RAM/callback values, natural reachability, global caller/code/indirect/computed producer denominators, literal-target semantics, audio behavior, editing, relocation, writeback, and allocatable space remain unclaimed.",
+        "The MP2K note-allocator artifact classifies exactly 550 bounded Thumb instruction bytes, 8 instruction-consumed literal bytes, and one 4-byte initializer-consumed Thumb entry pointer in four accepted ranges. Four neighboring ranges totaling 68 bytes remain unknown; natural runtime reachability, global caller/code/indirect/computed producer and RAM-writer denominators, literal-target semantics, audio behavior, editing, relocation, writeback, and allocatable space remain unclaimed.",
+        "The MP2K dispatcher artifact classifies exactly 86 bounded Thumb instruction bytes, 12 fixed table-tail bytes, and 4 instruction-consumed literal bytes in four accepted ranges. Five pre-existing owner ranges totaling 238 bytes remain provenance only and two 2-byte gaps remain unknown; natural runtime reachability, global caller/code/indirect/computed producer and RAM-writer denominators, literal-target semantics, audio behavior, editing, relocation, writeback, and allocatable space remain unclaimed.",
+        "The DirectSound pitch lookup artifact classifies exactly 344 frozen bytes: a 16-byte mixed Thumb/ARM high32 helper, a 92-byte bounded Thumb consumer, eight consumed pointer-literal bytes, 180 u8 scale descriptors, and twelve little-endian u32 frequencies. Its proof is limited to the target-bounded two-producer raw Thumb BL denominator, closed consumer CFG and structured return, helper interwork, literal bindings, and exhaustive u8 table-index domains; producer bytes and source-instruction membership, natural runtime reachability, global code/caller/indirect or computed/RAM consumer denominators, playback behavior, editing, writeback, relocation, and allocatable space remain unclaimed.",
+        "The PSG frequency lookup artifact classifies exactly 226 frozen bytes: 154 bytes in two bounded Thumb code ranges, twelve bytes in three consumed pointer literals, and a 60-byte channel-4 noise register descriptor table. The two-byte 0x09B4C6..0x09B4C8 alignment gap remains unknown. Entry proof is limited to one fixed initializer-to-logical-SoundInfo+0x30-to-BX-r3 chain; global RAM/computed producers, writers, indirect callers, natural runtime reachability, the two non-noise target-table semantics, playback, editing, writeback, relocation, and allocatable space remain unclaimed.",
+        "The u8-indexed u8-triplet lookup artifact classifies exactly 19 current-unknown bytes: one consumed four-byte pointer literal and one fifteen-byte five-by-three raw u8 record table. The 272 consumer code bytes retain their existing generic CFG owners and are provenance only; four literal pools and the right-hand diagnostic range remain unknown. The frozen static r5=0..4 and 3*i field-load binding does not prove a newly closed CFG, return epilogue, natural runtime reachability, business field semantics, editing, relocation, or allocatable space.",
+        "The accepted bounded CGB helper artifact promotes exactly 180 bytes in nine frozen ranges: 164 bytes of bounded Thumb code and 16 bytes of instruction-consumed literals. Two intervening two-byte align4 ranges are excluded here and classified only by the separate artifact-bound boundary verifier. Natural runtime reachability, literal business semantics, complete callers or RAM writers, audio behavior, editing, relocation, writeback, and allocatable space remain unclaimed.",
+        "The accepted bounded CgbSound artifact promotes exactly 1,084 bytes in nineteen frozen ranges: 1,008 bytes of bounded Thumb code and 76 bytes of instruction-consumed literals. Seven intervening two-byte align4 ranges are excluded here and classified only by the separate artifact-bound boundary verifier. Natural runtime reachability, dynamic callback or RAM state, helper or literal business semantics, audio behavior, editing, relocation, writeback, and allocatable space remain unclaimed.",
+        "A separate artifact-bound boundary verifier classifies exactly thirteen two-byte ranges totaling 26 bytes between accepted scheduler, PSG, CGB helper, or CgbSound structures under an exact align4 equation. The historical source artifact statements that these ranges were unknown remain scope-local receipts and are superseded only for these thirteen ranges. No instruction, NOP, padding, reserved/free/allocatable-space, natural-reachability, compiler-authorship, editing, writeback, relocation, right-structure semantic extension, or exhaustive-gap claim is made.",
+        "The 43-entry sprite tile-base offset table contributes exactly 86 bytes; it is not a character-ID or unit-stat table.",
+        "Forty-one non-overlapping strict type-0x10 streams lack aligned direct ROM pointers; exactly 14725 compressed bytes are syntax-classified without claiming consumer identity, resource role, graphics semantics, or runtime reachability.",
+        "The v10 direct-call-proven target classifies exactly seven closed Thumb basic blocks totaling 72 current-unknown instruction bytes and two PC-relative-LDR-consumed literal words totaling 8 current-unknown bytes at [0x0008B278,0x0008B2C8). The three producer instructions and the 580-byte bounded source worklist retain their existing owners and are not re-claimed. Natural execution, a global code or caller denominator, indirect targets, source-window instruction identity, literal editability, adjacent bytes, relocation safety, and free or allocatable space remain unclaimed.",
+        "The v12 direct-call-proven target classifies exactly four closed Thumb code ranges totaling 372 current-unknown instruction bytes and four instruction-consumed literal ranges totaling 128 current-unknown bytes within [0x00064478,0x00064670). The two two-byte holes at [0x000644C2,0x000644C4) and [0x0006450A,0x0006450C) remain unknown. The bounded 508-byte source worklist and producer retain their existing owners and are provenance only. Natural runtime reachability, a global caller or code denominator, indirect or computed targets, literal business semantics, editing, writeback, relocation, and free or allocatable space remain unclaimed.",
+        "The v13 direct-call-proven target classifies exactly three closed Thumb code ranges totaling 312 current-unknown instruction bytes and three instruction-consumed literal ranges totaling 80 current-unknown bytes within [0x000651F8,0x00065384). The two two-byte holes at [0x000652DE,0x000652E0) and [0x0006536A,0x0006536C) remain unknown. The bx r0 instruction at 0x00065368 remains one explicit unresolved indirect-PC frontier and is not claimed as a structured return. The bounded 508-byte source worklist and producer retain their existing owners and are provenance only. Natural runtime reachability, a global caller or code denominator, indirect or computed targets, literal business semantics, editing, writeback, relocation, and free or allocatable space remain unclaimed.",
+        "The fixed 263-root ARMv4T CFG plus the independently verified one-generation 29-dispatch extension promote exactly 84022 current-unknown Thumb instruction bytes; the dispatch extension also promotes 448 bytes from 112 allowed table cells, while eight additional current-unknown cells are classified only as mask-excluded physical residual cells, and leaves 328 baseline plus 15 newly discovered indirect frontiers unresolved. The direct-call-proven two-root delta adds 12946 reachable Thumb bytes and 12 producer bytes; the second three-root delta adds 9876 reachable Thumb bytes and 20 producer bytes while keeping v2/v3/proven-roots-v1 opaque and leaving 27 indirect targets plus one unsupported instruction open. The v7 frozen dispatcher denominator additionally classifies nine current-unknown selected table cells totaling 36 bytes without adding reachable instruction bytes or proving natural runtime or target reachability. None of these claims establish a global code map or natural runtime reachability.",
+        "The v8 fixed scene-panel direct-call root adds exactly 246 current-unknown Thumb instruction bytes across 20 blocks; its already-classified producer and source consumer slice are not re-claimed, one indirect PC target remains opaque, and neither natural runtime reachability nor a global code map is claimed.",
+        "The v9 battle-controller direct-call root batch adds exactly 628 current-unknown Thumb instruction bytes across 62 blocks from eight fixed roots. Its target-limited producer denominator retains eleven aligned BL encodings, but only nine have frozen controller-CFG provenance; the other two producers remain unknown. Seven stack-restored returns are recorded as opaque exits, while natural runtime reachability, global function-entry completeness, indirect-target completeness, editing safety, and a global code map remain unclaimed.",
+        "Nine independently verified existing artifacts contribute exactly 3919 baseline-unknown bytes across 37 claims: canonical dispatch tables, battle-effect/scene/world-map tables, bounded consumer slices, and BGR555 palettes; failed character OAM evidence, raw staged GPU resources, instruction-only purity, and runtime reachability remain unclaimed.",
+        "The independently verified battle-effect sprite source batch classifies exactly 11120 current-unknown bytes across 237 complete source ranges: 9452 bytes in 178 component lists, 712 bytes in 18 definition pointer tables, 864 bytes in 23 animation timelines, and 92 bytes in 18 animation pointer tables. Natural runtime reachability, graphics or palette payload expansion, editable-space safety, and writeback safety remain unclaimed.",
+        "The independently verified additive artifact classifies exactly 133 referenced post-NUL slot suffixes and 1255 structural zero-padding bytes: 550 bytes in 46 direct-selector slots, 368 bytes in 38 configured-selector slots, and 337 bytes in 49 chapter speaker-label slots. It does not classify unreferenced slots or the NUL/prefix bytes and does not claim text semantics, natural runtime reachability, editing safety, writeback safety, or safely allocatable space.",
+        "The consumer-bound dialogue inventory classifies the 305x20-byte pointer table and 1220 direct NUL-terminated targets; a separate independently rebuilt denominator classifies all 1219 adjacent gaps and 16814 bytes as structural inter-record zero padding, without claiming text semantics, runtime reachability, or safe allocatable space; full runtime reachability of rows 0..304 and natural-language glyph decoding remain unclaimed."
+      ],
+      "status": "partial"
+    }
+  },
+  "inputs": {
+    "build/experiments/active/late-cfg-consumers/schemas15-21-20261001-v1/screen.json": {
+      "sha256": "3c7b2d2ae02f5d030e4a58cc3ee6a36f09b045f28db6e5cc544254f672d20fd1",
+      "size": 15188
+    },
+    "rom/base.gba": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "size": 6291456
+    },
+    "sequel/bank-proofs.json": {
+      "sha256": "f52524fbba244cf0497ffa021503702da9a185485c13027872f2a65dad56bed2",
+      "size": 50006
+    },
+    "sequel/reverse-engineering-proof.json": {
+      "sha256": "465a13104b6c9a6d0ea418ca513dd0be732438634f1124a3a531c893b11db568",
+      "size": 273775
+    },
+    "sequel/rom-byte-coverage.json": {
+      "sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+      "size": 31466081
+    }
+  },
+  "large_range_bytes": 42880,
+  "large_range_count": 17,
+  "late_cfg_screen": {
+    "code_bytes": 7436,
+    "instructions": 3515,
+    "literal_sites": 33,
+    "source_semantic_verifiers_rerun": false,
+    "text_candidate_sites": 21,
+    "text_candidate_targets": [
+      4602132,
+      4602152,
+      4602160,
+      4602168,
+      4602180,
+      4602204,
+      4602276,
+      4602320,
+      4602376,
+      4602424,
+      4602468,
+      4602524,
+      4602536,
+      4602552,
+      4602580,
+      4602604,
+      4602616,
+      4602620,
+      4602624,
+      4602640,
+      4602648
+    ]
+  },
+  "promotion_bytes": 0,
+  "schema": "reverse-work-planning-snapshot-v1",
+  "scope": "Inventory arithmetic and existing declared status only; no new semantic acceptance, runtime proof or promotion.",
+  "top_ranges": [
+    {
+      "bytes": 7624,
+      "range": [
+        22412,
+        30036
+      ]
+    },
+    {
+      "bytes": 6860,
+      "range": [
+        5503132,
+        5509992
+      ]
+    },
+    {
+      "bytes": 4483,
+      "range": [
+        17067,
+        21550
+      ]
+    },
+    {
+      "bytes": 3733,
+      "range": [
+        5509999,
+        5513732
+      ]
+    },
+    {
+      "bytes": 2688,
+      "range": [
+        5892832,
+        5895520
+      ]
+    },
+    {
+      "bytes": 2048,
+      "range": [
+        661844,
+        663892
+      ]
+    },
+    {
+      "bytes": 2021,
+      "range": [
+        310833,
+        312854
+      ]
+    },
+    {
+      "bytes": 1592,
+      "range": [
+        5871908,
+        5873500
+      ]
+    },
+    {
+      "bytes": 1542,
+      "range": [
+        3306,
+        4848
+      ]
+    },
+    {
+      "bytes": 1504,
+      "range": [
+        5916424,
+        5917928
+      ]
+    },
+    {
+      "bytes": 1466,
+      "range": [
+        39284,
+        40750
+      ]
+    },
+    {
+      "bytes": 1374,
+      "range": [
+        5501710,
+        5503084
+      ]
+    },
+    {
+      "bytes": 1359,
+      "range": [
+        6017,
+        7376
+      ]
+    },
+    {
+      "bytes": 1180,
+      "range": [
+        5956452,
+        5957632
+      ]
+    },
+    {
+      "bytes": 1160,
+      "range": [
+        1240592,
+        1241752
+      ]
+    },
+    {
+      "bytes": 1128,
+      "range": [
+        4555564,
+        4556692
+      ]
+    },
+    {
+      "bytes": 1118,
+      "range": [
+        5496884,
+        5498002
+      ]
+    },
+    {
+      "bytes": 817,
+      "range": [
+        1844,
+        2661
+      ]
+    },
+    {
+      "bytes": 784,
+      "range": [
+        611016,
+        611800
+      ]
+    },
+    {
+      "bytes": 780,
+      "range": [
+        606508,
+        607288
+      ]
+    },
+    {
+      "bytes": 764,
+      "range": [
+        3443716,
+        3444480
+      ]
+    },
+    {
+      "bytes": 736,
+      "range": [
+        760756,
+        761492
+      ]
+    }
+  ],
+  "unknown_ranges": 1763,
+  "valid_bank_count": 22,
+  "valid_banks": {
+    "audio": {
+      "field_ids_covered": "unknown",
+      "field_ids_total": "unknown",
+      "records_covered": 1,
+      "records_total": 80,
+      "status": "mixed_runtime_and_structural"
+    },
+    "battle-config": {
+      "field_ids_covered": [
+        "per_level_growth"
+      ],
+      "field_ids_total": [
+        "byte_00",
+        "byte_01",
+        "byte_02",
+        "byte_03",
+        "byte_04",
+        "byte_05",
+        "byte_06",
+        "byte_07",
+        "byte_08",
+        "byte_09",
+        "byte_0a",
+        "byte_0b",
+        "byte_0c",
+        "byte_0d",
+        "per_level_growth"
+      ],
+      "records_covered": 1,
+      "records_total": 87,
+      "status": "direct_ab_single_record_field"
+    },
+    "battle-encounters": {
+      "field_ids_covered": [
+        "gfx_lz_ptr"
+      ],
+      "field_ids_total": [
+        "gfx_lz_ptr",
+        "palette_lz_ptr",
+        "tilemap_lz_ptr",
+        "config_id"
+      ],
+      "records_covered": 1,
+      "records_total": 24,
+      "status": "artifact_verified_controlled_route"
+    },
+    "character-stats": {
+      "field_ids_covered": [
+        "template_02_growth"
+      ],
+      "field_ids_total": [
+        "template_0e_growth",
+        "template_08_growth",
+        "template_02_growth",
+        "template_03_growth",
+        "template_04_growth",
+        "template_05_growth",
+        "template_06_growth",
+        "unused_0e"
+      ],
+      "records_covered": 1,
+      "records_total": 63,
+      "status": "direct_ab_single_record_field"
+    },
+    "cutscene-scripts": {
+      "field_ids_covered": [
+        "primary_ptr"
+      ],
+      "field_ids_total": [
+        "primary_ptr",
+        "secondary_ptr"
+      ],
+      "records_covered": 1,
+      "records_total": 8,
+      "status": "artifact_verified_natural_route"
+    },
+    "data-table-a": {
+      "field_ids_covered": [
+        "text_ptr"
+      ],
+      "field_ids_total": [
+        "text_ptr"
+      ],
+      "records_covered": 1,
+      "records_total": 46,
+      "status": "checkpoint_ab_no_independent_verifier"
+    },
+    "data-table-b": {
+      "field_ids_covered": [
+        "text_ptr"
+      ],
+      "field_ids_total": [
+        "text_ptr"
+      ],
+      "records_covered": 1,
+      "records_total": 79,
+      "status": "artifact_verified_natural_route"
+    },
+    "function-pointers": {
+      "field_ids_covered": [
+        "func_ptr"
+      ],
+      "field_ids_total": [
+        "func_ptr"
+      ],
+      "records_covered": 1,
+      "records_total": 11,
+      "status": "checkpoint_ab_causal_boundary"
+    },
+    "levels": {
+      "field_ids_covered": [
+        "per_level_a"
+      ],
+      "field_ids_total": [
+        "target_type",
+        "base_a",
+        "base_b",
+        "per_level_a",
+        "per_level_b",
+        "reserved_a"
+      ],
+      "records_covered": 1,
+      "records_total": 45,
+      "status": "artifact_verified_controlled_materialization"
+    },
+    "map-events": {
+      "field_ids_covered": [
+        "primary_handler_ptr"
+      ],
+      "field_ids_total": [
+        "primary_handler_ptr",
+        "secondary_handler_ptr"
+      ],
+      "records_covered": 1,
+      "records_total": 256,
+      "status": "artifact_verified_natural_recovery"
+    },
+    "map-sprites": {
+      "field_ids_covered": [
+        "definition_ptr"
+      ],
+      "field_ids_total": [
+        "definition_ptr",
+        "animation_ptr"
+      ],
+      "records_covered": 1,
+      "records_total": 43,
+      "status": "artifact_verified_controlled_materialization"
+    },
+    "maps": {
+      "field_ids_covered": [
+        "width",
+        "height",
+        "tileset_ptr",
+        "tilemap_ptr",
+        "tilemap_alt_ptr",
+        "extra_ptr",
+        "palette_ptr",
+        "palette2_ptr"
+      ],
+      "field_ids_total": [
+        "width",
+        "height",
+        "tileset_ptr",
+        "tilemap_ptr",
+        "tilemap_alt_ptr",
+        "extra_ptr",
+        "palette_ptr",
+        "palette2_ptr",
+        "flags"
+      ],
+      "records_covered": 1,
+      "records_total": 47,
+      "status": "artifact_and_checkpoint_single_map"
+    },
+    "menu-ui": {
+      "field_ids_covered": "unknown",
+      "field_ids_total": [
+        "gfx_ptr_0",
+        "palette_ptr_0",
+        "gfx_ptr_1",
+        "palette_ptr_1",
+        "gfx_ptr_2",
+        "palette_ptr_2",
+        "gfx_ptr_3",
+        "palette_ptr_3",
+        "gfx_ptr_4",
+        "palette_ptr_4"
+      ],
+      "records_covered": 1,
+      "records_total": 63,
+      "status": "artifact_verified_single_variant"
+    },
+    "palettes": {
+      "field_ids_covered": [
+        "y_offset"
+      ],
+      "field_ids_total": [
+        "effect_id",
+        "x_offset",
+        "y_offset",
+        "render_attributes",
+        "duration_control"
+      ],
+      "records_covered": 1,
+      "records_total": 15,
+      "status": "artifact_verified_natural_route"
+    },
+    "positions": {
+      "field_ids_covered": [
+        "x",
+        "y"
+      ],
+      "field_ids_total": "unknown",
+      "records_covered": 1,
+      "records_total": 1728,
+      "status": "runtime_observation_not_causal_ab"
+    },
+    "sappy-engine": {
+      "field_ids_covered": [
+        "instruction@0x0809AE76"
+      ],
+      "field_ids_total": "unknown",
+      "records_covered": 1,
+      "records_total": 1,
+      "status": "artifact_verified_single_instruction_effect"
+    },
+    "save-state": {
+      "field_ids_covered": [
+        "ewram_buffer",
+        "payload_length"
+      ],
+      "field_ids_total": [
+        "ewram_buffer",
+        "payload_length"
+      ],
+      "records_covered": 2,
+      "records_total": 10,
+      "status": "save_load_observation_no_independent_runtime_verifier"
+    },
+    "skills": {
+      "field_ids_covered": [
+        "runtime_byte_04"
+      ],
+      "field_ids_total": [
+        "runtime_byte_00",
+        "runtime_byte_01",
+        "runtime_byte_02",
+        "runtime_byte_03",
+        "runtime_byte_04",
+        "runtime_byte_05",
+        "runtime_byte_06",
+        "runtime_byte_07",
+        "runtime_byte_08",
+        "runtime_byte_09",
+        "tail_byte_0a",
+        "tail_byte_0b",
+        "tail_byte_0c",
+        "tail_byte_0d",
+        "tail_byte_0e",
+        "tail_byte_0f"
+      ],
+      "records_covered": 1,
+      "records_total": 94,
+      "status": "checkpoint_ab_single_record_field"
+    },
+    "story": {
+      "field_ids_covered": [
+        "script_ptr"
+      ],
+      "field_ids_total": [
+        "script_ptr"
+      ],
+      "records_covered": 1,
+      "records_total": 56,
+      "status": "runtime_selector_single_scenario"
+    },
+    "story-b": {
+      "field_ids_covered": [
+        "script_ptr"
+      ],
+      "field_ids_total": [
+        "script_ptr"
+      ],
+      "records_covered": 1,
+      "records_total": 56,
+      "status": "runtime_selector_single_scenario"
+    },
+    "tile-assets": {
+      "field_ids_covered": [
+        "word_05"
+      ],
+      "field_ids_total": [
+        "word_00",
+        "word_01",
+        "word_02",
+        "word_03",
+        "word_04",
+        "word_05",
+        "word_06",
+        "word_07",
+        "word_08",
+        "word_09",
+        "word_10",
+        "word_11",
+        "word_12",
+        "word_13",
+        "word_14",
+        "word_15",
+        "word_16"
+      ],
+      "records_covered": 1,
+      "records_total": 79,
+      "status": "artifact_verified_natural_route"
+    },
+    "units": {
+      "field_ids_covered": [
+        "template_02_base"
+      ],
+      "field_ids_total": "unknown",
+      "records_covered": 1,
+      "records_total": 63,
+      "status": "single_byte_ab_plus_field_correlation"
+    }
+  }
+}

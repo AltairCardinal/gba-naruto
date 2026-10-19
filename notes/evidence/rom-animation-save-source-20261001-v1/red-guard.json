@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 48499,
+  "peak_tree_rss_mib": 1.37890625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "-c",
+    "import contextlib,runpy; from pathlib import Path; p=Path(\"build/experiments/active/animation-save-source/source-20261001-v1\"); s=(p/\"red-tests.log\").open(\"x\"); contextlib.redirect_stdout(s).__enter__(); contextlib.redirect_stderr(s).__enter__(); runpy.run_path(str(p/\"test_save_source.py\"),run_name=\"__main__\")"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T10:58:06.916924Z",
+  "finished_at": "2026-10-01T10:58:08.027954Z"
+}

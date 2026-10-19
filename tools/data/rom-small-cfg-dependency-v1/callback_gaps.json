@@ -1,0 +1,706 @@
+{
+  "baseline_archive": {
+    "path": "notes/evidence/rom-evidence-selector-repair-20260905/coverage-after.json.gz",
+    "sha256": "f996d62735f43b00fc3375b1e74423aac6b331edbca0943ae3033c2ceea0942b",
+    "size": 1759704
+  },
+  "baseline_raw_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+  "baseline_raw_size": 31426933,
+  "expected_boundaries": [
+    {
+      "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "id": "task-callback-078e38-align4-00-078e6e",
+      "kind": "artifact_bound_align4_bytes",
+      "left_code_range": [
+        495160,
+        495214
+      ],
+      "range": [
+        495214,
+        495216
+      ],
+      "right_literal_bindings": [
+        [
+          495174,
+          495216,
+          "80280002"
+        ],
+        [
+          495196,
+          495220,
+          "cc100302"
+        ]
+      ],
+      "right_literal_range": [
+        495216,
+        495224
+      ],
+      "terminal": {
+        "kind": "unconditional_branch",
+        "offset": 495212,
+        "raw_hex": "65e0",
+        "target": 495418
+      }
+    },
+    {
+      "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "id": "task-callback-078e38-align4-01-078f02",
+      "kind": "artifact_bound_align4_bytes",
+      "left_code_range": [
+        495224,
+        495362
+      ],
+      "range": [
+        495362,
+        495364
+      ],
+      "right_literal_bindings": [
+        [
+          495352,
+          495364,
+          "e45b5408"
+        ]
+      ],
+      "right_literal_range": [
+        495364,
+        495368
+      ],
+      "terminal": {
+        "kind": "unconditional_branch",
+        "offset": 495360,
+        "raw_hex": "06e0",
+        "target": 495376
+      }
+    },
+    {
+      "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "id": "task-callback-078e38-align4-02-07905e",
+      "kind": "artifact_bound_align4_bytes",
+      "left_code_range": [
+        495680,
+        495710
+      ],
+      "range": [
+        495710,
+        495712
+      ],
+      "right_literal_bindings": [
+        [
+          495702,
+          495712,
+          "342e0202"
+        ]
+      ],
+      "right_literal_range": [
+        495712,
+        495716
+      ],
+      "terminal": {
+        "kind": "unconditional_branch",
+        "offset": 495708,
+        "raw_hex": "04e0",
+        "target": 495720
+      }
+    },
+    {
+      "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "id": "task-callback-078e38-align4-03-079106",
+      "kind": "artifact_bound_align4_bytes",
+      "left_code_range": [
+        495716,
+        495878
+      ],
+      "range": [
+        495878,
+        495880
+      ],
+      "right_literal_bindings": [
+        [
+          495756,
+          495880,
+          "c4575a08"
+        ],
+        [
+          495780,
+          495884,
+          "80f21208"
+        ],
+        [
+          495820,
+          495888,
+          "4c5e0003"
+        ],
+        [
+          495836,
+          495892,
+          "507c5a08"
+        ]
+      ],
+      "right_literal_range": [
+        495880,
+        495896
+      ],
+      "terminal": {
+        "kind": "unconditional_branch",
+        "offset": 495876,
+        "raw_hex": "15e0",
+        "target": 495922
+      }
+    },
+    {
+      "bytes_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "id": "task-callback-078e38-align4-04-079146",
+      "kind": "artifact_bound_align4_bytes",
+      "left_code_range": [
+        495896,
+        495942
+      ],
+      "range": [
+        495942,
+        495944
+      ],
+      "right_literal_bindings": [
+        [
+          495896,
+          495944,
+          "90c85a08"
+        ]
+      ],
+      "right_literal_range": [
+        495944,
+        495948
+      ],
+      "terminal": {
+        "kind": "indirect_pc_target",
+        "offset": 495940,
+        "raw_hex": "0047",
+        "register": 0
+      }
+    }
+  ],
+  "expected_summary": {
+    "gap_count": 5,
+    "indirect_pc_target_count": 1,
+    "promotion_bytes": 10,
+    "unconditional_branch_count": 4
+  },
+  "output_contract": {
+    "baseline": {
+      "archive_observed_during_this_build": false,
+      "archive_reference": "copy baseline_archive",
+      "raw_sha256": "copy baseline_raw_sha256",
+      "raw_size": "copy baseline_raw_size"
+    },
+    "boundaries": "each expected_boundaries row plus baseline_owners: {left: full baseline segments intersecting left_code_range, gap: full segments intersecting range, right: full segments intersecting right_literal_range}; preserve original segment objects",
+    "promotion": {
+      "claim_count": 5,
+      "claims": "five rows of id/kind/range/bytes_sha256 only, ascending range",
+      "promotion_bytes": 10
+    },
+    "rom": "copy rom identity",
+    "schema": "copy output_schema",
+    "scope": "copy scope",
+    "source_inputs": "copy source_inputs; these are normative references, not a claim that all were observed by this pure builder",
+    "summary": "exact expected_summary recomputed from derived rows",
+    "top_level_keys": [
+      "schema",
+      "rom",
+      "source_inputs",
+      "baseline",
+      "summary",
+      "boundaries",
+      "promotion",
+      "scope"
+    ]
+  },
+  "output_schema": "rom-task-callback-078e38-alignment-gaps-v1",
+  "producer_rules": [
+    "Implement pure build_payload(rom_bytes, source_payload_raw, baseline_raw, contract_raw)->dict. No repository input/output and no publication API.",
+    "Production build checks exact public contract SHA, ROM SHA/size, source_payload SHA/size and baseline raw SHA/size before parsing. Parent binds the other source identities and archive compressed identity.",
+    "Expose derive_boundaries(rom, code_ranges, literal_ranges, literal_bindings) for hidden same-structure fixtures. Validate positive nonoverlapping code/literal ranges, finite regular align4 literal ranges; recompute gaps from full code/literal domains, not expected rows.",
+    "Every positive code-end to adjacent align4 literal-start gap must be zero and have final Thumb unconditional B or BX. Decode signed B target or BX register. Fifth real BX r0 is indirect_pc_target, never a structured return. Conditional/fallthrough/nonzero/missing literal binding fails closed.",
+    "Verify raw PC-relative LDR literal bindings: source halfword &F800==4800, PC alignment formula, consumed 4-byte ROM value. The parent independently proves complete instruction membership using existing upstream raw CFG verifier.",
+    "Production derive rows must match expected_boundaries after deterministic IDs/kind/range SHA. Project every full gap through gapless baseline segments: all gap bytes unknown and no owners; copy left/right primary owner provenance only.",
+    "Output schema/rom/source_inputs/baseline/summary/boundaries/promotion/scope. promotion.claims contains only id/kind/range/bytes_sha256 for the five gaps; claim_count=5 and promotion_bytes=10. No raw ROM bulk, no accepted or independent verifier success claim.",
+    "TDD RED then GREEN; parameterized relocated synthetic B positive/negative and BX fixtures; zero gap/nonzero/fallthrough/conditional branch/range overlap/literal binding/known overlap/input mismatch failures. Tests may read fixed input files inside root for real integration.",
+    "Only producer.py, test_producer.py and new logs/guard JSON below this packet may be written; CONTRACT.json read-only. No files outside packet, no Git mutations. Parent independently verifies and publishes later."
+  ],
+  "publication_contract": {
+    "canonical_and_formal_acceptance_deferred_to_batch_integration": true,
+    "failed_stages_retained_without_name_based_cleanup": true,
+    "immutable_precoverage_required": true,
+    "independent_candidate_verification_required": true,
+    "publisher_requires_atomic_noreplace_and_member_identity": true,
+    "pure_payload_is_not_acceptance": true,
+    "version": 1
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-task-callback-five-gaps-public-contract-v1",
+  "scope": {
+    "canonical_promoted": false,
+    "classification": "artifact-bound align4 bytes between accepted non-fallthrough Thumb code and consumed literals",
+    "free_space": false,
+    "natural_reachability": false,
+    "nop": false,
+    "padding": false,
+    "source_full_lifecycle_replayed_here": false,
+    "structured_return": false
+  },
+  "source_denominators": {
+    "blocks": [
+      [
+        495160,
+        495188
+      ],
+      [
+        495188,
+        495196
+      ],
+      [
+        495196,
+        495202
+      ],
+      [
+        495202,
+        495208
+      ],
+      [
+        495208,
+        495212
+      ],
+      [
+        495212,
+        495214
+      ],
+      [
+        495224,
+        495244
+      ],
+      [
+        495244,
+        495250
+      ],
+      [
+        495250,
+        495278
+      ],
+      [
+        495278,
+        495296
+      ],
+      [
+        495296,
+        495300
+      ],
+      [
+        495300,
+        495314
+      ],
+      [
+        495314,
+        495318
+      ],
+      [
+        495318,
+        495330
+      ],
+      [
+        495330,
+        495336
+      ],
+      [
+        495336,
+        495344
+      ],
+      [
+        495344,
+        495348
+      ],
+      [
+        495348,
+        495352
+      ],
+      [
+        495352,
+        495362
+      ],
+      [
+        495368,
+        495376
+      ],
+      [
+        495376,
+        495388
+      ],
+      [
+        495388,
+        495392
+      ],
+      [
+        495392,
+        495418
+      ],
+      [
+        495418,
+        495424
+      ],
+      [
+        495424,
+        495426
+      ],
+      [
+        495426,
+        495432
+      ],
+      [
+        495432,
+        495434
+      ],
+      [
+        495434,
+        495444
+      ],
+      [
+        495444,
+        495456
+      ],
+      [
+        495456,
+        495458
+      ],
+      [
+        495458,
+        495476
+      ],
+      [
+        495476,
+        495490
+      ],
+      [
+        495490,
+        495504
+      ],
+      [
+        495504,
+        495516
+      ],
+      [
+        495516,
+        495528
+      ],
+      [
+        495528,
+        495546
+      ],
+      [
+        495546,
+        495550
+      ],
+      [
+        495550,
+        495552
+      ],
+      [
+        495568,
+        495578
+      ],
+      [
+        495578,
+        495596
+      ],
+      [
+        495596,
+        495622
+      ],
+      [
+        495622,
+        495624
+      ],
+      [
+        495628,
+        495654
+      ],
+      [
+        495654,
+        495674
+      ],
+      [
+        495674,
+        495676
+      ],
+      [
+        495680,
+        495696
+      ],
+      [
+        495696,
+        495710
+      ],
+      [
+        495716,
+        495720
+      ],
+      [
+        495720,
+        495746
+      ],
+      [
+        495746,
+        495750
+      ],
+      [
+        495750,
+        495780
+      ],
+      [
+        495780,
+        495800
+      ],
+      [
+        495800,
+        495806
+      ],
+      [
+        495806,
+        495818
+      ],
+      [
+        495818,
+        495836
+      ],
+      [
+        495836,
+        495862
+      ],
+      [
+        495862,
+        495876
+      ],
+      [
+        495876,
+        495878
+      ],
+      [
+        495896,
+        495922
+      ],
+      [
+        495922,
+        495926
+      ],
+      [
+        495926,
+        495942
+      ]
+    ],
+    "code_bytes": 718,
+    "code_ranges": [
+      [
+        495160,
+        495214
+      ],
+      [
+        495224,
+        495362
+      ],
+      [
+        495368,
+        495552
+      ],
+      [
+        495568,
+        495624
+      ],
+      [
+        495628,
+        495676
+      ],
+      [
+        495680,
+        495710
+      ],
+      [
+        495716,
+        495878
+      ],
+      [
+        495896,
+        495942
+      ]
+    ],
+    "instruction_count": 342,
+    "literal_bindings": [
+      [
+        495174,
+        495216,
+        "80280002"
+      ],
+      [
+        495196,
+        495220,
+        "cc100302"
+      ],
+      [
+        495352,
+        495364,
+        "e45b5408"
+      ],
+      [
+        495368,
+        495552,
+        "e45b5408"
+      ],
+      [
+        495398,
+        495556,
+        "fffffdff"
+      ],
+      [
+        495436,
+        495560,
+        "4c5e0003"
+      ],
+      [
+        495462,
+        495564,
+        "ff7f0000"
+      ],
+      [
+        495596,
+        495624,
+        "507c5a08"
+      ],
+      [
+        495628,
+        495676,
+        "90c85a08"
+      ],
+      [
+        495702,
+        495712,
+        "342e0202"
+      ],
+      [
+        495756,
+        495880,
+        "c4575a08"
+      ],
+      [
+        495780,
+        495884,
+        "80f21208"
+      ],
+      [
+        495820,
+        495888,
+        "4c5e0003"
+      ],
+      [
+        495836,
+        495892,
+        "507c5a08"
+      ],
+      [
+        495896,
+        495944,
+        "90c85a08"
+      ]
+    ],
+    "literal_bytes": 60,
+    "literal_ranges": [
+      [
+        495216,
+        495224
+      ],
+      [
+        495364,
+        495368
+      ],
+      [
+        495552,
+        495568
+      ],
+      [
+        495624,
+        495628
+      ],
+      [
+        495676,
+        495680
+      ],
+      [
+        495712,
+        495716
+      ],
+      [
+        495880,
+        495896
+      ],
+      [
+        495944,
+        495948
+      ]
+    ],
+    "literal_reference_count": 15,
+    "source_frontiers": [
+      {
+        "reason": "indirect_pc_target",
+        "source": 495940
+      }
+    ],
+    "source_holes": [
+      [
+        495214,
+        495216
+      ],
+      [
+        495362,
+        495364
+      ],
+      [
+        495710,
+        495712
+      ],
+      [
+        495878,
+        495880
+      ],
+      [
+        495942,
+        495944
+      ]
+    ],
+    "structured_return_count": 0
+  },
+  "source_inputs": [
+    {
+      "path": "artifacts/rom-task-callback-078e38-closure-v1/manifest.json",
+      "sha256": "a944163366106871fc983fb03bfb8e42666268b453083a6f38ba3ead6f737ca0",
+      "size": 2185
+    },
+    {
+      "path": "artifacts/rom-task-callback-078e38-closure-v1/rom-task-callback-078e38-closure-v1.json",
+      "sha256": "ac163dad2bf1120ba1b5dc15936502d7b3a6efab59cd0b6b0e8db2e4ad48e1aa",
+      "size": 19489
+    },
+    {
+      "path": "tools/verify_rom_task_callback_078e38_closure.py",
+      "sha256": "46ad2406bf153106d4fe523109e8ff2ab3e888fbb5f66e8739ef6aff360a6f14",
+      "size": 20596
+    },
+    {
+      "path": "tools/rom_task_callback_078e38_contract.py",
+      "sha256": "0d889c48ea66ad632eb6d41f891aba12c8133373924bf11844b23234ddd73e72",
+      "size": 7959
+    }
+  ],
+  "source_payload": {
+    "path": "artifacts/rom-task-callback-078e38-closure-v1/rom-task-callback-078e38-closure-v1.json",
+    "sha256": "ac163dad2bf1120ba1b5dc15936502d7b3a6efab59cd0b6b0e8db2e4ad48e1aa",
+    "size": 19489
+  }
+}

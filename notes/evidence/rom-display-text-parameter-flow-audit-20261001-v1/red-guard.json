@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 87417,
+  "peak_tree_rss_mib": 1.15625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "python3 -m unittest discover -s tests -p test_rom_display_text_parameter_flow.py > build/experiments/active/display-text-flow/audit-20261001-v1/red.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T01:47:29.513219Z",
+  "finished_at": "2026-10-01T01:47:30.551135Z"
+}

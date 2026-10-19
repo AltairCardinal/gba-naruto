@@ -1,0 +1,20 @@
+{
+  "authoritative": "critical-writers-v2.json",
+  "superseded": {
+    "inventory.json": "Original 64,926 graph lacks v20 and callback candidate; inventory-v2 uses v20 source, still excludes unclassified short callback.",
+    "critical-writers.json": "PC-relative literal read address was missing; v2 binds ROM address. Original fields/writers otherwise retained."
+  },
+  "failed_runs": {
+    "source-replay-guard.json": "Launcher imported verify, actual entry is verify_root; no verifier ran in this attempt.",
+    "writers-guard.json": "Incorrect object seed at62982, which reloads r7; corrected to6298C after list load. No successful report produced.",
+    "literal-red.log": "PC literal bug plus invalid overlap fixture0xC..0x10 does not touch0x14. Corrected fixture0x12..0x16; valid red has only PC literal failure.",
+    "portable-first-guard.json": "Replay wrapper lacked inherited module import path; failure happened before log/output initialization. Corrected wrapper adds sealed parent receipt import path."
+  },
+  "historical_implementation_binding": {
+    "critical-writers.json": {
+      "writers.py": "writers-before-literal.py",
+      "provenance.py": "provenance-pre-literal.py",
+      "test_provenance.py": "test_provenance-six-tests.py"
+    }
+  }
+}

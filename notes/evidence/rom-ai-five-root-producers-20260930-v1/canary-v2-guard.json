@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 56991,
+  "peak_tree_rss_mib": 0.0625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 build/experiments/active/ai-producer-denominator/five-roots-20260930-v1/decoder_canary_v2.py . > build/experiments/active/ai-producer-denominator/five-roots-20260930-v1/decoder-canary-v2.json 2> build/experiments/active/ai-producer-denominator/five-roots-20260930-v1/canary-v2-stderr.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T13:47:01.710734Z",
+  "finished_at": "2026-09-30T13:47:02.744538Z"
+}

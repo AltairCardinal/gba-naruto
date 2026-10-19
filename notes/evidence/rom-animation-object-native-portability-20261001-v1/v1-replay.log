@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/replay_receipt.py", line 42, in <module>
+    try:main(Path(sys.argv[1]))
+        ~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/replay_receipt.py", line 28, in main
+    subprocess.run([sys.executable,str(HERE/'batch.py'),str(output),str(output.parent/'batch.log')],cwd=ROOT,check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/local/opt/python@3.14/bin/python3.14', '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/batch.py', '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native-replay/portable-20261001-v1/output', '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native-replay/portable-20261001-v1/batch.log']' returned non-zero exit status 1.

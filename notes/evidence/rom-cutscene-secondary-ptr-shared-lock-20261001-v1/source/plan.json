@@ -1,0 +1,63 @@
+{
+  "DYLD_LIBRARY_PATH": "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-build",
+  "binary": "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+  "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+  "build": "build/experiments/active/cutscene-secondary-ptr-ab/build-20261001-v1/build",
+  "build_manifest_sha256": "b5cdb6da8403551c96bcd618a154cda55be49eeb8669322d96dabd4c579463e0",
+  "capture_frame": 512,
+  "cases": [
+    {
+      "input": false,
+      "name": "zero-baseline-1",
+      "variant": "baseline"
+    },
+    {
+      "input": false,
+      "name": "zero-baseline-2",
+      "variant": "baseline"
+    },
+    {
+      "input": false,
+      "name": "zero-candidate",
+      "variant": "candidate"
+    },
+    {
+      "input": true,
+      "name": "input-baseline",
+      "variant": "baseline"
+    },
+    {
+      "input": true,
+      "name": "input-candidate",
+      "variant": "candidate"
+    }
+  ],
+  "global_exhaustive_claim": false,
+  "input_state": "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9",
+  "input_state_sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a",
+  "input_state_version": "0x01000007",
+  "library": "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-build/libmgba.0.11.0.dylib",
+  "library_sha256": "0f84fde81a26843207dcac5080da014e38fa0d66726498bc3a6b6d6b5c925b0b",
+  "required_heavy_lock": "build/experiments/heavy.lock",
+  "schema": "cutscene-secondary-ptr-runtime-plan-v1",
+  "scripts": {
+    "tools/mgba_checkpoint_replay.lua": "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d"
+  },
+  "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8",
+  "supersedes_failed_resource_policy": "runtime-recovery-20261001-v1 (legacy helper used different heavy lock)",
+  "supersedes_failed_run": "runtime-20261001-v1",
+  "task_mode": "fixed-resource-pointer-single-field-ab-with-declared-allocation-and-restored-snapshot",
+  "variants": {
+    "baseline": {
+      "rom_path": "baseline/baseline.gba",
+      "rom_sha256": "762ea6794d93eb7bac79f2d1ccd58bfe8f67a625d3ff4be2aff2ddf8aefa5816",
+      "rom_size": 16777216
+    },
+    "candidate": {
+      "rom_path": "candidate/candidate.gba",
+      "rom_sha256": "76974bcda32477926fe2397b4a48b87bdf956eacc5af7db4f41966026ce67c9d",
+      "rom_size": 16777216
+    }
+  }
+}

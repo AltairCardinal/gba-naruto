@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 16388,
+  "peak_tree_rss_mib": 0.95703125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "-c",
+    "import contextlib,runpy; from pathlib import Path; p=Path(\"build/experiments/active/animation-writer-domain/domains-20261001-v1\"); s=(p/\"coupled-red-tests.log\").open(\"x\"); contextlib.redirect_stdout(s).__enter__(); contextlib.redirect_stderr(s).__enter__(); runpy.run_path(str(p/\"test_coupled_probe.py\"),run_name=\"__main__\")"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T10:16:24.742071Z",
+  "finished_at": "2026-10-01T10:16:25.786479Z"
+}

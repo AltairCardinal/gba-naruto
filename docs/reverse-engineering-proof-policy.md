@@ -115,6 +115,20 @@ formal 的 ROM gate 已在进程内执行完整 `audit_rom_manifest`。当后续
 JSON pointer 断言，记录 `execution=reused-in-process`；不得再次 spawn 同一 coverage
 CLI。复用条件还要求 proof spec 已哈希绑定同一脚本，命令或实现不同则必须独立执行。
 
+## 部分 bank 证据的结构化迁移
+
+迁移已有 runtime archive 时先复用其独立 verifier，再补 record/field IDs、固定
+bank/evidence/input 哈希与具体覆盖单元。record_ids_covered 和 field_ids_covered 是
+各维度投影；多字段情况下不能把二者笛卡尔积默认视为已覆盖，必须列 cells_covered。
+分母来自完整冻结 bank schema，未覆盖单元保留，控制物化、自然入口和实体硬件分别声明。
+verified=true 仅表示合同声明的证据通过，不等于 exhaustive=true。
+
+首个 canary 为 [map-sprites 部分合同](../notes/rom-map-sprites-partial-bank-20261001.md)：
+wrapper 直接调用旧 A/B verifier，覆盖 1/86 单元，现有全量审计器必须继续拒绝。
+输入或实现漂移先失败关闭，以新版本和新收据恢复，不能改写旧 manifest。
+新 proof_binding 先生成离线 proposal，定向 TDD/真实 CLI 集成通过后保留到里程碑；
+接入时同步 live catalog、proof 引用与 formal，不能用离线提案宣称正式 blocker 已减少。
+
 ## “100%”的必要条件
 
 只有以下条件同时满足时，`claim_status` 才能改为 `complete`：
@@ -1029,3 +1043,25 @@ python3 tools/audit_reverse_engineering_proof.py \
 - 哈希证明完整性，不自动证明 verifier 的领域逻辑正确；结构化合同、独立实现、
   负向篡改测试、代码审查和外部根摘要共同构成信任链。
 - mGBA 证据不能替代实体 GBA；受控 materialization 也不能冒充自然玩法入口。
+
+## 历史 runtime 样本的离线可移植部分合同
+
+原始捕获的绝对工作树／binary 路径属于历史 provenance；新的离线 verifier 可以在
+固定合同中保留并核对它们，同时从当前仓库的 hash-bound archive、ROM、checkpoint
+和原解析器重建证据。不得改写旧 manifest 或把旧 guard 的未记录共享锁视为已验证。
+新输出必须明确是否执行当前 emulator、是否有零输入对照、实际 record×field 单元和
+全部未覆盖分母。可移植验收应在禁止源工作树／历史 binary 读取及进程启动下重放；
+结果一致仅证明离线复验可迁移，不证明重采集可重复、全 bank 自然可达或实机结果。
+部分 proposal 仍须通过真实 CLI JSON contract，并由原 full-bank gate 保持拒绝。
+参见 [data-table-b 1/79 迁移记录](../notes/rom-data-table-b-partial-bank-20261001.md)。
+
+## 固定资源变异矩阵与 release resource gate 的边界
+
+原始资源的内容/物理slot/逻辑reference分母应分别固定，不能把共享alias重复计为新资源。
+容量证据身份漂移时，在新收据中用当前实现双重独立重建，再比较除implementation之外
+的全部语义；旧收据继续保留并按原合同拒绝。实际写回验收应调用既有 importer/build
+CLI，从同一immutable base逐项执行，独立重读所有target alias并比较完整ROM；容量
+溢出必须在ROM/report发布前拒绝。无编辑DB的小fixture与完整release clean build分别声明。
+固定low-bit等变异全分母通过只证明该变异矩阵，不能提升为任意容量、全部graphics
+或其他audio/text/maps/levels/story/characters case。主进程的文件读取审计钩子也不能
+宣称覆盖新启动的Python构建子进程。参见 [battle-effect固定矩阵](../notes/rom-battle-effect-fixed-roundtrip-20261001.md)。

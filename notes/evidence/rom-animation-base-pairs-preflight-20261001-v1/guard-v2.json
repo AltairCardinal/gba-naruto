@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 41826,
+  "peak_tree_rss_mib": 1.33984375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "PYTHONPATH=. python3 build/experiments/active/animation-base-preflight/bases-20261001-v1/bases.py > build/experiments/active/animation-base-preflight/bases-20261001-v1/bases-v2.json 2> build/experiments/active/animation-base-preflight/bases-20261001-v1/stderr-v2.log && python3 tools/verify_rom_fixed_animation_descriptor_groups.py --root . --artifact artifacts/rom-fixed-animation-descriptor-groups-v1 > build/experiments/active/animation-base-preflight/bases-20261001-v1/historical-verifier.json 2> build/experiments/active/animation-base-preflight/bases-20261001-v1/historical-stderr.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T19:10:07.522508Z",
+  "finished_at": "2026-09-30T19:10:08.562287Z"
+}

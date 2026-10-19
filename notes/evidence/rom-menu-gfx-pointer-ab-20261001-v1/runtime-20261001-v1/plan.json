@@ -1,0 +1,104 @@
+{
+  "DYLD_LIBRARY_PATH": "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-build",
+  "bank_cells_total": 630,
+  "binary": "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+  "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+  "build": "build/experiments/active/menu-portrait-pointer-ab/build-20261001-v1/build",
+  "build_manifest_sha256": "197863cf05687ce84e767cf0d8fdd8771e0e8d49ecb17630aa0d2b2aa85d9ea2",
+  "capture_frame": 80,
+  "cases": [
+    {
+      "input": false,
+      "name": "zero-baseline-1",
+      "variant": "baseline"
+    },
+    {
+      "input": false,
+      "name": "zero-baseline-2",
+      "variant": "baseline"
+    },
+    {
+      "input": false,
+      "name": "zero-candidate",
+      "variant": "candidate"
+    },
+    {
+      "input": true,
+      "name": "input-baseline",
+      "variant": "baseline"
+    },
+    {
+      "input": true,
+      "name": "input-candidate",
+      "variant": "candidate"
+    }
+  ],
+  "expected_output_state_version": "0x0100000B",
+  "global_exhaustive_claim": false,
+  "input_state": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-9.ss9",
+  "input_state_sha256": "5635916176865f63b12154ea1c68e202393baaf6e1427473fb6be8a84b18eba8",
+  "input_state_version": "0x01000007",
+  "library": "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-build/libmgba.0.11.0.dylib",
+  "library_sha256": "0f84fde81a26843207dcac5080da014e38fa0d66726498bc3a6b6d6b5c925b0b",
+  "repository_inputs": {
+    "artifacts/menu-portrait-pixel-ab-v1/manifest.json": "c09b4784e18db4177cc44a089501ccea29699a666bcf969555ba331d916d91ae",
+    "artifacts/menu-portrait-pixel-ab-v1/raw/build-manifest.json": "1b2ec1560b5492ef90c354646f44a5f9ba872384ae3e6831984030474811bd69",
+    "artifacts/menu-portraits-v1/manifest.json": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3",
+    "artifacts/menu-portraits-v1/portrait_01_variant_0.png": "40cf158dc46eba1e4213dc58ffe278994738a5343931d3e7a992cde93d9d737f",
+    "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-9.ss9": "5635916176865f63b12154ea1c68e202393baaf6e1427473fb6be8a84b18eba8",
+    "rom/base.gba": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "sequel/content/menu-ui/bank.json": "8e9cf0a4289ff2701ad9643181532a6e8283177875b38d34d6eced5948a6cfe7",
+    "sequel/image-resource-regions.json": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "sequel/rom-layout.json": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "tests/test_build_menu_portrait_pointer_ab.py": "5dbcab473ebabbf2dceb289afdfbf5b6eead36e359af537b639d6852732dbbe1",
+    "tools/build_cutscene_obj_id1_pixel_ab.py": "63fda8dcde4f97f0593d657d5e3bb13b5f16d537fe21c2e321c1da5c47be9ee2",
+    "tools/build_cutscene_obj_primary_ptr_ab.py": "67917db45695bd29cb0bd1f16edd23b6b3104b2dc954d8c94e216ba4cfecce99",
+    "tools/build_cutscene_obj_secondary_ptr_ab.py": "a5cc12e104e7965ff94f7b44bf4bb2ddf5e36376f643fef12a6e604fdfbc2c32",
+    "tools/build_menu_portrait_pixel_ab.py": "8c4eddb465c42ab09126555c7c67a108e6ad2b25096679172e1e63b615ebf92b",
+    "tools/build_menu_portrait_pointer_ab.py": "07964c2541e79c6512ef54290b8315e4fa3eb2d05aaffb94e928389d40318b51",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_menu_portraits.py": "f0f86ad5d35edebf7bf6f34472d92e41c6e0c698b8ab6104c0c2166eb0966777",
+    "tools/export_runtime_bg_composites.py": "6c4d9b746328dec330265db5337cb997ff266b4c32d804d1b26d8dc3ffd999d2",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_cutscene_obj_bundle_relocations.py": "81b5b11c79331146c967471624a778f277dcc07ba0d991e5cd12c26e77b140ac",
+    "tools/import_menu_portrait_relocations.py": "e2c1fb2389e76bc5b242538b21f30c3d54c96269f5294575ed31582139562b52",
+    "tools/import_menu_portraits.py": "289b3c9fe5bb45956189a129ba5512a0967836208aebb9cbc135e2b04eba7e91",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/macos_mgba_runtime_residue.py": "92cedb0e5878434e12cb448643b1af06232a057c7af245f269a82bf4d0488c68",
+    "tools/mgba_checkpoint_replay.lua": "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/run_macos_mgba_replay.py": "44a117c53d272cbac8a62beb749d331927e4f3f043c20f3eb78681ceb7591bbc",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51"
+  },
+  "requested_cell": {
+    "field_id": "gfx_ptr_0",
+    "record_id": "1"
+  },
+  "required_heavy_lock": "build/experiments/heavy.lock",
+  "schema": "menu-gfx-pointer-runtime-plan-v1",
+  "scripts": {
+    "tools/mgba_checkpoint_replay.lua": "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d"
+  },
+  "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8",
+  "task_mode": "frozen-resource-pointer-single-field-ab-natural-runtime-contract",
+  "variants": {
+    "baseline": {
+      "rom_path": "baseline/baseline.gba",
+      "rom_sha256": "5e1c7a4d3c00a9d506b5ba81fd2cf0fbd174675a9aa31f4dbba5b66ae7ac4323",
+      "rom_size": 16777216
+    },
+    "candidate": {
+      "rom_path": "candidate/candidate.gba",
+      "rom_sha256": "c8e707b8484782934cc07e9497219eec4028cf761123b3ae4ba3d14978e63442",
+      "rom_size": 16777216
+    }
+  }
+}

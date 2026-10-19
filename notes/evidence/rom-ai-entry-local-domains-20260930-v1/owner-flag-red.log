@@ -1,0 +1,14 @@
+F
+======================================================================
+FAIL: test_explicit_non_instruction_owner_flag_fails_closed (tests.test_analyze_rom_ai_entry_domains.AiEntryDomainsTests.test_explicit_non_instruction_owner_flag_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_analyze_rom_ai_entry_domains.py", line 56, in test_explicit_non_instruction_owner_flag_fails_closed
+    with self.assertRaisesRegex(ValueError,'instruction owner'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.431s
+
+FAILED (failures=1)

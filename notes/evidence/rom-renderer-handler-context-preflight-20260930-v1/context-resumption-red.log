@@ -1,0 +1,13 @@
+E
+======================================================================
+ERROR: test_context_switch_is_not_ordinary_call_return (tests.test_analyze_rom_renderer_handler_graphs.HandlerGraphTests.test_context_switch_is_not_ordinary_call_return)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_analyze_rom_renderer_handler_graphs.py", line 51, in test_context_switch_is_not_ordinary_call_return
+    report = walk_handler(raw, 0, (0, 6), {6}, context_targets={0x9C574})
+TypeError: walk_handler() got an unexpected keyword argument 'context_targets'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

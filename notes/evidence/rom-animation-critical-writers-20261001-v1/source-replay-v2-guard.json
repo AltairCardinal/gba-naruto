@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 18981,
+  "peak_tree_rss_mib": 194.91796875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "-c",
+    "import json; from pathlib import Path; from tools.verify_rom_cfg_proven_roots_v20 import verify_root; from tools.verify_rom_text_bg_task_closure import verify_artifact; out=Path(\"build/experiments/active/animation-critical-writers/writers-20261001-v1\"); a=verify_root(Path.cwd(),Path(\"artifacts/rom-cfg-proven-roots-v20\")); (out/\"v20-source-replay.json\").write_text(json.dumps(a,sort_keys=True,indent=2)+\"\\n\"); print(\"v20\",a,flush=True); assert a[\"verified\"]; b=verify_artifact(Path.cwd(),Path(\"artifacts/rom-text-bg-task-closure-v1\")); (out/\"callback-source-replay.json\").write_text(json.dumps(b,sort_keys=True,indent=2)+\"\\n\"); print(\"callback\",b,flush=True); assert b[\"verified\"]"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T08:35:54.058828Z",
+  "finished_at": "2026-10-01T08:36:03.382351Z"
+}

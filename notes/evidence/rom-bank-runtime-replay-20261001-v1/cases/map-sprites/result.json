@@ -1,0 +1,28 @@
+{
+  "bank": "map-sprites",
+  "command": [
+    "python3",
+    "tools/verify_map_sprites_definition_pixel_ab.py",
+    "--root",
+    ".",
+    "--artifact",
+    "artifacts/map-sprites-definition-id1-pixel-ab-v1"
+  ],
+  "exit_code": 0,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "bbox_inclusive": [
+      178,
+      64,
+      215,
+      71
+    ],
+    "changed_pixel_count": 213,
+    "entry_id": 1,
+    "verified": true
+  },
+  "seconds": 1.528,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "418e18fa6076f260b520de257667b16004641fc01840629cae4d29a03640b8fe",
+  "timed_out": false
+}

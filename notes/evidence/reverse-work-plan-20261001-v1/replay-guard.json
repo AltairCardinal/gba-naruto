@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 8351,
+  "peak_tree_rss_mib": 0.8046875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "python3 build/experiments/active/reverse-work-plan/research-20261001-v1/inventory.py > build/experiments/active/reverse-work-plan/research-20261001-v1/inventory-replay.json && python3 tools/disasm_thumb.py rom/base.gba 0x08066EFC --before 0 --size 0x100 --output build/experiments/active/reverse-work-plan/research-20261001-v1/copy-consumer.txt > build/experiments/active/reverse-work-plan/research-20261001-v1/disasm.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T18:21:53.560556Z",
+  "finished_at": "2026-09-30T18:21:54.595356Z"
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "rom-small-cfg-batch-formal-receipts-v1",
+  "status": "tier2_verified_global_incomplete",
+  "canonical_coverage_sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+  "proof_spec_sha256": "465a13104b6c9a6d0ea418ca513dd0be732438634f1124a3a531c893b11db568",
+  "all_contracts_passed": 107,
+  "rom_contracted_verifiers": 97,
+  "unknown_bytes": 87631,
+  "promotion_bytes": 118,
+  "promotion_claims": 21,
+  "global_complete": false,
+  "blocker_count": 175,
+  "files": {
+    "formal-report.json": {
+      "sha256": "5953aa753d4d35d21a4d7f4d399cf3a374027702399baba8db5cdc0ec22650ef",
+      "size_bytes": 133335
+    },
+    "formal-guard.json": {
+      "sha256": "56eea84daba54d35c9602bf571e0d53f46f896d051d87b0ed8f4a20dc4619dc0",
+      "size_bytes": 817
+    },
+    "formal-stdout.json": {
+      "sha256": "5953aa753d4d35d21a4d7f4d399cf3a374027702399baba8db5cdc0ec22650ef",
+      "size_bytes": 133335
+    },
+    "formal-stderr.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    "formal-receipt-red.log": {
+      "sha256": "8d3edf500cbdc26a65e57977887a0419c5d1ece51a54324e7b170fcd3c530768",
+      "size_bytes": 1571
+    },
+    "proof-after.json": {
+      "sha256": "465a13104b6c9a6d0ea418ca513dd0be732438634f1124a3a531c893b11db568",
+      "size_bytes": 273775
+    }
+  }
+}

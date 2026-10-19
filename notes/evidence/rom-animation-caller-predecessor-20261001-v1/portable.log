@@ -1,0 +1,23 @@
+test_allocator_call_discards_stack_facts_even_with_register_contract (test_flow.FlowTests.test_allocator_call_discards_stack_facts_even_with_register_contract) ... ok
+test_allocator_preservation_requires_explicit_raw_contract (test_flow.FlowTests.test_allocator_preservation_requires_explicit_raw_contract) ... ok
+test_bl_suffix_cannot_be_independent_source_instruction (test_flow.FlowTests.test_bl_suffix_cannot_be_independent_source_instruction) ... ok
+test_branch_narrows_unknown_stack_load_to_zero (test_flow.FlowTests.test_branch_narrows_unknown_stack_load_to_zero) ... ok
+test_budget_failure_is_explicit (test_flow.FlowTests.test_budget_failure_is_explicit) ... ok
+test_changed_allocator_restore_is_not_accepted (test_flow.FlowTests.test_changed_allocator_restore_is_not_accepted) ... ok
+test_changed_compared_register_does_not_narrow_new_value (test_flow.FlowTests.test_changed_compared_register_does_not_narrow_new_value) ... ok
+test_changed_flags_do_not_reuse_old_compare_predicate (test_flow.FlowTests.test_changed_flags_do_not_reuse_old_compare_predicate) ... ok
+test_extra_root_removes_unproven_dominance (test_flow.FlowTests.test_extra_root_removes_unproven_dominance) ... ok
+test_forged_allocator_contract_is_rejected (test_flow.FlowTests.test_forged_allocator_contract_is_rejected) ... ok
+test_join_does_not_select_one_successful_predecessor (test_flow.FlowTests.test_join_does_not_select_one_successful_predecessor) ... ok
+test_stack_reload_overwriting_compared_register_does_not_narrow (test_flow.FlowTests.test_stack_reload_overwriting_compared_register_does_not_narrow) ... ok
+test_unknown_callee_does_not_preserve_high_register_constants (test_flow.FlowTests.test_unknown_callee_does_not_preserve_high_register_constants) ... ok
+test_unknown_store_invalidates_loaded_stack_origin (test_flow.FlowTests.test_unknown_store_invalidates_loaded_stack_origin) ... ok
+test_allocator_does_not_preserve_stack_memory_origin (test_frontier.FrontierTests.test_allocator_does_not_preserve_stack_memory_origin) ... ok
+test_budget_exhaustion_does_not_fake_an_empty_frontier (test_frontier.FrontierTests.test_budget_exhaustion_does_not_fake_an_empty_frontier) ... ok
+test_constant_stack_argument_finds_its_producer (test_frontier.FrontierTests.test_constant_stack_argument_finds_its_producer) ... ok
+test_unknown_callee_is_an_explicit_register_boundary (test_frontier.FrontierTests.test_unknown_callee_is_an_explicit_register_boundary) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.211s
+
+OK

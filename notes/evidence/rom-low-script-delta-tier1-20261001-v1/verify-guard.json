@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 45333,
+  "peak_tree_rss_mib": 177.2109375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "python3 tools/verify_rom_low_script_delta.py --root . --artifact artifacts/rom-low-script-delta-v1 > build/experiments/active/low-script-delta/tier1-20261001-v1/verification.json"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T16:32:49.129860Z",
+  "finished_at": "2026-09-30T16:33:01.520383Z"
+}

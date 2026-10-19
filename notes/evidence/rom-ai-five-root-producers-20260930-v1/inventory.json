@@ -1,0 +1,228 @@
+{
+  "historical_coverage_sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+  "incoming_producer_denominator_complete": false,
+  "input_tools": {
+    "tools/analyze_rom_ai_entry_domains.py": "ae2dd92e265273fabd2e44c3880b71f702ee56d81fec58a032edc09a9f869abf",
+    "tools/find_pointer_refs.py": "cb84c2c82b4ef5e792d17d947ee72efbf2cc2b147b24f3873a78c8af20a25e2c",
+    "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51"
+  },
+  "pointer_alignment": 1,
+  "promotion_bytes": 0,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "scan_range": [
+    0,
+    6291456
+  ],
+  "schema": "rom-ai-five-root-producer-preflight-v1",
+  "scope": "Thumb BL and unconditional B shapes plus exact tagged/untagged words; not conditional B, ARM, interwork or computed producers",
+  "targets": {
+    "06aa64": {
+      "exact_word_occurrences": [
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 0,
+          "word": 134654564
+        },
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 1,
+          "word": 134654565
+        }
+      ],
+      "thumb_bl_b_shapes": [
+        {
+          "instruction_owner_candidate_ids": [
+            "cfg-proven-roots-v6-thumb-0107-00-06ac70"
+          ],
+          "mnemonic": "bl",
+          "offset": 437400,
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_owner_ids": [
+            "cfg-proven-roots-v6-thumb-0107-00-06ac70"
+          ],
+          "producer_semantics_or_natural_reachability_proved": false,
+          "raw_hex": "fff7e4fe"
+        },
+        {
+          "instruction_owner_candidate_ids": [
+            "cfg-proven-roots-v6-thumb-0118-00-06ad44"
+          ],
+          "mnemonic": "bl",
+          "offset": 437588,
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_owner_ids": [
+            "cfg-proven-roots-v6-thumb-0118-00-06ad44"
+          ],
+          "producer_semantics_or_natural_reachability_proved": false,
+          "raw_hex": "fff786fe"
+        },
+        {
+          "instruction_owner_candidate_ids": [
+            "cfg-proven-roots-v6-thumb-0137-00-06e28a"
+          ],
+          "mnemonic": "bl",
+          "offset": 451232,
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_owner_ids": [
+            "cfg-proven-roots-v6-thumb-0137-00-06e28a"
+          ],
+          "producer_semantics_or_natural_reachability_proved": false,
+          "raw_hex": "fcf7e0fb"
+        }
+      ]
+    },
+    "06acac": {
+      "exact_word_occurrences": [
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 0,
+          "word": 134655148
+        },
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 1,
+          "word": 134655149
+        }
+      ],
+      "thumb_bl_b_shapes": [
+        {
+          "instruction_owner_candidate_ids": [
+            "cfg-proven-roots-v6-thumb-0146-00-06e31a"
+          ],
+          "mnemonic": "bl",
+          "offset": 451356,
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_owner_ids": [
+            "cfg-proven-roots-v6-thumb-0146-00-06e31a"
+          ],
+          "producer_semantics_or_natural_reachability_proved": false,
+          "raw_hex": "fcf7c6fc"
+        },
+        {
+          "instruction_owner_candidate_ids": [
+            "cfg-proven-roots-v6-thumb-0148-00-06e322"
+          ],
+          "mnemonic": "bl",
+          "offset": 451364,
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_owner_ids": [
+            "cfg-proven-roots-v6-thumb-0148-00-06e322"
+          ],
+          "producer_semantics_or_natural_reachability_proved": false,
+          "raw_hex": "fcf7c2fc"
+        }
+      ]
+    },
+    "06e1b4": {
+      "exact_word_occurrences": [
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 0,
+          "word": 134668724
+        },
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 1,
+          "word": 134668725
+        }
+      ],
+      "thumb_bl_b_shapes": [
+        {
+          "instruction_owner_candidate_ids": [
+            "cfg-proven-roots-v6-thumb-0316-00-07519e"
+          ],
+          "mnemonic": "bl",
+          "offset": 479646,
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_owner_ids": [
+            "cfg-proven-roots-v6-thumb-0316-00-07519e"
+          ],
+          "producer_semantics_or_natural_reachability_proved": false,
+          "raw_hex": "f9f709f8"
+        }
+      ]
+    },
+    "084274": {
+      "exact_word_occurrences": [
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 0,
+          "word": 134759028
+        },
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 1,
+          "word": 134759029
+        }
+      ],
+      "thumb_bl_b_shapes": [
+        {
+          "instruction_owner_candidate_ids": [
+            "cfg-proven-roots-v2-thumb-0076-085304"
+          ],
+          "mnemonic": "bl",
+          "offset": 545542,
+          "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+          "primary_owner_ids": [
+            "cfg-proven-roots-v2-thumb-0076-085304"
+          ],
+          "producer_semantics_or_natural_reachability_proved": false,
+          "raw_hex": "fef7b5ff"
+        }
+      ]
+    },
+    "0851f8": {
+      "exact_word_occurrences": [
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 0,
+          "word": 134763000
+        },
+        {
+          "instruction_or_consumer_binding_proved": false,
+          "offsets": [],
+          "tag": 1,
+          "word": 134763001
+        }
+      ],
+      "thumb_bl_b_shapes": [
+        {
+          "instruction_owner_candidate_ids": [
+            "cfg-proven-roots-v2-producer-01-07425a"
+          ],
+          "mnemonic": "bl",
+          "offset": 475738,
+          "primary_class": "thumb_bl_direct_call_producer",
+          "primary_owner_ids": [
+            "cfg-proven-roots-v2-producer-01-07425a"
+          ],
+          "producer_semantics_or_natural_reachability_proved": false,
+          "raw_hex": "10f0cdff"
+        },
+        {
+          "instruction_owner_candidate_ids": [
+            "cfg-proven-roots-v2-producer-02-07434e"
+          ],
+          "mnemonic": "bl",
+          "offset": 475982,
+          "primary_class": "thumb_bl_direct_call_producer",
+          "primary_owner_ids": [
+            "cfg-proven-roots-v2-producer-02-07434e"
+          ],
+          "producer_semantics_or_natural_reachability_proved": false,
+          "raw_hex": "10f053ff"
+        }
+      ]
+    }
+  },
+  "thumb_branch_alignment": 2
+}

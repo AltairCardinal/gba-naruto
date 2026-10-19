@@ -1,0 +1,15 @@
+test_coverage_consumer_projects_only_unknown_records (tests.test_rom_low_script_delta.LowScriptDeltaTests.test_coverage_consumer_projects_only_unknown_records) ... ERROR
+
+======================================================================
+ERROR: test_coverage_consumer_projects_only_unknown_records (tests.test_rom_low_script_delta.LowScriptDeltaTests.test_coverage_consumer_projects_only_unknown_records)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_low_script_delta.py", line 106, in test_coverage_consumer_projects_only_unknown_records
+    claims = v.project_unknown_claims(ROOT, target, baseline['segments'])
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'tools.verify_rom_low_script_delta' has no attribute 'project_unknown_claims'
+
+----------------------------------------------------------------------
+Ran 1 test in 11.171s
+
+FAILED (errors=1)

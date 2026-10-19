@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 53036,
+  "peak_tree_rss_mib": 0.8046875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "PYTHONPATH=. python3 build/experiments/active/ram-tag-consumers/protocol-20261001-v1/protocol.py > build/experiments/active/ram-tag-consumers/protocol-20261001-v1/protocol.json 2> build/experiments/active/ram-tag-consumers/protocol-20261001-v1/stderr.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T19:37:21.441982Z",
+  "finished_at": "2026-09-30T19:37:22.484471Z"
+}

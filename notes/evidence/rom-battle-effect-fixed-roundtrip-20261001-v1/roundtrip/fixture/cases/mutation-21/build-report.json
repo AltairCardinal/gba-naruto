@@ -1,0 +1,62 @@
+{
+  "project": "mutation-21",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "sha1": "26f60795fa5e63b4f0264b84e453beffd56b9f7d"
+  },
+  "output_rom": {
+    "path": "cases/mutation-21/output.gba",
+    "sha1": "a23cc161118698f209178ec358b968156cd6b9e0",
+    "size": 6291456
+  },
+  "applied_patches": [
+    {
+      "id": "palette-4d7cc7492e047b370eff00378883b6b7f818c6961aa277495381b81d2a56daff-342898",
+      "type": "bytes",
+      "offset": 3418264,
+      "before_hex": "1020000000187eff7f7f63593e08f7390000f0010000",
+      "after_hex": "1020000000187efe7f7f63593e08f7390000f0010000",
+      "length": 22,
+      "patch_class": "game_effective",
+      "overlap_disposition": "unique",
+      "duplicate_of": [],
+      "asset_type": "battle_effect_resource",
+      "resource_type": "palette",
+      "resource_sha256": "4d7cc7492e047b370eff00378883b6b7f818c6961aa277495381b81d2a56daff",
+      "replacement_sha256": "60ce57a0184487e952cbf7b2f4808cfa0ff63eab790b84b31d8f0b8194f1fd1c",
+      "encoded_size": 22,
+      "slot_size": 22,
+      "padding_bytes": 0,
+      "affected_groups": [
+        4
+      ],
+      "logical_aliases": [
+        {
+          "group_id": 4,
+          "resource_type": "palette",
+          "table_pointer_offset": 5869888,
+          "physical_offset": 3418264,
+          "source_file": "group-04-palette-bgr555.bin"
+        }
+      ],
+      "content_physical_offsets": [
+        3418264
+      ],
+      "target_physical_offsets": [
+        3418264
+      ],
+      "source_file": "cases/mutation-21/edited.bin"
+    }
+  ],
+  "patch_class_counts": {
+    "game_effective": 1,
+    "allocation": 0,
+    "audit": 0,
+    "diagnostic": 0
+  },
+  "patch_statistics": {
+    "db_real": 0,
+    "db_audit": 0
+  },
+  "patch_manifest": "cases/mutation-21/manifest.json"
+}

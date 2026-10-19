@@ -1,0 +1,42 @@
+{
+  "cli": {
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "tools/verify_map_sprites_partial_bank.py",
+      "--root",
+      "."
+    ],
+    "contract_ok": true,
+    "exit_code": 0,
+    "label": "map-sprites"
+  },
+  "cli_blockers": [],
+  "live_catalog_modified": false,
+  "partial_bank": {
+    "bank": "map-sprites",
+    "blockers": [
+      "map-sprites: unresolved limitations remain (3)",
+      "map-sprites: coverage status='artifact_verified_controlled_materialization', expected 'exhaustive'",
+      "map-sprites: record coverage is not exhaustively ID-bound",
+      "map-sprites: field coverage is not exhaustive",
+      "map-sprites: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+    ],
+    "classification": "runtime_verified",
+    "complete": false,
+    "contracted_verifier_count": 1,
+    "coverage_status": "artifact_verified_controlled_materialization",
+    "declared_records_covered": 1,
+    "declared_records_total": 43,
+    "evidence_valid": true,
+    "hash_bound_verifier_count": 1,
+    "limitations_count": 3,
+    "proof_bound": true
+  },
+  "partial_blockers": [
+    "map-sprites: unresolved limitations remain (3)",
+    "map-sprites: coverage status='artifact_verified_controlled_materialization', expected 'exhaustive'",
+    "map-sprites: record coverage is not exhaustively ID-bound",
+    "map-sprites: field coverage is not exhaustive",
+    "map-sprites: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+  ]
+}

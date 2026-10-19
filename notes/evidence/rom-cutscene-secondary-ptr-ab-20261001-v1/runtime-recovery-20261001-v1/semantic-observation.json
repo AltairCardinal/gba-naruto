@@ -1,0 +1,66 @@
+{
+  "bbox_exclusive": [
+    42,
+    49,
+    196,
+    111
+  ],
+  "changed_pixels": 778,
+  "independent_semantic_verifier_pending": true,
+  "input_baseline_rgb_sha256": "051162ea4f830febd94823d2e87d75ad474223f352867e63fa0965912dbe7bc8",
+  "input_candidate_rgb_sha256": "a279454f9ea1f124e9522cdcfa3e8372cd06977474751645d384b5713139f41c",
+  "memory_differences": {
+    "EWRAM": {
+      "after": [],
+      "before": [],
+      "count": 0,
+      "first": [],
+      "last": []
+    },
+    "IO": {
+      "after": [],
+      "before": [],
+      "count": 0,
+      "first": [],
+      "last": []
+    },
+    "IWRAM": {
+      "after": [],
+      "before": [],
+      "count": 0,
+      "first": [],
+      "last": []
+    },
+    "OAM": {
+      "after": [],
+      "before": [],
+      "count": 0,
+      "first": [],
+      "last": []
+    },
+    "PRAM": {
+      "after": [
+        224
+      ],
+      "before": [
+        255
+      ],
+      "count": 1,
+      "first": [
+        898
+      ],
+      "last": [
+        898
+      ]
+    },
+    "VRAM": {
+      "after": [],
+      "before": [],
+      "count": 0,
+      "first": [],
+      "last": []
+    }
+  },
+  "schema": "cutscene-secondary-ptr-semantic-observation-v1",
+  "zero_three_domains_equal": true
+}

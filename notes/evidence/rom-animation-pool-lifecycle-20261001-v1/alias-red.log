@@ -1,0 +1,24 @@
+test_call_and_branch_are_not_skipped (__main__.AnalysisTests.test_call_and_branch_are_not_skipped) ... ok
+test_descriptor_reads_only_sentinel_head (__main__.AnalysisTests.test_descriptor_reads_only_sentinel_head) ... ok
+test_flags_and_callback_are_distinct_stack_arguments (__main__.AnalysisTests.test_flags_and_callback_are_distinct_stack_arguments) ... ok
+test_flags_mask_is_eight_not_bit_eight (__main__.AnalysisTests.test_flags_mask_is_eight_not_bit_eight) ... ok
+test_literal_and_shift_reconstruct_base_arguments (__main__.AnalysisTests.test_literal_and_shift_reconstruct_base_arguments) ... ok
+test_missing_descriptor_sentinel_fails_closed (__main__.AnalysisTests.test_missing_descriptor_sentinel_fails_closed) ... ok
+test_unbounded_store_does_not_leave_stack_facts (__main__.AnalysisTests.test_unbounded_store_does_not_leave_stack_facts) ... ERROR
+test_unknown_load_clobbers_previous_constant (__main__.AnalysisTests.test_unknown_load_clobbers_previous_constant) ... ok
+test_unknown_stack_overwrite_discards_old_value (__main__.AnalysisTests.test_unknown_stack_overwrite_discards_old_value) ... ok
+
+======================================================================
+ERROR: test_unbounded_store_does_not_leave_stack_facts (__main__.AnalysisTests.test_unbounded_store_does_not_leave_stack_facts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/test_analysis.py", line 42, in test_unbounded_store_does_not_leave_stack_facts
+    result = self.module.argument_path(bytes.fromhex('082203920a60'), 0, 6)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/analysis.py", line 120, in argument_path
+    raise ValueError('unbounded memory store could alias stack arguments')
+ValueError: unbounded memory store could alias stack arguments
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.078s
+
+FAILED (errors=1)

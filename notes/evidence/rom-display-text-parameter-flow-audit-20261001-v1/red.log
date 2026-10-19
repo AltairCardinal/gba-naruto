@@ -1,0 +1,14 @@
+...F.....
+======================================================================
+FAIL: test_low_register_mov_encoding_outside_required_subset_rejected (test_rom_display_text_parameter_flow.DisplayTextParameterFlowTests.test_low_register_mov_encoding_outside_required_subset_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_parameter_flow.py", line 62, in test_low_register_mov_encoding_outside_required_subset_rejected
+    with self.assertRaisesRegex(ValueError, 'unsupported'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.160s
+
+FAILED (failures=1)

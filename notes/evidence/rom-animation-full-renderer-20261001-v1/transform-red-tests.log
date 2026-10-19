@@ -1,0 +1,26 @@
+test_actual_callback_sort_body_and_full_return (test_full_renderer.FullRendererTests.test_actual_callback_sort_body_and_full_return) ... ok
+test_loop_mode_reads_sequence_sentinel_duration (test_full_renderer.FullRendererTests.test_loop_mode_reads_sequence_sentinel_duration) ... ok
+test_preflight_rejects_sequence_sentinel_slot (test_full_renderer.FullRendererTests.test_preflight_rejects_sequence_sentinel_slot) ... ok
+test_rotated_body_uses_raw_trigonometric_helpers (test_full_renderer.FullRendererTests.test_rotated_body_uses_raw_trigonometric_helpers) ... ERROR
+test_scaled_body_reaches_real_division_swi (test_full_renderer.FullRendererTests.test_scaled_body_reaches_real_division_swi) ... ERROR
+
+======================================================================
+ERROR: test_rotated_body_uses_raw_trigonometric_helpers (test_full_renderer.FullRendererTests.test_rotated_body_uses_raw_trigonometric_helpers)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-full-renderer/renderer-20261001-v1/test_full_renderer.py", line 22, in test_rotated_body_uses_raw_trigonometric_helpers
+    row=p.frame(sequence_table=0x458558,descriptor_table=0x45854C,group=0,flags=0x20,count=1,angle=64)
+TypeError: frame() got an unexpected keyword argument 'angle'
+
+======================================================================
+ERROR: test_scaled_body_reaches_real_division_swi (test_full_renderer.FullRendererTests.test_scaled_body_reaches_real_division_swi)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-full-renderer/renderer-20261001-v1/test_full_renderer.py", line 18, in test_scaled_body_reaches_real_division_swi
+    row=p.frame(sequence_table=0x458558,descriptor_table=0x45854C,group=0,flags=0x20,count=1,scale_x=128,scale_y=512)
+TypeError: frame() got an unexpected keyword argument 'scale_x'
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.246s
+
+FAILED (errors=2)

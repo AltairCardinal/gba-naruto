@@ -1,0 +1,2323 @@
+{
+  "accepted_source_instruction_count": 66295,
+  "facts": {
+    "active_list_rechecks_bit0": true,
+    "callback_alias_effects_proven": false,
+    "callbacks_before_active_list_filter": true,
+    "counter_address": 50331765,
+    "counter_producer_domain_proven": false,
+    "counter_width_bits": 8,
+    "disable_helper_flags": "(old_flags & 0xFFFFFFFE) | 2",
+    "duration_signed_load_site": 406112,
+    "duration_width_bits": 16,
+    "freeze_test_site": 406084,
+    "full_timer_domain_runtime_proven": false,
+    "global_writer_exhaustiveness_proven": false,
+    "group_reset_fields": [
+      20,
+      22,
+      24
+    ],
+    "group_reset_mask": 4278190075,
+    "object_handle_lifetime_proven": false,
+    "sequence_selection_precedes_freeze_test": true,
+    "short_callback_calls_disable_on_nonzero_ram_flag": true,
+    "timer_compare_site": 406116,
+    "timer_load_store_sites": [
+      406102,
+      406106
+    ],
+    "timer_width_bits": 16
+  },
+  "implementation_inputs": {
+    "provenance.py": "cf4ad4b66de8ff11790946b51f466739c4c8aae72ff8bae41e61e7643a7b986f",
+    "test_provenance.py": "2ac3325e2e3d722d4a267f790bfdfe93285320a36a1cff3b69ba95d81a941460",
+    "writers.py": "89e5566e522d11c774f393bd9cd765c0d04553000407a1a63b3e56a91cb9f887"
+  },
+  "natural_execution_proven": false,
+  "old_source_instruction_count": 64926,
+  "parent_manifest_sha256": "1aca46ee19d8af2ddf051f1daa1fbfec1cd660245578020f689303116ff78e70",
+  "promotion_bytes": 0,
+  "reports": {
+    "active_list_filter": {
+      "callee_identity_inputs": {},
+      "caller_memory_preserved": false,
+      "calls": [],
+      "entry_object_domain_proven": false,
+      "frontiers": [
+        {
+          "at": 403464,
+          "kind": "explicit_iteration_boundary"
+        }
+      ],
+      "natural_execution_proven": false,
+      "promotion_bytes": 0,
+      "reads": [
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 403414,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r6]",
+          "raw_hex": "3168",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 403426,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r3]",
+          "raw_hex": "1878",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 403434,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r3]",
+          "raw_hex": "1878",
+          "source_value": null,
+          "width": 1
+        }
+      ],
+      "root": 403414,
+      "scope": "Fixed entry pointer hypothesis; all branch edges, opaque aliases and context resumption remain unproved.",
+      "stores": [
+        {
+          "address": null,
+          "at": 403432,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r6, [r0]",
+          "raw_hex": "0660",
+          "source_value": [
+            "object",
+            0
+          ],
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 403438,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strb",
+          "operands": "r0, [r3]",
+          "raw_hex": "1870",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 403462,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [r6]",
+          "raw_hex": "3160",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "updates": 19,
+      "visited_instruction_count": 19
+    },
+    "callback_dispatch": {
+      "callee_identity_inputs": {
+        "403352": "65163d3745c5062c5235bc0bdaefac13d5999df3ed04ca8adbf00031a962d956"
+      },
+      "caller_memory_preserved": false,
+      "calls": [
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "0": [
+              "object",
+              0
+            ]
+          },
+          "at": 403796,
+          "conditional_context_resumption": true,
+          "preservation_bound": false,
+          "preserved_registers": [],
+          "target": 639252
+        }
+      ],
+      "entry_object_domain_proven": false,
+      "frontiers": [
+        {
+          "at": 403800,
+          "kind": "explicit_iteration_boundary"
+        }
+      ],
+      "natural_execution_proven": false,
+      "promotion_bytes": 0,
+      "reads": [
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 403776,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r7]",
+          "raw_hex": "3968",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "object",
+            40
+          ],
+          "at": 403788,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r7, #0x28]",
+          "raw_hex": "b96a",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "root": 403776,
+      "scope": "Fixed entry pointer hypothesis; all branch edges, opaque aliases and context resumption remain unproved.",
+      "stores": [
+        {
+          "address": [
+            "sp",
+            24
+          ],
+          "at": 403782,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r2, [sp, #0x18]",
+          "raw_hex": "0692",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "updates": 13,
+      "visited_instruction_count": 12
+    },
+    "disable_helper": {
+      "callee_identity_inputs": {},
+      "caller_memory_preserved": false,
+      "calls": [],
+      "entry_object_domain_proven": false,
+      "frontiers": [
+        {
+          "at": 403350,
+          "kind": "return_or_indirect_boundary",
+          "structured_return_proven": false
+        }
+      ],
+      "natural_execution_proven": false,
+      "promotion_bytes": 0,
+      "reads": [
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 403336,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r0]",
+          "raw_hex": "0168",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "root": 403336,
+      "scope": "Fixed entry pointer hypothesis; all branch edges, opaque aliases and context resumption remain unproved.",
+      "stores": [
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 403348,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [r0]",
+          "raw_hex": "0160",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "updates": 8,
+      "visited_instruction_count": 8
+    },
+    "group_reset_helper": {
+      "callee_identity_inputs": {},
+      "caller_memory_preserved": false,
+      "calls": [],
+      "entry_object_domain_proven": false,
+      "frontiers": [
+        {
+          "at": 403368,
+          "kind": "return_or_indirect_boundary",
+          "structured_return_proven": false
+        }
+      ],
+      "natural_execution_proven": false,
+      "promotion_bytes": 0,
+      "reads": [
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 403360,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r0]",
+          "raw_hex": "0168",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 403362,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #8]",
+          "raw_hex": "024a",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "root": 403352,
+      "scope": "Fixed entry pointer hypothesis; all branch edges, opaque aliases and context resumption remain unproved.",
+      "stores": [
+        {
+          "address": [
+            "object",
+            20
+          ],
+          "at": 403354,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r1, [r0, #0x14]",
+          "raw_hex": "8182",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            22
+          ],
+          "at": 403356,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r2, [r0, #0x16]",
+          "raw_hex": "c282",
+          "source_value": 0,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            24
+          ],
+          "at": 403358,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r2, [r0, #0x18]",
+          "raw_hex": "0283",
+          "source_value": 0,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 403366,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [r0]",
+          "raw_hex": "0160",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "updates": 9,
+      "visited_instruction_count": 9
+    },
+    "long_callback": {
+      "callee_identity_inputs": {
+        "403336": "ee6c1cfa94aae4823045e2d302eebc7adab14d58ee095ecd3be24908ced5b055",
+        "415156": "294c769f9834db5b62b921de4d42d082409200465d68ea39cd6d0cf9d96441ae",
+        "415516": "6fcb45ae080f1552b0f1112d4d561aab7ebe64f42569f6d2dfd23de9ddf2bd66",
+        "419672": "efde57dbad80e979bccda6ba7ea3d249ca4e30fb01dae9ec03beec0fecf5de35",
+        "420424": "1f619d96b67ef34015f97b5833d74eacd5bba5a25e65cba011e79e40192b9d70"
+      },
+      "caller_memory_preserved": false,
+      "calls": [
+        {
+          "alias_effects_proven": false,
+          "args": {},
+          "at": 567918,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "target": 415156
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "0": 3
+          },
+          "at": 567942,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "target": 415156
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "0": [
+              "sp",
+              -36
+            ],
+            "2": 16777333
+          },
+          "at": 567972,
+          "conditional_context_resumption": true,
+          "preservation_bound": false,
+          "preserved_registers": [],
+          "target": 639200
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "2": 2
+          },
+          "at": 568064,
+          "conditional_context_resumption": true,
+          "preservation_bound": false,
+          "preserved_registers": [],
+          "target": 567372
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "1": 2,
+            "2": 0,
+            "3": 2
+          },
+          "at": 568138,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            8,
+            9
+          ],
+          "target": 420424
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "0": 1
+          },
+          "at": 568144,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "target": 415156
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "2": 2
+          },
+          "at": 568158,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "target": 415516
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "0": 3
+          },
+          "at": 568164,
+          "conditional_context_resumption": true,
+          "preservation_bound": false,
+          "preserved_registers": [],
+          "target": 421140
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "1": 0,
+            "2": 3,
+            "3": 0
+          },
+          "at": 568188,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "target": 419672
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "1": 0,
+            "2": 3,
+            "3": 0
+          },
+          "at": 568214,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "target": 419672
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "1": 0,
+            "2": 3,
+            "3": 8
+          },
+          "at": 568236,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9
+          ],
+          "target": 419672
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "0": 3
+          },
+          "at": 568242,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "target": 415156
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "1": 100667488,
+            "2": 13,
+            "3": 7
+          },
+          "at": 568256,
+          "conditional_context_resumption": true,
+          "preservation_bound": false,
+          "preserved_registers": [],
+          "target": 407044
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "2": 684
+          },
+          "at": 568274,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "target": 403336
+        },
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "1": 0,
+            "2": 0,
+            "3": 212
+          },
+          "at": 568344,
+          "conditional_context_resumption": true,
+          "preservation_bound": false,
+          "preserved_registers": [],
+          "target": 402852
+        }
+      ],
+      "entry_object_domain_proven": false,
+      "frontiers": [
+        {
+          "at": 568516,
+          "kind": "return_or_indirect_boundary",
+          "structured_return_proven": false
+        }
+      ],
+      "natural_execution_proven": false,
+      "promotion_bytes": 0,
+      "reads": [
+        {
+          "address": null,
+          "at": 567902,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r7, [pc, #0x60]",
+          "raw_hex": "184f",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": 33564802,
+          "at": 567916,
+          "critical_field_overlap": false,
+          "may_alias_pool": false,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r7, #2]",
+          "raw_hex": "b878",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": [
+            "object",
+            44
+          ],
+          "at": 567924,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrh",
+          "operands": "r1, [r5, #0x2c]",
+          "raw_hex": "a98d",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 567950,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x34]",
+          "raw_hex": "0d48",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": 33668440,
+          "at": 567952,
+          "critical_field_overlap": false,
+          "may_alias_pool": false,
+          "mnemonic": "ldr",
+          "operands": "r0, [r0]",
+          "raw_hex": "0068",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 567956,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x30]",
+          "raw_hex": "0c49",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": 33668444,
+          "at": 567958,
+          "critical_field_overlap": false,
+          "may_alias_pool": false,
+          "mnemonic": "ldrh",
+          "operands": "r1, [r1]",
+          "raw_hex": "0988",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 567968,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x28]",
+          "raw_hex": "0a4a",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 567976,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r4, #0x16]",
+          "raw_hex": "a17d",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 567978,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrh",
+          "operands": "r0, [r6, #2]",
+          "raw_hex": "7088",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 567986,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r4, #0x16]",
+          "raw_hex": "a07d",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 567990,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrh",
+          "operands": "r0, [r6, #4]",
+          "raw_hex": "b088",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 568016,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrh",
+          "operands": "r1, [r6, #4]",
+          "raw_hex": "b188",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 568036,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x20]",
+          "raw_hex": "0848",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568044,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r7, [r7, #1]",
+          "raw_hex": "7f78",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568048,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r0]",
+          "raw_hex": "0178",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568056,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x10]",
+          "raw_hex": "0449",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568092,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xb8]",
+          "raw_hex": "2e48",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568102,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r7, #1]",
+          "raw_hex": "7878",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568108,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r2, [r1]",
+          "raw_hex": "0a78",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568116,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0xa4]",
+          "raw_hex": "294a",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568150,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [r4]",
+          "raw_hex": "2068",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568168,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x74]",
+          "raw_hex": "1d49",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568170,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r5, #1]",
+          "raw_hex": "6878",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568176,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [r0]",
+          "raw_hex": "0068",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568192,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r5, #4]",
+          "raw_hex": "2979",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568200,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x58]",
+          "raw_hex": "1649",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568218,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r5, #3]",
+          "raw_hex": "e878",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568222,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x48]",
+          "raw_hex": "1249",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568250,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x30]",
+          "raw_hex": "0c49",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568268,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [r0]",
+          "raw_hex": "0068",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": 18,
+          "at": 568304,
+          "critical_field_overlap": false,
+          "may_alias_pool": false,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r4, #0x12]",
+          "raw_hex": "a17c",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568312,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r5, #1]",
+          "raw_hex": "6978",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568320,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x58]",
+          "raw_hex": "1649",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568334,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x50]",
+          "raw_hex": "1449",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568358,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r5, #0x12]",
+          "raw_hex": "a87c",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568364,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [r2]",
+          "raw_hex": "1068",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568366,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x34]",
+          "raw_hex": "0d49",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568372,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r5, #3]",
+          "raw_hex": "e878",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568384,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r2, [r3]",
+          "raw_hex": "1a68",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568386,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [r2]",
+          "raw_hex": "1068",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568388,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x1c]",
+          "raw_hex": "0749",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568394,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r3]",
+          "raw_hex": "1968",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568396,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r5, #3]",
+          "raw_hex": "e878",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568430,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r2, [r0]",
+          "raw_hex": "0268",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568432,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [r2]",
+          "raw_hex": "1068",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568442,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r5, #2]",
+          "raw_hex": "a878",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568454,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r2, [r3]",
+          "raw_hex": "1a68",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568456,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [r2]",
+          "raw_hex": "1068",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568458,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x14]",
+          "raw_hex": "0549",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568464,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r3]",
+          "raw_hex": "1968",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568466,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r5, #2]",
+          "raw_hex": "a878",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 568490,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r2, [r0]",
+          "raw_hex": "0268",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568492,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [r2]",
+          "raw_hex": "1068",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "root": 567888,
+      "scope": "Fixed entry pointer hypothesis; all branch edges, opaque aliases and context resumption remain unproved.",
+      "stores": [
+        {
+          "address": [
+            "object",
+            46
+          ],
+          "at": 567932,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r6, #2]",
+          "raw_hex": "7080",
+          "source_value": 255,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            44
+          ],
+          "at": 567936,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r5, #0x2c]",
+          "raw_hex": "a885",
+          "source_value": 16,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            48
+          ],
+          "at": 567938,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r1, [r6, #4]",
+          "raw_hex": "b180",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "sp",
+            -36
+          ],
+          "at": 567962,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r2]",
+          "raw_hex": "1080",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 567984,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r1, [r6, #2]",
+          "raw_hex": "7180",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 567988,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strb",
+          "operands": "r0, [r7, #1]",
+          "raw_hex": "7870",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": null,
+          "at": 567996,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r6, #4]",
+          "raw_hex": "b080",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 568040,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r6, #4]",
+          "raw_hex": "b080",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 568100,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r6, #4]",
+          "raw_hex": "b080",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "sp",
+            -56
+          ],
+          "at": 568122,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r3, [sp]",
+          "raw_hex": "0093",
+          "source_value": 1,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -52
+          ],
+          "at": 568126,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [sp, #4]",
+          "raw_hex": "0191",
+          "source_value": 4,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -48
+          ],
+          "at": 568130,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [sp, #8]",
+          "raw_hex": "0291",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568156,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r0, [r4]",
+          "raw_hex": "2060",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -56
+          ],
+          "at": 568180,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [sp]",
+          "raw_hex": "0091",
+          "source_value": 3,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -56
+          ],
+          "at": 568206,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [sp]",
+          "raw_hex": "0091",
+          "source_value": 5,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -56
+          ],
+          "at": 568228,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [sp]",
+          "raw_hex": "0091",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -56
+          ],
+          "at": 568326,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [sp]",
+          "raw_hex": "0091",
+          "source_value": 88,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -52
+          ],
+          "at": 568330,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r2, [sp, #4]",
+          "raw_hex": "0192",
+          "source_value": 0,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -48
+          ],
+          "at": 568332,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r4, [sp, #8]",
+          "raw_hex": "0294",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -44
+          ],
+          "at": 568336,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [sp, #0xc]",
+          "raw_hex": "0391",
+          "source_value": 4325408,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            -40
+          ],
+          "at": 568338,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r2, [sp, #0x10]",
+          "raw_hex": "0492",
+          "source_value": 0,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568356,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r2, [r0]",
+          "raw_hex": "0260",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568370,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r0, [r2]",
+          "raw_hex": "1060",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568392,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r0, [r2]",
+          "raw_hex": "1060",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568406,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r1, #0x10]",
+          "raw_hex": "0882",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 568440,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r0, [r2]",
+          "raw_hex": "1060",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568462,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r0, [r2]",
+          "raw_hex": "1060",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 568476,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r1, #0x10]",
+          "raw_hex": "0882",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 568500,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r0, [r2]",
+          "raw_hex": "1060",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "updates": 394,
+      "visited_instruction_count": 266
+    },
+    "sequence_advance": {
+      "callee_identity_inputs": {
+        "403352": "65163d3745c5062c5235bc0bdaefac13d5999df3ed04ca8adbf00031a962d956"
+      },
+      "caller_memory_preserved": false,
+      "calls": [
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "0": [
+              "object",
+              0
+            ],
+            "1": 0,
+            "2": 4
+          },
+          "at": 406220,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "target": 403352
+        }
+      ],
+      "entry_object_domain_proven": false,
+      "frontiers": [
+        {
+          "at": 406264,
+          "kind": "explicit_iteration_boundary"
+        }
+      ],
+      "natural_execution_proven": false,
+      "promotion_bytes": 0,
+      "reads": [
+        {
+          "address": null,
+          "at": 406074,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x44]",
+          "raw_hex": "1148",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": 50331765,
+          "at": 406076,
+          "critical_field_overlap": false,
+          "may_alias_pool": false,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]",
+          "raw_hex": "0078",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 406082,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r7]",
+          "raw_hex": "3968",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "object",
+            24
+          ],
+          "at": 406102,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldrh",
+          "operands": "r0, [r7, #0x18]",
+          "raw_hex": "388b",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "sp",
+            0
+          ],
+          "at": 406108,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r2, [sp]",
+          "raw_hex": "009a",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 406112,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r2, r3]",
+          "raw_hex": "d05e",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            24
+          ],
+          "at": 406114,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldrh",
+          "operands": "r2, [r7, #0x18]",
+          "raw_hex": "3a8b",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "sp",
+            0
+          ],
+          "at": 406120,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r3, [sp]",
+          "raw_hex": "009b",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 406124,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r3, r2]",
+          "raw_hex": "985e",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            22
+          ],
+          "at": 406130,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldrh",
+          "operands": "r0, [r7, #0x16]",
+          "raw_hex": "f88a",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 406204,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #4]",
+          "raw_hex": "0148",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            0
+          ],
+          "at": 406226,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r3, [sp]",
+          "raw_hex": "009b",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": null,
+          "at": 406244,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x50]",
+          "raw_hex": "1449",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": 50331765,
+          "at": 406246,
+          "critical_field_overlap": false,
+          "may_alias_pool": false,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r1]",
+          "raw_hex": "0978",
+          "source_value": null,
+          "width": 1
+        },
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 406252,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r7]",
+          "raw_hex": "3968",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "root": 406072,
+      "scope": "Fixed entry pointer hypothesis; all branch edges, opaque aliases and context resumption remain unproved.",
+      "stores": [
+        {
+          "address": [
+            "object",
+            24
+          ],
+          "at": 406106,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r7, #0x18]",
+          "raw_hex": "3883",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            22
+          ],
+          "at": 406134,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r0, [r7, #0x16]",
+          "raw_hex": "f882",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 406152,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [r7]",
+          "raw_hex": "3960",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 406188,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [r7]",
+          "raw_hex": "3960",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 406196,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [r7]",
+          "raw_hex": "3960",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "object",
+            22
+          ],
+          "at": 406200,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r4, [r7, #0x16]",
+          "raw_hex": "fc82",
+          "source_value": 0,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            24
+          ],
+          "at": 406202,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "strh",
+          "operands": "r4, [r7, #0x18]",
+          "raw_hex": "3c83",
+          "source_value": 0,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 406208,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [r7]",
+          "raw_hex": "3960",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            0
+          ],
+          "at": 406230,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r3, [sp]",
+          "raw_hex": "0093",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "updates": 182,
+      "visited_instruction_count": 89
+    },
+    "sequence_selection": {
+      "callee_identity_inputs": {
+        "403352": "65163d3745c5062c5235bc0bdaefac13d5999df3ed04ca8adbf00031a962d956"
+      },
+      "caller_memory_preserved": false,
+      "calls": [],
+      "entry_object_domain_proven": false,
+      "frontiers": [
+        {
+          "at": 403888,
+          "kind": "explicit_iteration_boundary"
+        },
+        {
+          "at": 403892,
+          "kind": "explicit_iteration_boundary"
+        }
+      ],
+      "natural_execution_proven": false,
+      "promotion_bytes": 0,
+      "reads": [
+        {
+          "address": [
+            "object",
+            20
+          ],
+          "at": 403852,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldrh",
+          "operands": "r1, [r7, #0x14]",
+          "raw_hex": "b98a",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": [
+            "object",
+            32
+          ],
+          "at": 403854,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [r7, #0x20]",
+          "raw_hex": "386a",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "object",
+            22
+          ],
+          "at": 403860,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldrh",
+          "operands": "r0, [r7, #0x16]",
+          "raw_hex": "f88a",
+          "source_value": null,
+          "width": 2
+        },
+        {
+          "address": null,
+          "at": 403864,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r1]",
+          "raw_hex": "0968",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "object",
+            0
+          ],
+          "at": 403874,
+          "critical_field_overlap": true,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r1, [r7]",
+          "raw_hex": "3968",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "root": 403852,
+      "scope": "Fixed entry pointer hypothesis; all branch edges, opaque aliases and context resumption remain unproved.",
+      "stores": [
+        {
+          "address": [
+            "sp",
+            0
+          ],
+          "at": 403868,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r1, [sp]",
+          "raw_hex": "0091",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            20
+          ],
+          "at": 403872,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r5, [sp, #0x14]",
+          "raw_hex": "0595",
+          "source_value": 0,
+          "width": 4
+        },
+        {
+          "address": [
+            "sp",
+            24
+          ],
+          "at": 403882,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "str",
+          "operands": "r2, [sp, #0x18]",
+          "raw_hex": "0692",
+          "source_value": null,
+          "width": 4
+        }
+      ],
+      "updates": 20,
+      "visited_instruction_count": 20
+    },
+    "short_callback_candidate": {
+      "callee_identity_inputs": {
+        "403336": "ee6c1cfa94aae4823045e2d302eebc7adab14d58ee095ecd3be24908ced5b055"
+      },
+      "caller_memory_preserved": false,
+      "calls": [
+        {
+          "alias_effects_proven": false,
+          "args": {
+            "0": [
+              "object",
+              0
+            ],
+            "1": [
+              "object",
+              0
+            ]
+          },
+          "at": 585294,
+          "conditional_context_resumption": true,
+          "preservation_bound": true,
+          "preserved_registers": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "target": 403336
+        }
+      ],
+      "entry_object_domain_proven": false,
+      "frontiers": [
+        {
+          "at": 585300,
+          "kind": "return_or_indirect_boundary",
+          "structured_return_proven": false
+        }
+      ],
+      "natural_execution_proven": false,
+      "promotion_bytes": 0,
+      "reads": [
+        {
+          "address": null,
+          "at": 585284,
+          "critical_field_overlap": false,
+          "may_alias_pool": true,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x10]",
+          "raw_hex": "0448",
+          "source_value": null,
+          "width": 4
+        },
+        {
+          "address": 33597570,
+          "at": 585286,
+          "critical_field_overlap": false,
+          "may_alias_pool": false,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]",
+          "raw_hex": "0078",
+          "source_value": null,
+          "width": 1
+        }
+      ],
+      "root": 585280,
+      "scope": "Fixed entry pointer hypothesis; all branch edges, opaque aliases and context resumption remain unproved.",
+      "stores": [],
+      "updates": 12,
+      "visited_instruction_count": 10
+    }
+  },
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema": "animation-critical-writers-v1",
+  "scope": "Joint fixed-entry pointer hypotheses; conditional callee preservation. Unknown aliases, all natural domains and writer exhaustiveness remain open.",
+  "short_callback_candidate_binding": {
+    "candidate_code_range": [
+      585280,
+      585302
+    ],
+    "candidate_code_sha256": "1157e1f10151f5d4ca1cb577841ae34727c7f5e106c540e4838d808ecb60dc36",
+    "candidate_instruction_count": 10,
+    "canonical_source_membership": false,
+    "literal_offset": 585304,
+    "literal_value": 33597570,
+    "pointer_occurrences_all_byte_offsets": [
+      585452
+    ],
+    "promotion_bytes": 0,
+    "registered_callers": [
+      {
+        "base_pair": [
+          4556148,
+          4556160
+        ],
+        "callback": 134803009,
+        "conditional_callee_preservation": false,
+        "flags": 32,
+        "group": 0,
+        "site": 585378,
+        "unverified_call_continuation": true
+      },
+      {
+        "base_pair": [
+          4556188,
+          4556200
+        ],
+        "callback": 134803009,
+        "conditional_callee_preservation": true,
+        "flags": 32,
+        "group": 0,
+        "site": 585414,
+        "unverified_call_continuation": true
+      }
+    ],
+    "registration_is_conditional_model": true,
+    "root": 585280,
+    "suffix_range_excluded": [
+      585302,
+      585304
+    ]
+  },
+  "source_inputs": {
+    "artifacts/rom-cfg-proven-roots-v20/manifest.json": {
+      "sha256": "7f5ed6e408b834afc91e622898f0eabb7278b7906098dbfff39fa87283975f2d",
+      "size": 11147
+    },
+    "artifacts/rom-cfg-proven-roots-v20/rom-cfg-proven-roots-v20.json": {
+      "sha256": "5d3186a688973b1733b0117aedee7c689a5270497c83f8726d4d2540bcfe1543",
+      "size": 20820
+    },
+    "artifacts/rom-text-bg-task-closure-v1/manifest.json": {
+      "sha256": "fd632dd3d8762fa7f7b2492917fff814628587255e3853973013757e9346dd0d",
+      "size": 1148
+    },
+    "artifacts/rom-text-bg-task-closure-v1/rom-text-bg-task-closure.json": {
+      "sha256": "014c4b8c4fd098e8049511df55f248505e4d680be5b394592cab92e26c512a0c",
+      "size": 20175
+    },
+    "sequel/rom-byte-coverage.json": {
+      "sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+      "size": 31466081
+    },
+    "tools/rom_cfg_proven_roots_v20_contract.py": {
+      "sha256": "7d1cd9824b187214c8da43d217fa8c52b797b85702571626c4b087c145ec0f1e",
+      "size": 4872
+    },
+    "tools/verify_rom_cfg_proven_roots_v20.py": {
+      "sha256": "0f185e030fda6461d5652d67d34850c872f45836ba580ef6a3074883736fde66",
+      "size": 16852
+    },
+    "tools/verify_rom_text_bg_task_closure.py": {
+      "sha256": "9e29205f8e32dc37cb0d50843ae86e96abee6270d0294ed9fc9c24c494859a50",
+      "size": 19636
+    }
+  },
+  "source_sha256": "1a15e7f1e5bbc405e1afcbe19c3504c5adb4067eabb82c1b4ee5a7cdef9401f7",
+  "source_verifiers": {
+    "long_callback": {
+      "contract_ok": true,
+      "errors": [],
+      "frontier_count": 0,
+      "instruction_count": 1330,
+      "promotion_bytes": 2940,
+      "root_count": 10,
+      "schema": "rom-text-bg-task-closure-v1-verification-v1",
+      "verified": true
+    },
+    "v20": {
+      "accepted_producer_count": 1,
+      "basic_block_count": 249,
+      "code_bytes": 2866,
+      "errors": [],
+      "frontier_count": 3,
+      "instruction_count": 1405,
+      "literal_bytes": 156,
+      "literal_word_count": 39,
+      "opaque_call_count": 17,
+      "producer_match_count": 2,
+      "promotion_bytes": 1150,
+      "rejected_producer_count": 1,
+      "remaining_unknown_bytes": 90027,
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "root_count": 1,
+      "schema": "rom-cfg-proven-roots-v20-verification-v1",
+      "story_overlap_bytes": 0,
+      "story_overlay_bytes": 1932,
+      "verified": true
+    }
+  },
+  "v20_net_new_instruction_count": 1369,
+  "v20_source_instruction_count": 1405
+}

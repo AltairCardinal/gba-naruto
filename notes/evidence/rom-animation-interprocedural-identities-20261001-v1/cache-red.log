@@ -1,0 +1,21 @@
+test_cached_replay_still_rejects_live_input_drift (__main__.DispatchTests.test_cached_replay_still_rejects_live_input_drift) ... ok
+test_entry_at_terminal_cannot_inherit_guard (__main__.DispatchTests.test_entry_at_terminal_cannot_inherit_guard) ... ok
+test_fixed_contract_has_all_ten_slots (__main__.DispatchTests.test_fixed_contract_has_all_ten_slots) ... ok
+test_forged_target_vector_rejected (__main__.DispatchTests.test_forged_target_vector_rejected) ... ok
+test_guard_rom_mutation_rejected (__main__.DispatchTests.test_guard_rom_mutation_rejected) ... ok
+test_independent_replay_cached_only_with_pinned_inputs (__main__.DispatchTests.test_independent_replay_cached_only_with_pinned_inputs) ... FAIL
+test_real_closed_callee_requires_dispatch_edges (__main__.DispatchTests.test_real_closed_callee_requires_dispatch_edges) ... ok
+
+======================================================================
+FAIL: test_independent_replay_cached_only_with_pinned_inputs (__main__.DispatchTests.test_independent_replay_cached_only_with_pinned_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 54, in test_independent_replay_cached_only_with_pinned_inputs
+    self.assertEqual(replay.call_count,1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 7 tests in 45.442s
+
+FAILED (failures=1)

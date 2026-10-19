@@ -1,0 +1,7958 @@
+{
+  "candidate_count": 25,
+  "first_call_counts": {
+    "066758": 57,
+    "0667a0": 12,
+    "068660": 1,
+    "085a40": 12,
+    "085b8c": 14,
+    "09c3ec": 1
+  },
+  "inputs": {
+    "coverage_sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+    "screen_sha256": "4c37b55437fb12c2e189f957fd90557ec207fe7f64d0391b9ea8edadacccffc2"
+  },
+  "pointer_anchors": [
+    {
+      "ldr": 547414,
+      "literal": 547440,
+      "ram": 50355760
+    },
+    {
+      "ldr": 547612,
+      "literal": 547648,
+      "ram": 50355760
+    },
+    {
+      "ldr": 547744,
+      "literal": 547772,
+      "ram": 50355764
+    },
+    {
+      "ldr": 547930,
+      "literal": 547972,
+      "ram": 50355764
+    }
+  ],
+  "promotion_bytes": 0,
+  "row_count": 115,
+  "rows": [
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 451014,
+        "target": 639980
+      },
+      "preserved": true,
+      "register": "r1",
+      "source": {
+        "at": 451010,
+        "halfword": "4922",
+        "literal": 451148,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0124-00-06e1b4"
+        ],
+        "target": 1240592
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 451010,
+          "bytes": "2249",
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x88]"
+        },
+        {
+          "at": 451012,
+          "bytes": "0c22",
+          "mnemonic": "movs",
+          "operands": "r2, #0xc"
+        },
+        {
+          "at": 451014,
+          "bytes": "2ef011f9",
+          "mnemonic": "bl",
+          "operands": "#0x9c3ec"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 451450,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1240604,
+        1240618
+      ],
+      "preserved": true,
+      "raw_first14_hex": "504152454e544e554d0000004348",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 451444,
+        "halfword": "4a7f",
+        "literal": 451956,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0161-00-06e372"
+        ],
+        "target": 1240604
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 451444,
+          "bytes": "7f4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x1fc]"
+        },
+        {
+          "at": 451446,
+          "bytes": "03a8",
+          "mnemonic": "add",
+          "operands": "r0, sp, #0xc"
+        },
+        {
+          "at": 451448,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 451450,
+          "bytes": "17f061fb",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 451462,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1240616,
+        1240625
+      ],
+      "preserved": true,
+      "raw_first14_hex": "4348494c444e554d000000005041",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 451458,
+        "halfword": "4a7d",
+        "literal": 451960,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0162-00-06e37e"
+        ],
+        "target": 1240616
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 451458,
+          "bytes": "7d4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x1f4]"
+        },
+        {
+          "at": 451460,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 451462,
+          "bytes": "17f001fc",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 451658,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1240628,
+        1240642
+      ],
+      "preserved": true,
+      "raw_first14_hex": "504152454e544348520000004348",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 451656,
+        "halfword": "4a51",
+        "literal": 451984,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0176-00-06e438"
+        ],
+        "target": 1240628
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 451656,
+          "bytes": "514a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x144]"
+        },
+        {
+          "at": 451658,
+          "bytes": "17f0f9fa",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 451792,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1240640,
+        1240649
+      ],
+      "preserved": true,
+      "raw_first14_hex": "4348494c44434852000000008140",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 451790,
+        "halfword": "4a33",
+        "literal": 451996,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0188-00-06e4be"
+        ],
+        "target": 1240640
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 451790,
+          "bytes": "334a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0xcc]"
+        },
+        {
+          "at": 451792,
+          "bytes": "17f05cfb",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 452052,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1240604,
+        1240614
+      ],
+      "preserved": true,
+      "raw_first14_hex": "504152454e544e554d0000004348",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 452046,
+        "halfword": "4a83",
+        "literal": 452572,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0201-00-06e5cc"
+        ],
+        "target": 1240604
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 452046,
+          "bytes": "834a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x20c]"
+        },
+        {
+          "at": 452048,
+          "bytes": "03a8",
+          "mnemonic": "add",
+          "operands": "r0, sp, #0xc"
+        },
+        {
+          "at": 452050,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 452052,
+          "bytes": "17f0dafa",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 452064,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1240616,
+        1240630
+      ],
+      "preserved": true,
+      "raw_first14_hex": "4348494c444e554d000000005041",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 452060,
+        "halfword": "4a80",
+        "literal": 452576,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0202-00-06e5d8"
+        ],
+        "target": 1240616
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 452060,
+          "bytes": "804a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x200]"
+        },
+        {
+          "at": 452062,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 452064,
+          "bytes": "17f02efa",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 452136,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1240628,
+        1240638
+      ],
+      "preserved": true,
+      "raw_first14_hex": "504152454e544348520000004348",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 452134,
+        "halfword": "4a71",
+        "literal": 452588,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0210-00-06e61a"
+        ],
+        "target": 1240628
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 452134,
+          "bytes": "714a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x1c4]"
+        },
+        {
+          "at": 452136,
+          "bytes": "17f0b0fa",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 452426,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1240640,
+        1240654
+      ],
+      "preserved": true,
+      "raw_first14_hex": "4348494c44434852000000008140",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 452424,
+        "halfword": "4a2f",
+        "literal": 452616,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0225-00-06e738"
+        ],
+        "target": 1240640
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 452424,
+          "bytes": "2f4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0xbc]"
+        },
+        {
+          "at": 452426,
+          "bytes": "17f079f9",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 454064,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454052,
+        "halfword": "4815",
+        "literal": 454140,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0249-06ed88"
+        ],
+        "target": 1240652
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 454052,
+          "bytes": "1548",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x54]"
+        },
+        {
+          "at": 454054,
+          "bytes": "0024",
+          "mnemonic": "movs",
+          "operands": "r4, #0"
+        },
+        {
+          "at": 454056,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 454058,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 454060,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 454062,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 454064,
+          "bytes": "f7f7d2fc",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 454080,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r5",
+      "source": {
+        "at": 454068,
+        "halfword": "4d12",
+        "literal": 454144,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0249-06ed88"
+        ],
+        "target": 1240672
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 454068,
+          "bytes": "124d",
+          "mnemonic": "ldr",
+          "operands": "r5, [pc, #0x48]"
+        },
+        {
+          "at": 454070,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 454072,
+          "bytes": "281c",
+          "mnemonic": "adds",
+          "operands": "r0, r5, #0"
+        },
+        {
+          "at": 454074,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 454076,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 454078,
+          "bytes": "0c23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xc"
+        },
+        {
+          "at": 454080,
+          "bytes": "f7f7cafc",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454162,
+        "halfword": "4802",
+        "literal": 454172,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0250-06ee08"
+        ],
+        "target": 1240680
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454162,
+          "bytes": "0248",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #8]"
+        },
+        {
+          "at": 454164,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 454166,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 454168,
+          "bytes": "0ee0",
+          "mnemonic": "b",
+          "operands": "#0x6ee38"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454176,
+        "halfword": "4800",
+        "literal": 454180,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0251-06ee20"
+        ],
+        "target": 1240688
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454176,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 454178,
+          "bytes": "06e0",
+          "mnemonic": "b",
+          "operands": "#0x6ee32"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454184,
+        "halfword": "4800",
+        "literal": 454188,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0252-06ee28"
+        ],
+        "target": 1240696
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454184,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 454186,
+          "bytes": "02e0",
+          "mnemonic": "b",
+          "operands": "#0x6ee32"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 454204,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454192,
+        "halfword": "4804",
+        "literal": 454212,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0253-06ee30"
+        ],
+        "target": 1240704
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 454192,
+          "bytes": "0448",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x10]"
+        },
+        {
+          "at": 454194,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 454196,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 454198,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 454200,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 454202,
+          "bytes": "0c23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xc"
+        },
+        {
+          "at": 454204,
+          "bytes": "f7f78cfc",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 454228,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454216,
+        "halfword": "4811",
+        "literal": 454288,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0254-06ee48"
+        ],
+        "target": 1240712
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 454216,
+          "bytes": "1148",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x44]"
+        },
+        {
+          "at": 454218,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 454220,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 454222,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 454224,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 454226,
+          "bytes": "0c23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xc"
+        },
+        {
+          "at": 454228,
+          "bytes": "f7f780fc",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454332,
+        "halfword": "4800",
+        "literal": 454336,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0061-06eebc"
+        ],
+        "target": 1240720
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454332,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 454334,
+          "bytes": "9ce0",
+          "mnemonic": "b",
+          "operands": "#0x6effa"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454340,
+        "halfword": "4800",
+        "literal": 454344,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0062-06eec4"
+        ],
+        "target": 1240728
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454340,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 454342,
+          "bytes": "98e0",
+          "mnemonic": "b",
+          "operands": "#0x6effa"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454608,
+        "halfword": "4800",
+        "literal": 454612,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0255-06efd0"
+        ],
+        "target": 1240736
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454608,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 454610,
+          "bytes": "12e0",
+          "mnemonic": "b",
+          "operands": "#0x6effa"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454616,
+        "halfword": "4800",
+        "literal": 454620,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0256-06efd8"
+        ],
+        "target": 1240744
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454616,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 454618,
+          "bytes": "0ee0",
+          "mnemonic": "b",
+          "operands": "#0x6effa"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454624,
+        "halfword": "4800",
+        "literal": 454628,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0257-06efe0"
+        ],
+        "target": 1240752
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454624,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 454626,
+          "bytes": "0ae0",
+          "mnemonic": "b",
+          "operands": "#0x6effa"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454632,
+        "halfword": "4800",
+        "literal": 454636,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0258-06efe8"
+        ],
+        "target": 1240760
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454632,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 454634,
+          "bytes": "06e0",
+          "mnemonic": "b",
+          "operands": "#0x6effa"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454640,
+        "halfword": "4800",
+        "literal": 454644,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0259-06eff0"
+        ],
+        "target": 1240768
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 454640,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 454642,
+          "bytes": "02e0",
+          "mnemonic": "b",
+          "operands": "#0x6effa"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454648,
+        "halfword": "4803",
+        "literal": 454664,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0064-06eff8"
+        ],
+        "target": 1240776
+      },
+      "stop": "owner_or_window_end",
+      "trace": [
+        {
+          "at": 454648,
+          "bytes": "0348",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 454678,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454668,
+        "halfword": "4803",
+        "literal": 454684,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0065-06f00c"
+        ],
+        "target": 1240784
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 454668,
+          "bytes": "0348",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 454670,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 454672,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 454674,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 454676,
+          "bytes": "0823",
+          "mnemonic": "movs",
+          "operands": "r3, #8"
+        },
+        {
+          "at": 454678,
+          "bytes": "f7f79ffb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 454706,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454696,
+        "halfword": "4804",
+        "literal": 454716,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0261-06f020"
+        ],
+        "target": 1240784
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 454696,
+          "bytes": "0448",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x10]"
+        },
+        {
+          "at": 454698,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 454700,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 454702,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 454704,
+          "bytes": "0823",
+          "mnemonic": "movs",
+          "operands": "r3, #8"
+        },
+        {
+          "at": 454706,
+          "bytes": "f7f791fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 454730,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454720,
+        "halfword": "482e",
+        "literal": 454908,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0262-06f040"
+        ],
+        "target": 1240792
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 454720,
+          "bytes": "2e48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xb8]"
+        },
+        {
+          "at": 454722,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 454724,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 454726,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 454728,
+          "bytes": "0823",
+          "mnemonic": "movs",
+          "operands": "r3, #8"
+        },
+        {
+          "at": 454730,
+          "bytes": "f7f785fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 454790,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454780,
+        "halfword": "4821",
+        "literal": 454916,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0262-06f040"
+        ],
+        "target": 1240800
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 454780,
+          "bytes": "2148",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x84]"
+        },
+        {
+          "at": 454782,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 454784,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 454786,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 454788,
+          "bytes": "1023",
+          "mnemonic": "movs",
+          "operands": "r3, #0x10"
+        },
+        {
+          "at": 454790,
+          "bytes": "f7f767fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 454806,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 454794,
+        "halfword": "481f",
+        "literal": 454920,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0262-06f040"
+        ],
+        "target": 1240808
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 454794,
+          "bytes": "1f48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x7c]"
+        },
+        {
+          "at": 454796,
+          "bytes": "0126",
+          "mnemonic": "movs",
+          "operands": "r6, #1"
+        },
+        {
+          "at": 454798,
+          "bytes": "0096",
+          "mnemonic": "str",
+          "operands": "r6, [sp]"
+        },
+        {
+          "at": 454800,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 454802,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 454804,
+          "bytes": "1023",
+          "mnemonic": "movs",
+          "operands": "r3, #0x10"
+        },
+        {
+          "at": 454806,
+          "bytes": "f7f75ffb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 455652,
+        "halfword": "4800",
+        "literal": 455656,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0266-06f3b8"
+        ],
+        "target": 1240816
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 455652,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 455654,
+          "bytes": "08e0",
+          "mnemonic": "b",
+          "operands": "#0x6f3fa"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 455682,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 455672,
+        "halfword": "4803",
+        "literal": 455688,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0267-06f3ec"
+        ],
+        "target": 1240828
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 455672,
+          "bytes": "0348",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 455674,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 455676,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 455678,
+          "bytes": "0022",
+          "mnemonic": "movs",
+          "operands": "r2, #0"
+        },
+        {
+          "at": 455680,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 455682,
+          "bytes": "f7f7a9f9",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 455714,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 455704,
+        "halfword": "4806",
+        "literal": 455732,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0268-06f40c"
+        ],
+        "target": 1240848
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 455704,
+          "bytes": "0648",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 455706,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 455708,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 455710,
+          "bytes": "0022",
+          "mnemonic": "movs",
+          "operands": "r2, #0"
+        },
+        {
+          "at": 455712,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 455714,
+          "bytes": "f7f799f9",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 455976,
+        "halfword": "4800",
+        "literal": 455980,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0067-06f528"
+        ],
+        "target": 1240868
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 455976,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 455978,
+          "bytes": "02e0",
+          "mnemonic": "b",
+          "operands": "#0x6f532"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 455994,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 455984,
+        "halfword": "4803",
+        "literal": 456000,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0068-06f530"
+        ],
+        "target": 1240876
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 455984,
+          "bytes": "0348",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 455986,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 455988,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 455990,
+          "bytes": "0022",
+          "mnemonic": "movs",
+          "operands": "r2, #0"
+        },
+        {
+          "at": 455992,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 455994,
+          "bytes": "f7f70df9",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 456014,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 456004,
+        "halfword": "4819",
+        "literal": 456108,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0069-06f544"
+        ],
+        "target": 1240884
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 456004,
+          "bytes": "1948",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x64]"
+        },
+        {
+          "at": 456006,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 456008,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 456010,
+          "bytes": "0022",
+          "mnemonic": "movs",
+          "operands": "r2, #0"
+        },
+        {
+          "at": 456012,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 456014,
+          "bytes": "f7f703f9",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461090,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461080,
+        "halfword": "480a",
+        "literal": 461124,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0305-0708fc"
+        ],
+        "target": 1240892
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461080,
+          "bytes": "0a48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x28]"
+        },
+        {
+          "at": 461082,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461084,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461086,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461088,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461090,
+          "bytes": "f5f719ff",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461146,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461136,
+        "halfword": "480f",
+        "literal": 461200,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0306-07094c"
+        ],
+        "target": 1240908
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461136,
+          "bytes": "0f48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x3c]"
+        },
+        {
+          "at": 461138,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461140,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461142,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461144,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461146,
+          "bytes": "f5f7fdfe",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461384,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461372,
+        "halfword": "4810",
+        "literal": 461440,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0307-070a3c"
+        ],
+        "target": 1240924
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461372,
+          "bytes": "1048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x40]"
+        },
+        {
+          "at": 461374,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461376,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461378,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461380,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461382,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461384,
+          "bytes": "f5f786fe",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461416,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461410,
+        "halfword": "4809",
+        "literal": 461448,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0307-070a3c"
+        ],
+        "target": 1240936
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461410,
+          "bytes": "0948",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x24]"
+        },
+        {
+          "at": 461412,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461414,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461416,
+          "bytes": "f5f79afe",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461468,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461456,
+        "halfword": "4807",
+        "literal": 461488,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0308-070a90"
+        ],
+        "target": 1240940
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461456,
+          "bytes": "0748",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x1c]"
+        },
+        {
+          "at": 461458,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461460,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461462,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461464,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461466,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461468,
+          "bytes": "f5f75cfe",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461508,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461496,
+        "halfword": "480a",
+        "literal": 461540,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0309-070ab8"
+        ],
+        "target": 1240956
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461496,
+          "bytes": "0a48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x28]"
+        },
+        {
+          "at": 461498,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461500,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461502,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461504,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461506,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461508,
+          "bytes": "f5f748fe",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461534,
+        "halfword": "4803",
+        "literal": 461548,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0309-070ab8"
+        ],
+        "target": 1240972
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 461534,
+          "bytes": "0348",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 461536,
+          "bytes": "6fe0",
+          "mnemonic": "b",
+          "operands": "#0x70bc2"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461564,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461552,
+        "halfword": "4806",
+        "literal": 461580,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0310-070af0"
+        ],
+        "target": 1240976
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461552,
+          "bytes": "0648",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 461554,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461556,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461558,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461560,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461562,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461564,
+          "bytes": "f5f72cfe",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461588,
+        "halfword": "4800",
+        "literal": 461592,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0311-070b14"
+        ],
+        "target": 1240976
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 461588,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 461590,
+          "bytes": "72e0",
+          "mnemonic": "b",
+          "operands": "#0x70bfe"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461608,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461596,
+        "halfword": "4806",
+        "literal": 461624,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0312-070b1c"
+        ],
+        "target": 1240992
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461596,
+          "bytes": "0648",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 461598,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461600,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461602,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461604,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461606,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461608,
+          "bytes": "f5f716fe",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461632,
+        "halfword": "4800",
+        "literal": 461636,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0313-070b40"
+        ],
+        "target": 1240992
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 461632,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 461634,
+          "bytes": "2ae0",
+          "mnemonic": "b",
+          "operands": "#0x70b9a"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461652,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461640,
+        "halfword": "4806",
+        "literal": 461668,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0314-070b48"
+        ],
+        "target": 1241004
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461640,
+          "bytes": "0648",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 461642,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461644,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461646,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461648,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461650,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461652,
+          "bytes": "f5f700fe",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461676,
+        "halfword": "4800",
+        "literal": 461680,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0315-070b6c"
+        ],
+        "target": 1241004
+      },
+      "stop": "control_boundary",
+      "trace": [
+        {
+          "at": 461676,
+          "bytes": "0048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0]"
+        },
+        {
+          "at": 461678,
+          "bytes": "14e0",
+          "mnemonic": "b",
+          "operands": "#0x70b9a"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461696,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461684,
+        "halfword": "4806",
+        "literal": 461712,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0316-070b74"
+        ],
+        "target": 1241016
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461684,
+          "bytes": "0648",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 461686,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461688,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461690,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461692,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461694,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461696,
+          "bytes": "f5f7eafd",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461732,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461720,
+        "halfword": "480c",
+        "literal": 461772,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0317-070b98"
+        ],
+        "target": 1241016
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461720,
+          "bytes": "0c48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x30]"
+        },
+        {
+          "at": 461722,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461724,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461726,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461728,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461730,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461732,
+          "bytes": "f5f7d8fd",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461766,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461760,
+        "halfword": "4804",
+        "literal": 461780,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0317-070b98"
+        ],
+        "target": 1240952
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461760,
+          "bytes": "0448",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x10]"
+        },
+        {
+          "at": 461762,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461764,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461766,
+          "bytes": "f5f7ebfd",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461796,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461784,
+        "halfword": "4806",
+        "literal": 461812,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0070-070bd8"
+        ],
+        "target": 1241028
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461784,
+          "bytes": "0648",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 461786,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461788,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461790,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461792,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461794,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461796,
+          "bytes": "f5f7b8fd",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": null,
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461820,
+        "halfword": "480a",
+        "literal": 461864,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0071-070bfc"
+        ],
+        "target": 1241028
+      },
+      "stop": "owner_or_window_end",
+      "trace": [
+        {
+          "at": 461820,
+          "bytes": "0a48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x28]"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461884,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461872,
+        "halfword": "4848",
+        "literal": 462164,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0072-070c30"
+        ],
+        "target": 1241044
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461872,
+          "bytes": "4848",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x120]"
+        },
+        {
+          "at": 461874,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 461876,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461878,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461880,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461882,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461884,
+          "bytes": "f5f78cfd",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461916,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461910,
+        "halfword": "4841",
+        "literal": 462172,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0072-070c30"
+        ],
+        "target": 1240952
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461910,
+          "bytes": "4148",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x104]"
+        },
+        {
+          "at": 461912,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461914,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461916,
+          "bytes": "f5f7a0fd",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461944,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461932,
+        "halfword": "483d",
+        "literal": 462180,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0319-070c60"
+        ],
+        "target": 1241056
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461932,
+          "bytes": "3d48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xf4]"
+        },
+        {
+          "at": 461934,
+          "bytes": "0421",
+          "mnemonic": "movs",
+          "operands": "r1, #4"
+        },
+        {
+          "at": 461936,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 461938,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461940,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461942,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 461944,
+          "bytes": "f5f76efd",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 461982,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 461976,
+        "halfword": "4833",
+        "literal": 462184,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0319-070c60"
+        ],
+        "target": 1241068
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 461976,
+          "bytes": "3348",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xcc]"
+        },
+        {
+          "at": 461978,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 461980,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 461982,
+          "bytes": "f5f77ffd",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 462012,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 462000,
+        "halfword": "482e",
+        "literal": 462188,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0319-070c60"
+        ],
+        "target": 1241076
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 462000,
+          "bytes": "2e48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xb8]"
+        },
+        {
+          "at": 462002,
+          "bytes": "0621",
+          "mnemonic": "movs",
+          "operands": "r1, #6"
+        },
+        {
+          "at": 462004,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 462006,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 462008,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 462010,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 462012,
+          "bytes": "f5f74cfd",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 462050,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 462044,
+        "halfword": "4822",
+        "literal": 462184,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0319-070c60"
+        ],
+        "target": 1241068
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 462044,
+          "bytes": "2248",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x88]"
+        },
+        {
+          "at": 462046,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 462048,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 462050,
+          "bytes": "f5f75dfd",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 462078,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 462066,
+        "halfword": "4820",
+        "literal": 462196,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0319-070c60"
+        ],
+        "target": 1241088
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 462066,
+          "bytes": "2048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x80]"
+        },
+        {
+          "at": 462068,
+          "bytes": "0821",
+          "mnemonic": "movs",
+          "operands": "r1, #8"
+        },
+        {
+          "at": 462070,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 462072,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 462074,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 462076,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 462078,
+          "bytes": "f5f72bfd",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 462102,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 462096,
+        "halfword": "4819",
+        "literal": 462200,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0319-070c60"
+        ],
+        "target": 1241100
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 462096,
+          "bytes": "1948",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x64]"
+        },
+        {
+          "at": 462098,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 462100,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 462102,
+          "bytes": "f5f743fd",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 462118,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 462106,
+        "halfword": "4818",
+        "literal": 462204,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0319-070c60"
+        ],
+        "target": 1241108
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 462106,
+          "bytes": "1848",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x60]"
+        },
+        {
+          "at": 462108,
+          "bytes": "0a21",
+          "mnemonic": "movs",
+          "operands": "r1, #0xa"
+        },
+        {
+          "at": 462110,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 462112,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 462114,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 462116,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 462118,
+          "bytes": "f5f717fd",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 462146,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 462140,
+        "halfword": "4807",
+        "literal": 462172,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0319-070c60"
+        ],
+        "target": 1240952
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 462140,
+          "bytes": "0748",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x1c]"
+        },
+        {
+          "at": 462142,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 462144,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 462146,
+          "bytes": "f5f72dfd",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 463378,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 463370,
+        "halfword": "4824",
+        "literal": 463516,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0324-0711c8"
+        ],
+        "target": 1241120
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 463370,
+          "bytes": "2448",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x90]"
+        },
+        {
+          "at": 463372,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 463374,
+          "bytes": "0222",
+          "mnemonic": "movs",
+          "operands": "r2, #2"
+        },
+        {
+          "at": 463376,
+          "bytes": "1523",
+          "mnemonic": "movs",
+          "operands": "r3, #0x15"
+        },
+        {
+          "at": 463378,
+          "bytes": "f5f7a1fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 463394,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 463386,
+        "halfword": "4821",
+        "literal": 463520,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0324-0711c8"
+        ],
+        "target": 1241132
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 463386,
+          "bytes": "2148",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x84]"
+        },
+        {
+          "at": 463388,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 463390,
+          "bytes": "0222",
+          "mnemonic": "movs",
+          "operands": "r2, #2"
+        },
+        {
+          "at": 463392,
+          "bytes": "1a23",
+          "mnemonic": "movs",
+          "operands": "r3, #0x1a"
+        },
+        {
+          "at": 463394,
+          "bytes": "f5f799fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 466828,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 466816,
+        "halfword": "4809",
+        "literal": 466856,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0074-071f80"
+        ],
+        "target": 1241140
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 466816,
+          "bytes": "0948",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x24]"
+        },
+        {
+          "at": 466818,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 466820,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 466822,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 466824,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 466826,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 466828,
+          "bytes": "f4f7e4fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 466872,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 466860,
+        "halfword": "4805",
+        "literal": 466884,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0075-071fac"
+        ],
+        "target": 1241152
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 466860,
+          "bytes": "0548",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x14]"
+        },
+        {
+          "at": 466862,
+          "bytes": "0224",
+          "mnemonic": "movs",
+          "operands": "r4, #2"
+        },
+        {
+          "at": 466864,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 466866,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 466868,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 466870,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 466872,
+          "bytes": "f4f7cefb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 466900,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 466888,
+        "halfword": "4805",
+        "literal": 466912,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0076-071fc8"
+        ],
+        "target": 1241172
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 466888,
+          "bytes": "0548",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x14]"
+        },
+        {
+          "at": 466890,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 466892,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 466894,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 466896,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 466898,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 466900,
+          "bytes": "f4f7c0fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 466928,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 466916,
+        "halfword": "4805",
+        "literal": 466940,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0077-071fe4"
+        ],
+        "target": 1241184
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 466916,
+          "bytes": "0548",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x14]"
+        },
+        {
+          "at": 466918,
+          "bytes": "0224",
+          "mnemonic": "movs",
+          "operands": "r4, #2"
+        },
+        {
+          "at": 466920,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 466922,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 466924,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 466926,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 466928,
+          "bytes": "f4f7b2fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 466956,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 466944,
+        "halfword": "4805",
+        "literal": 466968,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0078-072000"
+        ],
+        "target": 1241204
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 466944,
+          "bytes": "0548",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x14]"
+        },
+        {
+          "at": 466946,
+          "bytes": "0224",
+          "mnemonic": "movs",
+          "operands": "r4, #2"
+        },
+        {
+          "at": 466948,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 466950,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 466952,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 466954,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 466956,
+          "bytes": "f4f7a4fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 466984,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 466972,
+        "halfword": "480a",
+        "literal": 467016,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0079-07201c"
+        ],
+        "target": 1241224
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 466972,
+          "bytes": "0a48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x28]"
+        },
+        {
+          "at": 466974,
+          "bytes": "0224",
+          "mnemonic": "movs",
+          "operands": "r4, #2"
+        },
+        {
+          "at": 466976,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 466978,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 466980,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 466982,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 466984,
+          "bytes": "f4f796fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 467032,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 467020,
+        "halfword": "4809",
+        "literal": 467060,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0080-07204c"
+        ],
+        "target": 1241244
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 467020,
+          "bytes": "0948",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x24]"
+        },
+        {
+          "at": 467022,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 467024,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 467026,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 467028,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 467030,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 467032,
+          "bytes": "f4f77efb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 467076,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 467064,
+        "halfword": "481d",
+        "literal": 467184,
+        "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-v3-thumb-0081-072078"
+        ],
+        "target": 1241256
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 467064,
+          "bytes": "1d48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x74]"
+        },
+        {
+          "at": 467066,
+          "bytes": "0224",
+          "mnemonic": "movs",
+          "operands": "r4, #2"
+        },
+        {
+          "at": 467068,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 467070,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 467072,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 467074,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 467076,
+          "bytes": "f4f768fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 467862,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241276,
+        1241285
+      ],
+      "preserved": true,
+      "raw_first14_hex": "4d4f5645444f4e45000000005441",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 467860,
+        "halfword": "4a0c",
+        "literal": 467912,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0011-0722a8"
+        ],
+        "target": 1241276
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 467860,
+          "bytes": "0c4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x30]"
+        },
+        {
+          "at": 467862,
+          "bytes": "13f0f9fb",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 468154,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241276,
+        1241285
+      ],
+      "preserved": true,
+      "raw_first14_hex": "4d4f5645444f4e45000000005441",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 468152,
+        "halfword": "4a11",
+        "literal": 468224,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0012-0723d4"
+        ],
+        "target": 1241276
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 468152,
+          "bytes": "114a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x44]"
+        },
+        {
+          "at": 468154,
+          "bytes": "13f067fb",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 468242,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1241276,
+        1241290
+      ],
+      "preserved": true,
+      "raw_first14_hex": "4d4f5645444f4e45000000005441",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 468240,
+        "halfword": "4a0e",
+        "literal": 468300,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0013-07250c"
+        ],
+        "target": 1241276
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 468240,
+          "bytes": "0e4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x38]"
+        },
+        {
+          "at": 468242,
+          "bytes": "13f095fa",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 469024,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241288,
+        1241299
+      ],
+      "preserved": true,
+      "raw_first14_hex": "544152474554444f4e4500005a53",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 469022,
+        "halfword": "4a08",
+        "literal": 469056,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0019-0727d4"
+        ],
+        "target": 1241288
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 469022,
+          "bytes": "084a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x20]"
+        },
+        {
+          "at": 469024,
+          "bytes": "13f0b4f9",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 469564,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241288,
+        1241299
+      ],
+      "preserved": true,
+      "raw_first14_hex": "544152474554444f4e4500005a53",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 469562,
+        "halfword": "4a0a",
+        "literal": 469604,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0023-0729cc"
+        ],
+        "target": 1241288
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 469562,
+          "bytes": "0a4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x28]"
+        },
+        {
+          "at": 469564,
+          "bytes": "13f0a6f8",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 469614,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1241288,
+        1241302
+      ],
+      "preserved": true,
+      "raw_first14_hex": "544152474554444f4e4500005a53",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 469612,
+        "halfword": "4a1a",
+        "literal": 469720,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0024-072a68"
+        ],
+        "target": 1241288
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 469612,
+          "bytes": "1a4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x68]"
+        },
+        {
+          "at": 469614,
+          "bytes": "12f0e7ff",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 469768,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1241300,
+        1241314
+      ],
+      "preserved": true,
+      "raw_first14_hex": "5a534b5355434345535300005a53",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 469766,
+        "halfword": "4a11",
+        "literal": 469836,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0025-072af0"
+        ],
+        "target": 1241300
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 469766,
+          "bytes": "114a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x44]"
+        },
+        {
+          "at": 469768,
+          "bytes": "12f09aff",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 469812,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1241312,
+        1241326
+      ],
+      "preserved": true,
+      "raw_first14_hex": "5a5355434345535300000000414e",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 469810,
+        "halfword": "4a08",
+        "literal": 469844,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0025-072af0"
+        ],
+        "target": 1241312
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 469810,
+          "bytes": "084a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x20]"
+        },
+        {
+          "at": 469812,
+          "bytes": "12f084ff",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 469858,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241300,
+        1241311
+      ],
+      "preserved": true,
+      "raw_first14_hex": "5a534b5355434345535300005a53",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 469856,
+        "halfword": "4a20",
+        "literal": 469988,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0026-072b58"
+        ],
+        "target": 1241300
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 469856,
+          "bytes": "204a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x80]"
+        },
+        {
+          "at": 469858,
+          "bytes": "13f013f8",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 469898,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241312,
+        1241321
+      ],
+      "preserved": true,
+      "raw_first14_hex": "5a5355434345535300000000414e",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 469896,
+        "halfword": "4a18",
+        "literal": 469996,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0026-072b58"
+        ],
+        "target": 1241312
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 469896,
+          "bytes": "184a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x60]"
+        },
+        {
+          "at": 469898,
+          "bytes": "12f0ffff",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 470220,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241324,
+        1241334
+      ],
+      "preserved": true,
+      "raw_first14_hex": "414e474c45444f4e450000004241",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 470218,
+        "halfword": "4a0c",
+        "literal": 470268,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0029-072c8c"
+        ],
+        "target": 1241324
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 470218,
+          "bytes": "0c4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x30]"
+        },
+        {
+          "at": 470220,
+          "bytes": "12f05eff",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 470460,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241324,
+        1241334
+      ],
+      "preserved": true,
+      "raw_first14_hex": "414e474c45444f4e450000004241",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 470458,
+        "halfword": "4a0f",
+        "literal": 470520,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0030-072d04"
+        ],
+        "target": 1241324
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 470458,
+          "bytes": "0f4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x3c]"
+        },
+        {
+          "at": 470460,
+          "bytes": "12f0e6fe",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 470538,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1241324,
+        1241338
+      ],
+      "preserved": true,
+      "raw_first14_hex": "414e474c45444f4e450000004241",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 470536,
+        "halfword": "4a1a",
+        "literal": 470644,
+        "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-thumb-0031-072e04"
+        ],
+        "target": 1241324
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 470536,
+          "bytes": "1a4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x68]"
+        },
+        {
+          "at": 470538,
+          "bytes": "12f019fe",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 471174,
+        "target": 547392
+      },
+      "preserved": true,
+      "register": "r4",
+      "source": {
+        "at": 471166,
+        "halfword": "4c16",
+        "literal": 471256,
+        "owner_class": "armv4t_cfg_proven_roots_v4_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v4-thumb-0029-07307e"
+        ],
+        "target": 1241336
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 471166,
+          "bytes": "164c",
+          "mnemonic": "ldr",
+          "operands": "r4, [pc, #0x58]"
+        },
+        {
+          "at": 471168,
+          "bytes": "0020",
+          "mnemonic": "movs",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 471170,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 471172,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 471174,
+          "bytes": "12f0dbfc",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 471632,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 471626,
+        "halfword": "480f",
+        "literal": 471688,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0254-00-07324a"
+        ],
+        "target": 1241100
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 471626,
+          "bytes": "0f48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x3c]"
+        },
+        {
+          "at": 471628,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 471630,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 471632,
+          "bytes": "f3f7a6fa",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 471642,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 471636,
+        "halfword": "480d",
+        "literal": 471692,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0255-00-073254"
+        ],
+        "target": 1241352
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 471636,
+          "bytes": "0d48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x34]"
+        },
+        {
+          "at": 471638,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 471640,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 471642,
+          "bytes": "f3f7a1fa",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 471658,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 471646,
+        "halfword": "480c",
+        "literal": 471696,
+        "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0256-00-07325e"
+        ],
+        "target": 1241396
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 471646,
+          "bytes": "0c48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x30]"
+        },
+        {
+          "at": 471648,
+          "bytes": "0c21",
+          "mnemonic": "movs",
+          "operands": "r1, #0xc"
+        },
+        {
+          "at": 471650,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 471652,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 471654,
+          "bytes": "0122",
+          "mnemonic": "movs",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 471656,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 471658,
+          "bytes": "f3f775fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 473154,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 473144,
+        "halfword": "4806",
+        "literal": 473172,
+        "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "primary_claim_ids": [
+          "battle-controller-cfg-thumb-0004-0737b8"
+        ],
+        "target": 1241456
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 473144,
+          "bytes": "0648",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 473146,
+          "bytes": "0095",
+          "mnemonic": "str",
+          "operands": "r5, [sp]"
+        },
+        {
+          "at": 473148,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 473150,
+          "bytes": "0222",
+          "mnemonic": "movs",
+          "operands": "r2, #2"
+        },
+        {
+          "at": 473152,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 473154,
+          "bytes": "f2f789ff",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 473186,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 473176,
+        "halfword": "4805",
+        "literal": 473200,
+        "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "primary_claim_ids": [
+          "battle-controller-cfg-thumb-0005-073858"
+        ],
+        "target": 1241464
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 473176,
+          "bytes": "0548",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x14]"
+        },
+        {
+          "at": 473178,
+          "bytes": "0095",
+          "mnemonic": "str",
+          "operands": "r5, [sp]"
+        },
+        {
+          "at": 473180,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 473182,
+          "bytes": "0222",
+          "mnemonic": "movs",
+          "operands": "r2, #2"
+        },
+        {
+          "at": 473184,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 473186,
+          "bytes": "f2f779ff",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 475834,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1241472,
+        1241486
+      ],
+      "preserved": true,
+      "raw_first14_hex": "41544b434f4d4d414e4400004445",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 475830,
+        "halfword": "4a0a",
+        "literal": 475872,
+        "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "primary_claim_ids": [
+          "battle-controller-cfg-thumb-0029-0742a4"
+        ],
+        "target": 1241472
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 475830,
+          "bytes": "0a4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x28]"
+        },
+        {
+          "at": 475832,
+          "bytes": "1421",
+          "mnemonic": "movs",
+          "operands": "r1, #0x14"
+        },
+        {
+          "at": 475834,
+          "bytes": "11f0c1fb",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 476064,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241472,
+        1241483
+      ],
+      "preserved": true,
+      "raw_first14_hex": "41544b434f4d4d414e4400004445",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 476060,
+        "halfword": "4a0b",
+        "literal": 476108,
+        "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "primary_claim_ids": [
+          "battle-controller-cfg-thumb-0031-074394"
+        ],
+        "target": 1241472
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 476060,
+          "bytes": "0b4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x2c]"
+        },
+        {
+          "at": 476062,
+          "bytes": "1421",
+          "mnemonic": "movs",
+          "operands": "r1, #0x14"
+        },
+        {
+          "at": 476064,
+          "bytes": "11f0f4fb",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 477316,
+        "target": 547392
+      },
+      "hypothetical_read_range": [
+        1241484,
+        1241498
+      ],
+      "preserved": true,
+      "raw_first14_hex": "444546434f4d4d414e4400009bf8",
+      "register": "r2",
+      "role": "emit_fixed14",
+      "source": {
+        "at": 477312,
+        "halfword": "4a09",
+        "literal": 477352,
+        "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "primary_claim_ids": [
+          "battle-controller-cfg-thumb-0036-0747e0"
+        ],
+        "target": 1241484
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 477312,
+          "bytes": "094a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x24]"
+        },
+        {
+          "at": 477314,
+          "bytes": "1421",
+          "mnemonic": "movs",
+          "operands": "r1, #0x14"
+        },
+        {
+          "at": 477316,
+          "bytes": "11f0dcf8",
+          "mnemonic": "bl",
+          "operands": "#0x85a40"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": true,
+      "first_call": {
+        "at": 477412,
+        "target": 547724
+      },
+      "hypothetical_read_range": [
+        1241484,
+        1241495
+      ],
+      "preserved": true,
+      "raw_first14_hex": "444546434f4d4d414e4400009bf8",
+      "register": "r2",
+      "role": "match_nul_or14",
+      "source": {
+        "at": 477408,
+        "halfword": "4a0b",
+        "literal": 477456,
+        "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "primary_claim_ids": [
+          "battle-controller-cfg-thumb-0038-0748d8"
+        ],
+        "target": 1241484
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 477408,
+          "bytes": "0b4a",
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x2c]"
+        },
+        {
+          "at": 477410,
+          "bytes": "1421",
+          "mnemonic": "movs",
+          "operands": "r1, #0x14"
+        },
+        {
+          "at": 477412,
+          "bytes": "11f052f9",
+          "mnemonic": "bl",
+          "operands": "#0x85b8c"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 490466,
+        "target": 427616
+      },
+      "preserved": true,
+      "register": "r1",
+      "source": {
+        "at": 490462,
+        "halfword": "4906",
+        "literal": 490488,
+        "owner_class": "armv4t_cfg_proven_roots_v4_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-proven-roots-v4-thumb-0109-077bde"
+        ],
+        "target": 1241572
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 490462,
+          "bytes": "0649",
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x18]"
+        },
+        {
+          "at": 490464,
+          "bytes": "201c",
+          "mnemonic": "adds",
+          "operands": "r0, r4, #0"
+        },
+        {
+          "at": 490466,
+          "bytes": "f0f73dfd",
+          "mnemonic": "bl",
+          "operands": "#0x68660"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 490932,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 490926,
+        "halfword": "48a5",
+        "literal": 491588,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0402-077d54"
+        ],
+        "target": 1241596
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 490926,
+          "bytes": "a548",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x294]"
+        },
+        {
+          "at": 490928,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 490930,
+          "bytes": "0c9a",
+          "mnemonic": "ldr",
+          "operands": "r2, [sp, #0x30]"
+        },
+        {
+          "at": 490932,
+          "bytes": "eef7f4fc",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 490968,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 490956,
+        "halfword": "489f",
+        "literal": 491596,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0402-077d54"
+        ],
+        "target": 1241612
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 490956,
+          "bytes": "9f48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x27c]"
+        },
+        {
+          "at": 490958,
+          "bytes": "4a46",
+          "mnemonic": "mov",
+          "operands": "r2, sb"
+        },
+        {
+          "at": 490960,
+          "bytes": "0092",
+          "mnemonic": "str",
+          "operands": "r2, [sp]"
+        },
+        {
+          "at": 490962,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 490964,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 490966,
+          "bytes": "0e23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xe"
+        },
+        {
+          "at": 490968,
+          "bytes": "eef7befc",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 491264,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 491252,
+        "halfword": "4863",
+        "literal": 491652,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0402-077d54"
+        ],
+        "target": 1241620
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 491252,
+          "bytes": "6348",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18c]"
+        },
+        {
+          "at": 491254,
+          "bytes": "0224",
+          "mnemonic": "movs",
+          "operands": "r4, #2"
+        },
+        {
+          "at": 491256,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 491258,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 491260,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 491262,
+          "bytes": "0d23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xd"
+        },
+        {
+          "at": 491264,
+          "bytes": "eef72afc",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 491280,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 491268,
+        "halfword": "4860",
+        "literal": 491656,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0402-077d54"
+        ],
+        "target": 1241628
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 491268,
+          "bytes": "6048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x180]"
+        },
+        {
+          "at": 491270,
+          "bytes": "0422",
+          "mnemonic": "movs",
+          "operands": "r2, #4"
+        },
+        {
+          "at": 491272,
+          "bytes": "0092",
+          "mnemonic": "str",
+          "operands": "r2, [sp]"
+        },
+        {
+          "at": 491274,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 491276,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 491278,
+          "bytes": "0d23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xd"
+        },
+        {
+          "at": 491280,
+          "bytes": "eef722fc",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 491296,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 491284,
+        "halfword": "485d",
+        "literal": 491660,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0402-077d54"
+        ],
+        "target": 1241640
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 491284,
+          "bytes": "5d48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x174]"
+        },
+        {
+          "at": 491286,
+          "bytes": "0621",
+          "mnemonic": "movs",
+          "operands": "r1, #6"
+        },
+        {
+          "at": 491288,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 491290,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 491292,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 491294,
+          "bytes": "0d23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xd"
+        },
+        {
+          "at": 491296,
+          "bytes": "eef71afc",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 491312,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 491300,
+        "halfword": "485a",
+        "literal": 491664,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0402-077d54"
+        ],
+        "target": 1241652
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 491300,
+          "bytes": "5a48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x168]"
+        },
+        {
+          "at": 491302,
+          "bytes": "0821",
+          "mnemonic": "movs",
+          "operands": "r1, #8"
+        },
+        {
+          "at": 491304,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 491306,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 491308,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 491310,
+          "bytes": "0d23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xd"
+        },
+        {
+          "at": 491312,
+          "bytes": "eef712fc",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 491374,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 491364,
+        "halfword": "484c",
+        "literal": 491672,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0402-077d54"
+        ],
+        "target": 1241660
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 491364,
+          "bytes": "4c48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x130]"
+        },
+        {
+          "at": 491366,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 491368,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 491370,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 491372,
+          "bytes": "1423",
+          "mnemonic": "movs",
+          "operands": "r3, #0x14"
+        },
+        {
+          "at": 491374,
+          "bytes": "eef7f3fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 491500,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 491490,
+        "halfword": "482d",
+        "literal": 491672,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0402-077d54"
+        ],
+        "target": 1241660
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 491490,
+          "bytes": "2d48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xb4]"
+        },
+        {
+          "at": 491492,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 491494,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 491496,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 491498,
+          "bytes": "1423",
+          "mnemonic": "movs",
+          "operands": "r3, #0x14"
+        },
+        {
+          "at": 491500,
+          "bytes": "eef7b4fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 491736,
+        "target": 419672
+      },
+      "preserved": false,
+      "register": "r3",
+      "source": {
+        "at": 491712,
+        "halfword": "4ba5",
+        "literal": 492376,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0403-0780a0"
+        ],
+        "target": 1241660
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 491712,
+          "bytes": "a54b",
+          "mnemonic": "ldr",
+          "operands": "r3, [pc, #0x294]"
+        },
+        {
+          "at": 491714,
+          "bytes": "9846",
+          "mnemonic": "mov",
+          "operands": "r8, r3"
+        },
+        {
+          "at": 491716,
+          "bytes": "1598",
+          "mnemonic": "ldr",
+          "operands": "r0, [sp, #0x54]"
+        },
+        {
+          "at": 491718,
+          "bytes": "0406",
+          "mnemonic": "lsls",
+          "operands": "r4, r0, #0x18"
+        },
+        {
+          "at": 491720,
+          "bytes": "240e",
+          "mnemonic": "lsrs",
+          "operands": "r4, r4, #0x18"
+        },
+        {
+          "at": 491722,
+          "bytes": "0621",
+          "mnemonic": "movs",
+          "operands": "r1, #6"
+        },
+        {
+          "at": 491724,
+          "bytes": "8946",
+          "mnemonic": "mov",
+          "operands": "sb, r1"
+        },
+        {
+          "at": 491726,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 491728,
+          "bytes": "4046",
+          "mnemonic": "mov",
+          "operands": "r0, r8"
+        },
+        {
+          "at": 491730,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 491732,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 491734,
+          "bytes": "1423",
+          "mnemonic": "movs",
+          "operands": "r3, #0x14"
+        },
+        {
+          "at": 491736,
+          "bytes": "eef73efb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 491888,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 491876,
+        "halfword": "487f",
+        "literal": 492388,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0403-0780a0"
+        ],
+        "target": 1241664
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 491876,
+          "bytes": "7f48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x1fc]"
+        },
+        {
+          "at": 491878,
+          "bytes": "0a25",
+          "mnemonic": "movs",
+          "operands": "r5, #0xa"
+        },
+        {
+          "at": 491880,
+          "bytes": "0095",
+          "mnemonic": "str",
+          "operands": "r5, [sp]"
+        },
+        {
+          "at": 491882,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 491884,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 491886,
+          "bytes": "0123",
+          "mnemonic": "movs",
+          "operands": "r3, #1"
+        },
+        {
+          "at": 491888,
+          "bytes": "eef7f2fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 491904,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 491892,
+        "halfword": "487c",
+        "literal": 492392,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0403-0780a0"
+        ],
+        "target": 1241672
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 491892,
+          "bytes": "7c48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x1f0]"
+        },
+        {
+          "at": 491894,
+          "bytes": "0c26",
+          "mnemonic": "movs",
+          "operands": "r6, #0xc"
+        },
+        {
+          "at": 491896,
+          "bytes": "0096",
+          "mnemonic": "str",
+          "operands": "r6, [sp]"
+        },
+        {
+          "at": 491898,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 491900,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 491902,
+          "bytes": "0123",
+          "mnemonic": "movs",
+          "operands": "r3, #1"
+        },
+        {
+          "at": 491904,
+          "bytes": "eef7eafa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 492012,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 492002,
+        "halfword": "4862",
+        "literal": 492396,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0403-0780a0"
+        ],
+        "target": 1241680
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 492002,
+          "bytes": "6248",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x188]"
+        },
+        {
+          "at": 492004,
+          "bytes": "0095",
+          "mnemonic": "str",
+          "operands": "r5, [sp]"
+        },
+        {
+          "at": 492006,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 492008,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 492010,
+          "bytes": "0a23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xa"
+        },
+        {
+          "at": 492012,
+          "bytes": "eef7b4fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 492026,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 492016,
+        "halfword": "485f",
+        "literal": 492400,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0403-0780a0"
+        ],
+        "target": 1241688
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 492016,
+          "bytes": "5f48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x17c]"
+        },
+        {
+          "at": 492018,
+          "bytes": "0096",
+          "mnemonic": "str",
+          "operands": "r6, [sp]"
+        },
+        {
+          "at": 492020,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 492022,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 492024,
+          "bytes": "0a23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xa"
+        },
+        {
+          "at": 492026,
+          "bytes": "eef7adfa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 492136,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 492126,
+        "halfword": "4845",
+        "literal": 492404,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0403-0780a0"
+        ],
+        "target": 1241692
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 492126,
+          "bytes": "4548",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x114]"
+        },
+        {
+          "at": 492128,
+          "bytes": "0095",
+          "mnemonic": "str",
+          "operands": "r5, [sp]"
+        },
+        {
+          "at": 492130,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 492132,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 492134,
+          "bytes": "1323",
+          "mnemonic": "movs",
+          "operands": "r3, #0x13"
+        },
+        {
+          "at": 492136,
+          "bytes": "eef776fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 492196,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 492186,
+        "halfword": "4837",
+        "literal": 492408,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0403-0780a0"
+        ],
+        "target": 1241700
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 492186,
+          "bytes": "3748",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xdc]"
+        },
+        {
+          "at": 492188,
+          "bytes": "0096",
+          "mnemonic": "str",
+          "operands": "r6, [sp]"
+        },
+        {
+          "at": 492190,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 492192,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 492194,
+          "bytes": "1523",
+          "mnemonic": "movs",
+          "operands": "r3, #0x15"
+        },
+        {
+          "at": 492196,
+          "bytes": "eef758fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 492210,
+        "target": 419672
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 492200,
+        "halfword": "4834",
+        "literal": 492412,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0403-0780a0"
+        ],
+        "target": 1241708
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 492200,
+          "bytes": "3448",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xd0]"
+        },
+        {
+          "at": 492202,
+          "bytes": "0096",
+          "mnemonic": "str",
+          "operands": "r6, [sp]"
+        },
+        {
+          "at": 492204,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 492206,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 492208,
+          "bytes": "1a23",
+          "mnemonic": "movs",
+          "operands": "r3, #0x1a"
+        },
+        {
+          "at": 492210,
+          "bytes": "eef751fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 494274,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 494268,
+        "halfword": "4850",
+        "literal": 494592,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0413-078a04"
+        ],
+        "target": 1241716
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 494268,
+          "bytes": "5048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x140]"
+        },
+        {
+          "at": 494270,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 494272,
+          "bytes": "4a46",
+          "mnemonic": "mov",
+          "operands": "r2, sb"
+        },
+        {
+          "at": 494274,
+          "bytes": "edf76dfe",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    },
+    {
+      "conditional_tag_binding_candidate": false,
+      "first_call": {
+        "at": 496126,
+        "target": 419744
+      },
+      "preserved": true,
+      "register": "r0",
+      "source": {
+        "at": 496120,
+        "halfword": "4852",
+        "literal": 496452,
+        "owner_class": "armv4t_cfg_reachable_thumb_code",
+        "primary_claim_ids": [
+          "cfg-thumb-0417-07914c"
+        ],
+        "target": 1241736
+      },
+      "stop": "first_call",
+      "trace": [
+        {
+          "at": 496120,
+          "bytes": "5248",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x148]"
+        },
+        {
+          "at": 496122,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 496124,
+          "bytes": "179a",
+          "mnemonic": "ldr",
+          "operands": "r2, [sp, #0x5c]"
+        },
+        {
+          "at": 496126,
+          "bytes": "edf7cffa",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ]
+    }
+  ],
+  "schema": "ram-protocol-tag-preflight-v1",
+  "scope": "Local literal-to-first-call and raw RAM pointer field identities; reader ranges are conditional hypothetical prefixes only. No full CFG, all writers, shared state, live pipeline readiness, channel protocol semantics or natural execution proof.",
+  "windows": [
+    {
+      "linear_disassembly": [
+        {
+          "at": 547392,
+          "mnemonic": "push",
+          "operands": "{r4, lr}"
+        },
+        {
+          "at": 547394,
+          "mnemonic": "ldr",
+          "operands": "r4, [pc, #0x1c]"
+        },
+        {
+          "at": 547396,
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 547398,
+          "mnemonic": "strb",
+          "operands": "r3, [r4]"
+        },
+        {
+          "at": 547400,
+          "mnemonic": "ldr",
+          "operands": "r3, [pc, #0x18]"
+        },
+        {
+          "at": 547402,
+          "mnemonic": "str",
+          "operands": "r0, [r3]"
+        },
+        {
+          "at": 547404,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 547406,
+          "mnemonic": "str",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 547408,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x18]"
+        },
+        {
+          "at": 547410,
+          "mnemonic": "movs",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547412,
+          "mnemonic": "strb",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 547414,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 547416,
+          "mnemonic": "str",
+          "operands": "r2, [r0]"
+        },
+        {
+          "at": 547418,
+          "mnemonic": "pop",
+          "operands": "{r4}"
+        },
+        {
+          "at": 547420,
+          "mnemonic": "pop",
+          "operands": "{r0}"
+        },
+        {
+          "at": 547422,
+          "mnemonic": "bx",
+          "operands": "r0"
+        },
+        {
+          "at": 547424,
+          "mnemonic": "lsrs",
+          "operands": "r1, r3, #6"
+        },
+        {
+          "at": 547426,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547428,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r7, r0]"
+        },
+        {
+          "at": 547430,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547432,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r0, r1]"
+        },
+        {
+          "at": 547434,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547436,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r1, r1]"
+        },
+        {
+          "at": 547438,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547440,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r6, r0]"
+        },
+        {
+          "at": 547442,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        }
+      ],
+      "range": [
+        547392,
+        547444
+      ],
+      "raw_hex": "10b5074c00232370064b1860064801600649012008700648026010bc01bc004799090003385e0003405e0003485e0003305e0003",
+      "sha256": "489da792a9a7c5d4e5f384925da97829d4ef34ac7fc625ccaad9e0909b424f2a"
+    },
+    {
+      "linear_disassembly": [
+        {
+          "at": 547444,
+          "mnemonic": "push",
+          "operands": "{r4, r5, r6, lr}"
+        },
+        {
+          "at": 547446,
+          "mnemonic": "movs",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547448,
+          "mnemonic": "bl",
+          "operands": "#0x857e4"
+        },
+        {
+          "at": 547452,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0x18"
+        },
+        {
+          "at": 547454,
+          "mnemonic": "lsrs",
+          "operands": "r0, r0, #0x18"
+        },
+        {
+          "at": 547456,
+          "mnemonic": "cmp",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547458,
+          "mnemonic": "beq",
+          "operands": "#0x85a86"
+        },
+        {
+          "at": 547460,
+          "mnemonic": "b",
+          "operands": "#0x85b78"
+        },
+        {
+          "at": 547462,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 547464,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 547466,
+          "mnemonic": "adds",
+          "operands": "r5, r0, #0"
+        },
+        {
+          "at": 547468,
+          "mnemonic": "cmp",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 547470,
+          "mnemonic": "bne",
+          "operands": "#0x85a98"
+        },
+        {
+          "at": 547472,
+          "mnemonic": "movs",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547474,
+          "mnemonic": "b",
+          "operands": "#0x85b7a"
+        },
+        {
+          "at": 547476,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r1, r1]"
+        },
+        {
+          "at": 547478,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547480,
+          "mnemonic": "cmp",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 547482,
+          "mnemonic": "bls",
+          "operands": "#0x85af0"
+        },
+        {
+          "at": 547484,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x20]"
+        },
+        {
+          "at": 547486,
+          "mnemonic": "ldr",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547488,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547490,
+          "mnemonic": "bgt",
+          "operands": "#0x85af0"
+        },
+        {
+          "at": 547492,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x1c]"
+        },
+        {
+          "at": 547494,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547496,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547498,
+          "mnemonic": "beq",
+          "operands": "#0x85acc"
+        },
+        {
+          "at": 547500,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 547502,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 547504,
+          "mnemonic": "cmp",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 547506,
+          "mnemonic": "bne",
+          "operands": "#0x85b78"
+        },
+        {
+          "at": 547508,
+          "mnemonic": "subs",
+          "operands": "r0, #0xf"
+        },
+        {
+          "at": 547510,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547512,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547514,
+          "mnemonic": "beq",
+          "operands": "#0x85ada"
+        },
+        {
+          "at": 547516,
+          "mnemonic": "b",
+          "operands": "#0x85ae4"
+        },
+        {
+          "at": 547518,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 547520,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r0, r1]"
+        },
+        {
+          "at": 547522,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547524,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r5, r0]"
+        },
+        {
+          "at": 547526,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547528,
+          "mnemonic": "lsrs",
+          "operands": "r0, r7, #6"
+        },
+        {
+          "at": 547530,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547532,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x10]"
+        },
+        {
+          "at": 547534,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 547536,
+          "mnemonic": "cmp",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 547538,
+          "mnemonic": "bne",
+          "operands": "#0x85b78"
+        },
+        {
+          "at": 547540,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0, #0x11]"
+        },
+        {
+          "at": 547542,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547544,
+          "mnemonic": "bne",
+          "operands": "#0x85ae4"
+        },
+        {
+          "at": 547546,
+          "mnemonic": "strb",
+          "operands": "r1, [r5]"
+        },
+        {
+          "at": 547548,
+          "mnemonic": "movs",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547550,
+          "mnemonic": "b",
+          "operands": "#0x85b7a"
+        },
+        {
+          "at": 547552,
+          "mnemonic": "lsrs",
+          "operands": "r0, r5, #6"
+        },
+        {
+          "at": 547554,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547556,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #4]"
+        },
+        {
+          "at": 547558,
+          "mnemonic": "strb",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 547560,
+          "mnemonic": "b",
+          "operands": "#0x85b78"
+        },
+        {
+          "at": 547562,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 547564,
+          "mnemonic": "lsrs",
+          "operands": "r1, r3, #6"
+        },
+        {
+          "at": 547566,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547568,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x10]"
+        },
+        {
+          "at": 547570,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547572,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547574,
+          "mnemonic": "beq",
+          "operands": "#0x85b0c"
+        },
+        {
+          "at": 547576,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 547578,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547580,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r5]"
+        },
+        {
+          "at": 547582,
+          "mnemonic": "cmp",
+          "operands": "r0, r1"
+        },
+        {
+          "at": 547584,
+          "mnemonic": "beq",
+          "operands": "#0x85b16"
+        },
+        {
+          "at": 547586,
+          "mnemonic": "b",
+          "operands": "#0x85b78"
+        },
+        {
+          "at": 547588,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r5, r0]"
+        },
+        {
+          "at": 547590,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547592,
+          "mnemonic": "lsrs",
+          "operands": "r0, r7, #6"
+        },
+        {
+          "at": 547594,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547596,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x2c]"
+        },
+        {
+          "at": 547598,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547600,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r5]"
+        },
+        {
+          "at": 547602,
+          "mnemonic": "cmp",
+          "operands": "r0, r1"
+        },
+        {
+          "at": 547604,
+          "mnemonic": "bne",
+          "operands": "#0x85b78"
+        },
+        {
+          "at": 547606,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r5]"
+        },
+        {
+          "at": 547608,
+          "mnemonic": "cmp",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547610,
+          "mnemonic": "bne",
+          "operands": "#0x85b48"
+        },
+        {
+          "at": 547612,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x20]"
+        },
+        {
+          "at": 547614,
+          "mnemonic": "ldr",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 547616,
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x20]"
+        },
+        {
+          "at": 547618,
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 547620,
+          "mnemonic": "subs",
+          "operands": "r6, r2, #1"
+        },
+        {
+          "at": 547622,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 547624,
+          "mnemonic": "strb",
+          "operands": "r0, [r2]"
+        },
+        {
+          "at": 547626,
+          "mnemonic": "adds",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 547628,
+          "mnemonic": "adds",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 547630,
+          "mnemonic": "adds",
+          "operands": "r0, r3, #1"
+        },
+        {
+          "at": 547632,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0x18"
+        },
+        {
+          "at": 547634,
+          "mnemonic": "lsrs",
+          "operands": "r3, r0, #0x18"
+        },
+        {
+          "at": 547636,
+          "mnemonic": "cmp",
+          "operands": "r3, #0xd"
+        },
+        {
+          "at": 547638,
+          "mnemonic": "bls",
+          "operands": "#0x85b26"
+        },
+        {
+          "at": 547640,
+          "mnemonic": "b",
+          "operands": "#0x85b70"
+        },
+        {
+          "at": 547642,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 547644,
+          "mnemonic": "lsrs",
+          "operands": "r0, r5, #6"
+        },
+        {
+          "at": 547646,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547648,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r6, r0]"
+        },
+        {
+          "at": 547650,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547652,
+          "mnemonic": "lsrs",
+          "operands": "r2, r3, #6"
+        },
+        {
+          "at": 547654,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547656,
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x34]"
+        },
+        {
+          "at": 547658,
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 547660,
+          "mnemonic": "subs",
+          "operands": "r6, r2, #1"
+        },
+        {
+          "at": 547662,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x34]"
+        },
+        {
+          "at": 547664,
+          "mnemonic": "ldr",
+          "operands": "r4, [pc, #0x34]"
+        },
+        {
+          "at": 547666,
+          "mnemonic": "ldr",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 547668,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547670,
+          "mnemonic": "strb",
+          "operands": "r0, [r2]"
+        },
+        {
+          "at": 547672,
+          "mnemonic": "ldr",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 547674,
+          "mnemonic": "adds",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547676,
+          "mnemonic": "str",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 547678,
+          "mnemonic": "adds",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 547680,
+          "mnemonic": "ldr",
+          "operands": "r0, [r4]"
+        },
+        {
+          "at": 547682,
+          "mnemonic": "subs",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547684,
+          "mnemonic": "str",
+          "operands": "r0, [r4]"
+        },
+        {
+          "at": 547686,
+          "mnemonic": "adds",
+          "operands": "r0, r3, #1"
+        },
+        {
+          "at": 547688,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0x18"
+        },
+        {
+          "at": 547690,
+          "mnemonic": "lsrs",
+          "operands": "r3, r0, #0x18"
+        },
+        {
+          "at": 547692,
+          "mnemonic": "cmp",
+          "operands": "r3, #0xd"
+        },
+        {
+          "at": 547694,
+          "mnemonic": "bls",
+          "operands": "#0x85b52"
+        },
+        {
+          "at": 547696,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r5]"
+        },
+        {
+          "at": 547698,
+          "mnemonic": "strb",
+          "operands": "r0, [r6]"
+        },
+        {
+          "at": 547700,
+          "mnemonic": "adds",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547702,
+          "mnemonic": "strb",
+          "operands": "r0, [r5]"
+        },
+        {
+          "at": 547704,
+          "mnemonic": "movs",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547706,
+          "mnemonic": "pop",
+          "operands": "{r4, r5, r6}"
+        },
+        {
+          "at": 547708,
+          "mnemonic": "pop",
+          "operands": "{r1}"
+        },
+        {
+          "at": 547710,
+          "mnemonic": "bx",
+          "operands": "r1"
+        },
+        {
+          "at": 547712,
+          "mnemonic": "lsrs",
+          "operands": "r2, r3, #6"
+        },
+        {
+          "at": 547714,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547716,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r7, r0]"
+        },
+        {
+          "at": 547718,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547720,
+          "mnemonic": "ldrsh",
+          "operands": "r0, [r0, r1]"
+        },
+        {
+          "at": 547722,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        }
+      ],
+      "range": [
+        547444,
+        547724
+      ],
+      "raw_hex": "70b50020fff7b4fe0006000e012800d078e003480178051c002903d1012072e0485e0003012929d908480068002825dc0748007800280fd006480178002961d10f38007800280ed012e00000405e00032c5e0003b809000304480178002951d1407c002804d1297001204ce0a80900030148017046e000009909000304480078002809d0034800782978884209d039e02c5e0003b80900030b4800782978884230d12878012815d108480168084a0023561e0878107001310132581c0006030e0d2bf6d91ae00000a8090003305e00039a0900030d4a0023561e0d490d4c0868007810700868013008600132206801382060581c0006030e0d2bf0d92878307001302870002070bc02bc08479a090003385e0003405e0003",
+      "sha256": "4c886611521cfae1c31c01e44000b323663bc23dd71b7d7a6bd75eaaafa4d151"
+    },
+    {
+      "linear_disassembly": [
+        {
+          "at": 547724,
+          "mnemonic": "push",
+          "operands": "{r4, lr}"
+        },
+        {
+          "at": 547726,
+          "mnemonic": "ldr",
+          "operands": "r3, [pc, #0x1c]"
+        },
+        {
+          "at": 547728,
+          "mnemonic": "movs",
+          "operands": "r4, #1"
+        },
+        {
+          "at": 547730,
+          "mnemonic": "strb",
+          "operands": "r4, [r3]"
+        },
+        {
+          "at": 547732,
+          "mnemonic": "ldr",
+          "operands": "r3, [pc, #0x18]"
+        },
+        {
+          "at": 547734,
+          "mnemonic": "str",
+          "operands": "r0, [r3]"
+        },
+        {
+          "at": 547736,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 547738,
+          "mnemonic": "str",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 547740,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 547742,
+          "mnemonic": "strb",
+          "operands": "r4, [r0]"
+        },
+        {
+          "at": 547744,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "at": 547746,
+          "mnemonic": "str",
+          "operands": "r2, [r0]"
+        },
+        {
+          "at": 547748,
+          "mnemonic": "pop",
+          "operands": "{r4}"
+        },
+        {
+          "at": 547750,
+          "mnemonic": "pop",
+          "operands": "{r0}"
+        },
+        {
+          "at": 547752,
+          "mnemonic": "bx",
+          "operands": "r0"
+        },
+        {
+          "at": 547754,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 547756,
+          "mnemonic": "lsrs",
+          "operands": "r0, r3, #6"
+        },
+        {
+          "at": 547758,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547760,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r7, r0]"
+        },
+        {
+          "at": 547762,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547764,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r0, r1]"
+        },
+        {
+          "at": 547766,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547768,
+          "mnemonic": "ldrsh",
+          "operands": "r1, [r1, r1]"
+        },
+        {
+          "at": 547770,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547772,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r6, r0]"
+        },
+        {
+          "at": 547774,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        }
+      ],
+      "range": [
+        547724,
+        547776
+      ],
+      "raw_hex": "10b5074b01241c70064b186006480160064804700648026010bc01bc00470000980900033c5e0003445e0003495e0003345e0003",
+      "sha256": "507ba2236c9f8afadbfe1475bfcc09a2adca432a729b5542c5f25aaf8bc8da8d"
+    },
+    {
+      "linear_disassembly": [
+        {
+          "at": 547776,
+          "mnemonic": "push",
+          "operands": "{r4, r5, r6, lr}"
+        },
+        {
+          "at": 547778,
+          "mnemonic": "movs",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547780,
+          "mnemonic": "bl",
+          "operands": "#0x857e4"
+        },
+        {
+          "at": 547784,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0x18"
+        },
+        {
+          "at": 547786,
+          "mnemonic": "lsrs",
+          "operands": "r0, r0, #0x18"
+        },
+        {
+          "at": 547788,
+          "mnemonic": "cmp",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547790,
+          "mnemonic": "beq",
+          "operands": "#0x85bd2"
+        },
+        {
+          "at": 547792,
+          "mnemonic": "b",
+          "operands": "#0x85cf4"
+        },
+        {
+          "at": 547794,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 547796,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 547798,
+          "mnemonic": "adds",
+          "operands": "r6, r0, #0"
+        },
+        {
+          "at": 547800,
+          "mnemonic": "cmp",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 547802,
+          "mnemonic": "bne",
+          "operands": "#0x85be4"
+        },
+        {
+          "at": 547804,
+          "mnemonic": "movs",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547806,
+          "mnemonic": "b",
+          "operands": "#0x85cf6"
+        },
+        {
+          "at": 547808,
+          "mnemonic": "ldrsh",
+          "operands": "r1, [r1, r1]"
+        },
+        {
+          "at": 547810,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547812,
+          "mnemonic": "cmp",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 547814,
+          "mnemonic": "bls",
+          "operands": "#0x85c30"
+        },
+        {
+          "at": 547816,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x20]"
+        },
+        {
+          "at": 547818,
+          "mnemonic": "ldr",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547820,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547822,
+          "mnemonic": "bgt",
+          "operands": "#0x85c30"
+        },
+        {
+          "at": 547824,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x1c]"
+        },
+        {
+          "at": 547826,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547828,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547830,
+          "mnemonic": "beq",
+          "operands": "#0x85c18"
+        },
+        {
+          "at": 547832,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x18]"
+        },
+        {
+          "at": 547834,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 547836,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547838,
+          "mnemonic": "beq",
+          "operands": "#0x85c02"
+        },
+        {
+          "at": 547840,
+          "mnemonic": "b",
+          "operands": "#0x85cf4"
+        },
+        {
+          "at": 547842,
+          "mnemonic": "adds",
+          "operands": "r0, r1, #0"
+        },
+        {
+          "at": 547844,
+          "mnemonic": "subs",
+          "operands": "r0, #0x11"
+        },
+        {
+          "at": 547846,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547848,
+          "mnemonic": "b",
+          "operands": "#0x85c22"
+        },
+        {
+          "at": 547850,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 547852,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r0, r1]"
+        },
+        {
+          "at": 547854,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547856,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r5, r0]"
+        },
+        {
+          "at": 547858,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547860,
+          "mnemonic": "lsrs",
+          "operands": "r1, r7, #6"
+        },
+        {
+          "at": 547862,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547864,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x10]"
+        },
+        {
+          "at": 547866,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 547868,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547870,
+          "mnemonic": "bne",
+          "operands": "#0x85cf4"
+        },
+        {
+          "at": 547872,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r1, #0xf]"
+        },
+        {
+          "at": 547874,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547876,
+          "mnemonic": "bne",
+          "operands": "#0x85cf4"
+        },
+        {
+          "at": 547878,
+          "mnemonic": "strb",
+          "operands": "r0, [r6]"
+        },
+        {
+          "at": 547880,
+          "mnemonic": "movs",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547882,
+          "mnemonic": "b",
+          "operands": "#0x85cf6"
+        },
+        {
+          "at": 547884,
+          "mnemonic": "lsrs",
+          "operands": "r1, r5, #6"
+        },
+        {
+          "at": 547886,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547888,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x10]"
+        },
+        {
+          "at": 547890,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 547892,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547894,
+          "mnemonic": "beq",
+          "operands": "#0x85c4c"
+        },
+        {
+          "at": 547896,
+          "mnemonic": "ldr",
+          "operands": "r3, [pc, #0xc]"
+        },
+        {
+          "at": 547898,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r3, #1]"
+        },
+        {
+          "at": 547900,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r6]"
+        },
+        {
+          "at": 547902,
+          "mnemonic": "cmp",
+          "operands": "r0, r1"
+        },
+        {
+          "at": 547904,
+          "mnemonic": "beq",
+          "operands": "#0x85c54"
+        },
+        {
+          "at": 547906,
+          "mnemonic": "b",
+          "operands": "#0x85cf4"
+        },
+        {
+          "at": 547908,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r5, r0]"
+        },
+        {
+          "at": 547910,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547912,
+          "mnemonic": "lsrs",
+          "operands": "r0, r7, #6"
+        },
+        {
+          "at": 547914,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547916,
+          "mnemonic": "ldr",
+          "operands": "r3, [pc, #0]"
+        },
+        {
+          "at": 547918,
+          "mnemonic": "b",
+          "operands": "#0x85c3a"
+        },
+        {
+          "at": 547920,
+          "mnemonic": "lsrs",
+          "operands": "r0, r5, #6"
+        },
+        {
+          "at": 547922,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547924,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r6]"
+        },
+        {
+          "at": 547926,
+          "mnemonic": "cmp",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 547928,
+          "mnemonic": "bne",
+          "operands": "#0x85c88"
+        },
+        {
+          "at": 547930,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x28]"
+        },
+        {
+          "at": 547932,
+          "mnemonic": "ldr",
+          "operands": "r2, [r0]"
+        },
+        {
+          "at": 547934,
+          "mnemonic": "adds",
+          "operands": "r3, #2"
+        },
+        {
+          "at": 547936,
+          "mnemonic": "movs",
+          "operands": "r4, #0"
+        },
+        {
+          "at": 547938,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r2]"
+        },
+        {
+          "at": 547940,
+          "mnemonic": "cmp",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 547942,
+          "mnemonic": "beq",
+          "operands": "#0x85cba"
+        },
+        {
+          "at": 547944,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r3]"
+        },
+        {
+          "at": 547946,
+          "mnemonic": "cmp",
+          "operands": "r0, r1"
+        },
+        {
+          "at": 547948,
+          "mnemonic": "bne",
+          "operands": "#0x85cdc"
+        },
+        {
+          "at": 547950,
+          "mnemonic": "adds",
+          "operands": "r2, #1"
+        },
+        {
+          "at": 547952,
+          "mnemonic": "adds",
+          "operands": "r3, #1"
+        },
+        {
+          "at": 547954,
+          "mnemonic": "adds",
+          "operands": "r0, r4, #1"
+        },
+        {
+          "at": 547956,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0x18"
+        },
+        {
+          "at": 547958,
+          "mnemonic": "lsrs",
+          "operands": "r4, r0, #0x18"
+        },
+        {
+          "at": 547960,
+          "mnemonic": "cmp",
+          "operands": "r4, #0xd"
+        },
+        {
+          "at": 547962,
+          "mnemonic": "bhi",
+          "operands": "#0x85cba"
+        },
+        {
+          "at": 547964,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r2]"
+        },
+        {
+          "at": 547966,
+          "mnemonic": "cmp",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 547968,
+          "mnemonic": "bne",
+          "operands": "#0x85c68"
+        },
+        {
+          "at": 547970,
+          "mnemonic": "b",
+          "operands": "#0x85cba"
+        },
+        {
+          "at": 547972,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r6, r0]"
+        },
+        {
+          "at": 547974,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 547976,
+          "mnemonic": "adds",
+          "operands": "r3, #2"
+        },
+        {
+          "at": 547978,
+          "mnemonic": "movs",
+          "operands": "r4, #0"
+        },
+        {
+          "at": 547980,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x40]"
+        },
+        {
+          "at": 547982,
+          "mnemonic": "ldr",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 547984,
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 547986,
+          "mnemonic": "beq",
+          "operands": "#0x85cba"
+        },
+        {
+          "at": 547988,
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x3c]"
+        },
+        {
+          "at": 547990,
+          "mnemonic": "adds",
+          "operands": "r5, r1, #0"
+        },
+        {
+          "at": 547992,
+          "mnemonic": "ldr",
+          "operands": "r1, [r2]"
+        },
+        {
+          "at": 547994,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r3]"
+        },
+        {
+          "at": 547996,
+          "mnemonic": "strb",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 547998,
+          "mnemonic": "ldr",
+          "operands": "r0, [r2]"
+        },
+        {
+          "at": 548000,
+          "mnemonic": "adds",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 548002,
+          "mnemonic": "str",
+          "operands": "r0, [r2]"
+        },
+        {
+          "at": 548004,
+          "mnemonic": "adds",
+          "operands": "r3, #1"
+        },
+        {
+          "at": 548006,
+          "mnemonic": "ldr",
+          "operands": "r0, [r5]"
+        },
+        {
+          "at": 548008,
+          "mnemonic": "subs",
+          "operands": "r1, r0, #1"
+        },
+        {
+          "at": 548010,
+          "mnemonic": "str",
+          "operands": "r1, [r5]"
+        },
+        {
+          "at": 548012,
+          "mnemonic": "adds",
+          "operands": "r0, r4, #1"
+        },
+        {
+          "at": 548014,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0x18"
+        },
+        {
+          "at": 548016,
+          "mnemonic": "lsrs",
+          "operands": "r4, r0, #0x18"
+        },
+        {
+          "at": 548018,
+          "mnemonic": "cmp",
+          "operands": "r4, #0xd"
+        },
+        {
+          "at": 548020,
+          "mnemonic": "bhi",
+          "operands": "#0x85cba"
+        },
+        {
+          "at": 548022,
+          "mnemonic": "cmp",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 548024,
+          "mnemonic": "bne",
+          "operands": "#0x85c98"
+        },
+        {
+          "at": 548026,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r6]"
+        },
+        {
+          "at": 548028,
+          "mnemonic": "adds",
+          "operands": "r2, r0, #1"
+        },
+        {
+          "at": 548030,
+          "mnemonic": "strb",
+          "operands": "r2, [r6]"
+        },
+        {
+          "at": 548032,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 548034,
+          "mnemonic": "ldr",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 548036,
+          "mnemonic": "cmp",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 548038,
+          "mnemonic": "bne",
+          "operands": "#0x85cf0"
+        },
+        {
+          "at": 548040,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 548042,
+          "mnemonic": "strb",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 548044,
+          "mnemonic": "b",
+          "operands": "#0x85cf4"
+        },
+        {
+          "at": 548046,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 548048,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r0, r1]"
+        },
+        {
+          "at": 548050,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 548052,
+          "mnemonic": "ldrsh",
+          "operands": "r4, [r7, r0]"
+        },
+        {
+          "at": 548054,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 548056,
+          "mnemonic": "lsrs",
+          "operands": "r0, r3, #6"
+        },
+        {
+          "at": 548058,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 548060,
+          "mnemonic": "bl",
+          "operands": "#0x857b8"
+        },
+        {
+          "at": 548064,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #8]"
+        },
+        {
+          "at": 548066,
+          "mnemonic": "ldrh",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 548068,
+          "mnemonic": "movs",
+          "operands": "r2, #4"
+        },
+        {
+          "at": 548070,
+          "mnemonic": "orrs",
+          "operands": "r1, r2"
+        },
+        {
+          "at": 548072,
+          "mnemonic": "strh",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 548074,
+          "mnemonic": "b",
+          "operands": "#0x85cf4"
+        },
+        {
+          "at": 548076,
+          "mnemonic": "lsrs",
+          "operands": "r4, r5, #7"
+        },
+        {
+          "at": 548078,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 548080,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #8]"
+        },
+        {
+          "at": 548082,
+          "mnemonic": "strb",
+          "operands": "r2, [r0]"
+        },
+        {
+          "at": 548084,
+          "mnemonic": "movs",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 548086,
+          "mnemonic": "pop",
+          "operands": "{r4, r5, r6}"
+        },
+        {
+          "at": 548088,
+          "mnemonic": "pop",
+          "operands": "{r1}"
+        },
+        {
+          "at": 548090,
+          "mnemonic": "bx",
+          "operands": "r1"
+        },
+        {
+          "at": 548092,
+          "mnemonic": "lsrs",
+          "operands": "r0, r3, #6"
+        },
+        {
+          "at": 548094,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        }
+      ],
+      "range": [
+        547776,
+        548096
+      ],
+      "raw_hex": "70b50020fff70efe0006000e012800d090e003480178061c002903d101208ae0495e0003012923d90848006800281fdc0748007800280fd006490878002800d078e0081c113800780be00000445e00032c5e0003b909000304490878002869d1c87b002866d13070012064e0a909000304480078002809d0034b58783178884208d057e02c5e0003b8090003004bf4e7a80900033078012816d10a480268023300241178002928d01878884236d101320133601c0006040e0d2c1ed811780029f2d11ae0345e00030233002410490868002812d00f4a0d1c11681878087010680130106001332868411e2960601c0006040e0d2c01d80029eed13078421c327003480168002913d10348017012e00000445e00033c5e000398090003fff76cfd0248018804221143018003e0ec09000302480270002070bc02bc084798090003",
+      "sha256": "b2605ff1fe670bf1caf67093c4951ceee73772bf32df89b49700b18ae98a7165"
+    },
+    {
+      "linear_disassembly": [
+        {
+          "at": 546788,
+          "mnemonic": "push",
+          "operands": "{lr}"
+        },
+        {
+          "at": 546790,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0x18"
+        },
+        {
+          "at": 546792,
+          "mnemonic": "lsrs",
+          "operands": "r2, r0, #0x18"
+        },
+        {
+          "at": 546794,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x24]"
+        },
+        {
+          "at": 546796,
+          "mnemonic": "ldr",
+          "operands": "r0, [r0]"
+        },
+        {
+          "at": 546798,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x24]"
+        },
+        {
+          "at": 546800,
+          "mnemonic": "ands",
+          "operands": "r0, r1"
+        },
+        {
+          "at": 546802,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x24]"
+        },
+        {
+          "at": 546804,
+          "mnemonic": "cmp",
+          "operands": "r0, r1"
+        },
+        {
+          "at": 546806,
+          "mnemonic": "bne",
+          "operands": "#0x85828"
+        },
+        {
+          "at": 546808,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x20]"
+        },
+        {
+          "at": 546810,
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 546812,
+          "mnemonic": "strb",
+          "operands": "r3, [r0]"
+        },
+        {
+          "at": 546814,
+          "mnemonic": "ldr",
+          "operands": "r2, [pc, #0x20]"
+        },
+        {
+          "at": 546816,
+          "mnemonic": "ldrb",
+          "operands": "r1, [r2]"
+        },
+        {
+          "at": 546818,
+          "mnemonic": "cmp",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 546820,
+          "mnemonic": "beq",
+          "operands": "#0x8580c"
+        },
+        {
+          "at": 546822,
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x1c]"
+        },
+        {
+          "at": 546824,
+          "mnemonic": "strb",
+          "operands": "r1, [r0]"
+        },
+        {
+          "at": 546826,
+          "mnemonic": "strb",
+          "operands": "r3, [r2]"
+        },
+        {
+          "at": 546828,
+          "mnemonic": "movs",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 546830,
+          "mnemonic": "b",
+          "operands": "#0x85846"
+        },
+        {
+          "at": 546832,
+          "mnemonic": "lsrs",
+          "operands": "r0, r5, #7"
+        },
+        {
+          "at": 546834,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 546836,
+          "mnemonic": "subs",
+          "operands": "r7, #0xf"
+        },
+        {
+          "at": 546838,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 546840,
+          "mnemonic": "lsls",
+          "operands": "r3, r0, #0xc"
+        },
+        {
+          "at": 546842,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 546844,
+          "mnemonic": "ldrsh",
+          "operands": "r2, [r1, r1]"
+        },
+        {
+          "at": 546846,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 546848,
+          "mnemonic": "ldrsh",
+          "operands": "r5, [r5, r0]"
+        },
+        {
+          "at": 546850,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 546852,
+          "mnemonic": "lsls",
+          "operands": "r5, r6, #1"
+        },
+        {
+          "at": 546854,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 546856,
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x14]"
+        },
+        {
+          "at": 546858,
+          "mnemonic": "cmp",
+          "operands": "r2, #0"
+        },
+        {
+          "at": 546860,
+          "mnemonic": "beq",
+          "operands": "#0x85834"
+        },
+        {
+          "at": 546862,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 546864,
+          "mnemonic": "adds",
+          "operands": "r0, #1"
+        },
+        {
+          "at": 546866,
+          "mnemonic": "strb",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 546868,
+          "mnemonic": "ldrb",
+          "operands": "r0, [r1]"
+        },
+        {
+          "at": 546870,
+          "mnemonic": "cmp",
+          "operands": "r0, #0x3b"
+        },
+        {
+          "at": 546872,
+          "mnemonic": "bls",
+          "operands": "#0x85844"
+        },
+        {
+          "at": 546874,
+          "mnemonic": "movs",
+          "operands": "r0, #2"
+        },
+        {
+          "at": 546876,
+          "mnemonic": "b",
+          "operands": "#0x85846"
+        },
+        {
+          "at": 546878,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 546880,
+          "mnemonic": "ldrsh",
+          "operands": "r2, [r1, r1]"
+        },
+        {
+          "at": 546882,
+          "mnemonic": "lsls",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "at": 546884,
+          "mnemonic": "movs",
+          "operands": "r0, #0"
+        },
+        {
+          "at": 546886,
+          "mnemonic": "pop",
+          "operands": "{r1}"
+        },
+        {
+          "at": 546888,
+          "mnemonic": "bx",
+          "operands": "r1"
+        },
+        {
+          "at": 546890,
+          "mnemonic": "movs",
+          "operands": "r0, r0"
+        },
+        {
+          "at": 546892,
+          "mnemonic": "push",
+          "operands": "{r4, r5, r6, r7, lr}"
+        },
+        {
+          "at": 546894,
+          "mnemonic": "mov",
+          "operands": "r7, r8"
+        }
+      ],
+      "range": [
+        546788,
+        546896
+      ],
+      "raw_hex": "00b50006020e09480068094908400949884217d1084800230370084a1178002902d007480170137001201ae0e80900030f3f0000030300004a5e00032d5e0003750000030549002a02d008780130087008783b2804d9022003e000004a5e0003002002bc08470000f0b54746",
+      "sha256": "49c3bec0e308e0ebadf4ae82402220467e55e6111594fe7eba8d66a249a25563"
+    }
+  ]
+}

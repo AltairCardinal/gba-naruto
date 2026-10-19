@@ -1,0 +1,2731 @@
+{
+  "auditor_bank_check": {
+    "bank": "menu-ui",
+    "blockers": [
+      "menu-ui: unresolved limitations remain (4)",
+      "menu-ui: coverage status='artifact_verified_natural_show_portrait_load', expected 'exhaustive'",
+      "menu-ui: record coverage is not exhaustively ID-bound",
+      "menu-ui: field coverage is not exhaustive",
+      "menu-ui: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+    ],
+    "classification": "runtime_verified",
+    "complete": false,
+    "contracted_verifier_count": 1,
+    "coverage_status": "artifact_verified_natural_show_portrait_load",
+    "declared_records_covered": 1,
+    "declared_records_total": 63,
+    "evidence_valid": true,
+    "hash_bound_verifier_count": 1,
+    "limitations_count": 4,
+    "proof_bound": true
+  },
+  "auditor_cli": {
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "tools/verify_menu_portrait_pointer_ab.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "notes/evidence/rom-menu-gfx-pointer-ab-20261001-v1/contract-20261001-v1/final",
+      "--bank-contract"
+    ],
+    "contract_ok": true,
+    "exit_code": 0,
+    "label": "menu-ui"
+  },
+  "bank": "menu-ui",
+  "bank_sha256": "8e9cf0a4289ff2701ad9643181532a6e8283177875b38d34d6eced5948a6cfe7",
+  "changed_pixel_count": 1,
+  "coverage": {
+    "cells_covered": [
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "1"
+      }
+    ],
+    "cells_total": 630,
+    "cells_uncovered": [
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "0"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "0"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "0"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "0"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "0"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "0"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "0"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "0"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "0"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "0"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "1"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "1"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "1"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "1"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "1"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "1"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "1"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "1"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "1"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "2"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "2"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "2"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "2"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "2"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "2"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "2"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "2"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "2"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "2"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "3"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "3"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "3"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "3"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "3"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "3"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "3"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "3"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "3"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "3"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "4"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "4"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "4"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "4"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "4"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "4"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "4"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "4"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "4"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "4"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "5"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "5"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "5"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "5"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "5"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "5"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "5"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "5"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "5"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "5"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "6"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "6"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "6"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "6"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "6"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "6"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "6"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "6"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "6"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "6"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "7"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "7"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "7"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "7"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "7"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "7"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "7"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "7"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "7"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "7"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "8"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "8"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "8"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "8"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "8"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "8"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "8"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "8"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "8"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "8"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "9"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "9"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "9"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "9"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "9"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "9"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "9"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "9"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "9"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "9"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "10"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "10"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "10"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "10"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "10"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "10"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "10"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "10"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "10"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "10"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "11"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "11"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "11"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "11"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "11"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "11"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "11"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "11"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "11"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "11"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "12"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "12"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "12"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "12"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "12"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "12"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "12"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "12"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "12"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "12"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "13"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "13"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "13"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "13"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "13"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "13"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "13"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "13"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "13"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "13"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "14"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "14"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "14"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "14"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "14"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "14"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "14"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "14"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "14"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "14"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "15"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "15"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "15"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "15"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "15"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "15"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "15"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "15"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "15"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "15"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "16"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "16"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "16"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "16"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "16"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "16"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "16"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "16"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "16"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "16"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "17"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "17"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "17"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "17"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "17"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "17"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "17"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "17"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "17"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "17"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "18"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "18"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "18"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "18"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "18"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "18"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "18"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "18"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "18"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "18"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "19"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "19"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "19"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "19"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "19"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "19"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "19"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "19"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "19"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "19"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "20"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "20"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "20"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "20"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "20"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "20"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "20"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "20"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "20"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "20"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "21"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "21"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "21"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "21"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "21"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "21"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "21"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "21"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "21"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "21"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "22"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "22"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "22"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "22"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "22"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "22"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "22"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "22"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "22"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "22"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "23"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "23"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "23"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "23"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "23"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "23"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "23"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "23"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "23"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "23"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "24"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "24"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "24"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "24"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "24"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "24"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "24"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "24"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "24"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "24"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "25"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "25"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "25"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "25"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "25"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "25"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "25"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "25"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "25"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "25"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "26"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "26"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "26"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "26"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "26"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "26"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "26"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "26"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "26"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "26"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "27"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "27"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "27"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "27"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "27"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "27"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "27"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "27"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "27"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "27"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "28"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "28"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "28"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "28"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "28"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "28"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "28"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "28"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "28"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "28"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "29"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "29"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "29"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "29"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "29"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "29"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "29"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "29"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "29"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "29"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "30"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "30"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "30"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "30"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "30"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "30"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "30"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "30"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "30"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "30"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "31"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "31"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "31"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "31"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "31"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "31"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "31"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "31"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "31"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "31"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "32"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "32"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "32"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "32"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "32"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "32"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "32"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "32"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "32"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "32"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "33"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "33"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "33"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "33"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "33"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "33"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "33"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "33"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "33"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "33"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "34"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "34"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "34"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "34"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "34"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "34"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "34"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "34"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "34"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "34"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "35"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "35"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "35"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "35"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "35"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "35"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "35"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "35"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "35"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "35"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "36"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "36"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "36"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "36"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "36"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "36"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "36"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "36"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "36"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "36"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "37"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "37"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "37"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "37"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "37"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "37"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "37"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "37"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "37"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "37"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "38"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "38"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "38"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "38"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "38"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "38"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "38"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "38"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "38"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "38"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "39"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "39"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "39"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "39"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "39"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "39"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "39"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "39"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "39"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "39"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "40"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "40"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "40"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "40"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "40"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "40"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "40"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "40"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "40"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "40"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "41"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "41"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "41"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "41"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "41"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "41"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "41"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "41"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "41"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "41"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "42"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "42"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "42"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "42"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "42"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "42"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "42"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "42"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "42"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "42"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "43"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "43"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "43"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "43"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "43"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "43"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "43"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "43"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "43"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "43"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "44"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "44"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "44"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "44"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "44"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "44"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "44"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "44"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "44"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "44"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "45"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "45"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "45"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "45"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "45"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "45"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "45"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "45"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "45"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "45"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "46"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "46"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "46"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "46"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "46"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "46"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "46"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "46"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "46"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "46"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "47"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "47"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "47"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "47"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "47"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "47"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "47"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "47"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "47"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "47"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "48"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "48"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "48"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "48"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "48"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "48"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "48"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "48"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "48"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "48"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "49"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "49"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "49"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "49"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "49"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "49"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "49"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "49"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "49"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "49"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "50"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "50"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "50"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "50"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "50"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "50"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "50"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "50"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "50"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "50"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "51"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "51"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "51"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "51"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "51"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "51"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "51"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "51"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "51"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "51"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "52"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "52"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "52"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "52"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "52"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "52"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "52"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "52"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "52"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "52"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "53"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "53"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "53"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "53"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "53"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "53"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "53"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "53"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "53"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "53"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "54"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "54"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "54"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "54"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "54"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "54"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "54"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "54"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "54"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "54"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "55"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "55"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "55"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "55"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "55"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "55"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "55"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "55"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "55"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "55"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "56"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "56"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "56"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "56"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "56"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "56"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "56"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "56"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "56"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "56"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "57"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "57"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "57"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "57"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "57"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "57"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "57"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "57"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "57"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "57"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "58"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "58"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "58"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "58"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "58"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "58"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "58"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "58"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "58"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "58"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "59"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "59"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "59"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "59"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "59"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "59"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "59"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "59"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "59"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "59"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "60"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "60"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "60"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "60"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "60"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "60"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "60"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "60"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "60"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "60"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "61"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "61"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "61"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "61"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "61"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "61"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "61"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "61"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "61"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "61"
+      },
+      {
+        "field_id": "gfx_ptr_0",
+        "record_id": "62"
+      },
+      {
+        "field_id": "palette_ptr_0",
+        "record_id": "62"
+      },
+      {
+        "field_id": "gfx_ptr_1",
+        "record_id": "62"
+      },
+      {
+        "field_id": "palette_ptr_1",
+        "record_id": "62"
+      },
+      {
+        "field_id": "gfx_ptr_2",
+        "record_id": "62"
+      },
+      {
+        "field_id": "palette_ptr_2",
+        "record_id": "62"
+      },
+      {
+        "field_id": "gfx_ptr_3",
+        "record_id": "62"
+      },
+      {
+        "field_id": "palette_ptr_3",
+        "record_id": "62"
+      },
+      {
+        "field_id": "gfx_ptr_4",
+        "record_id": "62"
+      },
+      {
+        "field_id": "palette_ptr_4",
+        "record_id": "62"
+      }
+    ],
+    "field_ids_covered": [
+      "gfx_ptr_0"
+    ],
+    "field_ids_total": [
+      "gfx_ptr_0",
+      "palette_ptr_0",
+      "gfx_ptr_1",
+      "palette_ptr_1",
+      "gfx_ptr_2",
+      "palette_ptr_2",
+      "gfx_ptr_3",
+      "palette_ptr_3",
+      "gfx_ptr_4",
+      "palette_ptr_4"
+    ],
+    "record_ids_covered": [
+      "1"
+    ],
+    "record_ids_total": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "24",
+      "25",
+      "26",
+      "27",
+      "28",
+      "29",
+      "30",
+      "31",
+      "32",
+      "33",
+      "34",
+      "35",
+      "36",
+      "37",
+      "38",
+      "39",
+      "40",
+      "41",
+      "42",
+      "43",
+      "44",
+      "45",
+      "46",
+      "47",
+      "48",
+      "49",
+      "50",
+      "51",
+      "52",
+      "53",
+      "54",
+      "55",
+      "56",
+      "57",
+      "58",
+      "59",
+      "60",
+      "61",
+      "62"
+    ],
+    "records_covered": 1,
+    "records_total": 63,
+    "status": "artifact_verified_natural_show_portrait_load"
+  },
+  "limitations": [
+    "Only record 1 gfx_ptr_0 has isolated natural ShowPortrait(0,1,0) load evidence.",
+    "Other 629 cells and portrait transitions are unverified; null row 0 and special variant 5 are not promoted.",
+    "Scratch prefix semantics, arbitrary navigation and physical GBA execution remain unverified.",
+    "No ROM-byte classification, live catalog or release gate is promoted by this packet."
+  ],
+  "live_coverage": {
+    "field_ids_covered": "unknown",
+    "field_ids_total": [
+      "gfx_ptr_0",
+      "palette_ptr_0",
+      "gfx_ptr_1",
+      "palette_ptr_1",
+      "gfx_ptr_2",
+      "palette_ptr_2",
+      "gfx_ptr_3",
+      "palette_ptr_3",
+      "gfx_ptr_4",
+      "palette_ptr_4"
+    ],
+    "records_covered": 1,
+    "records_total": 63,
+    "status": "artifact_verified_single_variant"
+  },
+  "negative_claim_checks": [
+    {
+      "auditor_result": {
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "tools/verify_menu_portrait_pointer_ab.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "notes/evidence/rom-menu-gfx-pointer-ab-20261001-v1/contract-20261001-v1/final",
+          "--bank-contract"
+        ],
+        "contract_ok": false,
+        "exit_code": 0,
+        "label": "menu-ui"
+      },
+      "blockers": [
+        "menu-ui: verifier contract mismatch: /record_ids_covered=['1'], expected ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62']"
+      ],
+      "changed_assertion": "/record_ids_covered",
+      "expected_rejection": true
+    },
+    {
+      "auditor_result": {
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "tools/verify_menu_portrait_pointer_ab.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "notes/evidence/rom-menu-gfx-pointer-ab-20261001-v1/contract-20261001-v1/final",
+          "--bank-contract"
+        ],
+        "contract_ok": false,
+        "exit_code": 0,
+        "label": "menu-ui"
+      },
+      "blockers": [
+        "menu-ui: verifier contract mismatch: /physical_gba_verified=False, expected True"
+      ],
+      "changed_assertion": "/physical_gba_verified",
+      "expected_rejection": true
+    }
+  ],
+  "new_runtime_samples": 0,
+  "result_scope_flags": {
+    "exhaustive": false,
+    "natural_show_portrait_load": true,
+    "physical_gba_verified": false,
+    "scratch_prefix_semantics_verified": false,
+    "zero_input_sample_count": 3
+  },
+  "scope": "natural_portrait_graphics_pointer_load",
+  "seconds": 10.946,
+  "source_artifact": "notes/evidence/rom-menu-gfx-pointer-ab-20261001-v1/contract-20261001-v1/final"
+}

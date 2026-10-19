@@ -1,0 +1,47 @@
+{
+  "payload_sha256": "3f7ed416b584980695198bf93a7bb6d61345d977e83ca2ba93c25b9bf3f0a534",
+  "rows": [
+    {
+      "expected_sha256": "1331e9586a1d46fef82931a2c1bc4c2bee63fd30d6df382b3e41698561f38293",
+      "matches": false,
+      "observed_sha256": "a6e8519ff82f5b719e57bcbe0b04fd090f881aba20e1c0ad309cd131a4598583",
+      "path": "tests/test_import_battle_effect_resources.py"
+    },
+    {
+      "expected_sha256": "c4be3e9e14bf7de1f294167399977ec6181ad665cf4159692d76b5aa8db69fde",
+      "matches": true,
+      "observed_sha256": "c4be3e9e14bf7de1f294167399977ec6181ad665cf4159692d76b5aa8db69fde",
+      "path": "tests/test_vram_safe_fixed_slot_audits.py"
+    },
+    {
+      "expected_sha256": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+      "matches": true,
+      "observed_sha256": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+      "path": "tools/build_mod.py"
+    },
+    {
+      "expected_sha256": "c9f82ef316bb1cf696a03310578f15d83b50282e41a4d9dad12917e01ff077e1",
+      "matches": true,
+      "observed_sha256": "c9f82ef316bb1cf696a03310578f15d83b50282e41a4d9dad12917e01ff077e1",
+      "path": "tools/export_battle_effect_resource_writeback_audit.py"
+    },
+    {
+      "expected_sha256": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+      "matches": true,
+      "observed_sha256": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+      "path": "tools/gba_image_export.py"
+    },
+    {
+      "expected_sha256": "7b2abea86a5a460cffd300230829f63dfb889eb529b668253599ee12f9420a81",
+      "matches": true,
+      "observed_sha256": "7b2abea86a5a460cffd300230829f63dfb889eb529b668253599ee12f9420a81",
+      "path": "tools/import_battle_effect_resources.py"
+    },
+    {
+      "expected_sha256": "117042e30a9cb84bca910379321fd145341652779db1f2c53ca09c41d933f708",
+      "matches": true,
+      "observed_sha256": "117042e30a9cb84bca910379321fd145341652779db1f2c53ca09c41d933f708",
+      "path": "tools/verify_battle_effect_resource_writeback_audit.py"
+    }
+  ]
+}

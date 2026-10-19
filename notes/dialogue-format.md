@@ -1,93 +1,99 @@
-# Dialogue Format
+# 对话表与文本格式
 
-## Overview
+## 权威基线
 
-The game stores dialogue text in a contiguous SJIS-encoded block with a separate pointer table for random access.
+本说明只适用于 `rom/base.gba`：
 
-## Text Bank
+- 大小：`0x600000`（6,291,456 字节）
+- SHA-256：`1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`
+- 可重复产物：`artifacts/rom-dialogue-text-inventory-v1/` 与
+  `artifacts/rom-dialogue-padding-inventory-v1/`
 
-- **Location**: ROM offset `0x459414` - `0x461CE0`
-- **Size**: ~35 KB
-- **Encoding**: cp932 (Shift-JIS with extensions)
-- **Terminator**: null byte (`0x00`)
-- **Newline**: `0x0A`
+开发 ROM 可能重定向表项，不能沿用本页的目标范围、总字节数或哈希。
 
-Text strings are stored as null-terminated byte sequences. Newlines are `0x0A`. Full-width spaces are `0x81 0x40`.
+## 物理布局
 
-## Pointer Table
+真正的表范围是半开区间 `[0x461CE4, 0x4634B8)`，共 6,100 字节，恰好是
+305 个 20 字节记录：
 
-- **Location**: ROM offset `0x461CE8` - `0x4634B8`
-- **Size**: 6096 bytes (1524 entries, 4 bytes each)
-- **Format**: little-endian 32-bit pointers with ROM base `0x08000000`
-- **Null markers**: `0x00000000` entries separate dialogue groups
+| word | 已证明含义 |
+|---:|---|
+| 0 | 固定 `u32 0` 哨兵 |
+| 1 | primary 文本 ROM 指针 |
+| 2 | label 0 文本 ROM 指针 |
+| 3 | label 1 文本 ROM 指针 |
+| 4 | label 2 文本 ROM 指针 |
 
-## Group Structure
+旧文档从 `0x461CE8` 起数出“1,524 个平坦槽位”，漏掉了第 0 行哨兵，也掩盖了
+真实的 305×20 记录结构。完整表 SHA-256 为
+`5b36c67620030d5ccc8795a2a260aca604d90fad4a49f7c7cb9d4c7cdc63c73f`。
 
-The pointer table is divided into **305 dialogue groups**, each separated by one null entry.
+1,220 个指针全部非零、互异并严格递增，目标位于
+`[0x459414, 0x461CE1)`。每个目标取到首个 NUL（含终止符）后：
 
-Most groups contain **4 non-null pointer entries**:
+- 有效载荷：16,987 字节；
+- NUL：1,220 字节；
+- 精确目标合计：18,207 字节；
+- 目标之间的零填充：16,814 字节；
+- 目标 bundle SHA-256：
+  `7509a63b2f892ea9f2892ed4cc703da72457247df148a1435edbbee8b2d95569`。
 
-| Entry index | Typical role |
-|-------------|-------------|
-| [0] | Main dialogue text (longest string) |
-| [1] | Speaker label or short menu text |
-| [2] | Secondary label / choice text |
-| [3] | Third label / continuation |
+填充不属于目标，不能把 35,021 字节包络整体标成文本。独立 padding verifier 已从
+固定指针表重新扫描全部目标并证明 1,219 个相邻间隙恰好 16,814 字节且全部为零，
+因此这些间隙现可分类为结构性 `dialogue_inter_record_zero_padding`；该分类不声明
+文本语义、自然运行时可达，也不表示可安全分配或覆写。
 
-Example group (table entries 15-18):
+## 消费者与渲染链
 
+表首没有 `0x08461CE8` literal。真实代码在 `0x080917B0` 读取
+`literal@0x080918E8 = 0x08461CE4`，随后：
+
+```text
+0x0808F9EC -> 0x080914D8
+             -> 0x080917B0  装入表基址
+             -> 0x08091950  table_base + group_index * 20
+             -> 0x080919DA  读取 record + 4 的 primary 指针
+             -> 0x08066758  文本对象 wrapper
+             -> 0x0806626C  字节流解析器
+             -> 0x08065F84  字形/tilemap wrapper
+             -> 0x08065EB8  字形展开器
 ```
-[15] 0x08459594 -> "著畔愃榔撒誼「吶責」米候扮坦級？"
-[16] 0x084595C4 -> "征着砿"
-[17] 0x084595D0 -> "申悲級"
-[18] 0x084595DC -> "差韻淫級"
+
+`0x08091A24..0x08091A64` 的三次循环从 `record + 8 + selector * 4` 读取标签
+指针。因此四个字段角色是机器码事实，不再只是按字符串长度推测。
+
+解析器在 `0x0806671C..0x08066726` 对当前源字节执行 NUL 退出；本表目标中低于
+`0x20` 的非终止字节只有 `0x0A`，共 203 次、分布于 170 个目标。这里把它记录为
+引擎控制码/换行路径，但不据此宣称主机 CP932 或 GBK 解码就是游戏的自然语言语义。
+ROM 使用的是与字库映射配套的游戏字形码；主机编解码预览只能辅助观察。
+
+## 已知边界
+
+- 一个已确认的 group 选择分支使用 u8；另一个分支可返回 halfword。尚无路径级证据
+  证明 0..304 每一行都在自然玩法中可达。
+- label selector 的 0..2 上游约束不在本函数内检查；验证器保留这一限制。
+- 静态消费者链证明结构、目标格式和渲染用途，不等于 1,220 个目标逐一经过运行时
+  截获或画面验收。
+- `sequel/content/text/dialogue-bank-full.json` 是旧的开发 ROM 混合扫描结果，无固定
+  ROM 身份且不完整；不得作为全量清单。
+- `tools/extract_dialogue_full.py` 只扫旧范围和有限条目，不能生成规范产物。
+- `tools/import_dialogue_var.py` 目前只覆盖少量已登记项；本次只闭合全量只读提取与
+  字节分类，不签发 1,220 项全量编辑/写回能力。
+
+## 验证
+
+```bash
+python3 tools/export_rom_dialogue_text_inventory.py \
+  --root . --output-dir artifacts/rom-dialogue-text-inventory-v1
+python3 tools/verify_rom_dialogue_text_inventory.py \
+  --root . --artifact-dir artifacts/rom-dialogue-text-inventory-v1
+python3 tools/export_rom_dialogue_padding_inventory.py \
+  --root . --output-dir artifacts/rom-dialogue-padding-inventory-v1
+python3 tools/verify_rom_dialogue_padding_inventory.py \
+  --root . --artifact-dir artifacts/rom-dialogue-padding-inventory-v1
+python3 -m unittest -v tests.test_export_rom_dialogue_text_inventory
+python3 -m unittest -v tests.test_export_rom_dialogue_padding_inventory
 ```
 
-Some groups have different entry counts (not always 4).
-
-## How Dialogue Reaches the Screen
-
-The render chain (from earlier Phase 1 analysis):
-
-1. **Script/UI state** prepares RAM struct at `0x02002880`
-2. **Record bank** at `0x02022E30` holds entity/slot records
-3. **Renderer** at `0x0808947C` reads per-slot metadata and calls glyph/tilemap functions
-4. **Glyph expansion** at `0x08065EB8` decodes compact bytes into VRAM tile data
-5. **Tilemap materialization** at `0x08066D14` writes tilemap entries to WRAM buffer
-6. **DMA copy** transfers WRAM buffer to VRAM BG3 screen block at `0x06001B00+`
-
-The runtime path for opening dialogue confirmed: `0x080968A0` (caller `lr=0x08096633`)
-
-## Known Text Entry Points
-
-| ID | Table index | ROM pointer offset | Text start | Content |
-|----|------------|-------------------|-----------|---------|
-| `proof.menu.same_length_00076d` | (before table) | - | `0x00076D` | 過篇 (Chinese patched: 过篇) |
-| Group 0 entry 0 | 0 | `0x461CE8` | `0x459414` | Long dialogue text |
-| Group 1 entry 0 | 5 | `0x461CFC` | `0x459488` | Battle-related dialogue |
-
-## Variable-Length Import Strategy
-
-To add new dialogue longer than existing entries:
-
-1. **Write new text** to free ROM space (end of ROM or gap)
-2. **Update pointer table entry** to point to new text location
-3. **Pad old text location** or leave as-is (other pointers may reference it)
-
-Required for Phase 2 completion:
-- `pointer_redirect` patch type in build pipeline
-- Free space management (write new text to end of ROM)
-- Pointer table update (write new 4-byte pointer value)
-
-## Free Space
-
-After the pointer table at `0x4634B8`, the next section of ROM data begins immediately. Free space for new dialogue text must be located by scanning for zero-filled regions or by appending to the end of the ROM (within the 6 MiB limit).
-
-Current ROM size: 6 MiB (0x600000 bytes). Pointer table ends at 0x4634B8, leaving ~1.6 MiB of ROM after the table, though most of this is other game data.
-
-## References
-
-- `notes/sjis-blocks.json` - full scan of SJIS text blocks in ROM
-- `notes/dialogue-function-analysis.md` - render chain analysis
-- `notes/dialogue-write-path.md` - WRAM/VRAM write paths
-- `notes/dialogue-writer-addresses.md` - confirmed writer PCs
+独立验证器不导入 exporter；它从固定 ROM 重做表几何、消费者指令和 BL 目标、
+1,220 个范围、NUL、控制码统计、逐目标哈希及两个聚合二进制。

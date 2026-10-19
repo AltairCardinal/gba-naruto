@@ -1,0 +1,21 @@
+test_call_and_branch_are_not_skipped (__main__.AnalysisTests.test_call_and_branch_are_not_skipped) ... ok
+test_descriptor_reads_only_sentinel_head (__main__.AnalysisTests.test_descriptor_reads_only_sentinel_head) ... ok
+test_flags_and_callback_are_distinct_stack_arguments (__main__.AnalysisTests.test_flags_and_callback_are_distinct_stack_arguments) ... ok
+test_flags_mask_is_eight_not_bit_eight (__main__.AnalysisTests.test_flags_mask_is_eight_not_bit_eight) ... ok
+test_literal_and_shift_reconstruct_base_arguments (__main__.AnalysisTests.test_literal_and_shift_reconstruct_base_arguments) ... FAIL
+test_missing_descriptor_sentinel_fails_closed (__main__.AnalysisTests.test_missing_descriptor_sentinel_fails_closed) ... ok
+test_unknown_load_clobbers_previous_constant (__main__.AnalysisTests.test_unknown_load_clobbers_previous_constant) ... ok
+
+======================================================================
+FAIL: test_literal_and_shift_reconstruct_base_arguments (__main__.AnalysisTests.test_literal_and_shift_reconstruct_base_arguments)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/test_analysis.py", line 35, in test_literal_and_shift_reconstruct_base_arguments
+    self.assertEqual(state['registers'][2], 0x100)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1024 != 256
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.080s
+
+FAILED (failures=1)

@@ -1,0 +1,43 @@
+{
+  "dedicated_red": {
+    "executor": "bounded_thumb-green-v1.py",
+    "failed": 1,
+    "log": "sentinel-red-tests.log",
+    "passed": 3,
+    "tests": "test_bounded_thumb.py"
+  },
+  "initial_green": {
+    "executor": "bounded_thumb-green-v1.py",
+    "fixtures": "lifecycle_probe-green-v1.py",
+    "log": "green-v1-tests.log",
+    "passed": 11,
+    "tests": "test_lifecycle-green-v1.py"
+  },
+  "initial_red": {
+    "expected": "11 missing-module errors",
+    "log": "red-tests.log",
+    "tests": "test_lifecycle-green-v1.py"
+  },
+  "joint_batch": {
+    "cases": 526,
+    "fresh_source_verifier_calls": 4,
+    "log": "batch-v1.log",
+    "old_advance_exact_traces": 672,
+    "report": "lifecycle.json",
+    "tests": 25
+  },
+  "refactored_green": {
+    "executor": "bounded_thumb.py",
+    "log": "refactor-v2-tests.log",
+    "passed": 25
+  },
+  "return_collision_discovery": {
+    "executor": "bounded_thumb-green-v1.py",
+    "failed": 1,
+    "fixture_note": "alignment fixture default sentinel overlapped root; corrected fixture passed and dedicated collision regression failed",
+    "log": "refactor-tests.log",
+    "passed": 23,
+    "tests": "test_bounded_thumb-fixture-v1.py"
+  },
+  "schema": "animation-object-lifecycle-versions-v1"
+}

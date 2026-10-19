@@ -1,0 +1,28 @@
+test_bound_child_preserves_gpr_but_not_caller_memory (test_provenance.ProvenanceTests.test_bound_child_preserves_gpr_but_not_caller_memory) ... ok
+test_branch_join_loses_disagreeing_object_identity (test_provenance.ProvenanceTests.test_branch_join_loses_disagreeing_object_identity) ... ok
+test_derived_address_uses_total_offset_not_store_displacement (test_provenance.ProvenanceTests.test_derived_address_uses_total_offset_not_store_displacement) ... ok
+test_literal_read_is_bound_to_rom_address (test_provenance.ProvenanceTests.test_literal_read_is_bound_to_rom_address) ... FAIL
+test_load_does_not_guess_pointee_as_original_object (test_provenance.ProvenanceTests.test_load_does_not_guess_pointee_as_original_object) ... ok
+test_missing_raw_partition_and_budget_fail_closed (test_provenance.ProvenanceTests.test_missing_raw_partition_and_budget_fail_closed) ... ok
+test_opaque_child_destroys_pointer_and_stack_facts (test_provenance.ProvenanceTests.test_opaque_child_destroys_pointer_and_stack_facts) ... ok
+test_partial_overlap_is_critical_even_without_equal_field_start (test_provenance.ProvenanceTests.test_partial_overlap_is_critical_even_without_equal_field_start) ... ok
+test_retargeted_register_must_not_remain_original_object (test_provenance.ProvenanceTests.test_retargeted_register_must_not_remain_original_object) ... ok
+
+======================================================================
+FAIL: test_literal_read_is_bound_to_rom_address (test_provenance.ProvenanceTests.test_literal_read_is_bound_to_rom_address)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-critical-writers/writers-20261001-v1/test_provenance.py", line 54, in test_literal_read_is_bound_to_rom_address
+    self.assertEqual(r['reads'][0]['address'],0x08000108)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != 134217992
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.011s
+
+FAILED (failures=1)
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-critical-writers/writers-20261001-v1/run_provenance_tests.py", line 10, in <module>
+    assert r.wasSuccessful() and r.testsRun==9
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

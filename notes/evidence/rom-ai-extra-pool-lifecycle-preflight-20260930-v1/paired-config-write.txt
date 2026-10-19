@@ -1,0 +1,61 @@
+rom=rom/base.gba
+start=0x0806AD58
+focus=0x0806AD58
+size=0x70
+
+=> 0x0806AD58: lsls     r0, r0, #0x18
+   0x0806AD5A: lsrs     r7, r0, #0x18
+   0x0806AD5C: movs     r4, #0xea
+   0x0806AD5E: lsls     r4, r4, #1
+   0x0806AD60: adds     r1, r7, #0
+   0x0806AD62: muls     r1, r4, r1
+   0x0806AD64: ldr      r0, [pc, #0x60]
+   0x0806AD66: adds     r2, r1, r0
+   0x0806AD68: ldrb     r0, [r5, #0xe]
+   0x0806AD6A: adds     r1, r2, #0
+   0x0806AD6C: adds     r1, #0xcd
+   0x0806AD6E: strb     r0, [r1]
+   0x0806AD70: adds     r3, r2, #0
+   0x0806AD72: adds     r3, #0xc0
+   0x0806AD74: ldr      r0, [r3]
+   0x0806AD76: movs     r6, #0xe
+   0x0806AD78: ands     r0, r6
+   0x0806AD7A: cmp      r0, #6
+   0x0806AD7C: bne      #0x806ad92
+   0x0806AD7E: ldr      r1, [pc, #0x4c]
+   0x0806AD80: adds     r0, r2, #0
+   0x0806AD82: adds     r0, #0xca
+   0x0806AD84: ldrb     r0, [r0]
+   0x0806AD86: subs     r0, #1
+   0x0806AD88: muls     r0, r4, r0
+   0x0806AD8A: adds     r0, r0, r1
+   0x0806AD8C: ldrb     r1, [r5, #0xe]
+   0x0806AD8E: adds     r0, #0xcd
+   0x0806AD90: strb     r1, [r0]
+   0x0806AD92: ldrh     r0, [r5, #0xc]
+   0x0806AD94: adds     r1, r2, #0
+   0x0806AD96: adds     r1, #0xce
+   0x0806AD98: strh     r0, [r1]
+   0x0806AD9A: ldr      r0, [r3]
+   0x0806AD9C: ands     r0, r6
+   0x0806AD9E: cmp      r0, #6
+   0x0806ADA0: bne      #0x806adb6
+   0x0806ADA2: ldr      r1, [pc, #0x28]
+   0x0806ADA4: adds     r0, r2, #0
+   0x0806ADA6: adds     r0, #0xca
+   0x0806ADA8: ldrb     r0, [r0]
+   0x0806ADAA: subs     r0, #1
+   0x0806ADAC: muls     r0, r4, r0
+   0x0806ADAE: adds     r0, r0, r1
+   0x0806ADB0: ldrh     r1, [r5, #0xc]
+   0x0806ADB2: adds     r0, #0xce
+   0x0806ADB4: strh     r1, [r0]
+   0x0806ADB6: adds     r0, r7, #0
+   0x0806ADB8: add      sp, #8
+   0x0806ADBA: pop      {r3}
+   0x0806ADBC: mov      r8, r3
+   0x0806ADBE: pop      {r4, r5, r6, r7}
+   0x0806ADC0: pop      {r1}
+   0x0806ADC2: bx       r1
+   0x0806ADC4: cmp      r0, #0x80
+   0x0806ADC6: lsls     r0, r0, #8

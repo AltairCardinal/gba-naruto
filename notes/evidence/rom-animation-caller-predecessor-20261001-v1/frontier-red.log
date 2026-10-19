@@ -1,0 +1,57 @@
+test_allocator_does_not_preserve_stack_memory_origin (__main__.FrontierTests.test_allocator_does_not_preserve_stack_memory_origin) ... ERROR
+test_budget_exhaustion_does_not_fake_an_empty_frontier (__main__.FrontierTests.test_budget_exhaustion_does_not_fake_an_empty_frontier) ... ERROR
+test_constant_stack_argument_finds_its_producer (__main__.FrontierTests.test_constant_stack_argument_finds_its_producer) ... ERROR
+test_unknown_callee_is_an_explicit_register_boundary (__main__.FrontierTests.test_unknown_callee_is_an_explicit_register_boundary) ... ERROR
+
+======================================================================
+ERROR: test_allocator_does_not_preserve_stack_memory_origin (__main__.FrontierTests.test_allocator_does_not_preserve_stack_memory_origin)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_frontier.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/frontier.py'
+
+======================================================================
+ERROR: test_budget_exhaustion_does_not_fake_an_empty_frontier (__main__.FrontierTests.test_budget_exhaustion_does_not_fake_an_empty_frontier)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_frontier.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/frontier.py'
+
+======================================================================
+ERROR: test_constant_stack_argument_finds_its_producer (__main__.FrontierTests.test_constant_stack_argument_finds_its_producer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_frontier.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/frontier.py'
+
+======================================================================
+ERROR: test_unknown_callee_is_an_explicit_register_boundary (__main__.FrontierTests.test_unknown_callee_is_an_explicit_register_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/test_frontier.py", line 16, in setUp
+    spec.loader.exec_module(self.m)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-caller-predecessor/predecessor-20261001-v1/frontier.py'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.002s
+
+FAILED (errors=4)

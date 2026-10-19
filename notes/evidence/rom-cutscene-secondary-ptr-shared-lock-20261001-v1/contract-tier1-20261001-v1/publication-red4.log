@@ -1,0 +1,99 @@
+test_archive_traversal_duplicate_and_symlink_rejected (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_archive_traversal_duplicate_and_symlink_rejected) ... ERROR
+test_bad_capture_cannot_be_published (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_bad_capture_cannot_be_published) ... ERROR
+test_cli_contract_is_partial_and_cannot_pass_full_bank_gate (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_cli_contract_is_partial_and_cannot_pass_full_bank_gate) ... ERROR
+test_exporter_cli_and_rejected_output_boundaries (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_exporter_cli_and_rejected_output_boundaries) ... ERROR
+test_managed_promotion_double_replay_and_no_replace (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_managed_promotion_double_replay_and_no_replace) ... ERROR
+test_offline_relocation_keeps_exact_identity (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_offline_relocation_keeps_exact_identity) ... ERROR
+test_resigned_pixel_or_scope_claim_rejected (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_resigned_pixel_or_scope_claim_rejected) ... ERROR
+
+======================================================================
+ERROR: test_archive_traversal_duplicate_and_symlink_rejected (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_archive_traversal_duplicate_and_symlink_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 73, in test_archive_traversal_duplicate_and_symlink_rejected
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_cutscene_obj_secondary_ptr_ab.py", line 5, in export_artifact
+    raise NotImplementedError('secondary-pointer publication not implemented')
+NotImplementedError: secondary-pointer publication not implemented
+
+======================================================================
+ERROR: test_bad_capture_cannot_be_published (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_bad_capture_cannot_be_published)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 148, in test_bad_capture_cannot_be_published
+    exporter.export_artifact(ROOT, source, target)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_cutscene_obj_secondary_ptr_ab.py", line 5, in export_artifact
+    raise NotImplementedError('secondary-pointer publication not implemented')
+NotImplementedError: secondary-pointer publication not implemented
+
+======================================================================
+ERROR: test_cli_contract_is_partial_and_cannot_pass_full_bank_gate (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_cli_contract_is_partial_and_cannot_pass_full_bank_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 98, in test_cli_contract_is_partial_and_cannot_pass_full_bank_gate
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_cutscene_obj_secondary_ptr_ab.py", line 5, in export_artifact
+    raise NotImplementedError('secondary-pointer publication not implemented')
+NotImplementedError: secondary-pointer publication not implemented
+
+======================================================================
+ERROR: test_exporter_cli_and_rejected_output_boundaries (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_exporter_cli_and_rejected_output_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 125, in test_exporter_cli_and_rejected_output_boundaries
+    self.assertTrue(verifier.verify_artifact(ROOT, target)['verified'])
+                    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 261, in verify_artifact
+    raise NotImplementedError('secondary-pointer artifact replay not implemented')
+NotImplementedError: secondary-pointer artifact replay not implemented
+
+======================================================================
+ERROR: test_managed_promotion_double_replay_and_no_replace (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_managed_promotion_double_replay_and_no_replace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 38, in test_managed_promotion_double_replay_and_no_replace
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_cutscene_obj_secondary_ptr_ab.py", line 5, in export_artifact
+    raise NotImplementedError('secondary-pointer publication not implemented')
+NotImplementedError: secondary-pointer publication not implemented
+
+======================================================================
+ERROR: test_offline_relocation_keeps_exact_identity (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_offline_relocation_keeps_exact_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 51, in test_offline_relocation_keeps_exact_identity
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_cutscene_obj_secondary_ptr_ab.py", line 5, in export_artifact
+    raise NotImplementedError('secondary-pointer publication not implemented')
+NotImplementedError: secondary-pointer publication not implemented
+
+======================================================================
+ERROR: test_resigned_pixel_or_scope_claim_rejected (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_resigned_pixel_or_scope_claim_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 58, in test_resigned_pixel_or_scope_claim_rejected
+    artifact = self.publish(Path(directory) / 'final')
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 34, in publish
+    return exporter.export_artifact(ROOT, SOURCE, target)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_cutscene_obj_secondary_ptr_ab.py", line 5, in export_artifact
+    raise NotImplementedError('secondary-pointer publication not implemented')
+NotImplementedError: secondary-pointer publication not implemented
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.082s
+
+FAILED (errors=7)

@@ -1,0 +1,484 @@
+{
+  "callee_targets": [
+    403124,
+    419744,
+    420424,
+    420584,
+    453992,
+    578944,
+    607828
+  ],
+  "field_count": 25,
+  "frontier_kinds": {
+    "constant_producer": 1,
+    "unproved_callee_register_effect": 24,
+    "unproved_callee_stack_effect": 1
+  },
+  "implementation_inputs": {
+    "frontier.py": "d7bec8de0622f6151eba78e92273fb76fbd5bb7a8b2529c1ad2505d994df1e3a",
+    "profile_updated.py": "b78b01461346e7779782c636ded4a9f6b54c9f863b138f6d44c9f0329708716c",
+    "test_summary_frontier.py": "d0b88b613a858f0e6946589b359c674a639456af6c8ee66cd241211728506fe3"
+  },
+  "parent_sha256": "3a43e8a0fcddf46ba2f6b01faecf855bd45a647a8c38e34c4bd1b93846a96e94",
+  "promotion_bytes": 0,
+  "rows": [
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 456564,
+            "kind": "constant_producer",
+            "register": 6,
+            "value": 8
+          },
+          {
+            "at": 457110,
+            "index": 6,
+            "kind": "unproved_callee_register_effect",
+            "target": 453992,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 91
+      },
+      "field": "flags",
+      "site": 456980
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 491048,
+            "index": 72,
+            "kind": "unproved_callee_stack_effect",
+            "target": 403124,
+            "value_kind": "stack"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 18
+      },
+      "field": "callback",
+      "site": 491086
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 490990,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 420424,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 67
+      },
+      "field": "callback",
+      "site": 491132
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 490990,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 420424,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 85
+      },
+      "field": "callback",
+      "site": 491170
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 494312,
+            "index": 7,
+            "kind": "unproved_callee_register_effect",
+            "target": 607828,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 22
+      },
+      "field": "callback",
+      "site": 494360
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 494312,
+            "index": 7,
+            "kind": "unproved_callee_register_effect",
+            "target": 607828,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 39
+      },
+      "field": "callback",
+      "site": 494396
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 496142,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 419744,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 22
+      },
+      "field": "callback",
+      "site": 496190
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 496142,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 419744,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 40
+      },
+      "field": "callback",
+      "site": 496228
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 549778,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 578944,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 12
+      },
+      "field": "callback",
+      "site": 549804
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 559774,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 578944,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 12
+      },
+      "field": "callback",
+      "site": 559800
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 582250,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 420584,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 28
+      },
+      "field": "callback",
+      "site": 582310
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 582250,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 420584,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 46
+      },
+      "field": "callback",
+      "site": 582348
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 599242,
+            "index": 6,
+            "kind": "unproved_callee_register_effect",
+            "target": 420424,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 45
+      },
+      "field": "callback",
+      "site": 599342
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 599242,
+            "index": 6,
+            "kind": "unproved_callee_register_effect",
+            "target": 420424,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 60
+      },
+      "field": "callback",
+      "site": 599374
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 599242,
+            "index": 6,
+            "kind": "unproved_callee_register_effect",
+            "target": 420424,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 77
+      },
+      "field": "callback",
+      "site": 599410
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 604398,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 420424,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 22
+      },
+      "field": "callback",
+      "site": 604446
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 604398,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 420424,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 41
+      },
+      "field": "callback",
+      "site": 604486
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 604398,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 420424,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 60
+      },
+      "field": "callback",
+      "site": 604526
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 604398,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 420424,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 78
+      },
+      "field": "callback",
+      "site": 604564
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 610172,
+            "index": 7,
+            "kind": "unproved_callee_register_effect",
+            "target": 607828,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 22
+      },
+      "field": "callback",
+      "site": 610220
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 610172,
+            "index": 7,
+            "kind": "unproved_callee_register_effect",
+            "target": 607828,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 39
+      },
+      "field": "callback",
+      "site": 610256
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 612002,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 419744,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 22
+      },
+      "field": "callback",
+      "site": 612050
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 612002,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 419744,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 40
+      },
+      "field": "callback",
+      "site": 612088
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 613134,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 420584,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 37
+      },
+      "field": "callback",
+      "site": 613216
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 613134,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 420584,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed; callee/frame preservation carries unproved preconditions",
+        "visited_dependency_states": 55
+      },
+      "field": "callback",
+      "site": 613254
+    }
+  ],
+  "schema": "animation-callee-updated-frontiers-v1",
+  "scope": "Backward planning only. Verified callee identities do not establish entry values; branches are not narrowed and frame/call resumption assumptions remain unproved."
+}

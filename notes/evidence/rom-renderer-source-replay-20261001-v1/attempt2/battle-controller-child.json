@@ -1,0 +1,27 @@
+{
+  "schema": "rom-battle-controller-cfg-verification-v1",
+  "verified": true,
+  "errors": [],
+  "controller_range": [
+    471732,
+    479388
+  ],
+  "controller_sha256": "c9bdc220590a851fa331960bcb32be90eb9ac7248a5cd3dabb9f8afa0b674bc1",
+  "dispatcher_nondefault_state_count": 38,
+  "dispatcher_default_state_count": 65498,
+  "root_count": 38,
+  "summary": {
+    "decoded_basic_block_count": 739,
+    "decoded_instruction_count": 2756,
+    "frontier_count": 5,
+    "frontier_reasons": {
+      "decode_failure": 1,
+      "indirect_pc_target": 2,
+      "unsupported_armv4t_instruction": 2
+    },
+    "reachable_instruction_bytes": 6172,
+    "opaque_external_edge_count": 227,
+    "opaque_baseline_edge_count": 9,
+    "skipped_root_count": 1
+  }
+}

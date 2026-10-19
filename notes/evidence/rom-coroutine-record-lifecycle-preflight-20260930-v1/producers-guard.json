@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 11481,
+  "peak_tree_rss_mib": 0.81640625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec env PYTHONPATH=. python3 build/experiments/active/coroutine-record-lifecycle/shared-scheduler-preflight-20260930-v1/replay_producers.py > build/experiments/active/coroutine-record-lifecycle/shared-scheduler-preflight-20260930-v1/producers.json"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T15:41:10.905287Z",
+  "finished_at": "2026-09-30T15:41:11.945060Z"
+}

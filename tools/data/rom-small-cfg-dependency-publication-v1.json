@@ -1,0 +1,112 @@
+{
+  "inputs": [
+    {
+      "path": "tools/rom_small_cfg_callback_gaps_independent_verifier.py",
+      "sha256": "c6244e7fbb08b63dd8387cbba9b381564e24ad72b13f717d1cc9752dd3f3d083",
+      "size": 11876
+    },
+    {
+      "path": "tools/rom_small_cfg_callback_gaps_producer.py",
+      "sha256": "241edc5022877fe05abce6ffcac760ecb7aa54414a7431a366b5d0e362315315",
+      "size": 23041
+    },
+    {
+      "path": "tools/rom_small_cfg_dependency_packets.py",
+      "sha256": "3afcca8ca4d1e3a72d79ce0043b771e04874f6b87d3c563fecc698ca70539293",
+      "size": 1722
+    },
+    {
+      "path": "tools/rom_small_cfg_dispatch_decode.py",
+      "sha256": "44aa4a516f32efeb421c4f326ef4d99c756a06f571b2e641603b6aabc4839b9c",
+      "size": 7923
+    },
+    {
+      "path": "tools/rom_small_cfg_dispatcher_independent_verifier.py",
+      "sha256": "262dd0654c1427d9dc7e8853783416e74d588d5d4c6642a3524f4e67533bbfef",
+      "size": 16387
+    },
+    {
+      "path": "tools/rom_small_cfg_dispatcher_producer.py",
+      "sha256": "41e247bb9ac6ef2e738f0badcbbb06e54e05bb01509426d8284c5877c7b26ca9",
+      "size": 5972
+    },
+    {
+      "path": "tools/rom_small_cfg_event_gaps_independent_verifier.py",
+      "sha256": "b727874a5b1260d3315a82ce78e9061b949c0ab1c69140c3ebf4da4707de67f3",
+      "size": 8202
+    },
+    {
+      "path": "tools/rom_small_cfg_event_gaps_producer.py",
+      "sha256": "9e5c738df5fde388883799062045af6d617739d506d53abda5f287b0ca6d39a0",
+      "size": 3852
+    },
+    {
+      "path": "tools/rom_small_cfg_wrappers_independent_verifier.py",
+      "sha256": "3d1524d799a6b1f7d86de7488ba849605fdd533e8a4882922e539cb5dcbefdf8",
+      "size": 18723
+    },
+    {
+      "path": "tools/rom_small_cfg_wrappers_producer.py",
+      "sha256": "34dfb4bde185df959931bb7cdfe144d9ab9fe87f5444e3129bbf397ec8727932",
+      "size": 34204
+    },
+    {
+      "path": "tools/export_rom_cfg_proven_roots_v21.py",
+      "sha256": "a082b50dd61a3eff5588803adedc81796b34394c94b17ec58d9cd0f32376419a",
+      "size": 32860
+    },
+    {
+      "path": "tools/data/rom-small-cfg-dependency-v1/callback_gaps.json",
+      "sha256": "bc8d545f5bb9619935abc4fe52b4651967f3fe8d4dbd330cf2688fe74b18164a",
+      "size": 14937
+    },
+    {
+      "path": "tools/data/rom-small-cfg-dependency-v1/dispatcher.json",
+      "sha256": "f0cb65f5184ed6536c808e5d375441810a1251dbfd9bcb3feda648e1155ab711",
+      "size": 13466
+    },
+    {
+      "path": "tools/data/rom-small-cfg-dependency-v1/event_gaps.json",
+      "sha256": "a69a2fe7fbf9748957ee5258ae850c6049c829a63c3422047b06491debe85f0a",
+      "size": 59518
+    },
+    {
+      "path": "tools/data/rom-small-cfg-dependency-v1/wrappers.json",
+      "sha256": "065dae442f4f1276b6b41b42f5d5e56d550a043dea5a5a73090ab9fa886174ac",
+      "size": 39677
+    }
+  ],
+  "packets": {
+    "callback_gaps": {
+      "claim_count": 5,
+      "payload_sha256": "190b1a13162df0f00631cf1e35b52a09cd47c72b92dfda55dc4c10befb2ba715",
+      "promotion_bytes": 10,
+      "report_sha256": "f4b8551656cc52e188122d69d86b6b44f19357a293631a7d6dfc41488a3b1695"
+    },
+    "dispatcher": {
+      "claim_count": 4,
+      "payload_sha256": "69e8644ef8d0c864624a18d8dc175044cec7a8268e5e0eb6b38e753e983f0a6e",
+      "promotion_bytes": 40,
+      "report_sha256": "1cd296da06cf82d02a037cd4e3291c99f856799e9ce3ff66419ffdb1c9f7c0f5"
+    },
+    "event_gaps": {
+      "claim_count": 7,
+      "payload_sha256": "e4a158e824408fc0f8da6b28b35777bdc41362f6ca6094e46906e21d2f871d48",
+      "promotion_bytes": 14,
+      "report_sha256": "5bfd2b6ea42077eff9da77f5acbc2c5a5305ef8a0b6706076735014f6e677cba"
+    },
+    "wrappers": {
+      "claim_count": 5,
+      "payload_sha256": "1f6d8c62a2a22564eef4b01b69c65a6b3a6015fd4b4bb0e5276fc32d1a906cc1",
+      "promotion_bytes": 54,
+      "report_sha256": "990295bd7cdcf5dd9d726d3a33349a4f1492f97c09db9cb9736fa4a69b6cebd0"
+    }
+  },
+  "schema": "rom-small-cfg-dependency-publication-contract-v1",
+  "scope": {
+    "canonical_promoted": false,
+    "editing_writeback_relocation_safe_claimed": false,
+    "full_upstream_lifecycle_replayed_here": false,
+    "natural_runtime_reachability_claimed": false
+  }
+}

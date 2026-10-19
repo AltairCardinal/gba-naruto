@@ -1,0 +1,54 @@
+EEEE
+======================================================================
+ERROR: test_cli_builds_real_pair (tests.test_build_cutscene_obj_secondary_ptr_ab.SecondaryPointerPairTests.test_cli_builds_real_pair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_cutscene_obj_secondary_ptr_ab.py", line 70, in test_cli_builds_real_pair
+    self.assertEqual(json.loads(completed.stdout), json.loads((output / "build-manifest.json").read_text()))
+                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+======================================================================
+ERROR: test_nonempty_and_symlink_output_preserve_user_data (tests.test_build_cutscene_obj_secondary_ptr_ab.SecondaryPointerPairTests.test_nonempty_and_symlink_output_preserve_user_data) (symbolic=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_cutscene_obj_secondary_ptr_ab.py", line 59, in test_nonempty_and_symlink_output_preserve_user_data
+    build_pair(ROOT, output)
+    ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_cutscene_obj_secondary_ptr_ab.py", line 4, in build_pair
+    raise NotImplementedError("secondary pointer pair not implemented")
+NotImplementedError: secondary pointer pair not implemented
+
+======================================================================
+ERROR: test_nonempty_and_symlink_output_preserve_user_data (tests.test_build_cutscene_obj_secondary_ptr_ab.SecondaryPointerPairTests.test_nonempty_and_symlink_output_preserve_user_data) (symbolic=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_cutscene_obj_secondary_ptr_ab.py", line 59, in test_nonempty_and_symlink_output_preserve_user_data
+    build_pair(ROOT, output)
+    ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_cutscene_obj_secondary_ptr_ab.py", line 4, in build_pair
+    raise NotImplementedError("secondary pointer pair not implemented")
+NotImplementedError: secondary pointer pair not implemented
+
+======================================================================
+ERROR: test_real_pair_changes_only_record1_secondary_pointer (tests.test_build_cutscene_obj_secondary_ptr_ab.SecondaryPointerPairTests.test_real_pair_changes_only_record1_secondary_pointer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_cutscene_obj_secondary_ptr_ab.py", line 21, in test_real_pair_changes_only_record1_secondary_pointer
+    manifest = build_pair(ROOT, output)
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_cutscene_obj_secondary_ptr_ab.py", line 4, in build_pair
+    raise NotImplementedError("secondary pointer pair not implemented")
+NotImplementedError: secondary pointer pair not implemented
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.045s
+
+FAILED (errors=4)

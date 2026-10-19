@@ -1,0 +1,65 @@
+test_entry_at_terminal_cannot_inherit_guard (__main__.DispatchTests.test_entry_at_terminal_cannot_inherit_guard) ... ERROR
+test_fixed_contract_has_all_ten_slots (__main__.DispatchTests.test_fixed_contract_has_all_ten_slots) ... ERROR
+test_forged_target_vector_rejected (__main__.DispatchTests.test_forged_target_vector_rejected) ... ERROR
+test_guard_rom_mutation_rejected (__main__.DispatchTests.test_guard_rom_mutation_rejected) ... ERROR
+test_real_closed_callee_requires_dispatch_edges (__main__.DispatchTests.test_real_closed_callee_requires_dispatch_edges) ... ERROR
+
+======================================================================
+ERROR: test_entry_at_terminal_cannot_inherit_guard (__main__.DispatchTests.test_entry_at_terminal_cannot_inherit_guard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 28, in test_entry_at_terminal_cannot_inherit_guard
+    with self.assertRaises(ValueError):self.binder().bind(self.rom,0x6dc72,self.source,{0x6dc72})
+                                       ~~~~~~~~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 14, in binder
+    import dispatch_contracts
+ModuleNotFoundError: No module named 'dispatch_contracts'
+
+======================================================================
+ERROR: test_fixed_contract_has_all_ten_slots (__main__.DispatchTests.test_fixed_contract_has_all_ten_slots)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 18, in test_fixed_contract_has_all_ten_slots
+    rows=self.binder().bind(self.rom,0x6d964,self.source,{0x6dc72})
+         ~~~~~~~~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 14, in binder
+    import dispatch_contracts
+ModuleNotFoundError: No module named 'dispatch_contracts'
+
+======================================================================
+ERROR: test_forged_target_vector_rejected (__main__.DispatchTests.test_forged_target_vector_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 23, in test_forged_target_vector_rejected
+    rows=self.binder().bind(self.rom,0x6d964,self.source,{0x6dc72})
+         ~~~~~~~~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 14, in binder
+    import dispatch_contracts
+ModuleNotFoundError: No module named 'dispatch_contracts'
+
+======================================================================
+ERROR: test_guard_rom_mutation_rejected (__main__.DispatchTests.test_guard_rom_mutation_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 32, in test_guard_rom_mutation_rejected
+    with self.assertRaises(ValueError):self.binder().bind(bytes(raw),0x6d964,self.source,{0x6dc72})
+                                       ~~~~~~~~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 14, in binder
+    import dispatch_contracts
+ModuleNotFoundError: No module named 'dispatch_contracts'
+
+======================================================================
+ERROR: test_real_closed_callee_requires_dispatch_edges (__main__.DispatchTests.test_real_closed_callee_requires_dispatch_edges)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 35, in test_real_closed_callee_requires_dispatch_edges
+    rows=self.binder().bind(self.rom,0x6d964,self.source,{0x6dc72})
+         ~~~~~~~~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_dispatch.py", line 14, in binder
+    import dispatch_contracts
+ModuleNotFoundError: No module named 'dispatch_contracts'
+
+----------------------------------------------------------------------
+Ran 5 tests in 2.837s
+
+FAILED (errors=5)

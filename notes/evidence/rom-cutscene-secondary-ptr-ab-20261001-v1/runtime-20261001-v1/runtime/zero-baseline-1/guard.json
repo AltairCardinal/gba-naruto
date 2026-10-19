@@ -1,0 +1,27 @@
+{
+  "child_pid": 40453,
+  "command": [
+    "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--script",
+    "/Users/altair/github/gba-naruto-reverse/tools/mgba_checkpoint_replay.lua",
+    "/Users/altair/github/gba-naruto-reverse/build/experiments/active/cutscene-secondary-ptr-ab/runtime-20261001-v1/runtime/zero-baseline-1/staged.gba"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "degraded": false,
+  "exit_code": 125,
+  "finished_at": "2026-10-01T03:02:27.335444Z",
+  "mgba_crash_latch": "/Users/altair/github/gba-naruto-reverse/build/resource-guard/mgba-crash-latch.json",
+  "mgba_crash_reports": [
+    {
+      "mtime_ns": 1790823747013467776,
+      "path": "/Users/altair/Library/Logs/DiagnosticReports/mGBA-2026-10-01-110226.ips",
+      "size": 6013
+    }
+  ],
+  "peak_tree_rss_mib": 0.109375,
+  "pre_crash_exit_code": -6,
+  "pre_crash_reason": "child-exit",
+  "protection_backend": "posix-process-group",
+  "reason": "mgba-crash-report",
+  "started_at": "2026-10-01T03:02:26.286882Z"
+}

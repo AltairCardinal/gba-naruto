@@ -1,0 +1,25 @@
+test_all_counter_values_save_exact_byte_and_set_one (test_save_source.SaveSourceTests.test_all_counter_values_save_exact_byte_and_set_one) ... ok
+test_bounded_cfg_rejects_branch_escape_and_truncated_bl (test_save_source.SaveSourceTests.test_bounded_cfg_rejects_branch_escape_and_truncated_bl) ... ok
+test_busy_status_and_context_switch_are_fail_closed (test_save_source.SaveSourceTests.test_busy_status_and_context_switch_are_fail_closed) ... ok
+test_callback_binding_rejects_pointer_and_registrar_mutations (test_save_source.SaveSourceTests.test_callback_binding_rejects_pointer_and_registrar_mutations) ... ok
+test_callback_registration_binds_slot5_real_record_and_dispatch_pointer (test_save_source.SaveSourceTests.test_callback_registration_binds_slot5_real_record_and_dispatch_pointer) ... ok
+test_direct_cfg_follows_branches_skips_calls_and_does_not_decode_literals (test_save_source.SaveSourceTests.test_direct_cfg_follows_branches_skips_calls_and_does_not_decode_literals) ... ok
+test_existing_saved_blocks_new_save_and_valid_restore_clears_saved (test_save_source.SaveSourceTests.test_existing_saved_blocks_new_save_and_valid_restore_clears_saved) ... ok
+test_freeze_all_active_all_inactive_and_high_flags_keep_128_slot_domain (test_save_source.SaveSourceTests.test_freeze_all_active_all_inactive_and_high_flags_keep_128_slot_domain) ... ok
+test_postbattle_counter_store_stops_before_external_controller (test_save_source.SaveSourceTests.test_postbattle_counter_store_stops_before_external_controller) ... ok
+test_raw_oracle_follows_negative_conditional_backedge_and_call_fallthrough (test_save_source.SaveSourceTests.test_raw_oracle_follows_negative_conditional_backedge_and_call_fallthrough) ... ok
+test_save_then_restore_roundtrip_retains_nonzero_but_zero_is_marker (test_save_source.SaveSourceTests.test_save_then_restore_roundtrip_retains_nonzero_but_zero_is_marker) ... ok
+test_timeout_freezes_only_active_128_objects_and_cleans_four_task_records (test_save_source.SaveSourceTests.test_timeout_freezes_only_active_128_objects_and_cleans_four_task_records) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 4.210s
+
+OK
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-save-source/source-20261001-v1/batch.py", line 171, in <module>
+    main(Path(sys.argv[1]))
+    ~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-save-source/source-20261001-v1/batch.py", line 144, in main
+    producers[row.target].append({'at':row.address,'kind':row.kind})
+                                                          ^^^^^^^^
+AttributeError: 'ThumbBranch' object has no attribute 'kind'

@@ -1,0 +1,7381 @@
+{
+  "domain_classes": [
+    "armv4t_battle_distance_target_closure_thumb_code",
+    "armv4t_boot_register_init_dependency_cfg_reachable_thumb_code",
+    "armv4t_boot_state_target_closure_thumb_code",
+    "armv4t_boot_thumb_handoff_reachable_code",
+    "armv4t_cfg_battle_controller_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v10_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v11_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v12_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v13_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v14_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v15_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v16_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v17_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v18_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v19_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v20_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v21_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v3_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v4_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v5_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v7_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v8_reachable_thumb_code",
+    "armv4t_cfg_proven_roots_v9_reachable_thumb_code",
+    "armv4t_cfg_reachable_thumb_code",
+    "armv4t_cfg_v3_reachable_thumb_code",
+    "armv4t_directsound_pitch_consumer_thumb_code",
+    "armv4t_event_handler_reachable_thumb_code",
+    "armv4t_m4a_initializer_chain_thumb_code",
+    "armv4t_mp2k_channel_gain_thumb_code",
+    "armv4t_mp2k_note_allocator_thumb_code",
+    "armv4t_mplaymain_scheduler_thumb_code",
+    "armv4t_prebattle_menu_controller_reachable_thumb_code",
+    "armv4t_psg_frequency_lookup_thumb_code",
+    "armv4t_small_cfg_dependency_thumb_code",
+    "armv4t_story_callback_dependency_reachable_thumb_code",
+    "armv4t_story_next_dependency_cfg_reachable_thumb_code",
+    "armv4t_story_state_callback_reachable_thumb_code",
+    "armv4t_story_state_entry_reachable_thumb_code",
+    "armv4t_task_scheduler_thumb_code",
+    "armv4t_text_bg_loop_continuation_reachable_thumb_code",
+    "armv4t_text_bg_task_dependency_closure_thumb_code",
+    "armv4t_v17_v18_helper_reachable_thumb_code",
+    "boot_interwork_thumb_code",
+    "cgb_helper_bounded_thumb_code",
+    "cgbsound_bounded_thumb_code",
+    "mp2k_dispatcher_bounded_thumb_code"
+  ],
+  "inputs": {
+    "coverage_sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "large_bytes": 42880,
+  "promotion_bytes": 0,
+  "rows": [
+    {
+      "aligned_word_count": 108,
+      "aligned_word_shapes": [
+        {
+          "at": 83012,
+          "target": 3355
+        },
+        {
+          "at": 90116,
+          "target": 3355
+        },
+        {
+          "at": 93940,
+          "target": 4097
+        },
+        {
+          "at": 94056,
+          "target": 4097
+        },
+        {
+          "at": 95132,
+          "target": 4097
+        },
+        {
+          "at": 95216,
+          "target": 3841
+        },
+        {
+          "at": 95600,
+          "target": 3841
+        },
+        {
+          "at": 96260,
+          "target": 3585
+        },
+        {
+          "at": 96952,
+          "target": 3840
+        },
+        {
+          "at": 98292,
+          "target": 3585
+        },
+        {
+          "at": 147340,
+          "target": 4353
+        },
+        {
+          "at": 147392,
+          "target": 4608
+        },
+        {
+          "at": 147896,
+          "target": 3329
+        },
+        {
+          "at": 153968,
+          "target": 3355
+        },
+        {
+          "at": 156632,
+          "target": 3355
+        },
+        {
+          "at": 162720,
+          "target": 3329
+        },
+        {
+          "at": 180180,
+          "target": 4609
+        },
+        {
+          "at": 180676,
+          "target": 4353
+        },
+        {
+          "at": 181588,
+          "target": 4609
+        },
+        {
+          "at": 181816,
+          "target": 4609
+        },
+        {
+          "at": 184660,
+          "target": 4609
+        },
+        {
+          "at": 184888,
+          "target": 4609
+        },
+        {
+          "at": 188400,
+          "target": 3329
+        },
+        {
+          "at": 188644,
+          "target": 3329
+        },
+        {
+          "at": 259964,
+          "target": 3329
+        },
+        {
+          "at": 366896,
+          "target": 4608
+        },
+        {
+          "at": 390212,
+          "target": 4608
+        },
+        {
+          "at": 391856,
+          "target": 3584
+        },
+        {
+          "at": 391976,
+          "target": 3840
+        },
+        {
+          "at": 775384,
+          "target": 4352
+        },
+        {
+          "at": 803904,
+          "target": 4142
+        },
+        {
+          "at": 881088,
+          "target": 4616
+        },
+        {
+          "at": 901600,
+          "target": 3840
+        },
+        {
+          "at": 928608,
+          "target": 4616
+        },
+        {
+          "at": 947680,
+          "target": 4142
+        },
+        {
+          "at": 959560,
+          "target": 4142
+        },
+        {
+          "at": 970392,
+          "target": 4142
+        },
+        {
+          "at": 980740,
+          "target": 4142
+        },
+        {
+          "at": 1006552,
+          "target": 4142
+        },
+        {
+          "at": 1051796,
+          "target": 4142
+        },
+        {
+          "at": 1063436,
+          "target": 4142
+        },
+        {
+          "at": 1073792,
+          "target": 4142
+        },
+        {
+          "at": 1096924,
+          "target": 4142
+        },
+        {
+          "at": 1107348,
+          "target": 4142
+        },
+        {
+          "at": 1117632,
+          "target": 4142
+        },
+        {
+          "at": 1147280,
+          "target": 4142
+        },
+        {
+          "at": 1159248,
+          "target": 4142
+        },
+        {
+          "at": 1171216,
+          "target": 4142
+        },
+        {
+          "at": 1183184,
+          "target": 4142
+        },
+        {
+          "at": 1195152,
+          "target": 4142
+        },
+        {
+          "at": 1207120,
+          "target": 4142
+        },
+        {
+          "at": 1219088,
+          "target": 4142
+        },
+        {
+          "at": 3352108,
+          "target": 3874
+        },
+        {
+          "at": 3406396,
+          "target": 4199
+        },
+        {
+          "at": 3424240,
+          "target": 4355
+        },
+        {
+          "at": 3479060,
+          "target": 4181
+        },
+        {
+          "at": 3607704,
+          "target": 3847
+        },
+        {
+          "at": 3637056,
+          "target": 4621
+        },
+        {
+          "at": 3642996,
+          "target": 4615
+        },
+        {
+          "at": 3688576,
+          "target": 3643
+        },
+        {
+          "at": 3726564,
+          "target": 3391
+        },
+        {
+          "at": 3759184,
+          "target": 3860
+        },
+        {
+          "at": 3800804,
+          "target": 3937
+        },
+        {
+          "at": 3803240,
+          "target": 3840
+        },
+        {
+          "at": 3826196,
+          "target": 3598
+        },
+        {
+          "at": 3833556,
+          "target": 3848
+        },
+        {
+          "at": 3916060,
+          "target": 3893
+        },
+        {
+          "at": 4001428,
+          "target": 4665
+        },
+        {
+          "at": 4013168,
+          "target": 3872
+        },
+        {
+          "at": 4047540,
+          "target": 3341
+        },
+        {
+          "at": 4181520,
+          "target": 3553
+        },
+        {
+          "at": 4189988,
+          "target": 4131
+        },
+        {
+          "at": 4237456,
+          "target": 3342
+        },
+        {
+          "at": 4308312,
+          "target": 3851
+        },
+        {
+          "at": 4312568,
+          "target": 4397
+        },
+        {
+          "at": 4326548,
+          "target": 4613
+        },
+        {
+          "at": 4390652,
+          "target": 4671
+        },
+        {
+          "at": 4439512,
+          "target": 3759
+        },
+        {
+          "at": 4478748,
+          "target": 4131
+        },
+        {
+          "at": 4490400,
+          "target": 3604
+        },
+        {
+          "at": 4513380,
+          "target": 3936
+        },
+        {
+          "at": 5496580,
+          "target": 3306
+        },
+        {
+          "at": 5496584,
+          "target": 3370
+        },
+        {
+          "at": 5496588,
+          "target": 3424
+        },
+        {
+          "at": 5496592,
+          "target": 3486
+        },
+        {
+          "at": 5496596,
+          "target": 3536
+        },
+        {
+          "at": 5496600,
+          "target": 3596
+        },
+        {
+          "at": 5496604,
+          "target": 3652
+        },
+        {
+          "at": 5496608,
+          "target": 3710
+        },
+        {
+          "at": 5496612,
+          "target": 3768
+        },
+        {
+          "at": 5496616,
+          "target": 3824
+        },
+        {
+          "at": 5496620,
+          "target": 3876
+        },
+        {
+          "at": 5496624,
+          "target": 3932
+        },
+        {
+          "at": 5496628,
+          "target": 3984
+        },
+        {
+          "at": 5496632,
+          "target": 4040
+        },
+        {
+          "at": 5496636,
+          "target": 4092
+        },
+        {
+          "at": 5496640,
+          "target": 4148
+        },
+        {
+          "at": 5496644,
+          "target": 4200
+        },
+        {
+          "at": 5496648,
+          "target": 4252
+        },
+        {
+          "at": 5496652,
+          "target": 4310
+        },
+        {
+          "at": 5496656,
+          "target": 4366
+        },
+        {
+          "at": 5496660,
+          "target": 4424
+        },
+        {
+          "at": 5496664,
+          "target": 4476
+        },
+        {
+          "at": 5496668,
+          "target": 4538
+        },
+        {
+          "at": 5496672,
+          "target": 4600
+        },
+        {
+          "at": 5496676,
+          "target": 4658
+        },
+        {
+          "at": 5496680,
+          "target": 4720
+        },
+        {
+          "at": 5496684,
+          "target": 4784
+        }
+      ],
+      "bytes": 1542,
+      "classified_thumb_ldr_shapes": [],
+      "ldr_count": 0,
+      "range": [
+        3306,
+        4848
+      ]
+    },
+    {
+      "aligned_word_count": 40,
+      "aligned_word_shapes": [
+        {
+          "at": 83668,
+          "target": 7176
+        },
+        {
+          "at": 83676,
+          "target": 7176
+        },
+        {
+          "at": 83684,
+          "target": 7176
+        },
+        {
+          "at": 84584,
+          "target": 6407
+        },
+        {
+          "at": 315776,
+          "target": 6656
+        },
+        {
+          "at": 323032,
+          "target": 6912
+        },
+        {
+          "at": 323308,
+          "target": 6913
+        },
+        {
+          "at": 323504,
+          "target": 7168
+        },
+        {
+          "at": 368784,
+          "target": 6146
+        },
+        {
+          "at": 369704,
+          "target": 6146
+        },
+        {
+          "at": 451936,
+          "target": 7199
+        },
+        {
+          "at": 452620,
+          "target": 7259
+        },
+        {
+          "at": 479068,
+          "target": 6017
+        },
+        {
+          "at": 479072,
+          "target": 6065
+        },
+        {
+          "at": 547124,
+          "target": 7263
+        },
+        {
+          "at": 548364,
+          "target": 6071
+        },
+        {
+          "at": 548396,
+          "target": 6504
+        },
+        {
+          "at": 548428,
+          "target": 6883
+        },
+        {
+          "at": 549484,
+          "target": 6508
+        },
+        {
+          "at": 552548,
+          "target": 6564
+        },
+        {
+          "at": 552580,
+          "target": 6580
+        },
+        {
+          "at": 552588,
+          "target": 6583
+        },
+        {
+          "at": 553108,
+          "target": 6589
+        },
+        {
+          "at": 553176,
+          "target": 6652
+        },
+        {
+          "at": 553304,
+          "target": 6695
+        },
+        {
+          "at": 553364,
+          "target": 6801
+        },
+        {
+          "at": 553376,
+          "target": 6071
+        },
+        {
+          "at": 553440,
+          "target": 6887
+        },
+        {
+          "at": 553476,
+          "target": 6991
+        },
+        {
+          "at": 553500,
+          "target": 7082
+        },
+        {
+          "at": 553572,
+          "target": 6804
+        },
+        {
+          "at": 553740,
+          "target": 7128
+        },
+        {
+          "at": 553748,
+          "target": 7195
+        },
+        {
+          "at": 3860924,
+          "target": 6656
+        },
+        {
+          "at": 3890672,
+          "target": 6451
+        },
+        {
+          "at": 4057200,
+          "target": 6156
+        },
+        {
+          "at": 4163384,
+          "target": 7039
+        },
+        {
+          "at": 4386556,
+          "target": 6453
+        },
+        {
+          "at": 4411808,
+          "target": 6685
+        },
+        {
+          "at": 4459240,
+          "target": 6408
+        }
+      ],
+      "bytes": 1359,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 451386,
+          "halfword": "4889",
+          "literal": 451936,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0154-00-06e33a"
+          ],
+          "target": 7199
+        },
+        {
+          "at": 452534,
+          "halfword": "4815",
+          "literal": 452620,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0237-00-06e7b6"
+          ],
+          "target": 7259
+        },
+        {
+          "at": 478950,
+          "halfword": "481d",
+          "literal": 479068,
+          "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "battle-controller-cfg-thumb-0045-074ed4"
+          ],
+          "target": 6017
+        },
+        {
+          "at": 478968,
+          "halfword": "4819",
+          "literal": 479072,
+          "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "battle-controller-cfg-thumb-0045-074ed4"
+          ],
+          "target": 6065
+        },
+        {
+          "at": 548346,
+          "halfword": "4804",
+          "literal": 548364,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0358-00-085dfa"
+          ],
+          "target": 6071
+        },
+        {
+          "at": 548388,
+          "halfword": "4801",
+          "literal": 548396,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0365-00-085e24"
+          ],
+          "target": 6504
+        },
+        {
+          "at": 548400,
+          "halfword": "4806",
+          "literal": 548428,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0367-00-085e30"
+          ],
+          "target": 6883
+        },
+        {
+          "at": 549420,
+          "halfword": "480f",
+          "literal": 549484,
+          "owner_class": "armv4t_story_callback_dependency_reachable_thumb_code",
+          "primary_claim_ids": [
+            "story-dependency-reachable_thumb_code-04-0861c8"
+          ],
+          "target": 6508
+        },
+        {
+          "at": 552226,
+          "halfword": "4850",
+          "literal": 552548,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0491-00-086d20"
+          ],
+          "target": 6564
+        },
+        {
+          "at": 552356,
+          "halfword": "4837",
+          "literal": 552580,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0501-00-086d9e"
+          ],
+          "target": 6580
+        },
+        {
+          "at": 552474,
+          "halfword": "481c",
+          "literal": 552588,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0513-00-086e1a"
+          ],
+          "target": 6583
+        },
+        {
+          "at": 553048,
+          "halfword": "480e",
+          "literal": 553108,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0561-00-08704a"
+          ],
+          "target": 6589
+        },
+        {
+          "at": 553156,
+          "halfword": "4804",
+          "literal": 553176,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0572-00-0870c4"
+          ],
+          "target": 6652
+        },
+        {
+          "at": 553268,
+          "halfword": "4808",
+          "literal": 553304,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0589-00-087134"
+          ],
+          "target": 6695
+        },
+        {
+          "at": 553328,
+          "halfword": "4808",
+          "literal": 553364,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0598-00-087170"
+          ],
+          "target": 6801
+        },
+        {
+          "at": 553348,
+          "halfword": "4806",
+          "literal": 553376,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0600-00-087184"
+          ],
+          "target": 6071
+        },
+        {
+          "at": 553422,
+          "halfword": "4804",
+          "literal": 553440,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0609-00-0871ce"
+          ],
+          "target": 6887
+        },
+        {
+          "at": 553444,
+          "halfword": "4807",
+          "literal": 553476,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0611-00-0871e4"
+          ],
+          "target": 6991
+        },
+        {
+          "at": 553492,
+          "halfword": "4801",
+          "literal": 553500,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0615-00-087214"
+          ],
+          "target": 7082
+        },
+        {
+          "at": 553556,
+          "halfword": "4803",
+          "literal": 553572,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0623-00-087254"
+          ],
+          "target": 6804
+        },
+        {
+          "at": 553662,
+          "halfword": "4813",
+          "literal": 553740,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0639-00-0872be"
+          ],
+          "target": 7128
+        },
+        {
+          "at": 553720,
+          "halfword": "4806",
+          "literal": 553748,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0647-00-0872f8"
+          ],
+          "target": 7195
+        }
+      ],
+      "ldr_count": 22,
+      "range": [
+        6017,
+        7376
+      ]
+    },
+    {
+      "aligned_word_count": 133,
+      "aligned_word_shapes": [
+        {
+          "at": 40348,
+          "target": 18561
+        },
+        {
+          "at": 81896,
+          "target": 18817
+        },
+        {
+          "at": 122808,
+          "target": 18817
+        },
+        {
+          "at": 498356,
+          "target": 17077
+        },
+        {
+          "at": 498544,
+          "target": 17085
+        },
+        {
+          "at": 498548,
+          "target": 17090
+        },
+        {
+          "at": 498560,
+          "target": 17077
+        },
+        {
+          "at": 554760,
+          "target": 20274
+        },
+        {
+          "at": 555104,
+          "target": 20536
+        },
+        {
+          "at": 555108,
+          "target": 21001
+        },
+        {
+          "at": 555116,
+          "target": 21007
+        },
+        {
+          "at": 555124,
+          "target": 20631
+        },
+        {
+          "at": 555128,
+          "target": 21004
+        },
+        {
+          "at": 555220,
+          "target": 21143
+        },
+        {
+          "at": 555240,
+          "target": 21193
+        },
+        {
+          "at": 555272,
+          "target": 21266
+        },
+        {
+          "at": 555276,
+          "target": 21547
+        },
+        {
+          "at": 555448,
+          "target": 20387
+        },
+        {
+          "at": 555772,
+          "target": 20726
+        },
+        {
+          "at": 555776,
+          "target": 21001
+        },
+        {
+          "at": 555780,
+          "target": 20821
+        },
+        {
+          "at": 555784,
+          "target": 21004
+        },
+        {
+          "at": 555860,
+          "target": 21303
+        },
+        {
+          "at": 555888,
+          "target": 21353
+        },
+        {
+          "at": 555920,
+          "target": 21426
+        },
+        {
+          "at": 555928,
+          "target": 21547
+        },
+        {
+          "at": 555956,
+          "target": 21110
+        },
+        {
+          "at": 556088,
+          "target": 20911
+        },
+        {
+          "at": 556092,
+          "target": 21001
+        },
+        {
+          "at": 556096,
+          "target": 21463
+        },
+        {
+          "at": 556128,
+          "target": 21502
+        },
+        {
+          "at": 556136,
+          "target": 21547
+        },
+        {
+          "at": 774968,
+          "target": 20775
+        },
+        {
+          "at": 822588,
+          "target": 18516
+        },
+        {
+          "at": 1018828,
+          "target": 21522
+        },
+        {
+          "at": 3339724,
+          "target": 20224
+        },
+        {
+          "at": 3349696,
+          "target": 18449
+        },
+        {
+          "at": 3356204,
+          "target": 17168
+        },
+        {
+          "at": 3384248,
+          "target": 17440
+        },
+        {
+          "at": 3394748,
+          "target": 18257
+        },
+        {
+          "at": 3493132,
+          "target": 18747
+        },
+        {
+          "at": 3501336,
+          "target": 20236
+        },
+        {
+          "at": 3502216,
+          "target": 17510
+        },
+        {
+          "at": 3502220,
+          "target": 17492
+        },
+        {
+          "at": 3632744,
+          "target": 19969
+        },
+        {
+          "at": 4036396,
+          "target": 18447
+        },
+        {
+          "at": 4078876,
+          "target": 17668
+        },
+        {
+          "at": 4357860,
+          "target": 21264
+        },
+        {
+          "at": 4470280,
+          "target": 19430
+        },
+        {
+          "at": 4524700,
+          "target": 18448
+        },
+        {
+          "at": 4550804,
+          "target": 18177
+        },
+        {
+          "at": 5871916,
+          "target": 17094
+        },
+        {
+          "at": 5871924,
+          "target": 17148
+        },
+        {
+          "at": 5871932,
+          "target": 17180
+        },
+        {
+          "at": 5871940,
+          "target": 17232
+        },
+        {
+          "at": 5871948,
+          "target": 17303
+        },
+        {
+          "at": 5871956,
+          "target": 17339
+        },
+        {
+          "at": 5871964,
+          "target": 17381
+        },
+        {
+          "at": 5871972,
+          "target": 17423
+        },
+        {
+          "at": 5871976,
+          "target": 17467
+        },
+        {
+          "at": 5871980,
+          "target": 17499
+        },
+        {
+          "at": 5871988,
+          "target": 17543
+        },
+        {
+          "at": 5871996,
+          "target": 17616
+        },
+        {
+          "at": 5872004,
+          "target": 17685
+        },
+        {
+          "at": 5872012,
+          "target": 17721
+        },
+        {
+          "at": 5872020,
+          "target": 17761
+        },
+        {
+          "at": 5872028,
+          "target": 17799
+        },
+        {
+          "at": 5872036,
+          "target": 17843
+        },
+        {
+          "at": 5872044,
+          "target": 17879
+        },
+        {
+          "at": 5872052,
+          "target": 17919
+        },
+        {
+          "at": 5872060,
+          "target": 17975
+        },
+        {
+          "at": 5872068,
+          "target": 18033
+        },
+        {
+          "at": 5872076,
+          "target": 18069
+        },
+        {
+          "at": 5872084,
+          "target": 18105
+        },
+        {
+          "at": 5872092,
+          "target": 18157
+        },
+        {
+          "at": 5872100,
+          "target": 18205
+        },
+        {
+          "at": 5872108,
+          "target": 18259
+        },
+        {
+          "at": 5872116,
+          "target": 18287
+        },
+        {
+          "at": 5872124,
+          "target": 18321
+        },
+        {
+          "at": 5872132,
+          "target": 18373
+        },
+        {
+          "at": 5872140,
+          "target": 18419
+        },
+        {
+          "at": 5872148,
+          "target": 18477
+        },
+        {
+          "at": 5872156,
+          "target": 18527
+        },
+        {
+          "at": 5872164,
+          "target": 18583
+        },
+        {
+          "at": 5872172,
+          "target": 18615
+        },
+        {
+          "at": 5872180,
+          "target": 18657
+        },
+        {
+          "at": 5872188,
+          "target": 18709
+        },
+        {
+          "at": 5872196,
+          "target": 18743
+        },
+        {
+          "at": 5872204,
+          "target": 18773
+        },
+        {
+          "at": 5872212,
+          "target": 18801
+        },
+        {
+          "at": 5872220,
+          "target": 18827
+        },
+        {
+          "at": 5872228,
+          "target": 18875
+        },
+        {
+          "at": 5872236,
+          "target": 18923
+        },
+        {
+          "at": 5872348,
+          "target": 18940
+        },
+        {
+          "at": 5872364,
+          "target": 17423
+        },
+        {
+          "at": 5872368,
+          "target": 17467
+        },
+        {
+          "at": 5872372,
+          "target": 17799
+        },
+        {
+          "at": 5872380,
+          "target": 17339
+        },
+        {
+          "at": 5872388,
+          "target": 17685
+        },
+        {
+          "at": 5872404,
+          "target": 18968
+        },
+        {
+          "at": 5872416,
+          "target": 19000
+        },
+        {
+          "at": 5872480,
+          "target": 19000
+        },
+        {
+          "at": 5872544,
+          "target": 19024
+        },
+        {
+          "at": 5872608,
+          "target": 19113
+        },
+        {
+          "at": 5872612,
+          "target": 19153
+        },
+        {
+          "at": 5872616,
+          "target": 19222
+        },
+        {
+          "at": 5872672,
+          "target": 19244
+        },
+        {
+          "at": 5872736,
+          "target": 19278
+        },
+        {
+          "at": 5872740,
+          "target": 19295
+        },
+        {
+          "at": 5872744,
+          "target": 19337
+        },
+        {
+          "at": 5872748,
+          "target": 19375
+        },
+        {
+          "at": 5872752,
+          "target": 19392
+        },
+        {
+          "at": 5872756,
+          "target": 19424
+        },
+        {
+          "at": 5872760,
+          "target": 19466
+        },
+        {
+          "at": 5872764,
+          "target": 19483
+        },
+        {
+          "at": 5872768,
+          "target": 19515
+        },
+        {
+          "at": 5872772,
+          "target": 19567
+        },
+        {
+          "at": 5872776,
+          "target": 19584
+        },
+        {
+          "at": 5872780,
+          "target": 19628
+        },
+        {
+          "at": 5872784,
+          "target": 19668
+        },
+        {
+          "at": 5872788,
+          "target": 19685
+        },
+        {
+          "at": 5872792,
+          "target": 19713
+        },
+        {
+          "at": 5872800,
+          "target": 19751
+        },
+        {
+          "at": 5872864,
+          "target": 19781
+        },
+        {
+          "at": 5872868,
+          "target": 19823
+        },
+        {
+          "at": 5872928,
+          "target": 19851
+        },
+        {
+          "at": 5872992,
+          "target": 19905
+        },
+        {
+          "at": 5873056,
+          "target": 19972
+        },
+        {
+          "at": 5873120,
+          "target": 20030
+        },
+        {
+          "at": 5873184,
+          "target": 20084
+        },
+        {
+          "at": 5873248,
+          "target": 20126
+        },
+        {
+          "at": 5873312,
+          "target": 20178
+        },
+        {
+          "at": 5873376,
+          "target": 20232
+        }
+      ],
+      "bytes": 4483,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 498314,
+          "halfword": "480a",
+          "literal": 498356,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0438-079a14"
+          ],
+          "target": 17077
+        },
+        {
+          "at": 498392,
+          "halfword": "4825",
+          "literal": 498544,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0439-079ab8"
+          ],
+          "target": 17085
+        },
+        {
+          "at": 498412,
+          "halfword": "4821",
+          "literal": 498548,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0439-079ab8"
+          ],
+          "target": 17090
+        },
+        {
+          "at": 498460,
+          "halfword": "4818",
+          "literal": 498560,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0439-079ab8"
+          ],
+          "target": 17077
+        },
+        {
+          "at": 498478,
+          "halfword": "4810",
+          "literal": 498544,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0439-079ab8"
+          ],
+          "target": 17085
+        },
+        {
+          "at": 498498,
+          "halfword": "480c",
+          "literal": 498548,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0439-079ab8"
+          ],
+          "target": 17090
+        },
+        {
+          "at": 554664,
+          "halfword": "4817",
+          "literal": 554760,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-02-08768c"
+          ],
+          "target": 20274
+        },
+        {
+          "at": 554900,
+          "halfword": "4832",
+          "literal": 555104,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-03-087724"
+          ],
+          "target": 20536
+        },
+        {
+          "at": 554944,
+          "halfword": "4828",
+          "literal": 555108,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-03-087724"
+          ],
+          "target": 21001
+        },
+        {
+          "at": 555014,
+          "halfword": "4819",
+          "literal": 555116,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-03-087724"
+          ],
+          "target": 21007
+        },
+        {
+          "at": 555028,
+          "halfword": "4817",
+          "literal": 555124,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-03-087724"
+          ],
+          "target": 20631
+        },
+        {
+          "at": 555070,
+          "halfword": "480e",
+          "literal": 555128,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-03-087724"
+          ],
+          "target": 21004
+        },
+        {
+          "at": 555204,
+          "halfword": "4803",
+          "literal": 555220,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-04-08787c"
+          ],
+          "target": 21143
+        },
+        {
+          "at": 555228,
+          "halfword": "4802",
+          "literal": 555240,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-05-0878d8"
+          ],
+          "target": 21193
+        },
+        {
+          "at": 555244,
+          "halfword": "4806",
+          "literal": 555272,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-06-0878ec"
+          ],
+          "target": 21266
+        },
+        {
+          "at": 555250,
+          "halfword": "4806",
+          "literal": 555276,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-06-0878ec"
+          ],
+          "target": 21547
+        },
+        {
+          "at": 555350,
+          "halfword": "4818",
+          "literal": 555448,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0722-00-087956"
+          ],
+          "target": 20387
+        },
+        {
+          "at": 555604,
+          "halfword": "4829",
+          "literal": 555772,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0740-00-087a4e"
+          ],
+          "target": 20726
+        },
+        {
+          "at": 555652,
+          "halfword": "481e",
+          "literal": 555776,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0743-00-087a80"
+          ],
+          "target": 21001
+        },
+        {
+          "at": 555688,
+          "halfword": "4816",
+          "literal": 555780,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0750-00-087aa8"
+          ],
+          "target": 20821
+        },
+        {
+          "at": 555732,
+          "halfword": "480c",
+          "literal": 555784,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0753-00-087ad0"
+          ],
+          "target": 21004
+        },
+        {
+          "at": 555846,
+          "halfword": "4803",
+          "literal": 555860,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0764-00-087b46"
+          ],
+          "target": 21303
+        },
+        {
+          "at": 555868,
+          "halfword": "4804",
+          "literal": 555888,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0767-00-087b5c"
+          ],
+          "target": 21353
+        },
+        {
+          "at": 555896,
+          "halfword": "4805",
+          "literal": 555920,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0769-00-087b78"
+          ],
+          "target": 21426
+        },
+        {
+          "at": 555910,
+          "halfword": "4804",
+          "literal": 555928,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0770-00-087b7e"
+          ],
+          "target": 21547
+        },
+        {
+          "at": 555948,
+          "halfword": "4801",
+          "literal": 555956,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0773-00-087bac"
+          ],
+          "target": 21110
+        },
+        {
+          "at": 555960,
+          "halfword": "481f",
+          "literal": 556088,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0775-00-087bb8"
+          ],
+          "target": 20911
+        },
+        {
+          "at": 556004,
+          "halfword": "4815",
+          "literal": 556092,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0778-00-087be0"
+          ],
+          "target": 21001
+        },
+        {
+          "at": 556076,
+          "halfword": "4804",
+          "literal": 556096,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0789-00-087c2c"
+          ],
+          "target": 21463
+        },
+        {
+          "at": 556100,
+          "halfword": "4806",
+          "literal": 556128,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0792-00-087c44"
+          ],
+          "target": 21502
+        },
+        {
+          "at": 556114,
+          "halfword": "4805",
+          "literal": 556136,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0793-00-087c4a"
+          ],
+          "target": 21547
+        }
+      ],
+      "ldr_count": 31,
+      "range": [
+        17067,
+        21550
+      ]
+    },
+    {
+      "aligned_word_count": 185,
+      "aligned_word_shapes": [
+        {
+          "at": 22520,
+          "target": 22548
+        },
+        {
+          "at": 22528,
+          "target": 22588
+        },
+        {
+          "at": 22536,
+          "target": 23017
+        },
+        {
+          "at": 22544,
+          "target": 22780
+        },
+        {
+          "at": 22552,
+          "target": 22572
+        },
+        {
+          "at": 22560,
+          "target": 23017
+        },
+        {
+          "at": 22568,
+          "target": 23017
+        },
+        {
+          "at": 22576,
+          "target": 23091
+        },
+        {
+          "at": 22584,
+          "target": 23844
+        },
+        {
+          "at": 22592,
+          "target": 22935
+        },
+        {
+          "at": 22600,
+          "target": 23091
+        },
+        {
+          "at": 22608,
+          "target": 22636
+        },
+        {
+          "at": 22616,
+          "target": 22676
+        },
+        {
+          "at": 22624,
+          "target": 23300
+        },
+        {
+          "at": 22632,
+          "target": 23177
+        },
+        {
+          "at": 22640,
+          "target": 22660
+        },
+        {
+          "at": 22648,
+          "target": 23341
+        },
+        {
+          "at": 22656,
+          "target": 23341
+        },
+        {
+          "at": 22664,
+          "target": 23392
+        },
+        {
+          "at": 22672,
+          "target": 23844
+        },
+        {
+          "at": 22680,
+          "target": 23300
+        },
+        {
+          "at": 22688,
+          "target": 23392
+        },
+        {
+          "at": 22696,
+          "target": 22724
+        },
+        {
+          "at": 22704,
+          "target": 22764
+        },
+        {
+          "at": 22712,
+          "target": 23443
+        },
+        {
+          "at": 22720,
+          "target": 23443
+        },
+        {
+          "at": 22728,
+          "target": 22748
+        },
+        {
+          "at": 22736,
+          "target": 23734
+        },
+        {
+          "at": 22744,
+          "target": 23529
+        },
+        {
+          "at": 22752,
+          "target": 23701
+        },
+        {
+          "at": 22760,
+          "target": 23812
+        },
+        {
+          "at": 22768,
+          "target": 23771
+        },
+        {
+          "at": 22776,
+          "target": 23613
+        },
+        {
+          "at": 23932,
+          "target": 23960
+        },
+        {
+          "at": 23940,
+          "target": 24000
+        },
+        {
+          "at": 23948,
+          "target": 24435
+        },
+        {
+          "at": 23956,
+          "target": 24280
+        },
+        {
+          "at": 23964,
+          "target": 23984
+        },
+        {
+          "at": 23972,
+          "target": 24517
+        },
+        {
+          "at": 23980,
+          "target": 24517
+        },
+        {
+          "at": 23988,
+          "target": 24591
+        },
+        {
+          "at": 23996,
+          "target": 25311
+        },
+        {
+          "at": 24004,
+          "target": 24435
+        },
+        {
+          "at": 24012,
+          "target": 24591
+        },
+        {
+          "at": 24020,
+          "target": 24048
+        },
+        {
+          "at": 24028,
+          "target": 24088
+        },
+        {
+          "at": 24036,
+          "target": 24787
+        },
+        {
+          "at": 24044,
+          "target": 24677
+        },
+        {
+          "at": 24052,
+          "target": 24072
+        },
+        {
+          "at": 24060,
+          "target": 24828
+        },
+        {
+          "at": 24068,
+          "target": 24828
+        },
+        {
+          "at": 24076,
+          "target": 24879
+        },
+        {
+          "at": 24084,
+          "target": 25311
+        },
+        {
+          "at": 24092,
+          "target": 24787
+        },
+        {
+          "at": 24100,
+          "target": 24879
+        },
+        {
+          "at": 24108,
+          "target": 24136
+        },
+        {
+          "at": 24116,
+          "target": 24176
+        },
+        {
+          "at": 24124,
+          "target": 24930
+        },
+        {
+          "at": 24132,
+          "target": 24930
+        },
+        {
+          "at": 24140,
+          "target": 24160
+        },
+        {
+          "at": 24148,
+          "target": 24971
+        },
+        {
+          "at": 24156,
+          "target": 24971
+        },
+        {
+          "at": 24164,
+          "target": 25008
+        },
+        {
+          "at": 24172,
+          "target": 25279
+        },
+        {
+          "at": 24180,
+          "target": 24930
+        },
+        {
+          "at": 24188,
+          "target": 25008
+        },
+        {
+          "at": 24196,
+          "target": 24224
+        },
+        {
+          "at": 24204,
+          "target": 24264
+        },
+        {
+          "at": 24212,
+          "target": 25041
+        },
+        {
+          "at": 24220,
+          "target": 25041
+        },
+        {
+          "at": 24228,
+          "target": 24248
+        },
+        {
+          "at": 24236,
+          "target": 25119
+        },
+        {
+          "at": 24244,
+          "target": 25119
+        },
+        {
+          "at": 24252,
+          "target": 25207
+        },
+        {
+          "at": 24260,
+          "target": 25394
+        },
+        {
+          "at": 24268,
+          "target": 25041
+        },
+        {
+          "at": 24276,
+          "target": 25207
+        },
+        {
+          "at": 42256,
+          "target": 26753
+        },
+        {
+          "at": 49704,
+          "target": 26753
+        },
+        {
+          "at": 75500,
+          "target": 26753
+        },
+        {
+          "at": 75968,
+          "target": 26753
+        },
+        {
+          "at": 78340,
+          "target": 26753
+        },
+        {
+          "at": 79080,
+          "target": 26753
+        },
+        {
+          "at": 79228,
+          "target": 26753
+        },
+        {
+          "at": 80012,
+          "target": 26753
+        },
+        {
+          "at": 81480,
+          "target": 26753
+        },
+        {
+          "at": 81672,
+          "target": 26753
+        },
+        {
+          "at": 83024,
+          "target": 26753
+        },
+        {
+          "at": 104668,
+          "target": 26753
+        },
+        {
+          "at": 107288,
+          "target": 26753
+        },
+        {
+          "at": 123496,
+          "target": 26753
+        },
+        {
+          "at": 133724,
+          "target": 26753
+        },
+        {
+          "at": 144300,
+          "target": 26753
+        },
+        {
+          "at": 145916,
+          "target": 26753
+        },
+        {
+          "at": 166812,
+          "target": 26753
+        },
+        {
+          "at": 182312,
+          "target": 26753
+        },
+        {
+          "at": 192196,
+          "target": 26753
+        },
+        {
+          "at": 192872,
+          "target": 26753
+        },
+        {
+          "at": 228144,
+          "target": 26753
+        },
+        {
+          "at": 260812,
+          "target": 26753
+        },
+        {
+          "at": 265944,
+          "target": 26753
+        },
+        {
+          "at": 277484,
+          "target": 26753
+        },
+        {
+          "at": 279172,
+          "target": 26753
+        },
+        {
+          "at": 294540,
+          "target": 26753
+        },
+        {
+          "at": 307760,
+          "target": 26753
+        },
+        {
+          "at": 312532,
+          "target": 26753
+        },
+        {
+          "at": 384464,
+          "target": 26753
+        },
+        {
+          "at": 390156,
+          "target": 26753
+        },
+        {
+          "at": 529324,
+          "target": 22692
+        },
+        {
+          "at": 529360,
+          "target": 22516
+        },
+        {
+          "at": 529376,
+          "target": 22604
+        },
+        {
+          "at": 529392,
+          "target": 24192
+        },
+        {
+          "at": 529408,
+          "target": 24104
+        },
+        {
+          "at": 529444,
+          "target": 23928
+        },
+        {
+          "at": 529460,
+          "target": 24016
+        },
+        {
+          "at": 529476,
+          "target": 25707
+        },
+        {
+          "at": 529492,
+          "target": 25619
+        },
+        {
+          "at": 529540,
+          "target": 25443
+        },
+        {
+          "at": 529556,
+          "target": 25531
+        },
+        {
+          "at": 529572,
+          "target": 27036
+        },
+        {
+          "at": 529596,
+          "target": 27166
+        },
+        {
+          "at": 529632,
+          "target": 27428
+        },
+        {
+          "at": 557592,
+          "target": 22412
+        },
+        {
+          "at": 990680,
+          "target": 22534
+        },
+        {
+          "at": 1083404,
+          "target": 22534
+        },
+        {
+          "at": 3333320,
+          "target": 26179
+        },
+        {
+          "at": 3347984,
+          "target": 25957
+        },
+        {
+          "at": 3385848,
+          "target": 24158
+        },
+        {
+          "at": 3602404,
+          "target": 28230
+        },
+        {
+          "at": 3798328,
+          "target": 25088
+        },
+        {
+          "at": 3850664,
+          "target": 27148
+        },
+        {
+          "at": 3933700,
+          "target": 26624
+        },
+        {
+          "at": 4038096,
+          "target": 28426
+        },
+        {
+          "at": 4156720,
+          "target": 25165
+        },
+        {
+          "at": 4163440,
+          "target": 28972
+        },
+        {
+          "at": 4181708,
+          "target": 24650
+        },
+        {
+          "at": 4421096,
+          "target": 29462
+        },
+        {
+          "at": 4427880,
+          "target": 25856
+        },
+        {
+          "at": 4524944,
+          "target": 22873
+        },
+        {
+          "at": 5873656,
+          "target": 27562
+        },
+        {
+          "at": 5873660,
+          "target": 27619
+        },
+        {
+          "at": 5873664,
+          "target": 27674
+        },
+        {
+          "at": 5873668,
+          "target": 27729
+        },
+        {
+          "at": 5873672,
+          "target": 27782
+        },
+        {
+          "at": 5873676,
+          "target": 27831
+        },
+        {
+          "at": 5873680,
+          "target": 27894
+        },
+        {
+          "at": 5873684,
+          "target": 27953
+        },
+        {
+          "at": 5873688,
+          "target": 28002
+        },
+        {
+          "at": 5873700,
+          "target": 28061
+        },
+        {
+          "at": 5873708,
+          "target": 28116
+        },
+        {
+          "at": 5873716,
+          "target": 28175
+        },
+        {
+          "at": 5873728,
+          "target": 28224
+        },
+        {
+          "at": 5873736,
+          "target": 28275
+        },
+        {
+          "at": 5873740,
+          "target": 28320
+        },
+        {
+          "at": 5873744,
+          "target": 28375
+        },
+        {
+          "at": 5873748,
+          "target": 28428
+        },
+        {
+          "at": 5873752,
+          "target": 28481
+        },
+        {
+          "at": 5873760,
+          "target": 28540
+        },
+        {
+          "at": 5873764,
+          "target": 28595
+        },
+        {
+          "at": 5873768,
+          "target": 28648
+        },
+        {
+          "at": 5873776,
+          "target": 28707
+        },
+        {
+          "at": 5873780,
+          "target": 28764
+        },
+        {
+          "at": 5873784,
+          "target": 28813
+        },
+        {
+          "at": 5873788,
+          "target": 28874
+        },
+        {
+          "at": 5873792,
+          "target": 28923
+        },
+        {
+          "at": 5873796,
+          "target": 28972
+        },
+        {
+          "at": 5873800,
+          "target": 29019
+        },
+        {
+          "at": 5873804,
+          "target": 29076
+        },
+        {
+          "at": 5873816,
+          "target": 29133
+        },
+        {
+          "at": 5873820,
+          "target": 29182
+        },
+        {
+          "at": 5873844,
+          "target": 29231
+        },
+        {
+          "at": 5873848,
+          "target": 29280
+        },
+        {
+          "at": 5873852,
+          "target": 29329
+        },
+        {
+          "at": 5873864,
+          "target": 29388
+        },
+        {
+          "at": 5873868,
+          "target": 29443
+        },
+        {
+          "at": 5873872,
+          "target": 29500
+        },
+        {
+          "at": 5873880,
+          "target": 29555
+        },
+        {
+          "at": 5873888,
+          "target": 29610
+        },
+        {
+          "at": 5873892,
+          "target": 29665
+        },
+        {
+          "at": 5873896,
+          "target": 29720
+        },
+        {
+          "at": 5873904,
+          "target": 29769
+        },
+        {
+          "at": 5873908,
+          "target": 29828
+        },
+        {
+          "at": 5873912,
+          "target": 29877
+        },
+        {
+          "at": 5873916,
+          "target": 29926
+        },
+        {
+          "at": 5873920,
+          "target": 29981
+        }
+      ],
+      "bytes": 7624,
+      "classified_thumb_ldr_shapes": [],
+      "ldr_count": 0,
+      "range": [
+        22412,
+        30036
+      ]
+    },
+    {
+      "aligned_word_count": 54,
+      "aligned_word_shapes": [
+        {
+          "at": 40628,
+          "target": 40632
+        },
+        {
+          "at": 40684,
+          "target": 40705
+        },
+        {
+          "at": 471664,
+          "target": 39989
+        },
+        {
+          "at": 489464,
+          "target": 39296
+        },
+        {
+          "at": 528708,
+          "target": 39628
+        },
+        {
+          "at": 528712,
+          "target": 39637
+        },
+        {
+          "at": 529072,
+          "target": 39645
+        },
+        {
+          "at": 529076,
+          "target": 39654
+        },
+        {
+          "at": 529112,
+          "target": 39641
+        },
+        {
+          "at": 548656,
+          "target": 39867
+        },
+        {
+          "at": 550856,
+          "target": 39989
+        },
+        {
+          "at": 551020,
+          "target": 40011
+        },
+        {
+          "at": 551080,
+          "target": 40005
+        },
+        {
+          "at": 552860,
+          "target": 40011
+        },
+        {
+          "at": 552904,
+          "target": 40005
+        },
+        {
+          "at": 558436,
+          "target": 39989
+        },
+        {
+          "at": 558608,
+          "target": 40011
+        },
+        {
+          "at": 558668,
+          "target": 40005
+        },
+        {
+          "at": 559668,
+          "target": 40018
+        },
+        {
+          "at": 560888,
+          "target": 40042
+        },
+        {
+          "at": 562484,
+          "target": 40046
+        },
+        {
+          "at": 563252,
+          "target": 40133
+        },
+        {
+          "at": 564564,
+          "target": 40145
+        },
+        {
+          "at": 564860,
+          "target": 40161
+        },
+        {
+          "at": 565184,
+          "target": 40167
+        },
+        {
+          "at": 565432,
+          "target": 40183
+        },
+        {
+          "at": 569064,
+          "target": 39924
+        },
+        {
+          "at": 569120,
+          "target": 39964
+        },
+        {
+          "at": 569128,
+          "target": 39968
+        },
+        {
+          "at": 570476,
+          "target": 39976
+        },
+        {
+          "at": 570760,
+          "target": 39985
+        },
+        {
+          "at": 573064,
+          "target": 39457
+        },
+        {
+          "at": 573152,
+          "target": 39462
+        },
+        {
+          "at": 580804,
+          "target": 39867
+        },
+        {
+          "at": 581492,
+          "target": 39841
+        },
+        {
+          "at": 581900,
+          "target": 39863
+        },
+        {
+          "at": 585488,
+          "target": 39514
+        },
+        {
+          "at": 585512,
+          "target": 39466
+        },
+        {
+          "at": 586496,
+          "target": 39505
+        },
+        {
+          "at": 586688,
+          "target": 39510
+        },
+        {
+          "at": 586804,
+          "target": 39577
+        },
+        {
+          "at": 586808,
+          "target": 39585
+        },
+        {
+          "at": 586864,
+          "target": 39510
+        },
+        {
+          "at": 586960,
+          "target": 39510
+        },
+        {
+          "at": 590124,
+          "target": 39628
+        },
+        {
+          "at": 590128,
+          "target": 39637
+        },
+        {
+          "at": 590272,
+          "target": 39645
+        },
+        {
+          "at": 590276,
+          "target": 39654
+        },
+        {
+          "at": 590312,
+          "target": 39641
+        },
+        {
+          "at": 895584,
+          "target": 39850
+        },
+        {
+          "at": 908596,
+          "target": 39850
+        },
+        {
+          "at": 925792,
+          "target": 39560
+        },
+        {
+          "at": 4243780,
+          "target": 40719
+        },
+        {
+          "at": 4361456,
+          "target": 39683
+        }
+      ],
+      "bytes": 1466,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 471508,
+          "halfword": "4826",
+          "literal": 471664,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0246-00-0731d0"
+          ],
+          "target": 39989
+        },
+        {
+          "at": 489448,
+          "halfword": "4803",
+          "literal": 489464,
+          "owner_class": "armv4t_cfg_proven_roots_v4_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v4-thumb-0079-0777e8"
+          ],
+          "target": 39296
+        },
+        {
+          "at": 528572,
+          "halfword": "4821",
+          "literal": 528708,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0086-0810b0"
+          ],
+          "target": 39628
+        },
+        {
+          "at": 528608,
+          "halfword": "4819",
+          "literal": 528712,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0086-0810b0"
+          ],
+          "target": 39637
+        },
+        {
+          "at": 528998,
+          "halfword": "4812",
+          "literal": 529072,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0089-08125c"
+          ],
+          "target": 39645
+        },
+        {
+          "at": 529012,
+          "halfword": "480f",
+          "literal": 529076,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0089-08125c"
+          ],
+          "target": 39654
+        },
+        {
+          "at": 529094,
+          "halfword": "4804",
+          "literal": 529112,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0090-0812c0"
+          ],
+          "target": 39641
+        },
+        {
+          "at": 548606,
+          "halfword": "480c",
+          "literal": 548656,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0543-085e7c"
+          ],
+          "target": 39867
+        },
+        {
+          "at": 550742,
+          "halfword": "481c",
+          "literal": 550856,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0387-00-086740"
+          ],
+          "target": 39989
+        },
+        {
+          "at": 550934,
+          "halfword": "4815",
+          "literal": 551020,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0406-00-086816"
+          ],
+          "target": 40011
+        },
+        {
+          "at": 551054,
+          "halfword": "4806",
+          "literal": 551080,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0421-00-08688e"
+          ],
+          "target": 40005
+        },
+        {
+          "at": 552780,
+          "halfword": "4813",
+          "literal": 552860,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0535-00-086f4c"
+          ],
+          "target": 40011
+        },
+        {
+          "at": 552896,
+          "halfword": "4801",
+          "literal": 552904,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0549-00-086fc0"
+          ],
+          "target": 40005
+        },
+        {
+          "at": 558322,
+          "halfword": "481c",
+          "literal": 558436,
+          "owner_class": "armv4t_story_next_dependency_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "story-next-reachable_thumb_code-02-0884dc"
+          ],
+          "target": 39989
+        },
+        {
+          "at": 558522,
+          "halfword": "4815",
+          "literal": 558608,
+          "owner_class": "armv4t_story_next_dependency_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "story-next-reachable_thumb_code-04-0885a0"
+          ],
+          "target": 40011
+        },
+        {
+          "at": 558642,
+          "halfword": "4806",
+          "literal": 558668,
+          "owner_class": "armv4t_story_next_dependency_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "story-next-reachable_thumb_code-05-088620"
+          ],
+          "target": 40005
+        },
+        {
+          "at": 559440,
+          "halfword": "4838",
+          "literal": 559668,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0807-00-088950"
+          ],
+          "target": 40018
+        },
+        {
+          "at": 560828,
+          "halfword": "480e",
+          "literal": 560888,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0574-088e66"
+          ],
+          "target": 40042
+        },
+        {
+          "at": 561980,
+          "halfword": "487d",
+          "literal": 562484,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0875-00-08933c"
+          ],
+          "target": 40046
+        },
+        {
+          "at": 563128,
+          "halfword": "481e",
+          "literal": 563252,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0963-00-0897b8"
+          ],
+          "target": 40133
+        },
+        {
+          "at": 564056,
+          "halfword": "487e",
+          "literal": 564564,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1052-00-089b56"
+          ],
+          "target": 40145
+        },
+        {
+          "at": 564826,
+          "halfword": "4808",
+          "literal": 564860,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1116-00-089e5a"
+          ],
+          "target": 40161
+        },
+        {
+          "at": 565060,
+          "halfword": "481e",
+          "literal": 565184,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1134-00-089f42"
+          ],
+          "target": 40167
+        },
+        {
+          "at": 565388,
+          "halfword": "480a",
+          "literal": 565432,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1159-00-08a08c"
+          ],
+          "target": 40183
+        },
+        {
+          "at": 568666,
+          "halfword": "4863",
+          "literal": 569064,
+          "owner_class": "armv4t_text_bg_task_dependency_closure_thumb_code",
+          "primary_claim_ids": [
+            "text-bg-task-closure-code-08ad4a"
+          ],
+          "target": 39924
+        },
+        {
+          "at": 568938,
+          "halfword": "482d",
+          "literal": 569120,
+          "owner_class": "armv4t_text_bg_task_dependency_closure_thumb_code",
+          "primary_claim_ids": [
+            "text-bg-task-closure-code-08ad4a"
+          ],
+          "target": 39964
+        },
+        {
+          "at": 568962,
+          "halfword": "4829",
+          "literal": 569128,
+          "owner_class": "armv4t_text_bg_task_dependency_closure_thumb_code",
+          "primary_claim_ids": [
+            "text-bg-task-closure-code-08ad4a"
+          ],
+          "target": 39968
+        },
+        {
+          "at": 580754,
+          "halfword": "480c",
+          "literal": 580804,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0606-08dbe4"
+          ],
+          "target": 39867
+        },
+        {
+          "at": 581850,
+          "halfword": "480c",
+          "literal": 581900,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1327-00-08e0da"
+          ],
+          "target": 39863
+        },
+        {
+          "at": 585478,
+          "halfword": "4802",
+          "literal": 585488,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-11-08eef8"
+          ],
+          "target": 39514
+        },
+        {
+          "at": 585492,
+          "halfword": "4804",
+          "literal": 585512,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-12-08ef14"
+          ],
+          "target": 39466
+        },
+        {
+          "at": 586422,
+          "halfword": "4812",
+          "literal": 586496,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-15-08f2a2"
+          ],
+          "target": 39505
+        },
+        {
+          "at": 586680,
+          "halfword": "4801",
+          "literal": 586688,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-20-08f3b4"
+          ],
+          "target": 39510
+        },
+        {
+          "at": 586756,
+          "halfword": "480b",
+          "literal": 586804,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-24-08f404"
+          ],
+          "target": 39577
+        },
+        {
+          "at": 586768,
+          "halfword": "4809",
+          "literal": 586808,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-24-08f404"
+          ],
+          "target": 39585
+        },
+        {
+          "at": 586846,
+          "halfword": "4804",
+          "literal": 586864,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-25-08f450"
+          ],
+          "target": 39510
+        },
+        {
+          "at": 586920,
+          "halfword": "4809",
+          "literal": 586960,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-26-08f474"
+          ],
+          "target": 39510
+        },
+        {
+          "at": 589988,
+          "halfword": "4821",
+          "literal": 590124,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0622-090098"
+          ],
+          "target": 39628
+        },
+        {
+          "at": 590024,
+          "halfword": "4819",
+          "literal": 590128,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0622-090098"
+          ],
+          "target": 39637
+        },
+        {
+          "at": 590202,
+          "halfword": "4811",
+          "literal": 590272,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0624-090170"
+          ],
+          "target": 39645
+        },
+        {
+          "at": 590216,
+          "halfword": "480e",
+          "literal": 590276,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0624-090170"
+          ],
+          "target": 39654
+        },
+        {
+          "at": 590294,
+          "halfword": "4804",
+          "literal": 590312,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0625-0901d0"
+          ],
+          "target": 39641
+        }
+      ],
+      "ldr_count": 42,
+      "range": [
+        39284,
+        40750
+      ]
+    },
+    {
+      "aligned_word_count": 0,
+      "aligned_word_shapes": [],
+      "bytes": 2021,
+      "classified_thumb_ldr_shapes": [],
+      "ldr_count": 0,
+      "range": [
+        310833,
+        312854
+      ]
+    },
+    {
+      "aligned_word_count": 8,
+      "aligned_word_shapes": [
+        {
+          "at": 39668,
+          "target": 663044
+        },
+        {
+          "at": 3599588,
+          "target": 663808
+        },
+        {
+          "at": 4010108,
+          "target": 663570
+        },
+        {
+          "at": 4042396,
+          "target": 663554
+        },
+        {
+          "at": 4046704,
+          "target": 663298
+        },
+        {
+          "at": 4292948,
+          "target": 663774
+        },
+        {
+          "at": 4653500,
+          "target": 662087
+        },
+        {
+          "at": 5110588,
+          "target": 663085
+        }
+      ],
+      "bytes": 2048,
+      "classified_thumb_ldr_shapes": [],
+      "ldr_count": 0,
+      "range": [
+        661844,
+        663892
+      ]
+    },
+    {
+      "aligned_word_count": 122,
+      "aligned_word_shapes": [
+        {
+          "at": 451148,
+          "target": 1240592
+        },
+        {
+          "at": 451956,
+          "target": 1240604
+        },
+        {
+          "at": 451960,
+          "target": 1240616
+        },
+        {
+          "at": 451984,
+          "target": 1240628
+        },
+        {
+          "at": 451996,
+          "target": 1240640
+        },
+        {
+          "at": 452572,
+          "target": 1240604
+        },
+        {
+          "at": 452576,
+          "target": 1240616
+        },
+        {
+          "at": 452588,
+          "target": 1240628
+        },
+        {
+          "at": 452616,
+          "target": 1240640
+        },
+        {
+          "at": 454140,
+          "target": 1240652
+        },
+        {
+          "at": 454144,
+          "target": 1240672
+        },
+        {
+          "at": 454172,
+          "target": 1240680
+        },
+        {
+          "at": 454180,
+          "target": 1240688
+        },
+        {
+          "at": 454188,
+          "target": 1240696
+        },
+        {
+          "at": 454212,
+          "target": 1240704
+        },
+        {
+          "at": 454288,
+          "target": 1240712
+        },
+        {
+          "at": 454336,
+          "target": 1240720
+        },
+        {
+          "at": 454344,
+          "target": 1240728
+        },
+        {
+          "at": 454612,
+          "target": 1240736
+        },
+        {
+          "at": 454620,
+          "target": 1240744
+        },
+        {
+          "at": 454628,
+          "target": 1240752
+        },
+        {
+          "at": 454636,
+          "target": 1240760
+        },
+        {
+          "at": 454644,
+          "target": 1240768
+        },
+        {
+          "at": 454664,
+          "target": 1240776
+        },
+        {
+          "at": 454684,
+          "target": 1240784
+        },
+        {
+          "at": 454716,
+          "target": 1240784
+        },
+        {
+          "at": 454908,
+          "target": 1240792
+        },
+        {
+          "at": 454916,
+          "target": 1240800
+        },
+        {
+          "at": 454920,
+          "target": 1240808
+        },
+        {
+          "at": 455656,
+          "target": 1240816
+        },
+        {
+          "at": 455688,
+          "target": 1240828
+        },
+        {
+          "at": 455732,
+          "target": 1240848
+        },
+        {
+          "at": 455980,
+          "target": 1240868
+        },
+        {
+          "at": 456000,
+          "target": 1240876
+        },
+        {
+          "at": 456108,
+          "target": 1240884
+        },
+        {
+          "at": 461124,
+          "target": 1240892
+        },
+        {
+          "at": 461200,
+          "target": 1240908
+        },
+        {
+          "at": 461440,
+          "target": 1240924
+        },
+        {
+          "at": 461448,
+          "target": 1240936
+        },
+        {
+          "at": 461488,
+          "target": 1240940
+        },
+        {
+          "at": 461540,
+          "target": 1240956
+        },
+        {
+          "at": 461548,
+          "target": 1240972
+        },
+        {
+          "at": 461580,
+          "target": 1240976
+        },
+        {
+          "at": 461592,
+          "target": 1240976
+        },
+        {
+          "at": 461624,
+          "target": 1240992
+        },
+        {
+          "at": 461636,
+          "target": 1240992
+        },
+        {
+          "at": 461668,
+          "target": 1241004
+        },
+        {
+          "at": 461680,
+          "target": 1241004
+        },
+        {
+          "at": 461712,
+          "target": 1241016
+        },
+        {
+          "at": 461772,
+          "target": 1241016
+        },
+        {
+          "at": 461780,
+          "target": 1240952
+        },
+        {
+          "at": 461812,
+          "target": 1241028
+        },
+        {
+          "at": 461864,
+          "target": 1241028
+        },
+        {
+          "at": 462164,
+          "target": 1241044
+        },
+        {
+          "at": 462172,
+          "target": 1240952
+        },
+        {
+          "at": 462180,
+          "target": 1241056
+        },
+        {
+          "at": 462184,
+          "target": 1241068
+        },
+        {
+          "at": 462188,
+          "target": 1241076
+        },
+        {
+          "at": 462196,
+          "target": 1241088
+        },
+        {
+          "at": 462200,
+          "target": 1241100
+        },
+        {
+          "at": 462204,
+          "target": 1241108
+        },
+        {
+          "at": 463516,
+          "target": 1241120
+        },
+        {
+          "at": 463520,
+          "target": 1241132
+        },
+        {
+          "at": 466856,
+          "target": 1241140
+        },
+        {
+          "at": 466884,
+          "target": 1241152
+        },
+        {
+          "at": 466912,
+          "target": 1241172
+        },
+        {
+          "at": 466940,
+          "target": 1241184
+        },
+        {
+          "at": 466968,
+          "target": 1241204
+        },
+        {
+          "at": 467016,
+          "target": 1241224
+        },
+        {
+          "at": 467060,
+          "target": 1241244
+        },
+        {
+          "at": 467184,
+          "target": 1241256
+        },
+        {
+          "at": 467912,
+          "target": 1241276
+        },
+        {
+          "at": 468224,
+          "target": 1241276
+        },
+        {
+          "at": 468300,
+          "target": 1241276
+        },
+        {
+          "at": 469056,
+          "target": 1241288
+        },
+        {
+          "at": 469604,
+          "target": 1241288
+        },
+        {
+          "at": 469720,
+          "target": 1241288
+        },
+        {
+          "at": 469836,
+          "target": 1241300
+        },
+        {
+          "at": 469844,
+          "target": 1241312
+        },
+        {
+          "at": 469988,
+          "target": 1241300
+        },
+        {
+          "at": 469996,
+          "target": 1241312
+        },
+        {
+          "at": 470268,
+          "target": 1241324
+        },
+        {
+          "at": 470520,
+          "target": 1241324
+        },
+        {
+          "at": 470644,
+          "target": 1241324
+        },
+        {
+          "at": 471256,
+          "target": 1241336
+        },
+        {
+          "at": 471688,
+          "target": 1241100
+        },
+        {
+          "at": 471692,
+          "target": 1241352
+        },
+        {
+          "at": 471696,
+          "target": 1241396
+        },
+        {
+          "at": 473172,
+          "target": 1241456
+        },
+        {
+          "at": 473200,
+          "target": 1241464
+        },
+        {
+          "at": 475872,
+          "target": 1241472
+        },
+        {
+          "at": 476108,
+          "target": 1241472
+        },
+        {
+          "at": 477352,
+          "target": 1241484
+        },
+        {
+          "at": 477456,
+          "target": 1241484
+        },
+        {
+          "at": 479100,
+          "target": 1241496
+        },
+        {
+          "at": 479200,
+          "target": 1241528
+        },
+        {
+          "at": 479204,
+          "target": 1241552
+        },
+        {
+          "at": 479208,
+          "target": 1241560
+        },
+        {
+          "at": 490488,
+          "target": 1241572
+        },
+        {
+          "at": 491588,
+          "target": 1241596
+        },
+        {
+          "at": 491596,
+          "target": 1241612
+        },
+        {
+          "at": 491652,
+          "target": 1241620
+        },
+        {
+          "at": 491656,
+          "target": 1241628
+        },
+        {
+          "at": 491660,
+          "target": 1241640
+        },
+        {
+          "at": 491664,
+          "target": 1241652
+        },
+        {
+          "at": 491672,
+          "target": 1241660
+        },
+        {
+          "at": 492376,
+          "target": 1241660
+        },
+        {
+          "at": 492388,
+          "target": 1241664
+        },
+        {
+          "at": 492392,
+          "target": 1241672
+        },
+        {
+          "at": 492396,
+          "target": 1241680
+        },
+        {
+          "at": 492400,
+          "target": 1241688
+        },
+        {
+          "at": 492404,
+          "target": 1241692
+        },
+        {
+          "at": 492408,
+          "target": 1241700
+        },
+        {
+          "at": 492412,
+          "target": 1241708
+        },
+        {
+          "at": 493724,
+          "target": 1241612
+        },
+        {
+          "at": 493936,
+          "target": 1241700
+        },
+        {
+          "at": 493940,
+          "target": 1241708
+        },
+        {
+          "at": 494592,
+          "target": 1241716
+        },
+        {
+          "at": 495884,
+          "target": 1241728
+        },
+        {
+          "at": 496452,
+          "target": 1241736
+        },
+        {
+          "at": 502020,
+          "target": 1241748
+        },
+        {
+          "at": 4829316,
+          "target": 1240818
+        }
+      ],
+      "bytes": 1160,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 451010,
+          "halfword": "4922",
+          "literal": 451148,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0124-00-06e1b4"
+          ],
+          "target": 1240592
+        },
+        {
+          "at": 451444,
+          "halfword": "4a7f",
+          "literal": 451956,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0161-00-06e372"
+          ],
+          "target": 1240604
+        },
+        {
+          "at": 451458,
+          "halfword": "4a7d",
+          "literal": 451960,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0162-00-06e37e"
+          ],
+          "target": 1240616
+        },
+        {
+          "at": 451656,
+          "halfword": "4a51",
+          "literal": 451984,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0176-00-06e438"
+          ],
+          "target": 1240628
+        },
+        {
+          "at": 451790,
+          "halfword": "4a33",
+          "literal": 451996,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0188-00-06e4be"
+          ],
+          "target": 1240640
+        },
+        {
+          "at": 452046,
+          "halfword": "4a83",
+          "literal": 452572,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0201-00-06e5cc"
+          ],
+          "target": 1240604
+        },
+        {
+          "at": 452060,
+          "halfword": "4a80",
+          "literal": 452576,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0202-00-06e5d8"
+          ],
+          "target": 1240616
+        },
+        {
+          "at": 452134,
+          "halfword": "4a71",
+          "literal": 452588,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0210-00-06e61a"
+          ],
+          "target": 1240628
+        },
+        {
+          "at": 452424,
+          "halfword": "4a2f",
+          "literal": 452616,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0225-00-06e738"
+          ],
+          "target": 1240640
+        },
+        {
+          "at": 454052,
+          "halfword": "4815",
+          "literal": 454140,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0249-06ed88"
+          ],
+          "target": 1240652
+        },
+        {
+          "at": 454068,
+          "halfword": "4d12",
+          "literal": 454144,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0249-06ed88"
+          ],
+          "target": 1240672
+        },
+        {
+          "at": 454162,
+          "halfword": "4802",
+          "literal": 454172,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0250-06ee08"
+          ],
+          "target": 1240680
+        },
+        {
+          "at": 454176,
+          "halfword": "4800",
+          "literal": 454180,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0251-06ee20"
+          ],
+          "target": 1240688
+        },
+        {
+          "at": 454184,
+          "halfword": "4800",
+          "literal": 454188,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0252-06ee28"
+          ],
+          "target": 1240696
+        },
+        {
+          "at": 454192,
+          "halfword": "4804",
+          "literal": 454212,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0253-06ee30"
+          ],
+          "target": 1240704
+        },
+        {
+          "at": 454216,
+          "halfword": "4811",
+          "literal": 454288,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0254-06ee48"
+          ],
+          "target": 1240712
+        },
+        {
+          "at": 454332,
+          "halfword": "4800",
+          "literal": 454336,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0061-06eebc"
+          ],
+          "target": 1240720
+        },
+        {
+          "at": 454340,
+          "halfword": "4800",
+          "literal": 454344,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0062-06eec4"
+          ],
+          "target": 1240728
+        },
+        {
+          "at": 454608,
+          "halfword": "4800",
+          "literal": 454612,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0255-06efd0"
+          ],
+          "target": 1240736
+        },
+        {
+          "at": 454616,
+          "halfword": "4800",
+          "literal": 454620,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0256-06efd8"
+          ],
+          "target": 1240744
+        },
+        {
+          "at": 454624,
+          "halfword": "4800",
+          "literal": 454628,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0257-06efe0"
+          ],
+          "target": 1240752
+        },
+        {
+          "at": 454632,
+          "halfword": "4800",
+          "literal": 454636,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0258-06efe8"
+          ],
+          "target": 1240760
+        },
+        {
+          "at": 454640,
+          "halfword": "4800",
+          "literal": 454644,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0259-06eff0"
+          ],
+          "target": 1240768
+        },
+        {
+          "at": 454648,
+          "halfword": "4803",
+          "literal": 454664,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0064-06eff8"
+          ],
+          "target": 1240776
+        },
+        {
+          "at": 454668,
+          "halfword": "4803",
+          "literal": 454684,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0065-06f00c"
+          ],
+          "target": 1240784
+        },
+        {
+          "at": 454696,
+          "halfword": "4804",
+          "literal": 454716,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0261-06f020"
+          ],
+          "target": 1240784
+        },
+        {
+          "at": 454720,
+          "halfword": "482e",
+          "literal": 454908,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0262-06f040"
+          ],
+          "target": 1240792
+        },
+        {
+          "at": 454780,
+          "halfword": "4821",
+          "literal": 454916,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0262-06f040"
+          ],
+          "target": 1240800
+        },
+        {
+          "at": 454794,
+          "halfword": "481f",
+          "literal": 454920,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0262-06f040"
+          ],
+          "target": 1240808
+        },
+        {
+          "at": 455652,
+          "halfword": "4800",
+          "literal": 455656,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0266-06f3b8"
+          ],
+          "target": 1240816
+        },
+        {
+          "at": 455672,
+          "halfword": "4803",
+          "literal": 455688,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0267-06f3ec"
+          ],
+          "target": 1240828
+        },
+        {
+          "at": 455704,
+          "halfword": "4806",
+          "literal": 455732,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0268-06f40c"
+          ],
+          "target": 1240848
+        },
+        {
+          "at": 455976,
+          "halfword": "4800",
+          "literal": 455980,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0067-06f528"
+          ],
+          "target": 1240868
+        },
+        {
+          "at": 455984,
+          "halfword": "4803",
+          "literal": 456000,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0068-06f530"
+          ],
+          "target": 1240876
+        },
+        {
+          "at": 456004,
+          "halfword": "4819",
+          "literal": 456108,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0069-06f544"
+          ],
+          "target": 1240884
+        },
+        {
+          "at": 461080,
+          "halfword": "480a",
+          "literal": 461124,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0305-0708fc"
+          ],
+          "target": 1240892
+        },
+        {
+          "at": 461136,
+          "halfword": "480f",
+          "literal": 461200,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0306-07094c"
+          ],
+          "target": 1240908
+        },
+        {
+          "at": 461372,
+          "halfword": "4810",
+          "literal": 461440,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0307-070a3c"
+          ],
+          "target": 1240924
+        },
+        {
+          "at": 461410,
+          "halfword": "4809",
+          "literal": 461448,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0307-070a3c"
+          ],
+          "target": 1240936
+        },
+        {
+          "at": 461456,
+          "halfword": "4807",
+          "literal": 461488,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0308-070a90"
+          ],
+          "target": 1240940
+        },
+        {
+          "at": 461496,
+          "halfword": "480a",
+          "literal": 461540,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0309-070ab8"
+          ],
+          "target": 1240956
+        },
+        {
+          "at": 461534,
+          "halfword": "4803",
+          "literal": 461548,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0309-070ab8"
+          ],
+          "target": 1240972
+        },
+        {
+          "at": 461552,
+          "halfword": "4806",
+          "literal": 461580,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0310-070af0"
+          ],
+          "target": 1240976
+        },
+        {
+          "at": 461588,
+          "halfword": "4800",
+          "literal": 461592,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0311-070b14"
+          ],
+          "target": 1240976
+        },
+        {
+          "at": 461596,
+          "halfword": "4806",
+          "literal": 461624,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0312-070b1c"
+          ],
+          "target": 1240992
+        },
+        {
+          "at": 461632,
+          "halfword": "4800",
+          "literal": 461636,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0313-070b40"
+          ],
+          "target": 1240992
+        },
+        {
+          "at": 461640,
+          "halfword": "4806",
+          "literal": 461668,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0314-070b48"
+          ],
+          "target": 1241004
+        },
+        {
+          "at": 461676,
+          "halfword": "4800",
+          "literal": 461680,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0315-070b6c"
+          ],
+          "target": 1241004
+        },
+        {
+          "at": 461684,
+          "halfword": "4806",
+          "literal": 461712,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0316-070b74"
+          ],
+          "target": 1241016
+        },
+        {
+          "at": 461720,
+          "halfword": "480c",
+          "literal": 461772,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0317-070b98"
+          ],
+          "target": 1241016
+        },
+        {
+          "at": 461760,
+          "halfword": "4804",
+          "literal": 461780,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0317-070b98"
+          ],
+          "target": 1240952
+        },
+        {
+          "at": 461784,
+          "halfword": "4806",
+          "literal": 461812,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0070-070bd8"
+          ],
+          "target": 1241028
+        },
+        {
+          "at": 461820,
+          "halfword": "480a",
+          "literal": 461864,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0071-070bfc"
+          ],
+          "target": 1241028
+        },
+        {
+          "at": 461872,
+          "halfword": "4848",
+          "literal": 462164,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0072-070c30"
+          ],
+          "target": 1241044
+        },
+        {
+          "at": 461910,
+          "halfword": "4841",
+          "literal": 462172,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0072-070c30"
+          ],
+          "target": 1240952
+        },
+        {
+          "at": 461932,
+          "halfword": "483d",
+          "literal": 462180,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0319-070c60"
+          ],
+          "target": 1241056
+        },
+        {
+          "at": 461976,
+          "halfword": "4833",
+          "literal": 462184,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0319-070c60"
+          ],
+          "target": 1241068
+        },
+        {
+          "at": 462000,
+          "halfword": "482e",
+          "literal": 462188,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0319-070c60"
+          ],
+          "target": 1241076
+        },
+        {
+          "at": 462044,
+          "halfword": "4822",
+          "literal": 462184,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0319-070c60"
+          ],
+          "target": 1241068
+        },
+        {
+          "at": 462066,
+          "halfword": "4820",
+          "literal": 462196,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0319-070c60"
+          ],
+          "target": 1241088
+        },
+        {
+          "at": 462096,
+          "halfword": "4819",
+          "literal": 462200,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0319-070c60"
+          ],
+          "target": 1241100
+        },
+        {
+          "at": 462106,
+          "halfword": "4818",
+          "literal": 462204,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0319-070c60"
+          ],
+          "target": 1241108
+        },
+        {
+          "at": 462140,
+          "halfword": "4807",
+          "literal": 462172,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0319-070c60"
+          ],
+          "target": 1240952
+        },
+        {
+          "at": 463370,
+          "halfword": "4824",
+          "literal": 463516,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0324-0711c8"
+          ],
+          "target": 1241120
+        },
+        {
+          "at": 463386,
+          "halfword": "4821",
+          "literal": 463520,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0324-0711c8"
+          ],
+          "target": 1241132
+        },
+        {
+          "at": 466816,
+          "halfword": "4809",
+          "literal": 466856,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0074-071f80"
+          ],
+          "target": 1241140
+        },
+        {
+          "at": 466860,
+          "halfword": "4805",
+          "literal": 466884,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0075-071fac"
+          ],
+          "target": 1241152
+        },
+        {
+          "at": 466888,
+          "halfword": "4805",
+          "literal": 466912,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0076-071fc8"
+          ],
+          "target": 1241172
+        },
+        {
+          "at": 466916,
+          "halfword": "4805",
+          "literal": 466940,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0077-071fe4"
+          ],
+          "target": 1241184
+        },
+        {
+          "at": 466944,
+          "halfword": "4805",
+          "literal": 466968,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0078-072000"
+          ],
+          "target": 1241204
+        },
+        {
+          "at": 466972,
+          "halfword": "480a",
+          "literal": 467016,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0079-07201c"
+          ],
+          "target": 1241224
+        },
+        {
+          "at": 467020,
+          "halfword": "4809",
+          "literal": 467060,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0080-07204c"
+          ],
+          "target": 1241244
+        },
+        {
+          "at": 467064,
+          "halfword": "481d",
+          "literal": 467184,
+          "owner_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-v3-thumb-0081-072078"
+          ],
+          "target": 1241256
+        },
+        {
+          "at": 467860,
+          "halfword": "4a0c",
+          "literal": 467912,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0011-0722a8"
+          ],
+          "target": 1241276
+        },
+        {
+          "at": 468152,
+          "halfword": "4a11",
+          "literal": 468224,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0012-0723d4"
+          ],
+          "target": 1241276
+        },
+        {
+          "at": 468240,
+          "halfword": "4a0e",
+          "literal": 468300,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0013-07250c"
+          ],
+          "target": 1241276
+        },
+        {
+          "at": 469022,
+          "halfword": "4a08",
+          "literal": 469056,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0019-0727d4"
+          ],
+          "target": 1241288
+        },
+        {
+          "at": 469562,
+          "halfword": "4a0a",
+          "literal": 469604,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0023-0729cc"
+          ],
+          "target": 1241288
+        },
+        {
+          "at": 469612,
+          "halfword": "4a1a",
+          "literal": 469720,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0024-072a68"
+          ],
+          "target": 1241288
+        },
+        {
+          "at": 469766,
+          "halfword": "4a11",
+          "literal": 469836,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0025-072af0"
+          ],
+          "target": 1241300
+        },
+        {
+          "at": 469810,
+          "halfword": "4a08",
+          "literal": 469844,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0025-072af0"
+          ],
+          "target": 1241312
+        },
+        {
+          "at": 469856,
+          "halfword": "4a20",
+          "literal": 469988,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0026-072b58"
+          ],
+          "target": 1241300
+        },
+        {
+          "at": 469896,
+          "halfword": "4a18",
+          "literal": 469996,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0026-072b58"
+          ],
+          "target": 1241312
+        },
+        {
+          "at": 470218,
+          "halfword": "4a0c",
+          "literal": 470268,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0029-072c8c"
+          ],
+          "target": 1241324
+        },
+        {
+          "at": 470458,
+          "halfword": "4a0f",
+          "literal": 470520,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0030-072d04"
+          ],
+          "target": 1241324
+        },
+        {
+          "at": 470536,
+          "halfword": "4a1a",
+          "literal": 470644,
+          "owner_class": "armv4t_cfg_proven_roots_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-thumb-0031-072e04"
+          ],
+          "target": 1241324
+        },
+        {
+          "at": 471166,
+          "halfword": "4c16",
+          "literal": 471256,
+          "owner_class": "armv4t_cfg_proven_roots_v4_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v4-thumb-0029-07307e"
+          ],
+          "target": 1241336
+        },
+        {
+          "at": 471626,
+          "halfword": "480f",
+          "literal": 471688,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0254-00-07324a"
+          ],
+          "target": 1241100
+        },
+        {
+          "at": 471636,
+          "halfword": "480d",
+          "literal": 471692,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0255-00-073254"
+          ],
+          "target": 1241352
+        },
+        {
+          "at": 471646,
+          "halfword": "480c",
+          "literal": 471696,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0256-00-07325e"
+          ],
+          "target": 1241396
+        },
+        {
+          "at": 473144,
+          "halfword": "4806",
+          "literal": 473172,
+          "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "battle-controller-cfg-thumb-0004-0737b8"
+          ],
+          "target": 1241456
+        },
+        {
+          "at": 473176,
+          "halfword": "4805",
+          "literal": 473200,
+          "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "battle-controller-cfg-thumb-0005-073858"
+          ],
+          "target": 1241464
+        },
+        {
+          "at": 475830,
+          "halfword": "4a0a",
+          "literal": 475872,
+          "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "battle-controller-cfg-thumb-0029-0742a4"
+          ],
+          "target": 1241472
+        },
+        {
+          "at": 476060,
+          "halfword": "4a0b",
+          "literal": 476108,
+          "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "battle-controller-cfg-thumb-0031-074394"
+          ],
+          "target": 1241472
+        },
+        {
+          "at": 477312,
+          "halfword": "4a09",
+          "literal": 477352,
+          "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "battle-controller-cfg-thumb-0036-0747e0"
+          ],
+          "target": 1241484
+        },
+        {
+          "at": 477408,
+          "halfword": "4a0b",
+          "literal": 477456,
+          "owner_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "battle-controller-cfg-thumb-0038-0748d8"
+          ],
+          "target": 1241484
+        },
+        {
+          "at": 490462,
+          "halfword": "4906",
+          "literal": 490488,
+          "owner_class": "armv4t_cfg_proven_roots_v4_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v4-thumb-0109-077bde"
+          ],
+          "target": 1241572
+        },
+        {
+          "at": 490926,
+          "halfword": "48a5",
+          "literal": 491588,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 1241596
+        },
+        {
+          "at": 490956,
+          "halfword": "489f",
+          "literal": 491596,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 1241612
+        },
+        {
+          "at": 491252,
+          "halfword": "4863",
+          "literal": 491652,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 1241620
+        },
+        {
+          "at": 491268,
+          "halfword": "4860",
+          "literal": 491656,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 1241628
+        },
+        {
+          "at": 491284,
+          "halfword": "485d",
+          "literal": 491660,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 1241640
+        },
+        {
+          "at": 491300,
+          "halfword": "485a",
+          "literal": 491664,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 1241652
+        },
+        {
+          "at": 491364,
+          "halfword": "484c",
+          "literal": 491672,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 1241660
+        },
+        {
+          "at": 491490,
+          "halfword": "482d",
+          "literal": 491672,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 1241660
+        },
+        {
+          "at": 491712,
+          "halfword": "4ba5",
+          "literal": 492376,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0403-0780a0"
+          ],
+          "target": 1241660
+        },
+        {
+          "at": 491876,
+          "halfword": "487f",
+          "literal": 492388,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0403-0780a0"
+          ],
+          "target": 1241664
+        },
+        {
+          "at": 491892,
+          "halfword": "487c",
+          "literal": 492392,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0403-0780a0"
+          ],
+          "target": 1241672
+        },
+        {
+          "at": 492002,
+          "halfword": "4862",
+          "literal": 492396,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0403-0780a0"
+          ],
+          "target": 1241680
+        },
+        {
+          "at": 492016,
+          "halfword": "485f",
+          "literal": 492400,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0403-0780a0"
+          ],
+          "target": 1241688
+        },
+        {
+          "at": 492126,
+          "halfword": "4845",
+          "literal": 492404,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0403-0780a0"
+          ],
+          "target": 1241692
+        },
+        {
+          "at": 492186,
+          "halfword": "4837",
+          "literal": 492408,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0403-0780a0"
+          ],
+          "target": 1241700
+        },
+        {
+          "at": 492200,
+          "halfword": "4834",
+          "literal": 492412,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0403-0780a0"
+          ],
+          "target": 1241708
+        },
+        {
+          "at": 494268,
+          "halfword": "4850",
+          "literal": 494592,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0413-078a04"
+          ],
+          "target": 1241716
+        },
+        {
+          "at": 496120,
+          "halfword": "4852",
+          "literal": 496452,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0417-07914c"
+          ],
+          "target": 1241736
+        }
+      ],
+      "ldr_count": 115,
+      "range": [
+        1240592,
+        1241752
+      ]
+    },
+    {
+      "aligned_word_count": 143,
+      "aligned_word_shapes": [
+        {
+          "at": 457048,
+          "target": 4556108
+        },
+        {
+          "at": 457052,
+          "target": 4556120
+        },
+        {
+          "at": 463064,
+          "target": 4556048
+        },
+        {
+          "at": 463068,
+          "target": 4556060
+        },
+        {
+          "at": 463072,
+          "target": 4555988
+        },
+        {
+          "at": 463076,
+          "target": 4556000
+        },
+        {
+          "at": 491600,
+          "target": 4556148
+        },
+        {
+          "at": 491604,
+          "target": 4556160
+        },
+        {
+          "at": 491616,
+          "target": 4556188
+        },
+        {
+          "at": 491620,
+          "target": 4556200
+        },
+        {
+          "at": 491624,
+          "target": 4556108
+        },
+        {
+          "at": 491628,
+          "target": 4556120
+        },
+        {
+          "at": 491632,
+          "target": 4555988
+        },
+        {
+          "at": 491636,
+          "target": 4556000
+        },
+        {
+          "at": 494060,
+          "target": 4556108
+        },
+        {
+          "at": 494064,
+          "target": 4556120
+        },
+        {
+          "at": 494076,
+          "target": 4555988
+        },
+        {
+          "at": 494080,
+          "target": 4556000
+        },
+        {
+          "at": 494604,
+          "target": 4556148
+        },
+        {
+          "at": 494608,
+          "target": 4556160
+        },
+        {
+          "at": 494620,
+          "target": 4556188
+        },
+        {
+          "at": 494624,
+          "target": 4556200
+        },
+        {
+          "at": 496460,
+          "target": 4556148
+        },
+        {
+          "at": 496464,
+          "target": 4556160
+        },
+        {
+          "at": 496476,
+          "target": 4556188
+        },
+        {
+          "at": 496480,
+          "target": 4556200
+        },
+        {
+          "at": 549912,
+          "target": 4555892
+        },
+        {
+          "at": 549916,
+          "target": 4555916
+        },
+        {
+          "at": 554764,
+          "target": 4555948
+        },
+        {
+          "at": 554768,
+          "target": 4555960
+        },
+        {
+          "at": 554780,
+          "target": 4555988
+        },
+        {
+          "at": 554784,
+          "target": 4556000
+        },
+        {
+          "at": 555452,
+          "target": 4555948
+        },
+        {
+          "at": 555456,
+          "target": 4555960
+        },
+        {
+          "at": 555468,
+          "target": 4555988
+        },
+        {
+          "at": 555472,
+          "target": 4556000
+        },
+        {
+          "at": 559908,
+          "target": 4555892
+        },
+        {
+          "at": 559912,
+          "target": 4555916
+        },
+        {
+          "at": 569080,
+          "target": 4556048
+        },
+        {
+          "at": 569084,
+          "target": 4556060
+        },
+        {
+          "at": 572772,
+          "target": 4556048
+        },
+        {
+          "at": 572776,
+          "target": 4556060
+        },
+        {
+          "at": 580556,
+          "target": 4556204
+        },
+        {
+          "at": 580560,
+          "target": 4556208
+        },
+        {
+          "at": 580564,
+          "target": 4556216
+        },
+        {
+          "at": 580568,
+          "target": 4556224
+        },
+        {
+          "at": 580572,
+          "target": 4556232
+        },
+        {
+          "at": 580576,
+          "target": 4556240
+        },
+        {
+          "at": 580780,
+          "target": 4556244
+        },
+        {
+          "at": 580784,
+          "target": 4556260
+        },
+        {
+          "at": 580788,
+          "target": 4556280
+        },
+        {
+          "at": 580792,
+          "target": 4556292
+        },
+        {
+          "at": 580796,
+          "target": 4556304
+        },
+        {
+          "at": 580800,
+          "target": 4556312
+        },
+        {
+          "at": 581532,
+          "target": 4555892
+        },
+        {
+          "at": 581536,
+          "target": 4555916
+        },
+        {
+          "at": 582596,
+          "target": 4556320
+        },
+        {
+          "at": 582600,
+          "target": 4556148
+        },
+        {
+          "at": 582604,
+          "target": 4556160
+        },
+        {
+          "at": 582616,
+          "target": 4556188
+        },
+        {
+          "at": 582620,
+          "target": 4556200
+        },
+        {
+          "at": 582920,
+          "target": 4556332
+        },
+        {
+          "at": 582976,
+          "target": 4556356
+        },
+        {
+          "at": 583776,
+          "target": 4556384
+        },
+        {
+          "at": 583780,
+          "target": 4556408
+        },
+        {
+          "at": 583784,
+          "target": 4556148
+        },
+        {
+          "at": 583788,
+          "target": 4556160
+        },
+        {
+          "at": 583800,
+          "target": 4556188
+        },
+        {
+          "at": 583804,
+          "target": 4556200
+        },
+        {
+          "at": 584416,
+          "target": 4556424
+        },
+        {
+          "at": 584424,
+          "target": 4556436
+        },
+        {
+          "at": 584436,
+          "target": 4556440
+        },
+        {
+          "at": 584572,
+          "target": 4556444
+        },
+        {
+          "at": 584888,
+          "target": 4556468
+        },
+        {
+          "at": 585436,
+          "target": 4556148
+        },
+        {
+          "at": 585440,
+          "target": 4556160
+        },
+        {
+          "at": 585456,
+          "target": 4556188
+        },
+        {
+          "at": 585460,
+          "target": 4556200
+        },
+        {
+          "at": 585816,
+          "target": 4556488
+        },
+        {
+          "at": 585844,
+          "target": 4556552
+        },
+        {
+          "at": 585848,
+          "target": 4556560
+        },
+        {
+          "at": 586088,
+          "target": 4556588
+        },
+        {
+          "at": 586092,
+          "target": 4556560
+        },
+        {
+          "at": 590136,
+          "target": 4556600
+        },
+        {
+          "at": 590140,
+          "target": 4556612
+        },
+        {
+          "at": 590188,
+          "target": 4556644
+        },
+        {
+          "at": 590268,
+          "target": 4556672
+        },
+        {
+          "at": 592304,
+          "target": 4556048
+        },
+        {
+          "at": 592308,
+          "target": 4556060
+        },
+        {
+          "at": 599636,
+          "target": 4556048
+        },
+        {
+          "at": 599640,
+          "target": 4556060
+        },
+        {
+          "at": 599652,
+          "target": 4555948
+        },
+        {
+          "at": 599656,
+          "target": 4555960
+        },
+        {
+          "at": 599660,
+          "target": 4555988
+        },
+        {
+          "at": 599664,
+          "target": 4556000
+        },
+        {
+          "at": 605224,
+          "target": 4556148
+        },
+        {
+          "at": 605228,
+          "target": 4556160
+        },
+        {
+          "at": 605240,
+          "target": 4556188
+        },
+        {
+          "at": 605244,
+          "target": 4556200
+        },
+        {
+          "at": 605248,
+          "target": 4556108
+        },
+        {
+          "at": 605252,
+          "target": 4556120
+        },
+        {
+          "at": 605256,
+          "target": 4555988
+        },
+        {
+          "at": 605260,
+          "target": 4556000
+        },
+        {
+          "at": 609728,
+          "target": 4556048
+        },
+        {
+          "at": 609732,
+          "target": 4556060
+        },
+        {
+          "at": 609744,
+          "target": 4556108
+        },
+        {
+          "at": 609748,
+          "target": 4556120
+        },
+        {
+          "at": 609752,
+          "target": 4555988
+        },
+        {
+          "at": 609756,
+          "target": 4556000
+        },
+        {
+          "at": 609916,
+          "target": 4556108
+        },
+        {
+          "at": 609920,
+          "target": 4556120
+        },
+        {
+          "at": 609932,
+          "target": 4555948
+        },
+        {
+          "at": 609936,
+          "target": 4555960
+        },
+        {
+          "at": 609940,
+          "target": 4555988
+        },
+        {
+          "at": 609944,
+          "target": 4556000
+        },
+        {
+          "at": 610468,
+          "target": 4556148
+        },
+        {
+          "at": 610472,
+          "target": 4556160
+        },
+        {
+          "at": 610484,
+          "target": 4556188
+        },
+        {
+          "at": 610488,
+          "target": 4556200
+        },
+        {
+          "at": 612328,
+          "target": 4556148
+        },
+        {
+          "at": 612332,
+          "target": 4556160
+        },
+        {
+          "at": 612344,
+          "target": 4556188
+        },
+        {
+          "at": 612348,
+          "target": 4556200
+        },
+        {
+          "at": 613444,
+          "target": 4555948
+        },
+        {
+          "at": 613448,
+          "target": 4555960
+        },
+        {
+          "at": 613460,
+          "target": 4555988
+        },
+        {
+          "at": 613464,
+          "target": 4556000
+        },
+        {
+          "at": 4555892,
+          "target": 4555564
+        },
+        {
+          "at": 4555896,
+          "target": 4555808
+        },
+        {
+          "at": 4555916,
+          "target": 4555900
+        },
+        {
+          "at": 4555920,
+          "target": 4555908
+        },
+        {
+          "at": 4555948,
+          "target": 4555924
+        },
+        {
+          "at": 4555960,
+          "target": 4555952
+        },
+        {
+          "at": 4555988,
+          "target": 4555964
+        },
+        {
+          "at": 4556000,
+          "target": 4555992
+        },
+        {
+          "at": 4556048,
+          "target": 4556004
+        },
+        {
+          "at": 4556060,
+          "target": 4556052
+        },
+        {
+          "at": 4556108,
+          "target": 4556064
+        },
+        {
+          "at": 4556120,
+          "target": 4556112
+        },
+        {
+          "at": 4556148,
+          "target": 4556124
+        },
+        {
+          "at": 4556160,
+          "target": 4556152
+        },
+        {
+          "at": 4556188,
+          "target": 4556164
+        },
+        {
+          "at": 4556200,
+          "target": 4556192
+        }
+      ],
+      "bytes": 1128,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 456972,
+          "halfword": "4812",
+          "literal": 457048,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0280-06f8ac"
+          ],
+          "target": 4556108
+        },
+        {
+          "at": 456974,
+          "halfword": "4913",
+          "literal": 457052,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0280-06f8ac"
+          ],
+          "target": 4556120
+        },
+        {
+          "at": 462916,
+          "halfword": "4824",
+          "literal": 463064,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0323-071018"
+          ],
+          "target": 4556048
+        },
+        {
+          "at": 462918,
+          "halfword": "4925",
+          "literal": 463068,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0323-071018"
+          ],
+          "target": 4556060
+        },
+        {
+          "at": 462956,
+          "halfword": "481c",
+          "literal": 463072,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0323-071018"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 462958,
+          "halfword": "491d",
+          "literal": 463076,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0323-071018"
+          ],
+          "target": 4556000
+        },
+        {
+          "at": 491010,
+          "halfword": "4893",
+          "literal": 491600,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 4556148
+        },
+        {
+          "at": 491012,
+          "halfword": "4993",
+          "literal": 491604,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 4556160
+        },
+        {
+          "at": 491054,
+          "halfword": "488c",
+          "literal": 491616,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 4556188
+        },
+        {
+          "at": 491056,
+          "halfword": "498c",
+          "literal": 491620,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 4556200
+        },
+        {
+          "at": 491092,
+          "halfword": "4884",
+          "literal": 491624,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 4556108
+        },
+        {
+          "at": 491094,
+          "halfword": "4985",
+          "literal": 491628,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 4556120
+        },
+        {
+          "at": 491138,
+          "halfword": "487b",
+          "literal": 491632,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 491140,
+          "halfword": "497b",
+          "literal": 491636,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0402-077d54"
+          ],
+          "target": 4556000
+        },
+        {
+          "at": 493956,
+          "halfword": "4819",
+          "literal": 494060,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0412-078978"
+          ],
+          "target": 4556108
+        },
+        {
+          "at": 493958,
+          "halfword": "491a",
+          "literal": 494064,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0412-078978"
+          ],
+          "target": 4556120
+        },
+        {
+          "at": 494004,
+          "halfword": "4811",
+          "literal": 494076,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0412-078978"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 494006,
+          "halfword": "4912",
+          "literal": 494080,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0412-078978"
+          ],
+          "target": 4556000
+        },
+        {
+          "at": 494322,
+          "halfword": "4846",
+          "literal": 494604,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0413-078a04"
+          ],
+          "target": 4556148
+        },
+        {
+          "at": 494324,
+          "halfword": "4946",
+          "literal": 494608,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0413-078a04"
+          ],
+          "target": 4556160
+        },
+        {
+          "at": 494366,
+          "halfword": "483f",
+          "literal": 494620,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0413-078a04"
+          ],
+          "target": 4556188
+        },
+        {
+          "at": 494368,
+          "halfword": "493f",
+          "literal": 494624,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0413-078a04"
+          ],
+          "target": 4556200
+        },
+        {
+          "at": 496150,
+          "halfword": "484d",
+          "literal": 496460,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0417-07914c"
+          ],
+          "target": 4556148
+        },
+        {
+          "at": 496152,
+          "halfword": "494d",
+          "literal": 496464,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0417-07914c"
+          ],
+          "target": 4556160
+        },
+        {
+          "at": 496196,
+          "halfword": "4845",
+          "literal": 496476,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0417-07914c"
+          ],
+          "target": 4556188
+        },
+        {
+          "at": 496198,
+          "halfword": "4946",
+          "literal": 496480,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0417-07914c"
+          ],
+          "target": 4556200
+        },
+        {
+          "at": 549740,
+          "halfword": "482a",
+          "literal": 549912,
+          "owner_class": "armv4t_story_callback_dependency_reachable_thumb_code",
+          "primary_claim_ids": [
+            "story-dependency-reachable_thumb_code-06-086348"
+          ],
+          "target": 4555892
+        },
+        {
+          "at": 549742,
+          "halfword": "492b",
+          "literal": 549916,
+          "owner_class": "armv4t_story_callback_dependency_reachable_thumb_code",
+          "primary_claim_ids": [
+            "story-dependency-reachable_thumb_code-06-086348"
+          ],
+          "target": 4555916
+        },
+        {
+          "at": 549782,
+          "halfword": "4820",
+          "literal": 549912,
+          "owner_class": "armv4t_story_callback_dependency_reachable_thumb_code",
+          "primary_claim_ids": [
+            "story-dependency-reachable_thumb_code-06-086348"
+          ],
+          "target": 4555892
+        },
+        {
+          "at": 549784,
+          "halfword": "4920",
+          "literal": 549916,
+          "owner_class": "armv4t_story_callback_dependency_reachable_thumb_code",
+          "primary_claim_ids": [
+            "story-dependency-reachable_thumb_code-06-086348"
+          ],
+          "target": 4555916
+        },
+        {
+          "at": 554674,
+          "halfword": "4816",
+          "literal": 554764,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-02-08768c"
+          ],
+          "target": 4555948
+        },
+        {
+          "at": 554676,
+          "halfword": "4916",
+          "literal": 554768,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-02-08768c"
+          ],
+          "target": 4555960
+        },
+        {
+          "at": 554714,
+          "halfword": "4810",
+          "literal": 554780,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-02-08768c"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 554716,
+          "halfword": "4910",
+          "literal": 554784,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-02-08768c"
+          ],
+          "target": 4556000
+        },
+        {
+          "at": 555360,
+          "halfword": "4816",
+          "literal": 555452,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0724-00-087960"
+          ],
+          "target": 4555948
+        },
+        {
+          "at": 555362,
+          "halfword": "4917",
+          "literal": 555456,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0724-00-087960"
+          ],
+          "target": 4555960
+        },
+        {
+          "at": 555400,
+          "halfword": "4810",
+          "literal": 555468,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0725-00-087988"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 555402,
+          "halfword": "4911",
+          "literal": 555472,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0725-00-087988"
+          ],
+          "target": 4556000
+        },
+        {
+          "at": 559736,
+          "halfword": "482a",
+          "literal": 559908,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0820-00-088a5e"
+          ],
+          "target": 4555892
+        },
+        {
+          "at": 559738,
+          "halfword": "492b",
+          "literal": 559912,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0820-00-088a5e"
+          ],
+          "target": 4555916
+        },
+        {
+          "at": 559778,
+          "halfword": "4820",
+          "literal": 559908,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0823-00-088aa2"
+          ],
+          "target": 4555892
+        },
+        {
+          "at": 559780,
+          "halfword": "4920",
+          "literal": 559912,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0823-00-088aa2"
+          ],
+          "target": 4555916
+        },
+        {
+          "at": 568752,
+          "halfword": "4851",
+          "literal": 569080,
+          "owner_class": "armv4t_text_bg_task_dependency_closure_thumb_code",
+          "primary_claim_ids": [
+            "text-bg-task-closure-code-08ad4a"
+          ],
+          "target": 4556048
+        },
+        {
+          "at": 568754,
+          "halfword": "4952",
+          "literal": 569084,
+          "owner_class": "armv4t_text_bg_task_dependency_closure_thumb_code",
+          "primary_claim_ids": [
+            "text-bg-task-closure-code-08ad4a"
+          ],
+          "target": 4556060
+        },
+        {
+          "at": 580686,
+          "halfword": "4917",
+          "literal": 580780,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0606-08dbe4"
+          ],
+          "target": 4556244
+        },
+        {
+          "at": 580696,
+          "halfword": "4915",
+          "literal": 580784,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0606-08dbe4"
+          ],
+          "target": 4556260
+        },
+        {
+          "at": 580706,
+          "halfword": "4914",
+          "literal": 580788,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0606-08dbe4"
+          ],
+          "target": 4556280
+        },
+        {
+          "at": 580716,
+          "halfword": "4912",
+          "literal": 580792,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0606-08dbe4"
+          ],
+          "target": 4556292
+        },
+        {
+          "at": 580726,
+          "halfword": "4911",
+          "literal": 580796,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0606-08dbe4"
+          ],
+          "target": 4556304
+        },
+        {
+          "at": 580740,
+          "halfword": "490e",
+          "literal": 580800,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0606-08dbe4"
+          ],
+          "target": 4556312
+        },
+        {
+          "at": 582254,
+          "halfword": "4855",
+          "literal": 582596,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1357-00-08e26e"
+          ],
+          "target": 4556320
+        },
+        {
+          "at": 582270,
+          "halfword": "4852",
+          "literal": 582600,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1358-00-08e27e"
+          ],
+          "target": 4556148
+        },
+        {
+          "at": 582272,
+          "halfword": "4952",
+          "literal": 582604,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1358-00-08e27e"
+          ],
+          "target": 4556160
+        },
+        {
+          "at": 582316,
+          "halfword": "484a",
+          "literal": 582616,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1359-00-08e2aa"
+          ],
+          "target": 4556188
+        },
+        {
+          "at": 582318,
+          "halfword": "494b",
+          "literal": 582620,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1359-00-08e2aa"
+          ],
+          "target": 4556200
+        },
+        {
+          "at": 582892,
+          "halfword": "4806",
+          "literal": 582920,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1393-00-08e4ec"
+          ],
+          "target": 4556332
+        },
+        {
+          "at": 582924,
+          "halfword": "480c",
+          "literal": 582976,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1395-00-08e50c"
+          ],
+          "target": 4556356
+        },
+        {
+          "at": 583556,
+          "halfword": "4836",
+          "literal": 583776,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1433-00-08e784"
+          ],
+          "target": 4556384
+        },
+        {
+          "at": 583570,
+          "halfword": "4834",
+          "literal": 583780,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1434-00-08e792"
+          ],
+          "target": 4556408
+        },
+        {
+          "at": 583586,
+          "halfword": "4831",
+          "literal": 583784,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1435-00-08e7a2"
+          ],
+          "target": 4556148
+        },
+        {
+          "at": 583588,
+          "halfword": "4931",
+          "literal": 583788,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1435-00-08e7a2"
+          ],
+          "target": 4556160
+        },
+        {
+          "at": 583630,
+          "halfword": "482a",
+          "literal": 583800,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1436-00-08e7cc"
+          ],
+          "target": 4556188
+        },
+        {
+          "at": 583634,
+          "halfword": "492a",
+          "literal": 583804,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1436-00-08e7cc"
+          ],
+          "target": 4556200
+        },
+        {
+          "at": 584152,
+          "halfword": "4841",
+          "literal": 584416,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1471-00-08e9d8"
+          ],
+          "target": 4556424
+        },
+        {
+          "at": 584202,
+          "halfword": "4837",
+          "literal": 584424,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1473-00-08ea0a"
+          ],
+          "target": 4556436
+        },
+        {
+          "at": 584258,
+          "halfword": "482c",
+          "literal": 584436,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1475-00-08ea42"
+          ],
+          "target": 4556440
+        },
+        {
+          "at": 584532,
+          "halfword": "4809",
+          "literal": 584572,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1498-00-08eb54"
+          ],
+          "target": 4556444
+        },
+        {
+          "at": 584600,
+          "halfword": "4847",
+          "literal": 584888,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1504-00-08eb94"
+          ],
+          "target": 4556468
+        },
+        {
+          "at": 585338,
+          "halfword": "4818",
+          "literal": 585436,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-10-08ee5c"
+          ],
+          "target": 4556148
+        },
+        {
+          "at": 585340,
+          "halfword": "4918",
+          "literal": 585440,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-10-08ee5c"
+          ],
+          "target": 4556160
+        },
+        {
+          "at": 585382,
+          "halfword": "4812",
+          "literal": 585456,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-10-08ee5c"
+          ],
+          "target": 4556188
+        },
+        {
+          "at": 585384,
+          "halfword": "4912",
+          "literal": 585460,
+          "owner_class": "armv4t_prebattle_menu_controller_reachable_thumb_code",
+          "primary_claim_ids": [
+            "prebattle-menu-controller-code-10-08ee5c"
+          ],
+          "target": 4556200
+        },
+        {
+          "at": 590068,
+          "halfword": "4810",
+          "literal": 590136,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0622-090098"
+          ],
+          "target": 4556600
+        },
+        {
+          "at": 590078,
+          "halfword": "480f",
+          "literal": 590140,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0622-090098"
+          ],
+          "target": 4556612
+        },
+        {
+          "at": 590174,
+          "halfword": "4903",
+          "literal": 590188,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0623-090144"
+          ],
+          "target": 4556644
+        },
+        {
+          "at": 590194,
+          "halfword": "4912",
+          "literal": 590268,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0624-090170"
+          ],
+          "target": 4556672
+        },
+        {
+          "at": 592174,
+          "halfword": "4820",
+          "literal": 592304,
+          "owner_class": "armv4t_v17_v18_helper_reachable_thumb_code",
+          "primary_claim_ids": [
+            "v17-v18-helper-reachable_thumb_code-05-0908d8"
+          ],
+          "target": 4556048
+        },
+        {
+          "at": 592178,
+          "halfword": "4920",
+          "literal": 592308,
+          "owner_class": "armv4t_v17_v18_helper_reachable_thumb_code",
+          "primary_claim_ids": [
+            "v17-v18-helper-reachable_thumb_code-05-0908d8"
+          ],
+          "target": 4556060
+        },
+        {
+          "at": 599304,
+          "halfword": "4852",
+          "literal": 599636,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1678-00-092508"
+          ],
+          "target": 4556048
+        },
+        {
+          "at": 599306,
+          "halfword": "4953",
+          "literal": 599640,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1678-00-092508"
+          ],
+          "target": 4556060
+        },
+        {
+          "at": 599346,
+          "halfword": "484c",
+          "literal": 599652,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1679-00-092532"
+          ],
+          "target": 4555948
+        },
+        {
+          "at": 599348,
+          "halfword": "494c",
+          "literal": 599656,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1679-00-092532"
+          ],
+          "target": 4555960
+        },
+        {
+          "at": 599378,
+          "halfword": "4846",
+          "literal": 599660,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1680-00-092552"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 599380,
+          "halfword": "4946",
+          "literal": 599664,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1680-00-092552"
+          ],
+          "target": 4556000
+        },
+        {
+          "at": 604406,
+          "halfword": "48cc",
+          "literal": 605224,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1949-00-0938f6"
+          ],
+          "target": 4556148
+        },
+        {
+          "at": 604408,
+          "halfword": "49cc",
+          "literal": 605228,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1949-00-0938f6"
+          ],
+          "target": 4556160
+        },
+        {
+          "at": 604452,
+          "halfword": "48c4",
+          "literal": 605240,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1950-00-093922"
+          ],
+          "target": 4556188
+        },
+        {
+          "at": 604454,
+          "halfword": "49c5",
+          "literal": 605244,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1950-00-093922"
+          ],
+          "target": 4556200
+        },
+        {
+          "at": 604492,
+          "halfword": "48bc",
+          "literal": 605248,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1951-00-09394a"
+          ],
+          "target": 4556108
+        },
+        {
+          "at": 604494,
+          "halfword": "49bd",
+          "literal": 605252,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1951-00-09394a"
+          ],
+          "target": 4556120
+        },
+        {
+          "at": 604532,
+          "halfword": "48b4",
+          "literal": 605256,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1952-00-093972"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 604534,
+          "halfword": "49b5",
+          "literal": 605260,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1952-00-093972"
+          ],
+          "target": 4556000
+        },
+        {
+          "at": 609582,
+          "halfword": "4824",
+          "literal": 609728,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0661-094d20"
+          ],
+          "target": 4556048
+        },
+        {
+          "at": 609584,
+          "halfword": "4924",
+          "literal": 609732,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0661-094d20"
+          ],
+          "target": 4556060
+        },
+        {
+          "at": 609630,
+          "halfword": "481c",
+          "literal": 609744,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0661-094d20"
+          ],
+          "target": 4556108
+        },
+        {
+          "at": 609632,
+          "halfword": "491c",
+          "literal": 609748,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0661-094d20"
+          ],
+          "target": 4556120
+        },
+        {
+          "at": 609672,
+          "halfword": "4813",
+          "literal": 609752,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0661-094d20"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 609674,
+          "halfword": "4914",
+          "literal": 609756,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0661-094d20"
+          ],
+          "target": 4556000
+        },
+        {
+          "at": 609774,
+          "halfword": "4823",
+          "literal": 609916,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2072-00-094de0"
+          ],
+          "target": 4556108
+        },
+        {
+          "at": 609776,
+          "halfword": "4923",
+          "literal": 609920,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2072-00-094de0"
+          ],
+          "target": 4556120
+        },
+        {
+          "at": 609822,
+          "halfword": "481b",
+          "literal": 609932,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2073-00-094e1a"
+          ],
+          "target": 4555948
+        },
+        {
+          "at": 609824,
+          "halfword": "491b",
+          "literal": 609936,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2073-00-094e1a"
+          ],
+          "target": 4555960
+        },
+        {
+          "at": 609858,
+          "halfword": "4814",
+          "literal": 609940,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2074-00-094e3e"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 609860,
+          "halfword": "4914",
+          "literal": 609944,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2074-00-094e3e"
+          ],
+          "target": 4556000
+        },
+        {
+          "at": 610182,
+          "halfword": "4847",
+          "literal": 610468,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2088-00-094f86"
+          ],
+          "target": 4556148
+        },
+        {
+          "at": 610184,
+          "halfword": "4947",
+          "literal": 610472,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2088-00-094f86"
+          ],
+          "target": 4556160
+        },
+        {
+          "at": 610226,
+          "halfword": "4840",
+          "literal": 610484,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2089-00-094fb0"
+          ],
+          "target": 4556188
+        },
+        {
+          "at": 610228,
+          "halfword": "4940",
+          "literal": 610488,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2089-00-094fb0"
+          ],
+          "target": 4556200
+        },
+        {
+          "at": 612010,
+          "halfword": "484f",
+          "literal": 612328,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2154-00-0956aa"
+          ],
+          "target": 4556148
+        },
+        {
+          "at": 612012,
+          "halfword": "494f",
+          "literal": 612332,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2154-00-0956aa"
+          ],
+          "target": 4556160
+        },
+        {
+          "at": 612056,
+          "halfword": "4847",
+          "literal": 612344,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2155-00-0956d6"
+          ],
+          "target": 4556188
+        },
+        {
+          "at": 612058,
+          "halfword": "4948",
+          "literal": 612348,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2155-00-0956d6"
+          ],
+          "target": 4556200
+        },
+        {
+          "at": 613182,
+          "halfword": "4841",
+          "literal": 613444,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2230-00-095b3e"
+          ],
+          "target": 4555948
+        },
+        {
+          "at": 613184,
+          "halfword": "4941",
+          "literal": 613448,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2230-00-095b3e"
+          ],
+          "target": 4555960
+        },
+        {
+          "at": 613222,
+          "halfword": "483b",
+          "literal": 613460,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2231-00-095b64"
+          ],
+          "target": 4555988
+        },
+        {
+          "at": 613224,
+          "halfword": "493b",
+          "literal": 613464,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2231-00-095b64"
+          ],
+          "target": 4556000
+        }
+      ],
+      "ldr_count": 116,
+      "range": [
+        4555564,
+        4556692
+      ]
+    },
+    {
+      "aligned_word_count": 14,
+      "aligned_word_shapes": [
+        {
+          "at": 509880,
+          "target": 5497892
+        },
+        {
+          "at": 515648,
+          "target": 5496884
+        },
+        {
+          "at": 515788,
+          "target": 5496884
+        },
+        {
+          "at": 515916,
+          "target": 5496884
+        },
+        {
+          "at": 516204,
+          "target": 5496884
+        },
+        {
+          "at": 518304,
+          "target": 5496884
+        },
+        {
+          "at": 518900,
+          "target": 5497640
+        },
+        {
+          "at": 519068,
+          "target": 5497640
+        },
+        {
+          "at": 519236,
+          "target": 5497640
+        },
+        {
+          "at": 519452,
+          "target": 5497640
+        },
+        {
+          "at": 519756,
+          "target": 5497640
+        },
+        {
+          "at": 520060,
+          "target": 5497640
+        },
+        {
+          "at": 520184,
+          "target": 5497640
+        },
+        {
+          "at": 3451616,
+          "target": 5497548
+        }
+      ],
+      "bytes": 1118,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 509742,
+          "halfword": "4a22",
+          "literal": 509880,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0461-07c724"
+          ],
+          "target": 5497892
+        },
+        {
+          "at": 515552,
+          "halfword": "4b17",
+          "literal": 515648,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0486-07ddc8"
+          ],
+          "target": 5496884
+        },
+        {
+          "at": 515678,
+          "halfword": "4b1b",
+          "literal": 515788,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0487-07de44"
+          ],
+          "target": 5496884
+        },
+        {
+          "at": 515818,
+          "halfword": "4b18",
+          "literal": 515916,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0488-07ded0"
+          ],
+          "target": 5496884
+        },
+        {
+          "at": 516166,
+          "halfword": "4a09",
+          "literal": 516204,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0490-07e008"
+          ],
+          "target": 5496884
+        },
+        {
+          "at": 518268,
+          "halfword": "4a08",
+          "literal": 518304,
+          "owner_class": "armv4t_event_handler_reachable_thumb_code",
+          "primary_claim_ids": [
+            "event-handler-cfg-013-07e86c"
+          ],
+          "target": 5496884
+        },
+        {
+          "at": 518824,
+          "halfword": "4d12",
+          "literal": 518900,
+          "owner_class": "armv4t_event_handler_reachable_thumb_code",
+          "primary_claim_ids": [
+            "event-handler-cfg-022-07ea7c"
+          ],
+          "target": 5497640
+        },
+        {
+          "at": 518992,
+          "halfword": "4d12",
+          "literal": 519068,
+          "owner_class": "armv4t_event_handler_reachable_thumb_code",
+          "primary_claim_ids": [
+            "event-handler-cfg-024-07eaf8"
+          ],
+          "target": 5497640
+        },
+        {
+          "at": 519160,
+          "halfword": "4d12",
+          "literal": 519236,
+          "owner_class": "armv4t_event_handler_reachable_thumb_code",
+          "primary_claim_ids": [
+            "event-handler-cfg-026-07eba0"
+          ],
+          "target": 5497640
+        },
+        {
+          "at": 519376,
+          "halfword": "4d12",
+          "literal": 519452,
+          "owner_class": "armv4t_event_handler_reachable_thumb_code",
+          "primary_claim_ids": [
+            "event-handler-cfg-030-07ec64"
+          ],
+          "target": 5497640
+        },
+        {
+          "at": 519528,
+          "halfword": "4d38",
+          "literal": 519756,
+          "owner_class": "armv4t_event_handler_reachable_thumb_code",
+          "primary_claim_ids": [
+            "event-handler-cfg-032-07ed20"
+          ],
+          "target": 5497640
+        },
+        {
+          "at": 519832,
+          "halfword": "4d38",
+          "literal": 520060,
+          "owner_class": "armv4t_event_handler_reachable_thumb_code",
+          "primary_claim_ids": [
+            "event-handler-cfg-034-07ee50"
+          ],
+          "target": 5497640
+        },
+        {
+          "at": 520108,
+          "halfword": "4d12",
+          "literal": 520184,
+          "owner_class": "armv4t_event_handler_reachable_thumb_code",
+          "primary_claim_ids": [
+            "event-handler-cfg-036-07ef80"
+          ],
+          "target": 5497640
+        }
+      ],
+      "ldr_count": 13,
+      "range": [
+        5496884,
+        5498002
+      ]
+    },
+    {
+      "aligned_word_count": 3,
+      "aligned_word_shapes": [
+        {
+          "at": 527892,
+          "target": 5501712
+        },
+        {
+          "at": 528012,
+          "target": 5501712
+        },
+        {
+          "at": 541508,
+          "target": 5501768
+        }
+      ],
+      "bytes": 1374,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 527820,
+          "halfword": "4911",
+          "literal": 527892,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0496-080db8"
+          ],
+          "target": 5501712
+        },
+        {
+          "at": 527940,
+          "halfword": "4911",
+          "literal": 528012,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0497-080e1c"
+          ],
+          "target": 5501712
+        },
+        {
+          "at": 541402,
+          "halfword": "481a",
+          "literal": 541508,
+          "owner_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v2-thumb-0054-0842c8"
+          ],
+          "target": 5501768
+        }
+      ],
+      "ldr_count": 3,
+      "range": [
+        5501710,
+        5503084
+      ]
+    },
+    {
+      "aligned_word_count": 13,
+      "aligned_word_shapes": [
+        {
+          "at": 451292,
+          "target": 5509604
+        },
+        {
+          "at": 540156,
+          "target": 5509128
+        },
+        {
+          "at": 540420,
+          "target": 5509383
+        },
+        {
+          "at": 548236,
+          "target": 5509604
+        },
+        {
+          "at": 548728,
+          "target": 5509604
+        },
+        {
+          "at": 549688,
+          "target": 5509604
+        },
+        {
+          "at": 550404,
+          "target": 5509604
+        },
+        {
+          "at": 552516,
+          "target": 5509604
+        },
+        {
+          "at": 1131628,
+          "target": 5509382
+        },
+        {
+          "at": 3496956,
+          "target": 5505296
+        },
+        {
+          "at": 3655932,
+          "target": 5505048
+        },
+        {
+          "at": 3758420,
+          "target": 5506427
+        },
+        {
+          "at": 4031408,
+          "target": 5506210
+        }
+      ],
+      "bytes": 6860,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 451250,
+          "halfword": "4b0a",
+          "literal": 451292,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0138-00-06e2a4"
+          ],
+          "target": 5509604
+        },
+        {
+          "at": 540080,
+          "halfword": "4c12",
+          "literal": 540156,
+          "owner_class": "armv4t_battle_distance_target_closure_thumb_code",
+          "primary_claim_ids": [
+            "battle-distance-reachable_thumb_code-01-083b78"
+          ],
+          "target": 5509128
+        },
+        {
+          "at": 540328,
+          "halfword": "4c16",
+          "literal": 540420,
+          "owner_class": "armv4t_battle_distance_target_closure_thumb_code",
+          "primary_claim_ids": [
+            "battle-distance-reachable_thumb_code-02-083e00"
+          ],
+          "target": 5509383
+        },
+        {
+          "at": 548108,
+          "halfword": "481f",
+          "literal": 548236,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0541-085d00"
+          ],
+          "target": 5509604
+        },
+        {
+          "at": 548708,
+          "halfword": "4804",
+          "literal": 548728,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0544-085f38"
+          ],
+          "target": 5509604
+        },
+        {
+          "at": 549570,
+          "halfword": "491d",
+          "literal": 549688,
+          "owner_class": "armv4t_story_callback_dependency_reachable_thumb_code",
+          "primary_claim_ids": [
+            "story-dependency-reachable_thumb_code-05-086280"
+          ],
+          "target": 5509604
+        },
+        {
+          "at": 550358,
+          "halfword": "4a0b",
+          "literal": 550404,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0555-086570"
+          ],
+          "target": 5509604
+        },
+        {
+          "at": 552072,
+          "halfword": "4f6e",
+          "literal": 552516,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0481-00-086c86"
+          ],
+          "target": 5509604
+        },
+        {
+          "at": 552150,
+          "halfword": "4f5b",
+          "literal": 552516,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0486-00-086cc4"
+          ],
+          "target": 5509604
+        }
+      ],
+      "ldr_count": 9,
+      "range": [
+        5503132,
+        5509992
+      ]
+    },
+    {
+      "aligned_word_count": 0,
+      "aligned_word_shapes": [],
+      "bytes": 3733,
+      "classified_thumb_ldr_shapes": [],
+      "ldr_count": 0,
+      "range": [
+        5509999,
+        5513732
+      ]
+    },
+    {
+      "aligned_word_count": 3,
+      "aligned_word_shapes": [
+        {
+          "at": 498348,
+          "target": 5872412
+        },
+        {
+          "at": 498552,
+          "target": 5872412
+        },
+        {
+          "at": 498556,
+          "target": 5871908
+        }
+      ],
+      "bytes": 1592,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 498260,
+          "halfword": "4915",
+          "literal": 498348,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0438-079a14"
+          ],
+          "target": 5872412
+        },
+        {
+          "at": 498422,
+          "halfword": "4920",
+          "literal": 498552,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0439-079ab8"
+          ],
+          "target": 5872412
+        },
+        {
+          "at": 498450,
+          "halfword": "491a",
+          "literal": 498556,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0439-079ab8"
+          ],
+          "target": 5871908
+        }
+      ],
+      "ldr_count": 3,
+      "range": [
+        5871908,
+        5873500
+      ]
+    },
+    {
+      "aligned_word_count": 4,
+      "aligned_word_shapes": [
+        {
+          "at": 562516,
+          "target": 5892832
+        },
+        {
+          "at": 565156,
+          "target": 5892832
+        },
+        {
+          "at": 565160,
+          "target": 5892839
+        },
+        {
+          "at": 565424,
+          "target": 5892839
+        }
+      ],
+      "bytes": 2688,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 562160,
+          "halfword": "4a58",
+          "literal": 562516,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-0887-00-0893e4"
+          ],
+          "target": 5892832
+        },
+        {
+          "at": 564898,
+          "halfword": "4a40",
+          "literal": 565156,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1120-00-089e84"
+          ],
+          "target": 5892832
+        },
+        {
+          "at": 564992,
+          "halfword": "4828",
+          "literal": 565156,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1131-00-089f00"
+          ],
+          "target": 5892832
+        },
+        {
+          "at": 565006,
+          "halfword": "4926",
+          "literal": 565160,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1131-00-089f00"
+          ],
+          "target": 5892839
+        },
+        {
+          "at": 565092,
+          "halfword": "4910",
+          "literal": 565160,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1136-00-089f50"
+          ],
+          "target": 5892839
+        },
+        {
+          "at": 565120,
+          "halfword": "4808",
+          "literal": 565156,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1140-00-089f78"
+          ],
+          "target": 5892832
+        },
+        {
+          "at": 565128,
+          "halfword": "4b07",
+          "literal": 565160,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1140-00-089f78"
+          ],
+          "target": 5892839
+        },
+        {
+          "at": 565284,
+          "halfword": "4922",
+          "literal": 565424,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1152-00-08a008"
+          ],
+          "target": 5892839
+        },
+        {
+          "at": 565370,
+          "halfword": "490d",
+          "literal": 565424,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1156-00-08a076"
+          ],
+          "target": 5892839
+        }
+      ],
+      "ldr_count": 9,
+      "range": [
+        5892832,
+        5895520
+      ]
+    },
+    {
+      "aligned_word_count": 0,
+      "aligned_word_shapes": [],
+      "bytes": 1504,
+      "classified_thumb_ldr_shapes": [],
+      "ldr_count": 0,
+      "range": [
+        5916424,
+        5917928
+      ]
+    },
+    {
+      "aligned_word_count": 21,
+      "aligned_word_shapes": [
+        {
+          "at": 492660,
+          "target": 5956576
+        },
+        {
+          "at": 492996,
+          "target": 5956568
+        },
+        {
+          "at": 600152,
+          "target": 5956456
+        },
+        {
+          "at": 605972,
+          "target": 5956576
+        },
+        {
+          "at": 606316,
+          "target": 5956568
+        },
+        {
+          "at": 606580,
+          "target": 5956648
+        },
+        {
+          "at": 606668,
+          "target": 5956648
+        },
+        {
+          "at": 606756,
+          "target": 5956648
+        },
+        {
+          "at": 606844,
+          "target": 5956648
+        },
+        {
+          "at": 606932,
+          "target": 5956648
+        },
+        {
+          "at": 607020,
+          "target": 5956648
+        },
+        {
+          "at": 607108,
+          "target": 5956648
+        },
+        {
+          "at": 607196,
+          "target": 5956648
+        },
+        {
+          "at": 607284,
+          "target": 5956648
+        },
+        {
+          "at": 607500,
+          "target": 5956648
+        },
+        {
+          "at": 640084,
+          "target": 5957448
+        },
+        {
+          "at": 640112,
+          "target": 5957448
+        },
+        {
+          "at": 5956704,
+          "target": 5957184
+        },
+        {
+          "at": 5956708,
+          "target": 5957272
+        },
+        {
+          "at": 5956712,
+          "target": 5957360
+        },
+        {
+          "at": 5957448,
+          "target": 5956700
+        }
+      ],
+      "bytes": 1180,
+      "classified_thumb_ldr_shapes": [
+        {
+          "at": 492524,
+          "halfword": "4f21",
+          "literal": 492660,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0404-0783ac"
+          ],
+          "target": 5956576
+        },
+        {
+          "at": 492864,
+          "halfword": "4820",
+          "literal": 492996,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0409-078530"
+          ],
+          "target": 5956568
+        },
+        {
+          "at": 600084,
+          "halfword": "4910",
+          "literal": 600152,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-1726-00-092814"
+          ],
+          "target": 5956456
+        },
+        {
+          "at": 605834,
+          "halfword": "4f22",
+          "literal": 605972,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2007-00-093e88"
+          ],
+          "target": 5956576
+        },
+        {
+          "at": 606176,
+          "halfword": "4d22",
+          "literal": 606316,
+          "owner_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v6-thumb-2038-00-093fde"
+          ],
+          "target": 5956568
+        },
+        {
+          "at": 607460,
+          "halfword": "4b09",
+          "literal": 607500,
+          "owner_class": "armv4t_cfg_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-thumb-0651-0944dc"
+          ],
+          "target": 5956648
+        },
+        {
+          "at": 640076,
+          "halfword": "4901",
+          "literal": 640084,
+          "owner_class": "armv4t_cfg_proven_roots_v16_reachable_thumb_code",
+          "primary_claim_ids": [
+            "cfg-proven-roots-v16-code-020-09c44c"
+          ],
+          "target": 5957448
+        }
+      ],
+      "ldr_count": 7,
+      "range": [
+        5956452,
+        5957632
+      ]
+    }
+  ],
+  "schema": "large-unknown-anchor-screen-v1",
+  "scope": "4-byte-aligned full-ROM word shapes and 2-byte LDR shapes in listed canonical Thumb classes only. No full upstream verifier replay, register flow, index domain, natural reachability, computed/RAM/unaligned/ARM producer exclusion or semantic claims.",
+  "screened_thumb_segment_bytes": 171916,
+  "screened_thumb_segment_count": 4039
+}

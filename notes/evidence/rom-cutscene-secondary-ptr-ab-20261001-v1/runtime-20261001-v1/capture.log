@@ -1,0 +1,8 @@
+{"starting": "zero-baseline-1"}
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/cutscene-secondary-ptr-ab/runtime-20261001-v1/capture.py", line 30, in <module>
+    guard=json.loads((folder/'guard.json').read_text());validate_guard_summary(guard,child,completed.returncode)
+                                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/run_macos_mgba_replay.py", line 222, in validate_guard_summary
+    raise ReplayError(f"guarded replay failed: {summary.get('reason')}/{summary_exit}")
+tools.run_macos_mgba_replay.ReplayError: guarded replay failed: mgba-crash-report/125

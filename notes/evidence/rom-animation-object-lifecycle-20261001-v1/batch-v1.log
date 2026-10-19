@@ -1,0 +1,30 @@
+test_allocator_overwrites_only_documented_fields_and_truncates_arguments (test_lifecycle.LifecycleTests.test_allocator_overwrites_only_documented_fields_and_truncates_arguments) ... ok
+test_alternate_allocator_non_bios_path_binds_table_entry (test_lifecycle.LifecycleTests.test_alternate_allocator_non_bios_path_binds_table_entry) ... ok
+test_alternate_bios_path_stops_at_real_call_instead_of_stub (test_lifecycle.LifecycleTests.test_alternate_bios_path_stops_at_real_call_instead_of_stub) ... ok
+test_direct_allocator_selects_each_of_128_highest_free_slots (test_lifecycle.LifecycleTests.test_direct_allocator_selects_each_of_128_highest_free_slots) ... ok
+test_disable_reserves_slot_until_real_active_filter_clears_bit1 (test_lifecycle.LifecycleTests.test_disable_reserves_slot_until_real_active_filter_clears_bit1) ... ok
+test_filter_scans_128_slots_and_rebuilds_exact_active_list (test_lifecycle.LifecycleTests.test_filter_scans_128_slots_and_rebuilds_exact_active_list) ... ok
+test_full_pool_returns_null_without_pool_write_or_129th_read (test_lifecycle.LifecycleTests.test_full_pool_returns_null_without_pool_write_or_129th_read) ... ok
+test_initializer_clears_exactly_144_flags_words_and_preserves_poison (test_lifecycle.LifecycleTests.test_initializer_clears_exactly_144_flags_words_and_preserves_poison) ... ok
+test_restore_counter_preserves_all_256_byte_values_when_saved_nonzero (test_lifecycle.LifecycleTests.test_restore_counter_preserves_all_256_byte_values_when_saved_nonzero) ... ok
+test_restore_guard_and_argument_fallthrough_keep_counter_and_saved (test_lifecycle.LifecycleTests.test_restore_guard_and_argument_fallthrough_keep_counter_and_saved) ... ok
+test_source_hole_budget_and_unexpected_opcode_fail_closed (test_lifecycle.LifecycleTests.test_source_hole_budget_and_unexpected_opcode_fail_closed) ... ok
+test_bit_eight_alone_does_not_freeze (test_advance_probe.AdvanceProbeTests.test_bit_eight_alone_does_not_freeze) ... ok
+test_byte_counter_maximum_keeps_mode_twenty_slot_zero (test_advance_probe.AdvanceProbeTests.test_byte_counter_maximum_keeps_mode_twenty_slot_zero) ... ok
+test_freeze_eight_skips_sequence_reads (test_advance_probe.AdvanceProbeTests.test_freeze_eight_skips_sequence_reads) ... ok
+test_high_timer_wraps_with_u16_store (test_advance_probe.AdvanceProbeTests.test_high_timer_wraps_with_u16_store) ... ok
+test_mode_thirty_uses_real_group_reset_helper (test_advance_probe.AdvanceProbeTests.test_mode_thirty_uses_real_group_reset_helper) ... ok
+test_mode_twenty_one_iteration_does_not_read_suffix (test_advance_probe.AdvanceProbeTests.test_mode_twenty_one_iteration_does_not_read_suffix) ... ok
+test_mode_twenty_second_iteration_reads_sentinel_duration (test_advance_probe.AdvanceProbeTests.test_mode_twenty_second_iteration_reads_sentinel_duration) ... ok
+test_non_sentinel_exposes_slot_increment (test_advance_probe.AdvanceProbeTests.test_non_sentinel_exposes_slot_increment) ... ok
+test_unknown_instruction_fails_closed (test_advance_probe.AdvanceProbeTests.test_unknown_instruction_fails_closed) ... ok
+test_zero_counter_skips_all_updates (test_advance_probe.AdvanceProbeTests.test_zero_counter_skips_all_updates) ... ok
+test_add_sub_compare_all_14_conditions_against_integer_oracle (test_bounded_thumb.BoundedThumbTests.test_add_sub_compare_all_14_conditions_against_integer_oracle) ... ok
+test_memory_alignment_whitelist_and_interwork_fail_closed (test_bounded_thumb.BoundedThumbTests.test_memory_alignment_whitelist_and_interwork_fail_closed) ... ok
+test_return_sentinel_cannot_overlap_source_or_root (test_bounded_thumb.BoundedThumbTests.test_return_sentinel_cannot_overlap_source_or_root) ... ok
+test_shift_zero_and_32_preserve_or_update_carry_correctly (test_bounded_thumb.BoundedThumbTests.test_shift_zero_and_32_preserve_or_update_carry_correctly) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 16.219s
+
+OK

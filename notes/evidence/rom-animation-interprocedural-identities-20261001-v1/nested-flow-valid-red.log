@@ -1,0 +1,25 @@
+test_forged_preserved_register_is_rejected (__main__.SummaryFlowTests.test_forged_preserved_register_is_rejected) ... ok
+test_leaf_preservation_requires_real_summary (__main__.SummaryFlowTests.test_leaf_preservation_requires_real_summary) ... ok
+test_nested_child_identity_reaches_caller_field (__main__.SummaryFlowTests.test_nested_child_identity_reaches_caller_field) ... ERROR
+test_nested_child_source_cannot_escape_global_membership (__main__.SummaryFlowTests.test_nested_child_source_cannot_escape_global_membership) ... ok
+test_saved_frame_summary_carries_explicit_condition (__main__.SummaryFlowTests.test_saved_frame_summary_carries_explicit_condition) ... ok
+test_summary_cannot_preserve_caller_stack (__main__.SummaryFlowTests.test_summary_cannot_preserve_caller_stack) ... ok
+test_summary_must_be_bound_to_current_rom_and_source (__main__.SummaryFlowTests.test_summary_must_be_bound_to_current_rom_and_source) ... ok
+
+======================================================================
+ERROR: test_nested_child_identity_reaches_caller_field (__main__.SummaryFlowTests.test_nested_child_identity_reaches_caller_field)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_summary_flow.py", line 89, in test_nested_child_identity_reaches_caller_field
+    state=run_flow(rom,nodes,{0x100},callees=summaries)['states'][0x108]
+          ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/flow.py", line 161, in run_flow
+    callees = validate_callees(rom, offsets, callees)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/flow.py", line 151, in validate_callees
+    raise ValueError('unverified callee summary')
+ValueError: unverified callee summary
+
+----------------------------------------------------------------------
+Ran 7 tests in 11.839s
+
+FAILED (errors=1)

@@ -1,0 +1,311 @@
+{"app_name":"mgba-arm-probe","timestamp":"2026-10-01 19:43:41.00 +0800","app_version":"","slice_uuid":"303c3dad-eda2-3b10-85c2-dcc2ab619e1c","build_version":"","platform":1,"share_with_app_devs":0,"is_first_party":1,"bug_type":"309","os_version":"macOS 14.8.4 (23J319)","roots_installed":0,"incident_id":"BD0A581B-339D-4FB5-B0FD-F3F3291EC49D","name":"mgba-arm-probe"}
+{
+  "uptime" : 1300000,
+  "procRole" : "Unspecified",
+  "version" : 2,
+  "userID" : 501,
+  "deployVersion" : 210,
+  "modelCode" : "MacBookPro16,1",
+  "coalitionID" : 92033,
+  "osVersion" : {
+    "train" : "macOS 14.8.4",
+    "build" : "23J319",
+    "releaseType" : "User"
+  },
+  "captureTime" : "2026-10-01 19:43:36.4857 +0800",
+  "codeSigningMonitor" : 0,
+  "incident" : "BD0A581B-339D-4FB5-B0FD-F3F3291EC49D",
+  "pid" : 85671,
+  "cpuType" : "X86-64",
+  "roots_installed" : 0,
+  "bug_type" : "309",
+  "procLaunch" : "2026-10-01 19:43:36.2767 +0800",
+  "procStartAbsTime" : 1379926957974381,
+  "procExitAbsTime" : 1379927166103281,
+  "procName" : "mgba-arm-probe",
+  "procPath" : "\/Users\/USER\/*\/mgba-arm-probe",
+  "parentProc" : "Python",
+  "parentPid" : 85669,
+  "coalitionName" : "com.openai.codex",
+  "crashReporterKey" : "A6B5A572-5BA7-4863-B681-2B287C47BE03",
+  "responsiblePid" : 27574,
+  "responsibleProc" : "ChatGPT",
+  "codeSigningID" : "",
+  "codeSigningTeamID" : "",
+  "codeSigningValidationCategory" : 0,
+  "codeSigningTrustLevel" : 4294967295,
+  "bridgeVersion" : {"build":"23P3120","train":"10.3"},
+  "sip" : "disabled",
+  "vmRegionInfo" : "0 is not in any region.  Bytes before following region: 4383477760\n      REGION TYPE                    START - END         [ VSIZE] PRT\/MAX SHRMOD  REGION DETAIL\n      UNUSED SPACE AT START\n--->  \n      __TEXT                      105469000-10546c000    [   12K] r-x\/r-x SM=COW  \/Users\/USER\/*\/mgba-arm-probe",
+  "exception" : {"codes":"0x0000000000000001, 0x0000000000000000","rawCodes":[1,0],"type":"EXC_BAD_ACCESS","signal":"SIGSEGV","subtype":"KERN_INVALID_ADDRESS at 0x0000000000000000"},
+  "termination" : {"flags":0,"code":11,"namespace":"SIGNAL","indicator":"Segmentation fault: 11","byProc":"exc handler","byPid":85671},
+  "vmregioninfo" : "0 is not in any region.  Bytes before following region: 4383477760\n      REGION TYPE                    START - END         [ VSIZE] PRT\/MAX SHRMOD  REGION DETAIL\n      UNUSED SPACE AT START\n--->  \n      __TEXT                      105469000-10546c000    [   12K] r-x\/r-x SM=COW  \/Users\/USER\/*\/mgba-arm-probe",
+  "extMods" : {"caller":{"thread_create":0,"thread_set_state":0,"task_for_pid":0},"system":{"thread_create":0,"thread_set_state":0,"task_for_pid":0},"targeted":{"thread_create":0,"thread_set_state":0,"task_for_pid":0},"warnings":0},
+  "faultingThread" : 0,
+  "threads" : [{"triggered":true,"id":10675942,"threadState":{"r13":{"value":0},"rax":{"value":0},"rflags":{"value":66054},"cpu":{"value":0},"r14":{"value":4383483296,"symbolLocation":0,"symbol":"main"},"rsi":{"value":0},"r8":{"value":225280},"cr2":{"value":0},"rdx":{"value":0},"r10":{"value":3},"r9":{"value":0},"r15":{"value":140701965311936},"rbx":{"value":4389346256},"trap":{"value":14,"description":"(no mapping for user instruction read)"},"err":{"value":20},"r11":{"value":7},"rip":{"value":0},"rbp":{"value":140701965311520},"rsp":{"value":140701965294824},"r12":{"value":140701965311568},"rcx":{"value":4392406224,"symbolLocation":0,"symbol":"_GBACoreEndVideoLog"},"flavor":"x86_THREAD_STATE","rdi":{"value":140184641339392}},"queue":"com.apple.main-thread","frames":[{"imageOffset":0,"imageIndex":24},{"imageOffset":5669,"symbol":"main","symbolLocation":133,"imageIndex":23},{"imageOffset":25413,"symbol":"start","symbolLocation":1909,"imageIndex":25}]}],
+  "usedImages" : [
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4391776256,
+    "size" : 1564672,
+    "uuid" : "f0a6bfe7-4420-3a4d-a2f2-5e0d12615d8c",
+    "path" : "\/Users\/USER\/*\/libmgba.0.11.0.dylib",
+    "name" : "libmgba.0.11.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4405297152,
+    "size" : 10846208,
+    "uuid" : "71192b19-f31b-3aa6-aba2-80652394bbba",
+    "path" : "\/usr\/local\/Cellar\/ffmpeg\/8.1\/lib\/libavcodec.62.28.100.dylib",
+    "name" : "libavcodec.62.28.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4397268992,
+    "size" : 2744320,
+    "uuid" : "c851860b-c4e2-3638-b87e-228637ce41d8",
+    "path" : "\/usr\/local\/Cellar\/ffmpeg\/8.1\/lib\/libavfilter.11.14.100.dylib",
+    "name" : "libavfilter.11.14.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4400603136,
+    "size" : 1921024,
+    "uuid" : "c3a4c3c9-4805-3d9e-b4b7-6d4b1c87ed60",
+    "path" : "\/usr\/local\/Cellar\/ffmpeg\/8.1\/lib\/libavformat.62.12.100.dylib",
+    "name" : "libavformat.62.12.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4389605376,
+    "size" : 573440,
+    "uuid" : "6b838ef3-8f52-388b-8d7f-9540a1edac65",
+    "path" : "\/usr\/local\/Cellar\/ffmpeg\/8.1\/lib\/libavutil.60.26.100.dylib",
+    "name" : "libavutil.60.26.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4393955328,
+    "size" : 774144,
+    "uuid" : "6eeab326-c02c-390f-b019-3074c664b048",
+    "path" : "\/usr\/local\/Cellar\/ffmpeg\/8.1\/lib\/libswscale.9.5.100.dylib",
+    "name" : "libswscale.9.5.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4383617024,
+    "size" : 98304,
+    "uuid" : "012a3e20-ae28-31ba-9a4c-f4aaf62aee09",
+    "path" : "\/usr\/local\/Cellar\/ffmpeg\/8.1\/lib\/libswresample.6.3.100.dylib",
+    "name" : "libswresample.6.3.100.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4383916032,
+    "size" : 143360,
+    "uuid" : "4d743e79-b9f9-3678-99c6-3d8d4193ef32",
+    "path" : "\/usr\/local\/Cellar\/libpng\/1.6.56\/lib\/libpng16.16.dylib",
+    "name" : "libpng16.16.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4383739904,
+    "size" : 77824,
+    "uuid" : "12e28fb3-ce86-3af4-89d8-4767e0a2555a",
+    "path" : "\/usr\/local\/Cellar\/libzip\/1.11.4_1\/lib\/libzip.5.5.dylib",
+    "name" : "libzip.5.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4396163072,
+    "size" : 425984,
+    "uuid" : "e12e8ea0-a8ca-369c-9706-0c7010218205",
+    "path" : "\/usr\/local\/Cellar\/libepoxy\/1.5.10\/lib\/libepoxy.0.dylib",
+    "name" : "libepoxy.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4395077632,
+    "size" : 528384,
+    "uuid" : "bf093aa5-07ee-3280-982d-20e79e6b7a25",
+    "path" : "\/usr\/local\/Cellar\/freetype\/2.14.3\/lib\/libfreetype.6.dylib",
+    "name" : "libfreetype.6.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4388511744,
+    "size" : 176128,
+    "uuid" : "51b9e43c-1b26-3f63-a830-1e7a3e5b6768",
+    "path" : "\/usr\/local\/Cellar\/lua\/5.5.0\/lib\/liblua.5.5.0.dylib",
+    "name" : "liblua.5.5.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4423589888,
+    "size" : 2084864,
+    "uuid" : "7c53ca03-7c42-3bc4-9a28-fc65a5825df7",
+    "path" : "\/usr\/local\/Cellar\/libvpx\/1.16.0\/lib\/libvpx.12.dylib",
+    "name" : "libvpx.12.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4425932800,
+    "size" : 1486848,
+    "uuid" : "94f14af8-6cf0-3311-a617-7a126a441ac2",
+    "path" : "\/usr\/local\/Cellar\/dav1d\/1.5.3\/lib\/libdav1d.7.dylib",
+    "name" : "libdav1d.7.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4402823168,
+    "size" : 245760,
+    "uuid" : "afdf0770-97e8-3f51-9df0-af23e8382573",
+    "path" : "\/usr\/local\/Cellar\/lame\/3.100\/lib\/libmp3lame.0.dylib",
+    "name" : "libmp3lame.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4395716608,
+    "size" : 344064,
+    "uuid" : "01b74fb4-d34c-346a-9b3a-60b7ac1efc09",
+    "path" : "\/usr\/local\/Cellar\/opus\/1.6.1\/lib\/libopus.0.dylib",
+    "name" : "libopus.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4433825792,
+    "size" : 4915200,
+    "uuid" : "f83167d9-d0b0-381d-8382-f19822d5f61d",
+    "path" : "\/usr\/local\/Cellar\/svt-av1\/4.1.0\/lib\/libSvtAv1Enc.4.1.0.dylib",
+    "name" : "libSvtAv1Enc.4.1.0.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4428455936,
+    "size" : 1634304,
+    "uuid" : "fa8f0b72-07dd-3597-b43e-3bf9fa6bfc42",
+    "path" : "\/usr\/local\/Cellar\/x264\/r3222\/lib\/libx264.165.dylib",
+    "name" : "libx264.165.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4457230336,
+    "size" : 15437824,
+    "uuid" : "27bda21f-0931-355c-b435-5ec985bdd2a1",
+    "path" : "\/usr\/local\/Cellar\/x265\/4.1\/lib\/libx265.215.dylib",
+    "name" : "libx265.215.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4404211712,
+    "size" : 618496,
+    "uuid" : "f4c4f17e-243c-32cc-93a5-b3bc406b3ea3",
+    "path" : "\/usr\/local\/Cellar\/openssl@3\/3.6.1\/lib\/libssl.3.dylib",
+    "name" : "libssl.3.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4444614656,
+    "size" : 3584000,
+    "uuid" : "c59eece3-3bdd-3208-bf4e-bd006dae15bd",
+    "path" : "\/usr\/local\/Cellar\/openssl@3\/3.6.1\/lib\/libcrypto.3.dylib",
+    "name" : "libcrypto.3.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4388732928,
+    "size" : 122880,
+    "uuid" : "04deb2fe-e604-3d40-80c0-89949adfa952",
+    "path" : "\/usr\/local\/Cellar\/xz\/5.8.2\/lib\/liblzma.5.dylib",
+    "name" : "liblzma.5.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4431138816,
+    "size" : 679936,
+    "uuid" : "a349acd6-7693-3c78-b0e9-5b6950599d4f",
+    "path" : "\/usr\/local\/Cellar\/zstd\/1.5.7_1\/lib\/libzstd.1.5.7.dylib",
+    "name" : "libzstd.1.5.7.dylib"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 4383477760,
+    "size" : 12288,
+    "uuid" : "303c3dad-eda2-3b10-85c2-dcc2ab619e1c",
+    "path" : "\/Users\/USER\/*\/mgba-arm-probe",
+    "name" : "mgba-arm-probe"
+  },
+  {
+    "size" : 0,
+    "source" : "A",
+    "base" : 0,
+    "uuid" : "00000000-0000-0000-0000-000000000000"
+  },
+  {
+    "source" : "P",
+    "arch" : "x86_64",
+    "base" : 140703374557184,
+    "size" : 592520,
+    "uuid" : "66536536-a01e-37fd-89b7-6be9aea34ca4",
+    "path" : "\/usr\/lib\/dyld",
+    "name" : "dyld"
+  }
+],
+  "sharedCache" : {
+  "base" : 140703373860864,
+  "size" : 25769803776,
+  "uuid" : "60737072-b152-3c2e-8e06-b790a908bf6d"
+},
+  "legacyInfo" : {
+  "threadTriggered" : {
+    "queue" : "com.apple.main-thread"
+  }
+},
+  "logWritingSignature" : "3d206a1f65dc8777d7fee4afc2dd142d306cccc5",
+  "trialInfo" : {
+  "rollouts" : [
+    {
+      "rolloutId" : "5ffde50ce2aacd000d47a95f",
+      "factorPackIds" : {
+
+      },
+      "deploymentId" : 240000557
+    },
+    {
+      "rolloutId" : "64c17a9925d75a7281053d4c",
+      "factorPackIds" : {
+        "SIRI_AUDIO_DISABLE_MEDIA_ENTITY_SYNC" : "64d29746ad29a465b3bbeace"
+      },
+      "deploymentId" : 240000002
+    }
+  ],
+  "experiments" : [
+
+  ]
+}
+}

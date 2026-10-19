@@ -1,0 +1,19 @@
+test_actual_callback_sort_body_and_full_return (test_full_renderer.FullRendererTests.test_actual_callback_sort_body_and_full_return) ... ok
+test_loop_mode_reads_sequence_sentinel_duration (test_full_renderer.FullRendererTests.test_loop_mode_reads_sequence_sentinel_duration) ... ok
+test_preflight_rejects_sequence_sentinel_slot (test_full_renderer.FullRendererTests.test_preflight_rejects_sequence_sentinel_slot) ... ok
+test_rotated_body_uses_raw_trigonometric_helpers (test_full_renderer.FullRendererTests.test_rotated_body_uses_raw_trigonometric_helpers) ... ok
+test_scaled_body_reaches_real_division_swi (test_full_renderer.FullRendererTests.test_scaled_body_reaches_real_division_swi) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.349s
+
+OK
+VERIFY v2 renderer / long callback / v20 dependency
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-full-renderer/renderer-20261001-v1/batch.py", line 148, in <module>
+    try:main(Path(sys.argv[1]))
+        ~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-full-renderer/renderer-20261001-v1/batch.py", line 79, in main
+    assert len(accepted)==30 and len(excluded)==17
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

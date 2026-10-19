@@ -1,0 +1,33 @@
+test_forged_frontier_summary_is_rejected (__main__.SummaryFrontierTests.test_forged_frontier_summary_is_rejected) ... ERROR
+test_unsaved_r9_remains_explicit_callee_boundary (__main__.SummaryFrontierTests.test_unsaved_r9_remains_explicit_callee_boundary) ... ERROR
+test_verified_leaf_boundary_reaches_constant_producer (__main__.SummaryFrontierTests.test_verified_leaf_boundary_reaches_constant_producer) ... ERROR
+
+======================================================================
+ERROR: test_forged_frontier_summary_is_rejected (__main__.SummaryFrontierTests.test_forged_frontier_summary_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-callee-effects/effects-20261001-v1/test_summary_frontier.py", line 46, in test_forged_frontier_summary_is_rejected
+    dependencies(rom,nodes,{0x100},0x108,16,callees=summaries)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: dependencies() got an unexpected keyword argument 'callees'
+
+======================================================================
+ERROR: test_unsaved_r9_remains_explicit_callee_boundary (__main__.SummaryFrontierTests.test_unsaved_r9_remains_explicit_callee_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-callee-effects/effects-20261001-v1/test_summary_frontier.py", line 39, in test_unsaved_r9_remains_explicit_callee_boundary
+    r=dependencies(rom,nodes,{0x100},0x108,16,callees=summaries)
+TypeError: dependencies() got an unexpected keyword argument 'callees'
+
+======================================================================
+ERROR: test_verified_leaf_boundary_reaches_constant_producer (__main__.SummaryFrontierTests.test_verified_leaf_boundary_reaches_constant_producer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-callee-effects/effects-20261001-v1/test_summary_frontier.py", line 34, in test_verified_leaf_boundary_reaches_constant_producer
+    r=dependencies(rom,nodes,{0x100},0x108,16,callees=summaries)
+TypeError: dependencies() got an unexpected keyword argument 'callees'
+
+----------------------------------------------------------------------
+Ran 3 tests in 3.100s
+
+FAILED (errors=3)

@@ -1,0 +1,92 @@
+EEEFFEEE
+======================================================================
+ERROR: test_current_unknown_projection_separate_from_stable_verification (test_rom_display_text_delta.DisplayTextDeltaTests.test_current_unknown_projection_separate_from_stable_verification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_delta.py", line 123, in test_current_unknown_projection_separate_from_stable_verification
+    e.export_artifact(ROOT, target)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_rom_display_text_delta.py", line 10, in export_artifact
+    raise ValueError("display packet not implemented")
+ValueError: display packet not implemented
+
+======================================================================
+ERROR: test_managed_publication_stable_replay_and_no_replace (test_rom_display_text_delta.DisplayTextDeltaTests.test_managed_publication_stable_replay_and_no_replace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_delta.py", line 69, in test_managed_publication_stable_replay_and_no_replace
+    e.export_artifact(ROOT, target)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_rom_display_text_delta.py", line 10, in export_artifact
+    raise ValueError("display packet not implemented")
+ValueError: display packet not implemented
+
+======================================================================
+ERROR: test_parameter_literal_semantic_and_terminator_mutations_fail_closed (test_rom_display_text_delta.DisplayTextDeltaTests.test_parameter_literal_semantic_and_terminator_mutations_fail_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_delta.py", line 51, in test_parameter_literal_semantic_and_terminator_mutations_fail_closed
+    p = e.build_payload(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_rom_display_text_delta.py", line 7, in build_payload
+    raise ValueError("display packet not implemented")
+ValueError: display packet not implemented
+
+======================================================================
+ERROR: test_real_rom_92_consumers_85_records_1053_bytes (test_rom_display_text_delta.DisplayTextDeltaTests.test_real_rom_92_consumers_85_records_1053_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_delta.py", line 35, in test_real_rom_92_consumers_85_records_1053_bytes
+    p = e.build_payload(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_rom_display_text_delta.py", line 7, in build_payload
+    raise ValueError("display packet not implemented")
+ValueError: display packet not implemented
+
+======================================================================
+ERROR: test_relocation_is_identity_preserving (test_rom_display_text_delta.DisplayTextDeltaTests.test_relocation_is_identity_preserving)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_delta.py", line 86, in test_relocation_is_identity_preserving
+    e.export_artifact(ROOT, target)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_rom_display_text_delta.py", line 10, in export_artifact
+    raise ValueError("display packet not implemented")
+ValueError: display packet not implemented
+
+======================================================================
+ERROR: test_self_consistent_tampering_extra_file_and_symlink_rejected (test_rom_display_text_delta.DisplayTextDeltaTests.test_self_consistent_tampering_extra_file_and_symlink_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_delta.py", line 96, in test_self_consistent_tampering_extra_file_and_symlink_rejected
+    e.export_artifact(ROOT, target)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/export_rom_display_text_delta.py", line 10, in export_artifact
+    raise ValueError("display packet not implemented")
+ValueError: display packet not implemented
+
+======================================================================
+FAIL: test_publication_rejects_unmanaged_and_inactive_runs (test_rom_display_text_delta.DisplayTextDeltaTests.test_publication_rejects_unmanaged_and_inactive_runs)
+----------------------------------------------------------------------
+ValueError: display packet not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_delta.py", line 147, in test_publication_rejects_unmanaged_and_inactive_runs
+    with self.assertRaisesRegex(ValueError, 'active'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "active" does not match "display packet not implemented"
+
+======================================================================
+FAIL: test_real_export_and_independent_verify_cli (test_rom_display_text_delta.DisplayTextDeltaTests.test_real_export_and_independent_verify_cli)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_delta.py", line 156, in test_real_export_and_independent_verify_cli
+    self.assertEqual(0, result.returncode, result.stdout + result.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : display packet not implemented
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.061s
+
+FAILED (failures=2, errors=6)

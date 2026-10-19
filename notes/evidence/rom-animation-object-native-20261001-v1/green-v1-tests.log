@@ -1,0 +1,181 @@
+test_allocator_preserves_stale_context (test_object_native.NativeLifecycleTests.test_allocator_preserves_stale_context) ... ok
+test_callback_initialization_uses_real_bios (test_object_native.NativeLifecycleTests.test_callback_initialization_uses_real_bios) ... ERROR
+test_full_allocator_returns_null (test_object_native.NativeLifecycleTests.test_full_allocator_returns_null) ... ok
+test_lookup_missing_is_index_ten (test_object_native.NativeLifecycleTests.test_lookup_missing_is_index_ten) ... ok
+test_native_source_budget_rejects_execution_escape (test_object_native.NativeLifecycleTests.test_native_source_budget_rejects_execution_escape) ... ok
+test_selection_reads_before_freeze (test_object_native.NativeLifecycleTests.test_selection_reads_before_freeze) ... ERROR
+test_sort_full_return_and_mode_keys (test_object_native.NativeLifecycleTests.test_sort_full_return_and_mode_keys) ... ERROR
+test_stale_context_skips_bios_init (test_object_native.NativeLifecycleTests.test_stale_context_skips_bios_init) ... ERROR
+test_timer_wrap_and_negative_duration (test_object_native.NativeLifecycleTests.test_timer_wrap_and_negative_duration) ... ERROR
+
+======================================================================
+ERROR: test_callback_initialization_uses_real_bios (test_object_native.NativeLifecycleTests.test_callback_initialization_uses_real_bios)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/test_object_native.py", line 21, in test_callback_initialization_uses_real_bios
+    row=p.callback(context=0,manager_slot=3,pending=0)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 162, in callback
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 81, in execute
+    raise ValueError(f'native failure {completed.returncode}: {completed.stderr[-2000:]}; {completed.stdout[-1000:]}')
+ValueError: native failure 3: mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+fixture rejected: run header
+; 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
+
+
+======================================================================
+ERROR: test_selection_reads_before_freeze (test_object_native.NativeLifecycleTests.test_selection_reads_before_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/test_object_native.py", line 31, in test_selection_reads_before_freeze
+    row=p.select_and_advance(group=0,slot=0,flags=8,count=1,timer=9)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 176, in select_and_advance
+    first=execute([select])[0]
+          ~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 81, in execute
+    raise ValueError(f'native failure {completed.returncode}: {completed.stderr[-2000:]}; {completed.stdout[-1000:]}')
+ValueError: native failure 3: mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+fixture rejected: execution escaped or exhausted
+; 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
+{"writes":[{"read":true,"pc":134621580,"width":2,"address":50354576,"value":0},{"read":true,"pc":134621582,"width":4,"address":50354588,"value":138773848},{"read":true,"pc":134621588,"width":2,"address":50354578,"value":0},{"read":true,"pc":134621592,"width":4,"address":138773848,"value":138773840},[134621596,4,50360320,138773840],[134621600,4,50360340,0],{"read":true,"pc":134621602,"width":4,"address":50354556,"value":8},[134621610,4,50360344,2684420610]],"status":2,"stop":134621620,"cpsr":1610612991,"spsr":255,"visited":[134621580,134621582,134621584,134621586,134621588,134621590,134621592,134621594,134621596,134621598,134621600,134621602,134621604,134621606,134621608,134621610,134621612,134621614],"registers":[0,8,2684420610,2684420867,2684421124,0,2684421638,50354556,2684422152,2684422409,2684422666,2684422923,2684423180,50360320,134217729,134621622],"peek":[[50360320,4,138773840]]}
+
+
+======================================================================
+ERROR: test_sort_full_return_and_mode_keys (test_object_native.NativeLifecycleTests.test_sort_full_return_and_mode_keys)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/test_object_native.py", line 17, in test_sort_full_return_and_mode_keys
+    row=p.sort_pool([0x10001]*128,list(range(128)))
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 148, in sort_pool
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 81, in execute
+    raise ValueError(f'native failure {completed.returncode}: {completed.stderr[-2000:]}; {completed.stdout[-1000:]}')
+ValueError: native failure 3: mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+fixture rejected: run header
+; 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
+
+
+======================================================================
+ERROR: test_stale_context_skips_bios_init (test_object_native.NativeLifecycleTests.test_stale_context_skips_bios_init)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/test_object_native.py", line 27, in test_stale_context_skips_bios_init
+    row=p.callback(context=7,manager_slot=0,pending=0)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 162, in callback
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 81, in execute
+    raise ValueError(f'native failure {completed.returncode}: {completed.stderr[-2000:]}; {completed.stdout[-1000:]}')
+ValueError: native failure 3: mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+fixture rejected: run header
+; 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
+
+
+======================================================================
+ERROR: test_timer_wrap_and_negative_duration (test_object_native.NativeLifecycleTests.test_timer_wrap_and_negative_duration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/test_object_native.py", line 35, in test_timer_wrap_and_negative_duration
+    row=p.select_and_advance(group=0,slot=0,flags=0,count=1,timer=65535)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 176, in select_and_advance
+    first=execute([select])[0]
+          ~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/object_native.py", line 81, in execute
+    raise ValueError(f'native failure {completed.returncode}: {completed.stderr[-2000:]}; {completed.stdout[-1000:]}')
+ValueError: native failure 3: mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 13 64: Invalid DMA source address: 0x00000000
+mGBA 18 16: Switching save types
+fixture rejected: execution escaped or exhausted
+; 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"}
+{"writes":[{"read":true,"pc":134621580,"width":2,"address":50354576,"value":0},{"read":true,"pc":134621582,"width":4,"address":50354588,"value":138773848},{"read":true,"pc":134621588,"width":2,"address":50354578,"value":0},{"read":true,"pc":134621592,"width":4,"address":138773848,"value":138773840},[134621596,4,50360320,138773840],[134621600,4,50360340,0],{"read":true,"pc":134621602,"width":4,"address":50354556,"value":0},[134621610,4,50360344,2684420610]],"status":2,"stop":134621620,"cpsr":1610612991,"spsr":255,"visited":[134621580,134621582,134621584,134621586,134621588,134621590,134621592,134621594,134621596,134621598,134621600,134621602,134621604,134621606,134621608,134621610,134621612,134621614],"registers":[0,0,2684420610,2684420867,2684421124,0,2684421638,50354556,2684422152,2684422409,2684422666,2684422923,2684423180,50360320,134217729,134621622],"peek":[[50360320,4,138773840]]}
+
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.732s
+
+FAILED (errors=5)

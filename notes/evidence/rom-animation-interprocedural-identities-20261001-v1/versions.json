@@ -1,0 +1,12 @@
+{
+  "authoritative": "interprocedural-identities-v2.json",
+  "superseded": {
+    "interprocedural-identities.json": "First 21-root pass; v2 exhausts caller frontier target discovery, adds 92018/96168 and improves four more fields."
+  },
+  "red_evidence": {
+    "nested-flow-red.log": "Fixture incorrect: strict child summary lacks return identity. Not a valid wiring red.",
+    "nested-flow-green.log": "Same incorrect fixture; not successful green.",
+    "nested-flow-valid-red.log": "Corrected conditional fixture, old sealed flow rejects legitimate nested identity.",
+    "nested-flow-valid-green.log": "Recursive validation wiring passes corrected positive and deep-member negative cases."
+  }
+}

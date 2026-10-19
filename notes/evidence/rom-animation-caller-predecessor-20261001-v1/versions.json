@@ -1,0 +1,16 @@
+{
+  "authoritative": [
+    "predecessors-v4.json",
+    "frontiers-v3.json",
+    "callee-windows.json"
+  ],
+  "promotion_bytes": 0,
+  "scope": "research only, no accepted claims",
+  "superseded": {
+    "frontiers-v2.json": "parent superseded",
+    "frontiers.json": "parent superseded",
+    "predecessors-v2.json": "compared-register overwrite not modeled; old output API",
+    "predecessors-v3.json": "compared-register overwrite not modeled",
+    "predecessors.json": "CPSR invalidation and compared-register overwrite not modeled"
+  }
+}

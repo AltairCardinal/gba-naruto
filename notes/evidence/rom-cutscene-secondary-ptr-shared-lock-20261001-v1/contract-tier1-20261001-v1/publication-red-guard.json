@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 72199,
+  "peak_tree_rss_mib": 0.91796875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "-c",
+    "import unittest,sys; f=open(\"build/experiments/active/cutscene-secondary-ptr-contract/tier1-20261001-v1/publication-red.log\",\"w\"); r=unittest.TextTestRunner(stream=f,verbosity=2).run(unittest.defaultTestLoader.loadTestsFromName(\"tests.test_cutscene_obj_secondary_ptr_publication\")); f.close(); sys.exit(not r.wasSuccessful())"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T03:45:16.827993Z",
+  "finished_at": "2026-10-01T03:45:17.862497Z"
+}

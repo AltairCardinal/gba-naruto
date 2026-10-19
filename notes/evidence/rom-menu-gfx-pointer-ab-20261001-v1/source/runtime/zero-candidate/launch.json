@@ -1,0 +1,39 @@
+{
+  "DYLD_LIBRARY_PATH": "/Users/altair/.cache/codex-tools/mgba/0.11-dev-c16c3ff-20260730-build",
+  "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+  "command": [
+    "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--script",
+    "/Users/altair/github/gba-naruto-reverse/tools/mgba_checkpoint_replay.lua",
+    "/Users/altair/github/gba-naruto-reverse/build/experiments/active/menu-portrait-pointer-ab/runtime-20261001-v1/runtime/zero-candidate/staged.gba"
+  ],
+  "guard_command": [
+    "/usr/local/opt/python@3.14/bin/python3.14",
+    "/Users/altair/github/gba-naruto-reverse/tools/run_guarded.py",
+    "--summary",
+    "/Users/altair/github/gba-naruto-reverse/build/experiments/active/menu-portrait-pointer-ab/runtime-20261001-v1/runtime/zero-candidate/guard.json",
+    "--success-marker",
+    "/Users/altair/github/gba-naruto-reverse/build/experiments/active/menu-portrait-pointer-ab/runtime-20261001-v1/runtime/zero-candidate/guard.json.done.json",
+    "--lock-file",
+    "/Users/altair/github/gba-naruto-reverse/build/experiments/heavy.lock",
+    "--cwd",
+    "/Users/altair/github/gba-naruto-reverse",
+    "--min-available-mib",
+    "4096",
+    "--max-tree-rss-mib",
+    "1536",
+    "--wall-timeout-s",
+    "180",
+    "--idle-timeout-s",
+    "90",
+    "--",
+    "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--script",
+    "/Users/altair/github/gba-naruto-reverse/tools/mgba_checkpoint_replay.lua",
+    "/Users/altair/github/gba-naruto-reverse/build/experiments/active/menu-portrait-pointer-ab/runtime-20261001-v1/runtime/zero-candidate/staged.gba"
+  ],
+  "input": false,
+  "library_sha256": "0f84fde81a26843207dcac5080da014e38fa0d66726498bc3a6b6d6b5c925b0b",
+  "run_id": "menu-gfx-ptr-20261001-zero-candidate",
+  "script_sha256": "1481f10cd8f72c7635326e8d3233c2466b76c7a4b812cefe1220fe43c29f9659"
+}

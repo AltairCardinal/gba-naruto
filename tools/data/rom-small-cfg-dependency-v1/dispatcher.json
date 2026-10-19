@@ -1,0 +1,383 @@
+{
+  "baseline_archive": {
+    "path": "notes/evidence/rom-evidence-selector-repair-20260905/coverage-after.json.gz",
+    "sha256": "f996d62735f43b00fc3375b1e74423aac6b331edbca0943ae3033c2ceea0942b",
+    "size": 1759704
+  },
+  "baseline_raw_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+  "baseline_raw_size": 31426933,
+  "code_ranges": [
+    [
+      515256,
+      515282
+    ],
+    [
+      515388,
+      515394
+    ]
+  ],
+  "expected_producers": [
+    {
+      "kind": "thumb_bl",
+      "owners": [
+        {
+          "claims": [
+            {
+              "claim_kind": "event_handler_reachable_instruction_bytes",
+              "evidence_path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "evidence_selector": "/promotion/semantic_ranges/13",
+              "evidence_sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "id": "event-handler-cfg-013-07e86c",
+              "independent_verifier_path": "tools/verify_rom_event_handler_cfg.py",
+              "independent_verifier_sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "mode": "thumb",
+              "primary_class": "armv4t_event_handler_reachable_thumb_code",
+              "promotion_manifest_path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "promotion_manifest_sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "range": [
+                518252,
+                518304
+              ]
+            }
+          ],
+          "intersection": [
+            518254,
+            518258
+          ],
+          "segment": {
+            "primary_claim_ids": [
+              "event-handler-cfg-013-07e86c"
+            ],
+            "primary_class": "armv4t_event_handler_reachable_thumb_code",
+            "range": [
+              518252,
+              518304
+            ],
+            "secondary_claim_ids": []
+          }
+        }
+      ],
+      "raw_hex": "fff723fa",
+      "size": 4,
+      "source": 518254,
+      "target": 515256
+    }
+  ],
+  "expected_projection": {
+    "bytes": 40,
+    "packed_sha256": "21cd3f7bf79df0e1406e670b41f5ef0719031a177b487137d77b0c8525a8f349",
+    "ranges": [
+      {
+        "owners": [
+          {
+            "claims": [],
+            "intersection": [
+              515256,
+              515282
+            ],
+            "segment": {
+              "primary_claim_ids": [],
+              "primary_class": "unknown",
+              "range": [
+                515254,
+                515288
+              ],
+              "secondary_claim_ids": [],
+              "unknown_reason": "no accepted primary classification claim"
+            }
+          }
+        ],
+        "range": [
+          515256,
+          515282
+        ],
+        "raw_hex": "f0b50648c43000680079243813283cd880000349401800688746",
+        "sha256": "32473ba6f2f79e2d4fce2132734bebecf8bd58f068aa73a1d6176e5b578a7564"
+      },
+      {
+        "owners": [
+          {
+            "claims": [],
+            "intersection": [
+              515284,
+              515288
+            ],
+            "segment": {
+              "primary_claim_ids": [],
+              "primary_class": "unknown",
+              "range": [
+                515254,
+                515288
+              ],
+              "secondary_claim_ids": [],
+              "unknown_reason": "no accepted primary classification claim"
+            }
+          }
+        ],
+        "range": [
+          515284,
+          515288
+        ],
+        "raw_hex": "e06b0202",
+        "sha256": "30cd86d78f75f3a2352268cdfb47ba372e78616a9f38c5ef9a4397ef03c8e5ec"
+      },
+      {
+        "owners": [
+          {
+            "claims": [],
+            "intersection": [
+              515368,
+              515372
+            ],
+            "segment": {
+              "primary_claim_ids": [],
+              "primary_class": "unknown",
+              "range": [
+                515368,
+                515372
+              ],
+              "secondary_claim_ids": [],
+              "unknown_reason": "no accepted primary classification claim"
+            }
+          }
+        ],
+        "range": [
+          515368,
+          515372
+        ],
+        "raw_hex": "3cdd0708",
+        "sha256": "5bf8478972525050171bf7c7440a646a46a882312cdbfa00b3fbe63e3455d833"
+      },
+      {
+        "owners": [
+          {
+            "claims": [],
+            "intersection": [
+              515388,
+              515394
+            ],
+            "segment": {
+              "primary_claim_ids": [],
+              "primary_class": "unknown",
+              "range": [
+                515388,
+                515394
+              ],
+              "secondary_claim_ids": [],
+              "unknown_reason": "no accepted primary classification claim"
+            }
+          }
+        ],
+        "range": [
+          515388,
+          515394
+        ],
+        "raw_hex": "9820e4f795f8",
+        "sha256": "1e7fea88b90fb226f49faeb0ee1e66189e795bfc53c2fa82436c62f9fe7ef1b9"
+      }
+    ]
+  },
+  "helper_contract": {
+    "api": "decode_dispatch(rom: bytes, root: int) -> dict; pure, no IO or project imports",
+    "derivation": [
+      "Only exact Thumb-1 families listed. root even and full 26-byte range in ROM. Both literal addresses = aligned(source+4) + imm8*4, 4-byte aligned in ROM and no overlap with code/table/each other.",
+      "first literal is an opaque RAM state base value, output raw word; second literal is ROM table address (GBA 0x08000000 base). Table length = (CMP imm8 + 1) * 4. SUB uses 32-bit wrap; unsigned BHI exits when index > CMP imm8. Reject if subtract+maximum >255; all slots must have a real u8 command witness.",
+      "BHI signed target outside prefix/data. LSL is exactly r0,r0,#2; table load adds r1 to r0 then loads u32 then MOV pc,r0 retaining Thumb mode. It is not BX; table targets must be even ROM addresses with mode thumb; reject any prefix/literal/table target.",
+      "Return every prefix node offset/size/raw_hex; two literal_bindings triples[source,target,rawhex]; state_base_value; state_pointer_field_offset; command_field_offset; subtract; maximum_index; default_target; table_range; table_sha256; ordered table_entries {slot_index,entry_offset,raw_pointer,target,mode}; all256 input_domain {command,index_u32,slot_index or null,target}.",
+      "Output keys exactly: root,prefix_range,instructions,literal_bindings,state_base_value,state_pointer_field_offset,command_field_offset,subtract,maximum_index,default_target,table_range,table_sha256,table_entries,input_domain. Integers offsets; mode string thumb; no natural or lifecycle claims.",
+      "Real expected root0x7DCB8, literal state0x02026BE0 + field0xC4, command+4, subtract36 max19 default0x7DD42, table[0x7DCDC,0x7DD2C), table targets DD2C,DD2C,DD42,DD34,DD34,DD42 fourteen times,DD3C. All20 slots must be enumerated.",
+      "Use TDD before implementation, real oracle and relocated synthetic case with different subtract/bound/literal addresses/targets. Reject BLS, wrong flag producer/scale/register/PC-write mode, 32-bit or out-of-range table pointers, odd targets, truncation, duplicate or overlapping data ranges. Only parent integrates source/owner/full-ROM scan/downstream CFG."
+    ],
+    "pattern_halfwords": [
+      "0xb5f0",
+      "LDR r0,[pc,#imm8*4]",
+      "ADD r0,#imm8",
+      "0x6800",
+      "LDRB r0,[r0,#imm5]",
+      "SUB r0,#imm8",
+      "CMP r0,#imm8",
+      "BHI signed imm8",
+      "0x0080",
+      "LDR r1,[pc,#imm8*4]",
+      "0x1840",
+      "0x6800",
+      "0x4687"
+    ]
+  },
+  "literal_ranges": [
+    [
+      515284,
+      515288
+    ],
+    [
+      515288,
+      515292
+    ]
+  ],
+  "new_table_tail_range": [
+    515368,
+    515372
+  ],
+  "opaque_entries": [
+    401004,
+    515372,
+    515380,
+    515394
+  ],
+  "output_schema": "rom-u8-subtract-bounded-movpc-dispatch-v1",
+  "preserved_holes": [
+    [
+      515282,
+      515284
+    ]
+  ],
+  "publication_contract": {
+    "canonical_and_formal_acceptance_deferred_to_batch_integration": true,
+    "failed_stages_retained_without_name_based_cleanup": true,
+    "immutable_precoverage_required": true,
+    "independent_candidate_verification_required": true,
+    "publisher_requires_atomic_noreplace_and_member_identity": true,
+    "pure_payload_is_not_acceptance": true,
+    "version": 1
+  },
+  "reused_pattern": "tools/verify_rom_cfg_inventory_v3.py::_resolve_thumb_indexed_dispatches_independently; fixed V2 schema/263 roots/357 frontiers/29 dispatch denominator prevents direct invocation for this new root; reuse finite raw tail algorithm in a pure generic small helper, leaving old evidence unchanged.",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "root_pointer_occurrences": {
+    "0x807dcb9": []
+  },
+  "roots": [
+    515256
+  ],
+  "schema": "rom-u8-subtract-bounded-movpc-dispatch-public-contract-v1",
+  "scope": {
+    "canonical_promoted": false,
+    "classification": "producer-bound Thumb CFG, consumed literals and complete bounded table; only unknown intersections promoted",
+    "computed_indirect_producers_exhausted": false,
+    "full_source_verifier_replayed_here": false,
+    "holes_classified": false,
+    "natural_reachability": false,
+    "opaque_callee_stack_effects_proven": false,
+    "state_pointer_lifecycle_proven": false,
+    "structured_return": false
+  },
+  "table_range": [
+    515292,
+    515372
+  ],
+  "upstream_inputs": [
+    {
+      "path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+      "sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+      "size": 4350
+    },
+    {
+      "path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+      "sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+      "size": 5936694
+    },
+    {
+      "path": "artifacts/rom-cfg-proven-roots-v1/manifest.json",
+      "sha256": "ea1230fe24cf111a91044c059468a1467e46c471363780b23c2a0311bab8644a",
+      "size": 5186
+    },
+    {
+      "path": "artifacts/rom-cfg-proven-roots-v1/rom-cfg-proven-roots.json",
+      "sha256": "7fdee7d0d62d3a8c82bfe7b03804e9cb0e3d213ebdf63acce6b0533045aecf54",
+      "size": 1024474
+    },
+    {
+      "path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+      "sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+      "size": 37061
+    },
+    {
+      "path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+      "sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+      "size": 34133
+    },
+    {
+      "path": "artifacts/rom-text-bg-task-closure-v1/manifest.json",
+      "sha256": "fd632dd3d8762fa7f7b2492917fff814628587255e3853973013757e9346dd0d",
+      "size": 1148
+    },
+    {
+      "path": "artifacts/rom-text-bg-task-closure-v1/rom-text-bg-task-closure.json",
+      "sha256": "014c4b8c4fd098e8049511df55f248505e4d680be5b394592cab92e26c512a0c",
+      "size": 20175
+    },
+    {
+      "path": "tools/_vendor/capstone/__init__.py",
+      "sha256": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+      "size": 42474
+    },
+    {
+      "path": "tools/_vendor/capstone/arm.py",
+      "sha256": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+      "size": 2071
+    },
+    {
+      "path": "tools/_vendor/capstone/arm_const.py",
+      "sha256": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+      "size": 16464
+    },
+    {
+      "path": "tools/_vendor/capstone/lib/libcapstone.dylib",
+      "sha256": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f",
+      "size": 7308696
+    },
+    {
+      "path": "tools/export_rom_cfg_inventory.py",
+      "sha256": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+      "size": 40396
+    },
+    {
+      "path": "tools/export_rom_cfg_proven_roots_v13.py",
+      "sha256": "7017045fc098faff14e1726873a05a379123222ee878d771e3bdb4b5d5a70c8c",
+      "size": 40788
+    },
+    {
+      "path": "tools/rom_event_handler_cfg_contract.py",
+      "sha256": "42ff03212b40d435093c8de589b5750f704d0e3b5910e4a6dc2b7f1c5e657ae9",
+      "size": 9242
+    },
+    {
+      "path": "tools/thumb_branch.py",
+      "sha256": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+      "size": 3084
+    },
+    {
+      "path": "tools/verify_rom_cfg_inventory.py",
+      "sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+      "size": 45183
+    },
+    {
+      "path": "tools/verify_rom_cfg_proven_roots.py",
+      "sha256": "693d9381f429346376a6400bea20025ca0c56e1e68d0bf3164b070ea722aa4d7",
+      "size": 36912
+    },
+    {
+      "path": "tools/verify_rom_cfg_proven_roots_v13.py",
+      "sha256": "a687af7750e9a177b47883f1b540d555bd4c666d92865d56e521f85174c869a7",
+      "size": 39526
+    },
+    {
+      "path": "tools/verify_rom_event_handler_cfg.py",
+      "sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+      "size": 22929
+    },
+    {
+      "path": "tools/verify_rom_text_bg_task_closure.py",
+      "sha256": "9e29205f8e32dc37cb0d50843ae86e96abee6270d0294ed9fc9c24c494859a50",
+      "size": 19636
+    },
+    {
+      "path": "tools/rom_small_cfg_wrappers_independent_verifier.py",
+      "sha256": "3d1524d799a6b1f7d86de7488ba849605fdd533e8a4882922e539cb5dcbefdf8",
+      "size": 18723
+    }
+  ]
+}

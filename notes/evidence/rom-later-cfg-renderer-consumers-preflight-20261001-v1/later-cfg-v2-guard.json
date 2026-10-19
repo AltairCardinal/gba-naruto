@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 63514,
+  "peak_tree_rss_mib": 1.19921875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "PYTHONPATH=. python3 build/experiments/active/renderer-opcode-contract/opcode2-6-20261001-v1/scan_later_cfg_v2.py > build/experiments/active/renderer-opcode-contract/opcode2-6-20261001-v1/later-cfg-v2.json 2> build/experiments/active/renderer-opcode-contract/opcode2-6-20261001-v1/later-cfg-v2.stderr"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T16:55:58.699995Z",
+  "finished_at": "2026-09-30T16:55:59.735326Z"
+}

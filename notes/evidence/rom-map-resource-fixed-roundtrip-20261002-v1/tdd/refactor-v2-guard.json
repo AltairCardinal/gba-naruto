@@ -1,0 +1,20 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 82538,
+  "peak_tree_rss_mib": 161.52734375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "build/experiments/active/map-roundtrip/tdd-20261002-v1/test_launch.py",
+    "refactor-v2",
+    "tests.test_map_resource_fixed_roundtrip",
+    "tests.test_import_map_resources",
+    "tests.test_vram_safe_fixed_slot_audits",
+    "tests.test_battle_effect_fixed_roundtrip"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T16:21:29.059472Z",
+  "finished_at": "2026-10-01T16:23:58.876924Z"
+}

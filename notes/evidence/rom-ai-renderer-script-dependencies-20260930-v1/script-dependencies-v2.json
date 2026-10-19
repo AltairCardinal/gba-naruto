@@ -1,0 +1,283 @@
+{
+  "all_interpreter_incoming_producers_closed": false,
+  "excluded_postplanner_sites": [
+    {
+      "interpreter_callsite": 475744,
+      "reason": "no accepted primary instruction owner",
+      "site": 475742
+    },
+    {
+      "interpreter_callsite": 475988,
+      "reason": "no accepted primary instruction owner",
+      "site": 475986
+    }
+  ],
+  "instruction_owner_source": "immutable canonical archive",
+  "promotion_bytes": 0,
+  "reused_artifact_path": "artifacts/rom-fixed-renderer-script-records-v1/rom-fixed-renderer-script-records.json",
+  "reused_verifier_path": "tools/verify_rom_fixed_renderer_script_records.py",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "rows": [
+    {
+      "bounded_parameter_flow_replayed": true,
+      "callee_side_effects_proved": false,
+      "instruction_owner": {
+        "bytes_sha256": "620efecc2f70408fc77569e9d0ba7bd4b36f654af0941198c0985609967c82ac",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0028-0741dc",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475612,
+          475738
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 12,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0741dc",
+            "range": [
+              475612,
+              475634
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741f2",
+            "range": [
+              475634,
+              475642
+            ]
+          },
+          {
+            "block_id": "block-thumb-0741fa",
+            "range": [
+              475642,
+              475648
+            ]
+          },
+          {
+            "block_id": "block-thumb-074200",
+            "range": [
+              475648,
+              475666
+            ]
+          },
+          {
+            "block_id": "block-thumb-074212",
+            "range": [
+              475666,
+              475682
+            ]
+          },
+          {
+            "block_id": "block-thumb-074222",
+            "range": [
+              475682,
+              475692
+            ]
+          },
+          {
+            "block_id": "block-thumb-07422c",
+            "range": [
+              475692,
+              475706
+            ]
+          },
+          {
+            "block_id": "block-thumb-07423a",
+            "range": [
+              475706,
+              475716
+            ]
+          },
+          {
+            "block_id": "block-thumb-074244",
+            "range": [
+              475716,
+              475720
+            ]
+          },
+          {
+            "block_id": "block-thumb-074248",
+            "range": [
+              475720,
+              475730
+            ]
+          },
+          {
+            "block_id": "block-thumb-074252",
+            "range": [
+              475730,
+              475736
+            ]
+          },
+          {
+            "block_id": "block-thumb-074258",
+            "range": [
+              475736,
+              475738
+            ]
+          }
+        ]
+      },
+      "interpreter_callsite": 475732,
+      "literal_instruction": 475664,
+      "literal_word": 475796,
+      "record_parse_replayed": true,
+      "script_record": {
+        "bytes_sha256": "3d55746c9ba16580a41490ae537396cd9ed9b2614c17267e5afc9b7a326cc28e",
+        "opcode_sequence": [
+          1,
+          5,
+          4,
+          0
+        ],
+        "range": [
+          5981,
+          6013
+        ]
+      }
+    },
+    {
+      "bounded_parameter_flow_replayed": true,
+      "callee_side_effects_proved": false,
+      "instruction_owner": {
+        "bytes_sha256": "b05967b064b5ffe2de336a08b81153434d800e1b8f853d8de358d1df2dc8465b",
+        "claim_kind": "battle_controller_cfg_reachable_instruction_bytes",
+        "controller_range": [
+          471732,
+          479388
+        ],
+        "dispatcher_mapping_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+        "evidence_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+        "evidence_selector": "/extension/blocks",
+        "evidence_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+        "fixed_root_count": 38,
+        "global_code_map_claimed": false,
+        "id": "battle-controller-cfg-thumb-0030-0742e4",
+        "independent_verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+        "independent_verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+        "limitations": [
+          "Only the 38 dispatcher targets inside the corrected controller range are roots; one root coincides with a frozen v1 producer and is excluded.",
+          "Five frontiers (1 decode failure, 2 indirect PC targets, 2 unsupported instructions) remain open.",
+          "Indirect PC targets, BIOS SWI, and out-of-range edges are recorded as opaque; natural runtime reachability is not claimed."
+        ],
+        "mode": "thumb",
+        "natural_dispatcher_reachability_claimed": false,
+        "primary_class": "armv4t_cfg_battle_controller_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "battle-controller-cfg-v1",
+        "promotion_manifest_path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+        "promotion_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+        "range": [
+          475876,
+          475982
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 8,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-0742e4",
+            "range": [
+              475876,
+              475884
+            ]
+          },
+          {
+            "block_id": "block-thumb-0742ec",
+            "range": [
+              475884,
+              475914
+            ]
+          },
+          {
+            "block_id": "block-thumb-07430a",
+            "range": [
+              475914,
+              475930
+            ]
+          },
+          {
+            "block_id": "block-thumb-07431a",
+            "range": [
+              475930,
+              475940
+            ]
+          },
+          {
+            "block_id": "block-thumb-074324",
+            "range": [
+              475940,
+              475960
+            ]
+          },
+          {
+            "block_id": "block-thumb-074338",
+            "range": [
+              475960,
+              475974
+            ]
+          },
+          {
+            "block_id": "block-thumb-074346",
+            "range": [
+              475974,
+              475980
+            ]
+          },
+          {
+            "block_id": "block-thumb-07434c",
+            "range": [
+              475980,
+              475982
+            ]
+          }
+        ]
+      },
+      "interpreter_callsite": 475976,
+      "literal_instruction": 475908,
+      "literal_word": 476036,
+      "record_parse_replayed": true,
+      "script_record": {
+        "bytes_sha256": "3d55746c9ba16580a41490ae537396cd9ed9b2614c17267e5afc9b7a326cc28e",
+        "opcode_sequence": [
+          1,
+          5,
+          4,
+          0
+        ],
+        "range": [
+          5981,
+          6013
+        ]
+      }
+    }
+  ],
+  "schema": "rom-ai-renderer-script-dependencies-preflight-v1",
+  "script_interpreter_not_state_switch": true,
+  "script_side_effects_and_wait_frame_state_preservation_proved": false
+}

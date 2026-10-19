@@ -1,0 +1,62 @@
+test_bl_does_not_preserve_entry_lr_even_if_child_preserves_lr (__main__.ChildrenTests.test_bl_does_not_preserve_entry_lr_even_if_child_preserves_lr) ... ERROR
+test_child_rom_drift_rejected (__main__.ChildrenTests.test_child_rom_drift_rejected) ... ERROR
+test_forged_child_preservation_rejected (__main__.ChildrenTests.test_forged_child_preservation_rejected) ... ERROR
+test_self_dependent_contract_is_rejected (__main__.ChildrenTests.test_self_dependent_contract_is_rejected) ... ERROR
+test_strict_parent_still_drops_unproved_child_memory_effects (__main__.ChildrenTests.test_strict_parent_still_drops_unproved_child_memory_effects) ... ERROR
+test_verified_child_preserves_unsaved_gpr (__main__.ChildrenTests.test_verified_child_preserves_unsaved_gpr) ... ERROR
+
+======================================================================
+ERROR: test_bl_does_not_preserve_entry_lr_even_if_child_preserves_lr (__main__.ChildrenTests.test_bl_does_not_preserve_entry_lr_even_if_child_preserves_lr)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_children.py", line 41, in test_bl_does_not_preserve_entry_lr_even_if_child_preserves_lr
+    r=analyze(rom,0x100,{0x100,0x104},children={0x200:child})
+TypeError: analyze() got an unexpected keyword argument 'children'
+
+======================================================================
+ERROR: test_child_rom_drift_rejected (__main__.ChildrenTests.test_child_rom_drift_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_children.py", line 35, in test_child_rom_drift_rejected
+    with self.assertRaises(ValueError):analyze(bytes(raw),0x100,nodes,conditional_frame=True,children={0x200:child})
+                                       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: analyze() got an unexpected keyword argument 'children'
+
+======================================================================
+ERROR: test_forged_child_preservation_rejected (__main__.ChildrenTests.test_forged_child_preservation_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_children.py", line 31, in test_forged_child_preservation_rejected
+    with self.assertRaises(ValueError):analyze(rom,0x100,nodes,conditional_frame=True,children={0x200:child})
+                                       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: analyze() got an unexpected keyword argument 'children'
+
+======================================================================
+ERROR: test_self_dependent_contract_is_rejected (__main__.ChildrenTests.test_self_dependent_contract_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_children.py", line 52, in test_self_dependent_contract_is_rejected
+    with self.assertRaises(ValueError):analyze(rom,0x100,nodes,children={0x100:child})
+                                       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: analyze() got an unexpected keyword argument 'children'
+
+======================================================================
+ERROR: test_strict_parent_still_drops_unproved_child_memory_effects (__main__.ChildrenTests.test_strict_parent_still_drops_unproved_child_memory_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_children.py", line 46, in test_strict_parent_still_drops_unproved_child_memory_effects
+    r=analyze(rom,0x100,nodes,children={0x200:child})
+TypeError: analyze() got an unexpected keyword argument 'children'
+
+======================================================================
+ERROR: test_verified_child_preserves_unsaved_gpr (__main__.ChildrenTests.test_verified_child_preserves_unsaved_gpr)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_children.py", line 24, in test_verified_child_preserves_unsaved_gpr
+    r=analyze(rom,0x100,nodes,conditional_frame=True,children={0x200:child})
+TypeError: analyze() got an unexpected keyword argument 'children'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.133s
+
+FAILED (errors=6)

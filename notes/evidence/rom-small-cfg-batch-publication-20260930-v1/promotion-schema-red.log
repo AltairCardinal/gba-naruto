@@ -1,0 +1,17 @@
+test_final_manifest_matches_existing_promotion_contract (tests.test_rom_small_cfg_batch_publication.BatchPublicationTests.test_final_manifest_matches_existing_promotion_contract) ... ERROR
+
+======================================================================
+ERROR: test_final_manifest_matches_existing_promotion_contract (tests.test_rom_small_cfg_batch_publication.BatchPublicationTests.test_final_manifest_matches_existing_promotion_contract)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_small_cfg_batch_publication.py", line 78, in test_final_manifest_matches_existing_promotion_contract
+    self.assertEqual(_validate_promotion_manifest(target)['artifact_status'], 'accepted')
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/experiment_workspace.py", line 254, in _validate_promotion_manifest
+    raise ValueError("promotion manifest schema mismatch")
+ValueError: promotion manifest schema mismatch
+
+----------------------------------------------------------------------
+Ran 1 test in 24.273s
+
+FAILED (errors=1)

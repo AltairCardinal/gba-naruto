@@ -1,0 +1,15 @@
+test_mutated_interpreter_semantics_rejected_before_identity_gate (tests.test_rom_renderer_records_delta.RendererRecordsDeltaTests.test_mutated_interpreter_semantics_rejected_before_identity_gate) ... FAIL
+
+======================================================================
+FAIL: test_mutated_interpreter_semantics_rejected_before_identity_gate (tests.test_rom_renderer_records_delta.RendererRecordsDeltaTests.test_mutated_interpreter_semantics_rejected_before_identity_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_renderer_records_delta.py", line 66, in test_mutated_interpreter_semantics_rejected_before_identity_gate
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 65.839s
+
+FAILED (failures=1)

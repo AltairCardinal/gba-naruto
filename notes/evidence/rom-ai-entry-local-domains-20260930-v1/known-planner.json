@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "identity": "battle_ai_candidate_planner_static",
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "functions": {
+    "planner": {
+      "start": "0x080851F8",
+      "end": "0x080855FE",
+      "size": 1030,
+      "sha256": "d94ce211153c95b9d6065691179a6887b149c443be27311c8baaf679c8d85b95"
+    },
+    "tile_score": {
+      "start": "0x08085160",
+      "end": "0x080851F4",
+      "size": 148,
+      "sha256": "f8cfc39845d11a4bd2d845d5e56803e834632cbd1d091f3dd903e6906b03ad7a"
+    },
+    "grid_candidate": {
+      "start": "0x08085610",
+      "end": "0x080857B0",
+      "size": 416,
+      "sha256": "8fa4917189c73d871232fce933e7f0b0f3e3c93ad418f65274cfda35c70966af"
+    }
+  },
+  "planner_direct_calls": [
+    {
+      "callsite": "0x08085246",
+      "target": "0x0809C0E0"
+    },
+    {
+      "callsite": "0x08085254",
+      "target": "0x0809C0E0"
+    },
+    {
+      "callsite": "0x0808528C",
+      "target": "0x0808400C"
+    },
+    {
+      "callsite": "0x0808529E",
+      "target": "0x0806FDA4"
+    },
+    {
+      "callsite": "0x080852AA",
+      "target": "0x08082280"
+    },
+    {
+      "callsite": "0x080852C4",
+      "target": "0x080833A8"
+    },
+    {
+      "callsite": "0x080852F8",
+      "target": "0x080833A8"
+    },
+    {
+      "callsite": "0x08085306",
+      "target": "0x08084274"
+    },
+    {
+      "callsite": "0x08085334",
+      "target": "0x08083278"
+    },
+    {
+      "callsite": "0x0808533A",
+      "target": "0x080829CC"
+    },
+    {
+      "callsite": "0x08085388",
+      "target": "0x08069DB8"
+    },
+    {
+      "callsite": "0x08085398",
+      "target": "0x0806AA38"
+    },
+    {
+      "callsite": "0x080853B2",
+      "target": "0x0806A9EC"
+    },
+    {
+      "callsite": "0x08085440",
+      "target": "0x0806D85C"
+    },
+    {
+      "callsite": "0x08085456",
+      "target": "0x0806D910"
+    },
+    {
+      "callsite": "0x080854A0",
+      "target": "0x0809C0D8"
+    },
+    {
+      "callsite": "0x08085512",
+      "target": "0x0806AA38"
+    },
+    {
+      "callsite": "0x08085528",
+      "target": "0x0806A9EC"
+    },
+    {
+      "callsite": "0x0808557A",
+      "target": "0x080833A8"
+    },
+    {
+      "callsite": "0x0808558C",
+      "target": "0x080833A8"
+    },
+    {
+      "callsite": "0x080855A2",
+      "target": "0x08085160"
+    },
+    {
+      "callsite": "0x080855C0",
+      "target": "0x08083364"
+    },
+    {
+      "callsite": "0x080855C6",
+      "target": "0x08083040"
+    },
+    {
+      "callsite": "0x080855DA",
+      "target": "0x0809C0E0"
+    },
+    {
+      "callsite": "0x080855EA",
+      "target": "0x0809C0E0"
+    }
+  ],
+  "max_candidate_selection": {
+    "score_callsite": "0x080855A2",
+    "score_target": "0x08085160",
+    "comparison": "candidate_score > best_score",
+    "comparison_address": "0x080855A8",
+    "reject_address": "0x080855AA",
+    "candidate_copy_size": 20,
+    "best_score_update_address": "0x080855BC",
+    "enumeration_calls": [
+      {
+        "callsite": "0x080855C0",
+        "target": "0x08083364"
+      },
+      {
+        "callsite": "0x080855C6",
+        "target": "0x08083040"
+      }
+    ]
+  },
+  "tile_score": {
+    "function": "0x08085160",
+    "unit_pool_base": "0x020240C0",
+    "unit_record_size": "0x01D4",
+    "position_offsets": [
+      "0xC4",
+      "0xC5"
+    ],
+    "facing_offset": "0xC6",
+    "candidate_facing_offset": "0xC9",
+    "tile_flags_base": "0x0201BE2A",
+    "map_width_address": "0x02002880",
+    "components": [
+      {
+        "when": "unit[0xC6] == unit[0xC9]",
+        "add": 50
+      },
+      {
+        "when": "tile_flags & 1 == 0",
+        "add": 200
+      },
+      {
+        "when": "tile_flags & 1 != 0 and ((tile_flags >> (unit[0xC6] + 4)) & 1) == 0",
+        "add": 100
+      },
+      {
+        "when": "tile_flags & 1 != 0",
+        "add": "(rng_value * 50) >> 15"
+      }
+    ],
+    "rng_state_pointer": "0x03000010",
+    "rng_call": "0x0809C110"
+  },
+  "grid_candidate": {
+    "function": "0x08085610",
+    "direct_calls": [
+      {
+        "callsite": "0x0808563E",
+        "target": "0x080833A8"
+      },
+      {
+        "callsite": "0x0808565E",
+        "target": "0x08069E44"
+      },
+      {
+        "callsite": "0x0808573C",
+        "target": "0x0809C110"
+      }
+    ],
+    "literals": {
+      "unit_pool_base": "0x020240C0",
+      "map_height_address": "0x0201BE2B",
+      "map_width_address": "0x0201BE2A",
+      "tile_occupancy_base": "0x0202CA27",
+      "tile_attribute_base": "0x02021E2C",
+      "tile_type_table": "0x02026604",
+      "tile_flags_base": "0x02002880",
+      "rng_state_pointer": "0x03000010"
+    },
+    "proven_score_shape": "Iterates bounded grid coordinates, rejects flagged candidates, adds a 100-or-50 terrain/direction term plus (rng_value * 50) >> 15, and retains only a strictly higher score."
+  },
+  "conclusion": "The original enemy planner enumerates candidate families, scores concrete candidate state, and copies only a strictly better candidate. One bound score function is additive over facing, tile flags, and RNG; a separate grid helper performs bounded coordinate filtering and max selection.",
+  "boundary": "This static slice does not establish target priority, damage utility, mission-objective weighting, helper semantics outside the proven calls, or the complete distribution and tie behavior of every AI branch. Runtime candidate/score captures are still required before implementing formulas."
+}

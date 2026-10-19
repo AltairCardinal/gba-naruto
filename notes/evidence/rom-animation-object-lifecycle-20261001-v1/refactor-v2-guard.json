@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 66622,
+  "peak_tree_rss_mib": 38.3203125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "-c",
+    "import sys,contextlib,unittest; from pathlib import Path; p=Path(\"build/experiments/active/animation-object-lifecycle/lifecycle-20261001-v1\"); sys.path.insert(0,str(p)); s=(p/\"refactor-v2-tests.log\").open(\"x\"); contextlib.redirect_stdout(s).__enter__(); contextlib.redirect_stderr(s).__enter__(); suite=unittest.defaultTestLoader.discover(str(p),pattern=\"test_*.py\"); result=unittest.TextTestRunner(verbosity=2).run(suite); sys.exit(not result.wasSuccessful())"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T09:29:59.341622Z",
+  "finished_at": "2026-10-01T09:30:15.867829Z"
+}

@@ -1,0 +1,48 @@
+{
+  "scope": "bounded shape search only; not full writer or CFG proof, no promoted bytes",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "decoder_path": "tools/disasm_thumb.py",
+  "decoder_sha256": "1a1b49824781a56b9d82fdbb71d97abcd4a1b509c37d739992d096225deebf75",
+  "windows": [
+    {
+      "range": [
+        541300,
+        545108
+      ],
+      "bytes_sha256": "c9da91cd096b36f325f3b975a416c83578048a1d588f89cafa1e1ec9dc075830",
+      "cd_immediate_shape_offsets": [
+        541394
+      ],
+      "shape_is_not_instruction_membership": true
+    },
+    {
+      "range": [
+        436480,
+        437248
+      ],
+      "bytes_sha256": "b297175400f0811cf8a067860b81051cb2d77aff42026a9bbc06335f113f2646",
+      "cd_immediate_shape_offsets": [],
+      "shape_is_not_instruction_membership": true
+    },
+    {
+      "range": [
+        451072,
+        451584
+      ],
+      "bytes_sha256": "6e1d35f4ad1c85047ca31fc59db583ad9bb3fd53c1684d640035bf9b2f72ca54",
+      "cd_immediate_shape_offsets": [
+        451142,
+        451274
+      ],
+      "shape_is_not_instruction_membership": true
+    }
+  ],
+  "declared_config_span": [
+    5501768,
+    5503112
+  ],
+  "historical_unknown_candidate_span": [
+    5501768,
+    5503084
+  ]
+}

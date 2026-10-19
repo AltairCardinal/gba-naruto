@@ -1,0 +1,104 @@
+{
+  "schema": "reverse-preflight-receipt-v1",
+  "current_report": "report-context-v2.json",
+  "current_green": "final-green.log",
+  "historical_report": "report.json; superseded; does not bind final context annotation implementation",
+  "scope": "raw handler graph and context-switch dependency; no complete handler/RAM/callee or return proof; promotion=0",
+  "files": [
+    {
+      "path": ".experiment.json",
+      "size": 210,
+      "sha256": "a53376afa3096662ac28d33c5239415d40340f3c116edbdd986c0cadb5c1f857"
+    },
+    {
+      "path": "analyze_rom_renderer_handler_graphs.py",
+      "size": 10218,
+      "sha256": "c36b9d2c5af60850f48871b5593b4eff2042348695f16ecc98463340d95fb672"
+    },
+    {
+      "path": "context-green-guard.json",
+      "size": 577,
+      "sha256": "2a66c7243c519bc6778d10ad919502e9099b446c278876f978cd099d441c7025"
+    },
+    {
+      "path": "context-green.log",
+      "size": 115,
+      "sha256": "2b203be1e372b281172cacaf489c505f2029ad68d5f237a39502a87f2e1034aa"
+    },
+    {
+      "path": "context-report-guard.json",
+      "size": 536,
+      "sha256": "5c535e0d9bf86a7b636db261e5794f0df4b3ac654c4fd5ec00c8f7c09a1cdacd"
+    },
+    {
+      "path": "context-resumption-red.log",
+      "size": 774,
+      "sha256": "687c0ba82f5cc6bab34166e7bbd27d28cb43378149f6c6bbaa9cb71adff0d9c8"
+    },
+    {
+      "path": "final-green-guard.json",
+      "size": 574,
+      "sha256": "0e81eed533699378cd0748510d5fe4d79a55e0a9b54c372464402569b80e6a45"
+    },
+    {
+      "path": "final-green.log",
+      "size": 116,
+      "sha256": "0b38ab2186ebfbe8930554e6200b2769da0ac999e36e353a024879226881ff44"
+    },
+    {
+      "path": "green-guard.json",
+      "size": 567,
+      "sha256": "541a2e8f022b30d3944755af7d77cbc97594969c3cf53831e9b85e3928f24d26"
+    },
+    {
+      "path": "green.log",
+      "size": 114,
+      "sha256": "2887db4888704a530c0de4c5ae7ee7f872fb3c402068304cec8447ab09aca583"
+    },
+    {
+      "path": "independent-graph-replay.json",
+      "size": 413,
+      "sha256": "f2d89b233016b72b7be90825c2d89ba29d36cf0e91507255619f84efa581965b"
+    },
+    {
+      "path": "independent_graph_replay.py",
+      "size": 2659,
+      "sha256": "cc09f79b06f351d4086725c9470b7a50e0d9e04efded821409eead105937bce0"
+    },
+    {
+      "path": "red.log",
+      "size": 969,
+      "sha256": "20d75a6b41b345a56ab345280ce68707c7781a3c488f1bfbac1c7dd390b0ba46"
+    },
+    {
+      "path": "report-context-v2.json",
+      "size": 378768,
+      "sha256": "cc620812213e7d7a950599e914a9c55a8ad7e7f839362ed9aba93a37e037c278"
+    },
+    {
+      "path": "report-guard.json",
+      "size": 529,
+      "sha256": "0cd51afc0dcf8a54956dd22df4fc5c392c2ff514186570bdd71e16a4c05d3c63"
+    },
+    {
+      "path": "report.json",
+      "size": 373158,
+      "sha256": "2b747cdef47d6502f4f3bbcc908e3b3f7a2dc8623ba67e3b24e49ed2d05ec462"
+    },
+    {
+      "path": "test_analyze_rom_renderer_handler_graphs.py",
+      "size": 4613,
+      "sha256": "8de531bbeb98041531bbb1d2a032baec7e814f8d7e9c124a323961181ebd7c7e"
+    },
+    {
+      "path": "upstream-red-guard.json",
+      "size": 624,
+      "sha256": "36f8ec1b4a958bf1802b70f11d087af23401dec03184f216cc81f57236de4220"
+    },
+    {
+      "path": "upstream-red.log",
+      "size": 804,
+      "sha256": "2f03fb0618cc5251c8f1bd43079745d08f1fe3507098d9915e957e2d6c19daf3"
+    }
+  ]
+}

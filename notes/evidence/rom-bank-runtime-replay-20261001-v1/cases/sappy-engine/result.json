@@ -1,0 +1,23 @@
+{
+  "bank": "sappy-engine",
+  "command": [
+    "python3",
+    "tools/verify_sappy_engine_master_enable_ab.py",
+    "--root",
+    ".",
+    "--artifact",
+    "artifacts/sappy-engine-master-enable-ab-v1",
+    "--binary",
+    "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+  ],
+  "exit_code": 0,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "errors": [],
+    "verified": true
+  },
+  "seconds": 1.015,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "8131e15b02099361bec95a0c779abe510d132ec29003bba1501dbbc5da53b1c7",
+  "timed_out": false
+}

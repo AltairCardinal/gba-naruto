@@ -1,0 +1,80 @@
+.F.FFF..F
+======================================================================
+FAIL: test_real_canonical_claims_segments_and_unknown_holes (tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketCanonicalTests.test_real_canonical_claims_segments_and_unknown_holes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 152, in test_real_canonical_claims_segments_and_unknown_holes
+    self.assertEqual((6_203_707, 87_749, 16_891), tuple(
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        coverage["summary"][key] for key in
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ("classified_bytes", "unknown_bytes", "claim_count")))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (6203707, 87749, 16891) != (6203825, 87631, 16912)
+
+First differing element 0:
+6203707
+6203825
+
+- (6203707, 87749, 16891)
++ (6203825, 87631, 16912)
+
+======================================================================
+FAIL: test_proof_binds_real_canonical_and_ten_batch_evidence_files (tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketProofSpecTests.test_proof_binds_real_canonical_and_ten_batch_evidence_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 230, in test_proof_binds_real_canonical_and_ten_batch_evidence_files
+    self.assertEqual(hashlib.sha256(canonical_raw).hexdigest(),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     evidence["sequel/rom-byte-coverage.json"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2' != '1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6'
+- b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2
++ 1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6
+
+
+======================================================================
+FAIL: test_combined_cfg_aggregate_is_derived_from_all_packet_claims (tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketQuickProjectionTests.test_combined_cfg_aggregate_is_derived_from_all_packet_claims)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 145, in test_combined_cfg_aggregate_is_derived_from_all_packet_claims
+    self.assertEqual(CFG_EXPECTED,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+                     {key: aggregate[key] for key in CFG_EXPECTED})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'cfg[28 chars]: 173058, 'cfg_promoted_unknown_bytes': 174046[172 chars]f11'} != {'cfg[28 chars]: 173136, 'cfg_promoted_unknown_bytes': 174124[172 chars]b69'}
+Diff is 857 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_exact_four_packet_denominator_and_linear_union (tests.test_rom_cfg_proven_roots_v21_coverage.PostStoryFourPacketQuickProjectionTests.test_exact_four_packet_denominator_and_linear_union)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 136, in test_exact_four_packet_denominator_and_linear_union
+    self.assertEqual((6_203_707, 87_749),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+                     (classified, len(self.ROM) - classified))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (6203707, 87749) != (6203825, 87631)
+
+First differing element 0:
+6203707
+6203825
+
+- (6203707, 87749)
++ (6203825, 87631)
+
+======================================================================
+FAIL: test_wiring_identity_and_active_only_registry (tests.test_rom_cfg_proven_roots_v21_coverage.V21QuickProjectionTests.test_wiring_identity_and_active_only_registry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_cfg_proven_roots_v21_coverage.py", line 96, in test_wiring_identity_and_active_only_registry
+    self.assertEqual(51, auditor._cfg_code_aggregate(self.PRIOR)[
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "cfg_code_claim_kind_count"])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 51 != 52
+
+----------------------------------------------------------------------
+Ran 9 tests in 17.932s
+
+FAILED (failures=5)

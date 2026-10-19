@@ -1,0 +1,70 @@
+{
+  "bank": "battle-encounters",
+  "command": [
+    "python3",
+    "tools/verify_battle_encounters_story_visual_pixel_ab.py",
+    "--root",
+    ".",
+    "--artifact",
+    "artifacts/battle-encounters-story-visual-pixel-ab-v1"
+  ],
+  "exit_code": 0,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "bbox_inclusive": [
+      88,
+      48,
+      159,
+      108
+    ],
+    "changed_pixel_count": 1603,
+    "memory_differences": {
+      "EWRAM": {
+        "baseline_sha256": "75c12071d842f55e8ae96b811cf6bed241fca8279113d53b9763a2e7244afe71",
+        "candidate_sha256": "75c12071d842f55e8ae96b811cf6bed241fca8279113d53b9763a2e7244afe71",
+        "count": 0,
+        "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "IO": {
+        "baseline_sha256": "e0f287b97d27486e6c7e4ba5aba72b3dd71395199ffbd1660e45449920eaa2c6",
+        "candidate_sha256": "e0f287b97d27486e6c7e4ba5aba72b3dd71395199ffbd1660e45449920eaa2c6",
+        "count": 0,
+        "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "IWRAM": {
+        "baseline_sha256": "9645dd5ebdf587bb924c59ff442af5007d20b945db8a50e87981e3c2dbf9ee1f",
+        "candidate_sha256": "377dffd9048a62246e7058934612bdf5b75e87b49c74fff8c3f5c05c9a6e2ae8",
+        "count": 1,
+        "first_offset": 32668,
+        "index_sha256": "df07d516b299fe1db9db5f6c94a2e36735d5ce4027aeb9f7c648878b8882cc1c",
+        "last_offset": 32668
+      },
+      "OAM": {
+        "baseline_sha256": "2a25f06c35b6c2bb7327a651cc845e3fafc093881f3c13358a3cce44b66ba13d",
+        "candidate_sha256": "2a25f06c35b6c2bb7327a651cc845e3fafc093881f3c13358a3cce44b66ba13d",
+        "count": 0,
+        "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "PRAM": {
+        "baseline_sha256": "76b4e174e0730e8902fee39c1f720b2449055d745c721dbcd35d8804aa0e3f32",
+        "candidate_sha256": "76b4e174e0730e8902fee39c1f720b2449055d745c721dbcd35d8804aa0e3f32",
+        "count": 0,
+        "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "VRAM": {
+        "baseline_sha256": "0e151558329d8483c1424966fc77fedc8b8dcb9ee50ba7991faae162fdf577d9",
+        "candidate_sha256": "bc22c6e21af8cf4fbe8138cc6a82a4da2531974a8bebf22a10a269fd55700de2",
+        "count": 2348,
+        "first_offset": 59454,
+        "index_sha256": "0a2034d58c9f7ebb9556ee5fdbd77cf28d4468c99408ecae333d494775ec56e8",
+        "last_offset": 62914
+      }
+    },
+    "schema": "battle-encounters-story-visual-pixel-ab-verification-v1",
+    "verified": true
+  },
+  "seconds": 1.337,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "c053ac77f5929fcbaabde15e7f02d9b47e137cc21e6acf6c5d1dc4843474bb75",
+  "timed_out": false
+}

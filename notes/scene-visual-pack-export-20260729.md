@@ -135,3 +135,6 @@ python3 -m unittest tests.test_export_scene_visual_packs -v
 世界地图背景与 page 0 运行时合成已由后续里程碑承接。下一图像批次应继续闭合本表
 controller 的最终横向 scroll、240×160 viewport crop、OBJ 屏幕坐标和层级；这些状态
 不从 animation 记录本身推出。
+
+后续字节级 coverage 晋升不改写本里程碑的图像导出结论；其完整分母、既有 LZ77
+overlap 与正式审计收据见 `notes/rom-scene-visual-source-ranges-20260820.md`。

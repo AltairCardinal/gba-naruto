@@ -1,0 +1,24 @@
+test_call_and_branch_are_not_skipped (test_analysis.AnalysisTests.test_call_and_branch_are_not_skipped) ... ok
+test_descriptor_reads_only_sentinel_head (test_analysis.AnalysisTests.test_descriptor_reads_only_sentinel_head) ... ok
+test_flags_and_callback_are_distinct_stack_arguments (test_analysis.AnalysisTests.test_flags_and_callback_are_distinct_stack_arguments) ... ok
+test_flags_mask_is_eight_not_bit_eight (test_analysis.AnalysisTests.test_flags_mask_is_eight_not_bit_eight) ... ok
+test_literal_and_shift_reconstruct_base_arguments (test_analysis.AnalysisTests.test_literal_and_shift_reconstruct_base_arguments) ... ok
+test_missing_descriptor_sentinel_fails_closed (test_analysis.AnalysisTests.test_missing_descriptor_sentinel_fails_closed) ... ok
+test_unbounded_store_does_not_leave_stack_facts (test_analysis.AnalysisTests.test_unbounded_store_does_not_leave_stack_facts) ... ok
+test_unknown_load_clobbers_previous_constant (test_analysis.AnalysisTests.test_unknown_load_clobbers_previous_constant) ... ok
+test_unknown_stack_overwrite_discards_old_value (test_analysis.AnalysisTests.test_unknown_stack_overwrite_discards_old_value) ... ok
+test_bit_eight_alone_does_not_freeze (test_advance_probe.AdvanceProbeTests.test_bit_eight_alone_does_not_freeze) ... ok
+test_byte_counter_maximum_keeps_mode_twenty_slot_zero (test_advance_probe.AdvanceProbeTests.test_byte_counter_maximum_keeps_mode_twenty_slot_zero) ... ok
+test_freeze_eight_skips_sequence_reads (test_advance_probe.AdvanceProbeTests.test_freeze_eight_skips_sequence_reads) ... ok
+test_high_timer_wraps_with_u16_store (test_advance_probe.AdvanceProbeTests.test_high_timer_wraps_with_u16_store) ... ok
+test_mode_thirty_uses_real_group_reset_helper (test_advance_probe.AdvanceProbeTests.test_mode_thirty_uses_real_group_reset_helper) ... ok
+test_mode_twenty_one_iteration_does_not_read_suffix (test_advance_probe.AdvanceProbeTests.test_mode_twenty_one_iteration_does_not_read_suffix) ... ok
+test_mode_twenty_second_iteration_reads_sentinel_duration (test_advance_probe.AdvanceProbeTests.test_mode_twenty_second_iteration_reads_sentinel_duration) ... ok
+test_non_sentinel_exposes_slot_increment (test_advance_probe.AdvanceProbeTests.test_non_sentinel_exposes_slot_increment) ... ok
+test_unknown_instruction_fails_closed (test_advance_probe.AdvanceProbeTests.test_unknown_instruction_fails_closed) ... ok
+test_zero_counter_skips_all_updates (test_advance_probe.AdvanceProbeTests.test_zero_counter_skips_all_updates) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.045s
+
+OK

@@ -1,0 +1,118 @@
+{
+  "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json": {
+    "controller_range": [
+      471732,
+      479388
+    ],
+    "controller_sha256": "c9bdc220590a851fa331960bcb32be90eb9ac7248a5cd3dabb9f8afa0b674bc1",
+    "dispatcher_default_state_count": 65498,
+    "dispatcher_nondefault_state_count": 38,
+    "errors": [],
+    "root_count": 38,
+    "schema": "rom-battle-controller-cfg-verification-v1",
+    "summary": {
+      "decoded_basic_block_count": 739,
+      "decoded_instruction_count": 2756,
+      "frontier_count": 5,
+      "frontier_reasons": {
+        "decode_failure": 1,
+        "indirect_pc_target": 2,
+        "unsupported_armv4t_instruction": 2
+      },
+      "opaque_baseline_edge_count": 9,
+      "opaque_external_edge_count": 227,
+      "reachable_instruction_bytes": 6172,
+      "skipped_root_count": 1
+    },
+    "verified": true
+  },
+  "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json": {
+    "budget_exhausted": false,
+    "closed_root_count": 4,
+    "control_flow_oracle": "armv4t-raw-encoding",
+    "decoded_basic_block_count": 7725,
+    "decoded_instruction_count": 40872,
+    "errors": [],
+    "frontier_count": 366,
+    "frontier_open_root_count": 259,
+    "independently_rebuilt_instruction_count": 40872,
+    "reachable_instruction_bytes": 86184,
+    "root_count": 263,
+    "schema": "rom-cfg-inventory-verification-v2",
+    "verified": true
+  },
+  "artifacts/rom-cfg-inventory-v3/rom-cfg-inventory-v3.json": {
+    "control_flow_oracle": "armv4t-raw-encoding",
+    "decoded_basic_block_count": 891,
+    "errors": [],
+    "frontier_count": 16,
+    "independently_rebuilt_instruction_count": 4698,
+    "new_entry_seed_count": 101,
+    "reachable_instruction_bytes": 9902,
+    "resolved_frontier_count": 29,
+    "schema": "rom-cfg-inventory-verification-v3",
+    "verified": true
+  },
+  "artifacts/rom-cfg-proven-roots-v17/rom-cfg-proven-roots-v17.json": {
+    "accepted_producer_count": 2,
+    "code_bytes": 2092,
+    "errors": [],
+    "instruction_count": 950,
+    "literal_bytes": 308,
+    "literal_word_count": 77,
+    "precoverage_sha256": "4e8ab6b090825901ab7b055326e64a6a16343ec95ac33cfe5e0dbe7721eb2440",
+    "preserved_unknown_gap_count": 5,
+    "promotion_bytes": 2400,
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "root_count": 1,
+    "schema": "rom-cfg-proven-roots-v17-verification-v1",
+    "verified": true
+  },
+  "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json": {
+    "baseline_cross_edge_count": 916,
+    "control_flow_oracle": "armv4t-raw-encoding",
+    "decoded_basic_block_count": 2305,
+    "decoded_instruction_count": 12564,
+    "errors": [],
+    "frontier_count": 85,
+    "independently_rebuilt_instruction_count": 12564,
+    "reachable_instruction_bytes": 27224,
+    "root_count": 5,
+    "schema": "rom-cfg-proven-roots-verification-v6",
+    "verified": true
+  },
+  "artifacts/rom-prebattle-menu-controller-cfg-v1/rom-prebattle-menu-controller-cfg.json": {
+    "errors": [],
+    "promotion_bytes": 1920,
+    "schema": "rom-prebattle-menu-controller-cfg-v1-verification-v1",
+    "verified": true
+  },
+  "artifacts/rom-story-callback-dependency-closures-v1/rom-story-callback-dependency-closures.json": {
+    "contract_ok": true,
+    "errors": [],
+    "frontier_count": 0,
+    "promotion_bytes": 1932,
+    "root_count": 9,
+    "schema": "rom-story-callback-dependency-closures-v1-verification-v1",
+    "verified": true
+  },
+  "artifacts/rom-text-bg-task-closure-v1/rom-text-bg-task-closure.json": {
+    "contract_ok": true,
+    "errors": [],
+    "frontier_count": 0,
+    "instruction_count": 1330,
+    "promotion_bytes": 2940,
+    "root_count": 10,
+    "schema": "rom-text-bg-task-closure-v1-verification-v1",
+    "verified": true
+  },
+  "artifacts/rom-v17-v18-helper-cfg-v1/rom-v17-v18-helper-cfg.json": {
+    "contract_ok": true,
+    "errors": [],
+    "frontier_count": 0,
+    "promotion_bytes": 1254,
+    "root_count": 11,
+    "schema": "rom-v17-v18-helper-cfg-v1-verification-v1",
+    "verified": true
+  }
+}

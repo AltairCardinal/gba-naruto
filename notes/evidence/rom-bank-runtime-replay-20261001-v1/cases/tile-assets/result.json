@@ -1,0 +1,22 @@
+{
+  "bank": "tile-assets",
+  "command": [
+    "python3",
+    "tools/verify_tile_asset_descriptor_pixel_ab.py",
+    "--root",
+    ".",
+    "--artifact",
+    "artifacts/tile-asset-descriptor2-pixel-ab-v1"
+  ],
+  "exit_code": 0,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "changed_pixel_count": 38400,
+    "descriptor_id": 2,
+    "verified": true
+  },
+  "seconds": 1.602,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "f7f55ffdbf04221131ea52d1f29ce2e09f122798d23bf52bb6658664704e4ab8",
+  "timed_out": false
+}

@@ -1,0 +1,26 @@
+{
+  "base_rom_unchanged": true,
+  "build_exit_code": 1,
+  "logical_aliases": [
+    {
+      "group_id": 17,
+      "physical_offset": 3437900,
+      "resource_type": "graphics",
+      "source_file": "group-17-graphics-4bpp.bin",
+      "table_pointer_offset": 5869988
+    }
+  ],
+  "mutation_accepted": false,
+  "mutation_decompressed_sha256": "f060229da48877472bad3d79a55b47b0574fee24ee95be4b4ba60e3d3a0deead",
+  "mutation_encoded_sha256": "5498a4c9f08c7cae7299daf15005d60f30a54611a400a38dd0db77db2cfdd559",
+  "mutation_encoded_size": 104,
+  "original_codec_roundtrip": true,
+  "output_report_present": false,
+  "output_rom_present": false,
+  "physical_offsets": [
+    3437900
+  ],
+  "rejection_reason": "graphics/842b8ef56a357e93a0f88ca5cdf2839d360663463809a129560a6e98d6e2c37e encoded size 104 does not fit every physical slot (0x34754C:103)",
+  "resource_id": "graphics:842b8ef56a357e93a0f88ca5cdf2839d360663463809a129560a6e98d6e2c37e",
+  "resource_type": "graphics"
+}

@@ -1,0 +1,4066 @@
+{
+  "aligned_copy_shape_counts": {
+    "final_word_bytes": 4,
+    "sixteen_byte_groups": 29
+  },
+  "all_cd_cc_c0_writers_closed": false,
+  "alternate_main_only_cd_write_offset": 451276,
+  "alternate_raw_initial_mask_counts": {
+    "0": 24
+  },
+  "alternate_records": 24,
+  "copy_call_length": 468,
+  "copy_helper_complete_semantic_contract_proved": false,
+  "copy_includes_relative_cd_offset": 205,
+  "decision": "keep_unknown",
+  "mask6_fixed_content_records": [
+    {
+      "id": "g30_v0_r03",
+      "offset": 5735448,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 22
+    },
+    {
+      "id": "g30_v0_r04",
+      "offset": 5735632,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 22
+    },
+    {
+      "id": "g30_v0_r05",
+      "offset": 5735816,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 23
+    },
+    {
+      "id": "g30_v0_r06",
+      "offset": 5736000,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 23
+    },
+    {
+      "id": "g30_v0_r07",
+      "offset": 5736184,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 24
+    },
+    {
+      "id": "g30_v0_r08",
+      "offset": 5736368,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 24
+    },
+    {
+      "id": "g30_v2_r03",
+      "offset": 5740000,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 22
+    },
+    {
+      "id": "g30_v2_r04",
+      "offset": 5740184,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 22
+    },
+    {
+      "id": "g30_v2_r05",
+      "offset": 5740368,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 23
+    },
+    {
+      "id": "g30_v2_r06",
+      "offset": 5740552,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 23
+    },
+    {
+      "id": "g30_v2_r07",
+      "offset": 5740736,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 24
+    },
+    {
+      "id": "g30_v2_r08",
+      "offset": 5740920,
+      "raw_affiliation": 1,
+      "raw_flags": 6,
+      "raw_plus_0e": 6,
+      "selector": 24
+    }
+  ],
+  "natural_runtime_reachability_proved": false,
+  "ordinary_paired_cd_write_offset": 437648,
+  "points": [
+    {
+      "offset": 437022,
+      "owner": {
+        "bytes_sha256": "c7fc4e8c3716d9d99e000dd1f7a8d1a33f333c869f297904ac59df8bc7f820fc",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/78",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0078-00-06aab0",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          436912,
+          437044
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06aab0",
+            "range": [
+              436912,
+              437044
+            ]
+          }
+        ]
+      },
+      "raw_hex": "0870"
+    },
+    {
+      "offset": 437194,
+      "owner": {
+        "bytes_sha256": "cc4b8d3204f617eb1c2a4b568de399ae2d4a6ef1db61726f62007c14488fb395",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/91",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0091-00-06abca",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          437194,
+          437206
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06abca",
+            "range": [
+              437194,
+              437206
+            ]
+          }
+        ]
+      },
+      "raw_hex": "201c"
+    },
+    {
+      "offset": 437196,
+      "owner": {
+        "bytes_sha256": "cc4b8d3204f617eb1c2a4b568de399ae2d4a6ef1db61726f62007c14488fb395",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/91",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0091-00-06abca",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          437194,
+          437206
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06abca",
+            "range": [
+              437194,
+              437206
+            ]
+          }
+        ]
+      },
+      "raw_hex": "311c"
+    },
+    {
+      "offset": 437198,
+      "owner": {
+        "bytes_sha256": "cc4b8d3204f617eb1c2a4b568de399ae2d4a6ef1db61726f62007c14488fb395",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/91",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0091-00-06abca",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          437194,
+          437206
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06abca",
+            "range": [
+              437194,
+              437206
+            ]
+          }
+        ]
+      },
+      "raw_hex": "ea22"
+    },
+    {
+      "offset": 437200,
+      "owner": {
+        "bytes_sha256": "cc4b8d3204f617eb1c2a4b568de399ae2d4a6ef1db61726f62007c14488fb395",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/91",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0091-00-06abca",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          437194,
+          437206
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06abca",
+            "range": [
+              437194,
+              437206
+            ]
+          }
+        ]
+      },
+      "raw_hex": "5200"
+    },
+    {
+      "offset": 437202,
+      "owner": {
+        "bytes_sha256": "cc4b8d3204f617eb1c2a4b568de399ae2d4a6ef1db61726f62007c14488fb395",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/91",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0091-00-06abca",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          437194,
+          437206
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06abca",
+            "range": [
+              437194,
+              437206
+            ]
+          }
+        ]
+      },
+      "raw_hex": "31f00bfc"
+    },
+    {
+      "offset": 437224,
+      "owner": {
+        "bytes_sha256": "2b6639b6dd59ef764942b2f3fe243edd010251ece749489fbf99071909283ce2",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/92",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0092-00-06abd6",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          437206,
+          437228
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06abd6",
+            "range": [
+              437206,
+              437228
+            ]
+          }
+        ]
+      },
+      "raw_hex": "fff7cafd"
+    },
+    {
+      "offset": 436096,
+      "owner": {
+        "bytes_sha256": "d775a4d7bc7e551ae65b55a15609f460f20f14a6be805181bee1f37e76931baa",
+        "claim_kind": "cfg_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+        "evidence_selector": "/blocks",
+        "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "fixed_root_count": 263,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+        "id": "cfg-thumb-0155-06a710",
+        "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+        "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "limitations": [
+          "Only bytes reached from the fixed 263-root denominator and still unknown in the pre-CFG coverage baseline are promoted.",
+          "Indirect targets, global function discovery, and natural runtime reachability remain unproven."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_manifest_path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+        "promotion_manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "range": [
+          435984,
+          436128
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 11,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06a710",
+            "range": [
+              435984,
+              436002
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a722",
+            "range": [
+              436002,
+              436036
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a744",
+            "range": [
+              436036,
+              436048
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a750",
+            "range": [
+              436048,
+              436052
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a754",
+            "range": [
+              436052,
+              436054
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a756",
+            "range": [
+              436054,
+              436064
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a760",
+            "range": [
+              436064,
+              436078
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a76e",
+            "range": [
+              436078,
+              436080
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a770",
+            "range": [
+              436080,
+              436096
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a780",
+            "range": [
+              436096,
+              436112
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a790",
+            "range": [
+              436112,
+              436128
+            ]
+          }
+        ]
+      },
+      "raw_hex": "c030"
+    },
+    {
+      "offset": 436108,
+      "owner": {
+        "bytes_sha256": "d775a4d7bc7e551ae65b55a15609f460f20f14a6be805181bee1f37e76931baa",
+        "claim_kind": "cfg_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+        "evidence_selector": "/blocks",
+        "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "fixed_root_count": 263,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+        "id": "cfg-thumb-0155-06a710",
+        "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+        "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "limitations": [
+          "Only bytes reached from the fixed 263-root denominator and still unknown in the pre-CFG coverage baseline are promoted.",
+          "Indirect targets, global function discovery, and natural runtime reachability remain unproven."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_manifest_path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+        "promotion_manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "range": [
+          435984,
+          436128
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 11,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06a710",
+            "range": [
+              435984,
+              436002
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a722",
+            "range": [
+              436002,
+              436036
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a744",
+            "range": [
+              436036,
+              436048
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a750",
+            "range": [
+              436048,
+              436052
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a754",
+            "range": [
+              436052,
+              436054
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a756",
+            "range": [
+              436054,
+              436064
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a760",
+            "range": [
+              436064,
+              436078
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a76e",
+            "range": [
+              436078,
+              436080
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a770",
+            "range": [
+              436080,
+              436096
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a780",
+            "range": [
+              436096,
+              436112
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a790",
+            "range": [
+              436112,
+              436128
+            ]
+          }
+        ]
+      },
+      "raw_hex": "0260"
+    },
+    {
+      "offset": 436110,
+      "owner": {
+        "bytes_sha256": "d775a4d7bc7e551ae65b55a15609f460f20f14a6be805181bee1f37e76931baa",
+        "claim_kind": "cfg_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+        "evidence_selector": "/blocks",
+        "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "fixed_root_count": 263,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+        "id": "cfg-thumb-0155-06a710",
+        "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+        "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "limitations": [
+          "Only bytes reached from the fixed 263-root denominator and still unknown in the pre-CFG coverage baseline are promoted.",
+          "Indirect targets, global function discovery, and natural runtime reachability remain unproven."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_manifest_path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+        "promotion_manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "range": [
+          435984,
+          436128
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 11,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06a710",
+            "range": [
+              435984,
+              436002
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a722",
+            "range": [
+              436002,
+              436036
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a744",
+            "range": [
+              436036,
+              436048
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a750",
+            "range": [
+              436048,
+              436052
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a754",
+            "range": [
+              436052,
+              436054
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a756",
+            "range": [
+              436054,
+              436064
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a760",
+            "range": [
+              436064,
+              436078
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a76e",
+            "range": [
+              436078,
+              436080
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a770",
+            "range": [
+              436080,
+              436096
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a780",
+            "range": [
+              436096,
+              436112
+            ]
+          },
+          {
+            "block_id": "block-thumb-06a790",
+            "range": [
+              436112,
+              436128
+            ]
+          }
+        ]
+      },
+      "raw_hex": "7047"
+    },
+    {
+      "offset": 437614,
+      "owner": {
+        "bytes_sha256": "106c6835f57134fe99c00cb76fb256718d9d5a7cda024a083701eec15b91b639",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/119",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0119-00-06ad58",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          437592,
+          437630
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06ad58",
+            "range": [
+              437592,
+              437630
+            ]
+          }
+        ]
+      },
+      "raw_hex": "0870"
+    },
+    {
+      "offset": 437626,
+      "owner": {
+        "bytes_sha256": "106c6835f57134fe99c00cb76fb256718d9d5a7cda024a083701eec15b91b639",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/119",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0119-00-06ad58",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          437592,
+          437630
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06ad58",
+            "range": [
+              437592,
+              437630
+            ]
+          }
+        ]
+      },
+      "raw_hex": "0628"
+    },
+    {
+      "offset": 437648,
+      "owner": {
+        "bytes_sha256": "4fcca4f0577c06e8f044191a19badd067947e91d06b946d47d714eccb1d1a039",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/120",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0120-00-06ad7e",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          437630,
+          437650
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06ad7e",
+            "range": [
+              437630,
+              437650
+            ]
+          }
+        ]
+      },
+      "raw_hex": "0170"
+    },
+    {
+      "offset": 451232,
+      "owner": {
+        "bytes_sha256": "b9179a9b24962bb15f822c35a60fc00bbfb81e7f1ad187f6f93ff25110fe281b",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/137",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0137-00-06e28a",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          451210,
+          451236
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06e28a",
+            "range": [
+              451210,
+              451236
+            ]
+          }
+        ]
+      },
+      "raw_hex": "fcf7e0fb"
+    },
+    {
+      "offset": 451276,
+      "owner": {
+        "bytes_sha256": "6b2d62c75d5496cdbd4ea93a520c644f7bd378309b9fb2fe672478358d7d5622",
+        "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+        "evidence_selector": "/extension/blocks/138",
+        "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+        "fixed_direct_producer_count": 6,
+        "fixed_root_count": 5,
+        "global_code_map_claimed": false,
+        "id": "cfg-proven-roots-v6-thumb-0138-00-06e2a4",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+        "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+        "limitations": [
+          "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+          "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+          "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v6",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+        "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+        "range": [
+          451236,
+          451280
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 1,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-06e2a4",
+            "range": [
+              451236,
+              451280
+            ]
+          }
+        ]
+      },
+      "raw_hex": "1070"
+    },
+    {
+      "offset": 639980,
+      "owner": {
+        "bytes_sha256": "877e56c8d8b4876bf9599cd996960952e3201215cabf2c227f6e0556415bcb10",
+        "claim_kind": "cfg_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+        "evidence_selector": "/blocks",
+        "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "fixed_root_count": 263,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+        "id": "cfg-thumb-0781-09c2b4",
+        "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+        "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "limitations": [
+          "Only bytes reached from the fixed 263-root denominator and still unknown in the pre-CFG coverage baseline are promoted.",
+          "Indirect targets, global function discovery, and natural runtime reachability remain unproven."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_manifest_path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+        "promotion_manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "range": [
+          639668,
+          640074
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 68,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-09c2b4",
+            "range": [
+              639668,
+              639672
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2b8",
+            "range": [
+              639672,
+              639682
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c2",
+            "range": [
+              639682,
+              639686
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c6",
+            "range": [
+              639686,
+              639690
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ca",
+            "range": [
+              639690,
+              639694
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ce",
+            "range": [
+              639694,
+              639700
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d4",
+            "range": [
+              639700,
+              639702
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d6",
+            "range": [
+              639702,
+              639706
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2da",
+            "range": [
+              639706,
+              639710
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2de",
+            "range": [
+              639710,
+              639716
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e4",
+            "range": [
+              639716,
+              639720
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e8",
+            "range": [
+              639720,
+              639724
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ec",
+            "range": [
+              639724,
+              639730
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f2",
+            "range": [
+              639730,
+              639736
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f8",
+            "range": [
+              639736,
+              639742
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2fe",
+            "range": [
+              639742,
+              639748
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c304",
+            "range": [
+              639748,
+              639754
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c30a",
+            "range": [
+              639754,
+              639760
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c310",
+            "range": [
+              639760,
+              639764
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c314",
+            "range": [
+              639764,
+              639768
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c318",
+            "range": [
+              639768,
+              639772
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c31c",
+            "range": [
+              639772,
+              639778
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c322",
+            "range": [
+              639778,
+              639784
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c328",
+            "range": [
+              639784,
+              639788
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c32c",
+            "range": [
+              639788,
+              639792
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c330",
+            "range": [
+              639792,
+              639798
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c336",
+            "range": [
+              639798,
+              639800
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c338",
+            "range": [
+              639800,
+              639806
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c33e",
+            "range": [
+              639806,
+              639810
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c342",
+            "range": [
+              639810,
+              639814
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c346",
+            "range": [
+              639814,
+              639820
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34c",
+            "range": [
+              639820,
+              639822
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34e",
+            "range": [
+              639822,
+              639826
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c352",
+            "range": [
+              639826,
+              639830
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c356",
+            "range": [
+              639830,
+              639836
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c35c",
+            "range": [
+              639836,
+              639842
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c362",
+            "range": [
+              639842,
+              639844
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c364",
+            "range": [
+              639844,
+              639850
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c36a",
+            "range": [
+              639850,
+              639862
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c376",
+            "range": [
+              639862,
+              639868
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c37c",
+            "range": [
+              639868,
+              639880
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c388",
+            "range": [
+              639880,
+              639886
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c38e",
+            "range": [
+              639886,
+              639898
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c39a",
+            "range": [
+              639898,
+              639904
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a0",
+            "range": [
+              639904,
+              639908
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a4",
+            "range": [
+              639908,
+              639912
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a8",
+            "range": [
+              639912,
+              639920
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b0",
+            "range": [
+              639920,
+              639924
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b4",
+            "range": [
+              639924,
+              639934
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3be",
+            "range": [
+              639934,
+              639938
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3c2",
+            "range": [
+              639938,
+              639948
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3cc",
+            "range": [
+              639948,
+              639952
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3d0",
+            "range": [
+              639952,
+              639962
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3da",
+            "range": [
+              639962,
+              639966
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3de",
+            "range": [
+              639966,
+              639970
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e2",
+            "range": [
+              639970,
+              639976
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e8",
+            "range": [
+              639976,
+              639980
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3ec",
+            "range": [
+              639980,
+              639992
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3f8",
+            "range": [
+              639992,
+              640004
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c404",
+            "range": [
+              640004,
+              640006
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c406",
+            "range": [
+              640006,
+              640028
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c41c",
+            "range": [
+              640028,
+              640032
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c420",
+            "range": [
+              640032,
+              640042
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42a",
+            "range": [
+              640042,
+              640044
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42c",
+            "range": [
+              640044,
+              640054
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c436",
+            "range": [
+              640054,
+              640056
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c438",
+            "range": [
+              640056,
+              640070
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c446",
+            "range": [
+              640070,
+              640074
+            ]
+          }
+        ]
+      },
+      "raw_hex": "30b5"
+    },
+    {
+      "offset": 640006,
+      "owner": {
+        "bytes_sha256": "877e56c8d8b4876bf9599cd996960952e3201215cabf2c227f6e0556415bcb10",
+        "claim_kind": "cfg_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+        "evidence_selector": "/blocks",
+        "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "fixed_root_count": 263,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+        "id": "cfg-thumb-0781-09c2b4",
+        "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+        "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "limitations": [
+          "Only bytes reached from the fixed 263-root denominator and still unknown in the pre-CFG coverage baseline are promoted.",
+          "Indirect targets, global function discovery, and natural runtime reachability remain unproven."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_manifest_path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+        "promotion_manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "range": [
+          639668,
+          640074
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 68,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-09c2b4",
+            "range": [
+              639668,
+              639672
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2b8",
+            "range": [
+              639672,
+              639682
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c2",
+            "range": [
+              639682,
+              639686
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c6",
+            "range": [
+              639686,
+              639690
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ca",
+            "range": [
+              639690,
+              639694
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ce",
+            "range": [
+              639694,
+              639700
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d4",
+            "range": [
+              639700,
+              639702
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d6",
+            "range": [
+              639702,
+              639706
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2da",
+            "range": [
+              639706,
+              639710
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2de",
+            "range": [
+              639710,
+              639716
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e4",
+            "range": [
+              639716,
+              639720
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e8",
+            "range": [
+              639720,
+              639724
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ec",
+            "range": [
+              639724,
+              639730
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f2",
+            "range": [
+              639730,
+              639736
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f8",
+            "range": [
+              639736,
+              639742
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2fe",
+            "range": [
+              639742,
+              639748
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c304",
+            "range": [
+              639748,
+              639754
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c30a",
+            "range": [
+              639754,
+              639760
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c310",
+            "range": [
+              639760,
+              639764
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c314",
+            "range": [
+              639764,
+              639768
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c318",
+            "range": [
+              639768,
+              639772
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c31c",
+            "range": [
+              639772,
+              639778
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c322",
+            "range": [
+              639778,
+              639784
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c328",
+            "range": [
+              639784,
+              639788
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c32c",
+            "range": [
+              639788,
+              639792
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c330",
+            "range": [
+              639792,
+              639798
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c336",
+            "range": [
+              639798,
+              639800
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c338",
+            "range": [
+              639800,
+              639806
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c33e",
+            "range": [
+              639806,
+              639810
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c342",
+            "range": [
+              639810,
+              639814
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c346",
+            "range": [
+              639814,
+              639820
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34c",
+            "range": [
+              639820,
+              639822
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34e",
+            "range": [
+              639822,
+              639826
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c352",
+            "range": [
+              639826,
+              639830
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c356",
+            "range": [
+              639830,
+              639836
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c35c",
+            "range": [
+              639836,
+              639842
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c362",
+            "range": [
+              639842,
+              639844
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c364",
+            "range": [
+              639844,
+              639850
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c36a",
+            "range": [
+              639850,
+              639862
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c376",
+            "range": [
+              639862,
+              639868
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c37c",
+            "range": [
+              639868,
+              639880
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c388",
+            "range": [
+              639880,
+              639886
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c38e",
+            "range": [
+              639886,
+              639898
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c39a",
+            "range": [
+              639898,
+              639904
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a0",
+            "range": [
+              639904,
+              639908
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a4",
+            "range": [
+              639908,
+              639912
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a8",
+            "range": [
+              639912,
+              639920
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b0",
+            "range": [
+              639920,
+              639924
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b4",
+            "range": [
+              639924,
+              639934
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3be",
+            "range": [
+              639934,
+              639938
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3c2",
+            "range": [
+              639938,
+              639948
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3cc",
+            "range": [
+              639948,
+              639952
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3d0",
+            "range": [
+              639952,
+              639962
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3da",
+            "range": [
+              639962,
+              639966
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3de",
+            "range": [
+              639966,
+              639970
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e2",
+            "range": [
+              639970,
+              639976
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e8",
+            "range": [
+              639976,
+              639980
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3ec",
+            "range": [
+              639980,
+              639992
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3f8",
+            "range": [
+              639992,
+              640004
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c404",
+            "range": [
+              640004,
+              640006
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c406",
+            "range": [
+              640006,
+              640028
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c41c",
+            "range": [
+              640028,
+              640032
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c420",
+            "range": [
+              640032,
+              640042
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42a",
+            "range": [
+              640042,
+              640044
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42c",
+            "range": [
+              640044,
+              640054
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c436",
+            "range": [
+              640054,
+              640056
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c438",
+            "range": [
+              640056,
+              640070
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c446",
+            "range": [
+              640070,
+              640074
+            ]
+          }
+        ]
+      },
+      "raw_hex": "01cb"
+    },
+    {
+      "offset": 640020,
+      "owner": {
+        "bytes_sha256": "877e56c8d8b4876bf9599cd996960952e3201215cabf2c227f6e0556415bcb10",
+        "claim_kind": "cfg_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+        "evidence_selector": "/blocks",
+        "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "fixed_root_count": 263,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+        "id": "cfg-thumb-0781-09c2b4",
+        "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+        "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "limitations": [
+          "Only bytes reached from the fixed 263-root denominator and still unknown in the pre-CFG coverage baseline are promoted.",
+          "Indirect targets, global function discovery, and natural runtime reachability remain unproven."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_manifest_path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+        "promotion_manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "range": [
+          639668,
+          640074
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 68,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-09c2b4",
+            "range": [
+              639668,
+              639672
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2b8",
+            "range": [
+              639672,
+              639682
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c2",
+            "range": [
+              639682,
+              639686
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c6",
+            "range": [
+              639686,
+              639690
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ca",
+            "range": [
+              639690,
+              639694
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ce",
+            "range": [
+              639694,
+              639700
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d4",
+            "range": [
+              639700,
+              639702
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d6",
+            "range": [
+              639702,
+              639706
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2da",
+            "range": [
+              639706,
+              639710
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2de",
+            "range": [
+              639710,
+              639716
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e4",
+            "range": [
+              639716,
+              639720
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e8",
+            "range": [
+              639720,
+              639724
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ec",
+            "range": [
+              639724,
+              639730
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f2",
+            "range": [
+              639730,
+              639736
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f8",
+            "range": [
+              639736,
+              639742
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2fe",
+            "range": [
+              639742,
+              639748
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c304",
+            "range": [
+              639748,
+              639754
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c30a",
+            "range": [
+              639754,
+              639760
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c310",
+            "range": [
+              639760,
+              639764
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c314",
+            "range": [
+              639764,
+              639768
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c318",
+            "range": [
+              639768,
+              639772
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c31c",
+            "range": [
+              639772,
+              639778
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c322",
+            "range": [
+              639778,
+              639784
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c328",
+            "range": [
+              639784,
+              639788
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c32c",
+            "range": [
+              639788,
+              639792
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c330",
+            "range": [
+              639792,
+              639798
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c336",
+            "range": [
+              639798,
+              639800
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c338",
+            "range": [
+              639800,
+              639806
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c33e",
+            "range": [
+              639806,
+              639810
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c342",
+            "range": [
+              639810,
+              639814
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c346",
+            "range": [
+              639814,
+              639820
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34c",
+            "range": [
+              639820,
+              639822
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34e",
+            "range": [
+              639822,
+              639826
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c352",
+            "range": [
+              639826,
+              639830
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c356",
+            "range": [
+              639830,
+              639836
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c35c",
+            "range": [
+              639836,
+              639842
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c362",
+            "range": [
+              639842,
+              639844
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c364",
+            "range": [
+              639844,
+              639850
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c36a",
+            "range": [
+              639850,
+              639862
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c376",
+            "range": [
+              639862,
+              639868
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c37c",
+            "range": [
+              639868,
+              639880
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c388",
+            "range": [
+              639880,
+              639886
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c38e",
+            "range": [
+              639886,
+              639898
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c39a",
+            "range": [
+              639898,
+              639904
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a0",
+            "range": [
+              639904,
+              639908
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a4",
+            "range": [
+              639908,
+              639912
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a8",
+            "range": [
+              639912,
+              639920
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b0",
+            "range": [
+              639920,
+              639924
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b4",
+            "range": [
+              639924,
+              639934
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3be",
+            "range": [
+              639934,
+              639938
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3c2",
+            "range": [
+              639938,
+              639948
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3cc",
+            "range": [
+              639948,
+              639952
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3d0",
+            "range": [
+              639952,
+              639962
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3da",
+            "range": [
+              639962,
+              639966
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3de",
+            "range": [
+              639966,
+              639970
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e2",
+            "range": [
+              639970,
+              639976
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e8",
+            "range": [
+              639976,
+              639980
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3ec",
+            "range": [
+              639980,
+              639992
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3f8",
+            "range": [
+              639992,
+              640004
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c404",
+            "range": [
+              640004,
+              640006
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c406",
+            "range": [
+              640006,
+              640028
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c41c",
+            "range": [
+              640028,
+              640032
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c420",
+            "range": [
+              640032,
+              640042
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42a",
+            "range": [
+              640042,
+              640044
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42c",
+            "range": [
+              640044,
+              640054
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c436",
+            "range": [
+              640054,
+              640056
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c438",
+            "range": [
+              640056,
+              640070
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c446",
+            "range": [
+              640070,
+              640074
+            ]
+          }
+        ]
+      },
+      "raw_hex": "01c1"
+    },
+    {
+      "offset": 640022,
+      "owner": {
+        "bytes_sha256": "877e56c8d8b4876bf9599cd996960952e3201215cabf2c227f6e0556415bcb10",
+        "claim_kind": "cfg_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+        "evidence_selector": "/blocks",
+        "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "fixed_root_count": 263,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+        "id": "cfg-thumb-0781-09c2b4",
+        "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+        "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "limitations": [
+          "Only bytes reached from the fixed 263-root denominator and still unknown in the pre-CFG coverage baseline are promoted.",
+          "Indirect targets, global function discovery, and natural runtime reachability remain unproven."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_manifest_path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+        "promotion_manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "range": [
+          639668,
+          640074
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 68,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-09c2b4",
+            "range": [
+              639668,
+              639672
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2b8",
+            "range": [
+              639672,
+              639682
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c2",
+            "range": [
+              639682,
+              639686
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c6",
+            "range": [
+              639686,
+              639690
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ca",
+            "range": [
+              639690,
+              639694
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ce",
+            "range": [
+              639694,
+              639700
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d4",
+            "range": [
+              639700,
+              639702
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d6",
+            "range": [
+              639702,
+              639706
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2da",
+            "range": [
+              639706,
+              639710
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2de",
+            "range": [
+              639710,
+              639716
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e4",
+            "range": [
+              639716,
+              639720
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e8",
+            "range": [
+              639720,
+              639724
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ec",
+            "range": [
+              639724,
+              639730
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f2",
+            "range": [
+              639730,
+              639736
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f8",
+            "range": [
+              639736,
+              639742
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2fe",
+            "range": [
+              639742,
+              639748
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c304",
+            "range": [
+              639748,
+              639754
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c30a",
+            "range": [
+              639754,
+              639760
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c310",
+            "range": [
+              639760,
+              639764
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c314",
+            "range": [
+              639764,
+              639768
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c318",
+            "range": [
+              639768,
+              639772
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c31c",
+            "range": [
+              639772,
+              639778
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c322",
+            "range": [
+              639778,
+              639784
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c328",
+            "range": [
+              639784,
+              639788
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c32c",
+            "range": [
+              639788,
+              639792
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c330",
+            "range": [
+              639792,
+              639798
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c336",
+            "range": [
+              639798,
+              639800
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c338",
+            "range": [
+              639800,
+              639806
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c33e",
+            "range": [
+              639806,
+              639810
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c342",
+            "range": [
+              639810,
+              639814
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c346",
+            "range": [
+              639814,
+              639820
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34c",
+            "range": [
+              639820,
+              639822
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34e",
+            "range": [
+              639822,
+              639826
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c352",
+            "range": [
+              639826,
+              639830
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c356",
+            "range": [
+              639830,
+              639836
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c35c",
+            "range": [
+              639836,
+              639842
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c362",
+            "range": [
+              639842,
+              639844
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c364",
+            "range": [
+              639844,
+              639850
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c36a",
+            "range": [
+              639850,
+              639862
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c376",
+            "range": [
+              639862,
+              639868
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c37c",
+            "range": [
+              639868,
+              639880
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c388",
+            "range": [
+              639880,
+              639886
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c38e",
+            "range": [
+              639886,
+              639898
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c39a",
+            "range": [
+              639898,
+              639904
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a0",
+            "range": [
+              639904,
+              639908
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a4",
+            "range": [
+              639908,
+              639912
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a8",
+            "range": [
+              639912,
+              639920
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b0",
+            "range": [
+              639920,
+              639924
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b4",
+            "range": [
+              639924,
+              639934
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3be",
+            "range": [
+              639934,
+              639938
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3c2",
+            "range": [
+              639938,
+              639948
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3cc",
+            "range": [
+              639948,
+              639952
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3d0",
+            "range": [
+              639952,
+              639962
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3da",
+            "range": [
+              639962,
+              639966
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3de",
+            "range": [
+              639966,
+              639970
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e2",
+            "range": [
+              639970,
+              639976
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e8",
+            "range": [
+              639976,
+              639980
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3ec",
+            "range": [
+              639980,
+              639992
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3f8",
+            "range": [
+              639992,
+              640004
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c404",
+            "range": [
+              640004,
+              640006
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c406",
+            "range": [
+              640006,
+              640028
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c41c",
+            "range": [
+              640028,
+              640032
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c420",
+            "range": [
+              640032,
+              640042
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42a",
+            "range": [
+              640042,
+              640044
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42c",
+            "range": [
+              640044,
+              640054
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c436",
+            "range": [
+              640054,
+              640056
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c438",
+            "range": [
+              640056,
+              640070
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c446",
+            "range": [
+              640070,
+              640074
+            ]
+          }
+        ]
+      },
+      "raw_hex": "103a"
+    },
+    {
+      "offset": 640032,
+      "owner": {
+        "bytes_sha256": "877e56c8d8b4876bf9599cd996960952e3201215cabf2c227f6e0556415bcb10",
+        "claim_kind": "cfg_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+        "evidence_selector": "/blocks",
+        "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "fixed_root_count": 263,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+        "id": "cfg-thumb-0781-09c2b4",
+        "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+        "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "limitations": [
+          "Only bytes reached from the fixed 263-root denominator and still unknown in the pre-CFG coverage baseline are promoted.",
+          "Indirect targets, global function discovery, and natural runtime reachability remain unproven."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_manifest_path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+        "promotion_manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "range": [
+          639668,
+          640074
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 68,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-09c2b4",
+            "range": [
+              639668,
+              639672
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2b8",
+            "range": [
+              639672,
+              639682
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c2",
+            "range": [
+              639682,
+              639686
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c6",
+            "range": [
+              639686,
+              639690
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ca",
+            "range": [
+              639690,
+              639694
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ce",
+            "range": [
+              639694,
+              639700
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d4",
+            "range": [
+              639700,
+              639702
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d6",
+            "range": [
+              639702,
+              639706
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2da",
+            "range": [
+              639706,
+              639710
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2de",
+            "range": [
+              639710,
+              639716
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e4",
+            "range": [
+              639716,
+              639720
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e8",
+            "range": [
+              639720,
+              639724
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ec",
+            "range": [
+              639724,
+              639730
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f2",
+            "range": [
+              639730,
+              639736
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f8",
+            "range": [
+              639736,
+              639742
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2fe",
+            "range": [
+              639742,
+              639748
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c304",
+            "range": [
+              639748,
+              639754
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c30a",
+            "range": [
+              639754,
+              639760
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c310",
+            "range": [
+              639760,
+              639764
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c314",
+            "range": [
+              639764,
+              639768
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c318",
+            "range": [
+              639768,
+              639772
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c31c",
+            "range": [
+              639772,
+              639778
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c322",
+            "range": [
+              639778,
+              639784
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c328",
+            "range": [
+              639784,
+              639788
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c32c",
+            "range": [
+              639788,
+              639792
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c330",
+            "range": [
+              639792,
+              639798
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c336",
+            "range": [
+              639798,
+              639800
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c338",
+            "range": [
+              639800,
+              639806
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c33e",
+            "range": [
+              639806,
+              639810
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c342",
+            "range": [
+              639810,
+              639814
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c346",
+            "range": [
+              639814,
+              639820
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34c",
+            "range": [
+              639820,
+              639822
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34e",
+            "range": [
+              639822,
+              639826
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c352",
+            "range": [
+              639826,
+              639830
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c356",
+            "range": [
+              639830,
+              639836
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c35c",
+            "range": [
+              639836,
+              639842
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c362",
+            "range": [
+              639842,
+              639844
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c364",
+            "range": [
+              639844,
+              639850
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c36a",
+            "range": [
+              639850,
+              639862
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c376",
+            "range": [
+              639862,
+              639868
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c37c",
+            "range": [
+              639868,
+              639880
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c388",
+            "range": [
+              639880,
+              639886
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c38e",
+            "range": [
+              639886,
+              639898
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c39a",
+            "range": [
+              639898,
+              639904
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a0",
+            "range": [
+              639904,
+              639908
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a4",
+            "range": [
+              639908,
+              639912
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a8",
+            "range": [
+              639912,
+              639920
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b0",
+            "range": [
+              639920,
+              639924
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b4",
+            "range": [
+              639924,
+              639934
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3be",
+            "range": [
+              639934,
+              639938
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3c2",
+            "range": [
+              639938,
+              639948
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3cc",
+            "range": [
+              639948,
+              639952
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3d0",
+            "range": [
+              639952,
+              639962
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3da",
+            "range": [
+              639962,
+              639966
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3de",
+            "range": [
+              639966,
+              639970
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e2",
+            "range": [
+              639970,
+              639976
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e8",
+            "range": [
+              639976,
+              639980
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3ec",
+            "range": [
+              639980,
+              639992
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3f8",
+            "range": [
+              639992,
+              640004
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c404",
+            "range": [
+              640004,
+              640006
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c406",
+            "range": [
+              640006,
+              640028
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c41c",
+            "range": [
+              640028,
+              640032
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c420",
+            "range": [
+              640032,
+              640042
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42a",
+            "range": [
+              640042,
+              640044
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42c",
+            "range": [
+              640044,
+              640054
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c436",
+            "range": [
+              640054,
+              640056
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c438",
+            "range": [
+              640056,
+              640070
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c446",
+            "range": [
+              640070,
+              640074
+            ]
+          }
+        ]
+      },
+      "raw_hex": "01cb"
+    },
+    {
+      "offset": 640072,
+      "owner": {
+        "bytes_sha256": "877e56c8d8b4876bf9599cd996960952e3201215cabf2c227f6e0556415bcb10",
+        "claim_kind": "cfg_reachable_instruction_bytes",
+        "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+        "evidence_selector": "/blocks",
+        "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+        "fixed_root_count": 263,
+        "global_code_map_claimed": false,
+        "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+        "id": "cfg-thumb-0781-09c2b4",
+        "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+        "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+        "limitations": [
+          "Only bytes reached from the fixed 263-root denominator and still unknown in the pre-CFG coverage baseline are promoted.",
+          "Indirect targets, global function discovery, and natural runtime reachability remain unproven."
+        ],
+        "mode": "thumb",
+        "primary_class": "armv4t_cfg_reachable_thumb_code",
+        "promoted_from_primary_class": "unknown",
+        "promotion_manifest_path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+        "promotion_manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+        "range": [
+          639668,
+          640074
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "source_block_count": 68,
+        "source_blocks": [
+          {
+            "block_id": "block-thumb-09c2b4",
+            "range": [
+              639668,
+              639672
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2b8",
+            "range": [
+              639672,
+              639682
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c2",
+            "range": [
+              639682,
+              639686
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2c6",
+            "range": [
+              639686,
+              639690
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ca",
+            "range": [
+              639690,
+              639694
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ce",
+            "range": [
+              639694,
+              639700
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d4",
+            "range": [
+              639700,
+              639702
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2d6",
+            "range": [
+              639702,
+              639706
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2da",
+            "range": [
+              639706,
+              639710
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2de",
+            "range": [
+              639710,
+              639716
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e4",
+            "range": [
+              639716,
+              639720
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2e8",
+            "range": [
+              639720,
+              639724
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2ec",
+            "range": [
+              639724,
+              639730
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f2",
+            "range": [
+              639730,
+              639736
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2f8",
+            "range": [
+              639736,
+              639742
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c2fe",
+            "range": [
+              639742,
+              639748
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c304",
+            "range": [
+              639748,
+              639754
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c30a",
+            "range": [
+              639754,
+              639760
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c310",
+            "range": [
+              639760,
+              639764
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c314",
+            "range": [
+              639764,
+              639768
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c318",
+            "range": [
+              639768,
+              639772
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c31c",
+            "range": [
+              639772,
+              639778
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c322",
+            "range": [
+              639778,
+              639784
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c328",
+            "range": [
+              639784,
+              639788
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c32c",
+            "range": [
+              639788,
+              639792
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c330",
+            "range": [
+              639792,
+              639798
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c336",
+            "range": [
+              639798,
+              639800
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c338",
+            "range": [
+              639800,
+              639806
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c33e",
+            "range": [
+              639806,
+              639810
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c342",
+            "range": [
+              639810,
+              639814
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c346",
+            "range": [
+              639814,
+              639820
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34c",
+            "range": [
+              639820,
+              639822
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c34e",
+            "range": [
+              639822,
+              639826
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c352",
+            "range": [
+              639826,
+              639830
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c356",
+            "range": [
+              639830,
+              639836
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c35c",
+            "range": [
+              639836,
+              639842
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c362",
+            "range": [
+              639842,
+              639844
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c364",
+            "range": [
+              639844,
+              639850
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c36a",
+            "range": [
+              639850,
+              639862
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c376",
+            "range": [
+              639862,
+              639868
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c37c",
+            "range": [
+              639868,
+              639880
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c388",
+            "range": [
+              639880,
+              639886
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c38e",
+            "range": [
+              639886,
+              639898
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c39a",
+            "range": [
+              639898,
+              639904
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a0",
+            "range": [
+              639904,
+              639908
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a4",
+            "range": [
+              639908,
+              639912
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3a8",
+            "range": [
+              639912,
+              639920
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b0",
+            "range": [
+              639920,
+              639924
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3b4",
+            "range": [
+              639924,
+              639934
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3be",
+            "range": [
+              639934,
+              639938
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3c2",
+            "range": [
+              639938,
+              639948
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3cc",
+            "range": [
+              639948,
+              639952
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3d0",
+            "range": [
+              639952,
+              639962
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3da",
+            "range": [
+              639962,
+              639966
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3de",
+            "range": [
+              639966,
+              639970
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e2",
+            "range": [
+              639970,
+              639976
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3e8",
+            "range": [
+              639976,
+              639980
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3ec",
+            "range": [
+              639980,
+              639992
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c3f8",
+            "range": [
+              639992,
+              640004
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c404",
+            "range": [
+              640004,
+              640006
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c406",
+            "range": [
+              640006,
+              640028
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c41c",
+            "range": [
+              640028,
+              640032
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c420",
+            "range": [
+              640032,
+              640042
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42a",
+            "range": [
+              640042,
+              640044
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c42c",
+            "range": [
+              640044,
+              640054
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c436",
+            "range": [
+              640054,
+              640056
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c438",
+            "range": [
+              640056,
+              640070
+            ]
+          },
+          {
+            "block_id": "block-thumb-09c446",
+            "range": [
+              640070,
+              640074
+            ]
+          }
+        ]
+      },
+      "raw_hex": "30bd"
+    }
+  ],
+  "post_copy_helper_recognized_word_store": {
+    "formula": "(word & 0xFFFFFFF1) | r1",
+    "relative_offset": 192,
+    "size": 4
+  },
+  "promotion_bytes": 0,
+  "real_matrix_index_domain_proved": false,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema": "rom-ai-extra-pool-initialization-preflight-v1",
+  "scope": "fixed instruction windows and formation contents; declared copy/alignment arithmetic only, not complete callee/ABI/async or lifecycle semantics",
+  "windows": {
+    "06a780..06a790": "8a233128fe84cce46c12dd644c1d4e887e0a9609d57331c498720c65a22a1db9",
+    "06abca..06abee": "39f2357cf1d7a8fd75f6cd6f98ab47374521d570241fbceb5e140eaeed5ab647",
+    "06abee..06ac70": "5817785592bc40cc0c1a33e78ebdc15115f93d24336157adc948b2e803d5f9e8",
+    "06ad58..06adc4": "14a935f081c61904cb5b9605567e04045d7b6881c367729d69d93b9c13567267",
+    "06e274..06e2d0": "763ae2d4dca20f349ee45f7d65ddb47c3886b77c02a6d7e40b4c717eaca2c408",
+    "09c3ec..09c44a": "8e7cfc589c83bae793a94cf85f766bb3eb938c85151c8002b14966cc1f2ef825"
+  }
+}

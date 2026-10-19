@@ -1,0 +1,62 @@
+{
+  "integration_failure": {
+    "log": "batch-v1.log",
+    "reason": "primary coverage slice starts in existing BL suffix; slice not a root or instruction partition",
+    "script": "inventory-failed-claim-slices.py"
+  },
+  "passing_coupled_integration": {
+    "log": "coupled-v1.log",
+    "outputs": [
+      "coupled-writers.json"
+    ],
+    "script": "coupled_batch.py"
+  },
+  "passing_integration": {
+    "log": "batch-v2.log",
+    "outputs": [
+      "writer-domain.json",
+      "summary.json"
+    ],
+    "script": "inventory.py"
+  },
+  "permanent_replay": {
+    "all_authority_outputs_exact": true,
+    "log": "portable-replay.log",
+    "script": "replay_receipt.py"
+  },
+  "schema": "animation-writer-domain-tdd-version-map-v1",
+  "stages": [
+    {
+      "green": "green-tests.log",
+      "implementation": "writer_domain-green-v1.py",
+      "red": "red-tests.log",
+      "red_reason": "missing writer_domain module",
+      "test_count": 7,
+      "tests": "test_writer_domain-first.py"
+    },
+    {
+      "green": "refactor-tests.log",
+      "implementation": "writer_domain-before-cross-boundary.py",
+      "red": "roots-red-tests.log",
+      "red_reason": "missing root_set function",
+      "test_count": 9,
+      "tests": "test_writer_domain-before-cross-boundary.py"
+    },
+    {
+      "green": "cross-green-tests.log",
+      "implementation": "writer_domain.py",
+      "red": "cross-red-tests.log",
+      "red_reason": "missing cover_range function; existing full BL partition required",
+      "test_count": 11,
+      "tests": "test_writer_domain.py"
+    },
+    {
+      "green": "coupled-green-tests.log",
+      "implementation": "coupled_probe.py",
+      "red": "coupled-red-tests.log",
+      "red_reason": "missing coupled_probe module",
+      "test_count": 5,
+      "tests": "test_coupled_probe.py"
+    }
+  ]
+}

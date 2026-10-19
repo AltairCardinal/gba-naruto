@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 59631,
+  "peak_tree_rss_mib": 425.63671875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 tools/audit_rom_byte_coverage.py --root . --manifest sequel/rom-byte-coverage.json --write > build/experiments/active/small-cfg-tier2/acceptance-20260930-v1/coverage-report.json 2> build/experiments/active/small-cfg-tier2/acceptance-20260930-v1/coverage-stderr.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T11:55:26.111725Z",
+  "finished_at": "2026-09-30T12:25:45.568304Z"
+}

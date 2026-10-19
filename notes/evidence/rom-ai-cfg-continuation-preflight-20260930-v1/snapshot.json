@@ -1,0 +1,138 @@
+{
+  "schema": "rom-ai-cfg-continuation-preflight-v1",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "historical_coverage_sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+  "parent_artifact_path": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+  "parent_artifact_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+  "window_bytes": 82,
+  "promotion_bytes": 0,
+  "decision": "root_contract_required_before_packet",
+  "rows": [
+    {
+      "accepted_producer_owner": {
+        "bytes_sha256": "d6d0920cff2e69678848152e5b2a504f58a1d5f3f54e9d0aee707e53a373d3db",
+        "claim_kind": "cfg_proven_roots_v2_direct_thumb_bl_producer",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+        "evidence_selector": "/producer_denominator/producers/1",
+        "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+        "global_code_map_claimed": false,
+        "global_thumb_bl_denominator_claimed": false,
+        "id": "cfg-proven-roots-v2-producer-01-07425a",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+        "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+        "limitations": [
+          "This proves one aligned Thumb BL producer targeting the three fixed roots, not natural execution.",
+          "The denominator is complete only for BL instructions targeting these three roots."
+        ],
+        "mode": "thumb",
+        "primary_class": "thumb_bl_direct_call_producer",
+        "producer_denominator_sha256": "8cc04030df779e573950c4d1ad00b480368444439af3cc4ec97f62624c6c76c3",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v2",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+        "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+        "range": [
+          475738,
+          475742
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "target_file_offset": 545272
+      },
+      "producer_raw_hex": "10f0cdff",
+      "parent_opaque_edge": {
+        "edge_kind": "fallthrough",
+        "reason": "frozen_baseline_entry",
+        "source": {
+          "file_offset": 475736,
+          "mode": "thumb"
+        },
+        "target_file_offset": 475738,
+        "target_mode": "thumb"
+      },
+      "window": [
+        475742,
+        475786
+      ],
+      "window_sha256": "31df8ef81f75578a8ea775fdad0a5c9cdce5de819e77c3aae8e3ec65a26c907f",
+      "current_unknown_segments": [
+        {
+          "primary_claim_ids": [],
+          "primary_class": "unknown",
+          "range": [
+            475742,
+            475788
+          ],
+          "secondary_claim_ids": [],
+          "unknown_reason": "no accepted primary classification claim"
+        }
+      ],
+      "classified_instruction_membership_claimed": false,
+      "root_admissibility_proved": false,
+      "callee_structured_return_proved": false
+    },
+    {
+      "accepted_producer_owner": {
+        "bytes_sha256": "3b211d366439e34a2b302b9d6666b2e041d3c92a97864d82ad3addc7c57dc5dd",
+        "claim_kind": "cfg_proven_roots_v2_direct_thumb_bl_producer",
+        "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+        "evidence_selector": "/producer_denominator/producers/2",
+        "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+        "global_code_map_claimed": false,
+        "global_thumb_bl_denominator_claimed": false,
+        "id": "cfg-proven-roots-v2-producer-02-07434e",
+        "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+        "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+        "limitations": [
+          "This proves one aligned Thumb BL producer targeting the three fixed roots, not natural execution.",
+          "The denominator is complete only for BL instructions targeting these three roots."
+        ],
+        "mode": "thumb",
+        "primary_class": "thumb_bl_direct_call_producer",
+        "producer_denominator_sha256": "8cc04030df779e573950c4d1ad00b480368444439af3cc4ec97f62624c6c76c3",
+        "promoted_from_primary_class": "unknown",
+        "promotion_batch": "cfg-proven-roots-v2",
+        "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+        "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+        "range": [
+          475982,
+          475986
+        ],
+        "role": "primary",
+        "runtime_reachability_claimed": false,
+        "target_file_offset": 545272
+      },
+      "producer_raw_hex": "10f053ff",
+      "parent_opaque_edge": {
+        "edge_kind": "fallthrough",
+        "reason": "frozen_baseline_entry",
+        "source": {
+          "file_offset": 475980,
+          "mode": "thumb"
+        },
+        "target_file_offset": 475982,
+        "target_mode": "thumb"
+      },
+      "window": [
+        475986,
+        476024
+      ],
+      "window_sha256": "7e53ab828de7eea58cdcb7c46bd7f1721b074db47296e387dec01f07ae312c4f",
+      "current_unknown_segments": [
+        {
+          "primary_claim_ids": [],
+          "primary_class": "unknown",
+          "range": [
+            475986,
+            476024
+          ],
+          "secondary_claim_ids": [],
+          "unknown_reason": "no accepted primary classification claim"
+        }
+      ],
+      "classified_instruction_membership_claimed": false,
+      "root_admissibility_proved": false,
+      "callee_structured_return_proved": false
+    }
+  ]
+}

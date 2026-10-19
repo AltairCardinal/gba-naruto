@@ -1,0 +1,24 @@
+{
+  "checked_at": "2026-10-01T03:10:59.952217Z",
+  "checked_pgid": 50242,
+  "lsof_command": [
+    "lsof",
+    "-nP",
+    "-iTCP",
+    "-sTCP:LISTEN",
+    "-a",
+    "-c",
+    "mGBA",
+    "-Fpcn"
+  ],
+  "lsof_exit_code": 1,
+  "mgba_listener_clean": true,
+  "mgba_listener_rows": [],
+  "pgid_clean": true,
+  "pgid_matching_rows": [],
+  "ps_command": [
+    "ps",
+    "-axo",
+    "pid=,pgid=,comm="
+  ]
+}

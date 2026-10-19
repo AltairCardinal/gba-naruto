@@ -1,0 +1,20 @@
+{
+  "callee_side_effects_or_context_resumption_proven": false,
+  "independent_pc_target_and_store_replay": [
+    {
+      "direct_sp_word_stores": 1,
+      "edges": 5,
+      "instructions": 5,
+      "label": "opcode2",
+      "replayed": true
+    },
+    {
+      "direct_sp_word_stores": 6,
+      "edges": 302,
+      "instructions": 288,
+      "label": "opcode5-6-shared",
+      "replayed": true
+    }
+  ],
+  "promotion_bytes": 0
+}

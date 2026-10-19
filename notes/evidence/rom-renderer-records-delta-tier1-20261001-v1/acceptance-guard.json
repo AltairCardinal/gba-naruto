@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 89437,
+  "peak_tree_rss_mib": 278.9375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "PYTHONPATH=. python3 build/experiments/active/renderer-records-delta/combined-tier1-20261001-v1/acceptance_replay.py > build/experiments/active/renderer-records-delta/combined-tier1-20261001-v1/acceptance.json 2> build/experiments/active/renderer-records-delta/combined-tier1-20261001-v1/acceptance.stderr"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T17:45:04.706008Z",
+  "finished_at": "2026-09-30T17:46:12.820528Z"
+}

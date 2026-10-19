@@ -1,0 +1,113 @@
+{
+  "version": 1,
+  "description": "图像资源族在sequel-image-assets父分区内的稳定所有权；各迁移器不得从父分区起点独立分配。",
+  "parent_partition": "sequel-image-assets",
+  "parent_owner": "sequel_image_assets",
+  "regions": [
+    {
+      "id": "tile-assets",
+      "owner": "tile_asset_resources",
+      "start": "0x800000",
+      "end": "0x980000",
+      "alignment": 4
+    },
+    {
+      "id": "map-resources",
+      "owner": "map_resources",
+      "start": "0x980000",
+      "end": "0xA80000",
+      "alignment": 4
+    },
+    {
+      "id": "menu-portraits",
+      "owner": "menu_portrait_resources",
+      "start": "0xA80000",
+      "end": "0xB00000",
+      "alignment": 4
+    },
+    {
+      "id": "regular-bg",
+      "owner": "regular_bg_resources",
+      "start": "0xB00000",
+      "end": "0xB40000",
+      "alignment": 4
+    },
+    {
+      "id": "battle-effects",
+      "owner": "battle_effect_resources",
+      "start": "0xB40000",
+      "end": "0xB50000",
+      "alignment": 4
+    },
+    {
+      "id": "story-visual-layers",
+      "owner": "story_visual_resources",
+      "start": "0xB50000",
+      "end": "0xB71000",
+      "alignment": 4
+    },
+    {
+      "id": "world-map-backgrounds",
+      "owner": "world_map_background_resources",
+      "start": "0xB71000",
+      "end": "0xB90000",
+      "alignment": 4
+    },
+    {
+      "id": "generic-sprite-bundle",
+      "owner": "generic_sprite_resources",
+      "start": "0xB90000",
+      "end": "0xBA0000",
+      "alignment": 4
+    },
+    {
+      "id": "cutscene-obj-bundle",
+      "owner": "cutscene_obj_resources",
+      "start": "0xBA0000",
+      "end": "0xBB0000",
+      "alignment": 4
+    },
+    {
+      "id": "residual-lz77-graphics",
+      "owner": "residual_lz77_graphics",
+      "start": "0xBB0000",
+      "end": "0xBC0000",
+      "alignment": 4
+    },
+    {
+      "id": "direct-image-palettes",
+      "owner": "direct_image_palettes",
+      "start": "0xBC0000",
+      "end": "0xBC0400",
+      "alignment": 4
+    },
+    {
+      "id": "residual-text-bg-tilemap",
+      "owner": "residual_text_bg_tilemap",
+      "start": "0xBC0400",
+      "end": "0xBC0C00",
+      "alignment": 4
+    },
+    {
+      "id": "residual-wram-tilemaps",
+      "owner": "residual_wram_tilemaps",
+      "start": "0xBC0C00",
+      "end": "0xBC1400",
+      "alignment": 4
+    },
+    {
+      "id": "residual-wram-derived-tilemaps",
+      "owner": "residual_wram_derived_tilemaps",
+      "start": "0xBC1400",
+      "end": "0xBC1C00",
+      "alignment": 4
+    },
+    {
+      "id": "future-image-resources",
+      "owner": "sequel_image_assets",
+      "start": "0xBC1C00",
+      "end": "0xC00000",
+      "alignment": 4
+    }
+  ]
+}

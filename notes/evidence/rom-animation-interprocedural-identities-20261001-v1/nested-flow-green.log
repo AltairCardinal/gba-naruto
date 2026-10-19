@@ -1,0 +1,38 @@
+test_forged_preserved_register_is_rejected (__main__.SummaryFlowTests.test_forged_preserved_register_is_rejected) ... ok
+test_leaf_preservation_requires_real_summary (__main__.SummaryFlowTests.test_leaf_preservation_requires_real_summary) ... ok
+test_nested_child_identity_reaches_caller_field (__main__.SummaryFlowTests.test_nested_child_identity_reaches_caller_field) ... ERROR
+test_nested_child_source_cannot_escape_global_membership (__main__.SummaryFlowTests.test_nested_child_source_cannot_escape_global_membership) ... ERROR
+test_saved_frame_summary_carries_explicit_condition (__main__.SummaryFlowTests.test_saved_frame_summary_carries_explicit_condition) ... ok
+test_summary_cannot_preserve_caller_stack (__main__.SummaryFlowTests.test_summary_cannot_preserve_caller_stack) ... ok
+test_summary_must_be_bound_to_current_rom_and_source (__main__.SummaryFlowTests.test_summary_must_be_bound_to_current_rom_and_source) ... ok
+
+======================================================================
+ERROR: test_nested_child_identity_reaches_caller_field (__main__.SummaryFlowTests.test_nested_child_identity_reaches_caller_field)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_summary_flow.py", line 88, in test_nested_child_identity_reaches_caller_field
+    rom,nodes,summaries=self.nested_fixture()
+                        ~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_summary_flow.py", line 84, in nested_fixture
+    summary=analyze(rom,0x655f4,nodes,conditional_frame=True,children={0x9c3ec:leaf})
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/callee_effects.py", line 52, in analyze
+    raise ValueError('unverified child register contract')
+ValueError: unverified child register contract
+
+======================================================================
+ERROR: test_nested_child_source_cannot_escape_global_membership (__main__.SummaryFlowTests.test_nested_child_source_cannot_escape_global_membership)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_summary_flow.py", line 93, in test_nested_child_source_cannot_escape_global_membership
+    rom,nodes,summaries=self.nested_fixture()
+                        ~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/test_summary_flow.py", line 84, in nested_fixture
+    summary=analyze(rom,0x655f4,nodes,conditional_frame=True,children={0x9c3ec:leaf})
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-interprocedural-identities/identities-20261001-v1/callee_effects.py", line 52, in analyze
+    raise ValueError('unverified child register contract')
+ValueError: unverified child register contract
+
+----------------------------------------------------------------------
+Ran 7 tests in 11.982s
+
+FAILED (errors=2)

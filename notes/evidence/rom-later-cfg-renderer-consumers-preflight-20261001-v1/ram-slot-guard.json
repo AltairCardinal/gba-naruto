@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 55119,
+  "peak_tree_rss_mib": 190.51953125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "PYTHONPATH=. python3 build/experiments/active/renderer-opcode-contract/opcode2-6-20261001-v1/inspect_ram_text.py > build/experiments/active/renderer-opcode-contract/opcode2-6-20261001-v1/ram-slot.json 2> build/experiments/active/renderer-opcode-contract/opcode2-6-20261001-v1/ram-slot.stderr"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T16:42:25.301703Z",
+  "finished_at": "2026-09-30T16:42:37.702355Z"
+}

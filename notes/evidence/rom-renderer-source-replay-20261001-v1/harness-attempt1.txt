@@ -1,0 +1,1 @@
+First harness incorrectly parsed guard stdout as child verifier report; child output was not captured. Two guards exited0; v6 exited1 without captured child traceback. Reports verified=false from this attempt are invalid harness classifications, not semantic failures. Corrected capture/import context uses new attempt2 files and preserves original outputs.

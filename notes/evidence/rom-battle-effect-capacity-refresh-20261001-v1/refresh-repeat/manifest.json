@@ -1,0 +1,38 @@
+{
+  "artifact_id": "battle-effect-resource-writeback-v1",
+  "artifact_schema": "battle-effect-resource-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "battle-effect-resource-writeback.json": "4d981108a33161bac80229f9c0f13f6249ac4dd04256e2ff4acdfbb09efeff00"
+  },
+  "payload_file": "battle-effect-resource-writeback.json",
+  "payload_sha256": "4d981108a33161bac80229f9c0f13f6249ac4dd04256e2ff4acdfbb09efeff00",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_content_resources_audited": true,
+    "all_logical_references_accounted": true,
+    "all_physical_slots_audited": true,
+    "arbitrary_edit_capacity_complete": false,
+    "atomic_all_alias_capacity_gate": true,
+    "deterministic_first_unit_mutation_audited": true,
+    "explicit_physical_slot_targeting_available": true,
+    "generic_image_writeback_complete": false,
+    "guarded_in_place_importer_available": true,
+    "original_roundtrip_capacity_complete": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "vram_safe_encoding_audited": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_resource_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-resource-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}

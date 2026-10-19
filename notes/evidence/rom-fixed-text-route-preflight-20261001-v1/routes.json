@@ -1,0 +1,1324 @@
+{
+  "callee_windows": {
+    "066758-066790": {
+      "raw_hex": "70b54e46454660b481460e1c90461c1c069d3606360e40460006000e80462404240c2d042d0cfef719ff8481c58186744946fff76ffd4046",
+      "sha256": "75de35c89077d45929f63af9f7b1aeddd6ad8bbcc7f4f1982f7d596b5140dd8c"
+    },
+    "0667a0-0667ca": {
+      "raw_hex": "70b5061c0c1c151c2406240e2d062d0e281cfef7fffe8474311cfff757fd281cfef718ff70bc01bc0047",
+      "sha256": "5fcd96135c0633225308088ddfc51ca18ef151d1f317a55c70a3a7adb65044b1"
+    },
+    "066efc-066ffc": {
+      "raw_hex": "f0b557464e464546e0b481b00d1c0006000e8446374b38488046644644442178c800401ac0004018344967464f43c019c018012101702178c800401ac0004018c019591c4018027002262a789946c246002a28d0c846231c1978c800401ac00040183018c019404402702878032811dc02280fda01280dd10135701c0006060e1978c800401ac00040183018c0194044297801700135701c0006060e232e02d82a78002ad8d1654655442978c800401ac00040183018114962464a43111c40184844002101706046fef7f6fa0090fff769ff2878013028700099086802210843009a106001b038bc9846a146aa46f0bc01bc00479ede000294de000244160000",
+      "sha256": "65672014cd2ba2a4f16bf3c8a7039c5ca90df27186db73bab36b30a4382715da"
+    },
+    "090a20-090a8e": {
+      "raw_hex": "70b54e46454660b481b081468846161c1d1c079c40460006000e80463606360e2d042d0c2404240c301cd4f7b3fd021c106811214942084010602d042d1424042414009448464146321c2b1cd5f774fe301cd4f79ffd021c106810210843106001b018bc9846a14670bc01bc0047",
+      "sha256": "f417722016135f79cddb885d59f9872ed99c0e62140dfedd1ea9407dd305d0cb"
+    },
+    "09c3ec-09c44a": {
+      "raw_hex": "30b5051c2c1c0b1c0f2a19d9181c284303210840002813d1291c01cb01c101cb01c101cb01c101cb01c1103a0f2af4d8032a04d901cb01c1043a032afad80c1c013a01204042824207d0011c1878207001330134013a8a42f8d1281c30bd",
+      "sha256": "8e7cfc589c83bae793a94cf85f766bb3eb938c85151c8002b14966cc1f2ef825"
+    }
+  },
+  "first_call_counts": {
+    "066758": 13,
+    "0667a0": 1,
+    "066efc": 2,
+    "090a20": 2,
+    "092e80": 1,
+    "09c3ec": 2
+  },
+  "hypothetical_read_bytes": 482,
+  "hypothetical_unknown_bytes": 482,
+  "inputs": {
+    "notes/evidence/reverse-work-plan-20261001-v1/late-cfg-screen.json": "3c7b2d2ae02f5d030e4a58cc3ee6a36f09b045f28db6e5cc544254f672d20fd1",
+    "sequel/rom-byte-coverage.json": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+    "tools/export_rom_fixed_consumer_text_inventory.py": "8c9dbb6232a7d148334ca6438508078f5492d2841b4ce4a090591d3a6732705d",
+    "tools/verify_rom_fixed_consumer_text_inventory.py": "3642d029654c7fadaaf34e354ed350e89d40d1085858aded689ad70cdcae2e44"
+  },
+  "limitations": [
+    "Bounded literal-to-first-call windows only; Capstone write analysis is not an independent taint verifier.",
+    "Wrapper and byte-copy consumption contracts are pending; no natural execution, editable text or whole-cluster claim."
+  ],
+  "promotion_bytes": 0,
+  "rows": [
+    {
+      "assumption": "Fixed length 3 byte-copy callee CFG contract required; not a whole text record.",
+      "first_call": {
+        "at": 596370,
+        "target": 639980
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602616,
+        4602619
+      ],
+      "immutable_unknown_bytes": 3,
+      "literal_register": "r1",
+      "literal_word": 596416,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        596212,
+        596414
+      ],
+      "read_bytes_sha256": "1aea931588ffc83ef659ba926bda069adfaf25a34861b0ca1d2bc2e825f74373",
+      "site": 596366,
+      "target": 4602616,
+      "trace": [
+        {
+          "at": 596366,
+          "bytes": "0c49",
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x30]"
+        },
+        {
+          "at": 596368,
+          "bytes": "0322",
+          "mnemonic": "movs",
+          "operands": "r2, #3"
+        },
+        {
+          "at": 596370,
+          "bytes": "0af02bfd",
+          "mnemonic": "bl",
+          "operands": "#0x9c3ec"
+        }
+      ],
+      "version": 17
+    },
+    {
+      "assumption": "Fixed length 3 byte-copy callee CFG contract required; not a whole text record.",
+      "first_call": {
+        "at": 596406,
+        "target": 639980
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602620,
+        4602623
+      ],
+      "immutable_unknown_bytes": 3,
+      "literal_register": "r1",
+      "literal_word": 596420,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        596212,
+        596414
+      ],
+      "read_bytes_sha256": "0123f4d5e0945220ff6c883405bc400ad2a0e5b50dcc977dc2c322c9871a9946",
+      "site": 596402,
+      "target": 4602620,
+      "trace": [
+        {
+          "at": 596402,
+          "bytes": "0449",
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x10]"
+        },
+        {
+          "at": 596404,
+          "bytes": "0322",
+          "mnemonic": "movs",
+          "operands": "r2, #3"
+        },
+        {
+          "at": 596406,
+          "bytes": "0af019fd",
+          "mnemonic": "bl",
+          "operands": "#0x9c3ec"
+        }
+      ],
+      "version": 17
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 596896,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602624,
+        4602637
+      ],
+      "immutable_unknown_bytes": 13,
+      "literal_register": "r0",
+      "literal_word": 596920,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        596800,
+        596920
+      ],
+      "read_bytes_sha256": "6bf7feac23a498f041c17f7bbdf9a4224942fbc15604f7fd633776d1026846e6",
+      "site": 596888,
+      "target": 4602624,
+      "trace": [
+        {
+          "at": 596888,
+          "bytes": "0748",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x1c]"
+        },
+        {
+          "at": 596890,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 596892,
+          "bytes": "189a",
+          "mnemonic": "ldr",
+          "operands": "r2, [sp, #0x60]"
+        },
+        {
+          "at": 596894,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 596896,
+          "bytes": "d4f7dafd",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 17
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 597330,
+        "target": 419744
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602640,
+        4602646
+      ],
+      "immutable_unknown_bytes": 6,
+      "literal_register": "r0",
+      "literal_word": 597372,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        597292,
+        597372
+      ],
+      "read_bytes_sha256": "f903f2887f1a3c3e1afabf4694f588ae4c22067a7029dfbbf79f7f27ddfda6e7",
+      "site": 597324,
+      "target": 4602640,
+      "trace": [
+        {
+          "at": 597324,
+          "bytes": "0b48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x2c]"
+        },
+        {
+          "at": 597326,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 597328,
+          "bytes": "2a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r5, #0"
+        },
+        {
+          "at": 597330,
+          "bytes": "d4f725fd",
+          "mnemonic": "bl",
+          "operands": "#0x667a0"
+        }
+      ],
+      "version": 17
+    },
+    {
+      "first_call": {
+        "at": 597438,
+        "target": 601728
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "literal_register": "r0",
+      "literal_word": 597604,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        597384,
+        597594
+      ],
+      "site": 597434,
+      "target": 4602648,
+      "trace": [
+        {
+          "at": 597434,
+          "bytes": "2a48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xa8]"
+        },
+        {
+          "at": 597436,
+          "bytes": "211c",
+          "mnemonic": "adds",
+          "operands": "r1, r4, #0"
+        },
+        {
+          "at": 597438,
+          "bytes": "01f05ff8",
+          "mnemonic": "bl",
+          "operands": "#0x92e80"
+        }
+      ],
+      "version": 17
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594186,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602132,
+        4602151
+      ],
+      "immutable_unknown_bytes": 19,
+      "literal_register": "r0",
+      "literal_word": 594192,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594128,
+        594192
+      ],
+      "read_bytes_sha256": "8bbbcbe4a3e63c2f97747bb3350be362965867b878575a3559544b640ba48014",
+      "site": 594176,
+      "target": 4602132,
+      "trace": [
+        {
+          "at": 594176,
+          "bytes": "0348",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xc]"
+        },
+        {
+          "at": 594178,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 594180,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 594182,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 594184,
+          "bytes": "0123",
+          "mnemonic": "movs",
+          "operands": "r3, #1"
+        },
+        {
+          "at": 594186,
+          "bytes": "d5f725fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594206,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602152,
+        4602157
+      ],
+      "immutable_unknown_bytes": 5,
+      "literal_register": "r0",
+      "literal_word": 594488,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594196,
+        594486
+      ],
+      "read_bytes_sha256": "944c86fa5d7de8ce72c9027691daae641e6bcc21ff30e9314747f622b3871dbd",
+      "site": 594196,
+      "target": 4602152,
+      "trace": [
+        {
+          "at": 594196,
+          "bytes": "4848",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x120]"
+        },
+        {
+          "at": 594198,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 594200,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 594202,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 594204,
+          "bytes": "0123",
+          "mnemonic": "movs",
+          "operands": "r3, #1"
+        },
+        {
+          "at": 594206,
+          "bytes": "d5f71bfb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594244,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602160,
+        4602165
+      ],
+      "immutable_unknown_bytes": 5,
+      "literal_register": "r0",
+      "literal_word": 594492,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594196,
+        594486
+      ],
+      "read_bytes_sha256": "5110fb534637637435a3d6a9924da8369d0a961c169bb6cdcb56cf9c4d25c0e8",
+      "site": 594234,
+      "target": 4602160,
+      "trace": [
+        {
+          "at": 594234,
+          "bytes": "4048",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x100]"
+        },
+        {
+          "at": 594236,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 594238,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 594240,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 594242,
+          "bytes": "0523",
+          "mnemonic": "movs",
+          "operands": "r3, #5"
+        },
+        {
+          "at": 594244,
+          "bytes": "d5f708fb",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594280,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602168,
+        4602177
+      ],
+      "immutable_unknown_bytes": 9,
+      "literal_register": "r0",
+      "literal_word": 594496,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594196,
+        594486
+      ],
+      "read_bytes_sha256": "3ed9b4b9b905cca585e028937104aadbf633b8f34e596f6fa6121c7bff3e46e9",
+      "site": 594270,
+      "target": 4602168,
+      "trace": [
+        {
+          "at": 594270,
+          "bytes": "3848",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xe0]"
+        },
+        {
+          "at": 594272,
+          "bytes": "0094",
+          "mnemonic": "str",
+          "operands": "r4, [sp]"
+        },
+        {
+          "at": 594274,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 594276,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 594278,
+          "bytes": "0b23",
+          "mnemonic": "movs",
+          "operands": "r3, #0xb"
+        },
+        {
+          "at": 594280,
+          "bytes": "d5f7f6fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594296,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602180,
+        4602201
+      ],
+      "immutable_unknown_bytes": 21,
+      "literal_register": "r0",
+      "literal_word": 594500,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594196,
+        594486
+      ],
+      "read_bytes_sha256": "786be406acc04d80e35a834d6dd0f4f959baed4498b0c783d0cfa24e929b355a",
+      "site": 594284,
+      "target": 4602180,
+      "trace": [
+        {
+          "at": 594284,
+          "bytes": "3548",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xd4]"
+        },
+        {
+          "at": 594286,
+          "bytes": "0421",
+          "mnemonic": "movs",
+          "operands": "r1, #4"
+        },
+        {
+          "at": 594288,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 594290,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 594292,
+          "bytes": "3a1c",
+          "mnemonic": "adds",
+          "operands": "r2, r7, #0"
+        },
+        {
+          "at": 594294,
+          "bytes": "0323",
+          "mnemonic": "movs",
+          "operands": "r3, #3"
+        },
+        {
+          "at": 594296,
+          "bytes": "d5f7eefa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594466,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602204,
+        4602274
+      ],
+      "immutable_unknown_bytes": 70,
+      "literal_register": "r0",
+      "literal_word": 594512,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594196,
+        594486
+      ],
+      "read_bytes_sha256": "986f0dc6cdb9ee06441816613a93533f1ee6eda7e18ccde07ca0622841028059",
+      "site": 594454,
+      "target": 4602204,
+      "trace": [
+        {
+          "at": 594454,
+          "bytes": "0e48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x38]"
+        },
+        {
+          "at": 594456,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 594458,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 594460,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 594462,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 594464,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 594466,
+          "bytes": "d5f799fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594598,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602276,
+        4602320
+      ],
+      "immutable_unknown_bytes": 44,
+      "literal_register": "r0",
+      "literal_word": 594756,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594516,
+        594746
+      ],
+      "read_bytes_sha256": "d2d8ff51a61f2a52498bd24c1a2ecdf184afb7f921a3426b2dca257648b356e3",
+      "site": 594586,
+      "target": 4602276,
+      "trace": [
+        {
+          "at": 594586,
+          "bytes": "2a48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0xa8]"
+        },
+        {
+          "at": 594588,
+          "bytes": "0225",
+          "mnemonic": "movs",
+          "operands": "r5, #2"
+        },
+        {
+          "at": 594590,
+          "bytes": "0095",
+          "mnemonic": "str",
+          "operands": "r5, [sp]"
+        },
+        {
+          "at": 594592,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 594594,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 594596,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 594598,
+          "bytes": "d5f757fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594642,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602320,
+        4602376
+      ],
+      "immutable_unknown_bytes": 56,
+      "literal_register": "r0",
+      "literal_word": 594760,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594516,
+        594746
+      ],
+      "read_bytes_sha256": "a4fec34cc17ad8af6ecffbf653492e901c3189fe4bfeebe4488f0da537ace41e",
+      "site": 594632,
+      "target": 4602320,
+      "trace": [
+        {
+          "at": 594632,
+          "bytes": "1f48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x7c]"
+        },
+        {
+          "at": 594634,
+          "bytes": "0095",
+          "mnemonic": "str",
+          "operands": "r5, [sp]"
+        },
+        {
+          "at": 594636,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 594638,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 594640,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 594642,
+          "bytes": "d5f741fa",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594716,
+        "target": 592416
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602376,
+        4602424
+      ],
+      "immutable_unknown_bytes": 48,
+      "literal_register": "r0",
+      "literal_word": 594764,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594516,
+        594746
+      ],
+      "read_bytes_sha256": "5615bcc5622bd6156bdf03226536eb331d034498143697bc7a0c9ce15349f0a0",
+      "site": 594706,
+      "target": 4602376,
+      "trace": [
+        {
+          "at": 594706,
+          "bytes": "0e48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x38]"
+        },
+        {
+          "at": 594708,
+          "bytes": "0095",
+          "mnemonic": "str",
+          "operands": "r5, [sp]"
+        },
+        {
+          "at": 594710,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 594712,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 594714,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 594716,
+          "bytes": "fff780fb",
+          "mnemonic": "bl",
+          "operands": "#0x90a20"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 594806,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602424,
+        4602467
+      ],
+      "immutable_unknown_bytes": 43,
+      "literal_register": "r0",
+      "literal_word": 594868,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        594768,
+        594864
+      ],
+      "read_bytes_sha256": "fa005970f131e3956cd3d76d108894f7e0e830c33ae228f263209b3f64a2c8c1",
+      "site": 594794,
+      "target": 4602424,
+      "trace": [
+        {
+          "at": 594794,
+          "bytes": "1248",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x48]"
+        },
+        {
+          "at": 594796,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 594798,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 594800,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 594802,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 594804,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 594806,
+          "bytes": "d5f7eff9",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 595072,
+        "target": 592416
+      },
+      "flow_exclusion": "consumer literal does not reach interpreter r0",
+      "hypothetical_read_range": [
+        4602468,
+        4602522
+      ],
+      "immutable_unknown_bytes": 54,
+      "literal_register": "r0",
+      "literal_word": 595156,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        595008,
+        595146
+      ],
+      "read_bytes_sha256": "161056437251cd4991cae9c9489206cbc08b35951347d00a28f2e2596083436b",
+      "site": 595060,
+      "target": 4602468,
+      "trace": [
+        {
+          "at": 595060,
+          "bytes": "1748",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x5c]"
+        },
+        {
+          "at": 595062,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 595064,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 595066,
+          "bytes": "0021",
+          "mnemonic": "movs",
+          "operands": "r1, #0"
+        },
+        {
+          "at": 595068,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 595070,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 595072,
+          "bytes": "fff7cefa",
+          "mnemonic": "bl",
+          "operands": "#0x90a20"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Only a local-loop simulation; independent raw CFG/parser proof and source contracts still required.",
+      "first_call": {
+        "at": 595264,
+        "target": 421628
+      },
+      "flow_exclusion": "consumer literal does not reach interpreter r0",
+      "hypothetical_read_range": [
+        4602524,
+        4602533
+      ],
+      "immutable_unknown_bytes": 9,
+      "literal_register": "r1",
+      "literal_word": 596044,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        595160,
+        595518
+      ],
+      "read_bytes_sha256": "42dbd243d9adb1bd98b19db1f6ecd50cab8c5abdbb60f11e716331d31a660376",
+      "site": 595258,
+      "source_reads": [
+        4602524,
+        4602525,
+        4602526,
+        4602527,
+        4602528,
+        4602529,
+        4602530,
+        4602531,
+        4602532
+      ],
+      "stop_reason": "source_nul",
+      "target": 4602524,
+      "trace": [
+        {
+          "at": 595258,
+          "bytes": "c449",
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x310]"
+        },
+        {
+          "at": 595260,
+          "bytes": "0b98",
+          "mnemonic": "ldr",
+          "operands": "r0, [sp, #0x2c]"
+        },
+        {
+          "at": 595262,
+          "bytes": "0022",
+          "mnemonic": "movs",
+          "operands": "r2, #0"
+        },
+        {
+          "at": 595264,
+          "bytes": "d5f7dcfc",
+          "mnemonic": "bl",
+          "operands": "#0x66efc"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Only a local-loop simulation; independent raw CFG/parser proof and source contracts still required.",
+      "first_call": {
+        "at": 595274,
+        "target": 421628
+      },
+      "flow_exclusion": "consumer literal does not reach interpreter r0",
+      "hypothetical_read_range": [
+        4602536,
+        4602549
+      ],
+      "immutable_unknown_bytes": 13,
+      "literal_register": "r1",
+      "literal_word": 596048,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        595160,
+        595518
+      ],
+      "read_bytes_sha256": "ce52b57e31d99bcdca4c751925d7579ca09a50bd2572b1ebcfe41110b61e80e8",
+      "site": 595268,
+      "source_reads": [
+        4602536,
+        4602537,
+        4602538,
+        4602539,
+        4602540,
+        4602541,
+        4602542,
+        4602543,
+        4602544,
+        4602545,
+        4602546,
+        4602547,
+        4602548
+      ],
+      "stop_reason": "source_nul",
+      "target": 4602536,
+      "trace": [
+        {
+          "at": 595268,
+          "bytes": "c249",
+          "mnemonic": "ldr",
+          "operands": "r1, [pc, #0x308]"
+        },
+        {
+          "at": 595270,
+          "bytes": "0b98",
+          "mnemonic": "ldr",
+          "operands": "r0, [sp, #0x2c]"
+        },
+        {
+          "at": 595272,
+          "bytes": "0022",
+          "mnemonic": "movs",
+          "operands": "r2, #0"
+        },
+        {
+          "at": 595274,
+          "bytes": "d5f7d7fc",
+          "mnemonic": "bl",
+          "operands": "#0x66efc"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 595444,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602552,
+        4602579
+      ],
+      "immutable_unknown_bytes": 27,
+      "literal_register": "r0",
+      "literal_word": 596072,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        595160,
+        595518
+      ],
+      "read_bytes_sha256": "66f334192f3de960b9bc13a8f48efc0b3f9bc06afd60061ee352c01dac0df623",
+      "site": 595432,
+      "target": 4602552,
+      "trace": [
+        {
+          "at": 595432,
+          "bytes": "9f48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x27c]"
+        },
+        {
+          "at": 595434,
+          "bytes": "0022",
+          "mnemonic": "movs",
+          "operands": "r2, #0"
+        },
+        {
+          "at": 595436,
+          "bytes": "0092",
+          "mnemonic": "str",
+          "operands": "r2, [sp]"
+        },
+        {
+          "at": 595438,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 595440,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 595442,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 595444,
+          "bytes": "d5f7b0f8",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 595460,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602580,
+        4602603
+      ],
+      "immutable_unknown_bytes": 23,
+      "literal_register": "r0",
+      "literal_word": 596076,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        595160,
+        595518
+      ],
+      "read_bytes_sha256": "701b8bffbd0303857f4a6559844ad7b7b2889698109eb25923f520cca25ce60d",
+      "site": 595448,
+      "target": 4602580,
+      "trace": [
+        {
+          "at": 595448,
+          "bytes": "9c48",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x270]"
+        },
+        {
+          "at": 595450,
+          "bytes": "0221",
+          "mnemonic": "movs",
+          "operands": "r1, #2"
+        },
+        {
+          "at": 595452,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 595454,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 595456,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 595458,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 595460,
+          "bytes": "d5f7a8f8",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    },
+    {
+      "assumption": "Renderer bridge contract and all required source/ABI proofs must be accepted separately.",
+      "first_call": {
+        "at": 595476,
+        "target": 419672
+      },
+      "flow_exclusion": "consumer parameter flow left bounded window",
+      "hypothetical_read_range": [
+        4602604,
+        4602615
+      ],
+      "immutable_unknown_bytes": 11,
+      "literal_register": "r0",
+      "literal_word": 596080,
+      "no_register_write_before_first_call": true,
+      "owner_range": [
+        595160,
+        595518
+      ],
+      "read_bytes_sha256": "5657e90877c88cc385684dda7d8b9e9c8e87cf312eb1f243c309fbd54847e9f5",
+      "site": 595464,
+      "target": 4602604,
+      "trace": [
+        {
+          "at": 595464,
+          "bytes": "9948",
+          "mnemonic": "ldr",
+          "operands": "r0, [pc, #0x264]"
+        },
+        {
+          "at": 595466,
+          "bytes": "0421",
+          "mnemonic": "movs",
+          "operands": "r1, #4"
+        },
+        {
+          "at": 595468,
+          "bytes": "0091",
+          "mnemonic": "str",
+          "operands": "r1, [sp]"
+        },
+        {
+          "at": 595470,
+          "bytes": "0121",
+          "mnemonic": "movs",
+          "operands": "r1, #1"
+        },
+        {
+          "at": 595472,
+          "bytes": "221c",
+          "mnemonic": "adds",
+          "operands": "r2, r4, #0"
+        },
+        {
+          "at": 595474,
+          "bytes": "0023",
+          "mnemonic": "movs",
+          "operands": "r3, #0"
+        },
+        {
+          "at": 595476,
+          "bytes": "d5f7a0f8",
+          "mnemonic": "bl",
+          "operands": "#0x66758"
+        }
+      ],
+      "version": 18
+    }
+  ],
+  "schema": "fixed-text-route-preflight-v1",
+  "source_semantic_verifiers_rerun": false
+}

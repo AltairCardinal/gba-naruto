@@ -1,0 +1,17 @@
+test_cli_contract_is_partial_and_cannot_pass_full_bank_gate (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_cli_contract_is_partial_and_cannot_pass_full_bank_gate) ... FAIL
+
+======================================================================
+FAIL: test_cli_contract_is_partial_and_cannot_pass_full_bank_gate (tests.test_cutscene_obj_secondary_ptr_publication.SecondaryPublicationTests.test_cli_contract_is_partial_and_cannot_pass_full_bank_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_publication.py", line 102, in test_cli_contract_is_partial_and_cannot_pass_full_bank_gate
+    self.assertEqual(row['contract']['assertions'].get('/evidence_sha256'),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     {e['path']: e['sha256'] for e in proof['evidence']})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: None != {'build/experiments/active/cutscene-secon[153 chars]f7a'}
+
+----------------------------------------------------------------------
+Ran 1 test in 11.224s
+
+FAILED (failures=1)

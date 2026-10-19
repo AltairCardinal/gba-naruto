@@ -1,0 +1,38 @@
+F.E
+======================================================================
+ERROR: test_real_pair_changes_only_record1_secondary_pointer (tests.test_build_cutscene_obj_secondary_ptr_ab.SecondaryPointerPairTests.test_real_pair_changes_only_record1_secondary_pointer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_cutscene_obj_secondary_ptr_ab.py", line 21, in test_real_pair_changes_only_record1_secondary_pointer
+    manifest = build_pair(ROOT, output)
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_cutscene_obj_secondary_ptr_ab.py", line 53, in build_pair
+    output = _fresh_output(output)
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_cutscene_obj_secondary_ptr_ab.py", line 45, in _fresh_output
+    raise ValueError("output must not use symlinks")
+ValueError: output must not use symlinks
+
+======================================================================
+FAIL: test_cli_builds_real_pair (tests.test_build_cutscene_obj_secondary_ptr_ab.SecondaryPointerPairTests.test_cli_builds_real_pair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_cutscene_obj_secondary_ptr_ab.py", line 69, in test_cli_builds_real_pair
+    self.assertEqual(completed.returncode, 0, completed.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_cutscene_obj_secondary_ptr_ab.py", line 172, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_cutscene_obj_secondary_ptr_ab.py", line 167, in main
+    print(json.dumps(build_pair(args.root, args.output), indent=2, sort_keys=True))
+                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_cutscene_obj_secondary_ptr_ab.py", line 53, in build_pair
+    output = _fresh_output(output)
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_cutscene_obj_secondary_ptr_ab.py", line 45, in _fresh_output
+    raise ValueError("output must not use symlinks")
+ValueError: output must not use symlinks
+
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.113s
+
+FAILED (failures=1, errors=1)

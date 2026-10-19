@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 22120,
+  "peak_tree_rss_mib": 40.08984375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "python3 tools/verify_map_sprites_definition_pixel_ab.py --root . --artifact artifacts/map-sprites-definition-id1-pixel-ab-v1 > build/experiments/active/bank-proof-plan/matrix-20261001-v1/map-sprites-result.json 2> build/experiments/active/bank-proof-plan/matrix-20261001-v1/map-sprites-stderr.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T18:41:10.279360Z",
+  "finished_at": "2026-09-30T18:41:12.353218Z"
+}

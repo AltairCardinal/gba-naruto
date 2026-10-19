@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/derive_facts.py", line 93, in <module>
+    main(sys.argv[1])
+    ~~~~^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/derive_facts.py", line 30, in main
+    assert rom[at:at + len(bytes.fromhex(raw))].hex() == raw, hex(at)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0x62756

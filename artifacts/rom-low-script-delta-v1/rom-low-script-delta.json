@@ -1,0 +1,157 @@
+{
+  "consumer_vector_sha256": "b86267ae723b37f23a45fb11182a2931d02c9788c37ea6d5499653eeb6fd8359",
+  "consumers": [
+    {
+      "accepted": true,
+      "interpreter_callsite": 498316,
+      "literal_word": 498356,
+      "path_sha256": "105e7a7d3aed30d93eb571ee634a76bf49ff8dbd1dcd74391e681a4bf5a67f0f",
+      "site": 498314,
+      "target": 17077
+    },
+    {
+      "accepted": false,
+      "interpreter_callsite": 498394,
+      "literal_word": 498544,
+      "path_sha256": "eea3f389dae901ec599d75a9c00f8279717ed3b8bfc39c8e89cf2761364201d8",
+      "site": 498392,
+      "target": 17085
+    },
+    {
+      "accepted": true,
+      "interpreter_callsite": 498414,
+      "literal_word": 498548,
+      "path_sha256": "cd9d8706aa2e69f6b6d9a13ebe6638bd8972e5450e48efb30e48908033d8d2f7",
+      "site": 498412,
+      "target": 17090
+    },
+    {
+      "accepted": true,
+      "interpreter_callsite": 498462,
+      "literal_word": 498560,
+      "path_sha256": "b4cd7307293f7d2d5dc343d40f438ac961e4689419529bdf96a52eb8889a55ad",
+      "site": 498460,
+      "target": 17077
+    },
+    {
+      "accepted": false,
+      "interpreter_callsite": 498480,
+      "literal_word": 498544,
+      "path_sha256": "2af7737513a1a7ae10b373e09aef2924b1b798b3e6f8eac2e651a41b6576372f",
+      "site": 498478,
+      "target": 17085
+    },
+    {
+      "accepted": true,
+      "interpreter_callsite": 498500,
+      "literal_word": 498548,
+      "path_sha256": "37e5667b1e587798e926f896c7575c61ebc1b6a5683ccbe983f4fcea2f6ef18b",
+      "site": 498498,
+      "target": 17090
+    }
+  ],
+  "excluded_roots": [
+    17085
+  ],
+  "helper_inputs": {
+    "tools/export_rom_fixed_renderer_script_records.py": "1d0e785c87e0c5c71869ceffeecb54ef052f43d03a542c369ce66ced790dce21",
+    "tools/export_rom_training_text_script_inventory.py": "97f8c8c6c6b18f52dd099939dd2342a610a62af663f582558d6c341eb55b4d10",
+    "tools/verify_rom_fixed_renderer_script_records.py": "c7f3eeaabc4a6755c7974838084aa7495f866924e40fd4ea2bb072d5db7f3927"
+  },
+  "pool_denominator": [
+    [
+      22412,
+      30036
+    ],
+    [
+      17067,
+      21550
+    ],
+    [
+      3306,
+      4848
+    ]
+  ],
+  "promotion": {
+    "claim_count": 2,
+    "claims": [
+      {
+        "bytes_sha256": "2d4d504c676aad1d8644564de7bc307f1addc175faafb1929f0d4773bf9d9c60",
+        "claim_kind": "fixed_cfg_consumer_renderer_command_script_bytes",
+        "id": "low-script-delta-42b5",
+        "primary_class": "fixed_cfg_consumer_renderer_command_script",
+        "range": [
+          17077,
+          17085
+        ]
+      },
+      {
+        "bytes_sha256": "dcee804ce9fe92272795c2af4b480a7e25a9991accdeb56708dcf765c556eff9",
+        "claim_kind": "fixed_cfg_consumer_renderer_command_script_bytes",
+        "id": "low-script-delta-42c2",
+        "primary_class": "fixed_cfg_consumer_renderer_command_script",
+        "range": [
+          17090,
+          17094
+        ]
+      }
+    ],
+    "promoted_from_primary_class": "unknown",
+    "promotion_batch": "rom-low-script-delta-v1",
+    "promotion_bytes": 12
+  },
+  "records": [
+    {
+      "bytes_sha256": "2d4d504c676aad1d8644564de7bc307f1addc175faafb1929f0d4773bf9d9c60",
+      "opcode_sequence": [
+        1,
+        0
+      ],
+      "range": [
+        17077,
+        17085
+      ]
+    },
+    {
+      "bytes_sha256": "dcee804ce9fe92272795c2af4b480a7e25a9991accdeb56708dcf765c556eff9",
+      "opcode_sequence": [
+        3,
+        4,
+        0
+      ],
+      "range": [
+        17090,
+        17094
+      ]
+    }
+  ],
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema": "rom-low-script-delta-v1",
+  "scope": {
+    "context_lifecycle_closed": false,
+    "editing_or_relocation_safety": false,
+    "natural_runtime_reachability": false,
+    "new_opcode_semantics": false,
+    "padding_or_free_space": false,
+    "whole_rom_consumer_denominator": false
+  },
+  "upstream_cfg_contract": {
+    "files": {
+      "artifacts/rom-cfg-inventory-v2/manifest.json": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+      "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+      "artifacts/rom-cfg-inventory-v3/manifest.json": "6aa788611f73856e621f5c74aab544d47b034307a9dc1180f6fd8f81cb1f423b",
+      "artifacts/rom-cfg-inventory-v3/rom-cfg-inventory-v3.json": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+      "tools/verify_rom_cfg_inventory.py": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+      "tools/verify_rom_cfg_inventory_v3.py": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a"
+    },
+    "v2_graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+    "v3_graph_denominator_sha256": "456545dddd3c43a5e9c19be6483871dbd333e3af3ecd1da8a9a83f762bced482",
+    "verified": true
+  },
+  "upstream_training_contract": {
+    "manifest_sha256": "af609bc3b303e2617d79cc254d3b39d67e05f3606654441613309566d23e3c0b",
+    "payload_sha256": "bc5d636d2dd6076892fbac7ba88879c964df9e819407c72d644cd10c5d9dadcb",
+    "verified": true,
+    "verifier_sha256": "8058c27cb313c6d32d613feb9946444932c3d9dc64fe27929489fb1af72e5305"
+  }
+}

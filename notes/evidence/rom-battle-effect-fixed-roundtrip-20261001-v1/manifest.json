@@ -1,0 +1,1258 @@
+{
+  "build_cli_cases": 35,
+  "canonical_written": false,
+  "files": {
+    ".experiment.json": {
+      "sha256": "c671b2bf3f5ef70f9771ac845b41889f7ed51ab7486a3737148b6ada108e355f",
+      "size": 398
+    },
+    ".inventory.json": {
+      "sha256": "fcb99c6ca4bfe2092665d7702603b4b48d5253a2a50125929d50c437b4758df5",
+      "size": 63256
+    },
+    "audit-cli.json": {
+      "sha256": "2da707c38a0fede7dc287c751964e354df2745286ba299a73dd3254a286d3432",
+      "size": 52644
+    },
+    "audit-cli.stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "audit-guard.json": {
+      "sha256": "e5255490ca4d3a2991b93116ca53d31d93e542b82deebcd3e38e31e73cb2d56e",
+      "size": 443
+    },
+    "audit_launch.py": {
+      "sha256": "0f218f5149b8d20b6d05a2bddef73f3dc960b662f95cc91bf2d2f88e9884e0ee",
+      "size": 350
+    },
+    "canonical-identity.json": {
+      "sha256": "6d72e67ca9915f03cea6e442a4bd807f2c5737ccb5f939fbf2120bc2f90e1359",
+      "size": 314
+    },
+    "green-guard.json": {
+      "sha256": "d8dbd62fcfdc0e33d869f531b1bccb813c7c5b428124c5278035abaa08f0bcd2",
+      "size": 588
+    },
+    "green.log": {
+      "sha256": "c049f7f83d920ed1ea97dd947428f3f9b5e4b3189d7e24edcf2b6005efa15012",
+      "size": 1145
+    },
+    "implementation/AGENTS.md": {
+      "sha256": "7fd307ef4c707c42e4f87627d74a73795f99966aceb9684ce8879f86057bcf36",
+      "size": 60572
+    },
+    "implementation/docs/remaining-reverse-work-plan-20261001.md": {
+      "sha256": "a00e37bbd6ae216f395be9ebfc3d79384395c4aadfda52c10056369f4d137587",
+      "size": 27412
+    },
+    "implementation/docs/reverse-engineering-handoff-current-20260905.md": {
+      "sha256": "021fb42ff439a25b453075ea99cfd8f592f20d75e41f84a1c5968da80214892f",
+      "size": 32905
+    },
+    "implementation/docs/reverse-engineering-proof-policy.md": {
+      "sha256": "e0db345e993bc493d0ae7f0d5f5ad10b28252bfdb2e6576f876d13e640bb94da",
+      "size": 88470
+    },
+    "implementation/docs/sequel-roadmap.md": {
+      "sha256": "76422c4f932b0fe0d42cf62057f70155de340f8171f2121f0a4acbf884fe2a7f",
+      "size": 346394
+    },
+    "implementation/notes/rom-bank-proof-work-plan-20261001.md": {
+      "sha256": "4f63a01c16cb1fb012bd8f023dab6abff21df6618bfc135f7fb60b8fede1d545",
+      "size": 9142
+    },
+    "implementation/notes/rom-battle-effect-fixed-roundtrip-20261001.md": {
+      "sha256": "2b1e35591d9f621d486785fcba0edcebe6b25cd05d3c917a773b925905a97867",
+      "size": 7019
+    },
+    "implementation/notes/rom-partial-bank-joint-matrix-20261001.md": {
+      "sha256": "dc24a4004c07b2140a79f24b603b65eb5de4b4a6838d38cc22a6ba0cae62768b",
+      "size": 3860
+    },
+    "implementation/notes/rom-release-gate-work-plan-20261001.md": {
+      "sha256": "8814ce3b8a2d989784b90f40d6b524f87e1f72776144851276d5b6a58fbd4b24",
+      "size": 6829
+    },
+    "implementation/tests/test_battle_effect_fixed_roundtrip.py": {
+      "sha256": "053ded96ca762f1966120614bc8fd8daf3d9fa610fa892b1d11f25265abec6d2",
+      "size": 8948
+    },
+    "implementation/tools/audit_battle_effect_fixed_roundtrip.py": {
+      "sha256": "3e7d879009d7ac1d781a6d89e7ba9a098affacd31dbb54f3803241103606ecd9",
+      "size": 14289
+    },
+    "implementation/tools/data/battle-effect-fixed-roundtrip-contract-v1.json": {
+      "sha256": "d01f10b1467ff16da2e423a25d7396952284dda0d163a3367f8c41d96298ec31",
+      "size": 7434
+    },
+    "launch.py": {
+      "sha256": "25e8374eaaa0929ec11fcf6e0e673a4d2cd96c44f94673877d161c2929450368",
+      "size": 260
+    },
+    "old-verifier.json": {
+      "sha256": "2793717dcb4a7697cf49428914cf94000e905d6c1f4343cb55d4806cddda8b3b",
+      "size": 231
+    },
+    "omitted-reconstructable-files.json": {
+      "sha256": "049c0d2716a365aea12521928ff4fdb31187cf99beac6c4e7412d6700c9ba290",
+      "size": 16741
+    },
+    "red-guard.json": {
+      "sha256": "12e4d074e779f774ea9b165d16c6370afc1341d7b839f7a8c517ecf150446185",
+      "size": 584
+    },
+    "red.log": {
+      "sha256": "28519a63a38f4acebe530373260a0dff359083c7ef75349bff2f5e673e7fcf14",
+      "size": 10204
+    },
+    "refactor-guard.json": {
+      "sha256": "ff6b9594a59acf00cea46da5eb4fc1a970f2b0846a49576c0b0dbc166501a319",
+      "size": 686
+    },
+    "refactor.log": {
+      "sha256": "9d7125fc2c61c87a22266531d35a0aefdb273227cec363bee2f187eedaf80bac",
+      "size": 4258
+    },
+    "refresh-guard.json": {
+      "sha256": "851df8fc006867fb4426083c29fdd698ee5c57af63b6461b7a4971b4a4dee847",
+      "size": 436
+    },
+    "refresh-repeat-verifier.json": {
+      "sha256": "b87f6c7cec7283ba99cd644115815ce784bc8d634535c1672ed774b13b482114",
+      "size": 197
+    },
+    "refresh-repeat/battle-effect-resource-writeback.json": {
+      "sha256": "4d981108a33161bac80229f9c0f13f6249ac4dd04256e2ff4acdfbb09efeff00",
+      "size": 59042
+    },
+    "refresh-repeat/manifest.json": {
+      "sha256": "bb0eabd499e1e0b66e6d303b3c94387fe4837bc0904b6b056f021c99adcb3708",
+      "size": 1378
+    },
+    "refresh-summary.json": {
+      "sha256": "2e9cb1e66e8f050e8f7c1651ebaa48ecf964a1069b3f33166afec01585adea9e",
+      "size": 1838
+    },
+    "refresh-verifier.json": {
+      "sha256": "b87f6c7cec7283ba99cd644115815ce784bc8d634535c1672ed774b13b482114",
+      "size": 197
+    },
+    "refresh.log": {
+      "sha256": "88216184b99035d7411b9d94eeb86b9357a86d276e1e484602cb4e1b7e1d1aee",
+      "size": 76
+    },
+    "refresh.py": {
+      "sha256": "c733f60c950cc2a736df22b1832907d5c46367bff29f14e1ceefbf753f6c003f",
+      "size": 2275
+    },
+    "refresh/battle-effect-resource-writeback.json": {
+      "sha256": "4d981108a33161bac80229f9c0f13f6249ac4dd04256e2ff4acdfbb09efeff00",
+      "size": 59042
+    },
+    "refresh/manifest.json": {
+      "sha256": "bb0eabd499e1e0b66e6d303b3c94387fe4837bc0904b6b056f021c99adcb3708",
+      "size": 1378
+    },
+    "replay.py": {
+      "sha256": "6f96f42c1220bb8b5b8235cb952ea91284134b58f9aa4037f146886931afff99",
+      "size": 2860
+    },
+    "result.json": {
+      "sha256": "2da707c38a0fede7dc287c751964e354df2745286ba299a73dd3254a286d3432",
+      "size": 52644
+    },
+    "roundtrip/fixture/cases/all-resource-noop/build-report.json": {
+      "sha256": "f78067a6595088fbe31c7613512082defa98db1701156af1b07580ab0cb3268c",
+      "size": 554
+    },
+    "roundtrip/fixture/cases/all-resource-noop/manifest.json": {
+      "sha256": "57d17f1c5366f185338d68232e562b897fb85a3518d2791319191e34b5f81b54",
+      "size": 158
+    },
+    "roundtrip/fixture/cases/all-resource-noop/project.json": {
+      "sha256": "88c864b6fb41a377136a3cd452f1f26ccc79a5fc859b3a4bbb8fef3d17b3ef05",
+      "size": 337
+    },
+    "roundtrip/fixture/cases/all-resource-noop/spec.json": {
+      "sha256": "4781caa7200a323dbc6bdaa4949502bae29a92a2ec0ded0fff6ed6a779068c02",
+      "size": 15208
+    },
+    "roundtrip/fixture/cases/all-resource-noop/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/all-resource-noop/stdout.txt": {
+      "sha256": "f78067a6595088fbe31c7613512082defa98db1701156af1b07580ab0cb3268c",
+      "size": 554
+    },
+    "roundtrip/fixture/cases/mutation-00/edited.bin": {
+      "sha256": "e05e1a6b315070c9d1d1dbeadaf2adc750a08b9e6eba531c37973018bd30feb7",
+      "size": 1664
+    },
+    "roundtrip/fixture/cases/mutation-00/manifest.json": {
+      "sha256": "35e90d3727d40490e71a00a59447d87307222fab2455eb13a8c99af4a4570a95",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-00/project.json": {
+      "sha256": "9491cbbac3ead57e6d9928afa8c787a8791d5a28837545d776b56c52299d60ac",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-00/readback.json": {
+      "sha256": "29045cf5df96187b0f887e3883708b3c921bddbc821c353ce770434b9f279d66",
+      "size": 969
+    },
+    "roundtrip/fixture/cases/mutation-00/spec.json": {
+      "sha256": "0ce68b4d77902e98a27731cc67c27ae75526c151fa86ca67715d9028dc93e10b",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-00/stderr.txt": {
+      "sha256": "2b24b91f592e6457439216ed3d9bc75ad4671a6d4c8b18af8a4c4dd956107389",
+      "size": 1520
+    },
+    "roundtrip/fixture/cases/mutation-00/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-01/edited.bin": {
+      "sha256": "5181839a4f2a61c5bfbec4c9dae9d67768c330ea739e5b912fc9149200ad307a",
+      "size": 2560
+    },
+    "roundtrip/fixture/cases/mutation-01/manifest.json": {
+      "sha256": "268c6e334d43347915a1863fdcd9789a4a205f46e46b036e8717207a5f1fe9e0",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-01/project.json": {
+      "sha256": "3abdbd5e95f899407c0ef2cfeda53f10a723cc25cf6fbaa7c333408363f36862",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-01/readback.json": {
+      "sha256": "3d07db10f745591f3457c189765d80735d6bbf92d76db26c74a56557b2effa3f",
+      "size": 969
+    },
+    "roundtrip/fixture/cases/mutation-01/spec.json": {
+      "sha256": "da350aac2996177b49715f3ba1038a92ddc3a3f23306c4c2620fc22d8926f6bb",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-01/stderr.txt": {
+      "sha256": "ef08c35b8fb0a6ca7e9db9acc0e390c109be625b90fb77dde0ab3374775d2a03",
+      "size": 1520
+    },
+    "roundtrip/fixture/cases/mutation-01/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-02/edited.bin": {
+      "sha256": "54df3725a70bbf87b274adbf9f8e06f885e249d55941080d0d1b60b49aaf8a61",
+      "size": 2048
+    },
+    "roundtrip/fixture/cases/mutation-02/manifest.json": {
+      "sha256": "18bdc6216d8ce518fdd53a8e4afe0c020bcc9e2bfed276c60dc2cec31487c322",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-02/project.json": {
+      "sha256": "b1028e250a5abfe5b0b12eb3350eebac20922bb0fc7de0fe514cc2ff39314233",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-02/readback.json": {
+      "sha256": "768921eb383c8737a13f78c46cac1481ca39f34aa9748ef3669caaef40de636c",
+      "size": 968
+    },
+    "roundtrip/fixture/cases/mutation-02/spec.json": {
+      "sha256": "daf4b76f54bf8e2fd6fa190607ecbde9de7e5a62cbc559fc82616da56a0686d8",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-02/stderr.txt": {
+      "sha256": "7255504d5302eda5b8856531049dfa16eb6fd06bfa6dc67ba9d0e051e7ddb733",
+      "size": 1520
+    },
+    "roundtrip/fixture/cases/mutation-02/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-03/build-report.json": {
+      "sha256": "4cd206887c1d5afd65773ecd96eabd41181019e038c914fe025e5dbd6ffea2e2",
+      "size": 6907
+    },
+    "roundtrip/fixture/cases/mutation-03/edited.bin": {
+      "sha256": "6e104b974bddb4e1631571dbf685dea5120b5b3c26bfaed1fb06e89f9ddfa5bd",
+      "size": 2304
+    },
+    "roundtrip/fixture/cases/mutation-03/manifest.json": {
+      "sha256": "1bae8972bb8383846afd127cae8b5bc2e904f0c8a5597aaed49630b0930c2f8b",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-03/project.json": {
+      "sha256": "525d0c8afb0da5cc255fbd686e1228c27b5e944215fa9fe69615023da4302b14",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-03/readback.json": {
+      "sha256": "becc6be648b42da313949f1e3a522d5a9718551ea6ccc0648620aee24d71fdf1",
+      "size": 1036
+    },
+    "roundtrip/fixture/cases/mutation-03/spec.json": {
+      "sha256": "f91cb5a18c98f02442b1359fb1c2b4911ba72ee99f7f48c13f9a88c30a4526d0",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-03/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-03/stdout.txt": {
+      "sha256": "4cd206887c1d5afd65773ecd96eabd41181019e038c914fe025e5dbd6ffea2e2",
+      "size": 6907
+    },
+    "roundtrip/fixture/cases/mutation-04/edited.bin": {
+      "sha256": "3986ce4d40a6e67ed47d260da82e70bfd34be9bd28feb57ef7bde839135cc921",
+      "size": 1024
+    },
+    "roundtrip/fixture/cases/mutation-04/manifest.json": {
+      "sha256": "0476ca5781265b257b2bd6d129c18e00ec4239cf6a235654cb4bc50aa8ba5ee0",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-04/project.json": {
+      "sha256": "cdc7f6001dfa6eed8826e8f2698bfbb63b1710ac4c66baeb4702c9d32233227e",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-04/readback.json": {
+      "sha256": "dc5c8fa8c2c9b53398f7177ac18f3aec5d0adf97e56e4bed87d7f32e0ca6c81f",
+      "size": 968
+    },
+    "roundtrip/fixture/cases/mutation-04/spec.json": {
+      "sha256": "b90b669ba57b922e8803679445005a37a8798252ba580cd1a4bd5ed91775a52f",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-04/stderr.txt": {
+      "sha256": "b1bd217e044361345a15360b7f610e29e708066a5fbbbf1f592b3c99fee7efa8",
+      "size": 1520
+    },
+    "roundtrip/fixture/cases/mutation-04/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-05/edited.bin": {
+      "sha256": "766b582d89c96a4ec6969fd84d649ff7e6959236e815f61ea36a0890845a8206",
+      "size": 960
+    },
+    "roundtrip/fixture/cases/mutation-05/manifest.json": {
+      "sha256": "b74bdbc91569451850a2504cbecf9b11988b0af09305906fee6d7abd003038d7",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-05/project.json": {
+      "sha256": "3ce24c421b9a72d6257e72a85fbf6166d75008aa7928b908ab66e041e94f4793",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-05/readback.json": {
+      "sha256": "380cc8ec7e7cf5dac30baa67da3e7fd21b6b3c430112551d9c9215a53918abd8",
+      "size": 968
+    },
+    "roundtrip/fixture/cases/mutation-05/spec.json": {
+      "sha256": "d43437048dd90179f37289f5756f61ff595c90ce34781d7bc25499025eabc232",
+      "size": 550
+    },
+    "roundtrip/fixture/cases/mutation-05/stderr.txt": {
+      "sha256": "5ca776d9583ec8f55a8c402503f88c8dc8d3c03905fcc5dede91f2c09503c5a7",
+      "size": 1520
+    },
+    "roundtrip/fixture/cases/mutation-05/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-06/build-report.json": {
+      "sha256": "3277a349ee1c4aee4b2168a7954672ec34cf3365ac16243001b7a5150337de46",
+      "size": 3910
+    },
+    "roundtrip/fixture/cases/mutation-06/edited.bin": {
+      "sha256": "51b16cd106071dad851b896dd29b4e98a588a0c9bd49ca837fd7b95db03a665c",
+      "size": 1952
+    },
+    "roundtrip/fixture/cases/mutation-06/manifest.json": {
+      "sha256": "11046dd6e7a86df2f5d7a333a1250555b0713ce8681e2b894b3e03d734931653",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-06/project.json": {
+      "sha256": "199efc67c25efa417c88d3ecb329be1c5ebd13ac142dcfc5e9f927cdcbd8a123",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-06/readback.json": {
+      "sha256": "2e8d180c5c781cbf0932cb5732cb30acc064eb5d5969b30cb563bde1bd7e0f55",
+      "size": 1038
+    },
+    "roundtrip/fixture/cases/mutation-06/spec.json": {
+      "sha256": "f6bc7b375b435e297d436670d588f3964803d4086c677b8ff35c19d3937c2d11",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-06/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-06/stdout.txt": {
+      "sha256": "3277a349ee1c4aee4b2168a7954672ec34cf3365ac16243001b7a5150337de46",
+      "size": 3910
+    },
+    "roundtrip/fixture/cases/mutation-07/build-report.json": {
+      "sha256": "4a4c57b3ff935124488f25116556270a762b87f3e8ebda008a4fe4d93d87bd9b",
+      "size": 6351
+    },
+    "roundtrip/fixture/cases/mutation-07/edited.bin": {
+      "sha256": "2a848b616234c4df659cdb0ce0cc60fab248a905dcd67fa0b241be63bf922994",
+      "size": 3840
+    },
+    "roundtrip/fixture/cases/mutation-07/manifest.json": {
+      "sha256": "d3599f6a9aa8387fb5bc55c6706218022e45469b1fc3934a4e15835e2e35b802",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-07/project.json": {
+      "sha256": "3e8759a0f9a8e6ae09009d9a3572e7503769827a38ecef52b810e7fec09e885e",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-07/readback.json": {
+      "sha256": "2da0fffff3e4298ed80466a7972dc9d3488a268320b241d4679f4783f93fbb98",
+      "size": 1038
+    },
+    "roundtrip/fixture/cases/mutation-07/spec.json": {
+      "sha256": "0de82f8c549151a63577dfb1af1b08f24fd45ba9f3dae9368e7194b186ddd453",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-07/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-07/stdout.txt": {
+      "sha256": "4a4c57b3ff935124488f25116556270a762b87f3e8ebda008a4fe4d93d87bd9b",
+      "size": 6351
+    },
+    "roundtrip/fixture/cases/mutation-08/edited.bin": {
+      "sha256": "f060229da48877472bad3d79a55b47b0574fee24ee95be4b4ba60e3d3a0deead",
+      "size": 256
+    },
+    "roundtrip/fixture/cases/mutation-08/manifest.json": {
+      "sha256": "9b41155467783b0570c7d116041c232a798172c64c809f4c344a29d0286609e7",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-08/project.json": {
+      "sha256": "3929ec2d6338280593568b7d0620dce39f94f1e3c6a9dd42397635a45ec01768",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-08/readback.json": {
+      "sha256": "9d505e61e60b3c21523a2330b45027c14161c32ae701f0e4670f9db9bbe42910",
+      "size": 969
+    },
+    "roundtrip/fixture/cases/mutation-08/spec.json": {
+      "sha256": "2a77360629655550a2fc04b3740b2e12b6320592ea873fc0a59495950d04d817",
+      "size": 550
+    },
+    "roundtrip/fixture/cases/mutation-08/stderr.txt": {
+      "sha256": "e33b976b26472a30a0d64ee7ad261c1b9d040a583c12c41c8461ef712a953c67",
+      "size": 1520
+    },
+    "roundtrip/fixture/cases/mutation-08/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-09/build-report.json": {
+      "sha256": "bbd54691f95536ec7790c99e9587385fce646687e1a97e4412aed032fd98114d",
+      "size": 10245
+    },
+    "roundtrip/fixture/cases/mutation-09/edited.bin": {
+      "sha256": "155e82df83719c7941f571b12474928f690a273a1e81fe1ebddb70c989f49356",
+      "size": 5120
+    },
+    "roundtrip/fixture/cases/mutation-09/manifest.json": {
+      "sha256": "870388dc1f5893ad0e157087964b5e8eb5a398b42ada0f66716a2eaa4c09050c",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-09/project.json": {
+      "sha256": "57f689cc1e45befc548f180c08017eecf5a9cbbcc553ad38bb92821a49d4883e",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-09/readback.json": {
+      "sha256": "811ca2295681209f76b3870364c540ebcfe2a5d1566dc9837cfc87849ab78247",
+      "size": 1039
+    },
+    "roundtrip/fixture/cases/mutation-09/spec.json": {
+      "sha256": "03690dd7577865ff580ddf9765ddf533913b2dfe6cb9317c60d722600eec1ca2",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-09/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-09/stdout.txt": {
+      "sha256": "bbd54691f95536ec7790c99e9587385fce646687e1a97e4412aed032fd98114d",
+      "size": 10245
+    },
+    "roundtrip/fixture/cases/mutation-10/edited.bin": {
+      "sha256": "b4d9f785b976f4a4dd332ab8f4488058fa5fbe239f5cb61e3600beb99de6a1e7",
+      "size": 3584
+    },
+    "roundtrip/fixture/cases/mutation-10/manifest.json": {
+      "sha256": "21576203d7cf93f9adc2d903b57623a88e02935de7a19adad4a5574dcb75341a",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-10/project.json": {
+      "sha256": "8698e24821a3f22976c1406f1e68e5f319e6f6de5d1511fcf6496d017cc60050",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-10/readback.json": {
+      "sha256": "870ce9ade8462d26e0fbf9d770abe71fe10f1c72622f71bdea0996a40954a680",
+      "size": 972
+    },
+    "roundtrip/fixture/cases/mutation-10/spec.json": {
+      "sha256": "d27eed96306b23e0c644f535fdc807f7ec7b2c8dd2a5e822d60d5f2f85501123",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-10/stderr.txt": {
+      "sha256": "252b19f76ca8639b0d2fb709df6a58edf93cc18844ad5fa89c08be4f556fc4f9",
+      "size": 1522
+    },
+    "roundtrip/fixture/cases/mutation-10/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-11/build-report.json": {
+      "sha256": "a24a4757aa58aa5499c549ecb5b1cd660ec566fb299618292e18f9d47ed296dc",
+      "size": 2630
+    },
+    "roundtrip/fixture/cases/mutation-11/edited.bin": {
+      "sha256": "fe9ad67fb6161a1222c587867f74b0542cd04cf2bfc6b5627ccfa1c0edf0396a",
+      "size": 768
+    },
+    "roundtrip/fixture/cases/mutation-11/manifest.json": {
+      "sha256": "b1758092749f70ddeb4d03853788d00f1ea771b16175984608a33cb4f9f14da8",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-11/project.json": {
+      "sha256": "657b60bda4a6c4792c727150253f3bfb6a007a51682de3070945747ed89697d7",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-11/readback.json": {
+      "sha256": "dee7f28c758b89db1469b1ece26046f672ae75d3b884ac6697805a93747fea23",
+      "size": 1036
+    },
+    "roundtrip/fixture/cases/mutation-11/spec.json": {
+      "sha256": "47ba935aea56746e9c2da493678c14877c6d7a9c22daa770af00fd972097a090",
+      "size": 550
+    },
+    "roundtrip/fixture/cases/mutation-11/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-11/stdout.txt": {
+      "sha256": "a24a4757aa58aa5499c549ecb5b1cd660ec566fb299618292e18f9d47ed296dc",
+      "size": 2630
+    },
+    "roundtrip/fixture/cases/mutation-12/edited.bin": {
+      "sha256": "22345dd5fdc3d15c351a021403a1507fc1e5a69ccd3420902c02a8d28a99be91",
+      "size": 3584
+    },
+    "roundtrip/fixture/cases/mutation-12/manifest.json": {
+      "sha256": "df9567002a17af49ffac1905450c3161988c6a31b75d7fd72f3db47f6accd2c7",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-12/project.json": {
+      "sha256": "a5592ff8df3579c58bf411d01583d9a798d1cc5839ddbb20f2baddff60031809",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-12/readback.json": {
+      "sha256": "6002d983124453ffb0df9d642f9e345fe15c89086588bb8fea01f9ec8597e942",
+      "size": 972
+    },
+    "roundtrip/fixture/cases/mutation-12/spec.json": {
+      "sha256": "30a1cdcb8604b77be405e2e460d9b67e360fc2bddf47be41cf87361fabda2c28",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-12/stderr.txt": {
+      "sha256": "54cd9e4ae9f58463f8d4c257262c783ae3febdf9897c404e477ce630bfbc47a7",
+      "size": 1522
+    },
+    "roundtrip/fixture/cases/mutation-12/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-13/build-report.json": {
+      "sha256": "7a558d2aa6437a2460f4c08b08598dc260c1cf7b4908aa17a84bc3fbcacde5f2",
+      "size": 3904
+    },
+    "roundtrip/fixture/cases/mutation-13/edited.bin": {
+      "sha256": "5e103bc9575baba19fe1b80ede676e43941e98af967704a53a84806d57a3617e",
+      "size": 1024
+    },
+    "roundtrip/fixture/cases/mutation-13/manifest.json": {
+      "sha256": "fa4dde1d413b29cbd1e664b89c3c890bc0597b8606a6cd9635d9f7cc2e8f04d3",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-13/project.json": {
+      "sha256": "a919a8ff70aa322a6587b59699c7a1dfc436b391cd5d0a60c0dfbaa9f3559591",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-13/readback.json": {
+      "sha256": "aee14b857671189aadd501e61d9379a3c94c33b71e0e31a946a43865f6b3789d",
+      "size": 1037
+    },
+    "roundtrip/fixture/cases/mutation-13/spec.json": {
+      "sha256": "0233abe0bcc8f13d47fce8e182437ac1605a99285f6d98a86df1ac8b52871185",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-13/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-13/stdout.txt": {
+      "sha256": "7a558d2aa6437a2460f4c08b08598dc260c1cf7b4908aa17a84bc3fbcacde5f2",
+      "size": 3904
+    },
+    "roundtrip/fixture/cases/mutation-14/edited.bin": {
+      "sha256": "c23c7d2c380a81184573158ce631a56bb6c762b034314615a934970b9ebf3622",
+      "size": 1024
+    },
+    "roundtrip/fixture/cases/mutation-14/manifest.json": {
+      "sha256": "c40d0b8fd54c3ab07d320200b3d23d9c222ebc30625f795ea6a8ab55a74e2922",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-14/project.json": {
+      "sha256": "7b8ee098894b6d110db0f947451bf403a6875934dc4fcad6277cc74c0ca848cc",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-14/readback.json": {
+      "sha256": "1bae628033912f79d4bdd0cd248d4c8c906f453044ce5e9eab0da316d0461af6",
+      "size": 968
+    },
+    "roundtrip/fixture/cases/mutation-14/spec.json": {
+      "sha256": "96c2a34e9bd5144042f1bc521edcab50206848250af3d3bf8e768a969e22f17b",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-14/stderr.txt": {
+      "sha256": "583452f4b37d75f8639a14d07fe174d90f391079cfe99ac30267a1f46294dd0a",
+      "size": 1520
+    },
+    "roundtrip/fixture/cases/mutation-14/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-15/edited.bin": {
+      "sha256": "25c3eea17b425bd64ad4649baba9a61eca29e28d78678a1ee5efa830f688a96d",
+      "size": 2176
+    },
+    "roundtrip/fixture/cases/mutation-15/manifest.json": {
+      "sha256": "a84f9fb19ed461e9dfc2bd13891b40dbb04cd06a97c9c79204c9fb2dc4b9594f",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-15/project.json": {
+      "sha256": "d7f8dfd65417236a947b59ca01b8aed436016bdf293ac3e61ab5d2160f274fee",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-15/readback.json": {
+      "sha256": "210561033c10b53790189e33a69c92e70705089fbcca626a629f93ae82a43d4e",
+      "size": 972
+    },
+    "roundtrip/fixture/cases/mutation-15/spec.json": {
+      "sha256": "66f4d56572779f8fb4f8a1f8c6660cc14a1c567ac82c86dcac4953094981680d",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-15/stderr.txt": {
+      "sha256": "e48866a1400df59ffb671cbe2d9f529ad67d140cb4a6538ee8036c4de340c96d",
+      "size": 1522
+    },
+    "roundtrip/fixture/cases/mutation-15/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-16/edited.bin": {
+      "sha256": "9a959f47cb6e093e365b27a19cb30aac8564aea2cf9f20127288e5077c607349",
+      "size": 9728
+    },
+    "roundtrip/fixture/cases/mutation-16/manifest.json": {
+      "sha256": "aaa8e4b1922ba33dcf61a96506e705362c64ce56c0a85c0f807e67253c9410d3",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-16/project.json": {
+      "sha256": "05e05f824ad6fda9b5a474a0a459e7e705d842bdea04977951324dba0677fc13",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-16/readback.json": {
+      "sha256": "ffc0c96f049b1fa63946a1c92340f8ffa35fc1a1dec1f933c494acbf878f977d",
+      "size": 1163
+    },
+    "roundtrip/fixture/cases/mutation-16/spec.json": {
+      "sha256": "a6730429c468543cf0e31c701112d96bf4609ad5c28bcb16efd25f51212d9fcd",
+      "size": 551
+    },
+    "roundtrip/fixture/cases/mutation-16/stderr.txt": {
+      "sha256": "11a813e3072986ed71cb62dec90afcfaebb1ae1cf1d4a4c0c8c5dd11d247e3c3",
+      "size": 1522
+    },
+    "roundtrip/fixture/cases/mutation-16/stdout.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-17/build-report.json": {
+      "sha256": "7575a5a1f4c09ad2fb76c0eeff713de98ba930b05092dfa476a9aad0d0a26ff0",
+      "size": 1843
+    },
+    "roundtrip/fixture/cases/mutation-17/edited.bin": {
+      "sha256": "3c4c344edde2e1d1001d78974e6431fd9fb15ef1f578133458194997afbe8cf2",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-17/manifest.json": {
+      "sha256": "64f63f50b9d677e09c5c0098f41e066942a31703ba4c157de306af5ee4d3b720",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-17/project.json": {
+      "sha256": "b212d76a53fd90e7ffb50d2a20421feead19c964cd0ecb3c7f03e56b63aa27f4",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-17/readback.json": {
+      "sha256": "11ee511edb29826ce96efc45b19b6c1c11c52803eb6cb5fec9f101f38c101087",
+      "size": 1032
+    },
+    "roundtrip/fixture/cases/mutation-17/spec.json": {
+      "sha256": "9cdde41f34ed42dc2db02a2db0dbea347303751d06567da632b6cb8548541b6b",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-17/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-17/stdout.txt": {
+      "sha256": "7575a5a1f4c09ad2fb76c0eeff713de98ba930b05092dfa476a9aad0d0a26ff0",
+      "size": 1843
+    },
+    "roundtrip/fixture/cases/mutation-18/build-report.json": {
+      "sha256": "601e34385f541e3d1450f19a48cdc25b5545e77bce52bab18e98664a6d6dabba",
+      "size": 1793
+    },
+    "roundtrip/fixture/cases/mutation-18/edited.bin": {
+      "sha256": "651067f74b9f413fff2c6f018081365e9535999e3f89b9b31329fc49700ccf4c",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-18/manifest.json": {
+      "sha256": "3338d530721c9a1767d7f98c17e4eb6983171218c496936d1fc38531f299a785",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-18/project.json": {
+      "sha256": "4b3387e05b68a91d7e9d1d9bced13971fc1c8ccdb2ffeb8e7cf54bb9cb859e38",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-18/readback.json": {
+      "sha256": "6470e81ea16441a86d68d46e478efe464093f6e8931a76ec8008051a347d2a06",
+      "size": 1033
+    },
+    "roundtrip/fixture/cases/mutation-18/spec.json": {
+      "sha256": "1488c1f7a2b485c6a2c73839f47a45d076d5d8bd35bc545ebc14d3d57ca1d02b",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-18/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-18/stdout.txt": {
+      "sha256": "601e34385f541e3d1450f19a48cdc25b5545e77bce52bab18e98664a6d6dabba",
+      "size": 1793
+    },
+    "roundtrip/fixture/cases/mutation-19/build-report.json": {
+      "sha256": "12242fd15665f3812efac3069e2853b6f1e15b177504e163998e200f9ba1a808",
+      "size": 1821
+    },
+    "roundtrip/fixture/cases/mutation-19/edited.bin": {
+      "sha256": "156c616c10f6b104244df3e5ba68e9aa39cf44dae9a075005408814c04d65359",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-19/manifest.json": {
+      "sha256": "aabc6378556964057419e14bfae7d76bed342ece8a0c427ba4c8f327272179ea",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-19/project.json": {
+      "sha256": "0ad5de15abd521bf17255eea83b7f91cee465e1452afdc52d52ad2ab13e2737b",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-19/readback.json": {
+      "sha256": "b5f837addb6e6fe2d33d57aaee1f3195fd3345096f08a2ffd78c518d13b65624",
+      "size": 1033
+    },
+    "roundtrip/fixture/cases/mutation-19/spec.json": {
+      "sha256": "f94338aa1da319f93e8219002e8f281629c5396145cdaaa4222daf0b527ba584",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-19/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-19/stdout.txt": {
+      "sha256": "12242fd15665f3812efac3069e2853b6f1e15b177504e163998e200f9ba1a808",
+      "size": 1821
+    },
+    "roundtrip/fixture/cases/mutation-20/build-report.json": {
+      "sha256": "235aa891e614fd4fa2c55af28e1eb436e6e105dbf961f245f83e477436fe4d7e",
+      "size": 3686
+    },
+    "roundtrip/fixture/cases/mutation-20/edited.bin": {
+      "sha256": "4ff82f565d9ab0f18f5410a69d9dd3836a6ae7b73ea7bc237dfba91be9c090fc",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-20/manifest.json": {
+      "sha256": "c9afa9c8a5087772b3add3162b48be7a0dc723fddc78a39d275e0486f67583a1",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-20/project.json": {
+      "sha256": "562faca7b9415f8a6caca195a294633ae32c52bed9eae053750171be252f9924",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-20/readback.json": {
+      "sha256": "250fc0fb81a77172959753fd1b3ba5ff5cd86addd3a8cecb9fa16c64ac0a7392",
+      "size": 1239
+    },
+    "roundtrip/fixture/cases/mutation-20/spec.json": {
+      "sha256": "8b5fc5c7f6366b540c6aa3eafd1e2975dfef6bb12ec6f488ec766d625e424364",
+      "size": 566
+    },
+    "roundtrip/fixture/cases/mutation-20/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-20/stdout.txt": {
+      "sha256": "235aa891e614fd4fa2c55af28e1eb436e6e105dbf961f245f83e477436fe4d7e",
+      "size": 3686
+    },
+    "roundtrip/fixture/cases/mutation-21/build-report.json": {
+      "sha256": "5718bf275d6bfbe7f30176481d5122c615ad43e1636bf9b5600e9b095c197542",
+      "size": 1771
+    },
+    "roundtrip/fixture/cases/mutation-21/edited.bin": {
+      "sha256": "60ce57a0184487e952cbf7b2f4808cfa0ff63eab790b84b31d8f0b8194f1fd1c",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-21/manifest.json": {
+      "sha256": "53dd2220c5d6c09dd97049dfe39f738ce5298a26d1f2bdffa7d933cc3c5fd288",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-21/project.json": {
+      "sha256": "5fdf7cabdc50994ce4b30f10cefdf46269692ffbdcb248a32a08306a992aaf23",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-21/readback.json": {
+      "sha256": "1a224bb6b5a9b85f58920f651277f90e78708867dec573ef80d818a77ded7b21",
+      "size": 1032
+    },
+    "roundtrip/fixture/cases/mutation-21/spec.json": {
+      "sha256": "ec6cc5d52944bcf729a4517c84f97505af6ed31452bafac3c349fa85f3d9e249",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-21/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-21/stdout.txt": {
+      "sha256": "5718bf275d6bfbe7f30176481d5122c615ad43e1636bf9b5600e9b095c197542",
+      "size": 1771
+    },
+    "roundtrip/fixture/cases/mutation-22/build-report.json": {
+      "sha256": "c6692ae512fc026210be4846eb50170d21eb12421f8367075467654fe91521d7",
+      "size": 1793
+    },
+    "roundtrip/fixture/cases/mutation-22/edited.bin": {
+      "sha256": "a1b4377cda6b6cc2c5d3d2921d302eec8dd361952042fa828e43ca3f94918ff2",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-22/manifest.json": {
+      "sha256": "bc89999cdbd2ef639f4189e6fce6cde3d2a3132ad8d79eb9950c78b0577aab79",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-22/project.json": {
+      "sha256": "de4675ed1bf68fc820deba8923fa486355b20f24b14a7eefadd082f6989fe321",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-22/readback.json": {
+      "sha256": "4ab6634d505cfd4f4fd03fe583c0c27088cc275d6262ece836bc8194097de1b2",
+      "size": 1033
+    },
+    "roundtrip/fixture/cases/mutation-22/spec.json": {
+      "sha256": "d1651de773c529debdf1ae61e4dbaf4ed68dcd67ee3f809bd256c38eb3d77673",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-22/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-22/stdout.txt": {
+      "sha256": "c6692ae512fc026210be4846eb50170d21eb12421f8367075467654fe91521d7",
+      "size": 1793
+    },
+    "roundtrip/fixture/cases/mutation-23/build-report.json": {
+      "sha256": "76e1a186eb63e17102947062dc98b72795abf0b4a88d4694d36a8c67f4bdb9c8",
+      "size": 1819
+    },
+    "roundtrip/fixture/cases/mutation-23/edited.bin": {
+      "sha256": "a48bbc93d80a356bddb74ac18ed15084dfd2bd2d15afedcbd9c6a7bbcc28ae70",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-23/manifest.json": {
+      "sha256": "86314f5d5f95ad22e52b24e132cfe508eb5cf2f421169281dc4a1882dc8ac467",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-23/project.json": {
+      "sha256": "eb76da28e41bb568a2b01c8b69db6feff3945e125b4bfd3df19471a9e28b1c20",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-23/readback.json": {
+      "sha256": "7073ab1cf262339d8abf158f24d020f78c1fc2a486ff856c53c667c5117f6fc0",
+      "size": 1032
+    },
+    "roundtrip/fixture/cases/mutation-23/spec.json": {
+      "sha256": "76752e85dd8e31a709764abc02ba396c176c4ceea1157ea5c8191b801f1deed0",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-23/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-23/stdout.txt": {
+      "sha256": "76e1a186eb63e17102947062dc98b72795abf0b4a88d4694d36a8c67f4bdb9c8",
+      "size": 1819
+    },
+    "roundtrip/fixture/cases/mutation-24/build-report.json": {
+      "sha256": "57f7908e0363e8d8381fe76b3145a3582a4d24a46e455888a8007ba170b622d0",
+      "size": 1791
+    },
+    "roundtrip/fixture/cases/mutation-24/edited.bin": {
+      "sha256": "ce67a65fd11305f3269129d85efbc62865ecd4b0a6c69afe2755f6a0544aa8cc",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-24/manifest.json": {
+      "sha256": "a391794debbbcef714a7fe61512bd8e8f4f9e3663c6f941539b74b1bcb43b818",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-24/project.json": {
+      "sha256": "f1064f42dd1144012c9ca2b5e7aa5c3369a4e2c39bc99abfd91880a3c8c21b2d",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-24/readback.json": {
+      "sha256": "21245361ecfb07fa8355f5e1e4b6e992f16e5cb007e143a1e000cd4f2d5b973d",
+      "size": 1032
+    },
+    "roundtrip/fixture/cases/mutation-24/spec.json": {
+      "sha256": "95c51828b77e705f32b13c9b6342f899e001a50b7d32424ae3f208dcfd72ea59",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-24/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-24/stdout.txt": {
+      "sha256": "57f7908e0363e8d8381fe76b3145a3582a4d24a46e455888a8007ba170b622d0",
+      "size": 1791
+    },
+    "roundtrip/fixture/cases/mutation-25/build-report.json": {
+      "sha256": "b86d2d1fba1a92dbc1f410955e2cd6808f398a7bf0c811a174b83cd8cde7aabc",
+      "size": 1843
+    },
+    "roundtrip/fixture/cases/mutation-25/edited.bin": {
+      "sha256": "e743fe4c4a3f950f73e3e1c80687820cd3012ac4058b3d9fd58eda2cd29a1eac",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-25/manifest.json": {
+      "sha256": "bb48b343692e60970e3ed77d33082b12d391fcb1b3aabc47a2a01fc8ccfedf74",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-25/project.json": {
+      "sha256": "c15499ba40d41625a0afc090ae9b56a2eb729e786b5f56d120d213dd9a38ac5b",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-25/readback.json": {
+      "sha256": "8c74fac60f89f518370736a633e1953e267ecedc6d6fab8a1acbe1443be076be",
+      "size": 1032
+    },
+    "roundtrip/fixture/cases/mutation-25/spec.json": {
+      "sha256": "130b403e23dec9cba7a545ac1cba5d7d7ee5392ad3516c4d3896a9d45f58432f",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-25/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-25/stdout.txt": {
+      "sha256": "b86d2d1fba1a92dbc1f410955e2cd6808f398a7bf0c811a174b83cd8cde7aabc",
+      "size": 1843
+    },
+    "roundtrip/fixture/cases/mutation-26/build-report.json": {
+      "sha256": "02d4a211661765c88d57cd88ba1fd653026fd373c53445cd10e273fb6cdd3a4c",
+      "size": 1793
+    },
+    "roundtrip/fixture/cases/mutation-26/edited.bin": {
+      "sha256": "08531e49550426c1a6f5570678af73b4c4cc272556939ea503a0ceaa4ac4d62e",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-26/manifest.json": {
+      "sha256": "0674af60a46193e627913d203c62d35d83b88cbf252aa1b73e22fd37cd595cee",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-26/project.json": {
+      "sha256": "ec5976cad998a12f2414db5f71283ab258f0daaea2f75fd63b8aa108eef9423f",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-26/readback.json": {
+      "sha256": "975544410c6525148b8cd401a1c5cff4b82cc72174d60a34dc1fbbb5fb21f693",
+      "size": 1033
+    },
+    "roundtrip/fixture/cases/mutation-26/spec.json": {
+      "sha256": "496075c6cd0ce2dede3fcc238fa447cfed5986bc9c9be76d5b9fd65a5c11159d",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-26/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-26/stdout.txt": {
+      "sha256": "02d4a211661765c88d57cd88ba1fd653026fd373c53445cd10e273fb6cdd3a4c",
+      "size": 1793
+    },
+    "roundtrip/fixture/cases/mutation-27/build-report.json": {
+      "sha256": "cdaccb167a5a3e0fb4b0cb2c922d12b4eae66c96a840b1760449b80e4f1fb104",
+      "size": 1799
+    },
+    "roundtrip/fixture/cases/mutation-27/edited.bin": {
+      "sha256": "ef1d77020685020da440a18ffd21a532d99c1b8e77ae226e82855849c8440310",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-27/manifest.json": {
+      "sha256": "abf3aa45bd8d87b971bad8952059a190dee84f90c48e7e0852d838c9d05c9c55",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-27/project.json": {
+      "sha256": "c1b2538eb0a72dfbe35f610b367234645719cfeea5bb735249022afeebe59268",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-27/readback.json": {
+      "sha256": "00b43da9e2f0a1538f06f77e1683b5e75e7515d101911e010f50eac34726b206",
+      "size": 1032
+    },
+    "roundtrip/fixture/cases/mutation-27/spec.json": {
+      "sha256": "38e16f60a81b83df874a39d130521b890cb6d077cb16048e558d39fd88762f61",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-27/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-27/stdout.txt": {
+      "sha256": "cdaccb167a5a3e0fb4b0cb2c922d12b4eae66c96a840b1760449b80e4f1fb104",
+      "size": 1799
+    },
+    "roundtrip/fixture/cases/mutation-28/build-report.json": {
+      "sha256": "abde23cb8ea1e54acab6dbd79d04bb78ca89b1d67a65a23f3b54029f431d5fd5",
+      "size": 1793
+    },
+    "roundtrip/fixture/cases/mutation-28/edited.bin": {
+      "sha256": "751f9094e8a41e16a192cc313f51ca87f3d58f131a899906d33feb76b6972f83",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-28/manifest.json": {
+      "sha256": "0aef25413ba7f867641c9ce6641258777f4e3e9514c20a08f9042967cc47b09a",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-28/project.json": {
+      "sha256": "bd019bb0d4106f1b8c263d4696aeb577d63be47f250e8a6585182ed5b0abbd01",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-28/readback.json": {
+      "sha256": "345acdd2b8cd84f52ba1b15d5c5d01e914f4a05fbd3484491032fcfaab295c74",
+      "size": 1033
+    },
+    "roundtrip/fixture/cases/mutation-28/spec.json": {
+      "sha256": "bae63a3df61cc021cc4594cb6753a26b9af95d69cf0d2fc30913bce9d4220a40",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-28/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-28/stdout.txt": {
+      "sha256": "abde23cb8ea1e54acab6dbd79d04bb78ca89b1d67a65a23f3b54029f431d5fd5",
+      "size": 1793
+    },
+    "roundtrip/fixture/cases/mutation-29/build-report.json": {
+      "sha256": "e940a12cf7afc71c8650239a60acb79e21f88ce4c52b6e75faa50c3d3a5e9a88",
+      "size": 1799
+    },
+    "roundtrip/fixture/cases/mutation-29/edited.bin": {
+      "sha256": "148e3129f2f60650aa5226d52f12713ea5473d53d1906dcaee225fcb1541cb0c",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-29/manifest.json": {
+      "sha256": "f6d7872441568a53c764c26a4ea4a74b2cafeb457a8017e4c8ffafc76864c169",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-29/project.json": {
+      "sha256": "219e1aa51af23e2bdf04ad6c2f108c1a504038526ef352657b04596cf1e6db85",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-29/readback.json": {
+      "sha256": "d9b90cee99cbfa73118c665bf59875cfd304ecb180f70b186bc24e38aa5e744e",
+      "size": 1032
+    },
+    "roundtrip/fixture/cases/mutation-29/spec.json": {
+      "sha256": "0dc2141a267f01961e4bb364a0b7aecae9c6f336f8269a745178334cf7753de3",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-29/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-29/stdout.txt": {
+      "sha256": "e940a12cf7afc71c8650239a60acb79e21f88ce4c52b6e75faa50c3d3a5e9a88",
+      "size": 1799
+    },
+    "roundtrip/fixture/cases/mutation-30/build-report.json": {
+      "sha256": "c05024f12e5ec5c099f4092a1166541d1da640d360851130fd0c5aec9ad1384f",
+      "size": 1791
+    },
+    "roundtrip/fixture/cases/mutation-30/edited.bin": {
+      "sha256": "10754dbb7af103658844979e6e0c0800b1fff30b3e9f6e33563a352ffab7d921",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-30/manifest.json": {
+      "sha256": "3599507aa8dc28725485b007f10af244ce7120071c4a53dcacc56992fe629d1e",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-30/project.json": {
+      "sha256": "eed569053a925eae3866d4431a64c417e70dc2327e9621bf34c9217250be1636",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-30/readback.json": {
+      "sha256": "b5c61cc641cdec0634b6fb9697c7bfc8da28731ef816080b1288ae665f079c22",
+      "size": 1032
+    },
+    "roundtrip/fixture/cases/mutation-30/spec.json": {
+      "sha256": "2ffb9355e75a761f7e0f43d26ee70c17b5714eb1ffc89c11b42bd2afbcdfb4e7",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-30/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-30/stdout.txt": {
+      "sha256": "c05024f12e5ec5c099f4092a1166541d1da640d360851130fd0c5aec9ad1384f",
+      "size": 1791
+    },
+    "roundtrip/fixture/cases/mutation-31/build-report.json": {
+      "sha256": "6ee6755f382e58a9d898843e45dc6c84038bddd91f64a92856ea680509d30f65",
+      "size": 1843
+    },
+    "roundtrip/fixture/cases/mutation-31/edited.bin": {
+      "sha256": "d2397bf676beeceb7675da2e9cd592a3abb40287beef885922ff2f8b7214027d",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-31/manifest.json": {
+      "sha256": "bbf9f0a2d33eb72626c3ad00f92f4857eca0dc04e6370fba316622c1eba399bb",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-31/project.json": {
+      "sha256": "9bc86c2c5f6cef7f90c1a435a6cfcde6ac0b9642fc4d9ebe341fe14c07941961",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-31/readback.json": {
+      "sha256": "360d6abff3e2f87b664c07f38f894fcc8d2d236502060afbc732b3b1c7a9bf2a",
+      "size": 1032
+    },
+    "roundtrip/fixture/cases/mutation-31/spec.json": {
+      "sha256": "86bee607ac533c14804e2a6f353b491693d3f150a83a0904f7593f8f6484d67b",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-31/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-31/stdout.txt": {
+      "sha256": "6ee6755f382e58a9d898843e45dc6c84038bddd91f64a92856ea680509d30f65",
+      "size": 1843
+    },
+    "roundtrip/fixture/cases/mutation-32/build-report.json": {
+      "sha256": "02cb29c9f4ecb3f9def9d5866dbefc353b8d77b22fbcfef50e15fc43b3c3085d",
+      "size": 1821
+    },
+    "roundtrip/fixture/cases/mutation-32/edited.bin": {
+      "sha256": "966b92d97f73c09c614b338272a276af05e97c2e8e9a64357febbafedeb1b074",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-32/manifest.json": {
+      "sha256": "62f9a9dbf68446139fc2653ece6dd74af2781e58a23ca5e1cc926f56cfa30925",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-32/project.json": {
+      "sha256": "df5f9f3b49f33ad58dd694832cd30c642f3f066f5d977790d0b8a64c46863729",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-32/readback.json": {
+      "sha256": "c71ef90e37a0c952fce64b9ac9a6d841dcb5aaeb0a381ed370db2a89ffcacb16",
+      "size": 1033
+    },
+    "roundtrip/fixture/cases/mutation-32/spec.json": {
+      "sha256": "1dbb282f231e4091ddf748561de2c6e357c42bca03ed701b9bcbe0efca570719",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-32/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-32/stdout.txt": {
+      "sha256": "02cb29c9f4ecb3f9def9d5866dbefc353b8d77b22fbcfef50e15fc43b3c3085d",
+      "size": 1821
+    },
+    "roundtrip/fixture/cases/mutation-33/build-report.json": {
+      "sha256": "0a1cb583899aa7d727905884436900c729eecea93b5c5ea1166d69e00763ff00",
+      "size": 1845
+    },
+    "roundtrip/fixture/cases/mutation-33/edited.bin": {
+      "sha256": "e91f50a96d71e6edee4cd842acd44a7e4defd969ad364f4648c9f50220ce2975",
+      "size": 32
+    },
+    "roundtrip/fixture/cases/mutation-33/manifest.json": {
+      "sha256": "3a08b9111e8f9b41280c88c6917ac71a3a0141fb6df751e1c32ca1c61e236fdc",
+      "size": 146
+    },
+    "roundtrip/fixture/cases/mutation-33/project.json": {
+      "sha256": "02ee842064601633d34450a9f40e22b760d77cba2fee41c17daf5bafc3fd8842",
+      "size": 313
+    },
+    "roundtrip/fixture/cases/mutation-33/readback.json": {
+      "sha256": "15a65584bab39867ae78b8e5aba67200ed05ee8f6401cbd6a448eb67f1c372c1",
+      "size": 1033
+    },
+    "roundtrip/fixture/cases/mutation-33/spec.json": {
+      "sha256": "6838f181eb4b6c351d4aec25b11b1f6ce4f233073d838c8c39a737630a76565b",
+      "size": 547
+    },
+    "roundtrip/fixture/cases/mutation-33/stderr.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "roundtrip/fixture/cases/mutation-33/stdout.txt": {
+      "sha256": "0a1cb583899aa7d727905884436900c729eecea93b5c5ea1166d69e00763ff00",
+      "size": 1845
+    },
+    "roundtrip/result.json": {
+      "sha256": "2da707c38a0fede7dc287c751964e354df2745286ba299a73dd3254a286d3432",
+      "size": 52644
+    },
+    "test_runner.py": {
+      "sha256": "6b6fa15cd5756009b95587c3f2da7b79c3d6925595932abc59e346327cd29156",
+      "size": 409
+    },
+    "validation.json": {
+      "sha256": "c208689fb68d8d7b4aa4547c3fc44a8c6f499ebb3004ff01bb582f56db6a485d",
+      "size": 1119
+    }
+  },
+  "full_graphics_release_gate_complete": false,
+  "logical_references": 36,
+  "omitted_bytes": 157484904,
+  "omitted_file_count": 68,
+  "physical_slots": 35,
+  "resources": 34,
+  "runtime_executed": false,
+  "schema": "reverse-work-receipt-v1",
+  "source_run": "battle-effect-roundtrip/fixed-20261001-v1",
+  "status": "verified_fixed_mutation_roundtrip",
+  "task_mode": "frozen-resource-identity-refresh-and-fixed-slot-roundtrip",
+  "tests": 22
+}

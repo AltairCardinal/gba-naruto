@@ -1,0 +1,18 @@
+{
+  "bios_red": "bios-red-tests.log",
+  "context_red": "context-red-tests.log",
+  "final_green": "refactor-tests.log",
+  "final_main": "batch-v1.log",
+  "first_semantic_failures": [
+    "green-v3-tests.log",
+    "green-v4-tests.log",
+    "green-v5-tests.log"
+  ],
+  "irq_red": "irq-red-tests.log",
+  "notes": [
+    "initial missing-module red has guard receipt only; later red logs are full",
+    "test_arm_probe-context-green.py is pre-IRQ version, not an all-green receipt",
+    "native crash was ABI initialization, not a ROM instruction outcome"
+  ],
+  "red_missing_module": "red-guard.json (original stderr not retained by guard)"
+}

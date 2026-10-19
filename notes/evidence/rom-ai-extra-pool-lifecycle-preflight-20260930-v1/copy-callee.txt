@@ -1,0 +1,77 @@
+rom=rom/base.gba
+start=0x0809C3EC
+focus=0x0809C3EC
+size=0xD0
+
+=> 0x0809C3EC: push     {r4, r5, lr}
+   0x0809C3EE: adds     r5, r0, #0
+   0x0809C3F0: adds     r4, r5, #0
+   0x0809C3F2: adds     r3, r1, #0
+   0x0809C3F4: cmp      r2, #0xf
+   0x0809C3F6: bls      #0x809c42c
+   0x0809C3F8: adds     r0, r3, #0
+   0x0809C3FA: orrs     r0, r5
+   0x0809C3FC: movs     r1, #3
+   0x0809C3FE: ands     r0, r1
+   0x0809C400: cmp      r0, #0
+   0x0809C402: bne      #0x809c42c
+   0x0809C404: adds     r1, r5, #0
+   0x0809C406: ldm      r3!, {r0}
+   0x0809C408: stm      r1!, {r0}
+   0x0809C40A: ldm      r3!, {r0}
+   0x0809C40C: stm      r1!, {r0}
+   0x0809C40E: ldm      r3!, {r0}
+   0x0809C410: stm      r1!, {r0}
+   0x0809C412: ldm      r3!, {r0}
+   0x0809C414: stm      r1!, {r0}
+   0x0809C416: subs     r2, #0x10
+   0x0809C418: cmp      r2, #0xf
+   0x0809C41A: bhi      #0x809c406
+   0x0809C41C: cmp      r2, #3
+   0x0809C41E: bls      #0x809c42a
+   0x0809C420: ldm      r3!, {r0}
+   0x0809C422: stm      r1!, {r0}
+   0x0809C424: subs     r2, #4
+   0x0809C426: cmp      r2, #3
+   0x0809C428: bhi      #0x809c420
+   0x0809C42A: adds     r4, r1, #0
+   0x0809C42C: subs     r2, #1
+   0x0809C42E: movs     r0, #1
+   0x0809C430: rsbs     r0, r0, #0
+   0x0809C432: cmp      r2, r0
+   0x0809C434: beq      #0x809c446
+   0x0809C436: adds     r1, r0, #0
+   0x0809C438: ldrb     r0, [r3]
+   0x0809C43A: strb     r0, [r4]
+   0x0809C43C: adds     r3, #1
+   0x0809C43E: adds     r4, #1
+   0x0809C440: subs     r2, #1
+   0x0809C442: cmp      r2, r1
+   0x0809C444: bne      #0x809c438
+   0x0809C446: adds     r0, r5, #0
+   0x0809C448: pop      {r4, r5, pc}
+   0x0809C44A: movs     r0, r0
+   0x0809C44C: ldr      r1, [pc, #4]
+   0x0809C44E: ldr      r1, [r1]
+   0x0809C450: str      r0, [r1, #0x58]
+   0x0809C452: bx       lr
+   0x0809C454: b        #0x809c2e8
+   0x0809C456: lsrs     r2, r3, #1
+   0x0809C458: ldr      r0, [pc, #0x14]
+   0x0809C45A: ldr      r2, [r0]
+   0x0809C45C: ldr      r1, [r2, #0x58]
+   0x0809C45E: ldr      r0, [pc, #0x14]
+   0x0809C460: muls     r0, r1, r0
+   0x0809C462: ldr      r1, [pc, #0x14]
+   0x0809C464: adds     r0, r0, r1
+   0x0809C466: str      r0, [r2, #0x58]
+   0x0809C468: ldr      r1, [pc, #0x10]
+   0x0809C46A: ands     r0, r1
+   0x0809C46C: bx       lr
+   0x0809C46E: movs     r0, r0
+   0x0809C470: b        #0x809c304
+   0x0809C472: lsrs     r2, r3, #1
+   0x0809C474: ldr      r6, [pc, #0x1b4]
+   0x0809C476: rors     r6, r0
+   0x0809C478: adds     r0, #0x39
+   0x0809C47A: movs     r0, r0

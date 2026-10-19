@@ -1,0 +1,36 @@
+test_raw_save_and_resume_register_crossing (test_arm_probe.ContextTests.test_raw_save_and_resume_register_crossing) ... ok
+test_slot_domains (test_arm_probe.ContextTests.test_slot_domains) ... ok
+test_wait_zero_is_wrapping_skip (test_arm_probe.ContextTests.test_wait_zero_is_wrapping_skip) ... ok
+test_copy_offsets_and_noncode_tail (test_arm_probe.ContractTests.test_copy_offsets_and_noncode_tail) ... ok
+test_protocol_rejects_outside_fixture (test_arm_probe.ContractTests.test_protocol_rejects_outside_fixture) ... ok
+test_raster_first_oracle (test_arm_probe.ContractTests.test_raster_first_oracle) ... ok
+test_real_rom_native_snapshot_and_callbacks (test_arm_probe.ContractTests.test_real_rom_native_snapshot_and_callbacks) ... ok
+test_second_callback_both_branches (test_arm_probe.ContractTests.test_second_callback_both_branches) ... ok
+test_banked_dispatch_both_callbacks (test_arm_probe.IrqTests.test_banked_dispatch_both_callbacks) ... ERROR
+test_dispatch_upper_line_returns_without_callback_stores (test_arm_probe.IrqTests.test_dispatch_upper_line_returns_without_callback_stores) ... ERROR
+test_wrong_copy_entry_is_rejected (test_arm_probe.IrqTests.test_wrong_copy_entry_is_rejected) ... ok
+
+======================================================================
+ERROR: test_banked_dispatch_both_callbacks (test_arm_probe.IrqTests.test_banked_dispatch_both_callbacks)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/test_arm_probe.py", line 46, in test_banked_dispatch_both_callbacks
+    row=p.irq_case(root,159,255,active)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/arm_probe.py", line 164, in irq_case
+    raise ValueError(f'IRQ dispatch oracle: {row}')
+ValueError: IRQ dispatch oracle: {'writes': [{'pc': 50331792, 'multiple_base': 50360320, 'mask': 16399, 'direction': 3}, [50331800, 2, 67109384, 1], [50331968, 2, 67109378, 1], [50331992, 2, 67109376, 0], {'pc': 50332024, 'multiple_base': 50356224, 'mask': 16384, 'direction': 3}, [50355488, 4, 67108928, 305419896], [50355496, 4, 67108932, 2309737967], [50332060, 2, 67109384, 1], [50332080, 2, 67109376, 1]], 'status': 1, 'stop': 134217728, 'cpsr': 2147483794, 'spsr': 223, 'visited': [50331772, 50331776, 50331780, 50331784, 50331788, 50331792, 50331796, 50331800, 50331804, 50331808, 50331812, 50331816, 50331968, 50331972, 50331976, 50331980, 50331984, 50331988, 50331992, 50331996, 50332000, 50332004, 50332008, 50332012, 50332016, 50332020, 50332024, 50332028, 50332032, 50355432, 50355436, 50355440, 50355444, 50355448, 50355452, 50355456, 50355460, 50355464, 50355468, 50355472, 50355476, 50355480, 50355484, 50355488, 50355492, 50355496, 50355500, 50332036, 50332040, 50332044, 50332048, 50332052, 50332056, 50332060, 50332064, 50332068, 50332072, 50332076, 50332080, 50332084, 50332088], 'registers': [223, 65537, 65537, 67109376, 286327808, 286328064, 286328320, 286328576, 286328832, 286329088, 286329344, 286329600, 0, 50360320, 134217728, 134217732], 'peek': [[50331765, 1, 0]], 'verified': True, 'callback_writes': [[67108928, 4, 305419896], [67108932, 4, 2309737967]]}
+
+======================================================================
+ERROR: test_dispatch_upper_line_returns_without_callback_stores (test_arm_probe.IrqTests.test_dispatch_upper_line_returns_without_callback_stores)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/test_arm_probe.py", line 57, in test_dispatch_upper_line_returns_without_callback_stores
+    row=p.irq_case(0x690,160,255,True)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-irq-arm/arm-20261001-v1/arm_probe.py", line 164, in irq_case
+    raise ValueError(f'IRQ dispatch oracle: {row}')
+ValueError: IRQ dispatch oracle: {'writes': [{'pc': 50331792, 'multiple_base': 50360320, 'mask': 16399, 'direction': 3}, [50331800, 2, 67109384, 1], [50331968, 2, 67109378, 4], [50331992, 2, 67109376, 4], {'pc': 50332024, 'multiple_base': 50356224, 'mask': 16384, 'direction': 3}, [50332060, 2, 67109384, 1], [50332080, 2, 67109376, 4]], 'status': 1, 'stop': 134217728, 'cpsr': 1610612882, 'spsr': 223, 'visited': [50331772, 50331776, 50331780, 50331784, 50331788, 50331792, 50331796, 50331800, 50331804, 50331808, 50331812, 50331816, 50331820, 50331824, 50331828, 50331832, 50331836, 50331840, 50331968, 50331972, 50331976, 50331980, 50331984, 50331988, 50331992, 50331996, 50332000, 50332004, 50332008, 50332012, 50332016, 50332020, 50332024, 50332028, 50332032, 50355536, 50355540, 50355544, 50355548, 50332036, 50332040, 50332044, 50332048, 50332052, 50332056, 50332060, 50332064, 50332068, 50332072, 50332076, 50332080, 50332084, 50332088], 'registers': [223, 262148, 262144, 67109376, 286327808, 286328064, 286328320, 286328576, 286328832, 286329088, 286329344, 286329600, 8, 50360320, 134217728, 134217732], 'peek': [[50331765, 1, 0]], 'verified': True, 'callback_writes': []}
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.495s
+
+FAILED (errors=2)

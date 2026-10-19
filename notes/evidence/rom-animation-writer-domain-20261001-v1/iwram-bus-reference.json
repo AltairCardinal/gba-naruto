@@ -1,0 +1,87 @@
+{
+  "commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8",
+  "dma3_normalization": "source/destination mask0FFFFFFE, wordalign; count0=10000, control&FFE0",
+  "files": {
+    "include/mgba/internal/gba/memory.h": {
+      "excerpts": [
+        {
+          "lines": [
+            22,
+            39
+          ],
+          "text": "\nenum GBAMemoryRegion {\n\tGBA_REGION_BIOS = 0x0,\n\tGBA_REGION_EWRAM = 0x2,\n\tGBA_REGION_IWRAM = 0x3,\n\tGBA_REGION_IO = 0x4,\n\tGBA_REGION_PALETTE_RAM = 0x5,\n\tGBA_REGION_VRAM = 0x6,\n\tGBA_REGION_OAM = 0x7,\n\tGBA_REGION_ROM0 = 0x8,\n\tGBA_REGION_ROM0_EX = 0x9,\n\tGBA_REGION_ROM1 = 0xA,\n\tGBA_REGION_ROM1_EX = 0xB,\n\tGBA_REGION_ROM2 = 0xC,\n\tGBA_REGION_ROM2_EX = 0xD,\n\tGBA_REGION_SRAM = 0xE,\n\tGBA_REGION_SRAM_MIRROR = 0xF\n};\n"
+        },
+        {
+          "lines": [
+            59,
+            65
+          ],
+          "text": "enum {\n\tGBA_SIZE_BIOS = 0x00004000,\n\tGBA_SIZE_EWRAM = 0x00040000,\n\tGBA_SIZE_IWRAM = 0x00008000,\n\tGBA_SIZE_IO = 0x00000400,\n\tGBA_SIZE_PALETTE_RAM = 0x00000400,\n\tGBA_SIZE_VRAM = 0x00018000,\n"
+        }
+      ],
+      "sha256": "fca671fc3bc5ab06641f6259ebf092688e1ba1ddd8eb80e4fba9a43cda44fb41",
+      "size": 5138
+    },
+    "src/gba/dma.c": {
+      "excerpts": [
+        {
+          "lines": [
+            1,
+            6
+          ],
+          "text": "/* Copyright (c) 2013-2015 Jeffrey Pfau\n *\n * This Source Code Form is subject to the terms of the Mozilla Public\n * License, v. 2.0. If a copy of the MPL was not distributed with this\n * file, You can obtain one at http://mozilla.org/MPL/2.0/. */\n#include <mgba/internal/gba/dma.h>\n"
+        },
+        {
+          "lines": [
+            20,
+            34
+          ],
+          "text": "\nstatic const uint32_t DMA_SRC_MASK[] = {\n\t0x07FFFFFE,\n\t0x0FFFFFFE,\n\t0x0FFFFFFE,\n\t0x0FFFFFFE,\n};\n\nstatic const uint32_t DMA_DST_MASK[] = {\n\t0x07FFFFFE,\n\t0x07FFFFFE,\n\t0x07FFFFFE,\n\t0x0FFFFFFE,\n};\n\n"
+        },
+        {
+          "lines": [
+            81,
+            108
+          ],
+          "text": "void GBADMAReload(struct GBA* gba, int dma) {\n\tstruct GBAMemory* memory = &gba->memory;\n\tmemory->dma[dma].count = memory->io[(GBA_REG_DMA0CNT_LO + dma * (GBA_REG_DMA1CNT_LO - GBA_REG_DMA0CNT_LO)) >> 1];\n\tif (dma == 3) {\n\t\tif (!memory->dma[dma].count) {\n\t\t\tmemory->dma[dma].count = 0x10000;\n\t\t}\n\t} else {\n\t\tmemory->dma[dma].count &= 0x3FFF;\n\t\tif (!memory->dma[dma].count) {\n\t\t\tmemory->dma[dma].count = 0x4000;\n\t\t}\n\t}\n}\n\nuint16_t GBADMAWriteCNT_HI(struct GBA* gba, int dma, uint16_t control) {\n\tstruct GBAMemory* memory = &gba->memory;\n\tstruct GBADMA* currentDma = &memory->dma[dma];\n\tint wasEnabled = GBADMARegisterIsEnable(currentDma->reg);\n\tif (dma < 3) {\n\t\tcontrol &= 0xF7E0;\n\t} else {\n\t\tcontrol &= 0xFFE0;\n\t}\n\tcurrentDma->reg = control;\n\n\tuint32_t width = 2 << GBADMARegisterGetWidth(currentDma->reg);\n\tif (currentDma->source >= GBA_BASE_ROM0 && currentDma->source < GBA_BASE_SRAM) {\n"
+        }
+      ],
+      "sha256": "cd4c795f69ec16373e475b4c902e863e4a6db61cd2b9f1c4d851496d3202b9d1",
+      "size": 14934
+    },
+    "src/gba/memory.c": {
+      "excerpts": [
+        {
+          "lines": [
+            758,
+            767
+          ],
+          "text": "\n#define STORE_EWRAM \\\n\tSTORE_32(value, address & (GBA_SIZE_EWRAM - 4), memory->wram); \\\n\twait += waitstatesRegion[GBA_REGION_EWRAM];\n\n#define STORE_IWRAM \\\n\tSTORE_32(value, address & (GBA_SIZE_IWRAM - 4), memory->iwram);\n\n#define STORE_IO \\\n\tGBAIOWrite32(gba, address & (OFFSET_MASK - 3), value);\n"
+        },
+        {
+          "lines": [
+            880,
+            891
+          ],
+          "text": "\tint wait = 0;\n\tint16_t oldValue;\n\n\tswitch (address >> BASE_OFFSET) {\n\tcase GBA_REGION_EWRAM:\n\t\tSTORE_16(value, address & (GBA_SIZE_EWRAM - 2), memory->wram);\n\t\twait = memory->waitstatesNonseq16[GBA_REGION_EWRAM];\n\t\tbreak;\n\tcase GBA_REGION_IWRAM:\n\t\tSTORE_16(value, address & (GBA_SIZE_IWRAM - 2), memory->iwram);\n\t\tbreak;\n\tcase GBA_REGION_IO:\n"
+        },
+        {
+          "lines": [
+            1022,
+            1037
+          ],
+          "text": "void GBAStore8(struct ARMCore* cpu, uint32_t address, int8_t value, int* cycleCounter) {\n\tstruct GBA* gba = (struct GBA*) cpu->master;\n\tstruct GBAMemory* memory = &gba->memory;\n\tint wait = 0;\n\tuint16_t oldValue;\n\n\tswitch (address >> BASE_OFFSET) {\n\tcase GBA_REGION_EWRAM:\n\t\t((int8_t*) memory->wram)[address & (GBA_SIZE_EWRAM - 1)] = value;\n\t\twait = memory->waitstatesNonseq16[GBA_REGION_EWRAM];\n\t\tbreak;\n\tcase GBA_REGION_IWRAM:\n\t\t((int8_t*) memory->iwram)[address & (GBA_SIZE_IWRAM - 1)] = value;\n\t\tbreak;\n\tcase GBA_REGION_IO:\n\t\tGBAIOWrite8(gba, address & OFFSET_MASK, value);\n"
+        }
+      ],
+      "sha256": "501dbbca7d5d7cbaa86240de2d6a4e2e1186b50f74dde11bcf2f323c4af8c437",
+      "size": 65084
+    }
+  },
+  "hardware_verified": false,
+  "normalization": "region03; byte addr&7FFF, halfword addr&7FFE, word addr&7FFC",
+  "reference_only_not_runtime_dependency": true,
+  "runtime_launches": 0,
+  "schema": "iwram-bus-reference-v1",
+  "source_commit_actually_checked": true,
+  "source_project": "mGBA"
+}

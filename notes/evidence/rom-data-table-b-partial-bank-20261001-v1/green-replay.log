@@ -1,0 +1,211 @@
+test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) ... 
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='capture_frame') ... ERROR
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='automatic_inputs') ... ERROR
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='input_state') ... ERROR
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='degraded') ... ERROR
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='command') ... ERROR
+test_archive_embedded_screen_is_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_embedded_screen_is_recomputed) ... ERROR
+test_archive_selector_memory_is_not_just_a_receipt_hash (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_selector_memory_is_not_just_a_receipt_hash) ... ERROR
+test_binding_rejects_relabelled_claims (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_binding_rejects_relabelled_claims) ... ERROR
+test_cli_missing_input_reports_json_failure (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_cli_missing_input_reports_json_failure) ... ok
+test_contract_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_contract_drift_fails_closed) ... ok
+test_existing_auditor_executes_contract_and_rejects_wrong_ids (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_existing_auditor_executes_contract_and_rejects_wrong_ids) ... ERROR
+test_frozen_legacy_verifier_agrees (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_frozen_legacy_verifier_agrees) ... ERROR
+test_missing_and_symbolic_input_fail_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_missing_and_symbolic_input_fail_closed) ... ok
+test_partial_gate_and_false_exhaustive_upgrade_rejected (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_partial_gate_and_false_exhaustive_upgrade_rejected) ... ERROR
+test_portable_root_and_real_cli_without_capture_host_files (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_portable_root_and_real_cli_without_capture_host_files) ... ERROR
+test_real_cell_and_all_uncovered_ids (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_real_cell_and_all_uncovered_ids) ... ERROR
+test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) ... ok
+
+======================================================================
+ERROR: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='capture_frame')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 114, in test_archive_audit_selector_inputs_and_guard_recomputed
+    verify_archive_contents(ROOT, raw)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='automatic_inputs')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 114, in test_archive_audit_selector_inputs_and_guard_recomputed
+    verify_archive_contents(ROOT, raw)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='input_state')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 114, in test_archive_audit_selector_inputs_and_guard_recomputed
+    verify_archive_contents(ROOT, raw)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='degraded')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 114, in test_archive_audit_selector_inputs_and_guard_recomputed
+    verify_archive_contents(ROOT, raw)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='command')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 114, in test_archive_audit_selector_inputs_and_guard_recomputed
+    verify_archive_contents(ROOT, raw)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_archive_embedded_screen_is_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_embedded_screen_is_recomputed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 130, in test_archive_embedded_screen_is_recomputed
+    verify_archive_contents(ROOT, raw)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_archive_selector_memory_is_not_just_a_receipt_hash (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_selector_memory_is_not_just_a_receipt_hash)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 122, in test_archive_selector_memory_is_not_just_a_receipt_hash
+    verify_archive_contents(ROOT, raw)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_binding_rejects_relabelled_claims (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_binding_rejects_relabelled_claims)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 163, in test_binding_rejects_relabelled_claims
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 187, in verify_partial_bank
+    evidence = verify_archive_contents(root, raw)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_existing_auditor_executes_contract_and_rejects_wrong_ids (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_existing_auditor_executes_contract_and_rejects_wrong_ids)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 133, in test_existing_auditor_executes_contract_and_rejects_wrong_ids
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 187, in verify_partial_bank
+    evidence = verify_archive_contents(root, raw)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_frozen_legacy_verifier_agrees (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_frozen_legacy_verifier_agrees)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 51, in test_frozen_legacy_verifier_agrees
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 187, in verify_partial_bank
+    evidence = verify_archive_contents(root, raw)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_partial_gate_and_false_exhaustive_upgrade_rejected (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_partial_gate_and_false_exhaustive_upgrade_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 146, in test_partial_gate_and_false_exhaustive_upgrade_rejected
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 187, in verify_partial_bank
+    evidence = verify_archive_contents(root, raw)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_portable_root_and_real_cli_without_capture_host_files (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_portable_root_and_real_cli_without_capture_host_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 56, in test_portable_root_and_real_cli_without_capture_host_files
+    expected = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 187, in verify_partial_bank
+    evidence = verify_archive_contents(root, raw)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+======================================================================
+ERROR: test_real_cell_and_all_uncovered_ids (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_real_cell_and_all_uncovered_ids)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 32, in test_real_cell_and_all_uncovered_ids
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 187, in verify_partial_bank
+    evidence = verify_archive_contents(root, raw)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_data_table_b_partial_bank.py", line 61, in verify_archive_contents
+    if sha(read_regular(source / "input.ss9")) != legacy.INPUT_SHA256:
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/rom_small_cfg_callback_gaps_independent_verifier.py", line 40, in read_regular
+    child = os.open(part, flags, dir_fd=fd)
+NotADirectoryError: [Errno 20] Not a directory: 'var'
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.594s
+
+FAILED (errors=13)

@@ -1,0 +1,325 @@
+{
+  "case_count": 11,
+  "case_results": [
+    {
+      "bank": "battle-encounters",
+      "command": [
+        "python3",
+        "tools/verify_battle_encounters_story_visual_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/battle-encounters-story-visual-pixel-ab-v1"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "bbox_inclusive": [
+          88,
+          48,
+          159,
+          108
+        ],
+        "changed_pixel_count": 1603,
+        "memory_differences": {
+          "EWRAM": {
+            "baseline_sha256": "75c12071d842f55e8ae96b811cf6bed241fca8279113d53b9763a2e7244afe71",
+            "candidate_sha256": "75c12071d842f55e8ae96b811cf6bed241fca8279113d53b9763a2e7244afe71",
+            "count": 0,
+            "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "IO": {
+            "baseline_sha256": "e0f287b97d27486e6c7e4ba5aba72b3dd71395199ffbd1660e45449920eaa2c6",
+            "candidate_sha256": "e0f287b97d27486e6c7e4ba5aba72b3dd71395199ffbd1660e45449920eaa2c6",
+            "count": 0,
+            "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "IWRAM": {
+            "baseline_sha256": "9645dd5ebdf587bb924c59ff442af5007d20b945db8a50e87981e3c2dbf9ee1f",
+            "candidate_sha256": "377dffd9048a62246e7058934612bdf5b75e87b49c74fff8c3f5c05c9a6e2ae8",
+            "count": 1,
+            "first_offset": 32668,
+            "index_sha256": "df07d516b299fe1db9db5f6c94a2e36735d5ce4027aeb9f7c648878b8882cc1c",
+            "last_offset": 32668
+          },
+          "OAM": {
+            "baseline_sha256": "2a25f06c35b6c2bb7327a651cc845e3fafc093881f3c13358a3cce44b66ba13d",
+            "candidate_sha256": "2a25f06c35b6c2bb7327a651cc845e3fafc093881f3c13358a3cce44b66ba13d",
+            "count": 0,
+            "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "PRAM": {
+            "baseline_sha256": "76b4e174e0730e8902fee39c1f720b2449055d745c721dbcd35d8804aa0e3f32",
+            "candidate_sha256": "76b4e174e0730e8902fee39c1f720b2449055d745c721dbcd35d8804aa0e3f32",
+            "count": 0,
+            "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "VRAM": {
+            "baseline_sha256": "0e151558329d8483c1424966fc77fedc8b8dcb9ee50ba7991faae162fdf577d9",
+            "candidate_sha256": "bc22c6e21af8cf4fbe8138cc6a82a4da2531974a8bebf22a10a269fd55700de2",
+            "count": 2348,
+            "first_offset": 59454,
+            "index_sha256": "0a2034d58c9f7ebb9556ee5fdbd77cf28d4468c99408ecae333d494775ec56e8",
+            "last_offset": 62914
+          }
+        },
+        "schema": "battle-encounters-story-visual-pixel-ab-verification-v1",
+        "verified": true
+      },
+      "seconds": 1.337,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "c053ac77f5929fcbaabde15e7f02d9b47e137cc21e6acf6c5d1dc4843474bb75",
+      "timed_out": false
+    },
+    {
+      "bank": "cutscene-scripts",
+      "command": [
+        "python3",
+        "tools/verify_cutscene_obj_primary_ptr_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/cutscene-obj-id1-primary-ptr-ab-v1"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "errors": [],
+        "verified": true
+      },
+      "seconds": 6.233,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8131e15b02099361bec95a0c779abe510d132ec29003bba1501dbbc5da53b1c7",
+      "timed_out": false
+    },
+    {
+      "bank": "data-table-b",
+      "command": [
+        "python3",
+        "tools/verify_data_table_b_message0_pointer_ab.py",
+        "artifacts/data-table-b-message0-pointer-pixel-ab-v1",
+        "--binary",
+        "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "different_pixel_count": 928,
+        "message_id": 0,
+        "verified": true
+      },
+      "seconds": 0.812,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "828aeafa98e2ffded348f749be187fb493f63606eb3766ba200194320a92afdf",
+      "timed_out": false
+    },
+    {
+      "bank": "levels",
+      "command": [
+        "python3",
+        "tools/verify_levels_status_per_level_ab.py",
+        "artifacts/levels-status-per-level-ab-v1",
+        "--binary",
+        "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "baseline_output_a": 18,
+        "candidate_output_a": 2,
+        "verified": true
+      },
+      "seconds": 0.746,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "06f6ded91ee4cc0085aa54767b1b489efdee2891494684a6565c52daae6422a2",
+      "timed_out": false
+    },
+    {
+      "bank": "map-events",
+      "command": [
+        "python3",
+        "tools/verify_map_events_e4_handler_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/map-events-e4-handler-pixel-ab-v1"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "bbox_inclusive": [
+          0,
+          0,
+          239,
+          159
+        ],
+        "changed_pixel_count": 37436,
+        "entry_id": 228,
+        "verified": true
+      },
+      "seconds": 1.479,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "b1bf3a23cc19d54ff6af37ddd1b7fde823fa45d848bab804bc6ae5cbd41f72fd",
+      "timed_out": false
+    },
+    {
+      "bank": "map-sprites",
+      "command": [
+        "python3",
+        "tools/verify_map_sprites_definition_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/map-sprites-definition-id1-pixel-ab-v1"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "bbox_inclusive": [
+          178,
+          64,
+          215,
+          71
+        ],
+        "changed_pixel_count": 213,
+        "entry_id": 1,
+        "verified": true
+      },
+      "seconds": 1.528,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "418e18fa6076f260b520de257667b16004641fc01840629cae4d29a03640b8fe",
+      "timed_out": false
+    },
+    {
+      "bank": "maps",
+      "command": [
+        "python3",
+        "tools/verify_map41_primary_layout_pixel_ab_evidence.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/map41-primary-layout-pixel-ab-v1"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "errors": [],
+        "schema": "map41-primary-layout-pixel-ab-verification-v1",
+        "summary": {
+          "differing_pixel_count": 204,
+          "natural_entry": true,
+          "runtime_layout_word": "0x0201BF08",
+          "screen_bbox": [
+            8,
+            0,
+            39,
+            7
+          ],
+          "vram_differing_byte_count": 8
+        },
+        "verified": true
+      },
+      "seconds": 0.495,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "7f3d6c6a30b3e5b3ac7893e9566811eeb7fae80bbd059228a11ab47774173647",
+      "timed_out": false
+    },
+    {
+      "bank": "menu-ui",
+      "command": [
+        "python3",
+        "tools/verify_menu_portrait_pixel_ab_evidence.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/menu-portrait-pixel-ab-v1"
+      ],
+      "exit_code": 1,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "errors": [
+          "portrait independent implementation hash mismatch"
+        ],
+        "verified": false
+      },
+      "seconds": 0.135,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "5d83f73e6940692b74c7cea2710ade6586cf2aaf92c48b355ee453ee9f8f382a",
+      "timed_out": false
+    },
+    {
+      "bank": "palettes",
+      "command": [
+        "python3",
+        "tools/verify_motion_effect_parameter_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/motion-effect-parameter-pixel-ab-v1"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "errors": [],
+        "field": "y_offset",
+        "natural_gameplay_route": true,
+        "pixel_change_count": 286,
+        "record_id": 0,
+        "verified": true
+      },
+      "seconds": 1.048,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "86cbd1edf0549ee43512875023f7e259cfe90470215498d85f208a35666fdfac",
+      "timed_out": false
+    },
+    {
+      "bank": "sappy-engine",
+      "command": [
+        "python3",
+        "tools/verify_sappy_engine_master_enable_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/sappy-engine-master-enable-ab-v1",
+        "--binary",
+        "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "errors": [],
+        "verified": true
+      },
+      "seconds": 1.015,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "8131e15b02099361bec95a0c779abe510d132ec29003bba1501dbbc5da53b1c7",
+      "timed_out": false
+    },
+    {
+      "bank": "tile-assets",
+      "command": [
+        "python3",
+        "tools/verify_tile_asset_descriptor_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/tile-asset-descriptor2-pixel-ab-v1"
+      ],
+      "exit_code": 0,
+      "input_identity_unchanged": true,
+      "json_payload": {
+        "changed_pixel_count": 38400,
+        "descriptor_id": 2,
+        "verified": true
+      },
+      "seconds": 1.602,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "f7f55ffdbf04221131ea52d1f29ce2e09f122798d23bf52bb6658664704e4ab8",
+      "timed_out": false
+    }
+  ],
+  "exit_zero_count": 10,
+  "global_exhaustive_claim": false,
+  "new_runtime_samples": 0,
+  "schema": "bank-existing-runtime-replay-v1"
+}

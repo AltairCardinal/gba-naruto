@@ -1,0 +1,145 @@
+{
+  "accepted_new_record_count": 0,
+  "literal_candidate_count": 6,
+  "literal_candidates": [
+    {
+      "block_id": "block-thumb-079a8a",
+      "interpreter_callsite": 498316,
+      "literal": 498356,
+      "parameter_flow_replayed": true,
+      "pool": [
+        17067,
+        21550
+      ],
+      "site": 498314,
+      "syntax_candidate_range": [
+        17077,
+        17085
+      ],
+      "syntax_opcode_sequence": [
+        1,
+        0
+      ],
+      "target": 17077
+    },
+    {
+      "block_id": "block-thumb-079ad6",
+      "interpreter_callsite": 498394,
+      "literal": 498544,
+      "parameter_flow_replayed": true,
+      "pool": [
+        17067,
+        21550
+      ],
+      "site": 498392,
+      "syntax_exclusion": "unsupported opcode 2",
+      "target": 17085
+    },
+    {
+      "block_id": "block-thumb-079aec",
+      "interpreter_callsite": 498414,
+      "literal": 498548,
+      "parameter_flow_replayed": true,
+      "pool": [
+        17067,
+        21550
+      ],
+      "site": 498412,
+      "syntax_candidate_range": [
+        17090,
+        17094
+      ],
+      "syntax_opcode_sequence": [
+        3,
+        4,
+        0
+      ],
+      "target": 17090
+    },
+    {
+      "block_id": "block-thumb-079b1c",
+      "interpreter_callsite": 498462,
+      "literal": 498560,
+      "parameter_flow_replayed": true,
+      "pool": [
+        17067,
+        21550
+      ],
+      "site": 498460,
+      "syntax_candidate_range": [
+        17077,
+        17085
+      ],
+      "syntax_opcode_sequence": [
+        1,
+        0
+      ],
+      "target": 17077
+    },
+    {
+      "block_id": "block-thumb-079b2c",
+      "interpreter_callsite": 498480,
+      "literal": 498544,
+      "parameter_flow_replayed": true,
+      "pool": [
+        17067,
+        21550
+      ],
+      "site": 498478,
+      "syntax_exclusion": "unsupported opcode 2",
+      "target": 17085
+    },
+    {
+      "block_id": "block-thumb-079b42",
+      "interpreter_callsite": 498500,
+      "literal": 498548,
+      "parameter_flow_replayed": true,
+      "pool": [
+        17067,
+        21550
+      ],
+      "site": 498498,
+      "syntax_candidate_range": [
+        17090,
+        17094
+      ],
+      "syntax_opcode_sequence": [
+        3,
+        4,
+        0
+      ],
+      "target": 17090
+    }
+  ],
+  "pool_denominator": [
+    [
+      22412,
+      30036
+    ],
+    [
+      17067,
+      21550
+    ],
+    [
+      3306,
+      4848
+    ]
+  ],
+  "promotion_bytes": 0,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema": "low-script-three-pool-literal-preflight-v1",
+  "scope": "Pinned v2/v3 literal sites only; candidate dataflow/syntax; no whole-ROM roots, full runtime/callee proof or physical table expansion.",
+  "upstream_cfg_contract": {
+    "files": {
+      "artifacts/rom-cfg-inventory-v2/manifest.json": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+      "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+      "artifacts/rom-cfg-inventory-v3/manifest.json": "6aa788611f73856e621f5c74aab544d47b034307a9dc1180f6fd8f81cb1f423b",
+      "artifacts/rom-cfg-inventory-v3/rom-cfg-inventory-v3.json": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+      "tools/verify_rom_cfg_inventory.py": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+      "tools/verify_rom_cfg_inventory_v3.py": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a"
+    },
+    "v2_graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+    "v3_graph_denominator_sha256": "456545dddd3c43a5e9c19be6483871dbd333e3af3ecd1da8a9a83f762bced482",
+    "verified": true
+  }
+}

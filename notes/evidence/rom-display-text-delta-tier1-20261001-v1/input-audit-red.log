@@ -1,0 +1,14 @@
+F
+======================================================================
+FAIL: test_reused_projection_helper_identity_is_checked (test_rom_display_text_delta.DisplayTextDeltaTests.test_reused_projection_helper_identity_is_checked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_rom_display_text_delta.py", line 163, in test_reused_projection_helper_identity_is_checked
+    with self.assertRaisesRegex(ValueError, 'input identity'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.131s
+
+FAILED (failures=1)

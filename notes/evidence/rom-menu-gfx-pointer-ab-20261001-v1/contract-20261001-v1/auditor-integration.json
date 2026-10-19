@@ -1,0 +1,44 @@
+{
+  "bank": {
+    "bank": "menu-ui",
+    "blockers": [
+      "menu-ui: unresolved limitations remain (4)",
+      "menu-ui: coverage status='artifact_verified_natural_show_portrait_load', expected 'exhaustive'",
+      "menu-ui: record coverage is not exhaustively ID-bound",
+      "menu-ui: field coverage is not exhaustive",
+      "menu-ui: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+    ],
+    "classification": "runtime_verified",
+    "complete": false,
+    "contracted_verifier_count": 1,
+    "coverage_status": "artifact_verified_natural_show_portrait_load",
+    "declared_records_covered": 1,
+    "declared_records_total": 63,
+    "evidence_valid": true,
+    "hash_bound_verifier_count": 1,
+    "limitations_count": 4,
+    "proof_bound": true
+  },
+  "bank_gate_blockers": [
+    "menu-ui: unresolved limitations remain (4)",
+    "menu-ui: coverage status='artifact_verified_natural_show_portrait_load', expected 'exhaustive'",
+    "menu-ui: record coverage is not exhaustively ID-bound",
+    "menu-ui: field coverage is not exhaustive",
+    "menu-ui: no verifier contract binds the exhaustive record, field, bank and evidence IDs"
+  ],
+  "blockers": [],
+  "replay": {
+    "command": [
+      "/usr/local/opt/python@3.14/bin/python3.14",
+      "tools/verify_menu_portrait_pointer_ab.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "build/experiments/active/menu-portrait-pointer-ab/contract-20261001-v1/final",
+      "--bank-contract"
+    ],
+    "contract_ok": true,
+    "exit_code": 0,
+    "label": "menu-ui"
+  }
+}

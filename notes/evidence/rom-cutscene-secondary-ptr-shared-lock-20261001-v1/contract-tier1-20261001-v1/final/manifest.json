@@ -1,0 +1,162 @@
+{
+  "artifact_schema": "cutscene-obj-secondary-ptr-verification-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline.png": {
+      "sha256": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+      "size": 30104
+    },
+    "candidate.png": {
+      "sha256": "fefbcf011f5a81ea550634fb43c6d070080da2c2a2ef83575e7045d1b3a531be",
+      "size": 30049
+    },
+    "evidence.json": {
+      "sha256": "0d098014a87b282bf3d9af26fbe86444454981663b5265ca4ef3bbd410b93870",
+      "size": 5693
+    },
+    "raw.tar": {
+      "sha256": "f00d5ee8bef0385e93f6a0c54b58e8da2e1be0d6fb9f642d8b0747dc5b2f7c93",
+      "size": 634880
+    }
+  },
+  "implementation_inputs": [
+    {
+      "path": "tools/build_cutscene_obj_secondary_ptr_ab.py",
+      "sha256": "a5cc12e104e7965ff94f7b44bf4bb2ddf5e36376f643fef12a6e604fdfbc2c32",
+      "size": 6985
+    },
+    {
+      "path": "tests/test_build_cutscene_obj_secondary_ptr_ab.py",
+      "sha256": "ea023cf6978a4a5af6c9919adfe09bf61baa9be88df63f303d66dd99690c75e0",
+      "size": 3789
+    },
+    {
+      "path": "tools/export_cutscene_obj_secondary_ptr_ab.py",
+      "sha256": "184a1283db9093f1ae790ba8761a44f428726b5f3d273236ab9ea49929303b77",
+      "size": 4124
+    },
+    {
+      "path": "tools/verify_cutscene_obj_secondary_ptr_ab.py",
+      "sha256": "b035ea6af209da77936e5b77ee71dc724c9e509cf99189539fcf040a8bc8433c",
+      "size": 24226
+    },
+    {
+      "path": "tests/test_cutscene_obj_secondary_ptr_ab.py",
+      "sha256": "b80bfd237cd2a40b62254087058dbe65d67baf40a2864eebfdbd43503c3c4d40",
+      "size": 8351
+    },
+    {
+      "path": "tests/test_cutscene_obj_secondary_ptr_publication.py",
+      "sha256": "972489270ed4a95ea5f173a46c090f17c20664b5429d7f047e0d0b7ee1f0ec48",
+      "size": 8850
+    }
+  ],
+  "public_contract_sha256": "86886cace99036319a4b3ccfda5be7ac67b0cd96b5e5177d8d7962933e7010ba",
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_cutscene_obj_secondary_ptr_ab.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "build/experiments/active/cutscene-secondary-ptr-contract/tier1-20261001-v1/final"
+    ],
+    "exit_code": 0,
+    "report": {
+      "bank": "cutscene-scripts",
+      "bank_sha256": "791f8173103259290c57b29908e010362c29de9caaa3c983e1e7b0336cb406a4",
+      "bbox_inclusive": [
+        42,
+        49,
+        195,
+        110
+      ],
+      "cells_covered": [
+        {
+          "field_id": "secondary_ptr",
+          "record_id": "1"
+        }
+      ],
+      "cells_total": 16,
+      "changed_pixel_count": 778,
+      "contract_ok": true,
+      "contract_sha256": "86886cace99036319a4b3ccfda5be7ac67b0cd96b5e5177d8d7962933e7010ba",
+      "errors": [],
+      "exhaustive": false,
+      "field_ids_covered": [
+        "secondary_ptr"
+      ],
+      "field_ids_total": [
+        "primary_ptr",
+        "secondary_ptr"
+      ],
+      "natural_victory_load": true,
+      "physical_gba_verified": false,
+      "pram_changed_offsets": [
+        898
+      ],
+      "raw_sha256": {
+        "build-manifest.json": "b5cdb6da8403551c96bcd618a154cda55be49eeb8669322d96dabd4c579463e0",
+        "plan.json": "af6c57775a7a16fc7fb7d0d543b0bcbf95bffc9e16a90fc9ccc307ff87e1ef3d",
+        "preflight-result.json": "8a96f3a68c1233b68e39864d3d2cc6b5e5c9a61abeb9d6ed863a47b92f41cdaa",
+        "runtime/input-baseline/audit.json": "d4bda2bc00ce9d6fbc5bbcbd66ae786ef27a99e492a97547dba0447fbd45af08",
+        "runtime/input-baseline/frame512.png": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+        "runtime/input-baseline/frame512.ss9": "7159959ff17ac6d0b31e938617185ba251655c095868d4f919d5fce830ad5753",
+        "runtime/input-baseline/guard.json": "e485f554ef26da3fbcc47966eea21ae173eea0489c8781fd1d4655b3fa6de010",
+        "runtime/input-baseline/guard.json.done.json": "a16c4dd11769391adb05b35c738fdcd6d8b47e4beefae090eb09e5c0dc167664",
+        "runtime/input-baseline/launch.json": "61429b0a34ce2396e9843d9aae068d91429cbf36727556ac927441f11befd432",
+        "runtime/input-baseline/residue.json": "44e5865ce05af8deb0e9ee91a30646a1071dd02d03e7d9817aed7a4ba4dadd67",
+        "runtime/input-baseline/sentinel.json": "d4bda2bc00ce9d6fbc5bbcbd66ae786ef27a99e492a97547dba0447fbd45af08",
+        "runtime/input-candidate/audit.json": "c9994a62730dd4fcb98390b1b2050fb3a28635e48ed012d42f9065c44668da56",
+        "runtime/input-candidate/frame512.png": "fefbcf011f5a81ea550634fb43c6d070080da2c2a2ef83575e7045d1b3a531be",
+        "runtime/input-candidate/frame512.ss9": "caa18e89dec300a2707594afe2ef02e137f7d1ed1c5b7ee51a358420d0c7bf02",
+        "runtime/input-candidate/guard.json": "1dee4a81fbb3f3cec6905c1284ca0d8d2421d54cdcae501225a8c6644aca961a",
+        "runtime/input-candidate/guard.json.done.json": "e03bcb2e77ed15f907c0a81c320dec05d373dd66f063ecd1f1a9c84b93c05bcd",
+        "runtime/input-candidate/launch.json": "fd3e00a61df6a9205e8515d956efe0921ccce9aeb14704e8c0d2a19901e8230f",
+        "runtime/input-candidate/residue.json": "bece6f7262cdd3c5c0fc1e46bb71bf618cdb64f2bae8ee32ea4d8e6297efe0f7",
+        "runtime/input-candidate/sentinel.json": "c9994a62730dd4fcb98390b1b2050fb3a28635e48ed012d42f9065c44668da56",
+        "runtime/zero-baseline-1/audit.json": "e266a87f1abef7396806c9d3bee26c390b86503f41c3a90706f8a0a082fc0488",
+        "runtime/zero-baseline-1/frame512.png": "fab56a6adcddf979bf3b562d7461677fdff452915964e492a36a4b30158f237f",
+        "runtime/zero-baseline-1/frame512.ss9": "1ea06dcde0c66c6ee78b0e8e6983529f0b3d60160e183e8c5828956f9b128d08",
+        "runtime/zero-baseline-1/guard.json": "bca7d29cf850ff3773fbc38b29c418b8144a75c909f9a888bb96f2701e3088e7",
+        "runtime/zero-baseline-1/guard.json.done.json": "712c3fc1585438d1bf5a111c1d29b231b7671b5f756dc9992a1c434752f55b81",
+        "runtime/zero-baseline-1/launch.json": "addde4f4471d2f166af94913bc28bd0f34a55b3721c4476d0fba4ac094c0bb06",
+        "runtime/zero-baseline-1/residue.json": "9d383a0c9e03d97c022a2e59bb80ae42a41fcdc580f3b61fda5440c794c4c23f",
+        "runtime/zero-baseline-1/sentinel.json": "e266a87f1abef7396806c9d3bee26c390b86503f41c3a90706f8a0a082fc0488",
+        "runtime/zero-baseline-2/audit.json": "ff62cbdbddc1236daa4e06bb0e90556fa11a6b592556431452e6752d79ccdc78",
+        "runtime/zero-baseline-2/frame512.png": "fab56a6adcddf979bf3b562d7461677fdff452915964e492a36a4b30158f237f",
+        "runtime/zero-baseline-2/frame512.ss9": "1154827d84e39cb4a08e1fe911030baf3fcc61804f1d9f6c2618248875fd6d6f",
+        "runtime/zero-baseline-2/guard.json": "5568cbc9a63bfdaccd457206e4de6d44b1db686d92e9ec5968af47d952ada5ad",
+        "runtime/zero-baseline-2/guard.json.done.json": "e4aa408db8a41bd63185f5304b0660b5a9f89bd757ae9ed10c5fe4485fa1a946",
+        "runtime/zero-baseline-2/launch.json": "446e0b6a4eb3e192787ea7c0fdb9bcc844fa35f20c5b1cc9220c5020d8219b4c",
+        "runtime/zero-baseline-2/residue.json": "c8887a8c8f41122ab89b4c3804c78b653612c8bfa50d4e511a3e4e562e1ad2bc",
+        "runtime/zero-baseline-2/sentinel.json": "ff62cbdbddc1236daa4e06bb0e90556fa11a6b592556431452e6752d79ccdc78",
+        "runtime/zero-candidate/audit.json": "ff77ae72cc1d6f8fac3b56369798dfa4c79c382eed37d115d2e647800f3c6c51",
+        "runtime/zero-candidate/frame512.png": "fab56a6adcddf979bf3b562d7461677fdff452915964e492a36a4b30158f237f",
+        "runtime/zero-candidate/frame512.ss9": "d568f6033fc3992be0a8248bb051aee5ea06faaaa1ac318268516bd5c0c40a0e",
+        "runtime/zero-candidate/guard.json": "17b6897619f04a1a36cccf73d862e8d052cece28f76f20c4f580b623452ac2a1",
+        "runtime/zero-candidate/guard.json.done.json": "187c138e6e6167994e9bd896f49baf4c034ad8eb1fa457ef06b8027927975c41",
+        "runtime/zero-candidate/launch.json": "130b18a8d48681943f4f8210ae0686173d62519d35d9b6756f2e3ea0cf7f6d1c",
+        "runtime/zero-candidate/residue.json": "58385bb02dfb23010cd13b599768db371475711e62375ed8e6d86832a2da963b",
+        "runtime/zero-candidate/sentinel.json": "ff77ae72cc1d6f8fac3b56369798dfa4c79c382eed37d115d2e647800f3c6c51"
+      },
+      "record_ids_covered": [
+        "1"
+      ],
+      "record_ids_total": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7"
+      ],
+      "schema": "cutscene-obj-secondary-ptr-verification-v1",
+      "verified": true,
+      "zero_input_sample_count": 3
+    }
+  }
+}

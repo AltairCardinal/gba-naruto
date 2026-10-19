@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import contextlib,runpy; from pathlib import Path; p=Path("build/experiments/active/animation-save-source/source-20261001-v1"); s=(p/"red-tests.log").open("x"); contextlib.redirect_stdout(s).__enter__(); contextlib.redirect_stderr(s).__enter__(); runpy.run_path(str(p/"test_save_source.py"),run_name="__main__")
+                                                                                                                                                                                                                                                           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen runpy>", line 287, in run_path
+  File "<frozen runpy>", line 98, in _run_module_code
+  File "<frozen runpy>", line 88, in _run_code
+  File "build/experiments/active/animation-save-source/source-20261001-v1/test_save_source.py", line 9, in <module>
+    from save_source import closure, raw_closure, binding, save, postbattle
+ModuleNotFoundError: No module named 'save_source'

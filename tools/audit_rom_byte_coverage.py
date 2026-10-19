@@ -1692,6 +1692,7 @@ CFG_STAGED_CODE_KIND_REGISTRY = {
         "story_callback_dependency_reachable_instruction_bytes",
         "story_next_dependency_cfg_reachable_instruction_bytes",
         "story_selector_dependency_cfg_reachable_instruction_bytes",
+        "small_cfg_dependency_reachable_instruction_bytes",
         "task_callback_078e38_closure_reachable_instruction_bytes",
         "v17_v18_helper_reachable_instruction_bytes",
     ],
@@ -35757,6 +35758,74 @@ def _story_callback_dependency_claims(root, rom, existing_claims):
     return claims
 
 
+SMALL_CFG_DEPENDENCY_BATCH_SPEC = {
+    'label': 'small CFG dependency four-packet batch',
+    'artifact': Path('artifacts/rom-small-cfg-dependency-batch-v1'),
+    'payload': 'rom-small-cfg-dependency-batch.json',
+    'manifest_size': 36644,
+    'manifest_sha': '1fb38be9cacc64857d308fdb48dd750718ee12a69a5c990b9985538daf9b8ff3',
+    'payload_size': 203761,
+    'payload_sha': '4420a02756dfc59f73e8e051440d174fafa590d62086e3812e96960f8ea0336d',
+    'verifier': Path('tools/verify_rom_small_cfg_dependency_batch.py'),
+    'verifier_sha': '013d4ca34c378d158e4e4673e7904a6253e4d78052743a30f333b2d75bf17fad',
+    'promotion_bytes': 118,
+    'claim_count': 21,
+    'batch': 'rom-small-cfg-dependency-batch-v1',
+    'hash_field': 'bytes_sha256',
+}
+
+
+def _small_cfg_dependency_batch_claims(root, rom, existing_claims):
+    """Project the four-packet batch only after exact raw and live-owner gates."""
+    from tools.verify_rom_small_cfg_dependency_batch import verify_artifact
+
+    # Publication pins are frozen after the final artifact has been verified.
+    spec = SMALL_CFG_DEPENDENCY_BATCH_SPEC.copy()
+    kinds = {
+        "reachable_thumb_code": ("armv4t_small_cfg_dependency_thumb_code",
+            "small_cfg_dependency_reachable_instruction_bytes", "thumb"),
+        "consumed_literal_words": ("armv4t_small_cfg_dependency_literal_words",
+            "small_cfg_dependency_consumed_literal_word_bytes", None),
+        "artifact_bound_align4_bytes": ("armv4t_small_cfg_dependency_alignment_bytes",
+            "small_cfg_dependency_alignment_bytes", None),
+        "bounded_dispatch_table_slots": ("armv4t_small_cfg_dependency_dispatch_table",
+            "small_cfg_dependency_dispatch_table_bytes", None),
+    }
+    def semantic(row, field):
+        if row.get("kind") not in kinds:
+            raise ValueError("small CFG semantic kind changed")
+        return kinds[row["kind"]][field]
+
+    spec.update(class_for=lambda row: semantic(row, 0),
+                kind_for=lambda row: semantic(row, 1),
+                mode_for=lambda row: semantic(row, 2))
+    # Freeze upstream ownership, not just the newly projected unknown ranges.
+    raw = (root / spec["artifact"] / spec["payload"]).read_bytes()
+    if _sha256(raw) != spec["payload_sha"]:
+        raise ValueError("small CFG payload identity changed")
+    live = {row["id"]: row for row in existing_claims}
+    def check_owners(value):
+        if isinstance(value, dict):
+            if value.get("role") == "primary" and "claim_kind" in value:
+                if live.get(value["id"]) != value:
+                    raise ValueError("small CFG live upstream owner changed")
+            for child in value.values():
+                check_owners(child)
+        elif isinstance(value, list):
+            for child in value:
+                check_owners(child)
+    check_owners(json.loads(raw)["packets"])
+    claims = _project_dependency_packet_claims(root, rom, existing_claims,
+        spec=spec, verify_root=verify_artifact)
+    for claim in claims:
+        claim["current_unknown_verified_by_auditor"] = True
+        claim["coverage_projection_gate"] = "current_unknown_before_projection"
+        claim["upstream_owner_verified_by_auditor"] = True
+        claim["alignment_gap_classification_claimed"] = (
+            claim["claim_kind"] == "small_cfg_dependency_alignment_bytes")
+    return claims
+
+
 def _padding_claim(rom: bytes) -> dict[str, Any]:
     start = len(rom)
     while start > 0 and rom[start - 1] == 0xFF:
@@ -35912,6 +35981,7 @@ def build_manifest(root: Path) -> dict[str, Any]:
     claims += _story_selector_dependency_cfg_claims(root, rom, claims)
     claims += _task_callback_078e38_closure_claims(root, rom, claims)
     claims += _cfg_proven_roots_v21_claims(root, rom, claims)
+    claims += _small_cfg_dependency_batch_claims(root, rom, claims)
     claims.sort(key=lambda claim: (claim["range"], claim["id"]))
     segments = atomize_claims(len(rom), claims)
     totals: dict[str, int] = {}

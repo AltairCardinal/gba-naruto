@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 51085,
+  "peak_tree_rss_mib": 225.3359375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 tools/export_rom_small_cfg_dependency_batch.py --root . --output build/experiments/active/small-cfg-tier2/resume-20260930-v1/final > build/experiments/active/small-cfg-tier2/resume-20260930-v1/publish-final.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T11:48:25.739892Z",
+  "finished_at": "2026-09-30T11:48:47.446955Z"
+}

@@ -1,0 +1,133 @@
+rom=rom/base.gba
+start=0x080741CA
+focus=0x0807425A
+size=0x130
+
+   0x080741CA: ldrb     r1, [r1]
+   0x080741CC: ldrb     r2, [r2, #3]
+   0x080741CE: movs     r3, #2
+   0x080741D0: bl       #0x806f210
+   0x080741D4: b        #0x8073e48
+   0x080741D6: movs     r0, r0
+   0x080741D8: ldr      r4, [r1]
+   0x080741DA: lsls     r2, r0, #8
+   0x080741DC: ldr      r2, [pc, #0x1c]
+   0x080741DE: ldr      r1, [r2, #4]
+   0x080741E0: adds     r0, r1, #0
+   0x080741E2: adds     r0, #0xc7
+   0x080741E4: ldrb     r0, [r0]
+   0x080741E6: adds     r1, #0xc8
+   0x080741E8: ldrb     r1, [r1]
+   0x080741EA: ldrb     r2, [r2, #3]
+   0x080741EC: movs     r3, #2
+   0x080741EE: bl       #0x806f210
+   0x080741F2: movs     r6, #0x80
+   0x080741F4: lsls     r6, r6, #7
+   0x080741F6: bl       #0x807504e
+   0x080741FA: movs     r0, r0
+   0x080741FC: ldr      r4, [r1]
+   0x080741FE: lsls     r2, r0, #8
+   0x08074200: ldr      r0, [pc, #0x88]
+   0x08074202: ldrb     r1, [r0]
+   0x08074204: movs     r2, #1
+   0x08074206: orrs     r1, r2
+   0x08074208: strb     r1, [r0]
+   0x0807420A: movs     r5, #1
+   0x0807420C: ldr      r1, [pc, #0x80]
+   0x0807420E: mov      r8, r1
+   0x08074210: ldr      r2, [pc, #0x80]
+   0x08074212: movs     r0, #0xea
+   0x08074214: lsls     r0, r0, #1
+   0x08074216: muls     r0, r5, r0
+   0x08074218: mov      r3, r8
+   0x0807421A: adds     r4, r0, r3
+   0x0807421C: ldrb     r0, [r4]
+   0x0807421E: cmp      r0, #0
+   0x08074220: beq      #0x8074248
+   0x08074222: adds     r0, r4, #0
+   0x08074224: adds     r0, #0xcc
+   0x08074226: ldrb     r0, [r0]
+   0x08074228: cmp      r0, #0
+   0x0807422A: bne      #0x8074248
+   0x0807422C: adds     r0, r4, #0
+   0x0807422E: adds     r0, #0xc0
+   0x08074230: ldr      r0, [r0]
+   0x08074232: movs     r1, #0x70
+   0x08074234: ands     r0, r1
+   0x08074236: cmp      r0, #0
+   0x08074238: bne      #0x8074248
+   0x0807423A: adds     r0, r4, #0
+   0x0807423C: adds     r0, #0xcd
+   0x0807423E: ldrb     r0, [r0]
+   0x08074240: cmp      r0, #0xff
+   0x08074242: beq      #0x8074248
+   0x08074244: cmp      r0, #0
+   0x08074246: bne      #0x8074252
+   0x08074248: adds     r0, r5, #1
+   0x0807424A: lsls     r0, r0, #0x18
+   0x0807424C: lsrs     r5, r0, #0x18
+   0x0807424E: cmp      r5, #0xc
+   0x08074250: bls      #0x8074212
+   0x08074252: adds     r0, r2, #0
+   0x08074254: bl       #0x8067158
+   0x08074258: adds     r0, r5, #0
+=> 0x0807425A: bl       #0x80851f8
+   0x0807425E: ldr      r0, [pc, #0x38]
+   0x08074260: bl       #0x8067158
+   0x08074264: ldr      r1, [pc, #0x34]
+   0x08074266: ldr      r0, [pc, #0x38]
+   0x08074268: movs     r4, #0x8d
+   0x0807426A: lsls     r4, r4, #2
+   0x0807426C: adds     r1, r1, r4
+   0x0807426E: adds     r0, #0x10
+   0x08074270: ldm      r0!, {r2, r6, r7}
+   0x08074272: stm      r1!, {r2, r6, r7}
+   0x08074274: ldm      r0!, {r3, r4}
+   0x08074276: stm      r1!, {r3, r4}
+   0x08074278: ldr      r2, [pc, #0x10]
+   0x0807427A: ldrb     r1, [r2]
+   0x0807427C: movs     r0, #0xfe
+   0x0807427E: ands     r0, r1
+   0x08074280: strb     r0, [r2]
+   0x08074282: movs     r6, #0xc0
+   0x08074284: lsls     r6, r6, #7
+   0x08074286: bl       #0x807504e
+   0x0807428A: movs     r0, r0
+   0x0807428C: lsls     r4, r6, #1
+   0x0807428E: lsls     r0, r0, #0xc
+   0x08074290: lsrs     r0, r0
+   0x08074292: lsls     r2, r0, #8
+   0x08074294: asrs     r5, r3, #0x1d
+   0x08074296: lsrs     r0, r0, #0x20
+   0x08074298: asrs     r5, r7, #0x1d
+   0x0807429A: lsrs     r0, r0, #0x20
+   0x0807429C: ldr      r4, [r1]
+   0x0807429E: lsls     r2, r0, #8
+   0x080742A0: bhs      #0x80742f4
+   0x080742A2: lsls     r2, r0, #8
+   0x080742A4: ldr      r0, [pc, #0x2c]
+   0x080742A6: ldrb     r0, [r0]
+   0x080742A8: cmp      r0, #0
+   0x080742AA: bne      #0x80742ae
+   0x080742AC: b        #0x80743bc
+   0x080742AE: ldr      r0, [pc, #0x28]
+   0x080742B0: bl       #0x8067158
+   0x080742B4: ldr      r0, [pc, #0x24]
+   0x080742B6: ldr      r2, [pc, #0x28]
+   0x080742B8: movs     r1, #0x14
+   0x080742BA: bl       #0x8085a40
+   0x080742BE: bl       #0x8085a74
+   0x080742C2: lsls     r0, r0, #0x18
+   0x080742C4: lsrs     r4, r0, #0x18
+   0x080742C6: movs     r0, #1
+   0x080742C8: bl       #0x809c574
+   0x080742CC: cmp      r4, #0
+   0x080742CE: beq      #0x80742be
+   0x080742D0: b        #0x80743bc
+   0x080742D2: movs     r0, r0
+   0x080742D4: ldr      r4, [r0]
+   0x080742D6: lsls     r2, r0, #8
+   0x080742D8: asrs     r5, r3, #0x1d
+   0x080742DA: lsrs     r0, r0, #0x20
+   0x080742DC: ldr      r0, [r0, #0x24]
+   0x080742DE: lsls     r2, r0, #8

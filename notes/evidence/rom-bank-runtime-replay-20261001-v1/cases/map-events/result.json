@@ -1,0 +1,28 @@
+{
+  "bank": "map-events",
+  "command": [
+    "python3",
+    "tools/verify_map_events_e4_handler_pixel_ab.py",
+    "--root",
+    ".",
+    "--artifact",
+    "artifacts/map-events-e4-handler-pixel-ab-v1"
+  ],
+  "exit_code": 0,
+  "input_identity_unchanged": true,
+  "json_payload": {
+    "bbox_inclusive": [
+      0,
+      0,
+      239,
+      159
+    ],
+    "changed_pixel_count": 37436,
+    "entry_id": 228,
+    "verified": true
+  },
+  "seconds": 1.479,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "b1bf3a23cc19d54ff6af37ddd1b7fde823fa45d848bab804bc6ae5cbd41f72fd",
+  "timed_out": false
+}

@@ -1,0 +1,89 @@
+{
+  "artifact_id": "menu-portrait-pixel-ab-v1",
+  "artifact_schema": "menu-portrait-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "files": {
+    "raw/baseline/audit.json": "e0799ce02891683624cff9949eacbe1f0b9d37282062b469ec0d67084adb8df8",
+    "raw/baseline/frame80.png": "c1fed5e9ddd63b55334cd12345cde3eb9e9144acbb4f4cab746bc80b9e0514e6",
+    "raw/baseline/frame80.ss9": "189bcc8d12f3176596d97a28a9abd56305178657fff6f36793841d98b66ed492",
+    "raw/baseline/guard.json": "22fa3f012cb69d8a12044b35757aed31541d67f784576fff5db1b4766627af3c",
+    "raw/baseline/portrait.png": "40cf158dc46eba1e4213dc58ffe278994738a5343931d3e7a992cde93d9d737f",
+    "raw/baseline/sentinel.json": "e0799ce02891683624cff9949eacbe1f0b9d37282062b469ec0d67084adb8df8",
+    "raw/baseline/spec.json": "c3b85941f3783c2362044529be908b8f0b4b4fcff0ea8b1400a5a04c1a17ee40",
+    "raw/build-manifest.json": "1b2ec1560b5492ef90c354646f44a5f9ba872384ae3e6831984030474811bd69",
+    "raw/candidate/audit.json": "c5c1a84115e901a00e9ef59d83c17a8a5309c28b5e9891b65db7682c440f0c20",
+    "raw/candidate/frame80.png": "ffad0b4540e55d0fdcffd2038c6811545d5a86bb68eb8c66d090b7d6b279dfdf",
+    "raw/candidate/frame80.ss9": "41e45eb4374b425911532165e332ee7acf9d8b55156c7c4088ac627b64214fdf",
+    "raw/candidate/guard.json": "a187f260caf0addfd611995b78f8d6393de6e8012f65fc9320733f68a2868f01",
+    "raw/candidate/portrait.png": "430940e7779ff4307cd7e2286e789586432d07078a5de937e23846e90172922f",
+    "raw/candidate/sentinel.json": "c5c1a84115e901a00e9ef59d83c17a8a5309c28b5e9891b65db7682c440f0c20",
+    "raw/candidate/spec.json": "b5265261e5d1bd64ddf50d22c2ce71972d681cb5473593f290163d2055be4283",
+    "runtime-evidence.json": "2ec298d557af7cb78325cd9727acaf56085caaeb2e8a8533611b98476446bdad"
+  },
+  "implementation_sha256": {
+    "tools/build_menu_portrait_pixel_ab.py": "8c4eddb465c42ab09126555c7c67a108e6ad2b25096679172e1e63b615ebf92b",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_menu_portrait_pixel_ab_evidence.py": "77fccf0f3ea7a5c9a14fb2572c3f5bcce2095a9761eb8283962780a81e6f1ce2",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_menu_portrait_relocations.py": "e2c1fb2389e76bc5b242538b21f30c3d54c96269f5294575ed31582139562b52",
+    "tools/import_menu_portraits.py": "289b3c9fe5bb45956189a129ba5512a0967836208aebb9cbc135e2b04eba7e91",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/verify_menu_portrait_pixel_ab_evidence.py": "a47599198e5e4317ffdecf3a52499a38cb086859c37750aed1e75ed0c05fc0be",
+    "tools/verify_menu_portrait_writeback_audit.py": "6df2c2b1c9b2495d882a01111da9894da9adab894161b3126f28d0cb97324734"
+  },
+  "parent": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-9.ss9",
+    "sha256": "5635916176865f63b12154ea1c68e202393baaf6e1427473fb6be8a84b18eba8"
+  },
+  "payload_file": "runtime-evidence.json",
+  "payload_sha256": "2ec298d557af7cb78325cd9727acaf56085caaeb2e8a8533611b98476446bdad",
+  "raw_files": {
+    "baseline/audit.json": "e0799ce02891683624cff9949eacbe1f0b9d37282062b469ec0d67084adb8df8",
+    "baseline/frame80.png": "c1fed5e9ddd63b55334cd12345cde3eb9e9144acbb4f4cab746bc80b9e0514e6",
+    "baseline/frame80.ss9": "189bcc8d12f3176596d97a28a9abd56305178657fff6f36793841d98b66ed492",
+    "baseline/guard.json": "22fa3f012cb69d8a12044b35757aed31541d67f784576fff5db1b4766627af3c",
+    "baseline/portrait.png": "40cf158dc46eba1e4213dc58ffe278994738a5343931d3e7a992cde93d9d737f",
+    "baseline/sentinel.json": "e0799ce02891683624cff9949eacbe1f0b9d37282062b469ec0d67084adb8df8",
+    "baseline/spec.json": "c3b85941f3783c2362044529be908b8f0b4b4fcff0ea8b1400a5a04c1a17ee40",
+    "build-manifest.json": "1b2ec1560b5492ef90c354646f44a5f9ba872384ae3e6831984030474811bd69",
+    "candidate/audit.json": "c5c1a84115e901a00e9ef59d83c17a8a5309c28b5e9891b65db7682c440f0c20",
+    "candidate/frame80.png": "ffad0b4540e55d0fdcffd2038c6811545d5a86bb68eb8c66d090b7d6b279dfdf",
+    "candidate/frame80.ss9": "41e45eb4374b425911532165e332ee7acf9d8b55156c7c4088ac627b64214fdf",
+    "candidate/guard.json": "a187f260caf0addfd611995b78f8d6393de6e8012f65fc9320733f68a2868f01",
+    "candidate/portrait.png": "430940e7779ff4307cd7e2286e789586432d07078a5de937e23846e90172922f",
+    "candidate/sentinel.json": "c5c1a84115e901a00e9ef59d83c17a8a5309c28b5e9891b65db7682c440f0c20",
+    "candidate/spec.json": "b5265261e5d1bd64ddf50d22c2ce71972d681cb5473593f290163d2055be4283"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_311_portraits_runtime_verified": false,
+    "all_portrait_transitions_runtime_verified": false,
+    "natural_show_portrait_load": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "row_1_variant_0_single_pixel": true
+  },
+  "source_catalog": "artifacts/menu-portraits-v1/manifest.json",
+  "source_catalog_sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_menu_portrait_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/menu-portrait-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "verified": true
+    }
+  }
+}

@@ -1,0 +1,14 @@
+F
+======================================================================
+FAIL: test_cached_cfg_does_not_hide_changed_upstream_file (tests.test_analyze_rom_renderer_handler_graphs.HandlerGraphTests.test_cached_cfg_does_not_hide_changed_upstream_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_analyze_rom_renderer_handler_graphs.py", line 67, in test_cached_cfg_does_not_hide_changed_upstream_file
+    with self.assertRaisesRegex(ValueError, 'upstream identity'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 11.049s
+
+FAILED (failures=1)

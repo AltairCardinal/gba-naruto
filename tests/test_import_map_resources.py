@@ -112,7 +112,8 @@ class ImportMapResourcesTests(unittest.TestCase):
         row = next(
             value
             for value in self.resources.values()
-            if value["role"] == "tile_graphics"
+            if value["role"] == "collision_grid"
+            and value["sha256"] == "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91"
             and len(value["physical_offsets"]) > 1
         )
         content = bytearray(
@@ -275,7 +276,8 @@ class ImportMapResourcesTests(unittest.TestCase):
         row = next(
             value
             for value in self.resources.values()
-            if value["role"] == "tile_graphics"
+            if value["role"] == "collision_grid"
+            and value["sha256"] == "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91"
         )
         content = bytearray(
             (
@@ -381,15 +383,15 @@ class ImportMapResourcesTests(unittest.TestCase):
             payload["summary"]["original_roundtrip_fit_slot_count"],
         )
         self.assertEqual(
-            135,
+            70,
             payload["summary"]["mutation_fit_all_alias_content_count"],
         )
         self.assertEqual(
-            31,
+            96,
             payload["summary"]["mutation_overflow_content_count"],
         )
-        self.assertEqual(163, payload["summary"]["mutation_fit_slot_count"])
-        self.assertEqual(54, payload["summary"]["mutation_overflow_slot_count"])
+        self.assertEqual(91, payload["summary"]["mutation_fit_slot_count"])
+        self.assertEqual(126, payload["summary"]["mutation_overflow_slot_count"])
         self.assertTrue(
             payload["scope"]["linked_resource_index_validation_complete"]
         )

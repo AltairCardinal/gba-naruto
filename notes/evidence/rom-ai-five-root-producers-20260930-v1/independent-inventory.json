@@ -1,0 +1,150 @@
+{
+  "computed_incoming_producers_closed": false,
+  "decoder_sources": {
+    "tools/verify_rom_boot_interwork.py": "66d34dc56f837e09c22fcebdd58e2e67b132c133ea7402e8d50f7e187d54984b",
+    "tools/verify_rom_prebattle_menu_controller_cfg.py": "387c1b00a1c38b424e6f30d567374329493c1d3309c32a29fd905b77a65b3d2f"
+  },
+  "natural_runtime_reachability_proved": false,
+  "original_inventory_sha256": "62320a35d1788803d3c1e48771939bd1c2933367bbc0573c5c8f757fb33c587b",
+  "promotion_bytes": 0,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "scan_range": [
+    0,
+    6291456
+  ],
+  "schema": "rom-ai-five-root-producer-independent-preflight-v1",
+  "scope": "all halfword Thumb BL/B/Bcond encodings, all word ARM B/BL encodings excluding cond=NV, exact tagged and untagged pointer words at every byte; shapes only",
+  "targets": {
+    "06aa64": {
+      "arm_shapes": [],
+      "exact_words": [
+        {
+          "offsets": [],
+          "tag": 0,
+          "word": 134654564
+        },
+        {
+          "offsets": [],
+          "tag": 1,
+          "word": 134654565
+        }
+      ],
+      "thumb_shapes": [
+        {
+          "mnemonic": "bl",
+          "offset": 437400,
+          "raw_hex": "fff7e4fe"
+        },
+        {
+          "mnemonic": "bl",
+          "offset": 437588,
+          "raw_hex": "fff786fe"
+        },
+        {
+          "mnemonic": "bl",
+          "offset": 451232,
+          "raw_hex": "fcf7e0fb"
+        }
+      ]
+    },
+    "06acac": {
+      "arm_shapes": [],
+      "exact_words": [
+        {
+          "offsets": [],
+          "tag": 0,
+          "word": 134655148
+        },
+        {
+          "offsets": [],
+          "tag": 1,
+          "word": 134655149
+        }
+      ],
+      "thumb_shapes": [
+        {
+          "mnemonic": "bl",
+          "offset": 451356,
+          "raw_hex": "fcf7c6fc"
+        },
+        {
+          "mnemonic": "bl",
+          "offset": 451364,
+          "raw_hex": "fcf7c2fc"
+        }
+      ]
+    },
+    "06e1b4": {
+      "arm_shapes": [],
+      "exact_words": [
+        {
+          "offsets": [],
+          "tag": 0,
+          "word": 134668724
+        },
+        {
+          "offsets": [],
+          "tag": 1,
+          "word": 134668725
+        }
+      ],
+      "thumb_shapes": [
+        {
+          "mnemonic": "bl",
+          "offset": 479646,
+          "raw_hex": "f9f709f8"
+        }
+      ]
+    },
+    "084274": {
+      "arm_shapes": [],
+      "exact_words": [
+        {
+          "offsets": [],
+          "tag": 0,
+          "word": 134759028
+        },
+        {
+          "offsets": [],
+          "tag": 1,
+          "word": 134759029
+        }
+      ],
+      "thumb_shapes": [
+        {
+          "mnemonic": "bl",
+          "offset": 545542,
+          "raw_hex": "fef7b5ff"
+        }
+      ]
+    },
+    "0851f8": {
+      "arm_shapes": [],
+      "exact_words": [
+        {
+          "offsets": [],
+          "tag": 0,
+          "word": 134763000
+        },
+        {
+          "offsets": [],
+          "tag": 1,
+          "word": 134763001
+        }
+      ],
+      "thumb_shapes": [
+        {
+          "mnemonic": "bl",
+          "offset": 475738,
+          "raw_hex": "10f0cdff"
+        },
+        {
+          "mnemonic": "bl",
+          "offset": 475982,
+          "raw_hex": "10f053ff"
+        }
+      ]
+    }
+  },
+  "verified": true
+}

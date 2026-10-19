@@ -1,0 +1,96 @@
+test_call_and_branch_are_not_skipped (__main__.AnalysisTests.test_call_and_branch_are_not_skipped) ... ERROR
+test_descriptor_reads_only_sentinel_head (__main__.AnalysisTests.test_descriptor_reads_only_sentinel_head) ... ERROR
+test_flags_and_callback_are_distinct_stack_arguments (__main__.AnalysisTests.test_flags_and_callback_are_distinct_stack_arguments) ... ERROR
+test_flags_mask_is_eight_not_bit_eight (__main__.AnalysisTests.test_flags_mask_is_eight_not_bit_eight) ... ERROR
+test_literal_and_shift_reconstruct_base_arguments (__main__.AnalysisTests.test_literal_and_shift_reconstruct_base_arguments) ... ERROR
+test_missing_descriptor_sentinel_fails_closed (__main__.AnalysisTests.test_missing_descriptor_sentinel_fails_closed) ... ERROR
+test_unknown_load_clobbers_previous_constant (__main__.AnalysisTests.test_unknown_load_clobbers_previous_constant) ... ERROR
+
+======================================================================
+ERROR: test_call_and_branch_are_not_skipped (__main__.AnalysisTests.test_call_and_branch_are_not_skipped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/test_analysis.py", line 12, in setUp
+    spec.loader.exec_module(self.module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/analysis.py'
+
+======================================================================
+ERROR: test_descriptor_reads_only_sentinel_head (__main__.AnalysisTests.test_descriptor_reads_only_sentinel_head)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/test_analysis.py", line 12, in setUp
+    spec.loader.exec_module(self.module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/analysis.py'
+
+======================================================================
+ERROR: test_flags_and_callback_are_distinct_stack_arguments (__main__.AnalysisTests.test_flags_and_callback_are_distinct_stack_arguments)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/test_analysis.py", line 12, in setUp
+    spec.loader.exec_module(self.module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/analysis.py'
+
+======================================================================
+ERROR: test_flags_mask_is_eight_not_bit_eight (__main__.AnalysisTests.test_flags_mask_is_eight_not_bit_eight)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/test_analysis.py", line 12, in setUp
+    spec.loader.exec_module(self.module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/analysis.py'
+
+======================================================================
+ERROR: test_literal_and_shift_reconstruct_base_arguments (__main__.AnalysisTests.test_literal_and_shift_reconstruct_base_arguments)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/test_analysis.py", line 12, in setUp
+    spec.loader.exec_module(self.module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/analysis.py'
+
+======================================================================
+ERROR: test_missing_descriptor_sentinel_fails_closed (__main__.AnalysisTests.test_missing_descriptor_sentinel_fails_closed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/test_analysis.py", line 12, in setUp
+    spec.loader.exec_module(self.module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/analysis.py'
+
+======================================================================
+ERROR: test_unknown_load_clobbers_previous_constant (__main__.AnalysisTests.test_unknown_load_clobbers_previous_constant)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/test_analysis.py", line 12, in setUp
+    spec.loader.exec_module(self.module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 755, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 892, in get_code
+  File "<frozen importlib._bootstrap_external>", line 950, in get_data
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/analysis.py'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.004s
+
+FAILED (errors=7)

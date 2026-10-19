@@ -1,0 +1,83 @@
+{
+  "cfg_literal_consumers": [
+    {
+      "block_id": "block-thumb-079ad4",
+      "block_range": [
+        498388,
+        498390
+      ],
+      "disassembly": [
+        {
+          "bytes": "254d",
+          "mnemonic": "ldr",
+          "offset": 498388,
+          "operands": "r5, [pc, #0x94]"
+        }
+      ],
+      "literal": 498540,
+      "site": 498388
+    },
+    {
+      "block_id": "block-thumb-079b2a",
+      "block_range": [
+        498474,
+        498476
+      ],
+      "disassembly": [
+        {
+          "bytes": "104d",
+          "mnemonic": "ldr",
+          "offset": 498474,
+          "operands": "r5, [pc, #0x40]"
+        }
+      ],
+      "literal": 498540,
+      "site": 498474
+    },
+    {
+      "block_id": "block-thumb-06722a",
+      "block_range": [
+        422442,
+        422446
+      ],
+      "disassembly": [
+        {
+          "bytes": "0648",
+          "mnemonic": "ldr",
+          "offset": 422442,
+          "operands": "r0, [pc, #0x18]"
+        },
+        {
+          "bytes": "0668",
+          "mnemonic": "ldr",
+          "offset": 422444,
+          "operands": "r6, [r0]"
+        }
+      ],
+      "literal": 422468,
+      "site": 422442
+    }
+  ],
+  "computed_writers_exhausted": false,
+  "exact_word_occurrences": [
+    422468,
+    498540,
+    552576
+  ],
+  "promotion_bytes": 0,
+  "schema": "renderer-ram-text-slot-preflight-v1",
+  "slot": 33597576,
+  "upstream_cfg_contract": {
+    "files": {
+      "artifacts/rom-cfg-inventory-v2/manifest.json": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+      "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+      "artifacts/rom-cfg-inventory-v3/manifest.json": "6aa788611f73856e621f5c74aab544d47b034307a9dc1180f6fd8f81cb1f423b",
+      "artifacts/rom-cfg-inventory-v3/rom-cfg-inventory-v3.json": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+      "tools/verify_rom_cfg_inventory.py": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+      "tools/verify_rom_cfg_inventory_v3.py": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a"
+    },
+    "v2_graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+    "v3_graph_denominator_sha256": "456545dddd3c43a5e9c19be6483871dbd333e3af3ecd1da8a9a83f762bced482",
+    "verified": true
+  }
+}

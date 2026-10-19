@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 15995,
+  "peak_tree_rss_mib": 53.9375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 -m unittest tests.test_verify_rom_scheduler_callback_lifecycle_gate.SchedulerCallbackLifecycleGateTests.test_direct_registration_and_consumer_denominators_are_exact tests.test_verify_rom_scheduler_callback_lifecycle_gate.SchedulerCallbackLifecycleGateTests.test_pointer_and_registration_denominators_fail_closed > build/experiments/active/coroutine-record-lifecycle/shared-scheduler-preflight-20260930-v1/reuse-tests.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T15:50:51.213518Z",
+  "finished_at": "2026-09-30T15:50:58.435010Z"
+}

@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 49220,
+  "peak_tree_rss_mib": 172.23828125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 build/experiments/active/ai-producer-denominator/five-roots-20260930-v1/replay_inventory.py . > build/experiments/active/ai-producer-denominator/five-roots-20260930-v1/inventory.json 2> build/experiments/active/ai-producer-denominator/five-roots-20260930-v1/stderr.log"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T13:29:19.271519Z",
+  "finished_at": "2026-09-30T13:29:37.864786Z"
+}

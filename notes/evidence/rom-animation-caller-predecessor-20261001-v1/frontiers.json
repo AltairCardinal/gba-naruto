@@ -1,0 +1,502 @@
+{
+  "callee_targets": [
+    {
+      "head_raw_hex": "f0b557464e464546e0b482b000900191",
+      "head_sha256": "19d253cf021a7a73595ede1203dbcdbcbf38e5e6fff158c528fd91b3dfe84a39",
+      "target": 403124
+    },
+    {
+      "head_raw_hex": "014901200870704768bd0102f0b54f46",
+      "head_sha256": "5366e396e9ff5d86c77dedfce05a037d86f8256e5efd9848ea8ee15842fdbce7",
+      "target": 415516
+    },
+    {
+      "head_raw_hex": "70b54e46454660b481460e1c90461c1c",
+      "head_sha256": "338791aec2a1df5c0c1b4091f1e60ddec1193df9bd7cb62c3fa781c0e8333289",
+      "target": 419672
+    },
+    {
+      "head_raw_hex": "f0b50004070c1204140c002640202040",
+      "head_sha256": "575f6fb77d6c3da06414e8733662469e04043af13dc34c71773fb274cce1a9c7",
+      "target": 456124
+    },
+    {
+      "head_raw_hex": "f0b5474680b481b00e4d0f4e00040028",
+      "head_sha256": "f31d296267d819bc62f8b90d97f5cb80e9bf9fbf6a4dde50be65084e9c9169c8",
+      "target": 578944
+    }
+  ],
+  "field_count": 25,
+  "frontier_kinds": {
+    "constant_producer": 1,
+    "unproved_callee_register_effect": 24,
+    "unproved_callee_stack_effect": 1
+  },
+  "inputs": {
+    "frontier.py": "59cb07807230115d9632c98c4e2783e34562efb0d4491250a52cc408a4604df8",
+    "profile_frontiers.py": "22ab1802b515bb95ecfe0c825a664bc35037decc7a31c1257641e62ac044f3d8",
+    "test_frontier.py": "fa75622d24672003880e3e47c5b44a7de22182dfd11cd3f9c5641f3134183f75"
+  },
+  "parent_sha256": "652c469e1ead4c643826888684066b85cef3002a71af96c5ffe50d978ab4f11a",
+  "promotion_bytes": 0,
+  "rows": [
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 456564,
+            "kind": "constant_producer",
+            "register": 6,
+            "value": 8
+          },
+          {
+            "at": 456898,
+            "index": 6,
+            "kind": "unproved_callee_register_effect",
+            "target": 456124,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 41
+      },
+      "field": "flags",
+      "site": 456980
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 491048,
+            "index": 72,
+            "kind": "unproved_callee_stack_effect",
+            "target": 403124,
+            "value_kind": "stack"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 18
+      },
+      "field": "callback",
+      "site": 491086
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 490994,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 66
+      },
+      "field": "callback",
+      "site": 491132
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 490994,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 84
+      },
+      "field": "callback",
+      "site": 491170
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 494318,
+            "index": 7,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 20
+      },
+      "field": "callback",
+      "site": 494360
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 494318,
+            "index": 7,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 37
+      },
+      "field": "callback",
+      "site": 494396
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 496146,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 21
+      },
+      "field": "callback",
+      "site": 496190
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 496146,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 39
+      },
+      "field": "callback",
+      "site": 496228
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 549778,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 578944,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 12
+      },
+      "field": "callback",
+      "site": 549804
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 559774,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 578944,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 12
+      },
+      "field": "callback",
+      "site": 559800
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 582266,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 419672,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 21
+      },
+      "field": "callback",
+      "site": 582310
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 582266,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 419672,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 39
+      },
+      "field": "callback",
+      "site": 582348
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 599300,
+            "index": 6,
+            "kind": "unproved_callee_register_effect",
+            "target": 419672,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 20
+      },
+      "field": "callback",
+      "site": 599342
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 599300,
+            "index": 6,
+            "kind": "unproved_callee_register_effect",
+            "target": 419672,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 35
+      },
+      "field": "callback",
+      "site": 599374
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 599300,
+            "index": 6,
+            "kind": "unproved_callee_register_effect",
+            "target": 419672,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 52
+      },
+      "field": "callback",
+      "site": 599410
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 604402,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 21
+      },
+      "field": "callback",
+      "site": 604446
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 604402,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 40
+      },
+      "field": "callback",
+      "site": 604486
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 604402,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 59
+      },
+      "field": "callback",
+      "site": 604526
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 604402,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 77
+      },
+      "field": "callback",
+      "site": 604564
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 610178,
+            "index": 7,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 20
+      },
+      "field": "callback",
+      "site": 610220
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 610178,
+            "index": 7,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 37
+      },
+      "field": "callback",
+      "site": 610256
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 612006,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 21
+      },
+      "field": "callback",
+      "site": 612050
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 612006,
+            "index": 9,
+            "kind": "unproved_callee_register_effect",
+            "target": 415516,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 39
+      },
+      "field": "callback",
+      "site": 612088
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 613178,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 419672,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 18
+      },
+      "field": "callback",
+      "site": 613216
+    },
+    {
+      "dependency_report": {
+        "frontiers": [
+          {
+            "at": 613178,
+            "index": 5,
+            "kind": "unproved_callee_register_effect",
+            "target": 419672,
+            "value_kind": "register"
+          }
+        ],
+        "promotion_bytes": 0,
+        "scope": "planning only; branches not narrowed and allocator preservation is conditional",
+        "visited_dependency_states": 36
+      },
+      "field": "callback",
+      "site": 613254
+    }
+  ],
+  "schema": "animation-caller-dependency-frontiers-v1",
+  "scope": "Dependency work-package planning only; no complete field or callee proof."
+}

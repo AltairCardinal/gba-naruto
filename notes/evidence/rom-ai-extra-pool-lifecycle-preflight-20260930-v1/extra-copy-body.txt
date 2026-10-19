@@ -1,0 +1,21 @@
+rom=rom/base.gba
+start=0x0806ABCA
+focus=0x0806ABCA
+size=0x24
+
+=> 0x0806ABCA: adds     r0, r4, #0
+   0x0806ABCC: adds     r1, r6, #0
+   0x0806ABCE: movs     r2, #0xea
+   0x0806ABD0: lsls     r2, r2, #1
+   0x0806ABD2: bl       #0x809c3ec
+   0x0806ABD6: adds     r0, r4, #0
+   0x0806ABD8: adds     r0, #0xca
+   0x0806ABDA: mov      r7, sb
+   0x0806ABDC: strb     r7, [r0]
+   0x0806ABDE: adds     r0, r5, #1
+   0x0806ABE0: mov      r1, r8
+   0x0806ABE2: strb     r0, [r1]
+   0x0806ABE4: adds     r0, r4, #0
+   0x0806ABE6: movs     r1, #0
+   0x0806ABE8: bl       #0x806a780
+   0x0806ABEC: b        #0x806ac46

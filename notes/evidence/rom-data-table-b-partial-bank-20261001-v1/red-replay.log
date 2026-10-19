@@ -1,0 +1,257 @@
+test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) ... 
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='capture_frame') ... FAIL
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='automatic_inputs') ... FAIL
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='input_state') ... FAIL
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='degraded') ... FAIL
+  test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='command') ... FAIL
+test_archive_embedded_screen_is_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_embedded_screen_is_recomputed) ... FAIL
+test_archive_selector_memory_is_not_just_a_receipt_hash (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_selector_memory_is_not_just_a_receipt_hash) ... FAIL
+test_binding_rejects_relabelled_claims (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_binding_rejects_relabelled_claims) ... ERROR
+test_cli_missing_input_reports_json_failure (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_cli_missing_input_reports_json_failure) ... ok
+test_contract_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_contract_drift_fails_closed) ... FAIL
+test_existing_auditor_executes_contract_and_rejects_wrong_ids (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_existing_auditor_executes_contract_and_rejects_wrong_ids) ... ERROR
+test_frozen_legacy_verifier_agrees (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_frozen_legacy_verifier_agrees) ... ERROR
+test_missing_and_symbolic_input_fail_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_missing_and_symbolic_input_fail_closed) ... ok
+test_partial_gate_and_false_exhaustive_upgrade_rejected (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_partial_gate_and_false_exhaustive_upgrade_rejected) ... ERROR
+test_portable_root_and_real_cli_without_capture_host_files (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_portable_root_and_real_cli_without_capture_host_files) ... ERROR
+test_real_cell_and_all_uncovered_ids (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_real_cell_and_all_uncovered_ids) ... ERROR
+test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) ... 
+  test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='sequel/content/data-table-b/bank.json') ... FAIL
+  test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='artifacts/data-table-b-message0-pointer-pixel-ab-v1/raw.tar') ... FAIL
+  test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='artifacts/data-table-b-message0-pointer-pixel-ab-v1/evidence.json') ... FAIL
+  test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='tools/thumb_branch.py') ... FAIL
+  test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='tools/inspect_mgba_savestate.py') ... FAIL
+
+======================================================================
+ERROR: test_binding_rejects_relabelled_claims (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_binding_rejects_relabelled_claims)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 163, in test_binding_rejects_relabelled_claims
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/data-table-b-typed-contract/partial-20261001-v1/red-stub.py", line 3, in verify_partial_bank
+    raise ValueError("partial field contract not implemented")
+ValueError: partial field contract not implemented
+
+======================================================================
+ERROR: test_existing_auditor_executes_contract_and_rejects_wrong_ids (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_existing_auditor_executes_contract_and_rejects_wrong_ids)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 133, in test_existing_auditor_executes_contract_and_rejects_wrong_ids
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/data-table-b-typed-contract/partial-20261001-v1/red-stub.py", line 3, in verify_partial_bank
+    raise ValueError("partial field contract not implemented")
+ValueError: partial field contract not implemented
+
+======================================================================
+ERROR: test_frozen_legacy_verifier_agrees (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_frozen_legacy_verifier_agrees)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 51, in test_frozen_legacy_verifier_agrees
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/data-table-b-typed-contract/partial-20261001-v1/red-stub.py", line 3, in verify_partial_bank
+    raise ValueError("partial field contract not implemented")
+ValueError: partial field contract not implemented
+
+======================================================================
+ERROR: test_partial_gate_and_false_exhaustive_upgrade_rejected (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_partial_gate_and_false_exhaustive_upgrade_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 146, in test_partial_gate_and_false_exhaustive_upgrade_rejected
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/data-table-b-typed-contract/partial-20261001-v1/red-stub.py", line 3, in verify_partial_bank
+    raise ValueError("partial field contract not implemented")
+ValueError: partial field contract not implemented
+
+======================================================================
+ERROR: test_portable_root_and_real_cli_without_capture_host_files (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_portable_root_and_real_cli_without_capture_host_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 56, in test_portable_root_and_real_cli_without_capture_host_files
+    expected = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/data-table-b-typed-contract/partial-20261001-v1/red-stub.py", line 3, in verify_partial_bank
+    raise ValueError("partial field contract not implemented")
+ValueError: partial field contract not implemented
+
+======================================================================
+ERROR: test_real_cell_and_all_uncovered_ids (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_real_cell_and_all_uncovered_ids)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 32, in test_real_cell_and_all_uncovered_ids
+    result = verify_partial_bank(ROOT)
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/data-table-b-typed-contract/partial-20261001-v1/red-stub.py", line 3, in verify_partial_bank
+    raise ValueError("partial field contract not implemented")
+ValueError: partial field contract not implemented
+
+======================================================================
+FAIL: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='capture_frame')
+----------------------------------------------------------------------
+ValueError: portable archive replay not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 113, in test_archive_audit_selector_inputs_and_guard_recomputed
+    with self.assertRaisesRegex(ValueError, "provenance"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "provenance" does not match "portable archive replay not implemented"
+
+======================================================================
+FAIL: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='automatic_inputs')
+----------------------------------------------------------------------
+ValueError: portable archive replay not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 113, in test_archive_audit_selector_inputs_and_guard_recomputed
+    with self.assertRaisesRegex(ValueError, "provenance"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "provenance" does not match "portable archive replay not implemented"
+
+======================================================================
+FAIL: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='input_state')
+----------------------------------------------------------------------
+ValueError: portable archive replay not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 113, in test_archive_audit_selector_inputs_and_guard_recomputed
+    with self.assertRaisesRegex(ValueError, "provenance"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "provenance" does not match "portable archive replay not implemented"
+
+======================================================================
+FAIL: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='degraded')
+----------------------------------------------------------------------
+ValueError: portable archive replay not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 113, in test_archive_audit_selector_inputs_and_guard_recomputed
+    with self.assertRaisesRegex(ValueError, "provenance"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "provenance" does not match "portable archive replay not implemented"
+
+======================================================================
+FAIL: test_archive_audit_selector_inputs_and_guard_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_audit_selector_inputs_and_guard_recomputed) (key='command')
+----------------------------------------------------------------------
+ValueError: portable archive replay not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 113, in test_archive_audit_selector_inputs_and_guard_recomputed
+    with self.assertRaisesRegex(ValueError, "provenance"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "provenance" does not match "portable archive replay not implemented"
+
+======================================================================
+FAIL: test_archive_embedded_screen_is_recomputed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_embedded_screen_is_recomputed)
+----------------------------------------------------------------------
+ValueError: portable archive replay not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 129, in test_archive_embedded_screen_is_recomputed
+    with self.assertRaisesRegex(ValueError, "embedded screen"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "embedded screen" does not match "portable archive replay not implemented"
+
+======================================================================
+FAIL: test_archive_selector_memory_is_not_just_a_receipt_hash (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_archive_selector_memory_is_not_just_a_receipt_hash)
+----------------------------------------------------------------------
+ValueError: portable archive replay not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 121, in test_archive_selector_memory_is_not_just_a_receipt_hash
+    with self.assertRaisesRegex(ValueError, "selector scratch"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "selector scratch" does not match "portable archive replay not implemented"
+
+======================================================================
+FAIL: test_contract_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_contract_drift_fails_closed)
+----------------------------------------------------------------------
+ValueError: partial field contract not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 82, in test_contract_drift_fails_closed
+    with self.assertRaisesRegex(ValueError, "contract identity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "contract identity" does not match "partial field contract not implemented"
+
+======================================================================
+FAIL: test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='sequel/content/data-table-b/bank.json')
+----------------------------------------------------------------------
+ValueError: partial field contract not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 74, in test_repository_input_drift_fails_closed
+    with self.assertRaisesRegex(ValueError, "input identity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "input identity" does not match "partial field contract not implemented"
+
+======================================================================
+FAIL: test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='artifacts/data-table-b-message0-pointer-pixel-ab-v1/raw.tar')
+----------------------------------------------------------------------
+ValueError: partial field contract not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 74, in test_repository_input_drift_fails_closed
+    with self.assertRaisesRegex(ValueError, "input identity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "input identity" does not match "partial field contract not implemented"
+
+======================================================================
+FAIL: test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='artifacts/data-table-b-message0-pointer-pixel-ab-v1/evidence.json')
+----------------------------------------------------------------------
+ValueError: partial field contract not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 74, in test_repository_input_drift_fails_closed
+    with self.assertRaisesRegex(ValueError, "input identity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "input identity" does not match "partial field contract not implemented"
+
+======================================================================
+FAIL: test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='tools/thumb_branch.py')
+----------------------------------------------------------------------
+ValueError: partial field contract not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 74, in test_repository_input_drift_fails_closed
+    with self.assertRaisesRegex(ValueError, "input identity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "input identity" does not match "partial field contract not implemented"
+
+======================================================================
+FAIL: test_repository_input_drift_fails_closed (tests.test_data_table_b_partial_bank.PartialMessageBankTests.test_repository_input_drift_fails_closed) (name='tools/inspect_mgba_savestate.py')
+----------------------------------------------------------------------
+ValueError: partial field contract not implemented
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_data_table_b_partial_bank.py", line 74, in test_repository_input_drift_fails_closed
+    with self.assertRaisesRegex(ValueError, "input identity"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "input identity" does not match "partial field contract not implemented"
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.958s
+
+FAILED (failures=13, errors=6)

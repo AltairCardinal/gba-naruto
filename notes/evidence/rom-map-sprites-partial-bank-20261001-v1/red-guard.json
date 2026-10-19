@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 13745,
+  "peak_tree_rss_mib": 0.79296875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "python3 -m unittest tests.test_map_sprites_partial_bank > build/experiments/active/map-sprites-typed-contract/tier1-20261001-v1/red.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T02:31:32.833707Z",
+  "finished_at": "2026-10-01T02:31:33.870133Z"
+}

@@ -1,0 +1,377 @@
+test_callback_tail_preserves_critical_indices (test_object_native.NativeJointTests.test_callback_tail_preserves_critical_indices) ... ERROR
+test_descriptor_sentinel_suffix_is_not_read (test_object_native.NativeJointTests.test_descriptor_sentinel_suffix_is_not_read) ... ERROR
+test_lookup_certificate_rejects_changed_bound (test_object_native.NativeJointTests.test_lookup_certificate_rejects_changed_bound) ... ok
+test_null_tail_handle_remains_invalid (test_object_native.NativeJointTests.test_null_tail_handle_remains_invalid) ... ok
+test_persistent_allocate_dispatch_release_and_reuse (test_object_native.NativeJointTests.test_persistent_allocate_dispatch_release_and_reuse) ... ERROR
+test_sequence_sentinel_is_rejected_for_descriptor_binding (test_object_native.NativeJointTests.test_sequence_sentinel_is_rejected_for_descriptor_binding) ... ok
+test_allocator_preserves_stale_context (test_object_native.NativeLifecycleTests.test_allocator_preserves_stale_context) ... ERROR
+test_alternate_depth_field_changes_full_sort (test_object_native.NativeLifecycleTests.test_alternate_depth_field_changes_full_sort) ... ERROR
+test_callback_initialization_uses_real_bios (test_object_native.NativeLifecycleTests.test_callback_initialization_uses_real_bios) ... ERROR
+test_full_allocator_returns_null (test_object_native.NativeLifecycleTests.test_full_allocator_returns_null) ... ERROR
+test_lookup_missing_is_index_ten (test_object_native.NativeLifecycleTests.test_lookup_missing_is_index_ten) ... ERROR
+test_native_source_budget_rejects_execution_escape (test_object_native.NativeLifecycleTests.test_native_source_budget_rejects_execution_escape) ... ok
+test_selection_reads_before_freeze (test_object_native.NativeLifecycleTests.test_selection_reads_before_freeze) ... ERROR
+test_sort_full_return_and_mode_keys (test_object_native.NativeLifecycleTests.test_sort_full_return_and_mode_keys) ... ERROR
+test_stale_context_skips_bios_init (test_object_native.NativeLifecycleTests.test_stale_context_skips_bios_init) ... ERROR
+test_timer_wrap_and_negative_duration (test_object_native.NativeLifecycleTests.test_timer_wrap_and_negative_duration) ... ERROR
+
+======================================================================
+ERROR: test_callback_tail_preserves_critical_indices (test_object_native.NativeJointTests.test_callback_tail_preserves_critical_indices)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 55, in test_callback_tail_preserves_critical_indices
+    row=p.callback_tail(meta2=2,meta3=3,meta12=1)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 252, in callback_tail
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_descriptor_sentinel_suffix_is_not_read (test_object_native.NativeJointTests.test_descriptor_sentinel_suffix_is_not_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 61, in test_descriptor_sentinel_suffix_is_not_read
+    rows=p.descriptor_heads(sequence=0x458550,descriptor_table=0x45854C)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 314, in descriptor_heads
+    rows=execute(fixtures)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_persistent_allocate_dispatch_release_and_reuse (test_object_native.NativeJointTests.test_persistent_allocate_dispatch_release_and_reuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 45, in test_persistent_allocate_dispatch_release_and_reuse
+    rows=p.lifecycle_chain(context=0)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 218, in lifecycle_chain
+    rows=execute([first,dispatch,disable,scan,reallocate],persistent=True)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_allocator_preserves_stale_context (test_object_native.NativeLifecycleTests.test_allocator_preserves_stale_context)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 6, in test_allocator_preserves_stale_context
+    row=p.allocate(free=127,context=0xA1234567)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 137, in allocate
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_alternate_depth_field_changes_full_sort (test_object_native.NativeLifecycleTests.test_alternate_depth_field_changes_full_sort)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 21, in test_alternate_depth_field_changes_full_sort
+    row=p.sort_pool([0x2040001]*128,list(range(128)),alternate_keys=[-i for i in range(128)])
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 164, in sort_pool
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_callback_initialization_uses_real_bios (test_object_native.NativeLifecycleTests.test_callback_initialization_uses_real_bios)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 24, in test_callback_initialization_uses_real_bios
+    row=p.callback(context=0,manager_slot=3,pending=0)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 178, in callback
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_full_allocator_returns_null (test_object_native.NativeLifecycleTests.test_full_allocator_returns_null)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 11, in test_full_allocator_returns_null
+    self.assertEqual(p.allocate(free=None)['handle'],0)
+                     ~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 137, in allocate
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_lookup_missing_is_index_ten (test_object_native.NativeLifecycleTests.test_lookup_missing_is_index_ten)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 14, in test_lookup_missing_is_index_ten
+    row=p.lookup([n if n is not None else 255]*10,42) if n is None else p.lookup([42 if i==n else 255 for i in range(10)],42)
+                                                                        ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 148, in lookup
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_selection_reads_before_freeze (test_object_native.NativeLifecycleTests.test_selection_reads_before_freeze)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 34, in test_selection_reads_before_freeze
+    row=p.select_and_advance(group=0,slot=0,flags=8,count=1,timer=9)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 193, in select_and_advance
+    first=execute([select])[0]
+          ~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_sort_full_return_and_mode_keys (test_object_native.NativeLifecycleTests.test_sort_full_return_and_mode_keys)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 17, in test_sort_full_return_and_mode_keys
+    row=p.sort_pool([0x40001]*128,list(range(128)))
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 164, in sort_pool
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_stale_context_skips_bios_init (test_object_native.NativeLifecycleTests.test_stale_context_skips_bios_init)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 30, in test_stale_context_skips_bios_init
+    row=p.callback(context=7,manager_slot=0,pending=0)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 178, in callback
+    row=execute([f])[0]
+        ~~~~~~~^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+======================================================================
+ERROR: test_timer_wrap_and_negative_duration (test_object_native.NativeLifecycleTests.test_timer_wrap_and_negative_duration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/test_object_native.py", line 38, in test_timer_wrap_and_negative_duration
+    row=p.select_and_advance(group=0,slot=0,flags=0,count=1,timer=65535)
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 193, in select_and_advance
+    first=execute([select])[0]
+          ~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/object_native.py", line 87, in execute
+    completed=subprocess.run([str(HERE/'mgba-arm-probe'),str(ROOT/'rom/base.gba')],
+                             input=''.join(pieces),text=True,capture_output=True,timeout=90)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1038, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1989, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+PermissionError: [Errno 13] Permission denied: '/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/mgba-arm-probe'
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.262s
+
+FAILED (errors=12)
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/batch.py", line 250, in <module>
+    try:main(Path(sys.argv[1]))
+        ~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/notes/evidence/rom-animation-object-native-20261001-v1/batch.py", line 103, in main
+    assert tests.wasSuccessful() and tests.testsRun==16
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

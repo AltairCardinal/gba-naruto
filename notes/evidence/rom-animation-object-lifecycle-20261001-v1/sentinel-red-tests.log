@@ -1,0 +1,18 @@
+test_add_sub_compare_all_14_conditions_against_integer_oracle (test_bounded_thumb.BoundedThumbTests.test_add_sub_compare_all_14_conditions_against_integer_oracle) ... ok
+test_memory_alignment_whitelist_and_interwork_fail_closed (test_bounded_thumb.BoundedThumbTests.test_memory_alignment_whitelist_and_interwork_fail_closed) ... ok
+test_return_sentinel_cannot_overlap_source_or_root (test_bounded_thumb.BoundedThumbTests.test_return_sentinel_cannot_overlap_source_or_root) ... FAIL
+test_shift_zero_and_32_preserve_or_update_carry_correctly (test_bounded_thumb.BoundedThumbTests.test_shift_zero_and_32_preserve_or_update_carry_correctly) ... ok
+
+======================================================================
+FAIL: test_return_sentinel_cannot_overlap_source_or_root (test_bounded_thumb.BoundedThumbTests.test_return_sentinel_cannot_overlap_source_or_root)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-lifecycle/lifecycle-20261001-v1/test_bounded_thumb.py", line 41, in test_return_sentinel_cannot_overlap_source_or_root
+    with self.assertRaisesRegex(ValueError,'return sentinel'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+FAILED (failures=1)

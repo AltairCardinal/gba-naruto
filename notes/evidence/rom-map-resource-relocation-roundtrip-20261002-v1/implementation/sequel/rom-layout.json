@@ -1,0 +1,83 @@
+{
+  "version": 1,
+  "description": "木叶战记续作统一 ROM 容量与分区所有权；未登记区间不得因看似 0xFF 而分配。",
+  "base_rom": {
+    "sha1": "26f60795fa5e63b4f0264b84e453beffd56b9f7d",
+    "size": "0x600000"
+  },
+  "cartridge_profile": {
+    "id": "agb-standard-game-pak-rom",
+    "rom_base": "0x08000000",
+    "max_rom_size": "0x02000000",
+    "evidence": [
+      {
+        "kind": "hardware_manual",
+        "identity": "Nintendo AGB Programming Manual AGB-06-0001-002-B13, 2005-05-27, section 3.2.2.1",
+        "claim": "Wait State 0 maps a 32 MiB Game Pak ROM space beginning at 0x08000000."
+      },
+      {
+        "kind": "emulator_source",
+        "repository": "https://github.com/mgba-emu/mgba",
+        "commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+        "files": {
+          "include/mgba/internal/gba/memory.h": "fca671fc3bc5ab06641f6259ebf092688e1ba1ddd8eb80e4fba9a43cda44fb41",
+          "src/gba/gba.c": "5d113730d889111a19046309410f23a9068108dae26419c47c643eaacd5e50b9",
+          "src/gba/memory.c": "5e67c4173669a308cbf143f28239ab0da469c720f221ce53e5c12b3891e4e60f"
+        },
+        "claim": "mGBA maps GBA_SIZE_ROM0=0x02000000 and accepts ROM images up to that size."
+      }
+    ]
+  },
+  "target_rom_size": "0x1000000",
+  "fill_byte": "0xFF",
+  "partitions": [
+    {
+      "id": "editor-db-audit",
+      "owner": "editor_db_audit",
+      "start": "0x5E0000",
+      "end": "0x5F0000",
+      "origin": "base_ff",
+      "alignment": 64
+    },
+    {
+      "id": "variable-dialogue",
+      "owner": "dialogue_allocator",
+      "start": "0x5F0000",
+      "end": "0x5F8000",
+      "origin": "base_ff",
+      "alignment": 4
+    },
+    {
+      "id": "semantic-chapter-scripts",
+      "owner": "chapter_script_allocator",
+      "start": "0x5F8000",
+      "end": "0x600000",
+      "origin": "base_ff",
+      "alignment": 4
+    },
+    {
+      "id": "character-battle-visual-bundles",
+      "owner": "character_battle_visuals",
+      "start": "0x600000",
+      "end": "0x800000",
+      "origin": "expanded_ff",
+      "alignment": 4
+    },
+    {
+      "id": "sequel-image-assets",
+      "owner": "sequel_image_assets",
+      "start": "0x800000",
+      "end": "0xC00000",
+      "origin": "expanded_ff",
+      "alignment": 4
+    },
+    {
+      "id": "sequel-audio-text-config",
+      "owner": "sequel_nonvisual_assets",
+      "start": "0xC00000",
+      "end": "0x1000000",
+      "origin": "expanded_ff",
+      "alignment": 4
+    }
+  ]
+}

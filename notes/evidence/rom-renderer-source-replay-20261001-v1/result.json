@@ -1,0 +1,114 @@
+{
+  "completed_count": 3,
+  "passed_count": 0,
+  "promotion_bytes": 0,
+  "rows": [
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_inventory.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-inventory-v2"
+      ],
+      "exit_code": 0,
+      "guard_degraded": false,
+      "guard_peak_tree_rss_mib": 139.015625,
+      "guard_reason": "completed",
+      "name": "inventory-v2",
+      "report": {
+        "child_pid": 70759,
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "tools/verify_rom_cfg_inventory.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-cfg-inventory-v2"
+        ],
+        "cwd": "/Users/altair/github/gba-naruto-reverse",
+        "degraded": false,
+        "exit_code": 0,
+        "finished_at": "2026-09-30T20:06:35.165274Z",
+        "peak_tree_rss_mib": 139.015625,
+        "protection_backend": "posix-process-group",
+        "reason": "completed",
+        "started_at": "2026-09-30T20:06:31.018683Z"
+      },
+      "verified": false
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_inventory_v3.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-inventory-v3"
+      ],
+      "exit_code": 0,
+      "guard_degraded": false,
+      "guard_peak_tree_rss_mib": 151.13671875,
+      "guard_reason": "completed",
+      "name": "inventory-v3",
+      "report": {
+        "child_pid": 70768,
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "tools/verify_rom_cfg_inventory_v3.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-cfg-inventory-v3"
+        ],
+        "cwd": "/Users/altair/github/gba-naruto-reverse",
+        "degraded": false,
+        "exit_code": 0,
+        "finished_at": "2026-09-30T20:06:42.510008Z",
+        "peak_tree_rss_mib": 151.13671875,
+        "protection_backend": "posix-process-group",
+        "reason": "completed",
+        "started_at": "2026-09-30T20:06:35.269386Z"
+      },
+      "verified": false
+    },
+    {
+      "command": [
+        "/usr/local/opt/python@3.14/bin/python3.14",
+        "tools/verify_rom_cfg_proven_roots_v6.py",
+        "--root",
+        ".",
+        "--artifact-dir",
+        "artifacts/rom-cfg-proven-roots-v6"
+      ],
+      "exit_code": 1,
+      "guard_degraded": false,
+      "guard_peak_tree_rss_mib": 0.75390625,
+      "guard_reason": "child-exit",
+      "name": "roots-v6",
+      "report": {
+        "child_pid": 70781,
+        "command": [
+          "/usr/local/opt/python@3.14/bin/python3.14",
+          "tools/verify_rom_cfg_proven_roots_v6.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-cfg-proven-roots-v6"
+        ],
+        "cwd": "/Users/altair/github/gba-naruto-reverse",
+        "degraded": false,
+        "exit_code": 1,
+        "finished_at": "2026-09-30T20:06:43.657274Z",
+        "peak_tree_rss_mib": 0.75390625,
+        "protection_backend": "posix-process-group",
+        "reason": "child-exit",
+        "started_at": "2026-09-30T20:06:42.620348Z"
+      },
+      "verified": false
+    }
+  ],
+  "schema": "renderer-source-replay-v1",
+  "scope": "Historical source CFG semantic replay only; no new literal-to-renderer flow, Tier1, canonical or natural execution proof."
+}

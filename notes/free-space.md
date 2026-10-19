@@ -2,7 +2,7 @@
 
 ## Summary
 
-The immutable base ROM contains an approximately **128 KiB** `0xFF` tail, but it is
+The immutable base ROM contains an exact **132,116-byte (129.02 KiB)** `0xFF` tail, but it is
 no longer unallocated. The complete 6 MiB base range and the expanded 16 MiB build
 range are owned by `sequel/rom-layout.json`; importers must request one exact
 partition instead of scanning for an apparently empty run.
@@ -12,8 +12,8 @@ partition instead of scanning for an apparently empty run.
 | Property | Value |
 |---|---|
 | Start offset (file) | `0x5DFBEC` |
-| End offset (file) | `0x5FFFFF` |
-| Size | ~131,092 bytes (~128 KB) |
+| End offset (exclusive) | `0x600000` |
+| Size | 132,116 bytes (129.02 KiB) |
 | Fill value | `0xFF` (GBA cartridge erased state) |
 | ROM file size | `0x600000` (6 MiB) |
 
@@ -53,6 +53,6 @@ The current 16 MiB build is divided into non-overlapping audited owners:
 The historical tail measurement was performed by scanning for the first `0xFF`
 byte after
 offset `0x5D0000`. The scan found a contiguous 0xFF run starting at `0x5DFBEC`
-and continuing to the end of the 6 MiB file (`0x5FFFFF`). Current allocation
+and continuing through the final byte `0x5FFFFF` (half-open end `0x600000`). Current allocation
 validity is instead established from the hash-pinned layout and each importer's
 full-plan safety checks; visual emptiness alone is not allocation evidence.

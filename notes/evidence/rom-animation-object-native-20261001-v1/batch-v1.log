@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/batch.py", line 235, in <module>
+    try:main(Path(sys.argv[1]))
+        ~~~~^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/batch.py", line 78, in main
+    assert len(read(name,identity['sha256']))==identity['size']
+               ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-object-native/object-20261001-v1/batch.py", line 61, in read
+    raise ValueError(f'input identity {path}')
+ValueError: input identity build/experiments/active/animation-pool-lifecycle/lifecycle-20261001-v1/analysis.py

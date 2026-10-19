@@ -1,0 +1,16 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 70214,
+  "peak_tree_rss_mib": 87.203125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "-c",
+    "import unittest,sys; f=open(\"build/experiments/active/cutscene-secondary-ptr-contract/tier1-20261001-v1/hardening-red-detail.log\",\"w\"); r=unittest.TextTestRunner(stream=f,verbosity=2).run(unittest.defaultTestLoader.loadTestsFromName(\"tests.test_cutscene_obj_secondary_ptr_ab\")); f.close(); sys.exit(not r.wasSuccessful())"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-01T03:42:46.991302Z",
+  "finished_at": "2026-10-01T03:43:03.567424Z"
+}

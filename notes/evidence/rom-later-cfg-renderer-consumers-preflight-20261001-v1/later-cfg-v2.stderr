@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/renderer-opcode-contract/opcode2-6-20261001-v1/scan_later_cfg_v2.py", line 23, in <module>
+    digest=hashlib.sha256(raw).hexdigest();assert receipt['size']==len(raw) and receipt['sha256']==digest
+                                                  ~~~~~~~^^^^^^^^
+TypeError: string indices must be integers, not 'str'

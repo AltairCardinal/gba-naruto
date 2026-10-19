@@ -1,0 +1,3752 @@
+{
+  "bios_stub": {
+    "caller_stack_facts_preserved": false,
+    "child_call_targets": [],
+    "conditional": false,
+    "frontiers": [
+      {
+        "at": 639200,
+        "kind": "external_svc",
+        "number": 11
+      }
+    ],
+    "minimum_sp_delta": 0,
+    "natural_execution_proven": false,
+    "non_sp_stores": [],
+    "preconditions": [],
+    "preserved_registers": [],
+    "promotion_bytes": 0,
+    "return_count": 0,
+    "return_identity_proven": false,
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "root": 639200,
+    "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+    "source_instructions": [
+      {
+        "at": 639200,
+        "raw_hex": "0bdf"
+      }
+    ],
+    "updates": 1,
+    "visited_instruction_count": 1
+  },
+  "implementation_inputs": {
+    "analyze_batch.py": "32de05e35ad0d08d5949e662afe13f8ba9eb012dad88b073629669956877ece3",
+    "callee_effects.py": "278a51d49e9bf600f4ad64f38c91fd2f2cec2f4f025cac0acfbefb85e3f363fa",
+    "test_effects.py": "010f139e456aaf4a02e3157e62cd7995542cf93b7f7c2f2b6a3396d33d801671"
+  },
+  "parent_sha256": "1a15e7f1e5bbc405e1afcbe19c3504c5adb4067eabb82c1b4ee5a7cdef9401f7",
+  "promotion_bytes": 0,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "rows": [
+    {
+      "conditional_frame": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [],
+        "conditional": true,
+        "frontiers": [],
+        "minimum_sp_delta": -40,
+        "natural_execution_proven": false,
+        "non_sp_stores": [
+          {
+            "at": 403244,
+            "mnemonic": "str",
+            "operands": "r5, [r2]",
+            "raw_hex": "1560"
+          },
+          {
+            "at": 403252,
+            "mnemonic": "strh",
+            "operands": "r3, [r2, #4]",
+            "raw_hex": "9380"
+          },
+          {
+            "at": 403254,
+            "mnemonic": "strh",
+            "operands": "r7, [r2, #6]",
+            "raw_hex": "d780"
+          },
+          {
+            "at": 403256,
+            "mnemonic": "strh",
+            "operands": "r1, [r2, #0xa]",
+            "raw_hex": "5181"
+          },
+          {
+            "at": 403258,
+            "mnemonic": "strh",
+            "operands": "r1, [r2, #8]",
+            "raw_hex": "1181"
+          },
+          {
+            "at": 403260,
+            "mnemonic": "strb",
+            "operands": "r0, [r2, #0x13]",
+            "raw_hex": "d074"
+          },
+          {
+            "at": 403266,
+            "mnemonic": "strh",
+            "operands": "r0, [r2, #0xe]",
+            "raw_hex": "d081"
+          },
+          {
+            "at": 403268,
+            "mnemonic": "strh",
+            "operands": "r0, [r2, #0xc]",
+            "raw_hex": "9081"
+          },
+          {
+            "at": 403272,
+            "mnemonic": "strh",
+            "operands": "r0, [r2, #0x10]",
+            "raw_hex": "1082"
+          },
+          {
+            "at": 403276,
+            "mnemonic": "strb",
+            "operands": "r3, [r2, #0x12]",
+            "raw_hex": "9374"
+          },
+          {
+            "at": 403280,
+            "mnemonic": "strh",
+            "operands": "r0, [r2, #0x14]",
+            "raw_hex": "9082"
+          },
+          {
+            "at": 403282,
+            "mnemonic": "strh",
+            "operands": "r1, [r2, #0x16]",
+            "raw_hex": "d182"
+          },
+          {
+            "at": 403284,
+            "mnemonic": "strh",
+            "operands": "r1, [r2, #0x18]",
+            "raw_hex": "1183"
+          },
+          {
+            "at": 403288,
+            "mnemonic": "str",
+            "operands": "r1, [r2, #0x1c]",
+            "raw_hex": "d161"
+          },
+          {
+            "at": 403292,
+            "mnemonic": "str",
+            "operands": "r3, [r2, #0x20]",
+            "raw_hex": "1362"
+          },
+          {
+            "at": 403296,
+            "mnemonic": "str",
+            "operands": "r0, [r2, #0x28]",
+            "raw_hex": "9062"
+          }
+        ],
+        "preconditions": [
+          {
+            "at": 403244,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403252,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403254,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403256,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403258,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403260,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403266,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403268,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403272,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403276,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403280,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403282,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403284,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403288,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403292,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 403296,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          }
+        ],
+        "preserved_registers": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          13,
+          14
+        ],
+        "promotion_bytes": 0,
+        "return_count": 1,
+        "return_identity_proven": true,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 403124,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 403124,
+            "raw_hex": "f0b5"
+          },
+          {
+            "at": 403126,
+            "raw_hex": "5746"
+          },
+          {
+            "at": 403128,
+            "raw_hex": "4e46"
+          },
+          {
+            "at": 403130,
+            "raw_hex": "4546"
+          },
+          {
+            "at": 403132,
+            "raw_hex": "e0b4"
+          },
+          {
+            "at": 403134,
+            "raw_hex": "82b0"
+          },
+          {
+            "at": 403136,
+            "raw_hex": "0090"
+          },
+          {
+            "at": 403138,
+            "raw_hex": "0191"
+          },
+          {
+            "at": 403140,
+            "raw_hex": "0a98"
+          },
+          {
+            "at": 403142,
+            "raw_hex": "0b99"
+          },
+          {
+            "at": 403144,
+            "raw_hex": "0c9c"
+          },
+          {
+            "at": 403146,
+            "raw_hex": "0d9d"
+          },
+          {
+            "at": 403148,
+            "raw_hex": "1204"
+          },
+          {
+            "at": 403150,
+            "raw_hex": "120c"
+          },
+          {
+            "at": 403152,
+            "raw_hex": "9246"
+          },
+          {
+            "at": 403154,
+            "raw_hex": "1b04"
+          },
+          {
+            "at": 403156,
+            "raw_hex": "1b0c"
+          },
+          {
+            "at": 403158,
+            "raw_hex": "9c46"
+          },
+          {
+            "at": 403160,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 403162,
+            "raw_hex": "070c"
+          },
+          {
+            "at": 403164,
+            "raw_hex": "0904"
+          },
+          {
+            "at": 403166,
+            "raw_hex": "090c"
+          },
+          {
+            "at": 403168,
+            "raw_hex": "8946"
+          },
+          {
+            "at": 403170,
+            "raw_hex": "2404"
+          },
+          {
+            "at": 403172,
+            "raw_hex": "240c"
+          },
+          {
+            "at": 403174,
+            "raw_hex": "a046"
+          },
+          {
+            "at": 403176,
+            "raw_hex": "7f23"
+          },
+          {
+            "at": 403178,
+            "raw_hex": "1f4c"
+          },
+          {
+            "at": 403180,
+            "raw_hex": "1f48"
+          },
+          {
+            "at": 403182,
+            "raw_hex": "2218"
+          },
+          {
+            "at": 403184,
+            "raw_hex": "1068"
+          },
+          {
+            "at": 403186,
+            "raw_hex": "0321"
+          },
+          {
+            "at": 403188,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 403190,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 403192,
+            "raw_hex": "10d0"
+          },
+          {
+            "at": 403194,
+            "raw_hex": "261c"
+          },
+          {
+            "at": 403196,
+            "raw_hex": "0324"
+          },
+          {
+            "at": 403198,
+            "raw_hex": "1804"
+          },
+          {
+            "at": 403200,
+            "raw_hex": "1b49"
+          },
+          {
+            "at": 403202,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 403204,
+            "raw_hex": "030c"
+          },
+          {
+            "at": 403206,
+            "raw_hex": "0114"
+          },
+          {
+            "at": 403208,
+            "raw_hex": "0029"
+          },
+          {
+            "at": 403210,
+            "raw_hex": "07db"
+          },
+          {
+            "at": 403212,
+            "raw_hex": "0801"
+          },
+          {
+            "at": 403214,
+            "raw_hex": "401a"
+          },
+          {
+            "at": 403216,
+            "raw_hex": "8000"
+          },
+          {
+            "at": 403218,
+            "raw_hex": "8219"
+          },
+          {
+            "at": 403220,
+            "raw_hex": "1068"
+          },
+          {
+            "at": 403222,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 403224,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 403226,
+            "raw_hex": "f0d1"
+          },
+          {
+            "at": 403228,
+            "raw_hex": "1804"
+          },
+          {
+            "at": 403230,
+            "raw_hex": "0014"
+          },
+          {
+            "at": 403232,
+            "raw_hex": "0121"
+          },
+          {
+            "at": 403234,
+            "raw_hex": "4942"
+          },
+          {
+            "at": 403236,
+            "raw_hex": "8842"
+          },
+          {
+            "at": 403238,
+            "raw_hex": "25d0"
+          },
+          {
+            "at": 403240,
+            "raw_hex": "0120"
+          },
+          {
+            "at": 403242,
+            "raw_hex": "0543"
+          },
+          {
+            "at": 403244,
+            "raw_hex": "1560"
+          },
+          {
+            "at": 403246,
+            "raw_hex": "0020"
+          },
+          {
+            "at": 403248,
+            "raw_hex": "0021"
+          },
+          {
+            "at": 403250,
+            "raw_hex": "6346"
+          },
+          {
+            "at": 403252,
+            "raw_hex": "9380"
+          },
+          {
+            "at": 403254,
+            "raw_hex": "d780"
+          },
+          {
+            "at": 403256,
+            "raw_hex": "5181"
+          },
+          {
+            "at": 403258,
+            "raw_hex": "1181"
+          },
+          {
+            "at": 403260,
+            "raw_hex": "d074"
+          },
+          {
+            "at": 403262,
+            "raw_hex": "8020"
+          },
+          {
+            "at": 403264,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 403266,
+            "raw_hex": "d081"
+          },
+          {
+            "at": 403268,
+            "raw_hex": "9081"
+          },
+          {
+            "at": 403270,
+            "raw_hex": "4846"
+          },
+          {
+            "at": 403272,
+            "raw_hex": "1082"
+          },
+          {
+            "at": 403274,
+            "raw_hex": "4346"
+          },
+          {
+            "at": 403276,
+            "raw_hex": "9374"
+          },
+          {
+            "at": 403278,
+            "raw_hex": "5046"
+          },
+          {
+            "at": 403280,
+            "raw_hex": "9082"
+          },
+          {
+            "at": 403282,
+            "raw_hex": "d182"
+          },
+          {
+            "at": 403284,
+            "raw_hex": "1183"
+          },
+          {
+            "at": 403286,
+            "raw_hex": "0099"
+          },
+          {
+            "at": 403288,
+            "raw_hex": "d161"
+          },
+          {
+            "at": 403290,
+            "raw_hex": "019b"
+          },
+          {
+            "at": 403292,
+            "raw_hex": "1362"
+          },
+          {
+            "at": 403294,
+            "raw_hex": "0e98"
+          },
+          {
+            "at": 403296,
+            "raw_hex": "9062"
+          },
+          {
+            "at": 403298,
+            "raw_hex": "101c"
+          },
+          {
+            "at": 403300,
+            "raw_hex": "07e0"
+          },
+          {
+            "at": 403316,
+            "raw_hex": "0020"
+          },
+          {
+            "at": 403318,
+            "raw_hex": "02b0"
+          },
+          {
+            "at": 403320,
+            "raw_hex": "38bc"
+          },
+          {
+            "at": 403322,
+            "raw_hex": "9846"
+          },
+          {
+            "at": 403324,
+            "raw_hex": "a146"
+          },
+          {
+            "at": 403326,
+            "raw_hex": "aa46"
+          },
+          {
+            "at": 403328,
+            "raw_hex": "f0bc"
+          },
+          {
+            "at": 403330,
+            "raw_hex": "02bc"
+          },
+          {
+            "at": 403332,
+            "raw_hex": "0847"
+          }
+        ],
+        "updates": 211,
+        "visited_instruction_count": 98
+      },
+      "range": [
+        403124,
+        403334
+      ],
+      "raw_window_sha256": "db4e7462e0ecd3ee06bcef0dde1e0934b54ab0f906b467e5cf3e5ebddae7fc57",
+      "strict": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [],
+        "conditional": false,
+        "frontiers": [
+          {
+            "at": 403332,
+            "kind": "unproved_return_identity",
+            "sp_delta": 0
+          }
+        ],
+        "minimum_sp_delta": -40,
+        "natural_execution_proven": false,
+        "non_sp_stores": [
+          {
+            "at": 403244,
+            "mnemonic": "str",
+            "operands": "r5, [r2]",
+            "raw_hex": "1560"
+          },
+          {
+            "at": 403252,
+            "mnemonic": "strh",
+            "operands": "r3, [r2, #4]",
+            "raw_hex": "9380"
+          },
+          {
+            "at": 403254,
+            "mnemonic": "strh",
+            "operands": "r7, [r2, #6]",
+            "raw_hex": "d780"
+          },
+          {
+            "at": 403256,
+            "mnemonic": "strh",
+            "operands": "r1, [r2, #0xa]",
+            "raw_hex": "5181"
+          },
+          {
+            "at": 403258,
+            "mnemonic": "strh",
+            "operands": "r1, [r2, #8]",
+            "raw_hex": "1181"
+          },
+          {
+            "at": 403260,
+            "mnemonic": "strb",
+            "operands": "r0, [r2, #0x13]",
+            "raw_hex": "d074"
+          },
+          {
+            "at": 403266,
+            "mnemonic": "strh",
+            "operands": "r0, [r2, #0xe]",
+            "raw_hex": "d081"
+          },
+          {
+            "at": 403268,
+            "mnemonic": "strh",
+            "operands": "r0, [r2, #0xc]",
+            "raw_hex": "9081"
+          },
+          {
+            "at": 403272,
+            "mnemonic": "strh",
+            "operands": "r0, [r2, #0x10]",
+            "raw_hex": "1082"
+          },
+          {
+            "at": 403276,
+            "mnemonic": "strb",
+            "operands": "r3, [r2, #0x12]",
+            "raw_hex": "9374"
+          },
+          {
+            "at": 403280,
+            "mnemonic": "strh",
+            "operands": "r0, [r2, #0x14]",
+            "raw_hex": "9082"
+          },
+          {
+            "at": 403282,
+            "mnemonic": "strh",
+            "operands": "r1, [r2, #0x16]",
+            "raw_hex": "d182"
+          },
+          {
+            "at": 403284,
+            "mnemonic": "strh",
+            "operands": "r1, [r2, #0x18]",
+            "raw_hex": "1183"
+          },
+          {
+            "at": 403288,
+            "mnemonic": "str",
+            "operands": "r1, [r2, #0x1c]",
+            "raw_hex": "d161"
+          },
+          {
+            "at": 403292,
+            "mnemonic": "str",
+            "operands": "r3, [r2, #0x20]",
+            "raw_hex": "1362"
+          },
+          {
+            "at": 403296,
+            "mnemonic": "str",
+            "operands": "r0, [r2, #0x28]",
+            "raw_hex": "9062"
+          }
+        ],
+        "preconditions": [],
+        "preserved_registers": [],
+        "promotion_bytes": 0,
+        "return_count": 1,
+        "return_identity_proven": false,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 403124,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 403124,
+            "raw_hex": "f0b5"
+          },
+          {
+            "at": 403126,
+            "raw_hex": "5746"
+          },
+          {
+            "at": 403128,
+            "raw_hex": "4e46"
+          },
+          {
+            "at": 403130,
+            "raw_hex": "4546"
+          },
+          {
+            "at": 403132,
+            "raw_hex": "e0b4"
+          },
+          {
+            "at": 403134,
+            "raw_hex": "82b0"
+          },
+          {
+            "at": 403136,
+            "raw_hex": "0090"
+          },
+          {
+            "at": 403138,
+            "raw_hex": "0191"
+          },
+          {
+            "at": 403140,
+            "raw_hex": "0a98"
+          },
+          {
+            "at": 403142,
+            "raw_hex": "0b99"
+          },
+          {
+            "at": 403144,
+            "raw_hex": "0c9c"
+          },
+          {
+            "at": 403146,
+            "raw_hex": "0d9d"
+          },
+          {
+            "at": 403148,
+            "raw_hex": "1204"
+          },
+          {
+            "at": 403150,
+            "raw_hex": "120c"
+          },
+          {
+            "at": 403152,
+            "raw_hex": "9246"
+          },
+          {
+            "at": 403154,
+            "raw_hex": "1b04"
+          },
+          {
+            "at": 403156,
+            "raw_hex": "1b0c"
+          },
+          {
+            "at": 403158,
+            "raw_hex": "9c46"
+          },
+          {
+            "at": 403160,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 403162,
+            "raw_hex": "070c"
+          },
+          {
+            "at": 403164,
+            "raw_hex": "0904"
+          },
+          {
+            "at": 403166,
+            "raw_hex": "090c"
+          },
+          {
+            "at": 403168,
+            "raw_hex": "8946"
+          },
+          {
+            "at": 403170,
+            "raw_hex": "2404"
+          },
+          {
+            "at": 403172,
+            "raw_hex": "240c"
+          },
+          {
+            "at": 403174,
+            "raw_hex": "a046"
+          },
+          {
+            "at": 403176,
+            "raw_hex": "7f23"
+          },
+          {
+            "at": 403178,
+            "raw_hex": "1f4c"
+          },
+          {
+            "at": 403180,
+            "raw_hex": "1f48"
+          },
+          {
+            "at": 403182,
+            "raw_hex": "2218"
+          },
+          {
+            "at": 403184,
+            "raw_hex": "1068"
+          },
+          {
+            "at": 403186,
+            "raw_hex": "0321"
+          },
+          {
+            "at": 403188,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 403190,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 403192,
+            "raw_hex": "10d0"
+          },
+          {
+            "at": 403194,
+            "raw_hex": "261c"
+          },
+          {
+            "at": 403196,
+            "raw_hex": "0324"
+          },
+          {
+            "at": 403198,
+            "raw_hex": "1804"
+          },
+          {
+            "at": 403200,
+            "raw_hex": "1b49"
+          },
+          {
+            "at": 403202,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 403204,
+            "raw_hex": "030c"
+          },
+          {
+            "at": 403206,
+            "raw_hex": "0114"
+          },
+          {
+            "at": 403208,
+            "raw_hex": "0029"
+          },
+          {
+            "at": 403210,
+            "raw_hex": "07db"
+          },
+          {
+            "at": 403212,
+            "raw_hex": "0801"
+          },
+          {
+            "at": 403214,
+            "raw_hex": "401a"
+          },
+          {
+            "at": 403216,
+            "raw_hex": "8000"
+          },
+          {
+            "at": 403218,
+            "raw_hex": "8219"
+          },
+          {
+            "at": 403220,
+            "raw_hex": "1068"
+          },
+          {
+            "at": 403222,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 403224,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 403226,
+            "raw_hex": "f0d1"
+          },
+          {
+            "at": 403228,
+            "raw_hex": "1804"
+          },
+          {
+            "at": 403230,
+            "raw_hex": "0014"
+          },
+          {
+            "at": 403232,
+            "raw_hex": "0121"
+          },
+          {
+            "at": 403234,
+            "raw_hex": "4942"
+          },
+          {
+            "at": 403236,
+            "raw_hex": "8842"
+          },
+          {
+            "at": 403238,
+            "raw_hex": "25d0"
+          },
+          {
+            "at": 403240,
+            "raw_hex": "0120"
+          },
+          {
+            "at": 403242,
+            "raw_hex": "0543"
+          },
+          {
+            "at": 403244,
+            "raw_hex": "1560"
+          },
+          {
+            "at": 403246,
+            "raw_hex": "0020"
+          },
+          {
+            "at": 403248,
+            "raw_hex": "0021"
+          },
+          {
+            "at": 403250,
+            "raw_hex": "6346"
+          },
+          {
+            "at": 403252,
+            "raw_hex": "9380"
+          },
+          {
+            "at": 403254,
+            "raw_hex": "d780"
+          },
+          {
+            "at": 403256,
+            "raw_hex": "5181"
+          },
+          {
+            "at": 403258,
+            "raw_hex": "1181"
+          },
+          {
+            "at": 403260,
+            "raw_hex": "d074"
+          },
+          {
+            "at": 403262,
+            "raw_hex": "8020"
+          },
+          {
+            "at": 403264,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 403266,
+            "raw_hex": "d081"
+          },
+          {
+            "at": 403268,
+            "raw_hex": "9081"
+          },
+          {
+            "at": 403270,
+            "raw_hex": "4846"
+          },
+          {
+            "at": 403272,
+            "raw_hex": "1082"
+          },
+          {
+            "at": 403274,
+            "raw_hex": "4346"
+          },
+          {
+            "at": 403276,
+            "raw_hex": "9374"
+          },
+          {
+            "at": 403278,
+            "raw_hex": "5046"
+          },
+          {
+            "at": 403280,
+            "raw_hex": "9082"
+          },
+          {
+            "at": 403282,
+            "raw_hex": "d182"
+          },
+          {
+            "at": 403284,
+            "raw_hex": "1183"
+          },
+          {
+            "at": 403286,
+            "raw_hex": "0099"
+          },
+          {
+            "at": 403288,
+            "raw_hex": "d161"
+          },
+          {
+            "at": 403290,
+            "raw_hex": "019b"
+          },
+          {
+            "at": 403292,
+            "raw_hex": "1362"
+          },
+          {
+            "at": 403294,
+            "raw_hex": "0e98"
+          },
+          {
+            "at": 403296,
+            "raw_hex": "9062"
+          },
+          {
+            "at": 403298,
+            "raw_hex": "101c"
+          },
+          {
+            "at": 403300,
+            "raw_hex": "07e0"
+          },
+          {
+            "at": 403316,
+            "raw_hex": "0020"
+          },
+          {
+            "at": 403318,
+            "raw_hex": "02b0"
+          },
+          {
+            "at": 403320,
+            "raw_hex": "38bc"
+          },
+          {
+            "at": 403322,
+            "raw_hex": "9846"
+          },
+          {
+            "at": 403324,
+            "raw_hex": "a146"
+          },
+          {
+            "at": 403326,
+            "raw_hex": "aa46"
+          },
+          {
+            "at": 403328,
+            "raw_hex": "f0bc"
+          },
+          {
+            "at": 403330,
+            "raw_hex": "02bc"
+          },
+          {
+            "at": 403332,
+            "raw_hex": "0847"
+          }
+        ],
+        "updates": 211,
+        "visited_instruction_count": 98
+      }
+    },
+    {
+      "conditional_frame": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [],
+        "conditional": true,
+        "frontiers": [],
+        "minimum_sp_delta": 0,
+        "natural_execution_proven": false,
+        "non_sp_stores": [
+          {
+            "at": 415520,
+            "mnemonic": "strb",
+            "operands": "r0, [r1]",
+            "raw_hex": "0870"
+          }
+        ],
+        "preconditions": [
+          {
+            "at": 415520,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          }
+        ],
+        "preserved_registers": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promotion_bytes": 0,
+        "return_count": 1,
+        "return_identity_proven": true,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 415516,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 415516,
+            "raw_hex": "0149"
+          },
+          {
+            "at": 415518,
+            "raw_hex": "0120"
+          },
+          {
+            "at": 415520,
+            "raw_hex": "0870"
+          },
+          {
+            "at": 415522,
+            "raw_hex": "7047"
+          }
+        ],
+        "updates": 4,
+        "visited_instruction_count": 4
+      },
+      "range": [
+        415516,
+        415524
+      ],
+      "raw_window_sha256": "ceeb2e8f047428deaedb3a28ba11fd937a402251a433d8681278e25e48a15ce5",
+      "strict": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [],
+        "conditional": false,
+        "frontiers": [],
+        "minimum_sp_delta": 0,
+        "natural_execution_proven": false,
+        "non_sp_stores": [
+          {
+            "at": 415520,
+            "mnemonic": "strb",
+            "operands": "r0, [r1]",
+            "raw_hex": "0870"
+          }
+        ],
+        "preconditions": [],
+        "preserved_registers": [
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14
+        ],
+        "promotion_bytes": 0,
+        "return_count": 1,
+        "return_identity_proven": true,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 415516,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 415516,
+            "raw_hex": "0149"
+          },
+          {
+            "at": 415518,
+            "raw_hex": "0120"
+          },
+          {
+            "at": 415520,
+            "raw_hex": "0870"
+          },
+          {
+            "at": 415522,
+            "raw_hex": "7047"
+          }
+        ],
+        "updates": 4,
+        "visited_instruction_count": 4
+      }
+    },
+    {
+      "conditional_frame": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [
+          415156,
+          415220,
+          418412
+        ],
+        "conditional": true,
+        "frontiers": [],
+        "minimum_sp_delta": -24,
+        "natural_execution_proven": false,
+        "non_sp_stores": [
+          {
+            "at": 419714,
+            "mnemonic": "strh",
+            "operands": "r4, [r0, #0xc]",
+            "raw_hex": "8481"
+          },
+          {
+            "at": 419716,
+            "mnemonic": "strh",
+            "operands": "r5, [r0, #0xe]",
+            "raw_hex": "c581"
+          },
+          {
+            "at": 419718,
+            "mnemonic": "strb",
+            "operands": "r6, [r0, #0x12]",
+            "raw_hex": "8674"
+          }
+        ],
+        "preconditions": [
+          {
+            "at": 419710,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 415156
+          },
+          {
+            "at": 419714,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 419716,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 419718,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 419722,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 418412
+          },
+          {
+            "at": 419728,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 415220
+          }
+        ],
+        "preserved_registers": [
+          4,
+          5,
+          6,
+          8,
+          9,
+          13
+        ],
+        "promotion_bytes": 0,
+        "return_count": 1,
+        "return_identity_proven": true,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 419672,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 419672,
+            "raw_hex": "70b5"
+          },
+          {
+            "at": 419674,
+            "raw_hex": "4e46"
+          },
+          {
+            "at": 419676,
+            "raw_hex": "4546"
+          },
+          {
+            "at": 419678,
+            "raw_hex": "60b4"
+          },
+          {
+            "at": 419680,
+            "raw_hex": "8146"
+          },
+          {
+            "at": 419682,
+            "raw_hex": "0e1c"
+          },
+          {
+            "at": 419684,
+            "raw_hex": "9046"
+          },
+          {
+            "at": 419686,
+            "raw_hex": "1c1c"
+          },
+          {
+            "at": 419688,
+            "raw_hex": "069d"
+          },
+          {
+            "at": 419690,
+            "raw_hex": "3606"
+          },
+          {
+            "at": 419692,
+            "raw_hex": "360e"
+          },
+          {
+            "at": 419694,
+            "raw_hex": "4046"
+          },
+          {
+            "at": 419696,
+            "raw_hex": "0006"
+          },
+          {
+            "at": 419698,
+            "raw_hex": "000e"
+          },
+          {
+            "at": 419700,
+            "raw_hex": "8046"
+          },
+          {
+            "at": 419702,
+            "raw_hex": "2404"
+          },
+          {
+            "at": 419704,
+            "raw_hex": "240c"
+          },
+          {
+            "at": 419706,
+            "raw_hex": "2d04"
+          },
+          {
+            "at": 419708,
+            "raw_hex": "2d0c"
+          },
+          {
+            "at": 419710,
+            "raw_hex": "fef719ff"
+          },
+          {
+            "at": 419714,
+            "raw_hex": "8481"
+          },
+          {
+            "at": 419716,
+            "raw_hex": "c581"
+          },
+          {
+            "at": 419718,
+            "raw_hex": "8674"
+          },
+          {
+            "at": 419720,
+            "raw_hex": "4946"
+          },
+          {
+            "at": 419722,
+            "raw_hex": "fff76ffd"
+          },
+          {
+            "at": 419726,
+            "raw_hex": "4046"
+          },
+          {
+            "at": 419728,
+            "raw_hex": "fef730ff"
+          },
+          {
+            "at": 419732,
+            "raw_hex": "18bc"
+          },
+          {
+            "at": 419734,
+            "raw_hex": "9846"
+          },
+          {
+            "at": 419736,
+            "raw_hex": "a146"
+          },
+          {
+            "at": 419738,
+            "raw_hex": "70bc"
+          },
+          {
+            "at": 419740,
+            "raw_hex": "01bc"
+          },
+          {
+            "at": 419742,
+            "raw_hex": "0047"
+          }
+        ],
+        "updates": 33,
+        "visited_instruction_count": 33
+      },
+      "range": [
+        419672,
+        419744
+      ],
+      "raw_window_sha256": "13328f04244adfd855e7717052da7e65d028f636fb0f3fbabeaab185db9d4842",
+      "strict": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [
+          415156
+        ],
+        "conditional": false,
+        "frontiers": [
+          {
+            "at": 419710,
+            "kind": "opaque_child_call",
+            "target": 415156
+          }
+        ],
+        "minimum_sp_delta": -24,
+        "natural_execution_proven": false,
+        "non_sp_stores": [],
+        "preconditions": [],
+        "preserved_registers": [],
+        "promotion_bytes": 0,
+        "return_count": 0,
+        "return_identity_proven": false,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 419672,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 419672,
+            "raw_hex": "70b5"
+          },
+          {
+            "at": 419674,
+            "raw_hex": "4e46"
+          },
+          {
+            "at": 419676,
+            "raw_hex": "4546"
+          },
+          {
+            "at": 419678,
+            "raw_hex": "60b4"
+          },
+          {
+            "at": 419680,
+            "raw_hex": "8146"
+          },
+          {
+            "at": 419682,
+            "raw_hex": "0e1c"
+          },
+          {
+            "at": 419684,
+            "raw_hex": "9046"
+          },
+          {
+            "at": 419686,
+            "raw_hex": "1c1c"
+          },
+          {
+            "at": 419688,
+            "raw_hex": "069d"
+          },
+          {
+            "at": 419690,
+            "raw_hex": "3606"
+          },
+          {
+            "at": 419692,
+            "raw_hex": "360e"
+          },
+          {
+            "at": 419694,
+            "raw_hex": "4046"
+          },
+          {
+            "at": 419696,
+            "raw_hex": "0006"
+          },
+          {
+            "at": 419698,
+            "raw_hex": "000e"
+          },
+          {
+            "at": 419700,
+            "raw_hex": "8046"
+          },
+          {
+            "at": 419702,
+            "raw_hex": "2404"
+          },
+          {
+            "at": 419704,
+            "raw_hex": "240c"
+          },
+          {
+            "at": 419706,
+            "raw_hex": "2d04"
+          },
+          {
+            "at": 419708,
+            "raw_hex": "2d0c"
+          },
+          {
+            "at": 419710,
+            "raw_hex": "fef719ff"
+          }
+        ],
+        "updates": 20,
+        "visited_instruction_count": 20
+      }
+    },
+    {
+      "conditional_frame": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [
+          401004
+        ],
+        "conditional": true,
+        "frontiers": [],
+        "minimum_sp_delta": -20,
+        "natural_execution_proven": false,
+        "non_sp_stores": [
+          {
+            "at": 456186,
+            "mnemonic": "strb",
+            "operands": "r3, [r5]",
+            "raw_hex": "2b70"
+          },
+          {
+            "at": 456246,
+            "mnemonic": "strb",
+            "operands": "r3, [r5]",
+            "raw_hex": "2b70"
+          },
+          {
+            "at": 456308,
+            "mnemonic": "strb",
+            "operands": "r0, [r5]",
+            "raw_hex": "2870"
+          },
+          {
+            "at": 456370,
+            "mnemonic": "strb",
+            "operands": "r0, [r5]",
+            "raw_hex": "2870"
+          },
+          {
+            "at": 456392,
+            "mnemonic": "strb",
+            "operands": "r1, [r0]",
+            "raw_hex": "0170"
+          },
+          {
+            "at": 456400,
+            "mnemonic": "strh",
+            "operands": "r0, [r1]",
+            "raw_hex": "0880"
+          },
+          {
+            "at": 456446,
+            "mnemonic": "strb",
+            "operands": "r6, [r0]",
+            "raw_hex": "0670"
+          },
+          {
+            "at": 456450,
+            "mnemonic": "strh",
+            "operands": "r2, [r0]",
+            "raw_hex": "0280"
+          }
+        ],
+        "preconditions": [
+          {
+            "at": 456186,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 456190,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 401004
+          },
+          {
+            "at": 456246,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 456250,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 401004
+          },
+          {
+            "at": 456308,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 456312,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 401004
+          },
+          {
+            "at": 456370,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 456374,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 401004
+          },
+          {
+            "at": 456392,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 456400,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 456446,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 456450,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          }
+        ],
+        "preserved_registers": [
+          4,
+          5,
+          6,
+          7,
+          13
+        ],
+        "promotion_bytes": 0,
+        "return_count": 1,
+        "return_identity_proven": true,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 456124,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 456124,
+            "raw_hex": "f0b5"
+          },
+          {
+            "at": 456126,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 456128,
+            "raw_hex": "070c"
+          },
+          {
+            "at": 456130,
+            "raw_hex": "1204"
+          },
+          {
+            "at": 456132,
+            "raw_hex": "140c"
+          },
+          {
+            "at": 456134,
+            "raw_hex": "0026"
+          },
+          {
+            "at": 456136,
+            "raw_hex": "4020"
+          },
+          {
+            "at": 456138,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456140,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 456142,
+            "raw_hex": "19d0"
+          },
+          {
+            "at": 456144,
+            "raw_hex": "404a"
+          },
+          {
+            "at": 456146,
+            "raw_hex": "4148"
+          },
+          {
+            "at": 456148,
+            "raw_hex": "9b23"
+          },
+          {
+            "at": 456150,
+            "raw_hex": "9b00"
+          },
+          {
+            "at": 456152,
+            "raw_hex": "c118"
+          },
+          {
+            "at": 456154,
+            "raw_hex": "0133"
+          },
+          {
+            "at": 456156,
+            "raw_hex": "c518"
+          },
+          {
+            "at": 456158,
+            "raw_hex": "2878"
+          },
+          {
+            "at": 456160,
+            "raw_hex": "431e"
+          },
+          {
+            "at": 456162,
+            "raw_hex": "3e48"
+          },
+          {
+            "at": 456164,
+            "raw_hex": "0078"
+          },
+          {
+            "at": 456166,
+            "raw_hex": "5843"
+          },
+          {
+            "at": 456168,
+            "raw_hex": "0978"
+          },
+          {
+            "at": 456170,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456172,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 456174,
+            "raw_hex": "8018"
+          },
+          {
+            "at": 456176,
+            "raw_hex": "0188"
+          },
+          {
+            "at": 456178,
+            "raw_hex": "0f20"
+          },
+          {
+            "at": 456180,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 456182,
+            "raw_hex": "0f28"
+          },
+          {
+            "at": 456184,
+            "raw_hex": "04d0"
+          },
+          {
+            "at": 456186,
+            "raw_hex": "2b70"
+          },
+          {
+            "at": 456188,
+            "raw_hex": "6820"
+          },
+          {
+            "at": 456190,
+            "raw_hex": "f2f735fc"
+          },
+          {
+            "at": 456194,
+            "raw_hex": "0126"
+          },
+          {
+            "at": 456196,
+            "raw_hex": "8020"
+          },
+          {
+            "at": 456198,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456200,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 456202,
+            "raw_hex": "19d0"
+          },
+          {
+            "at": 456204,
+            "raw_hex": "314a"
+          },
+          {
+            "at": 456206,
+            "raw_hex": "3248"
+          },
+          {
+            "at": 456208,
+            "raw_hex": "9b23"
+          },
+          {
+            "at": 456210,
+            "raw_hex": "9b00"
+          },
+          {
+            "at": 456212,
+            "raw_hex": "c118"
+          },
+          {
+            "at": 456214,
+            "raw_hex": "0133"
+          },
+          {
+            "at": 456216,
+            "raw_hex": "c518"
+          },
+          {
+            "at": 456218,
+            "raw_hex": "2878"
+          },
+          {
+            "at": 456220,
+            "raw_hex": "431c"
+          },
+          {
+            "at": 456222,
+            "raw_hex": "2f48"
+          },
+          {
+            "at": 456224,
+            "raw_hex": "0078"
+          },
+          {
+            "at": 456226,
+            "raw_hex": "5843"
+          },
+          {
+            "at": 456228,
+            "raw_hex": "0978"
+          },
+          {
+            "at": 456230,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456232,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 456234,
+            "raw_hex": "8018"
+          },
+          {
+            "at": 456236,
+            "raw_hex": "0188"
+          },
+          {
+            "at": 456238,
+            "raw_hex": "0f20"
+          },
+          {
+            "at": 456240,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 456242,
+            "raw_hex": "0f28"
+          },
+          {
+            "at": 456244,
+            "raw_hex": "04d0"
+          },
+          {
+            "at": 456246,
+            "raw_hex": "2b70"
+          },
+          {
+            "at": 456248,
+            "raw_hex": "6820"
+          },
+          {
+            "at": 456250,
+            "raw_hex": "f2f717fc"
+          },
+          {
+            "at": 456254,
+            "raw_hex": "0126"
+          },
+          {
+            "at": 456256,
+            "raw_hex": "2020"
+          },
+          {
+            "at": 456258,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456260,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 456262,
+            "raw_hex": "1ad0"
+          },
+          {
+            "at": 456264,
+            "raw_hex": "224a"
+          },
+          {
+            "at": 456266,
+            "raw_hex": "2348"
+          },
+          {
+            "at": 456268,
+            "raw_hex": "9b21"
+          },
+          {
+            "at": 456270,
+            "raw_hex": "8900"
+          },
+          {
+            "at": 456272,
+            "raw_hex": "4518"
+          },
+          {
+            "at": 456274,
+            "raw_hex": "2b78"
+          },
+          {
+            "at": 456276,
+            "raw_hex": "0131"
+          },
+          {
+            "at": 456278,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456280,
+            "raw_hex": "0178"
+          },
+          {
+            "at": 456282,
+            "raw_hex": "2048"
+          },
+          {
+            "at": 456284,
+            "raw_hex": "0078"
+          },
+          {
+            "at": 456286,
+            "raw_hex": "4843"
+          },
+          {
+            "at": 456288,
+            "raw_hex": "0138"
+          },
+          {
+            "at": 456290,
+            "raw_hex": "1818"
+          },
+          {
+            "at": 456292,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 456294,
+            "raw_hex": "8018"
+          },
+          {
+            "at": 456296,
+            "raw_hex": "0188"
+          },
+          {
+            "at": 456298,
+            "raw_hex": "0f20"
+          },
+          {
+            "at": 456300,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 456302,
+            "raw_hex": "0f28"
+          },
+          {
+            "at": 456304,
+            "raw_hex": "05d0"
+          },
+          {
+            "at": 456306,
+            "raw_hex": "581e"
+          },
+          {
+            "at": 456308,
+            "raw_hex": "2870"
+          },
+          {
+            "at": 456310,
+            "raw_hex": "6820"
+          },
+          {
+            "at": 456312,
+            "raw_hex": "f2f7f8fb"
+          },
+          {
+            "at": 456316,
+            "raw_hex": "0126"
+          },
+          {
+            "at": 456318,
+            "raw_hex": "1020"
+          },
+          {
+            "at": 456320,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456322,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 456324,
+            "raw_hex": "1ad0"
+          },
+          {
+            "at": 456326,
+            "raw_hex": "134a"
+          },
+          {
+            "at": 456328,
+            "raw_hex": "1348"
+          },
+          {
+            "at": 456330,
+            "raw_hex": "9b23"
+          },
+          {
+            "at": 456332,
+            "raw_hex": "9b00"
+          },
+          {
+            "at": 456334,
+            "raw_hex": "c518"
+          },
+          {
+            "at": 456336,
+            "raw_hex": "2b78"
+          },
+          {
+            "at": 456338,
+            "raw_hex": "1349"
+          },
+          {
+            "at": 456340,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456342,
+            "raw_hex": "0178"
+          },
+          {
+            "at": 456344,
+            "raw_hex": "1048"
+          },
+          {
+            "at": 456346,
+            "raw_hex": "0078"
+          },
+          {
+            "at": 456348,
+            "raw_hex": "4843"
+          },
+          {
+            "at": 456350,
+            "raw_hex": "0130"
+          },
+          {
+            "at": 456352,
+            "raw_hex": "1818"
+          },
+          {
+            "at": 456354,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 456356,
+            "raw_hex": "8018"
+          },
+          {
+            "at": 456358,
+            "raw_hex": "0188"
+          },
+          {
+            "at": 456360,
+            "raw_hex": "0f20"
+          },
+          {
+            "at": 456362,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 456364,
+            "raw_hex": "0f28"
+          },
+          {
+            "at": 456366,
+            "raw_hex": "05d0"
+          },
+          {
+            "at": 456368,
+            "raw_hex": "581c"
+          },
+          {
+            "at": 456370,
+            "raw_hex": "2870"
+          },
+          {
+            "at": 456372,
+            "raw_hex": "6820"
+          },
+          {
+            "at": 456374,
+            "raw_hex": "f2f7d9fb"
+          },
+          {
+            "at": 456378,
+            "raw_hex": "0126"
+          },
+          {
+            "at": 456380,
+            "raw_hex": "002e"
+          },
+          {
+            "at": 456382,
+            "raw_hex": "15d0"
+          },
+          {
+            "at": 456384,
+            "raw_hex": "0548"
+          },
+          {
+            "at": 456386,
+            "raw_hex": "084b"
+          },
+          {
+            "at": 456388,
+            "raw_hex": "c018"
+          },
+          {
+            "at": 456390,
+            "raw_hex": "0121"
+          },
+          {
+            "at": 456392,
+            "raw_hex": "0170"
+          },
+          {
+            "at": 456394,
+            "raw_hex": "0749"
+          },
+          {
+            "at": 456396,
+            "raw_hex": "f020"
+          },
+          {
+            "at": 456398,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456400,
+            "raw_hex": "0880"
+          },
+          {
+            "at": 456402,
+            "raw_hex": "17e0"
+          },
+          {
+            "at": 456428,
+            "raw_hex": "221c"
+          },
+          {
+            "at": 456430,
+            "raw_hex": "3a40"
+          },
+          {
+            "at": 456432,
+            "raw_hex": "002a"
+          },
+          {
+            "at": 456434,
+            "raw_hex": "01d1"
+          },
+          {
+            "at": 456436,
+            "raw_hex": "0020"
+          },
+          {
+            "at": 456438,
+            "raw_hex": "06e0"
+          },
+          {
+            "at": 456440,
+            "raw_hex": "0448"
+          },
+          {
+            "at": 456442,
+            "raw_hex": "0549"
+          },
+          {
+            "at": 456444,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456446,
+            "raw_hex": "0670"
+          },
+          {
+            "at": 456448,
+            "raw_hex": "0448"
+          },
+          {
+            "at": 456450,
+            "raw_hex": "0280"
+          },
+          {
+            "at": 456452,
+            "raw_hex": "0120"
+          },
+          {
+            "at": 456454,
+            "raw_hex": "f0bc"
+          },
+          {
+            "at": 456456,
+            "raw_hex": "02bc"
+          },
+          {
+            "at": 456458,
+            "raw_hex": "0847"
+          }
+        ],
+        "updates": 327,
+        "visited_instruction_count": 152
+      },
+      "range": [
+        456124,
+        456460
+      ],
+      "raw_window_sha256": "d394d4b6a9c9c046371e29422682d97c96b266aa4305fdd5ec7562d68e545b30",
+      "strict": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [
+          401004
+        ],
+        "conditional": false,
+        "frontiers": [
+          {
+            "at": 456190,
+            "kind": "opaque_child_call",
+            "target": 401004
+          },
+          {
+            "at": 456250,
+            "kind": "opaque_child_call",
+            "target": 401004
+          },
+          {
+            "at": 456312,
+            "kind": "opaque_child_call",
+            "target": 401004
+          },
+          {
+            "at": 456374,
+            "kind": "opaque_child_call",
+            "target": 401004
+          },
+          {
+            "at": 456458,
+            "kind": "unproved_return_identity",
+            "sp_delta": 0
+          }
+        ],
+        "minimum_sp_delta": -20,
+        "natural_execution_proven": false,
+        "non_sp_stores": [
+          {
+            "at": 456186,
+            "mnemonic": "strb",
+            "operands": "r3, [r5]",
+            "raw_hex": "2b70"
+          },
+          {
+            "at": 456246,
+            "mnemonic": "strb",
+            "operands": "r3, [r5]",
+            "raw_hex": "2b70"
+          },
+          {
+            "at": 456308,
+            "mnemonic": "strb",
+            "operands": "r0, [r5]",
+            "raw_hex": "2870"
+          },
+          {
+            "at": 456370,
+            "mnemonic": "strb",
+            "operands": "r0, [r5]",
+            "raw_hex": "2870"
+          },
+          {
+            "at": 456392,
+            "mnemonic": "strb",
+            "operands": "r1, [r0]",
+            "raw_hex": "0170"
+          },
+          {
+            "at": 456400,
+            "mnemonic": "strh",
+            "operands": "r0, [r1]",
+            "raw_hex": "0880"
+          },
+          {
+            "at": 456446,
+            "mnemonic": "strb",
+            "operands": "r6, [r0]",
+            "raw_hex": "0670"
+          },
+          {
+            "at": 456450,
+            "mnemonic": "strh",
+            "operands": "r2, [r0]",
+            "raw_hex": "0280"
+          }
+        ],
+        "preconditions": [],
+        "preserved_registers": [],
+        "promotion_bytes": 0,
+        "return_count": 1,
+        "return_identity_proven": false,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 456124,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 456124,
+            "raw_hex": "f0b5"
+          },
+          {
+            "at": 456126,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 456128,
+            "raw_hex": "070c"
+          },
+          {
+            "at": 456130,
+            "raw_hex": "1204"
+          },
+          {
+            "at": 456132,
+            "raw_hex": "140c"
+          },
+          {
+            "at": 456134,
+            "raw_hex": "0026"
+          },
+          {
+            "at": 456136,
+            "raw_hex": "4020"
+          },
+          {
+            "at": 456138,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456140,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 456142,
+            "raw_hex": "19d0"
+          },
+          {
+            "at": 456144,
+            "raw_hex": "404a"
+          },
+          {
+            "at": 456146,
+            "raw_hex": "4148"
+          },
+          {
+            "at": 456148,
+            "raw_hex": "9b23"
+          },
+          {
+            "at": 456150,
+            "raw_hex": "9b00"
+          },
+          {
+            "at": 456152,
+            "raw_hex": "c118"
+          },
+          {
+            "at": 456154,
+            "raw_hex": "0133"
+          },
+          {
+            "at": 456156,
+            "raw_hex": "c518"
+          },
+          {
+            "at": 456158,
+            "raw_hex": "2878"
+          },
+          {
+            "at": 456160,
+            "raw_hex": "431e"
+          },
+          {
+            "at": 456162,
+            "raw_hex": "3e48"
+          },
+          {
+            "at": 456164,
+            "raw_hex": "0078"
+          },
+          {
+            "at": 456166,
+            "raw_hex": "5843"
+          },
+          {
+            "at": 456168,
+            "raw_hex": "0978"
+          },
+          {
+            "at": 456170,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456172,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 456174,
+            "raw_hex": "8018"
+          },
+          {
+            "at": 456176,
+            "raw_hex": "0188"
+          },
+          {
+            "at": 456178,
+            "raw_hex": "0f20"
+          },
+          {
+            "at": 456180,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 456182,
+            "raw_hex": "0f28"
+          },
+          {
+            "at": 456184,
+            "raw_hex": "04d0"
+          },
+          {
+            "at": 456186,
+            "raw_hex": "2b70"
+          },
+          {
+            "at": 456188,
+            "raw_hex": "6820"
+          },
+          {
+            "at": 456190,
+            "raw_hex": "f2f735fc"
+          },
+          {
+            "at": 456196,
+            "raw_hex": "8020"
+          },
+          {
+            "at": 456198,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456200,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 456202,
+            "raw_hex": "19d0"
+          },
+          {
+            "at": 456204,
+            "raw_hex": "314a"
+          },
+          {
+            "at": 456206,
+            "raw_hex": "3248"
+          },
+          {
+            "at": 456208,
+            "raw_hex": "9b23"
+          },
+          {
+            "at": 456210,
+            "raw_hex": "9b00"
+          },
+          {
+            "at": 456212,
+            "raw_hex": "c118"
+          },
+          {
+            "at": 456214,
+            "raw_hex": "0133"
+          },
+          {
+            "at": 456216,
+            "raw_hex": "c518"
+          },
+          {
+            "at": 456218,
+            "raw_hex": "2878"
+          },
+          {
+            "at": 456220,
+            "raw_hex": "431c"
+          },
+          {
+            "at": 456222,
+            "raw_hex": "2f48"
+          },
+          {
+            "at": 456224,
+            "raw_hex": "0078"
+          },
+          {
+            "at": 456226,
+            "raw_hex": "5843"
+          },
+          {
+            "at": 456228,
+            "raw_hex": "0978"
+          },
+          {
+            "at": 456230,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456232,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 456234,
+            "raw_hex": "8018"
+          },
+          {
+            "at": 456236,
+            "raw_hex": "0188"
+          },
+          {
+            "at": 456238,
+            "raw_hex": "0f20"
+          },
+          {
+            "at": 456240,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 456242,
+            "raw_hex": "0f28"
+          },
+          {
+            "at": 456244,
+            "raw_hex": "04d0"
+          },
+          {
+            "at": 456246,
+            "raw_hex": "2b70"
+          },
+          {
+            "at": 456248,
+            "raw_hex": "6820"
+          },
+          {
+            "at": 456250,
+            "raw_hex": "f2f717fc"
+          },
+          {
+            "at": 456256,
+            "raw_hex": "2020"
+          },
+          {
+            "at": 456258,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456260,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 456262,
+            "raw_hex": "1ad0"
+          },
+          {
+            "at": 456264,
+            "raw_hex": "224a"
+          },
+          {
+            "at": 456266,
+            "raw_hex": "2348"
+          },
+          {
+            "at": 456268,
+            "raw_hex": "9b21"
+          },
+          {
+            "at": 456270,
+            "raw_hex": "8900"
+          },
+          {
+            "at": 456272,
+            "raw_hex": "4518"
+          },
+          {
+            "at": 456274,
+            "raw_hex": "2b78"
+          },
+          {
+            "at": 456276,
+            "raw_hex": "0131"
+          },
+          {
+            "at": 456278,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456280,
+            "raw_hex": "0178"
+          },
+          {
+            "at": 456282,
+            "raw_hex": "2048"
+          },
+          {
+            "at": 456284,
+            "raw_hex": "0078"
+          },
+          {
+            "at": 456286,
+            "raw_hex": "4843"
+          },
+          {
+            "at": 456288,
+            "raw_hex": "0138"
+          },
+          {
+            "at": 456290,
+            "raw_hex": "1818"
+          },
+          {
+            "at": 456292,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 456294,
+            "raw_hex": "8018"
+          },
+          {
+            "at": 456296,
+            "raw_hex": "0188"
+          },
+          {
+            "at": 456298,
+            "raw_hex": "0f20"
+          },
+          {
+            "at": 456300,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 456302,
+            "raw_hex": "0f28"
+          },
+          {
+            "at": 456304,
+            "raw_hex": "05d0"
+          },
+          {
+            "at": 456306,
+            "raw_hex": "581e"
+          },
+          {
+            "at": 456308,
+            "raw_hex": "2870"
+          },
+          {
+            "at": 456310,
+            "raw_hex": "6820"
+          },
+          {
+            "at": 456312,
+            "raw_hex": "f2f7f8fb"
+          },
+          {
+            "at": 456318,
+            "raw_hex": "1020"
+          },
+          {
+            "at": 456320,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456322,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 456324,
+            "raw_hex": "1ad0"
+          },
+          {
+            "at": 456326,
+            "raw_hex": "134a"
+          },
+          {
+            "at": 456328,
+            "raw_hex": "1348"
+          },
+          {
+            "at": 456330,
+            "raw_hex": "9b23"
+          },
+          {
+            "at": 456332,
+            "raw_hex": "9b00"
+          },
+          {
+            "at": 456334,
+            "raw_hex": "c518"
+          },
+          {
+            "at": 456336,
+            "raw_hex": "2b78"
+          },
+          {
+            "at": 456338,
+            "raw_hex": "1349"
+          },
+          {
+            "at": 456340,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456342,
+            "raw_hex": "0178"
+          },
+          {
+            "at": 456344,
+            "raw_hex": "1048"
+          },
+          {
+            "at": 456346,
+            "raw_hex": "0078"
+          },
+          {
+            "at": 456348,
+            "raw_hex": "4843"
+          },
+          {
+            "at": 456350,
+            "raw_hex": "0130"
+          },
+          {
+            "at": 456352,
+            "raw_hex": "1818"
+          },
+          {
+            "at": 456354,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 456356,
+            "raw_hex": "8018"
+          },
+          {
+            "at": 456358,
+            "raw_hex": "0188"
+          },
+          {
+            "at": 456360,
+            "raw_hex": "0f20"
+          },
+          {
+            "at": 456362,
+            "raw_hex": "0840"
+          },
+          {
+            "at": 456364,
+            "raw_hex": "0f28"
+          },
+          {
+            "at": 456366,
+            "raw_hex": "05d0"
+          },
+          {
+            "at": 456368,
+            "raw_hex": "581c"
+          },
+          {
+            "at": 456370,
+            "raw_hex": "2870"
+          },
+          {
+            "at": 456372,
+            "raw_hex": "6820"
+          },
+          {
+            "at": 456374,
+            "raw_hex": "f2f7d9fb"
+          },
+          {
+            "at": 456380,
+            "raw_hex": "002e"
+          },
+          {
+            "at": 456382,
+            "raw_hex": "15d0"
+          },
+          {
+            "at": 456384,
+            "raw_hex": "0548"
+          },
+          {
+            "at": 456386,
+            "raw_hex": "084b"
+          },
+          {
+            "at": 456388,
+            "raw_hex": "c018"
+          },
+          {
+            "at": 456390,
+            "raw_hex": "0121"
+          },
+          {
+            "at": 456392,
+            "raw_hex": "0170"
+          },
+          {
+            "at": 456394,
+            "raw_hex": "0749"
+          },
+          {
+            "at": 456396,
+            "raw_hex": "f020"
+          },
+          {
+            "at": 456398,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 456400,
+            "raw_hex": "0880"
+          },
+          {
+            "at": 456402,
+            "raw_hex": "17e0"
+          },
+          {
+            "at": 456428,
+            "raw_hex": "221c"
+          },
+          {
+            "at": 456430,
+            "raw_hex": "3a40"
+          },
+          {
+            "at": 456432,
+            "raw_hex": "002a"
+          },
+          {
+            "at": 456434,
+            "raw_hex": "01d1"
+          },
+          {
+            "at": 456436,
+            "raw_hex": "0020"
+          },
+          {
+            "at": 456438,
+            "raw_hex": "06e0"
+          },
+          {
+            "at": 456440,
+            "raw_hex": "0448"
+          },
+          {
+            "at": 456442,
+            "raw_hex": "0549"
+          },
+          {
+            "at": 456444,
+            "raw_hex": "4018"
+          },
+          {
+            "at": 456446,
+            "raw_hex": "0670"
+          },
+          {
+            "at": 456448,
+            "raw_hex": "0448"
+          },
+          {
+            "at": 456450,
+            "raw_hex": "0280"
+          },
+          {
+            "at": 456452,
+            "raw_hex": "0120"
+          },
+          {
+            "at": 456454,
+            "raw_hex": "f0bc"
+          },
+          {
+            "at": 456456,
+            "raw_hex": "02bc"
+          },
+          {
+            "at": 456458,
+            "raw_hex": "0847"
+          }
+        ],
+        "updates": 209,
+        "visited_instruction_count": 148
+      }
+    },
+    {
+      "conditional_frame": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [
+          639200,
+          639460
+        ],
+        "conditional": true,
+        "frontiers": [],
+        "minimum_sp_delta": -28,
+        "natural_execution_proven": false,
+        "non_sp_stores": [
+          {
+            "at": 578968,
+            "mnemonic": "strh",
+            "operands": "r0, [r1]",
+            "raw_hex": "0880"
+          },
+          {
+            "at": 579134,
+            "mnemonic": "strh",
+            "operands": "r0, [r5]",
+            "raw_hex": "2880"
+          },
+          {
+            "at": 579152,
+            "mnemonic": "strh",
+            "operands": "r7, [r0]",
+            "raw_hex": "0780"
+          }
+        ],
+        "preconditions": [
+          {
+            "at": 578976,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 639200
+          },
+          {
+            "at": 578990,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 639200
+          },
+          {
+            "at": 579096,
+            "kind": "child_returns_same_sp_and_private_frame_intact",
+            "target": 639460
+          },
+          {
+            "at": 579134,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          },
+          {
+            "at": 579152,
+            "kind": "non_sp_store_disjoint_from_saved_private_words"
+          }
+        ],
+        "preserved_registers": [
+          4,
+          5,
+          6,
+          7,
+          8,
+          13
+        ],
+        "promotion_bytes": 0,
+        "return_count": 1,
+        "return_identity_proven": true,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 578944,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 578944,
+            "raw_hex": "f0b5"
+          },
+          {
+            "at": 578946,
+            "raw_hex": "4746"
+          },
+          {
+            "at": 578948,
+            "raw_hex": "80b4"
+          },
+          {
+            "at": 578950,
+            "raw_hex": "81b0"
+          },
+          {
+            "at": 578952,
+            "raw_hex": "0e4d"
+          },
+          {
+            "at": 578954,
+            "raw_hex": "0f4e"
+          },
+          {
+            "at": 578956,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 578958,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 578960,
+            "raw_hex": "22d0"
+          },
+          {
+            "at": 578962,
+            "raw_hex": "6946"
+          },
+          {
+            "at": 578964,
+            "raw_hex": "0d48"
+          },
+          {
+            "at": 578966,
+            "raw_hex": "0068"
+          },
+          {
+            "at": 578968,
+            "raw_hex": "0880"
+          },
+          {
+            "at": 578970,
+            "raw_hex": "0d4a"
+          },
+          {
+            "at": 578972,
+            "raw_hex": "6846"
+          },
+          {
+            "at": 578974,
+            "raw_hex": "291c"
+          },
+          {
+            "at": 578976,
+            "raw_hex": "0ef09efd"
+          },
+          {
+            "at": 578980,
+            "raw_hex": "0b4d"
+          },
+          {
+            "at": 578982,
+            "raw_hex": "0024"
+          },
+          {
+            "at": 578984,
+            "raw_hex": "301c"
+          },
+          {
+            "at": 578986,
+            "raw_hex": "291c"
+          },
+          {
+            "at": 578988,
+            "raw_hex": "2022"
+          },
+          {
+            "at": 578990,
+            "raw_hex": "0ef097fd"
+          },
+          {
+            "at": 578994,
+            "raw_hex": "5036"
+          },
+          {
+            "at": 578996,
+            "raw_hex": "4035"
+          },
+          {
+            "at": 578998,
+            "raw_hex": "601c"
+          },
+          {
+            "at": 579000,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579002,
+            "raw_hex": "040c"
+          },
+          {
+            "at": 579004,
+            "raw_hex": "062c"
+          },
+          {
+            "at": 579006,
+            "raw_hex": "f3d9"
+          },
+          {
+            "at": 579008,
+            "raw_hex": "47e0"
+          },
+          {
+            "at": 579032,
+            "raw_hex": "084d"
+          },
+          {
+            "at": 579034,
+            "raw_hex": "0948"
+          },
+          {
+            "at": 579036,
+            "raw_hex": "8068"
+          },
+          {
+            "at": 579038,
+            "raw_hex": "4001"
+          },
+          {
+            "at": 579040,
+            "raw_hex": "070c"
+          },
+          {
+            "at": 579042,
+            "raw_hex": "0849"
+          },
+          {
+            "at": 579044,
+            "raw_hex": "0a88"
+          },
+          {
+            "at": 579046,
+            "raw_hex": "b81a"
+          },
+          {
+            "at": 579048,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579050,
+            "raw_hex": "030c"
+          },
+          {
+            "at": 579052,
+            "raw_hex": "8846"
+          },
+          {
+            "at": 579054,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 579056,
+            "raw_hex": "2dd0"
+          },
+          {
+            "at": 579058,
+            "raw_hex": "1804"
+          },
+          {
+            "at": 579060,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 579062,
+            "raw_hex": "07da"
+          },
+          {
+            "at": 579064,
+            "raw_hex": "501e"
+          },
+          {
+            "at": 579066,
+            "raw_hex": "07e0"
+          },
+          {
+            "at": 579080,
+            "raw_hex": "101c"
+          },
+          {
+            "at": 579082,
+            "raw_hex": "1f30"
+          },
+          {
+            "at": 579084,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579086,
+            "raw_hex": "000c"
+          },
+          {
+            "at": 579088,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579090,
+            "raw_hex": "0414"
+          },
+          {
+            "at": 579092,
+            "raw_hex": "201c"
+          },
+          {
+            "at": 579094,
+            "raw_hex": "2821"
+          },
+          {
+            "at": 579096,
+            "raw_hex": "0ef0e4fd"
+          },
+          {
+            "at": 579100,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579102,
+            "raw_hex": "010c"
+          },
+          {
+            "at": 579104,
+            "raw_hex": "0014"
+          },
+          {
+            "at": 579106,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 579108,
+            "raw_hex": "02da"
+          },
+          {
+            "at": 579110,
+            "raw_hex": "2830"
+          },
+          {
+            "at": 579112,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579114,
+            "raw_hex": "010c"
+          },
+          {
+            "at": 579116,
+            "raw_hex": "0804"
+          },
+          {
+            "at": 579118,
+            "raw_hex": "c013"
+          },
+          {
+            "at": 579120,
+            "raw_hex": "3618"
+          },
+          {
+            "at": 579122,
+            "raw_hex": "1f20"
+          },
+          {
+            "at": 579124,
+            "raw_hex": "2040"
+          },
+          {
+            "at": 579126,
+            "raw_hex": "4000"
+          },
+          {
+            "at": 579128,
+            "raw_hex": "2d18"
+          },
+          {
+            "at": 579130,
+            "raw_hex": "0024"
+          },
+          {
+            "at": 579132,
+            "raw_hex": "3088"
+          },
+          {
+            "at": 579134,
+            "raw_hex": "2880"
+          },
+          {
+            "at": 579136,
+            "raw_hex": "4035"
+          },
+          {
+            "at": 579138,
+            "raw_hex": "5036"
+          },
+          {
+            "at": 579140,
+            "raw_hex": "601c"
+          },
+          {
+            "at": 579142,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579144,
+            "raw_hex": "040c"
+          },
+          {
+            "at": 579146,
+            "raw_hex": "142c"
+          },
+          {
+            "at": 579148,
+            "raw_hex": "f6d9"
+          },
+          {
+            "at": 579150,
+            "raw_hex": "4046"
+          },
+          {
+            "at": 579152,
+            "raw_hex": "0780"
+          },
+          {
+            "at": 579154,
+            "raw_hex": "01b0"
+          },
+          {
+            "at": 579156,
+            "raw_hex": "08bc"
+          },
+          {
+            "at": 579158,
+            "raw_hex": "9846"
+          },
+          {
+            "at": 579160,
+            "raw_hex": "f0bc"
+          },
+          {
+            "at": 579162,
+            "raw_hex": "01bc"
+          },
+          {
+            "at": 579164,
+            "raw_hex": "0047"
+          }
+        ],
+        "updates": 112,
+        "visited_instruction_count": 91
+      },
+      "range": [
+        578944,
+        579166
+      ],
+      "raw_window_sha256": "a2b774affc930d68ae9f79c2b4400c7172b630c9a9d959bbae3f57db717ce305",
+      "strict": {
+        "caller_stack_facts_preserved": false,
+        "child_call_targets": [
+          639200,
+          639460
+        ],
+        "conditional": false,
+        "frontiers": [
+          {
+            "at": 578976,
+            "kind": "opaque_child_call",
+            "target": 639200
+          },
+          {
+            "at": 579096,
+            "kind": "opaque_child_call",
+            "target": 639460
+          },
+          {
+            "at": 579164,
+            "kind": "unproved_return_identity",
+            "sp_delta": 0
+          }
+        ],
+        "minimum_sp_delta": -28,
+        "natural_execution_proven": false,
+        "non_sp_stores": [
+          {
+            "at": 578968,
+            "mnemonic": "strh",
+            "operands": "r0, [r1]",
+            "raw_hex": "0880"
+          },
+          {
+            "at": 579152,
+            "mnemonic": "strh",
+            "operands": "r7, [r0]",
+            "raw_hex": "0780"
+          }
+        ],
+        "preconditions": [],
+        "preserved_registers": [],
+        "promotion_bytes": 0,
+        "return_count": 0,
+        "return_identity_proven": false,
+        "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "root": 578944,
+        "scope": "All edges of fixed bounded source graph; identities conditional on listed memory/return assumptions.",
+        "source_instructions": [
+          {
+            "at": 578944,
+            "raw_hex": "f0b5"
+          },
+          {
+            "at": 578946,
+            "raw_hex": "4746"
+          },
+          {
+            "at": 578948,
+            "raw_hex": "80b4"
+          },
+          {
+            "at": 578950,
+            "raw_hex": "81b0"
+          },
+          {
+            "at": 578952,
+            "raw_hex": "0e4d"
+          },
+          {
+            "at": 578954,
+            "raw_hex": "0f4e"
+          },
+          {
+            "at": 578956,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 578958,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 578960,
+            "raw_hex": "22d0"
+          },
+          {
+            "at": 578962,
+            "raw_hex": "6946"
+          },
+          {
+            "at": 578964,
+            "raw_hex": "0d48"
+          },
+          {
+            "at": 578966,
+            "raw_hex": "0068"
+          },
+          {
+            "at": 578968,
+            "raw_hex": "0880"
+          },
+          {
+            "at": 578970,
+            "raw_hex": "0d4a"
+          },
+          {
+            "at": 578972,
+            "raw_hex": "6846"
+          },
+          {
+            "at": 578974,
+            "raw_hex": "291c"
+          },
+          {
+            "at": 578976,
+            "raw_hex": "0ef09efd"
+          },
+          {
+            "at": 579032,
+            "raw_hex": "084d"
+          },
+          {
+            "at": 579034,
+            "raw_hex": "0948"
+          },
+          {
+            "at": 579036,
+            "raw_hex": "8068"
+          },
+          {
+            "at": 579038,
+            "raw_hex": "4001"
+          },
+          {
+            "at": 579040,
+            "raw_hex": "070c"
+          },
+          {
+            "at": 579042,
+            "raw_hex": "0849"
+          },
+          {
+            "at": 579044,
+            "raw_hex": "0a88"
+          },
+          {
+            "at": 579046,
+            "raw_hex": "b81a"
+          },
+          {
+            "at": 579048,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579050,
+            "raw_hex": "030c"
+          },
+          {
+            "at": 579052,
+            "raw_hex": "8846"
+          },
+          {
+            "at": 579054,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 579056,
+            "raw_hex": "2dd0"
+          },
+          {
+            "at": 579058,
+            "raw_hex": "1804"
+          },
+          {
+            "at": 579060,
+            "raw_hex": "0028"
+          },
+          {
+            "at": 579062,
+            "raw_hex": "07da"
+          },
+          {
+            "at": 579064,
+            "raw_hex": "501e"
+          },
+          {
+            "at": 579066,
+            "raw_hex": "07e0"
+          },
+          {
+            "at": 579080,
+            "raw_hex": "101c"
+          },
+          {
+            "at": 579082,
+            "raw_hex": "1f30"
+          },
+          {
+            "at": 579084,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579086,
+            "raw_hex": "000c"
+          },
+          {
+            "at": 579088,
+            "raw_hex": "0004"
+          },
+          {
+            "at": 579090,
+            "raw_hex": "0414"
+          },
+          {
+            "at": 579092,
+            "raw_hex": "201c"
+          },
+          {
+            "at": 579094,
+            "raw_hex": "2821"
+          },
+          {
+            "at": 579096,
+            "raw_hex": "0ef0e4fd"
+          },
+          {
+            "at": 579150,
+            "raw_hex": "4046"
+          },
+          {
+            "at": 579152,
+            "raw_hex": "0780"
+          },
+          {
+            "at": 579154,
+            "raw_hex": "01b0"
+          },
+          {
+            "at": 579156,
+            "raw_hex": "08bc"
+          },
+          {
+            "at": 579158,
+            "raw_hex": "9846"
+          },
+          {
+            "at": 579160,
+            "raw_hex": "f0bc"
+          },
+          {
+            "at": 579162,
+            "raw_hex": "01bc"
+          },
+          {
+            "at": 579164,
+            "raw_hex": "0047"
+          }
+        ],
+        "updates": 52,
+        "visited_instruction_count": 52
+      }
+    }
+  ],
+  "schema": "animation-callee-identities-v1",
+  "scope": "Bounded identities only; child/private-frame preconditions are unproved for callers. No BIOS effect contract, caller memory preservation or natural execution.",
+  "source_instruction_count": 64926
+}

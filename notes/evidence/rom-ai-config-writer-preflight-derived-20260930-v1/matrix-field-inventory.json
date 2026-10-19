@@ -1,0 +1,32 @@
+{
+  "arbitrary_u8_lookup_source_plus2": {
+    "base": 5509604,
+    "domain": "arbitrary byte, not established live domain",
+    "field_offset": 2,
+    "first_out_of_bound_sample": {
+      "lookup_byte": 24,
+      "rom_offset": 5513734,
+      "value": 9
+    },
+    "maximum": 100,
+    "minimum": 0,
+    "out_of_0_to_7_count": 24,
+    "stride": 172
+  },
+  "bytes_promoted": 0,
+  "extractor_path": "tools/extract_positions.py",
+  "extractor_sha256": "71482f22724665f12621b4d2d40e00536338cde799ed0fa7594d004d7ea2a35c",
+  "first_branch_plus_0e_counts": {
+    "255": 123
+  },
+  "first_branch_records": 123,
+  "matrix_records": 1728,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "scope": "fixed matrix content inventory only; matrix index lifecycle and alternate RAM lookup input domain unproved; no semantic promotion",
+  "second_branch_records": 24,
+  "second_branch_selectors": {
+    "250": 8,
+    "251": 8,
+    "252": 8
+  }
+}

@@ -403,6 +403,30 @@ visibility gate、sequence model ID、OAM priority 或 shape/size mask 篡改；
 OAM 公式的语义依据仍是人工审计且由精确 Thumb 切片哈希约束，不把两份同结论实现
 冒充第二个指令级解释器。
 
+## 2026-08-20 coverage promotion
+
+字节覆盖审计复用本 artifact 与上述独立 verifier，没有创建第二份 source artifact。
+审计器从固定 18 组分母重新读取 ROM，并失败关闭地验证：
+
+- 178 段 component list：9,452 字节；每段大小为 `component_count * 20 + 4`，
+  末尾固定为 `FFFF 0000`；
+- 18 张 definition pointer table：712 字节；逐个 u32 指针与对应 frame 的
+  `component_list_pointer` 一致；
+- 23 段 animation timeline：864 字节；逐 keyframe 核对并以 `<FFFF,0000>` 终止；
+- 18 张 animation pointer table：92 字节；逐个 u32 指针与对应 timeline 一致。
+
+四类合计 237 个互不重叠的完整 source claim、11,120 字节；所有范围在接入时均完整
+属于 current unknown，任一已分类字节都会使整批失败，禁止切片或重认领。claim 分母
+SHA-256 为
+`c30b25fbed4a80914e8bc9e8d33ec7545e47a01a005866460323ac8c9b84ba30`。
+
+接入后 coverage 为 classified 6,089,734、unknown 201,722、claim 13,604
+（96.7937%），SHA-256
+`6a05996ee76bbd9bee6acc7232c2ac969dd2f2b762282e2ba3698f6c5ef01b99`。受守卫 formal
+proof 执行 60 个唯一 verifier，60/60 均 `exit_code=0`、`contract_ok=true`。本批只
+证明静态 source 字节和指针/终止边界，不证明自然运行时全量可达、图形或调色板 payload
+范围扩张、可编辑空间、写回安全或实体 GBA 行为。
+
 ## 尚未闭合
 
 - 普通源空间预览应用 component tile 顺序与 H/V flip，但不应用 screen-space base

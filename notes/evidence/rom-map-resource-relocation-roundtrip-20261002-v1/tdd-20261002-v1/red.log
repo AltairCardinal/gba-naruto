@@ -1,0 +1,161 @@
+test_actual_rom_and_ledger_faults_are_not_verified (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_actual_rom_and_ledger_faults_are_not_verified) ... 
+  test_actual_rom_and_ledger_faults_are_not_verified (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_actual_rom_and_ledger_faults_are_not_verified) (fault='old-source') ... ERROR
+  test_actual_rom_and_ledger_faults_are_not_verified (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_actual_rom_and_ledger_faults_are_not_verified) (fault='missing-alias') ... ERROR
+  test_actual_rom_and_ledger_faults_are_not_verified (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_actual_rom_and_ledger_faults_are_not_verified) (fault='wrong-owner') ... ERROR
+  test_actual_rom_and_ledger_faults_are_not_verified (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_actual_rom_and_ledger_faults_are_not_verified) (fault='partial-reject') ... ERROR
+test_cli_missing_inputs_is_json_failure (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_cli_missing_inputs_is_json_failure) ... ERROR
+test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) ... 
+  test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='contract') ... ERROR
+  test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='implementation') ... ERROR
+  test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='missing') ... ERROR
+  test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='symlink') ... ERROR
+  test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='inactive') ... ERROR
+  test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='unmanaged') ... ERROR
+test_real_cli_full_batches_and_negative_cases_in_rom_only_environment (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_real_cli_full_batches_and_negative_cases_in_rom_only_environment) ... FAIL
+
+======================================================================
+ERROR: test_actual_rom_and_ledger_faults_are_not_verified (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_actual_rom_and_ledger_faults_are_not_verified) (fault='old-source')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 77, in test_actual_rom_and_ledger_faults_are_not_verified
+    with self.assertRaisesRegex(ValueError,message):auditor.run_roundtrip(root,run)
+                                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+ERROR: test_actual_rom_and_ledger_faults_are_not_verified (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_actual_rom_and_ledger_faults_are_not_verified) (fault='missing-alias')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 77, in test_actual_rom_and_ledger_faults_are_not_verified
+    with self.assertRaisesRegex(ValueError,message):auditor.run_roundtrip(root,run)
+                                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+ERROR: test_actual_rom_and_ledger_faults_are_not_verified (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_actual_rom_and_ledger_faults_are_not_verified) (fault='wrong-owner')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 77, in test_actual_rom_and_ledger_faults_are_not_verified
+    with self.assertRaisesRegex(ValueError,message):auditor.run_roundtrip(root,run)
+                                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+ERROR: test_actual_rom_and_ledger_faults_are_not_verified (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_actual_rom_and_ledger_faults_are_not_verified) (fault='partial-reject')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 77, in test_actual_rom_and_ledger_faults_are_not_verified
+    with self.assertRaisesRegex(ValueError,message):auditor.run_roundtrip(root,run)
+                                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+ERROR: test_cli_missing_inputs_is_json_failure (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_cli_missing_inputs_is_json_failure)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 101, in test_cli_missing_inputs_is_json_failure
+    r=json.loads(done.stdout);self.assertFalse(r['verified']);self.assertTrue(r['errors'])
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+======================================================================
+ERROR: test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='contract')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 94, in test_frozen_input_and_run_guards_fail_before_materialization
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+ERROR: test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='implementation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 94, in test_frozen_input_and_run_guards_fail_before_materialization
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+ERROR: test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='missing')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 94, in test_frozen_input_and_run_guards_fail_before_materialization
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+ERROR: test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='symlink')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 94, in test_frozen_input_and_run_guards_fail_before_materialization
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+ERROR: test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='inactive')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 94, in test_frozen_input_and_run_guards_fail_before_materialization
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+ERROR: test_frozen_input_and_run_guards_fail_before_materialization (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_frozen_input_and_run_guards_fail_before_materialization) (kind='unmanaged')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 94, in test_frozen_input_and_run_guards_fail_before_materialization
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+======================================================================
+FAIL: test_real_cli_full_batches_and_negative_cases_in_rom_only_environment (tests.test_map_resource_relocation_roundtrip.MapRelocationRoundtripTests.test_real_cli_full_batches_and_negative_cases_in_rom_only_environment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_relocation_roundtrip.py", line 29, in test_real_cli_full_batches_and_negative_cases_in_rom_only_environment
+    self.assertEqual(done.returncode,0,done.stderr+done.stdout[-1000:])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/private/var/folders/97/b625qtfj7q79fvq1z3_x0ndr0000gn/T/tmpfnqa4qwq/tools/audit_map_resource_relocation_roundtrip.py", line 18, in <module>
+    if __name__=='__main__':run_roundtrip(ROOT,ROOT)
+                            ~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/private/var/folders/97/b625qtfj7q79fvq1z3_x0ndr0000gn/T/tmpfnqa4qwq/tools/audit_map_resource_relocation_roundtrip.py", line 15, in run_roundtrip
+    raise NotImplementedError('relocation build/readback batches not implemented')
+NotImplementedError: relocation build/readback batches not implemented
+
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.222s
+
+FAILED (failures=1, errors=11)

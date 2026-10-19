@@ -1,0 +1,154 @@
+{
+  "proof_sha256": "465a13104b6c9a6d0ea418ca513dd0be732438634f1124a3a531c893b11db568",
+  "rows": [
+    {
+      "command": [
+        "python3",
+        "tools/verify_menu_portrait_writeback_audit.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/menu-portrait-writeback-v1"
+      ],
+      "exit_code": 0,
+      "report": {
+        "errors": [],
+        "resource_count": 74,
+        "schema": "menu-portrait-writeback-verification-v1",
+        "verified": true
+      },
+      "script_sha256": "6df2c2b1c9b2495d882a01111da9894da9adab894161b3126f28d0cb97324734",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "python3",
+        "tools/verify_map_resource_writeback_audit.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/map-resource-writeback-v1"
+      ],
+      "exit_code": 0,
+      "report": {
+        "content_resource_count": 166,
+        "errors": [],
+        "logical_reference_count": 249,
+        "physical_slot_count": 217,
+        "schema": "map-resource-writeback-verification-v1",
+        "verified": true
+      },
+      "script_sha256": "490aaa64022037969aba58f819120f79a226b61caafe4540a3160362d7a4f591",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "python3",
+        "tools/verify_battle_effect_resource_writeback_audit.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/battle-effect-resource-writeback-v1"
+      ],
+      "exit_code": 1,
+      "report": {
+        "content_resource_count": 34,
+        "errors": [
+          "implementation mismatch"
+        ],
+        "logical_reference_count": 36,
+        "physical_slot_count": 35,
+        "schema": "battle-effect-resource-writeback-verification-v1",
+        "verified": false
+      },
+      "script_sha256": "117042e30a9cb84bca910379321fd145341652779db1f2c53ca09c41d933f708",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "python3",
+        "tools/verify_bg_resource_writeback_audit.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/bg-resource-writeback-v1"
+      ],
+      "exit_code": 0,
+      "report": {
+        "content_resources": 31,
+        "errors": [],
+        "logical_references": 36,
+        "physical_slots": 36,
+        "verified": true
+      },
+      "script_sha256": "567b4016ca3236f2c73dd97467776868340d01b45f9bf3f70b192482f275afa5",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "python3",
+        "tools/verify_character_battle_palette_writeback_audit.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/character-battle-palette-writeback-v1"
+      ],
+      "exit_code": 0,
+      "report": {
+        "errors": [],
+        "palettes": 48,
+        "resources": 250,
+        "schema": "character-battle-palette-writeback-verification-v1",
+        "slots": 342,
+        "verified": true
+      },
+      "script_sha256": "ea6a30cef860dc5a96c6bec1739ebf8e7f45a5011f1d33925bb78ada6f502387",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "python3",
+        "tools/verify_character_battle_graphics_writeback_audit.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/character-battle-graphics-writeback-v1"
+      ],
+      "exit_code": 0,
+      "report": {
+        "components": 2190,
+        "errors": [],
+        "graphics": 250,
+        "resources": 250,
+        "slots": 342,
+        "verified": true
+      },
+      "script_sha256": "1642d4ea34f9e4dbd169df7fad92f06b4c6e579b16cb0109bf901f19ebc32b32",
+      "stderr_tail": ""
+    },
+    {
+      "command": [
+        "python3",
+        "tools/verify_character_battle_structure_writeback_audit.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/character-battle-structure-writeback-v1"
+      ],
+      "exit_code": 0,
+      "report": {
+        "components": 2190,
+        "errors": [],
+        "keyframes": 3187,
+        "resources": 250,
+        "slots": 342,
+        "verified": true
+      },
+      "script_sha256": "d210f1317db30e7c0c1fee0aff400147053bb5ec859d27e6995dbb19e127b595",
+      "stderr_tail": ""
+    }
+  ],
+  "schema": "release-resource-replay-plan-v1",
+  "scope": "Existing fixed-slot archive verification only; no new edited ROM, build, UI, emulator launch or strict gate acceptance.",
+  "successes": 6
+}

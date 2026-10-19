@@ -1,0 +1,30 @@
+{
+  "exact_outputs": {
+    "native-traces.jsonl.gz": "2a7204ef12c547fcd15029823e7bb61728cb70c5a23532dbd9ea1ab65ef101ac",
+    "object-native.json": "2a86e110b5f9447fef14015c4a4da31e8e52787777a9ea3684a2a6cf43f6a9c7"
+  },
+  "first_failure": "copyfile omitted executable mode; no native case executed",
+  "fix": "restore executable mode without changing bytes",
+  "guard": {
+    "child_pid": 69209,
+    "command": [
+      "python3",
+      "notes/evidence/rom-animation-object-native-20261001-v1/replay_receipt.py",
+      "build/experiments/active/animation-object-native-replay/portable-20261001-v2/output",
+      "build/experiments/active/animation-object-native-replay/portable-20261001-v2/replay.log"
+    ],
+    "cwd": "/Users/altair/github/gba-naruto-reverse",
+    "degraded": false,
+    "exit_code": 0,
+    "finished_at": "2026-10-01T13:25:39.404789Z",
+    "peak_tree_rss_mib": 240.21875,
+    "protection_backend": "posix-process-group",
+    "reason": "completed",
+    "started_at": "2026-10-01T13:22:51.790303Z"
+  },
+  "passed": true,
+  "schema": "animation-object-native-portability-v1",
+  "source_authority_sha256": "2a86e110b5f9447fef14015c4a4da31e8e52787777a9ea3684a2a6cf43f6a9c7",
+  "source_executable_mode": "0o755",
+  "source_manifest_sha256": "fb75aefaa155ee21c43af4c4e7afa25d3e5410b10c5bcebd81946e39ce365a73"
+}

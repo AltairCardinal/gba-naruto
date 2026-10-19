@@ -1,0 +1,766 @@
+{
+  "scope": "bounded point inventory; instruction boundaries/lifecycle not newly verified here",
+  "coverage_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "points": [
+    {
+      "offset": 451140,
+      "raw_u32": "0x30cd7ba9",
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0134-00-06e236"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          451126,
+          451148
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "bytes_sha256": "c06023c099bd7b7672f5744c60059b4757ee4b644b2cfbaac7da4a4f5e45e1a0",
+          "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+          "evidence_selector": "/extension/blocks/134",
+          "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+          "fixed_direct_producer_count": 6,
+          "fixed_root_count": 5,
+          "global_code_map_claimed": false,
+          "id": "cfg-proven-roots-v6-thumb-0134-00-06e236",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+          "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+          "limitations": [
+            "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+            "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+            "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+          ],
+          "mode": "thumb",
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "cfg-proven-roots-v6",
+          "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+          "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+          "range": [
+            451126,
+            451148
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_block_count": 1,
+          "source_blocks": [
+            {
+              "block_id": "block-thumb-06e236",
+              "range": [
+                451126,
+                451148
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "offset": 451144,
+      "raw_u32": "0xe06d7001",
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0134-00-06e236"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          451126,
+          451148
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "bytes_sha256": "c06023c099bd7b7672f5744c60059b4757ee4b644b2cfbaac7da4a4f5e45e1a0",
+          "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+          "evidence_selector": "/extension/blocks/134",
+          "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+          "fixed_direct_producer_count": 6,
+          "fixed_root_count": 5,
+          "global_code_map_claimed": false,
+          "id": "cfg-proven-roots-v6-thumb-0134-00-06e236",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+          "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+          "limitations": [
+            "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+            "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+            "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+          ],
+          "mode": "thumb",
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "cfg-proven-roots-v6",
+          "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+          "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+          "range": [
+            451126,
+            451148
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_block_count": 1,
+          "source_blocks": [
+            {
+              "block_id": "block-thumb-06e236",
+              "range": [
+                451126,
+                451148
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "offset": 451272,
+      "raw_u32": "0x32cd7880",
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0138-00-06e2a4"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          451236,
+          451280
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "bytes_sha256": "6b2d62c75d5496cdbd4ea93a520c644f7bd378309b9fb2fe672478358d7d5622",
+          "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+          "evidence_selector": "/extension/blocks/138",
+          "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+          "fixed_direct_producer_count": 6,
+          "fixed_root_count": 5,
+          "global_code_map_claimed": false,
+          "id": "cfg-proven-roots-v6-thumb-0138-00-06e2a4",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+          "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+          "limitations": [
+            "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+            "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+            "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+          ],
+          "mode": "thumb",
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "cfg-proven-roots-v6",
+          "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+          "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+          "range": [
+            451236,
+            451280
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_block_count": 1,
+          "source_blocks": [
+            {
+              "block_id": "block-thumb-06e2a4",
+              "range": [
+                451236,
+                451280
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "offset": 451276,
+      "raw_u32": "0xe02b7010",
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v6-thumb-0138-00-06e2a4"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+        "range": [
+          451236,
+          451280
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "bytes_sha256": "6b2d62c75d5496cdbd4ea93a520c644f7bd378309b9fb2fe672478358d7d5622",
+          "claim_kind": "cfg_proven_roots_v6_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v6/rom-cfg-proven-roots-v6.json",
+          "evidence_selector": "/extension/blocks/138",
+          "evidence_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+          "fixed_direct_producer_count": 6,
+          "fixed_root_count": 5,
+          "global_code_map_claimed": false,
+          "id": "cfg-proven-roots-v6-thumb-0138-00-06e2a4",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+          "independent_verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+          "limitations": [
+            "Only the current-unknown intersection of five fixed direct-call roots is promoted.",
+            "Six producers and 1,298 already-classified reachable bytes are not re-claimed.",
+            "Eighty-five indirect PC targets remain opaque; natural runtime reachability and a global code map are not claimed."
+          ],
+          "mode": "thumb",
+          "primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "cfg-proven-roots-v6",
+          "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v6/manifest.json",
+          "promotion_manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+          "range": [
+            451236,
+            451280
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_block_count": 1,
+          "source_blocks": [
+            {
+              "block_id": "block-thumb-06e2a4",
+              "range": [
+                451236,
+                451280
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "offset": 541394,
+      "raw_u32": null,
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v2-thumb-0054-0842c8"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+        "range": [
+          541384,
+          541506
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "bytes_sha256": "884b94a4ab8a4287d55b8aebab1307a063c5456744340db8f56bc53b0a99a6c3",
+          "claim_kind": "cfg_proven_roots_v2_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+          "evidence_selector": "/extension/blocks",
+          "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+          "fixed_direct_producer_count": 5,
+          "fixed_root_count": 3,
+          "global_code_map_claimed": false,
+          "graph_denominator_sha256": "4cb6844907b0a0679c52e5ac9b251d3cc1b5db8d1d1cf1108c9b4ee507a14a1a",
+          "id": "cfg-proven-roots-v2-thumb-0054-0842c8",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+          "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+          "limitations": [
+            "Only current-unknown bytes reached from the three fixed direct-call roots are promoted.",
+            "The three frozen CFG baselines are opaque; 27 indirect targets and one unsupported instruction remain open.",
+            "Natural runtime reachability and a global code map are not claimed."
+          ],
+          "mode": "thumb",
+          "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "cfg-proven-roots-v2",
+          "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+          "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+          "range": [
+            541384,
+            541506
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_block_count": 3,
+          "source_blocks": [
+            {
+              "block_id": "block-thumb-0842c8",
+              "range": [
+                541384,
+                541432
+              ]
+            },
+            {
+              "block_id": "block-thumb-0842f8",
+              "range": [
+                541432,
+                541494
+              ]
+            },
+            {
+              "block_id": "block-thumb-084336",
+              "range": [
+                541494,
+                541506
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "offset": 541396,
+      "raw_u32": "0x20a87801",
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v2-thumb-0054-0842c8"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+        "range": [
+          541384,
+          541506
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "bytes_sha256": "884b94a4ab8a4287d55b8aebab1307a063c5456744340db8f56bc53b0a99a6c3",
+          "claim_kind": "cfg_proven_roots_v2_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+          "evidence_selector": "/extension/blocks",
+          "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+          "fixed_direct_producer_count": 5,
+          "fixed_root_count": 3,
+          "global_code_map_claimed": false,
+          "graph_denominator_sha256": "4cb6844907b0a0679c52e5ac9b251d3cc1b5db8d1d1cf1108c9b4ee507a14a1a",
+          "id": "cfg-proven-roots-v2-thumb-0054-0842c8",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+          "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+          "limitations": [
+            "Only current-unknown bytes reached from the three fixed direct-call roots are promoted.",
+            "The three frozen CFG baselines are opaque; 27 indirect targets and one unsupported instruction remain open.",
+            "Natural runtime reachability and a global code map are not claimed."
+          ],
+          "mode": "thumb",
+          "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "cfg-proven-roots-v2",
+          "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+          "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+          "range": [
+            541384,
+            541506
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_block_count": 3,
+          "source_blocks": [
+            {
+              "block_id": "block-thumb-0842c8",
+              "range": [
+                541384,
+                541432
+              ]
+            },
+            {
+              "block_id": "block-thumb-0842f8",
+              "range": [
+                541432,
+                541494
+              ]
+            },
+            {
+              "block_id": "block-thumb-084336",
+              "range": [
+                541494,
+                541506
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "offset": 541402,
+      "raw_u32": null,
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-proven-roots-v2-thumb-0054-0842c8"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+        "range": [
+          541384,
+          541506
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "bytes_sha256": "884b94a4ab8a4287d55b8aebab1307a063c5456744340db8f56bc53b0a99a6c3",
+          "claim_kind": "cfg_proven_roots_v2_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json",
+          "evidence_selector": "/extension/blocks",
+          "evidence_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+          "fixed_direct_producer_count": 5,
+          "fixed_root_count": 3,
+          "global_code_map_claimed": false,
+          "graph_denominator_sha256": "4cb6844907b0a0679c52e5ac9b251d3cc1b5db8d1d1cf1108c9b4ee507a14a1a",
+          "id": "cfg-proven-roots-v2-thumb-0054-0842c8",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+          "independent_verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+          "limitations": [
+            "Only current-unknown bytes reached from the three fixed direct-call roots are promoted.",
+            "The three frozen CFG baselines are opaque; 27 indirect targets and one unsupported instruction remain open.",
+            "Natural runtime reachability and a global code map are not claimed."
+          ],
+          "mode": "thumb",
+          "primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "cfg-proven-roots-v2",
+          "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-v2/manifest.json",
+          "promotion_manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+          "range": [
+            541384,
+            541506
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_block_count": 3,
+          "source_blocks": [
+            {
+              "block_id": "block-thumb-0842c8",
+              "range": [
+                541384,
+                541432
+              ]
+            },
+            {
+              "block_id": "block-thumb-0842f8",
+              "range": [
+                541432,
+                541494
+              ]
+            },
+            {
+              "block_id": "block-thumb-084336",
+              "range": [
+                541494,
+                541506
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "offset": 451176,
+      "raw_u32": "0x20240c0",
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-v6-consumed-literal-0010-06e24c"
+        ],
+        "primary_class": "armv4t_cfg_v6_consumed_literal_word",
+        "range": [
+          451148,
+          451180
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "adjacent_bytes_claimed": false,
+          "baseline_unknown_only": true,
+          "bytes_sha256": "4c5fb6b6861aaa65e86191dfd0a74d9a8294d36d8d94bcaaaee4169a5eaa3beb",
+          "claim_kind": "armv4t_cfg_v6_consumed_literal_word_bytes",
+          "editing_writeback_relocation_safe_claimed": false,
+          "evidence_path": "artifacts/rom-cfg-v6-consumed-literals-v1/rom-cfg-v6-consumed-literals.json",
+          "evidence_selector": "/promotion/range_records/10",
+          "evidence_sha256": "270f238c3689cdabef0c62db4141e4cc4f0a32a12bccbe7173527e979e921564",
+          "exporter_path": "tools/export_rom_cfg_v6_consumed_literals.py",
+          "exporter_sha256": "99632c718e48d9db3abc5a84a0d1522e79bdf52f17206959767dcf6d01b68ff6",
+          "free_or_allocatable_space_claimed": false,
+          "id": "cfg-v6-consumed-literal-0010-06e24c",
+          "independent_verifier_path": "tools/verify_rom_cfg_v6_consumed_literals.py",
+          "independent_verifier_report_sha256": "6cdf6124ee82bc1fd9ba5fc3e7d7c28981c4652b0a43a5822451cf65da253ec8",
+          "independent_verifier_sha256": "5e22ca9e26bbce5f01b185e7c35f154d13d6e91f9e9690d4870e6d8dc0762437",
+          "limitations": [
+            "No v2, v1, other proven-roots, consumer_code_slice, ARM literal-load, or non-PC-relative load source is included.",
+            "No traversal is expanded beyond the already accepted v6 extension block membership and none of the 85 frontiers is resolved.",
+            "No adjacent unknown byte or whole unknown segment is promoted unless it is one of the 745 exact target words.",
+            "The loaded word value has no pointer, constant, table, resource, or business meaning beyond consumed literal data.",
+            "Natural runtime reachability, global denominators, editing, writeback, relocation, padding, and free space remain unproven."
+          ],
+          "literal_denominator": {
+            "merged_target_range_count": 185,
+            "packed_target_bytes_sha256": "1a27c7b05a6fd1093ed2741193111021cb12d40e33a24be5c9ce8f2a29372700",
+            "range_vector_sha256": "95ada8efd9a3315fd0a43850327c5460930395c9d6d901c28373f8b579730dce",
+            "source_instruction_count": 800,
+            "source_offset_vector_sha256": "e587b9cc622f48afcc79e1abb16945afd89333bfb93daa31bf49f1bb55ed1a91",
+            "source_vector_sha256": "5974706f5687be74f23005632887ac9531af11544bb6f99e29f8d930d02d3d49",
+            "target_bytes": 2980,
+            "target_offset_vector_sha256": "240cfce281501abf4e14388c4b579da73474e06f1a350499553a41e64d0169f9",
+            "target_vector_sha256": "624b0a9f14cab3953d8370c4986204a69b100482bdec80984b373ce0f2657832",
+            "unique_target_word_count": 745
+          },
+          "loaded_value_semantics_claimed": false,
+          "non_claims": [
+            "No v2, v1, other proven-roots, consumer_code_slice, ARM literal-load, or non-PC-relative load source is included.",
+            "No traversal is expanded beyond the already accepted v6 extension block membership and none of the 85 frontiers is resolved.",
+            "No adjacent unknown byte or whole unknown segment is promoted unless it is one of the 745 exact target words.",
+            "The loaded word value has no pointer, constant, table, resource, or business meaning beyond consumed literal data.",
+            "Natural runtime reachability, global denominators, editing, writeback, relocation, padding, and free space remain unproven."
+          ],
+          "primary_class": "armv4t_cfg_v6_consumed_literal_word",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "rom-cfg-v6-consumed-literals-v1",
+          "promotion_manifest_path": "artifacts/rom-cfg-v6-consumed-literals-v1/manifest.json",
+          "promotion_manifest_sha256": "4301f6f8d32ec7e2b750f1954860ac6672c2056069ce78452f87351bc4e31cc6",
+          "range": [
+            451148,
+            451180
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_instruction_reference_count": 9,
+          "target_word_count": 8,
+          "upstream_test_path": "tests/test_export_rom_cfg_v6_consumed_literals.py",
+          "upstream_test_sha256": "134a6c69d73511fce13d34a6957b67a1790d85ade618173c34a76aad7ef80de0",
+          "verifier_test_path": "tests/test_verify_rom_cfg_v6_consumed_literals.py",
+          "verifier_test_sha256": "52d2b4b9d71e0bd52ee0e2bb5fc1db4e4487517d1751c4b962c902c722cf132b"
+        }
+      ]
+    },
+    {
+      "offset": 451288,
+      "raw_u32": "0x20240c0",
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-v6-consumed-literal-0011-06e2d0"
+        ],
+        "primary_class": "armv4t_cfg_v6_consumed_literal_word",
+        "range": [
+          451280,
+          451296
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "adjacent_bytes_claimed": false,
+          "baseline_unknown_only": true,
+          "bytes_sha256": "df16401688db57207e2ace43b1e9842a9afc3c3ccf5f3f7159d898aab903468d",
+          "claim_kind": "armv4t_cfg_v6_consumed_literal_word_bytes",
+          "editing_writeback_relocation_safe_claimed": false,
+          "evidence_path": "artifacts/rom-cfg-v6-consumed-literals-v1/rom-cfg-v6-consumed-literals.json",
+          "evidence_selector": "/promotion/range_records/11",
+          "evidence_sha256": "270f238c3689cdabef0c62db4141e4cc4f0a32a12bccbe7173527e979e921564",
+          "exporter_path": "tools/export_rom_cfg_v6_consumed_literals.py",
+          "exporter_sha256": "99632c718e48d9db3abc5a84a0d1522e79bdf52f17206959767dcf6d01b68ff6",
+          "free_or_allocatable_space_claimed": false,
+          "id": "cfg-v6-consumed-literal-0011-06e2d0",
+          "independent_verifier_path": "tools/verify_rom_cfg_v6_consumed_literals.py",
+          "independent_verifier_report_sha256": "6cdf6124ee82bc1fd9ba5fc3e7d7c28981c4652b0a43a5822451cf65da253ec8",
+          "independent_verifier_sha256": "5e22ca9e26bbce5f01b185e7c35f154d13d6e91f9e9690d4870e6d8dc0762437",
+          "limitations": [
+            "No v2, v1, other proven-roots, consumer_code_slice, ARM literal-load, or non-PC-relative load source is included.",
+            "No traversal is expanded beyond the already accepted v6 extension block membership and none of the 85 frontiers is resolved.",
+            "No adjacent unknown byte or whole unknown segment is promoted unless it is one of the 745 exact target words.",
+            "The loaded word value has no pointer, constant, table, resource, or business meaning beyond consumed literal data.",
+            "Natural runtime reachability, global denominators, editing, writeback, relocation, padding, and free space remain unproven."
+          ],
+          "literal_denominator": {
+            "merged_target_range_count": 185,
+            "packed_target_bytes_sha256": "1a27c7b05a6fd1093ed2741193111021cb12d40e33a24be5c9ce8f2a29372700",
+            "range_vector_sha256": "95ada8efd9a3315fd0a43850327c5460930395c9d6d901c28373f8b579730dce",
+            "source_instruction_count": 800,
+            "source_offset_vector_sha256": "e587b9cc622f48afcc79e1abb16945afd89333bfb93daa31bf49f1bb55ed1a91",
+            "source_vector_sha256": "5974706f5687be74f23005632887ac9531af11544bb6f99e29f8d930d02d3d49",
+            "target_bytes": 2980,
+            "target_offset_vector_sha256": "240cfce281501abf4e14388c4b579da73474e06f1a350499553a41e64d0169f9",
+            "target_vector_sha256": "624b0a9f14cab3953d8370c4986204a69b100482bdec80984b373ce0f2657832",
+            "unique_target_word_count": 745
+          },
+          "loaded_value_semantics_claimed": false,
+          "non_claims": [
+            "No v2, v1, other proven-roots, consumer_code_slice, ARM literal-load, or non-PC-relative load source is included.",
+            "No traversal is expanded beyond the already accepted v6 extension block membership and none of the 85 frontiers is resolved.",
+            "No adjacent unknown byte or whole unknown segment is promoted unless it is one of the 745 exact target words.",
+            "The loaded word value has no pointer, constant, table, resource, or business meaning beyond consumed literal data.",
+            "Natural runtime reachability, global denominators, editing, writeback, relocation, padding, and free space remain unproven."
+          ],
+          "primary_class": "armv4t_cfg_v6_consumed_literal_word",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "rom-cfg-v6-consumed-literals-v1",
+          "promotion_manifest_path": "artifacts/rom-cfg-v6-consumed-literals-v1/manifest.json",
+          "promotion_manifest_sha256": "4301f6f8d32ec7e2b750f1954860ac6672c2056069ce78452f87351bc4e31cc6",
+          "range": [
+            451280,
+            451296
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_instruction_reference_count": 4,
+          "target_word_count": 4,
+          "upstream_test_path": "tests/test_export_rom_cfg_v6_consumed_literals.py",
+          "upstream_test_sha256": "134a6c69d73511fce13d34a6957b67a1790d85ade618173c34a76aad7ef80de0",
+          "verifier_test_path": "tests/test_verify_rom_cfg_v6_consumed_literals.py",
+          "verifier_test_sha256": "52d2b4b9d71e0bd52ee0e2bb5fc1db4e4487517d1751c4b962c902c722cf132b"
+        }
+      ]
+    },
+    {
+      "offset": 451292,
+      "raw_u32": "0x85411e4",
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-v6-consumed-literal-0011-06e2d0"
+        ],
+        "primary_class": "armv4t_cfg_v6_consumed_literal_word",
+        "range": [
+          451280,
+          451296
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "adjacent_bytes_claimed": false,
+          "baseline_unknown_only": true,
+          "bytes_sha256": "df16401688db57207e2ace43b1e9842a9afc3c3ccf5f3f7159d898aab903468d",
+          "claim_kind": "armv4t_cfg_v6_consumed_literal_word_bytes",
+          "editing_writeback_relocation_safe_claimed": false,
+          "evidence_path": "artifacts/rom-cfg-v6-consumed-literals-v1/rom-cfg-v6-consumed-literals.json",
+          "evidence_selector": "/promotion/range_records/11",
+          "evidence_sha256": "270f238c3689cdabef0c62db4141e4cc4f0a32a12bccbe7173527e979e921564",
+          "exporter_path": "tools/export_rom_cfg_v6_consumed_literals.py",
+          "exporter_sha256": "99632c718e48d9db3abc5a84a0d1522e79bdf52f17206959767dcf6d01b68ff6",
+          "free_or_allocatable_space_claimed": false,
+          "id": "cfg-v6-consumed-literal-0011-06e2d0",
+          "independent_verifier_path": "tools/verify_rom_cfg_v6_consumed_literals.py",
+          "independent_verifier_report_sha256": "6cdf6124ee82bc1fd9ba5fc3e7d7c28981c4652b0a43a5822451cf65da253ec8",
+          "independent_verifier_sha256": "5e22ca9e26bbce5f01b185e7c35f154d13d6e91f9e9690d4870e6d8dc0762437",
+          "limitations": [
+            "No v2, v1, other proven-roots, consumer_code_slice, ARM literal-load, or non-PC-relative load source is included.",
+            "No traversal is expanded beyond the already accepted v6 extension block membership and none of the 85 frontiers is resolved.",
+            "No adjacent unknown byte or whole unknown segment is promoted unless it is one of the 745 exact target words.",
+            "The loaded word value has no pointer, constant, table, resource, or business meaning beyond consumed literal data.",
+            "Natural runtime reachability, global denominators, editing, writeback, relocation, padding, and free space remain unproven."
+          ],
+          "literal_denominator": {
+            "merged_target_range_count": 185,
+            "packed_target_bytes_sha256": "1a27c7b05a6fd1093ed2741193111021cb12d40e33a24be5c9ce8f2a29372700",
+            "range_vector_sha256": "95ada8efd9a3315fd0a43850327c5460930395c9d6d901c28373f8b579730dce",
+            "source_instruction_count": 800,
+            "source_offset_vector_sha256": "e587b9cc622f48afcc79e1abb16945afd89333bfb93daa31bf49f1bb55ed1a91",
+            "source_vector_sha256": "5974706f5687be74f23005632887ac9531af11544bb6f99e29f8d930d02d3d49",
+            "target_bytes": 2980,
+            "target_offset_vector_sha256": "240cfce281501abf4e14388c4b579da73474e06f1a350499553a41e64d0169f9",
+            "target_vector_sha256": "624b0a9f14cab3953d8370c4986204a69b100482bdec80984b373ce0f2657832",
+            "unique_target_word_count": 745
+          },
+          "loaded_value_semantics_claimed": false,
+          "non_claims": [
+            "No v2, v1, other proven-roots, consumer_code_slice, ARM literal-load, or non-PC-relative load source is included.",
+            "No traversal is expanded beyond the already accepted v6 extension block membership and none of the 85 frontiers is resolved.",
+            "No adjacent unknown byte or whole unknown segment is promoted unless it is one of the 745 exact target words.",
+            "The loaded word value has no pointer, constant, table, resource, or business meaning beyond consumed literal data.",
+            "Natural runtime reachability, global denominators, editing, writeback, relocation, padding, and free space remain unproven."
+          ],
+          "primary_class": "armv4t_cfg_v6_consumed_literal_word",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "rom-cfg-v6-consumed-literals-v1",
+          "promotion_manifest_path": "artifacts/rom-cfg-v6-consumed-literals-v1/manifest.json",
+          "promotion_manifest_sha256": "4301f6f8d32ec7e2b750f1954860ac6672c2056069ce78452f87351bc4e31cc6",
+          "range": [
+            451280,
+            451296
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_instruction_reference_count": 4,
+          "target_word_count": 4,
+          "upstream_test_path": "tests/test_export_rom_cfg_v6_consumed_literals.py",
+          "upstream_test_sha256": "134a6c69d73511fce13d34a6957b67a1790d85ade618173c34a76aad7ef80de0",
+          "verifier_test_path": "tests/test_verify_rom_cfg_v6_consumed_literals.py",
+          "verifier_test_sha256": "52d2b4b9d71e0bd52ee0e2bb5fc1db4e4487517d1751c4b962c902c722cf132b"
+        }
+      ]
+    },
+    {
+      "offset": 541508,
+      "raw_u32": "0x853f348",
+      "segment": {
+        "primary_claim_ids": [
+          "cfg-proven-roots-batch-consumed-literal-0074-084344"
+        ],
+        "primary_class": "armv4t_cfg_proven_roots_batch_consumed_literal_word",
+        "range": [
+          541508,
+          541536
+        ],
+        "secondary_claim_ids": []
+      },
+      "claims": [
+        {
+          "adjacent_bytes_claimed": false,
+          "baseline_unknown_only": true,
+          "bytes_sha256": "3f5b262c138fd37d2769afbab563756e78987ef3d3eeab326f270dd957010326",
+          "claim_kind": "armv4t_cfg_proven_roots_batch_consumed_literal_word_bytes",
+          "editing_writeback_relocation_safe_claimed": false,
+          "evidence_path": "artifacts/rom-cfg-proven-roots-batch-consumed-literals-v1/rom-cfg-proven-roots-batch-consumed-literals.json",
+          "evidence_selector": "/promotion/range_records/74",
+          "evidence_sha256": "35efe834638717ce963af95343bcccfc70311b0a124718c2e732263880fbc4d0",
+          "exporter_path": "tools/export_rom_cfg_proven_roots_batch_consumed_literals.py",
+          "exporter_sha256": "01ca051937167c761d00fd87f5444d2a8839a56727a8ccb2bd183395803c4c40",
+          "free_or_allocatable_space_claimed": false,
+          "id": "cfg-proven-roots-batch-consumed-literal-0074-084344",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_batch_consumed_literals.py",
+          "independent_verifier_report_sha256": "f5e03f3858232c6c9ea299a43bfe62b43c5725004ec09b4019bfd3e4067e5ce6",
+          "independent_verifier_sha256": "36dceec30462bd3b55910d577d5eea277ef5f0da362915d1ab11237ce7d591ca",
+          "limitations": [
+            "No CFG traversal or frontier is expanded.",
+            "No adjacent unknown byte or whole segment is promoted.",
+            "Loaded values are not interpreted as pointers, constants, tables, resources, or business semantics.",
+            "No global all-consumer literal denominator is claimed."
+          ],
+          "literal_denominator": {
+            "block_count": 1205,
+            "block_vector_sha256": "e11d5ce898648ebd0e3d8289b915bce421a90b6088e6b9ac0fbed39b37ad54e6",
+            "family_vector_sha256": "c588fbb0977b574535fe9119e42515172d6ea5da3822ef15fa2bc7ff0a1bbeb1",
+            "instruction_bytes": 13488,
+            "instruction_count": 6490,
+            "merged_target_range_count": 116,
+            "packed_target_bytes_sha256": "84f2b235b43dcac36608d964606d3290f0291524d6fe8ddcaeea85f79bd0374e",
+            "range_vector_sha256": "39c1548d8d085f63129260e02189f445d72e362d80b6b0852fa7de2ac512cc45",
+            "source_instruction_count": 376,
+            "source_offset_vector_sha256": "ddb38d1a912c3dc6421ff33efae8cdf825d853bbca730c77f71fb84242d86afe",
+            "source_vector_sha256": "a31cf75b56466d10f5709ed67bb3ced5c7a9a979684de0385b8b73af63e0aced",
+            "target_bytes": 1256,
+            "target_offset_vector_sha256": "7e87f1da67026609cb5dd06ff7e45039578da62f738ec945ee3b56db64ccb26e",
+            "target_vector_sha256": "33f69b5ca6d465b8c3a92d8937108df59388ab85a5aac3059b7fa8dc0ff7357f",
+            "unique_target_word_count": 314
+          },
+          "loaded_value_semantics_claimed": false,
+          "non_claims": [
+            "No CFG traversal or frontier is expanded.",
+            "No adjacent unknown byte or whole segment is promoted.",
+            "Loaded values are not interpreted as pointers, constants, tables, resources, or business semantics.",
+            "No global all-consumer literal denominator is claimed."
+          ],
+          "primary_class": "armv4t_cfg_proven_roots_batch_consumed_literal_word",
+          "promoted_from_primary_class": "unknown",
+          "promotion_batch": "rom-cfg-proven-roots-batch-consumed-literals-v1",
+          "promotion_manifest_path": "artifacts/rom-cfg-proven-roots-batch-consumed-literals-v1/manifest.json",
+          "promotion_manifest_sha256": "8688e87bdec227322a7b27f2d2feb84428f3ff82e4c782348db2c33b125e2d5f",
+          "range": [
+            541508,
+            541536
+          ],
+          "role": "primary",
+          "runtime_reachability_claimed": false,
+          "source_instruction_reference_count": 7,
+          "target_word_count": 7,
+          "upstream_test_path": "tests/test_export_rom_cfg_proven_roots_batch_consumed_literals.py",
+          "upstream_test_sha256": "15ce600330ad38c9ea25eb0efbc5b0c2148d6a9b98bfbbc8752b1118f8abc29f",
+          "verifier_test_path": "tests/test_verify_rom_cfg_proven_roots_batch_consumed_literals.py",
+          "verifier_test_sha256": "2c5e341fdf1701402d66b9b7f316e6f35b984bc084bfa057781845935b2f2276"
+        }
+      ]
+    }
+  ]
+}

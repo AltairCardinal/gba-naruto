@@ -1,0 +1,794 @@
+{
+  "base_source_instruction_count": 66295,
+  "candidate_refs_unpromoted": [
+    429542,
+    546944
+  ],
+  "computed_base_irq_bios_alias_writers_exhausted": false,
+  "counter_75_literal_refs": [
+    {
+      "at": 397342,
+      "claims": [
+        {
+          "claim_kind": "boot_thumb_handoff_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-boot-thumb-handoff-cfg-v1/rom-boot-thumb-handoff-cfg.json",
+          "evidence_sha256": "a35b581e44b276399874a2fc393f22f3c548c6b99e053f504587bdd92fbad295",
+          "id": "boot-thumb-handoff-code-00-060fac",
+          "independent_verifier_path": "tools/verify_rom_boot_thumb_handoff_cfg.py",
+          "independent_verifier_sha256": "2592e4f48f1a197e30cb4d360201228fc2bbeef5fad12879b1bbf77b29815b39",
+          "primary_class": "armv4t_boot_thumb_handoff_reachable_code",
+          "range": [
+            397228,
+            397346
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 397388,
+      "raw_hex": "0b4c",
+      "register": 4,
+      "source_instruction_member": false,
+      "value": 50331765
+    },
+    {
+      "at": 397474,
+      "claims": [
+        {
+          "claim_kind": "boot_interwork_continuation_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-boot-interwork-continuation-v1/rom-boot-interwork-continuation.json",
+          "evidence_sha256": "43ba163ac9f8313b9579c660ab701a51006186b45f2b96247fd2e58f0c16babd",
+          "id": "continuation-code-06108a-0610d4",
+          "independent_verifier_path": "tools/verify_rom_boot_interwork_continuation.py",
+          "independent_verifier_sha256": "8da8303e47e8666a9883fc411fd274ab1d8bf3651da95a4530dabd152bdcec58",
+          "primary_class": "armv4t_boot_interwork_continuation_code",
+          "range": [
+            397450,
+            397524
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 397524,
+      "raw_hex": "0c48",
+      "register": 0,
+      "source_instruction_member": false,
+      "value": 50331765
+    },
+    {
+      "at": 406074,
+      "claims": [
+        {
+          "claim_kind": "cfg_proven_roots_v20_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v20/rom-cfg-proven-roots-v20.json",
+          "evidence_sha256": "5d3186a688973b1733b0117aedee7c689a5270497c83f8726d4d2540bcfe1543",
+          "id": "cfg-v20-reachable_thumb_code-10-06321c",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v20.py",
+          "independent_verifier_sha256": "0f185e030fda6461d5652d67d34850c872f45836ba580ef6a3074883736fde66",
+          "primary_class": "armv4t_cfg_proven_roots_v20_reachable_thumb_code",
+          "range": [
+            406044,
+            406102
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 406144,
+      "raw_hex": "1148",
+      "register": 0,
+      "source_instruction_member": true,
+      "value": 50331765
+    },
+    {
+      "at": 406244,
+      "claims": [
+        {
+          "claim_kind": "cfg_proven_roots_v20_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v20/rom-cfg-proven-roots-v20.json",
+          "evidence_sha256": "5d3186a688973b1733b0117aedee7c689a5270497c83f8726d4d2540bcfe1543",
+          "id": "cfg-v20-reachable_thumb_code-11-0632d8",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v20.py",
+          "independent_verifier_sha256": "0f185e030fda6461d5652d67d34850c872f45836ba580ef6a3074883736fde66",
+          "primary_class": "armv4t_cfg_proven_roots_v20_reachable_thumb_code",
+          "range": [
+            406232,
+            406328
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 406328,
+      "raw_hex": "1449",
+      "register": 1,
+      "source_instruction_member": true,
+      "value": 50331765
+    },
+    {
+      "at": 414632,
+      "claims": [
+        {
+          "claim_kind": "boot_thumb_handoff_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-boot-thumb-handoff-cfg-v1/rom-boot-thumb-handoff-cfg.json",
+          "evidence_sha256": "a35b581e44b276399874a2fc393f22f3c548c6b99e053f504587bdd92fbad295",
+          "id": "boot-thumb-handoff-code-18-065398",
+          "independent_verifier_path": "tools/verify_rom_boot_thumb_handoff_cfg.py",
+          "independent_verifier_sha256": "2592e4f48f1a197e30cb4d360201228fc2bbeef5fad12879b1bbf77b29815b39",
+          "primary_class": "armv4t_boot_thumb_handoff_reachable_code",
+          "range": [
+            414616,
+            414660
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 414672,
+      "raw_hex": "0948",
+      "register": 0,
+      "source_instruction_member": false,
+      "value": 50331765
+    },
+    {
+      "at": 419094,
+      "claims": [
+        {
+          "claim_kind": "cfg_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+          "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+          "id": "cfg-thumb-0071-0664f8",
+          "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+          "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+          "primary_class": "armv4t_cfg_reachable_thumb_code",
+          "range": [
+            419064,
+            419110
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 419116,
+      "raw_hex": "0548",
+      "register": 0,
+      "source_instruction_member": true,
+      "value": 50331765
+    },
+    {
+      "at": 419516,
+      "claims": [
+        {
+          "claim_kind": "cfg_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+          "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+          "id": "cfg-thumb-0072-066530",
+          "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+          "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+          "primary_class": "armv4t_cfg_reachable_thumb_code",
+          "range": [
+            419120,
+            419532
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 419572,
+      "raw_hex": "0d48",
+      "register": 0,
+      "source_instruction_member": true,
+      "value": 50331765
+    },
+    {
+      "at": 425246,
+      "claims": [
+        {
+          "claim_kind": "cfg_v3_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-inventory-v3/rom-cfg-inventory-v3.json",
+          "evidence_sha256": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+          "id": "cfg-v3-thumb-0033-067cf0",
+          "independent_verifier_path": "tools/verify_rom_cfg_inventory_v3.py",
+          "independent_verifier_sha256": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a",
+          "primary_class": "armv4t_cfg_v3_reachable_thumb_code",
+          "range": [
+            425200,
+            425278
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 425284,
+      "raw_hex": "0948",
+      "register": 0,
+      "source_instruction_member": true,
+      "value": 50331765
+    },
+    {
+      "at": 429542,
+      "claims": [],
+      "expanded_source_instruction_member": false,
+      "literal": 429560,
+      "raw_hex": "0449",
+      "register": 1,
+      "source_instruction_member": false,
+      "value": 50331765
+    },
+    {
+      "at": 546822,
+      "claims": [
+        {
+          "claim_kind": "cfg_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+          "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+          "id": "cfg-thumb-0520-0857e4",
+          "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+          "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+          "primary_class": "armv4t_cfg_reachable_thumb_code",
+          "range": [
+            546788,
+            546832
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 546852,
+      "raw_hex": "0748",
+      "register": 0,
+      "source_instruction_member": true,
+      "value": 50331765
+    },
+    {
+      "at": 546944,
+      "claims": [],
+      "expanded_source_instruction_member": false,
+      "literal": 546968,
+      "raw_hex": "0548",
+      "register": 0,
+      "source_instruction_member": false,
+      "value": 50331765
+    },
+    {
+      "at": 587590,
+      "claims": [
+        {
+          "claim_kind": "story_state_callback_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-story-state-callback-cfg-v1/rom-story-state-callback-cfg.json",
+          "evidence_sha256": "f82f2472f49d9b6b620aee162a65ca372ead47ae5aa73c4f5e25888482d57ab5",
+          "id": "story-callback-reachable_thumb_code-01-08f73c",
+          "independent_verifier_path": "tools/verify_rom_story_state_callback_cfg.py",
+          "independent_verifier_sha256": "ab808e73e40858b4bf737875ddcebfb8286a662b55af0c36424215e506867d98",
+          "primary_class": "armv4t_story_state_callback_reachable_thumb_code",
+          "range": [
+            587580,
+            587642
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 587644,
+      "raw_hex": "0d49",
+      "register": 1,
+      "source_instruction_member": false,
+      "value": 50331765
+    },
+    {
+      "at": 614356,
+      "claims": [
+        {
+          "claim_kind": "cfg_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+          "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+          "id": "cfg-thumb-0664-095f58",
+          "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+          "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+          "primary_class": "armv4t_cfg_reachable_thumb_code",
+          "range": [
+            614232,
+            614384
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 614416,
+      "raw_hex": "0e48",
+      "register": 0,
+      "source_instruction_member": true,
+      "value": 50331765
+    },
+    {
+      "at": 618398,
+      "claims": [
+        {
+          "claim_kind": "cfg_reachable_instruction_bytes",
+          "evidence_path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+          "evidence_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+          "id": "cfg-thumb-0683-096ea4",
+          "independent_verifier_path": "tools/verify_rom_cfg_inventory.py",
+          "independent_verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+          "primary_class": "armv4t_cfg_reachable_thumb_code",
+          "range": [
+            618148,
+            618414
+          ]
+        }
+      ],
+      "expanded_source_instruction_member": true,
+      "literal": 618432,
+      "raw_hex": "0848",
+      "register": 0,
+      "source_instruction_member": true,
+      "value": 50331765
+    }
+  ],
+  "counter_75_pointer_occurrences": [
+    {
+      "at": 397388,
+      "claims": [
+        {
+          "claim_kind": "boot_thumb_handoff_consumed_literal_bytes",
+          "evidence_path": "artifacts/rom-boot-thumb-handoff-cfg-v1/rom-boot-thumb-handoff-cfg.json",
+          "evidence_sha256": "a35b581e44b276399874a2fc393f22f3c548c6b99e053f504587bdd92fbad295",
+          "id": "boot-thumb-handoff-literal-00-061024",
+          "independent_verifier_path": "tools/verify_rom_boot_thumb_handoff_cfg.py",
+          "independent_verifier_sha256": "2592e4f48f1a197e30cb4d360201228fc2bbeef5fad12879b1bbf77b29815b39",
+          "primary_class": "armv4t_boot_thumb_handoff_consumed_literal_pool",
+          "range": [
+            397348,
+            397392
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 397524,
+      "claims": [
+        {
+          "claim_kind": "boot_interwork_continuation_consumed_literal_word_bytes",
+          "evidence_path": "artifacts/rom-boot-interwork-continuation-v1/rom-boot-interwork-continuation.json",
+          "evidence_sha256": "43ba163ac9f8313b9579c660ab701a51006186b45f2b96247fd2e58f0c16babd",
+          "id": "continuation-literal-01-0610d4",
+          "independent_verifier_path": "tools/verify_rom_boot_interwork_continuation.py",
+          "independent_verifier_sha256": "8da8303e47e8666a9883fc411fd274ab1d8bf3651da95a4530dabd152bdcec58",
+          "primary_class": "armv4t_boot_interwork_continuation_literal_word",
+          "range": [
+            397524,
+            397528
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 406144,
+      "claims": [
+        {
+          "claim_kind": "consumer_code_slice",
+          "evidence_path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+          "evidence_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+          "id": "consumer-code-battle_effect_sprite_animations-063256",
+          "independent_verifier_path": "tools/verify_battle_effect_sprite_animations.py",
+          "independent_verifier_sha256": "ba22259f41e53398a0f271f806c831b5eaf0052f17784c831d2591c0220f0c6b",
+          "primary_class": "consumer_code_slice",
+          "range": [
+            406102,
+            406232
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 406328,
+      "claims": [
+        {
+          "claim_kind": "cfg_proven_roots_v20_consumed_literal_word_bytes",
+          "evidence_path": "artifacts/rom-cfg-proven-roots-v20/rom-cfg-proven-roots-v20.json",
+          "evidence_sha256": "5d3186a688973b1733b0117aedee7c689a5270497c83f8726d4d2540bcfe1543",
+          "id": "cfg-v20-consumed_literal_words-07-063338",
+          "independent_verifier_path": "tools/verify_rom_cfg_proven_roots_v20.py",
+          "independent_verifier_sha256": "0f185e030fda6461d5652d67d34850c872f45836ba580ef6a3074883736fde66",
+          "primary_class": "armv4t_cfg_proven_roots_v20_consumed_literal_word",
+          "range": [
+            406328,
+            406340
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 414672,
+      "claims": [
+        {
+          "claim_kind": "boot_thumb_handoff_consumed_literal_bytes",
+          "evidence_path": "artifacts/rom-boot-thumb-handoff-cfg-v1/rom-boot-thumb-handoff-cfg.json",
+          "evidence_sha256": "a35b581e44b276399874a2fc393f22f3c548c6b99e053f504587bdd92fbad295",
+          "id": "boot-thumb-handoff-literal-15-0653c4",
+          "independent_verifier_path": "tools/verify_rom_boot_thumb_handoff_cfg.py",
+          "independent_verifier_sha256": "2592e4f48f1a197e30cb4d360201228fc2bbeef5fad12879b1bbf77b29815b39",
+          "primary_class": "armv4t_boot_thumb_handoff_consumed_literal_pool",
+          "range": [
+            414660,
+            414680
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 419116,
+      "claims": [
+        {
+          "claim_kind": "consumer_code_slice",
+          "evidence_path": "artifacts/rom-selector-code-windows-v1/rom-selector-code-windows.json",
+          "evidence_sha256": "23b830dc19248b3192198757da6e41624f804e78a5ee4e10764c8702947ca39b",
+          "id": "selector-code-window-06-066526",
+          "independent_verifier_path": "tools/verify_rom_selector_code_windows.py",
+          "independent_verifier_sha256": "e9d8ea4cbe5aec14359b5c8ba74ac3e8182f0441a3014d3f760196242601665b",
+          "primary_class": "consumer_code_slice",
+          "range": [
+            419110,
+            419120
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 419572,
+      "claims": [
+        {
+          "claim_kind": "consumer_code_slice",
+          "evidence_path": "artifacts/rom-selector-code-windows-v1/rom-selector-code-windows.json",
+          "evidence_sha256": "23b830dc19248b3192198757da6e41624f804e78a5ee4e10764c8702947ca39b",
+          "id": "selector-code-window-07-0666cc",
+          "independent_verifier_path": "tools/verify_rom_selector_code_windows.py",
+          "independent_verifier_sha256": "e9d8ea4cbe5aec14359b5c8ba74ac3e8182f0441a3014d3f760196242601665b",
+          "primary_class": "consumer_code_slice",
+          "range": [
+            419532,
+            419576
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 425284,
+      "claims": [
+        {
+          "claim_kind": "armv4t_cfg_v3_consumed_literal_word_bytes",
+          "evidence_path": "artifacts/rom-cfg-v3-consumed-literals-v1/rom-cfg-v3-consumed-literals.json",
+          "evidence_sha256": "1407aa1204218c4861e620192226a5b4cd718172e5983f03f2f953263f186b4d",
+          "id": "cfg-v3-consumed-literal-0030-067d40",
+          "independent_verifier_path": "tools/verify_rom_cfg_v3_consumed_literals.py",
+          "independent_verifier_sha256": "06e6bb07b814b1ee46585462613bd9c008ae028911ebdd2d09ad9cc10f9167a2",
+          "primary_class": "armv4t_cfg_v3_consumed_literal_word",
+          "range": [
+            425280,
+            425292
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 429560,
+      "claims": [],
+      "value": 50331765
+    },
+    {
+      "at": 546852,
+      "claims": [
+        {
+          "claim_kind": "armv4t_cfg_v2_consumed_literal_word_bytes",
+          "evidence_path": "artifacts/rom-cfg-v2-consumed-literals-v1/rom-cfg-v2-consumed-literals.json",
+          "evidence_sha256": "e08df7333e8b82f3d18497bf5a2a478bf3bf7a5743e50e898cfc819f0b5d29b1",
+          "id": "cfg-v2-consumed-literal-0455-085810",
+          "independent_verifier_path": "tools/verify_rom_cfg_v2_consumed_literals.py",
+          "independent_verifier_sha256": "77d956f412b3ba4de15958e272b473b42286d054c47965b35384d85659a464a8",
+          "primary_class": "armv4t_cfg_v2_consumed_literal_word",
+          "range": [
+            546832,
+            546856
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 546968,
+      "claims": [],
+      "value": 50331765
+    },
+    {
+      "at": 587644,
+      "claims": [
+        {
+          "claim_kind": "story_state_callback_consumed_literal_word_bytes",
+          "evidence_path": "artifacts/rom-story-state-callback-cfg-v1/rom-story-state-callback-cfg.json",
+          "evidence_sha256": "f82f2472f49d9b6b620aee162a65ca372ead47ae5aa73c4f5e25888482d57ab5",
+          "id": "story-callback-consumed_literal_words-01-08f77c",
+          "independent_verifier_path": "tools/verify_rom_story_state_callback_cfg.py",
+          "independent_verifier_sha256": "ab808e73e40858b4bf737875ddcebfb8286a662b55af0c36424215e506867d98",
+          "primary_class": "armv4t_story_state_callback_consumed_literal_word",
+          "range": [
+            587644,
+            587652
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 614416,
+      "claims": [
+        {
+          "claim_kind": "armv4t_cfg_v2_consumed_literal_word_bytes",
+          "evidence_path": "artifacts/rom-cfg-v2-consumed-literals-v1/rom-cfg-v2-consumed-literals.json",
+          "evidence_sha256": "e08df7333e8b82f3d18497bf5a2a478bf3bf7a5743e50e898cfc819f0b5d29b1",
+          "id": "cfg-v2-consumed-literal-0580-095ff0",
+          "independent_verifier_path": "tools/verify_rom_cfg_v2_consumed_literals.py",
+          "independent_verifier_sha256": "77d956f412b3ba4de15958e272b473b42286d054c47965b35384d85659a464a8",
+          "primary_class": "armv4t_cfg_v2_consumed_literal_word",
+          "range": [
+            614384,
+            614420
+          ]
+        }
+      ],
+      "value": 50331765
+    },
+    {
+      "at": 618432,
+      "claims": [
+        {
+          "claim_kind": "armv4t_cfg_v2_consumed_literal_word_bytes",
+          "evidence_path": "artifacts/rom-cfg-v2-consumed-literals-v1/rom-cfg-v2-consumed-literals.json",
+          "evidence_sha256": "e08df7333e8b82f3d18497bf5a2a478bf3bf7a5743e50e898cfc819f0b5d29b1",
+          "id": "cfg-v2-consumed-literal-0594-096fb0",
+          "independent_verifier_path": "tools/verify_rom_cfg_v2_consumed_literals.py",
+          "independent_verifier_sha256": "77d956f412b3ba4de15958e272b473b42286d054c47965b35384d85659a464a8",
+          "primary_class": "armv4t_cfg_v2_consumed_literal_word",
+          "range": [
+            618416,
+            618436
+          ]
+        }
+      ],
+      "value": 50331765
+    }
+  ],
+  "expanded_source_instruction_count": 67243,
+  "fresh_verifiers": {
+    "artifacts/rom-boot-interwork-continuation-v1": {
+      "callee_frontier_count": 0,
+      "callee_return_offsets": [
+        932,
+        952
+      ],
+      "errors": [],
+      "literal_binding_count": 5,
+      "promotion_bytes": 94,
+      "schema": "rom-boot-interwork-continuation-verification-v1",
+      "verified": true
+    },
+    "artifacts/rom-boot-thumb-handoff-cfg-v1": {
+      "errors": [],
+      "promotion": {
+        "code_bytes": 1226,
+        "code_range_count": 27,
+        "current_known_overlap_bytes": 0,
+        "future_coverage_claim_projection": {
+          "code_claim_count": 27,
+          "literal_claim_count": 22,
+          "semantically_merged_union_claim_count": 0
+        },
+        "literal_bytes": 296,
+        "literal_range_count": 22,
+        "union_bytes": 1522,
+        "union_bytes_sha256": "73033e06942ec6604fe036849e40c420728f6f9bd4ae5db6c0fe49ba6eca2f22",
+        "union_range_count": 25,
+        "union_range_vector_sha256": "f8df15ea8c3feb1a9c460bd0a2aabd79572806100ed726ada64b360aabb92aa5",
+        "wide_envelope": [
+          397228,
+          639128
+        ],
+        "wide_envelope_is_claim": false
+      },
+      "schema": "rom-boot-thumb-handoff-cfg-verification-v1",
+      "summary": {
+        "block_count": 125,
+        "budget_exhausted": false,
+        "external_edge_count": 14,
+        "external_target_count": 11,
+        "frontier_count": 2,
+        "instruction_bytes": 1226,
+        "instruction_count": 583,
+        "internal_edge_count": 164,
+        "literal_bytes": 296,
+        "literal_ref_count": 77,
+        "literal_word_count": 74,
+        "raw_indirect_pc_count": 15,
+        "return_count": 14
+      },
+      "verified": true
+    },
+    "artifacts/rom-story-state-callback-cfg-v1": {
+      "artifact": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-story-state-callback-cfg-v1",
+      "errors": [],
+      "promotion_bytes": 702,
+      "schema": "rom-story-state-callback-cfg-verifier-report-v1",
+      "verified": true
+    },
+    "v2_lifecycle_source": {
+      "budget_exhausted": false,
+      "closed_root_count": 4,
+      "control_flow_oracle": "armv4t-raw-encoding",
+      "decoded_basic_block_count": 7725,
+      "decoded_instruction_count": 40872,
+      "errors": [],
+      "frontier_count": 366,
+      "frontier_open_root_count": 259,
+      "independently_rebuilt_instruction_count": 40872,
+      "reachable_instruction_bytes": 86184,
+      "root_count": 263,
+      "schema": "rom-cfg-inventory-verification-v2",
+      "verified": true
+    }
+  },
+  "literal_denominator_is_not_all_writers": true,
+  "promotion_bytes": 0,
+  "source_groups": {
+    "artifacts/rom-boot-interwork-continuation-v1": {
+      "code_ranges": [
+        [
+          397450,
+          397524
+        ]
+      ],
+      "instruction_count": 29,
+      "net_new_in_union": 29
+    },
+    "artifacts/rom-boot-thumb-handoff-cfg-v1": {
+      "code_ranges": [
+        [
+          397228,
+          397346
+        ],
+        [
+          397392,
+          397436
+        ],
+        [
+          397440,
+          397446
+        ],
+        [
+          397544,
+          397566
+        ],
+        [
+          397572,
+          397598
+        ],
+        [
+          397604,
+          397642
+        ],
+        [
+          398820,
+          398868
+        ],
+        [
+          399396,
+          399454
+        ],
+        [
+          399480,
+          399498
+        ],
+        [
+          401268,
+          401290
+        ],
+        [
+          401296,
+          401314
+        ],
+        [
+          401588,
+          401606
+        ],
+        [
+          401692,
+          401720
+        ],
+        [
+          401728,
+          401848
+        ],
+        [
+          401872,
+          401912
+        ],
+        [
+          401916,
+          402038
+        ],
+        [
+          402048,
+          402206
+        ],
+        [
+          411344,
+          411372
+        ],
+        [
+          414616,
+          414660
+        ],
+        [
+          414680,
+          414688
+        ],
+        [
+          414692,
+          414712
+        ],
+        [
+          630156,
+          630262
+        ],
+        [
+          631214,
+          631216
+        ],
+        [
+          633524,
+          633534
+        ],
+        [
+          638972,
+          638992
+        ],
+        [
+          639004,
+          639046
+        ],
+        [
+          639068,
+          639110
+        ]
+      ],
+      "instruction_count": 583,
+      "net_new_in_union": 583
+    },
+    "artifacts/rom-story-state-callback-cfg-v1": {
+      "code_ranges": [
+        [
+          587580,
+          587642
+        ],
+        [
+          587652,
+          588014
+        ],
+        [
+          588020,
+          588148
+        ],
+        [
+          588152,
+          588186
+        ],
+        [
+          588192,
+          588288
+        ],
+        [
+          588292,
+          588338
+        ]
+      ],
+      "instruction_count": 336,
+      "net_new_in_union": 336
+    }
+  }
+}

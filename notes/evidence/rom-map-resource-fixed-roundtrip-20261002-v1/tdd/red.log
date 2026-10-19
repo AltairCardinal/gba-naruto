@@ -1,0 +1,222 @@
+test_every_logical_alias_is_checked (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_every_logical_alias_is_checked) ... ERROR
+test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) ... 
+  test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='primary_layout', kind='layout-metatile-index') ... ERROR
+  test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='primary_layout', kind='layout-metatile-index') ... ERROR
+  test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='metatile_definitions', kind='metatile-tile-index') ... ERROR
+  test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='metatile_definitions', kind='metatile-palette-bank') ... ERROR
+  test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='collision_grid', kind='collision-size') ... ERROR
+  test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='primary_layout', kind='layout-size') ... ERROR
+test_valid_domain_and_flip_flags (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_valid_domain_and_flip_flags) ... ERROR
+test_full_matrix_in_relocated_root_real_cli_and_isolated_environment (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_full_matrix_in_relocated_root_real_cli_and_isolated_environment) ... FAIL
+test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) ... 
+  test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='contract') ... ERROR
+  test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='implementation') ... ERROR
+  test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='missing') ... ERROR
+  test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='symlink') ... ERROR
+  test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='inactive') ... ERROR
+  test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='unmanaged') ... ERROR
+test_real_output_faults_fail_without_publishing_verified_result (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_real_output_faults_fail_without_publishing_verified_result) ... 
+  test_real_output_faults_fail_without_publishing_verified_result (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_real_output_faults_fail_without_publishing_verified_result) (fault='outside-slot') ... ERROR
+  test_real_output_faults_fail_without_publishing_verified_result (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_real_output_faults_fail_without_publishing_verified_result) (fault='missing-alias-report') ... ERROR
+  test_real_output_faults_fail_without_publishing_verified_result (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_real_output_faults_fail_without_publishing_verified_result) (fault='rejected-output') ... ERROR
+
+======================================================================
+ERROR: test_every_logical_alias_is_checked (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_every_logical_alias_is_checked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 57, in test_every_logical_alias_is_checked
+    errors=auditor.linked_domain(cat,contents,{('metatile_definitions','metatile_definitions'):mutation})
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 12, in linked_domain
+    raise NotImplementedError('independent linked map domain not implemented')
+NotImplementedError: independent linked map domain not implemented
+
+======================================================================
+ERROR: test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='primary_layout', kind='layout-metatile-index')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 45, in test_size_indices_and_palette_boundaries
+    errors = auditor.linked_domain(cat,contents,{(role,role):content})
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 12, in linked_domain
+    raise NotImplementedError('independent linked map domain not implemented')
+NotImplementedError: independent linked map domain not implemented
+
+======================================================================
+ERROR: test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='primary_layout', kind='layout-metatile-index')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 45, in test_size_indices_and_palette_boundaries
+    errors = auditor.linked_domain(cat,contents,{(role,role):content})
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 12, in linked_domain
+    raise NotImplementedError('independent linked map domain not implemented')
+NotImplementedError: independent linked map domain not implemented
+
+======================================================================
+ERROR: test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='metatile_definitions', kind='metatile-tile-index')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 45, in test_size_indices_and_palette_boundaries
+    errors = auditor.linked_domain(cat,contents,{(role,role):content})
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 12, in linked_domain
+    raise NotImplementedError('independent linked map domain not implemented')
+NotImplementedError: independent linked map domain not implemented
+
+======================================================================
+ERROR: test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='metatile_definitions', kind='metatile-palette-bank')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 45, in test_size_indices_and_palette_boundaries
+    errors = auditor.linked_domain(cat,contents,{(role,role):content})
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 12, in linked_domain
+    raise NotImplementedError('independent linked map domain not implemented')
+NotImplementedError: independent linked map domain not implemented
+
+======================================================================
+ERROR: test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='collision_grid', kind='collision-size')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 45, in test_size_indices_and_palette_boundaries
+    errors = auditor.linked_domain(cat,contents,{(role,role):content})
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 12, in linked_domain
+    raise NotImplementedError('independent linked map domain not implemented')
+NotImplementedError: independent linked map domain not implemented
+
+======================================================================
+ERROR: test_size_indices_and_palette_boundaries (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_size_indices_and_palette_boundaries) (role='primary_layout', kind='layout-size')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 45, in test_size_indices_and_palette_boundaries
+    errors = auditor.linked_domain(cat,contents,{(role,role):content})
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 12, in linked_domain
+    raise NotImplementedError('independent linked map domain not implemented')
+NotImplementedError: independent linked map domain not implemented
+
+======================================================================
+ERROR: test_valid_domain_and_flip_flags (tests.test_map_resource_fixed_roundtrip.LinkedDomainTests.test_valid_domain_and_flip_flags)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 29, in test_valid_domain_and_flip_flags
+    self.assertEqual(auditor.linked_domain(cat,contents), [])
+                     ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 12, in linked_domain
+    raise NotImplementedError('independent linked map domain not implemented')
+NotImplementedError: independent linked map domain not implemented
+
+======================================================================
+ERROR: test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='contract')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 144, in test_identity_missing_symlink_and_managed_state_fail_before_build
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='implementation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 144, in test_identity_missing_symlink_and_managed_state_fail_before_build
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='missing')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 144, in test_identity_missing_symlink_and_managed_state_fail_before_build
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='symlink')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 144, in test_identity_missing_symlink_and_managed_state_fail_before_build
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='inactive')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 144, in test_identity_missing_symlink_and_managed_state_fail_before_build
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_identity_missing_symlink_and_managed_state_fail_before_build (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_identity_missing_symlink_and_managed_state_fail_before_build) (kind='unmanaged')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 144, in test_identity_missing_symlink_and_managed_state_fail_before_build
+    with self.assertRaises((ValueError,OSError)):auditor.run_roundtrip(root,run)
+                                                 ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_real_output_faults_fail_without_publishing_verified_result (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_real_output_faults_fail_without_publishing_verified_result) (fault='outside-slot')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 127, in test_real_output_faults_fail_without_publishing_verified_result
+    with self.assertRaisesRegex(ValueError,message):auditor.run_roundtrip(root,run)
+                                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_real_output_faults_fail_without_publishing_verified_result (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_real_output_faults_fail_without_publishing_verified_result) (fault='missing-alias-report')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 127, in test_real_output_faults_fail_without_publishing_verified_result
+    with self.assertRaisesRegex(ValueError,message):auditor.run_roundtrip(root,run)
+                                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+======================================================================
+ERROR: test_real_output_faults_fail_without_publishing_verified_result (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_real_output_faults_fail_without_publishing_verified_result) (fault='rejected-output')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 127, in test_real_output_faults_fail_without_publishing_verified_result
+    with self.assertRaisesRegex(ValueError,message):auditor.run_roundtrip(root,run)
+                                                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+======================================================================
+FAIL: test_full_matrix_in_relocated_root_real_cli_and_isolated_environment (tests.test_map_resource_fixed_roundtrip.MapRoundtripTests.test_full_matrix_in_relocated_root_real_cli_and_isolated_environment)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_map_resource_fixed_roundtrip.py", line 76, in test_full_matrix_in_relocated_root_real_cli_and_isolated_environment
+    self.assertEqual(completed.returncode,0,completed.stderr+completed.stdout[-1000:])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/private/var/folders/97/b625qtfj7q79fvq1z3_x0ndr0000gn/T/tmpx1epvw2j/tools/audit_map_resource_fixed_roundtrip.py", line 19, in <module>
+    run_roundtrip(ROOT, ROOT)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/private/var/folders/97/b625qtfj7q79fvq1z3_x0ndr0000gn/T/tmpx1epvw2j/tools/audit_map_resource_fixed_roundtrip.py", line 16, in run_roundtrip
+    raise NotImplementedError('map fixed roundtrip matrix not implemented')
+NotImplementedError: map fixed roundtrip matrix not implemented
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 1.045s
+
+FAILED (failures=1, errors=17)

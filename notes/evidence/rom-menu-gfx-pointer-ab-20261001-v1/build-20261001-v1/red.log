@@ -1,0 +1,58 @@
+test_cli_builds_real_pair (tests.test_build_menu_portrait_pointer_ab.MenuPointerPairTests.test_cli_builds_real_pair) ... ERROR
+test_nonempty_and_symlink_output_are_rejected_without_changes (tests.test_build_menu_portrait_pointer_ab.MenuPointerPairTests.test_nonempty_and_symlink_output_are_rejected_without_changes) ... 
+  test_nonempty_and_symlink_output_are_rejected_without_changes (tests.test_build_menu_portrait_pointer_ab.MenuPointerPairTests.test_nonempty_and_symlink_output_are_rejected_without_changes) (symbolic=False) ... ERROR
+  test_nonempty_and_symlink_output_are_rejected_without_changes (tests.test_build_menu_portrait_pointer_ab.MenuPointerPairTests.test_nonempty_and_symlink_output_are_rejected_without_changes) (symbolic=True) ... ERROR
+test_real_pair_isolates_gfx_pointer_without_touching_palette_or_other_records (tests.test_build_menu_portrait_pointer_ab.MenuPointerPairTests.test_real_pair_isolates_gfx_pointer_without_touching_palette_or_other_records) ... ERROR
+
+======================================================================
+ERROR: test_cli_builds_real_pair (tests.test_build_menu_portrait_pointer_ab.MenuPointerPairTests.test_cli_builds_real_pair)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_menu_portrait_pointer_ab.py", line 69, in test_cli_builds_real_pair
+    manifest = json.loads(result.stdout)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py", line 352, in loads
+    return _default_decoder.decode(s)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py", line 345, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/decoder.py", line 363, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+======================================================================
+ERROR: test_nonempty_and_symlink_output_are_rejected_without_changes (tests.test_build_menu_portrait_pointer_ab.MenuPointerPairTests.test_nonempty_and_symlink_output_are_rejected_without_changes) (symbolic=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_menu_portrait_pointer_ab.py", line 59, in test_nonempty_and_symlink_output_are_rejected_without_changes
+    build_pair(ROOT, output)
+    ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_menu_portrait_pointer_ab.py", line 5, in build_pair
+    raise NotImplementedError('isolated menu pointer pair not implemented')
+NotImplementedError: isolated menu pointer pair not implemented
+
+======================================================================
+ERROR: test_nonempty_and_symlink_output_are_rejected_without_changes (tests.test_build_menu_portrait_pointer_ab.MenuPointerPairTests.test_nonempty_and_symlink_output_are_rejected_without_changes) (symbolic=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_menu_portrait_pointer_ab.py", line 59, in test_nonempty_and_symlink_output_are_rejected_without_changes
+    build_pair(ROOT, output)
+    ~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_menu_portrait_pointer_ab.py", line 5, in build_pair
+    raise NotImplementedError('isolated menu pointer pair not implemented')
+NotImplementedError: isolated menu pointer pair not implemented
+
+======================================================================
+ERROR: test_real_pair_isolates_gfx_pointer_without_touching_palette_or_other_records (tests.test_build_menu_portrait_pointer_ab.MenuPointerPairTests.test_real_pair_isolates_gfx_pointer_without_touching_palette_or_other_records)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_build_menu_portrait_pointer_ab.py", line 20, in test_real_pair_isolates_gfx_pointer_without_touching_palette_or_other_records
+    manifest = build_pair(ROOT, output)
+  File "/Users/altair/github/gba-naruto-reverse/tools/build_menu_portrait_pointer_ab.py", line 5, in build_pair
+    raise NotImplementedError('isolated menu pointer pair not implemented')
+NotImplementedError: isolated menu pointer pair not implemented
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.049s
+
+FAILED (errors=4)

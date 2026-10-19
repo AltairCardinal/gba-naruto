@@ -1,0 +1,40 @@
+test_all_counter_values_save_exact_byte_and_set_one (__main__.SaveSourceTests.test_all_counter_values_save_exact_byte_and_set_one) ... ok
+test_bounded_cfg_rejects_branch_escape_and_truncated_bl (__main__.SaveSourceTests.test_bounded_cfg_rejects_branch_escape_and_truncated_bl) ... FAIL
+test_busy_status_and_context_switch_are_fail_closed (__main__.SaveSourceTests.test_busy_status_and_context_switch_are_fail_closed) ... ok
+test_callback_binding_rejects_pointer_and_registrar_mutations (__main__.SaveSourceTests.test_callback_binding_rejects_pointer_and_registrar_mutations) ... ok
+test_callback_registration_binds_slot5_real_record_and_dispatch_pointer (__main__.SaveSourceTests.test_callback_registration_binds_slot5_real_record_and_dispatch_pointer) ... ok
+test_direct_cfg_follows_branches_skips_calls_and_does_not_decode_literals (__main__.SaveSourceTests.test_direct_cfg_follows_branches_skips_calls_and_does_not_decode_literals) ... ok
+test_existing_saved_blocks_new_save_and_valid_restore_clears_saved (__main__.SaveSourceTests.test_existing_saved_blocks_new_save_and_valid_restore_clears_saved) ... ok
+test_postbattle_counter_store_stops_before_external_controller (__main__.SaveSourceTests.test_postbattle_counter_store_stops_before_external_controller) ... ok
+test_raw_oracle_follows_negative_conditional_backedge_and_call_fallthrough (__main__.SaveSourceTests.test_raw_oracle_follows_negative_conditional_backedge_and_call_fallthrough) ... FAIL
+test_timeout_freezes_only_active_128_objects_and_cleans_four_task_records (__main__.SaveSourceTests.test_timeout_freezes_only_active_128_objects_and_cleans_four_task_records) ... ok
+
+======================================================================
+FAIL: test_bounded_cfg_rejects_branch_escape_and_truncated_bl (__main__.SaveSourceTests.test_bounded_cfg_rejects_branch_escape_and_truncated_bl)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "build/experiments/active/animation-save-source/source-20261001-v1/test_save_source.py", line 23, in test_bounded_cfg_rejects_branch_escape_and_truncated_bl
+    with self.assertRaisesRegex(ValueError, 'escape'):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_raw_oracle_follows_negative_conditional_backedge_and_call_fallthrough (__main__.SaveSourceTests.test_raw_oracle_follows_negative_conditional_backedge_and_call_fallthrough)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "build/experiments/active/animation-save-source/source-20261001-v1/test_save_source.py", line 33, in test_raw_oracle_follows_negative_conditional_backedge_and_call_fallthrough
+    self.assertEqual(graph['calls'], [{'at': 4, 'target': 12}])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != [{'at': 4, 'target': 12}]
+
+Second list contains 1 additional elements.
+First extra element 0:
+{'at': 4, 'target': 12}
+
+- []
++ [{'at': 4, 'target': 12}]
+
+----------------------------------------------------------------------
+Ran 10 tests in 1.449s
+
+FAILED (failures=2)

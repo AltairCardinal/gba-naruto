@@ -1,0 +1,250 @@
+{
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "edit": {
+    "after_index": 14,
+    "before_index": 52,
+    "canvas_byte_offset": 3240,
+    "canvas_xy": [
+      40,
+      40
+    ],
+    "pair_pointer_offset": 5918228,
+    "portrait_id": 1,
+    "resource_id": 0,
+    "stream_byte_offset": 5184,
+    "variant": 0
+  },
+  "input": {
+    "capture_frame": 80,
+    "down_frame": 5,
+    "key": "A",
+    "up_frame": 13
+  },
+  "input_state": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-9.ss9",
+  "input_state_sha256": "5635916176865f63b12154ea1c68e202393baaf6e1427473fb6be8a84b18eba8",
+  "isolation": {
+    "changed_span": [
+      11012654,
+      11012966
+    ],
+    "rom_changed_offset_count": 28,
+    "rom_changed_offsets": [
+      11012654,
+      11012662,
+      11012663,
+      11012664,
+      11012665,
+      11012666,
+      11012667,
+      11012668,
+      11012669,
+      11012670,
+      11012671,
+      11012672,
+      11012673,
+      11012674,
+      11012675,
+      11012676,
+      11012677,
+      11012679,
+      11012680,
+      11012681,
+      11012682,
+      11012683,
+      11012684,
+      11012956,
+      11012962,
+      11012963,
+      11012964,
+      11012965
+    ],
+    "same_allocation_addresses": true,
+    "same_redirect_pointers": true,
+    "single_decoded_graphics_byte": true
+  },
+  "schema": "menu-portrait-pixel-ab-build-v1",
+  "source_catalog": "artifacts/menu-portraits-v1/manifest.json",
+  "source_catalog_sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3",
+  "variants": {
+    "baseline": {
+      "graphics_sha256": "a7eb566c2b1dcfb0357dfa93a526af1132c97fec3d6cfa683760cd3d7e41c64b",
+      "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+      "patch_ledger": [
+        {
+          "after_hex": null,
+          "after_sha256": "28d82e56b5c72c3d6eed4d59a224ebdbae3722310cefb0bc14f1d1e385bf48f1",
+          "allocation": {
+            "owner": "sequel_image_assets",
+            "partition": "sequel-image-assets",
+            "region": "menu-portraits",
+            "region_owner": "menu_portrait_resources"
+          },
+          "asset_type": "menu_portrait_graphics_relocation",
+          "before_hex": null,
+          "before_sha256": "93caaf12366c702813b7b6cad2b6233b4549473e3fcc30c4d7840b1934c452d2",
+          "id": "menu-portrait-graphics-000",
+          "kind": "allocation",
+          "new_pointer": 145227776,
+          "offset": 11010048,
+          "resource_type": "graphics",
+          "size": 3306,
+          "target_pointer_offsets": [
+            5918228
+          ]
+        },
+        {
+          "after_hex": null,
+          "after_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+          "allocation": {
+            "owner": "sequel_image_assets",
+            "partition": "sequel-image-assets",
+            "region": "menu-portraits",
+            "region_owner": "menu_portrait_resources"
+          },
+          "asset_type": "menu_portrait_palette_relocation",
+          "before_hex": null,
+          "before_sha256": "e9175db65a9789096ca9cb5524d3abc2107df03e3c9ba3af1aca628f9c5d3bd2",
+          "id": "menu-portrait-palette-001",
+          "kind": "allocation",
+          "new_pointer": 145231084,
+          "offset": 11013356,
+          "resource_type": "palette",
+          "size": 128,
+          "target_pointer_offsets": [
+            5918232
+          ]
+        },
+        {
+          "after_hex": "0000a808",
+          "after_sha256": "0f53be35db9707d3110cba66c55a5d17f2a77036d1fd60fe0f2bf8c70fce6607",
+          "allocation": null,
+          "asset_type": "menu_portrait_pointer",
+          "before_hex": "d88b4008",
+          "before_sha256": "6e6b1d2c7e82d8818eeb13aa9e9adf52328f1c114451de5d9442497a1644dc82",
+          "id": "menu-portrait-graphics-000.pointer-5a4e14",
+          "kind": "redirect",
+          "new_pointer": 145227776,
+          "offset": 5918228,
+          "resource_type": "graphics",
+          "size": 4,
+          "target_pointer_offsets": [
+            5918228
+          ]
+        },
+        {
+          "after_hex": "ec0ca808",
+          "after_sha256": "bc45768aa3d253bade2c01c90cfea666a34ac23f62313b1063eb76b73b1de32e",
+          "allocation": null,
+          "asset_type": "menu_portrait_pointer",
+          "before_hex": "c4984008",
+          "before_sha256": "ec538f85ac364336858b039689636874f5b876299bc4cd91a4dc1aa8feca783e",
+          "id": "menu-portrait-palette-001.pointer-5a4e18",
+          "kind": "redirect",
+          "new_pointer": 145231084,
+          "offset": 5918232,
+          "resource_type": "palette",
+          "size": 4,
+          "target_pointer_offsets": [
+            5918232
+          ]
+        }
+      ],
+      "png_path": "baseline/portrait.png",
+      "png_sha256": "40cf158dc46eba1e4213dc58ffe278994738a5343931d3e7a992cde93d9d737f",
+      "rom_path": "baseline/baseline.gba",
+      "rom_sha256": "202301cc0bcb246269e200db3c5ced1aa3ec8e7547e2f21c26d81df5db95fc3a",
+      "rom_size": 16777216,
+      "spec_path": "baseline/spec.json"
+    },
+    "candidate": {
+      "graphics_sha256": "68cef61a871dc615f25502d40840735f2493a7b97c8514236d6dc083527e1d41",
+      "palette_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+      "patch_ledger": [
+        {
+          "after_hex": null,
+          "after_sha256": "efbda517fad5e0e4306fddbe9e5d2bbff4efba86d1a6df973e72d053bc6611d4",
+          "allocation": {
+            "owner": "sequel_image_assets",
+            "partition": "sequel-image-assets",
+            "region": "menu-portraits",
+            "region_owner": "menu_portrait_resources"
+          },
+          "asset_type": "menu_portrait_graphics_relocation",
+          "before_hex": null,
+          "before_sha256": "93caaf12366c702813b7b6cad2b6233b4549473e3fcc30c4d7840b1934c452d2",
+          "id": "menu-portrait-graphics-000",
+          "kind": "allocation",
+          "new_pointer": 145227776,
+          "offset": 11010048,
+          "resource_type": "graphics",
+          "size": 3306,
+          "target_pointer_offsets": [
+            5918228
+          ]
+        },
+        {
+          "after_hex": null,
+          "after_sha256": "cb61b78fb80795ed2f2fc59ed7ceb8f2fd70bde7af7827c0b1a8b9232a01d48c",
+          "allocation": {
+            "owner": "sequel_image_assets",
+            "partition": "sequel-image-assets",
+            "region": "menu-portraits",
+            "region_owner": "menu_portrait_resources"
+          },
+          "asset_type": "menu_portrait_palette_relocation",
+          "before_hex": null,
+          "before_sha256": "e9175db65a9789096ca9cb5524d3abc2107df03e3c9ba3af1aca628f9c5d3bd2",
+          "id": "menu-portrait-palette-001",
+          "kind": "allocation",
+          "new_pointer": 145231084,
+          "offset": 11013356,
+          "resource_type": "palette",
+          "size": 128,
+          "target_pointer_offsets": [
+            5918232
+          ]
+        },
+        {
+          "after_hex": "0000a808",
+          "after_sha256": "0f53be35db9707d3110cba66c55a5d17f2a77036d1fd60fe0f2bf8c70fce6607",
+          "allocation": null,
+          "asset_type": "menu_portrait_pointer",
+          "before_hex": "d88b4008",
+          "before_sha256": "6e6b1d2c7e82d8818eeb13aa9e9adf52328f1c114451de5d9442497a1644dc82",
+          "id": "menu-portrait-graphics-000.pointer-5a4e14",
+          "kind": "redirect",
+          "new_pointer": 145227776,
+          "offset": 5918228,
+          "resource_type": "graphics",
+          "size": 4,
+          "target_pointer_offsets": [
+            5918228
+          ]
+        },
+        {
+          "after_hex": "ec0ca808",
+          "after_sha256": "bc45768aa3d253bade2c01c90cfea666a34ac23f62313b1063eb76b73b1de32e",
+          "allocation": null,
+          "asset_type": "menu_portrait_pointer",
+          "before_hex": "c4984008",
+          "before_sha256": "ec538f85ac364336858b039689636874f5b876299bc4cd91a4dc1aa8feca783e",
+          "id": "menu-portrait-palette-001.pointer-5a4e18",
+          "kind": "redirect",
+          "new_pointer": 145231084,
+          "offset": 5918232,
+          "resource_type": "palette",
+          "size": 4,
+          "target_pointer_offsets": [
+            5918232
+          ]
+        }
+      ],
+      "png_path": "candidate/portrait.png",
+      "png_sha256": "430940e7779ff4307cd7e2286e789586432d07078a5de937e23846e90172922f",
+      "rom_path": "candidate/candidate.gba",
+      "rom_sha256": "26a08a91628c4fc511a796db27a29518c7303e8a7294665afbf21b99dce42311",
+      "rom_size": 16777216,
+      "spec_path": "candidate/spec.json"
+    }
+  }
+}

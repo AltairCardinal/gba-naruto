@@ -1,0 +1,21 @@
+test_full_renderer (unittest.loader._FailedTest.test_full_renderer) ... ERROR
+
+======================================================================
+ERROR: test_full_renderer (unittest.loader._FailedTest.test_full_renderer)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_full_renderer
+Traceback (most recent call last):
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/loader.py", line 426, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/usr/local/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/unittest/loader.py", line 367, in _get_module_from_name
+    __import__(name)
+    ~~~~~~~~~~^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/build/experiments/active/animation-full-renderer/renderer-20261001-v1/test_full_renderer.py", line 2, in <module>
+    import full_renderer as p
+ModuleNotFoundError: No module named 'full_renderer'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

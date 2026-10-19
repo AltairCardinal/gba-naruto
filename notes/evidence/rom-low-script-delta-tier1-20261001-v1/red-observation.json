@@ -1,0 +1,14 @@
+{
+  "additional_red_log": "projection-red.log",
+  "additional_red_reason": "AttributeError: project_unknown_claims missing",
+  "command": [
+    "python3",
+    "-m",
+    "unittest",
+    "tests.test_rom_low_script_delta.LowScriptDeltaTests.test_actual_rom_two_records_and_excluded_gap"
+  ],
+  "evidence_kind": "observed tool output; not reconstructed raw test log",
+  "guard_summary": "build/experiments/low-script-delta-20261001-v1/red-guard.json",
+  "guarded_suite_exit_code": 1,
+  "observed_failure": "ModuleNotFoundError: No module named 'tools.export_rom_low_script_delta'"
+}

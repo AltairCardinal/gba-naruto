@@ -1,0 +1,125 @@
+EEEEEEEEEEE
+======================================================================
+ERROR: test_rejects_forged_marker_or_library (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_forged_marker_or_library) (name='runtime/input-candidate/guard.json.done.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 79, in test_rejects_forged_marker_or_library
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_rejects_forged_marker_or_library (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_forged_marker_or_library) (name='preflight-result.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 79, in test_rejects_forged_marker_or_library
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_rejects_other_memory_domain_change (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_other_memory_domain_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 115, in test_rejects_other_memory_domain_change
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_rejects_resigned_extra_input (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_resigned_extra_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 59, in test_rejects_resigned_extra_input
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_rejects_resigned_png_replacement (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_resigned_png_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 91, in test_rejects_resigned_png_replacement
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_rejects_second_table_relabel (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_second_table_relabel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 67, in test_rejects_second_table_relabel
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_rejects_symlink_or_extra_raw_file (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_symlink_or_extra_raw_file) (symbolic=False)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 129, in test_rejects_symlink_or_extra_raw_file
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_rejects_symlink_or_extra_raw_file (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_symlink_or_extra_raw_file) (symbolic=True)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 129, in test_rejects_symlink_or_extra_raw_file
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_rejects_wrong_shared_lock (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_wrong_shared_lock)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 49, in test_rejects_wrong_shared_lock
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_rejects_zero_input_memory_change (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_rejects_zero_input_memory_change)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 103, in test_rejects_zero_input_memory_change
+    verify_source(ROOT, source)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+======================================================================
+ERROR: test_replays_real_shared_lock_capture (tests.test_cutscene_obj_secondary_ptr_ab.SecondaryRuntimeTests.test_replays_real_shared_lock_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_cutscene_obj_secondary_ptr_ab.py", line 27, in test_replays_real_shared_lock_capture
+    result = verify_source(ROOT, SOURCE)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_cutscene_obj_secondary_ptr_ab.py", line 4, in verify_source
+    raise NotImplementedError("secondary runtime verifier not implemented")
+NotImplementedError: secondary runtime verifier not implemented
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.231s
+
+FAILED (errors=11)

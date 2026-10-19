@@ -1,0 +1,63 @@
+rom=rom/base.gba
+start=0x0807517E
+focus=0x0807519E
+size=0x80
+
+   0x0807517E: pop      {r4}
+   0x08075180: pop      {r0}
+   0x08075182: bx       r0
+   0x08075184: push     {r4, r5, r6, r7, lr}
+   0x08075186: sub      sp, #0xc
+   0x08075188: bl       #0x806a99c
+   0x0807518C: bl       #0x8080ed0
+   0x08075190: ldr      r5, [pc, #0xec]
+   0x08075192: ldrb     r0, [r5, #1]
+   0x08075194: bl       #0x8068fb4
+   0x08075198: ldrb     r0, [r5, #1]
+   0x0807519A: bl       #0x8069264
+=> 0x0807519E: bl       #0x806e1b4
+   0x080751A2: bl       #0x806e810
+   0x080751A6: movs     r4, #0
+   0x080751A8: strb     r4, [r5, #3]
+   0x080751AA: ldr      r3, [pc, #0xd8]
+   0x080751AC: ldrb     r1, [r5, #2]
+   0x080751AE: lsls     r0, r1, #4
+   0x080751B0: adds     r0, r0, r1
+   0x080751B2: lsls     r0, r0, #2
+   0x080751B4: ldrb     r2, [r5, #1]
+   0x080751B6: movs     r1, #0xcc
+   0x080751B8: muls     r1, r2, r1
+   0x080751BA: adds     r0, r0, r1
+   0x080751BC: adds     r0, r0, r3
+   0x080751BE: ldrb     r1, [r0]
+   0x080751C0: adds     r0, r1, #0
+   0x080751C2: cmp      r0, #0xff
+   0x080751C4: beq      #0x80751c8
+   0x080751C6: strb     r1, [r5, #6]
+   0x080751C8: ldr      r1, [pc, #0xbc]
+   0x080751CA: strb     r4, [r1]
+   0x080751CC: ldr      r2, [pc, #0xbc]
+   0x080751CE: adds     r0, r1, r2
+   0x080751D0: strb     r4, [r0]
+   0x080751D2: subs     r2, #1
+   0x080751D4: adds     r0, r1, r2
+   0x080751D6: strb     r4, [r0]
+   0x080751D8: adds     r2, #3
+   0x080751DA: adds     r0, r1, r2
+   0x080751DC: strb     r4, [r0]
+   0x080751DE: subs     r2, #1
+   0x080751E0: adds     r0, r1, r2
+   0x080751E2: strb     r4, [r0]
+   0x080751E4: adds     r2, #2
+   0x080751E6: adds     r0, r1, r2
+   0x080751E8: strb     r4, [r0]
+   0x080751EA: movs     r4, #0
+   0x080751EC: adds     r3, r5, #0
+   0x080751EE: adds     r6, r1, #0
+   0x080751F0: ldr      r2, [pc, #0x9c]
+   0x080751F2: movs     r1, #0
+   0x080751F4: adds     r0, r4, r2
+   0x080751F6: strb     r1, [r0]
+   0x080751F8: adds     r0, r4, #1
+   0x080751FA: lsls     r0, r0, #0x18
+   0x080751FC: lsrs     r4, r0, #0x18

@@ -1,0 +1,95 @@
+test_rejects_extra_guard_option (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_extra_guard_option) ... FAIL
+test_rejects_forged_marker_or_library (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_forged_marker_or_library) ... ok
+test_rejects_input_version_in_new_output (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_input_version_in_new_output) ... FAIL
+test_rejects_other_memory_domain_change (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_other_memory_domain_change) ... ok
+test_rejects_relabelled_plan (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_relabelled_plan) ... ok
+test_rejects_resigned_extra_input (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_resigned_extra_input) ... FAIL
+test_rejects_resigned_png_replacement (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_resigned_png_replacement) ... FAIL
+test_rejects_reused_run_identity (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_reused_run_identity) ... ok
+test_rejects_symlink_or_extra_raw_file (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_symlink_or_extra_raw_file) ... ok
+test_rejects_wrong_record_relabel (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_wrong_record_relabel) ... ok
+test_rejects_wrong_shared_lock (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_wrong_shared_lock) ... ok
+test_rejects_zero_input_memory_change (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_zero_input_memory_change) ... FAIL
+test_replays_real_shared_lock_capture (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_replays_real_shared_lock_capture) ... ERROR
+
+======================================================================
+ERROR: test_replays_real_shared_lock_capture (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_replays_real_shared_lock_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 26, in test_replays_real_shared_lock_capture
+    result = verify_source(ROOT, SOURCE)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 258, in verify_source
+    return _verify_source(root, source)
+  File "/Users/altair/github/gba-naruto-reverse/tools/verify_menu_portrait_pointer_ab.py", line 230, in _verify_source
+    raise ValueError("natural graphics memory domain route changed")
+ValueError: natural graphics memory domain route changed
+
+======================================================================
+FAIL: test_rejects_extra_guard_option (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_extra_guard_option)
+----------------------------------------------------------------------
+ValueError: natural graphics memory domain route changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 132, in test_rejects_extra_guard_option
+    with self.assertRaisesRegex(ValueError, "guard command"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "guard command" does not match "natural graphics memory domain route changed"
+
+======================================================================
+FAIL: test_rejects_input_version_in_new_output (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_input_version_in_new_output)
+----------------------------------------------------------------------
+ValueError: natural graphics memory domain route changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 154, in test_rejects_input_version_in_new_output
+    with self.assertRaisesRegex(ValueError, "snapshot version"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "snapshot version" does not match "natural graphics memory domain route changed"
+
+======================================================================
+FAIL: test_rejects_resigned_extra_input (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_resigned_extra_input)
+----------------------------------------------------------------------
+ValueError: natural graphics memory domain route changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 57, in test_rejects_resigned_extra_input
+    with self.assertRaisesRegex(ValueError, "input protocol"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "input protocol" does not match "natural graphics memory domain route changed"
+
+======================================================================
+FAIL: test_rejects_resigned_png_replacement (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_resigned_png_replacement)
+----------------------------------------------------------------------
+ValueError: natural graphics memory domain route changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 89, in test_rejects_resigned_png_replacement
+    with self.assertRaisesRegex(ValueError, "renderer|pixels"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "renderer|pixels" does not match "natural graphics memory domain route changed"
+
+======================================================================
+FAIL: test_rejects_zero_input_memory_change (tests.test_menu_portrait_pointer_ab.MenuPointerRuntimeTests.test_rejects_zero_input_memory_change)
+----------------------------------------------------------------------
+ValueError: natural graphics memory domain route changed
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/altair/github/gba-naruto-reverse/tests/test_menu_portrait_pointer_ab.py", line 101, in test_rejects_zero_input_memory_change
+    with self.assertRaisesRegex(ValueError, "zero input"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "zero input" does not match "natural graphics memory domain route changed"
+
+----------------------------------------------------------------------
+Ran 13 tests in 9.844s
+
+FAILED (failures=5, errors=1)

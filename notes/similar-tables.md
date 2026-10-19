@@ -1,5 +1,37 @@
 # Similar Pointer-Table Candidates
 
+## 2026-08-09 strict-proof rescan
+
+`find_similar_tables.py` previously referenced an undefined `ROM_BASE`, so the
+current version could not be rerun and was not valid negative evidence for “no
+additional structure”. After adding the missing constant and a regression test,
+the full-ROM command
+
+```bash
+python3 tools/find_similar_tables.py rom/base.gba --min-rows 4
+```
+
+returns **114 heuristic candidates**. The top ranges are
+`0x596D5C..0x59904C` (342 nonzero rows),
+`0x5A4E14..0x5A57C4` (155), and
+`0x5A2B08..0x5A2EE8` (62). The immutable scan denominator remains 114. A
+separate evidence-derived overlay currently adjudicates all 114 entries: 61
+`accepted`, 25 `alias_of`, and 28 `rejected`; 0 remain open. The heuristic scan
+is therefore closed, while full-ROM semantic coverage remains a separate gate.
+
+The 114-item primary output is `sequel/similar-table-candidates-v1.json`; it is
+not rewritten during adjudication. Decisions live in
+`sequel/similar-table-adjudications-v1.json`.
+`tools/verify_similar_table_candidates.py` independently rebuilds both the scan
+and all 114 evidence-backed decisions from canonical ROM slices, rejecting a
+deleted candidate, deleted decision, changed range, changed evidence hash, or
+changed zero terminator.
+
+## 2026-03-28 historical scan
+
+以下 38 条输出和旧 ROM 文件名仅保留为历史记录，不是 2026-08-09 的 114 条重扫
+primary output。
+
 Date: `2026-03-28`
 
 Primary scan output:
@@ -76,9 +108,14 @@ matrix begins at `0x5A4DEC`, has 63 records × 40 bytes and five
 to cross portrait boundaries.
 
 The existing `artifacts/menu-portraits-v1/` covers all 310 pairs in this suffix,
-so this scan candidate is closed and must not be treated as another asset bank.
+so candidate 100 is closed as a strict-subrange alias of the 63×40-byte source
+table. The global denominator still has 45 open candidates.
 
 ## Corrected interpretation of `0x5A2B08`
+
+This correction rejects candidate 99's aggregate 16-byte grouping while
+preserving both canonical child tables. It is not negative evidence that the
+full ROM contains no additional structures.
 
 The apparent 62×16 range also crosses consumer-defined boundaries:
 

@@ -1,0 +1,459 @@
+{
+  "bank_proofs_sha256": "f52524fbba244cf0497ffa021503702da9a185485c13027872f2a65dad56bed2",
+  "case_count": 11,
+  "cases": [
+    {
+      "bank": "battle-encounters",
+      "command": [
+        "python3",
+        "tools/verify_battle_encounters_story_visual_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/battle-encounters-story-visual-pixel-ab-v1"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "gfx_lz_ptr"
+        ],
+        "field_ids_total": [
+          "gfx_lz_ptr",
+          "palette_lz_ptr",
+          "tilemap_lz_ptr",
+          "config_id"
+        ],
+        "records_covered": 1,
+        "records_total": 24,
+        "status": "artifact_verified_controlled_route"
+      },
+      "inputs": {
+        "artifacts/battle-encounters-story-visual-pixel-ab-v1/baseline.png": "c1fbfc4b1050e8b60e83ad65bc050cf5a201157f8de64de9136f776d6794c180",
+        "artifacts/battle-encounters-story-visual-pixel-ab-v1/candidate.png": "ec594790cbb0ab7173ec375af1632ba319680ba95a33930199d24f077628693f",
+        "artifacts/battle-encounters-story-visual-pixel-ab-v1/evidence.json": "37ce7ddb7a3812745e82dfc7f4802a4af155f8ea3632338a7d000f9c6710b2ab",
+        "artifacts/battle-encounters-story-visual-pixel-ab-v1/manifest.json": "6fc7148a5ec464142ac42d058751238bb0779f7e7f5fc4e7834bbd4dcc018c63",
+        "artifacts/battle-encounters-story-visual-pixel-ab-v1/raw.tar": "491ada895f0094771c90854948fb6eb5486ce16e50bf1ec0aeccbd3b0c56eb9f",
+        "sequel/content/battle-encounters/bank.json": "9c3d2860f06a0c994c9fdac5211a114322303943552299f1b545ac8dd982986d",
+        "tools/verify_battle_encounters_story_visual_pixel_ab.py": "4757eda87c9da08a13c4b771861742b9af8c8353cf7e78428b28cb61adcc6ade"
+      },
+      "limitations": [
+        "Only record 0 gfx_lz_ptr is covered, through a controlled opcode route rather than natural scenario 53 navigation.",
+        "The other records, fields, and physical hardware remain unverified."
+      ]
+    },
+    {
+      "bank": "cutscene-scripts",
+      "command": [
+        "python3",
+        "tools/verify_cutscene_obj_primary_ptr_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/cutscene-obj-id1-primary-ptr-ab-v1"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "primary_ptr"
+        ],
+        "field_ids_total": [
+          "primary_ptr",
+          "secondary_ptr"
+        ],
+        "records_covered": 1,
+        "records_total": 8,
+        "status": "artifact_verified_natural_route"
+      },
+      "inputs": {
+        "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/baseline.png": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+        "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/candidate.png": "e4955c26831d3f60eb1330dd6427b49e44d58c5ad9537a395069e3f2905aa651",
+        "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/evidence.json": "8247a8666365dca8e124a00509ac6f7e113b6954606da5fe00d3ef6d2dbedbe6",
+        "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/manifest.json": "a7b998184a757f3f8bebdb57a6bc9965ade0e7775a29c5e074905072a208fdb9",
+        "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/raw.tar": "3afedc6c2f84d051e241358e24577751d46a748b866777998fa7c1fd45002de3",
+        "sequel/content/cutscene-scripts/bank.json": "791f8173103259290c57b29908e010362c29de9caaa3c983e1e7b0336cb406a4",
+        "tools/verify_cutscene_obj_primary_ptr_ab.py": "4f202460e1232fac7b287467bbd1c54f70942539404255db078fa189267c26f2"
+      },
+      "limitations": [
+        "The slug contains two Cutscene OBJ resource tables, not narrative scripts.",
+        "Only resource ID 1 primary_ptr in the first table is covered."
+      ]
+    },
+    {
+      "bank": "data-table-b",
+      "command": [
+        "python3",
+        "tools/verify_data_table_b_message0_pointer_ab.py",
+        "artifacts/data-table-b-message0-pointer-pixel-ab-v1",
+        "--binary",
+        "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "text_ptr"
+        ],
+        "field_ids_total": [
+          "text_ptr"
+        ],
+        "records_covered": 1,
+        "records_total": 79,
+        "status": "artifact_verified_natural_route"
+      },
+      "inputs": {
+        "artifacts/data-table-b-message0-pointer-pixel-ab-v1/baseline.png": "8a4a05f3de735771be17c19be170833aadc725cb76c5c7b58eb5dc98652e62f0",
+        "artifacts/data-table-b-message0-pointer-pixel-ab-v1/candidate.png": "53cb548afd752fdcf332e97c1f4cdb0ead68789e15c9b7eb15e460d32e3042d9",
+        "artifacts/data-table-b-message0-pointer-pixel-ab-v1/evidence.json": "b0d25756ca36b49a61ee5297aa0e238196ff6c9d49c610a29cd022e03c8594ff",
+        "artifacts/data-table-b-message0-pointer-pixel-ab-v1/manifest.json": "fc0310e3f40d493ac0502d27bf2490817659999e32fa5bcade639f0699a50e9b",
+        "artifacts/data-table-b-message0-pointer-pixel-ab-v1/raw.tar": "c942542186353266a9c0961b0bed3af58d2b22dbe2a7cbcab5eacfab4bf3119e",
+        "sequel/content/data-table-b/bank.json": "5b8bf5e464c52dac97cd5522c079dea6e31527beb51ed4c0f8b07f934e2a7059",
+        "tools/verify_data_table_b_message0_pointer_ab.py": "a834781ed94415d46eaeae28d967845e0b08ac80ec9ac3ccd0a877d2c5099ec7"
+      },
+      "limitations": [
+        "Only natural action 7 message ID 0 is covered.",
+        "The verifier is not portable because it pins an absolute mGBA binary path."
+      ]
+    },
+    {
+      "bank": "levels",
+      "command": [
+        "python3",
+        "tools/verify_levels_status_per_level_ab.py",
+        "artifacts/levels-status-per-level-ab-v1",
+        "--binary",
+        "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "per_level_a"
+        ],
+        "field_ids_total": [
+          "target_type",
+          "base_a",
+          "base_b",
+          "per_level_a",
+          "per_level_b",
+          "reserved_a"
+        ],
+        "records_covered": 1,
+        "records_total": 45,
+        "status": "artifact_verified_controlled_materialization"
+      },
+      "inputs": {
+        "artifacts/levels-status-per-level-ab-v1/baseline.png": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+        "artifacts/levels-status-per-level-ab-v1/candidate.png": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+        "artifacts/levels-status-per-level-ab-v1/evidence.json": "471e31ea84f0fae5a194b1b459a4c80b41c2017306fd4f8291572c7e557a29d3",
+        "artifacts/levels-status-per-level-ab-v1/manifest.json": "717a9910e783e6a596b0aa2b7be7912aaf411fcdbf9f2e2bd41918cd3e6763f0",
+        "artifacts/levels-status-per-level-ab-v1/raw.tar": "3585cce0dd13111ef394e2e6dfa690e8c2829c17e029c793346e4244c6289a59",
+        "sequel/content/levels/bank.json": "d64d69d5c85f4beb4719434a4c4bd97067a015462aec0df2f23bbca25ff471fd",
+        "tools/verify_levels_status_per_level_ab.py": "d4bf1dc5a893dd82da5a033ecd6002c3f42846c2c569f04efae5832355acb4e6"
+      },
+      "limitations": [
+        "Only record 21 per_level_a is covered through controlled materialization.",
+        "Natural training UI, remaining records and fields, and physical hardware are unverified."
+      ]
+    },
+    {
+      "bank": "map-events",
+      "command": [
+        "python3",
+        "tools/verify_map_events_e4_handler_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/map-events-e4-handler-pixel-ab-v1"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "primary_handler_ptr"
+        ],
+        "field_ids_total": [
+          "primary_handler_ptr",
+          "secondary_handler_ptr"
+        ],
+        "records_covered": 1,
+        "records_total": 256,
+        "status": "artifact_verified_natural_recovery"
+      },
+      "inputs": {
+        "artifacts/map-events-e4-handler-pixel-ab-v1/baseline.png": "329a4291fd0754628ab40c020dbbeb45b69e9ee4373d49e11b534d388b223e82",
+        "artifacts/map-events-e4-handler-pixel-ab-v1/candidate.png": "8049027b2a7c8cf3153839d5d3578ffc03cf88cea9a157e80be2af89f46749b7",
+        "artifacts/map-events-e4-handler-pixel-ab-v1/evidence.json": "0bcbccb4c47fe2b3a90622e1acffe5108460b65cbdf9780d3205c2e67929be17",
+        "artifacts/map-events-e4-handler-pixel-ab-v1/manifest.json": "35f337be0534a1b93e9acc927eac35b981f4380bec99aed79d5abbb354912e48",
+        "artifacts/map-events-e4-handler-pixel-ab-v1/raw.tar": "affb3ca3d01eae1b100caaa091d4ee95d690a7993c4d6ce75a309cb9de7d3766",
+        "sequel/content/map-events/bank.json": "aaf2c3244502fbf062d8d43721f7e1f6ef83b244aa32cbf3aff4d5e709a99365",
+        "tools/verify_map_events_e4_handler_pixel_ab.py": "03c3db5db5cb10c2c3c5fe4970648e2990ab6e777dc9f1b53da1bdf91fdbc12f"
+      },
+      "limitations": [
+        "Only entry E4 primary handler is covered; secondary handlers and the other 255 entries are unverified."
+      ]
+    },
+    {
+      "bank": "map-sprites",
+      "command": [
+        "python3",
+        "tools/verify_map_sprites_definition_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/map-sprites-definition-id1-pixel-ab-v1"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "definition_ptr"
+        ],
+        "field_ids_total": [
+          "definition_ptr",
+          "animation_ptr"
+        ],
+        "records_covered": 1,
+        "records_total": 43,
+        "status": "artifact_verified_controlled_materialization"
+      },
+      "inputs": {
+        "artifacts/map-sprites-definition-id1-pixel-ab-v1/baseline.png": "b468ad8725bac086c6659f06ee0620ce3a9d1adfc575d0244747b2204e117ef8",
+        "artifacts/map-sprites-definition-id1-pixel-ab-v1/candidate.png": "70ecfe210eb78c64e927a0d5c3ece47a581bd67ffb466c7e35e4c6c773e05dca",
+        "artifacts/map-sprites-definition-id1-pixel-ab-v1/evidence.json": "88d21cdaa8789a16b80d43bda8d38f91e756295554996c7d442aeb8fdb0d8de5",
+        "artifacts/map-sprites-definition-id1-pixel-ab-v1/manifest.json": "0175f0ee8ec2184e1c3a15bd192e55d99fc4e5487fdc426209d7fe758d03ab06",
+        "artifacts/map-sprites-definition-id1-pixel-ab-v1/raw.tar": "dfd6657b2611e86294c76828e2410721a2ee05461ab081de90afe993b329a113",
+        "sequel/content/map-sprites/bank.json": "52fae253049983323951b5c29b21e6960c6975c0348238947a8ec38efe474064",
+        "tools/verify_map_sprites_definition_pixel_ab.py": "779a05ad58d4655cbc83fdd420ec8d109d2e2601bc0a480bb1f4153ae97af25e"
+      },
+      "limitations": [
+        "Only ID 1 definition_ptr is covered through controlled materialization; natural loader reentry and animation_ptr are unverified."
+      ]
+    },
+    {
+      "bank": "maps",
+      "command": [
+        "python3",
+        "tools/verify_map41_primary_layout_pixel_ab_evidence.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/map41-primary-layout-pixel-ab-v1"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "width",
+          "height",
+          "tileset_ptr",
+          "tilemap_ptr",
+          "tilemap_alt_ptr",
+          "extra_ptr",
+          "palette_ptr",
+          "palette2_ptr"
+        ],
+        "field_ids_total": [
+          "width",
+          "height",
+          "tileset_ptr",
+          "tilemap_ptr",
+          "tilemap_alt_ptr",
+          "extra_ptr",
+          "palette_ptr",
+          "palette2_ptr",
+          "flags"
+        ],
+        "records_covered": 1,
+        "records_total": 47,
+        "status": "artifact_and_checkpoint_single_map"
+      },
+      "inputs": {
+        "artifacts/map41-primary-layout-pixel-ab-v1/baseline/audit.json": "eca0a8ff18f859577b647cc6bd36869b6423fce62569de5330867082b3231db4",
+        "artifacts/map41-primary-layout-pixel-ab-v1/baseline/frame80.png": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+        "artifacts/map41-primary-layout-pixel-ab-v1/baseline/frame80.ss9": "e38e0e154ce0db7d07f8a6c24342f85045cff26e068fcd70f049ed846663c61a",
+        "artifacts/map41-primary-layout-pixel-ab-v1/baseline/guard.json": "12b1ab7be1b00a424e334ee1aa0244a8126576991a921349b0f0e943db843960",
+        "artifacts/map41-primary-layout-pixel-ab-v1/baseline/sentinel.json": "eca0a8ff18f859577b647cc6bd36869b6423fce62569de5330867082b3231db4",
+        "artifacts/map41-primary-layout-pixel-ab-v1/build-manifest.json": "b6e0cb12022840322b8e6b2ac2738062d9732152f1bc6b00c4ee5268c24bd6e4",
+        "artifacts/map41-primary-layout-pixel-ab-v1/candidate/audit.json": "06d1946c871f6c8745406f3727686127be683a5eaf2ef0471642dfda7017a884",
+        "artifacts/map41-primary-layout-pixel-ab-v1/candidate/frame80.png": "8d138b2a72f2a9b2fe973f333f74e420fc5464fbe7d65ed04f750735287524bf",
+        "artifacts/map41-primary-layout-pixel-ab-v1/candidate/frame80.ss9": "44d0433aa9acb634f45b4db0934f6b68a3b13ea471e799c3b9c2bebacdbc14ee",
+        "artifacts/map41-primary-layout-pixel-ab-v1/candidate/guard.json": "47bc5bab3d3a6f9932a65247516532be2cf8ec34c5a7f55971813c5bf38d6095",
+        "artifacts/map41-primary-layout-pixel-ab-v1/candidate/sentinel.json": "06d1946c871f6c8745406f3727686127be683a5eaf2ef0471642dfda7017a884",
+        "artifacts/map41-primary-layout-pixel-ab-v1/manifest.json": "56dedcd21904cc65b1e3582894128a5b62fab02bbb9f1c9830b456e0d4a11d25",
+        "artifacts/map41-primary-layout-pixel-ab-v1/runtime-evidence.json": "f1e0326540b9e986cc07a9dc5c803503139929fdba5816dddf53a05a565a15be",
+        "sequel/content/maps/bank.json": "a8e224f9ac3c243707e33706ef2cf2042cb2a13cd8607207622f55cc78d0f367",
+        "tools/verify_map41_primary_layout_pixel_ab_evidence.py": "75db0249f17db5e0ac44ea779b717cf612528616ee6c8820a64a4d189c715bd5"
+      },
+      "limitations": [
+        "Runtime and pixel A/B coverage is limited to map 41; all maps, flags, camera timing, and hardware are not exhaustive."
+      ]
+    },
+    {
+      "bank": "menu-ui",
+      "command": [
+        "python3",
+        "tools/verify_menu_portrait_pixel_ab_evidence.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/menu-portrait-pixel-ab-v1"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": "unknown",
+        "field_ids_total": [
+          "gfx_ptr_0",
+          "palette_ptr_0",
+          "gfx_ptr_1",
+          "palette_ptr_1",
+          "gfx_ptr_2",
+          "palette_ptr_2",
+          "gfx_ptr_3",
+          "palette_ptr_3",
+          "gfx_ptr_4",
+          "palette_ptr_4"
+        ],
+        "records_covered": 1,
+        "records_total": 63,
+        "status": "artifact_verified_single_variant"
+      },
+      "inputs": {
+        "artifacts/menu-portrait-pixel-ab-v1/manifest.json": "c09b4784e18db4177cc44a089501ccea29699a666bcf969555ba331d916d91ae",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/baseline/audit.json": "e0799ce02891683624cff9949eacbe1f0b9d37282062b469ec0d67084adb8df8",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/baseline/frame80.png": "c1fed5e9ddd63b55334cd12345cde3eb9e9144acbb4f4cab746bc80b9e0514e6",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/baseline/frame80.ss9": "189bcc8d12f3176596d97a28a9abd56305178657fff6f36793841d98b66ed492",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/baseline/guard.json": "22fa3f012cb69d8a12044b35757aed31541d67f784576fff5db1b4766627af3c",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/baseline/portrait.png": "40cf158dc46eba1e4213dc58ffe278994738a5343931d3e7a992cde93d9d737f",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/baseline/sentinel.json": "e0799ce02891683624cff9949eacbe1f0b9d37282062b469ec0d67084adb8df8",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/baseline/spec.json": "c3b85941f3783c2362044529be908b8f0b4b4fcff0ea8b1400a5a04c1a17ee40",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/build-manifest.json": "1b2ec1560b5492ef90c354646f44a5f9ba872384ae3e6831984030474811bd69",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/candidate/audit.json": "c5c1a84115e901a00e9ef59d83c17a8a5309c28b5e9891b65db7682c440f0c20",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/candidate/frame80.png": "ffad0b4540e55d0fdcffd2038c6811545d5a86bb68eb8c66d090b7d6b279dfdf",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/candidate/frame80.ss9": "41e45eb4374b425911532165e332ee7acf9d8b55156c7c4088ac627b64214fdf",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/candidate/guard.json": "a187f260caf0addfd611995b78f8d6393de6e8012f65fc9320733f68a2868f01",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/candidate/portrait.png": "430940e7779ff4307cd7e2286e789586432d07078a5de937e23846e90172922f",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/candidate/sentinel.json": "c5c1a84115e901a00e9ef59d83c17a8a5309c28b5e9891b65db7682c440f0c20",
+        "artifacts/menu-portrait-pixel-ab-v1/raw/candidate/spec.json": "b5265261e5d1bd64ddf50d22c2ce71972d681cb5473593f290163d2055be4283",
+        "artifacts/menu-portrait-pixel-ab-v1/runtime-evidence.json": "2ec298d557af7cb78325cd9727acaf56085caaeb2e8a8533611b98476446bdad",
+        "sequel/content/menu-ui/bank.json": "8e9cf0a4289ff2701ad9643181532a6e8283177875b38d34d6eced5948a6cfe7",
+        "tools/verify_menu_portrait_pixel_ab_evidence.py": "a47599198e5e4317ffdecf3a52499a38cb086859c37750aed1e75ed0c05fc0be"
+      },
+      "limitations": [
+        "Only one portrait record/variant route is covered; pointer-role and all transition denominators remain incomplete."
+      ]
+    },
+    {
+      "bank": "palettes",
+      "command": [
+        "python3",
+        "tools/verify_motion_effect_parameter_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/motion-effect-parameter-pixel-ab-v1"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "y_offset"
+        ],
+        "field_ids_total": [
+          "effect_id",
+          "x_offset",
+          "y_offset",
+          "render_attributes",
+          "duration_control"
+        ],
+        "records_covered": 1,
+        "records_total": 15,
+        "status": "artifact_verified_natural_route"
+      },
+      "inputs": {
+        "artifacts/motion-effect-parameter-pixel-ab-v1/baseline.png": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+        "artifacts/motion-effect-parameter-pixel-ab-v1/candidate.png": "6c220f7e5596c992a18741c0e031f55556965ddc06ae1f1b502cbfeba27017b7",
+        "artifacts/motion-effect-parameter-pixel-ab-v1/evidence.json": "ad645e7ff264cbf175a7567eb77f5e4f2e0b37db1858bfeb862c3c3d3284cd51",
+        "artifacts/motion-effect-parameter-pixel-ab-v1/manifest.json": "3741e9465acc813e881493c3c91bef2101e879d6b565ecbc8e01e98b902b9abd",
+        "artifacts/motion-effect-parameter-pixel-ab-v1/raw.tar": "9b1d020dcf6dd1b9355e041971a1a77047d9b5b507906cb552462a007d64bd67",
+        "sequel/content/palettes/bank.json": "c4f8ea7de0e5e09c88c4be8897514160a4269627801195b125887213b397066f",
+        "tools/verify_motion_effect_parameter_pixel_ab.py": "40ad0ac394a88266be517ba27447172efe8284f694a86e02a6be4fd1043cfcca"
+      },
+      "limitations": [
+        "The slug is a motion/effect parameter table; only record 0 y_offset on one natural consumer route is covered."
+      ]
+    },
+    {
+      "bank": "sappy-engine",
+      "command": [
+        "python3",
+        "tools/verify_sappy_engine_master_enable_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/sappy-engine-master-enable-ab-v1",
+        "--binary",
+        "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "instruction@0x0809AE76"
+        ],
+        "field_ids_total": "unknown",
+        "records_covered": 1,
+        "records_total": 1,
+        "status": "artifact_verified_single_instruction_effect"
+      },
+      "inputs": {
+        "artifacts/sappy-engine-master-enable-ab-v1/baseline.png": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+        "artifacts/sappy-engine-master-enable-ab-v1/candidate.png": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+        "artifacts/sappy-engine-master-enable-ab-v1/evidence.json": "e05ef3ef627ffb3273467942616689a7093e9b9c9bd12ed8d84f5453ec8a01dc",
+        "artifacts/sappy-engine-master-enable-ab-v1/manifest.json": "62b97082417cc7d049b62bbb0bacfc92271e9924f674b13d6d5ee0fd8864fde8",
+        "artifacts/sappy-engine-master-enable-ab-v1/raw.tar": "c3555a7770f2942970c309e6518a7a942d0250a4a0b70b9621dbf10c68ee3939",
+        "sequel/content/sappy-engine/bank.json": "d71d8aff52746a61d59139d6ca4ccf3a9dd354b84ef90159276ca541cf82eb40",
+        "tools/verify_sappy_engine_master_enable_ab.py": "f3011d8bd1f592c5dceca831e47ec50e7708e63ad2f3cd7262896a9367200886"
+      },
+      "limitations": [
+        "One immediate instruction's master-enable effect is covered; full function semantics and sustained audible output are not exhaustive."
+      ]
+    },
+    {
+      "bank": "tile-assets",
+      "command": [
+        "python3",
+        "tools/verify_tile_asset_descriptor_pixel_ab.py",
+        "--root",
+        ".",
+        "--artifact",
+        "artifacts/tile-asset-descriptor2-pixel-ab-v1"
+      ],
+      "declared_coverage": {
+        "field_ids_covered": [
+          "word_05"
+        ],
+        "field_ids_total": [
+          "word_00",
+          "word_01",
+          "word_02",
+          "word_03",
+          "word_04",
+          "word_05",
+          "word_06",
+          "word_07",
+          "word_08",
+          "word_09",
+          "word_10",
+          "word_11",
+          "word_12",
+          "word_13",
+          "word_14",
+          "word_15",
+          "word_16"
+        ],
+        "records_covered": 1,
+        "records_total": 79,
+        "status": "artifact_verified_natural_route"
+      },
+      "inputs": {
+        "artifacts/tile-asset-descriptor2-pixel-ab-v1/baseline.png": "06be5020360e05d035f59b0919dcf4655b917da353d08b0871dd9b8ee41828d4",
+        "artifacts/tile-asset-descriptor2-pixel-ab-v1/candidate.png": "db4a9db58cc52e66cb8baf3486ac84562b6368143db77830fc1622971b0d7d36",
+        "artifacts/tile-asset-descriptor2-pixel-ab-v1/evidence.json": "3433c4b0cedff5d713bcda3768fffc67513d8c123e69df8512c4553112ae2c59",
+        "artifacts/tile-asset-descriptor2-pixel-ab-v1/manifest.json": "cceaa7a92507ac99fc0e9fc2abe40ba65426d4de5de03af671619510a3f1d5aa",
+        "artifacts/tile-asset-descriptor2-pixel-ab-v1/raw.tar": "9364daa1156b6838fda98b52830d42d5f3c856347aeefa2655714a35fc98ed76",
+        "sequel/content/tile-assets/bank.json": "9ef92f5c358f114a660eeea42ab5358f37435047d7bb91708c3a80274d5df218",
+        "tools/verify_tile_asset_descriptor_pixel_ab.py": "7d2648e8a003affa26e9ee21b64f9a3ea25c6b31e6e9a213eed865b6a9d25845"
+      },
+      "limitations": [
+        "Only descriptor 2 word_05 on one natural palette route is covered; the remaining descriptors, fields, and consumers are not exhaustive."
+      ]
+    }
+  ],
+  "child_timeout_s": 180,
+  "offline_only": true,
+  "schema": "bank-existing-runtime-replay-plan-v1",
+  "scope": "legacy runtime evidence replay; no new runtime samples or exhaustive coverage"
+}

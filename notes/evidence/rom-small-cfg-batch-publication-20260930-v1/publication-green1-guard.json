@@ -1,0 +1,16 @@
+{
+  "reason": "idle-timeout",
+  "exit_code": 124,
+  "child_pid": 44346,
+  "peak_tree_rss_mib": 227.46875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 -m unittest tests.test_rom_small_cfg_batch_publication.BatchPublicationTests.test_publication_replays_stably_and_refuses_overwrite tests.test_rom_small_cfg_batch_publication.BatchPublicationTests.test_unknown_packet_mutation_and_extra_member_fail_closed tests.test_rom_small_cfg_batch_publication.BatchPublicationTests.test_paths_are_rejected_before_creating_output -v > build/experiments/active/small-cfg-tier2/resume-20260930-v1/publication-green1.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T11:41:42.604721Z",
+  "finished_at": "2026-09-30T11:42:42.781756Z"
+}
