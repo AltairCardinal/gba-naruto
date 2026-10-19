@@ -34,6 +34,27 @@ build/butano-agent-benchmark-*/
 
 # Tool state
 .ralph/
+.pi/
+.venv/
+
+# 外部参考素材（非本仓库产物，由引用方自带）
+references/
+
+# 过期音频副本（2026-07-22 实验遗留；Makefile 只用 butano-sequel/audio，
+# 无任何工具/测试引用这三个目录；s3m 内容与 audio/ 逐字节相同）
+butano-sequel/audio-runtime-bgm/
+butano-sequel/audio-runtime-s3m/
+butano-sequel/audio-wav-bgm/
+
+# s49 画面保真：原始帧与存档可由 tools/butano/capture_s49_*.py 从 ROM 重建，
+# 只把 JSON 收据、说明和差异结论入库
+artifacts/s49-fidelity-20261019-v1/**/*.png
+artifacts/s49-fidelity-20261019-v1/**/*.ss9
+artifacts/s49-fidelity-20261019-v1/**/*.mp4
+
+# mGBA 重建 sentinel ROM（artifacts/macos-mgba-20261019-v1/manifest.json
+# 已记录其 SHA-256 与 script_loaded 哨兵，ROM 本体不入库）
+artifacts/macos-mgba-20261019-v1/evidence/sentinel-base.gba
 
 # Experiment outputs
 rom/base.sav
@@ -56,6 +77,16 @@ Thumbs.db
 # Notes generated files
 notes/*.json
 !notes/re-completion-audit.json
+!notes/battle-presentation-script-bindings-20260725.json
+!notes/battle-reaction-family-runtime-20260725.json
+!notes/battle-passive-consumer-bindings-20260725.json
+!notes/battle-continuation-hit-observations-20260725.json
+!notes/battle-continuation-hit-bindings-20260725.json
+!notes/battle-side-start-passive-bindings-20260725.json
+!notes/battlefield-object-runtime-20260726.json
+!notes/reverse-model-benchmark-20260819.json
+!notes/battle-effect-flag-followups-20260726.json
+!notes/battle-command-blocker-bindings-20260727.json
 notes/*.png
 notes/*.txt
 notes/*.bin
