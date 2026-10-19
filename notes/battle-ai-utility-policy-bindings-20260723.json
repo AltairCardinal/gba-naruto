@@ -1,6 +1,22 @@
 {
-  "boundary": "This closes the target selector order, standard weights, damage utility shape, active custom rule records, deterministic target ties, and final random term. Visible names for the five rule kinds and the complete path algorithm inside 0x08083AF4 remain intentionally neutral.",
-  "conclusion": "The original AI is a data-driven utility planner. It indexes seven target properties separately for allies and opponents, scores simulated effect events with independent weight vectors, and composes up to four typed scenario rules from each unit-selected configuration.",
+  "boundary": "This closes outer candidate kinds, selected descriptor classification, target-bank gates, selector component counts, aggregate damage component count, all three actor-penalty triggers, target order, standard weights, active custom rules and their component counts, deterministic ties, and final random term. The event 0x11 conditional branch and the final effect-low-6==7 safe-position bonus are closed; the complete table-driven topology-distance algorithm inside 0x08083AF4 is also closed. Visible names for the five custom rule kinds remain intentionally neutral.",
+  "candidate_executor": {
+    "append_function": "0x08082040",
+    "append_function_end": "0x080820A6",
+    "append_function_sha256": "0d081b0ff74444e057215a6cf2d775d25fc6bdd9ceabc35900c2f603167c9e7b",
+    "candidate_index": "u8(0x0202D261) - 1",
+    "candidate_kind_array": "0x0202D262",
+    "end": "0x08083040",
+    "function": "0x080829CC",
+    "kinds": {
+      "1": "move",
+      "2": "replenish_chakra",
+      "3": "rest",
+      "4": "selected_action"
+    },
+    "sha256": "eaef7cf8e1e03d7b4bd6679ce20e16a93f5794ddfe9b97f9a786dbaa9e6fdb7b"
+  },
+  "conclusion": "The original AI is a data-driven utility planner. It classifies move, resource, and selected-action candidates before scoring; indexes seven target properties separately for allies and opponents; scores simulated effect events with independent weight vectors; and composes up to four typed scenario rules from each unit-selected configuration.",
   "configuration": {
     "active_custom_rules": [
       {
@@ -60,6 +76,16 @@
         "weight": 10000
       }
     ],
+    "config_0_common_weights_all_zero": true,
+    "configs_sharing_standard_common_weights": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
     "custom_rule_layout": {
       "first_offset": "0x88",
       "kind_offset": 0,
@@ -103,6 +129,144 @@
         1000,
         2500
       ],
+      "common_weight_fields": [
+        {
+          "offset": "0x00",
+          "value": 1000
+        },
+        {
+          "offset": "0x04",
+          "value": 3000
+        },
+        {
+          "offset": "0x08",
+          "value": 6000
+        },
+        {
+          "offset": "0x0C",
+          "value": 2500
+        },
+        {
+          "offset": "0x10",
+          "value": 7000
+        },
+        {
+          "offset": "0x14",
+          "value": 500
+        },
+        {
+          "offset": "0x18",
+          "value": 8000
+        },
+        {
+          "offset": "0x1C",
+          "value": 5000
+        },
+        {
+          "offset": "0x20",
+          "value": 2000
+        },
+        {
+          "offset": "0x24",
+          "value": 8000
+        },
+        {
+          "offset": "0x28",
+          "value": 3000
+        },
+        {
+          "offset": "0x2C",
+          "value": 1700
+        },
+        {
+          "offset": "0x30",
+          "value": 800
+        },
+        {
+          "offset": "0x34",
+          "value": 800
+        },
+        {
+          "offset": "0x38",
+          "value": 1300
+        },
+        {
+          "offset": "0x3C",
+          "value": 1000
+        },
+        {
+          "offset": "0x40",
+          "value": 800
+        },
+        {
+          "offset": "0x44",
+          "value": 3600
+        },
+        {
+          "offset": "0x48",
+          "value": 4200
+        },
+        {
+          "offset": "0x4C",
+          "value": 2000
+        },
+        {
+          "offset": "0x50",
+          "value": 1000
+        },
+        {
+          "offset": "0x54",
+          "value": 1000
+        },
+        {
+          "offset": "0x58",
+          "value": 1000
+        },
+        {
+          "offset": "0x5C",
+          "value": 800
+        },
+        {
+          "offset": "0x60",
+          "value": 0
+        },
+        {
+          "offset": "0x64",
+          "value": 6000
+        },
+        {
+          "offset": "0x68",
+          "value": 900
+        },
+        {
+          "offset": "0x6C",
+          "value": 3000
+        },
+        {
+          "offset": "0x70",
+          "value": 100
+        },
+        {
+          "offset": "0x74",
+          "value": 6000
+        },
+        {
+          "offset": "0x78",
+          "value": 8000
+        },
+        {
+          "offset": "0x7C",
+          "value": 3000
+        },
+        {
+          "offset": "0x80",
+          "value": 5000
+        },
+        {
+          "offset": "0x84",
+          "value": 7000
+        }
+      ],
       "config_id": 1,
       "damage_weight": 6000,
       "friendly_target_selector_weights": [
@@ -132,17 +296,59 @@
   },
   "identity": "battle_ai_target_and_utility_policy",
   "implementation_contract": [
+    "Preserve outer candidate kinds: move=1, replenish_chakra=2, rest=3, selected_action=4.",
     "Build separate same- and opposite-affiliation target indexes before scoring.",
     "Preserve seven selector matches independently; do not collapse them to nearest or lowest HP.",
     "Score a simulated action result and queued events without mutating the committed battle state.",
-    "Aggregate multi-hit damage per target before applying damage, hit-rate, coverage, and range utility.",
+    "Aggregate multi-hit damage per target, then add damage, hit-rate, coverage, and range as one component.",
     "Represent scenario priorities as typed weighted rule records, not scripted turn numbers or screenshots.",
-    "Keep deterministic unit-slot tie order and add RNG only at the proven final scoring boundary."
+    "Add scenario-rule component sums and counts before the shared integer mean; kind 1 contributes two components and kinds 2 through 5 contribute one each even when their value is zero.",
+    "Keep deterministic unit-slot tie order and add RNG only at the proven final scoring boundary.",
+    "For event 0x11, reuse the candidate threat field and subtract the actor penalty when both resources exceed half or the projected actor tile is threatened.",
+    "For a first event of type 0x07 with no active typed scenario rule, add 8000 to the numerator only when its selected position is outside the candidate threat field.",
+    "Use the battle-ID-selected eight-record topology-distance model for AI target indexes, queued-event range utility, and scenario-rule progress; do not substitute plain Manhattan distance on routed maps."
   ],
   "rom": "rom/base.gba",
   "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
   "schema_version": 1,
   "scorer": {
+    "actor_penalty": {
+      "application": "subtract once from the component sum before integer division",
+      "component_count_increment": 0,
+      "duplicate_status_events": {
+        "0x0D": "actor already has status 0x0D",
+        "0x12": "actor already has status 0x12"
+      },
+      "restore_event_0x11": {
+        "actor_fields": {
+          "current_chakra": "unit+0x07 u8",
+          "current_hp": "unit+0x0C u16",
+          "maximum_chakra": "unit+0x08 u8",
+          "maximum_hp": "unit+0x0E u16",
+          "x": "unit+0xC4 u8",
+          "y": "unit+0xC5 u8"
+        },
+        "candidate_field": "0x02002880",
+        "map_width": "u8(0x0201BE2A)",
+        "penalize_when": "(current_hp > floor(maximum_hp / 2) and current_chakra > floor(maximum_chakra / 2)) or candidate_field[y * map_width + x] & 1",
+        "threat_bit": "0x01"
+      },
+      "weight_offsets": [
+        "0x84",
+        "0x1C"
+      ]
+    },
+    "actor_projection_utility": {
+      "base_bias": "weight[0x00] + weight[0x0C]",
+      "baseline_pool": "0x0202F564",
+      "branching": "choose gain when candidate is strictly greater; otherwise choose retention",
+      "candidate_pool": "0x020240C0",
+      "chakra_gain": "weight[0x08] * (candidate_chakra - baseline_chakra) / candidate_max_chakra",
+      "chakra_retention": "weight[0x14] * candidate_chakra / baseline_chakra",
+      "component_count_increment": 2,
+      "hp_gain": "weight[0x04] * (candidate_hp - baseline_hp) / candidate_max_hp",
+      "hp_retention": "weight[0x10] * candidate_hp / baseline_hp"
+    },
     "candidate_source": "simulated battle state and queued effect events",
     "component_combiner": "integer_mean",
     "damage_utility": {
@@ -158,14 +364,145 @@
       "range_component": "max_map_distance / actor_max_action_range",
       "success_component": "max(event[0x10]) / 100"
     },
+    "effect_7_safe_position_bonus": {
+      "candidate_field": "0x02002880",
+      "component_count_increment": 0,
+      "constant": 8000,
+      "event_selection": "first queued event only",
+      "map_width": "u8(0x0201BE2A)",
+      "position_source": {
+        "event[0x15] != 0": "actor[0xC4], actor[0xC5]",
+        "event[0x15] == 0": "event[0x02], event[0x03]"
+      },
+      "requirements": [
+        "no scenario rule kind 1 through 5 was processed",
+        "selected action index is not 0xFF",
+        "first queued event low 6 bits equal 0x07",
+        "selected position candidate-field threat bit 0 is clear"
+      ],
+      "threat_bit": "0x01"
+    },
     "end": "0x08085154",
     "final_random_term": "(rng_value * 10) >> 15",
     "friendly_target_matching": "The same seven selectors are recomputed for same-affiliation units and use an independent weight vector for supportive events.",
     "function": "0x08084274",
     "hostile_target_matching": "For each of the seven opposite-affiliation selector slots, add its weight when the simulated event target matches; one unit may match and accumulate several selector weights.",
     "random_only_override": "If actor action-state bits (unit[0xC0] & 0x0E) equal 2, return a 0..99 RNG-derived score without evaluating normal utility.",
+    "scenario_rule_components": {
+      "combiner": "add rule component sums and counts before the final integer mean",
+      "kind_1": {
+        "component_count_increment": 2,
+        "components": [
+          "average opponent-progress utility",
+          "candidate-field safe-position utility"
+        ]
+      },
+      "kind_2": {
+        "component": "parameter-character progress plus matching damage-event bonus",
+        "component_count_increment": 1
+      },
+      "kind_3": {
+        "component": "matching queued-event action bonus",
+        "component_count_increment": 1
+      },
+      "kind_4": {
+        "component": "matching tile-class and side bonus",
+        "component_count_increment": 1
+      },
+      "kind_5": {
+        "component": "eligible queued-event family bonus",
+        "component_count_increment": 1
+      },
+      "recognized_kinds": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "zero_value_rule_component": "recognized rule kinds still increment the denominator when their component value is zero"
+    },
+    "selected_action_utility": {
+      "descriptor_stride": 16,
+      "descriptor_table": "0x02030D29",
+      "effect_halfword_offset": 1,
+      "kind_1": {
+        "bias_weight_offset": "0x18",
+        "component_count_increment": 2,
+        "extra_component": "aggregated_damage_utility"
+      },
+      "kind_4": {
+        "bias_weight_offset": "0x20",
+        "component_count_increment": 1
+      },
+      "kind_5": {
+        "bias_weight_offset": "0x1C",
+        "component_count_increment": 2,
+        "effect_low_3_weight_offsets": {
+          "0": "0x84",
+          "1": "0x74",
+          "2": "0x78",
+          "3": "0x7C",
+          "4": "0x80",
+          "5": "0x74",
+          "6": null,
+          "7": null
+        }
+      },
+      "kind_offset": 0,
+      "no_selected_action": {
+        "candidate_kind_2_or_3_weight_offset": "0x24",
+        "candidate_kind_source": "0x0202D262[candidate_index]",
+        "component_count_increment": 1,
+        "other_candidate_kind_weight_offset": "0x28"
+      },
+      "other_selected_kind": {
+        "bias_weight_offset": null,
+        "component_count_increment": 1
+      }
+    },
     "sha256": "c9da91cd096b36f325f3b975a416c83578048a1d588f89cafa1e1ec9dc075830",
-    "status_filters": "bound separately by battle_ai_status_aware_event_score_policy"
+    "status_filters": "bound separately by battle_ai_status_aware_event_score_policy",
+    "target_selector_utility": {
+      "effect_low_3_source": "(selected_runtime_descriptor_halfword_at_plus_1 & 0x0700) >> 8",
+      "opposite_affiliation": {
+        "aggregation": "for each selector add its weight at most once when any eligible queued event targets the indexed unit",
+        "bank": "0x02030E83",
+        "component_count_increment": 1,
+        "enabled_effect_low_3": [
+          2,
+          3
+        ],
+        "weight_offsets": [
+          "0x2C",
+          "0x30",
+          "0x34",
+          "0x38",
+          "0x3C",
+          "0x40",
+          "0x44"
+        ]
+      },
+      "same_affiliation": {
+        "aggregation": "for each selector add its weight at most once when any eligible queued event targets the indexed unit",
+        "bank": "0x02030E7C",
+        "component_count_increment": 1,
+        "enabled_effect_low_3": [
+          1,
+          3,
+          5
+        ],
+        "weight_offsets": [
+          "0x48",
+          "0x4C",
+          "0x50",
+          "0x54",
+          "0x58",
+          "0x5C",
+          "0x60"
+        ]
+      }
+    }
   },
   "target_index": {
     "action_range_summary": {
@@ -182,6 +519,39 @@
       "same_affiliation": "0x02030E7C"
     },
     "distance_helper": "0x08083AF4",
+    "distance_model": {
+      "end": "0x0808400C",
+      "fallback": "direct Manhattan when the first record is type 0",
+      "function": "0x08083AF4",
+      "map_23_lookup": "0x08541008",
+      "map_23_lookup_size": 255,
+      "map_24_lookup": "0x08541107",
+      "map_24_lookup_size": 221,
+      "map_count": 47,
+      "record_kinds": {
+        "0": "finish_with_manhattan_segment",
+        "1": "vertical_barrier_with_passage_breakpoints",
+        "2": "horizontal_barrier_with_passage_breakpoints",
+        "3": "map_5_fixed_transition_adjustment",
+        "4": "map_23_signed_distance_lookup",
+        "5": "map_24_dual_entrance_distance_lookup",
+        "6": "map_17_and_37_fixed_transition_adjustment"
+      },
+      "record_size": 16,
+      "record_table": "0x0853F888",
+      "record_table_sha256": "30aa5a8171c5091947f01e57eb2fdc041946d4c5b42ed19a741db66197c86621",
+      "record_type_counts": {
+        "0": 320,
+        "1": 18,
+        "2": 33,
+        "3": 1,
+        "4": 1,
+        "5": 2,
+        "6": 1
+      },
+      "records_per_map": 8,
+      "sha256": "2be28ff4cdeaed7cd8e95ccdeaf48ae0204fcd62c0a4605f1e6f9036b6562374"
+    },
     "end": "0x08084266",
     "forced_opponent_override": "When battle role byte[unit_slot] is 2 and the role byte indexed by unit[0xCA] is 0, that unit fills all seven opposite-affiliation slots.",
     "function": "0x0808400C",

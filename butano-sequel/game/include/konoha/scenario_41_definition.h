@@ -1,10 +1,16 @@
 #ifndef KONOHA_SCENARIO_41_DEFINITION_H
 #define KONOHA_SCENARIO_41_DEFINITION_H
 
+#include "konoha/battle_conditions.h"
 #include "konoha/battle_presentation.h"
 #include "konoha/battle_objectives.h"
+#include "konoha/battle_action_catalog.h"
 #include "konoha/battle_action_loadout.h"
+#include "konoha/battle_scenario_loader.h"
+#include "konoha/battle_progression.h"
 #include "konoha/generated_battle_action_content.h"
+#include "konoha/generated_battle_condition_content.h"
+#include "konoha/generated_battle_scenario_content.h"
 #include "konoha/generated_battle_unit_content.h"
 
 namespace konoha
@@ -17,6 +23,25 @@ constexpr int scenario_41_transition_frames = 60;
 constexpr battle_unit_id scenario_41_naruto_unit = 1;
 constexpr battle_unit_id scenario_41_konoha_maru_unit = 2;
 constexpr ability_id scenario_41_combo_ability_id = 5;
+
+[[nodiscard]] constexpr std::array<
+        character_progression_record,
+        3> scenario_41_initial_roster()
+{
+    return {{
+        { 1, 1, 100, 0, true },
+        {},
+        {},
+    }};
+}
+
+[[nodiscard]] inline bool load_scenario_41_units(battle_session<2>& session)
+{
+    const battle_scenario_load_result loaded = load_battle_scenario(
+            battle_scenario_definitions[41], 0, {}, session);
+    return loaded.error == battle_scenario_load_error::none &&
+           loaded.loaded_unit_count == 2;
+}
 
 [[nodiscard]] inline bool load_scenario_41_entrance(presentation_queue<6>& queue)
 {
@@ -32,38 +57,25 @@ constexpr ability_id scenario_41_combo_ability_id = 5;
                    presentation_cue::shuriken_transition, scenario_41_transition_frames);
 }
 
-[[nodiscard]] constexpr action_definition_set<15> scenario_41_player_actions()
+[[nodiscard]] inline action_definition scenario_41_tutorial_action(
+        const battle_unit_instance& actor)
 {
-    const action_loadout<15> learned = build_primary_action_loadout(unit_definitions[1], 1);
-    const action_loadout<15> tutorial = filter_action_loadout(
-            learned, [](ability_id id) { return id == scenario_41_combo_ability_id; });
-    return materialize_action_loadout(tutorial, active_action_definitions);
+    const battle_action_catalog_result catalog =
+            battle_action_catalog::build(actor);
+    if(catalog.error != battle_action_catalog_error::none)
+    {
+        return {};
+    }
+    const battle_action_catalog_entry* tutorial =
+            catalog.find(
+                    battle_action_source_kind::active_action,
+                    scenario_41_combo_ability_id);
+    return tutorial ? tutorial->action : action_definition{};
 }
 
-[[nodiscard]] constexpr action_definition_set<15> scenario_41_enemy_actions()
+[[nodiscard]] constexpr battle_condition_variant scenario_41_condition_variant()
 {
-    return materialize_action_loadout(
-            build_primary_action_loadout(unit_definitions[30], 1),
-            active_action_definitions);
-}
-
-[[nodiscard]] constexpr action_definition scenario_41_combo_action()
-{
-    return scenario_41_player_actions().values[0];
-}
-
-[[nodiscard]] inline objective_rule<1> scenario_41_victory_objective()
-{
-    objective_rule<1> result;
-    result.trigger = battle_domain_event::effects_resolved;
-    result.outcome = battle_outcome::victory;
-    result.priority = 10;
-    result.nodes[0].condition = {
-        objective_predicate_kind::defeated,
-        scenario_41_konoha_maru_unit,
-    };
-    result.node_count = 1;
-    return result;
+    return battle_condition_variants[9][0];
 }
 
 }

@@ -24,6 +24,9 @@ from tools.thumb_branch import decode_thumb_bl
 ROM_BASE = 0x08000000
 EVENT_BUILDER = 0x080754A8
 HIT_GENERATOR = 0x08076034
+QUEUE_RESOLVER = 0x08076CE0
+EFFECT_DISPATCH_TABLE = 0x08076F44
+EFFECT_0X3F_HANDLER = 0x0807755C
 RNG = 0x0809C110
 SIGNED_DIVIDE = 0x0809C14C
 INTEGER_SQRT = 0x0809C0F0
@@ -164,6 +167,33 @@ def build_damage_hit_manifest(
     )
     _validate_bytes(
         rom,
+        0x08076E0A,
+        "b27c954201d300f04bfc002406941249089d680040198000099a1018d2246400091943181a780321114000291ed001250695",
+        "queue effective-hit scan",
+    )
+    _validate_bytes(
+        rom,
+        0x08076EEC,
+        "0698002800d1c0e3307b1f2810d130787178327b73790093f388019333890293002303934346fff78dfd0006000e06900699002900d1a8e3",
+        "effect dispatch effective-hit gate",
+    )
+    _expect(
+        _u32(
+            rom,
+            EFFECT_DISPATCH_TABLE +
+            (0x3F - 1) * 4,
+        ),
+        EFFECT_0X3F_HANDLER,
+        "effect 0x3F handler pointer",
+    )
+    _validate_bytes(
+        rom,
+        EFFECT_0X3F_HANDLER,
+        "70783021f3f7aef9",
+        "effect 0x3F reaction-state operation",
+    )
+    _validate_bytes(
+        rom,
         0x08076E2E,
         "1a780321114000291ed00125069504201040002811d1187801384000311c1831091809888846",
         "defended damage candidate selection",
@@ -282,12 +312,22 @@ def build_damage_hit_manifest(
             "hit_condition": "rng_percent < success_rate",
             "evaluated_per_hit": True,
         },
+        "effect_dispatch_gate": {
+            "queue_resolver": f"0x{QUEUE_RESOLVER:08X}",
+            "hit_result_scan": "0x08076E0A..0x08076E3C",
+            "dispatch_gate": "0x08076EEC..0x08076F24",
+            "dispatch_requires_effective_hit": True,
+            "effect_0x3f_handler": f"0x{EFFECT_0X3F_HANDLER:08X}",
+            "effect_0x3f_operation": "set target reaction state to 0x30",
+        },
         "natural_sample": natural_sample,
         "conclusion": (
             "The queued attack stores four integer damage candidates before animation. "
             "The natural three-hit sample queues normal defended damage 9 and resolves "
             "18 total damage, which uniquely requires two normal hits and one miss; the "
-            "visible template value 6x3 is not final damage."
+            "visible template value 6x3 is not final damage. The queue scans the same "
+            "per-hit results before dispatching any effect handler, so a non-damage "
+            "opponent effect with no effective hit must not apply its handler."
         ),
         "boundary": source["boundary"],
     }

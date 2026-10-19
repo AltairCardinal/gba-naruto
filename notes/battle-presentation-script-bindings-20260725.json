@@ -1,0 +1,179 @@
+{
+  "schema_version": 2,
+  "status": "runtime-bound-with-structured-portrait-and-window-rendering",
+  "source_rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "original_runtime": {
+    "controller_callsite": "0x080736F8..0x080737C8",
+    "selector_builder": "0x0808A534",
+    "presentation_runner": "0x0808A588",
+    "interpreter": "0x080977B8",
+    "selector_table": "0x08060E34",
+    "presentation_table": "0x08060EF0",
+    "portrait_resource_matrix": {
+      "address": "0x085A4DEC",
+      "rows": 63,
+      "expressions_per_row": 5
+    },
+    "portrait_helpers": {
+      "show_portrait": {
+        "range": "0x080967E8..0x080968EC",
+        "sha256": "3a4849197fc7786e7645f6c1a2d1ed0125a2057c7dd7faa375bfc245d0a962df"
+      },
+      "hide_portrait": {
+        "range": "0x08096668..0x08096740",
+        "sha256": "23634345bdc0e80f725f9b11dd96c9e546d4df5e4afe923affbe158451143e0b"
+      },
+      "update_portrait": {
+        "range": "0x08096A04..0x08096A34",
+        "sha256": "4cae8974a3dcae837944eee60d09d590658c91f08130aba2e3cb49a1c307d726"
+      },
+      "initialize_portrait_pair": {
+        "range": "0x080968EC..0x08096A04",
+        "sha256": "ab4715cd5991475dc4596ba7aa86240e9418abb89eaeb6012be309b9ec7d9f01"
+      },
+      "animate_portrait": {
+        "range": "0x08096B74..0x08096D16",
+        "sha256": "01587c0f3edfc01a912ad68b0da3b85c4ec6b01a30ee508221e478665d8062ec"
+      },
+      "clear_portrait_focus": {
+        "range": "0x08096D8C..0x08096DCA",
+        "sha256": "37e1d70134245831fe254ea5643ee7e1ab7e8fff2a365cf9796429f65ecf9805"
+      },
+      "set_portrait_focus": {
+        "range": "0x08096DD4..0x08096E52",
+        "sha256": "a0bad94b78b489589e10075ce24144fff81a5e1d5798a2ee8dd1ccafdf38a9e3"
+      }
+    },
+    "condition_handlers": {
+      "0x34": "round comparison gated by current side",
+      "0x35": "unit relationship result equals expected byte",
+      "0x36": "active unit query result equals expected byte",
+      "0x37": "set or clear script-private flag",
+      "0x38": "branch on script-private flag set or clear query",
+      "0x39": "secondary battle state equals operand"
+    }
+  },
+  "content": {
+    "battle_definitions": 47,
+    "non_null_selector_graphs": 46,
+    "selector_instructions": 1741,
+    "presentation_cases": 400,
+    "presentation_commands": 3213,
+    "presentation_text_bytes": 48104,
+    "glyph_count": 862,
+    "portrait_resource_pairs": 46,
+    "bank_path": "sequel/content/battle-presentation-scripts/bank.json",
+    "bank_sha256": "432a47a01c359f1fa5eca2717ad8554ed289e75391dd0aa14352b3166f4a2ecb",
+    "portrait_header_path": "butano-sequel/game/include/konoha/generated_battle_presentation_portrait_content.h",
+    "portrait_header_sha256": "319c5f62b562cfcdf178b9fb3c6d01c3b490321ea9f892b9ed0aa893722ae551",
+    "portrait_compressed_and_palette_sha256": "82e4e0080f860b04c314ea740225b7b6e273daa55704bd0ea63d41d92110a01a",
+    "glyph_bitmap_path": "butano-sequel/graphics/battle_presentation_glyphs.bmp",
+    "glyph_bitmap_sha256": "2a65d417de77861991ca4208d3174096289ec8dbf0c29ce11cdfe503ac70c65a"
+  },
+  "portrait_renderer": {
+    "canvas": "80x80 8bpp, 6400 decompressed bytes, 64 colors per slot",
+    "origins": {
+      "left": [16, 8],
+      "right": [144, 8]
+    },
+    "oam_components": [
+      [64, 64, 16, 16, 0, 256],
+      [64, 32, 16, 32, 256, 512],
+      [64, 0, 16, 32, 768, 512],
+      [32, 64, 32, 16, 1280, 512],
+      [0, 64, 32, 16, 1792, 512],
+      [0, 0, 64, 64, 2304, 4096]
+    ],
+    "palette_strategy": "shared 128-color OBJ palette; nonzero right-slot indices are offset by 64",
+    "nonfocused_dim_formula": "((color & 0x7BDE) >> 1) + ((color & 0x739C) >> 2)",
+    "compressed_source_alignment": 4,
+    "message_window": "eight runtime-created 64x32 4bpp blended sprites; no full-screen screenshot asset"
+  },
+  "battle_41": {
+    "selector_root": "0x0805B28A",
+    "presentation_root": "0x0805B2AF",
+    "round_1_player_selectors": [1],
+    "selector_1_text_addresses": [
+      "0x0805B2C0",
+      "0x0805B2EC",
+      "0x0805B327",
+      "0x0805B37E",
+      "0x0805B3CB"
+    ]
+  },
+  "accepted_runtime": [
+    {
+      "artifact": "artifacts/butano-battle-portrait-runtime-b41-20260725-05",
+      "guard_summary": "artifacts/butano-battle-portrait-runtime-b41-20260725-05/guard-summary.json",
+      "telemetry_address": "0x02014FA8",
+      "battle_id": 41,
+      "round": 1,
+      "side": 0,
+      "phase_after_script": 1,
+      "script_page_count": 5,
+      "script_selector": 1,
+      "last_control_error": 0,
+      "last_player_error": 0,
+      "audit_sha256": "e0df4b0ae8da0e23d820550a2dd08292085a3889f8c83eca51cdf026dcc658f2",
+      "rom_sha256": "7848f37fa31523fd58068aea74a983e7079859dc571f6625714333d1d5bb5402",
+      "elf_sha256": "f0f24f679a285a8f0018a01063238d2cb75cd390c137e698d04870537de192e0"
+    },
+    {
+      "artifact": "artifacts/butano-battle-presentation-b43-20260725-03",
+      "guard_summary": "artifacts/butano-battle-presentation-b43-20260725-03/guard-summary.json",
+      "telemetry_address": "0x02014FA8",
+      "battle_id": 43,
+      "round": 1,
+      "side": 0,
+      "phase_after_script": 1,
+      "script_page_count": 5,
+      "selector": 1,
+      "page_text_addresses": [
+        "0x0805B6AB",
+        "0x0805B6EC",
+        "0x0805B727",
+        "0x0805B774",
+        "0x0805B7C3"
+      ],
+      "last_control_error": 0,
+      "last_player_error": 0,
+      "audit_sha256": "33d8067fcfb8a40b52eb366bf79f736219c8c982f9a820d3a80294e391363547",
+      "rom_sha256": "7848f37fa31523fd58068aea74a983e7079859dc571f6625714333d1d5bb5402",
+      "elf_sha256": "f0f24f679a285a8f0018a01063238d2cb75cd390c137e698d04870537de192e0"
+    }
+  ],
+  "superseded_runs": [
+    {
+      "artifact": "artifacts/butano-battle-portrait-runtime-b41-20260725-01",
+      "reason": "generated LZ77 stream 2 began at an unaligned source address and the GBA decompressor stalled after page 1"
+    },
+    {
+      "artifact": "artifacts/butano-battle-portrait-runtime-b41-20260725-02",
+      "reason": "same unaligned LZ77 source defect; retained as failure evidence"
+    },
+    {
+      "artifact": "artifacts/butano-battle-portrait-runtime-b41-20260725-03",
+      "reason": "valid aligned portrait route before the final message-window renderer"
+    },
+    {
+      "artifact": "artifacts/butano-battle-portrait-runtime-b41-20260725-04",
+      "reason": "valid visible route before final structured portrait/window telemetry was appended"
+    },
+    {
+      "artifact": "artifacts/butano-battle-presentation-b43-20260725-02",
+      "reason": "structured telemetry passed, but the first screenshot was captured before the first visible script frame committed"
+    }
+  ],
+  "boundaries": [
+    "Payload record boundaries and state semantics are closed for every command used by all 400 cases.",
+    "The renderer models the final positions used by motion modes 2, 3 and 4; exact per-frame interpolation and timing for every original motion mode are not yet reproduced.",
+    "Only the 46 portrait/expression pairs referenced by the current script bank are embedded.",
+    "The script state keeps three portrait slots, while the original visible helper and current renderer display the first two.",
+    "Accepted mGBA routes are muted and do not sign off subjective audio quality.",
+    "Battle 41 and battle 43 are runtime-accepted; all 47 battle presentations have not been driven in mGBA.",
+    "This milestone removes screenshot-composed battle dialogue but does not complete the full battle-restoration goal."
+  ]
+}

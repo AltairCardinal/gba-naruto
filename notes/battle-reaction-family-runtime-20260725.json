@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "run_date": "2026-07-25",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+    "sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f"
+  },
+  "emulator": {
+    "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "input_mode": "one A press per run, frames 5..13, capture at frame 180",
+    "resource_guard": "tools/run_macos_mgba_single_input.py internal tools/run_guarded.py"
+  },
+  "patches": {
+    "0x04": "unit slot 2 status bytes = 04 03 02 02 00 00 00 00",
+    "0x09": "unit slot 2 status bytes = 09 00 02 0A 00 00 12 00",
+    "0x0A": "unit slot 2 status bytes = 0A 15 02 0A 00 00 12 00"
+  },
+  "observations": {
+    "0x04": {
+      "outcome": "first effective incoming hit is cancelled; later hits are truncated; defender remains at 10 HP; no coordinate change; token consumed",
+      "settled_state_sha256": "f5c0ce59106fabe86f3020c55f5791b5c0723d035b07882e1f2423641b660d5e",
+      "settled_png_sha256": "1367410b37e68c8f6bbcf16e243c1bb7acf4597956247de6839a29a55fe40f02"
+    },
+    "0x09": {
+      "outcome": "defender takes no incoming damage; source HP changes 80 to 72; token consumed; flow proceeds to facing selection",
+      "settled_state_sha256": "f4b6618596ee1ce79f716a4c6c8304d33f8cee7a44ca806e9849ea1f08459f8d",
+      "settled_png_sha256": "6074df0ce8d9486c62880c78e32dafaa20e6e76dcdfc317461f31f30fafbd125"
+    },
+    "0x0A": {
+      "outcome": "reverse damage changes source HP 80 to 72 and the original incoming hit still defeats the 10 HP defender; token consumed; victory follows",
+      "damage_frame_state_sha256": "fa18e846e3b44f170d887676516910b13f57fd0e453475d88438f19e63b36581",
+      "damage_frame_png_sha256": "d6f960e48264b2362f8a2e4a09fb2ef3a9d6a5de709221301b4f7c9e95fdc42d",
+      "victory_state_sha256": "7d0081b1567cccc5c5c14e54d15d3ba9c1d18ae67e06c688b766086f2fd4426f",
+      "victory_png_sha256": "b1b8a1759dd0053999d15cb10dd9b567d9bf806c2ea58b6ee74ccb6ea4eb451e"
+    }
+  },
+  "static_cross_check": {
+    "reaction_preprocessor": "0x080763E0",
+    "shared_resolver": "0x08076A30",
+    "0x04_and_0x16": "0x08076C44 adjacency gate, no ordinary damage path",
+    "0x09": "0x08076BA8 reverse source/target recursive resolver, no ordinary damage path",
+    "0x0A": "0x08076B1E reverse source/target recursive resolver, then ordinary damage path",
+    "0x19": "0x08076BCC adjacency gate and reverse source/target recursive resolver"
+  },
+  "excluded_runs": "Runs that encountered an existing base.sav or nested heavy-lock refusal are invalid and are not used by these conclusions."
+}

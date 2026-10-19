@@ -1,0 +1,135 @@
+{
+  "boundary": "The seven exact sprite frames and palette are recoverable from the hash-gated sequence-7 resource pair. The original frame-hold timing is not yet proven by a natural runtime capture. Unwritten +8/+10 words for type 2 are treated as zero in the sequel rather than retaining stack garbage.",
+  "code_ranges": {
+    "allocator": {
+      "end": "0x08081084",
+      "sha256": "c2d9429855e9a91fabf5783581a0466a88a63f209dded259c359aef7e5ba73e8",
+      "start": "0x08081024"
+    },
+    "effect_0x0c": {
+      "end": "0x08077282",
+      "sha256": "10073e437347337ed7b54b3875a06483c7f5bb2948b6635c6ee214a496eba6f2",
+      "start": "0x0807726E"
+    },
+    "effect_0x18": {
+      "end": "0x08077532",
+      "sha256": "575b1743e7a1467926f7d97c859d3a76c4de7b2deea72bef2a87592ba8c248fa",
+      "start": "0x08077514"
+    },
+    "effect_resource_builder": {
+      "end": "0x0807FE2C",
+      "sha256": "2715bad870d8d7ea84bd03c537f08200be80b178c0dd570aea30155bb9431a84",
+      "start": "0x0807FDCC"
+    },
+    "effect_sequence_selector": {
+      "end": "0x080800A4",
+      "sha256": "690232cbbed4b7f9d19602e91feca3299191cccb8369a10d3235b2d415751c94",
+      "start": "0x0807FE2C"
+    },
+    "object_grid_binding": {
+      "end": "0x08081024",
+      "sha256": "53303616ae87741db9efae8ade2f51cc998480f33b49c4638396073f464a9f6f",
+      "start": "0x08080FC8"
+    },
+    "side_controller": {
+      "end": "0x080736BC",
+      "sha256": "152bab8b0a79ab2ef02ae220b20a18097f722f02a46c8a536614fad8e0286834",
+      "start": "0x0807367C"
+    },
+    "side_end_tick": {
+      "end": "0x0808203E",
+      "sha256": "c575f74ad7453e16a348e53fb3dbe352e0f91ea1f181f95a3970b34fb542ff70",
+      "start": "0x08081B70"
+    },
+    "type_2_expiry_presentation": {
+      "end": "0x08081C34",
+      "sha256": "62f0f7151a9e828a2dd16588007b8399ef2d719fb559aa833a4975f3a140e03c",
+      "start": "0x08081B9A"
+    }
+  },
+  "creation": {
+    "0x0C": {
+      "duration_u16_at_6": "event_u8_at_0x11_times_2",
+      "handler": "0x0807726E",
+      "payload_u16_at_4": "event_u8_at_0x0C",
+      "source_u16_at_8": "unused_zero",
+      "type": 2
+    },
+    "0x18": {
+      "duration_u16_at_6": "event_u8_at_0x11_times_2",
+      "handler": "0x08077514",
+      "payload_u16_at_4": "event_u8_at_0x0C",
+      "source_u16_at_8": "event_u8_at_0x00",
+      "type": 1
+    }
+  },
+  "grid_binding": {
+    "cell_buffer": "0x02021E2C",
+    "clear_call": "0x08081098 -> 0x08080FF8",
+    "map_width": "0x0201BE2A",
+    "object_slot_mask": "0x07C0",
+    "object_slot_shift": 6,
+    "rendering": "grid_metadata_not_visible_sprite",
+    "set_call": "0x08081068 -> 0x08080FC8"
+  },
+  "identity": "battlefield_object_runtime",
+  "implementation_contract": [
+    "Preserve the 16-byte record layout and 32-slot table with slot zero reserved.",
+    "Store the action or ninja-tool ID at +4 and the doubled side duration at +6.",
+    "Tick type-1 and type-2 objects exactly once at each side-end boundary.",
+    "Resolve type-1 payload area effects before freeing the object.",
+    "Play the type-2 positional expiry effect before freeing the object.",
+    "Evaluate scenario conditions after due object effects mutate the domain."
+  ],
+  "lifecycle": {
+    "free_function": "0x08081084",
+    "side_end_callsite": "0x08073688",
+    "side_toggle": "0x080736B6",
+    "tick_function": "0x08081B70",
+    "type_1_entry": "0x08081C34",
+    "type_1_free": "0x08081F8E",
+    "type_1_payload_lookup": "0x08081CB4",
+    "type_2_entry": "0x08081B9A",
+    "type_2_free": "0x08081C14"
+  },
+  "object_table": {
+    "address": "0x02026604",
+    "allocator": "0x08081024",
+    "copied_u16_offsets": [
+      4,
+      6,
+      8,
+      10
+    ],
+    "free": "0x08081084",
+    "record_size": 16,
+    "reserved_slot": 0,
+    "slot_count": 32
+  },
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "semantics": {
+    "duration": "decremented_once_before_each_side_toggle",
+    "payload": "The +4 word is a ninja-tool template ID, not attack potency; 0x08081CB4 passes its low seven bits to 0x0806D910.",
+    "type_1": "resolve_payload_area_then_free",
+    "type_2": "play_expiry_effect_then_free"
+  },
+  "type_2_presentation": {
+    "coordinate_effect_call": "0x08081BB0 -> 0x0806F210",
+    "effect_builder_call": "0x08081BD4 -> 0x0807FDCC",
+    "effect_sequence": 7,
+    "effect_sequence_call": "0x08081BDA -> 0x0807FE2C",
+    "free_after_wait": "0x08081C14",
+    "graphics_decompressed_size": 3584,
+    "graphics_frame_count": 7,
+    "graphics_pointer": "0x083478F4",
+    "palette_bank_end": 14,
+    "palette_bank_start": 12,
+    "palette_pointer": "0x083480C8",
+    "sequence_resource_group": 18,
+    "tile_index_end": 895,
+    "tile_index_start": 768,
+    "wait_state": 3
+  }
+}

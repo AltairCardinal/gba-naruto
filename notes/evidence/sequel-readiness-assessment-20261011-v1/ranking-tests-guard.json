@@ -1,0 +1,20 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 12090,
+  "peak_tree_rss_mib": 0.94140625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/usr/local/opt/python@3.14/bin/python3.14",
+    "-B",
+    "-c",
+    "import subprocess,sys,pathlib,json; r=subprocess.run(json.loads(sys.argv[3]),capture_output=True,text=True); pathlib.Path(sys.argv[1]).write_text(r.stdout); pathlib.Path(sys.argv[2]).write_text(r.stderr); sys.exit(r.returncode)",
+    "/Users/altair/github/gba-naruto/notes/evidence/sequel-readiness-assessment-20261011-v1/ranking-tests.stdout",
+    "/Users/altair/github/gba-naruto/notes/evidence/sequel-readiness-assessment-20261011-v1/ranking-tests.stderr",
+    "[\"/usr/local/opt/python@3.14/bin/python3.14\", \"-B\", \"-m\", \"unittest\", \"tests.test_analyze_rom_unknown_clusters\", \"-v\"]"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-11T06:27:35.088300Z",
+  "finished_at": "2026-10-11T06:27:36.134450Z"
+}

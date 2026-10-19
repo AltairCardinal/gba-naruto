@@ -25,6 +25,7 @@ enum class battle_outcome : std::uint8_t
     none,
     victory,
     failure,
+    condition_result_5,
 };
 
 enum class objective_predicate_kind : std::uint8_t

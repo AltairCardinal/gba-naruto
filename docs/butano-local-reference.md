@@ -57,8 +57,11 @@ tools/butano/build.sh
 产物为 `butano-sequel/butano-sequel.gba`。ROM 冷启动后先以内嵌断言检查行动状态机、
 寻路、战斗效果、章节脚本和存档编解码，然后从原作任务准备菜单进入 scenario 41。
 黄金路线覆盖四回合、原作行动/术/确认 UI、战斗对白、胜利、`100/50/0=150` 结算、
-鸣人 LV2、11 页战后对白和战后世界地图；真实 mGBA 中 38 个稳定边界保持零像素差，
-逐帧组合拳为 **264/264** normalized RGB 一致。
+鸣人 LV2、11 页战后对白和战后世界地图。旧版“38 个整屏边界零像素差、264 帧组合拳”
+是已取代的截图复现证据，不再作为当前 ROM 的战斗验收。当前组合拳为 96 帧组件姿态流，
+在真实战场上由单位 sprite 完成蓄力、接近、三 hit、受击反馈和归位；运行时不再链接
+整屏攻击帧。最新图形与流程证据见
+`notes/butano-battle-domain-rewrite-20260723.md` 的 2026-07-24 续记。
 
 音频使用 Maxmod：战前/战斗/组合拳/战后对白/世界地图分别接入 cue 5/14/15/8/2。
 BGM 由原 PCM 下混、去直流并重采样为 Maxmod 要求的 unsigned 8-bit、22050 Hz 单声道后封装为 S3M；UI 与战斗事件音效转为 22050 Hz 单声道 WAV。WAV→S3M 转换器固定在提交
@@ -69,7 +72,7 @@ BGM 由原 PCM 下混、去直流并重采样为 Maxmod 要求的 unsigned 8-bit
 构建中没有网络版本漂移：脚本只接受 `tools/butano/toolchain.lock` 中按 SHA-256
 摘要固定的镜像。
 
-可复现的完整按键路线、38 张关键截图、最终 save-state 和 JSON 审计由
+可复现的完整按键路线、44 张关键截图、最终 save-state 和 JSON 审计由
 `tools/butano/mgba_scenario_41_golden_route.lua` 生成。必须通过
 `tools/run_guarded.py` 和 shared heavy lock 启动，不直接裸跑 mGBA；完整命令、ROM/
 模拟器哈希和已验收证据见 `notes/butano-scenario-41-runtime-20260721.md`。
@@ -95,7 +98,20 @@ RUN_BUTANO_INTEGRATION=1 python3 -m unittest tests.test_butano_build -v
 - 构建目录权限错误：当前脚本以宿主用户 UID/GID 运行容器。若旧产物由 root 创建，先确认只处理 `butano-sequel/build/` 内的生成物，再清理重建。
 - ROM 在模拟器中异常：保留 ROM SHA-256、工具链 lock、Butano 提交和唯一 run ID；通过 `tools/run_guarded.py` 启动 mGBA，避免绕过仓库的资源守卫。
 - ROM 有画面但无声音：检查 `butano-sequel/build/bn_audio_manager.bn_noflto.d` 是否包含 `bn_hw_audio_maxmod.h`。`tools/butano/build.sh` 会检测历史 null-backend 对象并执行一次干净重建；不要手工复用该陈旧对象。
-- ROM 声音撕裂或进入战斗黑屏：除检查五个 BGM manifest 为 `channels=1`、`sample_rate=22050` 和 ROM 不超过 8 MiB 外，还必须审计输入 PCM 的相邻采样突跳。`build/audio-v2/pcm/` 的离线整曲渲染已被用户听感与原 ROM 实录对比推翻，生产 BGM 必须来自 `butano-sequel/audio-runtime-bgm/` 的运行时实录中间件。mGBA 版本、渲染器和宿主音频后端不是本次故障根因。
+- ROM 声音撕裂或进入战斗黑屏：先保留 ROM/ELF SHA、唯一 run ID、完整输入日志、最终
+  telemetry 和 WAV，不凭主观猜测更换 mGBA 前端。GBA ROM 大于 8 MiB 本身不是错误，
+  不得再用任意的 8 MiB 上限诊断；应检查链接地址、EWRAM/IWRAM/栈、Maxmod DMA 和输入
+  PCM。用 `tools/analyze_wav_integrity.py` 按声道检查相邻采样跳变，避免把左右声道交错
+  差误判成撕裂。`build/audio-v2/pcm/` 的离线整曲渲染已被用户听感与原 ROM 实录对比
+  推翻，生产 BGM 必须来自 `butano-sequel/audio-runtime-bgm/`。2026-07-27 的当前根因是
+  新 battle runtime 没有音频事件接线，修复后 6500 帧/518 个输入的非静音路线完成动作
+  16 并返回第二回合；不是 mGBA 前端。证据和阈值见
+  `notes/butano-battle-audio-runtime-20260727.md`。
+- 确定性音频回归：`tools/butano/mgba_audio_recorder.c` 支持
+  `MGBA_AUDIO_INPUT_EVENTS` 重放 JSONL 输入、`MGBA_AUDIO_REPORT` 输出硬件/消费报告，
+  并以 `MGBA_AUDIO_TELEMETRY_ADDRESS` 读取当前 ROM 的战斗遥测。冷启动录音用于证明
+  战前 cue 可达，完整输入重放用于证明战斗阶段和跨场景音频；两者都必须非静音并通过
+  WAV 跳变检查。不要用另一 mGBA 前端生成的 savestate 代替冷启动确定性重放。
 - 离线文档缺页：确认 submodule 正好位于固定提交，并检查 `third_party/butano/docs/index.html`，不要临时抓取网页覆盖本地版本。
 
 ## 升级流程

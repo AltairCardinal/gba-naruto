@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "identity": "battle_damage_and_base_hit_formula_static_runtime_binding",
-  "method": "Validate the original-ROM event-builder and per-hit RNG instructions, then recompute all four queued damage candidates from a natural three-hit ninja-tool checkpoint and require the resolved HP delta to have a unique outcome composition.",
+  "method": "Validate the original-ROM event-builder, per-hit RNG instructions, shared effective-hit dispatch gate, and effect 0x3F handler, then recompute all four queued damage candidates from a natural three-hit ninja-tool checkpoint and require the resolved HP delta to have a unique outcome composition.",
   "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
   "natural_sample": {
     "preview_checkpoint": "build/scenario-50-battle-15-round4-shuriken-finisher-20260720/n10-preview/output.ss9",
@@ -12,5 +12,5 @@
     "expected_attacker_slot": 1,
     "expected_target_slot": 5
   },
-  "boundary": "The base physical/ninjutsu damage candidates and ordinary per-hit success gate are closed. Status modifiers, facing/terrain special cases, critical and ignore-defense trigger probabilities, linked attacks, healing, and non-damage effect formulas still require separate bindings."
+  "boundary": "The base physical/ninjutsu damage candidates, ordinary per-hit success gate, and the shared requirement for an effective hit before effect dispatch are closed. Status-specific operations, facing/terrain special cases, critical and ignore-defense trigger probabilities, linked attacks, and healing still require separate bindings."
 }

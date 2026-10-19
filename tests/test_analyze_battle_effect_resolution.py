@@ -6,21 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_effect_resolution import build_effect_resolution_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-effect-resolution-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleEffectResolutionTests(unittest.TestCase):
     def _manifest(self):
-        return build_effect_resolution_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            ROOT / "notes/battle-controller-states-20260723.json",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-effect-resolution-bindings-20260723.json")
 
     def test_normal_damage_and_substitution_are_distinct_resolution_branches(self):
         result = self._manifest()
@@ -47,6 +44,7 @@ class BattleEffectResolutionTests(unittest.TestCase):
         self.assertTrue(result["preview_is_not_the_committed_outcome"])
         self.assertTrue(result["reaction_branch_occurs_inside_shared_resolution"])
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_resolve_audit_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["observations"][1]["resolve_audit_sha256"] = "00" * 32

@@ -1,0 +1,22 @@
+{
+  "type": "regular_bg",
+  "bpp_mode": "bpp_8",
+  "colors_count": 256,
+  "compression": "auto_no_huffman",
+  "source": {
+    "reference_frame": 250,
+    "vram_sha256": "62249555f8984cfe77750b0e26ec46cce91147e4e7e8ad065365597a9f46535b",
+    "pram_sha256": "b50a92951b679b3d2f83f8e86630749dadc75dc0382a23a0c494e008335adfab",
+    "io_sha256": "3768fd531ef527b3dfe35b74965a74f4b6be436fff37e7864148e917fbd5849e",
+    "shared_palette_sha256": "abdc79330109321b60676e3fcc3357e87ccdefbb48b3114589b05a2fd9e58dd7",
+    "shared_palette_anchor_row": 255,
+    "role": "cutin_dialogue",
+    "component": "BG3 tiles + tilemap + palette"
+  },
+  "active_size": [
+    240,
+    160
+  ],
+  "component_pipeline": "original tiles + tilemap + palette -> Butano regular BG",
+  "palette_item": "battle_action_16_cutin_shared_palette"
+}

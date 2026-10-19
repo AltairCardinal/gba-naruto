@@ -1,4 +1,38 @@
+## 2026-10-13：第五版试玩收束
+
+用户因额度不足要求收束，完整逐帧验收Goal暂停。最新可试玩交付为 `artifacts/s49-full-fidelity-20261013-v1/release-v5/`：菜单/确认移动/取消、四向动画、毒草拾取、开场木叶丸顺序与44帧地面光标已改进，整关及S50冷载入通过。全屏384帧仍全部有差异，尚未达到100%；灰化、初始动画相位、多格到达补间、短音效及全操作覆盖仍待完成。详情见 `notes/butano-s49-full-fidelity-20261013.md`。
+
 # 木叶战记续作 Roadmap
+
+> 2026-10-13 [S49 全操作逐帧验收进行中](../notes/butano-s49-full-fidelity-20261013.md)：
+> 固定输入边界、全部动画和 UI 的全屏逐帧比较已落地；原版零输入64帧重复回放一致。
+> 首轮待机／选人／移动选格三个配对均64/64帧有差异，确认菜单层级、选格与角色移动语义、
+> HUD显隐、木叶丸开场顺序等问题。正在逐项修复并回归；历史静态对照与单关通关不能代替
+> 本轮完整分母。**全操作覆盖和100%还原尚未完成。**
+
+> 2026-10-11 [S49 地图交互修复](../notes/butano-s49-interaction-fixes-20261011.md)：
+> 修复宝箱不可拾取、移动不转向和缺少移动动画；补上原快照中的第二个宝箱，接入素材
+> 库存和胜利存档。四方向/领取真实按键验收通过，整关 9 回合再通关，实际 SRAM 保存毒草 1。
+> 前版静态画面对照不能替代交互验收。移动速度、镜头、原作拾取弹窗和音效仍未逐帧闭合，
+> **没有达到 100% 还原**；本轮新增拾取静态语义尚不是逆向分支已提交的全链成果。
+
+> 2026-10-11 [S49 Butano 单关复刻验证](../notes/butano-s49-reproduction-20261011.md)：
+> 已复用现有资源链，从独立空构建目录生成可玩 ROM；非静音整关路线完成九回合、结算、
+> 修行和 S49→S50，9 个整屏与 4 组限定 UI 区域对照零差异。宝箱现可从已提交快照直接生成。
+> 短音效恢复实验在第二回合超时，交付恢复为仅 BGM；全部资源来源、动态时序、音频与新关卡
+> 泛化尚未闭合，**不能签发 100% 原作还原**。工作区仍含用户未提交改动，没有 commit/push。
+> 本条取代下方评估中“当前源码重建尚未签发”的当时状态；验收分母详见本轮 manifest。
+
+> 2026-10-11 [面向 GBA 续作的进度评估](../notes/sequel-readiness-assessment-20261011.md)：
+> 已提交 ROM 字节分类为 98.605267%，当前候选为 98.607142%；不等于续作或可编辑完成率。
+> 当前 GBA 二进制与 S49 完整流程历史收据同哈希，但该路线静音，当前源码干净重建尚未签发。
+> 建议先固定可复现基线，再以原创一章的剧情、战斗、结算和冷启动续玩牵引必要逆向。
+> 本次仅评估与文档记录，未修改严格证明政策、canonical、bank 或游戏功能；下方为历史状态。
+
+> 2026-09-30 剩余逆向研究入口：[分母、优先级与执行方案](../notes/remaining-reverse-plan-20260930-v2.md)。
+> 逆向分支已提交基线为98.605267%／87,749 unknown；未提交四包118B尚待正式接入。
+> `59EAE0`局部may-read方向被后续复核拒绝晋升，旧2,500B估算不再有效。
+> 本轮仅规划，不恢复历史Goal；下文旧状态须结合该报告及逆向分支最新证据阅读。
 
 ## 目标
 
@@ -18,6 +52,14 @@
 
 ### 2026-07-13 最新执行边界
 
+- 2026-08-19 已完成本机 Codex 原生 provider 下 4 个配置 × 3 个冻结公开合同挑战的
+  正式横评：12/12 格进入终态，11/12 格形成有效质量结果，14 个物理尝试及 native
+  compatibility gate 的 plan／receipt／manifest／JSON／Markdown 均由独立 verifier
+  绑定、重算 billing 并逐字节重生成。旧 v3–v6、proxy 认证失败和被取代 canary 只作
+  历史审计，不进入正式统计。Luna max、Terra max、Sol medium 是单代理路径，Sol
+  Ultra 是多代理且使用不同 native 子传输，因此该结果只用于相近小型同构任务选型，
+  不证明一般智能、完整 ROM 逆向能力、自然执行可达性或长期工期。完整数据见
+  `notes/reverse-model-benchmark-20260819.{md,json}`。
 - 2026-07-29 通用 Sprite 定义链已从“需运行时抓取像素”升级为完整静态资产：
   `0x08080A48` 把 ROM `0x0812F298/0x0812F584` 解压为 49 个 4bpp tile 和
   16 色 palette；43 个 ID、45 个 component 正好覆盖全部 tile 一次。v2 产物含
@@ -31,12 +73,168 @@
   从 ROM 重读记录并重建预览，43/43、`errors=[]`。这闭合规范 Sprite 的帧号、时长
   和终止策略，但不签发场景专用覆写或屏幕空间坐标。证据见
   `notes/sprite-definition-animations-export-20260729.md`。
+- 2026-07-30 角色战斗视觉矩阵的唯一 component 尾标缺口已闭合。row 227
+  （character 26、slot 2、frame 2）的 `0xFBFF` 在 renderer 中按 signed u16
+  比较，不等于终止值 `-1`；同快照断点证明原 ROM 越过帧边界继续按 20 字节解释，
+  仅把 `0x0825A8E5` 从 `FB` 改为 `FF` 后会在 `FFFF` 停止并产生唯一合法 OBJ。
+  原始字节继续无损保留，导出器只对该已证明地址记录显式修复，角色战斗视觉现为
+  2004/2004 个去重源空间帧完整，独立 verifier 为 `errors=[]`。这不签发屏幕坐标、
+  相机、priority、blend 或 palette transform。证据见
+  `notes/character-battle-visuals-export-20260729.md` 与
+  `artifacts/character-fbff-runtime-v1/manifest.json`。
+- 2026-07-29 战斗 UI 已补齐真实状态投影：ROM 剧情字库从错误的 8×8 4bpp 解码纠正为
+  原作 8×16 2bpp packed 字形，地图/菜单改用独立 8×8 UI 字体；移动可达范围、技能
+  范围和合法目标由领域 snapshot 驱动。范围层复用地图 8bpp palette，修复了独立
+  4bpp palette 耗尽导致的实机中止。镜头改为行动单位中心加地图边缘夹取，面向预览
+  同时驱动单位和头顶指示，所有正常行动尾部进入面向/防御；决斗构图固定玩家在左朝右、
+  敌人在右朝左，发起方不改变屏幕侧。最终静音 mGBA 在 scenario 41 完成四回合和动作 5，controller/player
+  error 均为 0；ROM/ELF SHA-256 为
+  `07155e3a9c1759d754631810629a899e9750011db886cd5cd8e1bfa688bf41d7` /
+  `b298dcae1836fcc2271c90eacec6c1db5d3d4867cf2e012ed1086bbfb026de21`。
+  证据见 `notes/butano-battle-ui-state-projection-20260729.md` 和
+  `artifacts/butano-battle-ui-projection-20260729-29/`；该路线静音，不签发音频。
+- 2026-07-29 scenario 49 人工验收暴露的地图单位层级和第二回合选择误导已按 UI
+  状态层修复。地图单位现在以当前可见 Y 动态排序，位置越靠下越靠前，移动预览也同步
+  更新；单位选择层的方向键只在仍可行动的玩家单位间循环，顶层 B 不再制造错误，失败
+  提示会在下一次成功输入后立即清除。旧日志证明第二回合并未锁死，而是自由游标落入
+  空格后返回 `invalid_input`，且提示残留造成持续失败的错觉。当前 ROM 已在真实 mGBA
+  从 scenario 49 generation 8 存档跑完九回合并进入 scenario 50，最终
+  controller/player error 均为 0。ROM/ELF SHA-256 为
+  `b3e02cbba75ee3a66357be70fb0c06aeb98330fe4c2c54b5d013e21d7e0576fe` /
+  `31014feab37ab060cd1c0f3146ae2e0b16e0b0a48e6a7e3ea829c6e07382bd32`。
+  人工观察器也已改为每次复制并启动当前构建 ROM，不再误用历史验收副本。证据见
+  `notes/butano-battle-ui-selection-depth-20260729.md` 和
+  `artifacts/butano-battle-ui-flow-depth-runtime-20260729-01/`。本次 mGBA 路线静音，
+  不签发音频。
+- 2026-07-28 针对“佐助对黄蜂使用动作 5 后没有进入战斗并卡死”新增了精确的只读
+  mGBA 回归探针。当前人工验收 ROM 与 generation 8 SAV 在默认音频/默认同步下直接
+  重放通过：佐助角色 2、动作 5、character 55 敌军目标，表现持续 268 帧并到达
+  transition out，controller/player error 均为 0；逐阶段截图可见决斗背景、双方角色、
+  术名、命中和返回地图，演出后正常显示朝向确认。宿主集成测试也重新编译通过。
+  因当前二进制无法复现，未伪造生产修复；若人工环境再次停住，下一证据必须是停住瞬间
+  的 mGBA savestate。详见 `notes/butano-sasuke-taijutsu-runtime-20260728.md`。
+- 2026-07-27 scenario 49 / battle 14 已从“同阵营单位都由玩家选择”扩展为任务友军
+  架构。character 30 读取 formation config 2 / LV3 / HP40，以 player-side AI 在
+  Team 7 行动后、敌方行动前执行；五名 character 55 仍按 config 4 关注该任务角色。
+  失败纵切证明任务角色死亡时 Team 7 尚存仍判负；胜利纵切只用公开 controller 输入，
+  完成真实移动、动作 5、佐助动作 16、影分身、任务/敌方 AI、五次 resolver 击倒、成长
+  和 49→50。宿主路线第 8 回合获胜并获得 reward row 39 的 75 回合奖励；完整静音 mGBA
+  合法输入路线在 frame 9164 / round 9 获胜，因此正确获得 0 回合奖励。任务友军最终
+  HP36，五敌全部 inactive，鸣人结果行为 `125+100+0=225`；generation 9 SRAM 写后读
+  verified、CRC 有效并进入 scenario 50，鸣人为 LV6/EXP0/TP5。完整宿主测试、devkitARM
+  和 32 项 Lua/协议/路由测试通过。ROM/ELF SHA-256 为
+  `de8144edf14d139aaa638b2fe79fec6497f4f09fae3e85f704fd655f0102a083` /
+  `5cff87b36b7806fb1b23bea53dbbb18655a740690fa3021642a8ce3287934c6f`。
+  该运行静音，不签发音频；scenario 50+ 与逐技能专属音画仍未完成，Goal 保持 active；详见
+  `notes/butano-battle-scenario-49-allied-ai-runtime-20260727.md`。
+- 2026-07-27 scenario 47 / battle 13 已从“能路由到该关”提升为真实 3v5 完整纵切。
+  宿主测试加载原版 13×21 generated map、Team 7 与五名 LV3/HP80 敌人的精确站位，
+  只用共享 controller 公开输入完成休息、影分身、五次击倒、三人 375 battle EXP、
+  每人 125 mission EXP、三人升至 LV5 和 47→49。ARM adapter 的 RNG seed 已从错误的
+  battle ID 13 纠正为 scenario ID 47。早期运行在对白确认后冻结并非需要第二次 A：
+  GDB 命中 `bn_sprite_tiles_manager.cpp:921`，脚本表现释放的 400 个 OBJ tiles 尚未在
+  core update 回收，地图 HUD 同帧申请 8 tiles 触发断言。生产场景现以脚本/地图资源
+  cohort 边界先释放、update、再分配，并以输入 latch 防止确认穿透。最终静音 mGBA
+  只读复审又发现脚本优先判断前会提前弹出 presentation FIFO，导致对白等待期间静默丢失
+  动作/对象表现；新增红测后改为仅在非脚本等待、非活动演出时取事件。最终静音 mGBA
+  在 frame 24898 / round 31 消灭五敌，影分身仍为活动单位，结算、generation 8
+  verified 并进入 scenario 49；controller/player error 均为 0。ROM/ELF SHA-256 为
+  `36497840f4c636b39f9495ae5a2429ccda45e2ff1eb5e2c6fc0ae21202216a1a` /
+  `aefaa2d3786a1d42e88cb83d2c43254348ddfdff61d165494eb61c036b7c0869`。证据见
+  `notes/butano-battle-scenario-47-runtime-20260727.md` 和
+  `artifacts/butano-battle-scenario-47-real-map-20260727-22/`。该路线静音，不签发
+  音频撕裂；scenario 48 剧情、scenario 49 完整 mGBA 胜利、scenario 50+ 纵切和
+  逐动作音画仍未完成，Goal 保持 active。
+- 2026-07-27 生产入口已删除 `41→43→9→11→32` 开发夹具链，改为以持久
+  scenario ID 驱动共享 `battle_runtime_scene` 的九段路由：
+  `41/41→42/42→43/43→44/44→45/45→46/9→47/13→49/14→50/15`。只有真实
+  victory 推进并验证 SRAM；失败、平局和撤退不推进。scenario 41 实机路线在 frame 978
+  完成四回合、150 EXP、升级、训练并保存 scenario 42；同一 SRAM 冷启动在 frame 134
+  进入 battle 42 部署。随后全零音频回归已定位为 SRAM decode 的 `0x123c` 字节 ARM
+  栈帧越界覆盖 IWRAM Maxmod 跳板，而非 mGBA、歌曲资产或 `.sbss` 容量本身。生产路径
+  改为复用 EWRAM 调用方 decode slots 后，核心栈帧降到 `0x6c`；100 帧追踪得到
+  88 次 `mmFrame`、1 次音符创建、1 次成功声道分配、0 次跳板改写。600 帧录音有
+  539,784 个非零采样，RMS 887.7133，峰值 6528，`>=8192`/`>=16384` 相邻突跳均为 0。
+  修复后 scenario 41 再次完成 verified save，冷启动进入 battle 42。ROM/ELF SHA-256
+  为 `8f19053a827ee15c4d1a0c0b7b43550aec7f2b74e2be2cd5468bb7bbf1493bad` /
+  `570867daf9717e2ec3bbc3b8fe8fe10a243fd69effb95f4607daafb087abf479`。scenario 48
+  剧情、50 后章节、逐技能表现/专属 cue 与 WAV SFX 仍未完成，完整 Goal 保持 active。
+  证据见 `notes/butano-battle-campaign-route-runtime-20260727.md` 和
+  `notes/butano-battle-audio-runtime-20260727.md`。
+- 2026-07-26 战斗表现纠错删除了手写动作 ID 分类表和
+  `presentation_binding == 1` 即近战的错误解释。87 个主动动作与 94 个忍具现在按生成的
+  表现绑定、目标策略和射程逐项分流：对敌 binding 1 进入决斗事务，瞬身、召唤、增益、
+  放置物留在地图事务；动作 5 可近身突进，射程 2 的火遁 16 保持施术位。原 ROM 动作 5
+  已在初始化、事件构建、资源、sequence、hit 与 visual-object 断点抓取独立
+  I/O/VRAM/OAM/PRAM，确认森林背景、术名/HUD、攻击者、目标和 64×64 动作对象是独立
+  组件。BIOS LZ77 追踪又把森林 BG 闭合到
+  `0x08329C34/0x0832A854/0x0832A8F8` 三个 tiles/palette/tilemap 组件；生产 renderer
+  已删除棋盘格/条纹背景，按原作 `VOFS=0x1E0` 在同一 BG 上原位切换并在事务后恢复地图，
+  可见区与原作 BG0 逐像素差异为 0。90 个宿主 C++、devkitARM 和静音 battle 9 mGBA
+  路线通过，ROM SHA-256 为
+  `c8dfc6b54878e5acb1d79aa30d73bd52cdc1c769d1957db6068c8a118352d93b`。当前程序化
+  火焰和 HUD chrome 仍不是完整原作资源，动作 5 已定位的扬尘/命中闪光尚待 OAM 时序绑定，
+  音频也未签发；完整战斗 Goal 保持未完成。证据见
+  `notes/butano-combat-presentation-runtime-20260726.md`。
+- 2026-07-25 Butano 已完成完整角色逐帧动画目录：62×9 稀疏视觉表的 342 个有效槽、
+  全部帧、最多 5 段复合 OAM 与 ROM duration 生成 534 个 component/shape 资产；
+  部署、待机、移动、结印、投掷、近战和受击共用同一 renderer。行动结果会把所有受影响
+  单位 ID 经过玩家/AI flow 传给 presentation，致死与范围目标不再按坐标反猜；近战突进
+  与结印/忍具原地表现已经分开。命中次数驱动表现时长，零 hit、单击和多段动作不再统一
+  伪造成三次 impact。默认 scenario 41 直接调用共享
+  `run_battle_41_scene()`，旧 264 帧整屏攻击资产已移出生产 graphics。ARM 构建与静音
+  scenario 41、battle 9、battle 32 路线通过；表现事务结束前 HUD 显示 `RESOLVING`，
+  不再提前暴露结算。ROM SHA-256 为
+  `23ec3ecfec4b50c14605318983fa86823aeda85baf87e80d7ace48411cad6a02`。证据见
+  `artifacts/butano-resolved-impact-s41-20260725-93/`、
+  `artifacts/butano-resolved-impact-b09-20260725-94/` 和
+  `artifacts/butano-dynamic-deployment-b32-20260725-87/`。招式特效/镜头、章节入口、
+  结算演出与主观音频仍未签发，不得称为全游戏功能等价完成。
+- 2026-07-24 Butano 已生成并接入原 ROM 全部 47 场 × 3 条 condition variant：每条保留
+  四个有序胜利槽和四个有序失败槽，支持首槽抢占与同槽结果 5；type 1/2/3/6/7/8/9、
+  32 槽战场对象表和 behavior 9 分阵营计数均已有领域实现。scenario 41 改为消费生成表
+  `battle_condition_variants[9][0]`，不再用任意 priority 的旧 objective 列表。
+  29 个宿主 C++、97 项 battle 分析及 64 项 condition/Butano 回归通过；当前 ROM
+  5,272,420 字节，SHA-256
+  `99c0d6a23bb64a7a7c3ee473c9e4d93c24147017ffa47b97fbd9875c42c9bb7f`，
+  2580 帧证据在 `build/butano-condition-runtime-20260724-01/`。完整关卡单位/地图/对象部署、
+  脚本触发点、多单位回合和 result 5 可见身份仍待闭合。
+- 2026-07-24 Butano 已把敌方 AI 从“关卡预填唯一目标 + `damage×100`”替换为跨关卡候选链：
+  同/异阵营分别建立最低 HP 比、最大 HP、攻击、防御、敏捷、移动和地图距离七槽，严格保留
+  首次扫描 tie，并支持任务 role 全槽覆盖；标准评分消费模拟 queued event、敌我独立权重、
+  damage family 按目标聚合后的伤害/成功率/覆盖/范围，以及完整状态抑制矩阵和 actor 惩罚。
+  planner 会枚举每个可达落点、每个动作和每个合法活动单位，关卡 target 只保留为可选约束；
+  无预设目标的敌方攻击和友军治疗均有红绿测试。28 个宿主 C++、97 项 battle 分析和 61 项
+  Butano 回归通过；ROM 为 5,271,832 字节，SHA-256
+  `e7fa2ba26421d9d04e190b7e9c54a92e6388e6a5275c2f784a13c84037f17fd2`；
+  2580 帧路线证据在 `build/butano-ai-runtime-20260724-04/`。typed 关卡 AI 规则、
+  空地/多目标/召唤候选、完整 condition 数据和多单位/护送运行时仍待完成。
+- 2026-07-24 Butano 战斗纠错继续落地：攻击阶段已完全解除对
+  `scenario_41_attack_animation_frames.h` 的运行时引用，ROM 不再逐帧加载整屏战斗截图，
+  而是在同一张战场地图上由 `battle_action_animation` 驱动单位 sprite 的蓄力、接近、
+  三 hit、受击闪烁/抖动和归位。共享 resolver 同时补入 effect `0x03` 位移、
+  effect `0x05` 身份覆盖/自然到期/cleanup/战败恢复、状态持续时间 `raw×2`、
+  `0x0E` 联动目标先递归后主目标的有序逐 hit 事件、`0x0D` 参与者消费、
+  `0x13` 八门阶段资格原因码 9–20 和 `0x14` 动态 hit count；属性状态视图统一供预览、
+  命中、伤害和 AI 读取。26 个宿主 C++ 程序与 97 项 battle 分析测试通过，
+  ARM 构建和 2580 帧 mGBA 冷启动路线通过。当前 ROM 为 5,268,584 字节，
+  SHA-256 `56c77c2d6b1340fcee7b9771f40a8b419120b4655f23b94aae1140b442b91621`；
+  运行证据在 `build/butano-domain-animation-runtime-20260724-01/`。这仍不代表完整功能等价：
+  未闭合 handler、七槽 AI utility 的 Butano 实现、47 场 condition 数据以及多单位/召唤/
+  护送运行场景继续保持待办。
 - 2026-07-23 用户否决了 Butano scenario 41 的截图/固定选项拼接实现：它不产生真实战斗规则，不能称为战斗架构或功能等价实现。纠错后，63 条单位、87 条主动动作、94 条忍具已经生成到 Butano 固定内容表，活动战斗阶段改为地图、独立单位/游标和领域快照 UI 的组件渲染，玩家与敌方多动作 AI 共用事务式 resolver；单关 2580 帧路线已通过。该闭环只解除“截图伪战斗”阻塞，不代表完整等价；45 条被动、剩余 handler、完整回合/AI/目标规则以及召唤、多角色、复合目标和护送样本仍必须继续实现和验收。证据审计见 `notes/battle-system-restoration-evidence-20260723.md`，实现/运行记录见 `notes/butano-battle-domain-rewrite-20260723.md`。
 - 2026-07-23 主动动作显示身份已从诊断截图中剥离为受 ROM 名称字节约束的 87 项 overlay：78 项逐字确认，9 项明确待二次校字；主控制器 `0x080732B4..0x08075082` 的 36 个分派状态完成结构库存，已命名的 ROM 锚点只限阵营扫描、玩家选择、行动类别、MOVEDONE、胜负/结果和 postbattle。其余状态不得强行套入候选 Butano 状态图。机读证据为 `sequel/content/battle-config/action-identities.json` 和 `notes/battle-controller-states-20260723.json`。
 - 2026-07-23 进一步把 18 个 `.ss9` 边界绑定到协作任务栈中的真实控制器帧：14 个 scenario 41 样本覆盖 `0x3110` 移动、`0x3000/0x4000` 菜单、`0x9200` 术菜单、`0x4100` 目标/确认、`0x9000/0x9100` 面向/防御、`0x8000` 结果与 `0x1220` 回合脚本；4 个 scenario 45/50 样本又证明敌方 `0x7000` 行动准备与玩家 `0x6000` 提交门共同汇入 `0x8000` 解析。分析要求有效 Thumb BL、外层 controller caller、checkpoint 哈希及阵营/当前单位字段。证据见 `notes/battle-controller-checkpoint-bindings-20260723.json`。旧 implementation plan 的“已实现”状态已撤销并标记为不得继续执行。
 - 2026-07-23 多单位选择新增四次连续单输入 L 与一次受守卫 R 的哈希绑定：六个 checkpoint 始终位于 `0x2000`；L 的本场完整环绕为鸣人→猫→小樱→佐助→鸣人，R 为鸣人→佐助。每次只在两个有效单位的 `unit+0xC1` 间转移选择标记，当前行动单位指针保持空、战斗控制区零差异。它证明 roster 游标是确认前状态，并证明猫这类目标代理也能进入 roster。R 运行峰值 tree RSS 50.77734375 MiB，owned PGID/listener 清理通过。证据为 `notes/battle-unit-selection-bindings-20260723.json`。
 - 2026-07-23 单位资格新增五次受守卫单输入对照：L/R 可从唯一未行动的小樱浏览到已行动佐助和护送目标，说明 roster 不预过滤命令资格；A 只让小樱从 `0x2000→0x3000` 并绑定 actor，佐助/护送目标的 A 均保持 `0x2000`，且单位池、战斗控制区、菜单块零差异。资格层因此位于确认边界，死亡/失能/召唤物与跨关卡差异仍待闭合。最大峰值 tree RSS 50.79296875 MiB，owned PGID/listener 全部清理通过。证据为 `notes/battle-unit-eligibility-bindings-20260723.json`。
-- 2026-07-23 AI 规划器新增三段函数哈希与直接调用库存：`0x080851F8` 枚举候选，在 `0x080855A2` 调用格评分，并只在 `candidate_score > best_score` 时复制 20 字节候选；`0x08085160` 的局部评分已闭合面向 +50、地形 +200/+100 和 `(rng*50)>>15` 扰动；`0x08085610` 证明网格候选有边界/占用/标志过滤和严格择优。目标优先级、伤害效用、任务目标权重及未命名 helper 仍未闭合，不能把局部常量冒充完整 AI。证据为 `notes/battle-ai-planner-static-20260723.json`。
+- 2026-07-23 AI 规划器新增四段函数哈希与直接调用库存：`0x080833A8` 构建
+  `0x02002880` 动态候选场，`0x080851F8` 枚举候选，在 `0x080855A2` 调用格评分，并只在
+  `candidate_score > best_score` 时复制 20 字节候选；`0x08085160` 的局部评分已闭合面向
+  +50、无威胁 +200、面向方向无来源 +100 和 `(rng*50)>>15` 扰动。`0x0201BE2A` 是地图
+  宽度，不是地形标志地址。scenario 41 的 `0x08085590` 运行时捕获进一步证明字段由敌对
+  单位可达站位和伤害动作范围动态生成。helper mode、视线、状态排除和全部碰撞过滤仍未
+  闭合，不能把已证子集冒充完整 AI。证据为 `notes/battle-ai-planner-static-20260723.json`
+  与 `notes/battle-ai-candidate-field-runtime-20260725.json`。
 - 2026-07-23 63 个单位模板新增受 ROM 名称字节约束的显示身份 overlay：55 项逐字确认，8 项 `[22,23,24,25,26,44,53,56]` 明确待二次校字；生成目录已把每个单位的显示身份、基础数值、15 个主动槽、24 个被动槽与 87 主动动作/45 被动项关联。该结果闭合模板成员关系，但不把模板槽误报为任意剧情/等级下的自然菜单资格。证据为 `sequel/content/units/unit-identities.json` 和 `notes/battle-content-catalog-20260723.json`。
 - 2026-07-23 事务边界新增四组原 ROM 哈希绑定证据：scenario 45/50 的三个 B 取消路径对完整单位池、忍具库存和战斗控制区均为零差异；scenario 50 瞬身术只在 `0x8000→0x9000` 时把当前查克拉 `1→0`、坐标 `(5,6)→(3,5)` 和行动标记 `0→16` 一起提交。候选 `ActionDraft` 因而有了运行时依据，但其他成本类型、AI 与失败分支仍未闭合。证据为 `notes/battle-action-transaction-bindings-20260723.json`。
 - 2026-07-23 资源事务新增三组哈希绑定：battle 15 查克拉命令在 `0x3000→0x3210` 把 HP `134→119`、查克拉 `4→5`；battle 13 休息在 `0x3310→0x1220` 把 HP `24→41`、保持查克拉并把行动标记 `0→32`；同一场的十字手里剑在 `0x4100→0x9000` 清除行动单位首个战斗内装备槽 `unit+0xB1`，但不改 HP、查克拉或持久忍具库存区。它证明忍具 loadout/背包与本场可用槽位必须分层建模，但仍不构成通用恢复公式或完整装备槽布局。证据为 `notes/battle-resource-transaction-bindings-20260723.json`。
@@ -54,7 +252,33 @@
 - 2026-07-23 状态 `0x0E` 新增共享 resolver 静态闭环：解析器从主目标活动状态记录 `+4` 读取联动单位，以相同 source/action type/amount 和防递归参数 `[0,0,0,1]` 先递归结算，再回到主目标 HP 分支；这是有序传播而非重定向，不能实现成复制总伤害。其可见玩法名称和自然演出仍保持 unresolved；原始 13 个非 blocker/reaction code 中还剩 12 个 code-specific 行为待闭合。证据为 `notes/battle-status-linked-resolution-bindings-20260723.json`。
 - 2026-07-23 状态 `0x0D` 新增 resolver queue 静态闭环：非反应 event 在解析前依次从 source/target 直接消费该状态且不产生 removed event；target 消费还清 `unit+0xC0` 的 raw bit `0x100`。六个已知 reaction event 跳过此门。状态显示名与 bit 业务名保持 unresolved；连同 `0x0E`，原始 13 个非 blocker/reaction code 已闭合两条操作链，剩余 11 个。证据为 `notes/battle-status-participant-consumption-bindings-20260723.json`。
 - 2026-07-23 AI 状态策略新增整段评分器哈希闭环：15 个查询形成两组 target status-any 门、五组同族 event/status 门和两组 actor 分值惩罚；命中 target 门是跳过对应 event 的分值贡献，不是表现层取消，actor `0x12/0x12` 与 `0x0D/0x0D` 则减配置权重。该矩阵证明 AI 必须共享领域状态，但仍不等于完整目标、伤害、生存或任务优先级。证据为 `notes/battle-ai-status-policy-bindings-20260723.json`。
-- 2026-07-23 AI 目标与效用新增目标索引函数、全评分器和 8×0xA8 配置表哈希闭环：单位槽 1–12 为同/异阵营各建立最低 HP 比例、最大 HP、攻击、防御、敏捷、移动和地图距离七槽，严格更小替换并保留首次扫描 tie；标准异阵营权重为 `[1700,800,800,1300,1000,800,3600]`，同阵营为 `[4200,2000,1000,1000,1000,800,0]`。damage family 先按目标聚合多段预计伤害，再组合 6000/900/3000/100 的伤害、成功率、覆盖和距离效用；配置尾部四个 typed rule 槽实际覆盖 kind 1–5，普通评分最终只加 0–9 RNG。目标优先级、标准伤害效用、关卡规则和 tie-break 已可实现；规则可见名与完整路径 helper 保持中性。证据为 `notes/battle-ai-utility-policy-bindings-20260723.json`。
+- 2026-07-23 AI 目标与效用新增目标索引函数、全评分器和 8×0xA8 配置表哈希闭环：单位槽 1–12 为同/异阵营各建立最低 HP 比例、最大 HP、攻击、防御、敏捷、移动和地图距离七槽，严格更小替换并保留首次扫描 tie；标准异阵营权重为 `[1700,800,800,1300,1000,800,3600]`，同阵营为 `[4200,2000,1000,1000,1000,800,0]`。damage family 先按目标聚合多段预计伤害，再组合 6000/900/3000/100 的伤害、成功率、覆盖和距离效用；配置尾部四个 typed rule 槽实际覆盖 kind 1–5，普通评分最终只加 0–9 RNG。目标优先级、标准伤害效用、关卡规则和 tie-break 已可实现；规则可见名保持中性。证据为 `notes/battle-ai-utility-policy-bindings-20260723.json`。
+- 2026-07-27 AI 配置、候选类型与动作组件纠错：阵型 `unit_parameter` 现在进入单位 `ai_config_id`，battle 1/3/14/20/30 等正式关卡的 config 3/5/4/7/6 typed rule 不再全部退化为默认 config 1；HP/查克拉各只选择增益或保留中的一个分支，component count 只增加 2。后续又闭合候选类型 1/2/3/4（移动/提炼查克拉/休息/已选择动作）、动作描述 kind 1/4/5、effect low 3 的同/异阵营 bank 门、selector 去重、kind 1 聚合伤害单分量，以及 actor 状态惩罚的除法前一次性扣减。event `0x11` 现也已闭合：投影 HP/查克拉都高于一半，或投影位置处于动态敌方伤害威胁场时，复用同一组合减分且不增加分母。effect `0x07` 的末尾奖励也已接入：仅在无 active typed rule、第一条 event 为 `0x07` 且其 raw position mode 选中的落点安全时，分子固定加 8000、分母不变。custom rule 现也不再作为裸最终分数追加：kind 1 的追敌/安全格占两个分量，kind 2–5 各占一个分量，零值规则仍进入分母，所有规则与通用 utility 在 RNG 前共同做一次整数平均。Butano 已撤销把资源候选错误映射到未赋值 `ai_role` 的接线，并复用既有 `battle_ai_candidate_field`，没有另建关卡脚本。证据见 `notes/battle-ai-config-and-projection-runtime-20260727.md`、`notes/battle-ai-action-component-runtime-20260727.md` 与 `notes/battle-ai-utility-policy-bindings-20260723.json`。
+- 2026-07-27 effect `0x07` 的跨关卡集成现已证明它不是只改变一个分数：battle 32
+  的敌方会通过正式 planner 选择安全召唤，并在共享 controller 中新增一个带
+  `summoner` 身份的领域单位，活动单位从 6 变为 7，后续回合仍可继续。94/94 宿主
+  C++、73/73 Python、devkitARM 与静音 battle 9 状态驱动路线通过；ROM SHA-256 为
+  `d2cac529a1a730c29dc3699323987f3d2c29c9e7be428c9f8734bb0682e72d6d`，运行证据在
+  `build/butano-ai-effect7-runtime-20260727-03/`。当前 ELF 遥测地址因 controller
+  增长 48 字节移到 `0x0201FBB4`；旧地址导致的部署页等待已经排除为测试驱动失配，
+  不是战斗黑屏。该路线明确静音，音频撕裂仍未验收；路径 helper 与 custom rule
+  计数在该里程碑尚未闭合，后续条目已继续纠正；完整战斗 Goal 保持未完成。
+- 2026-07-27 custom rule 的整数平均已进一步纠错：原实现把规则权重追加到已经平均和
+  加入 RNG 的最终分数；现在 kind 1 产出两个组件，kind 2–5 各产出一个组件，零值规则
+  也保留分母，并与 actor/action/selector/damage 组件共同做唯一一次整数平均。移动、
+  提炼查克拉、休息、单目标、范围和空地候选复用同一入口。94/94 宿主 C++、74/74
+  Python、devkitARM 与静音 battle 9 状态路线通过；ROM SHA-256 为
+  `bf2fce14d2fd51c3855261663bb010f7350cd48c02ee545c09f534b7a08543c3`，运行证据在
+  `build/butano-ai-custom-rule-count-runtime-20260727-01/`。音频仍未验收，
+  完整战斗 Goal 保持未完成。
+- 2026-07-27 `0x08083AF4` 已闭合为 battle-ID 驱动的地图拓扑距离，而非通用寻路：
+  47 张地图各有 8×16 字节路由记录，kind 1/2 描述纵横屏障通道，kind 3–6 处理
+  map 5/17/23/24/37 的固定转换或 lookup。Butano 复用正式 map loader 保存 battle ID，
+  目标索引、queued-event 距离效用、关卡追敌进度和目标推进共用
+  `battle_map_topology_distance`；移动路径仍由既有 `grid_pathfinder` 负责。94/94 宿主、
+  78/78 Python、ARM 与静音 battle 9 路线通过；ROM SHA-256 为
+  `e2640373df503bc96ee953a1e3c10d99ccbaf6c0b2de406f5b8fb314eca85bde`。
+  音频仍未验收，完整战斗 Goal 仍因表现和剩余跨关卡语义保持未完成。
 - 2026-07-23 动作模板语义新增两套初始化器、目标资格、事件构建、资源门与 63 项 resolver 跳转表的哈希闭环：87 条主动动作和 94 条忍具均生成同一运行时描述，`+0/+1/+2/+3` 分别是成本、显示/动画、效果代码+flags、目标策略+flags；成本已区分查克拉、HP、无标量特殊动作和战斗内忍具槽，目标已区分自己/友军/敌军/占用单位/空格。所有非空模板都能按低 6 位解析到 `0x08076F44` handler，Butano 必须生成独立 Cost/Effect/Target/Range/Upgrade 策略并使用共享 registry，不得按截图或动作名写分支。证据为 `notes/battle-action-template-semantics-bindings-20260723.json`。
 - 2026-07-23 Butano 领域重写首个闭环已落地：`generate_butano_battle_action_content.py` 生成 87 条主动动作与 94 条忍具的正交定义，`generate_butano_battle_unit_content.py` 生成 63 个角色的基础数值及 15/24 个动作槽。scenario 41 已删除固定 80 伤害，改从角色 1/30 与动作 5 的 ROM 表实例化；玩家和 AI 共用 `battle_action_resolver`，敌方接近后会真实造成 5 HP 伤害。新状态库实现每单位 16 个活动槽+16 个 removed-event 槽、低 6 位替换/移除、side-end tick 与写轮眼首有效 hit 截断。宿主 19 个 C++ 测试程序全部通过；这仍是领域基础，不代表完整 handler、AI utility、复合目标与多关卡表现已完成。
 - 2026-07-23 状态 `0x13` 新增数值与生命周期闭环：effect type `0x14` 读取 source 活动状态记录 `+6` 低字节，加入模板 hit count 后写入 event `+0x12`；配对 handler 先共享解析，再以 mode 1 移除状态并产生 removed event。原 ROM 未检查 lookup `0xFF`，新内容生成必须把所需状态路径作为构建期不变量，不能复刻越界。显示名和其余消费者仍 unresolved。证据为 `notes/battle-status-hit-count-modifier-bindings-20260723.json`。
@@ -304,7 +528,7 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
 | 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
 | 章节流程入口 | ✅ 两链已闭合 | `0x60C74/0x60D54` 两张 56 项脚本表；primary scenario 39→`0x31020`→三字节 `SetBattle(40,2)` 后接独立 `End`；alternate scenario 39→`0x31281`→25 次 dispatch→`0x3142E` opcode `00` 正常终止，均有 runtime 证据 |
-| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 地图画布、62×9 角色战斗视觉矩阵的 342 个有效槽/250 套唯一资源、12/12 regular BG 场景画布、9 组角色场景视觉包、217 条音频 track blob、79 个 pointer-reachable WAV 和 80/80 整曲 PCM 已导出；screen compositor、track opcode 和 cue 语义命名仍未全部完成 |
+| 资源提取（图片/音频） | ⚠️ 部分 | 47/47 地图画布、62×9 角色战斗视觉矩阵的 342 个有效槽/250 套唯一资源及 2004/2004 去重源空间帧、12/12 regular BG 场景画布、9 组角色场景视觉包、217 条音频 track blob、79 个 pointer-reachable WAV 和 80/80 整曲 PCM 已导出；screen compositor、屏幕空间角色合成、track opcode 和 cue 语义命名仍未全部完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
 - episode-01 剧情源稿细化
@@ -333,7 +557,7 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
 **状态：✅ 已完成**
 
 **现状：**
-- Tile 描述表 `0x596D5C` 已完整分析（312行×16字节，每行含 tile data/attribute/layout/palette 4 个指针）
+- `0x596D5C` 已纠正为 62 角色×9视觉槽的战斗 OBJ 表；旧 312 行地图 tile 结论已撤销。
 - tilemap 布局数据（2D 瓦片 ID 网格）已定位！
 
 **发现：**
@@ -664,10 +888,7 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   追踪的 map `flags`/渲染配置字段；旧 bank 现为空且禁写。
 - 历史 `cutscene-scripts@0x53DF70` 已修正为两个相邻的四记录视觉资源表：
   `0x08072EDC` 按 ID 0..3 解压 gfx/palette，并把第二组 pair 交给 sprite task，
-  因此升级为 code_verified，但不再作为剧情脚本证据。`cutscene-obj-v1` 已导出
-  4 张 atlas、10 张静态 frame 和 10 份动画 timeline；自然 loader 的 flags `0x08`、
-  16 位 timer 与终止策略证明四条 animation 0 持续 1 次 renderer 更新，其余六条
-  持续 65,536 次后停用。单 task 时序已闭合；调用者整体清理和最终屏幕合成仍未完成。
+  因此升级为 code_verified，但不再作为剧情脚本证据。
 - 历史 `battle-encounters@0x542384` 已纠正为从真实 `0x54229C` 视觉资源表
   第14条 `+8` 处开始的错位切片；真实24条记录由剧情 opcode loader 消费，
   每条三条 LZ77 流，因此升级 code_verified，旧 editor 行禁写。
@@ -713,11 +934,9 @@ wall/idle timeout 和精确 owned-tree 清理；runtime 的实际入口是
   与 `notes/story-scene-timelines-export-20260729.md`。
   紧邻 `menu-ui` 之前的 `0x085A4CE8` 也已闭合为 9×`0x1C` 角色场景视觉包：
   9 张 8bpp 紧致背景、9 组 4bpp OBJ、18 张双 palette atlas 和 16 张 definition
-  frame 已进入 `scene-visual-packs-v1`。进一步由 spawner `0xA0` flags、allocator
-  活动位、16 位 timer 和 `0x20` 终止策略证明：16/16 animation 的零 duration
-  会在 65,536 次 renderer 更新后回绕并循环同号 frame；116 个文件（含 16 份编辑器
-  timeline JSON）由独立 verifier 复核。OBJ frame、palette bank 和 animation 时序
-  已闭合，最终 viewport crop 与 screen-space composition 仍保持未完成；证据见
+  frame 已进入 `scene-visual-packs-v1`，100 个文件由独立 verifier 复核。OBJ frame
+  集合与 palette bank 已闭合，但零值 animation 时序、最终 viewport crop 和
+  screen-space composition 仍保持未完成；证据见
   `notes/scene-visual-pack-export-20260729.md`。
   紧接的 `0x085A8014` 已闭合为 3×`gfx/map/palette` 世界地图背景表：
   三张 8bpp、512-tile、240×160 完整画布与三条 `0x10` 编码标签已进入
@@ -882,6 +1101,1257 @@ WebSocket
   从生成内容实例化，玩家教程动作与敌方六动作 loadout 进入共享 resolver/AI；mGBA 完整 2580 帧
   路线通过。ROM SHA-256 `aefce90b11fcf9f41a7442ed73b36e69b3c5986be2a00a98cb8b6ecfd5c91b0d`。
   这只完成了领域基础与单关运行闭环，剩余 handler、多目标、完整 AI/condition 和跨关卡场景继续推进。
+- 2026-07-24：通用领域主链继续完成多目标原子结算、AI 多事件评分、多玩家/多敌槽序调度、
+  单复制/身份变体/成对召唤、完整非空主动与忍具 effect handler 映射、32 槽战场对象和
+  `evaluate_session` 条件入口。跨系统测试已经覆盖 scripted 护送死亡 loss 与双敌范围击杀 win；
+  scenario 41 签名 mGBA 2580 帧路线仍可完成。当前 ROM SHA-256
+  `d706dae121a73437bfee998aa4dab90ba7a5f667a37668a09d170f025700ebcd`。
+  下一里程碑转向 47 场地图部署/脚本触发及失败、结果 5 等可见结算，不再扩展 scenario 41
+  专用固定分支。
+- 2026-07-24：`generate_butano_battle_scenario_content.py` 已把 47 场地图尺寸/标记和
+  47×3×12 初始编队生成到 Butano 固定表；原子加载器保留 `0xFA..0xFF` 动态部署占位符，
+  未显式绑定时拒绝进入。battle 15 已用 9 个真实单位通过“三名玩家完成行动 → 敌方击倒
+  角色 30 护送对象 → condition loss”的跨系统测试，scenario 41 也改为消费生成编队而非
+  手写单位。39 个宿主程序、68 项定向 Python 回归、ARM 构建和 2580 帧 mGBA 路线通过；
+  ROM SHA-256 为 `07ea2e47d4b878078fa107cf1300dd77c12a52e9d9e0b7d9ad7852f669cc2f6a`。
+  47 场地图与编队不等于 47 场可游玩；下一步仍是地图 tile/对象实例、章节脚本、动态部署 UI
+  与失败/特殊结果的可见接入。
+- 2026-07-24：修正 resolver 把效果结算与单位完成合并的伪回合流程，落地两阶段行动提交。
+  移动、资源和效果先原子进入 `effects_resolved`，condition 可在这里抢占胜负；未结束时才
+  依次进入朝向、防御和单位完成。玩家与 AI 共用 `battle_turn_flow`，battle 15 已验证三名
+  玩家逐单位完成后切敌方，以及护送目标死亡在敌方尾部前直接 loss。41 个宿主 C++ 程序通过。
+  当前防御准备只完成选择存储；防御动作对后续来袭的完整反应消费仍未完成，不能据此宣称
+  防御、多段、反击和到期规则已经功能等价。41 个宿主 C++、70 项定向 Python（1 skip）、
+  ARM 构建和 mGBA 2580 帧路线通过；ROM SHA-256 为
+  `930fd83f4858c203142456cdb4368855a14f70d0ac3900e38a33a5ae487c786c`，运行证据见
+  `artifacts/butano-action-tail-runtime-20260724-1907/`。
+- 2026-07-24：防御准备已从账本占位升级为领域事务。预览零写入，提交原子复核来源类别、
+  动作资格、成本、忍具 ID/槽位和状态容量，再建立一次性反应令牌。写轮眼 `0x10` 已实现
+  “跳过 miss、首个有效 hit 替换并截断、一次消费”；火弹 `0x19` 已实现相邻来袭时由
+  防御者反向结算攻击者，结果携带 source/target/伤害/击倒子事件，非相邻时不触发也不消费。
+  主动术与忍具身份独立保存，表现层不写 HP。`0x04/0x09/0x0A/0x16/0x22` 仍保持明确
+  unsupported，等待独立运行时证据；scenario 41 尚无防御动作 UI，不能用其无防御路线
+  冒充写轮眼/火弹的可见验收。43 个宿主 C++、75 项定向 Python（1 skip）、ARM 构建和
+  mGBA 2580 帧无防御路线通过；ROM SHA-256 为
+  `dc9ecc36c033904502a78e73b5143e4b1eba752f2246923e74260ca83593d992`，运行证据见
+  `artifacts/butano-defense-runtime-20260724-1932/`。
+- 2026-07-24：防御浏览器已改为内容驱动。单位实例等级通过角色定义筛选 15 个主动动作槽，
+  再追加 4 个本场忍具槽；所有条目共用防御事务预览，进攻术可浏览但不能确认。scenario 41
+  现在显式提供“不使用/浏览动作”，浏览鸣人等级 1 的 action 2、5、7，非法确认不推进回合，
+  B 返回确认页；默认“不使用”继续兼容既有无隐藏输入路线。活动战场 UI 由领域 snapshot
+  驱动，但入口、教程、结果等参考 BG 仍只是表现资产，后续必须继续拆除，不能据此宣称完整
+  战斗架构或 47 场已实现。44 个宿主 C++、76 项定向 Python（1 skip）、ARM 构建和
+  mGBA 2580 帧路线通过；ROM SHA-256 为
+  `bd3d0437e6119ed1695241e53343b76bbf4f5f57f6bd46444a7ad82c3d89c782`，运行证据见
+  `artifacts/butano-defense-browser-runtime-20260724-1949/`。
+- 2026-07-24：动作目录与防御目录不再各自重建技能列表，统一消费角色实例等级、15 个主动
+  槽和 4 个本场忍具槽。loader 可显式保留原 ROM 的 12 个稳定单位槽，scenario 43 的四个
+  部署单位加八个 inactive reserve 已通过影分身集成测试：action 7 预览零写，提交把查克拉
+  `5→2` 并将槽 5 原子转换为带 summoner/位置/账本的召唤实例；占用格、无 reserve 和容量
+  不足均保持会话不变。scenario 41 教学 action 5 也改为从共享目录按关卡规则查找。该结果
+  仍是 scenario 43 宿主领域闭环，不是可见关卡完成，下一步继续接通用玩家控制器、地图和
+  动态单位表现。46 个宿主 C++、77 项定向 Python（1 skip）、无警告 ARM 构建和 scenario
+  41 mGBA 2580 帧回归通过；ROM SHA-256 为
+  `3d0ccc916c147ca69077b3c5365e4e3a2e249765423a3bce5cce1ba5a030c209`，运行证据见
+  `artifacts/butano-action-catalog-runtime-20260724-2007/`。
+- 2026-07-24：玩家侧 action→target→facing→defense 已收敛到
+  `battle_player_action_flow`。scenario 43 的 action 7 受限列表、非法/合法目标、影分身
+  原子提交、朝向、无防御和切敌方走完同一 flow；完整角色目录仍独立保留。scenario 41 的
+  玩家侧选术、目标、结束行动、朝向和防御也改为委托 flow，facade 不再直接提交玩家伤害
+  resolver。敌方 AI 编排、补充查克拉/休息与 scenario 43 可见场景仍未接入，不能据此签发
+  完整 BattleController 或跨关卡可玩结论。47 个宿主 C++、78 项定向 Python（1 skip）、
+  无警告 ARM 构建和 scenario 41 mGBA 2580 帧回归通过；ROM SHA-256 为
+  `73399f83f7271f6fa5cf5523c65a4ed2e2769d6ff40a62a64d0ac20eb594dbde`，运行证据见
+  `artifacts/butano-player-flow-runtime-20260724-2023/`。自动路线静音，未签发音频听感。
+- 2026-07-24：敌方单位 action→target→facing→complete 已收敛到
+  `battle_ai_turn_flow`。它从角色等级、15 个主动技能槽和 4 个忍具槽生成合法候选，在
+  session/RNG 副本中完成规划、移动、效果、condition 和回合尾，失败时零提交；候选保存
+  主动技能/忍具来源及 tool slot，同 ID 忍具可被准确执行和消耗。scenario 43 的固定 12 槽
+  敌方行动通过，scenario 41 facade 已删除敌方 planner/resolver/turn-flow 直连。AI 防御、
+  补充查克拉/休息、真实地图碰撞与跨关卡可见场景仍未完成。48 个宿主 C++、80 项定向
+  Python（1 skip）、无警告 ARM 构建和 scenario 41 mGBA 2580 帧回归通过；ROM SHA-256
+  为 `40d848752d13dbc3c78ead6e571a2af94f6f2a84446e788e457f36b1c7aa1b1f`，运行证据见
+  `artifacts/butano-ai-turn-flow-runtime-20260724-2043/`。自动路线静音，未签发音频听感。
+- 2026-07-24：玩家基础指令已收敛到同一个 command flow。移动、术/忍具、补充查克拉、
+  休息和行动结束按单位账本与资源动态查询；移动和资源预览零写，确认在 session 副本中
+  原子提交。原 ROM 静态控制器与跨角色 checkpoint 证明每点查克拉成本为角色
+  `hand_seals`、HP 至少保留 1，休息量为 `floor(max_hp / 5)`，不再把样本 15/17 当常量。
+  scenario 41 已删除移动/取消的 session 直连，教程 policy 在移动后自然只显示 ability/end；
+  资源命令由同一宿主 flow 跨场景验证，但不会为了展示而硬塞进本关菜单。AI 资源策略、真实
+  地图碰撞、章节脚本、结果表现和 scenario 43 可见场景仍未完成，因此不能称完整功能等价。
+  50 个宿主 C++、79 项定向 Python、无警告 ARM 构建和 scenario 41 mGBA 2580 帧回归通过；
+  ROM SHA-256 为 `e40b0dab010af7ba777dfcb693e920cab4b0f841a2f6c60196ec5208ae31dbb2`，
+  运行证据见 `artifacts/butano-player-command-runtime-reviewed-20260724-2142/`。自动路线静音，
+  未签发音频听感。
+- 2026-07-24：真实地图内容与占用层已进入通用运行时。47 个 ROM collision stream 共
+  12,151 个原始 word 生成到固定内容表；`battle_map_loader` 原子物化地形并从
+  `BattleSession` active unit 集中叠加占用。scenario 41 删除六个手写截图障碍，scenario
+  43 通过同一 row 43 地图加载四个活动单位和八个 reserve。活动背景不再从截图清人，而是
+  从 ROM tile/palette/layout/metatile 重建，岩石和地面阴影得到保留。`0xF` 已作为完全封闭
+  格接入；`1/3/7` 部分属性保持原值，不再错误扁平化，但当时其原版递归特殊规则和 AI
+  排序尚未运行时闭合。该历史边界现已由 2026-07-26 地形被动里程碑取代；scenario 43
+  在当时仍不能称可见可玩。52 个宿主 C++、
+  定向 Python、无警告 ARM 构建和 scenario 41 mGBA 2,580 帧回归通过；ROM SHA-256 为
+  `674fce2a9f51577c758ecb1720f6cdf5a7df92bcb83995f038e0df296b762709`，运行证据见
+  `artifacts/butano-map-runtime-20260724-2216/`，自动路线静音。
+- 2026-07-24：scenario 41 与 43 已收敛到同一个 `battle_encounter_runtime`，前者不再拥有
+  独立 session/map/player-flow/RNG。新增 `battle_scene_controller` 只发领域命令和生成
+  snapshot，`battle_scene_presentation` 只消费一次性动作事件；scenario 43 可见运行闭环已
+  覆盖 4 个初始活动槽、action 7 影分身激活槽 5、查克拉 `5→2`、三名敌人逐单位行动以及
+  `ROUND 2 PLAYER`。AI 空地目标搜索按技能射程裁剪，ARM 规划器建立非内联边界；原先
+  `0x2CE4` 的巨型回合执行器缩为 `0x0AE8`，消除了返回地址跳入 IWRAM 栈和 ROM 复位。
+  scenario 41 的共享 runtime facade 同时从函数栈迁入 EWRAM 并在进场原地重建，修复了
+  接入共享工作区后停在战斗入口的问题；41 关 2,580 帧完整路线与 43 关第 2 回合路线均通过。
+  最终 ELF 使用 `.iwram` 8,840 字节、IWRAM `.bss` 2,168 字节和 EWRAM `.sbss`
+  70,748 字节。
+  55 个宿主 C++ 与 69 项定向 Python（1 skip）通过，ARM 构建无代码 warning/error；
+  ROM SHA-256 为 `8085dffcd7df4aeae0d6b07a31d27885f5f0f292ac4a67510596f95594e7aa5c`。
+  证据见 `artifacts/butano-shared-runtime-scenario41-20260724-02/` 和
+  `artifacts/butano-shared-runtime-scenario43-20260724-17/`。自动路线静音，未签发音频
+  听感。该里程碑证明第二场战斗可复用架构，不代表 scenario 43 最终美术/章节脚本、
+  AI 资源与防御策略、部分碰撞语义或 47 场可见关卡已经功能等价。
+- 2026-07-25：可见战斗 adapter 已从 scenario 43 专用实现收敛为
+  `battle_runtime_scene<Width, Height>`，row 43 与 row 9 共用输入、snapshot renderer、
+  presentation、摄像机、动态活动槽和 OAM 预算。row 9 使用 ROM 重建的 16×32 地图并完成
+  3 名玩家逐个移动/结束行动、5 名敌人逐个 AI、第二回合返回；row 43 保持 action 7
+  影分身、活动单位 `4→5`、三敌行动与第二回合。两条 mGBA 路线均从现为 96 字节的 EWRAM
+  controller 遥测驱动，不再用固定截图时刻代替状态证据。
+  运行中发现并修复 16×32 pathfinder 临时数组覆盖 IWRAM 栈，以及 12 单位 HUD 超过
+  128 个 OAM sprite 两个 ARM 专属故障；最终 `.iwram` 8,840 字节、IWRAM `.bss`
+  2,172 字节、EWRAM `.sbss` 122,732 字节。57 个宿主 C++ 通过，ARM 构建无代码
+  warning/error，scenario 41 的 2,580 帧教学/技能/胜利/结算/战后路线也保持通过。
+  最终 ROM SHA-256 为
+  `f207a593eed29633b46368ea5792c3085e8bbc737d86c87ab73cb49f726ffb2c`，
+  ELF SHA-256 为
+  `f82fbcd2abc03ae699a202d70ff5f767c720b0e54d28e833ee7ca9752708759b`。
+  多单位证据见 `artifacts/butano-generic-scene-battle09-state-final-20260725-03/`，
+  分身证据见 `artifacts/butano-generic-scene-s43-final-20260725-05/`，41 关回归见
+  `artifacts/butano-generic-scene-scenario41-final-20260725-01/`。自动路线静音，未签发
+  音频听感；最终角色美术/逐技能表现、章节部署/脚本、AI 资源与防御策略、部分碰撞语义、
+  特殊目标和其余关卡仍未完成，不能宣称全游戏功能等价。
+- 2026-07-25：角色与技能可观察架构已接入既有
+  `loadout → catalog → browser → player flow → controller snapshot` 链路。生成内容提供
+  63 个角色身份、87 个主动技能身份和所需中文 sprite font；renderer 不按角色 ID 重建
+  菜单，也没有 resolver/session 写入口。row 9 现在显示鸣人、佐助、樱的真实姓名、等级、
+  属性和各自完整等级 1 技能目录；宿主集成在同一个 controller 中证明鸣人动作 2 瞬移、
+  樱动作 1 生成 reserve 分身并使活动单位 `8→9`，佐助 `[2,5,16]` 可逐项浏览。
+  初版完整动作定义和 snapshot 按值复制导致 ARM 目标确认 IWRAM 栈溢出，最终以 10 字节
+  动作投影、const snapshot 和仅捕获 action ID 修复；96 字节 EWRAM 遥测保持旧字段偏移并
+  增加角色/动作观测。受守卫路线
+  `artifacts/butano-character-actions-b09-20260725-03/` 于第 994 帧返回第 2 回合，
+  battle 09、scenario 43 和 scenario 41 既有路线均回归通过。ROM SHA-256 为
+  `42e0f29ad4ab05a9205e2d890ea34dd5575fc5c25f2278cdcc8616f2e7a79f64`，ELF SHA-256
+  为 `ffeec790ac2b494942689f15c2fc91e6bb48ebc07b3fca9aa6410f5975ea03d0`。自动 mGBA
+  静音，不签发音频；角色专属 sprite/逐技能演出、AI 资源与防御、章节部署和其余关卡仍
+  未完成，不能宣称全游戏功能等价。
+- 2026-07-25：45 条被动成长记录和角色 24 槽被动状态已接入通用单位模型；首批有 ROM
+  动态闭环的 type `0x0C` 会心与 type `0x19` 无视防御进入逐 hit resolver，按
+  “基础命中→条件会心→条件无视防御”抽 RNG，并在每个 hit 保存 flag。其他 target type
+  仅完成内容与查询，不猜测消费者或显示名。被动状态增长同时暴露两层 ARM 历史栈问题：
+  scenario/map 加载候选和行动事务在调用链上多次复制完整 session，SP 曾降到
+  `0x030029B8/0x030027F8/0x030025B4` 并覆盖 Maxmod `mp_mix_seg=0x03002970`，从而同时
+  造成音频撕裂和战斗黑屏。现由 `battle_encounter_runtime` 的 EWRAM load/transaction
+  workspace 统一承载候选，内层 resolver/turn-flow 使用同一候选的 `*_in_place` 入口，
+  保持失败零提交。battle 9 完整状态路线在第 996 帧返回 round 2，活动单位 9；scenario
+  43、battle 9 多单位基线和 scenario 41 均回归通过。20 帧写监视只见 Maxmod 自身
+  单字节 `00/FF` 翻转，未再发生 4 字节栈覆盖。60 个宿主 C++ 程序及 ARM 构建通过；
+  `.iwram` 8,840、IWRAM `.bss` 2,172、EWRAM `.ewram` 224、`.sbss` 169,960 字节。
+  ROM SHA-256 为
+  `02cd264c7fa3b9c4efd86559cfebb56bafe99da4a9a18dec7750166faf6d7080`，ELF SHA-256
+  为 `91cb32ac39acb713e84940883561484db170209532085d58b3ff7d472c36e140`。主验收证据见
+  `artifacts/butano-action-workspace-runtime-b09-full-20260725-26/`，音频内存监视见
+  `artifacts/butano-action-workspace-runtime-b09-audio-watch-20260725-27/`。自动 mGBA
+  静音，只确认音频内存未被战斗栈破坏，不签发主观听感；剩余被动消费者、角色专属美术/
+  逐技能演出、AI 资源/防御、章节脚本与其余关卡仍未完成。
+- 2026-07-25：新增全战斗 `battle_content_catalog`，统一校验并查询 47 场、141 个变体；
+  其中 85 个非空、41 个需要部署、56 个为空。目录交叉验证地图切片/碰撞/编队、62 个有效
+  角色、82 个有效主动术、93 个有效忍具、44 个非零被动以及 condition type
+  0/1/2/3/6/7/8/9，并在编译期和 foundation self-test bit 5 失败关闭。通用可见场景现从
+  单个 `battle_content_entry` 同时取得 scenario/map/conditions，不再分别索引三张表。
+  61 个宿主 C++ 测试、Butano 接线测试、Docker ARM 构建，以及 battle 9、scenario 43、
+  scenario 41 三条静音 mGBA 路线通过；ROM SHA-256 为
+  `43bf8c18bdfe492b066d35b09593a7e7567ccc110b1b51583bdd9b2f5c98809f`，ELF SHA-256 为
+  `be96776c775523cab1ef783cb07b6cb0942a94e6614a16692277d81686aa46d5`。该里程碑只闭合
+  内容一致性和通用入口，不代表 47 场已经可玩；动态地图表现、部署 UI、角色/技能专属演出、
+  剩余规则消费者、AI 策略和章节脚本仍未完成。
+- 2026-07-25：通用可见场景补回原作“逐条确认编队记录 → START → 玩家回合”的部署阶段。
+  `battle_deployment_flow` 与最终 loader 共用 selector 解析，固定编队与动态占位编队不再由
+  scene 重复解释；A/B 支持前进/退回，未绑定 `0xFA..0xFF` 在 controller 创建前失败。
+  集成回归还修复了 START 的 A 键边沿串入首个玩家指令，以及释放等待不推进遥测造成脚本/
+  运行时互等的问题。battle 9 遥测逐条确认 8 单位，scenario 43 确认 4 单位，两者随后分别
+  以 9/5 活动单位进入 round 2；scenario 41 完整路线也通过。62 个宿主 C++、39 项定向
+  Python（1 skip）和 Docker ARM 构建通过。ROM SHA-256 为
+  `6b0fd4aa24848117e774d096074581f2cea2979a1c9b730152b2fb800239087c`，ELF SHA-256 为
+  `a8560acba869167fb67de52161d8f2d58c4bb52874d028acd9b921e1740d8cee`。当前只完成固定
+  roster 的可见确认和动态占位领域解析，章节队伍/选人换装 UI 与 41 个动态部署入口仍未完成。
+- 2026-07-25：战斗网格已从“模板尺寸等于关卡尺寸”改为 23×32 固定容量加运行时活动边界。
+  47 张地图的 23 种尺寸全部可由同一 `battle_runtime_grid` 物化，85 个非空变体（含显式
+  绑定的 41 个动态部署变体）全部由同一 `battle_runtime_controller` 装载；cursor、寻路和
+  AI 搜索均不能进入 padding。battle 9/43 不再各持一套尺寸专用控制器，ARM `.sbss` 从
+  169,960 降至 129,612 字节。63 个宿主 C++、23 项定向 Python（1 skip）、Docker ARM
+  构建及 battle 9、scenario 43、scenario 41 三条静音 mGBA 路线通过；battle 9/43 分别在
+  第 1329/1379 帧以 9/5 活动单位进入 round 2，scenario 41 于第 2580 帧完成。ROM
+  SHA-256 为 `b80e76599d70b655afaadcca75859ca67d862bac252072e5b4672aaf58bac068`，
+  ELF SHA-256 为 `0fa5748a75e6bf893a0b8ca7a3c21be83ea7ea9faed829d1e9916e5ff3e8c683`。
+  这只闭合全部关卡的逻辑地图入口；23 格宽地图为 736px，下一里程碑必须实现对应 ROM
+  视觉地图的分块流送，不能用现有背景冒充。
+- 2026-07-25：超过 regular BG 512px 上限的原作战场已有通用分块流送。生成器从
+  `rom/base.gba:map-row-11` 产出 544×480 全图的两个 512×512 重叠块（origin 0/32）和
+  source-hash manifest；`battle_background_stream` 按 camera viewport 选择分块，
+  renderer 用 `set_item()` 释放旧 VRAM 资源并保持世界坐标。battle 11 继续复用同一部署、
+  23×32 controller、技能和 AI 链，状态驱动 mGBA 在第 377 帧确认 5 个活动单位、move
+  phase、cursor 往返和 chunk `[0,1,0]`。battle 9/43 分别于第 1332/1380 帧回到 round 2，
+  scenario 41 第 2580 帧完成。64 个宿主 C++、28 项定向 Python（1 skip）及 Docker ARM
+  构建通过；`.sbss` 129,620 字节，总 ELF section 14,886,908 字节。ROM SHA-256 为
+  `065acbc9dccd452a5b9d1ae6e22560fcd08f3709c2de64c5a7ae8f1f41ab129b`，ELF SHA-256
+  为 `cf76684bda74c8d4f93842225ff6c9673271fa9092d6de7026d00c75e6003648`。该里程碑证明
+  大地图视觉适配器，不代表其余 46 张背景已全部打包，也不代表角色专属美术、章节脚本或
+  剩余战斗规则已完成。
+- 2026-07-25：47 张原作战斗背景已全部从各自 ROM map row 确定性生成并进入唯一
+  `battle_background_catalog`，共 49 个 Butano regular-BG 分块；battle 0/11 为双块，
+  其余 45 张为单块。通用 renderer 现在只按 battle ID 查询背景内容，并交叉验证
+  scenario 格数与像素尺寸，battle 9/11/43 wrapper 不再硬编码任何图片头、尺寸或 origin。
+  49 项资源全部通过 Butano converter 和 ARM 链接，最终 ROM 为 6,921,928 字节，
+  `.sbss` 129,620 字节，总 ELF section 16,233,173 字节。64 个宿主 C++ 和 106 项相关
+  Python（1 skip）通过；battle 11 遥测确认 chunk `[0,1,0]`，battle 9/43 分别以 9/5
+  活动单位进入 round 2，scenario 41 第 2580 帧完成。ROM SHA-256 为
+  `f5c79ffe8616bbeaea87ba36519abf8f9dcfff84fef5ca398daf62b7e9b127cc`，ELF SHA-256 为
+  `cef0f451d03e80b05ab53021ab4948e767bd4c02f4aa250e2e60124c53710ee1`。这闭合的是全地图
+  视觉内容层，不等于 47 场都已有章节入口或完整玩法；41 个动态部署入口、对象/章节脚本、
+  角色专属 sprite、逐技能演出、结算表现和剩余规则消费者仍在 Goal 范围。
+- 2026-07-25：可见运行时已从 fixed-roster-only 改为公开
+  `battle_runtime_scene_request`；章节可显式注入六个 `0xFF..0xFA` placeholder、角色等级
+  和 scripted control，同一 policy 同时供部署预览和最终 controller load 使用。battle 32
+  注入夹具逐条确认 `[1,2,3,35,35,35]`，6 个活动单位完成三名玩家、三名 AI 并在第 1392
+  帧进入 round 2。首轮运行同时发现 empty-tile AI 会把移动术目标选进 ROM 全封闭格，随后
+  occupancy 重建失败、敌方回合永久停在 2/3；现已让 AI 规划和玩家确认共同拒绝 cost 0、
+  全封闭和已占用目标格。65 个宿主 C++、109 项相关 Python（1 skip）、ARM 及 battle
+  9/11/43、scenario 41 回归通过。ROM SHA-256 为
+  `209c095031df613576a2c066f71b32ead5e60be72513ec6ea8b158ad0bcfefea`，ELF SHA-256 为
+  `2258f62beb36c1d4b84c85d01388a8092a967e04d3266caf54f343e757cc8065`。接口已能承接
+  动态章节队伍，但 41 个入口的真实队伍来源/选人 UI、章节脚本、对象行为和专属表现仍未完成；
+  fixture 映射不得当作原作内容。
+- 2026-07-25：`generate_butano_battle_unit_visual_content.py` 已把 ROM
+  `0x596D5C` 的 62×9 稀疏战斗视觉表生成成 62 个角色待机 sprite、可审计 JSON 和
+  `generated_battle_unit_visual_content.h`。通用部署/战斗 renderer 由
+  `character_id` 选择资源和 ROM 锚点，不再把所有玩家画成鸣人、所有敌人画成同一敌人。
+  inactive 脚本空槽使用 optional sprite，召唤激活时创建、退场时释放、身份覆盖时
+  `set_item()`；这同时修复了 battle 9 空槽 ID 255 在场景切换时触发断言的问题。battle
+  32 截图验证鸣人、佐助、小樱和角色 35，完整路线到 round 2；battle 9 的召唤后 9 单位、
+  scenario 43、battle 11 分块和 scenario 41 均回归。最终 ROM 为 6,995,284 字节，
+  SHA-256 为 `97677fab0c5afc860286db3db95a469917e82a7b5c03d1626eed5b388435a899`。
+  当前只恢复待机帧；其余视觉槽的移动/朝向/受击/技能/胜利时间线仍未完成。
+- 2026-07-25：动作显示内容新增连续 0–93 的 94 条忍具身份目录，攻击与防御选择器按
+  主动术/忍具来源分别查询名称，名称不参与领域分派；地址攻略关联但尚未逐字确认的条目继续
+  显示 `?`。关卡 load policy 同时新增每角色四个本场忍具槽，loader 会验证后原子写入
+  `UnitInstance`，非法忍具 ID 不污染已有 session。静音 mGBA 在
+  `artifacts/butano-complete-action-identities-b09-20260725-01/` 证明鸣人菜单第 4 项为
+  忍具来源、槽 0、ID 1 十字手里剑，并完成首轮返回 round 2。66 个宿主 C++ 与无警告 ARM
+  构建通过；ROM SHA-256 为
+  `a08eb07626563df9a1506afd0bcfcd60fa0d0ec3ef815d2b00fa50cbab04f6fc`。battle 9 的装备是
+  接线夹具；真实章节装备来源、换装/补充 UI、AI 资源/防御、章节脚本和结果演出仍未完成。
+- 2026-07-25：AI 动态候选场与朝向评分已接入通用 planner。`AiCandidate` 保存候选朝向
+  和动作后评分位置；同一站位先按动作效用严格择优，最终本地候选再按原作已绑定的
+  同向 `+50`、无威胁 `+200`、面向方向无来源 `+100` 与 0–49 RNG 参加站位间候选场
+  严格比较。`battle_ai_candidate_field_builder` 从敌对单位可达站位、可用伤害动作和范围
+  构造独立字段，不再把 `grid_map::flags` 冒充原版评分输入；执行阶段直接提交
+  `plan.facing`。原版 scenario 41 的 9×22 字段与移动 3 + 距离 1 的曼哈顿半径 4 精确
+  对应，关键格为 `0x11/0x81/0xF1/0x21/0x41`。独立字段版本的 68 个宿主 C++、
+  77 个 Python（另 1 条件跳过）和无警告 ARM 构建通过；静音 mGBA battle 9 于 frame 1167
+  以 9 个活动单位进入 round 2、phase 1。产物位于
+  `artifacts/butano-ai-candidate-field-b09-20260725-02/`，ROM SHA-256 为
+  `a5453fb428a6636c6c290668382b647f7f97603f5d5557099dcacfb6f39ca0b0`。回归还修复了
+  空格动作把行动者腾出的原格误判为占用的事务接线。helper mode、视线、状态排除、
+  AI 防御/资源策略、章节脚本和结果结算仍未完成。
+- 2026-07-25：战斗结算已从 scenario 41 的 `100/50/150/LV2/HP+14` 固定字段迁移到
+  通用领域链。formation `+0x0C` 进入单位携带经验，击败时由 resolver 转移给攻击归属；
+  48 条场景映射、112×24-byte 奖励、63 条等级阈值和 63 条角色成长均由原 ROM 提取生成。
+  controller 按 `outcome -> result -> level_up -> complete` 执行 preview、经验写入和升级
+  三次事务，当前主路径 renderer 只读显示。静音 mGBA
+  `artifacts/butano-battle-results-s41-20260725-315/` 在 round 2 动态得到
+  `100+50+25=175`、鸣人 `LV1 EXP100 -> LV2 EXP25`、HP `+14`，control/player error
+  均为 0；原作 round 4 的同一奖励记录会自然得到 bonus 0。多角色结果翻页、经验被动加成、
+  战后物品/解锁、章节教程 round 4 脚本和奖励记录后九个 u16 仍未闭合，完整战斗 Goal
+  保持未完成。
+- 2026-07-25：战斗对白/章节打断已从 scenario 41 的手工流程改为原 ROM 数据驱动脚本。
+  两张 47 项表、共享解释器和控制 handler 均由 SHA-256 门禁；46 个非空 selector 图共
+  1,741 条指令，400 个 case 共 3,213 条命令和 48,104 字节文本，862 个字形直接从 ROM
+  字体表生成。controller 以实时单位身份、阵营、坐标、回合、side、variant 和 256-bit
+  私有 flag 执行 `0x34..0x39`，脚本阻塞时不写 HP、资源、坐标或行动账本。battle 1
+  集成样本和全部 46 个 selector 程序不再因条件 opcode 失败关闭；battle 41 的静音 mGBA
+  路线逐页验证 `0x0805B2C0/2EC/327/37E/3CB` 后进入干净的第 1 回合单位选择，控制与玩家
+  错误均为 0。74 个宿主 C++ 测试、15 项定向 Python、最终 Docker ARM 构建通过；ROM
+  SHA-256 为 `3c98562e91aef539e7ee188474669e83d06a9e754c2e0bea39f24e632a5bd96e`，
+  ELF SHA-256 为 `11965485c5eccde7885458cc795087975c5a80c89fa987ec6e824e4c4a47b81a`，
+  证据见 `artifacts/butano-battle-presentation-b41-20260725-04/` 与
+  `notes/battle-presentation-script-bindings-20260725.json`。`0x02/03/04/11/12/17`
+  的头像、窗口、调色板、镜头等具体视觉语义和非静音音频仍未闭合，不能据此宣称 47 场
+  表现或完整战斗功能等价。
+- 2026-07-25：上述表现层边界继续闭合为通用结构化 renderer。`0x02/03/04/11/12/17`
+  已绑定原 ROM helper 哈希并转换为三槽立绘状态；可见的左右两槽从 63×5 原资源矩阵按
+  `(portrait_id, expression_id)` 动态查询，运行时解压 80×80 8bpp 图形、按原 6 个 OAM
+  组件组装、共享 128 色 OBJ palette，并复现失焦暗化公式。消息窗口由脚本状态驱动的
+  4bpp 半透明 sprite 组成，旧整屏/场景截图不再参与战斗对白。battle 41 与 battle 43
+  均由同一 controller/renderer 在静音 mGBA 中逐页核对 5 个文本地址、窗口、立绘身份、
+  表情与焦点，结束后自动进入第 1 回合单位选择，控制与玩家错误为 0。运行证据见
+  `artifacts/butano-battle-portrait-runtime-b41-20260725-05/`、
+  `artifacts/butano-battle-presentation-b43-20260725-03/` 和
+  `notes/battle-presentation-script-bindings-20260725.json`。修复过程中确认生成 bank
+  中每条 LZ77 源必须 4 字节对齐，否则第二页会在 GBA 解压器冻结。当前仍未还原所有
+  motion mode 的逐帧插值/时长，未做非静音音频验收，也未逐场运行其余 45 场；完整战斗
+  Goal 保持未完成。
+- 2026-07-25：敌方回合已把补充查克拉与休息接入通用 AI，而不是增加关卡脚本或截图状态。
+  玩家与 AI 共用 `battle_resource_commands` 的合法性与公式；planner 逐个投影合法结印
+  数量和休息回血，使用原 ROM 已绑定的 HP 生存/增益与查克拉增益/保有权重，与技能、站位
+  和 scenario rule 做同一严格 `>` 比较。执行继续在 session/RNG 副本上原子提交，并走
+  `complete_non_target_action` 完成单位、condition 和换边；失败测试证明 session 与 RNG
+  零写。运行时 HUD 与末尾追加遥测显示实际 delta，不回写领域。6 个定向宿主 C++、Python
+  wiring、无警告 devkitARM 构建通过；ROM/ELF SHA-256 为
+  `88801406b163b01bcf99e335302a4e1e73a3d883b6cd9b721eab3e265184ee0d` /
+  `e76299a8c88d04e977cf41d0869417bdc588a675e3b0e4f4aada9f911167c23a`。
+  静音 mGBA 以 `artifacts/butano-ai-resource-runtime-b09-20260725-03/` 实际跨过
+  battle 41/43/9、三玩家/五敌和 round 2，另以
+  `artifacts/butano-ai-resource-presentation-b43-20260725-01/` 复验 battle 43 五页脚本。
+  battle 9 延长自然路线到 round 110 仍有更高分可用技能，资源事件为 0；该反证保留在
+  `artifacts/butano-ai-resource-runtime-b09-20260725-02/`，不伪造资源截图。AI 防御、
+  真实地图 helper mode、技能专属表现和非静音音频仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-25：纠正敌方回合尾仍固定 `no_ability` 的伪闭环。原 ROM
+  `0x080851F8` 规划器在 `0x0202D228+0x10/+0x24` 分别输出主指令和第二个 20 字节候选，
+  敌方在 `0x8000` 后经 `0xC000→0xD000` 执行第二指令而不进入玩家防御 UI。Butano 现用
+  `battle_ai_secondary_command_planner` 从共享防御目录规划并原子提交第二指令。action 3
+  效果 `0x04` 在防御准备边界映射为自然样本中的反应 `0x16`：扣 3 查克拉、首个有效 hit
+  消费、整次多段攻击零伤害并移动到曼哈顿距离 1–2 的可通行空格；miss 不消费，拓扑/占位
+  不允许落点时不做半提交。TDD 红测分别先因 unsupported 和缺少 secondary result 失败，
+  随后 76 个宿主 C++、76 项定向 Python（2 skip）及 devkitARM 构建通过；ROM/ELF
+  SHA-256 为 `6ce6ccb48e8a0b00c1faf0fdc8344d98591788fe5e56746d5f94c9437a9bf4d2` /
+  `02882a19879ec49db30e8e69892c38a4586d2a39d4a07bcb812cbe6f17d7a242`。静音 mGBA
+  battle 32 在第 1 回合实际记录 `secondary=1/kind=1/action=3/score=31` 后进入第 2 回合，
+  battle 9 完整角色动作路线与 scenario 41 组合拳结算也回归通过；证据分别在
+  `artifacts/butano-ai-secondary-b32-20260725-05/`、
+  `artifacts/butano-ai-secondary-b09-20260725-02/` 和
+  `artifacts/butano-ai-secondary-s41-20260725-04/`。全量 Python 1061 项仍保留 3 个历史
+  产物缺失 error 和 1 个无关语义 fail。精确落点 RNG 权重、战场对象排除和多反应完整
+  优先级仍待 ROM 证据闭合，完整战斗 Goal 保持未完成。
+- 2026-07-25：删除生产树内仍与正式 resolver 并存的早期 `ability_resolver`、
+  `apply_effect_chain`、独立 `unit_state` 和 `substitution_ready`。旧链使用手写 effect
+  node、固定伤害和布尔替身，虽未驱动当前可见场景，却仍被旧 AI 重载、宿主测试和 GBA
+  benchmark 自检编译，构成后续关卡绕过内容表的入口。现将 RNG 独立为
+  `battle_random.h`，AI、玩家、benchmark 与场景统一消费
+  `ActionDefinition + BattleSession + battle_action_resolver`；生产树扫描测试禁止旧符号
+  回流。完整事务曾被错误放入 ROM 启动自检，导致 battle 32 AI 入口停留超过 11 万帧；
+  现由红测限制嵌入式自检只走正式 resolver 的只读 preview，宿主 benchmark 继续覆盖真实
+  提交。76 个宿主 C++、5 个 benchmark、77 项定向 Python（1 skip）通过；全量 Python
+  1063 项仍只有既有的 1 fail、3 error、18 skip。无代码 warning 的 ARM ROM/ELF
+  SHA-256 为 `baa27f0bba2dbc013fd7d10d41add26229359239133f1db1065e7019428d6bf2` /
+  `bf3e134caabca0ae7bb44c82cbbc5ece091e1d4a7039bd021cdd8d6749bfa350`。battle 32
+  在 frame 1194 进入第 2 回合且保留 AI action 3 遥测，battle 9 与 scenario 41 同时回归；
+  证据在 `artifacts/butano-single-domain-{b32-20260725-07,b09-20260725-03,
+  s41-20260725-05}/`。完整战斗 Goal 保持未完成。
+- 2026-07-25：来袭 reaction 改为先按原 ROM
+  `0x04→0x0A→0x09→0x10→0x16→0x19` 唯一仲裁，再执行已实现 handler；未知高优先
+  family 现在返回 `unsupported_effect` 并原子回滚，替身无合法落点也不再降级触发
+  火弹。单体和面积动作失败时 session/RNG 同时零提交。76 个宿主、5 个 benchmark、
+  78 项定向 Python（1 skip）、无代码 warning 的 ARM 构建与 battle 9/32/scenario 41
+  实机路线通过；ROM/ELF SHA-256 为
+  `cb9a6e157ec31ebe581dbd878d20a955a5adbe9a5ec3559f7cd473d2b384593c` /
+  `43ab745a296450e3614065059ecae46576b9e1667bfda091f70ebaf0aac858be`。
+  精确替身落点 RNG、战场对象排除以及 `0x04/0x0A/0x09` 的具体效果仍待原 ROM 证据，
+  完整战斗 Goal 保持未完成。
+- 2026-07-25：原 ROM scenario 41 单输入 A/B 运行时与 `0x080763E0/0x08076A30`
+  反汇编闭合 `0x04/0x09/0x0A`。`0x04` 相邻时取消整次来袭且不移动；`0x09` 按
+  `status+3` 距离门反向伤害攻击者并取消来袭；`0x0A` 先反向伤害攻击者再继续原伤害；
+  `0x16` 补齐相邻门。三种反向伤害与火弹统一进入 counter handler，外层使用显式反应
+  流程枚举。随后将仍在生产树中编译的旧 `scenario_41_battle/scenario_41_scene` facade、
+  10 个旧 facade 测试和 194 个整屏/分层状态资产整体移到
+  `references/legacy-butano-scenario-41-screenshot-prototype/`；生产 graphics 只保留通用
+  控制器使用的光标组件。结构红测禁止旧 facade 与状态截图重新进入生产树。运行证据见
+  `notes/battle-reaction-family-runtime-20260725.{md,json}`。全量宿主 C++、53 项定向
+  Python（2 skip）、清理生成目录后的 ARM 构建和 battle 9/32/41 实机路线通过；
+  ROM/ELF SHA-256 为
+  `0a1a17a1a420ab2e92abf1bf75085fe34e8c948c0de91f069a81cc7a253c58dc` /
+  `71a6259591349bfd6893483123918842ded6b6c44a4b5b040a17c5ee1b9f239f`。
+  角色专属演出、精确替身落点 RNG、战场对象落点排除和非静音音频仍未闭合，完整战斗
+  Goal 保持未完成。
+- 2026-07-25：被动消费者不再按“45 条记录=45 种已实现效果”估算。新增全 ROM
+  `0x0806DDA4` 直接调用库存，精确锁定 15 个调用点和目标类型
+  `0x0C、0x14–0x20`；`0x01–0x0B、0x0D–0x13` 没有直接调用。首批新增的两个公式消费者
+  已接入通用领域：type `0x14` 把恢复量改为 `max_hp/5 + value_a`，type `0x15` 只增强
+  同角色全部战斗实例携带经验之和。后者同时修复召唤/分身所得经验只统计第一个实例的缺口。
+  红测分别先得到恢复量 20（期望 50）和经验 50（期望同角色汇总后加成 63），实现后转绿。
+  证据为 `notes/battle-passive-consumer-bindings-20260725.json`。`0x16–0x18` 属于战斗事件
+  门、`0x1D–0x20` 属于 side-start 触发组，尚未取得足以命名具体效果的运行样本；它们不得
+  被塞入通用伤害公式。67 个宿主程序、定向 Python、devkitARM 清洁构建和 scenario 41
+  静音领域结算均通过；ROM SHA-256 为
+  `161507b510d0b5e5ab63b4ba7e75cdad7d87a31c1c4d244b86b137a13d53d7f8`。完整战斗 Goal
+  保持未完成，音频撕裂也未在本轮签发修复。
+- 2026-07-25：继续把 type `0x16–0x18` 从中性“事件门”闭合为真实连续攻击机制。
+  原 ROM 在命中生成前按 action runtime kind `2/1/5` 分别查询
+  `0x16/0x17/0x18`，每个唯一 action ID 只掷一次概率；成功后给同一动作的所有事件
+  `base_hit_count +1`，再让每个生成 hit 独立进入普通命中、暴击、无视防御和反应链。
+  scenario 41 的单字节 100% 连打对照把事件命中数从 1 改为 2、hit flags 从 `[1]`
+  改为 `[1,1]`，证据在 `notes/battle-continuation-hit-bindings-20260725.json`。Butano
+  现于一次动作事务只生成一个 continuation bonus，面积动作跨目标共享，不在每目标重复
+  掷骰；preview 仍显示模板基础段数，不提前消费 RNG。GameFAQs 2003 Skill List 对被动
+  17/18/19 的名称与每级 +5% 描述仅作文本交叉验证，公式与顺序仍以 ROM 为准。
+  `event+0x16` 非零路径、side-start `0x1D–0x20`、全部角色专属演出及非静音音频尚未闭合，
+  完整战斗 Goal 保持未完成。
+- 2026-07-25：阵营开始消费者 `0x1D–0x1F` 已进入统一 scheduler。原 ROM 在
+  `0x080736DE` 先翻转 side 再调用 `0x0806DF88`，按
+  `0x1D→0x1E→0x1F→0x20` 查询并共用 `unit+0xBE` 锁存。Butano 现在在首个玩家阶段、
+  玩家转敌方和敌方转新回合三个同一边界结算：passive 24 低 HP 回血并补满查克拉，
+  passive 25 低 HP 回血且建立 raw 5 的攻击增益，passive 26 在四分之一 HP 门建立
+  raw 3 的攻击增益。结果进入固定容量阵营开始事件和表现 FIFO，不由 HUD 修改数值；
+  遥测可见被动、资源差和状态写入。证据为
+  `notes/battle-side-start-passive-bindings-20260725.json`，全量宿主 C++ guard 为
+  `build/resource-guard/butano-side-start-host-all-20260725-01.json`。type `0x20`
+  的 battle 11 门与双状态机械写入虽已知，但语义/脚本顺序未闭合，仍不猜测实现。
+  88 项定向 Python 通过、1 项按既有条件跳过；零缓存 devkitARM 构建通过，静音 mGBA
+  scenario 41 完整经过部署、两轮行动、组合拳、结算与升级并在 frame 476 到达 complete，
+  控制错误与玩家错误均为 0。构建 guard、运行 guard 和审计分别为
+  `build/resource-guard/butano-side-start-arm-clean-build-rerun-20260725-09.json`、
+  `build/resource-guard/butano-side-start-s41-results-20260725-10.json` 与
+  `artifacts/butano-side-start-s41-results-20260725-01/audit.json`；ROM SHA-256 为
+  `d95b1f0ade5351e614b1be150db9f13c12ec288f4c6e9b41a3bcbc9de86d3734`。
+  scenario 41 当前满 HP 路线不会自然触发这三种低 HP 被动，因此 mGBA 证据只证明新增
+  scheduler/FIFO 没有破坏通用战斗与结算；具体触发结果由领域、controller 和遥测集成测试
+  覆盖。完整战斗 Goal 保持未完成。
+- 2026-07-26：新增 45 行被动生产覆盖矩阵，明确区分“成长定义存在”和“原 ROM 有战斗
+  消费者”。17 条定义覆盖 `0x0C、0x14–0x20` 的直接调用，28 条
+  `0x01–0x0B、0x0D–0x13` 没有统一查询器直接调用，不能按名称伪造效果。Butano 现有
+  14 条玩法消费者；`0x1A–0x1C` 三条当时仍被误记为当前单位表现配置。该历史判断已由
+  2026-07-26 地形被动里程碑取代：三条实际是类别 `1/3/7` 的逐路径预算。此前保留的
+  `0x20` / passive 35 已按 ROM 机械契约接入：scenario battle ID 进入 session，只在
+  battle 11 阵营开始依次原子建立 `0x1E(value_a)` 与 `0x22(value_b)` 两条永久状态，
+  设置共享 latch 并重算；状态槽不足零写回滚。未校字名称与专属动画不猜测，UI 使用中性
+  `BATTLE 11 BOOST`。矩阵与 TDD 证据为
+  `notes/battle-passive-coverage-20260726.json` 和
+  `notes/battle-passive-coverage-and-battle11-runtime-20260726.md`。生成场景中尚无
+  battle 11 自然学会 ID 35 的编队，因此实机回归不能冒充原作演出验证；完整战斗 Goal
+  保持未完成。
+- 2026-07-25：新增 **85 个非空变体首轮换边矩阵**，统一 controller 对每个非空
+  `(battle_id, variant)` 推进战前脚本、玩家逐单位结束行动、面向/防御准备与全部敌方
+  AI，直到第 2 回合或合法结果。红测在 **battle 10 variant 2** 发现投影目标断层：
+  敌方角色 8 移动后对“**移动后的自己**”使用变化术，planner 选择的是新格，执行器和
+  **只读 preview**却仍按旧坐标取 actor，导致 `invalid_target`。现将 draft
+  `preview_position` 的非空地目标统一解析到 actor，并让 self target preview 使用投影
+  副本；没有关卡/角色/技能特判。聚焦测试与
+  `test_battle_all_scenario_runtime.cpp` 全矩阵均转绿。该里程碑证明全部 85 个非空变体的
+  首轮共享控制链，而非逐场完整胜负/表现。全量宿主、89 项定向 Python（1 skip）、零缓存
+  devkitARM 和 scenario 41 完整结算回归通过；ROM SHA-256 为
+  `4350b8ba73e00b251463ab2f343fc531909d38b797edefe1581048b5a7f57848`。完整战斗 Goal
+  保持未完成。
+- 2026-07-25：把此前仍像“截图选项”的组合技入口替换为原版有序两组件事务。原 ROM
+  `0x08075B58` 对组件数 2 扫描 `0x0853DFB0`：五个匹配配方折叠为派生动作
+  10/11/13/17/18，未匹配配对保留两个动作事件；工具 wildcard 为编码
+  `0x81..0x91`。确定性证据为
+  `notes/battle-action-combination-bindings-20260725.json`。原版单输入菜单又证明
+  多重影分身会强制暂存并要求第二个攻击术/忍具；火遁术则先做成本校验，再显示是否继续
+  连续攻击的是/否分支。Butano 现有组合确认、第一组件/资源预留、取消、第二组件、共同目标
+  和原子结算阶段；特殊配方投影真实派生 ID，普通配对执行双效果，多重影分身给后续攻击增加
+  hit。场景不再无条件跳目标，HUD 显示组合草稿和操作反馈。五配方、generic pair、玩家
+  flow、controller、表现身份、距离低 5 位和 snapshot 预算测试转绿，76 个 game 宿主
+  程序全量通过，85 个非空变体各推进至第 101 回合边界或合法结算；清洁 ARM ROM/ELF
+  SHA-256 为
+  `65232ffc6c45c18bf8968184d1da575940ef61676b34dc09a46038e5377a3c7c` /
+  `0e4f1b9560f7ff855c43adc7cfc493138f6d9fb166c3d7f4282d8143fdc40ac0`。
+  首次静音 mGBA 回归用遥测定位到新增组合 phase 后 Lua 编号漂移（ROM 正常停在
+  `script_blocked=18`，脚本仍等待 17）；修正全部受影响脚本并新增 C++ 枚举↔Lua 常量
+  契约测试后，scenario 41 在 frame 464 完成部署、两轮行动、动作 5、结算和 `LV1→LV2`，
+  控制/玩家错误均为 0。ARM guard 和实机审计为
+  `build/resource-guard/butano-action-combinations-arm-clean-build-20260725-05.json`、
+  `artifacts/butano-action-combinations-s41-results-20260725-04/audit.json`。完整运行证据见
+  `notes/battle-action-combination-player-flow-20260725.md`；所有红圈术的自然样本、
+  专属组合动画与非静音音频仍待闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：战场对象从 condition 占位表升级为完整领域生命周期。原 ROM
+  `0x02026604` 的 32×16 字节对象表、effect `0x0C/0x18`、分配/释放器和阵营结束
+  遍历 `0x08081B70` 已由机读分析固定；Butano 现在能通过正式忍具 67 在空格创建
+  type 1 对象，跨阵营边界计时，到期后按 payload/source/方形范围复用统一
+  damage/reaction/passive resolver，再释放对象并让 condition 观察提交后状态。
+  带教程脚本的 controller 集成测试覆盖放置、两次边界、23 点非零范围伤害、FIFO 表现和
+  slot 释放。为避免把 648 字节完整 `action_result` 复制到所有返回层，新增 16 字节对象
+  摘要：ARM 的 turn/player/AI/controller 结果由 660/684/776/1464 字节降至
+  28/52/144/200 字节，可见场景栈帧由 9940 字节降至 3636 字节。最终静音 mGBA
+  在 frame 147 观测 slot 1、frame 223 进入敌方阶段仍存活、frame 279 于 round 2
+  观测对象释放与 23 点领域伤害；修正验收后又等待既有 AI 表现完成，直到 frame 363
+  对象事件实际被 FIFO 取出且 `presentation_busy=1` 才签发成功。证据为
+  `artifacts/butano-battlefield-object-runtime-20260726-12/` 和
+  `notes/battlefield-object-runtime-20260726.md`。type 2/起爆符专属视觉和非静音音频
+  仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：闭合效果字节高位 follow-up，不再把“resolver 返回成功”误报成技能语义
+  完整。原 ROM helper `0x080768D8..0x08076A26` 与队列门
+  `0x0807764E..0x08077670` 已由哈希和 opcode 固定：有效对手命中后，`0x80` 建立
+  一回合 `0x3F` 并写 reaction state `0x30`；`0x40` 建立三回合、固定 10% 的
+  `0x1F/0x21/0x23` 攻防敏下降。生产者覆盖主动动作 8/10/60 与忍具
+  11–13/25–27/43–45/70–72，后者同时修正了毒烟替身和定时毒起爆对象的降级。
+  Butano 现以一个原子 policy 处理普通 damage、反应和对象到期；对象到期也使用完整
+  session/RNG 草稿事务，单目标容量失败和多目标后置失败都不会部分提交。原 ROM 在主
+  handler 后没有 HP/active 门，因此致死目标仍获得 follow-up。
+  controller 集成测试从正式装备目录执行忍具 11 并观察三状态；HUD 新增 `ST` 活动状态数。
+  最终静音 mGBA 在 frame 202 读到 battle 41、action 11、target 2、HP 0、inactive、
+  status count 3，控制/玩家错误均为 0。机读证据与运行证据分别为
+  `notes/battle-effect-flag-followups-20260726.json` 和
+  `artifacts/butano-effect-flag-runtime-20260726-07/`。最终 ROM/ELF SHA-256 为
+  `a6709258af72e7aa513f558ced0dc7fa760eb439c22c488b1d512d37e7b6d246` /
+  `4af80474c4b11600b9161c38af2bd82a69224f9ff650ef39019d1a4d37c4d82a`。
+  逐状态名称/图标、专属动画和非静音音频仍未闭合。AI 对动作 9 的组合降级已由后续
+  “AI 连续攻击完整标志策略”里程碑取代，type 2 对象也已由后续 sequence 7 里程碑闭合；
+  完整战斗 Goal 保持未完成。
+- 2026-07-26：角色技能不再由等级阈值直接拼成战斗菜单。原 ROM 四字节槽状态已闭合为
+  `0xFF 锁定 → 0 解锁未习得 → 1..3 已习得等级`；`CharacterProgressionRecord` 持久
+  保存 15 个主技能和 24 个副技能状态，升级只做 `0xFF→0`，修炼每次扣一点，catalog
+  只接受 `1..254` 并在 browser/resolver 前物化 potency/段数/成功率/距离/范围/持续时间
+  成长。此前永久不可达的 20 个 `initial_state==0` 动作现有正式修炼入口；Kiba action 23
+  的状态 0→1→catalog 与鸣人 action 5 的 LV1/LV3 resolver 伤害差异均有宿主集成测试。
+  battle 9 UI 显示 `LV`，336 字节遥测在 offset 332 观测实际选择等级。
+  ARM 路线同时修复两个架构 bug：跨场景 sprite 句柄清除后先提交一次 core update，避免
+  双头像分配触发 128-tile VRAM fatal；玩家资源、AI 资源/技能、效果后处理、防御准备和
+  回合收尾都复用 encounter 已建立的 EWRAM 候选，不再嵌套栈复制 12 单位 session、覆盖
+  Maxmod 并黑屏。77 个宿主 C++、46 个定向 Python（1 skip）和固定 devkitARM 构建通过；
+  静音 mGBA `artifacts/butano-action-progression-runtime-20260726-09/` 在 frame 2791 完成
+  battle 41→43→9、9 个活动单位和 round 2，鸣人/佐助/小樱主动技能均读到 LV1，最终
+  SP `0x03006AE4`。ROM/ELF SHA-256 为
+  `9aab2400ddfa3f362f351a2536407ce1d14f81771a8f2f11b0eb5d53c4228209` /
+  `9aa37cbacc6ca03c4b0e4ce7fd1573839359bec51b9d94b94daac161fec7e87a`。
+  证据见 `notes/battle-action-progression-20260726.{md,json}`。玩家修炼页面、章节存档、
+  副技能修炼资格、逐技能演出和非静音听感仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：修复角色等级只改变标签/技能、战斗仍使用 LV1 数值的数据断层。正式
+  scenario loader 现在把 progression 或章节 policy 等级与 file `0x545068` 的
+  63×`0x10` ROM 成长表合成 HP、查克拉、攻、防、敏、移动和忍具容量，并同步设置状态
+  reducer 的等级基础值。battle 15 LV9 玩家、battle 10 敌方 Naruto（后续完整编队字段
+  解析已纠正为 LV20）与 battle 41
+  progression 三条集成路径分别证明角色/敌人/持久状态共用一条链；LV9 Naruto 为
+  HP196、AT22、DF21、AG16，而不是此前显示 LV9、实际 HP80。77 个宿主 C++、94 个相关
+  Python（1 skip）和固定 devkitARM 构建通过；静音 mGBA
+  `artifacts/butano-level-stats-runtime-20260726-01/` 完成 battle 41→43→9、9 个活动单位
+  与 round 2，最终 SP `0x03006AE4`，错误与陷阱为 0。ROM/ELF SHA-256 为
+  `fa73b11820e377e8ad82e6b57abe75e4ce366b5847d4f6b1d2cc3e09a185c5a2` /
+  `08569eb419daa855ad522f466d8c03c82840621f5bd4a9fe96858f9e14098eb2`。
+  精确等级值由宿主 loader 集成测试证明，mGBA 路线只签发 ARM/session 回归；章节敌人等级
+  数据、持久存档和非静音音频仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：`0xB8` 编队记录已从“角色/坐标/经验”扩展为完整战斗实例配置。原 ROM
+  构造器 `0x0806ACAC..0x0806ADC4` 证明 `+0x0F` 是等级、`+0x10` 是 15×4 主动作槽、
+  `+0x4C` 是 24×4 副槽、`+0xAC` 是 9 个忍具；1,728 条原始记录和 47 场 Butano
+  内容现按该结构确定性生成。loader 明确采用 progression→章节 policy→固定敌方/脚本
+  编队配置→角色模板的所有权顺序，普通玩家和 placeholder 不会被零填充槽清空。battle 10
+  variant 0 的敌方鸣人已由原始 `+0x0F=0x14` 纠正为 LV20，动作 `1/2/5` 均为等级 2，
+  携带五个忍具；玩家、防御和 AI 共用 15+9=24 项目录。成对召唤的辅助体也补齐
+  `unit_state_code=0x06`，地图只允许显式链接的多体成员共格，battle 30 召唤后的后续 AI
+  不再 `execution_failed`。菜单项通过位域与 8 位显示费用压到 9 字节，24 项目录仍保持
+  12 单位场景快照不超过 1,120 字节。77 个宿主 C++、11 项提取/生成 Python、固定
+  devkitARM 构建通过；静音 mGBA
+  `artifacts/butano-formation-runtime-20260726-02/` 完成部署、battle 41→43→9、鸣人
+  位移/忍具、樱召唤、佐助动作 2/5/16、五敌 AI 和 round 2，活动单位 9、错误为 0。
+  ROM/ELF SHA-256 为
+  `230e61f83028499822b221cb4470005529f06b747172ce1514cca7adb4336635` /
+  `4c2a99524777e4fd73e1a3a83af803730aef75796a71c4f73d763e00b9f6987f`。
+  证据见 `notes/battle-formation-runtime-config-20260726.md`。旧多单位 Lua 不识别真实部署
+  phase 的首次 timeout 已保留为脚本过期证据；非静音听感、章节持久队伍、未知
+  `unit_parameter` 和剩余动作可达性仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：修复“非伤害敌方效果无条件命中”的领域漏洞。原 ROM
+  `0x08076034` 生成所有 event 的逐 hit 结果，`0x08076E0A..0x08076E3C` 扫描是否至少
+  一击有效，`0x08076EEC..0x08076F24` 在 effect jump table 前拦截零有效 hit；
+  effect `0x3F` 再由 `0x0807755C` 写目标 reaction state `0x30`。Butano 现在让 opponent
+  status/reaction-state 与 damage 共用该命中事务：action 23/24/31/80 的
+  70/75/95/85% 不再退化成必中，miss 会正常消费成本并结束行动，但不写状态、属性或
+  reaction state。TDD 固定 seed 1585 覆盖金缚术与 action 23 的 miss，既有命中、状态
+  容量回滚、AI area 和全动作路径保持通过。77 个宿主 C++、74 项相关 Python
+  （1 条原始 checkpoint 缺失而跳过）和固定 devkitARM 构建通过；静音 mGBA
+  `artifacts/butano-nondamage-accuracy-runtime-20260726-03/` 在 frame 2791 完成 3v5、
+  召唤、五敌行动和 round 2。最终 ROM/ELF SHA-256 为
+  `51b952ae721464d8cb6dae6bfff61b63b22b0c343f9c1d4cce5f61e56d1624e3` /
+  `45dfc74dc698c371830e58a7405d5623d775de1d7072c67a10fc04bff7f1ac78`。证据见
+  `notes/battle-nondamage-effect-accuracy-20260726.md`；友方非伤害效果、专属 miss 表现和
+  未闭合状态名称没有被猜测扩展，完整战斗 Goal 保持未完成。
+- 2026-07-26：AI 连续攻击已从“只修动作 9”扩展为完整标志策略。原 ROM
+  绑定证明总规划器 `0x080851F8` 经候选枚举器 `0x08083040` 调用共享组件枚举器
+  `0x08082354`；`0x0800` 的动作 12/16 先返回单动作、后枚举组合，`0x1000` 的
+  动作 9/14/25/29 强制第二组件。Butano 玩家与 AI 共用同一组合领域：可选项保留单双
+  候选，强制项不再单独结算；`9+5→11`、`9+忍具18`、`12+12→13`、`14+5` 均有
+  领域/flow 集成覆盖。满技能九忍具佐助产生 54 项 AI 选项，容量由 48 扩到 64，不再
+  静默截断；自我增益不限制后续攻击射程。机读证据写入
+  `notes/battle-action-combination-bindings-20260725.json`，设计边界更新于
+  `notes/battle-action-combination-player-flow-20260725.md`。1,728 条编队中动作 25
+  主槽出现 5 次、动作 29 出现 2 次，其中 4 条 affiliation 1 的动作 25 是固定敌方，
+  因此本项同时修复现有关卡。此前动作 9 子里程碑的 77 个宿主 C++、
+  10 个相关 Python/文档测试模块共 67 项和固定 devkitARM 构建通过，ROM/ELF SHA-256 为
+  `b8ad10c09ca23235f57f258537b2bea03f98112f6e7cb3236b8225a295771934` /
+  `ff6815dc40cc597cee7ea9ae9e8e391003746fb1a64ce245b6b8b02eb57638a1`。第一次 mGBA
+  回归因沿用旧遥测地址而 idle timeout，0 字节遥测证明脚本未连接而非游戏卡死；从 exact
+  ELF 重解到 `0x0201A684` 后，`artifacts/butano-ai-forced-combination-runtime-20260726-05/`
+  在 frame 2791 完成 battle 9、9 个活动单位、五敌行动和 round 2，控制器/玩家错误为 0。
+  这条静音路线只签发当时的 ARM/session 回归，不冒充当前内容中不存在的敌方动作 9
+  样本。原作 utility 逐整数权重、专属演出和非静音音频仍未闭合，完整战斗 Goal
+  保持未完成。
+  完整标志策略最终 77/77 宿主、67/67 Python 和固定 devkitARM 构建通过；ROM/ELF
+  SHA-256 更新为
+  `5be556eca9087c1d5dfca714f9a5c2943af0dd0281608edcb77abd874946da32` /
+  `9ddc1d75398e966d2f96c9908aecb5cf7e240618a046678440a6bbcd28573386`。从 exact ELF
+  解析 `0x0201A824` 后，静音 mGBA
+  `artifacts/butano-ai-combination-policy-runtime-20260726-06/` 在 frame 2791 再次完成
+  battle 9、9 个活动单位和 round 2，错误为 0；该路线只证明 ARM/session 回归。
+- 2026-07-26：主技能修炼从后台 progression 命令接入玩家可见战后流程。battle 41
+  现在按 `结果 → LEVEL UP → TRAINING → COMPLETE` 推进；训练 flow 展示角色全部非空
+  主技能槽，锁定、未习得、LV1–3、满级和不可成长均由同一角色记录/生成定义读取，A 的
+  唯一写入口为 `train_primary_action`。领域与 controller 红测固定 action 8
+  `0→1 / TP 1→0`、拒绝零写和多角色切换；85 个非空关卡变体继续通过。训练目录未复制进
+  每帧 battle snapshot，1,120 字节预算保持；356 字节遥测只在旧 336 字节尾部追加字段，
+  旧 phase 与 offset 不漂移。全量宿主 guard
+  `build/resource-guard/butano-training-full-host-20260726-02.json` 与 ARM guard
+  `build/resource-guard/butano-training-arm-build-20260726-03.json` 通过。exact ELF
+  遥测地址 `0x0201A848` 的静音 mGBA 在 frame 460 观察 action 8 `0→1`、TP `1→0`、
+  phase 16 complete 和错误 0，见
+  `artifacts/butano-training-runtime-20260726-04/audit.json`。前三次脚本失败分别证明
+  y=6 是空格、y=4 敌人对 y=7 actor 越距；最终自动化改为先合法移动、再按 cursor-unit
+  遥测选择真实敌人，没有放宽游戏规则。ROM/ELF SHA-256 为
+  `bacd5d68bf80988974c893185750dd927a9458643f3a32bc8b874ab926945cff` /
+  `4afe7fe9d4d08ae4abd73a95544a2ed5f4afdecd2d5d643c93a5b48bc28692c3`。
+  `0x0806A8C0` 写的是 `unit+0xC0` 的反应/表现位域，不再误报为缺失禁行消费者。
+  SRAM 持久化、副技能修炼、专属训练面板/音频和完整章节仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：战斗成长不再停留在 scene 的三条临时记录。新增 63 角色 campaign，
+  三人队伍按角色 ID 投影/合并；等级、经验、修炼点、15+24 技能状态和九忍具 ID 进入
+  版本化双槽 SRAM。4096 字节槽带 magic/version/length/generation/CRC，保存后读回验证，
+  支持单槽损坏回退、双槽默认和 `0xFFFFFFFF→1` generation 回绕。最终 80 个宿主 C++、
+  71 项相关 Python 和固定 devkitARM 构建通过；两个独立静音 mGBA 进程先在 battle 41
+  保存 generation 1，再以零输入冷启动读回 Naruto
+  `LV2 / EXP25 / TP0 / action8 LV1`，32 KiB SAV 哈希保持
+  `be5f1bd401d2ec93db32cc225f9e13b16963eea8524e7da9c2c796c4680ee5ac`。
+  ROM/ELF SHA-256 为
+  `6d8961d5c849ebeb049f3907728b08b95c12d4d439340a86b5d6ccf93f89339c` /
+  `0cab94051f2030f972525b3faaf24beecd5cce0823c754b058f7f887db54aec3`。
+  证据见 `notes/battle-campaign-persistence-runtime-20260726.md`。背包/装备 UI、世界地图、
+  章节解锁、手动/原作兼容存档、副技能修炼和非静音音频仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：纠正“训练只属于主技能”的架构误判。ROM `0x08093070` 已证明同一训练
+  提交先扣 `template+0xBA`，type 4 行写 24 个 secondary 槽，其他训练行写 15 个
+  primary 槽。Butano 现使用统一 `battle_training_flow`，目录先列 8 个鸣人非空主动项，
+  index 8 起进入被动项；A 按 kind 调用唯一领域事务，renderer 不写 progression。
+  角色 3 / passive 15 的测试证明 `0→1 / TP1→0` 后进入下一场单位 passive slot 13，
+  `0x14` consumer 值为 30；失败事务零写。全量宿主、清洁 ARM 与静音 mGBA 通过，
+  ROM/ELF SHA-256 为
+  `918831d622494a7a8f1b2f68b0c385c8048136cbd8b171f0c4feae89492bcc93` /
+  `5270cdb068ce6d293343572fd26225c8ff3d8a9048ce9c27b5b25528f4471f87`。
+  mGBA 在 battle 41 action 8 修炼后继续走到
+  `secondary / ID1 / level FF` 页面，见
+  `artifacts/butano-unified-training-runtime-20260726-02/`。该自然路线尚未到合法被动
+  解锁等级；45 项名称二次校字、全部 consumer、专属表现和非静音音频继续保持未完成。
+- 2026-07-26：被动覆盖矩阵确认 45 条成长定义中仅 17 条 target type 有 ROM 直接查询
+  消费者。当时 Butano 已实现其中 14 条玩法语义，并把 `0x1A–0x1C` 记为表现配置缺口；
+  这一历史分类已被后续地形消费者数据流纠正。其余
+  28 条只保留数据/修炼/查询，不猜测效果。battle 11 专属 target `0x20` 已按 ROM 顺序
+  接入真实 side-start scheduler：只在 battle ID 11 原子写入 `0x1E/0x22`、设置 latch
+  并重算攻击/敏捷。全量 81 个宿主程序、相关 Python 和清洁 ARM 构建通过。mGBA 首次
+  回归进一步发现 EWRAM 静态单位/对象/文本精灵缓存跨战斗未释放，导致 battle 11 部署
+  在第 6 帧停住；部署前释放并提交回收后，
+  `artifacts/butano-b11-scene-resource-runtime-20260726-02/` 完成五单位部署、进入共享
+  controller，并观察地图 chunk `0→1→0`，错误为 0。当前 ROM/ELF SHA-256 为
+  `35d9710517dcc2b1caa7ef1edf08ebbeef1533916efc6ad6a81789272019fa5a` /
+  `5486f6b8538d67313ea57e371db69de484cd08c2932e99e2da57a297854ed3bf`。
+  证据见 `notes/battle-passive-coverage-and-battle11-runtime-20260726.md` 和
+  `notes/butano-battle-scene-resource-lifetime-20260726.md`；完整 battle 11 行动、
+  当时尚未闭合的 `0x1A–0x1C` 已在后续里程碑实现为地形预算；battle 11 专属动画和
+  非静音音频仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：战役存档不再只保存队伍/装备却让战斗使用夹具。新增原子 campaign scene
+  policy：party 0/1/2 填充动态编队 `0xFF/0xFE/0xFD`，角色九格装备同时进入可见部署、
+  scenario loader、action catalog 与 resolver；章节显式 placeholder/装备 override 继续
+  优先。battle 41 campaign 入口删除 scene 里的 67/11 硬编码，新档案把它们保存在 Naruto
+  的 campaign record，已有有效 SRAM 内容仍优先。battle 1 variant 2 集成测试证明
+  `{1,2,3}` 从 campaign 贯穿部署与单位实例，错误 party 零写。全量宿主 82/82、清洁 ARM
+  和静音 mGBA 连续 battle 41→43→9→11 通过；battle 11 最终进入 round 1、地图 chunk
+  `0→1→0`、错误为 0。ROM/ELF SHA-256 为
+  `ff2a69238ac45805110d90e9eda6405769d1b04e9812837596d2d42d41089c39` /
+  `ea86a5b129f7b7f59abd74e867e7eaf18a444f0eee8a678592beb2d9a3e442b3`。
+  证据见 `notes/battle-campaign-scene-policy-runtime-20260726.md`。33 个三席动态变体已有
+  正式来源；此时尚未闭合的已装备槽消费回写已由后续里程碑完成，完整章节背包数量/补给/
+  换装 UI 和章节入口仍未闭合，Goal 保持未完成。
+- 2026-07-26：battle 31 variant 1 与 battle 32–38 的六席动态编队已由原 ROM selector/
+  affiliation 和竞技场攻略流程闭合为 Arena 双方各至多三人，不再误判为 campaign NPC。
+  新增 `battle_arena_match_roster`，双方分别持有角色 progression 与九格装备，inactive
+  角色显式关闭席位，错误 roster 原子零写，同角色可以在双方以不同等级/装备独立存在。
+  Arena policy 与 campaign policy 互斥，部署、loader、controller、AI、resolver 和回合
+  循环仍共用单一正式领域。真实 3v3 首次暴露单位 OBJ tile 在同帧 reset 后尚未回收便分配
+  对话 portrait 的 Butano 资源生命周期故障；只在确实释放单位 component 时先提交一次
+  `bn::core::update()` 后再分配 portrait，修复了第三名玩家结束行动后的停帧。最终全量
+  宿主 83/83、清洁 ARM 和静音 mGBA 通过；battle 32 阵容
+  `[1,2,3]/[12,35,1]` 六单位完成第一回合，AI action 3 替身第二指令后进入 round 2，
+  controller/player error 为 0。ROM/ELF SHA-256 为
+  `70953261605c15feabd3d356598bddb3dd4bf6ee8d2fcc5aded101624a434833` /
+  `96c5b2e17373bddc8f2e7723dc2d65c4f4ba659b78fcb5dff21fa6cc94902861`，
+  证据见 `notes/battle-arena-roster-runtime-20260726.md` 和
+  `artifacts/butano-arena-roster-portrait-reclaim-final-b32-runtime-20260726-06/`。
+  Arena 选择/解锁/结算 UI、Link 通信、章节背包数量/补给/换装 UI、逐技能表现与非静音音频仍未闭合，
+  完整战斗 Goal 保持未完成。
+- 2026-07-26：属性状态技能覆盖不再只以“有 handler/resolve 成功”计数。新增 33 项正式
+  生成定义合规矩阵，覆盖动作 14/25/29/31/37/38 与忍具 55–66、79–93，逐项验证状态码、
+  potency、6/8/0 ticks、最终攻防敏移速/最大 HP、忍具消费和到期重算。`0x26` 精确建立
+  `0x1E→0x20→0x22→0x1B`，使用时按最大 HP 正差值补当前 HP，到期后只做新上限钳制，
+  不对称扣回。首次到期红测纠正了错误测试假设，生产实现无需修改；全量宿主 84/84 通过，
+  guard peak 134.094 MiB。证据见
+  `notes/battle-status-action-compliance-20260726.md`。状态名称/图标/专属演出、间接状态、
+  type-2 对象、章节背包数量/补给/换装 UI 和非静音音频仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：纠正“resolver 有定义就等于玩家可用技能”和“`state=0` 永久不可达”
+  两个覆盖率口径错误。新增 fail-closed 的 87 项自然来源审计，把 63 条角色模板、
+  1,728 条关卡编队、五条组合结果、修炼状态机与独立资源命令分开分类。动作 62
+  “雾隐术”已确认由 battle 8 的 `g08_v0_r01`、`g08_v2_r03` 两条有效再不斩编队
+  以 LV3 直接提供；loader 集成测试从自然关卡进入 catalog/resolver，实测扣 2 查克拉并
+  写入 10 tick `0x0D`，不再误报为测试内部动作。10/11/13/17/18 保持为组合产物，
+  20 保持为独立“结印”资源命令身份；39/40/52 只有精确名称、全零定义且无 primary
+  引用，不猜造效果。机读与设计边界见
+  `notes/battle-action-reachability-20260726.{json,md}`。该里程碑闭合来源架构与审计
+  口径，不等于 87 项表现和玩法全部完成；全零模板身份、间接状态、
+  type-2 对象、专属逐帧表现和非静音音频仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：动作 19“狮子连弹”不再被笼统标为未知外部解锁。原 ROM
+  `0x080899EC..0x08089AE0` 的技能同步函数在 battle 31 / variant 0、佐助
+  character 2、动作 `0x13` 时绕过普通等级门，把主槽 10 从 `0xFF` 改为 0；
+  `0x08089B7E` 是已绑定调用点，章节状态与动作表字面量分别为
+  `0x020311D4`、`0x0854241C`。Butano 将它实现为 progression 领域的可枚举场景规则，
+  controller load 后只得到“已解锁未习得”，仍需统一训练 `0→1 / TP1→0`；battle 30、
+  Arena variant 1 和错误角色均零写。领域/真实 controller 聚焦测试已由未声明 API 的
+  编译红测转绿；fail-closed 分析器同时把 action 19 分类为
+  `scenario_unlock_then_training`。campaign/SRAM 集成进一步证明 controller 的 state 0
+  会合并回佐助档案并跨 4096 字节存档槽编码/解码保留，不是单场临时副本。最终 84/84
+  宿主、70/70 相关 Python 和零缓存 ARM
+  构建通过，ROM/ELF SHA-256 为
+  `ede64755a9b937fe6266c52105a0746d77c24fe4de7e416fcd4a4a4de2c0cea1` /
+  `2dddfb027fd0e0a19aeb17ab1b3b2dff606b0133ca6478273ff37c0284328ce9`。
+  隔离静音 mGBA 在 frame 1162 完成 battle 32 六单位、AI 替身和 round 2；Lua 写出
+  `capture-complete` 后模拟器未主动退出，heavy guard 的 idle timeout 只负责清理已完成
+  的进程，不能误报成 ROM 卡死或 guard success。证据见
+  `notes/battle-scenario-action-unlock-20260726.md`。这闭合解锁规则，不代表 battle 31
+  剧情入口、训练表现、专属动画或非静音音频已经功能等价，完整战斗 Goal 保持未完成。
+- 2026-07-26：纠正 type 2 微型卷轴“到期只释放”和“存活对象需要可见游标”的两项错误。
+  原 ROM `0x08081B9A..0x08081C34` 在 duration 归零后建立坐标特效，以
+  tile `0x0300..0x037F`、palette bank `12..14` 选择 sequence 7，等待状态 3 后才释放；
+  sequence 7 精确落到 resource group `0x12`、graphics `0x083478F4`、palette
+  `0x083480C8`，LZ 内容是 7 帧 32×32 灰色烟尘。Butano 现在由
+  `BattleSession → controller FIFO → battle_scene_presentation → renderer` 消费同一
+  actorless 到期事件，并从哈希门控生成器产出真实 4bpp 资源。原分配器只把
+  `(slot << 6)` 写入地图格元数据，因此删除了此前给存活对象绘制
+  `scenario_41_cursor` 的伪 sprite。聚焦 12 项 Python、C++ presentation/controller
+  测试和 ARM 零缓存构建通过。新档 campaign 第三忍具槽现在提供忍具 37；静音 mGBA
+  从正式目录选择 action 37，slot 1 跨两个阵营边界存活，并在 frame 410 以
+  `kind=2 / damage=0 / object_count=0 / presentation_busy=1` 签发成功，证据为
+  `artifacts/butano-battlefield-object-type2-runtime-20260726-03/`。ROM/ELF
+  SHA-256 为
+  `f496da7f4f9e415e5ffdc61b6ff132034995b1c2651b3e92b0854e224c041db1` /
+  `2db7059fd95460f83a4af37b8b9186baad40ec4a0e1522f88de734caa455c9f8`。
+  当前每图形帧 hold 4 帧是暂定值；原版自然路线逐帧时长、音效、type 1 起爆符专属动画
+  和完整战斗仍未闭合，Goal 保持未完成。
+- 2026-07-26：campaign 九格装备不再只负责入场投影。此前 resolver 会清空
+  `BattleSession` 的忍具槽，但 scene 退出只合并成长，导致已消费忍具换场或冷启动复活。
+  现在 controller 按 `original_character_id` 导出已部署玩家单位的九格最终值，未部署队员
+  保持原装备，召唤/分身不能覆盖档案；scene progression 在候选 campaign 上同时校验并
+  原子提交成长与装备，再由双槽 SRAM 写入并读回验证。非法忍具 94 使整次合并零写。
+  TDD 先观察缺少导出 API、未部署队员被清空和非法 ID 无拒绝的三类 RED，再由领域/集成
+  测试转绿。零缓存 ARM 构建通过；隔离静音 mGBA 从正式目录消费忍具 37，完成结果和训练，
+  generation 1 保存时观察 `67/11/37 → 67/11/0`。完全关闭进程后，第二个零输入进程在
+  frame 1 从非默认 slot 1 仍读回 `67/11/0`。ROM SHA-256 为
+  `b46467be9755c487b05f05378c1e254192d319a1146563248ba76a8c793e3c01`；mGBA 运行 ELF 为
+  `9ae62e886be7383dc64e2c3502eacaa9989d4a5f606f76f3f53bf8238f0a5529`；头文件自包含修复后
+  最终清洁重链接 ELF 为
+  `f2a9fa7b116ebf465dcec05bb3bac27568f06d56a717bea6c0a5d468f1df3f30`，ROM 哈希保持不变。
+  全量宿主 84/84、定向 Python 73/73 和清洁 ARM 通过。证据见
+  `notes/battle-campaign-tool-writeback-runtime-20260726.md` 和
+  `artifacts/butano-campaign-tool-writeback-runtime-20260726-01/`、
+  `artifacts/butano-campaign-tool-writeback-load-20260726-01/`。该里程碑闭合
+  已装备 ID 的消费回写，不包含章节背包数量、堆叠、补给、商店或战前换装 UI；完整战斗
+  Goal 保持未完成。
+- 2026-07-26：章节 campaign 已从“九格装备 ID”扩展为真正分层的忍具库存。原 ROM
+  `0x0808FF24` 证明模板 `+A/+B` 分别是父忍具/所需素材，`+C/+D` 是角色白名单；
+  `0x0808EBC0..0x0808EC38` 证明强化确认原子执行父项 `-1`、素材 `-1`、产物 `+1`，
+  并在已装备时替换首个匹配槽。Butano 现在生成 94 条独立配方，以 94 个忍具数量和
+  18 个素材数量作为 campaign aggregate，所有失败在 draft 上拒绝且 campaign 零写。
+  save version 2 把两个数量数组纳入双槽 CRC/generation 存档。新的实时战前页显示角色
+  装备、配方、背包和素材，方向键/A/B 操作同一个 `battle_preparation_flow`，确认只调用
+  共用 `ninja_tool_upgrade_service`，没有整屏截图或 UI 专用交易规则。86/86 宿主、26 项
+  相关 Python（1 skip）和清洁 ARM 通过。静音 mGBA 实际执行
+  `67→68 / material 6:1→0`，verified generation 1 后继续进入 battle 41 的地图部署；
+  第二个零输入进程 frame 1 读回 `68/11/37`、`owned67=0/owned68=1/material6=0`。
+  ROM/ELF SHA-256 为
+  `25db3b5b3c5085600f8f61c47e1eef7fccf1f70fbd45e42062c4881ec6e26dc3` /
+  `eb13a1f17b883d29d0b41358b1ee8d2f6f172f13634fe00a3fae9efdc22ecddf`；
+  证据见 `notes/ninja-tool-inventory-upgrade-evidence-20260726.md`、
+  `artifacts/butano-ninja-tool-preparation-runtime-20260726-04/` 和
+  `artifacts/butano-ninja-tool-preparation-load-20260726-03/`。商店、掉落、补给来源、
+  手动换装和原作 SRAM 格式仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：战前忍具页现已从“只能强化”扩展为真实副本分配事务。原 ROM
+  `0x08090004/0x0809004C/0x0808FCCC` 证明普通装备/卸下只改角色槽，持有量必须跨全部
+  角色统计；Butano 统一使用 `owned - globally equipped` 计算可用副本，并按角色白名单、
+  等级容量和首个空槽原子装备。save version 2 同时拒绝超容量、错误白名单与超额分配。
+  全量测试进一步暴露旧战斗提交只清槽不扣持有量，会让消耗品无限复用；现改为比较开战/
+  结束装备多重集并与成长、装备一起原子扣减 campaign 持有量。战前 flow 又加入 party
+  索引与根菜单 L/R 角色切换；三人集成从角色 2 换装经过 SRAM、campaign policy 和真实
+  battle 1 loader 后，只在角色 2 正式单位槽观察该忍具。最终 88/88 宿主和 ARM 构建
+  通过。静音 mGBA 从实时菜单把 `67/11/37` 换为 `1/11/37`，SRAM verified generation 1
+  后在 battle 41 正式目录观察
+  `action_count=6 / action1 / ninja_tool / slot0`；独立零输入进程 frame 1 又恢复
+  `tool0=1 / owned1=1 / owned67=1`。强化 `67→68` 路线也在新四项菜单下重新通过。
+  ROM/ELF SHA-256 为
+  `580c41d69f2079ee2a5f7a8f690f0acfb9fb3d70b16fd5779ba92f4689f57159` /
+  `5a85214b207532da0ef75f874c5a052cb5d5985ec2e65f0eb6c0cb371a0f1877`；
+  证据见 `notes/ninja-tool-equipment-allocation-evidence-20260726.md`。商店、掉落、
+  补给来源、完整动作可达性与残余效果语义仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：纠正地图低四位和被动 `0x1A–0x1C` 的两层错误解释。ROM
+  `0x08069DB8 → 0x08069D1C → 0x080698B4` 证明 `1/3/7/15` 是地形类别而非四方向
+  bit，target `0x1A/0x1C/0x1B` 分别提供类别 `1/3/7` 的逐路径预算；起点计数，递归
+  回溯恢复兄弟路径预算，`15` 永远封闭。Butano 现在从行动单位正式被动状态计算预算，
+  并让玩家移动预览、具体路径、AI 规划与 AI 威胁场共享同一领域规则；只保留零位移跳过
+  移动的显式例外，避免关卡初始部署锁死。TDD 先固定缺失规则、旧碰撞分析和原地误拒绝，
+  随后 89/89 宿主程序、ARM 构建与受守卫静音 mGBA 通过。battle 41 中未训练鸣人从
+  `(4,10)` 进入类别 7 的 `(3,9)` 被拒绝，回到原地则正常进入命令阶段。同一精确 ROM
+  又在 16×32 battle 9 通过 frame 2794 的 9 活动单位、round 2 大地图
+  回归，SP `0x03005754`；首次旧脚本因仍发送 Select、没有进入新增战前页而超时，已由
+  红绿脚本契约改为先发送 A，不能把该脚本失效误报为 ROM 黑屏或栈回归。ROM/ELF
+  SHA-256 为
+  `726c9f30e4cd2283fc138c38ec5e3e2afceb975ef9005719db8ea0860aa74da4` /
+  `132cb9390777eb14e48f4aec9d677b1ea345196b064ed58e97a15ac98a447b0c`；
+  证据见 `notes/battle-terrain-passive-runtime-20260726.md` 和
+  `artifacts/butano-terrain-traversal-runtime-20260726-02/`。三类完整显示名、教学表现、
+  28 条无直接消费者被动和非静音音频仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：动作 5 的命中演出不再由整屏截图或单 sprite 占位冒充。原 ROM 自然路线
+  `presentation-trace` 的 OAM/VRAM/PRAM 已解码为原作帧 148–163 的 16 帧结构化序列：
+  14 个唯一 4bpp OBJ 资产、每帧 1–8 个组件，完整保留坐标、shape/size、tile offset、
+  H/V flip 和 priority 2；所有帧的 tiles/palette 都逐字节回链
+  `0x08342938/0x08342DC8`。通用 `battle_effect_sequence` 与生成器不读取截图，
+  `PresentationStep` 又把 movie resource 与 impact resource 分离，动作 5 绑定独立命中
+  sequence，玩家和 AI 继续共享同一 resolver/event/renderer 路径。battle 9 领域集成
+  真实重放三回合佐助移动 `(9,15)→(7,14)→(7,11)→(7,10)`、从角色目录选择动作 5、
+  邻接锁定 `(7,9)`、一次命中与 HP 下降。静音 ARM ROM 在 frame 3701 完成同一路线，
+  击倒后 active units `9→8`，返回 unit selection，control/player error 为 0，
+  execution/memory-write trap 均为空；证据为
+  `notes/evidence/battle_action_05_hit_sequence_manifest.json`、
+  `notes/butano-combat-presentation-runtime-20260726.md` 和
+  `build/butano-action05-effect-runtime-20260726-41/`。最终 91/91 宿主、清洁 ARM
+  run 34 和 mGBA run 41 通过，ROM/ELF SHA-256 为
+  `dd8570ed435f68305d07bff9d29027e1b0c39b98c22ecb6f6e33576b03c89335` /
+  `0c7727d782f98857b18c2b55af99769e19604e42a5cdc0fd57b0334ee13660fc`。
+  动作 5 扬尘、攻击者完整动作对象、原作 hold/音效、火遁真实资源以及其余动作专属序列
+  仍未闭合，不能把本里程碑扩写成全战斗或全视觉功能等价，完整 Goal 保持未完成。
+- 2026-07-26：再次全局审计用户否决的“截图选项战斗”是否仍有生产入口。当前所有可见
+  battle 41/43/9/11/32 fixture 都进入同一个 `run_battle_scene(request)` 与
+  `battle_runtime_controller`；runtime 唯一直引 BG 是组件化 `battle_duel_forest`，
+  47 场地图只由生成背景目录选择。graphics 中所有 scenario frame/screen/prebattle/
+  confirmation/attack/result 整屏族均为 0，只保留地图光标及阴影。新增
+  `test_interactive_battle_cannot_load_precomposed_screen_assets` 固定 BG 白名单、源码禁词
+  和资产 glob，防止旧整屏路径回归；11/11 单领域门禁通过。审计见
+  `notes/butano-interactive-battle-asset-audit-20260726.md`。这项结论只证明当前活动战斗
+  不再加载预制整屏截图；`main.cpp` 仍是少数 fixture 的顺序入口，完整章节导航、逐技能
+  组件和非静音音频仍未完成，完整 Goal 保持未完成。
+- 2026-07-26：继续纠正“只把特效贴在原地角色旁”的伪动作 5。参数化原 ROM 追踪把
+  `0x083406F0/0x083409D0` 闭合为原作帧 77–135 的 59 帧扬尘：8 个唯一 OBJ 资产、
+  最多 3 组件，压成 26 个显式 hold keyframe；原 16 帧命中也压成 11 个 keyframe，
+  总时长保持不变。新增独立 `battle_actor_choreography`，按原作 OAM/CPUSet 证据驱动
+  “起步 → 施术者隐藏 → 目标侧再入场 → slot 3 命中/结果姿态”，角色像素继续从
+  63 角色共享 visual catalog 解析，因此 battle 9 使用佐助自己的资源，不是复用鸣人或
+  整屏截图。最终静音 mGBA run
+  `build/butano-action05-choreography-runtime-20260726-51/` 在 frame 3726 完成
+  round 3：动作 5 由正式目录/resolver 执行，目标 `HP 1→0`、active units `9→8`，
+  返回 unit selection；起步、隐藏扬尘、再入场、命中与地图恢复均有独立关键帧，
+  control/player error 为 0，两个 trap 均为空。ROM/ELF SHA-256 为
+  `52330dbfa239e420873c41a381261fe875641324a03ed513a7c3fae4038ea63c` /
+  `fe68de1cb5bcd47f65ecd29947ac57f04c684f69aea1cac3982fca82bf0b46ac`。
+  这只闭合动作 5 已取证的视觉组件与角色时序；不同体型角色适配、术名/HUD 精确像素、
+  sound cue、火遁真实资源和其余动作族仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-26：动作 16 火遁不再是程序化火球或预制整屏画面的选项跳转。原 ROM 自然
+  路线已拆成 `duel → cut-in/title → movie → impact → result/map restore` 的有序
+  `PresentationDefinition`；cut-in 使用肖像/dialogue BG、三个标题 OBJ 和原作
+  `WIN0H/WIN0V/WINOUT/BLDCNT/BLDY` 空间窗口白场，movie 使用 actor/fire/streak/
+  dialogue 四个独立 BG、逐帧 palette/blend/scroll，impact 使用 30 帧、12 keyframe、
+  最多 4 个组件的通用 OAM sequence。玩家和 AI 继续共享同一个 resolver/event/renderer，
+  表现层没有 HP、回合或命中次数写入口。接入白场时发现并修复消息窗口未恢复全局
+  blending weights 导致后续表现停止的问题；根因是共享硬件状态所有权泄漏，不是 mGBA。
+  最终 ARM 构建和静音 mGBA 自然路线均通过，battle 9 在 frame 6145 完成动作 16、
+  active units `9→8` 并回到 round 2 unit selection。ROM/ELF SHA-256 为
+  `a035eeffd4a6e3f25562b92259604e6f03e2919fce5eb1dd4a507122f989f507` /
+  `343eb2067017cadafdd71f7d2f0969e79eacbd3e5193bc27a447bcb0d6c06a69`；
+  标题 frame 250、窗口淡化 frame 300、movie frame 360 三个锚点均为
+  0/38400 差异像素。证据见 `notes/original-fire-presentation-runtime-20260726.md`。
+  这只闭合动作 16 的表现纵向切片；动作 17/18、通用决斗角色/HUD、其余动作族和非静音
+  音频仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-27：纠正 action 80“只改 reaction byte 就算金缚术”的空领域实现。原 ROM
+  handler `0x0807755C` 同时写 reaction `0x30` 和持久状态 `0x3F`；阵营切换后的
+  `0x08075350` 又按 `3F/3E/3D/0F/11/15` 查询状态并跳过单位激活。Butano 现把六 code
+  统一接入 `battle_session` 行动资格，玩家选人/轮换与 AI flow 共用同一事实源；金缚术
+  命中建立 4 side-end ticks，miss 零写，到期恢复行动。battle 20 暴露的整侧阻断现由
+  `advance_empty_side` 执行正式 status/object/condition/script 边界并自动切边，
+  47×3 场景百回合压力测试不再卡在空选择页。静态证据为
+  `notes/battle-command-blocker-bindings-20260727.json`，设计与计划为
+  `docs/superpowers/specs/2026-07-27-butano-command-blocker-design.md` 和
+  `docs/superpowers/plans/2026-07-27-butano-command-blocker-runtime.md`。专属演出/图标
+  与非静音音频仍未闭合。最终 92/92 宿主、16/16 相关 Python、devkitARM 与静音
+  mGBA battle 9 3v5 round 2 回归通过；ROM/ELF SHA-256 为
+  `bf3b05fbc224a6c2419ff02c89f5f638460332189adaf4d1b034b4df614b5daf` /
+  `d0cda81cc8d78efff616b836000d1903c2299fc7380d60706578634254952b44`，
+  证据见 `notes/battle-command-blocker-runtime-20260727.md`。完整战斗 Goal 保持未完成。
+- 2026-07-27：纠正“只有调用通用查询器才算被动消费者”的覆盖口径。原 ROM
+  `0x0806D964` 在角色等级成长后直接遍历 24 个副技能槽，先执行 targets `2/6/8/11`
+  的 HP/防御/敏捷百分比与结印减免，再执行 targets `1/3/4/5/7/9/10` 的固定加值；
+  定义值为 `base_a + per_level_a × (level-1)`。Butano 现把同一 progression 被动状态
+  接入 scenario loader 的 `hp/max/base_*` 和 campaign 整备容量，玩家、敌人、临时状态
+  到期基线及战前合法性不再各用不一致数据。target 10 的 ROM 上限纠正为 99，同时保留
+  九格装备数组边界，不把统计容量误写成装备槽数量。被动覆盖由 `17 direct / 28
+  no-direct` 修正为 35 条已有生产消费者、10 条未闭合。最终 93/93 宿主、121/121
+  相关 Python、固定 devkitARM 和静音 mGBA battle 9 round 2 通过；ROM/ELF SHA-256 为
+  `be4201732a3a9dcf7ddfdb73fe107db75b7dc842fed8c99b6f5fbf85a31ef6d7` /
+  `46e9f9c9de1d83db2f8bdb1f8cccb910f2b9c4f0296ff5805eea1e51de072ab9`。
+  证据见 `notes/battle-persistent-passive-stat-runtime-20260727.md`。targets
+  `0x0D–0x13`、每件忍具容量成本、专属表现和非静音音频仍未闭合，完整战斗 Goal 保持
+  未完成。
+- 2026-07-27：继续纠正 targets `0x0D–0x13` 被误报成“无 ROM 消费者”。完整函数
+  `0x0806D6B8` 在主动技等级成长或忍具模板物化后遍历 24 个被动槽，先执行 target
+  14/16 的 potency 百分比 pass，再执行 targets 13/15/17/18 的 potency 固定加值和
+  target 19 的成功率加值；主动技调用点为 `0x0806D906`，忍具调用点为
+  `0x0806D954`。Butano 现用一个纯函数修正每命令动作副本，并只在统一
+  `BattleActionCatalog` 接线，玩家 browser、AI、preview 与 resolver 不再各持一套
+  数值。正式 resolver 集成测试证明 catalog 修正后的动作 16 单段伤害高于原始定义。
+  被动覆盖成为 44 条已有生产消费者、1 条 ID 0 哨兵。最终 94/94 宿主、30/30 相关
+  Python、`git diff --check`、固定 devkitARM 与静音 mGBA battle 9 round 2 通过；
+  ROM/ELF SHA-256 为
+  `30719ed9750b832d6136967deeefad200101138d107fff186b1eb577c613aecd` /
+  `2a67a2367d09d8c6763efbe57a790a14e8986827fd1006f56bd5f061fffbc0d4`。
+  证据见 `notes/battle-passive-action-modifier-runtime-20260727.md`。随后复核
+  `0x08090004` 已排除“每件忍具不同容量成本”：它直接按角色 `+0x06` 扫描
+  `+0xB1+i` 并递增已装备数量；仍需证明全部角色/等级/target 10 训练组合不会越过九格
+  物理区。20 个初始未习得主动项已由统一训练状态机闭合，动作 19/62 的特殊来源也已由
+  既有 reachability 里程碑证明；当前剩余全零身份 39/40/52 的非命令用途、全部专属表现
+  和非静音音频，完整战斗 Goal 保持未完成。
+- 2026-07-27：主动技/忍具覆盖不再只以“resolver 返回 success”计数。重新执行
+  fail-closed reachability 后，87 个主动身份仍为 0 个 unclassified：20 个旧称
+  “state 0 永久不可达”的动作已有统一训练路线，action 19/62 分别由 battle 31 特殊
+  解锁和 battle 8 formation 提供。`test_battle_all_actions_runtime` 现对 76 个角色模板
+  动作、action 62 和 93 个忍具按 handler 检查权威领域后果：伤害 step、状态、召唤数量、
+  移动、身份、治疗、链接清理、对象槽、查克拉或 reaction 必须实际变化；action 9 只允许
+  作为强制组合组件。结合五个组合事务，全部 82 个非零主动定义和 93 个非空忍具定义
+  获得领域后果证据。首轮红灯纠正了 action 80 三段命中应计三次 status apply、而不是
+  一次的错误测试假设，生产代码无需修改。最终 94/94 宿主和 5/5 reachability/
+  progression Python 通过；证据见
+  `notes/battle-all-action-semantic-sweep-20260727.md`。全零且无 primary 引用的
+  39/40/52 非命令用途、逐技能专属表现和非静音音频仍未闭合，完整 Goal 保持未完成。
+- 2026-07-27：纠正“新战斗运行时已自动继承旧音频”的错误假设。复核发现资产和 Maxmod
+  虽然仍被链接，但战前/战斗 scene 没有 `bn::music` / `bn::sound` 调用，修改前 600
+  帧录音 657,416 个采样全部为零；根因不是 mGBA 前端。现由
+  `battle_audio_event → battle_audio_director → battle_audio_command_batch →
+  battle_audio_runtime` 消费 controller phase、输入结果和 presentation stage 边沿，
+  组合技通过显式 `special_combination` 投影选择 cue，不再绑定截图帧或硬编码 action ID。
+  最终 95/95 宿主、相关 Python、固定 devkitARM 通过；ROM/ELF SHA-256 为
+  `b969b6eaa2cce74909d43a6fbd5d965d077d432b3803eb141e788afe27bbc87f` /
+  `072ab1deaf254635a15fb8b077a6d14d9e0f8dc26f89b780af3711e2fb50ca8d`。
+  非静音录音从冷启动重放 6500 帧、518/518 个输入，在 battle 9 完成动作 16 并回到
+  round 2 unit selection；7,131,188 个采样中 5,874,592 个非零，同声道相邻跳变
+  `>=16384` 为 0，`>=8192` 为 0.001234%，WAV SHA-256 为
+  `c6cc5a62493933d818fd64ad6889fe99c817b76f3eaed96670b1f90284befd25`。可视路线两个
+  trap 均为空，没有确认后黑屏等待第二次 A。证据见
+  `notes/butano-battle-audio-runtime-20260727.md`。后续战役路由一度回归为全零录音；
+  写监控最终证明 SRAM decode 大栈覆盖 IWRAM Maxmod 跳板，现已通过调用方 EWRAM
+  workspace 原位解码修复，最新 ROM 的非静音和零大突跳证据见同一文档。除此之外，
+  87 个主动动作/94 个忍具的逐项专属 cue 与表现身份、全零动作 39/40/52 的非命令用途
+  仍未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-27：纠正表现层把所有非 `family 1 + opponent` 动作压成地图效果的二分架构。
+  日本版连续录像 1280–1320 秒的 0.5 秒顺序采样证明，小李动作 43“第一　开门　开”和
+  宁次动作 38“白眼”都进入“单施术者 + 单侧 HP + 术名/肖像/自身效果”的独立森林舞台，
+  不显示目标或双人分隔线。生产 `battle_combat_presentation` 现按
+  `family 5 + self_or_implicit_actor` 生成通用 `self_technique` 七阶段事务；renderer
+  用 `single_actor_stage()` 与 `versus_divider_visible()` 区分角色/HUD 布局，不增加
+  角色 ID 特判或截图路径。领域和 wiring 测试均完成 TDD 红绿闭环。原 ROM
+  `0x0806B9DC` 同时纠正为单位路径移动函数，其中 39/40/55 是角色 ID 而不是动作 ID，
+  不能再用于推断全零动作 39/40 的语义。完整证据见
+  `notes/battle-self-technique-presentation-evidence-20260727.md`。当前阶段时长仍是结构
+  占位，动作 38/43 的 ROM 派生 cut-in/手势/效果组件、family 5 其他目标子族和逐技能
+  专属 cue 尚未闭合，完整战斗 Goal 保持未完成。
+- 2026-07-27：继续纠正“动画 family 就是场景类型”的截图式分流。日本版连续录像
+  950–975 秒以 0.5 秒间隔证明鹿丸 `影真似の術` 的自然序列为
+  “地图确认→双角色森林舞台/双方 HUD→术名肖像→双角色命中判定（本次 MISS）→返回地图”，
+  不是地图截图效果。生产层新增通用 `control_technique` 八阶段事务，并用
+  `family 5 + opponent target + resolver effect 14/15/63` 分类动作 23/24/80；
+  linked-cleanup effect 11、自己/友军/格子动作不被误并入。领域事务与 scene 集成测试
+  均通过，表现仍只消费 resolver 的 impact 与状态结果。最终 95/95 宿主、9/9 相关
+  Python、devkitARM 和非静音 battle 9 回归通过；ROM/ELF SHA-256 为
+  `65d023270e5832e0811ef9f8c7821b08731155c9dada6ffb0bee6f01434ffcce` /
+  `3bb1aee0a054ef4e317752c847f63e2ee019a249f46f4d8b35a686cdac71e59b`。证据见
+  `notes/battle-opponent-control-presentation-evidence-20260727.md`。动作 23/24/80 的
+  ROM 派生专属组件/音效/时长、family 5 对敌忍具 49–66 的自然证据和其他动作族仍未闭合，
+  完整战斗 Goal 保持未完成。
+- 2026-07-27：闭合 family 5 对敌忍具的场景事务，并撤回一次由缓存动作行造成的错误
+  推断。battle 15 未缓存自然路线中，tool 49“猛烈弹”从正式忍具目录进入双角色森林
+  舞台、双方 HUD、标题、命中/爆炸/烟雾和地图恢复；状态样本 tool 55“软气弹”走同一
+  外层事务并显示 `-25%`。生产现按 `ninja tool + family 5 + opponent target` 生成
+  `bomb_tool` 八阶段事务，分类器不含动作/角色/关卡 ID 或截图分支，伤害与状态仍由各自
+  resolver 结算。最终 95/95 宿主、10/10 相关 Python 和 devkitARM 构建通过；ROM/ELF
+  SHA-256 为
+  `544e09ca68a22701a170ad8532055d8fe63d74763a792af229f346b3d8d5998c` /
+  `3bae8e47f6ea944ea6b53ce09f3afccffd2117fa93de8e5284027d5bd80a48a3`。
+  原始 trace、TDD 和缓存陷阱见
+  `notes/battle-opponent-bomb-tool-presentation-evidence-20260727.md`。本轮闭合的是
+  架构分类与事务，不是 tool 49–66 的逐项投射物、烟雾、时长、字形和 sound cue；
+  静音 mGBA battle 9 回归也在 frame 6151 返回 round 2 unit selection，两个 trap
+  均为空，但该路线没有执行 tool 49，不作为 bomb 专属视觉签发。完整战斗 Goal 保持
+  未完成。
+- 2026-07-27：tool 49 不再只复用通用决斗事务。原 ROM 自然 trace 的 OAM/VRAM/PRAM
+  已生成 7 帧投射物（4 个资产）和 111 帧爆炸烟雾（25 个资产、70 个 keyframe、
+  最多 14 个半透明组件）并绑定 production；生成器不读取 240×160 合成截图。新增
+  battle 9 正式路线从三人部署，经移动、命令、忍具目录、目标、面向与防御，在 round 3
+  由佐助装备槽执行 tool 49；目标死亡使 active units `9→8`，随后自动回到
+  unit selection，没有确认后黑屏或第二次 A。路线同时暴露主动技与忍具裸 ID 碰撞：
+  旧 resolver 把忍具 49 错套主动技 49 的八门状态资格；现 browser、resolver 和 AI
+  都以 `(source_kind, id)` 解释身份。最终 95/95 宿主、22/22 相关 Python、devkitARM
+  与静音 mGBA 通过，两个 trap 均为空；ROM/ELF SHA-256 为
+  `89d732022b73fdde26797f2a55be69e6b11e8bf2998be6d29ce72f3c2343508f` /
+  `e9345eec02af2e2b6bc3f9b7ac64cabe9cea5be6082016aad4eca802a3e9eb33`。
+  证据见 `notes/battle-opponent-bomb-tool-presentation-evidence-20260727.md` 和
+  `artifacts/butano-bomb-tool49-runtime-b09-20260727-07/`。这只签发 tool 49 的组件
+  与自然路线，tool 50–66、标题字形、专属 sound cue 和完整战斗 Goal 仍未完成。
+- 2026-07-27：scenario 41 不再由截图选项或 round-2 捷径伪造结果。新增独立
+  `(battle_id, variant)` 任务规则，复用正式 `battle_action_access_policy`，使 variant 0
+  只允许动作 5 并禁用忍具；Lua 只按 telemetry 驱动共享 controller 的移动、敌方回合、
+  resolver、condition 和结果链。受守卫 mGBA 在 frame 879 完成 round 4，
+  `100 + 50 + 0 = 150`，鸣人升到 LV2/EXP0，动作 8 修炼 `0→1`，campaign save
+  generation 1 且 verified。同期纠正音频结论：phase 音频现等待 presentation FIFO 和
+  活动演出同时完成；重复导入 WAV SFX 仍会在 IRQ/Maxmod mixer 冻结，当前生产只保留
+  S3M BGM、sound 命令为空操作。最终全部 host、23 个相关 Python、devkitARM 和四回合
+  mGBA 通过，证据见 `notes/battle-scenario-41-mission-rules-runtime-20260727.md` 与
+  `artifacts/butano-s41-four-round-runtime-20260727-22/`。SFX、精确 AI 路径、逐技能
+  专属表现和完整章节仍未等价，完整战斗 Goal 保持未完成。
+- 2026-07-27：继续删除战斗外层最后一条“选项跳关”旁路。旧 visible scene 只有
+  `back/next_battle`，SELECT 可在未结算时离场，且 `run_battle_scene` 会对撤退/失败也
+  无条件提交成长与忍具消费；`main` 随后忽略 battle 41 返回值进入固定夹具链。生产现以
+  controller snapshot 的 `win/loss/equal` 唯一映射 `victory/defeat/draw`，START 明确为
+  `aborted`，SELECT 不再是战斗输入；只有 victory 能 merge campaign、保存 SRAM 并进入
+  后继。独立 mGBA 负探针在 SELECT 前后均记录 battle 41、phase 1、round 1、0/0 error，
+  四回合真实胜利路线仍完成 150 EXP、LV2、动作 8 修炼与 verified save。同轮重新审计
+  训练 reachability，发现动作 15/51/56 的 `upgrade_rule{0,0}` 被错误解释为不可修炼；
+  原 ROM 修炼事务只按槽执行 `0→1`，现三项均已通过 progression→unit→catalog 正式链。
+  全量 host、5/5 wiring、固定 devkitARM 与两条静音 mGBA 路线通过；ROM/ELF SHA-256 为
+  `bc9fb4fccfd716e3225e7329a0b5c4017f45289dae00c21a7a33b252755eb7c7` /
+  `b010e6ee83097a5f3f1eb7b3cd4a3fff3642f659f41c3f3605e3a822a98359f3`，证据见
+  `notes/butano-battle-result-routing-runtime-20260727.md`。完整 56 项章节 orchestrator、
+  defeat 原作 UI/持久化规则、逐技能专属表现和 WAV SFX 仍未闭合，完整 Goal 保持未完成。
+- 2026-07-27：后续关卡能力不再用“battle 42 能进部署”或截图作为完成证据。新增
+  scenario 42 宿主完整纵切，从原作前置的 `LV2 / EXP0 / TP1 / action8 LV0` 档案经
+  generated formation/map/conditions/rewards、共享 controller、pathfinder、敌方 AI、
+  动作 5、condition、结果和 campaign transaction 推进 scenario 43；没有 scenario
+  专用 HP/胜负写入或第二套 FSM。mGBA 标准路线先在 scenario 41 结果页真实按 B 保留修炼点，
+  再于 battle 42 第 11 回合结算 `100 + 10 + 0 = 110`，SRAM generation 2 verified，
+  鸣人保持 LV2/EXP110/TP1。第二个独立 mGBA 进程从该 SRAM 冷启动到
+  `scenario43 / battle43 / round1 / unit_selection`；入口探针也由部署首帧黑图纠正为完成
+  部署和脚本后稳定两帧再截图，因此不需要额外按一次 A 才显示战场。最终 99/99 host、
+  32/32 相关 Python、固定 devkitARM 和三段受守卫 ROM 路线通过；ROM/ELF SHA-256 为
+  `8f19053a827ee15c4d1a0c0b7b43550aec7f2b74e2be2cd5468bb7bbf1493bad` /
+  `570867daf9717e2ec3bbc3b8fe8fe10a243fd69effb95f4607daafb087abf479`。证据见
+  `notes/butano-battle-campaign-route-runtime-20260727.md` 和
+  `artifacts/butano-battle-campaign-route-s42-complete-20260727-05/`。这证明架构可承载
+  相邻后续关卡，不代表全部 47 场、章节剧情、逐技能专属表现或 WAV SFX 已完成；Goal
+  保持 active。
+- 2026-07-27：把后续关卡纵切从 scenario 42 的单人/单敌扩展到 scenario 43 的动态
+  多单位战斗。新增宿主测试从 `LV2/EXP110/TP1` 档案进入 generated battle 43，真实执行
+  动作 7 创建槽 5 分身、两个玩家单位后续回合、三个敌方 AI、共享 pathfinder/动作 5、
+  condition victory、`125 + 30 + 0 = 155`、LV3/TP2、campaign merge 和 43→44 Team 7
+  policy；没有 HP/坐标/胜负写入或关卡专用 FSM。第一次 mGBA 驱动因对整张地图枚举不可达
+  格在 round 7/frame 20000 停止，保留为被取代证据；按 3 格移动预算裁剪后，正式 ROM 在
+  frame 12429/round 27 完成，`shadow_clone_verified=1`，SRAM generation 3 verified。
+  独立进程从该 SAV 冷启动到 `scenario44/battle44/round1/unit_selection`，active units 4，
+  可见 Team 7 与敌人且不是黑帧。最终 100/100 host、22/22 相关 Python、Lua、格式和
+  devkitARM 通过；ROM/ELF SHA-256 仍为
+  `8f19053a827ee15c4d1a0c0b7b43550aec7f2b74e2be2cd5468bb7bbf1493bad` /
+  `570867daf9717e2ec3bbc3b8fe8fe10a243fd69effb95f4607daafb087abf479`。证据见
+  `notes/butano-battle-campaign-route-runtime-20260727.md`、
+  `artifacts/butano-battle-campaign-route-s43-complete-20260727-02/` 和
+  `artifacts/butano-battle-campaign-route-s44-cold-20260727-02/`。scenario 44 完整胜利、
+  scenario 50 后章节、逐技能专属表现与 WAV SFX 仍未闭合，Goal 保持 active。
+- 2026-07-27：scenario 44 不再用第一次行动触发的空对象条件伪装胜利。根因是生成条件
+  已要求“对象槽 1 无效”，但 encounter 从未创建铃铛对象；现以数据驱动 mission rules
+  在固定槽 1 初始化 `(4,4)` type 3 对象，并在正式玩家行动事务边界验证“enemy side
+  已清空 + 行动单位位于 `(4,3)` + 面向下”后释放，仍由既有 condition interpreter
+  判胜，controller/turn flow 无 battle-ID 分支。宿主纵切真实完成 Team 7 回合、
+  Kakashi AI、击倒后继续战斗、取铃铛、三人各 125 EXP、成长与 44→45 campaign；
+  Sasuke 首次加入前置同步为 100 EXP，任务结果按原版不计 Kakashi 的 100 battle EXP。
+  受守卫 mGBA 在 frame 5793/round 12 完成，`objective_verified=1`、对象数 0、
+  SRAM generation 4 verified；独立进程冷启动到 scenario45/battle45/round1 可见战场。
+  最终 102/102 host、相关 Python、Lua、格式和 devkitARM 通过；ROM/ELF SHA-256 为
+  `f76c36ba28728e8fe05071e0812b315492d735d2022377a1a4fc09c64b6abab5` /
+  `9179dab6d7066759706256fda3902aab1e0986f50627baed72600492266e9683`。证据见
+  `notes/butano-battle-scenario-44-objective-runtime-20260727.md`、
+  `artifacts/butano-battle-campaign-route-s44-complete-20260727-02/` 与
+  `artifacts/butano-battle-campaign-route-s45-cold-20260727-02/`。该里程碑签发共享
+  多阶段目标架构和 scenario 44，不自动签发其他对象关卡；完整 Goal 保持 active。
+- 2026-07-27：scenario 45 不再以固定结果数字描述奖励。宿主纵切从第 44 战后档案加载
+  Team 7 和卡卡西，只经共享 controller/resolver/AI/condition/result/campaign 管线完成
+  三角色目录、十字手里剑消费、佐助移动后豪火球、小樱最后击倒和 45→46 路由；没有写
+  HP、坐标或胜负。原版 checkpoint 算术证明三人各得 150 mission EXP，卡卡西携带的
+  100 battle EXP 只归小樱，最终精确得到 Naruto LV3/275、Sasuke LV3/0、Sakura
+  LV3/60。全量 game host 103/103 通过。前三次 guarded mGBA 的“内存上限”已定位为
+  驱动结果断言错误后的二次症状：通用路线让鸣人击倒得到 250，Lua 却断言原版小樱
+  击倒时鸣人的 150。修复后 ROM 经真实配装 UI 装备并消费十字手里剑，验证佐助豪火球
+  并由小樱收尾；frame 5402/round 11 完成，三项动作标志均为 1，SRAM generation 6
+  verified，守卫峰值 120.3046875 MiB。独立进程从该 SAV 冷启动到 scenario 46 /
+  battle 9 / round 1 的可见 8 单位战场，错误码均为 0。证据见
+  `notes/butano-battle-scenario-45-domain-runtime-20260727.md`，完整 Goal 保持 active。
+- 2026-07-27：scenario 46 捕获不再是图片/对白触发的伪结果。新增独立 direct-attack
+  command/source identity、数据驱动 capture policy 和任务级动作投影；battle 9 只允许
+  技能/忍具捕获角色 41，直接攻击在确认边界拒绝，动作 7 只在本任务从召唤投影为
+  `damage + opponent target`。捕获读取 resolver 的真实击倒 damage step，清空当前
+  `character_id` 并保留 original identity；第五只猫清空后由 generated condition 直接
+  胜利。宿主纵切完成佐助 2、鸣人 2、小樱 1 次捕获，结算
+  `mission 125 + battle 60/60/30 + bonus 0`、升级并推进 46→47；106/106 game host
+  通过。审查后进一步修复组合技来源被压成主动术的问题：捕获策略现逐组件检查，只有同时
+  允许主动术与忍具时，动作 16＋十字手里剑组合才可捕获；忍具单动作生产链、忍具消耗、
+  重复伤害步去重和多目标捕获均有测试。受守卫 ARM 构建成功，新 ROM 从 generation 6
+  SAV 冷启动到真实 battle 9，frame 302 运行探针确认直接攻击拒绝与动作 7 的
+  effect/target 投影。随后删除宿主测试中的限制移动地图，测试侧 BFS 只根据真实
+  16×32 generated map、公开 move preview 和单位 snapshot 选择合法按键；生产
+  controller 仍独立负责移动提交、AI、动作、捕获、胜负与结果。ARM 首次完整路线暴露
+  捕获后当前 `character_id=0` 与尚未完成的受击表现冲突，断言停在
+  `battle_runtime_scene.cpp:3544`；表现事件现冻结所有 affected unit 的结算前角色身份，
+  renderer 只在该次表现期间读取，领域槽仍保持清零。最终静音 mGBA 在真实地图第 92 回合
+  完成佐助 2、鸣人 2、小樱 1 次捕获，得到 `125 + 60/60/30 + 0`，鸣人
+  LV4/EXP180/TP3，SRAM generation 7 verified，并推进到 scenario 47；Lua 无
+  `emu:write`。最终 106/106 game host、12 项 Lua/遥测协议、ARM 构建与格式检查通过，
+  ROM/ELF SHA-256 为
+  `c0eba827fac440bef0a9d44e5740270da96c2b93c05d6b266fc567b4eb0a80da` /
+  `e23e85b1a50937325adc1611940fa7205d725b9ddb9e9015ce9ed6fffef15b6e`。
+  证据见 `notes/butano-battle-scenario-46-capture-runtime-20260727.md` 与
+  `artifacts/butano-battle-scenario-46-exact-map-20260727-10/`。scenario 47+ 与专属
+  捕获音画仍未签发，Goal 保持 active。
+- 2026-07-27：scenario 47 不再只是 campaign 表中的 `47→49` 数字，也没有以对白截图、
+  敌人消失图片或固定结果冒充关卡。宿主纵切从 scenario 46 的 generation 7 等价档案
+  装载真实 battle 13：13×21 地图，Naruto/Sasuke/Sakura 位于
+  `(6,3)/(4,3)/(8,3)`，五名 character 33 / LV3 / HP80 位于
+  `(1,10)/(3,14)/(6,16)/(9,14)/(11,10)`。测试只发送 controller 公开输入，真实执行
+  休息、动作 7 生成可行动影分身、敌方 AI、五次 resolver 击倒、condition victory、
+  三人各 125 mission EXP、合计 375 battle EXP、升级和 47→49。
+  实机早期路线的“确认对白后冻结”由 GDB 证明是 OBJ tiles 资源 cohort 同帧重叠：
+  `bn_sprite_tiles_manager.cpp:921` 报 8 tiles 分配失败，400 tiles 尚待延迟回收；
+  现通过脚本视觉资源释放 → `bn::core::update()` → 地图资源分配的模式事务修复，并
+  增加脚本 A 优先级/latch。只读复审进一步发现脚本判断前提前弹出 presentation FIFO
+  会丢失对白等待期间的动作/对象表现；新增红测后只在非脚本等待且非活动演出时取事件。
+  最终清理诊断后的受守卫 mGBA 在 frame 24898 / round 31
+  消灭五敌，`shadow_clone_verified=1`，首名结果 `125+75+0=200`，Naruto
+  LV5/EXP85/TP4，generation 8 verified 并进入 scenario 49。ROM/ELF SHA-256 为
+  `36497840f4c636b39f9495ae5a2429ccda45e2ff1eb5e2c6fc0ae21202216a1a` /
+  `aefaa2d3786a1d42e88cb83d2c43254348ddfdff61d165494eb61c036b7c0869`。
+  证据见 `notes/butano-battle-scenario-47-runtime-20260727.md`、
+  `notes/evidence/butano-scenario-47-real-map-runtime-20260727.json` 与
+  `artifacts/butano-battle-scenario-47-real-map-20260727-22/`。本路线静音，音频不在
+  本里程碑签发；scenario 49+ 与逐动作表现继续保持未完成。
+- 2026-07-27：scenario 49 / battle 14 不再把同阵营 character 30 当成可选玩家单位或
+  静态截图。新增数据驱动 mission control policy，loader 保留其 formation config 2 /
+  LV3 / HP40，controller 在 Team 7 三名玩家行动后先运行同阵营任务 AI，再运行五名
+  character 55 敌方 AI；敌方仍按 config 4 关注 character 30。原版 turn-4 的 `(12,3)`
+  只作为 battle 14 可观察路径锚点，battle 15 只继承 AI 控制权而不猜测坐标。独立宿主
+  纵切验证了任务角色死亡时 Team 7 尚存仍判负，以及公开移动、动作 5、佐助动作 16、
+  查克拉补充、任务 AI、敌方 AI、五次 resolver 击倒、8 回合奖励、成长和 49→50 的
+  完整胜利链；按本路线击倒归属得到 Naruto LV6/EXP125、Sasuke LV5/EXP175、Sakura
+  LV6/EXP155。108/108 全量 host 与 devkitARM 构建通过。新 ROM 从 scenario 47 的
+  generation 8 SAV 冷启动到可见 `scenario49 / battle14 / round1 / 9 units`，默认档案
+  未被使用且控制错误为 0。ROM/ELF SHA-256 为
+  `a35334184ba1e379ed0c3003c2e3fc7542948016f4412feddc7507871e564de3` /
+  `9533b8c9436b5d6acaf2ca6c7e38523c00e5e7498eb7c2e8a0b00edee2cc60cd`。
+  证据见 `notes/butano-battle-scenario-49-allied-ai-runtime-20260727.md`、
+  `notes/evidence/butano-scenario-49-allied-ai-runtime-20260727.json` 与
+  `artifacts/butano-battle-scenario-49-allied-ai-entry-20260727-01/`。完整 mGBA 胜利
+  路线和音频均未签发，scenario 50+ 与完整战斗 Goal 保持未完成。
+- 2026-07-28：scenario 49 / battle 14 已加入由真实状态驱动的第一版完整战斗 UI：
+  底部单位状态、HP/查克拉条、回合/阵营、真实可见指令列表、技能列表与详情、目标伤害/
+  治疗预览、资源/组合/防御确认、胜负、经验、升级和训练页面。UI 由可复用 panel/bar
+  slices、文字和当前 controller snapshot 分层组装，不使用原作整屏截图充当状态。
+  新 UI 首次暴露的 OBJ tile 与 128 色立绘 palette 失败，已追溯为资源所有权和
+  palette-slot 顺序问题：部署拥挤时创建的常驻 4bpp 光标及遗漏的战斗演出层可占据 slot
+  0，而 Butano 8bpp palette 必须从 slot 0 连续分配。现由
+  `battle_visual_resource_coordinator` 统一管理 deployment、map、script dialogue 和
+  combat portrait 四个互斥 cohort；光标、消息窗、UI、单位、文字、演出层和立绘统一按
+  “释放 → 单次 core update → 分配”切换，portrait helper 不再自行释放其他 renderer。
+  UI panel/bar 共用一套 16 色 palette，同一逻辑迭代不再重复提交资源交接和帧尾更新。
+  清理诊断后的受守卫 ARM 构建与静音 mGBA 完整路线通过：frame 10506、round 9，
+  真实结算 `mission 125 + battle 100 + bonus 0 = 225`，result verified，SRAM 推进并进入
+  scenario 50；无 palette/tile failure，控制错误均为 0。ROM/ELF SHA-256 为
+  `4f1963ae596cb09d457642a6303833ab9d1f8e246313a333242111c60436a457` /
+  `ca11b2314154540998261a1ed33913d02730ff5076e1ae2463736e8ff1142d57`。
+  证据见 `notes/butano-battle-scene-resource-lifetime-20260726.md`、
+  `artifacts/butano-battle-ui-20260728-01/full-runtime-22/` 与更新后的
+  `artifacts/butano-battle-manual-acceptance-20260728-01/`。本次只签发 scenario 49
+  的可操作 UI 与完整闭环；scenario 50 战斗、全部 47 场的逐场 UI 校准、全部技能专属
+  演出和 WAV SFX 仍不在验收边界内。
+- 2026-07-28：修复玩家行动菜单中 `MOVE` 看似无效的问题。原领域已有可回滚的移动
+  草稿，但 controller 方向输入没有更新草稿，renderer 也始终绘制权威单位坐标；现每次
+  合法方向输入都会重算 path/cost，`battle_map_visual_position` 只把当前行动单位投影到
+  草稿格，UI 同步显示 `MOVE x,y Ccost` 与确认/取消提示。另修复指令菜单 MOVE 的错误
+  门槛：原地确认后也能重新打开移动，不再要求此前已离开原格。权威坐标仍到完整行动事务
+  提交时才更新，因此 B 可安全回滚。5 个相关 C++ 宿主测试、29 个 Python 契约、Lua 语法和
+  devkitARM 构建通过；受守卫 mGBA 从 generation 8 的 scenario 49 存档完成 battle 14，
+  round 9 击败 5 敌，结算 `125+100+0=225`、save generation 9 verified 并进入
+  scenario 50，错误码均为 0。ROM/ELF SHA-256 为
+  `d50d06e81194328b803ca7b4f4a944fddfddb59263bb787cd394e8fe4de210c1` /
+  `fdd3ef50f7d3a7815709d11f8f4921c638cce6ff84a5e256c45674ee8d4a97f9`。证据见
+  `notes/butano-battle-move-ui-runtime-20260728.md` 与
+  `artifacts/butano-battle-ui-20260728-01/full-runtime-26/`；其中 frame 295 的独立
+  证据确认原地确认后从指令菜单选择 MOVE 会实际返回移动阶段。移动范围高亮、不可达格
+  专用样式、scenario 50+ 和 WAV SFX 不在本次边界。
+- 2026-07-29：scenario 41 的视觉复刻改为按 34 个原作稳定截图边界逐项签发，不再用
+  “完整路线能通关”替代功能与视觉等价。权威集合为战前 6、主流程 6、战斗交互 8、
+  战后扩展 14；其中两张升级页必须以含 WIN0 的 `.ss9` 为准。当前战前根菜单已恢复
+  原作四项流程、开始是/否确认、任务说明、胜败条件、原作 8×16 字形元素、动态游标和
+  SRAM 储存入口；目标提交也新增无副作用的独立确认事务，确认框以 3 个 32×64 OBJ
+  切片组合并用透明外沿精确得到原作 x=80..159 的 80 像素可见宽度。静音 mGBA 运行
+  `artifacts/scenario-41-screenshot-comparison-20260729-09/butano/` 由
+  `done.json` 正常签发，campaign 保存 verified 并推进 41→42，ROM SHA-256 为
+  `92c27d2c51fe0501b3fda2e5942af536dfc04de3ace44cd3f2b7a585c6c1697d`。
+  当前 34 项仍无一达到完全视觉等价；逐项状态、权威路径和缺口见
+  `notes/scenario-41-screenshot-fidelity-matrix-20260729.md`，Goal 保持 active。
+- 2026-07-29：闭合 scenario 41 战斗 UI 的状态投影缺口：剧情字形按原 ROM 的
+  8×16 2bpp 解码，战斗 UI 使用独立 8×8 字体；移动范围、动作射程和合法目标由
+  controller snapshot 投影；行动单位镜头按格中心和地图边缘夹取；朝向阶段同时驱动
+  单位与头顶四向指示；决斗固定玩家在左朝右、敌人在右朝左；非胜利的资源命令、技能
+  与行动结束统一经过朝向/防御尾部。行动详情页最终从 12 个 64×64 背景 OBJ 迁入已有
+  32×32 动态 BG，以 8 个逻辑 8bpp tile 实时组成纸面、边框和分隔线；进入时暂借地图
+  palette 的保留色，退出后恢复。TDD/实机进一步修复了 8bpp tile 按 32 字节误分配造成
+  缓冲区越界和 `Map cells are not aligned` 中止。7 项相关 C++ 宿主测试、93 项
+  Python/Lua/文档契约（1 项显式跳过 ROM 重建）、devkitARM 构建和受守卫静音 mGBA
+  路线通过；当前 ROM/ELF SHA-256 为
+  `5be39a71ed2c521e4b12fb8315de625424f64e413476cc7286caa0914a9fcb67` /
+  `ca6c4d955b9826c8161fab227636b5249388315cff9941c4018ff5a8bead39ca`，运行证据在
+  `artifacts/scenario-41-screenshot-comparison-20260729-24/butano/`。目标选择截图也
+  改为在光标到达活动敌人、遥测确认目标后采集，不再使用初始空状态。该运行新增
+  combat-stage 轨迹并证明本路线敌方三轮只有地图移动，没有实际发起决斗；敌方攻击者
+  左/右朝向规则由共享投影测试固定，但仍缺本关独立实机截图。范围色值、提示文案和框体
+  纹理仍未达到原作视觉等价，Goal 保持 active。
+- 2026-07-29：继续按原作 `player-turn` / `target-select` 像素证据收束战斗交互。
+  移动范围改用青色 RGB5 `(13,31,29)`、攻击范围改用橙色并以 12/16 alpha 叠加，
+  无效格不再错误压暗整张地图；范围、目标高亮和动作详情继续只投影 controller 当前
+  状态。底部状态栏恢复 7 像素编织上下沿、18 像素内容区、40 像素资源条及原作橙色
+  体力/绿色查克拉八行渐变，角色名与状态字形按各自基线定位。资源条封装为 GBA 合法的
+  64×32 透明 OBJ，避免无效 64×8 资源在 ARM 转换时失败。6 个相关 C++ 宿主程序、
+  47 项 Python 契约、devkitARM 构建和受守卫静音 mGBA 四回合路线通过；最终
+  ROM/ELF SHA-256 为
+  `850eae0b9b01ab6f761b378f603087a6a841cca4a2ec219789a766aadf0e74cb` /
+  `c643a0200fa93025f4f57650677d04930b036e016dcd0d4dc95c54dad2f69796`，
+  证据在 `artifacts/butano-battle-ui-projection-20260729-33/`。剧情/战斗字形分离、
+  移动/攻击范围、头顶面向预览、完整视口镜头聚焦、决斗屏幕朝向及行动后面向流程已
+  闭合本轮功能缺口；顶部英文提示、面向说明框、敌方发起决斗的本关截图和其余 34 项
+  视觉边界仍未完全等价，Goal 保持 active。
+- 2026-07-29：恢复 scenario 41 行动尾部的三段原作交互，而不是把“行动结束”直接
+  提交。现在选择“行动结束”先进入无副作用的“可以吗？”是/否确认；确认后进入底部
+  “请选择人物面对的方向”面板，方向键实时预览单位与头顶朝向；提交朝向后再询问是否
+  使用防御・回避系术/忍具，“是”进入共用防御动作浏览器，“否”才完成单位，B 按层级
+  回退。确认框均读取 controller snapshot 动态绘制，新增 112×80 大确认框由四个合法
+  64×64 OBJ 组合，不使用原作整屏截图。相关领域、controller、UI、资源生成、Lua 契约
+  均按 TDD 覆盖，devkitARM 构建与受守卫静音 mGBA 四回合路线通过；ROM/ELF
+  SHA-256 为
+  `c944a255b2039c3724fd9d49db44a0ab1e995699607eef0cc774b39e0379c510` /
+  `7ee5f343932290640085cc47f8b1bc010eb127a3582ca9e47c86ccc8cfd93c85`，
+  同一 ROM 截图、遥测、哈希和资源守卫见
+  `artifacts/butano-battle-ui-projection-20260729-35/manifest.json`。三种状态的
+  功能事务已闭合，但边框编织纹仍未像素等价；Run35 只观察到 outcome，不签发胜利页、
+  结果、升级、战后对白和世界地图出口，Goal 保持 active。
+- 2026-07-29：签发原作稳定边界 `turn-1-complete`。现有共用 presentation-script
+  架构原本已按 battle 41 的原 ROM selector graph 在第一回合敌方 settle 后、第 2 回合
+  玩家侧触发 selector 2，但自动路线没有按 selector/command 捕获，且半透明黑色消息层
+  让正文直接压在地图上。新增失败契约后，Lua 按遥测 `script_selector=2` 和 command
+  index 等待稳定两帧并捕获；运行时改为四个无文字 60×63 OBJ 切片组合 240×63 实心
+  对白窗，说话者姓名取当前 speaker identity，正文继续取 ROM 编码文本，头像/表情/焦点
+  继续走既有 portrait renderer。devkitARM 构建与受守卫静音 mGBA 四回合路线通过，
+  ROM/ELF SHA-256 为
+  `df122cf1be57703276a76cd7cfda43fc4b52d5ef48b7543555cb27d0b46e8774` /
+  `d6f201bc970db220292ff13a5dc7b6d0a930d3cd74e7f11b4217c852e3694dfd`，
+  同一 ROM 截图、遥测和守卫见
+  `artifacts/butano-battle-ui-projection-20260729-37/manifest.json`。结构和坐标已同态，
+  边框编织纹与精确色值仍未像素等价，Goal 保持 active。
 - 2026-07-29：全量闭合原 ROM 战斗特效静态资源表 `0x0859911C`。19 个 8 字节记录中
   group 0 为全零哨兵，group 1..18 均为有效 LZ77 graphics/palette 对；批处理共导出
   53,344 字节、1,667 个 4bpp tile 和 18 份 16 色 palette，形成 18 张索引色 atlas、
@@ -998,6 +2468,23 @@ WebSocket
   `notes/battle-visual-runtime-timelines-export-20260729.md`。shadow register
   提交顺序、window mask 边缘和代表性 mGBA golden frame 仍待闭合，因此不宣称运行时
   像素等价，Goal 保持 active。
+- 2026-07-29：纠正当前截图验收关卡为 scenario 49 / battle 14“护送木叶丸逃离
+  野蜂”，默认开发入口和旧 scenario 41–47 SRAM 回退均指向 scenario 49，不再用
+  scenario 41 单挑代替验收。共享运行时现以独立 8×16 剧情字形和 8×8 战斗字形绘制；
+  青色移动范围、橙色动作范围与合法敌方目标来自 controller snapshot；佐助等下方单位
+  以完整视口居中；面向阶段同步单位与头顶四向指示；技能、资源命令和行动结束统一经过
+  面向/防御尾部；当时对敌方先攻采用“发起者左”的解释，该站位结论已被 Run157 取代。
+  受守卫静音 mGBA
+  从 generation 8 存档完整打完五只野蜂，木叶丸受伤且存活，round 9 胜利并保存推进
+  49→50，控制器/玩家错误均为 0；本关移动、目标、佐助镜头、面向和敌方决斗截图位于
+  `artifacts/butano-battle-s49-fidelity-20260729-17/`。结算页进一步拆分 16×16
+  标题/角色身份字形与 8×8 统计字形；统计行的原作 8×8 可见区域装入透明下半的合法
+  8×16 OBJ，不再把下一行误截进当前 glyph。详细对照见
+  `notes/butano-battle-scenario-49-ui-projection-20260729.md`。当前 ROM/ELF SHA-256
+  为 `2e8bb00bde96baa959f206d29b7b47829c7b9ae094d975117212529561ab4e68` /
+  `628e7555ff97f0efceda8da279f320e88e31fc09c084af2c901c7fd59fcca88c`。
+  六项功能缺口已闭合；框体编织纹、范围纹理、调色及全关卡逐帧像素等价仍未完成，
+  Goal 保持 active。
 - 2026-07-29：闭合 regular BG 的完整场景选择目录。批量遍历 primary/alternate
   110/110 个非空章节脚本槽、98 个唯一根和 14,199 个唯一 CFG 节点，精确处理两套
   text token 规则及 42 个双分支 opcode `0x06`，得到 6 个唯一 opcode `0x1E`
@@ -1012,3 +2499,235 @@ WebSocket
   `artifacts/bg-scene-selection-v1/`，说明见
   `notes/bg-scene-selection-export-20260729.md`。自然语言场景命名、滚动和最终
   BG/OBJ 合成仍未闭合，Goal 保持 active。
+- 2026-07-29：闭合 scenario 49 / battle 14 的战后出口和下一任务概览。battle
+  complete 不再停在额外英文 `A EXIT` 页；运行时释放战斗资源、保存并进入 scenario
+  50 概览，A 才打开根菜单。标题框、正文框和菜单框只提取原作无状态八像素边缘，
+  文案、红色敌方名、蓝色保护对象及菜单由 campaign 动态生成；独立 8×16 准备字体
+  保留原作三阶字色。Run30 完整清除五只野蜂、木叶丸存活、49→50 与存档验证通过，
+  控制器/玩家错误均为 0；战后概览与原作 240×160 解码 RGB 为 38,400/38,400
+  像素一致。ROM/ELF SHA-256 为
+  `d30ec43276632873c05f7593d993f7c81f59d45ea0432f7feec9068b914208ea` /
+  `03d7bfe13349113668c81d695c78062ec18ba4706c9f74fb41362688ca9ff5e5`，
+  证据见 `artifacts/butano-battle-s49-fidelity-20260729-30/manifest.json` 和
+  `notes/scenario-49-battle-14-screenshot-fidelity-matrix-20260729.md`。
+  移动、目标、面向、镜头和敌方决斗已功能签发，但缺少 scenario 49 同状态原作
+  checkpoint 时不宣称像素等价；音频仍未签发，Goal 保持 active。
+- 2026-07-29：继续闭合 battle 14 战后 scenario 50 的根菜单边界。通过从战后概览
+  checkpoint 只输入一次 A，固化了原作根菜单证据；修复任务 OBJ 文字穿透背景菜单框、
+  黑色字体箭头覆盖原作光标两项层级问题。菜单现由四块无文字 OBJ 构成，选项和独立
+  8×8 光标读取当前 `root_option` 动态绘制，确认弹窗保持在最前层。Run33 的战后概览
+  和根菜单两张 240×160 截图分别与原作达到 38,400/38,400 解码 RGB 像素一致；完整
+  battle 14 路线再次清除五只野蜂、保存并推进 49→50，控制器/玩家错误均为 0。
+  ROM/ELF SHA-256 为
+  `eadd37c03f98337f7270b20c2ff525f6899fa28975dfe4c5620666250045d941` /
+  `6be7dc47d4d9b33e8fe0f3875bd163fce9a03e9a4ee89e72532c97e168aaa0bf`，
+  证据见 `artifacts/butano-battle-s49-fidelity-20260729-33/manifest.json`。其余缺少
+  同状态原作截图的战斗阶段和音频仍不宣称等价，Goal 保持 active。
+- 2026-07-29：完成 scenario 49 / battle 14 六项 UI 问题的当前 ROM 收束验收。
+  字体资产按消费者拆成原 ROM 8×16 剧情字形、8×8 可见战斗小字、独立全高
+  8×16 准备/任务字形和 16×16 身份字形，准备字源不再继承战斗小字覆盖；技能菜单
+  的统计字与行距不再越框。移动可达范围、动作射程、合法目标、四向指示、回合末面向、
+  下方单位镜头居中和敌方发起决斗均由共享 controller/presentation 状态投影。Run49
+  冷启动在 round 13 清除五只野蜂并保存推进 49→50，结果 `125+50=175`、鸣人
+  LV2/25 经验/1 修炼点、控制器与玩家错误均为 0；对白截图绑定 selector 1 与
+  `0x08052A98`，消息窗和两侧立绘真实可见。战后概览与根菜单仍各为 38,400/38,400
+  解码 RGB 像素一致。当前 ROM/ELF SHA-256 为
+  `5954c8d10e759092da351ba3243923ee30a3a7d1bdc2b8d3ea3c78efc3dda350` /
+  `a0138be625f977707f2602326041ccfc6ad59d25ffaa929bf774a35deed1b7a2`；
+  证据见 `artifacts/butano-battle-s49-fidelity-20260729-49/manifest.json`。
+  技能菜单装饰框/类型图标、缺少同状态原作截图的战斗边界和音频仍未签发像素等价，
+  Goal 保持 active。
+- 2026-07-29：重新审计上述六项 UI 结论并修正两项过早签发。目标预览/确认现在保留
+  原作橙色动作范围，使用独立不透明 30×6 tile 详情 BG，同时避免把状态详情与半透明
+  范围共用一层；攻击结算把交互光标恢复到行动者落点，使镜头、头顶四向指示和回合末
+  面向重新聚焦同一角色。该轮“玩家左、敌人右”的判断后来一度被 Run97 错误取代；
+  Run157 重新核对原作录像绑定的 manifest 后确认该轮判断才是正确规则。
+  字体继续按剧情正文 8×16、说话者/展开详情全高字形和紧凑战斗 8×8 三种消费者隔离。
+  Run72 对佐助面向阶段真实输入 Down 后红色方向指示切到下方；完整 battle 14 在
+  round 13 清除五只野蜂、木叶丸存活、保存并推进 49→50，控制器与玩家错误均为 0。
+  目标详情直接可比区域从 7,469/11,520 差异降到 2,265/11,520，仍未签发逐像素等价。
+  证据见 `notes/scenario-49-battle-14-six-ui-repair-20260729.md` 与
+  `artifacts/butano-battle-s49-fidelity-20260729-72/manifest.json`；Goal 保持 active。
+- 2026-07-29：继续闭合 scenario 49 / battle 14 的技能/忍具菜单。通过原版第四回合
+  checkpoint 的真实 A 输入捕获稳定菜单及 `io/pram/oam/vram`，从 BG3 解出九种
+  8×8 窗口 tile 和 20×30 拓扑，从 OBJ 解出“忍、体、具、移、效、攻”六种
+  16×16 图标；Butano 运行时按 action catalog、controller snapshot 与 inventory
+  动态绘制四行动作、属性、消耗、数量和说明，不使用整屏截图。共享 catalog 改为
+  查克拉动作→体力动作→忍具的稳定原作顺序；新 campaign 的默认装备由 route 统一
+  设置为 ID 1“十字手里剑”，移除 `main.cpp` 对 ID 67“引爆牌”的二次覆盖，且只在
+  `chapter_id==0` 初始化，不影响存档和换装。Run57 的 12,992 个无状态窗口像素与
+  原作 0 差异，8 个完整图标 crop 也均为 0 差异；mGBA 在 round 13 清除五只野蜂、
+  木叶丸存活、结果 `125+50=175`、保存验证并推进 49→50，错误码均为 0。ROM/ELF
+  SHA-256 为
+  `b4b69bd59b13676283b55132963885356a9de4f77c2ccd725775f7d5b902630a` /
+  `c77598e549cc76d24b862bb37ae1368f528c448b0e18a4460646572697f003a2`；
+  证据见 `artifacts/butano-battle-s49-fidelity-20260729-57/manifest.json` 和
+  `notes/scenario-49-battle-14-screenshot-fidelity-matrix-20260729.md`。不同 HP/
+  查克拉状态下的文字区域、缺少同态原作 checkpoint 的其余战斗阶段和音频仍不宣称
+  像素等价，Goal 保持 active。
+- 2026-07-29：继续闭合 scenario 49 / battle 14 的移动后指令菜单。自动路线只在
+  鸣人真实移动且 `move_preview != selected_unit` 后捕获过滤为“术・忍具／行动结束”
+  的两项状态；运行时以 `command_count` 动态拼装原作短框体，两行文字从本关原作
+  8×16 字形源生成，选择箭头从同一 checkpoint 的 OAM entry 0、OBJ tile
+  `0x3F4..0x3F5` 和 palette bank 15 提取为独立可移动 8×16 OBJ，不使用整屏截图或
+  字体箭头近似。Run62 的 1,152 个无状态框体像素、两行各 512 个文字像素和 128 个
+  光标像素均与原作 0 差异；技能/忍具菜单的 12,992 个框体像素与 8 个图标 crop
+  仍保持 0 差异。完整 mGBA 路线在 round 13 清除五只野蜂、木叶丸存活、
+  `125+50=175`、保存并推进 49→50，错误码均为 0。ROM/ELF SHA-256 为
+  `ff3d79388458f15f31e4c77a70927ef1d385dd08196cd6023461706d01564d2f` /
+  `cf6e6612026d454426959609e88f92ebc5964bc98d828f1fd64953e4fe97a83d`；
+  证据见 `artifacts/butano-battle-s49-fidelity-20260729-62/manifest.json`。未有
+  scenario 49 同态 checkpoint 的其余战斗阶段和静音路线的音频仍不宣称等价，Goal
+  保持 active。
+- 2026-07-29：补齐 scenario 49 / battle 14 的攻击目标确认事务。原作第四回合真实
+  输入链证明合法目标预览后还必须经过“可以吗？/是/否”，不能从目标选择直接结算；
+  battle 14 现启用共享 `target_confirmation`，进入确认时不改攻击者/目标快照、不扣
+  资源且不排队演出，确认 A 才进入既有 resolver。确认框从原作 BG3
+  `0x1C1..0x1C9` 重组无文字框体，文案继续动态生成，光标从 OAM entry 0、OBJ tile
+  `0x3F6..0x3F7` 和 palette bank 15 提取为独立可移动 OBJ。范围选择页同时保留青色
+  移动范围并叠加橙色动作范围。Run66 的 80×64 不透明确认框 5,120 个像素与原作差异为
+  0；69 项 Python/Lua、11 个宿主 C++、受保护 devkitARM 构建与完整 mGBA 路线均
+  通过，round 13 清除五只野蜂、木叶丸存活、`125+50=175`、保存并推进 49→50，
+  错误码均为 0。ROM/ELF SHA-256 为
+  `4cf4c44b3e2d38a82a5b53c06764f688d5eef50a68fdd4ac23dbd0efc66be902` /
+  `0d49326aff45d38fb31cfe73018dc8ffeeddd4184fbaa77698cf318267e47b88`；
+  证据见 `artifacts/butano-battle-s49-fidelity-20260729-66/manifest.json`。该 run
+  尚未把原作独立目标预览建模，事务步数结论由紧随其后的 Run69 取代；确认框像素结论
+  仍有效。自动路线仍为静音，Goal 保持 active。
+- 2026-07-29：纠正 battle 14 的目标交互层级。原作实际是“范围选择 → 目标详情预览
+  → 可以吗确认 → 执行”，此前把预览与确认合并。共享 controller 现追加 ABI 尾部
+  `target_preview=22`，第一次 A 仅校验目标并将底栏投影到光标下黄蜂，第二次 A 才
+  打开确认，第三次 A 执行；B/“否”逐层返回，预览与确认的 overlay 均清空，行动者
+  仍保持移动预览位置。Run69 冷启动 round 13 清除五只野蜂、木叶丸受伤且存活、
+  `125+50=175`、保存并推进 49→50，控制器/玩家错误为 0；确认框 5,120/5,120 像素
+  继续与原作一致。ROM/ELF SHA-256 为
+  `2299d5e2d3af7e9f4df3211a12d20c911f39bea1f481dd5d3da67820d22a1b53` /
+  `d6c9ceb8bdbe5ef4805b9aec6e8792d980d5eb2c40ec70f94e369d7063d22654`，
+  证据见 `artifacts/butano-battle-s49-fidelity-20260729-69/manifest.json`。直接状态栏
+  对比仍差 6,509/10,560 像素，已明确列为下一视觉缺口；静音路线不签发音频，Goal
+  保持 active。
+- 2026-07-30：以 Run97 收束 scenario 49 / battle 14 的六项 UI 功能验收。行动菜单
+  新增独立原作全高字形消费者，剧情 8×16、行动全高和紧凑 8×8 三类文字不再混用；
+  六类范围格元素的 3,072 个像素和 11 个调色板项均与原作 0 差异。该轮移除了决斗
+  组件坐标二次倍增，但“发起者左、目标右”的站位解释后来被 Run157 取代；Run97
+  捕获的野蜂在左、友军在右不再作为原作等价证据。完整路线 round 9 清除五只野蜂、
+  木叶丸受伤但存活，保存
+  generation 1 并推进 49→50，任务分 125、战斗分 100、合计 225，错误码均为 0。
+  行动菜单静态框体和八个图标、移动后指令菜单、目标确认框及同态目标详情比较也均为
+  0 差异。证据见 `artifacts/butano-battle-s49-fidelity-20260730-97/` 与
+  `notes/scenario-49-battle-14-six-ui-repair-20260729.md`。行动页右侧紧凑详情字形及
+  缺少同态原作截图的整屏动态状态仍未签发 1:1，Goal 保持 active。
+- 2026-07-30：Run105 取代 Run97 作为最新 battle 14 UI 证据。原作入口连续 32 帧
+  揭示方向指示为 16 帧三相位脉冲，而非静态四向图；Butano 现由朝向和场景帧选择
+  4×3 个 OBJ 图形。选中单位轮廓同时从错误 RGB5 `(0,21,21)` 修正为原作
+  `(0,23,23)`。原作 `frame-00` 与当前 `ui-phase-1-frame-23` 全屏 38,400 像素
+  0 差异且 PNG 哈希相同。动作菜单除真实当前 HP 值框外的 38,208 像素、目标详情
+  11,520 像素、目标确认 5,120 像素、移动后指令菜单及六类范围元素也继续为 0 差异。
+  证据见 `artifacts/butano-battle-s49-fidelity-20260730-105/manifest.json`；对白、
+  结算及缺少同态原作截图的动态阶段仍不外推为整屏等价，Goal 保持 active。
+- 2026-07-30：Run123 用当前 ROM 重验六项战斗 UI：移动/攻击/合法目标范围、佐助
+  聚焦、动态四向指示、回合末面向与敌方先攻决斗均在一次完整 49→50 路线中重新捕获；
+  37 项聚焦契约和 3,072 个范围像素/11 个调色板项验证通过。selector1 对白的消息窗、
+  立绘与文字区域 17,280 像素已与原作零差异；原作 GPU 显示 BG3 滚动 `(0,0)`，
+  当前剧情阻塞阶段不再被普通单位焦点覆盖。生成地图投影仍造成上半屏 9,966 像素差异，
+  因而整屏对白仍未签发 1:1，Goal 保持 active。证据见
+  `artifacts/butano-battle-s49-fidelity-20260730-123/dialogue-comparison.json`。
+- 2026-07-30：Run139 回到通过完整路线的稳定基线并再次签发六项 UI 功能。34 项
+  聚焦测试与受保护 ARM 构建通过；冷启动在 round 9 清除五只野蜂、木叶丸存活并
+  推进 49→50。行动菜单状态归一后的 38,208 像素、目标详情 11,520 像素、目标确认
+  5,120 像素、移动后指令菜单以及六类范围格 3,072 像素/11 个调色板项均与原作
+  0 差异；对白 UI 区域 17,280 像素同样 0 差异。实验性独立对白 BG 因未通过整关
+  路线未纳入稳定实现；上半屏地图投影仍差 9,966 像素，Goal 保持 active。证据见
+  `artifacts/butano-battle-s49-six-ui-revalidation-20260730-139/`。
+- 2026-07-30：Run157 纠正敌方先攻的决斗站位并重验当前 ROM。原作录像绑定
+  `artifacts/scenario-49-original-camera-facing-audit-20260729/manifest.json`
+  明确记录阵营固定“玩家左朝右、敌人右朝左”，推翻 Run97/Run139 的“发起者左”
+  解释；共享投影和运行时现只按单位阵营决定决斗 X 与朝向。Run157 实机捕获到右侧
+  野蜂朝左攻击左侧木叶丸。为恢复可玩基线，同时禁用会耗尽 sprite tiles 的 selector1
+  上半屏 OBJ 实验。63 项 Python/Lua/资源契约、10 项核心 C++ 测试、受守卫 ARM 构建
+  和完整 mGBA 冷启动路线通过；round 9 清除五只野蜂、木叶丸受伤但存活，保存并推进
+  49→50，控制器/玩家错误均为 0。行动菜单（排除动态 HP）38,208 像素、目标详情
+  11,520 像素、目标确认 5,120 像素、六类范围格 3,072 像素/11 个调色板项与对白
+  下半屏 17,280 像素继续为 0 差异。ROM SHA-256 为
+  `835e791dbbd2709bf1dd4dd93730bafa9c6cb9ea4b3dda723116c6cff281eb1e`，证据见
+  `artifacts/butano-battle-s49-six-ui-faction-duel-20260730-157/`。六项 UI 可交
+  玩家验收；对白上半屏及其他未配对动态阶段仍使总 1:1 Goal 保持 active。
+- 2026-07-30：Run165 闭合 scenario 49 selector 1 对白整屏。生成器从签名原作 GPU
+  dump 重建 256×256 8bpp regular BG，运行时按 script dialogue cohort 释放战场 BG、
+  跨一帧提交后加载对白 BG，退出时再恢复当前地图 chunk；消息框、立绘、说话者和正文
+  仍由独立运行时层投影，不在背景中烘焙。原作
+  `original-s49-facing-sequence-tail-20260730-114/step-06-A.png` 与 Run165
+  `ui-phase-18.png` 全屏 38,400 像素差异为 0。Run161 的整关回归还暴露 result 阶段
+  释放地图后被恢复助手立即重建、使 4bpp 结算 BG 无法分配调色板；Run162–164 的 ARM
+  断言栈定位到 `bn_bg_palette_ptr`，现将 outcome/result/level-up/training/complete
+  统一作为不恢复地图的整屏战后阶段。45 项聚焦测试、受守卫 ARM 构建和 Run165
+  完整 49→50 冷启动通过：round 9 清除五只野蜂、木叶丸存活、任务/战斗/合计经验
+  125/100/225，控制器和玩家错误为 0，且没有 Butano 断言。ROM/ELF SHA-256 为
+  `ea6386db69c284e769a4727bb849f3dfc49afedf5cf747908a5f0e2199d65070` /
+  `f5460ae8b70aee1acc540438a6537f7c873d4bc30119377c0d3474fbb117f347`。
+  移动/面向、敌方决斗和结算仍缺本关原作同态稳定截图，整体 1:1 Goal 保持 active。
+- 2026-07-30：Run188–190 补采 scenario 49 / battle 14 的真实敌方回合和 GPU 状态，
+  证明敌方发起决斗仍固定“玩家左朝右、敌人右朝左”，且决斗 HUD 是 BG3 无状态框体壳
+  加实时招式名、身份、数值和资源条，不存在旧 Butano 人工添加的中间分隔条。运行时
+  现以 4bpp regular BG 重建上下框体，双方单位和 HP/查克拉继续读取 combat snapshot；
+  4bpp 决斗与 8bpp 火遁电影之间按“释放→提交→重建”切换，完整路线不再耗尽 OBJ tile
+  或 BPP8 palette。原动作 86 的 `8C83 8AC9` 结合单位名称编码和原版标题校正为
+  “蜂刺”，并使用原作全高字形和 HUD 调色板；Run202 顶部 240×32 与原版
+  7,680/7,680 像素一致。25 项字体/决斗、51 项六项 UI 回归、8 个核心 C++ 测试、
+  受守卫 ARM 构建和完整 49→50 冷启动均通过，无断言。当前 ROM/ELF SHA-256 为
+  `da1fc235d9a635f05e4ef93b3059d10ff0dd97401c935774bf39373317731225` /
+  `ad8527f807961492c3b4a481a7a83bb1479a37ce2e6584d9acb1536bcc1b6f8a`，
+  证据见 `artifacts/butano-battle-s49-duel-title-palette-20260730-202/` 与
+  `notes/scenario-49-battle-14-six-ui-repair-20260729.md`。六项 UI 已可交玩家验收；
+  双方单位/数值不同的决斗整屏及结算仍缺同态配对，整体 1:1 Goal 保持 active。
+- 2026-07-30：Run204 复审面向提示时发现 Run202 后四字仍使用错误的 8px 回退字形。
+  现已将“请选择人物面对的方向”十个字全部绑定到原作同一行 8×16 字形；原作 Run182
+  与当前提示栏 240×24、5,760/5,760 像素一致。当前 ROM 完整通关 battle 14 并推进
+  scenario 50，无断言，证据见
+  `artifacts/butano-battle-s49-facing-instruction-glyphs-20260730-204/`。
+- 2026-07-30：Run218 闭合 battle 14 敌方先攻决斗的动态状态栏。决斗数值改用只包含
+  ASCII 数字与斜杠的独立原作 8×16 字形资源，HP/查克拉数值和两条资源条均由实时
+  combat snapshot 投影，不与剧情或行动菜单字体共享消费者。原作 Run188 与当前
+  决斗顶部 240×32 的 7,680 个像素、同态敌方状态栏 120×48 的 5,760 个像素均
+  0 差异；剧情对白整屏 38,400 像素、面向提示栏 5,760 像素、六类范围格
+  3,072 像素/11 个调色板项，以及指令菜单、目标详情和目标确认也继续与原作一致。
+  当前存档装备“毒手里剑”，所以行动菜单该项与原作参照帧中的“十字手里剑”是存档
+  内容差异，不属于字体回归。114 项 Python/Lua/资源契约、8 个宿主 C++ 测试、
+  受守卫 ARM 构建及完整 49→50 路线通过；round 9 清除五只野蜂、木叶丸存活，
+  任务/战斗/合计经验 125/100/225，无控制错误、玩家错误或断言。ROM/ELF SHA-256
+  为 `993a8e7f8db5778eb480821feb15bf1a7007edf14402c3838f86bb00f8ad091d` /
+  `5b079c9a0c18d5f65c5611cb587e3df7e9d3723f6e45ec7eedfab4eeb31a5603`，
+  证据见 `artifacts/butano-battle-s49-duel-scoped-status-font-20260730-218/`。
+  六项 UI 问题已可交玩家验收；结算画面及缺少双方完全同态状态的决斗整屏仍未签发
+  1:1，整体 Goal 保持 active。
+- 2026-07-30：Run322/323 取得 battle 14 原作自然胜利后的稳定结算页与完整 GPU
+  证据；Run336 据此把结算舞台、无状态页眉/页脚、三名角色专用 32×64 OAM 姿势、
+  姓名、紧凑分数字形和大号合计字形拆成可组合运行时层。页眉 7,680、角色 6,144、
+  同态任务分 768、其余无状态区域 26,880 个像素均与原作 0 差异。当前 ROM 冷启动
+  完整打完 battle 14，在 round 9 清除五只野蜂、木叶丸存活并推进 scenario 50，
+  无控制错误、玩家错误或断言；ROM/ELF SHA-256 为
+  `d7d1bc5ddb0622d31ae0f1dd8a7ba2dbe75364774c8266303de5a3884ce7159e` /
+  `b407e14a84b50215023637c9a4660dfecdab4197b327ff2845a8fb8de6376fe9`。
+  原作与当前自动路线的击杀归属/回合数不同，战斗分、回合分和合计继续读取真实结果，
+  不为截图对齐修改领域状态；完整数据见
+  `artifacts/butano-battle-s49-result-exact-position-20260730-336/result-comparison.json`。
+- 2026-07-30：Run342 闭合 scenario 49 战前根菜单和“开始任务吗？”确认态。准备界面
+  新增同态自动截图，蜜蜂任务专用字形改为从原作证据逐字提取，根菜单光标使用本状态
+  的深色相位；确认态按原作移除底层菜单，确认框、提问/选项和选择箭头保持为独立动态
+  层。Run106/Run107 与当前两张 240×160 截图分别达到 38,400/38,400 像素一致，
+  PNG SHA-256 相同。100 项聚焦契约、8 个核心 C++ 测试、受守卫 ARM 构建和完整
+  mGBA 冷启动路线通过；第 9 回合清除 5 只野蜂、木叶丸存活，保存并推进 49→50，
+  无控制错误、玩家错误或断言。ROM/ELF SHA-256 为
+  `1c6e7967fd2ac3c924c1a47887b83caad368864a0d5a7164cd1a8e2a4ffe640b` /
+  `ec5ea1af10b88d08bc22f655c70a5996a676237f0d05c80ef6a75752952f0c89`，证据见
+  `artifacts/butano-battle-s49-prebattle-exact-20260730-342/`。仍未获得同态原作
+  全屏配对的移动/攻击范围和敌方决斗等动态边界不在本次外推范围，整体 Goal 保持 active。
+- 2026-07-30：Run363 完成 scenario 49 / battle 14 的单关卡 UI 收束。战后升级页
+  改为按实时参与者、成长值和两页详情投影，所有 OBJ 统一使用一套 8bpp palette；
+  battle 14 的后续流程按原作恢复为六页 A 键新术汇总，其他战斗仍保留共享训练系统。
+  升级首屏和修行六页的实机截图均与原作全屏 38,400/38,400 像素一致，生成器对三名
+  角色共六个升级页也全部重组为 0 差异。同一完整路线在 round 9 清除五只野蜂、
+  木叶丸存活并推进 scenario 50，错误码和断言为 0；83 项相关 Python/Lua/资源测试、
+  4 个核心 C++ 测试、受守卫 ARM 构建与 mGBA 路线通过。证据见
+  `artifacts/butano-battle-s49-complete-ui-runtime-20260730-363/`。本关完整玩家 UI
+  循环可交人工验收；自动路线静音，不签发音频。

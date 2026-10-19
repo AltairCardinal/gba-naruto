@@ -10,6 +10,11 @@ namespace konoha
 
 inline constexpr std::uint8_t no_status_slot = 0xFF;
 
+[[nodiscard]] constexpr std::uint8_t encode_status_duration_ticks(std::uint8_t raw_duration)
+{
+    return static_cast<std::uint8_t>((raw_duration & 0x7F) * 2);
+}
+
 struct status_record
 {
     std::uint8_t code_with_flags = 0;

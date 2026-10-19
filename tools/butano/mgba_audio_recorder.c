@@ -18,6 +18,100 @@ struct Recorder {
     uint64_t sample_count;
 };
 
+struct InputEvent {
+    long frame;
+    uint32_t key;
+    int pressed;
+};
+
+
+static uint32_t key_mask(const char* name) {
+    if(strcmp(name, "A") == 0) {
+        return 1;
+    }
+    if(strcmp(name, "B") == 0) {
+        return 2;
+    }
+    if(strcmp(name, "Select") == 0) {
+        return 4;
+    }
+    if(strcmp(name, "Start") == 0) {
+        return 8;
+    }
+    if(strcmp(name, "Right") == 0) {
+        return 16;
+    }
+    if(strcmp(name, "Left") == 0) {
+        return 32;
+    }
+    if(strcmp(name, "Up") == 0) {
+        return 64;
+    }
+    if(strcmp(name, "Down") == 0) {
+        return 128;
+    }
+    if(strcmp(name, "R") == 0) {
+        return 256;
+    }
+    if(strcmp(name, "L") == 0) {
+        return 512;
+    }
+    return 0;
+}
+
+
+static long parse_input_events(
+        const char* path,
+        struct InputEvent* events,
+        long capacity) {
+    FILE* input = fopen(path, "r");
+    if(! input) {
+        fprintf(stderr, "failed to open input events: %s\n", strerror(errno));
+        return -1;
+    }
+    char line[512];
+    long count = 0;
+    long previous_frame = -1;
+    while(fgets(line, sizeof(line), input)) {
+        long frame = -1;
+        char event[16] = {0};
+        char key[16] = {0};
+        if(sscanf(
+                   line,
+                   "{\"frame\":%ld,\"event\":\"%15[^\"]\",\"key\":\"%15[^\"]\"",
+                   &frame,
+                   event,
+                   key) != 3) {
+            fprintf(stderr, "invalid input event line: %s", line);
+            fclose(input);
+            return -1;
+        }
+        const uint32_t mask = key_mask(key);
+        if(frame < previous_frame || ! mask ||
+                (strcmp(event, "press") != 0 &&
+                 strcmp(event, "release") != 0)) {
+            fprintf(stderr, "invalid input event: %s", line);
+            fclose(input);
+            return -1;
+        }
+        if(count == capacity) {
+            fprintf(stderr, "too many input events\n");
+            fclose(input);
+            return -1;
+        }
+        events[count].frame = frame;
+        events[count].key = mask;
+        events[count].pressed = strcmp(event, "press") == 0;
+        previous_frame = frame;
+        ++count;
+    }
+    if(ferror(input) || fclose(input) != 0) {
+        fprintf(stderr, "failed to read input events\n");
+        return -1;
+    }
+    return count;
+}
+
 
 static void write_u16(FILE* output, uint16_t value) {
     const uint8_t bytes[] = { (uint8_t) value, (uint8_t) (value >> 8) };
@@ -98,20 +192,61 @@ int main(int argc, char** argv) {
             return 2;
         }
     }
+    enum { input_event_capacity = 4096 };
+    struct InputEvent* input_events = calloc(
+            input_event_capacity, sizeof(*input_events));
+    if(! input_events) {
+        return 1;
+    }
+    long input_event_count = 0;
+    const char* input_events_path =
+            getenv("MGBA_AUDIO_INPUT_EVENTS");
+    if(input_events_path) {
+        input_event_count = parse_input_events(
+                input_events_path,
+                input_events,
+                input_event_capacity);
+        if(input_event_count < 0) {
+            free(input_events);
+            return 2;
+        }
+    }
+    uint32_t telemetry_address = 0;
+    const char* telemetry_address_text =
+            getenv("MGBA_AUDIO_TELEMETRY_ADDRESS");
+    if(telemetry_address_text) {
+        errno = 0;
+        end = NULL;
+        const unsigned long parsed =
+                strtoul(telemetry_address_text, &end, 0);
+        if(errno || ! end || *end || parsed > UINT32_MAX) {
+            fprintf(
+                    stderr,
+                    "invalid MGBA_AUDIO_TELEMETRY_ADDRESS: %s\n",
+                    telemetry_address_text);
+            free(input_events);
+            return 2;
+        }
+        telemetry_address = (uint32_t) parsed;
+    }
+    const char* report_path = getenv("MGBA_AUDIO_REPORT");
 
     struct mCore* core = mCoreFind(argv[1]);
     if(! core || ! core->init(core)) {
         fprintf(stderr, "failed to initialize mGBA core\n");
+        free(input_events);
         return 1;
     }
     void* video_buffer = calloc(256 * 256, 4);
     if(! video_buffer) {
+        free(input_events);
         core->deinit(core);
         return 1;
     }
     core->setVideoBuffer(core, video_buffer, 256);
     if(! mCoreLoadFile(core, argv[1])) {
         fprintf(stderr, "failed to load ROM: %s\n", argv[1]);
+        free(input_events);
         free(video_buffer);
         core->deinit(core);
         return 1;
@@ -136,6 +271,7 @@ int main(int argc, char** argv) {
     FILE* output = fopen(argv[2], "wb+");
     if(! output) {
         fprintf(stderr, "failed to open output: %s\n", strerror(errno));
+        free(input_events);
         free(video_buffer);
         core->deinit(core);
         return 1;
@@ -154,6 +290,7 @@ int main(int argc, char** argv) {
                 state->close(state);
             }
             fclose(output);
+            free(input_events);
             free(video_buffer);
             core->deinit(core);
             return 1;
@@ -170,12 +307,27 @@ int main(int argc, char** argv) {
         core->busRead32(core, 0x03007730),
         core->busRead32(core, 0x03007780),
     };
+    uint32_t key_state = 0;
+    long input_event_index = 0;
     for(long frame = 0; frame < frame_count; ++frame) {
         if(frame == a_frame) {
-            core->setKeys(core, 1);
-        } else if(a_frame >= 0 && frame == a_frame + 8) {
-            core->setKeys(core, 0);
+            key_state |= 1;
         }
+        if(a_frame >= 0 && frame == a_frame + 8) {
+            key_state &= ~UINT32_C(1);
+        }
+        while(input_event_index < input_event_count &&
+                input_events[input_event_index].frame == frame) {
+            const struct InputEvent* event =
+                    &input_events[input_event_index];
+            if(event->pressed) {
+                key_state |= event->key;
+            } else {
+                key_state &= ~event->key;
+            }
+            ++input_event_index;
+        }
+        core->setKeys(core, key_state);
         core->runFrame(core);
         for(int slot = 0; slot < 4; ++slot) {
             const uint32_t descriptor = core->busRead32(core, player_addresses[slot]);
@@ -192,13 +344,72 @@ int main(int argc, char** argv) {
     const int close_ok = fclose(output) == 0;
     uint32_t pc = 0;
     core->readRegister(core, "pc", &pc);
+    const uint16_t sound_x =
+            core->busRead16(core, 0x04000084);
+    const uint16_t dma1 =
+            core->busRead16(core, 0x040000C6);
+    const uint16_t dma2 =
+            core->busRead16(core, 0x040000D2);
+    const unsigned emulated_frames =
+            core->frameCounter(core);
     fprintf(stderr,
             "frames=%ld sample_rate=%u sample_count=%llu sound_x=0x%04X "
             "dma1=0x%04X dma2=0x%04X pc=0x%08X emulated_frames=%u\n",
             frame_count, recorder.sample_rate, (unsigned long long) recorder.sample_count,
-            core->busRead16(core, 0x04000084), core->busRead16(core, 0x040000C6),
-            core->busRead16(core, 0x040000D2), pc, core->frameCounter(core));
+            sound_x, dma1, dma2, pc, emulated_frames);
+    int report_ok = 1;
+    if(report_path) {
+        FILE* report = fopen(report_path, "w");
+        if(! report) {
+            fprintf(stderr, "failed to open audio report: %s\n", strerror(errno));
+            report_ok = 0;
+        } else {
+            const uint32_t telemetry_magic = telemetry_address ?
+                    core->busRead32(core, telemetry_address) : 0;
+            const uint32_t battle_id = telemetry_address ?
+                    core->busRead32(core, telemetry_address + 4) : 0;
+            const uint32_t phase = telemetry_address ?
+                    core->busRead32(core, telemetry_address + 8) : 0;
+            const uint32_t round = telemetry_address ?
+                    core->busRead32(core, telemetry_address + 12) : 0;
+            const uint32_t active_units = telemetry_address ?
+                    core->busRead32(core, telemetry_address + 24) : 0;
+            const uint32_t last_action = telemetry_address ?
+                    core->busRead32(core, telemetry_address + 92) : 0;
+            fprintf(
+                    report,
+                    "{\"frames\":%ld,\"emulated_frames\":%u,"
+                    "\"sample_rate\":%u,\"sample_count\":%llu,"
+                    "\"input_event_count\":%ld,"
+                    "\"input_events_consumed\":%ld,"
+                    "\"sound_x\":%u,\"dma1\":%u,\"dma2\":%u,"
+                    "\"pc\":%u,\"telemetry_address\":%u,"
+                    "\"telemetry_magic\":%u,\"battle_id\":%u,"
+                    "\"phase\":%u,\"round\":%u,"
+                    "\"active_units\":%u,\"last_action\":%u}\n",
+                    frame_count,
+                    emulated_frames,
+                    recorder.sample_rate,
+                    (unsigned long long) recorder.sample_count,
+                    input_event_count,
+                    input_event_index,
+                    sound_x,
+                    dma1,
+                    dma2,
+                    pc,
+                    telemetry_address,
+                    telemetry_magic,
+                    battle_id,
+                    phase,
+                    round,
+                    active_units,
+                    last_action);
+            report_ok = fclose(report) == 0;
+        }
+    }
+    free(input_events);
     free(video_buffer);
     core->deinit(core);
-    return header_ok && close_ok && recorder.sample_count ? 0 : 1;
+    return header_ok && close_ok && report_ok &&
+            recorder.sample_count ? 0 : 1;
 }

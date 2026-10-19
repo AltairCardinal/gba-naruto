@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 34708,
+  "peak_tree_rss_mib": 0.109375,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 tools/analyze_rom_unknown_clusters.py --rom rom/base.gba --coverage sequel/rom-byte-coverage.json --top 30 > /Users/altair/github/gba-naruto/notes/evidence/remaining-reverse-plan-20260930-v1/unknown-ranking-v2.json"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T10:40:03.981496Z",
+  "finished_at": "2026-09-30T10:40:05.027790Z"
+}

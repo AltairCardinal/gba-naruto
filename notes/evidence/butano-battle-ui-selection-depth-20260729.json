@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "date": "2026-07-29",
+  "scope": "scenario-49 battle UI unit selection and map unit depth",
+  "diagnosis": {
+    "second_round_domain_locked": false,
+    "causes": [
+      "unit-selection accepted free-grid cursor movement onto empty cells",
+      "rejection feedback remained visible after later successful input"
+    ],
+    "manual_trace": "artifacts/butano-battle-manual-observer-20260729-001141/manual-battle-trace.jsonl"
+  },
+  "runtime": {
+    "artifact_dir": "artifacts/butano-battle-ui-flow-depth-runtime-20260729-01",
+    "status": "campaign-route-stage-complete",
+    "start_scenario": 49,
+    "end_scenario": 50,
+    "final_round": 9,
+    "last_control_error": 0,
+    "last_player_error": 0,
+    "save_generation": 9,
+    "save_verified": true,
+    "audio_signed_off": false
+  },
+  "build": {
+    "rom_sha256": "b3e02cbba75ee3a66357be70fb0c06aeb98330fe4c2c54b5d013e21d7e0576fe",
+    "elf_sha256": "31014feab37ab060cd1c0f3146ae2e0b16e0b0a48e6a7e3ea829c6e07382bd32",
+    "input_save_sha256": "3f473ececd31485800c1d907ca7a9b97350fc74f354ffb5a9032ce349a9dbc88",
+    "battle_telemetry_address": "0x020227dc",
+    "campaign_telemetry_address": "0x0200820c"
+  },
+  "verification": {
+    "cpp_host_tests": 7,
+    "python_tests": 36,
+    "arm_build_guard": "artifacts/butano-battle-ui-flow-depth-20260729-01/build-guard-02.json",
+    "host_test_guard": "artifacts/butano-battle-ui-flow-depth-20260729-01/host-tests-guard.json",
+    "mgba_guard": "artifacts/butano-battle-ui-flow-depth-runtime-20260729-01/guard.json"
+  }
+}

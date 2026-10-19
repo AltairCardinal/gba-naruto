@@ -1,0 +1,453 @@
+{
+  "schema": "reverse-model-benchmark-durable-note-v2",
+  "as_of": "2026-08-19T10:47:11Z",
+  "status": "complete-native-formal-with-one-unavailable-case",
+  "selected_configuration_ids": [
+    "openai-gpt-5.6-luna-max",
+    "openai-gpt-5.6-terra-max",
+    "openai-gpt-5.6-sol-medium",
+    "openai-gpt-5.6-sol-ultra"
+  ],
+  "challenge_ids": [
+    "fixed-pointer-table",
+    "arm-thumb-control-flow",
+    "tdd-manifest-contract"
+  ],
+  "rate_card": {
+    "as_of": "2026-08-16",
+    "openai_api": "https://developers.openai.com/api/docs/pricing",
+    "codex_credits": "https://learn.chatgpt.com/docs/pricing",
+    "api_cost_is_equivalent_not_invoice": true,
+    "codex_credits_are_actual_ledger": false
+  },
+  "formal_campaign": {
+    "transport_profile": "codex-native",
+    "plan": {
+      "path": "build/reverse-model-benchmark/plan-native-v1.json",
+      "plan_id": "dd499658da079bf2dee301a95fe68077bd1a815a04e724bf7e8516ed9db6327c",
+      "sha256": "44c202c8f560f1f9428ca00fac3aa23c5635824c6ca6b74f62369290d0a98e09",
+      "master_seed": 20260820,
+      "created_at": "2026-08-19T08:50:04.856720+00:00"
+    },
+    "runs_root": "build/reverse-model-benchmark/runs-native-v1",
+    "window": {
+      "started_at": "2026-08-19T08:50:33.409718Z",
+      "finished_at": "2026-08-19T10:39:04.484152Z"
+    },
+    "native_compatibility_receipt": {
+      "path": "build/reverse-model-benchmark/openai-native-compatibility-v22/receipt.json",
+      "receipt_id": "4bc23126f5429464c7f89e90313445450286bca2403741a266dc1551b4447a99",
+      "sha256": "e7bf64969cefbe15d8aef09b0402af409f56b5bc29bf19749f74553350d93b49",
+      "compatible": true,
+      "physical_attempts": 4,
+      "physical_wall_time_ms": "97040.918918",
+      "known_tokens": 75086,
+      "api_cost_usd": "0.189403",
+      "codex_credits_estimate": "4.735075",
+      "billing_status": "complete"
+    },
+    "report": {
+      "json_path": "build/reverse-model-benchmark/report-native-v1.json",
+      "json_sha256": "9fab2ef902fe991b610dadd6ee36506ec3731c1a7ca3163b2301f893631dafac",
+      "markdown_path": "build/reverse-model-benchmark/report-native-v1.md",
+      "markdown_sha256": "c49baa0b72658979800696fafaca7c85e16a0370487d23dad2adfdec7d22cf99"
+    },
+    "completeness": {
+      "logical_cases": 12,
+      "terminal_cases": 12,
+      "valid_logical_cases": 11,
+      "unavailable_logical_cases": 1,
+      "missing_logical_cases": 0,
+      "physical_attempts": 14,
+      "primary_attempts": 12,
+      "authorized_retries": 2,
+      "usage_complete_attempts": 11,
+      "usage_incomplete_attempts": 3
+    },
+    "by_configuration": {
+      "openai-gpt-5.6-luna-max": {
+        "system_mode": "single-agent",
+        "challenge_scores": {
+          "fixed-pointer-table": 100,
+          "arm-thumb-control-flow": 100,
+          "tdd-manifest-contract": 100
+        },
+        "valid_cases": 3,
+        "average_score": "100",
+        "effective_wall_time_ms": "1591589.010187",
+        "physical_wall_time_ms": "1591589.010187",
+        "known_input_tokens": 1815793,
+        "known_output_tokens": 67670,
+        "known_total_tokens": 1883463,
+        "unknown_usage_attempts": 0,
+        "api_cost_usd": null,
+        "api_cost_usd_status": "unknown",
+        "codex_credits_estimate": "3.880265",
+        "codex_credits_estimate_status": "complete"
+      },
+      "openai-gpt-5.6-terra-max": {
+        "system_mode": "single-agent",
+        "challenge_scores": {
+          "fixed-pointer-table": 100,
+          "arm-thumb-control-flow": 100,
+          "tdd-manifest-contract": 100
+        },
+        "valid_cases": 3,
+        "average_score": "100",
+        "effective_wall_time_ms": "1565173.712186",
+        "physical_wall_time_ms": "1565173.712186",
+        "known_input_tokens": 1890873,
+        "known_output_tokens": 65791,
+        "known_total_tokens": 1956664,
+        "unknown_usage_attempts": 0,
+        "api_cost_usd": null,
+        "api_cost_usd_status": "unknown",
+        "codex_credits_estimate": "37.29279",
+        "codex_credits_estimate_status": "complete"
+      },
+      "openai-gpt-5.6-sol-medium": {
+        "system_mode": "single-agent",
+        "challenge_scores": {
+          "fixed-pointer-table": 100,
+          "arm-thumb-control-flow": 100,
+          "tdd-manifest-contract": 100
+        },
+        "valid_cases": 3,
+        "average_score": "100",
+        "effective_wall_time_ms": "847778.592983",
+        "physical_wall_time_ms": "847778.592983",
+        "known_input_tokens": 1102585,
+        "known_output_tokens": 30014,
+        "known_total_tokens": 1132599,
+        "unknown_usage_attempts": 0,
+        "api_cost_usd": null,
+        "api_cost_usd_status": "unknown",
+        "codex_credits_estimate": "51.325625",
+        "codex_credits_estimate_status": "complete"
+      },
+      "openai-gpt-5.6-sol-ultra": {
+        "system_mode": "multi-agent",
+        "challenge_scores": {
+          "fixed-pointer-table": 100,
+          "arm-thumb-control-flow": null,
+          "tdd-manifest-contract": 100
+        },
+        "valid_cases": 2,
+        "average_score": "100",
+        "effective_wall_time_ms": "1432895.860453",
+        "physical_wall_time_ms": "2470962.739417",
+        "known_input_tokens": 3149364,
+        "known_output_tokens": 90674,
+        "known_total_tokens": 3240038,
+        "unknown_usage_attempts": 3,
+        "api_cost_usd": "5.797344",
+        "api_cost_usd_status": "partial-known",
+        "codex_credits_estimate": "144.9336",
+        "codex_credits_estimate_status": "partial-known"
+      }
+    },
+    "campaign_cost": {
+      "physical_wall_time_ms": "6475504.054773",
+      "effective_wall_time_ms": "5437437.175809",
+      "known_input_tokens": 7958615,
+      "known_output_tokens": 254149,
+      "known_total_tokens": 8212764,
+      "unknown_usage_attempts": 3,
+      "api_cost_usd": "5.797344",
+      "api_cost_usd_status": "partial-known",
+      "api_cost_usd_unknown_attempts": 12,
+      "codex_credits_estimate": "237.43228",
+      "codex_credits_estimate_status": "partial-known",
+      "codex_credits_unknown_attempts": 3,
+      "api_cost_is_equivalent_not_invoice": true,
+      "codex_credits_are_actual_ledger": false
+    },
+    "processing_total": {
+      "physical_wall_time_ms": "6572544.973691",
+      "known_total_tokens": 8287850,
+      "unknown_usage_attempts": 3,
+      "api_cost_usd": "5.986747",
+      "api_cost_usd_status": "partial-known",
+      "codex_credits_estimate": "242.167355",
+      "codex_credits_estimate_status": "partial-known"
+    }
+  },
+  "physical_attempts": [
+    {
+      "sequence": 1,
+      "attempt_index": 1,
+      "run_id": "96ca8c0794eb4fc2ab037717fb2dc1c6",
+      "configuration_id": "openai-gpt-5.6-luna-max",
+      "challenge_id": "tdd-manifest-contract",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "463274.146538",
+      "known_total_tokens": 450615,
+      "manifest_sha256": "8744677f9ad04a3032387d69b105c254f235a963e96a8f9450e8b0bd79bc9ac1"
+    },
+    {
+      "sequence": 2,
+      "attempt_index": 1,
+      "run_id": "83bacb233b42ba50a35fa79e8adbf951",
+      "configuration_id": "openai-gpt-5.6-terra-max",
+      "challenge_id": "arm-thumb-control-flow",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "650746.185511",
+      "known_total_tokens": 686259,
+      "manifest_sha256": "61101a3a4a76dc4646834a7aa3a7e0b5f83378e4de47cbcc1d99f98ca794282b"
+    },
+    {
+      "sequence": 3,
+      "attempt_index": 1,
+      "run_id": "11ec94fd3382692c30f684546fd3c31c",
+      "configuration_id": "openai-gpt-5.6-luna-max",
+      "challenge_id": "arm-thumb-control-flow",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "632341.991555",
+      "known_total_tokens": 801931,
+      "manifest_sha256": "d9c17d7810e75a4a4612af7145db71be762d9e677b98a08e060ef8efe8630da8"
+    },
+    {
+      "sequence": 4,
+      "attempt_index": 1,
+      "run_id": "d0fde5674c8b3bfefb69932202b78b8b",
+      "configuration_id": "openai-gpt-5.6-luna-max",
+      "challenge_id": "fixed-pointer-table",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "495972.872094",
+      "known_total_tokens": 630917,
+      "manifest_sha256": "f1e9366e013693496153974e94849ce29193866aaac229ca6018983df11e2d2c"
+    },
+    {
+      "sequence": 5,
+      "attempt_index": 1,
+      "run_id": "4dea898404fc3dd80f0c8b6b3794fb55",
+      "configuration_id": "openai-gpt-5.6-sol-ultra",
+      "challenge_id": "tdd-manifest-contract",
+      "status": "infrastructure-failed",
+      "formal_score": null,
+      "wall_time_ms": "136818.896525",
+      "known_total_tokens": null,
+      "failure": "systemError-without-all-agent-usage-closure",
+      "manifest_sha256": "9cd3a8c6e5290cd4910c7fae14fcf2ce8b913fdeb7a466ce942e3f5a7ddfde9a"
+    },
+    {
+      "sequence": 5,
+      "attempt_index": 2,
+      "run_id": "d3b2c439ea2a9741d9f6d5484abfc1bb",
+      "configuration_id": "openai-gpt-5.6-sol-ultra",
+      "challenge_id": "tdd-manifest-contract",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "983515.446281",
+      "known_total_tokens": 2403296,
+      "api_cost_usd": "4.104069",
+      "codex_credits_estimate": "102.601725",
+      "manifest_sha256": "003be95b323049d0ac440df213cb5163da1ccaf2d2e49f4cfac01e1501ea6eb2"
+    },
+    {
+      "sequence": 6,
+      "attempt_index": 1,
+      "run_id": "ef8c157964cc27b91376e945b94a9c74",
+      "configuration_id": "openai-gpt-5.6-terra-max",
+      "challenge_id": "tdd-manifest-contract",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "503915.416139",
+      "known_total_tokens": 628577,
+      "manifest_sha256": "f38a2a7d6aeae0c1d696765641ed41c486237ce7f6288d608cbe6bd747f61660"
+    },
+    {
+      "sequence": 7,
+      "attempt_index": 1,
+      "run_id": "763887abef103009a4b64f3817cfef6b",
+      "configuration_id": "openai-gpt-5.6-sol-ultra",
+      "challenge_id": "arm-thumb-control-flow",
+      "status": "infrastructure-failed",
+      "formal_score": null,
+      "wall_time_ms": "348113.639134",
+      "known_total_tokens": null,
+      "failure": "systemError-without-all-agent-usage-closure",
+      "manifest_sha256": "ec42d1412a50a4069da7b62145d4e2a74adbf09860819e0bc7995ed102c19ce8"
+    },
+    {
+      "sequence": 7,
+      "attempt_index": 2,
+      "run_id": "421e2deed7712203bee50bd8ce6dfafc",
+      "configuration_id": "openai-gpt-5.6-sol-ultra",
+      "challenge_id": "arm-thumb-control-flow",
+      "status": "infrastructure-failed",
+      "formal_score": null,
+      "verification_score_before_execution_failure": 100,
+      "wall_time_ms": "553134.343305",
+      "known_total_tokens": null,
+      "failure": "interrupted-without-all-agent-usage-closure",
+      "manifest_sha256": "fcc05e30f38e252beb0629319a7e2b2b0b0a2f98d9e9ea442a921640336c613e"
+    },
+    {
+      "sequence": 8,
+      "attempt_index": 1,
+      "run_id": "108e9c79adf186343a062a1cd9c9112c",
+      "configuration_id": "openai-gpt-5.6-sol-medium",
+      "challenge_id": "tdd-manifest-contract",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "244129.507758",
+      "known_total_tokens": 313159,
+      "manifest_sha256": "77d74236a8dd2f65f3768bc7e91dd6360f131717821c5142b41471c8b89b15b9"
+    },
+    {
+      "sequence": 9,
+      "attempt_index": 1,
+      "run_id": "2091c901eb855eee65ae7e65eca25765",
+      "configuration_id": "openai-gpt-5.6-sol-medium",
+      "challenge_id": "fixed-pointer-table",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "338367.747538",
+      "known_total_tokens": 507984,
+      "manifest_sha256": "821722eaf126853ccf63c730529576a8c475674268382447aa8e4ae311a2e0fd"
+    },
+    {
+      "sequence": 10,
+      "attempt_index": 1,
+      "run_id": "4489a368ed2f16b5677d997a7e86a610",
+      "configuration_id": "openai-gpt-5.6-terra-max",
+      "challenge_id": "fixed-pointer-table",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "410512.110536",
+      "known_total_tokens": 641828,
+      "manifest_sha256": "ebba6c9374ee04dd408da24a6997bb71ec5129f2f378ab3f9e070465aede6cf5"
+    },
+    {
+      "sequence": 11,
+      "attempt_index": 1,
+      "run_id": "0d2f8a9c25a2041011e3517a6a5857d5",
+      "configuration_id": "openai-gpt-5.6-sol-ultra",
+      "challenge_id": "fixed-pointer-table",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "449380.414172",
+      "known_total_tokens": 836742,
+      "api_cost_usd": "1.693275",
+      "codex_credits_estimate": "42.331875",
+      "manifest_sha256": "597642821b7136ca178e99b072edb9336c99c2102b63228e92d874015725a3c8"
+    },
+    {
+      "sequence": 12,
+      "attempt_index": 1,
+      "run_id": "996fd52acafc683df7e5d7097440b9f8",
+      "configuration_id": "openai-gpt-5.6-sol-medium",
+      "challenge_id": "arm-thumb-control-flow",
+      "status": "verified-passed",
+      "formal_score": 100,
+      "wall_time_ms": "265281.337687",
+      "known_total_tokens": 311456,
+      "manifest_sha256": "6372d84cc2c49f12e17141da14c2ef17d34e264727657ed59db5af6dae8cb279"
+    }
+  ],
+  "historical_cost_audit": {
+    "historical_results_in_final_ranking": false,
+    "old_invalid_campaigns": {
+      "attempts": 72,
+      "usage_complete_attempts": 51,
+      "known_tokens_lower_bound": 26067418,
+      "physical_wall_time_ms": "16279957",
+      "api_cost_usd_lower_bound": "18.77780708",
+      "codex_credits_lower_bound": "763.493175",
+      "api_cost_cny_lower_bound": "4.35826356",
+      "included_in_formal_quality": false,
+      "included_in_formal_processing_total": false
+    },
+    "superseded_gates_and_canaries": {
+      "attempts": 61,
+      "usage_complete_attempts": 41,
+      "known_tokens_lower_bound": 3526688,
+      "physical_wall_time_ms": "2031211",
+      "api_cost_usd_lower_bound": "0.82562728",
+      "codex_credits_lower_bound": "21.458960",
+      "api_cost_cny_lower_bound": "2.56652382",
+      "included_in_formal_quality": false,
+      "included_in_formal_processing_total": false
+    },
+    "all_recorded_setup_including_current_gate": {
+      "attempts": 65,
+      "known_tokens_lower_bound": 3601774,
+      "physical_wall_time_ms": "2128252",
+      "api_cost_usd_lower_bound": "1.01503028",
+      "codex_credits_lower_bound": "26.194035",
+      "api_cost_cny_lower_bound": "2.56652382"
+    },
+    "broad_nonranking_history": {
+      "attempts": 133,
+      "usage_complete_attempts": 92,
+      "known_tokens_lower_bound": 29594106,
+      "physical_wall_time_ms": "18311168",
+      "api_cost_usd_lower_bound": "19.60343436",
+      "codex_credits_lower_bound": "784.952135",
+      "api_cost_cny_lower_bound": "6.92478738"
+    },
+    "all_recorded_known_tokens_including_current_formal": 37881956,
+    "strict_invalid_campaign_known_token_share_percent": "68.81",
+    "broad_nonranking_known_token_share_percent": "78.12",
+    "unmetered_diagnostics": {
+      "scope": "openai-native-ultra-v13-through-v21-and-codex-appserver-schema-v20",
+      "tokens": null,
+      "wall_time_ms": null,
+      "cost": null
+    },
+    "pure_waste_total": null,
+    "pure_waste_unknown_reason": "superseded setup produced useful protocol evidence, incomplete attempts lack usage, and orchestration has no per-action ledger"
+  },
+  "orchestrator_usage_snapshot": {
+    "after_initial_report_goal_tokens_used": 945566,
+    "latest_precompletion_goal_tokens_used": 1060423,
+    "basis": "Goal thread orchestration tokens, not benchmark attempt tokens",
+    "reliably_allocatable_by_phase": false,
+    "estimated_remaining_multiple": {
+      "after_initial_report": {
+        "low": "0.03",
+        "high": "0.06"
+      },
+      "latest_precompletion": {
+        "low": "0.01",
+        "high": "0.02"
+      }
+    }
+  },
+  "verification": {
+    "report_verifier_terminal_cases": 12,
+    "report_verifier_logical_cases": 12,
+    "report_verifier_credential_scan_file_count": 18,
+    "report_verifier_credential_hits": 0,
+    "formal_all_artifacts_credential_scan_file_count": 211,
+    "formal_all_artifacts_credential_hits": 0,
+    "published_documents_credential_scan_file_count": 5,
+    "published_documents_credential_hits": 0,
+    "reverse_benchmark_tests_passed": 117,
+    "reverse_benchmark_tests_failed": 0,
+    "deterministic_report_regeneration": true,
+    "billing_recomputed_from_request_telemetry": true,
+    "ultra_all_agent_scope_checked": true
+  },
+  "git": {
+    "head": "765f4547c32b285d5630018b452d858644b36188",
+    "worktree_was_dirty_before_task": true,
+    "unrelated_changes_preserved": true,
+    "committed": false,
+    "pushed": false
+  },
+  "boundaries": [
+    "small frozen homogeneous reverse-engineering challenges only",
+    "eleven valid results all scored 100; one Ultra case is unavailable, not zero",
+    "Sol Ultra is a multi-agent system configuration with a distinct native subtransport",
+    "single-agent API USD is unknown because request boundaries above 272K are absent",
+    "API equivalents are not invoices and Codex credits are not actual ledger values",
+    "historical invalid and superseded evidence is excluded from formal ranking and processing total",
+    "not evidence of general intelligence, complete-ROM capability, natural reachability, or long-term schedule"
+  ]
+}

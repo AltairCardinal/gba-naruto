@@ -6,21 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_reaction_matrix import build_reaction_matrix_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-reaction-matrix-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleReactionMatrixTests(unittest.TestCase):
     def _manifest(self):
-        return build_reaction_matrix_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            ROOT / "notes/battle-controller-states-20260723.json",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-reaction-matrix-bindings-20260723.json")
 
     def test_resolution_code_separates_damage_from_substitution(self):
         result = self._manifest()
@@ -45,6 +42,7 @@ class BattleReactionMatrixTests(unittest.TestCase):
                 self.assertNotEqual(sample["target_position"][0], sample["target_position"][1])
                 self.assertEqual(sample["target_resolution_code"], [22, 0])
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_audit_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["observations"][0]["audit_sha256"] = "00" * 32

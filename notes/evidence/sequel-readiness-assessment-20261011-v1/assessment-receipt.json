@@ -1,0 +1,454 @@
+{
+  "schema": "sequel-readiness-assessment-v1",
+  "assessment_date": "2026-10-11",
+  "goal_at_assessment": null,
+  "scope": "只读证据评估；未重新签发语义、运行时或全局formal验收",
+  "worktrees": {
+    "butano": {
+      "head": "765f4547c32b285d5630018b452d858644b36188",
+      "branch": "codex/butano-foundation-research",
+      "status_counts": {
+        " D": 558,
+        " M": 86,
+        "??": 2402
+      }
+    },
+    "reverse": {
+      "head": "0302f4685946d9fa97747cb9814ea9c83fd02df4",
+      "branch": "codex/reverse-engineering",
+      "status_counts": {
+        " M": 17,
+        "??": 259
+      }
+    }
+  },
+  "coverage": {
+    "committed": {
+      "sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+      "rom_bytes": 6291456,
+      "classified_bytes": 6203707,
+      "unknown_bytes": 87749,
+      "classified_percent": 98.6052672068278,
+      "unknown_ranges": 1773,
+      "claim_count": 16891,
+      "large_unknown_ranges": 17,
+      "large_unknown_bytes": 42880
+    },
+    "candidate": {
+      "sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+      "rom_bytes": 6291456,
+      "classified_bytes": 6203825,
+      "unknown_bytes": 87631,
+      "classified_percent": 98.60714276631673,
+      "unknown_ranges": 1763,
+      "claim_count": 16912,
+      "large_unknown_ranges": 17,
+      "large_unknown_bytes": 42880
+    }
+  },
+  "sources": [
+    {
+      "tree": "reverse",
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+      "size": 31466081,
+      "head_exists": true,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "sequel/reverse-engineering-proof.json",
+      "sha256": "465a13104b6c9a6d0ea418ca513dd0be732438634f1124a3a531c893b11db568",
+      "size": 273775,
+      "head_exists": true,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "sequel/bank-proofs.json",
+      "sha256": "f52524fbba244cf0497ffa021503702da9a185485c13027872f2a65dad56bed2",
+      "size": 50006,
+      "head_exists": true,
+      "matches_head": true
+    },
+    {
+      "tree": "reverse",
+      "path": "docs/sequel-roadmap.md",
+      "sha256": "26fd7722c884f3cd7b09e3394cee2a2f68eafd3a593ea0c35e9685bad8c8606b",
+      "size": 348034,
+      "head_exists": true,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "tools/analyze_rom_unknown_clusters.py",
+      "sha256": "7e96877f135a36eda59e5c703eecaf9b4b4021f0e78ffe092d0b8d0686aef012",
+      "size": 6516,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "tests/test_analyze_rom_unknown_clusters.py",
+      "sha256": "9c165d2bf7cfd58cb94af97a3283b7d0d8e8eeb905de27c30ffecfdf887c557b",
+      "size": 4318,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
+      "sha256": "5953aa753d4d35d21a4d7f4d399cf3a374027702399baba8db5cdc0ec22650ef",
+      "size": 133335,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-guard.json",
+      "sha256": "56eea84daba54d35c9602bf571e0d53f46f896d051d87b0ed8f4a20dc4619dc0",
+      "size": 817,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "notes/rom-map-resource-relocation-roundtrip-20261002.md",
+      "sha256": "c2b37598792bd9f2eb09d1b9b8477c114b1326a19c5b448a52122be2e7ef5e04",
+      "size": 8111,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "notes/evidence/rom-map-resource-relocation-roundtrip-20261002-v1/manifest.json",
+      "sha256": "8ea366c036f548b1cf1396b2d2ba1e947a4749077c6528834937458ebc0cfbb3",
+      "size": 55698,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "notes/rom-partial-bank-joint-matrix-20261001.md",
+      "sha256": "dc24a4004c07b2140a79f24b603b65eb5de4b4a6838d38cc22a6ba0cae62768b",
+      "size": 3860,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "notes/evidence/rom-partial-bank-joint-matrix-20261001-v1/manifest.json",
+      "sha256": "aa30d6a3714d55f3b213580d9403a6eea0812886bbfc1720f4b762a4875f046e",
+      "size": 4495,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "reverse",
+      "path": "artifacts/character-battle-visuals-v1/manifest.json",
+      "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c",
+      "size": 4995110,
+      "head_exists": true,
+      "matches_head": true
+    },
+    {
+      "tree": "butano",
+      "path": "butano-sequel/src/main.cpp",
+      "sha256": "1a2005df3df317090dcbf7bb407e12de7074648471f3ee61bfaec8a6f5c3cf18",
+      "size": 7737,
+      "head_exists": true,
+      "matches_head": false
+    },
+    {
+      "tree": "butano",
+      "path": "butano-sequel/game/include/konoha/battle_campaign_route.h",
+      "sha256": "eca903dea81b1e58b8ae7085b9a77a4fd447c40f2d18b7596daea9dbb5c50299",
+      "size": 9266,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "butano",
+      "path": "notes/scenario-49-battle-14-six-ui-repair-20260729.md",
+      "sha256": "a8e4afd5baf941ff0d0f0f697e0d7f91faba89e4f3fb917db55655d16f110c46",
+      "size": 20295,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "butano",
+      "path": "artifacts/butano-battle-s49-complete-ui-runtime-20260730-363/audit.json",
+      "sha256": "dcc7079e3233064806759f4f576941872f5a28ed6b797a1136daa18943d22a98",
+      "size": 849,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "butano",
+      "path": "artifacts/butano-battle-s49-complete-ui-runtime-20260730-363/scenario_49-audit.json",
+      "sha256": "591f07ae2367a130bcf818066af15efcc467cf2162ba9d2aa9e6c845c9fd8e28",
+      "size": 314,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "butano",
+      "path": "artifacts/butano-battle-s49-complete-ui-runtime-20260730-363/mgba-guard.json",
+      "sha256": "22f61358b5138b120ade2af5f983df2e63524021db404cb686ea7798ed83469f",
+      "size": 1721,
+      "head_exists": false,
+      "matches_head": false
+    },
+    {
+      "tree": "butano",
+      "path": "artifacts/butano-battle-s49-complete-ui-runtime-20260730-363/runtime.gba",
+      "sha256": "785757697b9d0e4b657c644ccf38fbca289afa93fca30b1301f7f2c4ae2f5e26",
+      "size": 10594996,
+      "head_exists": false,
+      "matches_head": false
+    }
+  ],
+  "bank_ledger": {
+    "banks_total": 32,
+    "active_banks": 22,
+    "disproved": 10,
+    "declared_records_covered": 23,
+    "records_total": 2954,
+    "active_banks_with_typed_contract": 0
+  },
+  "formal_gates": {
+    "rom_byte_coverage": {
+      "status": "partial",
+      "coverage": {
+        "case_ids_total": [
+          "all-rom-bytes-semantically-classified"
+        ],
+        "case_ids_covered": []
+      }
+    },
+    "resource_roundtrip": {
+      "status": "partial",
+      "coverage": {
+        "case_ids_total": [
+          "graphics",
+          "audio",
+          "text",
+          "maps",
+          "levels",
+          "story",
+          "characters"
+        ],
+        "case_ids_covered": []
+      }
+    },
+    "editor_roundtrip": {
+      "status": "partial",
+      "coverage": {
+        "case_ids_total": [
+          "map-editor",
+          "level-editor",
+          "story-editor",
+          "character-editor"
+        ],
+        "case_ids_covered": []
+      }
+    },
+    "logic_modification": {
+      "status": "partial",
+      "coverage": {
+        "case_ids_total": [
+          "menu-logic",
+          "battle-logic"
+        ],
+        "case_ids_covered": []
+      }
+    },
+    "clean_rebuild": {
+      "status": "partial",
+      "coverage": {
+        "case_ids_total": [
+          "clean-checkout",
+          "pinned-toolchain",
+          "deterministic-rom"
+        ],
+        "case_ids_covered": []
+      }
+    },
+    "emulator_regression": {
+      "status": "partial",
+      "coverage": {
+        "case_ids_total": [
+          "base-rom-regression-matrix",
+          "rebuilt-rom-regression-matrix"
+        ],
+        "case_ids_covered": []
+      }
+    },
+    "physical_hardware": {
+      "status": "blocked_external",
+      "coverage": {
+        "case_ids_total": [
+          "original-gba-release-smoke"
+        ],
+        "case_ids_covered": []
+      }
+    }
+  },
+  "historical_formal": {
+    "path": "notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
+    "complete": false,
+    "blocker_count": 175,
+    "banks_complete": 10,
+    "contracts_ok": 107,
+    "contracts_total": 107,
+    "trust_anchor_matches_current_proof": true,
+    "rerun_this_assessment": false
+  },
+  "butano_runtime": {
+    "path": "artifacts/butano-battle-s49-complete-ui-runtime-20260730-363",
+    "rom_sha256": "785757697b9d0e4b657c644ccf38fbca289afa93fca30b1301f7f2c4ae2f5e26",
+    "current_binary_matches": true,
+    "source_rebuilt_this_assessment": false,
+    "runtime_rerun_this_assessment": false,
+    "audit": {
+      "capture_frame": 10845,
+      "scenario_id": 50,
+      "battle_id": 14,
+      "phase": 19,
+      "round": 9,
+      "active_units": 5,
+      "last_resolved_action_id": 5,
+      "shadow_clone_verified": 1,
+      "objective_verified": 0,
+      "cross_shuriken_verified": 0,
+      "sasuke_fire_verified": 0,
+      "sakura_finisher_verified": 0,
+      "battlefield_object_count": 0,
+      "result_mission_experience": 125,
+      "result_battle_experience": 100,
+      "result_round_bonus_experience": 0,
+      "result_total_experience": 225,
+      "save_generation": 1,
+      "save_verified": 1,
+      "naruto_level": 6,
+      "naruto_experience": 0,
+      "naruto_training_points": 5,
+      "naruto_action_8_level": 0,
+      "naruto_tool_0": 1,
+      "owned_tool_1": 1,
+      "last_control_error": 0,
+      "last_player_error": 0,
+      "scenario_46_presented_captures": 0,
+      "scenario_47_defeated_enemies": 0,
+      "scenario_47_rest_verified": 0,
+      "scenario_47_shadow_clone_verified": 0,
+      "pc": "0x000001F8",
+      "lr": "0x000000A4",
+      "sp": "0x030068B4",
+      "status": "campaign-route-stage-complete"
+    },
+    "scenario_audit": {
+      "capture_frame": 10845,
+      "scenario_id": 50,
+      "battle_id": 14,
+      "round": 9,
+      "condition_outcome": 1,
+      "scenario_49_defeated_enemies": 5,
+      "scenario_49_replenished_sasuke": 0,
+      "scenario_49_shadow_clone_created": 1,
+      "scenario_49_used_fireball": 1,
+      "scenario_49_allied_ai_damaged": 1,
+      "scenario_49_allied_ai_survived": 1,
+      "transition_count": 368
+    },
+    "guard": {
+      "reason": "completed",
+      "exit_code": 0,
+      "child_pid": 92248,
+      "peak_tree_rss_mib": 122.59375,
+      "protection_backend": "posix-process-group",
+      "degraded": false,
+      "command": [
+        "/usr/bin/env",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_OUTPUT_DIR=/Users/altair/github/gba-naruto/artifacts/butano-battle-s49-complete-ui-runtime-20260730-363",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_DONE_MARKER=/Users/altair/github/gba-naruto/artifacts/butano-battle-s49-complete-ui-runtime-20260730-363/done.json",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_BATTLE_TELEMETRY_ADDRESS=0x020255dc",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_CAMPAIGN_TELEMETRY_ADDRESS=0x0200a254",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_EXPECTED_SCENARIO=49",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_EXPECTED_BATTLE=14",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_EXPECTED_NEXT_SCENARIO=50",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_EXPECTED_BATTLE_EXPERIENCE=100",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_EXPECTED_TOTAL_EXPERIENCE=225",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_EXPECTED_NARUTO_LEVEL=6",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_EXPECTED_NARUTO_EXPERIENCE=0",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_EXPECTED_NARUTO_TRAINING_POINTS=5",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_COMPLETE_STAGE=1",
+        "MGBA_BATTLE_CAMPAIGN_ROUTE_CAPTURE_UI=1",
+        "build/signed-tooling/mGBA.app/Contents/MacOS/mGBA",
+        "--script",
+        "tools/butano/mgba_battle_campaign_route.lua",
+        "-C",
+        "audioSync=0",
+        "-C",
+        "videoSync=0",
+        "-C",
+        "mute=1",
+        "/Users/altair/github/gba-naruto/artifacts/butano-battle-s49-complete-ui-runtime-20260730-363/runtime.gba"
+      ],
+      "cwd": "/Users/altair/github/gba-naruto",
+      "started_at": "2026-07-30T06:23:02.433280Z",
+      "finished_at": "2026-07-30T06:23:18.121681Z",
+      "completion_trigger": "success-marker"
+    }
+  },
+  "selected_manifest_member_checks": [
+    {
+      "package": "rom-map-resource-relocation-roundtrip-20261002-v1",
+      "path": "audit-cli.json",
+      "sha256": "1f49e9a1e8ae6d8018edf74e89629feea3d5961c2a23262ff31a56413044797d",
+      "verified": true
+    },
+    {
+      "package": "rom-map-resource-relocation-roundtrip-20261002-v1",
+      "path": "result.json",
+      "sha256": "1f49e9a1e8ae6d8018edf74e89629feea3d5961c2a23262ff31a56413044797d",
+      "verified": true
+    },
+    {
+      "package": "rom-map-resource-relocation-roundtrip-20261002-v1",
+      "path": "canonical-identity.json",
+      "sha256": "6d72e67ca9915f03cea6e442a4bd807f2c5737ccb5f939fbf2120bc2f90e1359",
+      "verified": true
+    },
+    {
+      "package": "rom-partial-bank-joint-matrix-20261001-v1",
+      "path": "matrix.json",
+      "sha256": "c9003fdb5bfc8d3da7c90ea27c0895584652c5900645226a68bdd8605159ee10",
+      "verified": true
+    },
+    {
+      "package": "rom-partial-bank-joint-matrix-20261001-v1",
+      "path": "cases/map-sprites/matrix-row.json",
+      "sha256": "e965a732b4d09b60059a6b3024d7cb97f65bac3c2317699385139b7143e47ee1",
+      "verified": true
+    },
+    {
+      "package": "rom-partial-bank-joint-matrix-20261001-v1",
+      "path": "cases/cutscene-scripts/matrix-row.json",
+      "sha256": "db29a119eb82657d744f9c042c4951976c0b015c48fdf593122b85c5fb1f7a42",
+      "verified": true
+    },
+    {
+      "package": "rom-partial-bank-joint-matrix-20261001-v1",
+      "path": "cases/menu-ui/matrix-row.json",
+      "sha256": "8e731a9ad1bb92b8037fbce71c0ff8a33de6b18717ad188f635a5c0f6965998e",
+      "verified": true
+    },
+    {
+      "package": "rom-partial-bank-joint-matrix-20261001-v1",
+      "path": "cases/data-table-b/matrix-row.json",
+      "sha256": "b2a224f34be0f7e1939c3ff53bd488643c5c56cbd9b3187093d50df781dac773",
+      "verified": true
+    }
+  ]
+}

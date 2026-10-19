@@ -22,6 +22,16 @@ RECORD_STRIDE = 0x00B8
 RECORD_HEADER = 4
 X_OFFSET = 2
 Y_OFFSET = 3
+BATTLE_EXPERIENCE_OFFSET = 0x0C
+UNIT_PARAMETER_OFFSET = 0x0E
+LEVEL_OFFSET = 0x0F
+PRIMARY_ACTION_OFFSET = 0x10
+PRIMARY_ACTION_COUNT = 15
+SECONDARY_ACTION_OFFSET = 0x4C
+SECONDARY_ACTION_COUNT = 24
+ACTION_SLOT_SIZE = 4
+NINJA_TOOL_OFFSET = 0xAC
+NINJA_TOOL_COUNT = 9
 
 # Three variants exactly fill a group: 3 * 0x8E4 == 0x1AAC.
 GROUP_COUNT = 48
@@ -42,6 +52,28 @@ def record_offset(group_id: int, variant_id: int, record_id: int) -> int:
         + RECORD_HEADER
         + record_id * RECORD_STRIDE
     )
+
+
+def _extract_action_slots(
+    raw: bytes,
+    offset: int,
+    count: int,
+) -> list[dict[str, int]]:
+    slots: list[dict[str, int]] = []
+    for index in range(count):
+        slot_offset = offset + index * ACTION_SLOT_SIZE
+        action, state, unlock_level, reserved = raw[
+            slot_offset:slot_offset + ACTION_SLOT_SIZE
+        ]
+        slots.append(
+            {
+                "action": action,
+                "state": state,
+                "unlock_level": unlock_level,
+                "reserved": reserved,
+            }
+        )
+    return slots
 
 
 def extract_positions(rom: bytes) -> dict[str, Any]:
@@ -74,14 +106,42 @@ def extract_positions(rom: bytes) -> dict[str, Any]:
                         "y": raw[Y_OFFSET],
                         "parameter": raw[4],
                         "aux_u32": int.from_bytes(raw[8:12], "little"),
+                        "battle_experience": int.from_bytes(
+                            raw[
+                                BATTLE_EXPERIENCE_OFFSET:
+                                BATTLE_EXPERIENCE_OFFSET + 2
+                            ],
+                            "little",
+                        ),
+                        "unit_parameter": raw[UNIT_PARAMETER_OFFSET],
+                        "level": raw[LEVEL_OFFSET],
+                        "primary_action_slots": _extract_action_slots(
+                            raw,
+                            PRIMARY_ACTION_OFFSET,
+                            PRIMARY_ACTION_COUNT,
+                        ),
+                        "secondary_action_slots": _extract_action_slots(
+                            raw,
+                            SECONDARY_ACTION_OFFSET,
+                            SECONDARY_ACTION_COUNT,
+                        ),
+                        "equipped_tools": list(
+                            raw[
+                                NINJA_TOOL_OFFSET:
+                                NINJA_TOOL_OFFSET + NINJA_TOOL_COUNT
+                            ]
+                        ),
                         "raw_hex": raw.hex(),
                         "active": any(raw),
                     }
                 )
 
     return {
-        "version": 2,
-        "description": "ROM-backed battle formation and initial unit positions.",
+        "version": 3,
+        "description": (
+            "ROM-backed battle formations, initial positions, and embedded "
+            "per-unit runtime configuration."
+        ),
         "table_offset": POSITION_TABLE_FILE,
         "table_offset_hex": f"0x{POSITION_TABLE_FILE:06X}",
         "entry_size": RECORD_STRIDE,
@@ -97,6 +157,42 @@ def extract_positions(rom: bytes) -> dict[str, Any]:
                 {"name": "y", "type": "u8", "offset": Y_OFFSET, "size": 1},
                 {"name": "parameter", "type": "u8", "offset": 4, "size": 1},
                 {"name": "aux_u32", "type": "u32", "offset": 8, "size": 4},
+                {
+                    "name": "battle_experience",
+                    "type": "u16",
+                    "offset": BATTLE_EXPERIENCE_OFFSET,
+                    "size": 2,
+                },
+                {
+                    "name": "unit_parameter",
+                    "type": "u8",
+                    "offset": UNIT_PARAMETER_OFFSET,
+                    "size": 1,
+                },
+                {
+                    "name": "level",
+                    "type": "u8",
+                    "offset": LEVEL_OFFSET,
+                    "size": 1,
+                },
+                {
+                    "name": "primary_action_slots",
+                    "type": "action_slot[15]",
+                    "offset": PRIMARY_ACTION_OFFSET,
+                    "size": PRIMARY_ACTION_COUNT * ACTION_SLOT_SIZE,
+                },
+                {
+                    "name": "secondary_action_slots",
+                    "type": "action_slot[24]",
+                    "offset": SECONDARY_ACTION_OFFSET,
+                    "size": SECONDARY_ACTION_COUNT * ACTION_SLOT_SIZE,
+                },
+                {
+                    "name": "equipped_tools",
+                    "type": "u8[9]",
+                    "offset": NINJA_TOOL_OFFSET,
+                    "size": NINJA_TOOL_COUNT,
+                },
                 {"name": "raw_hex", "type": "bytes"},
             ]
         },
@@ -118,6 +214,30 @@ def extract_positions(rom: bytes) -> dict[str, Any]:
                 "y": {"offset": Y_OFFSET, "size": 1},
                 "parameter": {"offset": 4, "size": 1},
                 "aux_u32": {"offset": 8, "size": 4},
+                "battle_experience": {
+                    "offset": BATTLE_EXPERIENCE_OFFSET,
+                    "size": 2,
+                },
+                "unit_parameter": {
+                    "offset": UNIT_PARAMETER_OFFSET,
+                    "size": 1,
+                },
+                "level": {"offset": LEVEL_OFFSET, "size": 1},
+                "primary_action_slots": {
+                    "offset": PRIMARY_ACTION_OFFSET,
+                    "count": PRIMARY_ACTION_COUNT,
+                    "stride": ACTION_SLOT_SIZE,
+                },
+                "secondary_action_slots": {
+                    "offset": SECONDARY_ACTION_OFFSET,
+                    "count": SECONDARY_ACTION_COUNT,
+                    "stride": ACTION_SLOT_SIZE,
+                },
+                "equipped_tools": {
+                    "offset": NINJA_TOOL_OFFSET,
+                    "count": NINJA_TOOL_COUNT,
+                    "stride": 1,
+                },
             },
         },
         "wram_unit_array": {
@@ -132,9 +252,14 @@ def extract_positions(rom: bytes) -> dict[str, Any]:
             },
         },
         "notes": (
-            "Static consumer trace proves record +2/+3 feed unit x/y. The exact names "
-            "of group_id, variant_id, selector, affiliation, parameter and aux_u32 remain "
-            "provisional pending runtime traces. Zero records are retained for stable editing."
+            "Static consumer trace proves record +2/+3 feed unit x/y and record "
+            "+0x0C feeds battle-unit +0xCE carried experience. The constructor at "
+            "0x0806ACAC copies +0x0F as level, 15 four-byte slots from +0x10, "
+            "24 four-byte slots from +0x4C, and 9 tool bytes from +0xAC before "
+            "applying character growth. The exact names of group_id, variant_id, "
+            "selector, affiliation, parameter, unit_parameter and aux_u32 remain "
+            "provisional pending complete runtime traces. Zero records are retained "
+            "for stable editing."
         ),
         "entries": entries,
         "verification": "static_verified",

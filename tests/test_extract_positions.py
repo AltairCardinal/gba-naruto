@@ -11,6 +11,7 @@ import unittest
 from pathlib import Path
 
 from tools.extract_positions import (
+    BATTLE_EXPERIENCE_OFFSET,
     GROUP_COUNT,
     GROUP_STRIDE,
     POSITION_TABLE_FILE,
@@ -37,6 +38,7 @@ class ExtractPositionsTests(unittest.TestCase):
         self.assertEqual(RECORD_STRIDE, 0x00B8)
         self.assertEqual(X_OFFSET, 2)
         self.assertEqual(Y_OFFSET, 3)
+        self.assertEqual(BATTLE_EXPERIENCE_OFFSET, 0x0C)
         self.assertEqual(UNIT_STRIDE, 0x01D4)
 
     def test_extracts_known_group_one_variant_zero_coordinates(self):
@@ -51,6 +53,94 @@ class ExtractPositionsTests(unittest.TestCase):
         self.assertEqual((entry["x"], entry["y"]), (10, 9))
         self.assertEqual(entry["selector"], 1)
         self.assertTrue(entry["active"])
+
+    def test_extracts_rom_carried_battle_experience(self):
+        bank = extract_positions(BASE_ROM.read_bytes())
+        naruto = next(
+            item for item in bank["entries"]
+            if item["group_id"] == 41
+            and item["variant_id"] == 0
+            and item["record_id"] == 0
+        )
+        konohamaru = next(
+            item for item in bank["entries"]
+            if item["group_id"] == 41
+            and item["variant_id"] == 0
+            and item["record_id"] == 1
+        )
+        cats = [
+            item for item in bank["entries"]
+            if item["group_id"] == 9
+            and item["variant_id"] == 0
+            and item["active"]
+            and item["affiliation"] == 1
+        ]
+        self.assertEqual(naruto["battle_experience"], 0)
+        self.assertEqual(konohamaru["battle_experience"], 50)
+        self.assertEqual([item["battle_experience"] for item in cats], [30] * 5)
+
+    def test_extracts_fixed_unit_runtime_configuration(self):
+        bank = extract_positions(BASE_ROM.read_bytes())
+        naruto = next(
+            item for item in bank["entries"]
+            if item["group_id"] == 10
+            and item["variant_id"] == 0
+            and item["record_id"] == 2
+        )
+
+        self.assertEqual(naruto["selector"], 1)
+        self.assertEqual(naruto["level"], 20)
+        self.assertEqual(naruto["unit_parameter"], 1)
+        self.assertEqual(
+            naruto["primary_action_slots"][:3],
+            [
+                {
+                    "action": 1,
+                    "state": 2,
+                    "unlock_level": 0,
+                    "reserved": 0,
+                },
+                {
+                    "action": 2,
+                    "state": 2,
+                    "unlock_level": 0,
+                    "reserved": 0,
+                },
+                {
+                    "action": 5,
+                    "state": 2,
+                    "unlock_level": 0,
+                    "reserved": 0,
+                },
+            ],
+        )
+        self.assertEqual(
+            naruto["secondary_action_slots"][:3],
+            [
+                {
+                    "action": 6,
+                    "state": 1,
+                    "unlock_level": 0,
+                    "reserved": 0,
+                },
+                {
+                    "action": 5,
+                    "state": 3,
+                    "unlock_level": 0,
+                    "reserved": 0,
+                },
+                {
+                    "action": 2,
+                    "state": 2,
+                    "unlock_level": 0,
+                    "reserved": 0,
+                },
+            ],
+        )
+        self.assertEqual(
+            naruto["equipped_tools"],
+            [1, 19, 41, 41, 41, 0, 0, 0, 0],
+        )
 
     def test_extracts_complete_matrix_without_aliasing_variants(self):
         bank = extract_positions(BASE_ROM.read_bytes())

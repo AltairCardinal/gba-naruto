@@ -1,0 +1,100 @@
+{
+  "schemaVersion": 2,
+  "emulator": {
+    "path": "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "sha256": "2cc5c36d620d5350c377d1e4fede68726c93b57a7d4e5f98f98fd293eb267393",
+    "size": 3980960,
+    "version": "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA 0.10.5 (26b7884bc25a5933960f3cdcd98bac1ae14d42e2-dirty)"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "savestate": {
+    "path": "artifacts/s49-fidelity-20261019-v1/original-a14/step-10-A.ss9",
+    "sha256": "eab31f1b465ce6ab6227c5bb551011a361244c94cc98bda82dd0a47501ac8648",
+    "size": 80578
+  },
+  "scripts": [
+    {
+      "path": "/tmp/press_a40.lua",
+      "sha256": "f1721a1c04e9be8cf3570a35d1f8a8b151ad78325f946e2a32cda11a9718c684",
+      "size": 264
+    }
+  ],
+  "command": [
+    "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--gdb",
+    "-C",
+    "mute=1",
+    "-C",
+    "volume=0",
+    "--script",
+    "/tmp/press_a40.lua",
+    "--savestate",
+    "artifacts/s49-fidelity-20261019-v1/original-a14/step-10-A.ss9",
+    "rom/base.gba"
+  ],
+  "port": 2345,
+  "listenerOwnerPid": 38804,
+  "listenerOwnerPids": [
+    38804
+  ],
+  "connectionOwnerPid": 38804,
+  "connectionOwnerPids": [
+    38804
+  ],
+  "connectionLocalEndpoint": {
+    "address": "127.0.0.1",
+    "port": 54701
+  },
+  "connectionPeerEndpoint": {
+    "address": "127.0.0.1",
+    "port": 2345
+  },
+  "rawStop": "S05k",
+  "expectedPc": 134832606,
+  "expectedPcHex": "0x080961DE",
+  "actualPc": 134832606,
+  "actualPcHex": "0x080961DE",
+  "registers": {
+    "r0": 138451138,
+    "r1": 0,
+    "r2": 0,
+    "r3": 6399,
+    "r4": 33564800,
+    "r5": 100728832,
+    "r6": 0,
+    "r7": 0,
+    "r8": 140135956,
+    "r9": 0,
+    "r10": 0,
+    "r11": 0,
+    "r12": 0,
+    "sp": 50336108,
+    "lr": 134832599,
+    "pc": 134832606,
+    "cpsr": 1073741887
+  },
+  "romFingerprint": [
+    {
+      "address": 134217728,
+      "addressHex": "0x08000000",
+      "size": 32,
+      "sha256": "9c1f62e912c5efc32cd6f0093fecd6b677f53975c69b891559ae202c6e5d3943"
+    },
+    {
+      "address": 134832606,
+      "addressHex": "0x080961DE",
+      "size": 32,
+      "sha256": "9a7d3a93c89e9e4a6b62305076a4f42f1910742ba026a63fb111cb0958885053"
+    }
+  ],
+  "readRegions": [],
+  "stdoutTail": "",
+  "stderrTail": "2026-10-19 09:14:18.110 mGBA[38804:23770055] WARNING: Secure coding is automatically enabled for restorable state! However, not on all supported macOS versions of this application. Opt-in to secure coding explicitly by implementing NSApplicationDelegate.applicationSupportsSecureRestorableState:.\n",
+  "childReturncode": -15,
+  "progressErrors": [],
+  "outcome": "verified"
+}

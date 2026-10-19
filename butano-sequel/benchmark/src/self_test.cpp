@@ -1,10 +1,11 @@
 #include "konoha_bench/self_test.h"
 
 #include "konoha_bench/action_state_machine.h"
-#include "konoha_bench/battle_effects.h"
+#include "konoha_bench/battle_domain.h"
 #include "konoha_bench/chapter_vm.h"
 #include "konoha_bench/grid_pathfinder.h"
 #include "konoha_bench/save_codec.h"
+#include "konoha/battle_content_catalog.h"
 
 #include <array>
 
@@ -30,16 +31,69 @@ namespace
         return path.found && path.total_cost == 4 && path.length == 5;
     }
 
-    bool effects_pass()
+    bool battle_domain_passes()
     {
-        unit_state source{ 10, 10, 4, 0, 0, 0, true };
-        unit_state target{ 10, 10, 0, 1, 0, 0, true };
-        const std::array effects = {
-            effect{ effect_kind::spend_chakra, 2, 0 },
-            effect{ effect_kind::damage, 3, 0 },
+        battle_unit_instance source = {
+            1,
+            battle_side::player,
+            battle_control::player,
+            { 0, 0 },
+            battle_facing::right,
+            10,
+            10,
+            4,
+            4,
+            2,
+            true,
+            {},
         };
-        const auto result = apply_effect_chain(source, target, effects);
-        return result.success() && source.chakra == 2 && target.hp == 7;
+        source.attack = 20;
+        const battle_unit_instance target = {
+            2,
+            battle_side::enemy,
+            battle_control::ai,
+            { 1, 0 },
+            battle_facing::left,
+            10,
+            10,
+            0,
+            0,
+            2,
+            true,
+            {},
+        };
+        action_definition action;
+        action.id = 5;
+        action.cost = {
+            action_cost_kind::current_chakra,
+            2,
+            no_tool_slot,
+        };
+        action.effect = {
+            0x01,
+            0,
+            3,
+            1,
+            100,
+            0,
+        };
+        action.target = {
+            target_policy_kind::opponent_unit,
+            0,
+        };
+        action.range = { 1, 1 };
+        const konoha::action_preview preview =
+                battle_action_resolver::preview_units(
+                        source,
+                        &target,
+                        nullptr,
+                        true,
+                        action,
+                        target.position);
+        return preview.legal() &&
+                preview.scalar_cost == 2 &&
+                preview.hit_count == 1 &&
+                preview.total_damage > 0;
     }
 
     bool chapter_vm_passes()
@@ -56,15 +110,26 @@ namespace
         const decode_result decoded = decode_slot(encode_slot(payload, 6));
         return decoded.valid() && decoded.payload == payload && decoded.generation == 6;
     }
+
+    bool battle_content_catalog_passes()
+    {
+        const konoha::battle_content_catalog_result result =
+                konoha::validate_generated_battle_content_catalog();
+        return result.success() &&
+                result.scenario_count == 47 &&
+                result.variant_count == 141 &&
+                result.playable_variant_count == 85;
+    }
 }
 self_test_result run_self_tests()
 {
     std::uint8_t mask = 0;
     mask |= state_machine_passes() ? 1U << 0 : 0;
     mask |= pathfinder_passes() ? 1U << 1 : 0;
-    mask |= effects_pass() ? 1U << 2 : 0;
+    mask |= battle_domain_passes() ? 1U << 2 : 0;
     mask |= chapter_vm_passes() ? 1U << 3 : 0;
     mask |= save_codec_passes() ? 1U << 4 : 0;
+    mask |= battle_content_catalog_passes() ? 1U << 5 : 0;
     return { mask };
 }
 

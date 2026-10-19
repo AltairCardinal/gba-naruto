@@ -6,6 +6,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from PIL import Image
+
 from tools.butano.render_scenario_41_gpu import (
     _background_pixel,
     _object_pixel,
@@ -57,7 +59,7 @@ class Scenario41AssetsTest(unittest.TestCase):
                             color = tuple(
                                 min(255, (first * 10 + second * 10) // 16)
                                 for first, second in zip(
-                                    palette[middle], palette[bottom], strict=True
+                                    palette[middle], palette[bottom]
                                 )
                             )
                         else:
@@ -294,8 +296,61 @@ class Scenario41AssetsTest(unittest.TestCase):
                 bmp_contract(first_dir / "scenario_41_naruto.bmp"), (32, 64, 4)
             )
             self.assertEqual(
-                bmp_contract(first_dir / "scenario_41_cursor.bmp"), (64, 64, 4)
+                bmp_contract(first_dir / "scenario_41_cursor.bmp"),
+                (64, 64 * 12, 4),
             )
+            with Image.open(
+                first_dir / "scenario_41_cursor.bmp"
+            ) as cursor:
+                red_boxes = []
+                for frame in range(12):
+                    points = [
+                        (x, y)
+                        for y in range(64)
+                        for x in range(64)
+                        if cursor.getpixel((x, frame * 64 + y)) == 6
+                    ]
+                    red_boxes.append(
+                        (
+                            min(x for x, _ in points),
+                            min(y for _, y in points),
+                            max(x for x, _ in points),
+                            max(y for _, y in points),
+                        )
+                    )
+                self.assertEqual(
+                    red_boxes,
+                    [
+                        (27, 4, 36, 8),
+                        (27, 2, 36, 6),
+                        (27, 1, 36, 5),
+                        (41, 13, 46, 18),
+                        (43, 13, 48, 18),
+                        (44, 13, 49, 18),
+                        (27, 20, 36, 24),
+                        (27, 22, 36, 26),
+                        (27, 23, 36, 27),
+                        (17, 13, 22, 18),
+                        (15, 13, 20, 18),
+                        (14, 13, 19, 18),
+                    ],
+                )
+                for frame in (3, 6, 9):
+                    top_blue = [
+                        (x, y)
+                        for y in range(6, 13)
+                        for x in range(26, 38)
+                        if cursor.getpixel((x, frame * 64 + y)) == 9
+                    ]
+                    self.assertEqual(
+                        (
+                            min(x for x, _ in top_blue),
+                            min(y for _, y in top_blue),
+                            max(x for x, _ in top_blue),
+                            max(y for _, y in top_blue),
+                        ),
+                        (27, 7, 36, 11),
+                    )
             self.assertEqual(
                 bmp_contract(first_dir / "scenario_41_cursor_shadow.bmp"), (64, 64, 4)
             )

@@ -48,18 +48,26 @@ old artifact names. Do not use its IDs or palette column for new probes.
 | 6 | 0x0CB18C | 0x0CCE1C | 256 | 60×32 |
 | 7 | 0x0CD260 | 0x0D0638 | 672 | 60×32 |
 
-## Tile Descriptor Table
+## Battle Unit Visual Slot Table
 
 - **Location**: ROM file `0x596D5C`
-- **Entries**: 312 × 16 bytes
-- **Purpose**: Sprite/animated tile descriptors (character sprites, UI elements)
-- **Structure**: 4 × u32 ARM pointers per entry:
-  - col0: nested descriptor → sprite rendering sub-blocks
-  - col1: layout attributes
-  - col2: secondary attribute data
-  - col3: palette pointer (BGR555, raw uncompressed, 16 colors)
-- **Shared palettes**: rows 0–8 → `0x13E070`, rows 9–17 → `0x14FD78`, rows 18–26 → `0x16068`0, etc.
-- **Analysis tool**: `tools/analyze_tile_table.py`
+- **Shape**: 62 character IDs × 9 slots = 558 rows × 16 bytes
+- **Population**: 342 valid rows, 216 all-zero reserved rows
+- **Mapping**: `row = (character_id - 1) * 9 + visual_slot`
+- **Structure**: 4 × u32 ARM pointers per valid row:
+  - col0: frame descriptor pointer table
+  - col1: animation descriptor pointer table
+  - col2: raw 1D 4bpp OBJ tile data
+  - col3: raw 16-color BGR555 OBJ palette
+- **Idle**: slot 0 is valid for all 62 character IDs
+- **Analysis/generation**:
+  `tools/generate_butano_battle_unit_visual_content.py`,
+  `tools/analyze_tile_table.py` (legacy filename)
+
+The old `312 rows` boundary and map-tile interpretation were caused by stopping at the
+first sparse gap and are invalid. 旧 312-row 地图 tile 解释已撤销. The independent battle
+map header/metatile/collision chain remains at `0x53D910`; do not use this OBJ table as a
+map tilemap.
 
 ## Tilemap Data
 

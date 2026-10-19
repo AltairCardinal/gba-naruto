@@ -1,0 +1,17 @@
+battle_preparation_scene.cpp
+battle_runtime_scene.cpp
+In file included from /workspace/butano-sequel/game/src/battle_preparation_scene.cpp:13:
+/workspace/butano-sequel/game/include/konoha/battle_audio_runtime.h:5:10: fatal error: bn_music_items.h: No such file or directory
+    5 | #include "bn_music_items.h"
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [/opt/devkitpro/devkitARM/base_rules:34: battle_preparation_scene.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+In file included from /workspace/butano-sequel/game/src/battle_runtime_scene.cpp:47:
+/workspace/butano-sequel/game/include/konoha/battle_audio_runtime.h:5:10: fatal error: bn_music_items.h: No such file or directory
+    5 | #include "bn_music_items.h"
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [/opt/devkitpro/devkitARM/base_rules:34: battle_runtime_scene.o] Error 1
+make[1]: *** [/workspace/third_party/butano/butano/tools/common_setup.mak:93: build-no-audio-20260727] Error 2
+make: *** [/workspace/third_party/butano/butano/tools/common_setup.mak:88: all] Error 2

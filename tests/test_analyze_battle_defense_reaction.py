@@ -6,21 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_defense_reaction import build_defense_reaction_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-defense-reaction-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleDefenseReactionTests(unittest.TestCase):
     def _manifest(self):
-        return build_defense_reaction_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            ROOT / "notes/battle-controller-states-20260723.json",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-defense-reaction-bindings-20260723.json")
 
     def test_controlled_patch_changes_only_unlock_and_current_chakra(self):
         result = self._manifest()
@@ -61,6 +58,7 @@ class BattleDefenseReactionTests(unittest.TestCase):
         )
         self.assertEqual(result["reaction_visual"], "写轮眼")
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_checkpoint_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["states"][0]["sha256"] = "00" * 32

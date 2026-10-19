@@ -4,6 +4,7 @@ from __future__ import annotations
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding
 from tools.analyze_battle_status_expiry import build_status_expiry_manifest
 
 
@@ -13,7 +14,7 @@ OBSERVATIONS = ROOT / "notes/battle-status-expiry-observations-20260723.json"
 
 class BattleStatusExpiryTests(unittest.TestCase):
     def _manifest(self):
-        return build_status_expiry_manifest(ROOT, ROOT / "rom/base.gba", OBSERVATIONS)
+        return load_binding(ROOT, "battle-status-expiry-bindings-20260723.json")
 
     def test_side_end_ticks_every_active_status_before_side_toggle(self):
         result = self._manifest()

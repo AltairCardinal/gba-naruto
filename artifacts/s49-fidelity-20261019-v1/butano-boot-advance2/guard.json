@@ -1,0 +1,18 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 18096,
+  "peak_tree_rss_mib": 165.41015625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--script",
+    "tools/butano/mgba_boot_input_sequence.lua",
+    "build/s49-boot-probe/v5.gba"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto",
+  "started_at": "2026-10-18T17:52:34.953833Z",
+  "finished_at": "2026-10-18T17:52:48.602323Z",
+  "completion_trigger": "success-marker"
+}

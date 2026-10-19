@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Analyze the tile descriptor table at 0x596D5C.
+"""Analyze the battle unit visual slot table at 0x596D5C.
 
-Dumps the pointer chains for tile entries so we can understand
-the graphics data format before writing the PNG extractor.
+The filename is retained for compatibility. The corrected table has 62 character
+IDs, nine sparse visual slots per character, and 558 rows in total.
 
 Usage:
     python tools/analyze_tile_table.py rom.gba
@@ -19,7 +19,7 @@ from pathlib import Path
 ROM_BASE = 0x08000000
 TILE_TABLE_OFFSET = 0x596D5C
 TILE_TABLE_ENTRY_SIZE = 16
-TILE_TABLE_COUNT = 312
+TILE_TABLE_COUNT = 62 * 9
 
 
 def read_u32(data: bytes, offset: int) -> int:
@@ -129,27 +129,47 @@ def analyze_entry(data: bytes, row: int, depth: int) -> None:
 
 
 def list_entries(data: bytes, count: int = 32) -> None:
-    print(f"{'Row':>4}  {'file_off':>8}  {'col0 (gfx)':>12}  {'col1 (lay)':>12}  {'col2 (att)':>12}  {'col3 (pal)':>12}")
-    print("-" * 72)
+    print(
+        f"{'Row':>4} {'Char':>4} {'Slot':>4}  {'file_off':>8}  "
+        f"{'frames':>12}  {'animation':>12}  "
+        f"{'OBJ tiles':>12}  {'palette':>12}"
+    )
+    print("-" * 96)
     for row in range(min(count, TILE_TABLE_COUNT)):
         base = TILE_TABLE_OFFSET + row * TILE_TABLE_ENTRY_SIZE
         col0 = read_u32(data, base + 0x00)
         col1 = read_u32(data, base + 0x04)
         col2 = read_u32(data, base + 0x08)
         col3 = read_u32(data, base + 0x0C)
-        if col0 == 0 and col1 == 0:
-            print(f"{row:4d}  0x{base:06X}  [zero - end]")
-            break
-        print(f"{row:4d}  0x{base:06X}  0x{col0:08X}  0x{col1:08X}  0x{col2:08X}  0x{col3:08X}")
+        character_id = row // 9 + 1
+        visual_slot = row % 9
+        if col0 == 0 and col1 == 0 and col2 == 0 and col3 == 0:
+            print(
+                f"{row:4d} {character_id:4d} {visual_slot:4d}  "
+                f"0x{base:06X}  [empty]"
+            )
+            continue
+        print(
+            f"{row:4d} {character_id:4d} {visual_slot:4d}  "
+            f"0x{base:06X}  0x{col0:08X}  0x{col1:08X}  "
+            f"0x{col2:08X}  0x{col3:08X}"
+        )
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Analyze tile descriptor table at 0x596D5C")
+    parser = argparse.ArgumentParser(
+        description="Analyze battle unit visual slots at 0x596D5C"
+    )
     parser.add_argument("rom", type=Path, help="GBA ROM file")
     parser.add_argument("--entry", type=int, default=0, help="Entry index to analyze in depth")
     parser.add_argument("--depth", type=int, default=2, help="Pointer chain depth (1-3)")
     parser.add_argument("--list-entries", action="store_true", help="List all table entries")
-    parser.add_argument("--list-count", type=int, default=312, help="Max entries to list")
+    parser.add_argument(
+        "--list-count",
+        type=int,
+        default=TILE_TABLE_COUNT,
+        help="Max entries to list",
+    )
     args = parser.parse_args()
 
     if not args.rom.exists():
@@ -158,7 +178,12 @@ def main() -> int:
 
     data = args.rom.read_bytes()
     print(f"ROM size: {len(data):,} bytes (0x{len(data):X})")
-    print(f"Tile table: file 0x{TILE_TABLE_OFFSET:06X}, {TILE_TABLE_COUNT} entries × {TILE_TABLE_ENTRY_SIZE} bytes")
+    print(
+        "Battle unit visual table: "
+        f"file 0x{TILE_TABLE_OFFSET:06X}, "
+        f"{TILE_TABLE_COUNT} entries × "
+        f"{TILE_TABLE_ENTRY_SIZE} bytes"
+    )
 
     if args.list_entries:
         list_entries(data, args.list_count)

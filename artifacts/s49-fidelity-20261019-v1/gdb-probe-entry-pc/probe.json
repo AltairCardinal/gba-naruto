@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 2,
+  "emulator": {
+    "path": "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "sha256": "2cc5c36d620d5350c377d1e4fede68726c93b57a7d4e5f98f98fd293eb267393",
+    "size": 3980960,
+    "version": "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA 0.10.5 (26b7884bc25a5933960f3cdcd98bac1ae14d42e2-dirty)"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "savestate": {
+    "path": "artifacts/s49-fidelity-20261019-v1/original-bcycle/step-00-base.ss9",
+    "sha256": "14f1ba2da30318aa1ecfc78265d1ec3177ba12a3c279d1ddebde0250fd268dd8",
+    "size": 91322
+  },
+  "scripts": [],
+  "command": [
+    "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--gdb",
+    "-C",
+    "mute=1",
+    "-C",
+    "volume=0",
+    "--savestate",
+    "artifacts/s49-fidelity-20261019-v1/original-bcycle/step-00-base.ss9",
+    "rom/base.gba"
+  ],
+  "port": 2345,
+  "listenerOwnerPid": 33619,
+  "listenerOwnerPids": [
+    33619
+  ],
+  "connectionOwnerPid": 33619,
+  "connectionOwnerPids": [
+    33619
+  ],
+  "connectionLocalEndpoint": {
+    "address": "127.0.0.1",
+    "port": 53743
+  },
+  "connectionPeerEndpoint": {
+    "address": "127.0.0.1",
+    "port": 2345
+  },
+  "rawStop": "S05k",
+  "expectedPc": 134615342,
+  "expectedPcHex": "0x0806112E",
+  "actualPc": 134615342,
+  "actualPcHex": "0x0806112E",
+  "registers": {
+    "r0": 0,
+    "r1": 4294967295,
+    "r2": 50333308,
+    "r3": 1,
+    "r4": 2,
+    "r5": 50334340,
+    "r6": 50331732,
+    "r7": 4,
+    "r8": 2,
+    "r9": 33712140,
+    "r10": 50331732,
+    "r11": 0,
+    "r12": 111,
+    "sp": 50364132,
+    "lr": 134615211,
+    "pc": 134615342,
+    "cpsr": 1610612799
+  },
+  "romFingerprint": [
+    {
+      "address": 134217728,
+      "addressHex": "0x08000000",
+      "size": 32,
+      "sha256": "9c1f62e912c5efc32cd6f0093fecd6b677f53975c69b891559ae202c6e5d3943"
+    },
+    {
+      "address": 134615342,
+      "addressHex": "0x0806112E",
+      "size": 32,
+      "sha256": "95d0338a0bb6bfdb8b80ce5ed997b34079e1405707406992c3f8ee3a3cb7d7fc"
+    }
+  ],
+  "readRegions": [],
+  "stdoutTail": "",
+  "stderrTail": "",
+  "childReturncode": -15,
+  "progressErrors": [],
+  "outcome": "verified"
+}

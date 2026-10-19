@@ -1,0 +1,85 @@
+{
+  "scope": "Read-only planning; no new semantic claims or formal acceptance",
+  "reverse_commit": "0302f4685946d9fa97747cb9814ea9c83fd02df4",
+  "inputs": [
+    {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+      "size": 31426933,
+      "git_state": "committed-identical",
+      "committed_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6"
+    },
+    {
+      "path": "tools/analyze_rom_unknown_clusters.py",
+      "sha256": "7e96877f135a36eda59e5c703eecaf9b4b4021f0e78ffe092d0b8d0686aef012",
+      "size": 6516,
+      "git_state": "untracked",
+      "committed_sha256": null,
+      "snapshot_path": "notes/evidence/remaining-reverse-plan-20260930-v1/source-snapshots/tools/analyze_rom_unknown_clusters.py.txt"
+    },
+    {
+      "path": "notes/evidence/rom-evidence-selector-repair-20260905/formal-report.json",
+      "sha256": "aa125c7e80ea4364522698c04557b3d6a819f77000c28c58871bc74cf13938bc",
+      "size": 132897,
+      "git_state": "committed-identical",
+      "committed_sha256": "aa125c7e80ea4364522698c04557b3d6a819f77000c28c58871bc74cf13938bc"
+    },
+    {
+      "path": "docs/reverse-engineering-handoff-current-20260905.md",
+      "sha256": "57fe64772bb4b5a352c787a8d9d1aaeeb63ed9d809ea8138b1c2667427aefb4f",
+      "size": 11869,
+      "git_state": "modified",
+      "committed_sha256": "04aa4f46f7957ce765cebb6a21a1dd76fb23c2af6624250ed7344084b5d47896",
+      "snapshot_path": "notes/evidence/remaining-reverse-plan-20260930-v1/source-snapshots/docs/reverse-engineering-handoff-current-20260905.md"
+    },
+    {
+      "path": "notes/rom-small-cfg-dependency-batch-20260905.md",
+      "sha256": "803d1bf7b359d3c779a1c3f251a0acc6d54b2405787ea2ec683437092f8295c2",
+      "size": 5621,
+      "git_state": "untracked",
+      "committed_sha256": null,
+      "snapshot_path": "notes/evidence/remaining-reverse-plan-20260930-v1/source-snapshots/notes/rom-small-cfg-dependency-batch-20260905.md"
+    },
+    {
+      "path": "notes/rom-strided-prefix-local-read-domain-20260905.md",
+      "sha256": "246c2e35ebaede478913e01e92ef1cd9397f22aa91337c6d3de9403f8203f445",
+      "size": 6622,
+      "git_state": "untracked",
+      "committed_sha256": null,
+      "snapshot_path": "notes/evidence/remaining-reverse-plan-20260930-v1/source-snapshots/notes/rom-strided-prefix-local-read-domain-20260905.md"
+    },
+    {
+      "path": "notes/rom-open-root-and-large-candidate-review-20260905.md",
+      "sha256": "11a4be8372fb7736e79107d9757c4fa1b0e43d470fa0712b086cd200c285cb27",
+      "size": 2794,
+      "git_state": "untracked",
+      "committed_sha256": null,
+      "snapshot_path": "notes/evidence/remaining-reverse-plan-20260930-v1/source-snapshots/notes/rom-open-root-and-large-candidate-review-20260905.md"
+    },
+    {
+      "path": "notes/rom-finite-lookup-scope-review-20260905.md",
+      "sha256": "cde9c6499f1b976783c4d55792758d12bfabdf66112e3f4dafa61e390aa41b3c",
+      "size": 1707,
+      "git_state": "untracked",
+      "committed_sha256": null,
+      "snapshot_path": "notes/evidence/remaining-reverse-plan-20260930-v1/source-snapshots/notes/rom-finite-lookup-scope-review-20260905.md"
+    }
+  ],
+  "command": [
+    "python3",
+    "tools/run_guarded.py",
+    "--summary",
+    "/Users/altair/github/gba-naruto/notes/evidence/remaining-reverse-plan-20260930-v1/ranking-v2-guard.json",
+    "--lock-file",
+    "build/experiments/heavy.lock",
+    "--wall-timeout-s",
+    "60",
+    "--",
+    "sh",
+    "-c",
+    "exec python3 tools/analyze_rom_unknown_clusters.py --rom rom/base.gba --coverage sequel/rom-byte-coverage.json --top 30 > /Users/altair/github/gba-naruto/notes/evidence/remaining-reverse-plan-20260930-v1/unknown-ranking-v2.json"
+  ],
+  "guard_exit_code": 0,
+  "starting_weekly_used_percent": 42,
+  "capture_note": "v1 child completed, but launch stdout contained only guard receipt; unknown-ranking.json is that receipt, not ranking. Use unknown-ranking-v2.json."
+}

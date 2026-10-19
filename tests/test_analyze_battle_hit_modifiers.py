@@ -1,6 +1,7 @@
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-hit-modifier-observations-20260723.json"
@@ -8,9 +9,7 @@ OBSERVATIONS = ROOT / "notes/battle-hit-modifier-observations-20260723.json"
 
 class BattleHitModifierAnalysisTest(unittest.TestCase):
     def _manifest(self):
-        from tools.analyze_battle_hit_modifiers import build_hit_modifier_manifest
-
-        return build_hit_modifier_manifest(ROOT, ROOT / "rom/base.gba", OBSERVATIONS)
+        return load_binding(ROOT, "battle-hit-modifier-bindings-20260723.json")
 
     def test_static_probability_pipeline_is_ordered_and_flag_based(self):
         result = self._manifest()

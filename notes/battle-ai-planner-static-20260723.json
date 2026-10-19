@@ -21,6 +21,12 @@
       "end": "0x080857B0",
       "size": 416,
       "sha256": "8fa4917189c73d871232fce933e7f0b0f3e3c93ad418f65274cfda35c70966af"
+    },
+    "candidate_field_builder": {
+      "start": "0x080833A8",
+      "end": "0x08083AEA",
+      "size": 1858,
+      "sha256": "bd9bcae4d7f5a029cd9d19ab05682f88b4f6607256d9119581e1aaa7ba5da695"
     }
   },
   "planner_direct_calls": [
@@ -154,8 +160,8 @@
     ],
     "facing_offset": "0xC6",
     "candidate_facing_offset": "0xC9",
-    "tile_flags_base": "0x0201BE2A",
-    "map_width_address": "0x02002880",
+    "tile_flags_base": "0x02002880",
+    "map_width_address": "0x0201BE2A",
     "components": [
       {
         "when": "unit[0xC6] == unit[0xC9]",
@@ -206,5 +212,89 @@
     "proven_score_shape": "Iterates bounded grid coordinates, rejects flagged candidates, adds a 100-or-50 terrain/direction term plus (rng_value * 50) >> 15, and retains only a strictly higher score."
   },
   "conclusion": "The original enemy planner enumerates candidate families, scores concrete candidate state, and copies only a strictly better candidate. One bound score function is additive over facing, tile flags, and RNG; a separate grid helper performs bounded coordinate filtering and max selection.",
+  "candidate_field_builder": {
+    "function": "0x080833A8",
+    "direct_calls": [
+      {
+        "callsite": "0x080833C8",
+        "target": "0x0809C0DC"
+      },
+      {
+        "callsite": "0x080834CA",
+        "target": "0x0806C160"
+      },
+      {
+        "callsite": "0x080834E8",
+        "target": "0x0806C160"
+      },
+      {
+        "callsite": "0x0808350C",
+        "target": "0x0806C160"
+      },
+      {
+        "callsite": "0x08083530",
+        "target": "0x0806C160"
+      },
+      {
+        "callsite": "0x08083554",
+        "target": "0x0806C160"
+      },
+      {
+        "callsite": "0x08083578",
+        "target": "0x0806C160"
+      },
+      {
+        "callsite": "0x080835A8",
+        "target": "0x08069DB8"
+      },
+      {
+        "callsite": "0x080836DE",
+        "target": "0x0806FDA4"
+      },
+      {
+        "callsite": "0x080837E2",
+        "target": "0x0806D85C"
+      },
+      {
+        "callsite": "0x08083812",
+        "target": "0x0806D910"
+      },
+      {
+        "callsite": "0x080838D6",
+        "target": "0x08069E44"
+      },
+      {
+        "callsite": "0x080838F4",
+        "target": "0x08069E44"
+      }
+    ],
+    "clear_callsite": "0x080833C8",
+    "clear_control": "0x01000100",
+    "field_base": "0x02002880",
+    "map_width_address": "0x0201BE2A",
+    "map_height_address": "0x0201BE2B",
+    "traversal_buffer": "0x02002C80",
+    "tile_validity_base": "0x0202CA27",
+    "traversal_values": {
+      "available_write": "0x00",
+      "rejected_write": "0xFF"
+    },
+    "damage_effect_codes": [
+      "0x01",
+      "0x14",
+      "0x15"
+    ],
+    "threat_bit": "0x01",
+    "source_direction_bits": {
+      "source_below": "0x10",
+      "source_left": "0x20",
+      "source_above": "0x40",
+      "source_right": "0x80"
+    },
+    "mark_addresses": {
+      "threat": "0x080839A4",
+      "direction": "0x080839FC"
+    }
+  },
   "boundary": "This static slice does not establish target priority, damage utility, mission-objective weighting, helper semantics outside the proven calls, or the complete distribution and tie behavior of every AI branch. Runtime candidate/score captures are still required before implementing formulas."
 }

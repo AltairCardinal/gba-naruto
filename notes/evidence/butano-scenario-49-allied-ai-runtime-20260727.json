@@ -1,0 +1,171 @@
+{
+  "schema": "butano-scenario-49-allied-ai-runtime-v2",
+  "run_id": "butano-battle-scenario-49-allied-ai-complete-20260728-15",
+  "status": "full-rom-victory-and-save-passed",
+  "input": {
+    "scenario_id": 49,
+    "battle_id": 14,
+    "variant": 0,
+    "map_width": 15,
+    "map_height": 19,
+    "save_generation": 8,
+    "save_sha256": "3f473ececd31485800c1d907ca7a9b97350fc74f354ffb5a9032ce349a9dbc88",
+    "rom_sha256": "de8144edf14d139aaa638b2fe79fec6497f4f09fae3e85f704fd655f0102a083",
+    "elf_sha256": "5cff87b36b7806fb1b23bea53dbbb18655a740690fa3021642a8ce3287934c6f",
+    "driver_sha256": "74ed74927efd81b10f50751da0a294caa2e11721fa7f8d0638da82c596cc60dd"
+  },
+  "tool": {
+    "name": "mGBA",
+    "audio_sync": false,
+    "video_sync": false,
+    "muted": true
+  },
+  "telemetry": {
+    "battle_address": "0x02022768",
+    "campaign_address": "0x020081B0",
+    "write_memory_used": false
+  },
+  "formation": {
+    "players": [
+      {"unit_id": 1, "character_id": 1, "level": 5, "hp": 138, "x": 11, "y": 6, "control": "player"},
+      {"unit_id": 2, "character_id": 2, "level": 4, "hp": 104, "x": 10, "y": 14, "control": "player"},
+      {"unit_id": 3, "character_id": 3, "level": 5, "hp": 110, "x": 8, "y": 14, "control": "player"},
+      {"unit_id": 4, "character_id": 30, "level": 3, "hp": 40, "x": 8, "y": 7, "control": "ai"}
+    ],
+    "enemies": [
+      {"unit_id": 5, "character_id": 55, "level": 5, "hp": 25, "x": 3, "y": 4, "control": "ai"},
+      {"unit_id": 6, "character_id": 55, "level": 5, "hp": 25, "x": 4, "y": 8, "control": "ai"},
+      {"unit_id": 7, "character_id": 55, "level": 5, "hp": 25, "x": 3, "y": 11, "control": "ai"},
+      {"unit_id": 8, "character_id": 55, "level": 5, "hp": 25, "x": 6, "y": 6, "control": "ai"},
+      {"unit_id": 9, "character_id": 55, "level": 5, "hp": 25, "x": 5, "y": 13, "control": "ai"}
+    ]
+  },
+  "mission": {
+    "allied_ai_character_id": 30,
+    "observed_focus_position": {"x": 12, "y": 3},
+    "focus_position_is_inferred": true,
+    "enemy_focus_character_id": 30,
+    "loss_when_allied_ai_dies": true,
+    "victory_when_five_enemies_are_defeated": true,
+    "round_limit": 8,
+    "mission_experience": 125,
+    "round_bonus_experience": 75
+  },
+  "host_result": {
+    "round": 8,
+    "outcome": "victory",
+    "allied_ai_survived": true,
+    "allied_ai_took_damage": true,
+    "defeat_count": 5,
+    "defeats_by_character": {
+      "1": 3,
+      "2": 1,
+      "3": 1
+    },
+    "battle_experience_total": 250,
+    "progression": [
+      {"character_id": 1, "level": 6, "experience": 125, "training_points": 5},
+      {"character_id": 2, "level": 5, "experience": 175, "training_points": 4},
+      {"character_id": 3, "level": 6, "experience": 155, "training_points": 5}
+    ],
+    "next_scenario_id": 50
+  },
+  "rom_entry": {
+    "frame": 261,
+    "round": 1,
+    "phase": "unit_selection",
+    "active_units": 9,
+    "selected_character_id": 1,
+    "load_generation": 8,
+    "load_used_default": false,
+    "last_control_error": 0,
+    "last_player_error": 0
+  },
+  "mgba_result": {
+    "frame": 9164,
+    "round": 9,
+    "outcome": "victory",
+    "condition_outcome": 1,
+    "allied_ai_survived": true,
+    "allied_ai_took_damage": true,
+    "allied_ai_final_hp": 36,
+    "defeat_count": 5,
+    "shadow_clone_created": true,
+    "fireball_used": true,
+    "transition_count": 317,
+    "participant_count": 3,
+    "naruto_reward": {
+      "mission_experience": 125,
+      "battle_experience": 100,
+      "round_bonus_experience": 0,
+      "total_experience": 225
+    },
+    "progression": [
+      {"character_id": 1, "level": 6, "experience": 0, "training_points": 5},
+      {"character_id": 2, "level": 5, "experience": 150, "training_points": 4},
+      {"character_id": 3, "level": 6, "experience": 80, "training_points": 5}
+    ],
+    "save_generation": 9,
+    "save_verified": true,
+    "next_scenario_id": 50,
+    "output_save_sha256": "2a8b55da3e0d1e5b8831ef95aab50f6bda5376ceac2aa442cafd848e254d9037",
+    "output_save_crc_valid": true,
+    "last_control_error": 0,
+    "last_player_error": 0
+  },
+  "verification": {
+    "full_host_tests_passed": true,
+    "full_host_guard": "build/resource-guard/butano-s49-victory-full-host-20260728-01.json",
+    "arm_build_guard": "build/resource-guard/butano-s49-victory-arm-build-20260728-01.json",
+    "mgba_entry_guard": "build/resource-guard/butano-s49-allied-ai-entry-mgba-20260727-01.json",
+    "mgba_entry_audit": "artifacts/butano-battle-scenario-49-allied-ai-entry-20260727-01/audit.json",
+    "mgba_entry_screenshot": "artifacts/butano-battle-scenario-49-allied-ai-entry-20260727-01/battle-entry.png",
+    "mgba_full_guard": "build/resource-guard/butano-s49-victory-mgba-20260728-15.json",
+    "mgba_full_audit": "artifacts/butano-battle-scenario-49-allied-ai-complete-20260728-15/audit.json",
+    "mgba_scenario_audit": "artifacts/butano-battle-scenario-49-allied-ai-complete-20260728-15/scenario_49-audit.json",
+    "mgba_done_marker": "artifacts/butano-battle-scenario-49-allied-ai-complete-20260728-15/done.json",
+    "mgba_stage_screenshot": "artifacts/butano-battle-scenario-49-allied-ai-complete-20260728-15/stage-complete.png",
+    "python_tests_passed": 32,
+    "lua_syntax_passed": true,
+    "json_manifests_parsed": 5,
+    "git_diff_check_passed": true
+  },
+  "negative_runs": [
+    {
+      "directory": "artifacts/butano-battle-scenario-49-allied-ai-complete-20260727-01",
+      "outcome": "loss",
+      "round": 5,
+      "remaining_enemies": 1
+    },
+    {
+      "directory": "artifacts/butano-battle-scenario-49-allied-ai-complete-20260727-02",
+      "outcome": "loss",
+      "round": 4,
+      "remaining_enemies": 1
+    },
+    {
+      "directory": "artifacts/butano-battle-scenario-49-allied-ai-complete-20260727-03",
+      "outcome": "loss",
+      "round": 5,
+      "remaining_enemies": 1
+    },
+    {
+      "directory": "artifacts/butano-battle-scenario-49-allied-ai-complete-20260728-12",
+      "outcome": "loss",
+      "round": 5,
+      "cause": "a second shadow clone changed enemy routing and the allied AI died"
+    },
+    {
+      "directory": "artifacts/butano-battle-scenario-49-allied-ai-complete-20260728-14",
+      "outcome": "victory-and-save-before-audit-failure",
+      "round": 9,
+      "cause": "the driver expected 60 residual Naruto EXP, but the CRC-valid save proved 0"
+    }
+  ],
+  "limitations": [
+    "The observed allied-AI focus position is an inference from the original turn-4 savestate, not a recovered ROM script.",
+    "The host route wins within the reward limit at round 8; the legal-input mGBA route wins at round 9 and therefore correctly receives no round bonus.",
+    "The mGBA run is muted and does not verify subjective audio quality.",
+    "Scenario 48 story presentation and scenario 50+ complete routes remain pending."
+  ]
+}

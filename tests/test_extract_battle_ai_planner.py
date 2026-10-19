@@ -37,6 +37,12 @@ class BattleAiPlannerExtractionTests(unittest.TestCase):
                     "size": 416,
                     "sha256": "8fa4917189c73d871232fce933e7f0b0f3e3c93ad418f65274cfda35c70966af",
                 },
+                "candidate_field_builder": {
+                    "start": "0x080833A8",
+                    "end": "0x08083AEA",
+                    "size": 1858,
+                    "sha256": "bd9bcae4d7f5a029cd9d19ab05682f88b4f6607256d9119581e1aaa7ba5da695",
+                },
             },
         )
 
@@ -61,8 +67,8 @@ class BattleAiPlannerExtractionTests(unittest.TestCase):
         self.assertEqual(score["position_offsets"], ["0xC4", "0xC5"])
         self.assertEqual(score["facing_offset"], "0xC6")
         self.assertEqual(score["candidate_facing_offset"], "0xC9")
-        self.assertEqual(score["tile_flags_base"], "0x0201BE2A")
-        self.assertEqual(score["map_width_address"], "0x02002880")
+        self.assertEqual(score["tile_flags_base"], "0x02002880")
+        self.assertEqual(score["map_width_address"], "0x0201BE2A")
         self.assertEqual(
             score["components"],
             [
@@ -80,6 +86,29 @@ class BattleAiPlannerExtractionTests(unittest.TestCase):
         )
         self.assertEqual(score["rng_state_pointer"], "0x03000010")
         self.assertEqual(score["rng_call"], "0x0809C110")
+
+    def test_candidate_field_is_cleared_then_marks_threat_and_source_directions(self):
+        field = self.result["candidate_field_builder"]
+        self.assertEqual(field["field_base"], "0x02002880")
+        self.assertEqual(field["clear_control"], "0x01000100")
+        self.assertEqual(field["map_width_address"], "0x0201BE2A")
+        self.assertEqual(field["map_height_address"], "0x0201BE2B")
+        self.assertEqual(field["traversal_buffer"], "0x02002C80")
+        self.assertEqual(field["tile_validity_base"], "0x0202CA27")
+        self.assertEqual(field["threat_bit"], "0x01")
+        self.assertEqual(
+            field["source_direction_bits"],
+            {
+                "source_below": "0x10",
+                "source_left": "0x20",
+                "source_above": "0x40",
+                "source_right": "0x80",
+            },
+        )
+        self.assertEqual(
+            field["damage_effect_codes"],
+            ["0x01", "0x14", "0x15"],
+        )
 
     def test_static_evidence_does_not_overclaim_ai_objectives(self):
         self.assertIn("does not establish", self.result["boundary"])

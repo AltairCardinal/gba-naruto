@@ -17,7 +17,7 @@ struct self_test_result
 
     [[nodiscard]] constexpr bool all_passed() const
     {
-        return pass_mask == 0x1F;
+        return pass_mask == 0x3F;
     }
 };
 

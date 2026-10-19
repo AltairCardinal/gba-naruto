@@ -17,7 +17,11 @@ class MgbaAudioRecorderTest(unittest.TestCase):
         self.assertIn('fwrite("RIFF"', text)
         self.assertIn("sample_count", text)
         self.assertIn("MGBA_AUDIO_A_FRAME", text)
-        self.assertIn("core->setKeys(core, 1)", text)
+        self.assertIn("MGBA_AUDIO_INPUT_EVENTS", text)
+        self.assertIn("MGBA_AUDIO_REPORT", text)
+        self.assertIn("MGBA_AUDIO_TELEMETRY_ADDRESS", text)
+        self.assertIn("parse_input_events", text)
+        self.assertIn("core->setKeys(core, key_state)", text)
         self.assertIn("core->busRead32(core, 0x030076B0)", text)
         self.assertIn("player_slot=%d", text)
 

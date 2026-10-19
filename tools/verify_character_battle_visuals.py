@@ -28,6 +28,15 @@ SELECTOR_SHA256 = "5a0d06474ee94f5d3fd68cfe6c90224ce5a4cc8ffbb8ceeb6c4529c67ecd1
 ALLOCATOR_OFFSET = 0x0625A4
 ALLOCATOR_END_OFFSET = 0x0626B0
 ALLOCATOR_SHA256 = "e238cd1ee159265fb8b718766f336f8d5462596954f93c7805d1bf33dd6b3c54"
+KNOWN_ANOMALOUS_TRAILER_ADDRESS = 0x0825A8E4
+FBFF_TERMINATION_RESOLUTION = {
+    "evidence": "artifacts/character-fbff-runtime-v1/manifest.json",
+    "raw_signed_value": -1025,
+    "normalization": "fffb0000 -> ffff0000",
+    "control_rom_sha256": (
+        "3f55e607829db4497a1f49200514777c89df01f3624fd849005b96247502507a"
+    ),
+}
 SEMANTICS = (
     "field_idle_and_movement",
     "cast_facing_right",
@@ -85,19 +94,19 @@ EXPECTED_SUMMARY = {
     "populated_slots_by_visual_slot": [62, 62, 62, 62, 62, 8, 8, 8, 8],
     "renderer_terminator_frame_count": 2003,
     "anomalous_frame_trailer_count": 1,
-    "verified_static_source_space_frame_count": 2003,
-    "provisional_pointer_bounded_frame_count": 1,
+    "verified_static_source_space_frame_count": 2004,
+    "provisional_pointer_bounded_frame_count": 0,
 }
 EXPECTED_SCOPE = {
-    "static_source_space_frames": False,
-    "pointer_bounded_source_previews": True,
+    "static_source_space_frames": True,
+    "pointer_bounded_source_previews": False,
     "component_geometry_and_flips": True,
     "animation_holds": True,
     "screen_space_position": False,
     "camera_and_priority": False,
     "runtime_slot_selection": False,
     "blend_and_palette_transform": False,
-    "all_component_termination_semantics_complete": False,
+    "all_component_termination_semantics_complete": True,
 }
 
 
@@ -396,12 +405,19 @@ def _verify_resource(
         trailer = raw[-4:]
         if trailer not in (bytes.fromhex("ffff0000"), bytes.fromhex("fffb0000")):
             raise ValueError(f"{prefix} frame {frame_id} trailer is unknown")
+        runtime_resolved_anomaly = trailer == bytes.fromhex("fffb0000")
+        if (
+            runtime_resolved_anomaly
+            and pointer + span - 4 != KNOWN_ANOMALOUS_TRAILER_ADDRESS
+        ):
+            raise ValueError(
+                f"{prefix} frame {frame_id} has FBFF at an unverified address"
+            )
         components = [
             _parse_component(raw[index * 20 : (index + 1) * 20], index)
             for index in range((span - 4) // 20)
         ]
-        frames.append(
-            {
+        frame = {
                 "frame_id": frame_id,
                 "component_list_pointer": _address(pointer),
                 "component_count": len(components),
@@ -410,14 +426,16 @@ def _verify_resource(
                 "raw_sha256": _sha256(raw),
                 "frame_trailer_raw_hex": trailer.hex(),
                 "renderer_terminator": trailer == bytes.fromhex("ffff0000"),
-                "render_complete": trailer == bytes.fromhex("ffff0000"),
+                "render_complete": True,
                 "interpretation": (
                     "verified_renderer_terminated"
                     if trailer == bytes.fromhex("ffff0000")
-                    else "provisional_pointer_bounded_preview"
+                    else "runtime_verified_single_byte_corrupt_terminator"
                 ),
             }
-        )
+        if runtime_resolved_anomaly:
+            frame["termination_resolution"] = FBFF_TERMINATION_RESOLUTION
+        frames.append(frame)
 
     animations = []
     for animation_id, (pointer, end) in enumerate(

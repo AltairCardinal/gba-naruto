@@ -1,0 +1,28 @@
+{
+  "type": "regular_bg",
+  "bpp_mode": "bpp_4",
+  "colors_count": 32,
+  "compression": "auto_no_huffman",
+  "source": [
+    {
+      "role": "bg_tiles",
+      "address": "0x08329C34",
+      "decompressed_sha256": "c5463fdae80642349f275722801017ff3e23bdffa88190ca111a3184bafd38c1"
+    },
+    {
+      "role": "bg_palette",
+      "address": "0x0832A854",
+      "decompressed_sha256": "3c86d041724735cc717fedffe8cca91ac9d717b7878c2296672e295eb12923e4"
+    },
+    {
+      "role": "bg_tilemap",
+      "address": "0x0832A8F8",
+      "decompressed_sha256": "5bfb7c60fb1aec2f55c04b733a50d68bd14f0c8618e7c0de69d00a7e08ab4367"
+    }
+  ],
+  "active_size": [
+    240,
+    160
+  ],
+  "component_pipeline": "ROM LZ77 components -> GBA text BG decode -> Butano regular BG"
+}

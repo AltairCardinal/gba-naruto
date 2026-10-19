@@ -1,0 +1,29 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 37675,
+  "peak_tree_rss_mib": 185.75390625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "tools/mgba_gdb_probe.py",
+    "--mgba",
+    "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--rom",
+    "rom/base.gba",
+    "--savestate",
+    "artifacts/s49-fidelity-20261019-v1/original-bcycle/step-00-base.ss9",
+    "--script",
+    "/tmp/press_a.lua",
+    "--output",
+    "artifacts/s49-fidelity-20261019-v1/gdb-probe-bit17/probe.json",
+    "--breakpoint",
+    "0x0806321C",
+    "--timeout",
+    "20"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto",
+  "started_at": "2026-10-19T01:05:45.872088Z",
+  "finished_at": "2026-10-19T01:06:07.767610Z"
+}

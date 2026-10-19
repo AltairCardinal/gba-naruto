@@ -1,0 +1,87 @@
+{
+  "boundary": "The runtime sample directly proves the current-HP/melee category and the plus-one queued hit. The current-chakra/ninjutsu and ninja-tool bindings, the eligible effect-code set, unique-action sharing, and RNG order are exact static control-flow bindings. This does not assign semantics to event byte +0x16 or prove continuation behavior for an event where that byte is nonzero.",
+  "category_bindings": {
+    "current_chakra": {
+      "passive_target_type": 23,
+      "runtime_kind": 1
+    },
+    "current_hp": {
+      "passive_target_type": 22,
+      "runtime_kind": 2
+    },
+    "ninja_tool": {
+      "passive_target_type": 24,
+      "runtime_kind": 5
+    }
+  },
+  "chance_formula": "base_a + per_level_a * (stored_level - 1)",
+  "conclusion": "Continuation is a pre-hit-count probability gate, not bonus damage. A success appends exactly one ordinary hit; that new hit independently uses the existing hit, critical, ignore-defense, and reaction pipeline.",
+  "controlled_patch": {
+    "address": "0x02024325",
+    "after": 19,
+    "before": 255,
+    "computed_chance_percent": 100,
+    "passive_id": 17
+  },
+  "eligible_effect_codes": [
+    1,
+    20,
+    21
+  ],
+  "evidence_ranges": {
+    "apply_continuation": {
+      "end": "0x080763A0",
+      "sha256": "3e18cc348c27beeef787bfbfbb22516fbadb35150e72016c3522f6add9e0fdab",
+      "start": "0x08076360"
+    },
+    "call_order": {
+      "end": "0x08072AD4",
+      "sha256": "d2cf0c2595bf92bcece14c504d4cd807ea0e635b05796350193a570f676de3a8",
+      "start": "0x08072AC8"
+    },
+    "continuation_gate": {
+      "end": "0x0807635C",
+      "sha256": "9cb961a796fa4ed3664112d6d076a464f03e3a99d5ccb89b8418e086a14d759e",
+      "start": "0x08076208"
+    }
+  },
+  "guide_corroboration": {
+    "summary": "The 2003 Skill List identifies passive IDs 17, 18, and 19 as the melee, ninjutsu, and ninja-tool increased-hit-count chances, each growing by five percentage points per upgrade.",
+    "url": "https://gamefaqs.gamespot.com/gba/918717-naruto-konoha-senki/faqs/25752"
+  },
+  "identity": "battle_continuation_hit_probability_binding",
+  "rng_order": [
+    "one continuation roll per unique action id when its passive exists",
+    "increase every matching queued event base hit count by one on success",
+    "ordinary base-hit roll for every generated hit",
+    "critical roll for every landed hit when its passive exists",
+    "ignore-defense roll for every landed hit when its passive exists"
+  ],
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "runtime_sample": {
+    "action_id": 5,
+    "base_hit_count": {
+      "baseline": 1,
+      "controlled_100_percent": 2
+    },
+    "continuation_mark": {
+      "baseline": 0,
+      "controlled_100_percent": 1
+    },
+    "effect_code": 1,
+    "hit_flags": {
+      "baseline": [
+        1
+      ],
+      "controlled_100_percent": [
+        1,
+        1
+      ]
+    },
+    "runtime_kind": 2
+  },
+  "schema_version": 1,
+  "shared_roll": "One roll per unique action ID; all queued events with that action ID reuse the first event's continuation result.",
+  "success_condition": "(rng_value * 100 >> 15) < chance_percent"
+}

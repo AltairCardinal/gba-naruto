@@ -1,0 +1,16 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 35408,
+  "peak_tree_rss_mib": 0.0625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "sh",
+    "-c",
+    "exec python3 -m unittest tests.test_analyze_rom_unknown_clusters -v > /Users/altair/github/gba-naruto/notes/evidence/remaining-reverse-plan-20260930-v1/ranking-tests.log 2>&1"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T10:41:06.582400Z",
+  "finished_at": "2026-09-30T10:41:07.627014Z"
+}

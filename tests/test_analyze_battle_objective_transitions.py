@@ -6,21 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_objective_transitions import build_objective_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-objective-transition-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleObjectiveTransitionTests(unittest.TestCase):
     def _manifest(self):
-        return build_objective_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            ROOT / "notes/battle-controller-states-20260723.json",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-objective-transition-bindings-20260723.json")
 
     def test_composite_position_and_facing_goal_sets_victory(self):
         result = self._manifest()
@@ -58,6 +55,7 @@ class BattleObjectiveTransitionTests(unittest.TestCase):
         ])
         self.assertTrue(row["outcome_interrupts_within_resolution"])
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["observations"][0]["before_sha256"] = "00" * 32

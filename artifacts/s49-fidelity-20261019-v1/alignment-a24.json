@@ -1,0 +1,3072 @@
+{
+  "schema": "konoha.s49-step-alignment.v1",
+  "alignment": "all-pairs-full-screen-no-mask-no-phase-search",
+  "original": {
+    "dir": "artifacts/s49-fidelity-20261019-v1/walk-original-a24",
+    "steps": 25,
+    "inputs_sha256": "81373c56b34feb93069e6a8c2e9db61bc0ffb99a85cd8c61868b789b9d151073"
+  },
+  "remake": {
+    "dir": "artifacts/s49-fidelity-20261019-v1/walk-remake-a24",
+    "steps": 25,
+    "inputs_sha256": "1c206ec7d3cf44d72b29b044f3c26f43c3eda86aa14a4117a4ca01bebfbaa420"
+  },
+  "original_steps": [
+    {
+      "step": 0,
+      "key": "base",
+      "sha256": "6fa62e785dd40bbe8762aa61157bb5ee3f255280e128724a54bd15084fd2d38e"
+    },
+    {
+      "step": 1,
+      "key": "A",
+      "sha256": "1afb9c2384c19474552d4821a4593546d486ed0f236ad98b4ddd781360de21f3"
+    },
+    {
+      "step": 2,
+      "key": "A",
+      "sha256": "b0e3d1759e74af5871704df107964592b4e1a26a0efae78c9244d9c316956fd4"
+    },
+    {
+      "step": 3,
+      "key": "A",
+      "sha256": "4cf42888bc5d9f67257490b1af1b3a88ffa71cd76585a4858c14e1f31cb9cb17"
+    },
+    {
+      "step": 4,
+      "key": "A",
+      "sha256": "726becd1a3f4ed7c15a85f2e3886074e8db22297ab1e5e8ee293b0c53dadd47e"
+    },
+    {
+      "step": 5,
+      "key": "A",
+      "sha256": "42f3c6901dc4f70ab77946fb3a8a1287cd4f604b5ed431ac0446d6742d5c62e3"
+    },
+    {
+      "step": 6,
+      "key": "A",
+      "sha256": "6329a3861a9dd814239fb5dcf51d89fa4d098c8971b9631f3f4d0ca79aa7bcf5"
+    },
+    {
+      "step": 7,
+      "key": "A",
+      "sha256": "92ab27958cb17e64ce44f53b494e93b80456a64b16d419c58df594962e727e0a"
+    },
+    {
+      "step": 8,
+      "key": "A",
+      "sha256": "7ad4c87ce87b3ac40476d961c3f6bde61619dee60b30c4437e619cbdccf583ce"
+    },
+    {
+      "step": 9,
+      "key": "A",
+      "sha256": "01462d064dc3aaa6102418cbafc3845bc370cd1a9d597b1532f0c78104de00ec"
+    },
+    {
+      "step": 10,
+      "key": "A",
+      "sha256": "2f964d0a27238b28a25a07656b692ca3109404ff081198967794ce13d9e18bb1"
+    },
+    {
+      "step": 11,
+      "key": "A",
+      "sha256": "cda3d13cf39cbabd8ae3b8da4e9c8718dc5e72e9c7274fc56a1af7913166f959"
+    },
+    {
+      "step": 12,
+      "key": "A",
+      "sha256": "29e29c9e24ffcf67d33630b08e83af8ea28568a84305d9c600bb8781ac9ed92a"
+    },
+    {
+      "step": 13,
+      "key": "A",
+      "sha256": "8ca5f2c8af1065e6ed15a6fb2910cc252ef091d59c77959877bb1af961b28ac0"
+    },
+    {
+      "step": 14,
+      "key": "A",
+      "sha256": "deb4cb569033da7d86c96bd892a96a3fd917ff3b539feac57d6d084ae42aaf2b"
+    },
+    {
+      "step": 15,
+      "key": "A",
+      "sha256": "570833524dadf7e511c85175c0de3d89e02ff09db58d9cca4f966f12f0060dac"
+    },
+    {
+      "step": 16,
+      "key": "A",
+      "sha256": "6c1ce376b31d2d46b511ef59eb849e3be3bbbc597a9fe9c095ff2fd79adc6b90"
+    },
+    {
+      "step": 17,
+      "key": "A",
+      "sha256": "b8a451c264e6a61849fa38de41ffa8d147f620bbb2b787f4e28dbe0ede2f4a7f"
+    },
+    {
+      "step": 18,
+      "key": "A",
+      "sha256": "bdf92a439df772bc67ccf91999b3d80f617aa6833bf95ffd04607fc19e45aec7"
+    },
+    {
+      "step": 19,
+      "key": "A",
+      "sha256": "cb2da0d5132cbe6018d21e1748a87cfec2678c32ddf588b74086d2f5f317f2fe"
+    },
+    {
+      "step": 20,
+      "key": "A",
+      "sha256": "c6611ae713930fc9a4eacd09379a3483a42b27a044f57c05319833878497d3bd"
+    },
+    {
+      "step": 21,
+      "key": "A",
+      "sha256": "bb528dd98d314f67a6cc3473331d63eab52bb57debd002e8c41c4302574b9207"
+    },
+    {
+      "step": 22,
+      "key": "A",
+      "sha256": "6d16a22388376c83718afa158907ebc5f3131c22ffc2ce72caa062a2abada3ef"
+    },
+    {
+      "step": 23,
+      "key": "A",
+      "sha256": "682128a0840cc46305bd7c155c9a9be680093341fb9c5f9fbb8497b31ae235f2"
+    },
+    {
+      "step": 24,
+      "key": "A",
+      "sha256": "2729c315f42ecace587c715974a7dcaf5a9f6a52dfc2258f8a14192205b44b9c"
+    }
+  ],
+  "remake_steps": [
+    {
+      "step": 0,
+      "key": "base",
+      "sha256": "7e2c15ccdd107c1c2b7be15e1dc470ba6fa0bd45d5455136404c2887c71db70d"
+    },
+    {
+      "step": 1,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 2,
+      "key": "A",
+      "sha256": "ad917712306ef5ea3687d41c0607a9328c1ed98e60acd302a59995b69b906c0b"
+    },
+    {
+      "step": 3,
+      "key": "A",
+      "sha256": "b7694658e7256c496a7e626b1611fd62464d45c9ce65dbe239e3be4d5c0411cd"
+    },
+    {
+      "step": 4,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 5,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 6,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 7,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 8,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 9,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 10,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 11,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 12,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 13,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 14,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 15,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 16,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 17,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 18,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 19,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 20,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 21,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 22,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    },
+    {
+      "step": 23,
+      "key": "A",
+      "sha256": "b3e2e7a14fea1c79abbcf5c06a8e1ad69a696801c1d490997390d0a7c55836b8"
+    },
+    {
+      "step": 24,
+      "key": "A",
+      "sha256": "f15c97a78a1ed9c69f9e708e5ab533ea972397e2e4a568ce11848c9b3142196b"
+    }
+  ],
+  "matched_steps": 0,
+  "matched_step_indices": [],
+  "rows": [
+    {
+      "original_step": 0,
+      "original_key": "base",
+      "original_image": "step-00-base.png",
+      "original_sha256": "6fa62e785dd40bbe8762aa61157bb5ee3f255280e128724a54bd15084fd2d38e",
+      "best_remake_step": 0,
+      "best_different_pixels": 34099,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 34194,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 34099
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34305
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 34194
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 34287
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 34199
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 34287
+        }
+      ]
+    },
+    {
+      "original_step": 1,
+      "original_key": "A",
+      "original_image": "step-01-A.png",
+      "original_sha256": "1afb9c2384c19474552d4821a4593546d486ed0f236ad98b4ddd781360de21f3",
+      "best_remake_step": 0,
+      "best_different_pixels": 34221,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 34273,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 34221
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34417
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 34284
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 34410
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 34273
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 34410
+        }
+      ]
+    },
+    {
+      "original_step": 2,
+      "original_key": "A",
+      "original_image": "step-02-A.png",
+      "original_sha256": "b0e3d1759e74af5871704df107964592b4e1a26a0efae78c9244d9c316956fd4",
+      "best_remake_step": 0,
+      "best_different_pixels": 34047,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 34138,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 34047
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34282
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 34146
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 34235
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 34138
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 34235
+        }
+      ]
+    },
+    {
+      "original_step": 3,
+      "original_key": "A",
+      "original_image": "step-03-A.png",
+      "original_sha256": "4cf42888bc5d9f67257490b1af1b3a88ffa71cd76585a4858c14e1f31cb9cb17",
+      "best_remake_step": 0,
+      "best_different_pixels": 33956,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 34090,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 33956
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34204
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 34100
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 34171
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 34090
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 34171
+        }
+      ]
+    },
+    {
+      "original_step": 4,
+      "original_key": "A",
+      "original_image": "step-04-A.png",
+      "original_sha256": "726becd1a3f4ed7c15a85f2e3886074e8db22297ab1e5e8ee293b0c53dadd47e",
+      "best_remake_step": 0,
+      "best_different_pixels": 33771,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 33896,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 33771
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34068
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 33896
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 33999
+        }
+      ]
+    },
+    {
+      "original_step": 5,
+      "original_key": "A",
+      "original_image": "step-05-A.png",
+      "original_sha256": "42f3c6901dc4f70ab77946fb3a8a1287cd4f604b5ed431ac0446d6742d5c62e3",
+      "best_remake_step": 0,
+      "best_different_pixels": 33771,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 33918,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 33771
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34068
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 33994
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 33994
+        }
+      ]
+    },
+    {
+      "original_step": 6,
+      "original_key": "A",
+      "original_image": "step-06-A.png",
+      "original_sha256": "6329a3861a9dd814239fb5dcf51d89fa4d098c8971b9631f3f4d0ca79aa7bcf5",
+      "best_remake_step": 0,
+      "best_different_pixels": 33771,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 33918,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 33771
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34068
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 33999
+        }
+      ]
+    },
+    {
+      "original_step": 7,
+      "original_key": "A",
+      "original_image": "step-07-A.png",
+      "original_sha256": "92ab27958cb17e64ce44f53b494e93b80456a64b16d419c58df594962e727e0a",
+      "best_remake_step": 0,
+      "best_different_pixels": 33771,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 33915,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 33771
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34068
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 33915
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 33984
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 33917
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 33984
+        }
+      ]
+    },
+    {
+      "original_step": 8,
+      "original_key": "A",
+      "original_image": "step-08-A.png",
+      "original_sha256": "7ad4c87ce87b3ac40476d961c3f6bde61619dee60b30c4437e619cbdccf583ce",
+      "best_remake_step": 0,
+      "best_different_pixels": 33771,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 33918,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 33771
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34068
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 33999
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 33918
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 33999
+        }
+      ]
+    },
+    {
+      "original_step": 9,
+      "original_key": "A",
+      "original_image": "step-09-A.png",
+      "original_sha256": "01462d064dc3aaa6102418cbafc3845bc370cd1a9d597b1532f0c78104de00ec",
+      "best_remake_step": 0,
+      "best_different_pixels": 33771,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 33790,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 33771
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34014
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 33790
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 33973
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 33811
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 33973
+        }
+      ]
+    },
+    {
+      "original_step": 10,
+      "original_key": "A",
+      "original_image": "step-10-A.png",
+      "original_sha256": "2f964d0a27238b28a25a07656b692ca3109404ff081198967794ce13d9e18bb1",
+      "best_remake_step": 3,
+      "best_different_pixels": 27026,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 27026,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 28706
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 27355
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 27429
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 27026
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 27429
+        }
+      ]
+    },
+    {
+      "original_step": 11,
+      "original_key": "A",
+      "original_image": "step-11-A.png",
+      "original_sha256": "cda3d13cf39cbabd8ae3b8da4e9c8718dc5e72e9c7274fc56a1af7913166f959",
+      "best_remake_step": 3,
+      "best_different_pixels": 27991,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 27992,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 28734
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 28272
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 27991
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 28391
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 27992
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 28391
+        }
+      ]
+    },
+    {
+      "original_step": 12,
+      "original_key": "A",
+      "original_image": "step-12-A.png",
+      "original_sha256": "29e29c9e24ffcf67d33630b08e83af8ea28568a84305d9c600bb8781ac9ed92a",
+      "best_remake_step": 3,
+      "best_different_pixels": 27655,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 27655,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 28700
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 27939
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 28042
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 27655
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 28042
+        }
+      ]
+    },
+    {
+      "original_step": 13,
+      "original_key": "A",
+      "original_image": "step-13-A.png",
+      "original_sha256": "8ca5f2c8af1065e6ed15a6fb2910cc252ef091d59c77959877bb1af961b28ac0",
+      "best_remake_step": 3,
+      "best_different_pixels": 28038,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 28039,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 28891
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 28325
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 28038
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 28413
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 28039
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 28413
+        }
+      ]
+    },
+    {
+      "original_step": 14,
+      "original_key": "A",
+      "original_image": "step-14-A.png",
+      "original_sha256": "deb4cb569033da7d86c96bd892a96a3fd917ff3b539feac57d6d084ae42aaf2b",
+      "best_remake_step": 0,
+      "best_different_pixels": 33889,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 34036,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 33889
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34186
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 34117
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 34036
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 34117
+        }
+      ]
+    },
+    {
+      "original_step": 15,
+      "original_key": "A",
+      "original_image": "step-15-A.png",
+      "original_sha256": "570833524dadf7e511c85175c0de3d89e02ff09db58d9cca4f966f12f0060dac",
+      "best_remake_step": 3,
+      "best_different_pixels": 32864,
+      "second_best_remake_step": 2,
+      "second_best_different_pixels": 32915,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 32983
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 32915
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 32864
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 33037
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 32930
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 33037
+        }
+      ]
+    },
+    {
+      "original_step": 16,
+      "original_key": "A",
+      "original_image": "step-16-A.png",
+      "original_sha256": "6c1ce376b31d2d46b511ef59eb849e3be3bbbc597a9fe9c095ff2fd79adc6b90",
+      "best_remake_step": 2,
+      "best_different_pixels": 38379,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 38386,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 38400
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 38379
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 38396
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 38394
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 38386
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 38394
+        }
+      ]
+    },
+    {
+      "original_step": 17,
+      "original_key": "A",
+      "original_image": "step-17-A.png",
+      "original_sha256": "b8a451c264e6a61849fa38de41ffa8d147f620bbb2b787f4e28dbe0ede2f4a7f",
+      "best_remake_step": 0,
+      "best_different_pixels": 34100,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 34204,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 34100
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34328
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 34204
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 34283
+        }
+      ]
+    },
+    {
+      "original_step": 18,
+      "original_key": "A",
+      "original_image": "step-18-A.png",
+      "original_sha256": "bdf92a439df772bc67ccf91999b3d80f617aa6833bf95ffd04607fc19e45aec7",
+      "best_remake_step": 0,
+      "best_different_pixels": 32959,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 33026,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 32959
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 33256
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 33059
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 33076
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 33026
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 33076
+        }
+      ]
+    },
+    {
+      "original_step": 19,
+      "original_key": "A",
+      "original_image": "step-19-A.png",
+      "original_sha256": "cb2da0d5132cbe6018d21e1748a87cfec2678c32ddf588b74086d2f5f317f2fe",
+      "best_remake_step": 0,
+      "best_different_pixels": 34100,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 34204,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 34100
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34328
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 34204
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 34212
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 34283
+        }
+      ]
+    },
+    {
+      "original_step": 20,
+      "original_key": "A",
+      "original_image": "step-20-A.png",
+      "original_sha256": "c6611ae713930fc9a4eacd09379a3483a42b27a044f57c05319833878497d3bd",
+      "best_remake_step": 0,
+      "best_different_pixels": 33654,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 33705,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 33654
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 33894
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 33707
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 33863
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 33705
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 33863
+        }
+      ]
+    },
+    {
+      "original_step": 21,
+      "original_key": "A",
+      "original_image": "step-21-A.png",
+      "original_sha256": "bb528dd98d314f67a6cc3473331d63eab52bb57debd002e8c41c4302574b9207",
+      "best_remake_step": 5,
+      "best_different_pixels": 15288,
+      "second_best_remake_step": 7,
+      "second_best_different_pixels": 15288,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 17021
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 15589
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 15348
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 15824
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 15288
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 15824
+        }
+      ]
+    },
+    {
+      "original_step": 22,
+      "original_key": "A",
+      "original_image": "step-22-A.png",
+      "original_sha256": "6d16a22388376c83718afa158907ebc5f3131c22ffc2ce72caa062a2abada3ef",
+      "best_remake_step": 0,
+      "best_different_pixels": 34100,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 34204,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 34100
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34328
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 34204
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 34283
+        }
+      ]
+    },
+    {
+      "original_step": 23,
+      "original_key": "A",
+      "original_image": "step-23-A.png",
+      "original_sha256": "682128a0840cc46305bd7c155c9a9be680093341fb9c5f9fbb8497b31ae235f2",
+      "best_remake_step": 3,
+      "best_different_pixels": 31681,
+      "second_best_remake_step": 5,
+      "second_best_different_pixels": 31701,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 31885
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 31810
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 31681
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 31919
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 31701
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 31919
+        }
+      ]
+    },
+    {
+      "original_step": 24,
+      "original_key": "A",
+      "original_image": "step-24-A.png",
+      "original_sha256": "2729c315f42ecace587c715974a7dcaf5a9f6a52dfc2258f8a14192205b44b9c",
+      "best_remake_step": 0,
+      "best_different_pixels": 34100,
+      "second_best_remake_step": 3,
+      "second_best_different_pixels": 34204,
+      "cells": [
+        {
+          "remake_step": 0,
+          "different_pixels": 34100
+        },
+        {
+          "remake_step": 1,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 2,
+          "different_pixels": 34328
+        },
+        {
+          "remake_step": 3,
+          "different_pixels": 34204
+        },
+        {
+          "remake_step": 4,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 5,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 6,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 7,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 8,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 9,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 10,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 11,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 12,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 13,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 14,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 15,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 16,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 17,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 18,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 19,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 20,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 21,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 22,
+          "different_pixels": 34283
+        },
+        {
+          "remake_step": 23,
+          "different_pixels": 34213
+        },
+        {
+          "remake_step": 24,
+          "different_pixels": 34283
+        }
+      ]
+    }
+  ]
+}

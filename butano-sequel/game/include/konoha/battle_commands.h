@@ -12,6 +12,7 @@ enum class battle_command_type : std::uint8_t
 {
     move,
     ability,
+    direct_attack,
     replenish_chakra,
     rest,
     end_action,
@@ -32,6 +33,7 @@ enum class command_rejection : std::uint8_t
     already_moved,
     already_acted,
     insufficient_chakra,
+    insufficient_health,
     no_inventory,
     full_chakra,
     full_health,
@@ -42,6 +44,7 @@ struct battle_command_query
     battle_command_type type;
     int chakra_cost = 0;
     bool inventory_available = true;
+    bool movement_previewed = false;
 };
 
 struct command_availability
@@ -83,7 +86,7 @@ public:
         switch(command.type)
         {
         case battle_command_type::move:
-            if(unit.ledger.moved)
+            if(unit.ledger.moved || command.movement_previewed)
             {
                 return { command_state::hidden, command_rejection::already_moved };
             }
@@ -108,7 +111,28 @@ public:
             }
             break;
 
+        case battle_command_type::direct_attack:
+            if(unit.ledger.moved || command.movement_previewed)
+            {
+                return {
+                    command_state::hidden,
+                    command_rejection::already_moved,
+                };
+            }
+            if(unit.ledger.acted)
+            {
+                return {
+                    command_state::hidden,
+                    command_rejection::already_acted,
+                };
+            }
+            break;
+
         case battle_command_type::replenish_chakra:
+            if(unit.ledger.moved || command.movement_previewed)
+            {
+                return { command_state::hidden, command_rejection::already_moved };
+            }
             if(unit.ledger.acted)
             {
                 return { command_state::hidden, command_rejection::already_acted };
@@ -117,9 +141,17 @@ public:
             {
                 return { command_state::disabled, command_rejection::full_chakra };
             }
+            if(unit.hp <= unit.hand_seals)
+            {
+                return { command_state::disabled, command_rejection::insufficient_health };
+            }
             break;
 
         case battle_command_type::rest:
+            if(unit.ledger.moved || command.movement_previewed)
+            {
+                return { command_state::hidden, command_rejection::already_moved };
+            }
             if(unit.ledger.acted)
             {
                 return { command_state::hidden, command_rejection::already_acted };
@@ -131,6 +163,8 @@ public:
             break;
 
         case battle_command_type::end_action:
+            break;
+        default:
             break;
         }
 

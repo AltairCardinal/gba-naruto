@@ -305,25 +305,83 @@ session 副本中计算，成功后才连同移动、HP/查克拉/忍具槽和�
 这证明 AI 产出的行动必须送入与玩家相同的领域解析管线；它尚未闭合
 `0x080851F8` 内部的候选生成、评分、目标优先级和 RNG 公式。
 
-### AI 候选生成与已闭合的局部评分形状
+### AI 候选生成、动态候选场与已闭合的局部评分形状
 
-新增 `tools/extract_battle_ai_planner.py`，对规划器 `0x080851F8..0x080855FE`、格评分
+新增 `tools/extract_battle_ai_planner.py`，对动态候选场构建器
+`0x080833A8..0x08083AEA`、规划器 `0x080851F8..0x080855FE`、格评分
 `0x08085160..0x080851F4` 和网格候选函数 `0x08085610..0x080857B0` 分别做 SHA-256
-门禁，并生成 `notes/battle-ai-planner-static-20260723.json`。局部直接调用和操作码证明：
+门禁，并生成 `notes/battle-ai-planner-static-20260723.json`。直接调用、操作码与原版
+运行时断点共同证明：
 
 - 主规划器调用多个候选生成/填充 helper；`0x080855A2` 调用格评分后，在
   `0x080855A8` 执行 `candidate_score > best_score` 的严格比较，只有更高分才复制 20 字节
   候选并更新 best score；随后调用 `0x08083364`、`0x08083040` 继续枚举，因此它不是
   固定坐标脚本；
-- `0x08085160` 用单位槽×`0x1D4` 读取候选位置 `unit+0xC4/+0xC5`，以地图宽度和
-  `0x0201BE2A` 地形标记索引评分：面向相同加 50；地形标记分支加 200 或 100；特定
-  分支再加 `(rng_value * 50) >> 15`；
+- `0x080833A8` 先清空 `0x02002880`，使用 `0x0201BE2A/+1` 的地图宽高、遍历缓冲区
+  `0x02002C80` 和有效格数据 `0x0202CA27`，只为 damage family `0x01/0x14/0x15`
+  写入威胁 bit `0x01`，再 OR 入来源方向 bit `0x10/0x20/0x40/0x80`；
+- `0x08085160` 用单位槽×`0x1D4` 读取候选位置 `unit+0xC4/+0xC5`，以地图宽度
+  `0x0201BE2A` 索引动态候选场 `0x02002880`：面向相同加 50；无威胁加 200；有威胁但
+  当前面向方向没有来源加 100；受威胁分支再加 `(rng_value * 50) >> 15`；
 - `0x08085610` 在传入边界内枚举网格坐标，过滤越界、占用与标志条件，使用 100/50
   的局部项和同一 RNG 形状，只保留严格更高分坐标。
 
-这闭合的是“枚举候选—合法性过滤—局部评分—严格择优”的骨架和一个地形/面向评分函数，
-仍未闭合目标优先级、伤害效用和任务目标权重，也没有给未命名 helper 强行赋予攻击、治疗
-或护送语义。必须取得运行时候选/分数对，才可把这些局部常量写入 Butano 规则。
+原版 scenario 41 从 `scenario-41-first-movedone-facing.ss9` 经两次单输入 A，在第二次
+候选场构建返回后的 `0x08085590` 停住。该时刻地图为 9×22，威胁来源是 `(4,10)` 的
+character 1：移动 3、可用敌对 action 5、距离 1。`0x02002880` 的非零区精确等于曼哈顿
+半径 4；关键格 `(4,6)/(1,10)/(4,10)/(7,10)/(4,14)` 分别是
+`0x11/0x81/0xF1/0x21/0x41`。完整字段、ROM/模拟器/快照哈希和 guard lineage 位于
+`notes/battle-ai-candidate-field-runtime-20260725.json`，run ID 为
+`battle-ai-candidate-field-runtime-20260725-264`。
+
+这闭合的是“敌对单位可达站位 + 可用伤害动作覆盖 → 动态候选场 → 面向/位置评分 → 严格
+择优”的已证子集。helper mode `0/2/4/6` 的全部差异、状态排除、视线、范围动作边缘及所有
+碰撞过滤仍未闭合，也没有给未命名 helper 强行赋予攻击、治疗或护送语义。
+
+### AI 动态候选场与朝向评分接入 Butano 的两层候选择优
+
+2026-07-25 已把上述局部评分接入通用 planner，但接线过程中保留了两个关键反例。初版把
+0–49 位置 RNG 分别加给每个动作候选，导致同一站位里两个动作的比较受额外随机序列影响。
+这与 ROM 中“先形成局部候选，再于 `0x080855A2` 调格评分并对全局 best 做严格更高比较”
+的控制流不符。更重要的是，早期实现曾把 `grid_map::flags` 当作评分字段；上面的
+`0x08085590` 运行时捕获证明该接线错误，因为原作字段是每次规划重建的动态威胁/候选场。
+最终实现改为：
+
+- 每个 destination 建立本地 best，先比较动作效用、目标、关卡规则和任务位置项；
+- 本地 best 形成后只调用一次 `battle_ai_candidate_scorer::score_tile`，再参加站位间比较；
+- candidate 同时保存 `destination`、动作后的 `scoring_position` 和 `facing`，执行流直接
+  提交 `plan.facing`，不重新推导；
+- 独立的 `battle_ai_candidate_field_builder` 按敌方单位可达站位、当前动作目录、成本与
+  伤害范围构建字段，不读取也不修改 `grid_map::flags`；
+- 无威胁分支得 200 且不消费 RNG；受威胁分支才消费 `(rng×50)>>15`；所有层级仍只在
+  `candidate_score > best_score` 时替换，等分保留先枚举项。
+
+失败证据为 `butano-ai-candidate-score-red-20260725-235` 以及暴露错误 RNG 层级的
+`butano-ai-candidate-score-green-20260725-237/238`；错误地图字段接线由
+`butano-ai-candidate-field-integration-red-20260725-268` 捕获，修正后的独立字段测试为
+`butano-ai-candidate-field-green-20260725-267` 和
+`butano-ai-candidate-field-integration-green-20260725-269`。此前
+`butano-ai-candidate-score-host-all-20260725-241` 的 67 个宿主 C++ 测试、ARM 构建
+`butano-ai-candidate-score-arm-build-20260725-242` 与静音 mGBA 产物
+`artifacts/butano-ai-candidate-score-b09-20260725-01/` 从 battle 9 的 3 名玩家完成行动，
+进入敌方 phase 11，敌方完成计数从 0 增至 4，最后在 frame 1110 以 9 个活动单位进入
+round 2、phase 1；该旧路线只证明两层流程未破坏自动回合，不证明当时错误的
+`grid_map::flags` 接线正确。
+
+纠错后的独立动态字段版本已通过 68 个宿主 C++ 程序
+`butano-ai-candidate-field-host-all-20260725-285`，以及 77 个通过、1 个条件跳过的
+Python 验证 `butano-ai-candidate-field-python-final-20260725-287`。ARM 构建
+`butano-ai-candidate-field-arm-build-20260725-288` 无 C++ 编译告警；ROM SHA-256 为
+`a5453fb428a6636c6c290668382b647f7f97603f5d5557099dcacfb6f39ca0b0`，ELF SHA-256 为
+`e216ae871c6b3f0b7671287cec1e58846c71e92da7bcc5a6b9d1e77c758f0f33`。静音 mGBA
+`artifacts/butano-ai-candidate-field-b09-20260725-02/` 于 frame 1167 以 battle 9、
+9 个活动单位、round 2、phase 1 完成，guard 峰值 tree RSS 96.73828125 MiB。
+
+全量回归同时暴露并修复了共享事务边界：planner 可在预览移动后把行动者腾出的原格选为空格
+动作目标，但 resolver 曾从未提交的 session 把该格反查成行动者自己并拒绝
+`occupied_target_tile`。现在空格动作固定不反查单位目标，占用资格按预览移动后的投影位置
+计算；scenario 41 AI 和完整回合测试均覆盖该接线。当前字段生成仍只覆盖已证伤害动作子集，
+不提供 AI 防御或资源命令选择策略。
 
 ### AI 目标索引、行动效用与关卡规则
 
@@ -354,9 +412,45 @@ session 副本中计算，成功后才连同移动、HP/查克拉/忍具槽和�
   替换候选；另一个已闭合格评分函数的 0–49 扰动属于具体位置择优，不能与这里的 0–9
   行动效用扰动混为一项。
 
-因此目标优先级、标准伤害效用、关卡规则记录和目标 tie-break 已经从“接口占位”升级为可实现
-契约。仍保持中性的，是五种规则的可见名称、`0x08083AF4` 内部完整路径算法以及未单独命名的
+因此目标优先级、标准伤害效用、关卡规则记录、拓扑距离和目标 tie-break 已经从
+“接口占位”升级为可实现契约。`0x08083AF4` 后续已闭合为 battle-ID 选择的八记录
+地图拓扑距离：普通地图以曼哈顿段结束，复杂地图通过纵横屏障通道、两张 signed lookup
+和固定转换修正距离；它不是通用寻路。仍保持中性的是五种规则的可见名称以及未单独命名的
 事件分类；这些不允许由 UI 文案或截图反推。
+
+2026-07-27 继续拆解 `0x080843DC..0x0808444E` 后，纠正了 Butano 的两个实际偏差。阵型
+`unit_parameter` 已接入 `ai_config_id`，所以 battle 1/3/14/20/30 等关卡的 config
+3/5/4/7/6 不再退化为默认 config 1；planner 也改为按同一 config ID 选择 common utility
+policy 与 typed rule。行动者资源投影从错误的“四项同时平均”改为 HP/查克拉各一个互斥
+分支，基础偏置、增益/保留公式和 component count 均与 ROM 对齐。完整证据、TDD 边界和
+剩余未命名整数路径见 `notes/battle-ai-config-and-projection-runtime-20260727.md`。
+
+同日继续闭合外层候选与动作组件。`0x08082040` 把候选类型写入
+`0x0202D262[candidate_index]`：移动/提炼查克拉/休息/已选择动作分别为 1/2/3/4。
+评分器的 `+0x24/+0x28` 分支读取这个候选类型，不读取角色 role；Butano 已移除把未赋值
+`ai_role` 传入资源评分的错误接线。动作描述 kind 1/4/5、effect low 3 selector、
+同/异阵营 bank 门和 component count 也已闭合：每个启用 bank 只占一个分母项，每个
+selector 最多加一次；kind 1 的伤害/命中/覆盖/范围先求和再作为一个分母项；actor
+`0x12/0x12` 或 `0x0D/0x0D` 首次匹配时只在整数除法前减一次组合权重。证据与剩余边界见
+`notes/battle-ai-action-component-runtime-20260727.md`。
+
+`0x08084D2A..0x08084D80` 的 event `0x11` 条件分支也已闭合。模拟后行动者 HP 与
+查克拉都严格高于各自一半时直接减 `weight[0x84]+weight[0x1C]`；任一项不高于一半时，
+评分器以行动者坐标和 `u8(0x0201BE2A)` 索引动态候选场 `0x02002880`，威胁 bit 0
+仍会触发同一减分。该路径不增加分母。`0x02002880` 已由独立运行时证据绑定为敌方伤害
+覆盖场，因此 Butano 复用 `battle_ai_candidate_field`，不把它误报为地形属性。
+
+`0x080850BA..0x08085126` 的 effect `0x07` 末尾奖励同样完成闭合。若没有处理 kind
+1–5 scenario rule、存在 selected action、第一条 event 是 `0x07`，且 event `+0x15`
+选择的 event 坐标或 actor 坐标不在动态威胁场，则分子固定加 8000、分母不变。该奖励
+只检查第一条 event，不能泛化为所有召唤事件。Butano 的 empty-tile 投影现携带目标格
+threatened 状态，并复用 typed rule 配置判断 rule 门。
+
+custom rule 的整数平均位置也已闭合。`0x08084DAA..0x080850AC` 对每个识别到的规则槽
+同时更新分子和 component count：kind 1 固定 `+2`，kind 2–5 固定 `+1`，条件未命中时
+零值组件仍留在分母；`0x08085134` 把总 count 送入最终除法。Butano 已把规则 scorer 从
+裸 `int` 改为 sum/count 投影，并让移动、资源、单目标、范围和空地候选在最终 RNG 前与
+通用 utility 合并，不再把 10000 权重追加到已经平均完成的最终分数。
 
 ### 取消与原子提交边界
 
@@ -400,6 +494,27 @@ SHA-256、控制器栈和单位资源字段联合校验，生成
 这三组数据只证明具体事务方向与提交边界，不证明通用恢复公式、上限截断、被动修正、
 不同角色比例，也没有闭合 `unit+0xB0` 或后续装备字节的全部布局。样本中的 `15` 与 `17`
 不得直接硬编码为全局常量；实现也不能把持久背包直接当作战斗内可用次数。
+
+### 资源命令基础公式闭合（2026-07-24）
+
+上节的“单样本不证明通用恢复公式”仍是当时正确的证据边界。新增
+`tools/analyze_battle_resource_command_rules.py` 把同一 ROM 的静态控制器范围、既有
+资源事务 manifest 和两个角色 checkpoint 交叉绑定，生成
+`notes/battle-resource-command-rule-bindings-20260724.json`，补足了基础公式所需证据：
+
+- `0x3200` 的初始预览与 `0x3210/0x3220` 的数量调整均按每 1 点查克拉读取
+  `unit+0x0A`（结印）作为 HP 成本；只有当前 HP 大于该成本时才能继续，因此提交后
+  HP 至少保留 1 点。可选数量还受 `unit+0x08` 当前角色查克拉上限约束；
+- 查克拉数量变化先进入资源预览，最终确认路径在建立提交事件前回滚该预览。Butano 因而
+  必须保持预览无写入，并只在确认时原子修改 HP、查克拉和行动状态；
+- `0x3310` 休息确认读取 `unit+0x0E` 最大 HP。佐助等级 3 的 `max_hp=89` 对应
+  `24→41`，鸣人等级 6 的 `max_hp=152` 对应 `17→47`，两者都满足
+  `floor(max_hp / 5)`，并截断到缺失 HP；
+- 休息确认后完成当前单位。补充查克拉也是无目标资源行动，进入同一单位完成和 condition
+  求值链，而不是由菜单或动画直接改写资源。
+
+本结论只闭合无额外修正时的基础命令规则。被动、状态、脚本覆盖和表现时间仍保持独立，
+不能用基础公式推断这些分支；`unit+0xB0` 及完整忍具槽布局也没有因此闭合。
 
 ### 普通伤害与替身反应分支
 
@@ -669,6 +784,35 @@ SHA-256 门禁，避免只用数量掩盖调用点漂移：
 操作链闭合，尚有 11 个
 `0x05/0x12/0x13/0x1B/0x1E/0x1F/0x20/0x21/0x22/0x23/0x24` 需要继续追踪。
 
+### 效果字节高位 follow-up 状态链
+
+`tools/analyze_battle_effect_flag_followups.py` 对
+`0x080768D8..0x08076A26` 的 follow-up helper 与
+`0x0807764E..0x08077670` 的队列门做哈希和指令级绑定，生成
+`notes/battle-effect-flag-followups-20260726.json`：
+
+- helper SHA-256 为
+  `eea2a918515d8c367ac0f464c5a33092cd1da83963708282e93dba020bef84b4`；
+  队列门 SHA-256 为
+  `8c0638a3f11746e5ec72fed04f9edfc1635c20ef17e7de5f777b91ee46c92f14`；
+- `sp+0x18` 必须非零，且 `(event+0x0E & 0x0700) == 0x0200`，才从
+  `0x0807766C` 调用 helper。因此高位效果只在有效的对手目标事件后发生，miss 不建立状态；
+- handler 返回后的 `0x0807764E..0x0807766C` 没有 HP/active 读取或存活分支；致死结算
+  同样进入 helper。Butano 的 ARM/mGBA 路线以 `HP=0、inactive、status_count=3` 复验；
+- bit `0x80` 建立 code `0x3F`、一回合、`value_u16=0` 的状态，并调用反应状态 setter
+  写入 `0x30`；
+- bit `0x40` 依次建立 code `0x1F/0x21/0x23`，每条固定值 10、持续三回合；它们分别进入
+  已闭合的攻击、防御和敏捷百分比下降 reducer；
+- 状态记录的 `raw_parameter_1` 来自 queued event potency，`raw_parameter_4` 来自
+  source unit；持续时间和值由 helper 常量决定；
+- 主动动作生产者为 `8/10/60`；忍具生产者为
+  `11–13/25–27/43–45/70–72`。因此此前把 70–72 的 `0x40` 视为未知已经被本证据取代。
+
+Butano 的通用 damage、type 1 对象到期和毒烟替身反应现在共用同一个 follow-up policy。
+三状态写入和属性重算是原子事务；type 1 对象的单目标失败与多目标后置失败都会回滚完整
+session 和 RNG，不保留较早目标的部分伤害。HUD 只显示活动状态总数，逐状态名称和专属
+动画仍未闭合。
+
 ### AI 事件评分中的状态策略矩阵
 
 新增 `tools/analyze_battle_ai_status_policy.py`，对 AI 评分器
@@ -878,6 +1022,26 @@ Butano 领域层因此需要 `OrderedAttributeModifier`，至少保留稳定 sta
 handler 4/5、presentation ID 3 的可见身份，以及同时满足条件的运行时 A/B。
 这些缺口继续阻止宣称完整 ObjectiveEngine 已还原。
 
+### 被动查询运行时边界
+
+`tools/analyze_battle_passive_query.py` 新增了不依赖显示名的 ROM 静态绑定，结果写入
+`notes/battle-passive-query-bindings-20260725.json`：
+
+- ROM SHA-256 固定为
+  `1198f1379a5bed9aa193a3641b3f45dbd60dfc131bcc4c7539d4ed6e31234894`；
+- 查询函数 `0x0806DDA4..0x0806DE15` 的 SHA-256 为
+  `1a129640de87b82c88ce04eaf9f095810a0dbf71f27b741739bd0ac8c98ea2b3`；
+- 45×12 字节表 `0x085459C8..0x08545BE4` 的 SHA-256 为
+  `4746018c741d10e91e8035197f2b92eeb5b39d042ced94cf75f25b9d7913459d`；
+- 单位记录从 `+0x50` 起有 24 个步长 4 的槽，ID 在 `+0`、level 在 `+1`；
+  ID 0、level 0、level `0xFF` 不参与查询，同 type 只返回首个活动槽；
+- 成长值为 `base + per_level × (level - 1)`，并同时返回两个独立成长分量。
+
+Butano 已把完整 45 条记录和角色模板的 24 槽复制进真实 `BattleUnitInstance`。逐 hit
+路径只消费已经由 `notes/battle-hit-modifier-bindings-20260723.json` 闭合的 type `0x0C`
+和 `0x19`；无对应被动时不额外抽 RNG。其余 target type、训练写入来源和被动显示名仍是
+证据缺口，不能因为内容表已生成就宣称效果已实现。
+
 ## 对重建设计的约束
 
 1. 先完成“内容真值层”：角色身份、角色模板、成长、完整技能/忍具/被动列表及其 ROM 地址和证据等级；未知字段不得用猜测值补齐。
@@ -892,8 +1056,23 @@ handler 4/5、presentation ID 3 的可见身份，以及同时满足条件的运
 - part 2–4 已完成五个窗口的逐帧清单，但仍需把关键状态转换回放到原 ROM checkpoint；录像只能发现机制，不能给出内部公式。
 - 63 条单位名称已完成运行时对应，但 ID 22–62 中少数中文汉字与同名变体仍需人工校字和行为区分。
 - 87 条主动动作已与 87 条数值模板按同 ID 闭合，45 条被动和 94 条忍具也已分库；运行时成本通道、效果低 6 位、目标低 3 位、显示/动画族、基础数值和升级字段已闭合。仍未全部闭合的是 packed flags 的逐位语义、resolver handler 的全部可见名称、忍具/状态显示名及剧情/等级/变体造成的自然可用条件。
-- 普通无状态路径的基础伤害、逐 hit 命中、会心/无视防御概率门、状态双区存储、通用持续时间递减、`0x0E` 联动递归、`0x0D` 参与者消费、`0x13` 八门阶段、`0x05` 身份覆盖/双恢复，以及 `0x12/0x1B/0x1E..0x25` 属性有序重算已经闭合；原始 13 个非 blocker/reaction 直接查询 code 剩余 0 个 code-specific 操作链。AI 的七项目标索引、标准伤害/命中/覆盖/距离效用、kind 1–5 关卡规则和 tie-break 也已闭合。状态/忍具可见名称、removed-event 演出、其他间接状态、AI 规则可见名称、完整路径 helper，以及战场对象 behavior 可见名称仍需要静态反汇编与原 ROM 受控实验闭合。
-- 主控制器 36 个状态的结构库存已闭合，scenario 41 的移动、行动菜单、术菜单、目标/确认、面向、防御和结果演出已有顶层状态绑定；三个取消样本和一个瞬身术提交样本已证明“预览不写领域状态、解析后原子提交”的边界；scenario 45/50 又证明敌方 `0x7000` 与玩家 `0x6000` 共同汇入 `0x8000`；battle 44/15 分别闭合了一个复合胜利与一个护送失败结果边界，condition 的记录布局、已用 handler 运算、有序仲裁、对象写入链和结果 5 的独立结束路径也已闭合。AI 的目标索引、标准效用与五种数据规则以及动作的四种有效成本通道已经闭合，但未用 condition handler 4/5、对象 behavior 可见语义、完整路径 helper 和更多跨关卡差异仍需逐状态追踪，不能直接照搬候选状态图。
+- 普通无状态路径的基础伤害、逐 hit 命中、会心/无视防御概率门、状态双区存储、通用持续时间递减、`0x0E` 联动递归、`0x0D` 参与者消费、`0x13` 八门阶段、`0x05` 身份覆盖/双恢复，以及 `0x12/0x1B/0x1E..0x25` 属性有序重算已经闭合；原始 13 个非 blocker/reaction 直接查询 code 剩余 0 个 code-specific 操作链。AI 的七项目标索引、标准伤害/命中/覆盖/拓扑距离效用、kind 1–5 关卡规则和 tie-break 也已闭合。状态/忍具可见名称、removed-event 演出、其他间接状态、AI 规则可见名称以及战场对象 behavior 可见名称仍需要静态反汇编与原 ROM 受控实验闭合。
+- 主控制器 36 个状态的结构库存已闭合，scenario 41 的移动、行动菜单、术菜单、目标/确认、面向、防御和结果演出已有顶层状态绑定；三个取消样本和一个瞬身术提交样本已证明“预览不写领域状态、解析后原子提交”的边界；scenario 45/50 又证明敌方 `0x7000` 与玩家 `0x6000` 共同汇入 `0x8000`；battle 44/15 分别闭合了一个复合胜利与一个护送失败结果边界，condition 的记录布局、已用 handler 运算、有序仲裁、对象写入链和结果 5 的独立结束路径也已闭合。AI 的目标索引、标准效用、地图拓扑距离与五种数据规则以及动作的四种有效成本通道已经闭合，但未用 condition handler 4/5、对象 behavior 可见语义和更多跨关卡差异仍需逐状态追踪，不能直接照搬候选状态图。
 - 因上述缺口存在，当前不能宣称“完整战斗系统已还原”。2026-07-23 已把 scenario 41 的活动
   战斗阶段替换为地图、独立单位、游标和领域快照 UI 的组件渲染，并用共享动作 resolver 取代
   固定伤害；不可交互的必杀动画/结算参考帧仍只算表现对照，不能作为跨关卡实现基线。
+
+## 2026-07-25 表现链实现进展
+
+- 角色视觉表已从首帧扩展到全部 342 个有效槽、复合 OAM 与 duration 时间线；
+- `action_result` 新增所有受影响单位 ID，玩家/AI/控制器/表现层不再用目标格反猜实体；
+- 致死目标保留到受击和归位完成，范围目标可共享同一表现事务；
+- 近战突进与结印/忍具原地动作分离；
+- scenario 41 默认入口已切到共享 `battle_runtime_scene`；
+- 旧 264 帧整屏录屏资产退出生产 graphics，仅保留为离线参考。
+
+这闭合的是通用单位表现与事件 wiring，不等于所有招式特效、镜头、音频、章节入口和结果
+演出已经功能等价。最终静音运行证据为
+`artifacts/butano-shared-s41-runtime-20260725-84/`、
+`artifacts/butano-unit-animation-b09-20260725-86/` 和
+`artifacts/butano-dynamic-deployment-b32-20260725-87/`。

@@ -31,6 +31,22 @@ class ButanoBattleActionContentGenerationTest(unittest.TestCase):
         self.assertEqual(tool["target_policy"], 2)
         self.assertNotIn("scalar_cost_from_source_tail", tool)
 
+        recipes = content["ninja_tool_upgrade_recipes"]
+        self.assertEqual(len(recipes), 94)
+        self.assertEqual(
+            recipes[2],
+            {
+                "output_tool_id": 2,
+                "parent_tool_id": 1,
+                "required_material_id": 3,
+                "eligible_character_0": 0,
+                "eligible_character_1": 0,
+            },
+        )
+        self.assertEqual(recipes[5]["required_material_id"], 1)
+        self.assertEqual(recipes[8]["required_material_id"], 2)
+        self.assertEqual(recipes[15]["eligible_character_0"], 13)
+
     def test_header_uses_orthogonal_action_definition_arrays(self):
         from tools.generate_butano_battle_action_content import generate_header
 
@@ -40,6 +56,19 @@ class ButanoBattleActionContentGenerationTest(unittest.TestCase):
         self.assertIn("action_cost_kind::current_hp", header)
         self.assertIn("target_policy_kind::empty_tile", header)
         self.assertIn("effect_descriptor", header)
+        self.assertIn("struct ninja_tool_upgrade_recipe", header)
+        self.assertIn(
+            "std::array<ninja_tool_upgrade_recipe, 94>",
+            header,
+        )
+        self.assertIn(
+            "ninja_tool_upgrade_recipes = {{",
+            header,
+        )
+        self.assertIn(
+            "ninja_tool_upgrade_recipe{ 2, 1, 3, 0, 0 }",
+            header,
+        )
         self.assertNotIn("screenshot", header.lower())
 
 

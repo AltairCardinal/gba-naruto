@@ -6,21 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_unit_eligibility import build_unit_eligibility_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-unit-eligibility-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleUnitEligibilityTests(unittest.TestCase):
     def _manifest(self):
-        return build_unit_eligibility_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            ROOT / "notes/battle-controller-states-20260723.json",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-unit-eligibility-bindings-20260723.json")
 
     def test_confirmation_accepts_only_the_unspent_commandable_unit(self):
         result = self._manifest()
@@ -45,6 +42,7 @@ class BattleUnitEligibilityTests(unittest.TestCase):
             self.assertEqual(case["action_menu_diffs"], [])
         self.assertTrue(result["roster_browsing_is_separate_from_command_eligibility"])
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_transition_audit_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["observations"][0]["audit_sha256"] = "00" * 32

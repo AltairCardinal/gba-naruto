@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "identity": "battle_command_blocker_bindings",
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "action_80": {
+    "action_id": 80,
+    "template_address": "0x08545958",
+    "template_raw_hex": "01053f02000155000302030000000000",
+    "effect_code": "0x3F",
+    "success_rate_percent": 85,
+    "duration_turns": 2,
+    "stored_duration_ticks": 4
+  },
+  "effect_handler": {
+    "range": "0x0807755C..0x0807758D",
+    "sha256": "d0a95a96620619c9c2be4f4bf77f2e52c63a78eefa042eb7754db419edb0b9d7",
+    "reaction_state_call": {
+      "callsite": "0x08077560",
+      "target": "0x0806A8C0",
+      "state": "0x30"
+    },
+    "status_upsert_call": {
+      "callsite": "0x0807758A",
+      "target": "0x0806C204"
+    },
+    "bypass_event_flag_mask": "0x1800"
+  },
+  "side_activation": {
+    "function": "0x08075350",
+    "function_sha256": "eb477d165bb683e1fec8eedd95b83564afc451dbafe2ed6baa843506e3bf5a86",
+    "controller_callsite": "0x080736E4",
+    "controller_sha256": "7fcc272e5763d4eee8e1059221a4dc93e694b909f3ca84b9a8ccf7381c34cfd7",
+    "side_flipped_before_call": true,
+    "blocker_priority": [
+      "0x3F",
+      "0x3E",
+      "0x3D",
+      "0x0F",
+      "0x11",
+      "0x15"
+    ],
+    "status_query_target": "0x0806C160",
+    "on_blocker": "skip_unit_activation",
+    "on_no_blocker_for_current_side": "activate_unit_for_commands"
+  },
+  "implementation_boundary": {
+    "eligibility_source": "persistent_status_store",
+    "not_eligibility_source": "reaction_state_byte",
+    "shared_consumers": [
+      "player_unit_selection",
+      "player_unit_cycle",
+      "ai_unit_scheduler"
+    ],
+    "presentation_only_fields": [
+      "reaction_state"
+    ]
+  }
+}

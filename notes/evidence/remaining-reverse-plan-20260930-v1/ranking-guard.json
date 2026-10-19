@@ -1,0 +1,21 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 34652,
+  "peak_tree_rss_mib": 1.20703125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "python3",
+    "tools/analyze_rom_unknown_clusters.py",
+    "--rom",
+    "rom/base.gba",
+    "--coverage",
+    "sequel/rom-byte-coverage.json",
+    "--top",
+    "30"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-09-30T10:38:51.914615Z",
+  "finished_at": "2026-09-30T10:38:52.962752Z"
+}

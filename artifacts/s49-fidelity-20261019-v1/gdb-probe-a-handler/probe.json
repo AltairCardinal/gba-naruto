@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 2,
+  "emulator": {
+    "path": "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "sha256": "2cc5c36d620d5350c377d1e4fede68726c93b57a7d4e5f98f98fd293eb267393",
+    "size": 3980960,
+    "version": "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA 0.10.5 (26b7884bc25a5933960f3cdcd98bac1ae14d42e2-dirty)"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "savestate": {
+    "path": "artifacts/s49-fidelity-20261019-v1/original-bcycle/step-00-base.ss9",
+    "sha256": "14f1ba2da30318aa1ecfc78265d1ec3177ba12a3c279d1ddebde0250fd268dd8",
+    "size": 91322
+  },
+  "scripts": [
+    {
+      "path": "/tmp/press_a.lua",
+      "sha256": "0777d9865d0e3a1f6ff5f422105c8ad84faf771fb95f40dda621f37596ba045f",
+      "size": 264
+    }
+  ],
+  "command": [
+    "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--gdb",
+    "-C",
+    "mute=1",
+    "-C",
+    "volume=0",
+    "--script",
+    "/tmp/press_a.lua",
+    "--savestate",
+    "artifacts/s49-fidelity-20261019-v1/original-bcycle/step-00-base.ss9",
+    "rom/base.gba"
+  ],
+  "port": 2345,
+  "listenerOwnerPid": 34423,
+  "listenerOwnerPids": [
+    34423
+  ],
+  "connectionOwnerPid": 34423,
+  "connectionOwnerPids": [
+    34423
+  ],
+  "connectionLocalEndpoint": {
+    "address": "127.0.0.1",
+    "port": 53835
+  },
+  "connectionPeerEndpoint": {
+    "address": "127.0.0.1",
+    "port": 2345
+  },
+  "rawStop": "S05k",
+  "expectedPc": 134621342,
+  "expectedPcHex": "0x0806289E",
+  "actualPc": 134621342,
+  "actualPcHex": "0x0806289E",
+  "registers": {
+    "r0": 128,
+    "r1": 16782245,
+    "r2": 16782181,
+    "r3": 64,
+    "r4": 50353836,
+    "r5": 192,
+    "r6": 50353896,
+    "r7": 0,
+    "r8": 768,
+    "r9": 192,
+    "r10": 50354616,
+    "r11": 0,
+    "r12": 65536,
+    "sp": 50364028,
+    "lr": 134621549,
+    "pc": 134621342,
+    "cpsr": 536870975
+  },
+  "romFingerprint": [
+    {
+      "address": 134217728,
+      "addressHex": "0x08000000",
+      "size": 32,
+      "sha256": "9c1f62e912c5efc32cd6f0093fecd6b677f53975c69b891559ae202c6e5d3943"
+    },
+    {
+      "address": 134621342,
+      "addressHex": "0x0806289E",
+      "size": 32,
+      "sha256": "467687fab5d7393a8680e30ecaf655917221a451bc5aa03b9e2fa930560717db"
+    }
+  ],
+  "readRegions": [
+    {
+      "address": 33702080,
+      "addressHex": "0x020240C0",
+      "size": 64,
+      "hex": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "stdoutTail": "",
+  "stderrTail": "",
+  "childReturncode": -15,
+  "progressErrors": [],
+  "outcome": "verified"
+}

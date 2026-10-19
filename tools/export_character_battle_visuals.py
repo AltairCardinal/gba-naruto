@@ -42,6 +42,11 @@ ALLOCATOR_SHA256 = "e238cd1ee159265fb8b718766f336f8d5462596954f93c7805d1bf33dd6b
 COMPONENT_SIZE = 20
 COMPONENT_TERMINATOR = bytes.fromhex("ffff0000")
 KNOWN_ANOMALOUS_TRAILER = bytes.fromhex("fffb0000")
+KNOWN_ANOMALOUS_TRAILER_ADDRESS = 0x0825A8E4
+FBFF_RUNTIME_EVIDENCE = "artifacts/character-fbff-runtime-v1/manifest.json"
+FBFF_CONTROL_ROM_SHA256 = (
+    "3f55e607829db4497a1f49200514777c89df01f3624fd849005b96247502507a"
+)
 SLOT_SEMANTICS = (
     "field_idle_and_movement",
     "cast_facing_right",
@@ -330,6 +335,16 @@ def _parse_frames(
         trailer = raw[-4:]
         if trailer not in (COMPONENT_TERMINATOR, KNOWN_ANOMALOUS_TRAILER):
             raise ValueError(f"frame {frame_id} has an unknown component trailer")
+        trailer_address = pointer + span - len(trailer)
+        runtime_resolved_anomaly = trailer == KNOWN_ANOMALOUS_TRAILER
+        if (
+            runtime_resolved_anomaly
+            and trailer_address != KNOWN_ANOMALOUS_TRAILER_ADDRESS
+        ):
+            raise ValueError(
+                f"frame {frame_id} has FBFF at an unverified address "
+                f"0x{trailer_address:08X}"
+            )
         components = [
             _parse_component(
                 raw[
@@ -342,8 +357,7 @@ def _parse_frames(
         ]
         if not components:
             raise ValueError(f"frame {frame_id} is empty")
-        frames.append(
-            {
+        frame = {
                 "frame_id": frame_id,
                 "component_list_pointer": _address(pointer),
                 "component_count": len(components),
@@ -352,14 +366,24 @@ def _parse_frames(
                 "raw_sha256": _sha256(raw),
                 "frame_trailer_raw_hex": trailer.hex(),
                 "renderer_terminator": trailer == COMPONENT_TERMINATOR,
-                "render_complete": trailer == COMPONENT_TERMINATOR,
+                "render_complete": (
+                    trailer == COMPONENT_TERMINATOR
+                    or runtime_resolved_anomaly
+                ),
                 "interpretation": (
                     "verified_renderer_terminated"
                     if trailer == COMPONENT_TERMINATOR
-                    else "provisional_pointer_bounded_preview"
+                    else "runtime_verified_single_byte_corrupt_terminator"
                 ),
             }
-        )
+        if runtime_resolved_anomaly:
+            frame["termination_resolution"] = {
+                "evidence": FBFF_RUNTIME_EVIDENCE,
+                "raw_signed_value": -1025,
+                "normalization": "fffb0000 -> ffff0000",
+                "control_rom_sha256": FBFF_CONTROL_ROM_SHA256,
+            }
+        frames.append(frame)
     region_offset = _rom_offset(
         region_start,
         frame_pointer_table - region_start,
@@ -854,15 +878,15 @@ def export_artifact(root: Path, output_dir: Path) -> dict[str, Any]:
         ],
         "summary": summary,
         "scope": {
-            "static_source_space_frames": False,
-            "pointer_bounded_source_previews": True,
+            "static_source_space_frames": True,
+            "pointer_bounded_source_previews": False,
             "component_geometry_and_flips": True,
             "animation_holds": True,
             "screen_space_position": False,
             "camera_and_priority": False,
             "runtime_slot_selection": False,
             "blend_and_palette_transform": False,
-            "all_component_termination_semantics_complete": False,
+            "all_component_termination_semantics_complete": True,
         },
         "slots": slots,
         "resources": resources,

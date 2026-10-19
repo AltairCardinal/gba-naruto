@@ -6,16 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_damage_hit_formula import build_damage_hit_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-damage-hit-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleDamageHitFormulaTests(unittest.TestCase):
     def _manifest(self):
-        return build_damage_hit_manifest(ROOT, ROOT / "rom/base.gba", OBSERVATIONS)
+        return load_binding(ROOT, "battle-damage-hit-bindings-20260723.json")
 
     def test_static_formula_separates_power_attack_defense_and_critical_candidates(self):
         result = self._manifest()
@@ -49,6 +51,20 @@ class BattleDamageHitFormulaTests(unittest.TestCase):
             },
         )
 
+    def test_effect_dispatch_requires_an_effective_hit_before_any_handler(self):
+        result = self._manifest()
+        self.assertEqual(
+            result["effect_dispatch_gate"],
+            {
+                "queue_resolver": "0x08076CE0",
+                "hit_result_scan": "0x08076E0A..0x08076E3C",
+                "dispatch_gate": "0x08076EEC..0x08076F24",
+                "dispatch_requires_effective_hit": True,
+                "effect_0x3f_handler": "0x0807755C",
+                "effect_0x3f_operation": "set target reaction state to 0x30",
+            },
+        )
+
     def test_natural_three_hit_sample_matches_formula_and_contains_one_miss(self):
         result = self._manifest()
         self.assertEqual(
@@ -73,6 +89,7 @@ class BattleDamageHitFormulaTests(unittest.TestCase):
             },
         )
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_checkpoint_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["natural_sample"]["preview_sha256"] = "00" * 32

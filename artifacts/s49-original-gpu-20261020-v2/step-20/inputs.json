@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-10-19T09:17:38.045744+00:00",
+  "expected_sizes": {
+    "io.bin": 1024,
+    "oam.bin": 1024,
+    "pram.bin": 1024,
+    "vram.bin": 98304
+  },
+  "guard": "/Users/altair/github/gba-naruto/tools/run_guarded.py",
+  "guard_sha256": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+  "input_state": "artifacts/s49-fidelity-20261019-v1/walk-original-a24/step-20-A.ss9",
+  "input_state_sha256": "bb492209f1c02017b93ae68ff409dcc83d944b27ed871de8767b2dd4d9bae8fe",
+  "mgba": "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+  "mgba_sha256": "2cc5c36d620d5350c377d1e4fede68726c93b57a7d4e5f98f98fd293eb267393",
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema": "konoha.mgba-gpu-state-inputs.v1",
+  "script": "/Users/altair/github/gba-naruto/tools/butano/mgba_gpu_state_dump.lua",
+  "script_sha256": "52cca12fd3943e31477a6dd4781ee7e7061d2e030f7a2dd9b9c15b45c74c5e2b"
+}

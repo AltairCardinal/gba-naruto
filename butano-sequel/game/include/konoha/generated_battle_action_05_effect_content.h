@@ -1,0 +1,145 @@
+#ifndef KONOHA_GENERATED_BATTLE_ACTION_05_EFFECT_CONTENT_H
+#define KONOHA_GENERATED_BATTLE_ACTION_05_EFFECT_CONTENT_H
+
+#include "konoha/battle_effect_sequence.h"
+
+#include <array>
+
+namespace konoha
+{
+
+inline constexpr std::array<battle_effect_asset, 14>
+battle_action_05_hit_assets = {{
+        battle_effect_asset{ 0, 32, 32 },
+        battle_effect_asset{ 16, 32, 32 },
+        battle_effect_asset{ 32, 8, 16 },
+        battle_effect_asset{ 34, 16, 16 },
+        battle_effect_asset{ 38, 32, 32 },
+        battle_effect_asset{ 54, 8, 16 },
+        battle_effect_asset{ 56, 16, 16 },
+        battle_effect_asset{ 60, 32, 32 },
+        battle_effect_asset{ 76, 8, 16 },
+        battle_effect_asset{ 78, 8, 16 },
+        battle_effect_asset{ 80, 16, 16 },
+        battle_effect_asset{ 84, 32, 32 },
+        battle_effect_asset{ 100, 32, 32 },
+        battle_effect_asset{ 116, 16, 16 },
+}};
+
+inline constexpr battle_effect_sequence
+battle_action_05_hit_sequence = { {{
+        battle_effect_frame{ {{
+            battle_effect_component{ 160, 48, 0, false, false, 2 },
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+        }}, 1, 2 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 160, 48, 1, false, false, 2 },
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+        }}, 1, 2 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 164, 40, 2, false, false, 2 },
+            battle_effect_component{ 155, 68, 3, true, false, 2 },
+            battle_effect_component{ 186, 26, 2, true, false, 2 },
+            battle_effect_component{ 178, 42, 2, true, false, 2 },
+            battle_effect_component{ 184, 80, 2, false, false, 2 },
+            battle_effect_component{ 176, 64, 2, false, false, 2 },
+            battle_effect_component{ 180, 44, 3, true, false, 2 },
+            battle_effect_component{ 160, 48, 4, false, false, 2 },
+        }}, 8, 2 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 163, 38, 5, false, false, 2 },
+            battle_effect_component{ 153, 70, 6, true, false, 2 },
+            battle_effect_component{ 187, 24, 5, true, false, 2 },
+            battle_effect_component{ 179, 40, 5, true, false, 2 },
+            battle_effect_component{ 185, 82, 2, false, false, 2 },
+            battle_effect_component{ 177, 66, 5, false, false, 2 },
+            battle_effect_component{ 182, 42, 3, true, false, 2 },
+            battle_effect_component{ 160, 48, 7, false, false, 2 },
+        }}, 8, 2 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 188, 22, 8, true, false, 2 },
+            battle_effect_component{ 180, 38, 9, true, false, 2 },
+            battle_effect_component{ 186, 84, 5, false, false, 2 },
+            battle_effect_component{ 178, 68, 5, false, false, 2 },
+            battle_effect_component{ 184, 40, 10, true, false, 2 },
+            battle_effect_component{ 160, 48, 11, false, false, 2 },
+            battle_effect_component{},
+            battle_effect_component{},
+        }}, 6, 2 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 178, 84, 5, false, false, 2 },
+            battle_effect_component{ 170, 68, 8, false, false, 2 },
+            battle_effect_component{ 177, 39, 10, true, false, 2 },
+            battle_effect_component{ 152, 48, 11, false, false, 2 },
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+        }}, 4, 1 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 170, 84, 5, false, false, 2 },
+            battle_effect_component{ 162, 68, 8, false, false, 2 },
+            battle_effect_component{ 169, 39, 10, true, false, 2 },
+            battle_effect_component{ 144, 48, 11, false, false, 2 },
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+        }}, 4, 1 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 162, 84, 8, false, false, 2 },
+            battle_effect_component{ 154, 68, 9, false, false, 2 },
+            battle_effect_component{ 161, 39, 6, true, false, 2 },
+            battle_effect_component{ 136, 48, 12, false, false, 2 },
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+        }}, 4, 1 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 154, 84, 8, false, false, 2 },
+            battle_effect_component{ 146, 68, 9, false, false, 2 },
+            battle_effect_component{ 153, 39, 6, true, false, 2 },
+            battle_effect_component{ 128, 48, 12, false, false, 2 },
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+        }}, 4, 1 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 150, 84, 9, false, false, 2 },
+            battle_effect_component{ 142, 68, 9, false, false, 2 },
+            battle_effect_component{ 149, 39, 13, true, false, 2 },
+            battle_effect_component{ 124, 48, 12, false, false, 2 },
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+        }}, 4, 1 },
+        battle_effect_frame{ {{
+            battle_effect_component{ 147, 84, 9, false, false, 2 },
+            battle_effect_component{ 139, 68, 9, false, false, 2 },
+            battle_effect_component{ 146, 39, 13, true, false, 2 },
+            battle_effect_component{ 121, 48, 12, false, false, 2 },
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+            battle_effect_component{},
+        }}, 4, 1 },
+}}, 11 };
+
+}
+
+#endif

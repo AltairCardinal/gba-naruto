@@ -1,0 +1,32 @@
+{
+  "schema": "original-action-duel-components-v1",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "asset": "battle_duel_forest.bmp",
+  "asset_sha256": "13f34ec10a0b67c2102f0fad8ed86e7676f69c4b82edbe10d5652c42e1a08c3d",
+  "source_components": [
+    {
+      "role": "bg_tiles",
+      "address": "0x08329C34",
+      "decompressed_sha256": "c5463fdae80642349f275722801017ff3e23bdffa88190ca111a3184bafd38c1"
+    },
+    {
+      "role": "bg_palette",
+      "address": "0x0832A854",
+      "decompressed_sha256": "3c86d041724735cc717fedffe8cca91ac9d717b7878c2296672e295eb12923e4"
+    },
+    {
+      "role": "bg_tilemap",
+      "address": "0x0832A8F8",
+      "decompressed_sha256": "5bfb7c60fb1aec2f55c04b733a50d68bd14f0c8618e7c0de69d00a7e08ab4367"
+    }
+  ],
+  "runtime_evidence": {
+    "tiles_destination": "0x06004000",
+    "palette_destination": "0x05000000",
+    "tilemap_destination": "0x06000000",
+    "frame_loaded": [
+      51,
+      52
+    ]
+  }
+}

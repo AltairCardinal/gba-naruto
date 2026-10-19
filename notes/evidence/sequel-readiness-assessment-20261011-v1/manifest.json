@@ -1,0 +1,67 @@
+{
+  "schema": "sequel-readiness-assessment-evidence-v1",
+  "scope": "评估与有限只读复核，不是全局逆向或发布验收",
+  "files": {
+    "ranking-tests.log": {
+      "sha256": "0e4a835c29ca34a165b985e6e82fac20c74c84843587f18917d4a6f8199a3d96",
+      "size": 930
+    },
+    "ranking-replay.log": {
+      "sha256": "5ddca39200e05b57fe1ff0734d68aced6a1065d70bd9ec08e7de6827fc2c2976",
+      "size": 999
+    },
+    "ranking-tests-guard.json": {
+      "sha256": "23e6a4a0f4e84512d21cd3a313418882b06ae3e2587f188333b23011e0a21d0a",
+      "size": 1009
+    },
+    "ranking-replay-guard.json": {
+      "sha256": "cf5dbaaf0049d896bf9dd242d47041b2bb297954ab09bd1a018eaf4df627c583",
+      "size": 1078
+    },
+    "assessment-receipt.json": {
+      "sha256": "656ab48f6454226bbd8aa745ff6918f4e347660bdb2a86d02767980e7b6d0a26",
+      "size": 14700
+    },
+    "ranking-collector-misread.json": {
+      "sha256": "9f4e9784518f4ace1066c624ece68d4dc79d2934cada355a4cf2ef884c33f6ec",
+      "size": 542
+    },
+    "ranking.json": {
+      "sha256": "4ad3e86682dbabbdc30f689bc248c0470d735faba087a46465a5a8ddd6793de1",
+      "size": 14272
+    },
+    "ranking-tests.stderr": {
+      "sha256": "03ca6144961eef6c1cc689576bc4ae2f0754ce256e4b2e6f9648d43f86c1e9d7",
+      "size": 518
+    },
+    "ranking-replay.stdout": {
+      "sha256": "4ad3e86682dbabbdc30f689bc248c0470d735faba087a46465a5a8ddd6793de1",
+      "size": 14272
+    },
+    "ranking.log": {
+      "sha256": "b50acbd009d9498a1693e9d998eb1d72875ec4c7ce3a269d508732f1ba339fa9",
+      "size": 458
+    },
+    "ranking-replay.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "ranking-tests.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "ranking-guard.json": {
+      "sha256": "9f4e9784518f4ace1066c624ece68d4dc79d2934cada355a4cf2ef884c33f6ec",
+      "size": 542
+    }
+  },
+  "validation": {
+    "source_hashes_unchanged": true,
+    "source_count": 20,
+    "selected_receipt_members_verified": 8,
+    "ranking_tests_passed": 2,
+    "document_links_and_whitespace": true,
+    "runtime_or_full_formal_rerun": false
+  },
+  "collector_correction": "ranking-collector-misread.json为首次误取guard输出；ranking-replay业务schema及两项测试通过"
+}

@@ -27,6 +27,7 @@ from tools.butano.render_scenario_41_gpu import (  # noqa: E402
     render_boundary,
 )
 from tools.butano.analyze_scenario_41_gpu import decode_gpu  # noqa: E402
+from tools.butano.indexed_bmp import write_4bpp_bmp  # noqa: E402
 
 
 EXPECTED_ROM_SHA256 = (
@@ -61,25 +62,46 @@ CELL_SIZE = 16
 OBSTACLES = ((3, 9), (5, 9), (2, 7), (6, 7), (1, 4), (7, 4))
 
 
-def reconstruct_map(rom_path: Path) -> dict[str, object]:
-    """Rebuild map row 41 from its two-metatile coarse layout."""
+def reconstruct_map(
+    rom_path: Path,
+    battle_id: int = 41,
+) -> dict[str, object]:
+    """Rebuild one battle map from its two-metatile coarse layout."""
 
     rom = Path(rom_path).read_bytes()
     actual_hash = hashlib.sha256(rom).hexdigest()
     if actual_hash != EXPECTED_ROM_SHA256:
         raise ValueError(f"ROM SHA-256 mismatch: {actual_hash}")
-    entry = read_map_entries(rom)[41]
+    entries = read_map_entries(rom)
+    if not 0 <= battle_id < len(entries):
+        raise ValueError(f"battle map ID is out of range: {battle_id}")
+    entry = entries[battle_id]
+    width_tiles = entry["width_tiles"]
+    height_tiles = entry["height_tiles"]
+    if width_tiles % 4 or height_tiles % 2:
+        raise ValueError(f"battle map {battle_id} has invalid dimensions")
+    grid_width = width_tiles // 4
+    grid_height = height_tiles // 2
     tile_data = lz77_decompress(rom, entry["tile_gfx_ptr"])
     palette_data = lz77_decompress(rom, entry["bg_palette_ptr"])
     layout = lz77_decompress(rom, entry["primary_layout_ptr"])
     metatiles = lz77_decompress(rom, entry["metatile_attributes_ptr"])
-    if len(layout) != 9 * 22 * 4 or len(metatiles) % 8:
-        raise ValueError("scenario 41 map resources have unexpected dimensions")
+    if (
+        len(layout) != grid_width * grid_height * 4
+        or len(metatiles) % 8
+    ):
+        raise ValueError(
+            f"battle map {battle_id} resources have unexpected dimensions"
+        )
 
-    tilemap = [0] * (36 * 44)
-    for coarse_y in range(22):
-        for coarse_x in range(9):
-            value = struct.unpack_from("<I", layout, (coarse_y * 9 + coarse_x) * 4)[0]
+    tilemap = [0] * (width_tiles * height_tiles)
+    for coarse_y in range(grid_height):
+        for coarse_x in range(grid_width):
+            value = struct.unpack_from(
+                "<I",
+                layout,
+                (coarse_y * grid_width + coarse_x) * 4,
+            )[0]
             for half, metatile_index in enumerate((value & 0xFFFF, value >> 16)):
                 definition_offset = metatile_index * 8
                 if definition_offset + 8 > len(metatiles):
@@ -89,13 +111,19 @@ def reconstruct_map(rom_path: Path) -> dict[str, object]:
                     for local_x in range(2):
                         tile_x = coarse_x * 4 + half * 2 + local_x
                         tile_y = coarse_y * 2 + local_y
-                        tilemap[tile_y * 36 + tile_x] = definition[local_y * 2 + local_x]
+                        tilemap[
+                            tile_y * width_tiles + tile_x
+                        ] = definition[local_y * 2 + local_x]
 
     palette = parse_palette(palette_data)
-    pixels = bytearray(288 * 352)
-    for tile_y in range(44):
-        for tile_x in range(36):
-            entry_value = tilemap[tile_y * 36 + tile_x]
+    width = width_tiles * 8
+    height = height_tiles * 8
+    pixels = bytearray(width * height)
+    for tile_y in range(height_tiles):
+        for tile_x in range(width_tiles):
+            entry_value = tilemap[
+                tile_y * width_tiles + tile_x
+            ]
             tile_index = entry_value & 0x3FF
             tile_offset = tile_index * 32
             if tile_offset + 32 > len(tile_data):
@@ -107,11 +135,15 @@ def reconstruct_map(rom_path: Path) -> dict[str, object]:
                     packed = tile_data[tile_offset + source_y * 4 + source_x // 2]
                     color = (packed >> (4 if source_x & 1 else 0)) & 0xF
                     palette_index = 0 if color == 0 else ((entry_value >> 12) & 0xF) * 16 + color
-                    pixels[(tile_y * 8 + pixel_y) * 288 + tile_x * 8 + pixel_x] = palette_index
+                    pixels[
+                        (tile_y * 8 + pixel_y) * width
+                        + tile_x * 8
+                        + pixel_x
+                    ] = palette_index
 
     return {
-        "width": 288,
-        "height": 352,
+        "width": width,
+        "height": height,
         "pixels": bytes(pixels),
         "palette": palette,
         "tilemap": tilemap,
@@ -388,50 +420,7 @@ def _write_4bpp_bmp(
     pixels: list[int] | bytes,
     palette: tuple[tuple[int, int, int], ...] | list[tuple[int, int, int]] = PALETTE,
 ) -> None:
-    if len(pixels) != width * height:
-        raise ValueError("pixel count does not match BMP dimensions")
-    if any(pixel < 0 or pixel > 15 for pixel in pixels):
-        raise ValueError("4bpp pixels must be palette indices 0..15")
-
-    packed_width = (width + 1) // 2
-    row_size = (packed_width + 3) & ~3
-    image_size = row_size * height
-    if len(palette) != 16:
-        raise ValueError("4bpp BMP palette must contain exactly 16 colors")
-    pixel_offset = 14 + 40 + len(palette) * 4
-    file_size = pixel_offset + image_size
-
-    output = bytearray()
-    output.extend(struct.pack("<2sIHHI", b"BM", file_size, 0, 0, pixel_offset))
-    output.extend(
-        struct.pack(
-            "<IiiHHIIiiII",
-            40,
-            width,
-            height,
-            1,
-            4,
-            0,
-            image_size,
-            2835,
-            2835,
-            len(palette),
-            len(palette),
-        )
-    )
-    for red, green, blue in palette:
-        output.extend(bytes((blue, green, red, 0)))
-
-    for y in range(height - 1, -1, -1):
-        row = bytearray()
-        start = y * width
-        for x in range(0, width, 2):
-            high = pixels[start + x]
-            low = pixels[start + x + 1] if x + 1 < width else 0
-            row.append((high << 4) | low)
-        row.extend(bytes(row_size - len(row)))
-        output.extend(row)
-    path.write_bytes(output)
+    write_4bpp_bmp(path, width, height, pixels, palette)
 
 
 def _write_8bpp_bmp(
@@ -673,11 +662,78 @@ def generate_assets(
     cursor = reconstruct_reference_sprite(
         player_boundary, cursor_indices, 88, 24, 64, 64
     )
+    cursor_frames = []
+    arrow_regions = (
+        (27, 4, 36, 8),
+        (40, 13, 46, 19),
+        (27, 20, 36, 24),
+        (17, 13, 23, 19),
+    )
+    arrow_component_regions = (
+        (26, 3, 37, 9),
+        (40, 12, 47, 19),
+        (26, 19, 37, 25),
+        (16, 12, 23, 19),
+    )
+    pulse_offsets = (0, 2, 3)
+    pulse_directions = (
+        (0, -1),
+        (1, 0),
+        (0, 1),
+        (-1, 0),
+    )
+    for facing, (
+        red_left,
+        red_top,
+        red_right,
+        red_bottom,
+    ) in enumerate(arrow_regions):
+        frame = bytearray(cursor["pixels"])
+        if facing:
+            # The source game uses a dedicated blue upward arrow made by
+            # vertically mirroring the blue downward arrow.  Recoloring the
+            # taller red upward arrow would put it three pixels too high.
+            for y in range(3, 13):
+                for x in range(26, 38):
+                    frame[y * cursor["width"] + x] = 0
+            for source_y in range(19, 26):
+                target_y = 12 - (source_y - 19)
+                for x in range(26, 38):
+                    color = cursor["pixels"][
+                        source_y * cursor["width"] + x
+                    ]
+                    if color:
+                        frame[
+                            target_y * cursor["width"] + x
+                        ] = color
+        for index, color in enumerate(frame):
+            if color == 6:
+                frame[index] = 9
+        component_left, component_top, component_right, component_bottom = (
+            arrow_component_regions[facing]
+        )
+        component_pixels = []
+        for y in range(component_top, component_bottom + 1):
+            for x in range(component_left, component_right + 1):
+                index = y * cursor["width"] + x
+                if frame[index]:
+                    component_pixels.append((x, y, frame[index]))
+                    frame[index] = 0
+        direction_x, direction_y = pulse_directions[facing]
+        for pulse_offset in pulse_offsets:
+            pulse_frame = bytearray(frame)
+            for x, y, color in component_pixels:
+                target_x = x + direction_x * pulse_offset
+                target_y = y + direction_y * pulse_offset
+                pulse_frame[
+                    target_y * cursor["width"] + target_x
+                ] = 6 if color == 9 else color
+            cursor_frames.extend(pulse_frame)
     _write_4bpp_bmp(
         output_dir / "scenario_41_cursor.bmp",
         cursor["width"],
-        cursor["height"],
-        cursor["pixels"],
+        cursor["height"] * len(arrow_regions) * len(pulse_offsets),
+        bytes(cursor_frames),
         cursor["palette"],
     )
     cursor_shadow = reconstruct_reference_sprite(
@@ -769,7 +825,11 @@ def generate_assets(
     }
     for _, (boundary, specs, names) in layered_boundaries.items():
         palette, layers = reconstruct_screen_layers(boundary, specs)
-        for name, pixels in zip(names, layers, strict=True):
+        if len(names) != len(layers):
+            raise ValueError(
+                f"layer name/count mismatch: {len(names)} != {len(layers)}"
+            )
+        for name, pixels in zip(names, layers):
             _write_8bpp_bmp(
                 output_dir / f"scenario_41_{name}.bmp", 256, 256, pixels, palette
             )
@@ -777,7 +837,9 @@ def generate_assets(
     for prefix in extended_prefixes:
         boundary = extended_root / prefix.replace("_", "-")
         palette, layers = reconstruct_priority_layers(boundary)
-        for layer, pixels in zip(("bottom", "middle", "top"), layers, strict=True):
+        if len(layers) != 3:
+            raise ValueError(f"{prefix} priority layer count must be 3")
+        for layer, pixels in zip(("bottom", "middle", "top"), layers):
             _write_8bpp_bmp(
                 output_dir / f"scenario_41_{prefix}_{layer}.bmp",
                 256,
@@ -793,7 +855,9 @@ def generate_assets(
         else:
             palette, flattened = reconstruct_flattened_screen(boundary)
             layers = (flattened, bytes(256 * 256), bytes(256 * 256))
-        for layer, pixels in zip(("bottom", "middle", "top"), layers, strict=True):
+        if len(layers) != 3:
+            raise ValueError(f"{prefix} combat layer count must be 3")
+        for layer, pixels in zip(("bottom", "middle", "top"), layers):
             _write_8bpp_bmp(
                 output_dir / f"scenario_41_{prefix}_{layer}.bmp",
                 256,

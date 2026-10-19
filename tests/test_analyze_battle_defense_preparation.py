@@ -6,21 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_defense_preparation import build_defense_preparation_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-defense-preparation-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleDefensePreparationTests(unittest.TestCase):
     def _manifest(self):
-        return build_defense_preparation_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            ROOT / "notes/battle-controller-states-20260723.json",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-defense-preparation-bindings-20260723.json")
 
     def test_defense_prompt_opens_the_shared_action_list_before_category_revalidation(self):
         result = self._manifest()
@@ -39,6 +36,7 @@ class BattleDefensePreparationTests(unittest.TestCase):
             self.assertTrue(transition["action_menu_diffs"])
         self.assertTrue(result["offensive_action_rejected_without_domain_mutation"])
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_transition_audit_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["transitions"][2]["audit_sha256"] = "00" * 32

@@ -3,12 +3,13 @@ import argparse
 import subprocess
 import sys
 from pathlib import Path
+from typing import Optional
 
 
 EXPECTED_BUTANO_COMMIT = "112a1827c9c6d9e6041a7e93e66f04c4561a6415"
 
 
-def _git_head(path: Path) -> str | None:
+def _git_head(path: Path) -> Optional[str]:
     if not path.is_dir():
         return None
     result = subprocess.run(

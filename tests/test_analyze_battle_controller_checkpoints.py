@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_controller_checkpoints import (
     analyze_checkpoint,
     build_checkpoint_manifest,
@@ -15,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 ROM = ROOT / "rom" / "base.gba"
 STATES = ROOT / "notes" / "battle-controller-states-20260723.json"
 CHECKPOINTS = ROOT / "artifacts" / "runtime-checkpoints"
+OBSERVATIONS = ROOT / "notes/battle-controller-checkpoint-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleControllerCheckpointAnalysisTest(unittest.TestCase):
@@ -92,12 +95,7 @@ class BattleControllerCheckpointAnalysisTest(unittest.TestCase):
                 build_checkpoint_manifest(ROOT, ROM, STATES, path)
 
     def test_builds_hash_bound_visible_phase_manifest(self):
-        observations = (
-            ROOT
-            / "notes"
-            / "battle-controller-checkpoint-observations-20260723.json"
-        )
-        result = build_checkpoint_manifest(ROOT, ROM, STATES, observations)
+        result = load_binding(ROOT, "battle-controller-checkpoint-bindings-20260723.json")
 
         self.assertEqual(result["schema_version"], 1)
         self.assertEqual(result["checkpoint_count"], 18)
@@ -119,6 +117,7 @@ class BattleControllerCheckpointAnalysisTest(unittest.TestCase):
         self.assertEqual(by_phase["scenario_50_enemy_resolution"]["current_unit"]["character_id"], 35)
         self.assertEqual(by_phase["scenario_50_enemy_resolution"]["current_unit"]["affiliation"], 1)
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_cli_generates_manifest_when_invoked_as_a_script(self):
         with tempfile.TemporaryDirectory() as tmp:
             output = Path(tmp) / "bindings.json"

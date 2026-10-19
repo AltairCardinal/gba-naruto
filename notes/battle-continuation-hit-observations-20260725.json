@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "identity": "battle_continuation_hit_probability_binding",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "method": "Bind the original-ROM continuation gate and call order statically, then replay the same scenario-41 attack confirmation with either the natural unlearned passive or one single-byte passive-level patch that makes passive ID 17 exactly 100 percent.",
+  "guide_corroboration": {
+    "url": "https://gamefaqs.gamespot.com/gba/918717-naruto-konoha-senki/faqs/25752",
+    "summary": "The 2003 Skill List identifies passive IDs 17, 18, and 19 as the melee, ninjutsu, and ninja-tool increased-hit-count chances, each growing by five percentage points per upgrade."
+  },
+  "source_checkpoint": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+  "source_sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f",
+  "controlled_patch": {
+    "address": "0x02024325",
+    "passive_id": 17,
+    "before": 255,
+    "after": 19,
+    "input_checkpoint": "build/battle-continuation-melee100-20260725-01/input.ss9",
+    "input_sha256": "4b2fa4ab1d3432bc0d81715eb4e0c1f5bbf2862ced4b6c8824d5069a6b662673"
+  },
+  "baseline": {
+    "output_checkpoint": "build/battle-continuation-baseline-20260725-01/output.ss9",
+    "output_sha256": "e27dbb55c4677d8e722197b74f963983669ed132e869c46c264cd70fe11b8caf",
+    "audit": "build/battle-continuation-baseline-20260725-01/audit.json",
+    "audit_sha256": "72f425efa1583eb19e0ec839ce360fa2bdf2edb78cc3f997de6b8895ffc67351"
+  },
+  "controlled_100_percent": {
+    "output_checkpoint": "build/battle-continuation-melee100-run-20260725-01/output.ss9",
+    "output_sha256": "4229344c75efccd39a641ffa7e95ffc939cda176feddbc898894588326bca573",
+    "audit": "build/battle-continuation-melee100-run-20260725-01/audit.json",
+    "audit_sha256": "3f1e4ef0b32207c280ed75ed35ba4f70e00979a7eddb67397ecf0611f618c883"
+  },
+  "boundary": "The runtime sample directly proves the current-HP/melee category and the plus-one queued hit. The current-chakra/ninjutsu and ninja-tool bindings, the eligible effect-code set, unique-action sharing, and RNG order are exact static control-flow bindings. This does not assign semantics to event byte +0x16 or prove continuation behavior for an event where that byte is nonzero."
+}

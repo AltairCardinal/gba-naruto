@@ -6,21 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_resource_transactions import build_resource_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-resource-transaction-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleResourceTransactionTests(unittest.TestCase):
     def _manifest(self):
-        return build_resource_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            ROOT / "notes/battle-controller-states-20260723.json",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-resource-transaction-bindings-20260723.json")
 
     def test_chakra_command_exchanges_hp_at_its_commit_boundary(self):
         result = self._manifest()
@@ -71,6 +68,7 @@ class BattleResourceTransactionTests(unittest.TestCase):
         self.assertEqual(row["ninja_tool_inventory_diffs"], [])
         self.assertTrue(row["battle_local_tool_consumed"])
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["observations"][0]["after_sha256"] = "00" * 32

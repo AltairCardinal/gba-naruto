@@ -5,8 +5,8 @@
     "rng_percent": "(rng_value * 100) >> 15",
     "success_rate": "min(99, template_rate + trunc((source_agility - target_agility) / 2))"
   },
-  "boundary": "The base physical/ninjutsu damage candidates and ordinary per-hit success gate are closed. Status modifiers, facing/terrain special cases, critical and ignore-defense trigger probabilities, linked attacks, healing, and non-damage effect formulas still require separate bindings.",
-  "conclusion": "The queued attack stores four integer damage candidates before animation. The natural three-hit sample queues normal defended damage 9 and resolves 18 total damage, which uniquely requires two normal hits and one miss; the visible template value 6x3 is not final damage.",
+  "boundary": "The base physical/ninjutsu damage candidates, ordinary per-hit success gate, and the shared requirement for an effective hit before effect dispatch are closed. Status-specific operations, facing/terrain special cases, critical and ignore-defense trigger probabilities, linked attacks, and healing still require separate bindings.",
+  "conclusion": "The queued attack stores four integer damage candidates before animation. The natural three-hit sample queues normal defended damage 9 and resolves 18 total damage, which uniquely requires two normal hits and one miss; the visible template value 6x3 is not final damage. The queue scans the same per-hit results before dispatching any effect handler, so a non-damage opponent effect with no effective hit must not apply its handler.",
   "damage_formula": {
     "candidate_offsets": {
       "critical_defended": "event+0x1A",
@@ -19,10 +19,18 @@
     "raw_power": "floor(power * scaled_attack / 10)",
     "scaled_attack": "floor(attack * attack_percent / 100)"
   },
+  "effect_dispatch_gate": {
+    "dispatch_gate": "0x08076EEC..0x08076F24",
+    "dispatch_requires_effective_hit": true,
+    "effect_0x3f_handler": "0x0807755C",
+    "effect_0x3f_operation": "set target reaction state to 0x30",
+    "hit_result_scan": "0x08076E0A..0x08076E3C",
+    "queue_resolver": "0x08076CE0"
+  },
   "event_builder": "0x080754A8",
   "hit_generator": "0x08076034",
   "identity": "battle_damage_and_base_hit_formula_static_runtime_binding",
-  "method": "Validate the original-ROM event-builder and per-hit RNG instructions, then recompute all four queued damage candidates from a natural three-hit ninja-tool checkpoint and require the resolved HP delta to have a unique outcome composition.",
+  "method": "Validate the original-ROM event-builder, per-hit RNG instructions, shared effective-hit dispatch gate, and effect 0x3F handler, then recompute all four queued damage candidates from a natural three-hit ninja-tool checkpoint and require the resolved HP delta to have a unique outcome composition.",
   "natural_sample": {
     "action_id": 129,
     "computed_success_rate": 90,

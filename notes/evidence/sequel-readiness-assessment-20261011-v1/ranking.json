@@ -1,0 +1,465 @@
+{
+  "adjacency_families": [
+    {
+      "left_primary_class": "value_range_renderer_text_record",
+      "max_range_bytes": 7624,
+      "range_count": 1,
+      "right_primary_class": "training_text_command_script",
+      "total_bytes": 7624
+    },
+    {
+      "left_primary_class": "lz77_syntax_unbound",
+      "max_range_bytes": 6860,
+      "range_count": 14,
+      "right_primary_class": "lz77_syntax_unbound",
+      "total_bytes": 7074
+    },
+    {
+      "left_primary_class": "lz77_resource",
+      "max_range_bytes": 386,
+      "range_count": 146,
+      "right_primary_class": "lz77_resource",
+      "total_bytes": 4859
+    },
+    {
+      "left_primary_class": "fixed_consumer_renderer_text_record",
+      "max_range_bytes": 4483,
+      "range_count": 1,
+      "right_primary_class": "value_range_renderer_text_record",
+      "total_bytes": 4483
+    },
+    {
+      "left_primary_class": "lz77_syntax_unbound",
+      "max_range_bytes": 3733,
+      "range_count": 1,
+      "right_primary_class": "value_range_text_selector_u16_pairs",
+      "total_bytes": 3733
+    },
+    {
+      "left_primary_class": "battle_condition_result_renderer_text",
+      "max_range_bytes": 24,
+      "range_count": 218,
+      "right_primary_class": "battle_condition_result_renderer_text",
+      "total_bytes": 2782
+    },
+    {
+      "left_primary_class": "unclassified_text_resource_pointer_table_c",
+      "max_range_bytes": 2688,
+      "range_count": 1,
+      "right_primary_class": "u8_indexed_u16_pair_lookup",
+      "total_bytes": 2688
+    },
+    {
+      "left_primary_class": "fixed_cfg_consumer_renderer_command_script",
+      "max_range_bytes": 1542,
+      "range_count": 6,
+      "right_primary_class": "fixed_cfg_consumer_renderer_command_script",
+      "total_bytes": 2232
+    },
+    {
+      "left_primary_class": "chapter_script_record",
+      "max_range_bytes": 2021,
+      "range_count": 5,
+      "right_primary_class": "chapter_script_record",
+      "total_bytes": 2150
+    },
+    {
+      "left_primary_class": "dialogue_font_sjis_2bpp",
+      "max_range_bytes": 2048,
+      "range_count": 1,
+      "right_primary_class": "dialogue_font_sjis_2bpp",
+      "total_bytes": 2048
+    },
+    {
+      "left_primary_class": "armv4t_cfg_v2_consumed_literal_word",
+      "max_range_bytes": 708,
+      "range_count": 9,
+      "right_primary_class": "armv4t_cfg_reachable_thumb_code",
+      "total_bytes": 1940
+    },
+    {
+      "left_primary_class": "palette_bgr555",
+      "max_range_bytes": 764,
+      "range_count": 5,
+      "right_primary_class": "lz77_resource",
+      "total_bytes": 1892
+    },
+    {
+      "left_primary_class": "renderer_text_record",
+      "max_range_bytes": 47,
+      "range_count": 66,
+      "right_primary_class": "renderer_text_record",
+      "total_bytes": 1813
+    },
+    {
+      "left_primary_class": "fixed_consumer_text_pointer_table",
+      "max_range_bytes": 1592,
+      "range_count": 1,
+      "right_primary_class": "value_range_renderer_text_pointer_table_38",
+      "total_bytes": 1592
+    },
+    {
+      "left_primary_class": "fixed_table",
+      "max_range_bytes": 1504,
+      "range_count": 1,
+      "right_primary_class": "scene_visual_pack_source_table",
+      "total_bytes": 1504
+    },
+    {
+      "left_primary_class": "armv4t_cfg_proven_roots_batch_consumed_literal_word",
+      "max_range_bytes": 730,
+      "range_count": 7,
+      "right_primary_class": "armv4t_cfg_proven_roots_v2_reachable_thumb_code",
+      "total_bytes": 1502
+    },
+    {
+      "left_primary_class": "battle_condition_result_renderer_text",
+      "max_range_bytes": 1466,
+      "range_count": 1,
+      "right_primary_class": "chapter_script_record",
+      "total_bytes": 1466
+    },
+    {
+      "left_primary_class": "bounded_index_u16_pair_table_bytes",
+      "max_range_bytes": 1374,
+      "range_count": 1,
+      "right_primary_class": "lz77_syntax_unbound",
+      "total_bytes": 1374
+    },
+    {
+      "left_primary_class": "fixed_cfg_consumer_renderer_command_script",
+      "max_range_bytes": 1359,
+      "range_count": 1,
+      "right_primary_class": "fixed_consumer_renderer_text_record",
+      "total_bytes": 1359
+    },
+    {
+      "left_primary_class": "armv4t_cfg_v6_consumed_literal_word",
+      "max_range_bytes": 780,
+      "range_count": 2,
+      "right_primary_class": "armv4t_cfg_reachable_thumb_code",
+      "total_bytes": 1288
+    }
+  ],
+  "inputs": {
+    "coverage_path": "sequel/rom-byte-coverage.json",
+    "coverage_sha256": "b568db6f2509ff67f214f7b17b4265dffec8d5c4207df2de997ba0a858cf06d2",
+    "rom_path": "rom/base.gba",
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "largest_ranges": [
+    {
+      "bytes_sha256": "4c163a8c46d7697b7f186ab55cbb3fa6a11e2e887253a285b4116c0ba134b34b",
+      "distinct_byte_count": 190,
+      "ff_byte_count": 0,
+      "left_primary_class": "value_range_renderer_text_record",
+      "length": 7624,
+      "range": [
+        22412,
+        30036
+      ],
+      "right_primary_class": "training_text_command_script",
+      "shannon_entropy_bits_per_byte": 5.319466,
+      "zero_byte_count": 658
+    },
+    {
+      "bytes_sha256": "8ca67b3058bb07dc22c51a877034de57b29b83629c8a0848539c447c9f17125c",
+      "distinct_byte_count": 30,
+      "ff_byte_count": 0,
+      "left_primary_class": "lz77_syntax_unbound",
+      "length": 6860,
+      "range": [
+        5503132,
+        5509992
+      ],
+      "right_primary_class": "lz77_syntax_unbound",
+      "shannon_entropy_bits_per_byte": 1.133886,
+      "zero_byte_count": 5877
+    },
+    {
+      "bytes_sha256": "7d0383c95908cffd9f6332fc8c2a0f61d8d24e960462dba941b1fb1c6d2c3700",
+      "distinct_byte_count": 171,
+      "ff_byte_count": 0,
+      "left_primary_class": "fixed_consumer_renderer_text_record",
+      "length": 4483,
+      "range": [
+        17067,
+        21550
+      ],
+      "right_primary_class": "value_range_renderer_text_record",
+      "shannon_entropy_bits_per_byte": 5.166887,
+      "zero_byte_count": 236
+    },
+    {
+      "bytes_sha256": "d9e9086826e3c91b685dea7ed800815389785ac35ae3594d219802c4abf32963",
+      "distinct_byte_count": 68,
+      "ff_byte_count": 0,
+      "left_primary_class": "lz77_syntax_unbound",
+      "length": 3733,
+      "range": [
+        5509999,
+        5513732
+      ],
+      "right_primary_class": "value_range_text_selector_u16_pairs",
+      "shannon_entropy_bits_per_byte": 1.217255,
+      "zero_byte_count": 3146
+    },
+    {
+      "bytes_sha256": "05cefb7a73e68d196dd4349c3eb553703d497a438468b1e8e52069d86a7096b3",
+      "distinct_byte_count": 59,
+      "ff_byte_count": 0,
+      "left_primary_class": "unclassified_text_resource_pointer_table_c",
+      "length": 2688,
+      "range": [
+        5892832,
+        5895520
+      ],
+      "right_primary_class": "u8_indexed_u16_pair_lookup",
+      "shannon_entropy_bits_per_byte": 2.206603,
+      "zero_byte_count": 1882
+    },
+    {
+      "bytes_sha256": "edeb9c56b5770ed743db33ea529829dcabdd0c8e62a6266e8610fa822dfbf393",
+      "distinct_byte_count": 81,
+      "ff_byte_count": 76,
+      "left_primary_class": "dialogue_font_sjis_2bpp",
+      "length": 2048,
+      "range": [
+        661844,
+        663892
+      ],
+      "right_primary_class": "dialogue_font_sjis_2bpp",
+      "shannon_entropy_bits_per_byte": 4.14434,
+      "zero_byte_count": 919
+    },
+    {
+      "bytes_sha256": "899d165583a0261ab7e19daf9b3cf8bd0d114724344b734e1e47ca406c7813d0",
+      "distinct_byte_count": 136,
+      "ff_byte_count": 0,
+      "left_primary_class": "chapter_script_record",
+      "length": 2021,
+      "range": [
+        310833,
+        312854
+      ],
+      "right_primary_class": "chapter_script_record",
+      "shannon_entropy_bits_per_byte": 4.97513,
+      "zero_byte_count": 57
+    },
+    {
+      "bytes_sha256": "37ec497a5400fcef7196b9fe0137c81ce7313f086662a8a81dd99e386b7fd120",
+      "distinct_byte_count": 86,
+      "ff_byte_count": 1,
+      "left_primary_class": "fixed_consumer_text_pointer_table",
+      "length": 1592,
+      "range": [
+        5871908,
+        5873500
+      ],
+      "right_primary_class": "value_range_renderer_text_pointer_table_38",
+      "shannon_entropy_bits_per_byte": 1.597595,
+      "zero_byte_count": 1302
+    },
+    {
+      "bytes_sha256": "1730e92b4cc9ace8f484b61aedcbd2e670b45b522bd5807bdf72fd9cc03595cf",
+      "distinct_byte_count": 100,
+      "ff_byte_count": 0,
+      "left_primary_class": "fixed_cfg_consumer_renderer_command_script",
+      "length": 1542,
+      "range": [
+        3306,
+        4848
+      ],
+      "right_primary_class": "fixed_cfg_consumer_renderer_command_script",
+      "shannon_entropy_bits_per_byte": 5.338438,
+      "zero_byte_count": 81
+    },
+    {
+      "bytes_sha256": "b3796c3d393cb96084ad1c6c01924b41c3c6f9e29b979e27043cc7384b9eeab2",
+      "distinct_byte_count": 112,
+      "ff_byte_count": 0,
+      "left_primary_class": "fixed_table",
+      "length": 1504,
+      "range": [
+        5916424,
+        5917928
+      ],
+      "right_primary_class": "scene_visual_pack_source_table",
+      "shannon_entropy_bits_per_byte": 3.398871,
+      "zero_byte_count": 890
+    },
+    {
+      "bytes_sha256": "a0ca06f9885507e49f4b012f0b2bc4e75bec1ac6de4129ce3dc628fed440f1e1",
+      "distinct_byte_count": 145,
+      "ff_byte_count": 4,
+      "left_primary_class": "battle_condition_result_renderer_text",
+      "length": 1466,
+      "range": [
+        39284,
+        40750
+      ],
+      "right_primary_class": "chapter_script_record",
+      "shannon_entropy_bits_per_byte": 5.368442,
+      "zero_byte_count": 216
+    },
+    {
+      "bytes_sha256": "b0d8a438f8d3ac41be87a3e8382d278845dc66d02f73b290635a2d69e468bc77",
+      "distinct_byte_count": 49,
+      "ff_byte_count": 0,
+      "left_primary_class": "bounded_index_u16_pair_table_bytes",
+      "length": 1374,
+      "range": [
+        5501710,
+        5503084
+      ],
+      "right_primary_class": "lz77_syntax_unbound",
+      "shannon_entropy_bits_per_byte": 2.839226,
+      "zero_byte_count": 841
+    },
+    {
+      "bytes_sha256": "54dddeead3d3c2c40e9acc131335ba29afcab5663e54e943190bc2df3db80f24",
+      "distinct_byte_count": 120,
+      "ff_byte_count": 0,
+      "left_primary_class": "fixed_cfg_consumer_renderer_command_script",
+      "length": 1359,
+      "range": [
+        6017,
+        7376
+      ],
+      "right_primary_class": "fixed_consumer_renderer_text_record",
+      "shannon_entropy_bits_per_byte": 5.046897,
+      "zero_byte_count": 74
+    },
+    {
+      "bytes_sha256": "5eaba9f3a2d5fd6431f5be6f7e8bc88e9f88740bf7c94cc81573a17147a5fc11",
+      "distinct_byte_count": 69,
+      "ff_byte_count": 196,
+      "left_primary_class": "unclassified_text_pointer_table_44",
+      "length": 1180,
+      "range": [
+        5956452,
+        5957632
+      ],
+      "right_primary_class": "dialogue_font_sjis_2bpp",
+      "shannon_entropy_bits_per_byte": 1.969057,
+      "zero_byte_count": 818
+    },
+    {
+      "bytes_sha256": "fcde97e88fa80cf8c0f7d3c04852b1449d149b413a730e9c2993eda30753eb4e",
+      "distinct_byte_count": 129,
+      "ff_byte_count": 0,
+      "left_primary_class": "cutscene_obj_animation_pointer_table",
+      "length": 1160,
+      "range": [
+        1240592,
+        1241752
+      ],
+      "right_primary_class": "lz77_resource",
+      "shannon_entropy_bits_per_byte": 4.830535,
+      "zero_byte_count": 390
+    },
+    {
+      "bytes_sha256": "bb920ef38b327c35495afe51e710741b88d64f783f4bf35c7b3c0c84fd39909c",
+      "distinct_byte_count": 117,
+      "ff_byte_count": 56,
+      "left_primary_class": "palette_bgr555",
+      "length": 1128,
+      "range": [
+        4555564,
+        4556692
+      ],
+      "right_primary_class": "dialogue_encoded_text",
+      "shannon_entropy_bits_per_byte": 3.748914,
+      "zero_byte_count": 583
+    },
+    {
+      "bytes_sha256": "8c6d3009dea45df3c75f142134bbe32df808c9afca5eb40da73613f2b8ea5861",
+      "distinct_byte_count": 74,
+      "ff_byte_count": 0,
+      "left_primary_class": "fixed_consumer_masked_u16_pair_table",
+      "length": 1118,
+      "range": [
+        5496884,
+        5498002
+      ],
+      "right_primary_class": "fixed_index_u8_lookup_tail",
+      "shannon_entropy_bits_per_byte": 2.372832,
+      "zero_byte_count": 749
+    },
+    {
+      "bytes_sha256": "bfdf87bccf8693847e0a044ad52b6f63d3562247c3811fe860db60a31539e958",
+      "distinct_byte_count": 95,
+      "ff_byte_count": 0,
+      "left_primary_class": "boot_fixed_rom_copy_source_bytes",
+      "length": 817,
+      "range": [
+        1844,
+        2661
+      ],
+      "right_primary_class": "fixed_cfg_consumer_renderer_command_script",
+      "shannon_entropy_bits_per_byte": 5.547357,
+      "zero_byte_count": 51
+    },
+    {
+      "bytes_sha256": "830c7f7050bb59fa4c33757af4667d205110f6f894bf0fbb05bb84518d09ad8b",
+      "distinct_byte_count": 148,
+      "ff_byte_count": 8,
+      "left_primary_class": "armv4t_cfg_v6_consumed_literal_word",
+      "length": 784,
+      "range": [
+        611016,
+        611800
+      ],
+      "right_primary_class": "armv4t_cfg_proven_roots_v6_reachable_thumb_code",
+      "shannon_entropy_bits_per_byte": 6.191957,
+      "zero_byte_count": 95
+    },
+    {
+      "bytes_sha256": "6e64766ee95e9d68302df137770633e2287f569eef91bef48744c9d8d716e4f8",
+      "distinct_byte_count": 56,
+      "ff_byte_count": 6,
+      "left_primary_class": "armv4t_cfg_v6_consumed_literal_word",
+      "length": 780,
+      "range": [
+        606508,
+        607288
+      ],
+      "right_primary_class": "armv4t_cfg_reachable_thumb_code",
+      "shannon_entropy_bits_per_byte": 5.337873,
+      "zero_byte_count": 71
+    }
+  ],
+  "length_buckets": {
+    "1-3": {
+      "range_count": 897,
+      "total_bytes": 1793
+    },
+    "16-63": {
+      "range_count": 278,
+      "total_bytes": 8055
+    },
+    "256-1023": {
+      "range_count": 43,
+      "total_bytes": 21096
+    },
+    "4-15": {
+      "range_count": 452,
+      "total_bytes": 3672
+    },
+    "64-255": {
+      "range_count": 76,
+      "total_bytes": 10135
+    },
+    ">=1024": {
+      "range_count": 17,
+      "total_bytes": 42880
+    }
+  },
+  "schema": "rom-unknown-cluster-analysis-v1",
+  "scope": "Candidate ranking only; adjacency and byte patterns are not semantic evidence.",
+  "summary": {
+    "rom_bytes": 6291456,
+    "unknown_bytes": 87631,
+    "unknown_range_count": 1763
+  }
+}

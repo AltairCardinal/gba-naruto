@@ -1,3 +1,4 @@
+#include "konoha/battle_action_execution.h"
 #include "konoha/battle_action_system.h"
 #include "konoha/generated_battle_action_content.h"
 
@@ -47,6 +48,8 @@ action_definition damage_action()
 
 int main()
 {
+    assert((range_shape{ 0xA4, 1 }.maximum_distance() == 4));
+    assert((range_shape{ 0xC3, 1 }.maximum_distance() == 3));
     const action_definition rom_lion_barrage = active_action_definitions[19];
     assert(rom_lion_barrage.cost.kind == action_cost_kind::current_hp);
     assert(rom_lion_barrage.cost.scalar == 80);
@@ -63,7 +66,8 @@ int main()
     assert(action.effect.code == 1);
     assert(action.target.kind == target_policy_kind::opponent_unit);
     assert(effect_resolver_registry::handler_for(1) == effect_handler_kind::damage);
-    assert(effect_resolver_registry::handler_for(6) == effect_handler_kind::heal);
+    assert(effect_resolver_registry::handler_for(6) ==
+           effect_handler_kind::heal_percent);
     assert(effect_resolver_registry::rom_handler_address(1) == 0x08077040U);
     assert(effect_resolver_registry::rom_handler_address(0x3F) == 0x0807755CU);
 
@@ -94,6 +98,15 @@ int main()
     assert(session.unit(1)->hp == 75);
     assert(session.unit(2)->hp == 40);
     assert(session.unit(1)->ledger.acted);
+    assert(! session.unit(1)->ledger.completed);
+    assert(session.lifecycle() == battle_lifecycle::effects_resolved);
+    assert(session.current_side() == battle_side::player);
+    assert(session.open_facing_selection() ==
+           battle_transition::facing_selection_opened);
+    assert(session.select_facing(battle_facing::right) ==
+           battle_transition::defense_selection_opened);
+    assert(session.complete_action(no_ability) ==
+           battle_transition::side_changed);
     assert(session.unit(1)->ledger.completed);
     assert(session.current_side() == battle_side::enemy);
 
@@ -186,9 +199,13 @@ int main()
             no_battle_unit,
             incoming,
             { 2, 1 },
-            battle_facing::right,
             facing_rng);
     assert(faced.success());
+    assert(facing_session.unit(11)->facing == battle_facing::down);
+    assert(facing_session.open_facing_selection() ==
+           battle_transition::facing_selection_opened);
+    assert(facing_session.select_facing(battle_facing::right) ==
+           battle_transition::defense_selection_opened);
     assert(facing_session.unit(11)->facing == battle_facing::right);
 
     battle_unit_instance buff_target = unit(
@@ -226,6 +243,16 @@ int main()
     assert(status_session.unit(13)->agility == 25);
     assert(status_session.unit(13)->max_hp == 125);
     assert(status_session.unit(13)->hp == 125);
+    assert(status_session.unit(13)->statuses.active(
+                   status_session.unit(13)->statuses.find(0x1E))->duration_ticks == 4);
+    assert(status_session.open_facing_selection() ==
+           battle_transition::facing_selection_opened);
+    assert(status_session.select_facing(battle_facing::down) ==
+           battle_transition::defense_selection_opened);
+    assert(status_session.complete_action(no_ability) ==
+           battle_transition::round_advanced);
+    assert(status_session.unit(13)->statuses.active(
+                   status_session.unit(13)->statuses.find(0x1E))->duration_ticks == 3);
 
     battle_unit_instance crowded = unit(
             14, battle_side::player, { 1, 1 }, 100, 10);
@@ -248,4 +275,230 @@ int main()
             crowded_rng);
     assert(crowded_result.error == action_error::status_capacity_exhausted);
     assert(crowded_session == before_crowded);
+
+    battle_unit_instance agile_source = unit(
+            15, battle_side::player, { 1, 1 }, 30, 10);
+    agile_source.agility = 20;
+    assert(agile_source.statuses.upsert({ 0x22, 0, 0, 0, 0, 0, 100 }));
+    battle_unit_instance ordinary_target = unit(
+            16, battle_side::enemy, { 2, 1 }, 30, 0);
+    ordinary_target.agility = 20;
+    action_definition accuracy_action = damage_action();
+    accuracy_action.effect.base_hit_count = 1;
+    accuracy_action.effect.success_rate_percent = 50;
+    const action_preview accuracy_preview = battle_action_resolver::preview_units(
+            agile_source,
+            &ordinary_target,
+            nullptr,
+            true,
+            accuracy_action,
+            ordinary_target.position);
+    assert(accuracy_preview.legal());
+    assert(accuracy_preview.success_rate_percent == 60);
+
+    battle_unit_instance gated_source = unit(
+            17, battle_side::player, { 1, 1 }, 100, 10);
+    gated_source.attack = 20;
+    assert(gated_source.statuses.upsert({ 0x13, 0, 0, 0, 0, 0, 2 }));
+    battle_session<2> gated_session;
+    assert(gated_session.add_unit(gated_source));
+    assert(gated_session.add_unit(unit(
+            18, battle_side::enemy, { 2, 1 }, 100, 0)));
+    assert(gated_session.start_round() == battle_transition::unit_selection_opened);
+    assert(gated_session.select_unit(17) == battle_transition::action_draft_opened);
+    action_definition gated_damage = damage_action();
+    gated_damage.effect.code = 0x14;
+    gated_damage.effect.base_hit_count = 1;
+    gated_damage.effect.success_rate_percent = 100;
+    const action_preview gated_preview = battle_action_resolver::preview(
+            gated_session, 18, no_battle_unit, gated_damage, { 2, 1 });
+    assert(gated_preview.legal());
+    assert(gated_preview.hit_count == 3);
+    assert(gated_preview.total_damage == 60);
+    deterministic_rng gated_rng(7);
+    const action_result gated_result = battle_action_resolver::resolve_draft(
+            gated_session,
+            18,
+            no_battle_unit,
+            gated_damage,
+            { 2, 1 },
+            gated_rng);
+    assert(gated_result.success());
+    assert(gated_result.generated_hits == 3);
+    assert(gated_session.unit(17)->statuses.find(0x13) == no_status_slot);
+    assert(gated_session.unit(17)->statuses.removed_count() == 1);
+
+    battle_unit_instance ungated_source = unit(
+            19, battle_side::player, { 1, 1 }, 100, 10);
+    battle_unit_instance ungated_target = unit(
+            20, battle_side::enemy, { 2, 1 }, 100, 0);
+    assert(battle_action_resolver::preview_units(
+                   ungated_source,
+                   &ungated_target,
+                   nullptr,
+                   true,
+                   gated_damage,
+                   ungated_target.position).error ==
+           action_error::missing_required_status);
+
+    battle_session<2> movement_session;
+    assert(movement_session.add_unit(unit(
+            21, battle_side::player, { 1, 1 }, 30, 10)));
+    assert(movement_session.add_unit(unit(
+            22, battle_side::enemy, { 4, 4 }, 30, 0)));
+    assert(movement_session.start_round() == battle_transition::unit_selection_opened);
+    assert(movement_session.select_unit(21) == battle_transition::action_draft_opened);
+    const action_definition movement_action = active_action_definitions[2];
+    const action_preview movement_preview = battle_action_resolver::preview(
+            movement_session,
+            no_battle_unit,
+            no_battle_unit,
+            movement_action,
+            { 3, 1 });
+    assert(movement_preview.legal());
+    assert((movement_session.unit(21)->position == grid_point{ 1, 1 }));
+    deterministic_rng movement_rng(3);
+    const action_result movement_result = battle_action_resolver::resolve_draft(
+            movement_session,
+            no_battle_unit,
+            no_battle_unit,
+            movement_action,
+            { 3, 1 },
+            movement_rng);
+    assert(movement_result.success());
+    assert(movement_result.moved);
+    assert((movement_result.movement_origin == grid_point{ 1, 1 }));
+    assert((movement_result.movement_destination == grid_point{ 3, 1 }));
+    assert((movement_session.unit(21)->position == grid_point{ 3, 1 }));
+    assert(movement_session.unit(21)->chakra == 9);
+
+    battle_unit_instance transforming_source = unit(
+            23, battle_side::player, { 1, 1 }, 40, 10);
+    transforming_source.character_id = 1;
+    transforming_source.original_character_id = 1;
+    battle_unit_instance transforming_target = unit(
+            24, battle_side::enemy, { 2, 1 }, 70, 0);
+    transforming_target.character_id = 30;
+    transforming_target.original_character_id = 30;
+    battle_session<2> transformation_session;
+    assert(transformation_session.add_unit(transforming_source));
+    assert(transformation_session.add_unit(transforming_target));
+    assert(transformation_session.start_round() == battle_transition::unit_selection_opened);
+    assert(transformation_session.select_unit(23) == battle_transition::action_draft_opened);
+    const action_definition transformation_action = active_action_definitions[4];
+    deterministic_rng transformation_rng(11);
+    const action_result transformation_result = battle_action_resolver::resolve_draft(
+            transformation_session,
+            24,
+            no_battle_unit,
+            transformation_action,
+            { 2, 1 },
+            transformation_rng);
+    assert(transformation_result.success());
+    assert(transformation_result.identity_overridden);
+    assert(transformation_result.identity_before == 1);
+    assert(transformation_result.identity_after == 30);
+    assert(transformation_result.identity_linked_unit == 24);
+    const battle_unit_instance* transformed = transformation_session.unit(23);
+    assert(transformed->character_id == 30);
+    assert(transformed->original_character_id == 1);
+    assert(transformed->hp == 40);
+    assert((transformed->position == grid_point{ 1, 1 }));
+    assert(transformed->statuses.find(0x05) != no_status_slot);
+    const status_record* identity_status =
+            transformed->statuses.active(transformed->statuses.find(0x05));
+    assert(identity_status->raw_parameter_4 == 24);
+    assert(identity_status->duration_ticks == 6);
+    assert(transformation_session.open_facing_selection() ==
+           battle_transition::facing_selection_opened);
+    assert(transformation_session.select_facing(battle_facing::down) ==
+           battle_transition::defense_selection_opened);
+    assert(transformation_session.complete_action(no_ability) ==
+           battle_transition::side_changed);
+    transformed = transformation_session.unit(23);
+    identity_status =
+            transformed->statuses.active(transformed->statuses.find(0x05));
+    assert(identity_status->duration_ticks == 5);
+
+    battle_unit_instance projected_identity_actor = unit(
+            27, battle_side::player, { 1, 1 }, 40, 10);
+    projected_identity_actor.character_id = 8;
+    projected_identity_actor.original_character_id = 8;
+    battle_session<2> projected_identity_session;
+    assert(projected_identity_session.add_unit(
+            projected_identity_actor));
+    assert(projected_identity_session.add_unit(unit(
+            28, battle_side::enemy, { 4, 4 }, 70, 0)));
+    assert(projected_identity_session.start_round() ==
+           battle_transition::unit_selection_opened);
+    assert(projected_identity_session.select_unit(27) ==
+           battle_transition::action_draft_opened);
+    assert(projected_identity_session.preview_move({ 2, 1 }) ==
+           battle_transition::move_previewed);
+    const action_preview projected_self_preview =
+            battle_action_execution::preview(
+                    projected_identity_session,
+                    transformation_action,
+                    { 2, 1 });
+    assert(projected_self_preview.legal());
+    deterministic_rng projected_identity_rng(17);
+    const action_result projected_self_result =
+            battle_action_execution::resolve(
+                    projected_identity_session,
+                    transformation_action,
+                    { 2, 1 },
+                    projected_identity_rng);
+    assert(projected_self_result.success());
+    assert(projected_self_result.identity_overridden);
+    assert(projected_self_result.identity_linked_unit == 27);
+    assert(projected_identity_session.unit(27)->position ==
+           grid_point({ 2, 1 }));
+
+    battle_session<1> stage_session;
+    battle_unit_instance stage_actor = unit(
+            25, battle_side::player, { 1, 1 }, 100, 10);
+    assert(stage_session.add_unit(stage_actor));
+    assert(stage_session.start_round() == battle_transition::unit_selection_opened);
+    assert(stage_session.select_unit(25) == battle_transition::action_draft_opened);
+    const action_definition second_gate = active_action_definitions[44];
+    const action_preview unavailable_stage = battle_action_resolver::preview(
+            stage_session,
+            25,
+            no_battle_unit,
+            second_gate,
+            { 1, 1 });
+    assert(unavailable_stage.error == action_error::action_requirement_not_met);
+    assert(unavailable_stage.requirement_reason_code == 10);
+
+    battle_unit_instance bomb_tool_actor = unit(
+            29, battle_side::player, { 1, 1 }, 100, 0);
+    bomb_tool_actor.equipped_tools[0] = 49;
+    battle_unit_instance bomb_tool_target = unit(
+            30, battle_side::enemy, { 2, 1 }, 100, 0);
+    const action_definition bomb_tool =
+            ninja_tool_action_for_slot(49, 0);
+    assert(bomb_tool.source_kind ==
+           battle_action_source_kind::ninja_tool);
+    const action_preview bomb_tool_preview =
+            battle_action_resolver::preview_units(
+                    bomb_tool_actor,
+                    &bomb_tool_target,
+                    nullptr,
+                    true,
+                    bomb_tool,
+                    bomb_tool_target.position);
+    assert(bomb_tool_preview.legal());
+
+    assert(stage_actor.statuses.upsert({ 0x13, 0, 0, 0, 0, 0, 1 }));
+    battle_unit_instance lotus_target = unit(
+            26, battle_side::enemy, { 2, 1 }, 100, 0);
+    const action_preview front_lotus = battle_action_resolver::preview_units(
+            stage_actor,
+            &lotus_target,
+            nullptr,
+            true,
+            active_action_definitions[48],
+            lotus_target.position);
+    assert(front_lotus.legal());
+    assert(front_lotus.hit_count == 1);
 }

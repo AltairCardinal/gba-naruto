@@ -1,0 +1,66 @@
+{
+  "active_action_producers": {
+    "0x80": [
+      8,
+      10,
+      60
+    ]
+  },
+  "applies_after_lethal_resolution": true,
+  "boundary": "The helper, queue gate, status records, constants and all table producers are closed. The lethal ordering is bound to the full post-handler gate hash and its exact branch/call opcodes; no HP/active-unit load or branch exists between the effective-hit load at 0x0807764E and helper call at 0x0807766C. Per-status labels and dedicated animation timing remain presentation-layer work.",
+  "conclusion": "After an effective opponent-target event, packed effect bit 0x80 creates one-turn status 0x3F and sets reaction state 0x30; bit 0x40 creates three-turn 10-percent attack, defense and agility reductions 0x1F/0x21/0x23. The post-handler gate checks only effective-hit and target-policy state before calling the follow-up helper, so a lethal effect also receives follow-ups.",
+  "followups": {
+    "0x40": {
+      "duration_turns": 3,
+      "reaction_state": null,
+      "status_codes": [
+        "0x1F",
+        "0x21",
+        "0x23"
+      ],
+      "value_u16": 10
+    },
+    "0x80": {
+      "duration_turns": 1,
+      "reaction_state": "0x30",
+      "status_codes": [
+        "0x3F"
+      ],
+      "value_u16": 0
+    }
+  },
+  "handler": "0x080768D8",
+  "handler_end": "0x08076A26",
+  "handler_sha256": "eea2a918515d8c367ac0f464c5a33092cd1da83963708282e93dba020bef84b4",
+  "identity": "battle_effect_high_bit_followup_status_handler",
+  "ninja_tool_producers": {
+    "0x40": [
+      11,
+      12,
+      13,
+      25,
+      26,
+      27,
+      43,
+      44,
+      45,
+      70,
+      71,
+      72
+    ]
+  },
+  "post_handler_gate": "0x0807764E..0x0807766C",
+  "queue_callsite": "0x0807766C",
+  "queue_gate": "0x0807764E..0x08077670",
+  "queue_gate_sha256": "8c0638a3f11746e5ec72fed04f9edfc1635c20ef17e7de5f777b91ee46c92f14",
+  "requires_effective_hit": true,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "status_parameter_mapping": {
+    "duration": "handler_constant",
+    "raw_parameter_1": "queued_event_potency",
+    "raw_parameter_4": "queued_event_source_unit",
+    "value_u16": "handler_constant"
+  },
+  "target_policy_gate": "0x0200"
+}

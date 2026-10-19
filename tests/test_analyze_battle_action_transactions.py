@@ -7,21 +7,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_action_transactions import build_transaction_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-action-transaction-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleActionTransactionTests(unittest.TestCase):
     def _manifest(self):
-        return build_transaction_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            ROOT / "notes/battle-controller-states-20260723.json",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-action-transaction-bindings-20260723.json")
 
     def test_cancel_paths_preserve_all_domain_regions(self):
         result = self._manifest()
@@ -57,6 +54,7 @@ class BattleActionTransactionTests(unittest.TestCase):
         self.assertEqual(row["ninja_tool_inventory_diffs"], [])
         self.assertTrue(row["atomic_resource_and_position_commit"])
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_checkpoint_hash_mismatch_before_analysis(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["observations"][0]["before_sha256"] = "00" * 32
@@ -73,6 +71,7 @@ class BattleActionTransactionTests(unittest.TestCase):
                     observations,
                 )
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_direct_cli_generates_the_same_four_transitions(self):
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory) / "transactions.json"

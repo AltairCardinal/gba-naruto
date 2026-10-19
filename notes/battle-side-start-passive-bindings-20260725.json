@@ -1,0 +1,69 @@
+{
+  "boundary": "Types 0x1D through 0x1F have closed trigger, value, status, duration, and latch behavior. Type 0x20 is battle-11 gated and its mechanical writes are known, but its user-facing semantics and scenario ordering remain withheld rather than guessed.",
+  "controller": {
+    "callsite": "0x080736DE",
+    "sha256": "2d063388a9f616cd6d0d3a8acfe1494a8182949b81aa3f4590fdc0604be1847d",
+    "side_flip_before_call": true,
+    "side_start_before_next_side_setup": true
+  },
+  "families": {
+    "0x1D": {
+      "effects": [
+        "hp += value_a, clamped to max_hp",
+        "current_chakra = max_chakra"
+      ],
+      "implementation_status": "closed",
+      "passive_id": 24,
+      "raw_duration": null,
+      "trigger": "current_hp <= 9"
+    },
+    "0x1E": {
+      "healing": "value_b",
+      "implementation_status": "closed",
+      "passive_id": 25,
+      "raw_duration": 5,
+      "status_code": "0x1E",
+      "status_value": "value_a low byte",
+      "trigger": "current_hp <= 9"
+    },
+    "0x1F": {
+      "implementation_status": "closed",
+      "passive_id": 26,
+      "raw_duration": 3,
+      "status_code": "0x1E",
+      "status_value": "value_a low byte",
+      "trigger": "current_hp <= floor(max_hp / 4)"
+    },
+    "0x20": {
+      "battle_id_gate": 11,
+      "implementation_status": "withheld_pending_semantics",
+      "passive_id": 35,
+      "raw_duration": 0,
+      "status_codes": [
+        "0x1E",
+        "0x22"
+      ]
+    }
+  },
+  "function": {
+    "end_inclusive": "0x0806E1AF",
+    "sha256": "7fa07a63ea37b827f52bdd22790811d13ecacd16beec92ba037d375bd95417d0",
+    "start": "0x0806DF88"
+  },
+  "identity": "battle_side_start_passive_consumers",
+  "query_priority": [
+    "0x1D",
+    "0x1E",
+    "0x1F",
+    "0x20"
+  ],
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "shared_latch": {
+    "rearm_after_condition_clears": true,
+    "retrigger_while_below_threshold": false,
+    "set_after_trigger": true,
+    "unit_offset": "0xBE"
+  }
+}

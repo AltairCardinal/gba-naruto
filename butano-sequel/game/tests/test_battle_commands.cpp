@@ -61,6 +61,29 @@ int main()
     unit = ready_unit();
     assert(command_eligibility_service::query(
                    unit, { battle_command_type::replenish_chakra }).available());
+    unit.hand_seals = 15;
+    unit.hp = 15;
+    command_availability lethal_exchange =
+            command_eligibility_service::query(
+                    unit,
+                    { battle_command_type::replenish_chakra });
+    assert(lethal_exchange.disabled());
+    assert(lethal_exchange.reason ==
+           command_rejection::insufficient_health);
+    unit = ready_unit();
+    unit.hand_seals = 15;
+    command_availability exchange_after_move =
+            command_eligibility_service::query(
+                    unit,
+                    {
+                        battle_command_type::replenish_chakra,
+                        0,
+                        true,
+                        true,
+                    });
+    assert(exchange_after_move.hidden());
+    assert(exchange_after_move.reason ==
+           command_rejection::already_moved);
     unit.chakra = unit.max_chakra;
     command_availability full_chakra = command_eligibility_service::query(
             unit, { battle_command_type::replenish_chakra });
@@ -69,6 +92,18 @@ int main()
 
     unit = ready_unit();
     assert(command_eligibility_service::query(unit, { battle_command_type::rest }).available());
+    command_availability rest_after_move =
+            command_eligibility_service::query(
+                    unit,
+                    {
+                        battle_command_type::rest,
+                        0,
+                        true,
+                        true,
+                    });
+    assert(rest_after_move.hidden());
+    assert(rest_after_move.reason ==
+           command_rejection::already_moved);
     unit.hp = unit.max_hp;
     command_availability full_health =
             command_eligibility_service::query(unit, { battle_command_type::rest });

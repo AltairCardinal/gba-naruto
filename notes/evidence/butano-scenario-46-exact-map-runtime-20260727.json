@@ -1,0 +1,74 @@
+{
+  "run_id": "butano-battle-scenario-46-exact-map-20260727-10",
+  "status": "passed",
+  "supersedes": [
+    "butano-battle-scenario-46-complete-20260727-01",
+    "butano-battle-scenario-46-complete-20260727-02",
+    "butano-battle-scenario-46-complete-20260727-03"
+  ],
+  "input": {
+    "scenario_id": 46,
+    "battle_id": 9,
+    "variant": 0,
+    "map_width": 16,
+    "map_height": 32,
+    "rng_seed": 46,
+    "save_sha256": "ff9f84eb441ec5c8015d634e113ce3b321cff6f675c9dcb702857a8fbd00ea27",
+    "rom_sha256": "c0eba827fac440bef0a9d44e5740270da96c2b93c05d6b266fc567b4eb0a80da",
+    "elf_sha256": "e23e85b1a50937325adc1611940fa7205d725b9ddb9e9015ce9ed6fffef15b6e",
+    "route_script_sha256": "2e7131bd916f108fe1c71e9ef01bd0e9527c7a20db6bc24febab6c04961e47a2"
+  },
+  "tool": {
+    "name": "mGBA",
+    "version": "0.11-1-d8bad14",
+    "executable_sha256": "151ecb68819df5b6756ab96c8ff0eb4659e70cdafb98273109ad6d3f3cb75ccb",
+    "audio_sync": false,
+    "video_sync": false,
+    "muted": true
+  },
+  "telemetry": {
+    "battle_address": "0x02022628",
+    "campaign_address": "0x02008138",
+    "write_memory_used": false
+  },
+  "result": {
+    "frame": 32616,
+    "round": 92,
+    "next_scenario_id": 47,
+    "capture_count": 5,
+    "captures_by_character": {
+      "1": 2,
+      "2": 2,
+      "3": 1
+    },
+    "capture_rounds": [
+      26,
+      29,
+      30,
+      42,
+      92
+    ],
+    "mission_experience": 125,
+    "battle_experience": [
+      60,
+      60,
+      30
+    ],
+    "round_bonus_experience": 0,
+    "naruto_level": 4,
+    "naruto_experience": 180,
+    "naruto_training_points": 3,
+    "save_generation": 7,
+    "save_verified": true,
+    "output_save_sha256": "a75c7955eb35ce484c88dc6bc163efeff1ab3681471b42009cc3271bba50c738",
+    "last_control_error": 0,
+    "last_player_error": 0
+  },
+  "artifacts": {
+    "directory": "artifacts/butano-battle-scenario-46-exact-map-20260727-10",
+    "audit": "audit.json",
+    "done": "done.json",
+    "stage_complete_screenshot": "stage-complete.png",
+    "guard": "build/resource-guard/butano-s46-exact-map-mgba-20260727-10.json"
+  }
+}

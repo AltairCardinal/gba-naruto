@@ -1,0 +1,124 @@
+{
+  "schema": "butano-battle-campaign-runtime-v1",
+  "run_id": "butano-battle-scenario-47-real-map-20260727-22",
+  "status": "passed",
+  "supersedes": [
+    "butano-battle-scenario-47-real-map-20260727-01",
+    "butano-battle-scenario-47-real-map-20260727-02",
+    "butano-battle-scenario-47-real-map-20260727-03",
+    "butano-battle-scenario-47-real-map-20260727-04",
+    "butano-battle-scenario-47-real-map-20260727-05",
+    "butano-battle-scenario-47-real-map-20260727-06",
+    "butano-battle-scenario-47-real-map-20260727-07",
+    "butano-battle-scenario-47-real-map-20260727-08",
+    "butano-battle-scenario-47-real-map-20260727-09",
+    "butano-battle-scenario-47-real-map-20260727-10",
+    "butano-battle-scenario-47-real-map-20260727-11",
+    "butano-battle-scenario-47-real-map-20260727-12",
+    "butano-battle-scenario-47-real-map-20260727-13",
+    "butano-battle-scenario-47-real-map-20260727-14",
+    "butano-battle-scenario-47-real-map-20260727-15",
+    "butano-battle-scenario-47-real-map-20260727-16",
+    "butano-battle-scenario-47-real-map-20260727-17",
+    "butano-battle-scenario-47-real-map-20260727-18",
+    "butano-battle-scenario-47-real-map-20260727-19",
+    "butano-battle-scenario-47-real-map-20260727-20",
+    "butano-battle-scenario-47-real-map-20260727-21"
+  ],
+  "input": {
+    "scenario_id": 47,
+    "battle_id": 13,
+    "variant": 0,
+    "map_width": 13,
+    "map_height": 21,
+    "rng_seed": 47,
+    "save_generation": 7,
+    "save_sha256": "a75c7955eb35ce484c88dc6bc163efeff1ab3681471b42009cc3271bba50c738",
+    "rom_sha256": "36497840f4c636b39f9495ae5a2429ccda45e2ff1eb5e2c6fc0ae21202216a1a",
+    "elf_sha256": "aefaa2d3786a1d42e88cb83d2c43254348ddfdff61d165494eb61c036b7c0869",
+    "route_script_sha256": "743c51ea1794c2c985501f84dcc19a60ca38db069f59b9239a3827d67ec69943"
+  },
+  "tool": {
+    "name": "mGBA",
+    "version": "0.11-1-d8bad14",
+    "executable_sha256": "151ecb68819df5b6756ab96c8ff0eb4659e70cdafb98273109ad6d3f3cb75ccb",
+    "audio_sync": false,
+    "video_sync": false,
+    "muted": true
+  },
+  "telemetry": {
+    "battle_address": "0x02022628",
+    "campaign_address": "0x02008138",
+    "write_memory_used": false
+  },
+  "formation": {
+    "players": [
+      {"unit_id": 1, "character_id": 1, "x": 6, "y": 3},
+      {"unit_id": 2, "character_id": 2, "x": 4, "y": 3},
+      {"unit_id": 3, "character_id": 3, "x": 8, "y": 3}
+    ],
+    "enemies": [
+      {"unit_id": 4, "character_id": 33, "level": 3, "hp": 80, "x": 1, "y": 10},
+      {"unit_id": 5, "character_id": 33, "level": 3, "hp": 80, "x": 3, "y": 14},
+      {"unit_id": 6, "character_id": 33, "level": 3, "hp": 80, "x": 6, "y": 16},
+      {"unit_id": 7, "character_id": 33, "level": 3, "hp": 80, "x": 9, "y": 14},
+      {"unit_id": 8, "character_id": 33, "level": 3, "hp": 80, "x": 11, "y": 10}
+    ]
+  },
+  "result": {
+    "frame": 24898,
+    "round": 31,
+    "next_scenario_id": 49,
+    "defeat_count": 5,
+    "defeat_rounds": [10, 12, 17, 20, 31],
+    "shadow_clone_verified": true,
+    "rest_verified_in_this_route": false,
+    "active_units": 4,
+    "participant_count": 3,
+    "first_participant_mission_experience": 125,
+    "first_participant_battle_experience": 75,
+    "first_participant_round_bonus_experience": 0,
+    "first_participant_total_experience": 200,
+    "naruto_level": 5,
+    "naruto_experience": 85,
+    "naruto_training_points": 4,
+    "save_generation": 8,
+    "save_verified": true,
+    "output_save_sha256": "3f473ececd31485800c1d907ca7a9b97350fc74f354ffb5a9032ce349a9dbc88",
+    "last_control_error": 0,
+    "last_player_error": 0
+  },
+  "resource_lifetime_diagnosis": {
+    "assert_file": "bn_sprite_tiles_manager.cpp",
+    "assert_line": 921,
+    "message": "Sprite tiles allocate failed. Tiles count: 8",
+    "deferred_obj_tiles": 400,
+    "fix": "release script sprite cohort, run one bn::core::update, then allocate map cohort",
+    "evidence": [
+      "artifacts/butano-battle-scenario-47-assert-gdb-20260727-03/evidence.json",
+      "artifacts/butano-battle-scenario-47-assert-gdb-20260727-04/evidence.json",
+      "artifacts/butano-battle-scenario-47-assert-gdb-20260727-05/evidence.json"
+    ]
+  },
+  "artifacts": {
+    "directory": "artifacts/butano-battle-scenario-47-real-map-20260727-22",
+    "audit": "audit.json",
+    "done": "done.json",
+    "defeats": [
+      "defeat-1.json",
+      "defeat-2.json",
+      "defeat-3.json",
+      "defeat-4.json",
+      "defeat-5.json"
+    ],
+    "stage_complete_screenshot": "stage-complete.png",
+    "guard": "build/resource-guard/butano-s47-real-map-mgba-20260727-22.json",
+    "arm_build_guard": "build/resource-guard/scenario-47-presentation-fifo-arm-build-20260727-07.json",
+    "full_host_guard": "build/resource-guard/butano-s47-presentation-fifo-full-host-20260727-02.json"
+  },
+  "limitations": [
+    "This run is muted and does not verify subjective audio quality.",
+    "Rest is verified by the host integration route; this mGBA route did not need it.",
+    "Scenario 48 story presentation and scenario 49+ complete battle routes remain pending."
+  ]
+}

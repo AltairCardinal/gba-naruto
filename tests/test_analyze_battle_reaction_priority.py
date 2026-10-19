@@ -6,20 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_reaction_priority import build_reaction_priority_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-reaction-priority-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleReactionPriorityTests(unittest.TestCase):
     def _manifest(self):
-        return build_reaction_priority_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-reaction-priority-bindings-20260723.json")
 
     def test_preprocessor_has_explicit_blocker_and_reaction_priority(self):
         result = self._manifest()
@@ -91,6 +89,7 @@ class BattleReactionPriorityTests(unittest.TestCase):
         )
         self.assertTrue(result["resolver"]["counter_runtime_sample_complete"])
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_rom_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["rom_sha256"] = "00" * 32

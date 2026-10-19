@@ -1,0 +1,15 @@
+You are reviewing a screen recording of a Game Boy Advance battle.
+The attached capture file is capture.mp4: 96 frames at 60 fps,
+each frame upscaled 2x from 240x160 with its frame number stamped
+in the top-left corner as plain text.
+Frame numbers are 0-based; the last frame is frame 95.
+Time of frame n is n/60 seconds.
+
+Rules:
+- Use ffprobe and ffmpeg on capture.mp4; quote exact frame numbers.
+- Do not guess from a single frame when the answer depends on motion.
+- State plainly when the capture does not show something.
+
+Context: original ROM SHA256 1198ece7, remake ROM SHA256 73e534a6, both at the player-turn entry of scenario S49 (Konohamaru and Bee battle)
+
+Question: This is a frame-by-frame comparison of the same moment in the original Game Boy Advance game 木叶战记 (top half, magenta separator) and a remake built with Butano (bottom half). Both show the start of the player's turn in scenario S49 with Naruto selected. A pixel diff says all 96 frames differ, about 2390 pixels per frame. Identify every visible difference you can confirm: sprite appearance and palette, unit positions on the map grid, selection bracket position, the movement-range overlay, the bottom status bar text and numbers, and anything that moves differently over the 96 frames (idle animation phase). Quote exact frame numbers for anything that changes over time, and say plainly which categories of difference you cannot confirm from this capture.

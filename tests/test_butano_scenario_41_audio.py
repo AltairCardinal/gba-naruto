@@ -2,6 +2,7 @@ import hashlib
 import json
 import struct
 import subprocess
+import sys
 import tempfile
 import unittest
 import wave
@@ -44,7 +45,7 @@ class Scenario41AudioAssetsTest(unittest.TestCase):
 
             subprocess.run(
                 [
-                    "python3",
+                    sys.executable,
                     str(GENERATOR),
                     "--input",
                     str(source),
@@ -119,44 +120,20 @@ class Scenario41AudioAssetsTest(unittest.TestCase):
             self.assertEqual(manifest["semantic"], semantic)
             self.assertLessEqual(abs(manifest["module_loop_error_seconds"]), 0.004)
 
-    def test_butano_scene_starts_original_inherited_bgm(self):
-        scene = (
-            ROOT / "butano-sequel" / "game" / "src" / "scenario_41_scene.cpp"
-        ).read_text(encoding="utf-8")
+    def test_original_bgm_assets_remain_available_as_reference_content(self):
+        self.assertFalse(
+            (
+                ROOT
+                / "butano-sequel"
+                / "game"
+                / "src"
+                / "scenario_41_scene.cpp"
+            ).exists()
+        )
         for sound_id in (2, 5, 8, 14, 15):
             self.assertTrue(
                 (ROOT / "butano-sequel" / "audio" / f"sound_{sound_id:03d}.s3m").is_file()
             )
-        self.assertIn('#include "bn_music_items.h"', scene)
-        self.assertIn("play_music_item(KONOHA_MUSIC_ITEM(sound_005))", scene)
-        self.assertIn("battle_event::intro_dismissed", scene)
-        self.assertIn("play_music_item(KONOHA_MUSIC_ITEM(sound_014))", scene)
-        self.assertIn("state.animation_frame == 47", scene)
-        self.assertIn("play_music_item(KONOHA_MUSIC_ITEM(sound_015))", scene)
-        self.assertIn("state.animation_frame == 64", scene)
-        self.assertIn("play_audio_item(bn::sound_items::sound_116)", scene)
-        self.assertIn("state.animation_frame == 140", scene)
-        self.assertIn("play_audio_item(bn::sound_items::sound_138)", scene)
-        self.assertIn("play_audio_item(bn::sound_items::sound_149)", scene)
-        self.assertIn("play_audio_item(bn::sound_items::sound_158)", scene)
-        self.assertIn("play_audio_item(bn::sound_items::sound_051)", scene)
-        self.assertIn("play_audio_item(bn::sound_items::sound_157)", scene)
-        self.assertIn("play_audio_item(bn::sound_items::sound_112)", scene)
-        self.assertIn("play_audio_item(bn::sound_items::sound_052)", scene)
-        self.assertIn("play_music_item(KONOHA_MUSIC_ITEM(sound_008))", scene)
-        self.assertIn("play_music_item(KONOHA_MUSIC_ITEM(sound_002))", scene)
-
-    def test_diagnostic_build_can_gate_every_runtime_audio_trigger(self):
-        scene = (
-            ROOT / "butano-sequel" / "game" / "src" / "scenario_41_scene.cpp"
-        ).read_text(encoding="utf-8")
-        self.assertIn("KONOHA_DIAGNOSTIC_NO_AUDIO", scene)
-        self.assertIn("void play_audio_item", scene)
-        self.assertEqual(
-            scene.count(".play()"),
-            3,
-            "all music and sound triggers must pass through the diagnostic gate",
-        )
 
     def test_sfx_generator_downmixes_and_resamples_runtime_verified_cues(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -196,16 +173,6 @@ class Scenario41AudioAssetsTest(unittest.TestCase):
 
             self.assertEqual(manifest["entries"][0]["semantic"], "prebattle_bgm")
             self.assertTrue((output / "sound_005.wav").is_file())
-
-    def test_diagnostic_build_can_route_music_as_wav_sound_items(self):
-        scene = (
-            ROOT / "butano-sequel" / "game" / "src" / "scenario_41_scene.cpp"
-        ).read_text(encoding="utf-8")
-        self.assertIn("KONOHA_DIAGNOSTIC_WAV_BGM", scene)
-        self.assertIn("play_music_item(KONOHA_MUSIC_ITEM(sound_005))", scene)
-        self.assertIn("wav_bgm_handle->stop()", scene)
-        self.assertNotIn("play_audio_item(bn::music_items::sound_005)", scene)
-
 
 if __name__ == "__main__":
     unittest.main()

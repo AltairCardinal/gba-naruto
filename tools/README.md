@@ -863,8 +863,19 @@ The generated `notes/battle-ai-utility-policy-bindings-20260723.json` records se
 same- and opposite-affiliation banks with seven target selectors, strict first-unit
 ties, hostile and friendly selector weights, per-target multi-hit damage aggregation,
 damage/success/coverage/range weights, four typed scenario-rule slots, active kinds
-1–5, and the final 0–9 RNG term. Rule display names and the complete internal path
-algorithm remain neutral; the target and scoring policy no longer depend on screenshots.
+1–5, both candidate/baseline unit pools, all 34 common weight fields, the mutually
+exclusive HP/chakra projection formula, outer candidate kinds 1–4, selected descriptor
+kind/effect classification, target-bank gates, selector de-duplication, aggregate
+damage component count, actor penalty placement, custom-rule numerator/denominator
+placement (kind 1 adds two components; kinds 2–5 add one), and the final 0–9 RNG term.
+The same manifest now hash-binds `0x08083AF4`, all 47×8 topology-distance records,
+the map 23/24 signed lookup tables, and record kinds 0–6. This is an AI map-topology
+distance model, while `grid_pathfinder` remains the movement path implementation.
+Rule display names stay neutral. The event `0x11`
+resource/threat penalty and the first-event
+effect-low-6==7 safe-position bonus are bound to the shared candidate threat field;
+the target and scoring policy no longer depend on screenshots or an uninitialized
+character role.
 
 `analyze_battle_action_template_semantics.py` hash-binds both action initializers, the
 target-policy validator, event builder, scalar-resource gate, all 87 active-action rows,
@@ -902,6 +913,64 @@ Both generated headers are host-compiled by the game-domain tests. Scenario 41 n
 characters 1 and 30 and active action 5 from these tables; presentation assets no longer
 provide combat results.
 
+`generate_butano_battle_scenario_content.py` converts the 47 validated map records and
+47×3×12 formation records into `generated_battle_scenario_content.h`.
+
+```bash
+python3 tools/generate_butano_battle_scenario_content.py --root .
+```
+
+The generator preserves fixed character selectors and the unresolved `0xFA..0xFF`
+deployment selectors as different types. 部署占位符必须由关卡策略显式绑定；an unresolved
+placeholder makes the atomic loader fail without mutating the destination session.
+Generated map dimensions and formations do not by themselves provide chapter scripts,
+initial battlefield objects, dynamic deployment UI, or result presentation.
+
+The formation bank is version 3 and also preserves each `0xB8` record's embedded runtime
+configuration: level at `+0x0F`, 15 four-byte primary slots at `+0x10`, 24 four-byte
+secondary slots at `+0x4C`, and 9 ninja-tool bytes at `+0xAC`. Regenerate and compare both
+artifacts with:
+
+```bash
+python3 tools/extract_positions.py rom/base.gba \
+  --bank /tmp/positions-bank.json
+cmp /tmp/positions-bank.json sequel/content/positions/bank.json
+python3 tools/generate_butano_battle_scenario_content.py \
+  --root . --output /tmp/generated-battle-scenario-content.h
+cmp /tmp/generated-battle-scenario-content.h \
+  butano-sequel/game/include/konoha/generated_battle_scenario_content.h
+```
+
+The loader's ownership order is progression, explicit scenario policy, formation-owned
+fixed/scripted configuration, then character template. Ordinary player records and
+deployment placeholders must not treat zero-filled embedded slots as an instruction to
+erase the roster. The shared player/defense/AI catalog capacity is 24 (15 active actions
+and 9 tools). Static evidence, the corrected battle-10 LV20 example, and the guarded ARM/mGBA
+acceptance are in `notes/battle-formation-runtime-config-20260726.md`.
+
+`analyze_battle_map_collision.py` hash-gates the original map collision consumer and
+the unit occupancy set/clear routines, then inventories all 47 decompressed collision
+streams.
+
+```bash
+python3 tools/analyze_battle_map_collision.py \
+  rom/base.gba --output notes/battle-map-collision-semantics-20260724.json
+```
+
+The evidence keeps the complete u16 word. `0xF` is the statically proven fully closed
+value; partial low-nibble values remain raw attributes until their original recursive
+movement behavior is closed by differential runtime probes.
+
+`generate_butano_battle_map_content.py` converts those same 47 ROM streams into one
+fixed-capacity C++ bank containing 12,151 cells plus offset/count definitions.
+
+```bash
+python3 tools/generate_butano_battle_map_content.py --root .
+```
+
+`battle_map_loader` materializes one definition and overlays active `BattleSession`
+units atomically. Scenario code must not recreate terrain or occupancy lists.
+
 `analyze_battle_action_transactions.py` compares hash-bound before/after savestates
 across scenario 45 and 50. It verifies that sampled cancel paths preserve the complete
 battle unit pool, ninja-tool inventory, and battle-control region, and that the bound
@@ -930,6 +999,24 @@ python3 tools/analyze_battle_resource_transactions.py
 
 The generated `notes/battle-resource-transaction-bindings-20260723.json` records sample
 deltas, not a general recovery formula or a complete equipped-tool slot layout.
+
+`analyze_battle_resource_command_rules.py` advances that earlier sample boundary by
+cross-binding the ROM controller ranges, the transaction manifest, and two character
+checkpoints. It verifies that one chakra point costs the acting unit's `hand_seals`
+field while preserving at least one HP, and that base rest recovery is
+`floor(max_hp / 5)`.
+
+```bash
+python3 tools/analyze_battle_resource_command_rules.py \
+  --rom rom/base.gba \
+  --transactions notes/battle-resource-transaction-bindings-20260723.json \
+  --checkpoints artifacts/runtime-checkpoints \
+  --output notes/battle-resource-command-rule-bindings-20260724.json
+```
+
+The generated rule manifest closes only the unmodified base command formula and
+preview/commit boundary. Passive, status, scripted-scenario, and presentation policies
+remain separate.
 
 `analyze_battle_effect_resolution.py` compares one normal damage chain with one
 substitution-reaction chain. Both are hash-bound across target confirmation `0x4100`,
@@ -988,9 +1075,10 @@ enemy attack at shared state `0x8000`, the screenshot-hash-bound Sharingan cut-i
 unchanged Sasuke HP/position. This is one sampled one-shot evasion reaction; it does not
 establish counter, multi-hit, expiry, every defense action, or ninja-tool priority rules.
 
-`analyze_battle_damage_hit_formula.py` validates the event-builder arithmetic and the
-ordinary per-hit RNG gate, then recomputes the queued values in a natural three-hit
-ninja-tool checkpoint.
+`analyze_battle_damage_hit_formula.py` validates the event-builder arithmetic, the
+ordinary per-hit RNG gate, the queue's shared effective-hit gate before any effect
+handler, and the effect-`0x3F` handler, then recomputes the queued values in a natural
+three-hit ninja-tool checkpoint.
 
 ```bash
 python3 tools/analyze_battle_damage_hit_formula.py
@@ -1001,6 +1089,9 @@ candidates (normal/critical crossed with defended/ignore-defense), the square-ro
 factor, agility-adjusted success rate, and one RNG comparison per hit. In the bound sample,
 visible power `6x3` queues candidates `[9, 13, 11, 16]`; the 18 HP result uniquely means
 two normal defended hits and one miss, so UI power times hit count is not final damage.
+The same queue gate proves that opponent status/reaction effects with zero effective hits
+must skip their handler; the Butano correction and its conservative boundary are recorded
+in `notes/battle-nondamage-effect-accuracy-20260726.md`.
 
 `analyze_battle_hit_modifiers.py` validates the conditional per-hit critical and
 ignore-defense passive queries, RNG ordering, and flag encoding, then binds two
@@ -1172,6 +1263,54 @@ python3 tools/analyze_battle_objective_transitions.py
 The generated `notes/battle-objective-transition-bindings-20260723.json` covers these
 two runtime outcome boundaries only.
 
+`analyze_battlefield_object_runtime.py` hash-binds the 32-slot battlefield-object table,
+effect `0x0C/0x18` creation paths, side-end expiry, grid metadata binding, and the type-2
+sequence-7 presentation chain.
+
+```bash
+python3 tools/analyze_battlefield_object_runtime.py \
+  --rom rom/base.gba \
+  --output notes/battlefield-object-runtime-20260726.json
+```
+
+`generate_butano_battlefield_object_effect_content.py` follows sequence 7 to resource
+group `0x12`, hash-gates the original ROM and decompressed graphics/palette, and emits
+the exact seven-frame 32×32 type-2 expiry sprite sheet used by Butano.
+
+```bash
+python3 tools/generate_butano_battlefield_object_effect_content.py \
+  --root . \
+  --output-dir butano-sequel/graphics \
+  --manifest notes/battlefield-object-effect-content-20260726.json
+```
+
+`butano/mgba_battlefield_object_type_2_runtime.lua` is the guarded Butano acceptance
+route. It selects ninja tool 37 from the real action catalog, observes the domain object
+before and across side boundaries, and only writes its success marker while the freed
+slot's kind-2 actorless presentation event is active. The run must supply the telemetry
+symbol address resolved from the exact ELF through `MGBA_OBJECT_TELEMETRY_ADDRESS`.
+
+`analyze_battle_action_combinations.py` binds the original-ROM ordered
+two-component action builder, its five replacement recipes, the unmatched
+two-event fallback, and the enemy planner's optional/forced follow policies.
+
+```bash
+python3 tools/analyze_battle_action_combinations.py \
+  --rom rom/base.gba \
+  --output notes/battle-action-combination-bindings-20260725.json
+```
+
+The analyzer verifies the full ROM SHA-256, the table at `0x0853DFB0`, its literal
+at `0x08075C0C`, the exact count-two gate, encoded ninja-tool range `0x81..0x91`,
+matched output count one, and the generic branch that preserves the original
+component count and initializes both events. It also hash-binds the planner,
+candidate enumerator, and shared component enumerator; verifies the
+`0x1800` combination flag mask, optional IDs 12/16 under `0x0800`, forced IDs
+9/14/25/29 under `0x1000`, the single-candidate return versus forced loop,
+and the action/tool follow-up catalog calls. Menu prompt text and the original
+planner's final per-candidate integer weights remain separate evidence; see
+`notes/battle-action-combination-player-flow-20260725.md`.
+
 `analyze_battle_condition_interpreter.py` binds the original-ROM condition interpreter,
 its nine-way dispatch table, and all 47 battles × 3 fixed condition variants through the
 next referenced data table at `0x08596CCC`.
@@ -1194,6 +1333,421 @@ hash-bound caller maps condition results 1/2/5 to presentation
 IDs 1/2/3 respectively and ends the battle for result 5; the visible label of presentation
 ID 3 is intentionally not inferred from code alone.
 
+`butano/mgba_scenario_43_runtime.lua`,
+`butano/mgba_battle_09_multi_unit.lua`, and
+`butano/mgba_battle_09_character_actions.lua` are the guarded acceptance routes for the
+data-configured visible battle scene. They read the exported controller telemetry instead
+of treating elapsed frames or screenshot filenames as completion evidence. Scenario 43
+requires the clone to make five active units, three enemy actions, round 2 and
+`presentation_busy == 0`; row 9 requires eight active units, all three player actions,
+five enemy actions, round 2 and the same presentation boundary. The character-action route
+additionally requires Naruto action 2 to resolve as teleport, Sakura action 1 to activate a
+reserve clone, Sasuke actions 2/5/16 to be browsable, nine active units, and round 2. It
+records `last_resolved_action_id` rather than accepting a menu screenshot as execution evidence.
+
+With `MGBA_B09_ACTION_EXECUTE_SASUKE_ACTION_05=1`, the character-action route extends the
+same controller session through round 3 instead of teleporting to an effect screen. Sasuke
+moves to `(7,14)`, then `(7,11)`, finishes the intervening units and enemy phase, moves to
+`(7,10)`, selects action 5 from the real catalog, and accepts only an adjacent active enemy.
+Completion requires the action-5 impact resource, five representative impact captures,
+three dust captures, the actor's target-side reentry frame, map restoration, active-unit
+change `9→8`, zero controller/player errors, and an empty screenshot queue. The reentry
+capture is sampled one callback after choreography step 60 because mGBA's frame callback
+observes telemetry before the newly rendered frame is presented.
+
+`analyze_original_effect_sequence.py` and
+`butano/generate_battle_effect_sequence.py` form the non-screenshot asset path for original
+OBJ effects. The analyzer consumes an original-ROM GPU trace plus per-frame OAM dumps,
+filters by OBJ tile base/palette bank, decodes shape/size/flip/priority, and verifies every
+frame's VRAM/PRAM bytes against the hash-bound ROM LZ77 resources. Use `--tiles-address`
+and `--palette-address` for the exact resource pair; the trace script accepts
+`MGBA_ACTION_PRESENTATION_GPU_CAPTURE_START/END` to capture the required original-frame
+range and rejects an inverted range.
+
+The generator decodes the referenced 4bpp tiles and palette directly from the ROM,
+deduplicates component assets, compacts consecutive identical component configurations
+into keyframes with explicit hold durations, and emits a fixed-capacity
+`battle_effect_sequence`, Butano sprite items, BMP/JSON source assets, and an evidence
+manifest. `--preset action-05-hit` generates original frames 148–163 as 11 keyframes,
+14 unique assets and at most 8 components; `--preset action-05-dust` generates original
+frames 77–135 as 26 keyframes, 8 unique assets and at most 3 components. Their durations
+remain 16 and 59 frames respectively. `--preset action-16-fire-hit` generates original
+frames 487–516 as 12 keyframes, 10 unique assets and at most 4 components, preserving the
+30-frame duration.
+
+`butano/generate_battle_action_16_movie.py` is the corresponding non-screenshot path for
+action 16's cut-in and multi-layer movie. It consumes the hash-bound original ROM plus GPU
+dumps, emits separate portrait/dialogue/actor/fire/streak BG assets and three title OBJ
+assets, and preserves the per-frame palette, blend and scroll timeline. It validates the
+original frame-300 spatial fade contract (`WIN0H=0x00F0`, `WIN0V=0x2070`,
+`WINOUT=0x3F1F`, `BLDCNT=0x00B7`, `BLDY=0x0006`) before generating runtime content.
+Neither generator accepts a composed gameplay screenshot as production input.
+
+With `MGBA_B09_ACTION_EXECUTE_SASUKE_FIRE=1`,
+`butano/mgba_battle_09_character_actions.lua` executes action 16 from the real battle-9
+catalog/resolver route and captures cut-in title, cut-in fade, movie, impact and map
+restoration boundaries. The route is muted and therefore signs presentation/control flow,
+not audio quality.
+
+The telemetry address is not a stable ABI. Resolve it from the exact ELF with
+`arm-none-eabi-nm` after every build, then pass it through
+`MGBA_S43_TELEMETRY_ADDRESS`, `MGBA_B09_TELEMETRY_ADDRESS`, or
+`MGBA_B09_ACTION_TELEMETRY_ADDRESS`:
+
+```bash
+source tools/butano/toolchain.lock
+docker run --rm --user "$(id -u):$(id -g)" \
+  --volume "$PWD:/workspace" --workdir /workspace/butano-sequel \
+  "$DEVKITARM_IMAGE" /opt/devkitpro/devkitARM/bin/arm-none-eabi-nm \
+  -n butano-sequel.elf | grep konoha_battle_runtime_telemetry
+```
+
+The AI-resource acceptance build reports `0x02014FB8`; this address is build-specific,
+so resolve the symbol again before every future run. All scripts record state
+transitions plus PC/LR/SP/KEYINPUT,
+save a final state and only create the success marker after the screenshot queue is empty.
+They run muted and therefore do not validate audio quality.
+
+The forced-AI-combination build is a concrete example of why the address must be resolved:
+the previous `0x0201A3E0` address produced an idle timeout with empty telemetry files, while
+the exact ELF resolved `0x0201A684` and completed battle 9 at frame 2791. The successful
+run and its hashes are recorded in
+`artifacts/butano-ai-forced-combination-runtime-20260726-05/manifest.json`. Since no
+embedded enemy primary action slot currently contains action 9, this muted route is an
+ARM scene/session regression; the forced-combination behavior itself is covered by the
+host AI-flow integration test.
+
+After restoring all optional/forced combination flags, the next exact ELF moved the
+same symbol again to `0x0201A824`. The muted regression completed battle 9 at frame
+2791; its inputs, outputs, and coverage boundary are recorded in
+`artifacts/butano-ai-combination-policy-runtime-20260726-06/manifest.json`.
+
+The telemetry block is now 336 bytes. Its first 112 bytes retain the generic scene/action
+offsets, followed by result and structured presentation-script state through offset 204.
+Five resource-presentation words are appended without moving any older field:
+`resolved/type/amount/hp_delta/chakra_delta` at offsets `208/212/216/220/224`.
+Later passive/object/cursor fields occupy offsets 228–328, and
+`selected_action_level` is appended at offset 332 without moving older consumers.
+The delta words use signed two's-complement values; Lua routes convert them with
+`signed32`. The current AI-resource regression evidence is
+`artifacts/butano-ai-resource-runtime-b09-20260725-03/`; it crosses battles 41, 43 and 9
+and reaches round 2 with zero controller/player errors. Setting
+`MGBA_B09_ACTION_REQUIRE_AI_RESOURCE=1` extends later rounds and only accepts a real
+resource presentation. Battle 9 retained higher-scoring usable attacks through round 110
+in the 2026-07-25 probe, so that probe is a non-trigger result, not positive resource
+evidence.
+
+For ARM-only stalls, `mgba_battle_09_character_actions.lua` also exposes optional
+diagnostics:
+
+- `MGBA_B09_ACTION_TRAP_ADDRESS`, `MGBA_B09_ACTION_TRAP_START_FRAME`, and
+  `MGBA_B09_ACTION_TRAP_AFTER_HITS` install a delayed execution breakpoint and write
+  `execution-trap.jsonl` plus a save-state;
+- `MGBA_B09_ACTION_WATCH_ADDRESS`, `MGBA_B09_ACTION_WATCH_START_FRAME`, and
+  `MGBA_B09_ACTION_WATCH_AFTER_HITS` install a delayed write-change watchpoint and write
+  `memory-write-trap.jsonl` with PC/LR/SP, r0–r3, old/new value and width.
+
+The Maxmod corruption audit must resolve `mp_mix_seg` from the same ELF
+(`0x030029E0` in the 2026-07-26 action-progression build). Earlier accepted evidence in
+`artifacts/butano-action-workspace-runtime-b09-audio-watch-20260725-27/` contains 20
+consecutive writes, all from `PC=0x03000DFC`, width 1, alternating `00/FF`; this verifies
+that battle stack writes no longer reach the mixer state in that build. The later
+`artifacts/butano-action-progression-runtime-20260726-09/` route also completes player
+resource, AI action and defense boundaries through the shared EWRAM transaction workspace
+that previously drove SP into Maxmod, but remains muted and does not validate perceived
+audio quality.
+
+`analyze_battle_action_progression.py` hash-binds the original four-byte character
+action slots to unlock, training, battle-catalog and numeric-growth semantics:
+
+```bash
+python3 tools/analyze_battle_action_progression.py \
+  --rom rom/base.gba \
+  --output notes/battle-action-progression-20260726.json
+python3 -m unittest tests.test_analyze_battle_action_progression
+```
+
+The manifest distinguishes `0xFF` locked, `0` unlocked/unlearned and `1..254`
+battle-usable states, records the six growth targets, and lists resolver-capable actions
+that were previously unreachable because every primary slot initialized them to zero.
+
+Character **level** growth is a separate runtime chain from action-rank growth. The
+63×`0x10` table extracted from file `0x545068` is applied by the common scenario loader
+to player progression, enemy policy levels, scripted units, and deployment placeholders.
+The 2026-07-26 integration and ARM regression evidence is
+`notes/battle-level-stat-runtime-20260726.md` and
+`artifacts/butano-level-stats-runtime-20260726-01/`. Its telemetry symbol is
+`0x020195EC` for that exact ELF only; resolve it again after every build.
+The durable interpretation and ARM acceptance boundary are documented in
+`notes/battle-action-progression-20260726.md`.
+
+`analyze_battle_passive_query.py` binds the original 24-slot passive lookup and the
+45×12-byte growth table, then writes
+`notes/battle-passive-query-bindings-20260725.json`:
+
+```bash
+python3 tools/analyze_battle_passive_query.py
+python3 tools/generate_butano_battle_passive_content.py
+```
+
+The generator emits `generated_battle_passive_content.h`; only passive target types with
+separate consumer evidence may affect battle rules. `analyze_battle_passive_consumers.py`
+scans every direct Thumb call to the query and hash-binds the proven formulas:
+
+```bash
+python3 tools/analyze_battle_passive_consumers.py --rom rom/base.gba \
+  --output notes/battle-passive-consumer-bindings-20260725.json
+```
+
+Early consumers included `0x0C` critical, `0x14` HP-restoration bonus, `0x15` carried
+battle experience percentage, and `0x19` ignore-defense. The inventory also hash-binds
+the later-closed side-start, event-gate, and terrain traversal groups; it does not assign
+meanings to call groups whose data flow remains unresolved. Other records remain queryable
+content, not guessed effects.
+
+`analyze_battle_passive_coverage.py` joins those two ROM manifests with the 45 catalog
+rows and current Butano consumers:
+
+```bash
+python3 tools/analyze_battle_passive_coverage.py --root . \
+  --output notes/battle-passive-coverage-20260726.json
+```
+
+The matrix currently proves 17 rows with direct ROM consumers and 28 without one.
+Butano implements all 17 directly consumed gameplay rows. Passive IDs 21–23 / targets
+`0x1A–0x1C` supply path-local traversal budgets for terrain classes `1/7/3`; they are not
+visual configuration or directional collision bits. The correction, ROM hashes, path
+semantics and mGBA evidence are recorded in
+`notes/battle-terrain-passive-runtime-20260726.md`.
+
+The generated battle tables are bound by
+`butano-sequel/game/include/konoha/battle_content_catalog.h`. Its generic validator is
+covered by `butano-sequel/game/tests/test_battle_content_catalog.cpp`, including injected
+cross-table corruption. The production catalog is also checked at compile time and by
+foundation self-test bit 5. Runtime scenes query one `battle_content_entry` for scenario,
+map, and conditions; they must not index these generated tables independently. The
+contract validates all 47 battles and 141 variants, but does not claim that every entry
+already has a deployment UI or chapter script. Visual backgrounds are provided separately
+by the generated background catalog described below.
+
+`battle_deployment_flow.h` implements the pre-controller formation confirmation seen in
+the original battle routes. It reuses `resolve_battle_scenario_character` from the final
+scenario loader, so fixed selectors and `0xFA..0xFF` policy bindings cannot disagree
+between preview and load. Generic scene telemetry uses phase `0xFFFFFFFE` for a unit
+confirmation and `0xFFFFFFFD` for START. The mGBA row-9 and scenario-43 scripts advance
+these states one A edge at a time and capture `deployment-unit-1.png` plus
+`deployment-start.png`. Production waits for A/B release and one neutral frame before
+starting the battle controller; acceptance scripts must likewise leave released frames
+between confirmations.
+
+`battle_runtime_scene_request` is the chapter-to-battle boundary for visible encounters.
+It carries the battle/variant identity and one `battle_scenario_load_policy`; the same
+policy is used by deployment preview and final controller loading. A
+`deployment_required` entry is accepted only when every placeholder used by that variant
+is explicitly bound. `run_battle_32_deployment_fixture_scene()` and
+`butano/mgba_battle_32_dynamic_deployment.lua` are integration fixtures for this contract,
+not canonical chapter content. Their accepted muted evidence is
+`artifacts/butano-dynamic-deployment-b32-20260725-57/`.
+
+`battle_runtime_grid.h` defines the single 23×32 fixed-capacity logical grid and controller
+used by visible battles. `grid_map` stores runtime active dimensions, so map loading,
+cursor movement, pathfinding and AI cannot enter padding. The host test
+`test_battle_runtime_grid.cpp` materializes all 47 generated maps and loads all 85 nonempty
+variants through that one controller. This is a logical-map guarantee only: original maps
+wider than the GBA 512px regular-background limit still require ROM-derived chunk streaming.
+
+`butano/mgba_battle_terrain_traversal.lua` verifies the same terrain policy through the
+production campaign scene. It boots battle 41, completes deployment, rejects an untrained
+move from `(4,10)` to the adjacent class-7 tile `(3,9)`, then confirms that staying at the
+origin advances to the command phase. Run it only through `tools/run_guarded.py` and resolve
+the current telemetry symbol after every ARM build.
+
+`generate_butano_battle_runtime_assets.py` now provides
+`plan_map_chunk_origins()`, `generate_map_chunks()` and `generate_all_map_chunks()`. The
+all-map command emits 47 per-map manifests, 49 indexed regular-BG chunks,
+`graphics/battle_background_catalog.json`, and
+`game/include/konoha/generated_battle_background_content.h`. Each manifest records the full
+map size, chunk index/count and world origin and hash-binds the ROM tile graphics, palette,
+layout and metatile attributes. Battle 0 emits origins `[0,224]`; battle 11 emits `[0,32]`;
+the other 45 maps use one origin-0 chunk.
+
+The visible runtime queries `generated_battle_background_entry(battle_id)` and cross-checks
+the returned pixel dimensions against the logical scenario grid before deployment. Scene
+wrappers must not name a concrete `bn::regular_bg_items::battle_*` item. Having all 47
+backgrounds in the ROM is a visual-content guarantee only; it does not synthesize empty
+variants, dynamic deployment choices, object scripts, or chapter transitions.
+
+Empty-tile actions must also pass the ROM map gate. AI planning and player confirmation
+reject targets with cost 0, `grid_fully_closed`, or an active occupant. Omitting this check
+previously allowed an AI move effect to place a unit inside battle 32's blocked `(12,13)`
+cell; the next occupancy rebuild then failed and left the enemy turn retrying forever.
+
+`generate_butano_battle_unit_visual_content.py` decodes the battle OBJ visual table at
+ROM file offset `0x596D5C`. The corrected shape is 62 character IDs × 9 visual slots
+(558 rows): 342 populated rows and 216 reserved empty rows. Slot zero is the ROM idle
+visual for every character. The generator validates the source ROM hash and every pointer,
+decodes the first 24-byte frame descriptor and 1D 4bpp OBJ tiles, then writes 62 BMP/JSON
+items, `graphics/battle_unit_visual_catalog.json`, and
+`game/include/konoha/generated_battle_unit_visual_content.h`:
+
+```bash
+python3 tools/generate_butano_battle_unit_visual_content.py
+```
+
+The visible runtime queries this catalog by `character_id` for both deployment and battle.
+Inactive scenario slots hold no sprite resource; activation by a summon creates the sprite,
+deactivation releases it, and an identity override updates the item in place. The accepted
+muted runtime evidence is `artifacts/butano-unit-visual-b32-final-20260725-66/`, with fixed
+route regressions in the adjacent `butano-unit-visual-regression-*` artifact directories.
+The current generator decodes all frames, overlapping OAM chains and duration sequences in
+all 342 populated slots. It emits 534 component/shape sprite assets and a fixed-capacity
+timeline catalog. Runtime selects field/cast/throw/melee/hit slots, mirrors missing explicit
+left-facing slots, and keeps affected unit IDs alive through the presentation transaction.
+Accepted muted evidence is `artifacts/butano-shared-s41-runtime-20260725-84/`,
+`artifacts/butano-unit-animation-b09-20260725-86/`, and
+`artifacts/butano-dynamic-deployment-b32-20260725-87/`.
+
+`butano/mgba_battle_41_shared_runtime.lua` drives the default shared scenario-41 route:
+deployment, movement, AI response, action 5, target hit, return and outcome. The historical
+264-frame full-screen recording assets live under
+`references/scenario-41-attack-animation/` and are intentionally absent from production
+`graphics/`.
+
+Lua phase constants are checked against the current C++
+`battle_scene_phase` enum by `tests/test_butano_battle_phase_contract.py`; adding or moving
+a controller phase must update every affected route. When a route stops before its first
+capture, `butano/mgba_s41_telemetry_trace.lua` records the telemetry magic, battle, phase,
+round and selected unit every 30 frames while advancing deployment. It is a diagnostic
+probe, not acceptance evidence by itself.
+
+The original battle-presentation script bank is rebuilt from ROM data with:
+
+```bash
+python3 tools/analyze_battle_presentation_scripts.py rom/base.gba \
+  --output sequel/content/battle-presentation-scripts/bank.json
+python3 tools/generate_butano_battle_presentation_content.py
+python3 tools/generate_butano_battle_portrait_content.py
+python3 tools/generate_butano_battle_presentation_glyphs.py
+```
+
+The analyzer hash-binds both 47-entry pointer tables, the shared interpreter and all
+condition handlers. Generated content contains 1,741 selector instructions, 400 cases,
+3,213 commands, 48,104 presentation text bytes and 862 ROM glyphs in fixed-capacity
+storage. The controller evaluates round/side, active-character, adjacent-character,
+script-flag and secondary-state conditions against the live battle session; scripts block
+battle input without owning HP, resources, unit positions or turn state.
+
+The portrait generator follows the original 63×5 resource matrix and embeds the 46
+portrait/expression pairs referenced by the script bank. Each 80×80 8bpp portrait is
+assembled from the original six OAM components. Two visible slots share a 128-color OBJ
+palette, including the original focus-dimming transform; every embedded LZ77 stream is
+4-byte aligned for the GBA decompressor. The dialogue window is created at runtime from
+4bpp blended sprites. Neither layer uses a full-screen scenario screenshot.
+
+`butano/mgba_battle_41_presentation.lua` and
+`butano/mgba_battle_43_presentation.lua` confirm deployment, require each battle's five
+exact selector-1 text pages, assert structured window/portrait identity, expression and
+focus telemetry, then accept unit selection. The accepted muted evidence is
+`artifacts/butano-battle-portrait-runtime-b41-20260725-05/` and
+`artifacts/butano-battle-presentation-b43-20260725-03/`; hashes, audit fields and
+superseded-run reasons are recorded in
+`notes/battle-presentation-script-bindings-20260725.json`. These routes prove the shared
+data-driven presentation and continuation path. They do not sign off audio quality,
+all original motion interpolation, or all 47 battle routes.
+
+Set `MGBA_S41_SHARED_CONTINUE_RESULTS=1` to continue the same state-driven route through
+the generic result and unified action/passive training controller. The script requires phases
+outcome/result/level-up/training/complete, validates mission, carried battle EXP, round
+bonus, total, before/after level, remaining EXP and HP growth, then selects the real action
+8 row and requires `level 0→1` plus `training points 1→0`, then continues to the first
+secondary/passive row and verifies its entry-kind telemetry before exiting. Target navigation uses cursor-unit
+telemetry and a legal second-round move instead of a fixed screenshot coordinate. Current
+muted evidence is `artifacts/butano-training-runtime-20260726-04/`; see
+`notes/battle-primary-training-runtime-20260726.md`. The route remains muted and does not
+validate audio quality.
+
+When `MGBA_S41_SHARED_CAMPAIGN_TELEMETRY_ADDRESS` is also set to the exact ELF symbol
+`konoha_battle_campaign_runtime_telemetry`, the shared route presses A after COMPLETE,
+waits for the scene boundary to merge progression into the 63-character campaign, and
+requires a verified SRAM write before emitting `campaign-save-complete`. The telemetry
+contract includes load/save generation and slot, default/verified flags, Naruto level,
+experience, training points, action-8 level, the first three equipped-tool slots, and the
+adapter error. The current 72-byte layout places `naruto_tool_0/1/2` at offsets
+`44/48/52`, sample owned quantities 67/68 at `56/60`, material 6 at `64`, and
+`last_error` at offset `68`; always resolve the telemetry base from the
+exact ELF rather than copying an older address.
+
+Set `MGBA_S41_SHARED_CONSUME_TOOL37=1` together with
+`MGBA_S41_SHARED_CONTINUE_RESULTS=1` to choose ninja tool 37 from the production action
+catalog, complete its battlefield-object lifetime, then continue through result/training
+and the verified SRAM save. The route requires Naruto's third equipped slot to become 0
+while slots 0/1 remain 67/11.
+
+`butano/mgba_battle_campaign_load.lua` is the separate cold-start verifier. It must run
+against the same staged ROM/SAV in a new mGBA process and does not call `addKey` or
+`clearKey`; completion requires a non-default generation and the exact saved character
+state before any new battle input. Set `MGBA_CAMPAIGN_EXPECTED_TOOL_2=0` when verifying
+the consumption route; the cold-load audit records all three tool slots. Both scripts must use an isolated staged path and
+`tools/run_guarded.py`; they must never target `rom/base.sav`. Accepted muted evidence is
+`artifacts/butano-campaign-persistence-20260726-03/` for the original progression
+milestone and `artifacts/butano-campaign-tool-writeback-runtime-20260726-01/` plus
+`artifacts/butano-campaign-tool-writeback-load-20260726-01/` for equipped-slot
+consumption. They are documented in
+`notes/battle-campaign-persistence-runtime-20260726.md` and
+`notes/battle-campaign-tool-writeback-runtime-20260726.md`. These routes do not validate
+audio quality, full bag quantities, replenishment/equipment UI, or original-save binary
+compatibility.
+
+`butano/mgba_battle_preparation_upgrade.lua` drives the live campaign preparation page,
+selects the ROM-generated `67→68` recipe, and requires the shared upgrade transaction to
+atomically produce equipped slot `68`, owned quantities `67=0/68=1`, material `6=0`, and
+a verified generation-1 SRAM write. It then waits for battle-41 deployment telemetry and
+15 additional rendered frames before capturing the map/units/cursor, so a black transition
+frame cannot be mistaken for a battle black screen. Run
+`butano/mgba_battle_campaign_load.lua` in a second process with its explicit
+`MGBA_CAMPAIGN_EXPECTED_*` variables to verify version-2 inventory recovery without input.
+Accepted muted evidence is
+`artifacts/butano-ninja-tool-preparation-runtime-20260726-04/` and
+`artifacts/butano-ninja-tool-preparation-load-20260726-03/`.
+
+`butano/mgba_battle_preparation_equipment.lua` verifies the separate manual-allocation
+path. Starting from an isolated base SAV, it opens the live unequip page, releases tool
+67, equips the independently owned tool 1 into the first empty slot, and requires a
+verified SRAM save. It does not stop at the feedback page: it completes battle-41
+deployment, opens the production action catalog, and only succeeds when action ID 1 is
+reported as `ninja_tool` from tool slot 0. The accepted muted evidence is
+`artifacts/butano-ninja-tool-equipment-runtime-20260726-03/`; it uses the final build
+that also exposes L/R party switching.
+
+Run `butano/mgba_battle_campaign_load.lua` in a separate process against that staged SAV
+with `MGBA_CAMPAIGN_EXPECTED_OWNED_TOOL_1=1` and the other explicit expected values.
+`artifacts/butano-ninja-tool-equipment-load-20260726-02/` proves zero-input recovery of
+the equipment allocation and owned quantities. The first equipment route
+`runtime-20260726-01` stopped at the battle-41 script input gate and is superseded; it is
+not acceptance evidence. Both routes are muted and do not validate audio quality.
+
+Battle-result source tables are reproducible with:
+
+```bash
+python3 tools/extract_battle_result_content.py rom/base.gba \
+  --bank sequel/content/battle-results/bank.json
+python3 tools/generate_butano_battle_result_content.py
+```
+
+The reward table is 112×24 bytes at file `0x59EAE0`, the 48-byte scenario mapping is at
+`0x348DAC`, and the 63×4 experience-threshold table starts at `0x59F560`. Formation
+record `+0x0C` is separately extracted as carried battle EXP. See
+`notes/battle-result-progression-runtime-20260725.md` for the consumer chain and boundaries.
+
+`butano/mgba_battle_11_background_stream.lua` enters battle 43 → battle 9 → battle 11 through
+the shared visible runtime, confirms all deployment records, then drives the battle 11 move
+cursor from chunk 0 to chunk 1 and back to chunk 0. Completion requires telemetry chunk
+sequence `[0,1,0]`, not just screenshots. The accepted muted evidence is
+`artifacts/butano-all-backgrounds-b11-20260725-52/`. The same final ROM also passed battle
+9, scenario 43 and scenario 41 routes in `artifacts/butano-all-backgrounds-b09-20260725-53/`,
+`artifacts/butano-all-backgrounds-s43-20260725-54/`, and
+`artifacts/butano-all-backgrounds-s41-20260725-55/`.
+
 # mGBA savestate context inspection
 
 `inspect_mgba_savestate.py` reads the zlib-compressed `gbAs` chunk embedded in an mGBA
@@ -1207,3 +1761,81 @@ python tools/inspect_mgba_savestate.py artifacts/runtime-checkpoints/scenario-41
 
 The memory reader intentionally supports only EWRAM and IWRAM from the fixed mGBA 0.10.5
 state layout. It rejects missing, malformed, unsupported-version, and wrong-sized states.
+
+## Battle continuation-hit passive binding
+
+`analyze_battle_continuation_hits.py` verifies the original continuation gate, category
+queries, one-roll-per-action sharing, hit-count increment and its ordering before the
+ordinary per-hit generator. It also validates the scenario-41 single-byte 100-percent
+control and both fixed single-input replay audits:
+
+```bash
+python3 tools/analyze_battle_continuation_hits.py
+```
+
+The generated `notes/battle-continuation-hit-bindings-20260725.json` binds current-HP,
+current-chakra and ninja-tool actions to passive target types `0x16`, `0x17` and `0x18`.
+It proves that success adds one ordinary hit to every queued event sharing an action ID;
+the added hit still follows the normal hit/critical/ignore-defense/reaction pipeline.
+The evidence deliberately leaves nonzero original event byte `+0x16` unnamed.
+
+## Battle side-start passive binding
+
+`analyze_battle_side_start_passives.py` hash-binds the original side-start
+consumer, its only controller callsite, all four passive-query calls, threshold
+instructions, status writes and the shared unit `+0xBE` latch:
+
+```bash
+python3 tools/analyze_battle_side_start_passives.py \
+  --rom rom/base.gba \
+  --output notes/battle-side-start-passive-bindings-20260725.json
+```
+
+The manifest closes target types `0x1D` through `0x1F`: low-HP HP/chakra
+restoration, low-HP heal plus five-turn attack-up, and quarter-HP three-turn
+attack-up. It also records the mechanical battle-11 gate and two status writes
+for `0x20`, while marking that family `withheld_pending_semantics`; consumers
+must not turn that partial evidence into guessed gameplay.
+
+## Battle active-action reachability
+
+`analyze_battle_action_reachability.py` classifies all 87 active-action identities by
+their natural data source instead of equating a nonzero resolver definition with a
+playable menu entry:
+
+```bash
+python3 tools/analyze_battle_action_reachability.py \
+  --root . \
+  --output notes/battle-action-reachability-20260726.json
+```
+
+The analyzer fail-closes on the 63 unit templates, 1,728 formation records, 87 action
+definitions and identities, combination recipes, progression state model, resource
+command evidence, and the original-ROM function/ranges/literals that prove the special
+action-19 unlock. It distinguishes base catalog entries, state-0 training routes,
+level-locked routes, scenario-unlock-then-training routes, catalog-accepted formation
+overrides, and derived combination results. The output records action 19 as Sasuke's
+battle-31 variant-0 unlock followed by normal training, action 62 as a natural battle-8
+formation action, action 20 as a separate resource-command identity, and 39/40/52 as
+unreferenced zero templates. It does not claim presentation or per-action semantic
+completeness.
+
+## WAV integrity and deterministic Butano audio replay
+
+`analyze_wav_integrity.py` analyzes adjacent samples within each channel, so an ordinary
+left/right stereo difference is not misclassified as a discontinuity:
+
+```bash
+python3 tools/analyze_wav_integrity.py \
+  build/butano-battle-audio-runtime-20260727-02/full-route-6500f-verified.wav \
+  --output build/butano-battle-audio-runtime-20260727-02/full-route-6500f-verified-analysis.json
+```
+
+`butano/mgba_audio_recorder.c` can replay the exact JSONL press/release stream captured by
+an mGBA Lua route. Set `MGBA_AUDIO_INPUT_EVENTS` to that log, `MGBA_AUDIO_REPORT` to the
+output JSON path, and `MGBA_AUDIO_TELEMETRY_ADDRESS` to the battle telemetry address for
+the current ELF. Always compile and run mGBA through `tools/run_guarded.py` with the shared
+heavy lock. A cold-start capture proves the preparation cue is reachable; a full replay
+proves that music and effects remain active across deployment, commands, presentation, and
+map restoration. See `notes/butano-battle-audio-runtime-20260727.md` for the accepted
+6500-frame, 518/518-event route and its hashes.

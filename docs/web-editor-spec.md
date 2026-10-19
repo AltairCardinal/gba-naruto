@@ -980,7 +980,8 @@ Python `logging` with structured JSON output. 10 MB per file, 5 backups, `/opt/n
 | ROM SHA-1 | `26f60795...` | `project.json` |
 | Dialogue pointer table | `0x461CE8`-`0x4634B8` (1,524 entries) | `import_dialogue_var.py` |
 | Free space | `0x5DFBEC`-`0x5FFFFF` (128 KB) | `import_dialogue_var.py` |
-| Tile descriptor table | `0x596D5C` (312 x 16B) | `import_map.py` |
+| Battle OBJ visual table | `0x596D5C` (62×9×16B; 342 valid slots) | `generate_butano_battle_unit_visual_content.py` |
+| Battle map header table | `0x53D910` (47 entries) | `generate_butano_battle_runtime_assets.py` |
 | Tilemap format | 32x32, 2B/entry, bits[9:0]=tile_id | `import_map.py` |
 | Tilemap regions | 0x14D000, 0x195000, 0x1CB000, 0x1C2000, 0x1F1000 | `import_map.py` |
 | Battle config | `0x53D910`, +4 header, 8 x 32B | `import_battle_config.py` |

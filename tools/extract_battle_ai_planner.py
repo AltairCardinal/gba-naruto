@@ -22,11 +22,13 @@ FUNCTION_RANGES = {
     "planner": (0x080851F8, 0x080855FE),
     "tile_score": (0x08085160, 0x080851F4),
     "grid_candidate": (0x08085610, 0x080857B0),
+    "candidate_field_builder": (0x080833A8, 0x08083AEA),
 }
 EXPECTED_FUNCTION_HASHES = {
     "planner": "d94ce211153c95b9d6065691179a6887b149c443be27311c8baaf679c8d85b95",
     "tile_score": "f8cfc39845d11a4bd2d845d5e56803e834632cbd1d091f3dd903e6906b03ad7a",
     "grid_candidate": "8fa4917189c73d871232fce933e7f0b0f3e3c93ad418f65274cfda35c70966af",
+    "candidate_field_builder": "bd9bcae4d7f5a029cd9d19ab05682f88b4f6607256d9119581e1aaa7ba5da695",
 }
 EXPECTED_PLANNER_CALLS = [
     (0x08085246, 0x0809C0E0),
@@ -122,15 +124,15 @@ def extract_ai_planner(rom_path: Path | str) -> dict[str, Any]:
             raise ValueError(f"battle AI max-selection opcode mismatch at {_hex(address)}")
 
     score_literals = {
-        "map_width_address": _u32(rom, 0x080851B4),
+        "tile_flags_base": _u32(rom, 0x080851B4),
         "unit_pool_base": _u32(rom, 0x080851B8),
-        "tile_flags_base": _u32(rom, 0x080851BC),
+        "map_width_address": _u32(rom, 0x080851BC),
         "rng_state_pointer": _u32(rom, 0x080851F4),
     }
     expected_literals = {
-        "map_width_address": 0x02002880,
+        "tile_flags_base": 0x02002880,
         "unit_pool_base": 0x020240C0,
-        "tile_flags_base": 0x0201BE2A,
+        "map_width_address": 0x0201BE2A,
         "rng_state_pointer": 0x03000010,
     }
     if score_literals != expected_literals:
@@ -156,6 +158,65 @@ def extract_ai_planner(rom_path: Path | str) -> dict[str, Any]:
         "tile_flags_base": _hex(_u32(rom, 0x08085720)),
         "rng_state_pointer": _hex(_u32(rom, 0x080857B0)),
     }
+
+    candidate_field_calls = _direct_calls(rom, 0x080833A8, 0x08083AEA)
+    expected_candidate_field_calls = [
+        (0x080833C8, 0x0809C0DC),
+        (0x080834CA, 0x0806C160),
+        (0x080834E8, 0x0806C160),
+        (0x0808350C, 0x0806C160),
+        (0x08083530, 0x0806C160),
+        (0x08083554, 0x0806C160),
+        (0x08083578, 0x0806C160),
+        (0x080835A8, 0x08069DB8),
+        (0x080836DE, 0x0806FDA4),
+        (0x080837E2, 0x0806D85C),
+        (0x08083812, 0x0806D910),
+        (0x080838D6, 0x08069E44),
+        (0x080838F4, 0x08069E44),
+    ]
+    if candidate_field_calls != expected_candidate_field_calls:
+        raise ValueError("battle AI candidate-field direct-call inventory mismatch")
+    candidate_field_literals = {
+        "clear_control": _u32(rom, 0x0808360C),
+        "field_base": _u32(rom, 0x08083610),
+        "map_width_address": _u32(rom, 0x08083618),
+        "map_height_address": _u32(rom, 0x08083620),
+        "traversal_buffer": _u32(rom, 0x08083688),
+        "tile_validity_base": _u32(rom, 0x080839D8),
+        "mark_field_base": _u32(rom, 0x080839DC),
+    }
+    if candidate_field_literals != {
+        "clear_control": 0x01000100,
+        "field_base": 0x02002880,
+        "map_width_address": 0x0201BE2A,
+        "map_height_address": 0x0201BE2B,
+        "traversal_buffer": 0x02002C80,
+        "tile_validity_base": 0x0202CA27,
+        "mark_field_base": 0x02002880,
+    }:
+        raise ValueError("battle AI candidate-field literal inventory mismatch")
+    candidate_field_opcodes = {
+        0x08083684: 0x7003,
+        0x08083692: 0x7008,
+        0x0808381E: 0x2901,
+        0x08083822: 0x2914,
+        0x0808382A: 0x2915,
+        0x080839A0: 0x2001,
+        0x080839A2: 0x4301,
+        0x080839A4: 0x7019,
+        0x080839CE: 0x2010,
+        0x080839E8: 0x2040,
+        0x080839F4: 0x2080,
+        0x080839F8: 0x2020,
+        0x080839FA: 0x4301,
+        0x080839FC: 0x7019,
+    }
+    for address, expected in candidate_field_opcodes.items():
+        if _u16(rom, address) != expected:
+            raise ValueError(
+                f"battle AI candidate-field opcode mismatch at {_hex(address)}"
+            )
 
     return {
         "schema_version": 1,
@@ -221,8 +282,46 @@ def extract_ai_planner(rom_path: Path | str) -> dict[str, Any]:
             "The original enemy planner enumerates candidate families, scores concrete "
             "candidate state, and copies only a strictly better candidate. One bound "
             "score function is additive over facing, tile flags, and RNG; a separate "
-            "grid helper performs bounded coordinate filtering and max selection."
+                "grid helper performs bounded coordinate filtering and max selection."
         ),
+        "candidate_field_builder": {
+            "function": "0x080833A8",
+            "direct_calls": [
+                {"callsite": _hex(callsite), "target": _hex(target)}
+                for callsite, target in candidate_field_calls
+            ],
+            "clear_callsite": "0x080833C8",
+            "clear_control": _hex(candidate_field_literals["clear_control"]),
+            "field_base": _hex(candidate_field_literals["field_base"]),
+            "map_width_address": _hex(
+                candidate_field_literals["map_width_address"]
+            ),
+            "map_height_address": _hex(
+                candidate_field_literals["map_height_address"]
+            ),
+            "traversal_buffer": _hex(
+                candidate_field_literals["traversal_buffer"]
+            ),
+            "tile_validity_base": _hex(
+                candidate_field_literals["tile_validity_base"]
+            ),
+            "traversal_values": {
+                "available_write": "0x00",
+                "rejected_write": "0xFF",
+            },
+            "damage_effect_codes": ["0x01", "0x14", "0x15"],
+            "threat_bit": "0x01",
+            "source_direction_bits": {
+                "source_below": "0x10",
+                "source_left": "0x20",
+                "source_above": "0x40",
+                "source_right": "0x80",
+            },
+            "mark_addresses": {
+                "threat": "0x080839A4",
+                "direction": "0x080839FC",
+            },
+        },
         "boundary": (
             "This static slice does not establish target priority, damage utility, "
             "mission-objective weighting, helper semantics outside the proven calls, "

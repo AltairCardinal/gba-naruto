@@ -6,22 +6,18 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from tests.durable_evidence import load_binding, raw_evidence_available
 from tools.analyze_battle_unit_selection import build_unit_selection_manifest
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OBSERVATIONS = ROOT / "notes/battle-unit-selection-observations-20260723.json"
+RAW_EVIDENCE_AVAILABLE = raw_evidence_available(ROOT, OBSERVATIONS)
 
 
 class BattleUnitSelectionTests(unittest.TestCase):
     def _manifest(self):
-        return build_unit_selection_manifest(
-            ROOT,
-            ROOT / "rom/base.gba",
-            ROOT / "notes/battle-controller-states-20260723.json",
-            ROOT / "notes/battle-content-catalog-20260723.json",
-            OBSERVATIONS,
-        )
+        return load_binding(ROOT, "battle-unit-selection-bindings-20260723.json")
 
     def test_l_cycles_the_precommit_roster_without_binding_an_actor(self):
         result = self._manifest()
@@ -100,6 +96,7 @@ class BattleUnitSelectionTests(unittest.TestCase):
         self.assertTrue(result["l_cycle_wraps_to_initial"])
         self.assertTrue(all(row["only_selection_marker_changed"] for row in result["transitions"]))
 
+    @unittest.skipUnless(RAW_EVIDENCE_AVAILABLE, "raw build evidence is unavailable")
     def test_rejects_audit_hash_mismatch(self):
         source = json.loads(OBSERVATIONS.read_text(encoding="utf-8"))
         source["transitions"][0]["audit_sha256"] = "00" * 32

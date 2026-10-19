@@ -35,7 +35,10 @@ def build_bank(rom: bytes) -> dict:
     ]
     fields[10]["description"] = "Not copied by the initializer; compared by relationship-table consumer 0x0808FF7C"
     fields[10]["separate_consumer"] = "0x0808FF7C"
-    fields[11]["description"] = "Not copied by the initializer; read by relationship-table consumer 0x0808FF88"
+    fields[11]["description"] = (
+        "Not copied by the initializer; required material ID read by "
+        "0x0808FF88 and consumed from 0x02024033 + ID by 0x0808EBC0"
+    )
     fields[11]["separate_consumer"] = "0x0808FF88"
     semantic_names = {
         0x00: "display_animation_family",
@@ -47,7 +50,7 @@ def build_bank(rom: bytes) -> dict:
         0x07: "distance_and_line_flags",
         0x08: "area_range_and_shape_flags",
         0x0A: "parent_ninja_tool_id",
-        0x0B: "eligible_ninja_tool_id",
+        0x0B: "required_material_id",
         0x0C: "eligibility_whitelist_id_0",
         0x0D: "eligibility_whitelist_id_1",
     }
@@ -105,14 +108,14 @@ def build_bank(rom: bytes) -> dict:
         entry["target_flags"] = raw[3] & 0xF8
         entries.append(entry)
     return {
-        "version": 5,
+        "version": 6,
         "identity": "ninja_tool_numeric_templates",
         "description": "94 ninja-tool and power-up numeric templates indexed by ninja-tool ID and initialized by Thumb 0x0806D910.",
         "table_offset": TABLE_OFFSET, "table_offset_hex": f"0x{TABLE_OFFSET:X}",
         "table_end": TABLE_END, "table_end_hex": f"0x{TABLE_END:X}",
         "entry_count": ENTRY_COUNT, "entry_size": ENTRY_SIZE,
         "verification": "runtime_verified",
-        "verification_method": "Literals at 0x0806D960 and six other sites point to 0x08545BE4. A natural Naruto technique-list route selected high-bit ninja-tool ID 1 (十字手里剑) under 忍者组合拳, hit the 0x08070906 initializer call, and copied row 0x545BF4 to EWRAM. Changing only source +4 from 6 to 7 changed the visible attack-power value from 6x3 to 7x3. Source +0 copies to runtime +1, source +1 is skipped, source +2..+9 copy to matching runtime offsets, and separate code at 0x0808FF7C/0x0808FF88 consumes source +A/+B.",
+        "verification_method": "Literals at 0x0806D960 and six other sites point to 0x08545BE4. A natural Naruto technique-list route selected high-bit ninja-tool ID 1 (十字手里剑) under 忍者组合拳, hit the 0x08070906 initializer call, and copied row 0x545BF4 to EWRAM. Changing only source +4 from 6 to 7 changed the visible attack-power value from 6x3 to 7x3. Source +0 copies to runtime +1, source +1 is skipped, and source +2..+9 copy to matching runtime offsets. The preparation relationship scan at 0x0808FF7C/0x0808FF88 consumes source +A as parent tool and +B as material ID; the confirmed branch at 0x0808EBC0 subtracts that material from 0x02024033 + ID before replacing the parent tool.",
         "entry_format": {
             "fields": fields,
             "derived_runtime_fields": {
@@ -126,7 +129,7 @@ def build_bank(rom: bytes) -> dict:
         "notes": (
             "The former 12-entry 0x546100 bank was a misbased slice beginning at physical "
             "record 81. Battle/UI consumers prove source +0 as a display/animation family, "
-            "+A/+B as parent-tool to eligible-tool relationships, and +C/+D as an "
+            "+A/+B as parent-tool and required-material relationships, and +C/+D as an "
             "optional two-ID eligibility whitelist. Runtime +0 is fixed to cost kind 5, while "
             "source +2/+3 share the active-action effect and target-policy packing. A natural "
             "ninja-tool-1 detail render maps +4 attack power, +5 hit count, +6 success rate, "
