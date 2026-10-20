@@ -1,31 +1,39 @@
-# 审计器测试模块整体跑：残留失败的逐个诊断（2026-10-20 09:5x）
+# 审计器测试模块整体跑：残留失败的逐个诊断 + 57 处漏网/错向的全面排查（2026-10-20 09:5x–10:0x）
 
 > 背景：`tests/test_audit_rom_byte_coverage`（88 个测试类 / 359 个测试方法）
 > 从没被整体跑过。§22 把其中 131 处陈旧账本快照改写成界。
-> 本文件记录首次整体跑的残留失败、逐个根因、以及按
-> 「**全局量派生、批次增量硬编码**」的修法。
-> 运行时：PID 47459（100% CPU，单进程），日志 `/tmp/auditor-module-full.log`。
+> 本文件记录首次整体跑的残留失败、逐个根因、按「**全局量派生、批次增量硬编码**」
+> 的修法，以及**全文件 2,955 个 `assert*` 的全面 AST 排查**结果。
+> 首次运行：PID 47459（100% CPU，单进程），日志 `/tmp/auditor-module-full.log`
+> （停在 83 ok / 6 FAIL，25%）。**已按 §7 的判断停跑**，修复后重跑：
+> **分 4 片并行**（见 §9），日志 `/tmp/auditor-shard{0,1,2,3}.log`。
 
 ---
 
 ## 0. 结论先行
 
-**5 个残留失败全部是「账本／包推进后的既存语义漂移」，不是 131 处改写引入的回归。**
+**6 个残留失败全部是「账本／包推进后的既存语义漂移」，不是 131 处改写引入的回归。**
 
 判定方法：把改写前的版本（`git show ae9f60f2:tests/test_audit_rom_byte_coverage.py`）
 与当前版本逐方法比对，并**单独取每个失败的真实 traceback**。
 
 | # | 用例 | 改写是否触碰 | 真因 | 性质 |
 |---|---|---|---|---|
-| 1 | `BattleSoundSelectorCoverageTests.test_helper_is_non_recursive_and_build_manifest_integration_is_exact` | 触碰了 4 行界 | **待定**（traceback 采集中，见 §1） | — |
+| 1 | `BattleSoundSelectorCoverageTests.test_helper_is_non_recursive_and_build_manifest_integration_is_exact` | 触碰了 4 行界（那 4 行**全部通过**） | `class_at(0x53E495)` 期望 `unknown`，实测 `fixed_index_u8_lookup_tail` | 既存漂移 |
 | 2 | `BootCopySourcesQuickProjectionTests.test_projection_rejects_existing_primary_overlap` | **未触碰** | 报错文案从 `current unknown` 变成 `conflicting primary claims` | 既存漂移 |
 | 3 | `BootCopySourcesQuickProjectionTests.test_projects_one_claim_and_combined_674_unknown_bytes` | 触碰了 2 行界（在**报错行之后**） | `text-BG loop continuation is not current unknown` | 既存漂移 |
 | 4 | `CfgProvenRootsV20QuickProjectionTests.test_wiring_verifier_identity_and_staged_cfg_aggregate` | **未触碰** | 全局聚合 171,060 → **173,136** | 全局量漂移 |
 | 5 | `BootThumbCodeLiteralAlignmentGapCoverageTests.test_alignment_gap_is_explicitly_excluded_from_cfg_code_totals` | 触碰了 4 行界（**全部通过**） | 分母摘要 `0874b758…` → **`8ab38e24…`** | 全局量漂移 |
+| 6 | `MenuPortraitLz77PaletteAlignmentGapCoverageTests.test_promotes_exact_ranges_owner_boundaries_evidence_and_nonclaims` | **未触碰** | 全局聚合 6,127,495 → **6,205,367** | 全局量漂移 |
 
 **#3 的关键证据**：traceback 停在 `tests/test_audit_rom_byte_coverage.py:14356`
 的 `coverage_auditor._text_bg_loop_continuation_claims(...)` 调用，
 **在我改写的两行断言（文件末尾）之前** ⇒ 改写根本没被执行到。
+
+**#1 的关键证据**：`class_at(0x53E495)` 那一行在改写前后**逐字相同**；
+活账本实测 `0x53E495` 归 `fixed-index-u8-tail-53e492`
+（range `0x53E492..0x53E496`，class `fixed_index_u8_lookup_tail`，
+batch `rom-fixed-index-u8-tail-v1`）—— 与本表的 `0x53E496` **相邻且不重叠**。
 
 ---
 
@@ -208,3 +216,153 @@ AssertionError: '0874b75882eac082ff880b7ecca68f15b5f51972acc42b6d759f75b09f05448
 ⇒ 若要补，应增加「接收者溯源到活账本或活聚合调用」+「键名含
 `cfg_*` / `*_denominator_sha256` / `*_aggregate*`」这两条检测规则。
 **本轮未做**（改元守卫会改审计器测试文件 ⇒ 又要同步 SHA + 重跑 formal）。
+⚠️ 这条约束**不成立**（见 §5.1）：元守卫模块
+`tests/test_audit_reverse_engineering_coverage_count_liveness.py` **也没有被钉**，
+改它同样不需要同步 spec、不需要重跑 formal。
+
+---
+
+## 7. 全文件全面排查：57 处漏网 + 17 处**我自己引入的错向**（2026-10-20 10:0x）
+
+只修 6 个已知失败是不够的——它们只是最先暴露的。对全文件
+**88 个类 / 359 个方法 / 2,955 个 `assert*`（1,885 `assertEqual` + 280 界断言）**
+做了 AST 全量遍历 + 按作用域解析接收者绑定链，得到 **57 处仍需处理**。
+
+### 7.1 最重要的发现：**我上一轮的 131 处改写引入了 17 处新缺陷**
+
+`commit c3e2b71c` 的**元组形态**改写用了一个方向启发式：
+`method = "assertLessEqual" if "-" in actual else "assertGreaterEqual"`
+——它把 `c["range"][1] - c["range"][0]` 里的**减号**误读成「这个量会缩小」，
+于是给**只会增长的批次字节总量**加了**上界**；另一半把**批次 claim 数的等号**
+放松成了下界。
+
+| 类别 | 处数 | 后果 |
+|---|---:|---|
+| **上界留在了错误一侧**（批次字节总量） | 8 | 批次**合法变大**时**误报失败**（`assertLessEqual(sum(...), 94)` 而 94 是本包的固定字节数） |
+| **批次等号被放松成下界**（批次 claim 数） | 8 | 批次**变小**这种**真回归漏报** |
+| `non_claims` 长度等号被放松 | 1 | 同上（`assertGreaterEqual(len(row["non_claims"]), 4)`） |
+
+涉及的 8 个包：`rom-boot-interwork-continuation-v1`(6 条/94 B)、
+`rom-cfg-proven-roots-v19`(14 条/1,660 B)、`rom-unbound-chapter-script-tail-v1`(3/3,186)、
+`rom-chapter-script-consumer-roots-v1`(2/16,175)、`rom-battle-condition-result-text-v1`(219/3,961)、
+`rom-alternate-dialogue-table-v1`(161/3,200)、`rom-story-state-callback-cfg-v1`(13/702)、
+`rom-story-state-entry-c4cc-v1`(2/220)。**全部还原为 `assertEqual`。**
+
+> 元守卫第 12 项（界的方向）**当场抓到过一处**同类错向（`unknown_bytes` 用了
+> `assertGreaterEqual`），但**没能覆盖这一类** —— 因为那 8 处的接收者是
+> **批次增量**（本包自己的字节数），不是活账本量，守卫的「界的方向」规则
+> 只对活账本派生量生效。**这 17 处如果不靠这次全量 AST 排查，会一直潜伏。**
+
+### 7.2 §A：38 处仍写死的全局量（两种此前抓不到的形态）
+
+1. **接收者是局部变量**（`projected` / `stable` / `classified` / `unknown` /
+   `segments` / `claims`）——原脚本的接收者解析认不出（既非 `summary["key"]`
+   也非全量 `["claims"]` 聚合）。
+2. **投影族**：输入是 `[*self.PRIOR, *self.CLAIMS]` 的**子集聚合**，而
+   `self.PRIOR` 本身就是**活账本按 `promotion_batch` 的过滤**
+   ⇒ 投影值 = 活账本子集，随账本推进单调增长。
+
+涉及的类：`V17V18HelperCfgQuickProjectionTests`（元组形态 1 处 → 4 条界）、
+`PrebattleMenuControllerCfgQuickProjectionTests`、`StoryCallbackDependencyQuickProjectionTests`、
+`StoryNextDependencyCfgQuickProjectionTests`、`BootRegisterInitDependencyCfgQuickProjectionTests`、
+`CfgProvenRootsV17CoverageTests`、`CutsceneObjPaletteDefinitionAlignmentGapCoverageTests`、
+`TileBgLz77PaletteAlignmentGapCoverageTests`、`BootThumbCodeLiteralAlignmentGapCoverageTests`。
+
+### 7.3 §B：2 处全局分母摘要
+
+`cfg_code_claim_kind_denominator_sha256` **不单调**（新增一个 staged kind 就变一次），
+既不能当界、也不能钉死某一版 ⇒ 改为**与活注册表对拍**：
+新增测试侧 helper `_expected_cfg_registry_sha256(claims)`，按审计器同一规则
+（`stable` 注册表 + 实际观测到的 staged kind）重算摘要。
+落点：`RomByteCoverageAuditTests`（`ad155f92…`）与 `CfgProvenRootsV15CoverageTests`（`0874b758…`）。
+
+### 7.4 §C：约 430 处**确认是批次增量、必须保持硬编码**
+
+逐条与活账本比对**全部与活值相等**（含 397 处包专属 `summary` 键 + 33 处包专属摘要
++ 各包自身 `len(claims)`）⇒ **不动**。这批是真正的回归护栏。
+
+### 7.5 §E：活值算不出的站点（7 组，需实跑坐实）
+
+- 5 个投影类的 `projected` 活值：聚合输入 = 活账本 + **生产函数重投影**的 claim。
+  只能证明「若重投影结果 == 活账本中同批 claim，则活值 = 全量聚合」。
+  该等价性已由 #4 独立证实（V20 的活值正是 173,136/174,124/4,064/55）。
+- 4 个 gap 族与 V17 的 `classified` / `unknown` / `len(segments)` / `len(claims)`：
+  已**精确验证** `|baseline| + |本包 claim| = 16,913`（menu 16,861+52、
+  tile_bg 16,829+84、boot_thumb 16,901+12、cutscene_obj 16,909+4）⇒ 集合 = 全量活账本。
+
+### 7.6 修复脚本
+
+`notes/evidence/reverse-proof-update-20261020-v2/apply_global_quantity_bounds_20261020.py`
+—— **54 个替换点**（覆盖 57 处断言变更；元组 1 点 → 4 条界），
+幂等、`--dry-run`、**失败关闭**（每条必须在目标类块内恰好命中一次，
+否则非 0 退出并打印全部问题）。
+实测：dry-run → apply → 再 apply（幂等：「没有任何改动」）。
+
+**元守卫 12/12 全绿**（5.952 s）：新写法（含 `assertEqual(674, …)` 的**批次增量
+硬编码**、派生摘要、界的方向）完全符合「全局量派生、批次增量硬编码」。
+
+---
+
+## 8. 顺带统一：已晋升链包的「重投影基线」
+
+§0 的 #2 / #3 病根是**同一个**：一个已经进入 canonical 账本的 packet，
+**不能**再对着同一个账本投影一次——生产者的 current-unknown 门会直接拒绝
+（`"<label> is not current unknown"` 或 `"<label> are not current unknown"`）。
+
+本轮共发现 **6 处**这种过期投影点，分属 **4 个类**，其中 3 个类在首次整体跑时
+**还没跑到**（首跑停在 25%）：
+
+| 类 | 投影的已入账 packet |
+|---|---|
+| `TextBgLoopContinuationQuickProjectionTests` | text-BG loop continuation |
+| `BootCopySourcesQuickProjectionTests` | text-BG loop continuation + boot copy source |
+| `TextBgTaskClosureQuickProjectionTests` | 上述两个（`setUpClass`） |
+| `FixedRendererScriptRecordsQuickProjectionTests` | 上述两个 + text-BG task closure（`setUpClass`） |
+
+**统一修法**：新增模块级
+
+```python
+REPROJECTED_PACKET_CHAIN = (
+    ("rom-text-bg-loop-continuation-v1", "_text_bg_loop_continuation_claims"),
+    ("rom-boot-copy-sources-v1", "_boot_copy_source_claims"),
+    ("rom-text-bg-task-closure-v1", "_text_bg_task_closure_claims"),
+    ("rom-fixed-renderer-script-records-v1", "_fixed_renderer_script_record_claims"),
+)
+```
+
+与两个 helper `_reproject_chain(coverage, rom, upto)` /
+`_reproject_chain_baseline(coverage, upto)`：从活账本剔掉要重投影的批次，
+再按**原链序**重投影 ⇒ 覆盖到的字节与账本一致，生产者的 current-unknown 门又能跑。
+
+**为什么不能只修这 6 处失败**：另外 3 个类里的过期投影点**还没跑到**，
+不一起修就会在重跑时整类 error（`setUpClass` 失败 ⇒ 该类全部用例 error）。
+这正是「先跑 25% 拿到形态、再全量 AST 排查、再一次性修完」的价值。
+
+
+---
+
+## 9. 重跑方式：分 4 片并行（而不是单进程串行）
+
+首次整体跑的实测速率：**83 个用例 / 71 分钟**（含各类的 `setUpClass` 里
+`build_manifest` 与外部验证器冷重放），线性外推全部 359 个方法需要 **~5 小时**。
+而这 5 小时里**什么都做不了**（被 pin 的文件不能改）。
+
+处置：**停掉串行跑，改分 4 片并行**。
+
+| 片 | 类数 | 方法数 | 日志 |
+|---|---:|---:|---|
+| shard0 | 17 | 90 | `/tmp/auditor-shard0.log` |
+| shard1 | 24 | 90 | `/tmp/auditor-shard1.log` |
+| shard2 | 24 | 90 | `/tmp/auditor-shard2.log` |
+| shard3 | 23 | 89 | `/tmp/auditor-shard3.log` |
+
+分片方式：按各类的**方法数**贪心分 4 片（重类先放，平衡到 89–90 个方法/片）。
+
+**为什么安全**：
+- 本模块的用例**只读**仓库；唯一会写盘的 `RomByteCoverageWritePathTests`
+  写的是 `tempfile.TemporaryDirectory()`（已核实），**不碰** `sequel/rom-byte-coverage.json`。
+- 本模块的类**互不依赖**（每个类自带 `setUpClass`），类内方法按字母序保持不变。
+- 机器有 **12 逻辑核**，4 片各占 1 核，负载 ~2.3/12，swap 2,048 MiB（已用 1,176）。
+
+**代价**（诚实记录）：分片结果**不能**与首次串行跑的**墙钟**直接比较；
+它只回答「是否全绿」，不回答「串行要多久」。
