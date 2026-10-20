@@ -18,6 +18,19 @@
 > 3. **工程形态**：单文件夹离线 ROM 编辑器，暂停 Web 服务/认证/多用户方向
 > 4. **逆向定位**：作为功能产出的副产品，按需推进，不作为开工前置条件
 
+> **2026-10-20 — 平台约束（macOS → Windows 迁移后）**
+> 新机接入与验真记录见 `notes/windows-migration-20261020.md`。要点：
+> - 两条工作线（`codex/reverse-engineering` / `codex/butano-foundation-research`）
+>   已落地为独立工作树，工作区字节与 git blob 逐字节一致，交接文档钉死的
+>   账本/审计器/spec 三个 SHA-256 本机复算吻合。
+> - **本机 `core.autocrlf` 必须保持 `false`**：仓库用文件 SHA-256 当证据身份，
+>   换行符一改全部钉死失效，且 `git status` 不会报脏。
+> - **重活仍需 POSIX 宿主或等价改造**：账本重建 / formal / D0 采集链上的工具
+>   用了 `os.O_DIRECTORY` / `dir_fd` 等 POSIX 原语（`tools/` 下 47 个文件），
+>   其中 D0 契约钉死的两个模块不能直接改。mGBA 运行时链在本机需按 Qt +
+>   `d8bad14b` 重建才能做 D0 采集。
+> - 结论：**续作编辑器的开发不受此阻塞；逆向重活需要单独决策。**
+
 ---
 
 ## 现状总览
