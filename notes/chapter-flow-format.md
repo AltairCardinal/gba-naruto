@@ -34,36 +34,40 @@ To change which chapter loads, **write to `0x020311EA`** (= base + 0x16).
 
 - File offset: `0x53D910`
 - Entry count: 8 valid entries (indices 0–7)
-- **Entry size: 32 bytes** (previously documented as 16 bytes — CORRECTED)
-- Index formula: `entry_ptr = 0x0853D910 + 4 + chapter_id * 32`
+- **Entry size: 32 bytes**
+- Index formula: `entry_ptr = 0x0853D910 + chapter_id * 32`
 
-> Note: offset +4 skips an unknown 4-byte header at the table base.
+> **CORRECTED 2026-10-20**：本文件此前把宽高放在 +0x00、gfx 放在 +0x04，
+> 并写成 `0x0853D910 + 4 + chapter_id * 32`（"跳过 4 字节头"）。
+> 该 "+4 偏移"是错的，实测 entry 0 的宽高就在 +0x00/+0x02。
+> 正确 32 字节布局见 `notes/battle-config-format.md` 与
+> `notes/external-konoha-workshop-gap-20261020.md` §2.1（已按 LZ77 解压长度逐字段验证）。
 
-### Entry Structure (32 bytes = 8 × u32)
+### Entry Structure (32 bytes) — CORRECTED 2026-10-20
 
 | Word | Offset | Content |
 |------|--------|---------|
-| [0]  | +0x00  | Map dimensions: `u16 height` (low) ‖ `u16 width` (high) |
-| [1]  | +0x04  | ROM ptr → tile graphics data |
-| [2]  | +0x08  | ROM ptr → tilemap layout data |
-| [3]  | +0x0C  | ROM ptr → tilemap layout variant |
-| [4]  | +0x10  | ROM ptr → optional extra data (0 = absent) |
-| [5]  | +0x14  | ROM ptr → palette / attribute data |
-| [6]  | +0x18  | ROM ptr → secondary palette / compressed data |
-| [7]  | +0x1C  | Flags (0x01 = normal, 0x02 = alt mode, 0x102 = special) |
+| [0]  | +0x00  | u16 原始宽 / u16 原始高（÷4、÷2 得图块尺寸） |
+| [1]  | +0x04  | ROM ptr → tile graphics (LZ77) |
+| [2]  | +0x08  | ROM ptr → palette (LZ77, 384 字节) |
+| [3]  | +0x0C  | ROM ptr → layer 0 tilemap (LZ77) |
+| [4]  | +0x10  | ROM ptr → layer 1 tilemap (LZ77, 可为 0) |
+| [5]  | +0x14  | ROM ptr → metatile table (LZ77, 8 字节/项) |
+| [6]  | +0x18  | ROM ptr → terrain / 通行值表 (LZ77, 每格 u16) |
+| [7]  | +0x1C  | u8 剧情底图 ID |
 
 ### Known Entries
 
-| ID | Dimensions (H×W) | Notes |
+| ID | 图块 W×H | Notes |
 |----|------------------|-------|
-| 0  | 64×92  | Large outdoor map (confirmed first battle map) |
-| 1  | 30×60  | |
-| 2  | 36×36  | |
-| 3  | 40×36  | |
-| 4  | 40×36  | Same dimensions as 3 |
-| 5  | 46×36  | |
-| 6  | 32×60  | flags=0x02 |
-| 7  | 32×60  | flags=0x102; has extra data at word[4] |
+| 0  | 23×32 | 首战地图 |
+| 1  | 15×15 | |
+| 2  | 9×18 | |
+| 3  | 9×20 | |
+| 4  | 9×20 | 与 3 同尺寸 |
+| 5  | 9×23 | |
+| 6  | 15×16 | 底图 ID = 2 |
+| 7  | 15×16 | 底图 ID = 2 |
 
 ---
 
@@ -96,7 +100,7 @@ Also: `0x0202680C` is a game state flag checked by `0x080732B4`.
                      computes tile display params
        ↓
 0x08068FF0         ← map loader: takes (chapter_id, r1, r2, r3=1)
-                     entry = 0x0853D910 + 4 + chapter_id * 32
+                     entry = 0x0853D910 + chapter_id * 32
                      loads tile graphics + tilemap + palette via DMA
                      calls 0x8068FB4 for map dimension setup
 ```

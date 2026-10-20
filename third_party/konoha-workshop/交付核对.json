@@ -1,0 +1,30 @@
+{
+  "result": "pass",
+  "ROM_files": 0,
+  "ROM_header_scan": "pass",
+  "browser_demo_generation": [
+    "no file is rejected",
+    "wrong original is rejected without generation",
+    "restart browser-generated DEMO matches tested ROM exactly",
+    "continuation browser-generated DEMO matches tested ROM exactly",
+    "bundled editor opens generated ROM and paired project",
+    "paired project leaves generated ROM unchanged",
+    "new escape and invulnerable enemy survive bundle",
+    "bundle requests no network and has no page errors"
+  ],
+  "source_rebuild": [
+    {
+      "edition": "restart",
+      "result": "byte_identical",
+      "sha256": "9b17819da6c05f4d45c8f230ddda551641892febd707acc664a3992853e3cbd0"
+    },
+    {
+      "edition": "continuation",
+      "result": "byte_identical",
+      "sha256": "38a642f3d5053f3325d1165a49f82e23ec56bd67ec604b940c67377ec1c411cc"
+    }
+  ],
+  "base_and_target_patches": "byte_identical",
+  "license": "MIT for authored code; original game assets excluded",
+  "future_updates": "not_planned"
+}

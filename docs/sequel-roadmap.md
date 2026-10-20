@@ -42,8 +42,11 @@
 | 目标 | 状态 | 备注 |
 |------|------|------|
 | tilemap 布局数据 | ✅ 已定位 | 32x32 grid at 0x14D000+ |
-| 战斗配置表 | ✅ 已定位 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，patch 生成可用 |
+| 战斗配置表 | ⚠️ 需修正 | ROM 表(0x53D910, 0x53F298) + WRAM 地址均已确认，但**条目 32 字节字段顺序已判定为错**，按 P0-Step 3.5 统一 |
 | 章节流程入口 | ❌ 未定位 | 需 runtime 调试 |
+| 剧情脚本 VM | ❌ 缺失 | 第三方已实现并在本仓库 ROM 上验证；地址已知，见 P0-Step 3.5 |
+| 战斗胜负判定条件表 | ❌ 缺失 | 第三方已实现（0x594758），见 P0-Step 3.5 |
+| 任务文字三表 | ❌ 缺失 | 第三方已实现（0x348DAC + 3 张表），见 P0-Step 3.5 |
 | 资源提取（图片/音频） | ⚠️ 部分 | tileset 地址已知，提取未完成 |
 
 ### 🟡 续作内容创作（逆向完成后）
@@ -73,7 +76,11 @@
 **状态：✅ 已完成**
 
 **现状：**
-- Tile 描述表 `0x596D5C` 已完整分析（312行×16字节，每行含 tile data/attribute/layout/palette 4 个指针）
+- ⚠️ **2026-10-20 修正**：`0x596D5C` 不是"图块描述符表"，而是**精灵动作表**
+  `0x596CCC + id*144 + action*16` 的 id=1 行（`0x596CCC + 144 = 0x596D5C`），
+  每行 4 个指针 = `(frames, animations, gfx, palette)`。我们原记录的
+  "col0 嵌套描述符 / col3 调色板"实际就是这 4 个指针。详见
+  `notes/external-konoha-workshop-gap-20261020.md` §2.2
 - tilemap 布局数据（2D 瓦片 ID 网格）已定位！
 
 **发现：**
@@ -100,10 +107,15 @@
 - ❌ 旧 `0x0853F298` 单位 ID 映射结论已撤销；唯一消费者把它作为 u16
   对象/渲染偏移查找，legacy 回写已禁用
 - ✅ 真实角色定义表：`0x0854241C` / file `0x54241C`，63×`0xB4`；待建立提取器并迁移 units bank
-- ✅ 战斗场景配置表：`0x0853D910` / file `0x53D910`，8 个有效条目 × 16 字节
-  - 条目格式：u16 tiles_x, u16 tiles_y, u32 ptr1, u32 ptr2, u16 flag, u16 extra
-  - ptr1：12 字节头 + 原始 tile 数据（u16/tile）
-  - ptr2：LZ77 压缩数据（解压后 384 字节，调色板/属性数据）
+- ✅ 战斗场景配置表：`0x0853D910` / file `0x53D910`，8 个有效条目 × 32 字节
+  - ⚠️ **2026-10-20 修正**：条目格式为
+    `+0 u16 原始宽 / +2 u16 原始高 / +4 tile gfx / +8 palette / +C 图层0 tilemap /
+    +10 图层1 tilemap / +14 metatiles / +18 terrain / +1C 剧情底图ID`
+    （宽/4、高/2 得图块网格）。terrain 解压长度 = 宽×高×2 已实测精确吻合。
+    此前 `notes/battle-config-format.md` 与 `notes/chapter-flow-format.md` 的字段顺序
+    互相矛盾且均与实测不符，需按 §2.1 统一
+  - ptr1（+12/+10 图层 tilemap）：12 字节头 + 原始 tile 数据（u16/tile）
+  - ptr2（+8 palette）：LZ77 压缩数据（解压后 384 字节）
 - ✅ 状态机函数指针表：`0x0853F1C0` / file `0x53F1C0`，u32[60]，指向 0x0812Fxxx
 - ✅ WRAM 分配表：`0x0853D848` / file `0x53D848`
 
@@ -129,6 +141,55 @@
 - ⚠️ 旧 `unit_positions` CRUD 仅是运行时编辑概念，没有一行一 ROM 地址证据，不计入真实回写完成度
 - ✅ runtime WRAM dump 已通过网页 WASM 探针取得并与 ROM 编成记录唯一关联；CLI
   headless 仍无按键注入与 PC/LR 联合采集能力
+
+---
+
+### P0-Step 3.5｜吸收第三方剧情编辑器的逆向成果（2026-10-20）
+
+**状态：🔴 刚发现，未开始实施**
+
+**背景**：在 `D:\Downloads\火影忍者_木叶\木叶工房_剧情编辑器与后续DEMO_v0.4.4_无ROM`
+发现一套第三方"剧情编辑器 + 剧情脚本编译器"。其基线 ROM 与本仓库 ROM
+**SHA-256 完全一致**（`1198ece7…`），因此其全部地址/偏移/指令编号**可直接复用**。
+
+**已在本仓库 ROM 上实测复核通过的关键结论**（复现：`tools/probe_external_re_claims.py`）：
+
+| 结论 | 状态 |
+|---|---|
+| 地图表 `0x53D910` 32 字节字段顺序（+0 宽/+2 高/+4 gfx/+8 palette/+C/+10 图层/+14 metatiles/+18 terrain/+1C 底图ID） | ✅ 实测（terrain 解压 = 宽×高×2 精确吻合） |
+| `0x596CCC` = 精灵动作表（id*144 + action*16 → frames/anim/gfx/pal） | ✅ 实测 |
+| 头像表 `0x5A4DEC`（id*40+expr*8）+ 拼块表 `0x4643C0`（20 字节/块） | ✅ 实测 |
+| 剧情脚本根表 `0x60C74`/`0x60D54`/`0x60E34`/`0x60EF0` + 指令表（0x01/0x02/0x03/0x07/0x15/0x1A/0x1B/0x22/0x32/0x34/0x36…） | ✅ 实测（原版脚本字节核对） |
+| 任务文字索引表 `0x348DAC`（u8×48，每场景 3 条）+ 三张文本表 `0x59AA5C`/`0x59D214`/`0x59E920` | ✅ 实测 |
+| 战斗条件表 `0x594758`（stage*0xCC + sub*0x44，2 组 × 4 条 × 8 字节） | ⚠️ 结构可用，类型 0..9 逐条语义待我们确认 |
+| 战斗单位槽 stride 468（`0x020240C0`）、队员池 stride 188（`0x02022E34`） | ✅ 与既有结论一致 |
+
+**本仓库完全没有、而对方已实现的三块（P0 缺口）**：
+1. **剧情脚本 VM 图解码器**（`E.graph`：带 op/length/targets/text/offset 的节点图）
+   → 没有它就没有剧情编辑器
+2. **战斗胜负判定条件表读写**（`0x594758`）
+3. **任务文字三表 + 索引算法**
+
+**方法论解锁点**：对方用 **mGBA 0.11 C API**（`tools/gba_probe.c`）在 C 层驱动模拟器，
+**可以注入按键**。我们长期卡住的 "mGBA headless 无法注入按键" 属工具层限制，可绕过。
+
+**必须先裁决的冲突（C1~C4）**：
+- C1 地图表字段顺序错（`notes/battle-config-format.md` + `notes/chapter-flow-format.md` 互相矛盾）
+- C2 `0x596D5C` 被误认作图块描述符表（`notes/map-format.md`）
+- C3 `0x599634` 被误认作 Sappy 音频索引表，实测是**忍具名称文本指针表**
+  （`notes/dynamic-verification-audit.md`、`notes/patch-generator-audit.md`、
+  `docs/structure-field-semantics.md` #22 均需复核）
+- C4 `notes/battle-config-format.md` 的单位结构 236 字节已过期（应为 468）
+
+**交付物**：
+- ✅ `notes/external-konoha-workshop-gap-20261020.md` — 完整差集清单与验证记录
+- ✅ `tools/probe_external_re_claims.py` — 可复现探针（本仓库自写）
+- ✅ `third_party/konoha-workshop/` — 第三方自编代码已 vendored（155 文件，1.28 MB，
+  MIT 授权部分；原作音乐/字形位图/参考美术/BPS 补丁已按许可排除）。
+  **定位为只读逆向知识库**，改动请在本仓库另起实现，详见其 README
+- ⬜ 剧情脚本 VM 解码器（`tools/decode_story_script.py` + `notes/story-script-vm.md`）
+- ⬜ `notes/battle-condition-table.md` — 条件表结构与类型语义
+- ⬜ `notes/mission-text-tables.md` — 任务文字三表
 
 ---
 

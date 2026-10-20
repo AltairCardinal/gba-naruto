@@ -1,0 +1,10 @@
+'use strict';
+const fs=require('fs'),assert=require('assert'),path=require('path'),crypto=require('crypto'),E=require('./campaign_editor');
+const root=path.resolve(__dirname,'..'),rom=fs.readFileSync(root+'/asset_import/build/凯_基础演习_v040c.gba'),sha=crypto.createHash('sha256').update(rom).digest('hex'),m=new E.Editor(rom);
+const id=m.addCampaignBattle('第二次演习',56,56);assert.equal(id,57);m.setNewBattlePages(id,[{speaker:47,text:'开始第二次演习。'}],[{speaker:47,text:'演习结束！'}]);
+const result=m.build(),n=new E.Editor(result),l=n.layout();
+for(const [key,size,a,b]of[['profiles',64,l.profiles+56*64,l.profiles+57*64],['nameMap',256,l.nameMap+56*256,l.nameMap+57*256],['loadouts',384,l.loadouts,l.loadouts+384]])assert.deepEqual(result.slice(a,a+size),result.slice(b,b+size),key+' inherited');
+const p=m.project(sha),r=new E.Editor(rom);r.importProject(p,sha);assert.deepEqual(r.build(),result);assert(r.battleIds().includes(57));
+const g=E.graph(result,[E.u32(result,l.after+56*4)-E.BASE]);assert.equal(result[g.nodes.find(n=>n.op===26).offset+1],57);
+const changed=new E.Editor(rom);changed.setActor(56,0,0,{...changed.actors(56,0)[0],id:12});assert.equal(changed.byte(changed.layout().loadouts),0);const changedReload=new E.Editor(rom);changedReload.importProject(changed.project(sha),sha);assert.deepEqual(changedReload.build(),changed.build());
+fs.writeFileSync(root+'/asset_import/evidence/campaign_unit_tests.json',JSON.stringify({result:'pass',checks:['new stage copies profiles, aliases and skill/HP presets','project roundtrip retains exact bytes and new stage','previous chapter points to inserted chapter','changing a campaign actor restores that character own skills instead of template loadout']},null,2));console.log('PASS campaign insertion roundtrip and runtime data inheritance');

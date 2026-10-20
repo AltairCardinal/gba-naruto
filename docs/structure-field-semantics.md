@@ -262,17 +262,27 @@ unique handler addresses, indicating 6 distinct event processing modes
 **Semantics:** Complete map definitions including dimensions, tile graphics
 pointers, tilemap data, palette references, and configuration flags.
 
+> **CORRECTED 2026-10-20** — 本节原先的字段顺序
+> （width/height 在 +0x00/+0x04、tileset 在 +0x08、flags 在 +0x18）**与实测不符**。
+> 正确布局已按 LZ77 解压长度逐字段验证：
+> `+0x00 u16 原始宽 / +0x02 u16 原始高 / +0x04 tile gfx / +0x08 palette /
+> +0x0C layer0 tilemap / +0x10 layer1 tilemap / +0x14 metatiles /
+> +0x18 terrain / +0x1C 剧情底图ID`。
+> 宽÷4、高÷2 得图块尺寸；terrain 解压长度 = 宽×高×2 精确吻合。
+> 复现：`tools/probe_external_re_claims.py`；
+> 详见 `notes/external-konoha-workshop-gap-20261020.md` §2.1。
+
 | Field | Type | Description |
 |-------|------|-------------|
-| width | u16 | Map width in tiles (16-128) |
-| height | u16 | Map height in tiles (16-128) |
-| tileset_ptr | u32 | Pointer to tile graphics data |
-| tilemap_ptr | u32 | Pointer to primary tilemap data |
-| tilemap_alt_ptr | u32 | Pointer to alternate tilemap (0 if none) |
-| extra_ptr | u32 | Pointer to extra map data |
-| palette_ptr | u32 | Pointer to palette data |
-| palette2_ptr | u32 | Pointer to secondary palette |
-| flags | u32 | Map configuration flags (includes zone_id at +28) |
+| raw_width | u16 | 原始宽（÷4 = 图块宽） |
+| raw_height | u16 | 原始高（÷2 = 图块高） |
+| tile_gfx_ptr | u32 | Pointer to tile graphics data (LZ77) |
+| palette_ptr | u32 | Pointer to palette data (LZ77) |
+| layer0_ptr | u32 | Pointer to layer 0 tilemap (LZ77) |
+| layer1_ptr | u32 | Pointer to layer 1 tilemap (LZ77, may be 0) |
+| metatile_ptr | u32 | Pointer to metatile table (LZ77, 8 bytes/entry) |
+| terrain_ptr | u32 | Pointer to terrain/passability table (LZ77, u16/cell) |
+| background_id | u8 | Story background id |
 
 ---
 
@@ -355,6 +365,14 @@ These may contain graphics, sound effects, or other game resources.
 - Commands 0x80-0xE3: Indexed lookup into 100-entry pointer table at 0x08599634
 - 15 BL call sites from 6 unique functions
 - Per-scenario BGM assigned via `config_struct[0x770]`
+
+> **CONFLICT 2026-10-20 — 需重新定位**
+> `0x08599634` (file `0x599634`) 实测是**忍具名称文本指针表**（u32[93]，
+> 每项指向一段 SJIS 名称串），**不是**音频索引表。
+> 因此 "Commands 0x80-0xE3 → 0x08599634" 这条映射存疑，
+> Sappy dispatcher 的真实索引表需要重新定位。
+> 复现：`tools/probe_external_re_claims.py`；
+> 详见 `notes/external-konoha-workshop-gap-20261020.md` §4 C3。
 
 | Field | Type | Description |
 |-------|------|-------------|

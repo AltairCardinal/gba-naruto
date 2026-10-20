@@ -1,0 +1,20 @@
+{
+  "result": "pass",
+  "checks": [
+    {
+      "edition": "restart",
+      "base_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "target_sha256": "9b17819da6c05f4d45c8f230ddda551641892febd707acc664a3992853e3cbd0",
+      "patch_sha256": "72221e5ded3471c6695dc00db3e2fa7577481be7cd6576e4149a418c61d10e5c",
+      "apply": "byte_identical"
+    },
+    {
+      "edition": "continuation",
+      "base_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "target_sha256": "38a642f3d5053f3325d1165a49f82e23ec56bd67ec604b940c67377ec1c411cc",
+      "patch_sha256": "9908a855b6187a428d422be6d9e97792e8f225bfb1ceff541670d748757fb814",
+      "apply": "byte_identical"
+    }
+  ],
+  "ROM_included": false
+}

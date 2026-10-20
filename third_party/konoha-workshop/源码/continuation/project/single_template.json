@@ -1,0 +1,95 @@
+{
+  "format": "naruto-continuation-project",
+  "version": 1,
+  "title": "关卡扩展引擎单战模板",
+  "scope": "原作第二场中忍考试结束至第238话旅立ちの日；不含卡卡西外传。",
+  "assetLimitations": [
+    "新增角色使用原版通用战斗素材代演，名称与技能配置独立。",
+    "螺旋丸、千鸟、守鹤等新增表现借用原版同类效果，不是完整新动画。"
+  ],
+  "editions": {
+    "continuation": {
+      "entry": 54,
+      "baseLevel": 12,
+      "retainOriginalCampaign": true
+    },
+    "restart": {
+      "entry": 1,
+      "baseLevel": 1,
+      "replaceFirstBattle": true
+    }
+  },
+  "battles": [
+    {
+      "title": "预选一·封印下的体术",
+      "arc": "第三场考试预选",
+      "map": 32,
+      "actors": [
+        {
+          "id": 2,
+          "side": 0,
+          "x": 4,
+          "y": 4,
+          "level": 12,
+          "skills": [
+            5,
+            19
+          ]
+        },
+        {
+          "id": 33,
+          "side": 1,
+          "x": 4,
+          "y": 5,
+          "level": 6,
+          "skills": [
+            5
+          ]
+        }
+      ],
+      "before": [
+        {
+          "speaker": 7,
+          "text": "预选开始。佐助，保持清醒。"
+        },
+        {
+          "speaker": 2,
+          "text": "即使不能依靠忍术，我也要赢。"
+        }
+      ],
+      "after": [
+        {
+          "speaker": 7,
+          "text": "任务完成。真正的战斗还在后面。"
+        }
+      ],
+      "objective": "击败敌方全部人物",
+      "description": "预选一·封印下的体术。完成关卡目标后继续剧情。",
+      "hint": "本场只配置体术；保留查克拉，贴近后出手。",
+      "aliases": {
+        "33": "赤胴铠"
+      },
+      "mechanic": "restricted_skills",
+      "canonicalOutcome": "佐助胜出；志乃与勘九郎两场以过场交代。"
+    }
+  ],
+  "sources": [
+    {
+      "title": "官方漫画第8卷：预选开始",
+      "url": "https://naruto-official.com/comics/01_90"
+    },
+    {
+      "title": "官方漫画第16卷：木叶崩溃结束",
+      "url": "https://naruto-official.com/comics/01_98"
+    },
+    {
+      "title": "官方漫画第19卷：三忍之战",
+      "url": "https://naruto-official.com/comics/01_101"
+    },
+    {
+      "title": "官方漫画第27卷：旅立之日",
+      "url": "https://naruto-official.com/comics/01_109"
+    }
+  ],
+  "basicAttackPower": 25
+}
