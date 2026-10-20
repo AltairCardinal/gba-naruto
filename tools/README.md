@@ -1,5 +1,73 @@
 # Tools
 
+## Text encoding (new, 2026-10-20)
+
+The game's Chinese text uses a **custom double-byte font code**, not Shift-JIS.
+See `notes/font-encoding.md`. These four tools are the foundation for anything
+that reads or writes game text.
+
+### `konoha_font.py`
+
+Builds the code→character mapping for the ROM's baked-in font.
+
+- Parses the font segment table at `0x53D644` (31 slots × 8 bytes)
+- Fingerprints each segment with FNV-1a and only applies a character table
+  when the font bytes match the table it was derived from
+- Seeds the mapping from the ROM's own character-name table at `0x599280`
+- `decode_at()` / `encode_text()` for reading and writing
+- `read_character_names()` decodes the 62-character roster from the ROM
+
+```bash
+python3 tools/konoha_font.py
+```
+
+### `font_roundtrip.py`
+
+Proves the mapping is correct and writes new text safely.
+
+- Re-encodes real in-game text and checks `encode(decode(x)) == x` byte for byte
+- Compares the old hand-made `sjis-to-tile-mapping.json` against the ROM
+- Can emit a full code→character map that supersedes the hand-made table
+
+```bash
+python3 tools/font_roundtrip.py
+python3 tools/font_roundtrip.py --emit-mapping sequel/content/text/font-code-map.json
+```
+
+## Story script VM (new, 2026-10-20)
+
+### `decode_story_script.py`
+
+Decodes the story bytecode into a node graph. See `notes/story-script-vm.md`.
+
+```bash
+python3 tools/decode_story_script.py --scene 1
+python3 tools/decode_story_script.py --all --stats --out build/story_scripts.json
+```
+
+### `dump_story_text.py`
+
+Renders the story scripts as readable Chinese with speaker attribution.
+
+```bash
+python3 tools/dump_story_text.py --all --out build/story_text.txt --json build/story_text.json
+```
+
+## Battle tables (new, 2026-10-20)
+
+### `extract_battle_tables.py`
+
+Extracts the victory/defeat condition table (`0x594758`), the mission text
+tables (`0x348DAC` + three text tables) and the character slot table
+(`0x5461C4`). See `notes/battle-tables.md`.
+
+```bash
+python3 tools/extract_battle_tables.py
+python3 tools/extract_battle_tables.py --stage 40 --json build/battle_tables.json
+```
+
+---
+
 ## `scan_rom.py`
 
 Preliminary static scanner for a GBA ROM.

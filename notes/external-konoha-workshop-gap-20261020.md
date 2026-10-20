@@ -321,6 +321,14 @@ entry = 0x594758 + stage*0xCC + sub*0x44
 | C3 | `notes/dynamic-verification-audit.md` + `notes/patch-generator-audit.md` + `docs/structure-field-semantics.md` #22：`0x599634` = Sappy 音频索引表（100 条） | 实测 `0x599634` = **忍具名称文本指针表**（93 条，内容为"忍具…"中文） | 音频 dispatcher 的真实索引表需重新定位；`audio_events` 写回路径有风险 |
 | C4 | `notes/battle-config-format.md`：单位结构 236 字节，`0x02024294` = 234×25 数组 | `0x02024294 - 0x020240C0 = 0x1D4 = 468`；`docs/sequel-roadmap.md` 已写 468 | `battle-config-format.md` 该条已过期，应以 468 为准 |
 
+> **C1 的补充澄清（2026-10-20 复测后）**：
+> 被更正的是 `notes/battle-config-format.md` 与 `notes/chapter-flow-format.md` 里
+> "60×30 / 36×36 / 36×40 / 36×46 / 60×32" 这类**把 raw 宽高直接当图块尺寸**的写法。
+> `docs/sequel-roadmap.md` 记录的 stage 40 = "raw [36,44] → tiles [9,22]" **本来就是对的**
+> （它同时记了 raw 与派生值），不需要更正。
+> raw÷4、raw÷2 得图块尺寸这一关系已对**全部 47 个地图条目**做穷举验证：
+> terrain 解压长度 == 图块宽 × 图块高 × 2，**47/47 全部吻合**。
+
 ---
 
 ## 5. 不能直接拿 / 需要注意的部分
@@ -464,3 +472,40 @@ store("guy_portrait_result",result);generatedImage(result);
 - **使用定位**：只读逆向知识库。改动请在本仓库 `tools/` `web-editor/` 另起实现，
   不要直接改 `third_party/` 下的第三方文件。
 - 上游自陈的局限（未完整通关 26 场、条件类型 10 为其新增扩展等）见该 README §7。
+
+---
+
+## 10. 成果吸收：已落地为本仓库自有实现
+
+第三方包的价值已经被吸收成**本仓库自己的工具与笔记**（不是直接改第三方代码）：
+
+| 吸收项 | 本仓库实现 | 笔记 |
+|---|---|---|
+| 字形码映射 + 指纹校验 + 编码器 | `tools/konoha_font.py` | `notes/font-encoding.md` |
+| 往返验证 + 旧手工映射表判定 | `tools/font_roundtrip.py` | 同上 §5 |
+| 剧情脚本 VM 解码器 | `tools/decode_story_script.py` | `notes/story-script-vm.md` |
+| 可读剧本导出（6184 行） | `tools/dump_story_text.py` | 同上 §7 |
+| 战斗条件表 / 任务文字表 / 角色槽 | `tools/extract_battle_tables.py` | `notes/battle-tables.md` |
+
+### 10.1 吸收过程中发现的更大问题：本仓库的文本编码前提是错的
+
+第三方包带来的最大收获不是那几个地址，而是它的**字形码映射**。
+用它做指纹校验后确认：**游戏文本是自定义双字节字形码，不是 Shift-JIS**，
+而本仓库此前把全部游戏文本当 cp932 处理，产出的都是乱码。
+
+这直接推翻了 `notes/dialogue-format.md` 的核心结论，并波及一整组工具
+（详见 `notes/font-encoding.md` §7 的影响表）。
+其中 `tools/patch_sjis.py` / `tools/import_dialogue.py` /
+`tools/import_dialogue_var.py` 是**写回**路径，用 cp932 编码中文会写坏 ROM，
+是当前最高优先级的待修项。
+
+### 10.2 吸收后的验证强度
+
+| 验证 | 结果 |
+|---|---|
+| 字形段 FNV-1a 指纹 | 26/26 段匹配 |
+| 码位覆盖 | 4261 码位，0 未解析 |
+| 文本往返 | 真实游戏文本 `encode(decode(x)) == x`，字节级一致 |
+| 姓名表 | 62 条全部解出，所用字符 100% 可编码 |
+| 剧情脚本 | 55 场景 × 4 根表，**0 问题**（无未知指令、所有分支落在指令边界） |
+| 地图尺寸 | 47/47 条目 terrain 长度 == 图块宽×图块高×2 |
