@@ -1,0 +1,25 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 45413,
+  "peak_tree_rss_mib": 845.1171875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/usr/local/bin/python3",
+    "tools/audit_reverse_engineering_proof.py",
+    "--root",
+    ".",
+    "--execute-verifiers",
+    "--allow-incomplete",
+    "--verifier-jobs",
+    "4",
+    "--output",
+    "/Users/altair/github/gba-naruto-reverse/notes/evidence/reverse-proof-update-20261020-v2/formal-parallel-report.json"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-20T00:22:37.352349Z",
+  "finished_at": "2026-10-20T00:47:02.060730Z",
+  "child_stdout_log": "/Users/altair/github/gba-naruto-reverse/notes/evidence/reverse-proof-update-20261020-v2/formal-parallel-guard.json.stdout.log",
+  "child_stderr_log": "/Users/altair/github/gba-naruto-reverse/notes/evidence/reverse-proof-update-20261020-v2/formal-parallel-guard.json.stderr.log"
+}

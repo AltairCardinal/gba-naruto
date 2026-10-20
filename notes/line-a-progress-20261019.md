@@ -1375,6 +1375,114 @@ ROM SHA + artifact SHA + verifier SHA，缓存命中必须可被独立复验，�
 读该文件并与硬钉比对 → 套件末尾才报 `PSG frequency verifier test identity changed`，
 93 个测试里唯一那个失败**是自伤造成的**，不是回归。§19 有完整记录。
 
+## 22. 审计器自己的测试模块从没被整体跑过（2026-10-20 08:2x–08:4x）
+
+### 22.1 发现
+
+`tests/test_audit_rom_byte_coverage.py`（**15 933 行 / 60+ 测试类**）把账本总量
+**写死**成字面量。账本每晋升一次，这些字面量就变成历史值 —— 实测 **131 处**
+陈旧断言，已经让该模块**跑不过**。这是 §14 在 proof 套件里修掉的 21 处那种病的
+**另一个副本**，只是**这个模块从没被整体跑过**，所以一直没暴露。
+
+**五种形态**（脚本 `notes/evidence/reverse-proof-update-20261020-v2/derive_live_coverage_bounds.py`，
+幂等、可复现、`--dry-run` 可先看）：
+
+| # | 形态 | 处数 |
+|---|---|---:|
+| 1 | `assertEqual(<字面量>, summary["<键>"])` | 91 |
+| 2 | `assertEqual((<数>, …), (<表达式>, …))` | 35 |
+| 3 | `assertEqual((<数>, …), tuple(coverage["summary"][k] for k in (…)))` | 3 |
+| 4 | `assertEqual(<字面量>, aggregate["<cfg 键>"])`（aggregate 来自**全量**活账本 claims） | 2 |
+| 5 | `assertEqual({…}, aggregate)`（整字典） | 2 |
+
+**改法**（仓库自己已有先例：同文件 11565–11568、11796–11799 行就是这个形态）：
+快照等号的原意是「账本**至少**已经到这个状态」→ 变成**界**：
+只会增长的量（`classified_bytes` / `claim_count` / `segment_count` / `cfg_*` 聚合）
+用**下界** `assertGreaterEqual(实际值, 冻结值)`；
+只会缩小的量（`unknown_bytes`）用**上界** `assertLessEqual(实际值, 冻结值)`。
+
+**两条必须守住的边界**：
+
+1. **批次增量一律不动**（各 packet 自己的 `promotion_bytes` / `claim_count` 等）——
+   那些是真正的回归护栏，必须保持硬编码。
+2. **只转换「对全量活账本 claims 求的聚合」**；「prior + 本包 claim」这类
+   **子集投影**的冻结值**本来就是对的**（它就该等于那个子集的投影），必须原样保留。
+   判据按**作用域**做（同名变量在不同作用域可能指向活账本或重建结果），fail-closed。
+
+**方向的坑**：元组形态里，方向必须按**键名**判（`unknown_bytes` 只会缩小），
+不能按「表达式里有没有减号」判 —— 实参是 `self.COVERAGE["summary"]["unknown_bytes"]`
+时根本没有减号。第一版就是这么写错的，被守卫当场抓出来（见 §22.3）。
+
+### 22.2 元守卫补两个盲区（11 → 12 项）
+
+| 盲区 | 症状 | 修法 |
+|---|---|---|
+| **本地别名** | 守卫只认 `coverage["summary"][key]` 这种直接下标链；`summary = manifest["summary"]` 之后的**别名形态整类漏掉** —— 实测那 131 处**一个都没被抓到** | 按**作用域**解析别名链（同名变量在不同作用域可能指向活账本或重建结果） |
+| **界的方向** | 转成界之后，守卫只扫 `assertEqual` 就**看不见**了 | 新增第 12 项 `test_bound_assertions_against_live_keys_keep_the_bound_on_the_right_side`：界必须留在正确的一侧 |
+
+第 12 项当场抓出一处**既存的错向断言**（`unknown_bytes` 用了 `assertGreaterEqual`，
+方向反了，断言恒假）—— 这是守卫的自我证明。
+
+### 22.3 结果
+
+- 守卫 **12/12 全绿**（7.4 s）
+- 受影响的 6 个测试类 **15 tests 全绿**（60.7 s）
+- 转换脚本**幂等**（二次运行「没有任何改动」）
+- 整个模块的整体跑在后台进行中（该模块的 `setUpClass` 要跑一遍 `build_manifest`，
+  历史上要 ~57 分钟）
+
+## 23. formal v2：优化后的实测结果（2026-10-20 08:47Z）
+
+### 23.1 收据（`notes/evidence/reverse-proof-update-20261020-v2/formal-parallel-guard.json`）
+
+| 项 | 值 |
+|---|---|
+| 墙钟 | **1,464.7 s（24.4 min）** |
+| 退出码 / 降级 | **0** / `degraded=false` |
+| 峰值 RSS | 845 MiB |
+| `complete` | false（预期：175 blockers 未清） |
+| `blockers` | **175** —— 与基线**集合一致，无新增** |
+| `verifiers_executed` | 108，**`failed_verifiers: []`** |
+| coverage 门 | `verified=true`，`errors=[]` |
+| 账本数 | `unknown_bytes=86089` / `claim_count=16913` / `segment_count=18675` |
+
+### 23.2 墙钟对比（全部来自收据，不是推算）
+
+| 轮次 | 墙钟 | 覆盖段 | 验证器段 |
+|---|---:|---:|---:|
+| 9-05 基线（串行） | 2,489.4 s | 1,901.8 s | 587.5 s |
+| 9-30 基线（串行） | 2,383.5 s | 1,819.5 s | 564.0 s |
+| 10-20（4 路并发，旧代码） | 3,905 s | 2,377 s | 1,528 s |
+| **本轮 v2（4 路并发，atomize 优化后）** | **1,464.7 s** | — | — |
+
+- **vs 10-20 同配置：2.67× 更快**
+- **vs 9-30 空闲基线：1.63× 更快**
+
+### 23.3 结论要写得诚实
+
+`atomize_claims` 的 681× 是**单函数**的实测；它在整轮 formal 里换来的实际降幅
+**小于**「38+1 次调用 × 60.50 s ≈ 1,611 s」这个**静态推算**。原因：推算按
+「每次都按全账本规模计」估的，而 producer 内部的 38 次调用跑的是**逐渐变大的
+子集**，O(段数×claim 数) 的代价远低于全账本。**推算上界 ≈ 1,611 s，实际收益更小** ——
+这正是 AGENTS.md 要求「逆向结论变化时更新原记录」要处理的另一类：
+**不是错，但高估**。
+
+剩下的覆盖段成本是各 packet 的**验证器冷重放**（112/124 个 producer 会调外部
+verifier，其中 51 个模块与 formal 的验证器列表重叠 ⇒ 同一批冷重放在一次 formal
+里被做了两遍）。要再往下压，方向是**把 producer 内的冷重放与 claim 投影拆成两阶段**
+（前者并发、后者保持串行），或**让 auditor 复用 formal 已跑过的 verifier 收据**。
+两条都还没动手：前者要改 97 个函数且要保证「第一个抛出的异常」在并发下仍按链序
+归位；后者会削弱 auditor「独立重算一遍」的价值，fail-closed 反转风险高。
+
+### 23.4 独立审计的同条件 A/B（正在跑）
+
+- 优化前（旧代码）：**2,413.8 s** / exit 0 / 峰值 495 MiB
+- 优化后（新代码）：受管运行中，收据将写入
+  `notes/evidence/reverse-proof-update-20261020-v2/auditor-optimized-guard.json`
+
+两轮的条件可比（都同时有模块整体跑在后台、都有应用栈占用）。
+
+
 
 
 
