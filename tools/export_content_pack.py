@@ -1115,6 +1115,115 @@ def build_inline_text_table(
     }
 
 
+def build_scripts(rom: bytes) -> list[dict[str, Any]]:
+    """Decode the story VM scripts and expose the editable parts.
+
+    The **route** (剧情路线) does not live in a table — it lives inside the
+    scripts, as the "next scene" instructions `0x16` (48 处) and `0x1A`
+    (15 处).  The **in-battle story** lives in the `logic` / `events` scripts,
+    where `0x1E` (载入地图), `0x1F` (子配置) and `0x23` (队员) decide what a
+    battle scene loads and who joins.
+
+    All of those operands are **fixed width**, so rewriting them in place
+    cannot move a byte and therefore cannot invalidate the scripts' branch
+    targets.  That is exactly the constraint the repo's own write-back path
+    (`tools/import_story_script.py`) works under, and this dump reuses its
+    scanner so the two never disagree.
+
+    `0x22`（把角色加入战斗配置）is included as raw bytes only: the three
+    operand bytes' individual meanings are not pinned down, so the editor
+    shows them as bytes rather than inventing field names.
+    """
+    from tools import import_story_script as iss
+
+    roots = {
+        "before": (STORY_BEFORE_ROOT, 55),
+        "after": (STORY_AFTER_ROOT, 55),
+        "logic": (STORY_LOGIC_ROOT, 46),
+        "events": (STORY_EVENTS_ROOT, 46),
+    }
+    # op → operand name → (offset inside the instruction, size)
+    wanted = {
+        0x16: {"scene": (1, 1)},
+        0x1A: {"scene": (1, 1), "flag": (2, 1)},
+        0x1E: {"map": (1, 1)},
+        0x1F: {"config": (1, 1)},
+        0x23: {"member_a": (1, 1), "member_b": (2, 1)},
+    }
+    labels = {
+        "scene": "下一场景 id",
+        "flag": "相位标志",
+        "map": "地图 id",
+        "config": "子配置 id",
+        "member_a": "队员 A",
+        "member_b": "队员 B",
+    }
+    out: list[dict[str, Any]] = []
+    for name, (base, max_scene) in roots.items():
+        for scene in range(1, max_scene + 1):
+            slot = base + scene * 4
+            ptr = struct.unpack_from("<I", rom, slot)[0]
+            if not ptr:
+                continue
+            root = ptr - ROM_BASE
+            if not (0 <= root < len(rom)):
+                continue
+            try:
+                nodes = iss.scan_script(rom, root)
+            except Exception:  # noqa: BLE001 - a broken script must not stop the export
+                continue
+
+            route: list[dict[str, Any]] = []
+            operands: list[dict[str, Any]] = []
+            for node in nodes:
+                op = node["op"]
+                if op in wanted:
+                    for field, (delta, size) in wanted[op].items():
+                        at = node["offset"] + delta
+                        value = rom[at] if size == 1 else struct.unpack_from("<H", rom, at)[0]
+                        operands.append({
+                            "name": field,
+                            "label": labels[field],
+                            "rom_offset": at,
+                            "size": size,
+                            "value": value,
+                            "before_hex": rom[at:at + size].hex(),
+                            "opcode": op,
+                        })
+                    if op in (0x16, 0x1A):
+                        route.append({
+                            "op": op,
+                            "rom_offset": node["offset"],
+                            "scene_rom_offset": node["offset"] + 1,
+                            "scene": rom[node["offset"] + 1],
+                            "flag": rom[node["offset"] + 2] if op == 0x1A else None,
+                            "kind": "cursor" if op == 0x1A else "after",
+                        })
+                elif op == 0x22:
+                    # 把角色加入战斗配置：3 个操作数字节，含义未钉死，按原始字节呈现
+                    at = node["offset"] + 1
+                    operands.append({
+                        "name": "raw",
+                        "label": "把角色加入战斗配置（3 字节，字段含义未钉死）",
+                        "rom_offset": at,
+                        "size": 3,
+                        "value": rom[at:at + 3].hex(),
+                        "before_hex": rom[at:at + 3].hex(),
+                        "opcode": op,
+                    })
+            out.append({
+                "id": f"{name}.{scene}",
+                "root": name,
+                "scene": scene,
+                "script_offset": root,
+                "pointer_slot": slot,
+                "instruction_count": len(nodes),
+                "route": route,
+                "operands": operands,
+            })
+    return out
+
+
 def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
                                limit: int = 20000) -> dict[str, Any]:
     """Every font-coded string in the cartridge, found with the ROM's own font.
@@ -1223,6 +1332,7 @@ def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
         },
         "structures": structures,
         "texts": texts,
+        "scripts": build_scripts(rom),
         "patches": [],
         "notes": [
             "本包由 tools/export_content_pack.py 从 rom/base.gba 导出。",

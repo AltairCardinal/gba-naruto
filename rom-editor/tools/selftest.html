@@ -23,10 +23,11 @@ import { renderItems } from '../js/modules/items.js';
 import { renderCharacters } from '../js/modules/characters.js';
 import { renderNinjutsu } from '../js/modules/ninjutsu.js';
 import { renderBattle } from '../js/modules/battle.js';
-import { renderRoute } from '../js/modules/route.js';
+import { renderRoute, renderStage as renderRouteStage } from '../js/modules/route.js';
 import { renderAudio } from '../js/modules/audio.js';
 import { renderAssets } from '../js/modules/assets.js';
 import { renderRaw, applyPatch } from '../js/modules/raw.js';
+import { hexToBytes } from '../js/bytes.js';
 import { renderDomainIndex, renderPanel } from '../js/modules/common.js';
 
 const out = document.getElementById('out');
@@ -62,32 +63,19 @@ async function sha256Hex(bytes) {
 }
 
 async function loadPackText() {
-  // The pack is fetched by its own document: browsers cap how much a single
-  // document may download.
-  return await new Promise((resolve) => {
-    const frame = document.createElement('iframe');
-    frame.style.display = 'none';
-    frame.src = '../content/pack-loader.html';
-    const onMessage = (event) => {
-      const data = event.data;
-      if (!data || data.source !== 'pack-loader') return;
-      window.removeEventListener('message', onMessage);
-      frame.remove();
-      resolve(data.state === 'ok' ? data.payload : null);
-    };
-    window.addEventListener('message', onMessage);
-    frame.addEventListener('error', () => {
-      window.removeEventListener('message', onMessage);
-      frame.remove();
-      resolve(null);
-    });
-    document.body.appendChild(frame);
-    setTimeout(() => {
-      window.removeEventListener('message', onMessage);
-      frame.remove();
-      resolve(null);
-    }, 30000);
-  });
+  // Fetch the gzipped pack directly and decompress it in the page.
+  const response = await fetch('../content/pack.min.json.gz', { cache: 'no-cache' });
+  if (!response.ok) throw new Error(`pack.min.json.gz: HTTP ${response.status}`);
+  let text;
+  if (typeof DecompressionStream === 'function') {
+    const stream = response.body.pipeThrough(new DecompressionStream('gzip'));
+    text = await new Response(stream).text();
+  } else {
+    const raw = await response.arrayBuffer();
+    const bin = atob(btoa(String.fromCharCode(...new Uint8Array(raw).subarray(0, 0))));
+    text = new TextDecoder().decode(raw);
+  }
+  return text;
 }
 
 async function loadRom() {
@@ -262,6 +250,55 @@ const MODULES = [
         out3.report.errors.join('; ') || JSON.stringify(decoded.slice(0, 12)));
     }
 
+    // --- 9. 剧情路线：脚本里的「下一场景」与定宽操作数 ------------------
+    info('剧情路线：脚本里的路线边与可改操作数…');
+    {
+      // 每个检查用自己的一份包，互不干扰
+      const saved = ctx.pack;
+      ctx.pack = ContentPack.fromJSON(JSON.parse(packText));
+      try {
+        stage.innerHTML = '';
+        ctx.state.view = { panel: null };
+        let routeError = null;
+        let routeText = '';
+        try {
+          renderRouteStage(stage, ctx, 3);
+          routeText = stage.textContent || '';
+        } catch (err) { routeError = err; }
+        check('剧情路线：按关卡的视图渲染', !routeError && routeText.length > 400,
+          routeError ? String(routeError.message) : `${routeText.length} 字符`);
+        check('剧情路线：含脚本里的路线边表', routeText.includes('下一场景'),
+          routeText.includes('下一场景') ? '' : '没找到「下一场景」');
+
+        // 改一个路线操作数，断言它真的进 ROM
+        const scripts = ctx.pack.scripts || [];
+        const withRoute = scripts.find((s) => s.route && s.route.length);
+        if (withRoute) {
+          const operand = withRoute.operands.find((o) => o.name === 'scene');
+          if (operand) {
+            // 合成基底里补上脚本的原字节，补丁的「原字节必须匹配」才成立
+            base.set(hexToBytes(operand.before_hex), operand.rom_offset);
+            const wanted = (operand.value + 1) & 0xff;
+            ctx.pack.setScriptOperand(operand, wanted);
+            const out10 = buildRom(ctx.pack, base);
+            const changed10 = diffIndexes(out10.bytes, reference);
+            check('剧情路线：改「下一场景」落到脚本字节上',
+              out10.report.errors.length === 0 && changed10.length === 1 &&
+              changed10[0] === operand.rom_offset &&
+              out10.bytes[operand.rom_offset] === wanted,
+              out10.report.errors.join('; ') ||
+              `改动 @0x${operand.rom_offset.toString(16)}（期望 0x${wanted.toString(16)}）`);
+          } else {
+            check('剧情路线：找到可改的 scene 操作数', false, '没有 scene 操作数');
+          }
+        } else {
+          check('剧情路线：找到带路线边的剧本', false, 'pack.scripts 里没有 route');
+        }
+      } finally {
+        ctx.pack = saved;
+      }
+    }
+
     // --- 7. 原始字节模块 ------------------------------------------------
     info('原始字节模块…');
     stage.innerHTML = '';
@@ -277,26 +314,33 @@ const MODULES = [
     // --- 8. 原始字节补丁真的进 ROM --------------------------------------
     info('原始字节补丁落点…');
     {
-      // applyPatch 写进 ctx.pack.patches，构建器再把它们写进 ROM
-      const at = 0x00076d;
-      const original = base[at];
-      const wanted = (original ^ 0xff) & 0xff;
-      applyPatch(ctx, at, wanted);
-      const out8 = buildRom(ctx.pack, base);
-      const changed8 = diffIndexes(out8.bytes, reference);
-      check('原始字节补丁落在指定地址',
-        out8.report.errors.length === 0 && changed8.length === 1 && changed8[0] === at &&
-        out8.bytes[at] === wanted,
-        out8.report.errors.join('; ') || `改动 ${changed8.length} 字节 @0x${at.toString(16)}`);
+      // 同样用自己的一份包；applyPatch 写进 ctx.pack.patches，
+      // 构建器再把它们写进 ROM
+      const saved = ctx.pack;
+      ctx.pack = ContentPack.fromJSON(JSON.parse(packText));
+      try {
+        const at = 0x00076d;
+        const original = base[at];
+        const wanted = (original ^ 0xff) & 0xff;
+        applyPatch(ctx, at, wanted);
+        const out8 = buildRom(ctx.pack, base);
+        const changed8 = diffIndexes(out8.bytes, reference);
+        check('原始字节补丁落在指定地址',
+          out8.report.errors.length === 0 && changed8.length === 1 && changed8[0] === at &&
+          out8.bytes[at] === wanted,
+          out8.report.errors.join('; ') || `改动 ${changed8.length} 字节 @0x${at.toString(16)}`);
 
-      // 同一地址再改一次应合并进同一条补丁，而不是新增一条
-      const before = ctx.pack.patches.length;
-      applyPatch(ctx, at, (wanted ^ 0x0f) & 0xff);
-      const out9 = buildRom(ctx.pack, base);
-      const changed9 = diffIndexes(out9.bytes, reference);
-      check('同址二次修改合并进同一条补丁',
-        ctx.pack.patches.length === before && changed9.length === 1 && changed9[0] === at,
-        `补丁数 ${before} → ${ctx.pack.patches.length}`);
+        // 同一地址再改一次应合并进同一条补丁，而不是新增一条
+        const before = ctx.pack.patches.length;
+        applyPatch(ctx, at, (wanted ^ 0x0f) & 0xff);
+        const out9 = buildRom(ctx.pack, base);
+        const changed9 = diffIndexes(out9.bytes, reference);
+        check('同址二次修改合并进同一条补丁',
+          ctx.pack.patches.length === before && changed9.length === 1 && changed9[0] === at,
+          `补丁数 ${before} → ${ctx.pack.patches.length}`);
+      } finally {
+        ctx.pack = saved;
+      }
     }
 
     say('');

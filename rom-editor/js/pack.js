@@ -11,7 +11,7 @@
 //      fields plus `hex` filler fields for every byte nobody has decoded yet.
 //      So an untouched pack rebuilds the original ROM byte for byte.
 
-import { bytesToBase64, base64ToBytes, readUint, writeUint } from './bytes.js';
+import { bytesToBase64, base64ToBytes, bytesToHex, hexToBytes, readUint, writeUint } from './bytes.js';
 import { FontCodec } from './textcodec.js';
 
 export const FIELD_TYPES = {
@@ -32,6 +32,7 @@ export class ContentPack {
     this.rom = data.rom || {};
     this.structures = data.structures || [];
     this.texts = data.texts || [];
+    this.scripts = data.scripts || [];
     this.patches = data.patches || [];
     this.font = new FontCodec(
       (data.font && data.font.code_to_char) || {},
@@ -57,6 +58,7 @@ export class ContentPack {
       },
       structures: this.structures,
       texts: this.texts,
+      scripts: this.scripts,
       patches: this.patches,
       notes: this.notes,
     };
@@ -107,6 +109,49 @@ export class ContentPack {
   setText(table, record, text) {
     record.text = text;
     this.dirty.add(`${table.id}#${record.id}`);
+  }
+
+  /**
+   * Rewrite one story-VM operand.
+   *
+   * The operand is a proved fixed-width field inside a script, so writing it
+   * in place cannot move a byte and cannot invalidate the script's branch
+   * targets.  The change is recorded as an explicit patch (same mechanism the
+   * raw hex editor uses), so the builder verifies the original bytes before
+   * writing.
+   */
+  setScriptOperand(operand, value) {
+    let after;
+    if (operand.size === 1) {
+      after = new Uint8Array([Number(value) & 0xff]);
+    } else if (operand.size === 2) {
+      const v = Number(value) & 0xffff;
+      after = new Uint8Array([v & 0xff, (v >> 8) & 0xff]);
+    } else {
+      after = hexToBytes(String(value));
+    }
+    const before = hexToBytes(operand.before_hex || '');
+    const patch = this.ensurePatch(operand.rom_offset, before);
+    patch.after_hex = bytesToHex(after);
+    this.dirty.add(`operand.${operand.rom_offset.toString(16)}`);
+    return patch;
+  }
+
+  /** Find or create the explicit patch covering `offset`. */
+  ensurePatch(offset, beforeBytes) {
+    for (const patch of this.patches) {
+      const after = hexToBytes(patch.after_hex || '');
+      if (offset >= patch.offset && offset < patch.offset + after.length) return patch;
+    }
+    const patch = {
+      id: `raw.${offset.toString(16)}`,
+      offset,
+      before_hex: bytesToHex(beforeBytes || new Uint8Array(0)),
+      after_hex: bytesToHex(beforeBytes || new Uint8Array(0)),
+      label: `手动修改 0x${offset.toString(16).toUpperCase()}`,
+    };
+    this.patches.push(patch);
+    return patch;
   }
 
   /** How many records differ from the original bytes. */

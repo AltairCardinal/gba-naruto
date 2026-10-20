@@ -140531,6 +140531,4377 @@
    ]
   }
  ],
+ "scripts": [
+  {
+   "id": "before.1",
+   "root": "before",
+   "scene": 1,
+   "script_offset": 40750,
+   "pointer_slot": 396408,
+   "instruction_count": 383,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 44761,
+     "scene_rom_offset": 44762,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    },
+    {
+     "op": 26,
+     "rom_offset": 49084,
+     "scene_rom_offset": 49085,
+     "scene": 2,
+     "flag": 0,
+     "kind": "cursor"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 44762,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 49085,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 49086,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 26
+    }
+   ]
+  },
+  {
+   "id": "before.2",
+   "root": "before",
+   "scene": 2,
+   "script_offset": 49097,
+   "pointer_slot": 396412,
+   "instruction_count": 160,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 51120,
+     "scene_rom_offset": 51121,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    },
+    {
+     "op": 22,
+     "rom_offset": 51903,
+     "scene_rom_offset": 51904,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "config",
+     "label": "子配置 id",
+     "rom_offset": 50848,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 31
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 51121,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 51904,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.3",
+   "root": "before",
+   "scene": 3,
+   "script_offset": 52003,
+   "pointer_slot": 396416,
+   "instruction_count": 242,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 56139,
+     "scene_rom_offset": 56140,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "config",
+     "label": "子配置 id",
+     "rom_offset": 56138,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 31
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 56140,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.4",
+   "root": "before",
+   "scene": 4,
+   "script_offset": 59082,
+   "pointer_slot": 396420,
+   "instruction_count": 369,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 62288,
+     "scene_rom_offset": 62289,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    },
+    {
+     "op": 22,
+     "rom_offset": 63100,
+     "scene_rom_offset": 63101,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    },
+    {
+     "op": 22,
+     "rom_offset": 63776,
+     "scene_rom_offset": 63777,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    },
+    {
+     "op": 22,
+     "rom_offset": 65250,
+     "scene_rom_offset": 65251,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 62289,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 63101,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 63777,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "config",
+     "label": "子配置 id",
+     "rom_offset": 65249,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 31
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 65251,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.5",
+   "root": "before",
+   "scene": 5,
+   "script_offset": 65426,
+   "pointer_slot": 396424,
+   "instruction_count": 1,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.6",
+   "root": "before",
+   "scene": 6,
+   "script_offset": 65437,
+   "pointer_slot": 396428,
+   "instruction_count": 239,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 69438,
+     "scene_rom_offset": 69439,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    },
+    {
+     "op": 22,
+     "rom_offset": 70468,
+     "scene_rom_offset": 70469,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 69430,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 69431,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 69433,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 69434,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 69436,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 69437,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 69439,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "config",
+     "label": "子配置 id",
+     "rom_offset": 70467,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 31
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 70469,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.7",
+   "root": "before",
+   "scene": 7,
+   "script_offset": 70680,
+   "pointer_slot": 396432,
+   "instruction_count": 524,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 73788,
+     "scene_rom_offset": 73789,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    },
+    {
+     "op": 22,
+     "rom_offset": 77154,
+     "scene_rom_offset": 77155,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 73786,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 73787,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 73789,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 77144,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 77145,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 77147,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 77148,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "config",
+     "label": "子配置 id",
+     "rom_offset": 77153,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 31
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 77155,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 81236,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 81237,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 81239,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 81240,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 81242,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 81243,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 81245,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 81246,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 81248,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 81249,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 81251,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 81252,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    }
+   ]
+  },
+  {
+   "id": "before.8",
+   "root": "before",
+   "scene": 8,
+   "script_offset": 81258,
+   "pointer_slot": 396436,
+   "instruction_count": 367,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 82090,
+     "scene_rom_offset": 82091,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 82078,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 82079,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 82081,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 82082,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 82084,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 82085,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "raw",
+     "label": "把角色加入战斗配置（3 字节，字段含义未钉死）",
+     "rom_offset": 82087,
+     "size": 3,
+     "value": "010701",
+     "before_hex": "010701",
+     "opcode": 34
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 82091,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 84590,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 84591,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    }
+   ]
+  },
+  {
+   "id": "before.9",
+   "root": "before",
+   "scene": 9,
+   "script_offset": 88729,
+   "pointer_slot": 396440,
+   "instruction_count": 694,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 89851,
+     "scene_rom_offset": 89852,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 89852,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.10",
+   "root": "before",
+   "scene": 10,
+   "script_offset": 102094,
+   "pointer_slot": 396444,
+   "instruction_count": 298,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 107796,
+     "scene_rom_offset": 107797,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 107791,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 107792,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 107794,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 107795,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 107797,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.11",
+   "root": "before",
+   "scene": 11,
+   "script_offset": 109003,
+   "pointer_slot": 396448,
+   "instruction_count": 37,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 109587,
+     "scene_rom_offset": 109588,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 109588,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.12",
+   "root": "before",
+   "scene": 12,
+   "script_offset": 112878,
+   "pointer_slot": 396452,
+   "instruction_count": 22,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 113172,
+     "scene_rom_offset": 113173,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 113173,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.13",
+   "root": "before",
+   "scene": 13,
+   "script_offset": 114680,
+   "pointer_slot": 396456,
+   "instruction_count": 106,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 116581,
+     "scene_rom_offset": 116582,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 116582,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.14",
+   "root": "before",
+   "scene": 14,
+   "script_offset": 117763,
+   "pointer_slot": 396460,
+   "instruction_count": 150,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 120703,
+     "scene_rom_offset": 120704,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 120704,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.15",
+   "root": "before",
+   "scene": 15,
+   "script_offset": 121053,
+   "pointer_slot": 396464,
+   "instruction_count": 39,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 121658,
+     "scene_rom_offset": 121659,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 121659,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.16",
+   "root": "before",
+   "scene": 16,
+   "script_offset": 124920,
+   "pointer_slot": 396468,
+   "instruction_count": 26,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 125266,
+     "scene_rom_offset": 125267,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 125267,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.17",
+   "root": "before",
+   "scene": 17,
+   "script_offset": 125390,
+   "pointer_slot": 396472,
+   "instruction_count": 153,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 128051,
+     "scene_rom_offset": 128052,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 128052,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.18",
+   "root": "before",
+   "scene": 18,
+   "script_offset": 128451,
+   "pointer_slot": 396476,
+   "instruction_count": 17,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 128657,
+     "scene_rom_offset": 128658,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 128658,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.19",
+   "root": "before",
+   "scene": 19,
+   "script_offset": 129756,
+   "pointer_slot": 396480,
+   "instruction_count": 67,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 130885,
+     "scene_rom_offset": 130886,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 130886,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.20",
+   "root": "before",
+   "scene": 20,
+   "script_offset": 131128,
+   "pointer_slot": 396484,
+   "instruction_count": 292,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 133765,
+     "scene_rom_offset": 133766,
+     "scene": 1,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 133766,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.21",
+   "root": "before",
+   "scene": 21,
+   "script_offset": 136970,
+   "pointer_slot": 396488,
+   "instruction_count": 21,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 137377,
+     "scene_rom_offset": 137378,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 137378,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.22",
+   "root": "before",
+   "scene": 22,
+   "script_offset": 137534,
+   "pointer_slot": 396492,
+   "instruction_count": 53,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 138555,
+     "scene_rom_offset": 138556,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 138556,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.23",
+   "root": "before",
+   "scene": 23,
+   "script_offset": 138698,
+   "pointer_slot": 396496,
+   "instruction_count": 43,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 139445,
+     "scene_rom_offset": 139446,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 139446,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.24",
+   "root": "before",
+   "scene": 24,
+   "script_offset": 141957,
+   "pointer_slot": 396500,
+   "instruction_count": 370,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 149581,
+     "scene_rom_offset": 149582,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 149582,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.25",
+   "root": "before",
+   "scene": 25,
+   "script_offset": 150342,
+   "pointer_slot": 396504,
+   "instruction_count": 184,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 154508,
+     "scene_rom_offset": 154509,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 154509,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.26",
+   "root": "before",
+   "scene": 26,
+   "script_offset": 155883,
+   "pointer_slot": 396508,
+   "instruction_count": 106,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 158324,
+     "scene_rom_offset": 158325,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 158325,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.27",
+   "root": "before",
+   "scene": 27,
+   "script_offset": 162121,
+   "pointer_slot": 396512,
+   "instruction_count": 239,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 166723,
+     "scene_rom_offset": 166724,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 166724,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.28",
+   "root": "before",
+   "scene": 28,
+   "script_offset": 168241,
+   "pointer_slot": 396516,
+   "instruction_count": 464,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 177684,
+     "scene_rom_offset": 177685,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 177685,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.29",
+   "root": "before",
+   "scene": 29,
+   "script_offset": 179602,
+   "pointer_slot": 396520,
+   "instruction_count": 317,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 181793,
+     "scene_rom_offset": 181794,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 181784,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 181785,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 181787,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 181788,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "raw",
+     "label": "把角色加入战斗配置（3 字节，字段含义未钉死）",
+     "rom_offset": 181790,
+     "size": 3,
+     "value": "010c00",
+     "before_hex": "010c00",
+     "opcode": 34
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 181794,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.30",
+   "root": "before",
+   "scene": 30,
+   "script_offset": 189644,
+   "pointer_slot": 396524,
+   "instruction_count": 460,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 198741,
+     "scene_rom_offset": 198742,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 198742,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.31",
+   "root": "before",
+   "scene": 31,
+   "script_offset": 200524,
+   "pointer_slot": 396528,
+   "instruction_count": 2,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 200524,
+     "scene_rom_offset": 200525,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 200525,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.32",
+   "root": "before",
+   "scene": 32,
+   "script_offset": 200533,
+   "pointer_slot": 396532,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.33",
+   "root": "before",
+   "scene": 33,
+   "script_offset": 200562,
+   "pointer_slot": 396536,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.34",
+   "root": "before",
+   "scene": 34,
+   "script_offset": 200591,
+   "pointer_slot": 396540,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.35",
+   "root": "before",
+   "scene": 35,
+   "script_offset": 200620,
+   "pointer_slot": 396544,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.36",
+   "root": "before",
+   "scene": 36,
+   "script_offset": 200649,
+   "pointer_slot": 396548,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.37",
+   "root": "before",
+   "scene": 37,
+   "script_offset": 200678,
+   "pointer_slot": 396552,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.38",
+   "root": "before",
+   "scene": 38,
+   "script_offset": 200707,
+   "pointer_slot": 396556,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.39",
+   "root": "before",
+   "scene": 39,
+   "script_offset": 200736,
+   "pointer_slot": 396560,
+   "instruction_count": 50,
+   "route": [
+    {
+     "op": 26,
+     "rom_offset": 200792,
+     "scene_rom_offset": 200793,
+     "scene": 45,
+     "flag": 2,
+     "kind": "cursor"
+    },
+    {
+     "op": 26,
+     "rom_offset": 200796,
+     "scene_rom_offset": 200797,
+     "scene": 44,
+     "flag": 2,
+     "kind": "cursor"
+    },
+    {
+     "op": 26,
+     "rom_offset": 200800,
+     "scene_rom_offset": 200801,
+     "scene": 43,
+     "flag": 2,
+     "kind": "cursor"
+    },
+    {
+     "op": 26,
+     "rom_offset": 200804,
+     "scene_rom_offset": 200805,
+     "scene": 42,
+     "flag": 2,
+     "kind": "cursor"
+    },
+    {
+     "op": 26,
+     "rom_offset": 200812,
+     "scene_rom_offset": 200813,
+     "scene": 41,
+     "flag": 2,
+     "kind": "cursor"
+    },
+    {
+     "op": 26,
+     "rom_offset": 200816,
+     "scene_rom_offset": 200817,
+     "scene": 40,
+     "flag": 2,
+     "kind": "cursor"
+    },
+    {
+     "op": 22,
+     "rom_offset": 201342,
+     "scene_rom_offset": 201343,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 200793,
+     "size": 1,
+     "value": 45,
+     "before_hex": "2d",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 200794,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 26
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 200797,
+     "size": 1,
+     "value": 44,
+     "before_hex": "2c",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 200798,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 26
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 200801,
+     "size": 1,
+     "value": 43,
+     "before_hex": "2b",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 200802,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 26
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 200805,
+     "size": 1,
+     "value": 42,
+     "before_hex": "2a",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 200806,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 26
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 200813,
+     "size": 1,
+     "value": 41,
+     "before_hex": "29",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 200814,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 26
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 200817,
+     "size": 1,
+     "value": 40,
+     "before_hex": "28",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 200818,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 26
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 201343,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.40",
+   "root": "before",
+   "scene": 40,
+   "script_offset": 201776,
+   "pointer_slot": 396564,
+   "instruction_count": 44,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 202662,
+     "scene_rom_offset": 202663,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 202663,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.41",
+   "root": "before",
+   "scene": 41,
+   "script_offset": 203282,
+   "pointer_slot": 396568,
+   "instruction_count": 219,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 204125,
+     "scene_rom_offset": 204126,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 204126,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.42",
+   "root": "before",
+   "scene": 42,
+   "script_offset": 208416,
+   "pointer_slot": 396572,
+   "instruction_count": 33,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 209192,
+     "scene_rom_offset": 209193,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 209193,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.43",
+   "root": "before",
+   "scene": 43,
+   "script_offset": 209819,
+   "pointer_slot": 396576,
+   "instruction_count": 33,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 210609,
+     "scene_rom_offset": 210610,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 210610,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.44",
+   "root": "before",
+   "scene": 44,
+   "script_offset": 211038,
+   "pointer_slot": 396580,
+   "instruction_count": 170,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 214212,
+     "scene_rom_offset": 214213,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 214213,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.45",
+   "root": "before",
+   "scene": 45,
+   "script_offset": 215263,
+   "pointer_slot": 396584,
+   "instruction_count": 33,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 215978,
+     "scene_rom_offset": 215979,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 215979,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.46",
+   "root": "before",
+   "scene": 46,
+   "script_offset": 217085,
+   "pointer_slot": 396588,
+   "instruction_count": 179,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 220467,
+     "scene_rom_offset": 220468,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 220468,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.47",
+   "root": "before",
+   "scene": 47,
+   "script_offset": 221593,
+   "pointer_slot": 396592,
+   "instruction_count": 3,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.48",
+   "root": "before",
+   "scene": 48,
+   "script_offset": 221657,
+   "pointer_slot": 396596,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.49",
+   "root": "before",
+   "scene": 49,
+   "script_offset": 221686,
+   "pointer_slot": 396600,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "before.50",
+   "root": "before",
+   "scene": 50,
+   "script_offset": 221715,
+   "pointer_slot": 396604,
+   "instruction_count": 2123,
+   "route": [
+    {
+     "op": 26,
+     "rom_offset": 258030,
+     "scene_rom_offset": 258031,
+     "scene": 31,
+     "flag": 0,
+     "kind": "cursor"
+    },
+    {
+     "op": 22,
+     "rom_offset": 258033,
+     "scene_rom_offset": 258034,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "raw",
+     "label": "把角色加入战斗配置（3 字节，字段含义未钉死）",
+     "rom_offset": 228272,
+     "size": 3,
+     "value": "010201",
+     "before_hex": "010201",
+     "opcode": 34
+    },
+    {
+     "name": "raw",
+     "label": "把角色加入战斗配置（3 字节，字段含义未钉死）",
+     "rom_offset": 228276,
+     "size": 3,
+     "value": "010301",
+     "before_hex": "010301",
+     "opcode": 34
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 258025,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 258026,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 258028,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 258029,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 258031,
+     "size": 1,
+     "value": 31,
+     "before_hex": "1f",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 258032,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 26
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 258034,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.51",
+   "root": "before",
+   "scene": 51,
+   "script_offset": 267226,
+   "pointer_slot": 396608,
+   "instruction_count": 1072,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 282657,
+     "scene_rom_offset": 282658,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    },
+    {
+     "op": 26,
+     "rom_offset": 282659,
+     "scene_rom_offset": 282660,
+     "scene": 5,
+     "flag": 0,
+     "kind": "cursor"
+    },
+    {
+     "op": 26,
+     "rom_offset": 288348,
+     "scene_rom_offset": 288349,
+     "scene": 50,
+     "flag": 0,
+     "kind": "cursor"
+    }
+   ],
+   "operands": [
+    {
+     "name": "map",
+     "label": "地图 id",
+     "rom_offset": 279392,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 30
+    },
+    {
+     "name": "map",
+     "label": "地图 id",
+     "rom_offset": 280305,
+     "size": 1,
+     "value": 51,
+     "before_hex": "33",
+     "opcode": 30
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 280920,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 280921,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 280923,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 280924,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 282658,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 282660,
+     "size": 1,
+     "value": 5,
+     "before_hex": "05",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 282661,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 26
+    },
+    {
+     "name": "map",
+     "label": "地图 id",
+     "rom_offset": 285173,
+     "size": 1,
+     "value": 7,
+     "before_hex": "07",
+     "opcode": 30
+    },
+    {
+     "name": "map",
+     "label": "地图 id",
+     "rom_offset": 287001,
+     "size": 1,
+     "value": 7,
+     "before_hex": "07",
+     "opcode": 30
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 288349,
+     "size": 1,
+     "value": 50,
+     "before_hex": "32",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 288350,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 26
+    }
+   ]
+  },
+  {
+   "id": "before.52",
+   "root": "before",
+   "scene": 52,
+   "script_offset": 288372,
+   "pointer_slot": 396612,
+   "instruction_count": 252,
+   "route": [
+    {
+     "op": 22,
+     "rom_offset": 293621,
+     "scene_rom_offset": 293622,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 293622,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "before.53",
+   "root": "before",
+   "scene": 53,
+   "script_offset": 294720,
+   "pointer_slot": 396616,
+   "instruction_count": 364,
+   "route": [
+    {
+     "op": 26,
+     "rom_offset": 302705,
+     "scene_rom_offset": 302706,
+     "scene": 50,
+     "flag": 0,
+     "kind": "cursor"
+    }
+   ],
+   "operands": [
+    {
+     "name": "map",
+     "label": "地图 id",
+     "rom_offset": 294721,
+     "size": 1,
+     "value": 30,
+     "before_hex": "1e",
+     "opcode": 30
+    },
+    {
+     "name": "map",
+     "label": "地图 id",
+     "rom_offset": 295048,
+     "size": 1,
+     "value": 53,
+     "before_hex": "35",
+     "opcode": 30
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 302706,
+     "size": 1,
+     "value": 50,
+     "before_hex": "32",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 302707,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 26
+    }
+   ]
+  },
+  {
+   "id": "before.54",
+   "root": "before",
+   "scene": 54,
+   "script_offset": 302710,
+   "pointer_slot": 396620,
+   "instruction_count": 382,
+   "route": [],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 302754,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 302755,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 302757,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 302758,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    }
+   ]
+  },
+  {
+   "id": "before.55",
+   "root": "before",
+   "scene": 55,
+   "script_offset": 312854,
+   "pointer_slot": 396624,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.1",
+   "root": "after",
+   "scene": 1,
+   "script_offset": 44764,
+   "pointer_slot": 396632,
+   "instruction_count": 41,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.2",
+   "root": "after",
+   "scene": 2,
+   "script_offset": 51123,
+   "pointer_slot": 396636,
+   "instruction_count": 14,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.3",
+   "root": "after",
+   "scene": 3,
+   "script_offset": 56142,
+   "pointer_slot": 396640,
+   "instruction_count": 172,
+   "route": [
+    {
+     "op": 26,
+     "rom_offset": 59062,
+     "scene_rom_offset": 59063,
+     "scene": 51,
+     "flag": 0,
+     "kind": "cursor"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 59063,
+     "size": 1,
+     "value": 51,
+     "before_hex": "33",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 59064,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 26
+    }
+   ]
+  },
+  {
+   "id": "after.4",
+   "root": "after",
+   "scene": 4,
+   "script_offset": 59122,
+   "pointer_slot": 396644,
+   "instruction_count": 188,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.5",
+   "root": "after",
+   "scene": 5,
+   "script_offset": 65427,
+   "pointer_slot": 396648,
+   "instruction_count": 41,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.6",
+   "root": "after",
+   "scene": 6,
+   "script_offset": 69441,
+   "pointer_slot": 396652,
+   "instruction_count": 57,
+   "route": [],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 70163,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 70164,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 70166,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 70167,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 70169,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 70170,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 70172,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 70173,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 70175,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 70176,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    }
+   ]
+  },
+  {
+   "id": "after.7",
+   "root": "after",
+   "scene": 7,
+   "script_offset": 73791,
+   "pointer_slot": 396656,
+   "instruction_count": 133,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.8",
+   "root": "after",
+   "scene": 8,
+   "script_offset": 82093,
+   "pointer_slot": 396660,
+   "instruction_count": 54,
+   "route": [],
+   "operands": [
+    {
+     "name": "raw",
+     "label": "把角色加入战斗配置（3 字节，字段含义未钉死）",
+     "rom_offset": 83307,
+     "size": 3,
+     "value": "000700",
+     "before_hex": "000700",
+     "opcode": 34
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 83311,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 83312,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 83314,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 83315,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 83317,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 83318,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    }
+   ]
+  },
+  {
+   "id": "after.9",
+   "root": "after",
+   "scene": 9,
+   "script_offset": 89854,
+   "pointer_slot": 396664,
+   "instruction_count": 53,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.10",
+   "root": "after",
+   "scene": 10,
+   "script_offset": 107799,
+   "pointer_slot": 396668,
+   "instruction_count": 77,
+   "route": [],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 108988,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 108989,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 108991,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 108992,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    }
+   ]
+  },
+  {
+   "id": "after.11",
+   "root": "after",
+   "scene": 11,
+   "script_offset": 109590,
+   "pointer_slot": 396672,
+   "instruction_count": 156,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.12",
+   "root": "after",
+   "scene": 12,
+   "script_offset": 113175,
+   "pointer_slot": 396676,
+   "instruction_count": 71,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.13",
+   "root": "after",
+   "scene": 13,
+   "script_offset": 116584,
+   "pointer_slot": 396680,
+   "instruction_count": 69,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.14",
+   "root": "after",
+   "scene": 14,
+   "script_offset": 120706,
+   "pointer_slot": 396684,
+   "instruction_count": 27,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.15",
+   "root": "after",
+   "scene": 15,
+   "script_offset": 121661,
+   "pointer_slot": 396688,
+   "instruction_count": 168,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.16",
+   "root": "after",
+   "scene": 16,
+   "script_offset": 125269,
+   "pointer_slot": 396692,
+   "instruction_count": 11,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.17",
+   "root": "after",
+   "scene": 17,
+   "script_offset": 128054,
+   "pointer_slot": 396696,
+   "instruction_count": 26,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.18",
+   "root": "after",
+   "scene": 18,
+   "script_offset": 128660,
+   "pointer_slot": 396700,
+   "instruction_count": 57,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.19",
+   "root": "after",
+   "scene": 19,
+   "script_offset": 130888,
+   "pointer_slot": 396704,
+   "instruction_count": 16,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.20",
+   "root": "after",
+   "scene": 20,
+   "script_offset": 133768,
+   "pointer_slot": 396708,
+   "instruction_count": 167,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.21",
+   "root": "after",
+   "scene": 21,
+   "script_offset": 137380,
+   "pointer_slot": 396712,
+   "instruction_count": 13,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.22",
+   "root": "after",
+   "scene": 22,
+   "script_offset": 138558,
+   "pointer_slot": 396716,
+   "instruction_count": 12,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.23",
+   "root": "after",
+   "scene": 23,
+   "script_offset": 139448,
+   "pointer_slot": 396720,
+   "instruction_count": 132,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.24",
+   "root": "after",
+   "scene": 24,
+   "script_offset": 149584,
+   "pointer_slot": 396724,
+   "instruction_count": 22,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.25",
+   "root": "after",
+   "scene": 25,
+   "script_offset": 154511,
+   "pointer_slot": 396728,
+   "instruction_count": 72,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.26",
+   "root": "after",
+   "scene": 26,
+   "script_offset": 158327,
+   "pointer_slot": 396732,
+   "instruction_count": 189,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.27",
+   "root": "after",
+   "scene": 27,
+   "script_offset": 166726,
+   "pointer_slot": 396736,
+   "instruction_count": 70,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.28",
+   "root": "after",
+   "scene": 28,
+   "script_offset": 177687,
+   "pointer_slot": 396740,
+   "instruction_count": 114,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.29",
+   "root": "after",
+   "scene": 29,
+   "script_offset": 181796,
+   "pointer_slot": 396744,
+   "instruction_count": 222,
+   "route": [],
+   "operands": [
+    {
+     "name": "raw",
+     "label": "把角色加入战斗配置（3 字节，字段含义未钉死）",
+     "rom_offset": 181797,
+     "size": 3,
+     "value": "000c00",
+     "before_hex": "000c00",
+     "opcode": 34
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 181801,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 181802,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 181804,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 181805,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 181807,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 181808,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 181810,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 181811,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    }
+   ]
+  },
+  {
+   "id": "after.30",
+   "root": "after",
+   "scene": 30,
+   "script_offset": 198744,
+   "pointer_slot": 396748,
+   "instruction_count": 94,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.31",
+   "root": "after",
+   "scene": 31,
+   "script_offset": 200527,
+   "pointer_slot": 396752,
+   "instruction_count": 202,
+   "route": [],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 261110,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 261111,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 261113,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 261114,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 261116,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 261117,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 261119,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 261120,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    }
+   ]
+  },
+  {
+   "id": "after.32",
+   "root": "after",
+   "scene": 32,
+   "script_offset": 200533,
+   "pointer_slot": 396756,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.33",
+   "root": "after",
+   "scene": 33,
+   "script_offset": 200562,
+   "pointer_slot": 396760,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.34",
+   "root": "after",
+   "scene": 34,
+   "script_offset": 200591,
+   "pointer_slot": 396764,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.35",
+   "root": "after",
+   "scene": 35,
+   "script_offset": 200620,
+   "pointer_slot": 396768,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.36",
+   "root": "after",
+   "scene": 36,
+   "script_offset": 200649,
+   "pointer_slot": 396772,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.37",
+   "root": "after",
+   "scene": 37,
+   "script_offset": 200678,
+   "pointer_slot": 396776,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.38",
+   "root": "after",
+   "scene": 38,
+   "script_offset": 200707,
+   "pointer_slot": 396780,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.39",
+   "root": "after",
+   "scene": 39,
+   "script_offset": 201345,
+   "pointer_slot": 396784,
+   "instruction_count": 25,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.40",
+   "root": "after",
+   "scene": 40,
+   "script_offset": 202665,
+   "pointer_slot": 396788,
+   "instruction_count": 29,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.41",
+   "root": "after",
+   "scene": 41,
+   "script_offset": 204128,
+   "pointer_slot": 396792,
+   "instruction_count": 36,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.42",
+   "root": "after",
+   "scene": 42,
+   "script_offset": 209195,
+   "pointer_slot": 396796,
+   "instruction_count": 29,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.43",
+   "root": "after",
+   "scene": 43,
+   "script_offset": 210612,
+   "pointer_slot": 396800,
+   "instruction_count": 22,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.44",
+   "root": "after",
+   "scene": 44,
+   "script_offset": 214215,
+   "pointer_slot": 396804,
+   "instruction_count": 56,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.45",
+   "root": "after",
+   "scene": 45,
+   "script_offset": 215981,
+   "pointer_slot": 396808,
+   "instruction_count": 55,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.46",
+   "root": "after",
+   "scene": 46,
+   "script_offset": 220470,
+   "pointer_slot": 396812,
+   "instruction_count": 57,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.47",
+   "root": "after",
+   "scene": 47,
+   "script_offset": 221631,
+   "pointer_slot": 396816,
+   "instruction_count": 3,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.48",
+   "root": "after",
+   "scene": 48,
+   "script_offset": 221657,
+   "pointer_slot": 396820,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.49",
+   "root": "after",
+   "scene": 49,
+   "script_offset": 221686,
+   "pointer_slot": 396824,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.50",
+   "root": "after",
+   "scene": 50,
+   "script_offset": 221715,
+   "pointer_slot": 396828,
+   "instruction_count": 2123,
+   "route": [
+    {
+     "op": 26,
+     "rom_offset": 258030,
+     "scene_rom_offset": 258031,
+     "scene": 31,
+     "flag": 0,
+     "kind": "cursor"
+    },
+    {
+     "op": 22,
+     "rom_offset": 258033,
+     "scene_rom_offset": 258034,
+     "scene": 0,
+     "flag": null,
+     "kind": "after"
+    }
+   ],
+   "operands": [
+    {
+     "name": "raw",
+     "label": "把角色加入战斗配置（3 字节，字段含义未钉死）",
+     "rom_offset": 228272,
+     "size": 3,
+     "value": "010201",
+     "before_hex": "010201",
+     "opcode": 34
+    },
+    {
+     "name": "raw",
+     "label": "把角色加入战斗配置（3 字节，字段含义未钉死）",
+     "rom_offset": 228276,
+     "size": 3,
+     "value": "010301",
+     "before_hex": "010301",
+     "opcode": 34
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 258025,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 258026,
+     "size": 1,
+     "value": 1,
+     "before_hex": "01",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 258028,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 258029,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 258031,
+     "size": 1,
+     "value": 31,
+     "before_hex": "1f",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 258032,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 26
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 258034,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 22
+    }
+   ]
+  },
+  {
+   "id": "after.51",
+   "root": "after",
+   "scene": 51,
+   "script_offset": 267266,
+   "pointer_slot": 396832,
+   "instruction_count": 336,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "after.52",
+   "root": "after",
+   "scene": 52,
+   "script_offset": 293624,
+   "pointer_slot": 396836,
+   "instruction_count": 80,
+   "route": [
+    {
+     "op": 26,
+     "rom_offset": 294703,
+     "scene_rom_offset": 294704,
+     "scene": 24,
+     "flag": 0,
+     "kind": "cursor"
+    }
+   ],
+   "operands": [
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 294704,
+     "size": 1,
+     "value": 24,
+     "before_hex": "18",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 294705,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 26
+    }
+   ]
+  },
+  {
+   "id": "after.53",
+   "root": "after",
+   "scene": 53,
+   "script_offset": 294722,
+   "pointer_slot": 396840,
+   "instruction_count": 363,
+   "route": [
+    {
+     "op": 26,
+     "rom_offset": 302705,
+     "scene_rom_offset": 302706,
+     "scene": 50,
+     "flag": 0,
+     "kind": "cursor"
+    }
+   ],
+   "operands": [
+    {
+     "name": "map",
+     "label": "地图 id",
+     "rom_offset": 295048,
+     "size": 1,
+     "value": 53,
+     "before_hex": "35",
+     "opcode": 30
+    },
+    {
+     "name": "scene",
+     "label": "下一场景 id",
+     "rom_offset": 302706,
+     "size": 1,
+     "value": 50,
+     "before_hex": "32",
+     "opcode": 26
+    },
+    {
+     "name": "flag",
+     "label": "相位标志",
+     "rom_offset": 302707,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 26
+    }
+   ]
+  },
+  {
+   "id": "after.54",
+   "root": "after",
+   "scene": 54,
+   "script_offset": 302710,
+   "pointer_slot": 396844,
+   "instruction_count": 382,
+   "route": [],
+   "operands": [
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 302754,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 302755,
+     "size": 1,
+     "value": 2,
+     "before_hex": "02",
+     "opcode": 35
+    },
+    {
+     "name": "member_a",
+     "label": "队员 A",
+     "rom_offset": 302757,
+     "size": 1,
+     "value": 0,
+     "before_hex": "00",
+     "opcode": 35
+    },
+    {
+     "name": "member_b",
+     "label": "队员 B",
+     "rom_offset": 302758,
+     "size": 1,
+     "value": 3,
+     "before_hex": "03",
+     "opcode": 35
+    }
+   ]
+  },
+  {
+   "id": "after.55",
+   "root": "after",
+   "scene": 55,
+   "script_offset": 312854,
+   "pointer_slot": 396848,
+   "instruction_count": 2,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.1",
+   "root": "logic",
+   "scene": 1,
+   "script_offset": 312910,
+   "pointer_slot": 396856,
+   "instruction_count": 74,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.2",
+   "root": "logic",
+   "scene": 2,
+   "script_offset": 316288,
+   "pointer_slot": 396860,
+   "instruction_count": 40,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.3",
+   "root": "logic",
+   "scene": 3,
+   "script_offset": 318055,
+   "pointer_slot": 396864,
+   "instruction_count": 57,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.4",
+   "root": "logic",
+   "scene": 4,
+   "script_offset": 320464,
+   "pointer_slot": 396868,
+   "instruction_count": 60,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.5",
+   "root": "logic",
+   "scene": 5,
+   "script_offset": 322861,
+   "pointer_slot": 396872,
+   "instruction_count": 24,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.6",
+   "root": "logic",
+   "scene": 6,
+   "script_offset": 323620,
+   "pointer_slot": 396876,
+   "instruction_count": 58,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.7",
+   "root": "logic",
+   "scene": 7,
+   "script_offset": 325839,
+   "pointer_slot": 396880,
+   "instruction_count": 88,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.8",
+   "root": "logic",
+   "scene": 8,
+   "script_offset": 328496,
+   "pointer_slot": 396884,
+   "instruction_count": 31,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.9",
+   "root": "logic",
+   "scene": 9,
+   "script_offset": 330019,
+   "pointer_slot": 396888,
+   "instruction_count": 35,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.10",
+   "root": "logic",
+   "scene": 10,
+   "script_offset": 331176,
+   "pointer_slot": 396892,
+   "instruction_count": 26,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.11",
+   "root": "logic",
+   "scene": 11,
+   "script_offset": 332711,
+   "pointer_slot": 396896,
+   "instruction_count": 45,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.12",
+   "root": "logic",
+   "scene": 12,
+   "script_offset": 334086,
+   "pointer_slot": 396900,
+   "instruction_count": 47,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.13",
+   "root": "logic",
+   "scene": 13,
+   "script_offset": 336191,
+   "pointer_slot": 396904,
+   "instruction_count": 44,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.14",
+   "root": "logic",
+   "scene": 14,
+   "script_offset": 338257,
+   "pointer_slot": 396908,
+   "instruction_count": 46,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.15",
+   "root": "logic",
+   "scene": 15,
+   "script_offset": 339979,
+   "pointer_slot": 396912,
+   "instruction_count": 49,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.16",
+   "root": "logic",
+   "scene": 16,
+   "script_offset": 341438,
+   "pointer_slot": 396916,
+   "instruction_count": 36,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.17",
+   "root": "logic",
+   "scene": 17,
+   "script_offset": 342447,
+   "pointer_slot": 396920,
+   "instruction_count": 44,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.18",
+   "root": "logic",
+   "scene": 18,
+   "script_offset": 344064,
+   "pointer_slot": 396924,
+   "instruction_count": 46,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.19",
+   "root": "logic",
+   "scene": 19,
+   "script_offset": 345536,
+   "pointer_slot": 396928,
+   "instruction_count": 51,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.20",
+   "root": "logic",
+   "scene": 20,
+   "script_offset": 347431,
+   "pointer_slot": 396932,
+   "instruction_count": 74,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.21",
+   "root": "logic",
+   "scene": 21,
+   "script_offset": 350143,
+   "pointer_slot": 396936,
+   "instruction_count": 38,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.22",
+   "root": "logic",
+   "scene": 22,
+   "script_offset": 351609,
+   "pointer_slot": 396940,
+   "instruction_count": 46,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.23",
+   "root": "logic",
+   "scene": 23,
+   "script_offset": 353744,
+   "pointer_slot": 396944,
+   "instruction_count": 45,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.24",
+   "root": "logic",
+   "scene": 24,
+   "script_offset": 355779,
+   "pointer_slot": 396948,
+   "instruction_count": 33,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.25",
+   "root": "logic",
+   "scene": 25,
+   "script_offset": 356681,
+   "pointer_slot": 396952,
+   "instruction_count": 61,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.26",
+   "root": "logic",
+   "scene": 26,
+   "script_offset": 359799,
+   "pointer_slot": 396956,
+   "instruction_count": 62,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.27",
+   "root": "logic",
+   "scene": 27,
+   "script_offset": 362082,
+   "pointer_slot": 396960,
+   "instruction_count": 60,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.28",
+   "root": "logic",
+   "scene": 28,
+   "script_offset": 364703,
+   "pointer_slot": 396964,
+   "instruction_count": 60,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.29",
+   "root": "logic",
+   "scene": 29,
+   "script_offset": 366317,
+   "pointer_slot": 396968,
+   "instruction_count": 48,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.30",
+   "root": "logic",
+   "scene": 30,
+   "script_offset": 367989,
+   "pointer_slot": 396972,
+   "instruction_count": 59,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.31",
+   "root": "logic",
+   "scene": 31,
+   "script_offset": 369806,
+   "pointer_slot": 396976,
+   "instruction_count": 20,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.32",
+   "root": "logic",
+   "scene": 32,
+   "script_offset": 370956,
+   "pointer_slot": 396980,
+   "instruction_count": 17,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.33",
+   "root": "logic",
+   "scene": 33,
+   "script_offset": 371071,
+   "pointer_slot": 396984,
+   "instruction_count": 17,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.34",
+   "root": "logic",
+   "scene": 34,
+   "script_offset": 371186,
+   "pointer_slot": 396988,
+   "instruction_count": 17,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.35",
+   "root": "logic",
+   "scene": 35,
+   "script_offset": 371301,
+   "pointer_slot": 396992,
+   "instruction_count": 17,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.36",
+   "root": "logic",
+   "scene": 36,
+   "script_offset": 371416,
+   "pointer_slot": 396996,
+   "instruction_count": 17,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.37",
+   "root": "logic",
+   "scene": 37,
+   "script_offset": 371531,
+   "pointer_slot": 397000,
+   "instruction_count": 17,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.38",
+   "root": "logic",
+   "scene": 38,
+   "script_offset": 371646,
+   "pointer_slot": 397004,
+   "instruction_count": 17,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.39",
+   "root": "logic",
+   "scene": 39,
+   "script_offset": 371761,
+   "pointer_slot": 397008,
+   "instruction_count": 32,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.40",
+   "root": "logic",
+   "scene": 40,
+   "script_offset": 372945,
+   "pointer_slot": 397012,
+   "instruction_count": 7,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.41",
+   "root": "logic",
+   "scene": 41,
+   "script_offset": 373386,
+   "pointer_slot": 397016,
+   "instruction_count": 7,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.42",
+   "root": "logic",
+   "scene": 42,
+   "script_offset": 373883,
+   "pointer_slot": 397020,
+   "instruction_count": 9,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.43",
+   "root": "logic",
+   "scene": 43,
+   "script_offset": 374366,
+   "pointer_slot": 397024,
+   "instruction_count": 10,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.44",
+   "root": "logic",
+   "scene": 44,
+   "script_offset": 375162,
+   "pointer_slot": 397028,
+   "instruction_count": 13,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.45",
+   "root": "logic",
+   "scene": 45,
+   "script_offset": 376744,
+   "pointer_slot": 397032,
+   "instruction_count": 10,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "logic.46",
+   "root": "logic",
+   "scene": 46,
+   "script_offset": 378333,
+   "pointer_slot": 397036,
+   "instruction_count": 41,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.1",
+   "root": "events",
+   "scene": 1,
+   "script_offset": 313339,
+   "pointer_slot": 397044,
+   "instruction_count": 201,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.2",
+   "root": "events",
+   "scene": 2,
+   "script_offset": 316517,
+   "pointer_slot": 397048,
+   "instruction_count": 102,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.3",
+   "root": "events",
+   "scene": 3,
+   "script_offset": 318402,
+   "pointer_slot": 397052,
+   "instruction_count": 106,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.4",
+   "root": "events",
+   "scene": 4,
+   "script_offset": 320808,
+   "pointer_slot": 397056,
+   "instruction_count": 135,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.5",
+   "root": "events",
+   "scene": 5,
+   "script_offset": 323000,
+   "pointer_slot": 397060,
+   "instruction_count": 39,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.6",
+   "root": "events",
+   "scene": 6,
+   "script_offset": 323963,
+   "pointer_slot": 397064,
+   "instruction_count": 127,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.7",
+   "root": "events",
+   "scene": 7,
+   "script_offset": 326349,
+   "pointer_slot": 397068,
+   "instruction_count": 117,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.8",
+   "root": "events",
+   "scene": 8,
+   "script_offset": 328671,
+   "pointer_slot": 397072,
+   "instruction_count": 64,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.9",
+   "root": "events",
+   "scene": 9,
+   "script_offset": 330214,
+   "pointer_slot": 397076,
+   "instruction_count": 70,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.10",
+   "root": "events",
+   "scene": 10,
+   "script_offset": 331325,
+   "pointer_slot": 397080,
+   "instruction_count": 93,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.11",
+   "root": "events",
+   "scene": 11,
+   "script_offset": 332968,
+   "pointer_slot": 397084,
+   "instruction_count": 86,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.12",
+   "root": "events",
+   "scene": 12,
+   "script_offset": 334359,
+   "pointer_slot": 397088,
+   "instruction_count": 122,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.13",
+   "root": "events",
+   "scene": 13,
+   "script_offset": 336446,
+   "pointer_slot": 397092,
+   "instruction_count": 112,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.14",
+   "root": "events",
+   "scene": 14,
+   "script_offset": 338522,
+   "pointer_slot": 397096,
+   "instruction_count": 89,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.15",
+   "root": "events",
+   "scene": 15,
+   "script_offset": 340262,
+   "pointer_slot": 397100,
+   "instruction_count": 100,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.16",
+   "root": "events",
+   "scene": 16,
+   "script_offset": 341656,
+   "pointer_slot": 397104,
+   "instruction_count": 61,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.17",
+   "root": "events",
+   "scene": 17,
+   "script_offset": 342696,
+   "pointer_slot": 397108,
+   "instruction_count": 104,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.18",
+   "root": "events",
+   "scene": 18,
+   "script_offset": 344329,
+   "pointer_slot": 397112,
+   "instruction_count": 88,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.19",
+   "root": "events",
+   "scene": 19,
+   "script_offset": 345841,
+   "pointer_slot": 397116,
+   "instruction_count": 110,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.20",
+   "root": "events",
+   "scene": 20,
+   "script_offset": 347854,
+   "pointer_slot": 397120,
+   "instruction_count": 161,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.21",
+   "root": "events",
+   "scene": 21,
+   "script_offset": 350377,
+   "pointer_slot": 397124,
+   "instruction_count": 79,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.22",
+   "root": "events",
+   "scene": 22,
+   "script_offset": 351874,
+   "pointer_slot": 397128,
+   "instruction_count": 109,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.23",
+   "root": "events",
+   "scene": 23,
+   "script_offset": 354001,
+   "pointer_slot": 397132,
+   "instruction_count": 102,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.24",
+   "root": "events",
+   "scene": 24,
+   "script_offset": 355973,
+   "pointer_slot": 397136,
+   "instruction_count": 44,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.25",
+   "root": "events",
+   "scene": 25,
+   "script_offset": 357033,
+   "pointer_slot": 397140,
+   "instruction_count": 147,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.26",
+   "root": "events",
+   "scene": 26,
+   "script_offset": 360159,
+   "pointer_slot": 397144,
+   "instruction_count": 139,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.27",
+   "root": "events",
+   "scene": 27,
+   "script_offset": 362426,
+   "pointer_slot": 397148,
+   "instruction_count": 127,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.28",
+   "root": "events",
+   "scene": 28,
+   "script_offset": 365047,
+   "pointer_slot": 397152,
+   "instruction_count": 94,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.29",
+   "root": "events",
+   "scene": 29,
+   "script_offset": 366598,
+   "pointer_slot": 397156,
+   "instruction_count": 78,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.30",
+   "root": "events",
+   "scene": 30,
+   "script_offset": 368325,
+   "pointer_slot": 397160,
+   "instruction_count": 103,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.31",
+   "root": "events",
+   "scene": 31,
+   "script_offset": 369918,
+   "pointer_slot": 397164,
+   "instruction_count": 53,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.32",
+   "root": "events",
+   "scene": 32,
+   "script_offset": 370964,
+   "pointer_slot": 397168,
+   "instruction_count": 13,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.33",
+   "root": "events",
+   "scene": 33,
+   "script_offset": 371079,
+   "pointer_slot": 397172,
+   "instruction_count": 13,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.34",
+   "root": "events",
+   "scene": 34,
+   "script_offset": 371194,
+   "pointer_slot": 397176,
+   "instruction_count": 13,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.35",
+   "root": "events",
+   "scene": 35,
+   "script_offset": 371309,
+   "pointer_slot": 397180,
+   "instruction_count": 13,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.36",
+   "root": "events",
+   "scene": 36,
+   "script_offset": 371424,
+   "pointer_slot": 397184,
+   "instruction_count": 13,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.37",
+   "root": "events",
+   "scene": 37,
+   "script_offset": 371539,
+   "pointer_slot": 397188,
+   "instruction_count": 13,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.38",
+   "root": "events",
+   "scene": 38,
+   "script_offset": 371654,
+   "pointer_slot": 397192,
+   "instruction_count": 13,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.39",
+   "root": "events",
+   "scene": 39,
+   "script_offset": 371947,
+   "pointer_slot": 397196,
+   "instruction_count": 60,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.40",
+   "root": "events",
+   "scene": 40,
+   "script_offset": 372982,
+   "pointer_slot": 397200,
+   "instruction_count": 19,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.41",
+   "root": "events",
+   "scene": 41,
+   "script_offset": 373423,
+   "pointer_slot": 397204,
+   "instruction_count": 23,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.42",
+   "root": "events",
+   "scene": 42,
+   "script_offset": 373936,
+   "pointer_slot": 397208,
+   "instruction_count": 18,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.43",
+   "root": "events",
+   "scene": 43,
+   "script_offset": 374421,
+   "pointer_slot": 397212,
+   "instruction_count": 32,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.44",
+   "root": "events",
+   "scene": 44,
+   "script_offset": 375235,
+   "pointer_slot": 397216,
+   "instruction_count": 69,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.45",
+   "root": "events",
+   "scene": 45,
+   "script_offset": 376799,
+   "pointer_slot": 397220,
+   "instruction_count": 61,
+   "route": [],
+   "operands": []
+  },
+  {
+   "id": "events.46",
+   "root": "events",
+   "scene": 46,
+   "script_offset": 378579,
+   "pointer_slot": 397224,
+   "instruction_count": 78,
+   "route": [],
+   "operands": []
+  }
+ ],
  "patches": [],
  "notes": [
   "本包由 tools/export_content_pack.py 从 rom/base.gba 导出。",

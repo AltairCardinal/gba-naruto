@@ -6,7 +6,7 @@
 // the content pack's own metadata, a structure becomes editable the moment
 // the exporter describes it — no per-domain UI code.
 
-import { el, clear, formatOffset } from '../ui.js';
+import { el, clear, formatOffset, toast } from '../ui.js';
 import { StructureEditor, TextTableEditor } from '../editors.js';
 
 export function backButton(ctx, label) {
@@ -136,6 +136,61 @@ export function renderPanel(container, ctx, kind, id) {
   }
 }
 
+/** A small input that writes one story-VM operand back into the pack. */
+export function operandInput(ctx, operand) {
+  const commit = (value) => {
+    ctx.pack.setScriptOperand(operand, value);
+    ctx.onChange();
+    toast(`已改写 0x${operand.rom_offset.toString(16).toUpperCase()}`);
+  };
+  if (operand.size === 1) {
+    return el('input', {
+      class: 'num-input',
+      type: 'text',
+      style: { width: '70px' },
+      value: String(operand.value),
+      onchange: (e) => {
+        const value = Number(e.target.value);
+        if (!Number.isFinite(value) || value < 0 || value > 255) {
+          toast('请输入 0–255', 'error');
+          return;
+        }
+        commit(value);
+      },
+    });
+  }
+  if (operand.size === 2) {
+    return el('input', {
+      class: 'num-input',
+      type: 'text',
+      style: { width: '70px' },
+      value: String(operand.value),
+      onchange: (e) => {
+        const value = Number(e.target.value);
+        if (!Number.isFinite(value) || value < 0 || value > 0xffff) {
+          toast('请输入 0–65535', 'error');
+          return;
+        }
+        commit(value);
+      },
+    });
+  }
+  return el('input', {
+    class: 'num-input',
+    type: 'text',
+    style: { width: '90px' },
+    value: String(operand.value),
+    onchange: (e) => {
+      const value = String(e.target.value).replace(/[^0-9a-fA-F]/g, '');
+      if (value.length !== operand.size * 2) {
+        toast(`该字段固定 ${operand.size} 字节（${operand.size * 2} 个十六进制字符）`, 'error');
+        return;
+      }
+      commit(value);
+    },
+  });
+}
+
 /** A small read-only summary table used by several domains. */
 export function summaryTable(rows) {
   const table = el('table', { class: 'grid' });
@@ -146,10 +201,11 @@ export function summaryTable(rows) {
   for (const row of rows.body) {
     const tr = el('tr');
     row.forEach((cell, i) => {
+      const isNode = cell && typeof cell === 'object' && cell.nodeType === 1;
       tr.appendChild(el('td', {
         class: i === 0 ? 'col-id' : '',
-        text: cell === null || cell === undefined ? '' : String(cell),
-      }));
+        text: isNode ? '' : (cell === null || cell === undefined ? '' : String(cell)),
+      }, isNode ? [cell] : []));
     });
     body.appendChild(tr);
   }

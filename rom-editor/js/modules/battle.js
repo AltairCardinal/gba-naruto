@@ -1,6 +1,6 @@
 // 战斗：战场布置 / 角色出生点 / 战斗中的剧情与角色出生 / 战斗目标
 import { el, clear, formatOffset } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable } from './common.js';
+import { renderDomainIndex, renderPanel, summaryTable, operandInput } from './common.js';
 
 const STAGE_COUNT = 47;
 const VARIANT_COUNT = 3;
@@ -264,6 +264,31 @@ export function renderStage(container, ctx, stage, variant) {
     ]),
     summaryTable(scriptRows),
   ]));
+
+  // 本关战斗剧本里可改的定宽操作数
+  const operandRows = { head: ['指令', '含义', '当前值'], body: [] };
+  for (const script of pack.scripts || []) {
+    if (script.scene !== stage) continue;
+    if (script.root !== 'logic' && script.root !== 'events') continue;
+    for (const operand of script.operands || []) {
+      operandRows.body.push([
+        '0x' + operand.opcode.toString(16).toUpperCase(),
+        operand.label,
+        operandInput(ctx, operand),
+      ]);
+    }
+  }
+  if (operandRows.body.length) {
+    container.appendChild(el('div', { class: 'section' }, [
+      el('h3', { text: '本关战斗剧本里可改的操作数' }),
+      el('p', { class: 'section-note' }, [
+        '0x1E 决定本关载入哪张地图，0x1F 决定用哪个子配置，0x23 决定队员，' +
+        '0x22 是「把角色加入战斗配置」。这些操作数都是定宽的，改它们是原地写，' +
+        '不会让脚本里的分支目标失效。',
+      ]),
+      summaryTable(operandRows),
+    ]));
+  }
 }
 
 function section(title, structureId, rows) {

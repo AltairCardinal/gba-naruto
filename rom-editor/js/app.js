@@ -143,15 +143,21 @@ async function fetchJsonSmart(url) {
   if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
   return response.json();
 }
-
 /**
  * Load the content pack.
  *
- * The pack is fetched by a dedicated loader document: browsers cap how much
- * a single document may download, and the editor needs two large payloads
- * (the pack and the base ROM).  A direct fetch stays as a fallback.
+ * The pack is fetched directly (gzipped on the wire, decompressed with
+ * DecompressionStream).  A dedicated loader document is kept as a fallback
+ * for browsers that cap how much one document may download.
  */
 async function loadPack() {
+  const direct = await fetchJsonSmart('content/pack.min.json').catch(() => null);
+  if (direct) {
+    if (direct.format !== 'naruto-konoha-content-pack') {
+      throw new Error(`内容包格式不对: ${direct.format}`);
+    }
+    return ContentPack.fromJSON(direct);
+  }
   const viaFrame = await loadPackInFrame();
   if (viaFrame) {
     const data = JSON.parse(viaFrame);

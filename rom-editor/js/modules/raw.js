@@ -202,32 +202,15 @@ export function renderRaw(container, ctx) {
 export function applyPatch(ctx, offset, value) {
   const pack = ctx.pack;
   const rom = ctx.rom || ctx.baseRom;
-  const original = rom[offset];
-
-  // Merge into an existing patch that already covers this byte.
-  for (const patch of pack.patches) {
-    const after = hexToBytes(patch.after_hex || '');
-    const index = offset - patch.offset;
-    if (index >= 0 && index < after.length) {
-      const before = hexToBytes(patch.before_hex || '');
-      const merged = after.slice();
-      merged[index] = value;
-      patch.after_hex = bytesToHex(merged);
-      if (before.length !== merged.length) {
-        patch.before_hex = bytesToHex(rom.subarray(patch.offset, patch.offset + merged.length));
-      }
-      return patch;
-    }
-  }
-
-  pack.patches.push({
-    id: `raw.${offset.toString(16)}`,
-    offset,
-    before_hex: bytesToHex(new Uint8Array([original])),
-    after_hex: bytesToHex(new Uint8Array([value])),
-    label: `手动修改 0x${offset.toString(16).toUpperCase()}`,
-  });
-  return null;
+  const original = rom ? rom[offset] : 0;
+  const patch = pack.ensurePatch(offset, new Uint8Array([original]));
+  const after = hexToBytes(patch.after_hex || '');
+  const merged = new Uint8Array(Math.max(after.length, 1));
+  merged.set(after, 0);
+  merged[0] = value & 0xff;
+  patch.after_hex = bytesToHex(merged);
+  if (!patch.before_hex) patch.before_hex = bytesToHex(new Uint8Array([original]));
+  return patch;
 }
 
 function findBytes(rom, needle, pack) {

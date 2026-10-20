@@ -217,5 +217,38 @@ console.log('\n5) 原始字节补丁：任意字节都能改');
     `改动 ${changed7.length} 字节`);
 }
 
+console.log('\n6) 剧情 VM：脚本里的「下一场景」与定宽操作数');
+{
+  const p8 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  const scripts = p8.scripts || [];
+  check('内容包带剧情脚本的路线边', scripts.length > 0 &&
+    scripts.some((s) => s.route && s.route.length),
+    `${scripts.length} 个剧本`);
+
+  const withRoute = scripts.find((s) => s.route && s.route.length);
+  const operand = withRoute && withRoute.operands.find((o) => o.name === 'scene');
+  check('找到可改的「下一场景」操作数', !!operand,
+    operand ? `0x${operand.rom_offset.toString(16)}（原值 ${operand.value}）` : '没有');
+
+  if (operand) {
+    const wanted = (operand.value + 1) & 0xff;
+    // 走和界面一样的路径：写进包的显式补丁
+    p8.patches.push({
+      id: 'story.operand',
+      offset: operand.rom_offset,
+      before_hex: operand.before_hex,
+      after_hex: wanted.toString(16).padStart(2, '0'),
+    });
+    const out8 = buildRom(p8, rom);
+    const changed8 = [];
+    for (let i = 0; i < out8.bytes.length; i++) if (out8.bytes[i] !== rom[i]) changed8.push(i);
+    check('「下一场景」改写落在脚本字节上',
+      out8.report.errors.length === 0 && changed8.length === 1 &&
+      changed8[0] === operand.rom_offset && out8.bytes[operand.rom_offset] === wanted,
+      out8.report.errors.join('; ') ||
+      `改动 @0x${operand.rom_offset.toString(16)}（期望 0x${wanted.toString(16)}）`);
+  }
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);

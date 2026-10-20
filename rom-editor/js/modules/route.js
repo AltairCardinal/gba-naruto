@@ -1,6 +1,6 @@
 // 剧情路线：关卡顺序、每关的剧情、任务文本与奖励
 import { el, clear } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable } from './common.js';
+import { renderDomainIndex, renderPanel, summaryTable, operandInput } from './common.js';
 
 const STAGE_COUNT = 46;
 const MAP_BASE = 0x53d910;
@@ -59,7 +59,7 @@ function stagePicker(ctx) {
   ]);
 }
 
-function renderStage(container, ctx, stage) {
+export function renderStage(container, ctx, stage) {
   clear(container);
   const pack = ctx.pack;
   container.appendChild(el('div', { style: { marginBottom: '12px' } }, [
@@ -104,6 +104,53 @@ function renderStage(container, ctx, stage) {
   container.appendChild(el('div', { class: 'section' }, [
     el('h3', { text: '剧情脚本' }),
     scriptTable(scriptRows),
+  ]));
+
+  // --- 剧情脚本里的路线边 ----------------------------------------------
+  const routeRows = { head: ['来源场景', '来源根表', '指令', '下一场景 id', '相位标志', 'ROM 地址'], body: [] };
+  for (const script of pack.scripts || []) {
+    for (const edge of script.route || []) {
+      routeRows.body.push([
+        `第 ${script.scene} 关`,
+        script.root,
+        '0x' + edge.op.toString(16).toUpperCase(),
+        edge.scene,
+        edge.flag === null ? '—' : edge.flag,
+        '0x' + edge.scene_rom_offset.toString(16).toUpperCase(),
+      ]);
+    }
+  }
+  container.appendChild(el('div', { class: 'section' }, [
+    el('h3', { text: '剧情路线（脚本里的「下一场景」）' }),
+    el('p', { class: 'section-note' }, [
+      '**路线不在任何表里**——它藏在剧情脚本的「下一场景」指令里：',
+      '0x16（48 处，转到 after 剧本并记住下一场景）与 0x1A（15 处，直接推进路线游标）。',
+      '这两条指令的操作数都是定宽的，改它们不会移动任何字节，因此分支目标依然有效。',
+    ]),
+    scriptTable(routeRows),
+  ]));
+
+  // --- 本关的可改操作数 ------------------------------------------------
+  const operandRows = { head: ['操作数', '含义', '当前值', 'ROM 地址'], body: [] };
+  for (const script of pack.scripts || []) {
+    if (script.scene !== stage) continue;
+    if (script.root !== 'before' && script.root !== 'after') continue;
+    for (const operand of script.operands || []) {
+      operandRows.body.push([
+        '0x' + operand.opcode.toString(16).toUpperCase(),
+        operand.label,
+        operandInput(ctx, operand),
+        '0x' + operand.rom_offset.toString(16).toUpperCase(),
+      ]);
+    }
+  }
+  container.appendChild(el('div', { class: 'section' }, [
+    el('h3', { text: '本关剧情脚本里可改的操作数' }),
+    el('p', { class: 'section-note' }, [
+      '这些是仓库已证明的**定宽**操作数（`tools/import_story_script.py::KNOWN_OPERANDS`），',
+      '改它们是原地写，不会让脚本里的分支目标失效。',
+    ]),
+    scriptTable(operandRows),
   ]));
 
   // --- 任务文本 --------------------------------------------------------
