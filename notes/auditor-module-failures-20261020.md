@@ -155,14 +155,45 @@ AssertionError: '0874b75882eac082ff880b7ecca68f15b5f51972acc42b6d759f75b09f05448
 
 ## 5. 硬约束
 
-- **`tests/test_audit_rom_byte_coverage.py` 被审计器硬钉**
-  （`tools/audit_rom_byte_coverage.py` 内 27 处 `_TEST_SHA256` 引用，
-  覆盖 24 个被钉测试文件，见 `notes/line-a-progress-20261019.md` §19.5）。
-  改它 ⇒ 审计器 SHA 变 ⇒ `sequel/reverse-engineering-proof.json` 的
-  `script_sha256` 要同步 ⇒ 需重跑一次 formal。
-- **在模块整体跑（PID 47459）运行期间不得改这个文件**：审计器在运行时从磁盘读它
-  并与硬钉比对 → 改它会让**后续**测试自伤失败（这正是本轮 psg 踩过的坑）。
-- 修完必须**单独重跑这 5 个用例**确认转绿，且**不得**在其它长跑套件进行中改被 pin 文件。
+### 5.1 ✅ 更正：审计器**自己的**测试文件**没有被钉** ⇒ 本轮修改**不需要重跑 formal**
+
+> **2026-10-20 09:5x 更正。** 本文件初稿写的是
+> 「`tests/test_audit_rom_byte_coverage.py` 被审计器硬钉（27 处 `_TEST_SHA256` 引用）
+> ⇒ 改它 ⇒ 审计器 SHA 变 ⇒ spec 同步 ⇒ 重跑 formal」。
+> **那个判断是错的**，已实测推翻：
+
+| 检查 | 结果 |
+|---|---|
+| 审计器钉的 62 个测试文件里有没有它 | **没有**（62 个全是 `test_export_*` / `test_verify_*` 的**上游包测试**） |
+| `grep -n "test_audit_rom_byte_coverage" tools/audit_rom_byte_coverage.py` | 只有 **L7063 的一句注释**，无任何 SHA 比对 |
+| `grep -c "test_audit_rom_byte_coverage" sequel/reverse-engineering-proof.json` | **0** |
+| 审计器运行时读不读它 | **不读**（它不在 62 个 pin 目标里） |
+
+那 27 处 `_TEST_SHA256` 引用是**这个测试文件在钉别人**（每个上游包的
+`test_export_*` / `test_verify_*`），**不是**别人在钉它。
+
+⇒ **改 `tests/test_audit_rom_byte_coverage.py` 不改变审计器 SHA**
+⇒ **不需要**改 `sequel/reverse-engineering-proof.json` 的 `script_sha256`
+⇒ **不需要重跑 formal**（formal v2 收据 `trust_anchor.spec_sha256 = 39b7ebd7…`
+与审计器 SHA 都未变，旧收据继续有效）。
+
+**同样不被钉的还有**（实测）：`tests/test_audit_reverse_engineering_coverage_count_liveness.py`
+（元守卫模块）、`tests/test_audit_reverse_engineering_proof.py`（93 套件模块）——
+它们只被**按路径引用**（元守卫扫 93 套件源码），没有 SHA 钉。
+
+### 5.2 真正的硬约束
+
+- **被钉的是那 62 个上游包测试**（`test_export_*` / `test_verify_*`）。
+  改其中任何一个 ⇒ 审计器里对应的 `_TEST_SHA256` 常量要改 ⇒ 审计器 SHA 变
+  ⇒ `sequel/reverse-engineering-proof.json` 的 `script_sha256` 要同步
+  ⇒ **需重跑一次 formal**。本轮**没有**动这 62 个文件里的任何一个。
+- **跑长套件期间不得改被 pin 的文件**：审计器在运行时从磁盘读它并与硬钉比对
+  ⇒ 改它会让**后续**测试自伤失败（这正是本轮 psg 踩过的坑）。
+  本轮的做法是**先停掉模块整体跑**（停在 83 ok / 6 fail，25%），再改文件，
+  避免自伤污染。
+- 修完必须**重跑整个模块**拿最终 summary，并**重跑 93 套件**
+  （其中 `test_current_repository_does_not_overclaim_completion` 会检查
+  仓库声明是否夸大，受本轮 notes 改动影响）。
 
 ---
 

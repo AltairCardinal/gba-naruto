@@ -1248,6 +1248,14 @@ PSG_FREQUENCY_VERIFIER_TEST_SHA256 = (
 | `_TEST*_SHA256` 常量定义数 | 64 | 审计器里有多少个 pin 常量 |
 | **被 pin 的不同测试文件数** | **62** | **改一个就要付一次 formal 的实际成本** |
 
+**重要澄清（2026-10-20 09:5x 实测）**：这 62 个**全部是上游包的
+`test_export_*` / `test_verify_*`**，**不包括审计器自己的测试文件**
+`tests/test_audit_rom_byte_coverage.py` —— 后者**没有被任何东西钉**：
+审计器里只有一句注释提到它（`tools/audit_rom_byte_coverage.py:7063`）、
+proof spec 里 0 处引用、审计器运行时不读它。
+⇒ **改审计器自己的测试文件不改变审计器 SHA，不需要同步 spec，不需要重跑 formal。**
+（那 27 处出现在该测试文件里的 `_TEST_SHA256` 引用，是**它在钉别人**。）
+
 另有 2 个文件也引用了被钉测试文件（`tools/rom_boot_interwork_continuation_contract.py`、
 `tools/verify_rom_boot_thumb_code_literal_alignment_gaps.py`），
 所以改某些测试文件时**扇出不止审计器一个**。
