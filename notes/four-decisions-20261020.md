@@ -139,6 +139,30 @@ $ .venv/bin/python3 -I -S tools/verify_rom_sprite_loader_tail.py --root . \
    `tools/build_battle_message_runtime_probe.py:31-54` 是**单槽 scratch，一次 run 只出一条 ID**
    ⇒ 要扩成多槽/批量，否则 79 次采集的成本（emulator 实测仅 16.7 min，但**路由发现**才是大头）
    会被单槽设计放大。
+
+   **本轮已把单槽的具体结构读清楚**（`tools/build_battle_message_runtime_probe.py`）：
+
+   | 项 | 值 | 含义 |
+   |---|---|---|
+   | hook | `0x080985E2`（期望机器码 `327c0221`） | 战斗消息表选择点 |
+   | stub | `0x0809E900`，68 B（`STUB_SIZE`） | 注入的 Thumb 代码 |
+   | scratch | **`0x0203FD60`（单槽）** | 记录命中 |
+   | 槽内布局 | magic `0x52504D42`（"BMPR"）+ hit 计数 + **1 个** zero-based message ID + 选中指针 + 目标 16 B | 每个槽只能记 **1 个 ID** |
+   | 消息表 | `MESSAGE_TABLE = 0x5A2034`，`MESSAGE_COUNT = 79` | 与 bank 的 79 条记录一一对应 |
+
+   ⇒ **「一次 run 只出一条 ID」不是探针的偶然，而是 scratch 单槽的必然**：
+   stub 用 `r6[0]` 取 message ID，再 `id * 4` 取表项，**只把当前这一个 ID** 写进唯一槽。
+
+   **多槽改法（方案 B 的成本关键）**：把 scratch 扩成 **N 个槽**（每槽 16 B：
+   magic + hit 计数 + ID + 指针 + 目标字节），stub 按 `r6[0]`（message ID）**寻址到对应槽**
+   ⇒ **一次战斗 run 就能记下它触碰过的全部 ID**。
+   IWRAM 有 32 KiB，79 槽 × 16 B = 1,264 B，**放得下**（且 stub 在 IWRAM 里写，
+   不动 EWRAM、不改 ROM 语义）。
+   ⇒ 方案 B 的成本结构因此从「**79 次**定向采集」变成「**若干次**批量 run 直到 79 个 ID 都被碰到」
+   ⇒ 「路由发现」的成本量级从 24–40 工作日降到「需要多少场战斗才能覆盖 79 个 ID」这个**可测量**的问题。
+   **但这不改变方案 B 的判据**：每个 ID 仍须有**运行时因果证据**（命中 + 选中指针 + 目标字节
+   + 像素/时序 A/B），多槽只是把「采集」批量化，**不放松证据要求**。
+
 3. **成本要量出来**：emulator 侧实测 16.7 min（baseline 6.357 s + candidate 6.335 s），
    但**路由发现**才是 24–40 工作日量级（类比 battle-effect 18 组 / 8 天）。
    ⇒ 第一件可交付的收据应是「**1 条记录**（记录 0，已有时序/像素 A/B）的完整采集 + 差分验收」，
