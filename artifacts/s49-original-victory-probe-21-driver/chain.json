@@ -1,0 +1,74 @@
+[
+  {
+    "keys": "A,Down,A*2,Left*3,A",
+    "last_state": "artifacts/s49-original-victory-probe-21-driver/s01-r1-teleport-aim/step-08-A.ss9",
+    "last_state_sha256": "ca2fc0c82682f741a8121764278cd10110f1967db0aa022946d160217ed49ac5",
+    "resumed_from": "artifacts/s49-original-victory-20261020-v1/r01-intro/step-17-A.ss9",
+    "resumed_from_sha256": "e2fbdc19274797f02c8da6556e3c56ce59ec98e654391e198341db4b0e236913",
+    "segment": "s01-r1-teleport-aim",
+    "settle_frames": 240
+  },
+  {
+    "keys": "A",
+    "last_state": "artifacts/s49-original-victory-probe-21-driver/s02-r1-teleport-exec/step-01-A.ss9",
+    "last_state_sha256": "090df8cddec4773fc29e8bbc4024942db6275abbbb18fd97bde5735b3b17e7ab",
+    "resumed_from": "artifacts/s49-original-victory-probe-21-driver/s01-r1-teleport-aim/step-08-A.ss9",
+    "resumed_from_sha256": "6b76fe64b68274812c433295bb81019e5b7d9788c49164347f2fd39764a944a6",
+    "segment": "s02-r1-teleport-exec",
+    "settle_frames": 900
+  },
+  {
+    "keys": "A,A",
+    "last_state": "artifacts/s49-original-victory-probe-21-driver/s03-r1-teleport-turn-end/step-02-A.ss9",
+    "last_state_sha256": "a43045f81836a5b108df1f8d43382884450900f82ba6443c7e4718b2ea8eb87e",
+    "resumed_from": "artifacts/s49-original-victory-probe-21-driver/s02-r1-teleport-exec/step-01-A.ss9",
+    "resumed_from_sha256": "02d99875e5d82f2b931a69a07f2fe3fd8e723f58825ec538e8a5ec3b1d1ca910",
+    "segment": "s03-r1-teleport-turn-end",
+    "settle_frames": 300
+  },
+  {
+    "keys": "A,Down*4,A,A,A,A",
+    "last_state": "artifacts/s49-original-victory-probe-21-driver/s04-r1-skip-sakura/step-09-A.ss9",
+    "last_state_sha256": "0f28b18aee8cb436f2b73424e89e9c202cafaf49855f5d555f288980381e60ca",
+    "resumed_from": "artifacts/s49-original-victory-probe-21-driver/s03-r1-teleport-turn-end/step-02-A.ss9",
+    "resumed_from_sha256": "c633da45fbb49b66ea47c1ad124c73e4e417c1d19b9c839e9d4b0b1918a3b558",
+    "segment": "s04-r1-skip-sakura",
+    "settle_frames": 150
+  },
+  {
+    "keys": "A,Down*4,A,A,A,A",
+    "last_state": "artifacts/s49-original-victory-probe-21-driver/s05-r1-skip-sasuke/step-09-A.ss9",
+    "last_state_sha256": "6d97d4bf6041ce1150f65292afc0a3f5e7b7b9cc598d31422b38962a3c3466fc",
+    "resumed_from": "artifacts/s49-original-victory-probe-21-driver/s04-r1-skip-sakura/step-09-A.ss9",
+    "resumed_from_sha256": "04a6fc59b46e22fa4d4ec16ad3e53f0c0d11f2fb7d113db9ddd0a727f80094d8",
+    "segment": "s05-r1-skip-sasuke",
+    "settle_frames": 150
+  },
+  {
+    "keys": "L",
+    "last_state": "artifacts/s49-original-victory-probe-21-driver/s06-r1-enemy-phase-0/step-01-L.ss9",
+    "last_state_sha256": "56d73e41eed86ae299bd94d1d0482df7e4ac52d555760528872e92eea9e23b2b",
+    "resumed_from": "artifacts/s49-original-victory-probe-21-driver/s05-r1-skip-sasuke/step-09-A.ss9",
+    "resumed_from_sha256": "ce009f4e81f1b7e64b3c398e687197929c0a40ada44ce35a1234c83607941637",
+    "segment": "s06-r1-enemy-phase-0",
+    "settle_frames": 2400
+  },
+  {
+    "keys": "L",
+    "last_state": "artifacts/s49-original-victory-probe-21-driver/s07-r1-enemy-phase-1/step-01-L.ss9",
+    "last_state_sha256": "7d93397766ed50b17ab5d3c0488e7638fd1df65844127c03ec9db8c6404bec5c",
+    "resumed_from": "artifacts/s49-original-victory-probe-21-driver/s06-r1-enemy-phase-0/step-01-L.ss9",
+    "resumed_from_sha256": "bd6d9bd09e69c583df5ce9e5ff3e9eb705959b59bba037c31344e9108d7cdc4f",
+    "segment": "s07-r1-enemy-phase-1",
+    "settle_frames": 2400
+  },
+  {
+    "keys": "L",
+    "last_state": "artifacts/s49-original-victory-probe-21-driver/s08-r1-enemy-phase-2/step-01-L.ss9",
+    "last_state_sha256": "a2013eacf46136b15f2bd0f3eff57e2c775dac332ddb71bf2efaa8af067655ef",
+    "resumed_from": "artifacts/s49-original-victory-probe-21-driver/s07-r1-enemy-phase-1/step-01-L.ss9",
+    "resumed_from_sha256": "f227da923ea2603490678f5e95e67ccf61565e0017c4cf6f82daf66edad176b0",
+    "segment": "s08-r1-enemy-phase-2",
+    "settle_frames": 2400
+  }
+]

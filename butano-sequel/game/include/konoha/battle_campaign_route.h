@@ -196,7 +196,10 @@ prepare_battle_campaign_stage_in_place(
                campaign,
                1,
                initialize_defaults ? 5 : 1,
-               initialize_defaults ? 85 : 100))
+               // The original's battle 14 entry carries 160 experience for
+               // Naruto (read from the original's unit pool at the entry
+               // checkpoint); 85 was a guess that left the party short.
+               initialize_defaults ? 160 : 100))
     {
         return {
             battle_campaign_route_error::
@@ -215,12 +218,16 @@ prepare_battle_campaign_stage_in_place(
                    campaign,
                    2,
                    initialize_defaults ? 4 : 1,
-                   initialize_defaults ? 150 : 100) ||
+                   // The original's battle 14 entry carries 100 experience for
+                   // Sasuke (same read as Naruto's, above).
+                   initialize_defaults ? 100 : 100) ||
                 ! ensure_battle_campaign_character(
                         campaign,
                         3,
                         initialize_defaults ? 5 : 1,
-                        initialize_defaults ? 115 : 0))
+                        // The original's battle 14 entry carries 190
+                        // experience for Sakura (same read as above).
+                        initialize_defaults ? 190 : 0))
         {
             return {
                 battle_campaign_route_error::

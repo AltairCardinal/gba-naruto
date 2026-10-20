@@ -37,6 +37,16 @@ public:
         // The original field tasks start alternating unit slots half an
         // idle cycle apart instead of making every actor bob in lockstep.
         // Unit IDs are one-based in the visible battle snapshot.
+        //
+        // Round 14 measured the selected unit's frame at the moment the
+        // command menu opens and found the remake one idle step (eight
+        // frames) ahead of the original.  Shifting every offset back by
+        // eight frames was tried and **reverted**: it fixed that one frame
+        // and broke the frames before and after it, because the phase
+        // relationship between the two games drifts across the command
+        // menu instead of being a constant offset.  The original's idle
+        // clock is not driven by a free running counter the way this one is.
+        // See notes/s49-selected-unit-idle-phase-20261020.md.
         return unit_id > 0 &&
                         ((unit_id - 1) & 1) ?
                 16 :

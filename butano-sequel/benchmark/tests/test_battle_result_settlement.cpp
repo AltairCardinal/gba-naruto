@@ -125,9 +125,21 @@ int main()
                                    reward.round_bonus_experience :
                                    0;
 
-    // Battle 14's player slots carry no formation experience, so the only
-    // battle experience term is zero (the formation table is the source).
-    const int battle_experience = 0;
+    // The original's own rule (closed in
+    // notes/s49-post-battle-exp-rule-20260720.md):
+    //   gain = mission_experience (everyone)
+    //        + round_bonus (everyone, while the round is within the limit)
+    //        + carried_experience of the units that member defeated.
+    // Battle 14's five enemies each carry 50, and the original's recorded
+    // route credits them Naruto 1, Sasuke 4, Sakura 0.
+    auto carried_experience_for = [](std::uint8_t character_id) {
+        switch(character_id)
+        {
+            case 1: return 50;
+            case 2: return 200;
+            default: return 0;
+        }
+    };
 
     std::vector<settlement_row> rows;
     for(std::uint8_t index = 0; index < campaign.party.size(); ++index)
@@ -144,6 +156,7 @@ int main()
         {
             continue;
         }
+        const int battle_experience = carried_experience_for(character_id);
         const int gained = reward.mission_experience + round_bonus +
                            battle_experience;
         const level_settlement settlement = settle_character_progression(
@@ -168,6 +181,21 @@ int main()
 
     assert(rows.size() == 3);
 
+    // The original's recorded post-battle state: all three reach LV6 with
+    // 100 / 35 / 180 experience left (notes/s49-post-battle-exp-rule-20260720.md).
+    assert(rows[0].character_id == 1);
+    assert(rows[0].level_after == 6);
+    assert(rows[0].experience_after == 100);
+    assert(rows[0].max_hp_after == 152);
+    assert(rows[1].character_id == 2);
+    assert(rows[1].level_after == 6);
+    assert(rows[1].experience_after == 35);
+    assert(rows[1].max_hp_after == 134);
+    assert(rows[2].character_id == 3);
+    assert(rows[2].level_after == 6);
+    assert(rows[2].experience_after == 180);
+    assert(rows[2].max_hp_after == 125);
+
     const std::string payload =
             std::string("{\"schema\":\"konoha.s49-result-settlement.v1\",") +
             "\"battle_id\":" + std::to_string(battle_id) + "," +
@@ -177,7 +205,10 @@ int main()
             std::to_string(reward.mission_experience) + "," +
             "\"round_bonus_experience\":" + std::to_string(round_bonus) + "," +
             "\"round_limit\":" + std::to_string(reward.round_limit) + "," +
-            "\"battle_experience\":" + std::to_string(battle_experience) + "," +
+            "\"battle_experience_by_character\":[" +
+            std::to_string(rows[0].battle_experience) + "," +
+            std::to_string(rows[1].battle_experience) + "," +
+            std::to_string(rows[2].battle_experience) + "]," +
             "\"battle_round\":" + std::to_string(battle_round) + "," +
             "\"party\":" + json_rows(rows) + "}";
 

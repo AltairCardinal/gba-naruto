@@ -5,8 +5,12 @@ The original S49 does not animate its field unit in a handful of held poses.
 An 1800 frame zero input sweep taken from the battle 14 entry savestate
 shows the unit's own art being replaced on 183 of 191 frame transitions,
 and 30 of the 32 frames of one cycle are mutually different images.  The
-change is a roughly one pixel silhouette shift, so it is the unit's art that
-changes, not a moving selection bracket.
+change is **not** a moving silhouette: the 191 transitions never carry an
+overall shift (the best shift is always (0, 0)) and 109 of them keep the
+silhouette mask bit for bit.  What changes is the unit's **outline colour**:
+the changed pixels are exactly the pixels holding one palette index (the 1 px
+outline), and that index is rewritten every frame.  See
+``notes/s49-field-frame-order-20261020.md``.
 
 The ROM's field slot (``field_idle_and_movement``) says something else: every
 character's 32 frame animation holds one of three frames for eight frames at

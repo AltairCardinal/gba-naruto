@@ -1,0 +1,556 @@
+{
+  "type": "regular_bg_tiles",
+  "bpp_mode": "bpp_4",
+  "generate_palette": true,
+  "palette_colors_count": 16,
+  "compression": "none",
+  "palette_compression": "none",
+  "schema": "konoha.s49-movegrid-overlay-asset.v1",
+  "generated_by": "tools/generate_butano_movegrid_overlay_assets.py",
+  "source": "rom/base.gba:0x080B9E94+198",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "blobs": {
+    "tiles": {
+      "rom_address": "0x080B9E94",
+      "file_offset": 761492,
+      "compressed_bytes": 198,
+      "compressed_span": [
+        "0x080B9E94",
+        "0x080B9F5A"
+      ],
+      "compressed_sha256": "b4e197b91b4e6a3d7650a02d785af8fc37e1083c0b67d5355966b3fd8a85c733",
+      "decompressed_bytes": 1024,
+      "decompressed_sha256": "0f86c8032129ef1b92fb1464c516a03b1c0ca71672ac5de4d37e8b302cf6ce40"
+    },
+    "palette": {
+      "rom_address": "0x080B9F5C",
+      "file_offset": 761692,
+      "compressed_bytes": 36,
+      "compressed_span": [
+        "0x080B9F5C",
+        "0x080B9F80"
+      ],
+      "compressed_sha256": "2e1e27099e8bbed038c35e677aefa9c90a754ea1423f7e653c5c1ba52585967b",
+      "decompressed_bytes": 32,
+      "decompressed_sha256": "d198ec85eff147b157978bb44d1948db5b9893edb5f8f63d4d9b96b5ca7e7e84"
+    }
+  },
+  "tiles": {
+    "bpp": 4,
+    "tile_count": 32,
+    "tile_bytes": 32,
+    "base_tile_index": 256,
+    "vram_destination": "0x06002000",
+    "sheet": {
+      "cols": 8,
+      "rows": 4,
+      "width": 64,
+      "height": 32
+    },
+    "layout": [
+      {
+        "blob_index": 0,
+        "tile_index": 256,
+        "sheet_col": 0,
+        "sheet_row": 0,
+        "x": 0,
+        "y": 0
+      },
+      {
+        "blob_index": 1,
+        "tile_index": 257,
+        "sheet_col": 1,
+        "sheet_row": 0,
+        "x": 8,
+        "y": 0
+      },
+      {
+        "blob_index": 2,
+        "tile_index": 258,
+        "sheet_col": 2,
+        "sheet_row": 0,
+        "x": 16,
+        "y": 0
+      },
+      {
+        "blob_index": 3,
+        "tile_index": 259,
+        "sheet_col": 3,
+        "sheet_row": 0,
+        "x": 24,
+        "y": 0
+      },
+      {
+        "blob_index": 4,
+        "tile_index": 260,
+        "sheet_col": 4,
+        "sheet_row": 0,
+        "x": 32,
+        "y": 0
+      },
+      {
+        "blob_index": 5,
+        "tile_index": 261,
+        "sheet_col": 5,
+        "sheet_row": 0,
+        "x": 40,
+        "y": 0
+      },
+      {
+        "blob_index": 6,
+        "tile_index": 262,
+        "sheet_col": 6,
+        "sheet_row": 0,
+        "x": 48,
+        "y": 0
+      },
+      {
+        "blob_index": 7,
+        "tile_index": 263,
+        "sheet_col": 7,
+        "sheet_row": 0,
+        "x": 56,
+        "y": 0
+      },
+      {
+        "blob_index": 8,
+        "tile_index": 264,
+        "sheet_col": 0,
+        "sheet_row": 1,
+        "x": 0,
+        "y": 8
+      },
+      {
+        "blob_index": 9,
+        "tile_index": 265,
+        "sheet_col": 1,
+        "sheet_row": 1,
+        "x": 8,
+        "y": 8
+      },
+      {
+        "blob_index": 10,
+        "tile_index": 266,
+        "sheet_col": 2,
+        "sheet_row": 1,
+        "x": 16,
+        "y": 8
+      },
+      {
+        "blob_index": 11,
+        "tile_index": 267,
+        "sheet_col": 3,
+        "sheet_row": 1,
+        "x": 24,
+        "y": 8
+      },
+      {
+        "blob_index": 12,
+        "tile_index": 268,
+        "sheet_col": 4,
+        "sheet_row": 1,
+        "x": 32,
+        "y": 8
+      },
+      {
+        "blob_index": 13,
+        "tile_index": 269,
+        "sheet_col": 5,
+        "sheet_row": 1,
+        "x": 40,
+        "y": 8
+      },
+      {
+        "blob_index": 14,
+        "tile_index": 270,
+        "sheet_col": 6,
+        "sheet_row": 1,
+        "x": 48,
+        "y": 8
+      },
+      {
+        "blob_index": 15,
+        "tile_index": 271,
+        "sheet_col": 7,
+        "sheet_row": 1,
+        "x": 56,
+        "y": 8
+      },
+      {
+        "blob_index": 16,
+        "tile_index": 272,
+        "sheet_col": 0,
+        "sheet_row": 2,
+        "x": 0,
+        "y": 16
+      },
+      {
+        "blob_index": 17,
+        "tile_index": 273,
+        "sheet_col": 1,
+        "sheet_row": 2,
+        "x": 8,
+        "y": 16
+      },
+      {
+        "blob_index": 18,
+        "tile_index": 274,
+        "sheet_col": 2,
+        "sheet_row": 2,
+        "x": 16,
+        "y": 16
+      },
+      {
+        "blob_index": 19,
+        "tile_index": 275,
+        "sheet_col": 3,
+        "sheet_row": 2,
+        "x": 24,
+        "y": 16
+      },
+      {
+        "blob_index": 20,
+        "tile_index": 276,
+        "sheet_col": 4,
+        "sheet_row": 2,
+        "x": 32,
+        "y": 16
+      },
+      {
+        "blob_index": 21,
+        "tile_index": 277,
+        "sheet_col": 5,
+        "sheet_row": 2,
+        "x": 40,
+        "y": 16
+      },
+      {
+        "blob_index": 22,
+        "tile_index": 278,
+        "sheet_col": 6,
+        "sheet_row": 2,
+        "x": 48,
+        "y": 16
+      },
+      {
+        "blob_index": 23,
+        "tile_index": 279,
+        "sheet_col": 7,
+        "sheet_row": 2,
+        "x": 56,
+        "y": 16
+      },
+      {
+        "blob_index": 24,
+        "tile_index": 280,
+        "sheet_col": 0,
+        "sheet_row": 3,
+        "x": 0,
+        "y": 24
+      },
+      {
+        "blob_index": 25,
+        "tile_index": 281,
+        "sheet_col": 1,
+        "sheet_row": 3,
+        "x": 8,
+        "y": 24
+      },
+      {
+        "blob_index": 26,
+        "tile_index": 282,
+        "sheet_col": 2,
+        "sheet_row": 3,
+        "x": 16,
+        "y": 24
+      },
+      {
+        "blob_index": 27,
+        "tile_index": 283,
+        "sheet_col": 3,
+        "sheet_row": 3,
+        "x": 24,
+        "y": 24
+      },
+      {
+        "blob_index": 28,
+        "tile_index": 284,
+        "sheet_col": 4,
+        "sheet_row": 3,
+        "x": 32,
+        "y": 24
+      },
+      {
+        "blob_index": 29,
+        "tile_index": 285,
+        "sheet_col": 5,
+        "sheet_row": 3,
+        "x": 40,
+        "y": 24
+      },
+      {
+        "blob_index": 30,
+        "tile_index": 286,
+        "sheet_col": 6,
+        "sheet_row": 3,
+        "x": 48,
+        "y": 24
+      },
+      {
+        "blob_index": 31,
+        "tile_index": 287,
+        "sheet_col": 7,
+        "sheet_row": 3,
+        "x": 56,
+        "y": 24
+      }
+    ]
+  },
+  "palette": {
+    "bank": 12,
+    "pram_destination": "0x05000180",
+    "entry_count": 16,
+    "conversion": "8-bit = (c << 3) | (c >> 2) on each 5-bit channel",
+    "entries": [
+      {
+        "index": 0,
+        "bgr555": "0x0000",
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "index": 1,
+        "bgr555": "0x45A8",
+        "rgb5": [
+          8,
+          13,
+          17
+        ],
+        "rgb8": [
+          66,
+          107,
+          140
+        ]
+      },
+      {
+        "index": 2,
+        "bgr555": "0x7F23",
+        "rgb5": [
+          3,
+          25,
+          31
+        ],
+        "rgb8": [
+          24,
+          206,
+          255
+        ]
+      },
+      {
+        "index": 3,
+        "bgr555": "0x55A1",
+        "rgb5": [
+          1,
+          13,
+          21
+        ],
+        "rgb8": [
+          8,
+          107,
+          173
+        ]
+      },
+      {
+        "index": 4,
+        "bgr555": "0x00FF",
+        "rgb5": [
+          31,
+          7,
+          0
+        ],
+        "rgb8": [
+          255,
+          57,
+          0
+        ]
+      },
+      {
+        "index": 5,
+        "bgr555": "0x00B4",
+        "rgb5": [
+          20,
+          5,
+          0
+        ],
+        "rgb8": [
+          165,
+          41,
+          0
+        ]
+      },
+      {
+        "index": 6,
+        "bgr555": "0x02FF",
+        "rgb5": [
+          31,
+          23,
+          0
+        ],
+        "rgb8": [
+          255,
+          189,
+          0
+        ]
+      },
+      {
+        "index": 7,
+        "bgr555": "0x01B2",
+        "rgb5": [
+          18,
+          13,
+          0
+        ],
+        "rgb8": [
+          148,
+          107,
+          0
+        ]
+      },
+      {
+        "index": 8,
+        "bgr555": "0x03F5",
+        "rgb5": [
+          21,
+          31,
+          0
+        ],
+        "rgb8": [
+          173,
+          255,
+          0
+        ]
+      },
+      {
+        "index": 9,
+        "bgr555": "0x020A",
+        "rgb5": [
+          10,
+          16,
+          0
+        ],
+        "rgb8": [
+          82,
+          132,
+          0
+        ]
+      },
+      {
+        "index": 10,
+        "bgr555": "0x2529",
+        "rgb5": [
+          9,
+          9,
+          9
+        ],
+        "rgb8": [
+          74,
+          74,
+          74
+        ]
+      },
+      {
+        "index": 11,
+        "bgr555": "0x1084",
+        "rgb5": [
+          4,
+          4,
+          4
+        ],
+        "rgb8": [
+          33,
+          33,
+          33
+        ]
+      },
+      {
+        "index": 12,
+        "bgr555": "0x0000",
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "index": 13,
+        "bgr555": "0x0000",
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "index": 14,
+        "bgr555": "0x0000",
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "index": 15,
+        "bgr555": "0x0000",
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  },
+  "scope": {
+    "established": [
+      "The 32 tiles and the 16 colour palette of the generated assets are the decompressed ROM payloads, byte for byte.",
+      "The bitmap lays the tiles out as the original's VRAM order: tile 256 first, 8 columns by 4 rows.",
+      "The 8-bit palette values keep their 5-bit channel exactly, so the bitmap's palette is the original's palette bank 12."
+    ],
+    "not_established": [
+      "Which tile the game puts in which tilemap cell: the tile selection rule is not derived here.",
+      "Whether the overlay marks reachable or unreachable ground.",
+      "Whether the layer is reached by natural execution."
+    ]
+  }
+}

@@ -1,16 +1,16 @@
 {
  "schema": "konoha.reverse-notes-index-manifest.v1",
- "generated_at": "2026-10-20T03:06:12.824119+00:00",
+ "generated_at": "2026-10-20T17:25:20.727555+00:00",
  "source": {
   "reverse_root": "/Users/altair/github/gba-naruto-reverse",
   "reverse_notes_dir": "/Users/altair/github/gba-naruto-reverse/notes",
-  "reverse_commit": "e7ca8c5360731b06d9d56efeaa32834b910e0a2c",
-  "note_files": 432,
-  "unique_note_ids": 394
+  "reverse_commit": "f054f4c1e240c87583f1059b64eb1fc199aada07",
+  "note_files": 435,
+  "unique_note_ids": 397
  },
  "measurement": {
   "unit": "reverse note file",
-  "scanned_files": 3608,
+  "scanned_files": 4240,
   "scan_roots": [
    "butano-sequel",
    "tools",
@@ -41,23 +41,23 @@
   "min_bare_identifier": 8
  },
  "summary": {
-  "total": 432,
+  "total": 435,
   "by_bucket": {
    "implemented_in_code": 21,
    "not_applicable": 43,
    "missing_evidence": 19,
-   "needs_guard": 336,
+   "needs_guard": 339,
    "needs_human_review": 13
   },
   "by_pre_index_status": {
    "build": 21,
    "local_artifact": 3,
-   "test": 19,
+   "test": 27,
    "doc": 174,
-   "none": 215
+   "none": 210
   },
-  "needs_guard_already_referenced_from_tests": 12,
-  "needs_guard_without_any_test_reference": 324,
+  "needs_guard_already_referenced_from_tests": 20,
+  "needs_guard_without_any_test_reference": 319,
   "by_category": {
    "audio": {
     "needs_guard": 4
@@ -72,7 +72,7 @@
    "other": {
     "implemented_in_code": 14,
     "missing_evidence": 4,
-    "needs_guard": 106,
+    "needs_guard": 109,
     "needs_human_review": 13,
     "not_applicable": 29
    },
@@ -106,11 +106,11 @@
  "outputs": {
   "index": {
    "path": "artifacts/reverse-notes-index-v1/notes-index.json",
-   "sha256": "5d2c55ee36899d288aaf05e95ef75e24cbc96388b72ffde8cf7446d633f49837"
+   "sha256": "50bae64770afc4dda2d25b6752b116fe3492dd9ccc333129186fbb34872bd964"
   },
   "doc": {
    "path": "docs/reverse-results-index/notes-index.md",
-   "sha256": "45c6f9ad57d662f0bda19cf40e9228b871866e975d8e0690832e2a196f90dc8f"
+   "sha256": "4e9ef0dc0edc1f75dabe9727cffed8abc75a05f002c7ae6ea4018b70a5bc183d"
   }
  }
 }

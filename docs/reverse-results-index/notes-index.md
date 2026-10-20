@@ -6,18 +6,18 @@
 
 | 桶 | 含义 | 条数 | 占比 |
 | --- | --- | ---: | ---: |
-| `implemented_in_code` | 本树构建链已引用，附消费文件与行号 | 21 | 4.9% |
-| `not_applicable` | 与本复刻无关，附理由 | 43 | 10.0% |
+| `implemented_in_code` | 本树构建链已引用，附消费文件与行号 | 21 | 4.8% |
+| `not_applicable` | 与本复刻无关，附理由 | 43 | 9.9% |
 | `missing_evidence` | 证据未闭合，回逆向侧补齐 | 19 | 4.4% |
-| `needs_guard` | 已给出原版结论，尚未转成门禁——M1/M2 的原料 | 336 | 77.8% |
+| `needs_guard` | 已给出原版结论，尚未转成门禁——M1/M2 的原料 | 339 | 77.9% |
 | `needs_human_review` | 自动判读不了，附原因 | 13 | 3.0% |
 
-- 合计：**432** 个 note 文件
-- 其中不重复的 note id：394（证据包内嵌的快照与顶层同名，计数以文件为单位）
-- 逆向 commit：`e7ca8c5360731b06d9d56efeaa32834b910e0a2c`
-- 扫描文件数：3608
+- 合计：**435** 个 note 文件
+- 其中不重复的 note id：397（证据包内嵌的快照与顶层同名，计数以文件为单位）
+- 逆向 commit：`f054f4c1e240c87583f1059b64eb1fc199aada07`
+- 扫描文件数：4240
 
-- `needs_guard` 里有 **12** 条已经在 `tests/` 被引用过，**324** 条连测试都没有引用 ⇒ P2 的真实分母是后者。⚠️ **上界不是真值**：`tests/` 里的引用可能是**文档类测试**而不是行为门禁，所以「已被引用」只能当作「可能已有门禁」的上界，逐条判定仍需人看。
+- `needs_guard` 里有 **20** 条已经在 `tests/` 被引用过，**319** 条连测试都没有引用 ⇒ P2 的真实分母是后者。⚠️ **上界不是真值**：`tests/` 里的引用可能是**文档类测试**而不是行为门禁，所以「已被引用」只能当作「可能已有门禁」的上界，逐条判定仍需人看。
 
 ## 索引前的引用状态
 
@@ -27,9 +27,9 @@
 | --- | ---: |
 | `build` | 21 |
 | `local_artifact` | 3 |
-| `test` | 19 |
+| `test` | 27 |
 | `doc` | 174 |
-| `none` | 215 |
+| `none` | 210 |
 
 ## 按类别 × 桶
 
@@ -38,7 +38,7 @@
 | audio | 0 | 0 | 0 | 4 | 0 | 4 |
 | battle | 2 | 0 | 0 | 8 | 0 | 10 |
 | map | 0 | 0 | 0 | 18 | 0 | 18 |
-| other | 14 | 29 | 4 | 106 | 13 | 166 |
+| other | 14 | 29 | 4 | 109 | 13 | 169 |
 | overview | 0 | 0 | 0 | 1 | 0 | 1 |
 | presentation | 0 | 0 | 0 | 15 | 0 | 15 |
 | residual | 0 | 0 | 0 | 10 | 0 | 10 |
@@ -145,7 +145,7 @@
 | `notes/rom-renderer-handler-context-preflight-20260930.md` | rom | 未晋升 | 本条自述为开放工作项（预检/计划/缺口清单，或明写结论未成立），证据尚未闭合，需回到逆向侧补齐。 |
 | `notes/rom-task-callback-alignment-gap-candidate-20260905.md` | rom | 仅候选 | 本条自述为开放工作项（预检/计划/缺口清单，或明写结论未成立），证据尚未闭合，需回到逆向侧补齐。 |
 
-## `needs_guard`（336）
+## `needs_guard`（339）
 
 | note | 类别 | 可转门禁的材料 | 理由 |
 | --- | --- | --- | --- |
@@ -154,7 +154,7 @@
 | `notes/audio-engine-runtime-chain-20260712.md` | audio | tick_cadence、data_contract | 已给出原版行为的可核验结论（32 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/audio-palette-identity-correction-20260711.md` | audio | data_contract | 已给出原版行为的可核验结论（8 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/audio-tie-lifecycle-20260713.md` | audio | guard_condition、tick_cadence | 已给出原版行为的可核验结论（），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/auditor-module-failures-20261020.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（6 处 ROM 地址、15 个逆向成果族），本树尚未把它变成门禁，是 M1/M2 的原料。 |
+| `notes/auditor-module-failures-20261020.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（39 处 ROM 地址、26 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/auto-exit-prevention-mgba-compile-20260806.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/bank-player-visible-closure-plan-20260806.md` | other | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（25 处 ROM 地址、5 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/battle-action-detail-renderer-20260713.md` | battle | guard_condition、data_contract | 已给出原版行为的可核验结论（25 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -263,14 +263,17 @@
 | `notes/evidence/rom-menu-gfx-pointer-ab-20261001-v1/contract-20261001-v1/note.md` | other | guard_condition、data_contract | 已给出原版行为的可核验结论（25 处 ROM 地址、2 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/exporter-root-deletion-incident-20260809.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（1 个逆向成果族），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/first-battle-savestate-checkpoints-20260712.md` | other | tick_cadence | 已给出原版行为的可核验结论（10 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
+| `notes/four-decisions-20261020.md` | other | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（9 处 ROM 地址、5 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/function-pointer-runtime-probe-20260713.md` | other | defect_semantics、data_contract | 已给出原版行为的可核验结论（16 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/generic-sprite-bundle-relocation-20260731.md` | other | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（4 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/group12-natural-entry-ai-observer-20260806.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（12 处 ROM 地址、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
+| `notes/handover-20261020-reverse-tree.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（5 处 ROM 地址、1 个逆向成果族、3 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/headless-workflow.md` | other | tick_cadence | 已给出原版行为的可核验结论（24 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/initializer-resource-pack-export-20260730.md` | other | defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（25 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/legacy-artifact-acceptance-20260905.md` | other | guard_condition、defect_semantics | 已给出原版行为的可核验结论（3 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/levels-runtime-probe-20260713.md` | other | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（44 处 ROM 地址、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/line-a-progress-20261019.md` | other | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（80 处 ROM 地址、20 个逆向成果族、9 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
+| `notes/line-a-progress-20261019.md` | other | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（85 处 ROM 地址、20 个逆向成果族、9 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
+| `notes/live-ledger-identity-repair-20261020.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（6 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/m4a-channel-allocation-20260713.md` | other | — | 已给出原版行为的可核验结论（14 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/m4a-command-vm-20260713.md` | other | tick_cadence、data_contract | 已给出原版行为的可核验结论（1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/m4a-emulator-differential-20260713.md` | other | defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（15 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -517,11 +520,11 @@
 | `notes/auditor-module-failures-20261020.md` | `needs_guard` | `none` | other |
 | `notes/auto-exit-prevention-mgba-compile-20260806.md` | `needs_guard` | `none` | other |
 | `notes/bank-player-visible-closure-plan-20260806.md` | `needs_guard` | `none` | other |
-| `notes/battle-action-detail-renderer-20260713.md` | `needs_guard` | `doc` | battle |
+| `notes/battle-action-detail-renderer-20260713.md` | `needs_guard` | `test` | battle |
 | `notes/battle-config-format.md` | `implemented_in_code` | `build` | battle |
 | `notes/battle-config-unsafe-template-fix-20260710.md` | `needs_guard` | `doc` | battle |
 | `notes/battle-effect-controlled-phase-extension-20260809.md` | `needs_guard` | `none` | visual |
-| `notes/battle-effect-controlled-runtime-20260801.md` | `needs_guard` | `none` | visual |
+| `notes/battle-effect-controlled-runtime-20260801.md` | `needs_guard` | `doc` | visual |
 | `notes/battle-effect-direct-spawn-runtime-20260802.md` | `needs_guard` | `none` | visual |
 | `notes/battle-effect-frame-phase-20260801.md` | `needs_guard` | `none` | visual |
 | `notes/battle-effect-group1-pixel-ab-20260801.md` | `needs_guard` | `none` | visual |
@@ -557,13 +560,13 @@
 | `notes/battle-effect-sprite-animations-export-20260729.md` | `needs_guard` | `doc` | visual |
 | `notes/battle-effect-template-consumer-20260711.md` | `needs_guard` | `doc` | visual |
 | `notes/battle-encounters-story-visual-player-visible-20260809.md` | `needs_guard` | `none` | battle |
-| `notes/battle-presentation-glyphs-export-20260729.md` | `needs_guard` | `doc` | battle |
-| `notes/battle-scenario-config.md` | `needs_guard` | `doc` | battle |
-| `notes/battle-start-control-flow-20260713.md` | `needs_guard` | `doc` | battle |
+| `notes/battle-presentation-glyphs-export-20260729.md` | `needs_guard` | `test` | battle |
+| `notes/battle-scenario-config.md` | `needs_guard` | `test` | battle |
+| `notes/battle-start-control-flow-20260713.md` | `needs_guard` | `test` | battle |
 | `notes/battle-status-bars-export-20260730.md` | `needs_guard` | `test` | battle |
 | `notes/battle-system-restoration-evidence-20260723.md` | `implemented_in_code` | `build` | battle |
-| `notes/battle-visual-catalog-export-20260729.md` | `needs_guard` | `doc` | visual |
-| `notes/battle-visual-runtime-timelines-export-20260729.md` | `needs_guard` | `doc` | visual |
+| `notes/battle-visual-catalog-export-20260729.md` | `needs_guard` | `test` | visual |
+| `notes/battle-visual-runtime-timelines-export-20260729.md` | `needs_guard` | `test` | visual |
 | `notes/battlefield-object-effect-chain-20260802.md` | `needs_guard` | `none` | battle |
 | `notes/bg-resource-canvases-export-20260729.md` | `needs_guard` | `doc` | visual |
 | `notes/bg-resource-relocation-20260731.md` | `needs_guard` | `none` | visual |
@@ -586,7 +589,7 @@
 | `notes/chapter-script-production-writeback-20260713.md` | `needs_guard` | `doc` | other |
 | `notes/character-battle-graphics-pixel-ab-20260801.md` | `needs_guard` | `none` | visual |
 | `notes/character-battle-graphics-writeback-20260731.md` | `needs_guard` | `none` | visual |
-| `notes/character-battle-palette-writeback-20260731.md` | `needs_guard` | `none` | visual |
+| `notes/character-battle-palette-writeback-20260731.md` | `needs_guard` | `doc` | visual |
 | `notes/character-battle-structure-writeback-20260731.md` | `needs_guard` | `none` | visual |
 | `notes/character-battle-visual-resource-matrix-20260801.md` | `needs_guard` | `test` | visual |
 | `notes/character-battle-visuals-export-20260729.md` | `needs_guard` | `test` | visual |
@@ -682,17 +685,20 @@
 | `notes/evidence/rom-map-sprites-partial-bank-20261001-v1/implementation/notes/rom-map-sprites-partial-bank-20261001.md` | `not_applicable` | `none` | rom |
 | `notes/evidence/rom-menu-gfx-pointer-ab-20261001-v1/contract-20261001-v1/note.md` | `needs_guard` | `none` | other |
 | `notes/exporter-root-deletion-incident-20260809.md` | `needs_guard` | `none` | other |
-| `notes/first-battle-savestate-checkpoints-20260712.md` | `needs_guard` | `doc` | other |
+| `notes/first-battle-savestate-checkpoints-20260712.md` | `needs_guard` | `test` | other |
+| `notes/four-decisions-20261020.md` | `needs_guard` | `none` | other |
 | `notes/free-space.md` | `implemented_in_code` | `build` | other |
 | `notes/function-pointer-runtime-probe-20260713.md` | `needs_guard` | `doc` | other |
 | `notes/generic-sprite-bundle-relocation-20260731.md` | `needs_guard` | `none` | other |
 | `notes/group12-natural-entry-ai-observer-20260806.md` | `needs_guard` | `none` | other |
+| `notes/handover-20261020-reverse-tree.md` | `needs_guard` | `none` | other |
 | `notes/headless-workflow.md` | `needs_guard` | `doc` | other |
 | `notes/initializer-resource-pack-export-20260730.md` | `needs_guard` | `none` | other |
 | `notes/legacy-artifact-acceptance-20260905.md` | `needs_guard` | `none` | other |
 | `notes/legacy-generator-safety-20260711.md` | `needs_human_review` | `doc` | other |
 | `notes/levels-runtime-probe-20260713.md` | `needs_guard` | `test` | other |
 | `notes/line-a-progress-20261019.md` | `needs_guard` | `none` | other |
+| `notes/live-ledger-identity-repair-20261020.md` | `needs_guard` | `none` | other |
 | `notes/local-mgba-build.md` | `needs_human_review` | `doc` | other |
 | `notes/m4a-channel-allocation-20260713.md` | `needs_guard` | `doc` | other |
 | `notes/m4a-command-vm-20260713.md` | `needs_guard` | `doc` | other |
@@ -746,7 +752,7 @@
 | `notes/residual-text-bg-tilemap-resource-ownership-20260731.md` | `needs_guard` | `none` | residual |
 | `notes/residual-wram-derived-tilemap-relocation-20260731.md` | `needs_guard` | `none` | residual |
 | `notes/residual-wram-tilemap-abi-20260731.md` | `needs_guard` | `none` | residual |
-| `notes/residual-wram-tilemap-pixel-ab-20260801.md` | `needs_guard` | `none` | residual |
+| `notes/residual-wram-tilemap-pixel-ab-20260801.md` | `needs_guard` | `doc` | residual |
 | `notes/residual-wram-tilemap-relocation-20260731.md` | `needs_guard` | `none` | residual |
 | `notes/residual-wram-tilemap-resource-ownership-20260731.md` | `needs_guard` | `none` | residual |
 | `notes/residual-wram-tilemap-runtime-reachability-20260731.md` | `needs_guard` | `none` | residual |
@@ -782,7 +788,7 @@
 | `notes/rom-battle-condition-result-text-20260902.md` | `needs_guard` | `none` | rom |
 | `notes/rom-battle-distance-dispatcher-cfg-20260902.md` | `needs_guard` | `none` | rom |
 | `notes/rom-battle-effect-fixed-roundtrip-20261001.md` | `needs_guard` | `none` | rom |
-| `notes/rom-battle-message-text-inventory-20260811.md` | `needs_guard` | `none` | rom |
+| `notes/rom-battle-message-text-inventory-20260811.md` | `needs_guard` | `doc` | rom |
 | `notes/rom-boot-interwork-20260811.md` | `needs_guard` | `none` | rom |
 | `notes/rom-boot-register-init-dependency-cfg-20260905.md` | `needs_guard` | `none` | rom |
 | `notes/rom-bounded-index-u16-pair-table-20260904.md` | `needs_guard` | `none` | rom |
@@ -793,7 +799,7 @@
 | `notes/rom-cfg-proven-roots-v2-20260812.md` | `needs_guard` | `none` | rom |
 | `notes/rom-cfg-proven-roots-v20-20260905.md` | `needs_guard` | `none` | rom |
 | `notes/rom-cfg-proven-roots-v21-20260905.md` | `needs_guard` | `doc` | rom |
-| `notes/rom-cfg-proven-roots-v3-v4-20260813.md` | `needs_guard` | `none` | rom |
+| `notes/rom-cfg-proven-roots-v3-v4-20260813.md` | `needs_guard` | `doc` | rom |
 | `notes/rom-chapter-script-consumer-roots-20260902.md` | `needs_guard` | `none` | rom |
 | `notes/rom-chapter-script-inventory-20260809.md` | `needs_guard` | `none` | rom |
 | `notes/rom-coroutine-record-lifecycle-preflight-20261001.md` | `missing_evidence` | `none` | rom |
@@ -812,7 +818,7 @@
 | `notes/rom-fixed-index-u8-tail-20260905.md` | `needs_guard` | `none` | rom |
 | `notes/rom-fixed-pair-tables-20260904.md` | `needs_guard` | `none` | rom |
 | `notes/rom-fixed-text-route-preflight-20261001.md` | `missing_evidence` | `none` | rom |
-| `notes/rom-gpu-copy-queue-inventory-20260730.md` | `needs_guard` | `none` | rom |
+| `notes/rom-gpu-copy-queue-inventory-20260730.md` | `needs_guard` | `doc` | rom |
 | `notes/rom-large-unknown-anchor-screen-20261001.md` | `needs_guard` | `none` | rom |
 | `notes/rom-later-cfg-renderer-consumers-preflight-20261001.md` | `missing_evidence` | `none` | rom |
 | `notes/rom-low-script-delta-tier1-20261001.md` | `needs_guard` | `none` | rom |
@@ -828,7 +834,7 @@
 | `notes/rom-mplaymain-scheduler-20260828.md` | `needs_guard` | `doc` | rom |
 | `notes/rom-open-root-and-large-candidate-review-20260905.md` | `missing_evidence` | `doc` | rom |
 | `notes/rom-partial-bank-joint-matrix-20261001.md` | `needs_guard` | `doc` | rom |
-| `notes/rom-pointer-lz77-graphics-preview-20260730.md` | `needs_guard` | `none` | rom |
+| `notes/rom-pointer-lz77-graphics-preview-20260730.md` | `needs_guard` | `doc` | rom |
 | `notes/rom-pointer-lz77-inventory-export-20260730.md` | `needs_guard` | `none` | rom |
 | `notes/rom-prebattle-menu-controller-cfg-20260905.md` | `needs_guard` | `none` | rom |
 | `notes/rom-ram-protocol-tag-preflight-20261001.md` | `missing_evidence` | `none` | rom |
@@ -858,7 +864,7 @@
 | `notes/rom-task-callback-078e38-closure-20260905.md` | `needs_guard` | `none` | rom |
 | `notes/rom-task-callback-alignment-gap-candidate-20260905.md` | `missing_evidence` | `none` | rom |
 | `notes/rom-training-text-script-inventory-20260811.md` | `needs_guard` | `none` | rom |
-| `notes/rom-u8-indexed-u16-pair-lookup-20260827.md` | `needs_guard` | `none` | rom |
+| `notes/rom-u8-indexed-u16-pair-lookup-20260827.md` | `needs_guard` | `doc` | rom |
 | `notes/rom-unknown-candidate-59eae0-negative-evidence-20260827.md` | `needs_guard` | `doc` | rom |
 | `notes/rom-unknown-cluster-refresh-20260901.md` | `needs_guard` | `none` | rom |
 | `notes/rom-unknown-cluster-refresh-20260902.md` | `needs_guard` | `doc` | rom |
@@ -913,7 +919,7 @@
 | `notes/story-visual-layer-export-20260729.md` | `needs_guard` | `doc` | presentation |
 | `notes/story-visual-resource-relocation-20260731.md` | `needs_guard` | `none` | presentation |
 | `notes/strict-battle-arrival-gate-20260712.md` | `needs_guard` | `doc` | other |
-| `notes/text-and-battle-visual-consumers-20260713.md` | `needs_guard` | `doc` | other |
+| `notes/text-and-battle-visual-consumers-20260713.md` | `needs_guard` | `test` | other |
 | `notes/text-regions.md` | `needs_guard` | `doc` | other |
 | `notes/tier2-threshold-policy-source-20261020.md` | `needs_guard` | `none` | other |
 | `notes/tile-asset-resource-relocation-20260731.md` | `needs_guard` | `none` | visual |

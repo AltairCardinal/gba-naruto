@@ -2,7 +2,7 @@
 """Measure, from the whole tree, what the remake has and has not taken from the
 reverse engineering results.
 
-The reverse work tree holds the verified results: 262 artifact families with
+The reverse work tree holds the verified results: the artifact families with
 manifests, 427 notes, 65 documents.  The remake tree holds the Butano build.
 Nothing in the repository states which of those results the remake actually
 consumes, which ones it re-derived locally from the original ROM, and which
@@ -438,6 +438,20 @@ def measure(root: Path, index_path: Path, reverse_root: Path) -> dict[str, Any]:
             "result_total": sum(1 for row in rows if row["kind"] in result_kinds),
             "result_gap": len(gap_families),
             "ledger_missing": len(ledger_missing),
+            # The artifact-family denominator moves whenever the reverse work
+            # tree promotes a new family, so it is recorded here and must be
+            # read from this receipt rather than hard-coded in prose.
+            "artifact_family_total": sum(
+                1 for row in rows if row["kind"] == "artifact"
+            ),
+            "artifact_family_by_status": {
+                status: sum(
+                    1
+                    for row in rows
+                    if row["kind"] == "artifact" and row["status"] == status
+                )
+                for status in sorted(by_status)
+            },
         },
     }
 
@@ -481,6 +495,16 @@ def render_markdown(payload: dict[str, Any]) -> str:
     lines.append(f"| 条目总数 | {summary['total']} |")
     lines.append(f"| 成果类（artifact/note/doc） | {summary['result_total']} |")
     lines.append(f"| 成果类无引用（`none`） | {summary['result_gap']} |")
+    family_total = summary.get("artifact_family_total")
+    if family_total:
+        family_build = summary.get("artifact_family_by_status", {}).get("build", 0)
+        lines.append(
+            f"| 成果族（artifact family） | {family_total} |"
+        )
+        lines.append(
+            f"| 成果族 `build` 占比 | {family_build} / {family_total}"
+            f" = {100.0 * family_build / family_total:.1f}% |"
+        )
     lines.append(f"| 台账 `missing` 条目 | {summary['ledger_missing']} |")
     lines.append("")
     lines.append("| 状态 | 条目数 |")

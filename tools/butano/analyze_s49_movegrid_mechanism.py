@@ -197,9 +197,9 @@ def read_frame(
         "registers": {
             "dispcnt": f"0x{dispcnt:04X}",
             "dispcnt_fields": decode_dispcnt(dispcnt),
-            "bldcnt": f"0x{_u16(io, 0x28):04X}",
-            "bldalpha": f"0x{_u16(io, 0x2A):04X}",
-            "bldy": f"0x{_u16(io, 0x2E):04X}",
+            "bldcnt": f"0x{_u16(io, 0x50):04X}",
+            "bldalpha": f"0x{_u16(io, 0x52):04X}",
+            "bldy": f"0x{_u16(io, 0x54):04X}",
             "bgcnt": [f"0x{value:04X}" for value in bgcnt],
             "bgcnt_fields": [decode_bgcnt(value) for value in bgcnt],
             # BG0..BG3 horizontal offsets live at 0x10/0x14/0x18/0x1C and the
@@ -317,10 +317,10 @@ def read_frame(
         "screen_registers": {
             "winin": f"0x{_u16(io, 0x40):04X}",
             "winout": f"0x{_u16(io, 0x42):04X}",
-            "mosaic": f"0x{_u16(io, 0x48):04X}",
-            "bldcnt": f"0x{_u16(io, 0x28):04X}",
-            "bldalpha": f"0x{_u16(io, 0x2A):04X}",
-            "bldy": f"0x{_u16(io, 0x2E):04X}",
+            "mosaic": f"0x{_u16(io, 0x44):04X}",
+            "bldcnt": f"0x{_u16(io, 0x50):04X}",
+            "bldalpha": f"0x{_u16(io, 0x52):04X}",
+            "bldy": f"0x{_u16(io, 0x54):04X}",
         },
         "colour_space": {
             "frame_colours": len(colors),

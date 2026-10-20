@@ -1,0 +1,1076 @@
+{
+  "blobs": {
+    "palette": {
+      "compressed_bytes": 36,
+      "compressed_sha256": "2e1e27099e8bbed038c35e677aefa9c90a754ea1423f7e653c5c1ba52585967b",
+      "compressed_span": [
+        "0x080B9F5C",
+        "0x080B9F80"
+      ],
+      "decompressed_bytes": 32,
+      "decompressed_sha256": "d198ec85eff147b157978bb44d1948db5b9893edb5f8f63d4d9b96b5ca7e7e84",
+      "file_offset": 761692,
+      "rom_address": "0x080B9F5C"
+    },
+    "tiles": {
+      "compressed_bytes": 198,
+      "compressed_sha256": "b4e197b91b4e6a3d7650a02d785af8fc37e1083c0b67d5355966b3fd8a85c733",
+      "compressed_span": [
+        "0x080B9E94",
+        "0x080B9F5A"
+      ],
+      "decompressed_bytes": 1024,
+      "decompressed_sha256": "0f86c8032129ef1b92fb1464c516a03b1c0ca71672ac5de4d37e8b302cf6ce40",
+      "file_offset": 761492,
+      "rom_address": "0x080B9E94"
+    }
+  },
+  "cross_check": {
+    "evidence": [
+      {
+        "bg2_tilemap": {
+          "cells": 1024,
+          "non_zero_cells": 1024,
+          "palette_banks_used": [
+            12
+          ],
+          "tile_index_histogram": {
+            "256": 315,
+            "257": 69,
+            "258": 36,
+            "259": 27,
+            "260": 69,
+            "261": 37,
+            "262": 71,
+            "263": 23,
+            "264": 71,
+            "265": 23,
+            "270": 1,
+            "272": 1,
+            "278": 96,
+            "279": 29,
+            "280": 120,
+            "281": 36
+          }
+        },
+        "bg2_tilemap_baseline": "artifacts/s49-original-field-frame-v1",
+        "bg2_tilemap_changed_cells_vs_baseline": 212,
+        "directory": "artifacts/s49-original-movegrid-frame-v1",
+        "palette_match_pram_bank12": true,
+        "pram_palette_window": [
+          "0x0180",
+          "0x01A0"
+        ],
+        "pram_sha256": "d7d5165dfd1e68b1e1ad2a705554a8fe63416625943293344b70d594333175f9",
+        "tiles_match_vram_window": true,
+        "vram_sha256": "d84ed4b8d09c7f76df9f113065fa22be401cbcca57b7bb2ffef3417bc812192f",
+        "vram_tiles_window": [
+          "0x2000",
+          "0x2400"
+        ]
+      },
+      {
+        "bg2_tilemap": {
+          "cells": 1024,
+          "non_zero_cells": 1024,
+          "palette_banks_used": [
+            12
+          ],
+          "tile_index_histogram": {
+            "256": 427,
+            "257": 100,
+            "258": 53,
+            "259": 54,
+            "260": 100,
+            "261": 53,
+            "262": 21,
+            "263": 7,
+            "264": 21,
+            "265": 7,
+            "266": 9,
+            "267": 3,
+            "268": 9,
+            "269": 3,
+            "270": 6,
+            "271": 2,
+            "272": 6,
+            "273": 2,
+            "278": 40,
+            "279": 15,
+            "280": 63,
+            "281": 23
+          }
+        },
+        "bg2_tilemap_baseline": "artifacts/s49-original-field-frame-v1",
+        "bg2_tilemap_changed_cells_vs_baseline": 164,
+        "directory": "artifacts/s49-original-grid16-frame-v1",
+        "palette_match_pram_bank12": true,
+        "pram_palette_window": [
+          "0x0180",
+          "0x01A0"
+        ],
+        "pram_sha256": "72aff754d66268be67bd1698ebd182a67b792539c0fc18b8b87920f8b4050a03",
+        "tiles_match_vram_window": true,
+        "vram_sha256": "b97acf56aa95765861322927004d0039b3c87cd688b19ac03411dd05d423fbf8",
+        "vram_tiles_window": [
+          "0x2000",
+          "0x2400"
+        ]
+      },
+      {
+        "bg2_tilemap": {
+          "cells": 1024,
+          "non_zero_cells": 1024,
+          "palette_banks_used": [
+            12
+          ],
+          "tile_index_histogram": {
+            "256": 330,
+            "257": 96,
+            "258": 48,
+            "259": 42,
+            "260": 96,
+            "261": 49,
+            "262": 19,
+            "263": 7,
+            "264": 19,
+            "265": 7,
+            "266": 9,
+            "267": 3,
+            "268": 9,
+            "269": 3,
+            "270": 2,
+            "271": 1,
+            "272": 2,
+            "273": 1,
+            "278": 96,
+            "279": 29,
+            "280": 120,
+            "281": 36
+          }
+        },
+        "bg2_tilemap_baseline": "artifacts/s49-original-field-frame-v1",
+        "bg2_tilemap_changed_cells_vs_baseline": 0,
+        "directory": "artifacts/s49-original-field-frame-v1",
+        "palette_match_pram_bank12": true,
+        "pram_palette_window": [
+          "0x0180",
+          "0x01A0"
+        ],
+        "pram_sha256": "b2f204e15997e72e6bf266d879f97c2fca8af82e72bf6d40e46bc3eb43d77051",
+        "tiles_match_vram_window": true,
+        "vram_sha256": "4479e1afb2a48e894b479e13e8a61b9941b1872d998439a2a5b0bd2440e7dd57",
+        "vram_tiles_window": [
+          "0x2000",
+          "0x2400"
+        ]
+      },
+      {
+        "bg2_tilemap": {
+          "cells": 1024,
+          "non_zero_cells": 1024,
+          "palette_banks_used": [
+            12
+          ],
+          "tile_index_histogram": {
+            "256": 1021,
+            "257": 2,
+            "260": 1
+          }
+        },
+        "bg2_tilemap_baseline": "artifacts/s49-original-field-frame-v1",
+        "bg2_tilemap_changed_cells_vs_baseline": 691,
+        "directory": "artifacts/s49-original-banner-frame-v1",
+        "palette_match_pram_bank12": true,
+        "pram_palette_window": [
+          "0x0180",
+          "0x01A0"
+        ],
+        "pram_sha256": "fabce3abda0b40ed51ab63c3181aac02e45f1343412b6f99d2fb536e66ad6953",
+        "tiles_match_vram_window": true,
+        "vram_sha256": "9fcbcc80d795914b5a1521ec8851b2fa6c6b82cb30d05c2831d11a60c3b2696a",
+        "vram_tiles_window": [
+          "0x2000",
+          "0x2400"
+        ]
+      }
+    ],
+    "note": "The cross-check compares the exported payload against the VRAM / PRAM dumps of already captured same-frame receipts. It proves the payload equals what the game had resident; it does not prove the game ever draws it.",
+    "status": "run"
+  },
+  "determinism": {
+    "note": "No timestamp is written into any artifact, so re-running the exporter with the same inputs reproduces every output file byte for byte.",
+    "timestamp": "omitted"
+  },
+  "exported_by": "tools/butano/export_s49_movegrid_overlay.py",
+  "lz77": {
+    "flag_bit_0": "literal byte",
+    "flag_bit_1": "match token: length = (first >> 4) + 3, distance = (((first & 0x0F) << 8) | second) + 1",
+    "flag_bit_order": "most significant bit first (bit 7 down to bit 0)",
+    "header_byte": "0x10",
+    "size_field": "24-bit little-endian",
+    "source": "reverse/tools/export_rom_pointer_lz77_inventory.py (_parse_lz77)"
+  },
+  "outputs": {
+    "movegrid-palette.bin": {
+      "bytes": 32,
+      "sha256": "d198ec85eff147b157978bb44d1948db5b9893edb5f8f63d4d9b96b5ca7e7e84"
+    },
+    "movegrid-palette.json": {
+      "bytes": 3111,
+      "sha256": "6912cb9c41b815465ec5b6c5a1cb3dfa488738aa4d8db61675b82fa1ef90d40d"
+    },
+    "movegrid-tiles-4bpp.bin": {
+      "bytes": 1024,
+      "sha256": "0f86c8032129ef1b92fb1464c516a03b1c0ca71672ac5de4d37e8b302cf6ce40"
+    },
+    "movegrid-tiles-index.png": {
+      "bytes": 136,
+      "sha256": "e1146dfc69758ffdbf39181ab722499e8708c9a2cd803cfb33286f29cd16ecc0"
+    },
+    "movegrid-tiles-render.png": {
+      "bytes": 937,
+      "sha256": "e944501164e56cff65c6c3f323b728c6a52cbccb27c37dc911952c745a6ce6dd"
+    }
+  },
+  "palette": {
+    "bank": 12,
+    "bytes": 32,
+    "conversion": "8-bit = (c << 3) | (c >> 2) on each 5-bit channel",
+    "entries": [
+      {
+        "bgr555": "0x0000",
+        "index": 0,
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x45A8",
+        "index": 1,
+        "rgb5": [
+          8,
+          13,
+          17
+        ],
+        "rgb8": [
+          66,
+          107,
+          140
+        ]
+      },
+      {
+        "bgr555": "0x7F23",
+        "index": 2,
+        "rgb5": [
+          3,
+          25,
+          31
+        ],
+        "rgb8": [
+          24,
+          206,
+          255
+        ]
+      },
+      {
+        "bgr555": "0x55A1",
+        "index": 3,
+        "rgb5": [
+          1,
+          13,
+          21
+        ],
+        "rgb8": [
+          8,
+          107,
+          173
+        ]
+      },
+      {
+        "bgr555": "0x00FF",
+        "index": 4,
+        "rgb5": [
+          31,
+          7,
+          0
+        ],
+        "rgb8": [
+          255,
+          57,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x00B4",
+        "index": 5,
+        "rgb5": [
+          20,
+          5,
+          0
+        ],
+        "rgb8": [
+          165,
+          41,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x02FF",
+        "index": 6,
+        "rgb5": [
+          31,
+          23,
+          0
+        ],
+        "rgb8": [
+          255,
+          189,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x01B2",
+        "index": 7,
+        "rgb5": [
+          18,
+          13,
+          0
+        ],
+        "rgb8": [
+          148,
+          107,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x03F5",
+        "index": 8,
+        "rgb5": [
+          21,
+          31,
+          0
+        ],
+        "rgb8": [
+          173,
+          255,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x020A",
+        "index": 9,
+        "rgb5": [
+          10,
+          16,
+          0
+        ],
+        "rgb8": [
+          82,
+          132,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x2529",
+        "index": 10,
+        "rgb5": [
+          9,
+          9,
+          9
+        ],
+        "rgb8": [
+          74,
+          74,
+          74
+        ]
+      },
+      {
+        "bgr555": "0x1084",
+        "index": 11,
+        "rgb5": [
+          4,
+          4,
+          4
+        ],
+        "rgb8": [
+          33,
+          33,
+          33
+        ]
+      },
+      {
+        "bgr555": "0x0000",
+        "index": 12,
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x0000",
+        "index": 13,
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x0000",
+        "index": 14,
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "bgr555": "0x0000",
+        "index": 15,
+        "rgb5": [
+          0,
+          0,
+          0
+        ],
+        "rgb8": [
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "entry_count": 16,
+    "pram_destination": "0x05000180"
+  },
+  "rom": {
+    "address_base": "0x08000000",
+    "name": "火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size_bytes": 6291456
+  },
+  "schema": "konoha.s49-movegrid-overlay.v1",
+  "scope": {
+    "established": [
+      "The 32-tile payload at ROM 0x080B9E94 is the BG2 tile set resident at VRAM 0x06002000 in the captured frames.",
+      "The 32-byte payload at ROM 0x080B9F5C is palette bank 12, resident at PRAM 0x05000180 in the captured frames.",
+      "The tile set is a fixed grid / highlight tile family: empty tiles, 1-pixel edge tiles and solid tiles with a 1-pixel border, in six colour families.",
+      "The tile graphics and the palette are byte-identical across every captured frame of all four receipts; only the BG2 tilemap changes between states."
+    ],
+    "not_established": [
+      "Which tilemap cells the game lights up: the BG2 tilemap content is generated at runtime and no ROM record for it was found.",
+      "Whether the overlay marks reachable or unreachable ground: the layer is identified, its meaning is not.",
+      "Whether the layer is reached by natural execution: the receipts are a scripted walk, not a coverage proof.",
+      "Whether the 32 tiles are all used: the captured frames reference only part of the tile set.",
+      "The screen-base unit convention (mGBA's block << 11 versus the 4 KB wording in common references) was not adjudicated in this round; the payload destination 0x06002000 is confirmed from the loader literal pool and from the VRAM dump independently of that convention.",
+      "The PNG screenshots of the receipts are not self-consistent with their own dumps, so no pixel-level claim about the rendered overlay is made here."
+    ]
+  },
+  "tiles": {
+    "base_tile_index": 256,
+    "bg_char_base": "0x06000000",
+    "bg_char_base_block": 0,
+    "bpp": 4,
+    "sheet": {
+      "cols": 8,
+      "index_png": "movegrid-tiles-index.png",
+      "pixel_height": 32,
+      "pixel_width": 64,
+      "render_png": "movegrid-tiles-render.png",
+      "rows": 4
+    },
+    "sheet_layout": [
+      {
+        "blob_index": 0,
+        "border_indices": [],
+        "colour_indices": [],
+        "fill_index": null,
+        "png_x": 0,
+        "png_y": 0,
+        "role": "empty",
+        "sheet_col": 0,
+        "sheet_row": 0,
+        "tile_index": 256,
+        "vram_address": "0x06002000",
+        "vram_offset": 8192
+      },
+      {
+        "blob_index": 1,
+        "border_indices": [],
+        "colour_indices": [],
+        "fill_index": null,
+        "png_x": 8,
+        "png_y": 0,
+        "role": "empty",
+        "sheet_col": 1,
+        "sheet_row": 0,
+        "tile_index": 257,
+        "vram_address": "0x06002020",
+        "vram_offset": 8224
+      },
+      {
+        "blob_index": 2,
+        "border_indices": [
+          1
+        ],
+        "colour_indices": [
+          1
+        ],
+        "fill_index": null,
+        "png_x": 16,
+        "png_y": 0,
+        "role": "line_x6",
+        "sheet_col": 2,
+        "sheet_row": 0,
+        "tile_index": 258,
+        "vram_address": "0x06002040",
+        "vram_offset": 8256
+      },
+      {
+        "blob_index": 3,
+        "border_indices": [
+          1
+        ],
+        "colour_indices": [
+          1
+        ],
+        "fill_index": null,
+        "png_x": 24,
+        "png_y": 0,
+        "role": "line_y7",
+        "sheet_col": 3,
+        "sheet_row": 0,
+        "tile_index": 259,
+        "vram_address": "0x06002060",
+        "vram_offset": 8288
+      },
+      {
+        "blob_index": 4,
+        "border_indices": [
+          1
+        ],
+        "colour_indices": [
+          1
+        ],
+        "fill_index": null,
+        "png_x": 32,
+        "png_y": 0,
+        "role": "line_y7",
+        "sheet_col": 4,
+        "sheet_row": 0,
+        "tile_index": 260,
+        "vram_address": "0x06002080",
+        "vram_offset": 8320
+      },
+      {
+        "blob_index": 5,
+        "border_indices": [
+          1
+        ],
+        "colour_indices": [
+          1
+        ],
+        "fill_index": null,
+        "png_x": 40,
+        "png_y": 0,
+        "role": "pattern1",
+        "sheet_col": 5,
+        "sheet_row": 0,
+        "tile_index": 261,
+        "vram_address": "0x060020A0",
+        "vram_offset": 8352
+      },
+      {
+        "blob_index": 6,
+        "border_indices": [],
+        "colour_indices": [
+          2
+        ],
+        "fill_index": 2,
+        "png_x": 48,
+        "png_y": 0,
+        "role": "fill2",
+        "sheet_col": 6,
+        "sheet_row": 0,
+        "tile_index": 262,
+        "vram_address": "0x060020C0",
+        "vram_offset": 8384
+      },
+      {
+        "blob_index": 7,
+        "border_indices": [
+          2,
+          3
+        ],
+        "colour_indices": [
+          2,
+          3
+        ],
+        "fill_index": null,
+        "png_x": 56,
+        "png_y": 0,
+        "role": "pattern2+line_x6",
+        "sheet_col": 7,
+        "sheet_row": 0,
+        "tile_index": 263,
+        "vram_address": "0x060020E0",
+        "vram_offset": 8416
+      },
+      {
+        "blob_index": 8,
+        "border_indices": [
+          2,
+          3
+        ],
+        "colour_indices": [
+          2,
+          3
+        ],
+        "fill_index": null,
+        "png_x": 0,
+        "png_y": 8,
+        "role": "pattern2+line_y7",
+        "sheet_col": 0,
+        "sheet_row": 1,
+        "tile_index": 264,
+        "vram_address": "0x06002100",
+        "vram_offset": 8448
+      },
+      {
+        "blob_index": 9,
+        "border_indices": [
+          2,
+          3
+        ],
+        "colour_indices": [
+          2,
+          3
+        ],
+        "fill_index": null,
+        "png_x": 8,
+        "png_y": 8,
+        "role": "pattern2+pattern3",
+        "sheet_col": 1,
+        "sheet_row": 1,
+        "tile_index": 265,
+        "vram_address": "0x06002120",
+        "vram_offset": 8480
+      },
+      {
+        "blob_index": 10,
+        "border_indices": [],
+        "colour_indices": [
+          4
+        ],
+        "fill_index": 4,
+        "png_x": 16,
+        "png_y": 8,
+        "role": "fill4",
+        "sheet_col": 2,
+        "sheet_row": 1,
+        "tile_index": 266,
+        "vram_address": "0x06002140",
+        "vram_offset": 8512
+      },
+      {
+        "blob_index": 11,
+        "border_indices": [
+          4,
+          5
+        ],
+        "colour_indices": [
+          4,
+          5
+        ],
+        "fill_index": null,
+        "png_x": 24,
+        "png_y": 8,
+        "role": "pattern4+line_x6",
+        "sheet_col": 3,
+        "sheet_row": 1,
+        "tile_index": 267,
+        "vram_address": "0x06002160",
+        "vram_offset": 8544
+      },
+      {
+        "blob_index": 12,
+        "border_indices": [
+          4,
+          5
+        ],
+        "colour_indices": [
+          4,
+          5
+        ],
+        "fill_index": null,
+        "png_x": 32,
+        "png_y": 8,
+        "role": "pattern4+line_y7",
+        "sheet_col": 4,
+        "sheet_row": 1,
+        "tile_index": 268,
+        "vram_address": "0x06002180",
+        "vram_offset": 8576
+      },
+      {
+        "blob_index": 13,
+        "border_indices": [
+          4,
+          5
+        ],
+        "colour_indices": [
+          4,
+          5
+        ],
+        "fill_index": null,
+        "png_x": 40,
+        "png_y": 8,
+        "role": "pattern4+pattern5",
+        "sheet_col": 5,
+        "sheet_row": 1,
+        "tile_index": 269,
+        "vram_address": "0x060021A0",
+        "vram_offset": 8608
+      },
+      {
+        "blob_index": 14,
+        "border_indices": [],
+        "colour_indices": [
+          6
+        ],
+        "fill_index": 6,
+        "png_x": 48,
+        "png_y": 8,
+        "role": "fill6",
+        "sheet_col": 6,
+        "sheet_row": 1,
+        "tile_index": 270,
+        "vram_address": "0x060021C0",
+        "vram_offset": 8640
+      },
+      {
+        "blob_index": 15,
+        "border_indices": [
+          6,
+          7
+        ],
+        "colour_indices": [
+          6,
+          7
+        ],
+        "fill_index": null,
+        "png_x": 56,
+        "png_y": 8,
+        "role": "pattern6+line_x6",
+        "sheet_col": 7,
+        "sheet_row": 1,
+        "tile_index": 271,
+        "vram_address": "0x060021E0",
+        "vram_offset": 8672
+      },
+      {
+        "blob_index": 16,
+        "border_indices": [
+          6,
+          7
+        ],
+        "colour_indices": [
+          6,
+          7
+        ],
+        "fill_index": null,
+        "png_x": 0,
+        "png_y": 16,
+        "role": "pattern6+line_y7",
+        "sheet_col": 0,
+        "sheet_row": 2,
+        "tile_index": 272,
+        "vram_address": "0x06002200",
+        "vram_offset": 8704
+      },
+      {
+        "blob_index": 17,
+        "border_indices": [
+          6,
+          7
+        ],
+        "colour_indices": [
+          6,
+          7
+        ],
+        "fill_index": null,
+        "png_x": 8,
+        "png_y": 16,
+        "role": "pattern6+pattern7",
+        "sheet_col": 1,
+        "sheet_row": 2,
+        "tile_index": 273,
+        "vram_address": "0x06002220",
+        "vram_offset": 8736
+      },
+      {
+        "blob_index": 18,
+        "border_indices": [],
+        "colour_indices": [
+          8
+        ],
+        "fill_index": 8,
+        "png_x": 16,
+        "png_y": 16,
+        "role": "fill8",
+        "sheet_col": 2,
+        "sheet_row": 2,
+        "tile_index": 274,
+        "vram_address": "0x06002240",
+        "vram_offset": 8768
+      },
+      {
+        "blob_index": 19,
+        "border_indices": [
+          8,
+          9
+        ],
+        "colour_indices": [
+          8,
+          9
+        ],
+        "fill_index": null,
+        "png_x": 24,
+        "png_y": 16,
+        "role": "pattern8+line_x6",
+        "sheet_col": 3,
+        "sheet_row": 2,
+        "tile_index": 275,
+        "vram_address": "0x06002260",
+        "vram_offset": 8800
+      },
+      {
+        "blob_index": 20,
+        "border_indices": [
+          8,
+          9
+        ],
+        "colour_indices": [
+          8,
+          9
+        ],
+        "fill_index": null,
+        "png_x": 32,
+        "png_y": 16,
+        "role": "pattern8+line_y7",
+        "sheet_col": 4,
+        "sheet_row": 2,
+        "tile_index": 276,
+        "vram_address": "0x06002280",
+        "vram_offset": 8832
+      },
+      {
+        "blob_index": 21,
+        "border_indices": [
+          8,
+          9
+        ],
+        "colour_indices": [
+          8,
+          9
+        ],
+        "fill_index": null,
+        "png_x": 40,
+        "png_y": 16,
+        "role": "pattern8+pattern9",
+        "sheet_col": 5,
+        "sheet_row": 2,
+        "tile_index": 277,
+        "vram_address": "0x060022A0",
+        "vram_offset": 8864
+      },
+      {
+        "blob_index": 22,
+        "border_indices": [],
+        "colour_indices": [
+          10
+        ],
+        "fill_index": 10,
+        "png_x": 48,
+        "png_y": 16,
+        "role": "filla",
+        "sheet_col": 6,
+        "sheet_row": 2,
+        "tile_index": 278,
+        "vram_address": "0x060022C0",
+        "vram_offset": 8896
+      },
+      {
+        "blob_index": 23,
+        "border_indices": [
+          10,
+          11
+        ],
+        "colour_indices": [
+          10,
+          11
+        ],
+        "fill_index": null,
+        "png_x": 56,
+        "png_y": 16,
+        "role": "patterna+line_x6",
+        "sheet_col": 7,
+        "sheet_row": 2,
+        "tile_index": 279,
+        "vram_address": "0x060022E0",
+        "vram_offset": 8928
+      },
+      {
+        "blob_index": 24,
+        "border_indices": [
+          10,
+          11
+        ],
+        "colour_indices": [
+          10,
+          11
+        ],
+        "fill_index": null,
+        "png_x": 0,
+        "png_y": 24,
+        "role": "patterna+line_y7",
+        "sheet_col": 0,
+        "sheet_row": 3,
+        "tile_index": 280,
+        "vram_address": "0x06002300",
+        "vram_offset": 8960
+      },
+      {
+        "blob_index": 25,
+        "border_indices": [
+          10,
+          11
+        ],
+        "colour_indices": [
+          10,
+          11
+        ],
+        "fill_index": null,
+        "png_x": 8,
+        "png_y": 24,
+        "role": "patterna+patternb",
+        "sheet_col": 1,
+        "sheet_row": 3,
+        "tile_index": 281,
+        "vram_address": "0x06002320",
+        "vram_offset": 8992
+      },
+      {
+        "blob_index": 26,
+        "border_indices": [],
+        "colour_indices": [],
+        "fill_index": null,
+        "png_x": 16,
+        "png_y": 24,
+        "role": "empty",
+        "sheet_col": 2,
+        "sheet_row": 3,
+        "tile_index": 282,
+        "vram_address": "0x06002340",
+        "vram_offset": 9024
+      },
+      {
+        "blob_index": 27,
+        "border_indices": [],
+        "colour_indices": [],
+        "fill_index": null,
+        "png_x": 24,
+        "png_y": 24,
+        "role": "empty",
+        "sheet_col": 3,
+        "sheet_row": 3,
+        "tile_index": 283,
+        "vram_address": "0x06002360",
+        "vram_offset": 9056
+      },
+      {
+        "blob_index": 28,
+        "border_indices": [],
+        "colour_indices": [],
+        "fill_index": null,
+        "png_x": 32,
+        "png_y": 24,
+        "role": "empty",
+        "sheet_col": 4,
+        "sheet_row": 3,
+        "tile_index": 284,
+        "vram_address": "0x06002380",
+        "vram_offset": 9088
+      },
+      {
+        "blob_index": 29,
+        "border_indices": [],
+        "colour_indices": [],
+        "fill_index": null,
+        "png_x": 40,
+        "png_y": 24,
+        "role": "empty",
+        "sheet_col": 5,
+        "sheet_row": 3,
+        "tile_index": 285,
+        "vram_address": "0x060023A0",
+        "vram_offset": 9120
+      },
+      {
+        "blob_index": 30,
+        "border_indices": [],
+        "colour_indices": [],
+        "fill_index": null,
+        "png_x": 48,
+        "png_y": 24,
+        "role": "empty",
+        "sheet_col": 6,
+        "sheet_row": 3,
+        "tile_index": 286,
+        "vram_address": "0x060023C0",
+        "vram_offset": 9152
+      },
+      {
+        "blob_index": 31,
+        "border_indices": [],
+        "colour_indices": [],
+        "fill_index": null,
+        "png_x": 56,
+        "png_y": 24,
+        "role": "empty",
+        "sheet_col": 7,
+        "sheet_row": 3,
+        "tile_index": 287,
+        "vram_address": "0x060023E0",
+        "vram_offset": 9184
+      }
+    ],
+    "tile_bytes": 32,
+    "tile_count": 32,
+    "vram_destination": "0x06002000",
+    "vram_destination_note": "BG2 char base block 0 (0x06000000) + tile 256 x 32 bytes; the BG2 tilemap itself lives at VRAM 0x06001000 (screen base block 2) and is written by the game at runtime."
+  }
+}

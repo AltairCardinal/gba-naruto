@@ -22,6 +22,11 @@
 **主分母 = 262 个逆向成果族（artifact family）**。`tool`/`test` 是工具而非成果，
 单列；`note`/`doc` 是结论文本，单独作为"结论消化"分母。
 
+> ⚠️ **本节是 02:24 的基线快照，分母 262 当时正确。**
+> 逆向树在 12:27 的 `a2d3082a` 晋升了两个新成果族后，**分母已变为 264**；
+> 当前同口径读数见 **§7.7**（`build 92/264 = 34.8%`）。
+> **引用任何分母都必须写明它对应哪个逆向提交。**
+
 状态判定（先匹配者胜）：
 
 | 状态 | 判据 | 含义 |
@@ -458,7 +463,7 @@ P2 的原料是 333 条 `needs_guard`。这一轮没有去"批量转"，而是�
 | 工具 | `tools/butano/capture_s49_battle_roster.py`（只采）+ `tools/butano/mgba_battle_roster_dump.lua` + `tools/butano/verify_s49_battle_roster.py`（独立判） |
 | 消费闭合 | 逆向笔记 `notes/scenario-49-battle-14-runtime-20260720.md` 的结论**被门禁真的消费**：复核器把 note 里那份「LV5/138、LV4/104、LV5/110、character 30 40HP、character 55 LV5 25HP」的记录与**从原版内存读出的数**逐槽对账，两者必须一致 ⇒ notes 索引里该条由 `needs_guard` 转入 `implemented_in_code`（**333 → 332**），而不是靠文件里出现文件名 |
 | P2 真实分母 | notes 索引新增两个**可复算**的摘要字段：`needs_guard_already_referenced_from_tests` = **11**、`needs_guard_without_any_test_reference` = **321** ⇒ 332 条 `needs_guard` 里有 11 条早已在 `tests/` 被引用过，真正「连测试都没碰过」的是 **321** 条。⚠️ **11 是上界不是真值**：`tests/` 里的引用可能是**文档类测试**（如 `test_butano_research_docs.py`）而不是行为门禁，所以「已被引用」只能当上界，逐条判定仍需人看 |
-| 成果族口径 | **build 92/262 = 35.1%**（上一轮 91/262 = 34.7%），`none` 仍为 10（全是 `precoverage` 中间产物）；条目口径两次连跑完全一致：build 363 / doc 505 / local_artifact 3 / none 1083 / test 238 |
+| 成果族口径 | **build 92/262 = 35.1%**（上一轮 91/262 = 34.7%），`none` 仍为 10（全是 `precoverage` 中间产物）；条目口径两次连跑完全一致：build 363 / doc 505 / local_artifact 3 / none 1083 / test 238 ⚠️ **本行分母 `262` 与 `35.1%` 已被 §7.7 更正为 264 / 34.8%（分母随逆向树晋升而变，见 §7.8）** |
 | 门禁 | `tests/test_s49_battle_roster.py` **10 项全绿**，含**三条变异双侧拒绝**（改池字节 / 改阵型坐标 / 改成长表都必须被点名） |
 | 台账 | 新增 `s49-battle-14-roster`（`reused`），共 19 条、`missing` 仍为 0 |
 | 测量 | 新收据目录 `artifacts/s49-original-battle14-roster-v1/` 已登记进 `EXCLUDED_PREFIXES`（它是**测量**不是消费；诚实的消费信号是 `tools/` 里那个运行时读逆向树的复核器） |
@@ -498,12 +503,175 @@ P2 的原料是 333 条 `needs_guard`。这一轮没有去"批量转"，而是�
 
 | 项 | 结果 |
 | --- | --- |
-| 撤回 | 4.3.90 的「暗化罩**不是**切调色板」**未被证明**（方法不成立）：归档的 PNG 与 PRAM dump **来自不同 mGBA 构建且不是同一帧**；更关键的是**同一帧内**截图与调色板也不在同一色彩空间（移动网格帧 162 色里 **97 色不在该帧调色板**，而 `BLDCNT=0x0000` 无混合 ⇒ GBA 画不出这种颜色） |
+| 撤回 | 4.3.90 的「暗化罩**不是**切调色板」**未被证明**（方法不成立）：归档的 PNG 与 PRAM dump **来自不同 mGBA 构建且不是同一帧**；更关键的是**同一帧内**截图与调色板也不在同一色彩空间（移动网格帧 162 色里 **97 色不在该帧调色板**，而 ~~`BLDCNT=0x0000` 无混合 ⇒ GBA 画不出~~ ⇒ ⚠️ **第 19 轮更正**：**BLDCNT 实为 `0x1744`（alpha 混合，EVA=EVB=15/16）**，**混合结果色本来就不属于任何调色板** ⇒ 这条论证作废这种颜色） |
 | 新工具 | `tools/butano/mgba_frame_palette_sequence.lua` + `tools/butano/capture_s49_frame_palette.py`（**同帧**落截图+调色板+VRAM+寄存器）+ `tools/butano/analyze_s49_movegrid_mechanism.py`；收据 `artifacts/s49-original-{movegrid,banner}-frame-v1/`、`artifacts/s49-original-movegrid-mechanism-v1/` |
-| 原版结构 | **移动网格是画在 BG2 上的一层**：逐层比两帧 tilemap ⇒ BG0（地图）只差 **1** 格、BG1 差 **0** 格、**BG2 差 706** 格（BG3 差 175 但图块为空 ⇒ 不画）；BG2 优先级 2 压过 BG0 的优先级 3 ⇒ **覆盖层与「暗化」是 BG2 图块，不是 BG0 调色板染色**。`BLDCNT=0`（无混合）⇒ 暗化来自**图块+调色板**，不是混合。⚠️ 本轮**撤回自己一版解读**：「DISPCNT` 差 bit 10 ⇒ BG3 换图块」是错的——mGBA 渲染器里字符基址只来自 BGxCNT（`charBase = BGCNT.CharBase << 14`），mode 0 下 DISPCNT 不参与，bit 10 只是游戏写的软件标志位 |
-| 门禁 | `tests/test_s49_movegrid_mechanism.py` **6 OK**（钉住寄存器差异、整屏层、无混合、**横幅帧自洽 81/81** 与 **移动网格帧不自洽 97/162** 这两个数字） |
+| 原版结构 | **移动网格是画在 BG2 上的一层**：逐层比两帧 tilemap ⇒ BG0（地图）只差 **1** 格、BG1 差 **0** 格、**BG2 差 706** 格（BG3 差 175 但图块为空 ⇒ 不画）；BG2 优先级 2 压过 BG0 的优先级 3 ⇒ **覆盖层与「暗化」是 BG2 图块，不是 BG0 调色板染色**。`BLDCNT=0x1744`（**alpha 混合**，EVA=EVB=10/16）⇒ 暗化来自**图块+调色板+混合**（⚠️ **第 19 轮更正**：旧值是 IO 偏移读错）。⚠️ 本轮**撤回自己一版解读**：「DISPCNT` 差 bit 10 ⇒ BG3 换图块」是错的——mGBA 渲染器里字符基址只来自 BGxCNT（`charBase = BGCNT.CharBase << 14`），mode 0 下 DISPCNT 不参与，bit 10 只是游戏写的软件标志位 |
+| 门禁 | `tests/test_s49_movegrid_mechanism.py` **6 OK**（钉住寄存器差异、整屏层、**混合（⚠️ **第 19 轮更正**：旧断言「无混合」已反转为 alpha）**、**横幅帧自洽 81/81** 与 ~~**移动网格帧不自洽 97/162**~~ 这两个数字；⚠️ **第 20 轮更正**：**收据自洽**（参考渲染器重建逐像素一致）） |
 | 再进一步 | **地图层在两帧之间逐字节相同**（BG0 调色板 bank 0–3：0 项变化；BG0 图块 VRAM `0x4000`：0 字节变化）⇒ **「给底色加冷色」在硬件层被否证**；冷色来自**另一个层**（`0x1000–0x1800` 区域 706 字节变化）⇒ 也解释了旧「单一 (T, alpha) 无解」：那不是颜色混合，是**空间上的一层覆盖**。⚠️ 仍未定：BG2 在 mode 0 下是**仿射层**，`0x1000` 是仿射参数而非 tilemap，其仿射寄存器两帧相同 ⇒ 需按仿射层布局再解 |
 | **第二个实例独立确认** | walk 里移动网格屏出现**两次**：step-16（镜头平移到 152/40）与 step-19（镜头 240/24）；**两帧都是 `DISPCNT=0x1D40`（bit 10 置位）**，而战场帧是 `0x1940`（清位）；step-16 换了镜头覆盖层照样在 ⇒ **覆盖层跟这个位走、与镜头无关**（也解释了 4.3.85 记的「step-16 相机 (152,40)」＝同一屏的另一次出现） |
 | **单 bit 定案** | 用**正确基线**（战场帧 walk step-17，而不是整屏覆盖的回合横幅）后：**战场帧 vs 移动网格帧的全部显示寄存器只有 `DISPCNT` 不同**（`0x1940`→`0x1D40`，**只差 bit 10**），BG0–BG3 CNT / 四个滚动 / `BLDCNT` / `WININ` / `WINOUT` / `MOSAIC` **全同**；PRAM **只差 1 字节**（bank 16 的 OBJ 调色板项），**BG0 调色板（bank 0–3）完全相同**；VRAM 只在 `0x1198–0x103CF` 变，**BG0/BG1 图块区 `0x4000–0x7FFF` 完全相同**；精灵两帧**都 20 个**（护送单位移动 + 动画帧）⇒ **暗化的成因被压缩到一个 `DISPCNT` 位**（mode 0 下是某 BG 的字符基址选择位）。⚠️ 上一版「覆盖层 = 3 个精灵」**已撤回**（OAM 槽位会被游戏重排，那 3 个其实是移动了的护送单位）。**下一问（给逆向侧）**：这一位切的是哪一层、对应 ROM 里哪份图块？**定案前不要改重制实现** |
-| **机制仍未定** | ⚠️ 上一版写的「覆盖层 = 3 个精灵」**已撤回**：OAM 槽位会被游戏重新分配，按**条目**比后，那 3 个多出来的槽位 = **移动了一格的护送单位**（tile138→136、标记110→112）+ 它的两个标记，**不是覆盖层**；真正的差异只剩**顶部 y=4 的三个 16×16 标记**（tile216/pal4、tile208/pal0、tile192/pal4）。且两帧 **WININ/WINOUT/MOSAIC/BLDCNT 完全相同**（`0x00F0/0xFFFF/0x3F3F/0x0000`）⇒ 暗化**不是窗口、不是 alpha 混合**（两帧都开着 mosaic，这也解释了「截图颜色不在调色板里」）。已钉住的事实：地图层逐字节未变 ⇒ 暗化不是给地图调色板染色；暗化层归属待再采一帧（step-17 战场帧）定案 |
-| 给逆向侧 | 请反查：**BG2 在移动网格屏的那套图块**（VRAM `0x1000` 的 tilemap、字符基址 `0x00000` 侧、调色板 bank 8–11）来自哪个 ROM 资源指针？与地图图块（BG0 用的那套）是副本还是同一资源的两份？——这决定「暗化」是**独立的一套暗色图块**还是**同一图块配另一组调色板** |
+| **机制已定位（第 10 轮并行调查）** | ⚠️ 上一版「覆盖层 = 3 个精灵」**已撤回**：那 3 个 OAM 槽位是**移动了的护送单位 + 它的两个标记**（tile 138→136、标记 110→112）。真正的机制：bit 10 在**普通 GBA** 上是 **BG2 使能**（非 CGB 语义）；变的是 **BG2**（212/1024 格 tilemap、图块 256–281、bank 12、字符区 `VRAM 0x06002000`），**地图层 BG0 逐字节相同** ⇒「切字符基址换暗化地图图块」被否证；ROM 资源 = 图块 LZ77 `0x080B9E94` + 调色板 LZ77 `0x080B9F5C`（装载 `0x080694C4`）。另：**战后经验规则已闭合**（mission + round bonus + 按击倒归属的携带经验；原版战前经验 **160/100/190**，重制的 85/150/115 全错）；**12 个 `unknown` 态**全部拿到决定性指令与有证据的候选名（无一 runtime 闭合，状态表暂不能翻 `named`） |
+| 给逆向侧 | ① 按 **BG2 覆盖层**导出 ROM 的 32 个 4bpp 图块（`0x080B9E94`）与 bank 12 调色板（`0x080B9F5C`）到重制侧；② 战后经验：**击倒 → 经验归属**的精确规则（各角色实际拿到多少）；③ 12 个 `unknown` 态各自的哈希绑定 checkpoint（现候选名已列在 `notes/s49-unknown-state-handlers-20261020.md`） |
+
+### 7.7 第 11 轮（2026-10-20 14:58）：成果族分母 **262 → 264** 更正
+
+§7.6 里写的 **`build 92/262 = 35.1%` 是错的**，分母真值是 **264**，
+正确读数是 **build 92 / 分母 264 / 34.8%**（**旧值**：第 8 轮当时的读数；第 15 轮的当次读数见 §8.1）。证据链与逐段判定见
+`notes/butano-reverse-gap-verification-20261020.md` §11.10。
+
+**根因**（不是测量错，是标签错）：逆向树提交 `a2d3082a`（2026-10-20 12:27）
+把两个新成果族晋升进 `artifacts/`，逆向树的成果族目录数从 262 变成 264
+（`git ls-tree -d --name-only a2d3082a^ artifacts/` = 262，
+`… a2d3082a artifacts/` = 264）。新增的两族是
+`rom-display-text-delta-v1` 与 `rom-renderer-records-delta-v1`，
+**都归 `rom` 类、都落在 `doc` 状态**（各 1 次命中），所以
+**分子、分项、台账都没变，只有分母和由分母推出的百分比变了**。
+
+那行 `35.1%` 的来历是**打印时把除数写死了**（`100*c['build']/262`），
+而同一个命令打出的分项 `{'build': 92, 'doc': 159, 'none': 10, 'test': 3}`
+加起来正好是 **264**。⇒ 机器产物（`index.json` / `gap.json`）一直是对的，
+错的是叙述里的标签。
+
+**同口径现值**（收据 `artifacts/butano-reverse-gap-v1/gap.json`，
+索引 `source.commit` = `f054f4c1`、`dirty: false`）：
+
+| 指标 | 值 |
+| --- | ---: |
+| 索引条目 | **2,204**（artifact 264 / note 435 / tool 817 / test 623 / doc 65） |
+| **成果族分母** | **264** |
+| 成果族 `build` | **92（34.8%）** |
+| 成果族 `doc` / `test` / `none` | 159 / 3 / 10（全为 `precoverage`） |
+| `rom` 类合计 / `build` / 未消费 | **126** / 4 / 122 |
+| **真正未被消费的最终成果族** | **162（61.4%）** = doc 159 + test 3 |
+| 成果类总缺口 `result_gap` | 232 |
+| 台账 | **20 条**，`ledger_problems` `[]`，`missing` **0** |
+| 条目口径 | build 363 / doc 506 / local_artifact 3 / none 1093 / test 239 |
+
+**同时确认**：没有批量枚举型产物在充数——
+`artifact` 的 10 个 `none` 族**全是 `precoverage` 中间产物**；
+92 个 `build` 族**每一个都有真的 `build:` 命中**（`butano-sequel/`、`tools/`、`sequel/`）；
+`notes/evidence/**/source-snapshots/` 里的逆向树工具副本贡献的 69 次命中**全部是 `doc:`**。
+
+**第八轮全树套件**（独立复跑，非采信自述）：
+`Ran 1936 tests in 370.570s ⇒ failures=24, errors=115, skipped=27, expected failures=6`，
+**REAL_EXIT = 1**；与第七轮的**失败用例集合逐条相同（集合差 0 行）**，
+且漂移红 `test_shipped_artifact_matches_a_fresh_build` 两轮都**不在**失败清单里。
+
+**为这类"标签错"加了闸门**：`tests/test_gap_denominator_consistency.py`（4 项全绿）。
+它钉的是**从机器产物抄到叙述里的那两个缝**：收据的 `index.sha256` 必须等于磁盘上
+索引的哈希、收据行数必须等于索引成果族数；四处「当前状态」（本节 §7.7、
+核验笔记 §11.10、konoha-senki README 索引行、sequel-roadmap 指针）必须写出
+**实时分母 + build 数 + 百分比**；任何 `N/D = P%` 断言若配了**非实时分母**，
+该行**必须带更正标记**。变异测试：把三处当前状态改回 `92/262 = 35.1%`，
+**三处全部被捕获**，还原后全绿。
+
+⚠️ **逆向树推进并重建收据后，这条闸门会主动转红**——那是**信号不是回归**：
+按 `notes/butano-reverse-gap-verification-20261020.md` §11.9 的流程重建收据后，
+文档必须跟着新的实时读数刷新一遍。
+
+### 7.8 第 12 轮（2026-10-20 15:10）：**分母随上游树变 ⇒ 百分比必须由当次读数重算**
+
+逆向树在 12:27 晋升了两个成果族（`rom-display-text-delta-v1`、`rom-renderer-records-delta-v1`），
+**成果族分母由 262 变成 264** ⇒ 第 12 轮叙述里的 `92/262 = 35.1%` **除数写死了，是错的**；
+真值是 **build 92 / 分母 264 / 34.8%**（**旧值**：第 12 轮当时的读数，分子与分项一个字没变，变的只是分母）。
+
+⇒ **本轮起，分母写进机器产物，不再写死在叙述里**：
+`artifacts/butano-reverse-gap-v1/gap.json` 的 `summary.artifact_family_total`
+与 `summary.artifact_family_by_status` 由测量器每次实算写入，
+`gap.md` 同步渲染「成果族（artifact family）N」与「build 占比 x / N = y%」。
+⇒ 门禁 `tests/test_measure_butano_reverse_gap.py` 断言
+`artifact_family_total == len(rows where kind==artifact)` 且分项之和等于总数 ⇒
+**分母再也不会与分项自相矛盾**。
+⇒ 打印时一律用当次 `len(fam)`，禁止字面量除数（这条已写进 `AGENTS.md` 任务模式登记表）。
+
+**本轮当次读数**（分母取自当次收据，不写死）：
+索引条目 **2204**；成果族分母 **264**；`build` **92（34.8%）**、`doc` 159、`test` 3、`none` 10
+（`none` 全部为 `precoverage` 中间产物）；台账 **20** 条，`ledger_problems` `[]`，`missing` **0**。
+
+### 7.9 第 14 轮（2026-10-20 18:50）：**覆盖层机制闭合到 tilemap 层；「挪 8 帧」方案被实测推翻**
+
+本轮四路并行 + 本体复核，产出与结论：
+
+| 项 | 状态 | 证据 |
+| --- | --- | --- |
+| 覆盖层 ROM 资源 | ✅ **已导出并逐帧对账**：图块 LZ77 `0x080B9E94`（198 B → **1024 B**，`0f86c803…16ce40`）、调色板 LZ77 `0x080B9F5C`（36 B → **32 B**，`d198ec85…7e84`）；**24/24** 帧满足 `VRAM[0x2000:0x2400]==tiles` 且 `PRAM[0x180:0x19F]==palette` | `tools/butano/export_s49_movegrid_overlay.py`、`tests/test_s49_movegrid_overlay.py`（18 项）、`artifacts/s49-original-movegrid-overlay-v1/` |
+| 覆盖层 tilemap 内容 | ✅ **几何闭合**：以 field 帧为基线，移动网格帧改写 **212** 格 = **53 个完整 16×16 像素格**，落在 16×16 逻辑地图的第 3..9 行、第 0..15 列；屏幕上是**菱形/透镜**（x 0..207、y 24..135、填充率 0.473）；另一实例（grid16）改写 **164** 格 | `tools/butano/export_s49_movegrid_tilemap.py`、`tests/test_s49_movegrid_tilemap.py`（28 项，含变异检验）、`artifacts/s49-original-movegrid-tilemap-v1/` |
+| 两处旧描述 | ⚠️ **已更正**：图块不是「实心填充 + 边框」而是**实心填充 + 1 px 边线**（周期 4 px）；调色板 `0x00FF/0x00B4` 在 **index 4/5**（不是 6/7），index 6..9 也非零 | 本文件 4.3.94.2 |
+| LZ77 解码 | ⚠️ **教科书 GBA LZ77 解不开这两条记录**：实际布局是 `len=(first>>4)+3`、`dist=(((first&0x0F)<<8)|second)+1` ⇒ 自写解码器必须先拿同帧 VRAM 当 oracle | `notes/s49-movegrid-overlay-assets-20261020.md` |
+| P2（needs_guard → 门禁） | ✅ **10 条**逆向笔记转成**行为门禁**（每条一个测试方法，断言具体值/字节/像素数，全部来自本树已签收据；缺失或不符即失败关闭）；另有 **10 条候选被显式拒绝**并写明理由 | `tests/test_s49_needs_guard_gates.py`、`notes/s49-needs-guard-gates-20261020.md` |
+| 逆向侧未闭合项 | ✅ **四条线全部回收**：step-16「预览屏」= 覆盖层第二实例；「31 姿态」= 32 帧里的不同图像数；12 个 `unknown` 态 **2 个已有哈希绑定 checkpoint / 10 个有闭合条件**；23 个 pixel-A/B 族实际只缺 scenario-47/50 | `notes/s49-reverse-open-items-20261020.md` |
+| 选中单位 idle 相位 | ⚠️ **已知差异 + 撤回一条旧建议**：锚点（原版命令菜单打开）原版 = slot 0 **frame 010**、重制 = **frame 011**；用「菜单指纹」把两侧按游戏内时刻配对后，**整体 −8 帧平移被实测推翻并回滚**（把锚点改对却把前后各改错 ⇒ 相位关系是漂移的） | `tools/butano/measure_s49_selected_unit_frame.py`、`tests/test_s49_selected_unit_phase.py`（7 项：6 绿 + 1 expectedFailure）、`notes/s49-selected-unit-idle-phase-20261020.md` |
+| 重制侧显示寄存器 | ✅ **首次直接读出**：`DISPCNT=0xFC40`、`BGCNT2=0x138A`、`BGCNT3=0xCC83`（地图层）、**BG0/BG1 空闲** ⇒ 接入覆盖层前必须先解决 Butano 的 BG 层分配与 4bpp + 独立调色板接线 | `artifacts/s49-remake-gpu-20261020-v1/` |
+| mGBA 运行环境 | ✅ **崩溃锁已取证并解除**：崩溃者是 8 月遗留的 0.11.0 临时构建（rpath 指向已删除的 `/private/tmp`，dyld 启动期 abort），**不是**签收的 0.10.5 二进制 ⇒ 与本轮 ROM/脚本无关 | `notes/s49-mgba-crash-latch-triage-20261020.md` |
+
+**第 14 轮当次读数**（**旧值**；分母取自当次收据 `artifacts/butano-reverse-gap-v1/gap.json`，不写死；两次连跑完全一致）：索引条目 **2204**；成果族分母 **264**；成果族 `build` **92**（分母 264、34.8%，**旧值**）、`doc` 158、`test` 4、`none` 10（`none` 全部为 `precoverage` 中间产物）；条目口径 `build` **364**、`doc` **505**、`local_artifact` **3**、`none` **1084**、`test` **248**；台账 **26** 条，`ledger_problems` `[]`，`missing` **0**。
+
+### 8.0 第 15 轮（2026-10-20 20:30）：**覆盖层的重制侧接线已确认存在；实施规格成型**
+
+第 15 轮把「覆盖层怎么接进重制侧」从「未知」变成「规格」，并把两条逆向侧的深挖并行派了出去。
+
+#### 8.0.1 重制侧**已经有**专属覆盖层 BG（这是本轮最重要的发现）
+
+`butano-sequel/game/src/battle_runtime_scene.cpp` 的覆盖层类里有一个
+`bn::regular_bg_ptr _bg` + 自己的 `bn::regular_bg_map_ptr _map` + 自己的图块
+（优先级 2、与地图分层、**开着混合**、颜色换写到地图调色板的 225–235 号）。
+⇒ **接线问题不存在**：不用新增背景层，只需把这个已有的层改成
+「4bpp + 自有调色板 + 不透明 + 2×2 图块/格 + 原版的图块选择规则」。
+
+| 项 | 原版 | 重制现状 | 出处 |
+| --- | --- | --- | --- |
+| 图层 | BG2，优先级 2 | 专属 regular BG，优先级 2 | `battle_runtime_scene.cpp:2061-2081` |
+| 位深 / 混合 | 4bpp / **混合**（`BLDCNT=0x1744`、EVA=EVB=**10/16**） | 8bpp / **混合 10/16** ⇒ 权重一致 |（⚠️ **第 19 轮更正**） `battle_range_ui_style.h:102-103` |
+| 调色板 | 独立 bank 12（16 色） | 与地图共用，运行时改写 225–235 | `_begin_action_palette()` |
+| 颜色 | bank 12 index 1/2/3/4/5 = (8,13,17)/(3,25,31)/(1,13,21)/(31,7,0)/(20,5,0) | **完全对应**（`grid_secondary`/`move_primary`/`move_secondary`/`attack_primary`/`attack_secondary`） | `battle_range_ui_style.h:44-96` |
+| 逻辑格 | 16×16 px（2×2 图块） | 32×16 px（4×2 图块） | `battle_range_ui_style.h:89-90` |
+| 图块 | 原版 32 块（虚线网格/条纹/边角） | 自造 6 类 | `battle_range_ui_tile_index()` |
+
+⇒ 颜色**早就抄对了**，缺的是**图块、几何粒度、混合方式、图块选择规则**。
+
+#### 8.0.2 当前残差的量级（`tools/butano/measure_s49_rule_move_grid.py` 当次读数）
+
+| 项 | 原版 | 重制 |
+| --- | --- | --- |
+| 战场区变化像素 | 22,735 | 21,935 |
+| **青色像素** | **8,536** | **8,596**（差 0.7%） |
+| 不同青色覆盖色 | **18** | **31** |
+| 原版 vs 重制差异 | — | **3,463 像素** |
+
+⇒ **两侧覆盖面积几乎相同 ⇒ 格子集合大概率已经是同一个**，
+差异在**画法**（重制把一种青色混合上去，颜色随底色变多变出 31 种；
+原版是 4bpp 不透明自有调色板 ⇒ 只有 18 种且与底色无关）。
+⇒ **实施重点是渲染替换，不是几何重写**。
+
+#### 8.0.3 Butano 的 BG 层分配（已从源码确认）
+
+`third_party/butano/butano/src/bn_bgs_manager.cpp:1955-2024`：
+`display_mode` = 可见 affine BG 个数；`case 0` 时 regular BG 从 **bg3 往下**分配，
+`case 2` 时**没有 regular BG 的位置**，`default` 时 regular 从 bg1 往下、affine 从 bg2 往下。
+⇒ 重制侧现在是 2 个 regular BG（**bg3 地图 + bg2 覆盖层**），与实测的
+`BGCNT2=0x138A` / `BGCNT3=0xCC83` 吻合；**BG0/BG1 空闲**。
+⇒ 实施时**不要新增背景层**（会撞 `BN_BASIC_ASSERT(regular_id >= 0, "Too many regular BGs on screen")`）。
+
+#### 8.0.4 规格与并行调查
+
+- 规格：`notes/s49-movegrid-overlay-implementation-spec-20261020.md`
+  （含 5 步实施顺序、每步的门禁、以及「必须先核对格集合是否一致」的前置项）。
+- 并行派出的四条线：① 原版 field 槽的**逐帧帧序**（30 张图像 vs ROM 保持表的 3 张）；
+  ② 覆盖层 tilemap 的**图块选择规则**（从解码产物反推，可直接实现）；
+  ③ 原版「**打到胜利**」的三屏录制（结算/升级/状态页）；
+  ④ 覆盖层**资产入库**（4bpp BMP + 生成头 + M0 来源声明）。
+
+
+### 8.1 第 15 轮当次读数（当次收据 `artifacts/butano-reverse-gap-v1/gap.json`，两次连跑一致）
+
+索引条目 **2204**；成果族分母 **264**；成果族 `build` **93/264 = 35.2%**、
+`doc` 157、`test` 4、`none` 10（`none` 全部为 `precoverage` 中间产物）；
+条目口径 `build` **365**、`doc` **507**、`local_artifact` **3**、`none` **1081**、`test` **248**；
+台账 **29** 条，`ledger_problems` `[]`，`missing` **0**。
+
+⇒ `build` 由 **92** 升到 **93** 的原因：第 15 轮新增的覆盖层生成器
+`tools/generate_butano_movegrid_overlay_assets.py` 进了 `build:` 命中
+（它把 `rom-pointer-lz77-inventory-v1` 族接进了构建链）；
+**分母仍是 264**（本轮逆向树没有新成果族被晋升）。
+
+⚠️ **第 15 轮更正**：这里原先写的「竖向虚线网格」是**解码错误**——上一轮用 2 bit/px 读了 4bpp 图块。正确的 4bpp 解码（每字节 2 像素，高/低半字节各一像素）给出的是**实心填充 + 1 px 边线**：填充色族 index 2/4/6/8/10，每族 4 个变体（无 / 上下线 / 左右+下线 / 四边），另有边件 258–261 与空白 256/257、282–287。**4.3.93.3.9 原写的「实心填充 + 1 px 边框/角」是对的**，本条更正作废。

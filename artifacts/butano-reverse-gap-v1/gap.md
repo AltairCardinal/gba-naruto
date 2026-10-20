@@ -5,11 +5,11 @@
 输出：`gap.json`（机读）、`gap.md`（本文件）。
 
 - 索引：`artifacts/reverse-results-index-v1/index.json`
-- 索引 SHA-256：`d5d8060be5eceb989ff1961cc1f7e6d3203b1f5ba658f58281c04b4ad10d1e2d`
-- 逆向 commit：`e7ca8c5360731b06d9d56efeaa32834b910e0a2c`（工作树 dirty=True）
+- 索引 SHA-256：`9e1cb4fbec469afa4fd0213ca22bd541dc427d3e07f5dbf1abad0a389feeafb1`
+- 逆向 commit：`f054f4c1e240c87583f1059b64eb1fc199aada07`（工作树 dirty=False）
 - ROM SHA-256：`1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`
 - 测量单位：reverse result entry (artifact family / note / doc)
-- 扫描文件数：3609
+- 扫描文件数：4241
 - 排除前缀：`artifacts/reverse-results-index-v1`, `tools/build_reverse_results_index.py`, `artifacts/butano-reverse-gap-v1`, `artifacts/reverse-notes-index-v1`, `artifacts/butano-reverse-m3-import-v1`, `docs/butano-reverse-gap-roadmap.md`, `notes/full-customization-and-fidelity-theory-20261020.md`, `docs/reverse-results-index/notes-index.md`, `artifacts/s49-original-battle14-roster-v1`, `artifacts/s49-result-settlement-v1`, `artifacts/s49-original-movegrid-frame-v1`, `artifacts/s49-original-banner-frame-v1`, `artifacts/s49-original-movegrid-mechanism-v1`
 
 ## 状态定义
@@ -26,35 +26,37 @@
 
 | 指标 | 值 |
 | --- | ---: |
-| 条目总数 | 2197 |
-| 成果类（artifact/note/doc） | 759 |
-| 成果类无引用（`none`） | 229 |
+| 条目总数 | 2204 |
+| 成果类（artifact/note/doc） | 764 |
+| 成果类无引用（`none`） | 224 |
+| 成果族（artifact family） | 264 |
+| 成果族 `build` 占比 | 93 / 264 = 35.2% |
 | 台账 `missing` 条目 | 0 |
 
 | 状态 | 条目数 |
 | --- | ---: |
-| `build` | 363 |
-| `doc` | 504 |
+| `build` | 365 |
+| `doc` | 507 |
 | `local_artifact` | 3 |
-| `none` | 1088 |
-| `test` | 239 |
+| `none` | 1081 |
+| `test` | 248 |
 
 ## 按类别 × 状态
 
 | 类别 | `build` | `doc` | `local_artifact` | `none` | `test` | 合计 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | audio | 0 | 4 | 0 | 0 | 1 | 5 |
-| battle | 4 | 6 | 0 | 2 | 1 | 13 |
-| code | 250 | 118 | 0 | 859 | 211 | 1438 |
+| battle | 4 | 1 | 0 | 2 | 6 | 13 |
+| code | 251 | 121 | 0 | 857 | 211 | 1440 |
 | map | 12 | 11 | 0 | 10 | 0 | 33 |
-| other | 19 | 161 | 1 | 39 | 17 | 237 |
+| other | 19 | 159 | 1 | 42 | 19 | 240 |
 | overview | 1 | 1 | 0 | 1 | 0 | 3 |
 | presentation | 11 | 11 | 0 | 7 | 0 | 29 |
-| residual | 5 | 8 | 0 | 10 | 0 | 23 |
-| rom | 4 | 132 | 0 | 113 | 1 | 250 |
+| residual | 5 | 9 | 0 | 9 | 0 | 23 |
+| rom | 5 | 138 | 0 | 108 | 1 | 252 |
 | runtime | 1 | 7 | 0 | 5 | 0 | 13 |
 | scenario | 8 | 7 | 2 | 0 | 6 | 23 |
-| visual | 48 | 38 | 0 | 42 | 2 | 130 |
+| visual | 48 | 38 | 0 | 40 | 4 | 130 |
 
 ## 真正未被触及的成果（`none`）
 
@@ -100,11 +102,14 @@
 | `d0-bank-exhaustion-gate-20261020` | note | other | `notes/d0-bank-exhaustion-gate-20261020.md` |
 | `direct-image-palette-relocation-20260731` | note | other | `notes/direct-image-palette-relocation-20260731.md` |
 | `exporter-root-deletion-incident-20260809` | note | other | `notes/exporter-root-deletion-incident-20260809.md` |
+| `four-decisions-20261020` | note | other | `notes/four-decisions-20261020.md` |
 | `generic-sprite-bundle-relocation-20260731` | note | other | `notes/generic-sprite-bundle-relocation-20260731.md` |
 | `group12-natural-entry-ai-observer-20260806` | note | other | `notes/group12-natural-entry-ai-observer-20260806.md` |
+| `handover-20261020-reverse-tree` | note | other | `notes/handover-20261020-reverse-tree.md` |
 | `initializer-resource-pack-export-20260730` | note | other | `notes/initializer-resource-pack-export-20260730.md` |
 | `legacy-artifact-acceptance-20260905` | note | other | `notes/legacy-artifact-acceptance-20260905.md` |
 | `line-a-progress-20261019` | note | other | `notes/line-a-progress-20261019.md` |
+| `live-ledger-identity-repair-20261020` | note | other | `notes/live-ledger-identity-repair-20261020.md` |
 | `motion-effect-parameter-player-visible-20260809` | note | other | `notes/motion-effect-parameter-player-visible-20260809.md` |
 | `note` | note | other | `notes/evidence/rom-cutscene-secondary-ptr-shared-lock-20261001-v1/contract-tier1-20261001-v1/note.md` |
 | `note` | note | other | `notes/evidence/rom-menu-gfx-pointer-ab-20261001-v1/contract-20261001-v1/note.md` |
@@ -134,7 +139,6 @@
 | `residual-text-bg-tilemap-resource-ownership-20260731` | note | residual | `notes/residual-text-bg-tilemap-resource-ownership-20260731.md` |
 | `residual-wram-derived-tilemap-relocation-20260731` | note | residual | `notes/residual-wram-derived-tilemap-relocation-20260731.md` |
 | `residual-wram-tilemap-abi-20260731` | note | residual | `notes/residual-wram-tilemap-abi-20260731.md` |
-| `residual-wram-tilemap-pixel-ab-20260801` | note | residual | `notes/residual-wram-tilemap-pixel-ab-20260801.md` |
 | `residual-wram-tilemap-relocation-20260731` | note | residual | `notes/residual-wram-tilemap-relocation-20260731.md` |
 | `residual-wram-tilemap-resource-ownership-20260731` | note | residual | `notes/residual-wram-tilemap-resource-ownership-20260731.md` |
 | `residual-wram-tilemap-runtime-reachability-20260731` | note | residual | `notes/residual-wram-tilemap-runtime-reachability-20260731.md` |
@@ -165,7 +169,6 @@
 | `rom-battle-distance-dispatcher-cfg-20260902` | note | rom | `notes/rom-battle-distance-dispatcher-cfg-20260902.md` |
 | `rom-battle-effect-fixed-roundtrip-20261001` | note | rom | `notes/evidence/rom-battle-effect-fixed-roundtrip-20261001-v1/implementation/notes/rom-battle-effect-fixed-roundtrip-20261001.md` |
 | `rom-battle-effect-fixed-roundtrip-20261001` | note | rom | `notes/rom-battle-effect-fixed-roundtrip-20261001.md` |
-| `rom-battle-message-text-inventory-20260811` | note | rom | `notes/rom-battle-message-text-inventory-20260811.md` |
 | `rom-boot-interwork-20260811` | note | rom | `notes/rom-boot-interwork-20260811.md` |
 | `rom-boot-register-init-dependency-cfg-20260905` | note | rom | `notes/rom-boot-register-init-dependency-cfg-20260905.md` |
 | `rom-bounded-index-u16-pair-table-20260904` | note | rom | `notes/rom-bounded-index-u16-pair-table-20260904.md` |
@@ -175,7 +178,6 @@
 | `rom-cfg-proven-roots-v15-20260830` | note | rom | `notes/rom-cfg-proven-roots-v15-20260830.md` |
 | `rom-cfg-proven-roots-v2-20260812` | note | rom | `notes/rom-cfg-proven-roots-v2-20260812.md` |
 | `rom-cfg-proven-roots-v20-20260905` | note | rom | `notes/rom-cfg-proven-roots-v20-20260905.md` |
-| `rom-cfg-proven-roots-v3-v4-20260813` | note | rom | `notes/rom-cfg-proven-roots-v3-v4-20260813.md` |
 | `rom-chapter-script-consumer-roots-20260902` | note | rom | `notes/rom-chapter-script-consumer-roots-20260902.md` |
 | `rom-chapter-script-inventory-20260809` | note | rom | `notes/rom-chapter-script-inventory-20260809.md` |
 | `rom-coroutine-record-lifecycle-preflight-20261001` | note | rom | `notes/rom-coroutine-record-lifecycle-preflight-20261001.md` |
@@ -194,7 +196,6 @@
 | `rom-fixed-index-u8-tail-20260905` | note | rom | `notes/rom-fixed-index-u8-tail-20260905.md` |
 | `rom-fixed-pair-tables-20260904` | note | rom | `notes/rom-fixed-pair-tables-20260904.md` |
 | `rom-fixed-text-route-preflight-20261001` | note | rom | `notes/rom-fixed-text-route-preflight-20261001.md` |
-| `rom-gpu-copy-queue-inventory-20260730` | note | rom | `notes/rom-gpu-copy-queue-inventory-20260730.md` |
 | `rom-large-unknown-anchor-screen-20261001` | note | rom | `notes/rom-large-unknown-anchor-screen-20261001.md` |
 | `rom-later-cfg-renderer-consumers-preflight-20261001` | note | rom | `notes/rom-later-cfg-renderer-consumers-preflight-20261001.md` |
 | `rom-low-script-delta-tier1-20261001` | note | rom | `notes/rom-low-script-delta-tier1-20261001.md` |
@@ -207,7 +208,6 @@
 | `rom-menu-gfx-pointer-ab-20261001` | note | rom | `notes/rom-menu-gfx-pointer-ab-20261001.md` |
 | `rom-menu-portrait-palette-inventory-20260820` | note | rom | `notes/rom-menu-portrait-palette-inventory-20260820.md` |
 | `rom-mp2k-dispatcher-20260829` | note | rom | `notes/rom-mp2k-dispatcher-20260829.md` |
-| `rom-pointer-lz77-graphics-preview-20260730` | note | rom | `notes/rom-pointer-lz77-graphics-preview-20260730.md` |
 | `rom-pointer-lz77-inventory-export-20260730` | note | rom | `notes/rom-pointer-lz77-inventory-export-20260730.md` |
 | `rom-prebattle-menu-controller-cfg-20260905` | note | rom | `notes/rom-prebattle-menu-controller-cfg-20260905.md` |
 | `rom-ram-protocol-tag-preflight-20261001` | note | rom | `notes/rom-ram-protocol-tag-preflight-20261001.md` |
@@ -237,7 +237,6 @@
 | `rom-task-callback-078e38-closure-20260905` | note | rom | `notes/rom-task-callback-078e38-closure-20260905.md` |
 | `rom-task-callback-alignment-gap-candidate-20260905` | note | rom | `notes/rom-task-callback-alignment-gap-candidate-20260905.md` |
 | `rom-training-text-script-inventory-20260811` | note | rom | `notes/rom-training-text-script-inventory-20260811.md` |
-| `rom-u8-indexed-u16-pair-lookup-20260827` | note | rom | `notes/rom-u8-indexed-u16-pair-lookup-20260827.md` |
 | `rom-unknown-cluster-refresh-20260901` | note | rom | `notes/rom-unknown-cluster-refresh-20260901.md` |
 | `rom-unknown-cluster-refresh-20260905` | note | rom | `notes/rom-unknown-cluster-refresh-20260905.md` |
 | `rom-v17-v18-helper-cfg-20260904` | note | rom | `notes/rom-v17-v18-helper-cfg-20260904.md` |
@@ -248,7 +247,6 @@
 | `runtime-layer-static-provenance-20260730` | note | runtime | `notes/runtime-layer-static-provenance-20260730.md` |
 | `runtime-mode0-screen-compositor-20260730` | note | runtime | `notes/runtime-mode0-screen-compositor-20260730.md` |
 | `battle-effect-controlled-phase-extension-20260809` | note | visual | `notes/battle-effect-controlled-phase-extension-20260809.md` |
-| `battle-effect-controlled-runtime-20260801` | note | visual | `notes/battle-effect-controlled-runtime-20260801.md` |
 | `battle-effect-direct-spawn-runtime-20260802` | note | visual | `notes/battle-effect-direct-spawn-runtime-20260802.md` |
 | `battle-effect-frame-phase-20260801` | note | visual | `notes/battle-effect-frame-phase-20260801.md` |
 | `battle-effect-group1-pixel-ab-20260801` | note | visual | `notes/battle-effect-group1-pixel-ab-20260801.md` |
@@ -283,7 +281,6 @@
 | `bg-resource-writeback-20260731` | note | visual | `notes/bg-resource-writeback-20260731.md` |
 | `character-battle-graphics-pixel-ab-20260801` | note | visual | `notes/character-battle-graphics-pixel-ab-20260801.md` |
 | `character-battle-graphics-writeback-20260731` | note | visual | `notes/character-battle-graphics-writeback-20260731.md` |
-| `character-battle-palette-writeback-20260731` | note | visual | `notes/character-battle-palette-writeback-20260731.md` |
 | `character-battle-structure-writeback-20260731` | note | visual | `notes/character-battle-structure-writeback-20260731.md` |
 | `character-runtime-oam-bindings-20260730` | note | visual | `notes/character-runtime-oam-bindings-20260730.md` |
 | `character-runtime-oam-task-bindings-20260730` | note | visual | `notes/character-runtime-oam-task-bindings-20260730.md` |
@@ -299,13 +296,13 @@
 | id | kind | category | 状态 | 台账 | 命中数 |
 | --- | --- | --- | --- | --- | ---: |
 | `accept_prebattle_candidate` | tool | code | `build` | — | 5 |
-| `addresses` | note | other | `build` | — | 60 |
+| `addresses` | note | other | `build` | — | 61 |
 | `analyze_battle_action_template_semantics` | tool | code | `build` | — | 5 |
 | `analyze_battle_action_transactions` | tool | code | `build` | — | 4 |
 | `analyze_battle_ai_status_policy` | tool | code | `build` | — | 4 |
-| `analyze_battle_ai_utility_policy` | tool | code | `build` | — | 5 |
+| `analyze_battle_ai_utility_policy` | tool | code | `build` | — | 6 |
 | `analyze_battle_condition_interpreter` | tool | code | `build` | — | 4 |
-| `analyze_battle_controller_checkpoints` | tool | code | `build` | — | 14 |
+| `analyze_battle_controller_checkpoints` | tool | code | `build` | — | 16 |
 | `analyze_battle_damage_hit_formula` | tool | code | `build` | — | 5 |
 | `analyze_battle_defense_preparation` | tool | code | `build` | — | 4 |
 | `analyze_battle_defense_reaction` | tool | code | `build` | — | 4 |
@@ -317,7 +314,7 @@
 | `analyze_battle_resource_transactions` | tool | code | `build` | — | 4 |
 | `analyze_battle_status_attribute_modifiers` | tool | code | `build` | — | 4 |
 | `analyze_battle_status_consumers` | tool | code | `build` | — | 4 |
-| `analyze_battle_status_expiry` | tool | code | `build` | — | 4 |
+| `analyze_battle_status_expiry` | tool | code | `build` | — | 5 |
 | `analyze_battle_status_hit_count_modifier` | tool | code | `build` | — | 4 |
 | `analyze_battle_status_linked_resolution` | tool | code | `build` | — | 4 |
 | `analyze_battle_status_participant_consumption` | tool | code | `build` | — | 4 |
@@ -326,9 +323,9 @@
 | `analyze_battle_status_transformation` | tool | code | `build` | — | 4 |
 | `analyze_battle_unit_eligibility` | tool | code | `build` | — | 4 |
 | `analyze_battle_unit_selection` | tool | code | `build` | — | 4 |
-| `analyze_dialogue_render` | tool | code | `build` | — | 2 |
+| `analyze_dialogue_render` | tool | code | `build` | — | 3 |
 | `analyze_mgba_zero_input_cycle` | tool | code | `build` | — | 4 |
-| `analyze_scenario_41_gpu` | tool | code | `build` | — | 5 |
+| `analyze_scenario_41_gpu` | tool | code | `build` | — | 6 |
 | `analyze_table` | tool | code | `build` | — | 5 |
 | `analyze_tile_table` | tool | code | `build` | — | 2 |
 | `arm64_const` | tool | code | `build` | — | 2 |
@@ -336,42 +333,42 @@
 | `audit_re_completion` | tool | code | `build` | — | 7 |
 | `automated_test` | tool | code | `build` | — | 18 |
 | `battle-config-format` | note | battle | `build` | — | 6 |
-| `battle-effect-affine-runtime-v1` | artifact | visual | `build` | — | 9 |
-| `battle-effect-group03-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group03-natural-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group06-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group07-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group08-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group09-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
+| `battle-effect-affine-runtime-v1` | artifact | visual | `build` | — | 10 |
+| `battle-effect-group03-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group03-natural-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group06-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group07-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group08-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group09-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
 | `battle-effect-group1-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group10-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group11-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group12-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group13-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group14-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group15-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group16-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group17-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group18-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group18-natural-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group2-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-group4-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
+| `battle-effect-group10-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group11-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group12-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group13-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group14-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group15-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group16-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group17-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group18-controlled-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group18-natural-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group2-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
+| `battle-effect-group4-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
 | `battle-effect-group5-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-resource-pairs-v1` | artifact | visual | `build` | — | 27 |
+| `battle-effect-resource-pairs-v1` | artifact | visual | `build` | — | 28 |
 | `battle-effect-resource-relocation-v1` | artifact | visual | `build` | — | 2 |
 | `battle-effect-resource-writeback-v1` | artifact | visual | `build` | — | 2 |
-| `battle-effect-sequence-bindings-v1` | artifact | visual | `build` | — | 15 |
-| `battle-effect-sprite-animations-v1` | artifact | visual | `build` | — | 11 |
+| `battle-effect-sequence-bindings-v1` | artifact | visual | `build` | — | 16 |
+| `battle-effect-sprite-animations-v1` | artifact | visual | `build` | — | 12 |
 | `battle-encounters-story-visual-pixel-ab-v1` | artifact | battle | `build` | — | 2 |
 | `battle-presentation-glyphs-v1` | artifact | battle | `build` | — | 13 |
-| `battle-system-restoration-evidence-20260723` | note | battle | `build` | — | 10 |
-| `battle-visual-catalog-v1` | artifact | visual | `build` | — | 11 |
-| `battle-visual-runtime-timelines-v1` | artifact | visual | `build` | — | 8 |
+| `battle-system-restoration-evidence-20260723` | note | battle | `build` | — | 11 |
+| `battle-visual-catalog-v1` | artifact | visual | `build` | — | 12 |
+| `battle-visual-runtime-timelines-v1` | artifact | visual | `build` | — | 9 |
 | `benchmark_clock` | tool | code | `build` | — | 3 |
 | `bg-resource-canvases-v1` | artifact | visual | `build` | — | 11 |
 | `bg-resource-relocation-v1` | artifact | visual | `build` | — | 2 |
 | `bg-resource-writeback-v1` | artifact | visual | `build` | — | 2 |
-| `bg-scene-selection-v1` | artifact | visual | `build` | — | 7 |
+| `bg-scene-selection-v1` | artifact | visual | `build` | — | 8 |
 | `bpf_const` | tool | code | `build` | — | 2 |
 | `build_action_submit_runtime_probe` | tool | code | `build` | — | 3 |
 | `build_adjacent_tutorial_runtime_probe` | tool | code | `build` | — | 3 |
@@ -419,11 +416,11 @@
 | `character-battle-graphics-writeback-v1` | artifact | visual | `build` | — | 2 |
 | `character-battle-palette-writeback-v1` | artifact | visual | `build` | — | 2 |
 | `character-battle-structure-writeback-v1` | artifact | visual | `build` | — | 2 |
-| `character-battle-visuals-v1` | artifact | visual | `build` | — | 13 |
-| `character-definition-source-20260711` | note | visual | `build` | — | 7 |
+| `character-battle-visuals-v1` | artifact | visual | `build` | — | 19 |
+| `character-definition-source-20260711` | note | visual | `build` | — | 8 |
 | `character-fbff-runtime-v1` | artifact | visual | `build` | — | 10 |
 | `character-runtime-unit-oam-bindings-20260730` | note | visual | `build` | — | 2 |
-| `character-runtime-unit-oam-bindings-v1` | artifact | visual | `build` | reused | 5 |
+| `character-runtime-unit-oam-bindings-v1` | artifact | visual | `build` | reused | 7 |
 | `check_comet_project_policy` | tool | code | `build` | — | 6 |
 | `compare_mgba_audio_capture` | tool | code | `build` | — | 8 |
 | `compare_mgba_cgb_capture` | tool | code | `build` | — | 5 |
@@ -434,7 +431,7 @@
 | `cutscene-obj-bundle-relocation-v1` | artifact | presentation | `build` | — | 2 |
 | `cutscene-obj-id1-pixel-ab-v1` | artifact | presentation | `build` | — | 2 |
 | `cutscene-obj-v1` | artifact | presentation | `build` | — | 4 |
-| `data-table-b-message0-pointer-pixel-ab-v1` | artifact | other | `build` | — | 2 |
+| `data-table-b-message0-pointer-pixel-ab-v1` | artifact | other | `build` | — | 3 |
 | `decode_controller_path_runtime_probe` | tool | code | `build` | — | 3 |
 | `decode_dialogue_record` | tool | code | `build` | — | 5 |
 | `decode_m4a_tracks` | tool | code | `build` | — | 7 |
@@ -448,7 +445,7 @@
 | `dialogue-watch-wram` | note | other | `build` | — | 7 |
 | `diff_memory_regions` | tool | code | `build` | — | 1 |
 | `direct-image-palette-relocation-v1` | artifact | other | `build` | — | 2 |
-| `disasm_thumb` | tool | code | `build` | — | 17 |
+| `disasm_thumb` | tool | code | `build` | — | 18 |
 | `e2e` | artifact | overview | `build` | — | 5 |
 | `evm_const` | tool | code | `build` | — | 2 |
 | `export_battle_effect_affine_runtime` | tool | code | `build` | — | 3 |
@@ -460,11 +457,12 @@
 | `export_battle_visual_runtime_timelines` | tool | code | `build` | — | 3 |
 | `export_bg_resource_canvases` | tool | code | `build` | — | 2 |
 | `export_bg_scene_selection` | tool | code | `build` | — | 2 |
-| `export_character_battle_visuals` | tool | code | `build` | — | 3 |
+| `export_character_battle_visuals` | tool | code | `build` | — | 4 |
 | `export_cutscene_obj_assets` | tool | code | `build` | — | 3 |
 | `export_dialogue_font_atlases` | tool | code | `build` | — | 3 |
 | `export_map_canvases` | tool | code | `build` | — | 3 |
 | `export_menu_portraits` | tool | code | `build` | — | 3 |
+| `export_rom_pointer_lz77_inventory` | tool | code | `build` | — | 3 |
 | `export_scenario_41_attack_animation` | tool | code | `build` | — | 2 |
 | `export_scenario_41_attack_gpu_bases` | tool | code | `build` | — | 2 |
 | `export_scenario_41_combat_reference` | tool | code | `build` | — | 2 |
@@ -489,7 +487,7 @@
 | `extract_audio_resource_sets` | tool | code | `build` | — | 8 |
 | `extract_battle_ai_planner` | tool | code | `build` | — | 5 |
 | `extract_battle_content_catalog` | tool | code | `build` | — | 3 |
-| `extract_battle_controller_states` | tool | code | `build` | — | 6 |
+| `extract_battle_controller_states` | tool | code | `build` | — | 7 |
 | `extract_battle_effect_templates` | tool | code | `build` | — | 3 |
 | `extract_chapter_flow_tables` | tool | code | `build` | — | 3 |
 | `extract_character_definitions` | tool | code | `build` | — | 10 |
@@ -526,7 +524,7 @@
 | `import_map` | tool | code | `build` | — | 8 |
 | `import_rom_to_editor` | tool | code | `build` | — | 1 |
 | `inspect_block` | tool | code | `build` | — | 3 |
-| `inspect_mgba_savestate` | tool | code | `build` | — | 51 |
+| `inspect_mgba_savestate` | tool | code | `build` | — | 53 |
 | `inspect_wram_region` | tool | code | `build` | — | 2 |
 | `lldb_trace_dialogue_callers` | tool | code | `build` | — | 5 |
 | `m4a_channels` | tool | code | `build` | — | 4 |
@@ -542,7 +540,7 @@
 | `macos-intel-runtime-preflight-20260715` | note | other | `build` | — | 3 |
 | `macos_mgba_runtime_residue` | tool | code | `build` | — | 6 |
 | `map-canvases-v1` | artifact | map | `build` | reused | 19 |
-| `map-events-e4-handler-pixel-ab-v1` | artifact | map | `build` | — | 2 |
+| `map-events-e4-handler-pixel-ab-v1` | artifact | map | `build` | — | 3 |
 | `map-resource-relocation-v1` | artifact | map | `build` | — | 2 |
 | `map-resource-writeback-v1` | artifact | map | `build` | — | 2 |
 | `map-sprites-definition-id1-pixel-ab-v1` | artifact | map | `build` | — | 2 |
@@ -551,13 +549,13 @@
 | `menu-portrait-pixel-ab-v1` | artifact | presentation | `build` | — | 2 |
 | `menu-portrait-relocation-v1` | artifact | presentation | `build` | — | 2 |
 | `menu-portrait-writeback-v1` | artifact | presentation | `build` | — | 2 |
-| `menu-portraits-v1` | artifact | presentation | `build` | — | 11 |
+| `menu-portraits-v1` | artifact | presentation | `build` | — | 12 |
 | `mgba-headless-snapshot` | tool | code | `build` | — | 14 |
 | `mgba_gdb_probe` | tool | code | `build` | — | 18 |
-| `mgba_runtime_safety` | tool | code | `build` | — | 5 |
+| `mgba_runtime_safety` | tool | code | `build` | — | 7 |
 | `mips_const` | tool | code | `build` | — | 2 |
 | `mos65xx_const` | tool | code | `build` | — | 2 |
-| `motion-effect-parameter-pixel-ab-v1` | artifact | other | `build` | — | 2 |
+| `motion-effect-parameter-pixel-ab-v1` | artifact | other | `build` | — | 3 |
 | `ninja-tool-addresses` | note | other | `build` | — | 4 |
 | `ocr_report` | tool | code | `build` | — | 5 |
 | `ocr_screenshot` | tool | code | `build` | — | 8 |
@@ -574,24 +572,25 @@
 | `re-completion-audit` | note | other | `build` | — | 7 |
 | `render_m4a_midi` | tool | code | `build` | — | 7 |
 | `render_m4a_pcm_bank` | tool | code | `build` | — | 3 |
-| `render_scenario_41_gpu` | tool | code | `build` | — | 10 |
-| `residual-lz77-graphics-relocation-v1` | artifact | residual | `build` | — | 2 |
+| `render_scenario_41_gpu` | tool | code | `build` | — | 14 |
+| `residual-lz77-graphics-relocation-v1` | artifact | residual | `build` | — | 3 |
 | `residual-text-bg-tilemap-relocation-v1` | artifact | residual | `build` | — | 2 |
 | `residual-wram-derived-tilemap-relocation-v1` | artifact | residual | `build` | — | 2 |
-| `residual-wram-tilemap-pixel-ab-v1` | artifact | residual | `build` | — | 2 |
+| `residual-wram-tilemap-pixel-ab-v1` | artifact | residual | `build` | — | 3 |
 | `residual-wram-tilemap-relocation-v1` | artifact | residual | `build` | — | 2 |
 | `revoke_false_story_banks` | tool | code | `build` | — | 3 |
 | `riscv_const` | tool | code | `build` | — | 2 |
 | `rom-battle-condition-records-v1` | artifact | rom | `build` | — | 6 |
-| `rom-battle-controller-cfg-v1` | artifact | rom | `build` | — | 10 |
+| `rom-battle-controller-cfg-v1` | artifact | rom | `build` | — | 12 |
 | `rom-chapter-script-inventory-v1` | artifact | rom | `build` | — | 5 |
 | `rom-fixed-consumer-text-inventory-v1` | artifact | rom | `build` | — | 4 |
+| `rom-pointer-lz77-inventory-v1` | artifact | rom | `build` | — | 9 |
 | `run_cpp_benchmark_tests` | tool | code | `build` | — | 19 |
-| `run_guarded` | tool | code | `build` | — | 151 |
+| `run_guarded` | tool | code | `build` | — | 273 |
 | `run_macos_mgba_replay` | tool | code | `build` | — | 12 |
 | `run_macos_mgba_single_input` | tool | code | `build` | — | 8 |
 | `run_offline_e2e` | tool | code | `build` | — | 5 |
-| `runtime-checkpoints` | artifact | runtime | `build` | reused | 144 |
+| `runtime-checkpoints` | artifact | runtime | `build` | reused | 153 |
 | `runtime_checkpoint_ledger` | tool | code | `build` | — | 8 |
 | `scan_rom` | tool | code | `build` | — | 3 |
 | `scenario-41-audio-reference-v1` | artifact | scenario | `build` | — | 6 |
@@ -600,23 +599,23 @@
 | `scenario-41-prebattle-reference-v1` | artifact | scenario | `build` | — | 8 |
 | `scenario-41-reference-v1` | artifact | scenario | `build` | — | 7 |
 | `scenario-45-safe-resume-20260719` | note | scenario | `build` | — | 5 |
-| `scenario-49-battle-14-runtime-20260720` | note | scenario | `build` | — | 10 |
+| `scenario-49-battle-14-runtime-20260720` | note | scenario | `build` | — | 12 |
 | `scenario-50-battle-15-runtime-20260720` | note | scenario | `build` | — | 3 |
 | `scene-visual-packs-v1` | artifact | map | `build` | — | 6 |
 | `sh_const` | tool | code | `build` | — | 2 |
 | `similar-tables` | note | other | `build` | — | 5 |
 | `sparc_const` | tool | code | `build` | — | 2 |
-| `sprite-definition-animations-v1` | artifact | visual | `build` | — | 5 |
-| `sprite-definition-assets-v2` | artifact | visual | `build` | — | 9 |
+| `sprite-definition-animations-v1` | artifact | visual | `build` | — | 6 |
+| `sprite-definition-assets-v2` | artifact | visual | `build` | — | 10 |
 | `story-scene-layer-bindings-v1` | artifact | presentation | `build` | — | 8 |
-| `story-scene-timelines-v1` | artifact | presentation | `build` | — | 7 |
+| `story-scene-timelines-v1` | artifact | presentation | `build` | — | 8 |
 | `story-visual-layers-v1` | artifact | presentation | `build` | — | 8 |
 | `story-visual-resource-relocation-v1` | artifact | presentation | `build` | — | 2 |
 | `summarize_watch_hits` | tool | code | `build` | — | 2 |
 | `sysz_const` | tool | code | `build` | — | 2 |
 | `test_export_rom_battle_controller_cfg` | test | code | `build` | — | 4 |
 | `thumb_branch` | tool | code | `build` | — | 54 |
-| `tile-asset-descriptor2-pixel-ab-v1` | artifact | visual | `build` | — | 2 |
+| `tile-asset-descriptor2-pixel-ab-v1` | artifact | visual | `build` | — | 3 |
 | `tile-asset-resource-relocation-v1` | artifact | visual | `build` | — | 2 |
 | `tile-assets-bg-v1` | artifact | visual | `build` | — | 5 |
 | `tile-assets-bg-v2` | artifact | visual | `build` | — | 14 |
@@ -637,7 +636,7 @@
 | `verify_character_battle_visuals` | tool | code | `build` | — | 5 |
 | `verify_character_fbff_runtime` | tool | code | `build` | — | 3 |
 | `verify_character_stats_records` | tool | code | `build` | — | 5 |
-| `verify_cutscene_obj_export` | tool | code | `build` | — | 3 |
+| `verify_cutscene_obj_export` | tool | code | `build` | — | 4 |
 | `verify_dialogue_font_atlases` | tool | code | `build` | — | 4 |
 | `verify_map_canvases` | tool | code | `build` | — | 4 |
 | `verify_map_resource_buffers` | tool | code | `build` | — | 3 |
@@ -667,15 +666,23 @@
 | `2026-07-22-butano-battle-system-architecture-design` | doc | other | `test` | — | 22 |
 | `2026-07-22-butano-battle-system-implementation` | doc | other | `test` | — | 3 |
 | `audio` | artifact | audio | `test` | — | 16 |
-| `battle-status-bars-export-20260730` | note | battle | `test` | — | 1 |
+| `battle-action-detail-renderer-20260713` | note | battle | `test` | — | 6 |
+| `battle-presentation-glyphs-export-20260729` | note | battle | `test` | — | 7 |
+| `battle-scenario-config` | note | battle | `test` | — | 9 |
+| `battle-start-control-flow-20260713` | note | battle | `test` | — | 8 |
+| `battle-status-bars-export-20260730` | note | battle | `test` | — | 4 |
+| `battle-status-bars-v1` | artifact | battle | `test` | — | 3 |
+| `battle-visual-catalog-export-20260729` | note | visual | `test` | — | 6 |
+| `battle-visual-runtime-timelines-export-20260729` | note | visual | `test` | — | 6 |
 | `butano-battle-domain-rewrite-20260723` | note | other | `test` | — | 20 |
 | `butano-konoha-systems-cost` | doc | other | `test` | — | 9 |
 | `butano-local-reference` | doc | other | `test` | — | 6 |
 | `butano-scenario-41-battle` | doc | other | `test` | — | 7 |
 | `butano-scenario-41-one-to-one-runtime-20260722` | note | other | `test` | — | 7 |
 | `butano-scenario-41-runtime-20260721` | note | other | `test` | — | 5 |
-| `character-battle-visual-resource-matrix-20260801` | note | visual | `test` | — | 1 |
-| `character-battle-visuals-export-20260729` | note | visual | `test` | — | 5 |
+| `character-battle-visual-resource-matrix-20260801` | note | visual | `test` | — | 3 |
+| `character-battle-visuals-export-20260729` | note | visual | `test` | — | 9 |
+| `first-battle-savestate-checkpoints-20260712` | note | other | `test` | — | 7 |
 | `levels-runtime-probe-20260713` | note | other | `test` | — | 7 |
 | `resource-locations` | note | other | `test` | — | 6 |
 | `rom-cfg-inventory-v3` | artifact | rom | `test` | — | 4 |
@@ -685,13 +692,13 @@
 | `scenario-42-progression-runtime-20260718` | note | scenario | `test` | — | 3 |
 | `scenario-43-progression-runtime-20260718` | note | scenario | `test` | — | 3 |
 | `scenario-44-progression-runtime-20260718` | note | scenario | `test` | — | 5 |
-| `sequel-roadmap` | doc | other | `test` | — | 60 |
-| `sequel-roadmap` | note | other | `test` | — | 60 |
-| `sequel-roadmap` | note | other | `test` | — | 60 |
-| `sequel-roadmap` | note | other | `test` | — | 60 |
-| `sequel-roadmap` | note | other | `test` | — | 60 |
-| `sequel-roadmap` | note | other | `test` | — | 60 |
-| `sequel-roadmap` | note | other | `test` | — | 60 |
+| `sequel-roadmap` | doc | other | `test` | — | 62 |
+| `sequel-roadmap` | note | other | `test` | — | 62 |
+| `sequel-roadmap` | note | other | `test` | — | 62 |
+| `sequel-roadmap` | note | other | `test` | — | 62 |
+| `sequel-roadmap` | note | other | `test` | — | 62 |
+| `sequel-roadmap` | note | other | `test` | — | 62 |
+| `sequel-roadmap` | note | other | `test` | — | 62 |
 | `test_accept_prebattle_candidate` | test | code | `test` | — | 2 |
 | `test_analyze_battle_action_template_semantics` | test | code | `test` | — | 1 |
 | `test_analyze_battle_action_transactions` | test | code | `test` | — | 1 |
@@ -720,7 +727,7 @@
 | `test_analyze_battle_unit_eligibility` | test | code | `test` | — | 1 |
 | `test_analyze_battle_unit_selection` | test | code | `test` | — | 1 |
 | `test_analyze_mgba_zero_input_cycle` | test | code | `test` | — | 2 |
-| `test_audio_sound_id_writeback` | test | code | `test` | — | 1 |
+| `test_audio_sound_id_writeback` | test | code | `test` | — | 2 |
 | `test_automated_test_output_isolation` | test | code | `test` | — | 2 |
 | `test_battle_encounter_identity` | test | code | `test` | — | 2 |
 | `test_battle_handler_identity` | test | code | `test` | — | 1 |
@@ -765,7 +772,7 @@
 | `test_butano_build` | test | code | `test` | — | 20 |
 | `test_butano_mgba_audio_recorder` | test | code | `test` | — | 1 |
 | `test_butano_research_docs` | test | code | `test` | — | 8 |
-| `test_butano_scenario_41_assets` | test | code | `test` | — | 3 |
+| `test_butano_scenario_41_assets` | test | code | `test` | — | 4 |
 | `test_butano_scenario_41_attack_animation` | test | code | `test` | — | 1 |
 | `test_butano_scenario_41_attack_assets` | test | code | `test` | — | 1 |
 | `test_butano_scenario_41_attack_gpu_bases` | test | code | `test` | — | 1 |
@@ -903,6 +910,7 @@
 | `test_verify_character_stats_records` | test | code | `test` | — | 1 |
 | `test_verify_map_resource_buffers` | test | code | `test` | — | 1 |
 | `test_verify_save_state_records` | test | code | `test` | — | 1 |
+| `text-and-battle-visual-consumers-20260713` | note | other | `test` | — | 5 |
 | `2026-07-14-reverse-engineering-resource-safety` | doc | other | `doc` | — | 1 |
 | `2026-07-14-reverse-engineering-resource-safety-design` | doc | other | `doc` | — | 1 |
 | `2026-07-15-scenario-41-battle-runtime` | doc | other | `doc` | — | 3 |
@@ -941,8 +949,8 @@
 | `audio-tie-lifecycle-20260713` | note | audio | `doc` | — | 2 |
 | `audit_reverse_engineering_proof` | tool | code | `doc` | — | 1 |
 | `audit_rom_byte_coverage` | tool | code | `doc` | — | 2 |
-| `battle-action-detail-renderer-20260713` | note | battle | `doc` | — | 3 |
-| `battle-config-unsafe-template-fix-20260710` | note | battle | `doc` | — | 3 |
+| `battle-config-unsafe-template-fix-20260710` | note | battle | `doc` | — | 4 |
+| `battle-effect-controlled-runtime-20260801` | note | visual | `doc` | — | 1 |
 | `battle-effect-controlled-runtime-v1` | artifact | visual | `doc` | — | 2 |
 | `battle-effect-direct-spawn-runtime-v1` | artifact | visual | `doc` | — | 2 |
 | `battle-effect-frame-phase-group1-v1` | artifact | visual | `doc` | — | 1 |
@@ -959,22 +967,16 @@
 | `battle-effect-group13-natural-runtime-v1` | artifact | visual | `doc` | — | 1 |
 | `battle-effect-group15-allocator-side-runtime-v1` | artifact | visual | `doc` | — | 1 |
 | `battle-effect-group15-natural-runtime-v1` | artifact | visual | `doc` | — | 1 |
-| `battle-effect-group18-natural-checkpoint-v1` | artifact | visual | `doc` | — | 1 |
+| `battle-effect-group18-natural-checkpoint-v1` | artifact | visual | `doc` | — | 2 |
 | `battle-effect-observed-frame-phases-v1` | artifact | visual | `doc` | — | 1 |
-| `battle-effect-resource-pairs-export-20260729` | note | visual | `doc` | — | 2 |
+| `battle-effect-resource-pairs-export-20260729` | note | visual | `doc` | — | 3 |
 | `battle-effect-runtime-oam-bindings-v1` | artifact | visual | `doc` | — | 1 |
 | `battle-effect-runtime-oam-task-bindings-v1` | artifact | visual | `doc` | — | 1 |
 | `battle-effect-sequence-bindings-export-20260729` | note | visual | `doc` | — | 2 |
-| `battle-effect-sprite-animations-export-20260729` | note | visual | `doc` | — | 3 |
+| `battle-effect-sprite-animations-export-20260729` | note | visual | `doc` | — | 4 |
 | `battle-effect-template-consumer-20260711` | note | visual | `doc` | — | 3 |
-| `battle-presentation-glyphs-export-20260729` | note | battle | `doc` | — | 4 |
-| `battle-scenario-config` | note | battle | `doc` | — | 6 |
-| `battle-start-control-flow-20260713` | note | battle | `doc` | — | 5 |
-| `battle-status-bars-v1` | artifact | battle | `doc` | — | 1 |
-| `battle-visual-catalog-export-20260729` | note | visual | `doc` | — | 3 |
-| `battle-visual-runtime-timelines-export-20260729` | note | visual | `doc` | — | 3 |
 | `bg-resource-canvases-export-20260729` | note | visual | `doc` | — | 3 |
-| `bg-scene-selection-export-20260729` | note | visual | `doc` | — | 4 |
+| `bg-scene-selection-export-20260729` | note | visual | `doc` | — | 5 |
 | `build-api-ownership-20260713` | note | other | `doc` | — | 1 |
 | `build-artifact-cleanup-audit-20260729` | note | other | `doc` | — | 1 |
 | `build-pipeline` | doc | other | `doc` | — | 3 |
@@ -988,11 +990,12 @@
 | `chapter-flow-runtime-chain-20260712` | note | other | `doc` | — | 5 |
 | `chapter-script-observed-subset-20260713` | note | other | `doc` | — | 2 |
 | `chapter-script-production-writeback-20260713` | note | other | `doc` | — | 2 |
-| `character-battle-visual-resource-matrix-v1` | artifact | visual | `doc` | — | 1 |
+| `character-battle-palette-writeback-20260731` | note | visual | `doc` | — | 1 |
+| `character-battle-visual-resource-matrix-v1` | artifact | visual | `doc` | — | 2 |
 | `character-growth-runtime-chain-20260711` | note | visual | `doc` | — | 10 |
 | `character-runtime-oam-bindings-v1` | artifact | visual | `doc` | — | 1 |
 | `character-runtime-oam-task-bindings-v1` | artifact | visual | `doc` | — | 1 |
-| `character-stats-addresses` | note | visual | `doc` | — | 3 |
+| `character-stats-addresses` | note | visual | `doc` | — | 4 |
 | `codex-goal-comet-governance` | doc | other | `doc` | — | 2 |
 | `codex-mgba-cost-time-audit-20260716` | doc | other | `doc` | — | 2 |
 | `codex-reentry-audit-20260712` | note | other | `doc` | — | 2 |
@@ -1028,11 +1031,13 @@
 | `editor-isolated-writeback-smoke-20260713` | note | other | `doc` | — | 3 |
 | `experiment-artifact-lifecycle` | doc | other | `doc` | — | 1 |
 | `experiment_workspace` | tool | code | `doc` | — | 3 |
+| `export_residual_wram_tilemap_resource_ownership` | tool | code | `doc` | — | 1 |
+| `export_rom_cfg_inventory` | tool | code | `doc` | — | 1 |
 | `export_rom_fixed_renderer_script_records` | tool | code | `doc` | — | 1 |
+| `export_rom_gpu_copy_queue_inventory` | tool | code | `doc` | — | 2 |
 | `export_rom_small_cfg_dependency_batch` | tool | code | `doc` | — | 1 |
 | `export_rom_training_text_script_inventory` | tool | code | `doc` | — | 1 |
 | `final-completion-report` | doc | other | `doc` | — | 4 |
-| `first-battle-savestate-checkpoints-20260712` | note | other | `doc` | — | 4 |
 | `function-pointer-runtime-probe-20260713` | note | other | `doc` | — | 2 |
 | `headless-workflow` | note | other | `doc` | — | 3 |
 | `initializer-resource-pack-v1` | artifact | other | `doc` | — | 1 |
@@ -1048,7 +1053,7 @@
 | `m4a-player-slot-control-flow-20260713` | note | other | `doc` | — | 2 |
 | `m4a-player-slot-runtime-differential-20260713` | note | other | `doc` | — | 7 |
 | `m4a-runtime-channel-wiring-20260713` | note | other | `doc` | — | 3 |
-| `m4a-soundmain-scheduler-20260713` | note | other | `doc` | — | 4 |
+| `m4a-soundmain-scheduler-20260713` | note | other | `doc` | — | 5 |
 | `m4a-track-register-state-20260713` | note | other | `doc` | — | 2 |
 | `map-addresses` | note | map | `doc` | — | 4 |
 | `map-canvases-export-20260729` | note | map | `doc` | — | 2 |
@@ -1058,7 +1063,7 @@
 | `maps-runtime-fields-20260711` | note | map | `doc` | — | 5 |
 | `measure_reverse_throughput` | tool | code | `doc` | — | 1 |
 | `memory-incident-root-cause-20260714` | note | other | `doc` | — | 3 |
-| `menu-portrait-export-20260729` | note | presentation | `doc` | — | 2 |
+| `menu-portrait-export-20260729` | note | presentation | `doc` | — | 3 |
 | `mgba-threaded-fastforward-fix` | note | other | `doc` | — | 1 |
 | `natural-skill-detail-runtime-20260713` | note | other | `doc` | — | 4 |
 | `next-action-plan` | doc | other | `doc` | — | 2 |
@@ -1088,9 +1093,10 @@
 | `residual-text-bg-tilemap-resource-ownership-v1` | artifact | residual | `doc` | — | 1 |
 | `residual-wram-crop-tilemap-runtime-v1` | artifact | residual | `doc` | — | 1 |
 | `residual-wram-tilemap-abi-v1` | artifact | residual | `doc` | — | 1 |
+| `residual-wram-tilemap-pixel-ab-20260801` | note | residual | `doc` | — | 1 |
 | `residual-wram-tilemap-resource-ownership-v1` | artifact | residual | `doc` | — | 1 |
 | `residual-wram-tilemap-runtime-v1` | artifact | residual | `doc` | — | 1 |
-| `residual-wram-tilemap-runtime-v2` | artifact | residual | `doc` | — | 1 |
+| `residual-wram-tilemap-runtime-v2` | artifact | residual | `doc` | — | 2 |
 | `residual-wram-transformed-tilemap-runtime-v1` | artifact | residual | `doc` | — | 1 |
 | `residual-wram-visual-metadata-abi-v2` | artifact | residual | `doc` | — | 2 |
 | `resource-table-596F98` | note | other | `doc` | — | 1 |
@@ -1117,7 +1123,8 @@
 | `rom-battle-condition-result-text-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-battle-controller-consumed-literals-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-battle-distance-dispatcher-cfg-v1` | artifact | rom | `doc` | — | 1 |
-| `rom-battle-message-text-inventory-v1` | artifact | rom | `doc` | — | 1 |
+| `rom-battle-message-text-inventory-20260811` | note | rom | `doc` | — | 1 |
+| `rom-battle-message-text-inventory-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-battle-sound-selector-v1` | artifact | rom | `doc` | — | 3 |
 | `rom-battle-status-bar-caller-slice-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-boot-copy-sources-v1` | artifact | rom | `doc` | — | 1 |
@@ -1147,12 +1154,13 @@
 | `rom-cfg-proven-roots-v21` | artifact | rom | `doc` | — | 1 |
 | `rom-cfg-proven-roots-v21-20260905` | note | rom | `doc` | — | 1 |
 | `rom-cfg-proven-roots-v3` | artifact | rom | `doc` | — | 1 |
+| `rom-cfg-proven-roots-v3-v4-20260813` | note | rom | `doc` | — | 1 |
 | `rom-cfg-proven-roots-v4` | artifact | rom | `doc` | — | 1 |
 | `rom-cfg-proven-roots-v5` | artifact | rom | `doc` | — | 1 |
 | `rom-cfg-proven-roots-v6` | artifact | rom | `doc` | — | 1 |
 | `rom-cfg-proven-roots-v7` | artifact | rom | `doc` | — | 1 |
 | `rom-cfg-proven-roots-v8` | artifact | rom | `doc` | — | 1 |
-| `rom-cfg-proven-roots-v9` | artifact | rom | `doc` | — | 2 |
+| `rom-cfg-proven-roots-v9` | artifact | rom | `doc` | — | 3 |
 | `rom-cfg-seeds-v1` | artifact | rom | `doc` | not-applicable | 1 |
 | `rom-cfg-v1-consumed-literals-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-cfg-v2-consumed-literals-v1` | artifact | rom | `doc` | — | 2 |
@@ -1170,6 +1178,7 @@
 | `rom-direct-cpuset-gpu-inventory-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-direct-dma-gpu-inventory-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-directsound-pitch-lookup-v1` | artifact | rom | `doc` | — | 4 |
+| `rom-display-text-delta-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-event-handler-cfg-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-evidence-selector-repair-20260905` | note | rom | `doc` | — | 3 |
 | `rom-expansion-profile-v1` | artifact | rom | `doc` | — | 1 |
@@ -1179,6 +1188,7 @@
 | `rom-fixed-index-u8-tail-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-fixed-pair-tables-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-fixed-renderer-script-records-v1` | artifact | rom | `doc` | — | 6 |
+| `rom-gpu-copy-queue-inventory-20260730` | note | rom | `doc` | — | 2 |
 | `rom-gpu-copy-queue-inventory-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-legacy-acceptance-20260905-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-low-script-delta-v1` | artifact | rom | `doc` | — | 1 |
@@ -1196,14 +1206,15 @@
 | `rom-parser-bound-zero-padding-v1` | artifact | rom | `doc` | — | 3 |
 | `rom-partial-bank-joint-matrix-20261001` | note | rom | `doc` | — | 1 |
 | `rom-partial-bank-joint-matrix-20261001` | note | rom | `doc` | — | 1 |
-| `rom-pointer-lz77-graphics-v1` | artifact | rom | `doc` | — | 1 |
-| `rom-pointer-lz77-inventory-v1` | artifact | rom | `doc` | — | 2 |
+| `rom-pointer-lz77-graphics-preview-20260730` | note | rom | `doc` | — | 1 |
+| `rom-pointer-lz77-graphics-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-positions-aux-dispatch-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-prebattle-menu-controller-cfg-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-profile-selector-code-slices-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-profile-text-inventory-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-psg-frequency-lookup-v1` | artifact | rom | `doc` | — | 4 |
 | `rom-referenced-text-slot-padding-v1` | artifact | rom | `doc` | — | 2 |
+| `rom-renderer-records-delta-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-renderer-script-pointer-pool-records-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-renderer-text-inventory-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-reverse-engineering-results` | doc | rom | `doc` | — | 5 |
@@ -1231,10 +1242,11 @@
 | `rom-text-bg-loop-continuation-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-text-bg-task-closure-v1` | artifact | rom | `doc` | — | 2 |
 | `rom-training-text-script-inventory-v1` | artifact | rom | `doc` | — | 2 |
+| `rom-u8-indexed-u16-pair-lookup-20260827` | note | rom | `doc` | — | 1 |
 | `rom-u8-indexed-u16-pair-lookup-v1` | artifact | rom | `doc` | — | 4 |
 | `rom-u8-indexed-u8-triplet-lookup-v1` | artifact | rom | `doc` | — | 3 |
 | `rom-unbound-lz77-inventory-v1` | artifact | rom | `doc` | — | 2 |
-| `rom-unknown-candidate-59eae0-negative-evidence-20260827` | note | rom | `doc` | — | 1 |
+| `rom-unknown-candidate-59eae0-negative-evidence-20260827` | note | rom | `doc` | — | 2 |
 | `rom-unknown-cluster-refresh-20260902` | note | rom | `doc` | — | 2 |
 | `rom-v17-v18-helper-cfg-v1` | artifact | rom | `doc` | — | 1 |
 | `rom-value-range-text-inventory-v1` | artifact | rom | `doc` | — | 1 |
@@ -1253,10 +1265,10 @@
 | `save-state-wasm-probe-20260711` | note | other | `doc` | — | 3 |
 | `scan-summary` | note | other | `doc` | — | 1 |
 | `scenario-41-battle-entry-runtime-20260713` | note | scenario | `doc` | — | 5 |
-| `scenario-41-player-control-runtime-20260715` | note | scenario | `doc` | — | 4 |
+| `scenario-41-player-control-runtime-20260715` | note | scenario | `doc` | — | 5 |
 | `scenario-41-prebattle-menu-macos-20260715` | note | scenario | `doc` | — | 2 |
 | `scenario-41-prebattle-to-controller-macos-20260715` | note | scenario | `doc` | — | 2 |
-| `scenario-46-entry-runtime-20260719` | note | scenario | `doc` | — | 2 |
+| `scenario-46-entry-runtime-20260719` | note | scenario | `doc` | — | 3 |
 | `scenario-47-entry-runtime-20260720` | note | scenario | `doc` | — | 2 |
 | `scenario-48-academy-runtime-20260720` | note | scenario | `doc` | — | 1 |
 | `scene-visual-composites-v1` | artifact | map | `doc` | — | 2 |
@@ -1266,13 +1278,13 @@
 | `skill-template-consumer-semantics-20260713` | note | other | `doc` | — | 2 |
 | `skill-template-identity-20260711` | note | other | `doc` | — | 2 |
 | `skill-template-ui-probe-20260712` | note | other | `doc` | — | 2 |
-| `sprite-definition-animations-export-20260729` | note | visual | `doc` | — | 3 |
-| `sprite-definition-runtime-chain-20260729` | note | visual | `doc` | — | 4 |
+| `sprite-definition-animations-export-20260729` | note | visual | `doc` | — | 4 |
+| `sprite-definition-runtime-chain-20260729` | note | visual | `doc` | — | 5 |
 | `sprite-definition-runtime-v1` | artifact | visual | `doc` | — | 1 |
 | `static-bank-identity-corrections-20260713` | note | other | `doc` | — | 2 |
 | `story-bank-identity-correction-20260712` | note | presentation | `doc` | — | 2 |
 | `story-scene-layer-bindings-20260729` | note | presentation | `doc` | — | 3 |
-| `story-scene-timelines-export-20260729` | note | presentation | `doc` | — | 3 |
+| `story-scene-timelines-export-20260729` | note | presentation | `doc` | — | 4 |
 | `story-visual-descriptor-consumer-20260712` | note | presentation | `doc` | — | 2 |
 | `story-visual-layer-export-20260729` | note | presentation | `doc` | — | 2 |
 | `story-visual-resource-sources-v1` | artifact | presentation | `doc` | — | 1 |
@@ -1282,7 +1294,6 @@
 | `test_analyze_rom_unknown_clusters` | test | code | `doc` | — | 3 |
 | `test_audit_reverse_engineering_coverage_count_liveness` | test | code | `doc` | — | 1 |
 | `testing-checklist` | doc | other | `doc` | — | 3 |
-| `text-and-battle-visual-consumers-20260713` | note | other | `doc` | — | 2 |
 | `text-regions` | note | other | `doc` | — | 2 |
 | `tile-assets-bg-export-20260729` | note | visual | `doc` | — | 2 |
 | `tileset-extraction-correction-20260712` | note | visual | `doc` | — | 2 |
@@ -1434,7 +1445,6 @@
 | `bank-player-visible-closure-plan-20260806` | note | other | `none` | — | 0 |
 | `batch_test_dispatcher_triggers` | tool | code | `none` | — | 0 |
 | `battle-effect-controlled-phase-extension-20260809` | note | visual | `none` | — | 0 |
-| `battle-effect-controlled-runtime-20260801` | note | visual | `none` | — | 0 |
 | `battle-effect-direct-spawn-runtime-20260802` | note | visual | `none` | — | 0 |
 | `battle-effect-frame-phase-20260801` | note | visual | `none` | — | 0 |
 | `battle-effect-group1-pixel-ab-20260801` | note | visual | `none` | — | 0 |
@@ -1473,6 +1483,7 @@
 | `build_battle_effect_group5_pixel_ab` | tool | code | `none` | — | 0 |
 | `build_battle_effect_pixel_ab` | tool | code | `none` | — | 0 |
 | `build_battle_encounters_story_visual_pixel_ab` | tool | code | `none` | — | 0 |
+| `build_battle_message_runtime_probe_slots` | tool | code | `none` | — | 0 |
 | `build_chapter_battle_route_probe` | tool | code | `none` | — | 0 |
 | `build_character_battle_graphics_pixel_ab` | tool | code | `none` | — | 0 |
 | `build_character_battle_visual_resource_matrix` | tool | code | `none` | — | 0 |
@@ -1498,7 +1509,6 @@
 | `build_world_map_page0_pixel_ab` | tool | code | `none` | — | 0 |
 | `character-battle-graphics-pixel-ab-20260801` | note | visual | `none` | — | 0 |
 | `character-battle-graphics-writeback-20260731` | note | visual | `none` | — | 0 |
-| `character-battle-palette-writeback-20260731` | note | visual | `none` | — | 0 |
 | `character-battle-structure-writeback-20260731` | note | visual | `none` | — | 0 |
 | `character-runtime-oam-bindings-20260730` | note | visual | `none` | — | 0 |
 | `character-runtime-oam-task-bindings-20260730` | note | visual | `none` | — | 0 |
@@ -1566,7 +1576,6 @@
 | `export_residual_wram_tilemap_abi` | tool | code | `none` | — | 0 |
 | `export_residual_wram_tilemap_pixel_ab_evidence` | tool | code | `none` | — | 0 |
 | `export_residual_wram_tilemap_relocation_audit` | tool | code | `none` | — | 0 |
-| `export_residual_wram_tilemap_resource_ownership` | tool | code | `none` | — | 0 |
 | `export_residual_wram_tilemap_runtime_evidence` | tool | code | `none` | — | 0 |
 | `export_residual_wram_tilemap_runtime_v2` | tool | code | `none` | — | 0 |
 | `export_residual_wram_transformed_tilemap_runtime_evidence` | tool | code | `none` | — | 0 |
@@ -1589,7 +1598,6 @@
 | `export_rom_boot_state_dispatcher_cfg` | tool | code | `none` | — | 0 |
 | `export_rom_boot_thumb_handoff_cfg` | tool | code | `none` | — | 0 |
 | `export_rom_bounded_index_u16_pair_table` | tool | code | `none` | — | 0 |
-| `export_rom_cfg_inventory` | tool | code | `none` | — | 0 |
 | `export_rom_cfg_inventory_v3` | tool | code | `none` | — | 0 |
 | `export_rom_cfg_proven_roots` | tool | code | `none` | — | 0 |
 | `export_rom_cfg_proven_roots_batch_consumed_literals` | tool | code | `none` | — | 0 |
@@ -1637,7 +1645,6 @@
 | `export_rom_fixed_consumer_text_inventory` | tool | code | `none` | — | 0 |
 | `export_rom_fixed_index_u8_tail` | tool | code | `none` | — | 0 |
 | `export_rom_fixed_pair_tables` | tool | code | `none` | — | 0 |
-| `export_rom_gpu_copy_queue_inventory` | tool | code | `none` | — | 0 |
 | `export_rom_low_script_delta` | tool | code | `none` | — | 0 |
 | `export_rom_m4a_byte_inventory` | tool | code | `none` | — | 0 |
 | `export_rom_m4a_initializer_chain` | tool | code | `none` | — | 0 |
@@ -1647,7 +1654,6 @@
 | `export_rom_mplaymain_scheduler` | tool | code | `none` | — | 0 |
 | `export_rom_parser_bound_zero_padding` | tool | code | `none` | — | 0 |
 | `export_rom_pointer_lz77_graphics` | tool | code | `none` | — | 0 |
-| `export_rom_pointer_lz77_inventory` | tool | code | `none` | — | 0 |
 | `export_rom_positions_aux_dispatch` | tool | code | `none` | — | 0 |
 | `export_rom_post_story_dependency_precoverage` | tool | code | `none` | — | 0 |
 | `export_rom_prebattle_menu_controller_cfg` | tool | code | `none` | — | 0 |
@@ -1700,8 +1706,10 @@
 | `exporter-root-deletion-incident-20260809` | note | other | `none` | — | 0 |
 | `find_battlefield_object_effect_seeds` | tool | code | `none` | — | 0 |
 | `fixed_resource_roundtrip` | tool | code | `none` | — | 0 |
+| `four-decisions-20261020` | note | other | `none` | — | 0 |
 | `generic-sprite-bundle-relocation-20260731` | note | other | `none` | — | 0 |
 | `group12-natural-entry-ai-observer-20260806` | note | other | `none` | — | 0 |
+| `handover-20261020-reverse-tree` | note | other | `none` | — | 0 |
 | `image_resource_regions` | tool | code | `none` | — | 0 |
 | `import_battle_effect_resource_relocations` | tool | code | `none` | — | 0 |
 | `import_battle_effect_resources` | tool | code | `none` | — | 0 |
@@ -1729,6 +1737,7 @@
 | `legacy-artifact-acceptance-20260905` | note | other | `none` | — | 0 |
 | `legacy_artifact_acceptance_contract` | tool | code | `none` | — | 0 |
 | `line-a-progress-20261019` | note | other | `none` | — | 0 |
+| `live-ledger-identity-repair-20261020` | note | other | `none` | — | 0 |
 | `m4a_pcm` | tool | code | `none` | — | 0 |
 | `m4a_psg` | tool | code | `none` | — | 0 |
 | `m680x` | tool | code | `none` | — | 0 |
@@ -1765,7 +1774,6 @@
 | `residual-text-bg-tilemap-resource-ownership-20260731` | note | residual | `none` | — | 0 |
 | `residual-wram-derived-tilemap-relocation-20260731` | note | residual | `none` | — | 0 |
 | `residual-wram-tilemap-abi-20260731` | note | residual | `none` | — | 0 |
-| `residual-wram-tilemap-pixel-ab-20260801` | note | residual | `none` | — | 0 |
 | `residual-wram-tilemap-relocation-20260731` | note | residual | `none` | — | 0 |
 | `residual-wram-tilemap-resource-ownership-20260731` | note | residual | `none` | — | 0 |
 | `residual-wram-tilemap-runtime-reachability-20260731` | note | residual | `none` | — | 0 |
@@ -1806,7 +1814,6 @@
 | `rom-battle-distance-dispatcher-cfg-20260902` | note | rom | `none` | — | 0 |
 | `rom-battle-effect-fixed-roundtrip-20261001` | note | rom | `none` | — | 0 |
 | `rom-battle-effect-fixed-roundtrip-20261001` | note | rom | `none` | — | 0 |
-| `rom-battle-message-text-inventory-20260811` | note | rom | `none` | — | 0 |
 | `rom-boot-interwork-20260811` | note | rom | `none` | — | 0 |
 | `rom-boot-interwork-continuation-precoverage-v1` | artifact | rom | `none` | — | 0 |
 | `rom-boot-register-init-dependency-cfg-20260905` | note | rom | `none` | — | 0 |
@@ -1819,7 +1826,6 @@
 | `rom-cfg-proven-roots-v18-precoverage-v1` | artifact | rom | `none` | — | 0 |
 | `rom-cfg-proven-roots-v2-20260812` | note | rom | `none` | — | 0 |
 | `rom-cfg-proven-roots-v20-20260905` | note | rom | `none` | — | 0 |
-| `rom-cfg-proven-roots-v3-v4-20260813` | note | rom | `none` | — | 0 |
 | `rom-cgb-audio-precoverage-v1` | artifact | rom | `none` | — | 0 |
 | `rom-chapter-script-consumer-roots-20260902` | note | rom | `none` | — | 0 |
 | `rom-chapter-script-inventory-20260809` | note | rom | `none` | — | 0 |
@@ -1839,7 +1845,6 @@
 | `rom-fixed-index-u8-tail-20260905` | note | rom | `none` | — | 0 |
 | `rom-fixed-pair-tables-20260904` | note | rom | `none` | — | 0 |
 | `rom-fixed-text-route-preflight-20261001` | note | rom | `none` | — | 0 |
-| `rom-gpu-copy-queue-inventory-20260730` | note | rom | `none` | — | 0 |
 | `rom-large-unknown-anchor-screen-20261001` | note | rom | `none` | — | 0 |
 | `rom-later-cfg-renderer-consumers-preflight-20261001` | note | rom | `none` | — | 0 |
 | `rom-low-script-delta-tier1-20261001` | note | rom | `none` | — | 0 |
@@ -1855,7 +1860,6 @@
 | `rom-mp2k-dispatcher-20260829` | note | rom | `none` | — | 0 |
 | `rom-mp2k-dispatcher-precoverage-v1` | artifact | rom | `none` | — | 0 |
 | `rom-mp2k-note-allocator-precoverage-v1` | artifact | rom | `none` | — | 0 |
-| `rom-pointer-lz77-graphics-preview-20260730` | note | rom | `none` | — | 0 |
 | `rom-pointer-lz77-inventory-export-20260730` | note | rom | `none` | — | 0 |
 | `rom-post-story-dependency-precoverage-v1` | artifact | rom | `none` | — | 0 |
 | `rom-prebattle-menu-controller-cfg-20260905` | note | rom | `none` | — | 0 |
@@ -1888,7 +1892,6 @@
 | `rom-task-callback-078e38-closure-20260905` | note | rom | `none` | — | 0 |
 | `rom-task-callback-alignment-gap-candidate-20260905` | note | rom | `none` | — | 0 |
 | `rom-training-text-script-inventory-20260811` | note | rom | `none` | — | 0 |
-| `rom-u8-indexed-u16-pair-lookup-20260827` | note | rom | `none` | — | 0 |
 | `rom-unknown-cluster-refresh-20260901` | note | rom | `none` | — | 0 |
 | `rom-unknown-cluster-refresh-20260905` | note | rom | `none` | — | 0 |
 | `rom-v17-v18-helper-cfg-20260904` | note | rom | `none` | — | 0 |
@@ -1970,6 +1973,7 @@
 | `test_build_battle_effect_group5_pixel_ab` | test | code | `none` | — | 0 |
 | `test_build_battle_effect_pixel_ab` | test | code | `none` | — | 0 |
 | `test_build_battle_encounters_story_visual_pixel_ab` | test | code | `none` | — | 0 |
+| `test_build_battle_message_runtime_probe_slots` | test | code | `none` | — | 0 |
 | `test_build_chapter_battle_route_probe` | test | code | `none` | — | 0 |
 | `test_build_character_battle_graphics_pixel_ab` | test | code | `none` | — | 0 |
 | `test_build_character_battle_visual_resource_matrix` | test | code | `none` | — | 0 |

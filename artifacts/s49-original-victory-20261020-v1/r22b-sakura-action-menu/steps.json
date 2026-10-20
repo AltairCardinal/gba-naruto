@@ -1,0 +1,45 @@
+{
+  "audit": {
+    "captured_steps": 3,
+    "hold_frames": 4,
+    "input_state_sha256": "4acb4bf51b93fdcd57c5bd3999b7d4f1fe5a05dbc38fa2d0a74f465b9a78b671",
+    "settle_frames": 150,
+    "status": "capture-complete",
+    "zero_input_frames": 90
+  },
+  "audit_sha256": "e378f48ccc636ee42537c5cefb0bcf41119b8510e6da8fd962a52b5bb9f16fe0",
+  "steps": [
+    {
+      "image": "step-00-base.png",
+      "image_sha256": "88157d53cb838aeb159edfadb67de6e8ebca0ffa3b922f995951e9cf0a2f1694",
+      "key": "none",
+      "state": "step-00-base.ss9",
+      "state_sha256": "a865a3ff97199c5b3b28f4e1b4664e4376eac35fd2e46b33a0b4843f1a9dc097",
+      "step": 0
+    },
+    {
+      "image": "step-01-A.png",
+      "image_sha256": "f7823e3c367f098fd8bcbe4d67906fc029b1b4dabc8675c63549d8c2d4c61f96",
+      "key": "A",
+      "state": "step-01-A.ss9",
+      "state_sha256": "78fbef87125384a5abd58243209f9151fe5edea27073151addc5de044569ce92",
+      "step": 1
+    },
+    {
+      "image": "step-02-Down.png",
+      "image_sha256": "62776b2dcdd27554e63660c35eeae39910e9aa75c5565b82e776948717fcf97b",
+      "key": "Down",
+      "state": "step-02-Down.ss9",
+      "state_sha256": "9405b99db08202629de27f480319ee2da5ea97adffa1d0523fef4e4323e11fa9",
+      "step": 2
+    },
+    {
+      "image": "step-03-A.png",
+      "image_sha256": "e351ddb78c7530c0a1d5f79fcde6757f4bf7002e2c653456045e70eacc053655",
+      "key": "A",
+      "state": "step-03-A.ss9",
+      "state_sha256": "2c0f814b8c08b832cc2150f19664f595dfd9b483737019095fa92db5949e17cd",
+      "step": 3
+    }
+  ]
+}

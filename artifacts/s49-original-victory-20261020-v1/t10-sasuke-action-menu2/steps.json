@@ -1,0 +1,69 @@
+{
+  "audit": {
+    "captured_steps": 6,
+    "hold_frames": 4,
+    "input_state_sha256": "4a73f735871b4d2b8e934210314841d75d98a7207c2104e943c7047d376b5f57",
+    "settle_frames": 150,
+    "status": "capture-complete",
+    "zero_input_frames": 90
+  },
+  "audit_sha256": "5fd406080a9d38db1e19ce7724f795af18d39de2dbb26e00f89be4b3e9ba85bc",
+  "steps": [
+    {
+      "image": "step-00-base.png",
+      "image_sha256": "39d404ae274cc65589983383901eeaac27174a0b4bbd8f392e4a209fbd43bd15",
+      "key": "none",
+      "state": "step-00-base.ss9",
+      "state_sha256": "7dd9c78de768d0f69f8d2f00241dd13c69d5db99c05f5be8adda08d00a0357ab",
+      "step": 0
+    },
+    {
+      "image": "step-01-B.png",
+      "image_sha256": "3cc589f9b8347f0f15e10ec1b266015b935f0a332239b5a51ac4ccd8cc0fa7de",
+      "key": "B",
+      "state": "step-01-B.ss9",
+      "state_sha256": "be1d6f74cfa23dd2035d30a549a270ed9a1d02479b746db76f4751890ce51dac",
+      "step": 1
+    },
+    {
+      "image": "step-02-Up.png",
+      "image_sha256": "3cadbb9e00ae46c90ac2e183168651f8a0f3c693c43fc80789225b015cb37173",
+      "key": "Up",
+      "state": "step-02-Up.ss9",
+      "state_sha256": "b84819cace8336cf7f90da171b2f31d7e6b598ac73d777c8419031c2ae5c3f95",
+      "step": 2
+    },
+    {
+      "image": "step-03-Up.png",
+      "image_sha256": "5df5931e739f579ad7dc7aad49c5cc8eb263a80ae5c94867c0b60cacd37f80b2",
+      "key": "Up",
+      "state": "step-03-Up.ss9",
+      "state_sha256": "be319512bed5ebe87caccbc096b154adccce84e61888c2c940b9f3ee0037652b",
+      "step": 3
+    },
+    {
+      "image": "step-04-A.png",
+      "image_sha256": "1b7d3abffc1e5a24cb78d33c2f746f5900d0bfe75dc12bc9136f3a73aaf502d5",
+      "key": "A",
+      "state": "step-04-A.ss9",
+      "state_sha256": "c4544e8d4af54ba5884cd7059628e9a8fb9de2529bd54415d678a8126904dcb1",
+      "step": 4
+    },
+    {
+      "image": "step-05-Down.png",
+      "image_sha256": "eda29c23c314475c8aa392e21ebd812c157843ce21a66e91f17fab4e21ea6a1c",
+      "key": "Down",
+      "state": "step-05-Down.ss9",
+      "state_sha256": "47d4aee12ffdc26e25c570ea7c026b0154db537ee8f1fc4b466d13a3d1987968",
+      "step": 5
+    },
+    {
+      "image": "step-06-A.png",
+      "image_sha256": "eb92c5fd2fe18433ae28a10ec7b9dd8327aa8f47cf568095225e858e366650e4",
+      "key": "A",
+      "state": "step-06-A.ss9",
+      "state_sha256": "33a908cd077e0789a5fd80edbf2af144d113f314d9a2e8ff8b1e3bbb58cbbba2",
+      "step": 6
+    }
+  ]
+}

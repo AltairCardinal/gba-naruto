@@ -4,9 +4,9 @@
 
 - 索引 schema：`konoha.reverse-results-index.v1`
 - 逆向工作树：`/Users/altair/github/gba-naruto-reverse`
-- 逆向 commit：`e7ca8c5360731b06d9d56efeaa32834b910e0a2c`
-- 逆向工作树是否有未提交改动：True
-- 条目总数：2197
+- 逆向 commit：`f054f4c1e240c87583f1059b64eb1fc199aada07`
+- 逆向工作树是否有未提交改动：False
+- 条目总数：2204
 
 ## 分类统计
 
@@ -14,13 +14,13 @@
 | --- | --- |
 | audio | 5 |
 | battle | 13 |
-| code | 1438 |
+| code | 1440 |
 | map | 33 |
-| other | 237 |
+| other | 240 |
 | overview | 3 |
 | presentation | 29 |
 | residual | 23 |
-| rom | 250 |
+| rom | 252 |
 | runtime | 13 |
 | scenario | 23 |
 | visual | 130 |
@@ -48,7 +48,22 @@
 | 逆向成果族判定：精灵组件源（12 个组件表 + 4 条动画时间线） | rom | not-applicable | `artifacts/rom-sprite-component-source-v1/manifest.json` | source found |
 | 单位视觉表里的损坏终止符 0xFBFF | visual | reconstructed | `artifacts/s49-ledger-evidence-v1/action-menu-glyphs.json` | source found |
 | S49（battle 14）的九槽名册：角色、坐标、等级、体力与携带经验 | battle | reused | `artifacts/character-runtime-unit-oam-bindings-v1/bindings.json` | source found |
-| S49 战后的等级/经验结算（阈值表、成长表、按人分配的经验） | battle | reused | `notes/scenario-49-battle-14-runtime-20260720.md` | source found |
+| S49 战后的等级/经验结算（阈值表、成长表、按人分配的经验） | battle | reused | `notes/s49-post-battle-exp-rule-20261020.md` | source found |
+| S49 移动网格覆盖层：BG2 层 + ROM 的两份 LZ77 资源（图块/调色板） | battle | reused | `notes/s49-dispcnt-bit10-layer-20261020.md` | source found |
+| 被选中单位的 visual slot/帧：两侧都是 slot 0，差在 idle 相位一步（8 帧）——**常量偏移方案已被实测推翻** | visual | reused | `notes/s49-selected-unit-slot-frame-20261020.md` | source found |
+| 移动网格覆盖层的 ROM 资源：32 个 4bpp 图块 + 调色板 bank 12（已导出并与同帧 VRAM/PRAM 逐字节对账） | visual | derived | `notes/s49-movegrid-overlay-assets-20261020.md` | source found |
+| 覆盖层 BG2 tilemap 的实际内容：212 格 = 53 个 16×16 像素格，屏幕上是菱形/透镜 | visual | derived | `notes/s49-movegrid-overlay-tilemap-20261020.md` | source found |
+| P2：10 条逆向笔记从 needs_guard 转成行为门禁（含 10 条显式拒绝） | other | reused | `notes/s49-needs-guard-gates-20261020.md` | source found |
+| 原版 idle 相位可测量化：渲染帧 → 导出帧号的精确反查 + 跨录像的游戏内时刻配对 | visual | reused | `notes/s49-selected-unit-idle-phase-20261020.md` | source found |
+| 原版「每帧重绘」的机制：不是新帧，是单位 OBJ 调色板 index 15 被逐帧改写（32 帧三角波） | visual | reused | `notes/s49-field-frame-order-20261020.md` | source found |
+| 覆盖层 4bpp 图块 + bank 12 调色板已入库重制侧资产管线（Butano 图形工具实测处理成功） | visual | reused | `notes/s49-movegrid-overlay-asset-import-20261020.md` | source found |
+| 覆盖层重制侧实施规格：接线已存在（专属 BG 层），缺图块/粒度/混合/规则四样 | visual | derived | `notes/s49-movegrid-overlay-implementation-spec-20261020.md` | source found |
+| 原版战后状态页（人物信息页）已录到并核验：三人 EXP/体力/查克拉 与逆向树记录逐项吻合 | visual | reused | `notes/s49-original-victory-20261020.md` | source found |
+| 覆盖层选块规则闭合：高亮族只取决于「列奇偶」（0 冲突）；常驻网格族仍未闭合 | visual | derived | `notes/s49-movegrid-overlay-rule-20261020.md` | source found |
+| 原版覆盖层**确实在做 alpha 混合**（BLDCNT=0x1744、EVA=EVB=15/16）——旧读数来自 IO 偏移错误 | visual | reused | `notes/s49-movegrid-blend-correction-20261021.md` | source found |
+| 同帧收据**完全自洽**：从 dump 重建 = PNG 38,400/38,400 逐像素一致（推翻「PNG 与 dump 不自洽」） | other | reused | `docs/konoha-senki/01-battle-s49.md` | source found |
+| 覆盖层「只换原版高亮图块」被实测否证：缺的是族 0 的常驻网格网（已回滚） | visual | reused | `notes/s49-movegrid-overlay-swap-experiment-20261021.md` | source found |
+| 原版覆盖层 = 每张地图烘焙好的一张静态布局图（BG2 tilemap，16 种签名，212 格会变） | visual | reused | `notes/s49-battlefield-overlay-baked-20261021.md` | source found |
 
 台账无问题：每条都给出了状态与可核验的来源指针，没有条目留在 `missing`。
 
@@ -82,7 +97,7 @@
 | `battle-system-restoration-evidence-20260723` | note | `notes/battle-system-restoration-evidence-20260723.md` | — | 0 | 0 |
 | `battlefield-object-effect-chain-20260802` | note | `notes/battlefield-object-effect-chain-20260802.md` | — | 0 | 0 |
 
-### code（1438）
+### code（1440）
 
 | id | 类型 | 路径 | 提供的结论 | 公式数 | 地址数 |
 | --- | --- | --- | --- | --- | --- |
@@ -181,6 +196,7 @@
 | `build_battle_effect_runtime_probe` | tool | `tools/build_battle_effect_runtime_probe.py` | — | 0 | 0 |
 | `build_battle_encounters_story_visual_pixel_ab` | tool | `tools/build_battle_encounters_story_visual_pixel_ab.py` | — | 0 | 0 |
 | `build_battle_message_runtime_probe` | tool | `tools/build_battle_message_runtime_probe.py` | — | 0 | 0 |
+| `build_battle_message_runtime_probe_slots` | tool | `tools/build_battle_message_runtime_probe_slots.py` | — | 0 | 0 |
 | `build_battle_start_runtime_probe` | tool | `tools/build_battle_start_runtime_probe.py` | — | 0 | 0 |
 | `build_chapter_battle_route_probe` | tool | `tools/build_chapter_battle_route_probe.py` | — | 0 | 0 |
 | `build_chapter_script_probe` | tool | `tools/build_chapter_script_probe.py` | — | 0 | 0 |
@@ -962,6 +978,7 @@
 | `test_build_battle_effect_runtime_probe` | test | `tests/test_build_battle_effect_runtime_probe.py` | — | 0 | 0 |
 | `test_build_battle_encounters_story_visual_pixel_ab` | test | `tests/test_build_battle_encounters_story_visual_pixel_ab.py` | — | 0 | 0 |
 | `test_build_battle_message_runtime_probe` | test | `tests/test_build_battle_message_runtime_probe.py` | — | 0 | 0 |
+| `test_build_battle_message_runtime_probe_slots` | test | `tests/test_build_battle_message_runtime_probe_slots.py` | — | 0 | 0 |
 | `test_build_battle_start_runtime_probe` | test | `tests/test_build_battle_start_runtime_probe.py` | — | 0 | 0 |
 | `test_build_chapter_battle_route_probe` | test | `tests/test_build_chapter_battle_route_probe.py` | — | 0 | 0 |
 | `test_build_chapter_script_probe` | test | `tests/test_build_chapter_script_probe.py` | — | 0 | 0 |
@@ -1563,7 +1580,7 @@
 | `world-map-page0-pixel-ab-20260801` | note | `notes/world-map-page0-pixel-ab-20260801.md` | — | 0 | 0 |
 | `world-map-runtime-composition-20260729` | note | `notes/world-map-runtime-composition-20260729.md` | — | 0 | 0 |
 
-### other（237）
+### other（240）
 
 | id | 类型 | 路径 | 提供的结论 | 公式数 | 地址数 |
 | --- | --- | --- | --- | --- | --- |
@@ -1665,16 +1682,19 @@
 | `note` | note | `notes/evidence/rom-menu-gfx-pointer-ab-20261001-v1/contract-20261001-v1/note.md` | — | 0 | 0 |
 | `exporter-root-deletion-incident-20260809` | note | `notes/exporter-root-deletion-incident-20260809.md` | — | 0 | 0 |
 | `first-battle-savestate-checkpoints-20260712` | note | `notes/first-battle-savestate-checkpoints-20260712.md` | — | 0 | 0 |
+| `four-decisions-20261020` | note | `notes/four-decisions-20261020.md` | — | 0 | 0 |
 | `free-space` | note | `notes/free-space.md` | — | 0 | 0 |
 | `function-pointer-runtime-probe-20260713` | note | `notes/function-pointer-runtime-probe-20260713.md` | — | 0 | 0 |
 | `generic-sprite-bundle-relocation-20260731` | note | `notes/generic-sprite-bundle-relocation-20260731.md` | — | 0 | 0 |
 | `group12-natural-entry-ai-observer-20260806` | note | `notes/group12-natural-entry-ai-observer-20260806.md` | — | 0 | 0 |
+| `handover-20261020-reverse-tree` | note | `notes/handover-20261020-reverse-tree.md` | — | 0 | 0 |
 | `headless-workflow` | note | `notes/headless-workflow.md` | — | 0 | 0 |
 | `initializer-resource-pack-export-20260730` | note | `notes/initializer-resource-pack-export-20260730.md` | — | 0 | 0 |
 | `legacy-artifact-acceptance-20260905` | note | `notes/legacy-artifact-acceptance-20260905.md` | — | 0 | 0 |
 | `legacy-generator-safety-20260711` | note | `notes/legacy-generator-safety-20260711.md` | — | 0 | 0 |
 | `levels-runtime-probe-20260713` | note | `notes/levels-runtime-probe-20260713.md` | — | 0 | 0 |
 | `line-a-progress-20261019` | note | `notes/line-a-progress-20261019.md` | — | 0 | 0 |
+| `live-ledger-identity-repair-20261020` | note | `notes/live-ledger-identity-repair-20261020.md` | — | 0 | 0 |
 | `local-mgba-build` | note | `notes/local-mgba-build.md` | — | 0 | 0 |
 | `m4a-channel-allocation-20260713` | note | `notes/m4a-channel-allocation-20260713.md` | — | 0 | 0 |
 | `m4a-command-vm-20260713` | note | `notes/m4a-command-vm-20260713.md` | — | 0 | 0 |
@@ -1875,7 +1895,7 @@
 | `residual-wram-tilemap-runtime-reachability-20260731` | note | `notes/residual-wram-tilemap-runtime-reachability-20260731.md` | — | 0 | 0 |
 | `residual-wram-transformed-tilemap-runtime-20260801` | note | `notes/residual-wram-transformed-tilemap-runtime-20260801.md` | — | 0 | 0 |
 
-### rom（250）
+### rom（252）
 
 | id | 类型 | 路径 | 提供的结论 | 公式数 | 地址数 |
 | --- | --- | --- | --- | --- | --- |
@@ -1944,6 +1964,7 @@
 | `rom-direct-cpuset-gpu-inventory-v1` | artifact | `artifacts/rom-direct-cpuset-gpu-inventory-v1` | files, producer, scope, verifier | 0 | 0 |
 | `rom-direct-dma-gpu-inventory-v1` | artifact | `artifacts/rom-direct-dma-gpu-inventory-v1` | files, producer, scope, verifier | 0 | 0 |
 | `rom-directsound-pitch-lookup-v1` | artifact | `artifacts/rom-directsound-pitch-lookup-v1` | coverage_baseline, coverage_projection, files, implementation, producer, promotion, rom, scope, verification, verifier | 0 | 0 |
+| `rom-display-text-delta-v1` | artifact | `artifacts/rom-display-text-delta-v1` | files, verifier | 0 | 0 |
 | `rom-event-handler-cfg-v1` | artifact | `artifacts/rom-event-handler-cfg-v1` | cfg, coverage_baseline, files, implementation, producer, producer_denominator, promotion, rom, scope, verifier | 0 | 0 |
 | `rom-expansion-profile-v1` | artifact | `artifacts/rom-expansion-profile-v1` | files, scope, summary, verifier | 0 | 0 |
 | `rom-fast-audit-four-packet-baseline-v1` | artifact | `artifacts/rom-fast-audit-four-packet-baseline-v1` | files, scope | 0 | 0 |
@@ -1974,6 +1995,7 @@
 | `rom-profile-text-inventory-v1` | artifact | `artifacts/rom-profile-text-inventory-v1` | files, verification | 0 | 0 |
 | `rom-psg-frequency-lookup-v1` | artifact | `artifacts/rom-psg-frequency-lookup-v1` | coverage_baseline, coverage_projection, files, implementation, producer, promotion, rom, scope, verification, verifier | 0 | 0 |
 | `rom-referenced-text-slot-padding-v1` | artifact | `artifacts/rom-referenced-text-slot-padding-v1` | files, producer, scope, verifier | 0 | 0 |
+| `rom-renderer-records-delta-v1` | artifact | `artifacts/rom-renderer-records-delta-v1` | files, verifier | 0 | 0 |
 | `rom-renderer-script-pointer-pool-records-v1` | artifact | `artifacts/rom-renderer-script-pointer-pool-records-v1` | files, implementation, producer, summary, verifier | 0 | 0 |
 | `rom-renderer-text-inventory-v1` | artifact | `artifacts/rom-renderer-text-inventory-v1` | files, producer, scope, verifier | 0 | 0 |
 | `rom-scene-source-closures-v1` | artifact | `artifacts/rom-scene-source-closures-v1` | files, implementation, producer, summary, verifier | 0 | 0 |

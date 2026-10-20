@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-10-20T11:04:36.561984+00:00",
+  "expected_sizes": {
+    "io.bin": 1024,
+    "oam.bin": 1024,
+    "pram.bin": 1024,
+    "vram.bin": 98304
+  },
+  "guard": "/Users/altair/github/gba-naruto/tools/run_guarded.py",
+  "guard_sha256": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+  "input_state": "artifacts/s49-remake-expfix-20261020-v1/step-30-A.ss9",
+  "input_state_sha256": "40c164cd6be55ee3e18fbf6d0337143da516cf1177876f6249be5634708a69eb",
+  "mgba": "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+  "mgba_sha256": "d1a9c2311980dead5fee8c8ddeeee6a31e7a094aff335c9302096dd8feb44872",
+  "rom": "butano-sequel/butano-sequel.gba",
+  "rom_sha256": "de1a382ee18c8267a9d523a12abf8c44fc443b6038bc184a2d972ccfd5efc688",
+  "schema": "konoha.mgba-gpu-state-inputs.v1",
+  "script": "/Users/altair/github/gba-naruto/tools/butano/mgba_gpu_state_dump.lua",
+  "script_sha256": "52cca12fd3943e31477a6dd4781ee7e7061d2e030f7a2dd9b9c15b45c74c5e2b"
+}

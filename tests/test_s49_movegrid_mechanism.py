@@ -112,10 +112,34 @@ class S49MoveGridMechanismTest(unittest.TestCase):
             tilemap = frame["bg3_tilemap"]
             self.assertEqual(tilemap["non_zero_cells"], 1024)
 
-    def test_no_alpha_blending_is_active(self) -> None:
-        self.assertFalse(self.receipt["blending_enabled"])
-        self.assertEqual(self.grid["registers"]["bldcnt"], "0x0000")
-        self.assertEqual(self.banner["registers"]["bldcnt"], "0x0000")
+    def test_the_original_alpha_blends_with_ten_sixteenths_weights(self) -> None:
+        """The original *does* alpha blend, and the remake already matches it.
+
+        This test used to assert the opposite ("no alpha blending is
+        active"), because the analyzer read BLDCNT at IO offset 0x28 instead
+        of 0x50.  The corrected reading is 0x1744: effect = alpha, enable = 1,
+        and BLDALPHA is 0x0A0A, so both blend weights are 10/16.
+
+        The remake's own overlay uses the same 10/16
+        (``battle_range_ui_blend_numerator/denominator``), so the blend
+        mechanism was never the difference -- the tile graphics and the
+        per-cell selection were.
+        """
+        for frame in (self.grid, self.banner):
+            registers = frame["screen_registers"]
+            self.assertEqual(registers["bldcnt"], "0x1744")
+            self.assertEqual(registers["bldalpha"], "0x0A0A")
+        control = int(self.grid["screen_registers"]["bldcnt"], 16)
+        self.assertEqual((control >> 6) & 1, 1, "the effect must be alpha")
+        self.assertEqual(control & 0x3F, 0x04, "the first target must be BG2")
+        self.assertEqual(
+            (control >> 8) & 0x3F,
+            0x17,
+            "the second target must be BG0+BG1+BG2+OBJ",
+        )
+        alpha = int(self.grid["screen_registers"]["bldalpha"], 16)
+        self.assertEqual(alpha & 0x1F, 10, "the top weight must be 10/16")
+        self.assertEqual((alpha >> 8) & 0x1F, 10, "the bottom weight must be 10/16")
 
     def test_the_banner_frame_is_palette_consistent(self) -> None:
         space = self.banner["colour_space"]
@@ -162,16 +186,19 @@ class S49MoveGridMechanismTest(unittest.TestCase):
         self.assertIn([136, 3, 0, 40], only_here)
 
     def test_the_window_and_blending_are_identical_in_both_frames(self) -> None:
-        # The dimming is not the window and not a blend: WININ/WINOUT/MOSAIC
-        # and BLDCNT are the same in both frames, and BLDCNT is 0 (no alpha
-        # blending at all).  MOSAIC is enabled in both, which is why some
-        # frame colours are not palette entries at all.
+        # The registers are the same in both frames.  The values below are
+        # the *corrected* ones: the analyzer used to read BLDCNT/BLDALPHA/
+        # BLDY/MOSAIC at IO offsets 0x28/0x2A/0x2E/0x48, which are not
+        # those registers on the GBA (they are 0x50/0x52/0x54/0x44).  That
+        # mistake is what produced the old "BLDCNT is 0, so the dimming is
+        # not a blend" conclusion.
         for frame in (self.grid, self.banner):
             registers = frame["screen_registers"]
             self.assertEqual(registers["winin"], "0x00F0")
             self.assertEqual(registers["winout"], "0xFFFF")
-            self.assertEqual(registers["mosaic"], "0x3F3F")
-            self.assertEqual(registers["bldcnt"], "0x0000")
+            self.assertEqual(registers["mosaic"], "0x00A0")
+            self.assertEqual(registers["bldcnt"], "0x1744")
+            self.assertEqual(registers["bldalpha"], "0x0A0A")
         self.assertEqual(
             self.grid["screen_registers"],
             self.banner["screen_registers"],

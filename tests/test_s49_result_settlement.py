@@ -117,8 +117,8 @@ class S49ResultSettlementTest(unittest.TestCase):
         self.assertEqual(self.receipt["round_limit"], 8)
 
     def test_pre_battle_party_matches_the_campaign_defaults(self) -> None:
-        for character_id, expected in ((1, (5, 85)), (2, (4, 150)),
-                                       (3, (5, 115))):
+        for character_id, expected in ((1, (5, 160)), (2, (4, 100)),
+                                       (3, (5, 190))):
             row = self.party[character_id]
             self.assertEqual(
                 (row["level_before"], row["experience_before"]),
@@ -151,17 +151,18 @@ class S49ResultSettlementTest(unittest.TestCase):
                 base + growth * (original["level_after"] - 1) // 100, after)
 
     def test_remake_settlement_is_measured_and_stable(self) -> None:
-        # This is the current behaviour, pinned so that the difference below
-        # cannot drift silently when the experience rule is implemented.
-        self.assertEqual(
-            self.party[1]["gained_total"], 200)
-        self.assertEqual(self.party[1]["level_after"], 5)
-        self.assertEqual(self.party[1]["experience_after"], 285)
-        self.assertEqual(self.party[2]["level_after"], 5)
-        self.assertEqual(self.party[2]["experience_after"], 125)
+        # The original's rule is now implemented: mission experience for
+        # everyone, the round bonus while the round is within the limit, and
+        # the carried experience of the units each member defeated.
+        self.assertEqual(self.party[1]["gained_total"], 250)
+        self.assertEqual(self.party[1]["level_after"], 6)
+        self.assertEqual(self.party[1]["experience_after"], 100)
+        self.assertEqual(self.party[2]["gained_total"], 400)
+        self.assertEqual(self.party[2]["level_after"], 6)
+        self.assertEqual(self.party[2]["experience_after"], 35)
+        self.assertEqual(self.party[3]["gained_total"], 200)
         self.assertEqual(self.party[3]["level_after"], 6)
-        self.assertEqual(self.party[3]["experience_after"], 105)
-        self.assertEqual(self.party[3]["max_hp_after"], 125)
+        self.assertEqual(self.party[3]["experience_after"], 180)
 
     def test_sakura_already_matches_the_original(self) -> None:
         row = self.party[3]
@@ -169,29 +170,28 @@ class S49ResultSettlementTest(unittest.TestCase):
         self.assertEqual(row["level_after"], original["level_after"])
         self.assertEqual(row["max_hp_after"], original["max_hp_after"])
 
-    def test_original_totals_imply_a_per_character_extra(self) -> None:
+    def test_the_carried_experience_follows_the_kills(self) -> None:
         # What the original's post-battle facts *require*:
         #   Naruto  310 (to reach LV6) + 100 (the status page) = 410
-        #   Sasuke  225 + 240 (two levels)                    = 465
-        #   Sakura  210 (one level)                           = 210
-        # The remake pays one flat amount to the whole party, so the extra
-        # each character is owed is pinned here.  It is a *constraint*, not a
-        # rule: the original's per-character share is what is still missing.
+        #   Sasuke  225 + 240 (two levels) + 35 (left over)  = 500
+        #   Sakura  210 (one level) + 180 (left over)        = 390
+        # The flat award is mission + round bonus; the rest is the carried
+        # experience of the units each member defeated (five enemies carry 50
+        # each, credited 1 / 4 / 0 in the original's recorded route).
         flat = (
             self.receipt["mission_experience"]
             + self.receipt["round_bonus_experience"]
         )
-        required = {1: 410, 2: 465, 3: 210}
-        extra = {
+        required = {1: 410, 2: 500, 3: 390}
+        carried = {
             character_id: total - (self.party[character_id][
                 "experience_before"] + flat)
             for character_id, total in required.items()
         }
-        self.assertEqual(extra[1], 125)
-        self.assertGreaterEqual(extra[2], 115)
-        self.assertLessEqual(extra[3], 0)
+        self.assertEqual(carried[1], 50)
+        self.assertEqual(carried[2], 200)
+        self.assertEqual(carried[3], 0)
 
-    @unittest.expectedFailure
     def test_naruto_levels_up_like_the_original(self) -> None:
         # The original ends the battle with Naruto at LV6 and EXP 100/325.
         # The remake pays one flat 200 to the whole party, so Naruto stays at
@@ -212,7 +212,6 @@ class S49ResultSettlementTest(unittest.TestCase):
                          original["experience_after"])
         self.assertEqual(row["max_hp_after"], original["max_hp_after"])
 
-    @unittest.expectedFailure
     def test_sasuke_levels_up_twice_like_the_original(self) -> None:
         # The original ends the battle with Sasuke at LV6, which needs
         # 225 + 240 = 465 of experience; the flat award only reaches 350.

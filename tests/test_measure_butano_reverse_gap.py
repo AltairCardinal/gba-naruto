@@ -290,5 +290,24 @@ class GapMeasurementTest(unittest.TestCase):
         self.assertIn("index", (proc.stderr + proc.stdout).lower())
 
 
+    def test_the_receipt_carries_the_artifact_family_denominator(self) -> None:
+        # The artifact-family denominator moves whenever the reverse work tree
+        # promotes a new family, so it must be read from the receipt and never
+        # hard-coded in prose or in a print statement.
+        payload = json.loads(
+            (ROOT / "artifacts/butano-reverse-gap-v1/gap.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        summary = payload["summary"]
+        families = [
+            row for row in payload["rows"] if row["kind"] == "artifact"
+        ]
+        self.assertEqual(summary["artifact_family_total"], len(families))
+        counted = summary["artifact_family_by_status"]
+        self.assertEqual(sum(counted.values()), len(families))
+        for row in families:
+            self.assertEqual(counted[row["status"]], counted.get(row["status"], 0))
+
 if __name__ == "__main__":
     unittest.main()
