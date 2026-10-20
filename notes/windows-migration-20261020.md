@@ -85,6 +85,24 @@ foreach ($w in @('D:\Shell\Github\gba-naruto','D:\Shell\Github\gba-naruto-butano
 只有 `read-tree HEAD` 清掉 stat 缓存后才真正重写。验真后三工作树
 `git status` 的「跟踪文件被改写」计数均为 **0**。
 
+> **2026-10-20 补记：这条风险不止来自 git，工具自己也会踩。**
+> 本轮用一段 Python 脚本批量替换 `tools/automated_test.py` 的代码，
+> `Path.write_text` 在 Windows 上默认把 `\n` 转成 `\r\n`，
+> **整个文件被改写成 CRLF，而 `git status` 只显示"修改"、不报换行符问题**。
+> 共 3 个受版本控制的文件被污染
+> （`tools/automated_test.py`、`sequel/content/text/dialogue-bank.json`、
+> `sequel/content/text/dialogue-bank-full.json`）。
+>
+> 修法分两层，已落地：
+> 1. `tools/lib/io.py` 的 `write_text()` 强制 `newline="\n"`，
+>    所有写受版本控制文件的工具改用它；
+> 2. `tests/test_line_endings.py` 作为**守卫**：
+>    扫全部受版本控制的文本文件，任何 CRLF 立即失败，
+>    并断言 `core.autocrlf` 仍为 `false`。
+>
+> 也就是说：不能只依赖 git 配置，**写文件的那一端也必须显式声明换行符**。
+> 详见 `notes/re-methodology-improvements-20261020.md` §4.4。
+
 ### 2.2 vendored capstone 是 macOS 轮子
 
 `tools/_vendor/capstone/` 是 pip 轮子内容，**只带 `lib/libcapstone.dylib`**；

@@ -27,12 +27,17 @@ class PositionsIntegrationTests(unittest.TestCase):
         self.assertIn("positions", rom_models.EXTRACTABLE)
 
     def test_build_syncs_rom_mirror_before_generating_patches(self):
-        with tempfile.NamedTemporaryFile(suffix=".db") as temp:
-            db_path = Path(temp.name)
-            summary = build_mod.sync_rom_mirrors(db_path)
-            conn = sqlite3.connect(db_path)
-            count = conn.execute("SELECT COUNT(*) FROM rom_positions").fetchone()[0]
-            conn.close()
+        # NamedTemporaryFile must be closed before sqlite opens the path:
+        # on Windows an open handle blocks the second open, and the test
+        # failed with "unable to open database file" there.
+        temp = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
+        temp.close()
+        db_path = Path(temp.name)
+        self.addCleanup(db_path.unlink, missing_ok=True)
+        summary = build_mod.sync_rom_mirrors(db_path)
+        conn = sqlite3.connect(db_path)
+        count = conn.execute("SELECT COUNT(*) FROM rom_positions").fetchone()[0]
+        conn.close()
         self.assertEqual(summary["positions"], 1728)
         self.assertEqual(count, 1728)
 

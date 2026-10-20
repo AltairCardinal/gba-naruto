@@ -262,7 +262,6 @@ async def delete_battle_config(config_id: int, _: User = Depends(require_permiss
 
 @router.post("/{config_id}/export")
 async def export_battle_config_rom(config_id: int, _: User = Depends(get_current_user)):
-    import struct
     import subprocess
     from datetime import datetime
     
@@ -276,7 +275,8 @@ async def export_battle_config_rom(config_id: int, _: User = Depends(get_current
         raise HTTPException(status_code=404, detail="Battle config not found")
     
     patches = []
-    
+    skipped = []
+
     if row["player_units"] or row["enemy_units"]:
         all_units = []
         units_data = _parse_json(row["player_units"])
@@ -285,37 +285,95 @@ async def export_battle_config_rom(config_id: int, _: User = Depends(get_current
         enemy_data = _parse_json(row["enemy_units"])
         if enemy_data:
             all_units.extend(enemy_data)
-        
+
         if all_units:
-            unit_data = struct.pack(f"<{len(all_units)}H", *[u.get("char_id", 0) for u in all_units][:64])
-            patches.append({
-                "type": "bytes",
-                "offset": 0x53F298,
-                "after_hex": unit_data.hex(),
-                "description": f"Battle config {config_id}: Unit IDs"
+            # 0x53F298 is NOT a character-ID table.  Proved on this ROM
+            # (notes/evidence/units-offset-table-20261020.md): it is a
+            # 43-entry u16 REMAP table whose value is added to a runtime u16
+            # at WRAM 0x0202CA24 and masked back to 16 bits, i.e. an index
+            # into a 64 KB window.  Writing editor char_id values there
+            # destroys the remap and can point the game at arbitrary
+            # memory, and the old 64-entry framing also ran into the
+            # neighbouring table at 0x53F2EE.
+            #
+            # tools/build_db_patches.py::generate_unit_patches already
+            # refuses this write; the editor must not bypass that guard.
+            # The sanctioned path for placing units is the formation
+            # matrix at 0x5461C4.
+            skipped.append({
+                "target": "0x53F298",
+                "reason": (
+                    "0x53F298 is a 43-entry u16 remap table (value + runtime base "
+                    "at 0x0202CA24, masked to 16 bits), not a character-ID table; "
+                    "writing editor char_id there is unsafe"
+                ),
+                "unit_count": len(all_units),
+                "sanctioned_path": "formation matrix 0x5461C4 "
+                                   "(tools/import_battle_config.py::write_formation_record)",
             })
-    
+
     if row["scenario_id"] is not None:
         scenario_id = row["scenario_id"]
-        scenario_offset = 0x53D914 + scenario_id * 32
-        scenario_data = bytes.fromhex("0100000000000000000000000000000002000000")
-        patches.append({
-            "type": "bytes",
-            "offset": scenario_offset,
-            "after_hex": scenario_data.hex(),
-            "description": f"Battle config {config_id}: Scenario {scenario_id}"
-        })
-    
+        # The map descriptor table's base is 0x53D910, NOT 0x53D914.  The
+        # native loader at 0x08069040 computes the slot as
+        # 0x0853D910 + id*32 with no header, so 0x53D914 was the first
+        # entry's +0x04 field (the tile gfx pointer).
+        # See tools/table_registry.py::CONFLICTS['0x53d910'].
+        scenario_offset = 0x53D910 + scenario_id * 32
+        native = _read_native_map_entry(scenario_id)
+        if native is None:
+            skipped.append({
+                "target": f"0x{scenario_offset:06X}",
+                "reason": (
+                    "the native map descriptor for this scenario could not be "
+                    "read from rom/base.gba, so the entry is left untouched"
+                ),
+            })
+        else:
+            # Copy the native entry and only change the field the editor
+            # actually owns.  Writing a partial record here used to zero the
+            # tile gfx / palette / layer0 pointers.
+            scenario_data = bytearray(native)
+            if row.get("background_id") is not None:
+                scenario_data[0x1C] = int(row["background_id"]) & 0xFF
+            patches.append({
+                "type": "bytes",
+                "offset": scenario_offset,
+                "after_hex": bytes(scenario_data).hex(),
+                "description": f"Battle config {config_id}: Scenario {scenario_id}"
+            })
+
     patch_file = f"/root/gba-naruto/build/battle-config-{config_id}-{datetime.now().strftime('%Y%m%d%H%M%S')}.json"
     import os
     os.makedirs("/root/gba-naruto/build", exist_ok=True)
-    
+
     with open(patch_file, "w") as f:
         json.dump({"patches": patches}, f, indent=2)
-    
+
     return {
         "status": "exported",
         "config_id": config_id,
         "patch_file": patch_file,
-        "patches_count": len(patches)
+        "patches_count": len(patches),
+        "skipped": skipped,
     }
+
+
+def _read_native_map_entry(scenario_id: int) -> bytes | None:
+    """The native 32-byte map descriptor for a scenario, or None.
+
+    The export path must copy a native entry and change only the fields it
+    owns (the repository-wide write-back model); it may not invent a
+    partial record.
+    """
+    from pathlib import Path
+
+    rom_path = Path(__file__).resolve().parents[3] / "rom" / "base.gba"
+    try:
+        rom = rom_path.read_bytes()
+    except OSError:
+        return None
+    offset = 0x53D910 + scenario_id * 32
+    if offset < 0 or offset + 32 > len(rom):
+        return None
+    return rom[offset:offset + 32]

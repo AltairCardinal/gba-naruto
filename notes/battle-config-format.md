@@ -26,12 +26,19 @@
 - **ARM address**: `0x0853D910`
 - **File offset**: `0x53D910`
 - **Entry size**: **32 bytes**
-- **Total entries**: 8 valid entries (indices 0–7)
+- **Total entries**: **47 valid entries (indices 0–46)**; index 47 onward is garbage
+  (`raw_width = 513`, pointers outside ROM)
 - **Index formula**: `entry_ptr = 0x0853D910 + chapter_id * 32`
+  (the reader at `0x08069002` masks the index to 8 bits and computes
+  `index << 5` at `0x08069044`)
 
-> **CORRECTED 2026-10-20** — 此前本文件与 `notes/chapter-flow-format.md` 各自给出一套
-> 互相矛盾的 32 字节布局（一份把 palette 放在 +0x10、flags 在 +0x18；
-> 另一份把宽高放在 +0x00 且把 gfx 放在 +0x04）。两套都**与实测不符**。
+> **CORRECTED 2026-10-20** — 本文件原先写"8 valid entries (0–7)"，是**旧误判**。
+> 本轮用 LZ77 解压长度对**全部 47 条**逐条自证（见下），每一条都满足
+> 4 个等式，无一例外 ⇒ 表长是 47，不是 8。
+>
+> 此前本文件与 `notes/chapter-flow-format.md` 各自给出一套互相矛盾的 32 字节布局
+> （一份把 palette 放在 +0x10、flags 在 +0x18；另一份把宽高放在 +0x00 且把 gfx
+> 放在 +0x04）。两套都**与实测不符**。
 > 正确布局已由 `tools/probe_external_re_claims.py` 在本仓库 ROM 上按
 > LZ77 解压长度逐字段验证，详见 `notes/external-konoha-workshop-gap-20261020.md` §2.1。
 
@@ -52,8 +59,54 @@
 > 与 图块宽(92/4=23) × 图块高(64/2=32) × 每格 2 字节 精确吻合；
 > metatiles 解压长度 = 6160 = 770 × 8 字节，吻合 8 字节/项。
 > entry 1、entry 3 同样吻合。
+>
+> **2026-10-20 补：47 条全部自证。** 每条都满足
+> `len(layer0) = 2 × cells × 2`、`len(layer1) ∈ {0, 2 × cells × 2}`、
+> `len(metatile) ≡ 0 (mod 8)`、`len(terrain) = cells × 2`
+> （cells = (raw_width>>2) × (raw_height>>1)）。逐条数据见
+> `notes/evidence/mechanism-sprite-background-20261020.md` §4.4。
 
-**Valid scenarios (IDs 0–7) — dims CORRECTED 2026-10-20:**
+### 原生读取器 `0x08068FF0`（2026-10-20 补）
+
+```
+0x08069040: ldr  r5, [pc, #0x98]     ; r5 = 0x0853D910（表基址）
+0x08069044: lsls r6, r2, #5          ; index * 32
+0x0806904A: ldr  r0, [r0]            ; entry+0x04 tile_gfx
+0x08069056: bl   #0x809c0e8          ; LZ77UnCompVram → 0x06000000 + charblock*0x4000
+0x08069060: ldr  r0, [r0]            ; entry+0x08 palette
+0x08069066: bl   #0x809c0e8          ; LZ77UnCompVram → 0x05000000
+0x08069070: ldr  r0, [r0]            ; entry+0x0C layer0
+0x08069076: bl   #0x809c0ec          ; LZ77UnCompWram → 0x0201BE2C
+0x08069080: ldr  r2, [r0]            ; entry+0x10 layer1
+0x08069082: cmp  r2, #0
+0x08069084: beq  #0x0806909e         ; ← NULL ⇒ 跳过整个 layer 1
+0x08069096: adds r1, r4, r7          ; layer1 → 0x0201BE2C + 0x1000
+0x0806909A: bl   #0x809c0ec
+0x080690A4: ldr  r0, [r0]            ; entry+0x14 metatile
+0x080690A8: bl   #0x809c0ec          ; LZ77UnCompWram → 0x0201DE2C
+```
+
+**「没有 layer 1」的判据 = `layer1_ptr` 是 NULL 指针（0）**，没有别的哨兵值。
+47 条里 14 条非空（0,7,8,9,10,11,12,21,22,23,31,32,34,35），33 条为 0。
+
+**metatile 缓冲与容量**：
+
+| 项 | 值 | 证据 |
+|---|---|---|
+| 缓冲地址 | WRAM `0x0201DE2C` | `0x080690A6` 的字面量 |
+| 条目大小 | **8 字节**（4 × u16 图块描述符 = 2×2 图块） | `0x08068F38 lsls r0, r0, #3` |
+| 容量 | **2048 个 metatile** | 缓冲上界 0x4000 字节（见下） |
+| 实测最大用量 | **770**（entry 0） | 47 条的 metatile 解压长度全是 8 的整数倍 |
+
+缓冲的两端由**原生代码写过的其它结构**夹出：
+下方是 layer 平面区（`0x0201BE2C`，layer1 在 `+0x1000`），
+上方是地图格表 `0x02021E2C`（`0x08080FC8` / `0x08080FD4` 写入），
+⇒ metatile 缓冲 = `0x0201DE2C .. 0x02021E2C` = **0x4000 = 16384 字节** = 2048 个 metatile。
+
+> ⚠️ 2048 是**由上下两块原生结构夹出来的上界**，不是从一条显式的分配语句读出来的；
+> 本轮未找到对该缓冲做 memset / 显式分配的代码。
+
+**Sample entries (IDs 0–7) — dims CORRECTED 2026-10-20**（表里实际有 47 条有效项，这里只列前 8 条作为样本）:
 | ID | 图块 W×H | tile_gfx (file) | palette (file) | layer0 (file) | metatiles (file) | terrain (file) | +0x1C |
 |---|---|---|---|---|---|---|---|
 | 0 | 23×32 | 0x0B9F80 | 0x0BD608 | 0x0BD70C | 0x0BE10C | 0x0BF250 | 1 |

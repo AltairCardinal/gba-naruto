@@ -10,12 +10,21 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from tools.lib import load_json
+from tools import text_codec
 
 
-def build_patch(bank_entry: dict, content_entry: dict) -> list[dict]:
-    encoding = bank_entry.get("encoding", "cp932")
+def build_patch(
+    bank_entry: dict,
+    content_entry: dict,
+    mapping: dict[int, str] | None = None,
+) -> list[dict]:
+    # "font" is the game's own double-byte font code.  It is the only encoding
+    # whose bytes the game can render as the authored characters - see
+    # notes/font-encoding.md.  Legacy cp932 entries still build, but
+    # text_codec.encode() warns about them.
+    encoding = bank_entry.get("encoding", text_codec.FONT_ENCODING)
     text = content_entry["text"]
-    encoded = text.encode(encoding)
+    encoded = text_codec.encode(text, encoding, mapping)
     max_bytes = int(bank_entry["max_bytes"])
 
     if len(encoded) <= max_bytes:
@@ -79,6 +88,7 @@ def import_dialogue(
     bank_path: Path,
     content_path: Path,
     overrides: dict[str, str] | None = None,
+    rom_path: Path | None = None,
 ) -> list[dict]:
     """Convert high-level dialogue content into ROM patch entries.
 
@@ -89,11 +99,14 @@ def import_dialogue(
                    whatever is in dialogue-patches.json. Used by build_db_patches
                    to inject dialogues created via the editor (which live in
                    sequel/editor.db) without rewriting the content JSON file.
+        rom_path: Optional ROM used for the font code table. Defaults to
+                  rom/base.gba; only needed for encoding="font" entries.
     """
     bank = load_json(bank_path)
     content = load_json(content_path)
     bank_map = {entry["id"]: entry for entry in bank["entries"]}
     patches = []
+    mapping: dict[int, str] | None = None
     for entry in content["entries"]:
         patch_id = entry["id"]
         if patch_id not in bank_map:
@@ -101,7 +114,11 @@ def import_dialogue(
         # Apply editor override if present
         if overrides is not None and patch_id in overrides:
             entry = {**entry, "text": overrides[patch_id]}
-        result = build_patch(bank_map[patch_id], entry)
+        bank_entry = bank_map[patch_id]
+        encoding = bank_entry.get("encoding", text_codec.FONT_ENCODING)
+        if encoding == text_codec.FONT_ENCODING and mapping is None:
+            mapping, _ = text_codec.load_mapping(rom_path)
+        result = build_patch(bank_entry, entry, mapping)
         patches.extend(result)
     return patches
 
@@ -115,12 +132,20 @@ def main() -> int:
         "--content", default="sequel/content/text/dialogue-patches.json"
     )
     parser.add_argument("--output", help="Optional output JSON path")
+    parser.add_argument(
+        "--rom",
+        default=None,
+        help="ROM used for the font code table (default rom/base.gba)",
+    )
     args = parser.parse_args()
 
-    patches = import_dialogue(ROOT / args.bank, ROOT / args.content)
+    patches = import_dialogue(
+        ROOT / args.bank, ROOT / args.content, rom_path=args.rom
+    )
     text = json.dumps({"patches": patches}, ensure_ascii=False, indent=2) + "\n"
     if args.output:
-        (ROOT / args.output).write_text(text, encoding="utf-8")
+        from tools.lib.io import write_text as write_text_lf
+        write_text_lf(ROOT / args.output, text)
     else:
         print(text, end="")
     return 0

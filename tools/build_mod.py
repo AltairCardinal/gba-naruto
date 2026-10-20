@@ -66,6 +66,65 @@ def sha1_file(path: Path) -> str:
     return h.hexdigest()
 
 
+def changed_ranges(a: bytes, b: bytes, chunk: int = 4096) -> list[tuple[int, int]]:
+    """Merged (start, end) ranges where two ROM buffers differ.
+
+    A whole-ROM comparison, so it also catches bytes that changed without any
+    patch declaring them.  Chunked so the common case (no change) stays fast.
+    """
+    n = min(len(a), len(b))
+    ranges: list[tuple[int, int]] = []
+    start: int | None = None
+    for base in range(0, n, chunk):
+        end = min(base + chunk, n)
+        if a[base:end] == b[base:end]:
+            if start is not None:
+                ranges.append((start, base))
+                start = None
+            continue
+        for i in range(base, end):
+            if a[i] != b[i]:
+                if start is None:
+                    start = i
+            elif start is not None:
+                ranges.append((start, i))
+                start = None
+    if start is not None:
+        ranges.append((start, n))
+    return ranges
+
+
+def merge_ranges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    merged: list[tuple[int, int]] = []
+    for start, end in sorted(ranges):
+        if merged and start <= merged[-1][1]:
+            merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+        else:
+            merged.append((start, end))
+    return merged
+
+
+def subtract_ranges(target: list[tuple[int, int]],
+                    covered: list[tuple[int, int]]) -> list[tuple[int, int]]:
+    """Ranges of `target` that are not covered by `covered`."""
+    out: list[tuple[int, int]] = []
+    for start, end in target:
+        cursor = start
+        for c_start, c_end in covered:
+            if c_end <= cursor:
+                continue
+            if c_start >= end:
+                break
+            if c_start > cursor:
+                out.append((cursor, min(c_start, end)))
+            cursor = max(cursor, c_end)
+            if cursor >= end:
+                break
+        if cursor < end:
+            out.append((cursor, end))
+    return out
+
+
 def load_context(project_path: Path) -> BuildContext:
     project = json.loads(project_path.read_text(encoding="utf-8"))
     base_rom_path = ROOT / project["base_rom"]["path"]
@@ -423,6 +482,18 @@ def build(project_path: Path) -> dict:
     ctx.output_rom_path.write_bytes(data)
     built_sha1 = sha1_file(ctx.output_rom_path)
 
+    # --- change radius: every byte that differs from the base ROM must sit
+    # inside a range some patch declared.  A byte that changed without a
+    # declaration is a bug in the generator, not a feature.
+    declared = merge_ranges([
+        (int(p["offset"]), int(p["offset"]) + int(p["length"]))
+        for p in applied
+        if "offset" in p and "length" in p
+    ])
+    diff = merge_ranges(changed_ranges(base_data, bytes(data)))
+    undeclared = subtract_ranges(diff, declared)
+    changed_bytes = sum(end - start for start, end in diff)
+
     report: dict[str, Any] = {
         "project": ctx.project["project_id"],
         "base_rom": {
@@ -448,11 +519,35 @@ def build(project_path: Path) -> dict:
             "db_real": sum(p.get("patch_source") == "db_real" for p in applied),
             "db_audit": sum(p.get("patch_source") == "db_audit" for p in applied),
         },
+        "change_radius": {
+            "changed_bytes": changed_bytes,
+            "changed_range_count": len(diff),
+            "changed_ranges": [
+                {"start": hex(s), "end": hex(e), "length": e - s}
+                for s, e in diff[:200]
+            ],
+            "changed_ranges_truncated": len(diff) > 200,
+            "declared_range_count": len(declared),
+            "undeclared_change_count": len(undeclared),
+            "undeclared_changes": [
+                {"start": hex(s), "end": hex(e), "length": e - s}
+                for s, e in undeclared[:50]
+            ],
+        },
         "patch_manifest": str(manifest_path.relative_to(ROOT)),
     }
+    if undeclared:
+        raise ValueError(
+            "change radius violation: the build changed bytes outside every "
+            "declared patch range:\n"
+            + "\n".join(f"  0x{s:X}..0x{e:X} ({e - s} bytes)"
+                        for s, e in undeclared[:20])
+        )
     ctx.report_path.parent.mkdir(parents=True, exist_ok=True)
-    ctx.report_path.write_text(
-        json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
+    from tools.lib.io import write_text as write_text_lf
+    write_text_lf(
+        ctx.report_path,
+        json.dumps(report, ensure_ascii=False, indent=2) + "\n",
     )
     return report
 

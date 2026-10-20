@@ -86,7 +86,8 @@ def extract_structure(rom: bytes, bank_path: Path, dry_run=False) -> tuple[str, 
             'rom_offset': offset,
             'rom_offset_hex': f'0x{offset:X}',
         }
-        bank_path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n')
+        from tools.lib.io import write_text as write_text_lf
+        write_text_lf(bank_path, json.dumps(data, indent=2, ensure_ascii=False) + '\n')
     return 'ok', count
 
 def main():

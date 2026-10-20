@@ -1,25 +1,39 @@
 #!/usr/bin/env python3
 """
-Phase 5.3 — Extract ALL SJIS/GBK text segments from the dialogue region.
+Phase 5.3 — Extract ALL text segments from the dialogue region.
 
 The dialogue pointer table at 0x461CE8 references 50 dialogue slots
 (some null), but the actual dialogue text region (0x458000-0x460000)
-contains 200+ additional SJIS/GBK-encoded text blocks. These are
-referenced indirectly via game engine state or are unused slots from
-the development process.
+contains 200+ additional text blocks. These are referenced indirectly via
+game engine state or are unused slots from the development process.
 
 This script extracts all segments and writes dialogue-bank-full.json.
 The importer then loads them into editor.db.
 
-Note: these bytes were originally SJIS Japanese (GBA's native text
-encoding). 熊组 2004 年的汉化 ROM 在这些位置替换了部分字节为
-GBK 编码中文，但因为 GBA text engine 不支持 GBK 双字节字符，
-cp932 和 GBK 两种解码都不能完美还原——结果就是编辑器里看到
-"乱码"。这是 ROM 真实数据的限制，不是 extract bug。
+Encoding (corrected 2026-10-20):
+    The ROM does NOT store Shift-JIS.  It stores a custom double-byte font
+    code (lead byte 0x80..0x9F) that indexes the ROM's own bitmap font.
+    Decoding those bytes as cp932/gbk produced the mojibake this script used
+    to emit.  See notes/font-encoding.md and
+    notes/text-writeback-migration-20261020.md.
+
+    Consequence: this ROM is the 熊组 Chinese localization, so the decoded
+    text *is* the Chinese text.  There is no recoverable original Japanese
+    here - the Japanese was replaced by the patch.  `text_zh` therefore holds
+    the real text, and `text_ja` mirrors it so the editor shows readable
+    content in the column it edits.
 """
 import json
 import struct
+import sys
 from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[1]
+for _p in (REPO, REPO / "tools"):
+    if str(_p) not in sys.path:
+        sys.path.insert(0, str(_p))
+
+from tools import text_codec  # noqa: E402
 
 ROM_PATH = Path('build/naruto-sequel-dev.gba')
 OUTPUT = Path('sequel/content/text/dialogue-bank-full.json')
@@ -44,6 +58,12 @@ def safe_decode(data: bytes, encoding: str) -> str:
 def main():
     rom = ROM_PATH.read_bytes()
     print(f'ROM: {ROM_PATH} ({len(rom)} bytes)')
+
+    mapping, _ = text_codec.load_mapping()
+
+    def font_decode(raw: bytes) -> str:
+        """Decode ROM text bytes with the game's own font codes."""
+        return text_codec.decode(raw, mapping)
 
     # Region 1: dialogue pointer table at 0x461CE8 (50 entries)
     # This is the canonical dialogue slot list.
@@ -73,12 +93,11 @@ def main():
             if text_offset + j >= len(rom) or rom[text_offset + j] == 0x00:
                 real_len = j
                 break
-        text_ja = safe_decode(raw[:real_len], 'cp932')
-        text_zh = safe_decode(raw[:real_len], 'gbk')
+        text = font_decode(raw[:real_len])
         dialogue_entries.append({
             'idx': i, 'slot': f'group{i}',
-            'text_ja': text_ja,
-            'text_zh': text_zh,
+            'text_ja': text,
+            'text_zh': text,
             'raw_hex': raw[:real_len].hex(),
             'text_len': real_len,
             'text_offset': text_offset,
@@ -102,8 +121,8 @@ def main():
             i += 1
         seg = rom[seg_start:i]
         if len(seg) >= 20:
-            text_ja = safe_decode(seg, 'cp932')
-            text_zh = safe_decode(seg, 'gbk')
+            text_ja = font_decode(seg)
+            text_zh = text_ja
             cn_count = sum(1 for c in text_zh if '\u4e00' <= c <= '\u9fff')
             region2.append({
                 'idx': seg_idx,
@@ -122,14 +141,14 @@ def main():
     region3 = []
     title_start = 0x00076D
     title_seg = rom[title_start:title_start + 412]
-    text_ja = safe_decode(title_seg, 'cp932')
-    text_zh = safe_decode(title_seg, 'gbk')
+    text_ja = font_decode(title_seg)
+    text_zh = text_ja
     region3.append({
         'idx': 0,
         'slot': f'titlescreen_0x00076D',
         'text_ja': text_ja,
         'text_zh': text_zh,
-        'raw_hex': title_seg[:text_ja.encode('cp932', errors='ignore') and 412].hex(),
+        'raw_hex': title_seg.hex(),
         'text_len': 412,
         'text_offset': title_start,
         'source': 'titlescreen_0x00076D',
@@ -138,7 +157,12 @@ def main():
     all_entries = dialogue_entries + region2 + region3
 
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT.write_text(json.dumps(all_entries, ensure_ascii=False, indent=2))
+    # Explicit UTF-8: the default locale codec (gbk on Windows) cannot encode
+    # the katakana / full-width punctuation the ROM's text contains.
+    from tools.lib.io import write_text as write_text_lf
+    write_text_lf(
+        OUTPUT, json.dumps(all_entries, ensure_ascii=False, indent=2)
+    )
     print(f'\nWrote {len(all_entries)} entries to {OUTPUT}')
     print(f'  - dialogue_pointer_table: {len(dialogue_entries)} (50 slots, {sum(1 for e in dialogue_entries if not e.get("empty"))} non-empty)')
     print(f'  - region 0x458000-0x460000: {len(region2)} segments')

@@ -1,5 +1,31 @@
 # 逆向工程 Bank 完成度审计
 
+> **⚠️ 本文件已被取代（2026-10-20）。现行审计见
+> [`notes/completion-audit-20261020.md`](completion-audit-20261020.md)。**
+>
+> **为什么取代**：本文件（生成于 2026-07-11）的判据是**元数据齐全**——
+> `table_offset` / `format` / `entries` / `verification` / 文档引用 /
+> 基准 ROM 字节一致——因此得出 "32/32 完整"。它自己在下一行就写明
+> *"no runtime or write-back validation ... cannot prove runtime semantics
+> or actual write-back closure"*：**元数据齐全不等于结构被证明**。
+>
+> 自 2026-07-11 起仓库发生的变化，旧文件完全没有反映：
+> 文本编码从 cp932 更正为自定义双字节字形码（写回链已端到端验收）、
+> 剧情脚本 VM / 战斗条件表 / 任务文字三表 / 奖励表 / 头像表 / 机关效果表
+> 等一批新结构被定位并证明、证据分级从 3 档扩到 4 档。
+>
+> 新审计（`tools/completion_audit.py` 可复现）覆盖 **46 个结构**，
+> 判据是"格式有没有被**独立证明**"：
+> **L4 = 0 / L3 = 1 / L2 = 0 / L1 = 15 / 无独立证据 = 30**。
+>
+> **两个数字不可直接比较**：旧 = 32 个 bank 元数据齐全；
+> 新 = 46 个结构（32 bank + 14 个新确认结构）格式被独立证明。
+>
+> 本文件的历史内容**原样保留**如下，仅作对照参考。
+> 注意：重跑 `python tools/audit_re_completion.py` 会**覆盖**本文件并丢掉这段横幅；
+> 需要更新横幅时请重新添加，或改用新工具：
+> `python tools/completion_audit.py --note notes/completion-audit-20261020.md`。
+
 生成时间：`2026-07-11T06:23:25.351460+00:00`
 
 范围：bank metadata/entries/verification/documentation and base-ROM byte fidelity; no runtime or write-back validation。因此本报告不能证明运行时语义或实际回写闭环。

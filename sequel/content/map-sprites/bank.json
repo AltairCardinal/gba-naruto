@@ -1,350 +1,587 @@
 {
   "version": 1,
-  "description": "Map sprite animation pointer table discovered at ROM offset 0x53F1DC. 47 entries of u32 pointers to sprite animation frame data.",
-  "table_offset": 5501404,
-  "table_offset_hex": "0x53F1DC",
-  "entry_count": 47,
+  "description": "场景对象描述符指针表。2026-10-20 裁决：真实基址是 0x53F140（86 项 u32 指针），旧的 0x53F1DC 只是它第 39 项起的 47 窗口；门禁文档记的 0x53E1DC 不成立。原生读者 0x08080B12（fn 0x08080B08）→ 0x08063494 → 0x080625A4。",
+  "table_offset": 5501248,
+  "table_offset_hex": "0x53F140",
+  "entry_count": 86,
   "entry_size": 4,
   "entry_format": {
+    "description": "u32 指针表，指向 0x0812F5xx 的场景对象/动作描述符记录",
     "fields": [
       {
         "offset": 0,
         "size": 4,
         "name": "sprite_ptr",
         "type": "u32",
-        "description": "Pointer to sprite animation frame data for this map"
+        "description": "指向 0x0812F5xx 的场景对象描述符记录"
       }
     ]
   },
-  "notes": "Map sprite animation pointer table with one entry per map (47 maps total). Each entry points to animation frame data in the 0x12Fxxx region. This table is separate from the sprite animation table at 0x53F200 (which has 38 entries). The target data has the same 16-byte animation frame structure as the sprite animation table. Located between the palette table (0x53F138) and the sprite animation table (0x53F200).",
+  "notes": "【2026-10-20 裁决后】0x53F140 起 86 项 u32 指针，槽 0..85。紧邻其前的 0x53F138..0x53F13F 是两个代码指针 0x080808BD / 0x08080965，属于 88 槽窗口的旧称（palettes / audio 的旧基址）。旧记录的 'map sprite animation pointer table / 47 entries' 是本表第 39 项起的窗口，真实基址 0x53F140。",
   "entries_sample": [
     {
       "index": 0,
-      "offset": 5497308,
-      "offset_hex": "0x53F1DC",
-      "sprite_ptr": "0x0812FA44",
-      "notes": "Map 0 sprite animation"
+      "offset": 5501248,
+      "offset_hex": "0x53F140",
+      "sprite_ptr": "0x0812F5B0"
     },
     {
       "index": 1,
-      "offset": 5497312,
-      "offset_hex": "0x53F1E0",
-      "sprite_ptr": "0x0812FAB0",
-      "notes": "Map 1 sprite animation"
+      "offset": 5501252,
+      "offset_hex": "0x53F144",
+      "sprite_ptr": "0x0812F5BC"
     },
     {
       "index": 2,
-      "offset": 5497316,
-      "offset_hex": "0x53F1E4",
-      "sprite_ptr": "0x0812FABC",
-      "notes": "Map 2 sprite animation"
+      "offset": 5501256,
+      "offset_hex": "0x53F148",
+      "sprite_ptr": "0x0812F5D8"
     },
     {
       "index": 3,
-      "offset": 5497320,
-      "offset_hex": "0x53F1E8",
-      "sprite_ptr": "0x0812FAD8",
-      "notes": "Map 3 sprite animation"
+      "offset": 5501260,
+      "offset_hex": "0x53F14C",
+      "sprite_ptr": "0x0812F5E4"
     },
     {
       "index": 4,
-      "offset": 5497324,
-      "offset_hex": "0x53F1EC",
-      "sprite_ptr": "0x0812FAE4",
-      "notes": "Map 4 sprite animation"
+      "offset": 5501264,
+      "offset_hex": "0x53F150",
+      "sprite_ptr": "0x0812F600"
+    },
+    {
+      "index": 5,
+      "offset": 5501268,
+      "offset_hex": "0x53F154",
+      "sprite_ptr": "0x0812F60C"
     }
   ],
-  "verification_method": "Static analysis - found 47 consecutive u32 pointers at 0x53F1DC, all pointing to valid ROM addresses in 0x12Fxxx region. Target data has consistent 16-byte animation frame structure.",
-  "discovered_by": "Searching for 47-entry pointer tables matching map count",
+  "verification_method": "2026-10-20 裁决：LiteralIndex 全 ROM 扫描确认 0x0853F140 有 1 个原生读者 (0x08080B12, fn 0x08080B08)，0x0853F1DC 与 0x0853E1DC 均为 0 个读者；86 项全部是合法 ROM 指针。",
+  "discovered_by": "alias 裁决 2026-10-20 (tools/alias_audit.py + tools/consumer_locate.py)",
   "entries": [
+    {
+      "_raw_offset": 5501248,
+      "sprite_ptr": 135460272,
+      "sprite_ptr_hex": "0812f5b0",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5501252,
+      "sprite_ptr": 135460284,
+      "sprite_ptr_hex": "0812f5bc",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5501256,
+      "sprite_ptr": 135460312,
+      "sprite_ptr_hex": "0812f5d8",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5501260,
+      "sprite_ptr": 135460324,
+      "sprite_ptr_hex": "0812f5e4",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5501264,
+      "sprite_ptr": 135460352,
+      "sprite_ptr_hex": "0812f600",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5501268,
+      "sprite_ptr": 135460364,
+      "sprite_ptr_hex": "0812f60c",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5501272,
+      "sprite_ptr": 135460392,
+      "sprite_ptr_hex": "0812f628",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5501276,
+      "sprite_ptr": 135460404,
+      "sprite_ptr_hex": "0812f634",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5501280,
+      "sprite_ptr": 135460432,
+      "sprite_ptr_hex": "0812f650",
+      "_index": 8
+    },
+    {
+      "_raw_offset": 5501284,
+      "sprite_ptr": 135460444,
+      "sprite_ptr_hex": "0812f65c",
+      "_index": 9
+    },
+    {
+      "_raw_offset": 5501288,
+      "sprite_ptr": 135460472,
+      "sprite_ptr_hex": "0812f678",
+      "_index": 10
+    },
+    {
+      "_raw_offset": 5501292,
+      "sprite_ptr": 135460484,
+      "sprite_ptr_hex": "0812f684",
+      "_index": 11
+    },
+    {
+      "_raw_offset": 5501296,
+      "sprite_ptr": 135460512,
+      "sprite_ptr_hex": "0812f6a0",
+      "_index": 12
+    },
+    {
+      "_raw_offset": 5501300,
+      "sprite_ptr": 135460524,
+      "sprite_ptr_hex": "0812f6ac",
+      "_index": 13
+    },
+    {
+      "_raw_offset": 5501304,
+      "sprite_ptr": 135460552,
+      "sprite_ptr_hex": "0812f6c8",
+      "_index": 14
+    },
+    {
+      "_raw_offset": 5501308,
+      "sprite_ptr": 135460564,
+      "sprite_ptr_hex": "0812f6d4",
+      "_index": 15
+    },
+    {
+      "_raw_offset": 5501312,
+      "sprite_ptr": 135460592,
+      "sprite_ptr_hex": "0812f6f0",
+      "_index": 16
+    },
+    {
+      "_raw_offset": 5501316,
+      "sprite_ptr": 135460604,
+      "sprite_ptr_hex": "0812f6fc",
+      "_index": 17
+    },
+    {
+      "_raw_offset": 5501320,
+      "sprite_ptr": 135460632,
+      "sprite_ptr_hex": "0812f718",
+      "_index": 18
+    },
+    {
+      "_raw_offset": 5501324,
+      "sprite_ptr": 135460644,
+      "sprite_ptr_hex": "0812f724",
+      "_index": 19
+    },
+    {
+      "_raw_offset": 5501328,
+      "sprite_ptr": 135461072,
+      "sprite_ptr_hex": "0812f8d0",
+      "_index": 20
+    },
+    {
+      "_raw_offset": 5501332,
+      "sprite_ptr": 135461084,
+      "sprite_ptr_hex": "0812f8dc",
+      "_index": 21
+    },
+    {
+      "_raw_offset": 5501336,
+      "sprite_ptr": 135461112,
+      "sprite_ptr_hex": "0812f8f8",
+      "_index": 22
+    },
+    {
+      "_raw_offset": 5501340,
+      "sprite_ptr": 135461124,
+      "sprite_ptr_hex": "0812f904",
+      "_index": 23
+    },
+    {
+      "_raw_offset": 5501344,
+      "sprite_ptr": 135461152,
+      "sprite_ptr_hex": "0812f920",
+      "_index": 24
+    },
+    {
+      "_raw_offset": 5501348,
+      "sprite_ptr": 135461164,
+      "sprite_ptr_hex": "0812f92c",
+      "_index": 25
+    },
+    {
+      "_raw_offset": 5501352,
+      "sprite_ptr": 135461192,
+      "sprite_ptr_hex": "0812f948",
+      "_index": 26
+    },
+    {
+      "_raw_offset": 5501356,
+      "sprite_ptr": 135461204,
+      "sprite_ptr_hex": "0812f954",
+      "_index": 27
+    },
+    {
+      "_raw_offset": 5501360,
+      "sprite_ptr": 135461232,
+      "sprite_ptr_hex": "0812f970",
+      "_index": 28
+    },
+    {
+      "_raw_offset": 5501364,
+      "sprite_ptr": 135461244,
+      "sprite_ptr_hex": "0812f97c",
+      "_index": 29
+    },
+    {
+      "_raw_offset": 5501368,
+      "sprite_ptr": 135461272,
+      "sprite_ptr_hex": "0812f998",
+      "_index": 30
+    },
+    {
+      "_raw_offset": 5501372,
+      "sprite_ptr": 135461284,
+      "sprite_ptr_hex": "0812f9a4",
+      "_index": 31
+    },
+    {
+      "_raw_offset": 5501376,
+      "sprite_ptr": 135461312,
+      "sprite_ptr_hex": "0812f9c0",
+      "_index": 32
+    },
+    {
+      "_raw_offset": 5501380,
+      "sprite_ptr": 135461324,
+      "sprite_ptr_hex": "0812f9cc",
+      "_index": 33
+    },
+    {
+      "_raw_offset": 5501384,
+      "sprite_ptr": 135461352,
+      "sprite_ptr_hex": "0812f9e8",
+      "_index": 34
+    },
+    {
+      "_raw_offset": 5501388,
+      "sprite_ptr": 135461364,
+      "sprite_ptr_hex": "0812f9f4",
+      "_index": 35
+    },
+    {
+      "_raw_offset": 5501392,
+      "sprite_ptr": 135461392,
+      "sprite_ptr_hex": "0812fa10",
+      "_index": 36
+    },
+    {
+      "_raw_offset": 5501396,
+      "sprite_ptr": 135461404,
+      "sprite_ptr_hex": "0812fa1c",
+      "_index": 37
+    },
+    {
+      "_raw_offset": 5501400,
+      "sprite_ptr": 135461432,
+      "sprite_ptr_hex": "0812fa38",
+      "_index": 38
+    },
     {
       "_raw_offset": 5501404,
       "sprite_ptr": 135461444,
-      "sprite_ptr_hex": "44fa1208",
-      "_index": 0
+      "sprite_ptr_hex": "0812fa44",
+      "_index": 39
     },
     {
       "_raw_offset": 5501408,
       "sprite_ptr": 135461552,
-      "sprite_ptr_hex": "b0fa1208",
-      "_index": 1
+      "sprite_ptr_hex": "0812fab0",
+      "_index": 40
     },
     {
       "_raw_offset": 5501412,
       "sprite_ptr": 135461564,
-      "sprite_ptr_hex": "bcfa1208",
-      "_index": 2
+      "sprite_ptr_hex": "0812fabc",
+      "_index": 41
     },
     {
       "_raw_offset": 5501416,
       "sprite_ptr": 135461592,
-      "sprite_ptr_hex": "d8fa1208",
-      "_index": 3
+      "sprite_ptr_hex": "0812fad8",
+      "_index": 42
     },
     {
       "_raw_offset": 5501420,
       "sprite_ptr": 135461604,
-      "sprite_ptr_hex": "e4fa1208",
-      "_index": 4
+      "sprite_ptr_hex": "0812fae4",
+      "_index": 43
     },
     {
       "_raw_offset": 5501424,
       "sprite_ptr": 135461632,
-      "sprite_ptr_hex": "00fb1208",
-      "_index": 5
+      "sprite_ptr_hex": "0812fb00",
+      "_index": 44
     },
     {
       "_raw_offset": 5501428,
       "sprite_ptr": 135461644,
-      "sprite_ptr_hex": "0cfb1208",
-      "_index": 6
+      "sprite_ptr_hex": "0812fb0c",
+      "_index": 45
     },
     {
       "_raw_offset": 5501432,
       "sprite_ptr": 135461672,
-      "sprite_ptr_hex": "28fb1208",
-      "_index": 7
+      "sprite_ptr_hex": "0812fb28",
+      "_index": 46
     },
     {
       "_raw_offset": 5501436,
       "sprite_ptr": 135461684,
-      "sprite_ptr_hex": "34fb1208",
-      "_index": 8
+      "sprite_ptr_hex": "0812fb34",
+      "_index": 47
     },
     {
       "_raw_offset": 5501440,
       "sprite_ptr": 135461712,
-      "sprite_ptr_hex": "50fb1208",
-      "_index": 9
+      "sprite_ptr_hex": "0812fb50",
+      "_index": 48
     },
     {
       "_raw_offset": 5501444,
       "sprite_ptr": 135461724,
-      "sprite_ptr_hex": "5cfb1208",
-      "_index": 10
+      "sprite_ptr_hex": "0812fb5c",
+      "_index": 49
     },
     {
       "_raw_offset": 5501448,
       "sprite_ptr": 135461752,
-      "sprite_ptr_hex": "78fb1208",
-      "_index": 11
+      "sprite_ptr_hex": "0812fb78",
+      "_index": 50
     },
     {
       "_raw_offset": 5501452,
       "sprite_ptr": 135461764,
-      "sprite_ptr_hex": "84fb1208",
-      "_index": 12
+      "sprite_ptr_hex": "0812fb84",
+      "_index": 51
     },
     {
       "_raw_offset": 5501456,
       "sprite_ptr": 135461792,
-      "sprite_ptr_hex": "a0fb1208",
-      "_index": 13
+      "sprite_ptr_hex": "0812fba0",
+      "_index": 52
     },
     {
       "_raw_offset": 5501460,
       "sprite_ptr": 135461804,
-      "sprite_ptr_hex": "acfb1208",
-      "_index": 14
+      "sprite_ptr_hex": "0812fbac",
+      "_index": 53
     },
     {
       "_raw_offset": 5501464,
       "sprite_ptr": 135461832,
-      "sprite_ptr_hex": "c8fb1208",
-      "_index": 15
+      "sprite_ptr_hex": "0812fbc8",
+      "_index": 54
     },
     {
       "_raw_offset": 5501468,
       "sprite_ptr": 135461844,
-      "sprite_ptr_hex": "d4fb1208",
-      "_index": 16
+      "sprite_ptr_hex": "0812fbd4",
+      "_index": 55
     },
     {
       "_raw_offset": 5501472,
       "sprite_ptr": 135461872,
-      "sprite_ptr_hex": "f0fb1208",
-      "_index": 17
+      "sprite_ptr_hex": "0812fbf0",
+      "_index": 56
     },
     {
       "_raw_offset": 5501476,
       "sprite_ptr": 135461884,
-      "sprite_ptr_hex": "fcfb1208",
-      "_index": 18
+      "sprite_ptr_hex": "0812fbfc",
+      "_index": 57
     },
     {
       "_raw_offset": 5501480,
       "sprite_ptr": 135461912,
-      "sprite_ptr_hex": "18fc1208",
-      "_index": 19
+      "sprite_ptr_hex": "0812fc18",
+      "_index": 58
     },
     {
       "_raw_offset": 5501484,
       "sprite_ptr": 135461924,
-      "sprite_ptr_hex": "24fc1208",
-      "_index": 20
+      "sprite_ptr_hex": "0812fc24",
+      "_index": 59
     },
     {
       "_raw_offset": 5501488,
       "sprite_ptr": 135460672,
-      "sprite_ptr_hex": "40f71208",
-      "_index": 21
+      "sprite_ptr_hex": "0812f740",
+      "_index": 60
     },
     {
       "_raw_offset": 5501492,
       "sprite_ptr": 135460684,
-      "sprite_ptr_hex": "4cf71208",
-      "_index": 22
+      "sprite_ptr_hex": "0812f74c",
+      "_index": 61
     },
     {
       "_raw_offset": 5501496,
       "sprite_ptr": 135460712,
-      "sprite_ptr_hex": "68f71208",
-      "_index": 23
+      "sprite_ptr_hex": "0812f768",
+      "_index": 62
     },
     {
       "_raw_offset": 5501500,
       "sprite_ptr": 135460724,
-      "sprite_ptr_hex": "74f71208",
-      "_index": 24
+      "sprite_ptr_hex": "0812f774",
+      "_index": 63
     },
     {
       "_raw_offset": 5501504,
       "sprite_ptr": 135461472,
-      "sprite_ptr_hex": "60fa1208",
-      "_index": 25
+      "sprite_ptr_hex": "0812fa60",
+      "_index": 64
     },
     {
       "_raw_offset": 5501508,
       "sprite_ptr": 135461484,
-      "sprite_ptr_hex": "6cfa1208",
-      "_index": 26
+      "sprite_ptr_hex": "0812fa6c",
+      "_index": 65
     },
     {
       "_raw_offset": 5501512,
       "sprite_ptr": 135461512,
-      "sprite_ptr_hex": "88fa1208",
-      "_index": 27
+      "sprite_ptr_hex": "0812fa88",
+      "_index": 66
     },
     {
       "_raw_offset": 5501516,
       "sprite_ptr": 135461524,
-      "sprite_ptr_hex": "94fa1208",
-      "_index": 28
+      "sprite_ptr_hex": "0812fa94",
+      "_index": 67
     },
     {
       "_raw_offset": 5501520,
       "sprite_ptr": 135461952,
-      "sprite_ptr_hex": "40fc1208",
-      "_index": 29
+      "sprite_ptr_hex": "0812fc40",
+      "_index": 68
     },
     {
       "_raw_offset": 5501524,
       "sprite_ptr": 135461964,
-      "sprite_ptr_hex": "4cfc1208",
-      "_index": 30
+      "sprite_ptr_hex": "0812fc4c",
+      "_index": 69
     },
     {
       "_raw_offset": 5501528,
       "sprite_ptr": 135461992,
-      "sprite_ptr_hex": "68fc1208",
-      "_index": 31
+      "sprite_ptr_hex": "0812fc68",
+      "_index": 70
     },
     {
       "_raw_offset": 5501532,
       "sprite_ptr": 135462004,
-      "sprite_ptr_hex": "74fc1208",
-      "_index": 32
+      "sprite_ptr_hex": "0812fc74",
+      "_index": 71
     },
     {
       "_raw_offset": 5501536,
       "sprite_ptr": 135460752,
-      "sprite_ptr_hex": "90f71208",
-      "_index": 33
+      "sprite_ptr_hex": "0812f790",
+      "_index": 72
     },
     {
       "_raw_offset": 5501540,
       "sprite_ptr": 135460764,
-      "sprite_ptr_hex": "9cf71208",
-      "_index": 34
+      "sprite_ptr_hex": "0812f79c",
+      "_index": 73
     },
     {
       "_raw_offset": 5501544,
       "sprite_ptr": 135460812,
-      "sprite_ptr_hex": "ccf71208",
-      "_index": 35
+      "sprite_ptr_hex": "0812f7cc",
+      "_index": 74
     },
     {
       "_raw_offset": 5501548,
       "sprite_ptr": 135460824,
-      "sprite_ptr_hex": "d8f71208",
-      "_index": 36
+      "sprite_ptr_hex": "0812f7d8",
+      "_index": 75
     },
     {
       "_raw_offset": 5501552,
       "sprite_ptr": 135460872,
-      "sprite_ptr_hex": "08f81208",
-      "_index": 37
+      "sprite_ptr_hex": "0812f808",
+      "_index": 76
     },
     {
       "_raw_offset": 5501556,
       "sprite_ptr": 135460884,
-      "sprite_ptr_hex": "14f81208",
-      "_index": 38
+      "sprite_ptr_hex": "0812f814",
+      "_index": 77
     },
     {
       "_raw_offset": 5501560,
       "sprite_ptr": 135460912,
-      "sprite_ptr_hex": "30f81208",
-      "_index": 39
+      "sprite_ptr_hex": "0812f830",
+      "_index": 78
     },
     {
       "_raw_offset": 5501564,
       "sprite_ptr": 135460924,
-      "sprite_ptr_hex": "3cf81208",
-      "_index": 40
+      "sprite_ptr_hex": "0812f83c",
+      "_index": 79
     },
     {
       "_raw_offset": 5501568,
       "sprite_ptr": 135460952,
-      "sprite_ptr_hex": "58f81208",
-      "_index": 41
+      "sprite_ptr_hex": "0812f858",
+      "_index": 80
     },
     {
       "_raw_offset": 5501572,
       "sprite_ptr": 135460964,
-      "sprite_ptr_hex": "64f81208",
-      "_index": 42
+      "sprite_ptr_hex": "0812f864",
+      "_index": 81
     },
     {
       "_raw_offset": 5501576,
       "sprite_ptr": 135460992,
-      "sprite_ptr_hex": "80f81208",
-      "_index": 43
+      "sprite_ptr_hex": "0812f880",
+      "_index": 82
     },
     {
       "_raw_offset": 5501580,
       "sprite_ptr": 135461004,
-      "sprite_ptr_hex": "8cf81208",
-      "_index": 44
+      "sprite_ptr_hex": "0812f88c",
+      "_index": 83
     },
     {
       "_raw_offset": 5501584,
       "sprite_ptr": 135461032,
-      "sprite_ptr_hex": "a8f81208",
-      "_index": 45
+      "sprite_ptr_hex": "0812f8a8",
+      "_index": 84
     },
     {
       "_raw_offset": 5501588,
       "sprite_ptr": 135461044,
-      "sprite_ptr_hex": "b4f81208",
-      "_index": 46
+      "sprite_ptr_hex": "0812f8b4",
+      "_index": 85
     }
   ],
-  "verification": "static_verified",
+  "verification": "code_verified",
   "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 47,
-    "rom_offset": 5501404,
-    "rom_offset_hex": "0x53F1DC"
+    "tool": "tools/alias_audit.py",
+    "extracted_count": 86,
+    "rom_offset": 5501248,
+    "rom_offset_hex": "0x53F140",
+    "note": "2026-10-20 别名裁决，详见 notes/alias-conflicts-20261020.md"
   }
 }

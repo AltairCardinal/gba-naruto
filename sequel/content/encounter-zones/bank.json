@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "description": "Map encounter zone mapping derived from map header table. Each map has a zone_id field (u32 at offset 28) that controls encounter behavior. The zone_id is used by the battle system to determine which encounter table to use when the player is on that map.",
+  "description": "遭遇区 bank。2026-10-20 裁决：encounter-zones 与 maps 是同一张 32 字节地图描述符表（同一基址 0x53D910、同样 47 条 x 32 字节），encounter-zones 降级为 maps 的弃用别名。原生消费者 0x08069040（fn 0x08068FF0 地图 loader）以 32 字节步长索引该表。",
   "table_offset": 5495056,
   "table_offset_hex": "0x53D910",
   "entry_count": 47,
@@ -232,7 +232,7 @@
   "verification_method": "Static analysis of map header table at 0x53D910. Zone ID field at offset 28 confirmed by examining all 47 map entries. Values 1-7 plus 258 (0x0102) observed. Cross-referenced with map event handler table at 0x53EB08 showing 6 unique handlers that reference zone data. Battle event handler table at 0x53E6D8 shows 3 unique handlers.",
   "discovered_by": "Map header table structure analysis + event handler disasm",
   "verification_level": "static_verified",
-  "notes": "Zone ID 258 (0x0102) appears on maps 7 and 8 which have the 0x0102 flag in the map header. These maps share identical pointers to maps 9-12 (zone 3). The zone_id likely indexes into a separate encounter probability table at runtime. The encounter threshold check pattern (CMP + BCC) was not found via static analysis, suggesting the encounter rate is computed dynamically per-zone at runtime.",
+  "notes": "【2026-10-20 裁决后】本 bank 是 maps 的弃用别名视图，不再声称独立的遭遇区表。zone_id 字段（+0x1C）与 maps 的同位置字段语义仍未裁决。",
   "entries": [
     {
       "_raw_offset": 5495056,
@@ -1269,11 +1269,15 @@
       "_index": 46
     }
   ],
-  "verification": "static_verified",
+  "verification": "merged-alias",
   "extraction": {
     "tool": "tools/extract_all_structures.py",
     "extracted_count": 47,
     "rom_offset": 5495056,
     "rom_offset_hex": "0x53D910"
-  }
+  },
+  "alias_of": "maps",
+  "alias_status": "deprecated",
+  "alias_verdict": "merge",
+  "alias_note": "同址冲突已裁决（merge）：规范名 maps。+0x1C 字段在本 bank 里叫 zone_id，在 maps 里叫剧情底图 ID，两种读法都未经证实，暂以 maps 的字段名为准并保持未决标记。详见 notes/alias-conflicts-20261020.md。"
 }

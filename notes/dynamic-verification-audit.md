@@ -29,7 +29,7 @@ prove the dialogue render path, not the separate `fonts` bank at `0x53E5B4`.
 
 | # | Structure (important ROM offset) | Level | Strongest durable evidence and limitation |
 |---:|---|---|---|
-| 1 | audio (`0x53F138`) | code | `sequel/content/audio/bank.json` records dispatcher `0x08079668`, indexed table `0x08599634`, and call sites. No audio command/table access was captured live. The bank offset also collides with `palettes`, so the bank identity needs correction before a dynamic patch test. |
+| 1 | audio (`0x53F138`) | code | `sequel/content/audio/bank.json` records dispatcher `0x08079668`, indexed table `0x08599634`, and call sites. No audio command/table access was captured live. The bank offset also collides with `palettes`, so the bank identity needs correction before a dynamic patch test. ⚠️ **2026-10-20 更正**：`0x08599634` **不是**音频索引表，实测是**忍具名称文本指针表**（u32[93]，内容为"十字手里剑"等中文）——见 `notes/unknown-bgm-sfx.md`。音频 dispatcher 真正查的表仍需重新定位，本行的 audio 证据等级不成立。 |
 | 2 | battle-config (`0x545458`) | code | `notes/battle-config-format.md` records code reference `0x0806D866 -> 0x08545458`. Existing runtime section says blocked; it contains no successful hit. |
 | 3 | battle-encounters (`0x542384`) | static | Pointer/value pattern and parsed entries in the bank/results document only; no encounter selection trace. |
 | 4 | battle-handlers (`0x53E778`) | static | Valid Thumb handler pointers/call-shape analysis only; no breakpoint hit tied to this table. |

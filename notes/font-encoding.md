@@ -5,7 +5,8 @@
 **状态**: ✅ 已静态验证 + 字节级往返验证
 **关联**: `notes/why-external-editor-shipped-20261020.md`（方法论复盘）、
 `notes/external-konoha-workshop-gap-20261020.md`（差集清单）、
-`notes/story-script-vm.md`（剧情脚本 VM）
+`notes/story-script-vm.md`（剧情脚本 VM）、
+`notes/text-writeback-migration-20261020.md`（写回路径迁移，**已落地**）
 
 ---
 
@@ -30,6 +31,13 @@
 与 `import_dialogue_var.py`（默认 encoding="cp932" 写回）、
 `tools/import_rom_to_editor.py`（注释断言 "GBA's native text encoding is SJIS"）
 全部建立在错误前提上。**其中写回类工具会用错误编码改写 ROM，需要按本文修正。**
+
+> **2026-10-20 更新**：写回类工具已全部改为字形码（见 §7 与
+> `notes/text-writeback-migration-20261020.md`）。
+> 附带查明：**此前所有对白补丁写进 ROM 的都是玩家读不懂的乱码**，
+> 因为作者写的日文被按 cp932 编码进了中文字形 ROM；
+> 而且历次验收只检查"字节落位"，从未检查"渲染成什么"。
+> 现在 `tools/verify_text_writeback.py` 直接回读渲染结果作为门禁。
 
 ---
 
@@ -62,6 +70,51 @@ seg12 start=0x9040 count=189   seg25 start=0x9C40 count=255
 ```
 
 全码位空间为 `0x8140..0x9D3F`，共 4261 个有效码位。
+
+### 1.1 这张表只对应 8×8 字形（2026-10-20 修正）
+
+用无头 mGBA 探针把场景 54 的对白**真的画出来**之后（画面见
+`notes/evidence/story-scene-l3.png`，证据见
+`notes/evidence/story-scene-l3-20261020.md`），实测：
+
+- 对白框里的**汉字是 16×16**（而这张段表的字形是 8×8 4bpp / 32 字节）；
+- 字距实测约 12 px = 汉字 16 px + ASCII 标点 8 px，即**两种宽度并存**；
+- 渲染器 `0x08065EB8` 取字形时是 `lsls r0, r0, #5`（×32），
+  证实这张表只服务 8×8 的小字（任务文字、名牌一类）；
+- 全 ROM 扫描**没有**找到第二张同构的段表（31 项、start 递增、count>0、
+  glyph offset 合法），所以 16×16 对话字形的来源**尚未定位**。
+
+### 1.2 再修正一次：对话汉字的位图在**第三处**（2026-10-20 晚）
+
+把屏幕像素反查成调色板索引后逐字节比对给出更强的结论：
+
+| 结论 | 证据 |
+|---|---|
+| 对话汉字是 **16×16**、ASCII 标点是 **8×8** | 屏幕字距实测；两者都不是 `0x53D644` 的 8×8 4bpp 位图 |
+| `0x53D644` 这张表的 32 字节字形**无法**复现屏幕上的汉字 | 试遍 8×8 4bpp / 8×16 2bpp / 16×8 2bpp / 16×16 1bpp / 2 倍放大各向，最佳平均差异 27/128 像素（真正匹配应为 0） |
+| **「屏幕 → 调色板索引 → ROM 字节」的反推链在密集汉字上不成立** | 16×16 单元重测：**所有**文字格都匹配不上。文字带抗锯齿/半透明混合，屏幕颜色不是字形索引的直接投影 |
+
+> **一次被推翻的断言（留档）**：本轮曾据上述反推链声称「屏幕上一个 8×16 单元与
+> ROM `0x0813E209` 的 32 字节逐字节相同」。**该断言是错的** ——
+> 那个格子只有 2 个墨迹像素，匹配到的是 ROM 里的**零填充区**。
+
+**候选表（均未证实）**：`0x0813E040`（u16 字形偏移表）、
+`0x0813E120`（字形数据）、`0x0596D60`（u32 指针表）、
+`0x0142A70`（24 字节步进指针表）、`0x0142AC0`（(u16 code, u16 count) 对表）。
+清单与留档见 `notes/resource-locations.md`。
+
+**因此本文件的适用范围要写清楚**：
+
+- `0x53D644` 描述的是**字形码的编码**（码位 → 汉字）以及它自己那套 8×8 4bpp 位图。
+  码位空间 `0x8140..0x9D3F`（4261 个）**在全 ROM 通用** ——
+  剧本解码出的中文与屏幕显示逐字一致（`notes/evidence/text-encoding-l3-20261020.md`）。
+- **对话汉字的位图数据**属于另一处 ROM 数据，本轮只列出**候选**，
+  **既没有证实**哪一张是它，**也没有**解出「码位 → 字形偏移」的索引规则。
+
+> 待办：先用**渲染器**（而非屏幕反推）确定对话字体的位图格式 ——
+> 即在宿主里加一条「把 VRAM 里的 tile 反汇编成位图」的能力，
+> 或直接读出文本层 tile 的原始 4bpp 数据；
+> 然后把屏幕像素与 ROM 字形逐位对上。
 
 ## 2. 文本扫描规则
 
@@ -224,23 +277,31 @@ names = konoha_font.read_character_names(rom, mapping)
 
 ## 7. 对既有工具的影响与待办
 
-| 工具 | 问题 | 建议 |
-|---|---|---|
-| `tools/extract_dialogue_full.py` | 用 cp932/gbk 双解，必然乱码 | 改用 `konoha_font.decode_at` |
-| `tools/extract_text_block.py` | shift_jis 解码 | 同上 |
-| `tools/find_sjis_blocks.py` | 按 SJIS 首字节范围扫描 | 改为按字形段范围扫描 |
-| `tools/patch_sjis.py` | **用 shift_jis 写回，会写坏 ROM** | 改用 `konoha_font.encode_text` |
-| `tools/import_dialogue.py` | 默认 `encoding="cp932"` 写回 | 增加 `encoding="font"` 分支 |
-| `tools/import_dialogue_var.py` | 同上 | 同上 |
-| `tools/import_rom_to_editor.py` | 注释断言 SJIS | 改注释并改用字形码 |
-| `tools/automated_test.py` | 默认 encoding "cp932" | 同步 |
-| `tools/translate_sjis_to_chinese.py` | 手工建映射的旧路子 | 已被字形段映射取代 |
-| `tools/decode_dialogue_record.py` | 依赖手工表 `sjis-to-tile-mapping.json` | 改用 `konoha_font` |
+> **2026-10-20 更新**：写回路径已迁移到字形码，见
+> `notes/text-writeback-migration-20261020.md`。
+> 统一编解码入口为 `tools/text_codec.py`（`encode` / `decode` /
+> `decode_bounded` / `encode_tokens`）。
+> 下表的"建议"列已落实；**遗留项**见该笔记 §5。
 
-**写回类工具在改用字形码之前，应当视为高风险**：
-用 cp932 编码中文写入 ROM 只会得到错误字节，且
-`notes/patch-generator-audit.md` 已有的"原字节校验"只能挡住位置错位，
-挡不住编码错。
+| 工具 | 状态 | 现状 |
+|---|---|---|
+| `tools/text_codec.py` | ✅ 新增 | 统一入口。`encoding="font"` 写字形码；legacy 编码发 `DeprecationWarning` |
+| `tools/import_dialogue.py` | ✅ 已改 | 支持 `encoding="font"`（新增 `--rom`） |
+| `tools/import_dialogue_var.py` | ✅ 已改 | 同上（变长 redirect 路径） |
+| `tools/patch_sjis.py` | ✅ 已改 | 默认 `font`，新增 `--encoding` / `--rom`，打印渲染结果 |
+| `tools/automated_test.py` | ✅ 已改 | 编码套件走字形码，并新增 3 条断言型用例 |
+| `tools/extract_dialogue_full.py` | ✅ 已改 | 字形码解码；写文件显式 UTF-8（Windows 默认 gbk 会崩） |
+| `tools/extract_text_block.py` | ✅ 已改 | 字形码解码 |
+| `tools/import_rom_to_editor.py` | ✅ 已改 | 删除"SJIS / 乱码是 ROM 限制"的错误注释 |
+| `tools/verify_text_writeback.py` | ✅ 新增 | 打补丁后回读渲染文字，断言 == 作者文本 |
+| `tools/find_sjis_blocks.py` | ⚠️ 遗留 | 仍按 SJIS 首字节范围扫描，块列表不可信 |
+| `tools/decode_dialogue_record.py` | ⚠️ 遗留 | 仍依赖手工表 `sjis-to-tile-mapping.json` |
+| `tools/translate_sjis_to_chinese.py` | ⚠️ 已被取代 | 手工建映射的旧路子，现由 `text_codec` 承担 |
+| `sequel/content/text/sjis-to-tile-*.json` | ⚠️ 已废止 | 旧手工表，值本身是双重编码乱码 |
+
+**验收标准已升级**：以前的"原字节校验"只能挡位置错位，挡不住编码错；
+现在 `tools/verify_text_writeback.py` 直接回读**渲染结果**，
+`tools/automated_test.py` 也新增了"patched dialogue renders as the authored text"。
 
 ## 8. 复现
 
@@ -250,3 +311,84 @@ python tools/font_roundtrip.py
 python tools/decode_story_script.py --scene 1
 python tools/dump_story_text.py --all --out build/story_text.txt
 ```
+
+---
+
+## 9. 反向映射的规范化（2026-10-20 补，取代 §2.2 的实现描述）
+
+> §2.2 记录的"反向映射取最小码位"是**实现细节**，不是**判据**。
+> 本节给出判据本身，并说明为什么"取最小"在 8 个重复字上**结果恰好正确**。
+
+### 9.1 码位空间不是一整段
+
+本次新查明（详见 `notes/evidence/font-reverse-mapping-20261020.md`）：
+
+```
+0x8140..0x889E   符号 / 假名 / 拉丁 块          418 个有标签
+0x889F..0x9CC3   基准段：GB2312 一级字表拼音序   3754 个有标签
+0x9873..0x989E   扩展段 A（插在基准段中间）      44 槽 / 39 个有标签
+0x9CC4..0x9D3E   扩展段 B（接在基准段后面）     283 槽 / 50 个有标签 + 73 填充
+```
+
+* 基准段里 **GB2312 一级字表 3755 个字中有 3754 个按拼音序原样出现**，
+  只缺 **编**（它被挪到扩展段 B 的 `0x9CC4`）；另有 **旋** 的槽位放着 **漩**。
+* 扩展段 A/B 的 89 个字，**除"编"以外全部不在 GB2312 一级字表里**
+  —— 它们本来就是给生僻字补的。
+
+### 9.2 规范规则
+
+> **一个字符用它在基准段里的码位编码。**
+> 扩展段那一份是**冗余重复拼写**（基准段已经按 GB2312 标准槽位带着这个字），
+> 因此不是规范码位。
+
+8 个重复字（吵/吨/嘎/哼/鸣/摸/嘻/吱）**每一个**都是
+"一个基准段码位 + 一个扩展段码位"，且**基准段码位都更小**。
+所以旧实现取最小码位**结果上是对的**，但那是碰巧对的；
+新实现把理由固定下来，并让 `tools/font_roundtrip.py` 每次运行都复核。
+
+### 9.3 实现
+
+* `tools/text_codec.py`
+  * `EXTENSION_BLOCK_RANGES` —— 两个扩展段的码位区间；
+  * `build_canonical_reverse_mapping()` —— 规则实现 + 逐字证据报告；
+  * `canonical_mapping()` —— 只保留规范码位的 code→char 表，
+    `encode()` 改走它，公开 API 不变；
+  * `roundtrip_report()` —— 4261 个码位逐个往返自检。
+* `tools/font_roundtrip.py` —— 24 项机器断言（失败即 exit 1）：
+  (a) 4261/4261 往返；(b) 反向映射无歧义；
+  (c) 每个重复字恰好一基准段 + 一扩展段码位，且"取最小"与规范规则逐字一致；
+  (5) 从 ROM 重新推导扩展段，必须与 `text_codec` 的常量推出的 89 个码位**完全相同**。
+
+### 9.4 边界：字节级一致性不是 100%
+
+8 个字里有 5 个（吵/哼/鸣/嘻/吱）**游戏自身两种拼写都在用**，
+所以"字符 → 码位"这种单值映射**在原理上无法**让
+`encode(decode(bytes)) == bytes` 对它们成立。
+**改写已有文本必须走 token 流**（`text_codec.encode_tokens()`，原样保留码位）；
+纯字符串编码只适用于**全新文本**。
+
+### 9.5 附带发现
+
+ROM 里除字形码文本外，**还有 GB2312 编码的中文数据**
+（例 `0x4DDB00`、`0x4C0C90`）。
+这解释了为什么"按字节对全 ROM 扫"会产生大量假命中 ——
+扫描器必须带"≥3 个字形码 + 全部可查 + CJK 占比 ≥70%"的判据。
+
+### 9.6 复现
+
+```powershell
+python tools/font_roundtrip.py     # 24 项断言，失败即 exit 1
+python tools/text_codec.py --self-test   # 4261/4261
+```
+
+### 9.7 两个遗留工具已退役（2026-10-20 晚）
+
+§7 的工具表里这两行仍写着"⚠️ 遗留"，现已处理：
+
+| 工具 | 处置 | 说明 |
+|---|---|---|
+| `tools/find_sjis_blocks.py` | ✅ 已重写 | 不再按 SJIS 首字节扫，改按**字形码**规则扫 ROM 的文本段并用 `text_codec` 解码。文件名的 "sjis" 已是历史遗留（`notes/completion-audit.py` 仍引用它，故保留文件名）。实测本 ROM 找到 9119 个文本块。 |
+| `tools/decode_dialogue_record.py` | ✅ 已重写 | 不再依赖手工表 `sjis-to-tile-mapping.json`，改走 `text_codec`；并纠正了"0x8B62 是换行分隔符"的错误 —— `0x8B62` 其实是字形码 U+7684「的」。原表里的 30 个偏移是 **IWRAM 地址**（旧 RAM dump 的状态表），当成 ROM 文件偏移读只会得到乱码，工具现在会明确提示这一点。 |
+
+两者都**不再使用 cp932/Shift-JIS**，也不再读已废止的手工表；
+可用 `python tools/find_sjis_blocks.py` 与 `python tools/decode_dialogue_record.py` 直接复现。

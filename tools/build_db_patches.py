@@ -41,6 +41,32 @@ DB_SENTINEL = 0xDB5B0001
 ROM_POINTER_MIN = 0x08000000
 ROM_POINTER_MAX = 0x085FFFFF
 
+# --- Sprite action table (0x596CCC) --------------------------------------
+# Adjudicated base (tools/table_registry.py::TABLES["sprite_action_table"]).
+# Index = id*144 + action*16; each entry is four u32 ROM pointers.
+# The legacy address 0x53F200 has NO native reader -- it is a window inside
+# the 0x53F140 object-pointer array and must never be written.
+SPRITE_ACTION_TABLE_OFFSET = 0x596CCC
+SPRITE_ACTION_STRIDE = 16
+SPRITE_ACTION_ENTRY_COUNT = 576
+SPRITE_ACTION_POINTER_COLUMNS = (
+    (0x00, "frames_ptr"),
+    (0x04, "animations_ptr"),
+    (0x08, "gfx_ptr"),
+    (0x0C, "palette_ptr"),
+)
+
+# --- Level data block table (0x53DF70) -------------------------------------
+# 4 entries of 8 bytes; each entry is a pointer pair (LZ77 4bpp tiles,
+# LZ77 16-colour palette).  Proved by the native reader 0x08072F0C.
+LEVEL_BLOCK_TABLE_OFFSET = 0x53DF70
+LEVEL_BLOCK_STRIDE = 8
+LEVEL_BLOCK_ENTRY_COUNT = 4
+LEVEL_BLOCK_POINTER_COLUMNS = (
+    (0x00, "gfx_ptr"),
+    (0x04, "palette_ptr"),
+)
+
 # Per-table key fields: (column_A, column_B, identifier_column)
 # identifier_column is the unique-ish string we put in bytes 32-63.
 TABLE_LAYOUT: dict[str, tuple[str, str, str]] = {
@@ -801,27 +827,75 @@ def generate_editor_dialogue_overrides(db_path: Path) -> dict[str, str]:
     bank entry id, expose its text_ja as an override. This lets build_mod.py
     feed these overrides into import_dialogue so dialogue text authored via
     the editor actually replaces the hard-coded text in the ROM.
+
+    Two facts make the naive key comparison useless, and both are handled
+    here:
+
+    1. **The two id spaces do not intersect.**  editor.db's `dialogues.key`
+       comes from ``dialogue-bank-full.json``'s ``slot`` (``group0``,
+       ``group1``, ...), while the write-back bank and the content file use
+       ``group0.main`` / ``group0.label1`` / ....  The rows are therefore
+       joined **by ROM offset**: the full bank records the text offset of
+       every slot, and the write-back bank records the text offset of every
+       entry, so ``slot -> offset -> entry id`` is a well defined join.
+    2. **The seeded text is not the ROM's text.**  The full bank is
+       extracted from ``build/naruto-sequel-dev.gba`` and its decoded text
+       does not match ``rom/base.gba`` (e.g. slot ``group0`` decodes to the
+       dev build's version marker).  Pushing the seeded text back into the
+       base ROM would silently overwrite real dialogue, so only rows whose
+       text **differs from the seed** are treated as author edits.
     """
     if not db_path.exists():
         return {}
 
-    # Bank entry ids are the canonical identifiers for dialogue slots.
-    bank_path = Path(__file__).resolve().parent.parent / "sequel" / "content" / "text" / "dialogue-bank.json"
-    if not bank_path.exists():
+    content_dir = Path(__file__).resolve().parent.parent / "sequel" / "content" / "text"
+    bank_path = content_dir / "dialogue-bank.json"
+    full_path = content_dir / "dialogue-bank-full.json"
+    if not bank_path.exists() or not full_path.exists():
         return {}
     bank = json.loads(bank_path.read_text(encoding="utf-8"))
-    bank_ids = {entry["id"] for entry in bank.get("entries", [])}
+    full = json.loads(full_path.read_text(encoding="utf-8"))
+
+    # offset -> slot, and the seeded text of every slot
+    slot_by_offset: dict[int, str] = {}
+    seed_text: dict[str, str] = {}
+    for entry in full:
+        if entry.get("empty"):
+            continue
+        slot = entry.get("slot")
+        offset = entry.get("text_offset")
+        if not slot or offset is None:
+            continue
+        slot_by_offset.setdefault(int(offset), slot)
+        seed_text[slot] = entry.get("text_ja") or entry.get("text_zh") or ""
+
+    # slot -> write-back entry id (the ids the content file and the bank use)
+    entry_id_by_slot: dict[str, str] = {}
+    for entry in bank.get("entries", []):
+        offset = entry.get("text_rom_offset")
+        if offset is None:
+            continue
+        slot = slot_by_offset.get(int(offset))
+        if slot:
+            entry_id_by_slot[slot] = entry["id"]
 
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
     overrides: dict[str, str] = {}
     try:
         for row in conn.execute("SELECT key, text_ja, text_zh FROM dialogues"):
-            key = row["key"]
-            if key in bank_ids:
-                text = row["text_ja"] or row["text_zh"] or ""
-                if text:
-                    overrides[key] = text
+            slot = row["key"]
+            entry_id = entry_id_by_slot.get(slot)
+            if not entry_id:
+                continue
+            text = row["text_ja"] or row["text_zh"] or ""
+            if not text:
+                continue
+            seed = seed_text.get(slot)
+            if seed is not None and text == seed:
+                # untouched seed: the content file stays authoritative
+                continue
+            overrides[entry_id] = text
     except sqlite3.OperationalError:
         pass
     finally:
@@ -1057,17 +1131,74 @@ def generate_character_stats_b_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_cutscene_script_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for cutscene script rows.
+    """Generate ROM patches for the level data block table (0x53DF70).
 
-    Each row writes one validated u32 directly to the game-consumed table.
-    The cutscene script table at 0x53DF70 contains 17 entries of u32
-    pointers to cutscene/script data.
+    The table is **4 entries of 8 bytes** -- each entry a pointer pair
+    (LZ77 4bpp tiles, LZ77 16-colour palette) -- as proved by the single
+    native reader 0x08072F0C (stride 8, see
+    `notes/evidence/cutscene-block-format-20261020.md`).
+
+    The old model ("16 entries of u32") spanned two different tables and
+    let an index reach 0x53DFB0, the start of the next one.
     """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_cutscene_scripts", index_column="_idx",
-        pointer_column="script_ptr", table_offset=0x53DF70,
-        entry_count=16, pointer_kind="data",
-    )
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            "SELECT _idx, _rom_offset, gfx_ptr, palette_ptr "
+            "FROM rom_cutscene_scripts ORDER BY _idx"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    patches: list[dict[str, Any]] = []
+    seen: set[int] = set()
+    for row in rows:
+        try:
+            index = int(row["_idx"])
+            if not 0 <= index < LEVEL_BLOCK_ENTRY_COUNT:
+                raise ValueError(
+                    f"index {index} outside 0..{LEVEL_BLOCK_ENTRY_COUNT - 1}")
+            if index in seen:
+                raise ValueError(f"duplicate index {index}")
+            seen.add(index)
+            expected_offset = LEVEL_BLOCK_TABLE_OFFSET + index * LEVEL_BLOCK_STRIDE
+            if int(row["_rom_offset"]) != expected_offset:
+                raise ValueError(
+                    f"stale _rom_offset 0x{int(row['_rom_offset']):X}; "
+                    f"expected 0x{expected_offset:X}")
+            for field_offset, column in LEVEL_BLOCK_POINTER_COLUMNS:
+                value = row[column]
+                if value is None:
+                    continue
+                pointer = int(value)
+                if pointer != 0 and not ROM_POINTER_MIN <= pointer <= ROM_POINTER_MAX:
+                    raise ValueError(
+                        f"{column} 0x{pointer:08X} outside 48 Mbit ROM address range")
+                patches.append({
+                    "type": "bytes",
+                    "offset": expected_offset + field_offset,
+                    "after_hex": struct.pack("<I", pointer).hex(),
+                    "length": 4,
+                    "description": (
+                        f"DB[rom_cutscene_scripts] idx={index}: {column} "
+                        f"= 0x{pointer:08X}"),
+                    "db_table": "rom_cutscene_scripts",
+                    "db_row_id": index,
+                })
+        except Exception as exc:
+            patches.append({
+                "type": "db_cutscene_script_error",
+                "db_table": "rom_cutscene_scripts",
+                "db_row_id": int(row["_idx"]),
+                "error": str(exc),
+                "description": (
+                    f"DB[rom_cutscene_scripts] idx={row['_idx']} error: {exc}"),
+            })
+    conn.close()
+    return patches
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
@@ -1212,16 +1343,22 @@ def generate_map_event_patches(db_path: Path) -> list[dict[str, Any]]:
     )
 
 def generate_map_sprite_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for map sprite data pointers.
+    """Generate validated real-ROM patches for scene object descriptor pointers.
 
-    Each row writes one validated u32 directly to the game-consumed table.
-    The map sprite table at 0x53F1DC contains 47 entries of u32 pointers
-    to sprite animation frame data.
+    The canonical base is ``0x53F140`` -- 86 u32 pointers read by
+    ``0x08080B12`` (fn ``0x08080B08``), indexed ``id*11``.
+
+    .. warning::
+       The old base ``0x53F1DC`` is **not** a table start: it is
+       ``0x53F140 + 0x9C``, i.e. item 39 of the same array
+       (``tools/table_registry.py::CONFLICTS['0x53f1dc']``).  The generator
+       now uses the adjudicated base and the full 86-entry count, which is
+       also what ``sequel/content/map-sprites/bank.json`` declares.
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_map_sprites", index_column="_idx",
-        pointer_column="sprite_ptr", table_offset=0x53F1DC,
-        entry_count=47, pointer_kind="data",
+        pointer_column="sprite_ptr", table_offset=0x53F140,
+        entry_count=86, pointer_kind="data",
     )
 
 def generate_menu_ui_patches(db_path: Path) -> list[dict[str, Any]]:
@@ -1238,17 +1375,45 @@ def generate_menu_ui_patches(db_path: Path) -> list[dict[str, Any]]:
     )
 
 def generate_palette_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for palette rows.
+    """Reject the falsified ``palettes`` table identity.
 
-    Each row writes one validated u32 directly to the game-consumed table.
-    The palette table at 0x53F138 contains 88 entries of u32 pointers
-    to 16-color RGB555 palette data.
+    ``0x53F138`` has **no native reader** and is not a palette table: the
+    two words there (``0x080808BD`` / ``0x08080965``) are the head of the
+    86-entry scene-object descriptor array that really starts at
+    ``0x53F140`` (see ``tools/table_registry.py::CONFLICTS['0x53f138']`` and
+    ``notes/alias-conflicts-20261020.md``).  The sprite palette data itself
+    lives in the **fourth** pointer of every sprite action entry
+    (``0x596CCC + id*144 + action*16 + 12``), each pointing at a 32-byte
+    16-colour BGR555 block.
+
+    Writing 88 pointers at ``0x53F138`` would overwrite the head of a live
+    table with unrelated values, so the bank is kept read-only and the
+    canonical write path is :func:`generate_sprite_animation_patches`.
     """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_palettes", index_column="_idx",
-        pointer_column="palette_ptr", table_offset=0x53F138,
-        entry_count=88, pointer_kind="rom",
-    )
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            "SELECT _idx, palette_ptr FROM rom_palettes ORDER BY _idx"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    conn.close()
+    return [{
+        "type": "db_palette_unmapped",
+        "db_table": "rom_palettes",
+        "db_row_id": int(row["_idx"]),
+        "error": (
+            "0x53F138 is not a palette table: it is the head of the 86-entry "
+            "scene-object descriptor array at 0x53F140; the sprite palette "
+            "pointer is the fourth pointer of each sprite action entry"),
+        "description": (
+            f"DB[rom_palettes] idx={row['_idx']}: skipped unsafe 0x53F138 "
+            f"write -- use rom_sprite_animations.palette_ptr instead"),
+    } for row in rows]
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
@@ -1294,17 +1459,46 @@ def generate_palette_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_resource_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for resource data pointers.
+    """Reject the deprecated ``resource-pointers`` alias view.
 
-    Each row writes one validated u32 directly to the game-consumed table.
-    The resource pointer table at 0x596F0C contains 20 entries of u32
-    pointers to resource data.
+    ``0x596F0C`` is **not** an independent resource-pointer table: it is
+    ``0x596CCC + 0x240``, i.e. entry 36 (id 4 / action 0) of the sprite
+    action table, and the 20 u32 slots it spans are the four pointer kinds
+    (``frames`` / ``animations`` / ``gfx`` / ``palette``) of five action
+    entries.  See ``tools/table_registry.py::CONFLICTS['0x596f0c']`` and
+    ``notes/alias-conflicts-20261020.md``.
+
+    A single ``resource_ptr`` column cannot say *which* of the four kinds it
+    means, so writing it would overwrite an arbitrary pointer of a live
+    sprite record.  The bank is therefore kept as a read-only alias view and
+    the canonical write path is
+    :func:`generate_sprite_animation_patches`.
     """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_resource_pointers", index_column="_idx",
-        pointer_column="resource_ptr", table_offset=0x596F0C,
-        entry_count=20, pointer_kind="data",
-    )
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            "SELECT _idx, resource_ptr FROM rom_resource_pointers ORDER BY _idx"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+    conn.close()
+    return [{
+        "type": "db_resource_pointer_unmapped",
+        "db_table": "rom_resource_pointers",
+        "db_row_id": int(row["_idx"]),
+        "error": (
+            "0x596F0C is a window of the sprite action table 0x596CCC "
+            "(id 4 / action 0), not an independent pointer table; a single "
+            "resource_ptr column cannot select which of the four pointer "
+            "kinds it means"),
+        "description": (
+            f"DB[rom_resource_pointers] idx={row['_idx']}: skipped unsafe "
+            f"0x596F0C write -- use rom_sprite_animations instead"),
+    } for row in rows]
 
 def generate_sappy_engine_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate ROM patches for sappy engine rows.
@@ -1356,25 +1550,41 @@ def generate_sappy_engine_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_save_state_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for save state rows.
+    """Generate ROM patches for the WRAM allocation table.
 
-    Each row writes one validated u32 directly to the game-consumed table.
-    The save state table at 0x53D848 contains 10 entries of 8 bytes
-    (u32 ewram_addr + u32 sram_offset).
+    Each row writes one validated 8-byte record directly to the
+    game-consumed table.  ``0x53D848`` holds 10 records of
+    ``{u32 wram_addr, u32 size}`` -- the second word is the **allocation
+    size**, not a SRAM offset.
+
+    .. warning::
+       The legacy column name ``sram_offset_field`` (and the old "save
+       descriptor" framing) is wrong: ``0x53D848`` is a **WRAM allocation
+       table** with four native readers
+       (``0x0806869A / 0x08068954 / 0x08068CC0 / 0x08068D98``); the save
+       data itself lives in SRAM, not in ROM.  Both the new column name
+       ``alloc_size`` and the legacy one are accepted so an existing editor
+       database keeps working; the value is written as the size either way.
     """
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
-    patches: list[dict[str, Any]] = []
     try:
         rows = conn.execute(
-            "SELECT _idx, _rom_offset, ewram_buffer, sram_offset_field "
-            "FROM rom_save_state ORDER BY _idx"
+            "SELECT _idx, _rom_offset, ewram_buffer, "
+            "alloc_size, sram_offset_field FROM rom_save_state ORDER BY _idx"
         ).fetchall()
     except sqlite3.OperationalError:
-        conn.close()
-        return []
+        try:
+            rows = conn.execute(
+                "SELECT _idx, _rom_offset, ewram_buffer, "
+                "sram_offset_field FROM rom_save_state ORDER BY _idx"
+            ).fetchall()
+        except sqlite3.OperationalError:
+            conn.close()
+            return []
+    patches: list[dict[str, Any]] = []
     for row in rows:
         try:
             save_index = int(row["_idx"])
@@ -1384,14 +1594,19 @@ def generate_save_state_patches(db_path: Path) -> list[dict[str, Any]]:
             if int(row["_rom_offset"]) != offset:
                 raise ValueError("stale _rom_offset")
             ewram_addr = int(row["ewram_buffer"] or 0)
-            sram_offset = int(row["sram_offset_field"] or 0)
-            payload = struct.pack("<II", ewram_addr, sram_offset)
+            keys = row.keys()
+            raw_size = (row["alloc_size"] if "alloc_size" in keys
+                        else row["sram_offset_field"])
+            alloc_size = int(raw_size or 0)
+            payload = struct.pack("<II", ewram_addr, alloc_size)
             patches.append({
                 "type": "bytes",
                 "offset": offset,
                 "after_hex": payload.hex(),
                 "length": 8,
-                "description": f"DB[rom_save_state] idx={save_index}: save descriptor",
+                "description": (f"DB[rom_save_state] idx={save_index}: "
+                                f"WRAM alloc @0x{ewram_addr:08X} "
+                                f"size={alloc_size}"),
                 "db_table": "rom_save_state",
                 "db_row_id": save_index,
             })
@@ -1408,17 +1623,83 @@ def generate_save_state_patches(db_path: Path) -> list[dict[str, Any]]:
 
 
 def generate_sprite_animation_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for animation frame pointers.
+    """Generate validated real-ROM patches for sprite action entries.
 
-    Each row writes one validated u32 directly to the game-consumed table.
-    The sprite animation table at 0x53F200 contains 38 entries of u32
-    pointers to animation frame data.
+    The real sprite action table lives at ``0x596CCC`` and is indexed
+    ``id*144 + action*16``; every entry is 16 bytes = four u32 ROM pointers
+    (``frames`` / ``animations`` / ``gfx`` / ``palette``).
+
+    .. warning::
+       The old address ``0x53F200`` is **falsified**: it has no native
+       reader and is merely a window inside the ``0x53F140`` object-pointer
+       array (see ``notes/alias-conflicts-20261020.md`` and
+       ``tools/table_registry.py::CONFLICTS['0x53f200']``).  Writing there
+       corrupted the object descriptor table, so the generator now uses the
+       adjudicated base and the 16-byte stride.
+
+    Only the pointer columns that actually carry a value are written; a NULL
+    cell means "leave the native bytes alone" (the copy-native-entry model).
     """
-    return _generate_u32_pointer_table_patches(
-        db_path, table="rom_sprite_animations", index_column="_idx",
-        pointer_column="anim_ptr", table_offset=0x53F200,
-        entry_count=38, pointer_kind="data",
-    )
+    if not db_path.exists():
+        return []
+    conn = sqlite3.connect(str(db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            "SELECT _idx, _rom_offset, frames_ptr, animations_ptr, gfx_ptr, "
+            "palette_ptr FROM rom_sprite_animations ORDER BY _idx"
+        ).fetchall()
+    except sqlite3.OperationalError:
+        conn.close()
+        return []
+
+    patches: list[dict[str, Any]] = []
+    seen: set[int] = set()
+    for row in rows:
+        try:
+            index = int(row["_idx"])
+            if not 0 <= index < SPRITE_ACTION_ENTRY_COUNT:
+                raise ValueError(
+                    f"index {index} outside 0..{SPRITE_ACTION_ENTRY_COUNT - 1}")
+            if index in seen:
+                raise ValueError(f"duplicate index {index}")
+            seen.add(index)
+            expected_offset = SPRITE_ACTION_TABLE_OFFSET + index * SPRITE_ACTION_STRIDE
+            if int(row["_rom_offset"]) != expected_offset:
+                raise ValueError(
+                    f"stale _rom_offset 0x{int(row['_rom_offset']):X}; "
+                    f"expected 0x{expected_offset:X}")
+            for field_offset, column in SPRITE_ACTION_POINTER_COLUMNS:
+                value = row[column]
+                if value is None:
+                    continue
+                pointer = int(value)
+                if pointer != 0 and not ROM_POINTER_MIN <= pointer <= ROM_POINTER_MAX:
+                    raise ValueError(
+                        f"{column} 0x{pointer:08X} outside 48 Mbit ROM address range")
+                offset = expected_offset + field_offset
+                patches.append({
+                    "type": "bytes",
+                    "offset": offset,
+                    "after_hex": struct.pack("<I", pointer).hex(),
+                    "length": 4,
+                    "description": (
+                        f"DB[rom_sprite_animations] idx={index}: {column} "
+                        f"= 0x{pointer:08X}"),
+                    "db_table": "rom_sprite_animations",
+                    "db_row_id": index,
+                })
+        except Exception as exc:
+            patches.append({
+                "type": "db_sprite_animation_error",
+                "db_table": "rom_sprite_animations",
+                "db_row_id": int(row["_idx"]),
+                "error": str(exc),
+                "description": (
+                    f"DB[rom_sprite_animations] idx={row['_idx']} error: {exc}"),
+            })
+    conn.close()
+    return patches
 
 def generate_story_b_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for story B byte-stream pointers.
@@ -1483,4 +1764,296 @@ def generate_tile_asset_patches(db_path: Path) -> list[dict[str, Any]]:
         db_path, table="rom_tile_assets", index_column="_idx",
         pointer_column="tile_ptr", table_offset=0x5A3218,
         entry_count=6, pointer_kind="data",
+    )
+
+
+# ---------------------------------------------------------------------------
+# Author-driven write-back patch builders
+#
+# The structure knowledge lives in the import tools (they own the format
+# proofs); this section is their *patch generator* face, so a write-back can
+# be handed to the build pipeline with the usual "bytes" patch shape.
+#
+# Every builder follows the repository write-back model: it reads the native
+# entry out of the ROM, applies the author change to a **copy**, and emits one
+# patch per contiguous changed byte range.  Unknown bytes are therefore never
+# rewritten -- they are not in any patch.
+#
+# These builders are not wired into tools/build_mod.py: the editor DB has no
+# proven row key for the structures below, so the build output must not
+# change until one exists.
+# ---------------------------------------------------------------------------
+
+
+def _read_rom(rom_path: Path) -> bytearray:
+    return bytearray(Path(rom_path).read_bytes())
+
+
+def _diff_patches(native: bytes, patched: bytes, base_offset: int,
+                   patch_id: str, description: str) -> list[dict[str, Any]]:
+    """Emit one "bytes" patch per contiguous changed byte range."""
+    patches: list[dict[str, Any]] = []
+    index = 0
+    while index < len(native):
+        if native[index] == patched[index]:
+            index += 1
+            continue
+        start = index
+        while index < len(native) and native[index] != patched[index]:
+            index += 1
+        patches.append({
+            "id": f"{patch_id}.{len(patches)}",
+            "type": "bytes",
+            "offset": base_offset + start,
+            "before_hex": native[start:index].hex(),
+            "after_hex": patched[start:index].hex(),
+            "length": index - start,
+            "description": description,
+        })
+    return patches
+
+
+def _writeback_patches(rom_path: Path, region_offset: int, region_size: int,
+                       apply, patch_id: str, description: str) -> list[dict[str, Any]]:
+    """Apply one author change to a ROM copy and describe it as patches."""
+    rom = _read_rom(rom_path)
+    native = bytes(rom[region_offset:region_offset + region_size])
+    apply(rom)
+    patched = bytes(rom[region_offset:region_offset + region_size])
+    return _diff_patches(native, patched, region_offset, patch_id, description)
+
+
+def build_character_template_patches(rom_path: Path, character_id: int,
+                                     changes: dict) -> list[dict[str, Any]]:
+    """Write-back patches for one character template entry (0x54241C)."""
+    try:
+        from tools.import_character_template import (
+            TEMPLATE_STRIDE, template_offset, write_character_template,
+        )
+    except ModuleNotFoundError:  # direct ``python tools/build_db_patches.py``
+        from import_character_template import (
+            TEMPLATE_STRIDE, template_offset, write_character_template,
+        )
+    offset = template_offset(character_id)
+    return _writeback_patches(
+        rom_path, offset, TEMPLATE_STRIDE,
+        lambda rom: write_character_template(rom, character_id, changes),
+        f"character_template.{character_id}",
+        f"character template {character_id}: {sorted(changes)}",
+    )
+
+
+def build_character_growth_patches(rom_path: Path, character_id: int,
+                                   changes: dict) -> list[dict[str, Any]]:
+    """Write-back patches for one growth table entry (0x545068)."""
+    try:
+        from tools.import_character_template import (
+            GROWTH_STRIDE, growth_offset, write_growth,
+        )
+    except ModuleNotFoundError:
+        from import_character_template import GROWTH_STRIDE, growth_offset, write_growth
+    offset = growth_offset(character_id)
+    return _writeback_patches(
+        rom_path, offset, GROWTH_STRIDE,
+        lambda rom: write_growth(rom, character_id, changes),
+        f"character_growth.{character_id}",
+        f"character growth {character_id}: {sorted(changes)}",
+    )
+
+
+def build_battle_record_patches(rom_path: Path, index: int,
+                                 changes: dict) -> list[dict[str, Any]]:
+    """Write-back patches for one 16-byte battle record (0x545458)."""
+    try:
+        from tools.import_character_template import (
+            BATTLE_RECORD_STRIDE, battle_record_offset, write_battle_record,
+        )
+    except ModuleNotFoundError:
+        from import_character_template import (
+            BATTLE_RECORD_STRIDE, battle_record_offset, write_battle_record,
+        )
+    offset = battle_record_offset(index)
+    return _writeback_patches(
+        rom_path, offset, BATTLE_RECORD_STRIDE,
+        lambda rom: write_battle_record(rom, index, changes),
+        f"battle_record.{index}",
+        f"battle record {index}: {sorted(changes)}",
+    )
+
+
+def build_sprite_action_patches(rom_path: Path, sprite_id: int, action: int,
+                                changes: dict) -> list[dict[str, Any]]:
+    """Write-back patches for one sprite action entry (0x596CCC)."""
+    try:
+        from tools.import_sprite_action import (
+            ACTION_ENTRY_STRIDE, entry_offset, write_sprite_action,
+        )
+    except ModuleNotFoundError:
+        from import_sprite_action import (
+            ACTION_ENTRY_STRIDE, entry_offset, write_sprite_action,
+        )
+    offset = entry_offset(sprite_id, action)
+    return _writeback_patches(
+        rom_path, offset, ACTION_ENTRY_STRIDE,
+        lambda rom: write_sprite_action(rom, sprite_id, action, changes),
+        f"sprite_action.{sprite_id}_{action}",
+        f"sprite action {sprite_id}/{action}: {sorted(changes)}",
+    )
+
+
+def build_story_script_patches(rom_path: Path, table: str, scene: int,
+                               patches: list[dict]) -> list[dict[str, Any]]:
+    """Write-back patches for fixed-width operands of one story script.
+
+    The patched script keeps its exact length, so no branch target moves and
+    no relocation is needed.
+    """
+    try:
+        from tools.import_story_script import (
+            patch_story_script, read_root_pointer, scan_script,
+        )
+    except ModuleNotFoundError:
+        from import_story_script import patch_story_script, read_root_pointer, scan_script
+    rom = _read_rom(rom_path)
+    root = read_root_pointer(rom, table, scene)
+    if root is None:
+        return []
+    instructions = scan_script(rom, root)
+    if not instructions:
+        return []
+    start = min(i["offset"] for i in instructions)
+    end = max(i["offset"] + i["length"] for i in instructions)
+    description = (
+        f"story script {table}[{scene}]: "
+        + ", ".join(
+            f"0x{int(p['opcode']):02X}#{int(p.get('occurrence', 0))}."
+            f"{p['field']}={int(p['value'])}"
+            for p in patches
+        )
+    )
+    return _writeback_patches(
+        rom_path, start, end - start,
+        lambda rom: patch_story_script(rom, table, scene, patches),
+        f"story_script.{table}.{scene}",
+        description,
+    )
+
+
+def build_map_entry_patches(rom_path: Path, map_id: int,
+                            changes: dict) -> list[dict[str, Any]]:
+    """Write-back patches for one map descriptor entry (0x53D910)."""
+    try:
+        from tools.import_battle_config import (
+            ROM_BATTLE_SCENARIO_ENTRY_SIZE, map_entry_offset, write_map_entry,
+        )
+    except ModuleNotFoundError:
+        from import_battle_config import (
+            ROM_BATTLE_SCENARIO_ENTRY_SIZE, map_entry_offset, write_map_entry,
+        )
+    offset = map_entry_offset(map_id)
+    return _writeback_patches(
+        rom_path, offset, ROM_BATTLE_SCENARIO_ENTRY_SIZE,
+        lambda rom: write_map_entry(rom, map_id, changes),
+        f"map_entry.{map_id}",
+        f"map descriptor {map_id}: {sorted(changes)}",
+    )
+
+
+def build_formation_record_patches(rom_path: Path, group_id: int, variant_id: int,
+                                   record_id: int, changes: dict) -> list[dict[str, Any]]:
+    """Write-back patches for one battle formation record (0x5461C4)."""
+    try:
+        from tools.import_battle_config import (
+            FORMATION_RECORD_STRIDE, formation_record_offset,
+            write_formation_record,
+        )
+    except ModuleNotFoundError:
+        from import_battle_config import (
+            FORMATION_RECORD_STRIDE, formation_record_offset,
+            write_formation_record,
+        )
+    offset = formation_record_offset(group_id, variant_id, record_id)
+    return _writeback_patches(
+        rom_path, offset, FORMATION_RECORD_STRIDE,
+        lambda rom: write_formation_record(rom, group_id, variant_id, record_id, changes),
+        f"formation.{group_id}_{variant_id}_{record_id}",
+        f"formation record {group_id}/{variant_id}/{record_id}: {sorted(changes)}",
+    )
+
+
+def build_stage_pointer_patches(rom_path: Path, index: int,
+                                pointer: int) -> list[dict[str, Any]]:
+    """Write-back patches for one slot of the stage data table (0x53DF70)."""
+    try:
+        from tools.import_battle_config import (
+            STAGE_POINTER_TABLE_FILE, write_stage_pointer,
+        )
+    except ModuleNotFoundError:
+        from import_battle_config import STAGE_POINTER_TABLE_FILE, write_stage_pointer
+    offset = STAGE_POINTER_TABLE_FILE + index * 4
+    return _writeback_patches(
+        rom_path, offset, 4,
+        lambda rom: write_stage_pointer(rom, index, pointer),
+        f"stage_pointer.{index}",
+        f"stage data pointer {index} = 0x{pointer:08X}",
+    )
+
+
+def build_object_descriptor_patches(rom_path: Path, slot: int,
+                                    pointer: int) -> list[dict[str, Any]]:
+    """Write-back patches for one slot of the object descriptor table (0x53F140)."""
+    try:
+        from tools.import_battle_config import (
+            OBJECT_DESCRIPTOR_TABLE_FILE, write_object_descriptor_pointer,
+        )
+    except ModuleNotFoundError:
+        from import_battle_config import (
+            OBJECT_DESCRIPTOR_TABLE_FILE, write_object_descriptor_pointer,
+        )
+    offset = OBJECT_DESCRIPTOR_TABLE_FILE + slot * 4
+    return _writeback_patches(
+        rom_path, offset, 4,
+        lambda rom: write_object_descriptor_pointer(rom, slot, pointer),
+        f"object_descriptor.{slot}",
+        f"object descriptor pointer {slot} = 0x{pointer:08X}",
+    )
+
+
+def build_wram_alloc_patches(rom_path: Path, index: int, wram_addr: int,
+                             size: int) -> list[dict[str, Any]]:
+    """Write-back patches for one WRAM allocation pair (0x53D848)."""
+    try:
+        from tools.import_battle_config import (
+            WRAM_ALLOC_TABLE_FILE, write_wram_alloc,
+        )
+    except ModuleNotFoundError:
+        from import_battle_config import WRAM_ALLOC_TABLE_FILE, write_wram_alloc
+    offset = WRAM_ALLOC_TABLE_FILE + index * 8
+    return _writeback_patches(
+        rom_path, offset, 8,
+        lambda rom: write_wram_alloc(rom, index, wram_addr, size),
+        f"wram_alloc.{index}",
+        f"wram allocation {index} = 0x{wram_addr:08X} + 0x{size:X}",
+    )
+
+
+def build_unit_offset_patches(rom_path: Path, slot: int,
+                              value: int) -> list[dict[str, Any]]:
+    """Write-back patches for one slot of the u16 offset table (0x53F298).
+
+    Constrained: only native offsets of the same table may be reused (see
+    ``tools/import_battle_config.py::write_unit_offset``).
+    """
+    try:
+        from tools.import_battle_config import (
+            ROM_UNIT_ID_TABLE_FILE, write_unit_offset,
+        )
+    except ModuleNotFoundError:
+        from import_battle_config import ROM_UNIT_ID_TABLE_FILE, write_unit_offset
+    offset = ROM_UNIT_ID_TABLE_FILE + slot * 2
+    return _writeback_patches(
+        rom_path, offset, 2,
+        lambda rom: write_unit_offset(rom, slot, value),
+        f"unit_offset.{slot}",
+        f"u16 offset table[{slot}] = 0x{value:04X}",
     )

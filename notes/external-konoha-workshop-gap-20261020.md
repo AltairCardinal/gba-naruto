@@ -267,7 +267,7 @@ entry = 0x594758 + stage*0xCC + sub*0x44
 | `0x76B70` | `0x08076B70` | 伤害结算 | `41468889059a9042` |
 | `0x6B1A8` | `0x0806B1A8` | 单位退场 | `f0b557464e464546` |
 | `0x413D8` | `0x080413D8` | 原通关台词后追加 | — |
-| `0x8F698` | `0x0808F698` | 起始场景字节 | — |
+| `0x8F698` | `0x0808F698` | **不是起始场景字节** —— 那是 `movs r0, #0x36` 的**立即数操作数**，不是数据表 | — |
 
 原函数入口地址（用于尾调用转发）：`0x080688C1`(读档) `0x08068685`/`0x08068AFB`(即时读档)
 `0x0806868D`(存档IO) `0x08068E00`(新游戏) `0x0806A99D`+`0x0807518D`(战斗初始化)
@@ -368,8 +368,8 @@ entry = 0x594758 + stage*0xCC + sub*0x44
 | `editor/music.js` | 曲目 1..18 与 opcode 27 映射 |
 | `源码/continuation/source/runtime*.c`、`runtime.S` | 运行时钩点与字段语义 |
 | `源码/continuation/source/escape_rules.c` | 条件/无敌/撤离规则 |
-| `源码/continuation/tools/build_campaign.js` | 全部数据表基址与布局参数 |
-| `源码/tools/build.py` | hook 前像字节表 |
+| `源码/continuation/tools/build_campaign.js` | 全部数据表基址与布局参数；**战役版 14 个 hook 点**（3 个带前像） |
+| `源码/tools/build.py` | **hook 前像字节表**（13 条带前像的 hook 断言）；注意本文件是角色扮演版构建器 |
 | `源码/tools/gba_probe.c` | mGBA C API 探针 |
 | `源码/continuation/tools/create_story.py` | 剧情数据模型（26 场完整样本） |
 
@@ -516,3 +516,75 @@ store("guy_portrait_result",result);generatedImage(result);
 | 姓名表 | 62 条全部解出，所用字符 100% 可编码 |
 | 剧情脚本 | 55 场景 × 4 根表，**0 问题**（无未知指令、所有分支落在指令边界） |
 | 地图尺寸 | 47/47 条目 terrain 长度 == 图块宽×图块高×2 |
+
+---
+
+## 12. 吸收进度对账（2026-10-20 更新）
+
+§11 列出的是**已落地为本仓库自有实现**的五项。上一节
+（P0-Step 3.5c / `notes/text-writeback-migration-20261020.md`）又关掉了写回路径。
+本节把整份差集逐项对账一次，避免"读着差集清单以为还没吸收"或
+"以为都吸收了其实还差着"这两种误判。
+
+### 12.1 已合入 ✅
+
+| 差集项 | 落点 | 状态 |
+|---|---|---|
+| **C1** 地图表 32 字节字段顺序 | `notes/battle-config-format.md` | ✅ 字段表 + 47/47 terrain 验证 |
+| **C2** `0x596D5C` = 精灵动作表 id=1 行 | `notes/map-format.md` | ✅ 已重写解释 |
+| **C3** `0x599634` = 忍具名表（93 条） | `notes/unknown-bgm-sfx.md`、`docs/structure-field-semantics.md` | ⚠️ **两份 audit 笔记仍留旧说法**（见 §12.3） |
+| **C4** 单位结构 468 字节 | `notes/battle-config-format.md` | ✅ 已更正 |
+| **P0-1** 剧情脚本 VM | `tools/decode_story_script.py` + `notes/story-script-vm.md` | ✅ 55 场景 0 问题 |
+| **P0-2** 战斗条件表 `0x594758` | `tools/extract_battle_tables.py` + `notes/battle-tables.md` | ✅ 86 条；**7 种类型语义由原版说明文字直接证实**，比对方公开得更彻底 |
+| **P0-3** 战场配置三维结构 | `notes/battle-tables.md` §3 | ✅ `0x5461C4 + stage*0x1AAC + sub*0x8E4`、12 槽×`0xB8`、`+0x8A4` 16 地图物件、8 类 type |
+| **P1-4** 音乐曲目 1..18 | `notes/story-script-vm.md` | ✅ op `0x1B`，356 处 |
+| 字形码映射（对方最大贡献） | `tools/konoha_font.py` + `notes/font-encoding.md` | ✅ 且写回链路已切过去（P0-Step 3.5c） |
+| **P2-3** 字体追加新字形 | `notes/font-encoding.md` §1 | ✅ 段表 31 槽中 26 非空 → 仍有空闲段可追加 |
+| **P2-2** hook 点清单 | `tools/hook_points.py` | ✅ **本轮新增**：16/16 前像字节与本 ROM 逐字节一致 |
+
+### 12.2 未合入 ❌ → **2026-10-20 第二轮已全部吸收**
+
+> 第二轮把剩下 5 块搬进本仓库，**每条都重新推导而非照抄**，其中 3 条结论
+> 与对方说法不同。落点：`notes/runtime-and-object-tables-20261020.md`。
+
+| 差集项 | 原状态 | 现状态 | 我们的结论（与对方说法有出入的已标出） |
+|---|---|---|---|
+| **P0-4** 奖励表 `0x59EAE0` | 只在 probe 里探过 | ✅ `tools/extract_rewards.py` | 24 字节/条、112 条（77 有内容）。尾部布局自证为 **`(忍具 id << 8) \| 小整数`**（328 个尾部值 326 个高字节落在忍具表 1..93，低字节全在 0..2；对方写 `[1,73]` 正好吻合）。**低字节语义仍未定** |
+| **P1-1** 素材格式 | 只经 probe 验证 | ✅ `tools/portrait_assets.py` | 头像表 `0x5A4DEC`、拼块表 `0x4643C0`：**6 块拼成 80×80**、63 个 id、gfx 解压 6400 字节。⚠️ **调色板是原始 128 字节，不是 LZ**（对方按压缩数据处理过） |
+| **P1-2** 条件对白事件系统 | 只有标志位语义被吸收 | ✅ `tools/event_queue_budget.py` | 队列上限 **16** 得到独立实证：**stage 1 的原始 logic 脚本静态深度恰好 16**。⚠️ **stage 20 静态值 17** —— 说明"静态 >16 就拒编译"会在原版内容上误判，静态分析是过近似 |
+| **P1-3** 机关脚本语义 | 13 种机关只在其源码里 | ✅ `tools/mechanism_map.py` + `notes/mechanisms-20261020.md` | ⚠️ **原生确有 13 项机关效果表 `0x0808136C`**（按 target 索引，入口 `0x080812DC` 用 `cmp #0xc` 卡上限 13）+ 7 个建立期分支（`0x0806E868`）+ 7 个拾取处理程序（`0x815E4`，type 5/6/7 共用一个）。"13"是原生数字，"13 个拾取程序"不是。另**新发现剧情底图表 `0x59903C + id*16`**（14 个有效 id）。type 6 在原版 46 战场里一次未用 |
+| **P2-1** 运行时 WRAM 结构 | 只有 3 个地址进过笔记 | ✅ `tools/runtime_state.py` | 10 个原生字段全部被游戏自身代码引用（字面量池核验：`0x020240C0` 140 次、`0x02022E34` 15 次、`0x020311EA` 块内 86 次）。⚠️ **`0x02022EA0` "NKT3"、两个 RAM 镜像 ROM 中 0 引用** —— 是第三方自造簿记，不是原版状态 |
+| **P3-1** mGBA C API 探针 | 未移植 | ✅ **已移植并跑通** | 能力面：`setKeys` 注入按键、`saveState/loadState` 造 savestate、`busWrite*` 改内存。**2026-10-20 晚**：本机实有 MSVC Build Tools 2022（先前探测漏了），加便携 CMake + mGBA 0.10.5 源码，mGBA 静态库与宿主均编译成功。**实测**：KEYINPUT `0x04000130` 空闲 `FF03` → 按住 START `F703` → 释放 `FF03`；savestate **397,412 字节**可存可读。未改 mGBA 源码，扩展挂在 `CLIDebuggerSystem.commands` 上。见 `notes/mgba-probe-build-20261020.md` |
+| **P3-3** 四级证据分级 | 未搬入 | ✅ 已搬入 | 写入 `notes/runtime-verification-gates-20260710.md` §四级证据分级，含"明确不宣称"自陈清单 |
+
+### 12.3 C3 的尾巴：已修正 ✅ **且旧结论已被彻底证伪**
+
+`notes/dynamic-verification-audit.md`（audio 行）与
+`notes/patch-generator-audit.md`（`generate_audio_event_patches` 行）
+原先仍把 `0x08599634` 写成"Sappy 音频索引表"。
+**2026-10-20 已在两处加更正指引**（指向 `notes/unknown-bgm-sfx.md`）。
+
+**2026-10-20 晚更新：真正的音频表已找到。**
+`0x08079668` 不是 Sappy 音频分发器，而是**文本/消息脚本解释器**：
+cmd ≥ 0x80 查 `0x08599634`、cmd < 0x80 查 `0x0859937C`，
+两张表都指向零结尾字符串，指针最终送进控制码文本解析器 `0x0806626C`。
+真正的 sound-ID 表是 **file `0x465B70` / ARM `0x08465B70`**（159 行 × 8 字节），
+判据是 `0x0809AAC0` 的字面量池 + 指针链能解出 wave 头与 PCM。
+详见 `notes/resource-locations.md`。
+
+> 附带印证：`0x599634` 的 94 项解出来是 1 个分隔线 + **93 个忍具名**，
+> 与 `notes/font-encoding.md` 独立得出的"忍具名表 93 条"**完全一致** ——
+> 两条互不相干的路径得出同一结论。
+
+### 12.4 建议的吸收顺序（第二轮后）
+
+1. **P3-1 mGBA C API 探针** —— 现在是唯一的关键路径：
+   它同时解锁 P0-Step 4（章节流程入口）与本仓库所有 L2/L3 证据缺口。
+   阻塞在**本机工具链**（无 mGBA 源码 + 无 C 编译器），属平台决策项。
+2. **奖励表低字节语义** —— 只剩这一个字段未解，
+   需要跑起来看拾取提示（依赖第 1 项）。
+3. **P1-1 其余素材格式** —— 精灵帧描述符（20 字节/片、最多 32 片、动作 0..8）、
+   快速战斗人物（320×256 15 色、第 16 色被游戏用作阵营标记）、
+   地块替换规则（独占调色板 + 新图块 + 组合图块、图块上限 1024、色卡 16 组）
+   尚未整理。
+4. **13 种机关各自的原版关卡脚本** —— 逐个跑起来看效果（依赖第 1 项）。

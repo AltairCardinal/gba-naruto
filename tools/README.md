@@ -3,8 +3,206 @@
 ## Text encoding (new, 2026-10-20)
 
 The game's Chinese text uses a **custom double-byte font code**, not Shift-JIS.
-See `notes/font-encoding.md`. These four tools are the foundation for anything
+See `notes/font-encoding.md`. These tools are the foundation for anything
 that reads or writes game text.
+
+### `text_codec.py`
+
+The **single entry point** for encoding and decoding ROM text. Every writer
+should go through it - it is the only place that can refuse to write bytes
+the game cannot render.
+
+- `encode(text, "font", mapping)` — writes the ROM's own glyph codes
+- `decode(data, mapping)` — bytes → the text a player actually sees
+- `decode_bounded(rom, offset, max_bytes, mapping)` — decode within a slot budget
+- `encode_tokens` / `decode_tokens` — rewrite existing text with control codes intact
+- Legacy encodings (`cp932` …) still work but raise `DeprecationWarning`
+- ROM lookup order: `--rom` → `$KONOHA_ROM` → `rom/base.gba` → repo `*.gba`
+
+```bash
+python3 tools/text_codec.py
+python3 tools/text_codec.py --encode "漩涡鸣人"
+python3 tools/text_codec.py --decode-hex "89df95d1"
+```
+
+### `verify_text_writeback.py`
+
+Acceptance gate for the write path: applies the dialogue patches to the base
+ROM, reads the result back, and asserts the rendered text equals the authored
+text. Also checks an already built ROM.
+
+```bash
+python3 tools/verify_text_writeback.py
+python3 tools/verify_text_writeback.py --verify-rom build/naruto-sequel-dev.gba
+```
+
+### `hook_points.py`
+
+Runtime hook sites in the base ROM with their **verified original-byte
+preimages** — the same precondition our patch pipeline enforces with
+`before_hex`. Sourced from the vendored third-party package; all 16 preimages
+match our ROM byte for byte, so they can be used directly as patch anchors.
+
+Also carries the original function entry addresses (for tail-call forwarding).
+
+```bash
+python3 tools/hook_points.py
+python3 tools/hook_points.py --json build/hook-points.json
+```
+
+## Process improvements (new, 2026-10-20)
+
+Adopted from the third-party package's own test/build discipline.
+See `notes/re-methodology-improvements-20261020.md`.
+
+### `synthetic_fixture.py`
+
+Proves a table's **format** without the emulator: write content of known
+meaning into the ROM, point the game at it, read it back with the production
+reader, and require the read to equal the write. Works on a copy; the result
+lands in `build/synthetic-fixtures/`.
+
+```bash
+python3 tools/synthetic_fixture.py
+python3 tools/synthetic_fixture.py --fixture story_before
+```
+
+### `table_registry.py`
+
+The single authoritative source for table base addresses, and the cross-check
+against the `sequel/content/*/bank.json` offsets. A mismatch is an error, not
+a warning — base pointers must not come from editable content files.
+
+```bash
+python3 tools/table_registry.py
+```
+
+### Build change radius
+
+`tools/build_mod.py` now reports `change_radius` in the build report and
+**fails the build** if any byte changed outside a declared patch range.
+
+### `process` test suite
+
+`python3 tools/automated_test.py --suite process` runs the synthetic
+fixtures, the registry cross-check and the change-radius gate on every
+standard test run.
+
+## Asset formats & battle objects (new, 2026-10-20)
+
+### `sprite_frames.py`
+
+Battle sprite animation format: the action table at `0x596CCC + id*144 + action*16`
+(frames / animations / gfx / palette pointers), the 20-byte piece descriptors
+inside each frame, and the 8x8 4bpp tile layout. Reports anomalies instead of
+hiding them.
+
+```bash
+python3 tools/sprite_frames.py rom/base.gba --stats
+```
+
+### `tile_asset_rules.py`
+
+Everything about replacing a single map cell: how a palette bank is allocated,
+the 1024-tile and 1024-metatile ceilings, the per-cell cost, and the three
+failure conditions. Includes `--selftest` and a full end-to-end simulation
+across all 47 maps.
+
+```bash
+python3 tools/tile_asset_rules.py rom/base.gba --stage 40
+python3 tools/tile_asset_rules.py rom/base.gba --selftest
+```
+
+### `mechanism_map.py`
+
+The native pickup dispatch table `0x815E4` (7 handlers) with disassembly
+evidence, and the 8 map-object record types with their measured distribution.
+
+```bash
+python3 tools/mechanism_map.py rom/base.gba --stats
+```
+
+### `portrait_assets.py`
+
+Portrait format: the pointer table `0x5A4DEC`, the 6 pieces at `0x4643C0`
+that assemble an 80x80 portrait, and the raw 128-byte palette.
+
+```bash
+python3 tools/portrait_assets.py --json build/portrait_assets.json
+```
+
+### `extract_tileset.py` / `extract_audio.py`
+
+Resource extraction. `extract_audio.py` is based on the real sound-ID table
+at `0x465B70` (the old `0x599634` "audio table" was a text-script command
+table). See `notes/resource-locations.md`.
+
+```bash
+python3 tools/extract_tileset.py rom/base.gba
+python3 tools/extract_audio.py rom/base.gba --extract
+```
+
+## Runtime state & battle objects (new, 2026-10-20)
+
+Absorbed from the third-party package and re-derived against our ROM.
+See `notes/runtime-and-object-tables-20261020.md`.
+
+### `runtime_state.py`
+
+The game's WRAM state map. Every address is cross-checked against the ROM:
+a field the game itself loads shows up as a literal in its code, so the tool
+distinguishes **native fields** from the third party's own bookkeeping.
+
+```bash
+python3 tools/runtime_state.py --json build/runtime_state.json
+```
+
+### `extract_rewards.py`
+
+Reward table `0x59EAE0` — per-battle loot, with the tail layout
+`(item id << 8) | count` derived from the ROM's own data.
+
+```bash
+python3 tools/extract_rewards.py --json build/rewards.json
+```
+
+### `object_tables.py`
+
+Battle map objects: the 8 record types, the 16 records per scene, the native
+pickup dispatch table `0x815E4` and the story background table `0x59903C`.
+
+```bash
+python3 tools/object_tables.py --stage 40 --sub 0
+```
+
+### `event_queue_budget.py`
+
+Static analysis of the battle logic scripts: how many conditional dialogue
+events a scene can still take. The 16-entry queue limit is confirmed by
+stage 1's original script reaching exactly 16.
+
+```bash
+python3 tools/event_queue_budget.py --json build/queue_budget.json
+```
+
+### `portrait_assets.py`
+
+Portrait format: the pointer table `0x5A4DEC`, the 6 pieces at `0x4643C0`
+that assemble an 80x80 portrait, and the raw 128-byte palette.
+
+```bash
+python3 tools/portrait_assets.py --json build/portrait_assets.json
+```
+
+### `migrate_text_bank_to_font.py`
+
+Migrates the dialogue bank/content from the old cp932 mojibake to the font
+codes, and rewrites the bank notes with the real Chinese the ROM contains.
+
+```bash
+python3 tools/migrate_text_bank_to_font.py --out build/migrate.json
+python3 tools/migrate_text_bank_to_font.py --apply --bank-only
+```
 
 ### `konoha_font.py`
 
@@ -64,6 +262,271 @@ tables (`0x348DAC` + three text tables) and the character slot table
 ```bash
 python3 tools/extract_battle_tables.py
 python3 tools/extract_battle_tables.py --stage 40 --json build/battle_tables.json
+```
+
+---
+
+## Native consumer locating & completion audit (new, 2026-10-20)
+
+The audit's C2 rule accepts a "native code addressing" proof, but until now
+every such proof was a human reading a disassembly and typing an address into
+a note. These tools make it **mechanical and re-checkable**.
+
+### `consumer_locate.py`
+
+Builds a **whole-ROM literal index** (ARM `LDR Rn,[pc,#imm]`, Thumb-1
+`LDR Rt,[pc,#imm]`, Thumb-2 `LDR.W Rt,[pc,#imm]`) and then, for any table
+base, answers three questions:
+
+* which native instructions read it (function boundary + usage class +
+  deduced entry stride),
+* is the address **real at all** — 21 legacy bases turned out to be named
+  nowhere in the ROM, not even by a data pointer,
+* what is the *real* base nearby (`--neighbors`).
+
+```bash
+python3 tools/consumer_locate.py rom/base.gba --all \
+    --evidence notes/evidence/consumer-evidence.json
+python3 tools/consumer_locate.py rom/base.gba --target 0x54241C
+python3 tools/consumer_locate.py rom/base.gba --target 0x546100 --neighbors 4096
+```
+
+The evidence file carries the ROM's SHA-256, so stale evidence expires by
+itself. See `notes/legacy-table-base-correction-20261020.md`.
+
+For a legacy bank whose declared base is referenced **nowhere** in the ROM,
+`--suggest` lists the strongest candidate bases around it (ranked by how many
+native instructions read them), so the hunt for the real base starts from
+evidence instead of a guess:
+
+```bash
+python3 tools/consumer_locate.py rom/base.gba --target 0x546100 --suggest 4096
+```
+
+### `completion_audit.py`
+
+Recomputes the per-structure completion table from what is actually in the
+repository. Three probe kinds were added:
+
+* `codecite` — the machine-checked form of "native code addressing": it
+  re-reads the consumer evidence, verifies the ROM digest, and requires the
+  structure to be read by the game's own code;
+* `notatable` — the negative proof: the declared base is named nowhere in
+  the ROM, so the identity question is closed (the base is wrong);
+* `writeback` — the **executable** write-back proof: the audit *runs* the
+  structure's round-trip case from `writeback_paths.py` against a copy of
+  the ROM and requires (a) the read-back to equal the author input and
+  (b) no byte outside the declared known-field set to have moved.  A
+  write-back path only counts once it actually round-trips.
+
+`codecite` / `notatable` are attached **automatically by base address**, so
+new evidence needs no audit change.  See `notes/completion-audit-20261020.md`.
+
+```bash
+python3 tools/completion_audit.py --check
+python3 tools/completion_audit.py --note notes/completion-audit-20261020.md
+```
+
+### `writeback_paths.py`
+
+The self-check every write-back path must pass: for each structure, read a
+native entry out of the ROM, apply an author change, read it back and assert
+that the read-back equals the author input **and** that the bytes whose
+meaning is unknown were left alone.  Non-zero exit on any mismatch.
+
+```bash
+python3 tools/writeback_paths.py rom/base.gba
+python3 tools/writeback_paths.py rom/base.gba --json build/writeback-paths.json
+```
+
+Covers 12 paths: the four story VM root tables, the character template, the
+16-byte jutsu record table, the sprite action table, the battle map
+descriptor, the formation matrix, the reward table, the scene object
+descriptor table, the level data pointer table, the WRAM allocation table and
+the u16 offset table.
+
+### `alias_audit.py`
+
+Re-derives every same-address collision between the 32 content banks and
+re-checks the adjudication recorded in `tools/table_registry.py`
+(`CONFLICTS` / `ALIASES` / `FALSIFIED`) against the ROM itself.
+See `notes/alias-conflicts-20261020.md`.
+
+```bash
+python3 tools/alias_audit.py rom/base.gba
+```
+
+## Opcode & field semantics (new, 2026-10-20)
+
+### `story_vm_ops.py`
+
+The story VM's opcode set, derived from the ROM: interpreter entry
+`0x080977B8`, jump table `0x080977F4`, and a per-opcode proof status.
+38 of 44 opcodes are **proved**, 6 remain inferred.
+See `notes/story-vm-opcodes-20261020.md`.
+
+```bash
+python3 tools/story_vm_ops.py rom/base.gba
+```
+
+### `reward_rules_semantics.py`
+
+The reward table's tail byte (a **category tag**, not a quantity) and the
+battle-rule condition types. See `notes/reward-and-rules-semantics-20261020.md`.
+
+```bash
+python3 tools/reward_rules_semantics.py rom/base.gba
+```
+
+### `character_templates.py`
+
+The character template table `0x54241C` (0xB4 bytes per id), the per-character
+growth table `0x545068` and the 16-byte battle records at `0x545458`.
+See `notes/character-template-format-20261020.md`.
+
+```bash
+python3 tools/character_templates.py rom/base.gba
+```
+
+### `import_reward.py`
+
+The write-back path for the battle reward table `0x59EAE0` (24-byte records:
+gold / upgrade points / tier plus eight two-byte tail slots, each slot being
+a category tag and an item id).  The author-supplied item id is validated
+against the capacity of that category's **own** name table, taken from the
+ROM's category→name-table pointer table at `0x59F5E0`.
+See `notes/reward-and-rules-semantics-20261020.md`.
+
+```bash
+python3 tools/import_reward.py rom/base.gba --index 0 --set gold=500 \
+    --set slots='[{"category":0,"item_id":3}]' --out build/naruto.gba
+```
+
+### `audio_song_headers.py` / `import_audio_song.py`
+
+The m4a **SongHeader**s behind the sound-ID table at `0x465B70` (8 bytes per
+row, each row pointing at a header).  Five of those headers are what the
+legacy content banks called `story`, `story-b`, `story-c`, `story-d` and
+`story-e` — their bases were 4 bytes late because the legacy extractor
+anchored on the `voicegroup_ptr` field instead of the header start.
+
+    +0x00 u8   track_count
+    +0x01 u8   block_count
+    +0x02 u16  pad
+    +0x04 u32  voicegroup_ptr
+    +0x08 u32  track_ptr[track_count]
+
+The extractor self-checks; the writer is the **write-back path** for swapping
+a music track.  Because the track *block* format is not proved, the writer
+only accepts a target that already occurs as a track pointer in the sound
+table — the same rule the `units` offset table uses.
+
+```bash
+python3 tools/audio_song_headers.py rom/base.gba
+python3 tools/import_audio_song.py rom/base.gba --sound-id 1 \
+    --set track0=0x08535CFC --out build/naruto.gba
+```
+
+### `legacy_rebase.py` / `story_table_locate.py`
+
+Triage for the legacy banks whose declared base the ROM never names.  Both
+query the **full** literal index (`consumer_locate.LiteralIndex`, 18051
+values) — **not** the 54-table evidence subset, which silently truncates
+the candidate set.  `legacy_rebase.py` also re-derives entry strides with a
+symbolic pass scoped to each reader's own dataflow, so one load's immediate
+cannot be paired with another load's multiply.
+
+```bash
+python3 tools/legacy_rebase.py rom/base.gba --target 0x54507A
+python3 tools/legacy_rebase.py rom/base.gba --all-legacy
+python3 tools/story_table_locate.py rom/base.gba --target 0x53636C
+```
+
+### `frame_descriptors.py`
+
+The sprite frame descriptor table `0x53EE98` — found 2026-10-21 while
+settling the `units` offset table.  It is live: three native instructions
+load `0x0853EE98` (`0x080806BA`, `0x0808077E`, `0x0808082E`) and all three
+index it with a **10-byte** stride.  The tool prints the five u16 fields per
+record, marks the two structural fields (`list_end` at +0 == -1, `walk_end`
+at +8 != 0) and **fails loudly** when the observed value domains drift —
+it is a check, not a formatter.  See
+`notes/evidence/units-offset-table-20261020.md`.
+
+```bash
+python3 tools/frame_descriptors.py rom/base.gba
+python3 tools/frame_descriptors.py rom/base.gba --json build/frame-descriptors.json
+```
+
+### `battle_rules_runtime.py` / `runtime_capture.py`
+Runtime evidence tools built on the headless probe: the first drives the
+native battle-rule dispatcher and records the decision matrix of the type-2
+("turn limit reached") arm, the second dumps the runtime state block with
+real readouts.  Both exit non-zero when the ROM's layout does not match what
+they assume.  See `notes/evidence/battle-rules-l2-20261020.md` and
+`notes/evidence/runtime-state-l3-20261020.md`.
+
+```bash
+python3 tools/battle_rules_runtime.py rom/base.gba
+python3 tools/runtime_capture.py rom/base.gba
+```
+
+### `cutscene_block.py`
+
+A breadth-first Thumb disassembler that **skips literal pools** (a linear
+disassembly reads the constant pool as instructions), plus the reader
+forensics for the level data block table `0x53DF70`: it extracts the
+stride, the BIOS SWI and the destination addresses, decodes the LZ77
+blocks and checks them against the story VM script set.
+See `notes/evidence/cutscene-block-format-20261020.md`.
+
+```bash
+python3 tools/cutscene_block.py rom/base.gba
+python3 tools/cutscene_block.py rom/base.gba --disasm 0x08072EDC
+```
+
+## Headless runtime probe (new, 2026-10-20)
+
+### `mgba_probe/runtime_probe.py`
+
+Drives the headless mGBA probe: injects keys, arms breakpoints and **write
+watchpoints**, and records the game's own key state (`0x0300000C` held,
+`0x0300000E` newly pressed) plus the registers at every hit.
+See `notes/mgba-probe-runtime-20261020.md`.
+
+```bash
+python3 tools/mgba_probe/runtime_probe.py rom/base.gba --press START --press A
+python3 tools/mgba_probe/runtime_probe.py rom/base.gba \
+    --breakpoint 0x080977B8 --json build/runtime-trace.json
+```
+
+### `mgba_probe/render_screen.py`
+
+Draws the emulated screen and saves it as a PNG.
+
+`--live` asks the probe for **mGBA's own rendered frame** (the host's
+`rawshot` command dumps the core's 240x160 RGBA video buffer), so the
+picture is exactly what a player sees.  That path needs neither PNG
+support in mGBA nor a second implementation of the PPU.
+
+`--live-vram` reconstructs the picture from VRAM / PALRAM / the display
+registers instead; it is a debugging aid for the PPU understanding.
+
+```bash
+python3 tools/mgba_probe/render_screen.py build/shot.png --live --rom rom/base.gba
+python3 tools/mgba_probe/render_screen.py build/shot.png --live --rom rom/base.gba \
+    --press START --press A --press A
+```
+
+### `mgba_probe/screen_text.py`
+
+Reads the text off the emulated screen and maps the glyph cells back to
+the ROM's font codes, which turns "the game shows Chinese" into a
+checkable statement.
+
+```bash
+python3 tools/mgba_probe/screen_text.py rom/base.gba \
+    --press START --press A --press A --press A --rect 8,104,224,48
 ```
 
 ---

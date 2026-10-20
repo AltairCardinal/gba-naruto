@@ -3,6 +3,15 @@
 
 Reads the ROM binary and extracts entries for every structure that has
 a known table_offset but empty entries array.
+
+Adjudication guard (2026-10-20)
+--------------------------------
+Several legacy banks had their identity adjudicated in
+`tools/table_registry.py` (`ALIASES` / `FALSIFIED` / `CONFLICTS`): their
+old base turned out to be a *window* into another table, or the name was
+falsified outright.  Re-importing entries from those old bases would
+resurrect data that is known to be mis-attributed, so this tool refuses to
+touch an adjudicated bank and says so.
 """
 from __future__ import annotations
 
@@ -18,24 +27,52 @@ def load_rom() -> bytes:
     return ROM_PATH.read_bytes()
 
 
+def _adjudicated_banks() -> dict[str, str]:
+    """Banks whose identity was adjudicated in `tools/table_registry.py`.
+
+    Re-importing entries for them would resurrect data that was proven to
+    come from a window / a falsified address, so this tool refuses to touch
+    them.
+    """
+    try:
+        from tools import table_registry
+    except Exception:
+        return {}
+    out: dict[str, str] = {}
+    for bank, canonical in (getattr(table_registry, "ALIASES", {}) or {}).items():
+        out[bank] = f"弃用别名 -> {canonical}"
+    for bank, reason in (getattr(table_registry, "FALSIFIED", {}) or {}).items():
+        out[bank] = f"身份作废: {reason}"
+    for conflict in (getattr(table_registry, "CONFLICTS", {}) or {}).values():
+        for bank, disposition in (conflict.get("dispositions") or {}).items():
+            out.setdefault(bank, disposition)
+    return out
+
+
 def update_bank_json(name: str, entries: list[dict], extra_fields: dict | None = None):
     """Update a bank.json with entries and optional extra fields."""
     bank_path = ROOT / "sequel" / "content" / name / "bank.json"
     if not bank_path.exists():
         print(f"  SKIP {name}: no bank.json")
         return
+    adjudicated = _adjudicated_banks()
+    if name in adjudicated:
+        print(f"  SKIP {name}: 已裁决（{adjudicated[name]}），不再从旧基址导入数据")
+        return
     bank = json.loads(bank_path.read_text(encoding="utf-8"))
     if bank.get("entries") and len(bank["entries"]) > 0:
         # Already has entries - update verification only
         bank["verification"] = "static_verified"
-        bank_path.write_text(json.dumps(bank, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
+        from tools.lib.io import write_text as write_text_lf
+        write_text_lf(bank_path, json.dumps(bank, indent=4, ensure_ascii=False) + "\n")
         print(f"  {name}: already has {len(bank['entries'])} entries, set verification=static_verified")
         return
     bank["entries"] = entries
     bank["verification"] = "static_verified"
     if extra_fields:
         bank.update(extra_fields)
-    bank_path.write_text(json.dumps(bank, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
+    from tools.lib.io import write_text as write_text_lf
+    write_text_lf(bank_path, json.dumps(bank, indent=4, ensure_ascii=False) + "\n")
     print(f"  {name}: wrote {len(entries)} entries")
 
 
@@ -111,18 +148,28 @@ def populate_character_stats_b(rom: bytes):
 
 
 def populate_cutscene_scripts(rom: bytes):
-    """Cutscene scripts at 0x53DF70: 17 entries × 4 bytes (u32 pointers)."""
+    """Level data block table at 0x53DF70: 4 entries × 8 bytes.
+
+    Proved by the single native reader 0x08072F0C (fn 0x08072EDC): the
+    stride is 8, and each entry is a pointer pair -- an LZ77-compressed
+    4bpp tile block and an LZ77-compressed 16-colour palette, both
+    decompressed into VRAM / palette RAM by the BIOS `svc 0x12`.  The old
+    "17 entries x u32" reading spanned two different tables.
+    See `notes/evidence/cutscene-block-format-20261020.md`.
+    """
     off = 0x53DF70
     entries = []
-    for i in range(17):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
+    for i in range(4):
+        gfx_ptr, palette_ptr = struct.unpack_from("<II", rom, off + i * 8)
         entries.append({
-            "id": f"cutscene_{i:02d}",
+            "id": f"level_block_{i:02d}",
             "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "script_ptr": ptr,
-            "script_ptr_hex": fmt_hex(ptr),
+            "offset": off + i * 8,
+            "offset_hex": fmt_hex(off + i * 8),
+            "gfx_ptr": gfx_ptr,
+            "gfx_ptr_hex": fmt_hex(gfx_ptr),
+            "palette_ptr": palette_ptr,
+            "palette_ptr_hex": fmt_hex(palette_ptr),
         })
     update_bank_json("cutscene-scripts", entries)
 
@@ -305,72 +352,79 @@ def populate_sprite_animations(rom: bytes):
     update_bank_json("sprite-animations", entries)
 
 
-def populate_story_b(rom: bytes):
-    """Story B at 0x536BC8: 11 entries × 4 bytes (u32 chapter pointers)."""
-    off = 0x536BC8
+def populate_audio_song_header(rom: bytes, bank: str, base: int, sound_id: int):
+    """One m4a SongHeader: u8 track_count, u8 block_count, u16 pad,
+    u32 voicegroup_ptr, u32 track_ptr[track_count].
+
+    The five legacy ``story*`` banks are these headers (sound ids 1/2/8/11/14);
+    their old bases were 4 bytes late because the legacy extractor anchored
+    on the voicegroup pointer instead of the header start.  See
+    ``notes/evidence/story-table-family-20261020.md``.
+    """
+    track_count = rom[base]
+    word_count = track_count + 2
     entries = []
-    for i in range(11):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
+    for i in range(word_count):
+        off = base + i * 4
+        word = struct.unpack_from("<I", rom, off)[0]
         entries.append({
-            "id": f"story_b_{i:02d}",
+            "id": f"word_{i:02d}",
             "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "chapter_ptr": ptr,
-            "chapter_ptr_hex": fmt_hex(ptr),
+            "offset": off,
+            "offset_hex": fmt_hex(off),
+            "word": word,
+            "word_hex": fmt_hex(word),
         })
-    update_bank_json("story-b", entries)
+    update_bank_json(bank, entries, {
+        "sound_id": sound_id,
+        "track_count": track_count,
+        "block_count": rom[base + 1],
+    })
+
+
+def populate_story(rom: bytes):
+    """Sound id 1: m4a SongHeader at 0x536368.
+
+    The legacy base 0x53636C was 4 bytes late (it
+    anchored on the voicegroup pointer, not the header start).
+    """
+    populate_audio_song_header(rom, "story", 0x536368, 1)
+
+
+def populate_story_b(rom: bytes):
+    """Sound id 2: m4a SongHeader at 0x536BC4.
+
+    The legacy base 0x536BC8 was 4 bytes late (it
+    anchored on the voicegroup pointer, not the header start).
+    """
+    populate_audio_song_header(rom, "story-b", 0x536BC4, 2)
 
 
 def populate_story_c(rom: bytes):
-    """Story C at 0x538FF0: 10 entries × 4 bytes (u32 chapter pointers)."""
-    off = 0x538FF0
-    entries = []
-    for i in range(10):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"story_c_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "chapter_ptr": ptr,
-            "chapter_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("story-c", entries)
+    """Sound id 8: m4a SongHeader at 0x538FEC.
+
+    The legacy base 0x538FF0 was 4 bytes late (it
+    anchored on the voicegroup pointer, not the header start).
+    """
+    populate_audio_song_header(rom, "story-c", 0x538FEC, 8)
 
 
 def populate_story_d(rom: bytes):
-    """Story D at 0x53AB78: 11 entries × 4 bytes (u32 chapter pointers)."""
-    off = 0x53AB78
-    entries = []
-    for i in range(11):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"story_d_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "chapter_ptr": ptr,
-            "chapter_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("story-d", entries)
+    """Sound id 11: m4a SongHeader at 0x53AB74.
+
+    The legacy base 0x53AB78 was 4 bytes late (it
+    anchored on the voicegroup pointer, not the header start).
+    """
+    populate_audio_song_header(rom, "story-d", 0x53AB74, 11)
 
 
 def populate_story_e(rom: bytes):
-    """Story E at 0x53C3C0: 9 entries × 4 bytes (u32 chapter pointers)."""
-    off = 0x53C3C0
-    entries = []
-    for i in range(9):
-        ptr = struct.unpack_from("<I", rom, off + i * 4)[0]
-        entries.append({
-            "id": f"story_e_{i:02d}",
-            "index": i,
-            "offset": off + i * 4,
-            "offset_hex": fmt_hex(off + i * 4),
-            "chapter_ptr": ptr,
-            "chapter_ptr_hex": fmt_hex(ptr),
-        })
-    update_bank_json("story-e", entries)
+    """Sound id 14: m4a SongHeader at 0x53C3BC.
+
+    The legacy base 0x53C3C0 was 4 bytes late (it
+    anchored on the voicegroup pointer, not the header start).
+    """
+    populate_audio_song_header(rom, "story-e", 0x53C3BC, 14)
 
 
 def populate_tile_assets(rom: bytes):
@@ -447,25 +501,26 @@ def populate_audio(rom: bytes):
 
 
 def populate_items(rom: bytes):
-    """Items at 0x546100: 12 entries × 16 bytes (same as skills table)."""
-    off = 0x546100
+    """Item / skill records at 0x545BE4: 94 entries x 16 bytes.
+
+    The legacy base 0x546100 was entry 81 + 12 bytes -- a skewed
+    window into this table.
+    """
+    off = 0x545BE4
     entries = []
-    for i in range(12):
+    for i in range(94):
         e_off = off + i * 16
-        fields = struct.unpack_from("<IHHHHHH", rom, e_off)
-        entries.append({
-            "id": f"item_{i:02d}",
+        words = struct.unpack_from("<8H", rom, e_off)
+        entry = {
+            "id": f"word_{i:02d}",
             "index": i,
             "offset": e_off,
             "offset_hex": fmt_hex(e_off),
-            "padding": fields[0],
-            "count": fields[1],
-            "type_id": fields[2],
-            "skill_id": fields[3],
-            "value": fields[4],
-            "flags": fields[5],
-            "extra_id": fields[6],
-        })
+        }
+        for k, word in enumerate(words):
+            entry[f"field_{k}"] = word
+            entry[f"field_{k}_hex"] = fmt_hex(word)
+        entries.append(entry)
     update_bank_json("items", entries)
 
 
@@ -536,6 +591,7 @@ def main():
     populate_items(rom)
     populate_units(rom)
     populate_sappy_engine(rom)
+    populate_story(rom)
 
     # Also update already-populated ones with verification
     for name in ["battle-config", "character-stats", "levels", "maps", "positions", "skills", "story"]:

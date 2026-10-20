@@ -1,22 +1,86 @@
 {
   "version": 1,
-  "description": "Fifth story/chapter pointer table discovered at ROM offset 0x53C3C0. 9 entries of u32 pointers to chapter data.",
-  "table_offset": 5489600,
-  "table_offset_hex": "0x53C3C0",
-  "entry_count": 9,
+  "description": "m4a SongHeader of sound id 14 (track_count=8, block_count=0). Reached from the sound-ID table 0x465B70 at row 14*8. NOT a story table.",
+  "table_offset": 5489596,
+  "table_offset_hex": "0x53C3BC",
+  "entry_count": 10,
   "entry_size": 4,
   "entry_format": {
+    "description": "m4a SongHeader: u8 track_count, u8 block_count, u16 pad, u32 voicegroup_ptr, u32 track_ptr[track_count]",
     "fields": [
       {
         "offset": 0,
         "size": 4,
-        "name": "chapter_ptr",
+        "name": "header_word0",
         "type": "u32",
-        "description": "Pointer to chapter data"
+        "description": "packed header: track_count=8 (byte +0), block_count=0 (byte +1), pad (u16 +2)"
+      },
+      {
+        "offset": 4,
+        "size": 4,
+        "name": "voicegroup_ptr",
+        "type": "u32",
+        "description": "tone/voicegroup pointer (12-byte tone records)"
+      },
+      {
+        "offset": 8,
+        "size": 4,
+        "name": "track_ptr_00",
+        "type": "u32",
+        "description": "track 0 data pointer"
+      },
+      {
+        "offset": 12,
+        "size": 4,
+        "name": "track_ptr_01",
+        "type": "u32",
+        "description": "track 1 data pointer"
+      },
+      {
+        "offset": 16,
+        "size": 4,
+        "name": "track_ptr_02",
+        "type": "u32",
+        "description": "track 2 data pointer"
+      },
+      {
+        "offset": 20,
+        "size": 4,
+        "name": "track_ptr_03",
+        "type": "u32",
+        "description": "track 3 data pointer"
+      },
+      {
+        "offset": 24,
+        "size": 4,
+        "name": "track_ptr_04",
+        "type": "u32",
+        "description": "track 4 data pointer"
+      },
+      {
+        "offset": 28,
+        "size": 4,
+        "name": "track_ptr_05",
+        "type": "u32",
+        "description": "track 5 data pointer"
+      },
+      {
+        "offset": 32,
+        "size": 4,
+        "name": "track_ptr_06",
+        "type": "u32",
+        "description": "track 6 data pointer"
+      },
+      {
+        "offset": 36,
+        "size": 4,
+        "name": "track_ptr_07",
+        "type": "u32",
+        "description": "track 7 data pointer"
       }
     ]
   },
-  "notes": "Fifth story/chapter pointer table with 9 entries. The target data starts with 0xBE 0x66 0xBC 0x00 which is similar to the other story tables. This suggests the game has five separate story/chapter systems. Located in the 0x53Cxxx region between the other story tables and the map headers. The first entry points to 0x464C5C which has a different structure (starts with 0x003C), suggesting it's a header or special entry.",
+  "notes": "2026-10-21 更正：旧基址 0x53C3C0 晚了 4 字节 —— 它锚在 voicegroup_ptr 字段（+0x04）而不是表头起点。原生读者 `0x0809B242 ldr r0,[r7,#4]` 读的就是 voicegroup；入口是 sound-ID 表 0x465B70 的第 14 行（`0x0809AAC8 lsrs r0,r0,#0xd` = sound_id*8）。详见 notes/evidence/story-table-family-20261020.md。",
   "entries_sample": [
     {
       "index": 0,
@@ -114,9 +178,9 @@
   ],
   "verification": "static_verified",
   "extraction": {
-    "tool": "tools/extract_all_structures.py",
-    "extracted_count": 9,
-    "rom_offset": 5489600,
-    "rom_offset_hex": "0x53C3C0"
+    "tool": "tools/populate_bank_json.py::populate_audio_song_header",
+    "extracted_count": 10,
+    "rom_offset": 5489596,
+    "rom_offset_hex": "0x53C3BC"
   }
 }

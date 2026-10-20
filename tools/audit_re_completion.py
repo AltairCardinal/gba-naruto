@@ -288,8 +288,9 @@ def main() -> int:
     report = build_report(root, output_md, rom_path)
     output_json.parent.mkdir(parents=True, exist_ok=True)
     output_md.parent.mkdir(parents=True, exist_ok=True)
-    output_json.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    output_md.write_text(markdown(report), encoding="utf-8")
+    from tools.lib.io import write_text as write_text_lf
+    write_text_lf(output_json, json.dumps(report, ensure_ascii=False, indent=2) + "\n")
+    write_text_lf(output_md, markdown(report))
     print(json.dumps(report["summary"], ensure_ascii=False, indent=2))
     return 0 if report["summary"]["all_expected_banks_found"] else 1
 

@@ -1,62 +1,69 @@
 {
   "version": 1,
-  "description": "Cutscene script pointer table at ROM offset 0x53DF70. 16 entries of u32 pointers; 0x53DFB0 begins a separate byte table.",
+  "description": "Level data block table at ROM offset 0x53DF70. 4 entries of 8 bytes; each entry is a pointer pair (LZ77 4bpp tiles, LZ77 16-colour palette). NOT a story-VM script table -- the game decompresses both blocks into VRAM / palette RAM with the BIOS LZ77UnCompVram call.",
   "table_offset": 5496688,
   "table_offset_hex": "0x53DF70",
-  "entry_count": 16,
-  "entry_size": 4,
+  "entry_count": 4,
+  "entry_size": 8,
   "entry_format": {
     "fields": [
       {
         "offset": 0,
         "size": 4,
-        "name": "script_ptr",
+        "name": "gfx_ptr",
         "type": "u32",
-        "description": "Pointer to cutscene/script data in the 0x12xxxx region"
+        "description": "LZ77-compressed 4bpp tile block, decompressed into VRAM 0x06016000"
+      },
+      {
+        "offset": 4,
+        "size": 4,
+        "name": "palette_ptr",
+        "type": "u32",
+        "description": "LZ77-compressed 16-colour palette, decompressed into palette RAM 0x05000380"
       }
     ]
   },
-  "notes": "The 16 entries at 0x53DF70..0x53DFAF all point into 0x12xxxx. The former index 16 value 0x090A0809 is the first four bytes of a separate byte table at 0x53DFB0. Code references 0x0853DF70 at ROM 0x072F3C and references the next object 0x0853DFB0 independently at ROM 0x075C0C.",
+  "notes": "Proved by the single native reader 0x08072F0C (fn 0x08072EDC): lsls r5, r0, #3 (stride 8), two ldr + two bl to 0x809C0E8 (svc 0x12 = LZ77UnCompVram) with destinations VRAM 0x06016000 and palette RAM 0x05000380. The old '16 entries of u32' reading spanned two different tables: the object descriptor table starts at 0x53DF90 and a byte table at 0x53DFB0. See notes/evidence/cutscene-block-format-20261020.md.",
   "entries_sample": [
     {
       "index": 0,
       "offset": 5496688,
       "offset_hex": "0x53DF70",
-      "script_ptr": "0x0812D9E4",
-      "script_offset": "0x12D9E4",
-      "notes": "Cutscene/script data"
+      "gfx_ptr": "0x0812D9E4",
+      "gfx_offset": "0x12D9E4",
+      "palette_ptr": "0x0812DEE4",
+      "palette_offset": "0x12DEE4",
+      "notes": "LZ77 4bpp tile block / LZ77 16-colour palette"
     },
     {
       "index": 1,
-      "offset": 5496692,
-      "offset_hex": "0x53DF74",
-      "script_ptr": "0x0812DEE4",
-      "script_offset": "0x12DEE4",
-      "notes": "Cutscene/script data"
+      "offset": 5496696,
+      "offset_hex": "0x53DF78",
+      "gfx_ptr": "0x0812DF4C",
+      "gfx_offset": "0x12DF4C",
+      "palette_ptr": "0x0812E42C",
+      "palette_offset": "0x12E42C",
+      "notes": "LZ77 4bpp tile block / LZ77 16-colour palette"
     },
     {
       "index": 2,
-      "offset": 5496696,
-      "offset_hex": "0x53DF78",
-      "script_ptr": "0x0812DF4C",
-      "script_offset": "0x12DF4C",
-      "notes": "Cutscene/script data"
+      "offset": 5496704,
+      "offset_hex": "0x53DF80",
+      "gfx_ptr": "0x0812E494",
+      "gfx_offset": "0x12E494",
+      "palette_ptr": "0x0812E948",
+      "palette_offset": "0x12E948",
+      "notes": "LZ77 4bpp tile block / LZ77 16-colour palette"
     },
     {
       "index": 3,
-      "offset": 5496700,
-      "offset_hex": "0x53DF7C",
-      "script_ptr": "0x0812E42C",
-      "script_offset": "0x12E42C",
-      "notes": "Cutscene/script data"
-    },
-    {
-      "index": 4,
-      "offset": 5496704,
-      "offset_hex": "0x53DF80",
-      "script_ptr": "0x0812E494",
-      "script_offset": "0x12E494",
-      "notes": "Cutscene/script data"
+      "offset": 5496712,
+      "offset_hex": "0x53DF88",
+      "gfx_ptr": "0x0812E9B0",
+      "gfx_offset": "0x12E9B0",
+      "palette_ptr": "0x0812ED58",
+      "palette_offset": "0x12ED58",
+      "notes": "LZ77 4bpp tile block / LZ77 16-colour palette"
     }
   ],
   "verification_method": "Static boundary analysis: 16 valid ROM pointers followed by an independently referenced byte table at 0x53DFB0.",
@@ -64,99 +71,35 @@
   "entries": [
     {
       "_raw_offset": 5496688,
-      "script_ptr": 135453156,
-      "script_ptr_hex": "e4d91208",
+      "gfx_ptr": 135453156,
+      "gfx_ptr_hex": "0812d9e4",
+      "palette_ptr": 135454436,
+      "palette_ptr_hex": "0812dee4",
       "_index": 0
     },
     {
-      "_raw_offset": 5496692,
-      "script_ptr": 135454436,
-      "script_ptr_hex": "e4de1208",
+      "_raw_offset": 5496696,
+      "gfx_ptr": 135454540,
+      "gfx_ptr_hex": "0812df4c",
+      "palette_ptr": 135455788,
+      "palette_ptr_hex": "0812e42c",
       "_index": 1
     },
     {
-      "_raw_offset": 5496696,
-      "script_ptr": 135454540,
-      "script_ptr_hex": "4cdf1208",
+      "_raw_offset": 5496704,
+      "gfx_ptr": 135455892,
+      "gfx_ptr_hex": "0812e494",
+      "palette_ptr": 135457096,
+      "palette_ptr_hex": "0812e948",
       "_index": 2
     },
     {
-      "_raw_offset": 5496700,
-      "script_ptr": 135455788,
-      "script_ptr_hex": "2ce41208",
-      "_index": 3
-    },
-    {
-      "_raw_offset": 5496704,
-      "script_ptr": 135455892,
-      "script_ptr_hex": "94e41208",
-      "_index": 4
-    },
-    {
-      "_raw_offset": 5496708,
-      "script_ptr": 135457096,
-      "script_ptr_hex": "48e91208",
-      "_index": 5
-    },
-    {
       "_raw_offset": 5496712,
-      "script_ptr": 135457200,
-      "script_ptr_hex": "b0e91208",
-      "_index": 6
-    },
-    {
-      "_raw_offset": 5496716,
-      "script_ptr": 135458136,
-      "script_ptr_hex": "58ed1208",
-      "_index": 7
-    },
-    {
-      "_raw_offset": 5496720,
-      "script_ptr": 135454508,
-      "script_ptr_hex": "2cdf1208",
-      "_index": 8
-    },
-    {
-      "_raw_offset": 5496724,
-      "script_ptr": 135454532,
-      "script_ptr_hex": "44df1208",
-      "_index": 9
-    },
-    {
-      "_raw_offset": 5496728,
-      "script_ptr": 135455860,
-      "script_ptr_hex": "74e41208",
-      "_index": 10
-    },
-    {
-      "_raw_offset": 5496732,
-      "script_ptr": 135455884,
-      "script_ptr_hex": "8ce41208",
-      "_index": 11
-    },
-    {
-      "_raw_offset": 5496736,
-      "script_ptr": 135457168,
-      "script_ptr_hex": "90e91208",
-      "_index": 12
-    },
-    {
-      "_raw_offset": 5496740,
-      "script_ptr": 135457192,
-      "script_ptr_hex": "a8e91208",
-      "_index": 13
-    },
-    {
-      "_raw_offset": 5496744,
-      "script_ptr": 135458256,
-      "script_ptr_hex": "d0ed1208",
-      "_index": 14
-    },
-    {
-      "_raw_offset": 5496748,
-      "script_ptr": 135458304,
-      "script_ptr_hex": "00ee1208",
-      "_index": 15
+      "gfx_ptr": 135457200,
+      "gfx_ptr_hex": "0812e9b0",
+      "palette_ptr": 135458136,
+      "palette_ptr_hex": "0812ed58",
+      "_index": 3
     }
   ],
   "verification": "static_verified",

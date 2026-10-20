@@ -49,7 +49,7 @@
 |---|---|---|---|---|---|---|
 | `generate_db_patches` | `TABLE_LAYOUT` 全部结构 | `0x5E0000 + 全局行号*64` | 不适用 | `115-169` | 仅审计；容量 2048 行；会与专用 audit 生成器重叠 | **P0（基础设施）** |
 | `generate_unit_position_patches` | `unit_positions` | `0x5E0000 + i*64` | 注释称 WRAM 战斗单位数组，尚无 ROM 入口 | `495-500,507-533` | 游戏不读取；所有专用 audit 共用起点 | **P0** |
-| `generate_audio_event_patches` | `audio_events` | `0x5E8000 + id*64` | 索引表基址 `0x599634` | `882-911,920-927` | 明言无法安全修改索引表；与通用审计区范围重叠 | **P1** |
+| `generate_audio_event_patches` | `audio_events` | `0x5E8000 + id*64` | 索引表基址 `0x599634` ⚠️ **该基址有误** | `882-911,920-927` | 明言无法安全修改索引表；与通用审计区范围重叠。**2026-10-20 更正**：`0x599634` 实测是**忍具名称文本指针表**（u32[93]），不是音频索引表 —— 见 `notes/unknown-bgm-sfx.md`。在音频表重新定位前，`audio_events` **不得**指向 `0x599634` 做任何写回 | **P1** |
 | `generate_battle_encounter_patches` | `battle_encounters` | `0x5E0000 + i*64` | `0x542384` | `995-1030` | 候选表完全未写 | **P0** |
 | `generate_battle_handler_patches` | `battle_handlers` | `0x5E0000 + i*64` | `0x53E6D8` | `1046-1081` | 函数指针控制流高风险，需范围/Thumb 位校验后再回写 | **P0** |
 | `generate_cutscene_script_patches` | `cutscene_scripts` | `0x5E0000 + i*64` | `0x53DF70` | `1142-1177` | 剧情主链未生效 | **P0** |

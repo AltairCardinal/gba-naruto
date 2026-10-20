@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from tools.lib import load_json
+from tools import text_codec
 
 
 def find_free_space(data: bytes, size: int, start: int = 0) -> int:
@@ -42,6 +43,7 @@ def build_pointer_redirect(
     }
 
 
+ROM_BASE = 0x08000000
 FREE_SPACE_START = 0x5DFBEC  # first 0xFF-filled byte after all game data (128 KB free)
 FREE_SPACE_END   = 0x5FFFFF  # last byte of ROM
 
@@ -50,11 +52,12 @@ def import_dialogue_variable(
     bank_path: Path,
     content_path: Path,
     free_space_start: int = FREE_SPACE_START,
+    rom_path: Path | None = None,
 ) -> list[dict]:
     """Generate patches for variable-length dialogue entries.
 
     For each dialogue content entry:
-    1. Encode text in the target encoding
+    1. Encode text in the target encoding ("font" = the game's own font codes)
     2. If length matches existing slot, generate a bytes patch (in-place)
     3. If length differs, generate:
        - a bytes patch to write new text into free space
@@ -66,6 +69,7 @@ def import_dialogue_variable(
 
     patches = []
     text_cursor = free_space_start
+    mapping: dict[int, str] | None = None
 
     for entry in content["entries"]:
         entry_id = entry["id"]
@@ -73,9 +77,11 @@ def import_dialogue_variable(
             raise ValueError(f"dialogue entry {entry_id} missing from bank")
 
         bank_entry = bank_map[entry_id]
-        encoding = bank_entry.get("encoding", "cp932")
+        encoding = bank_entry.get("encoding", text_codec.FONT_ENCODING)
+        if encoding == text_codec.FONT_ENCODING and mapping is None:
+            mapping, _ = text_codec.load_mapping(rom_path)
         text = entry["text"]
-        encoded = text.encode(encoding)
+        encoded = text_codec.encode(text, encoding, mapping)
         max_bytes = int(bank_entry["max_bytes"])
 
         text_offset = int(bank_entry["offset"])
@@ -158,15 +164,21 @@ def main() -> int:
         help="Start offset for free space in ROM (hex)",
     )
     parser.add_argument("--output", help="Optional output JSON path")
+    parser.add_argument(
+        "--rom",
+        default=None,
+        help="ROM used for the font code table (default rom/base.gba)",
+    )
     args = parser.parse_args()
 
     free_start = int(args.free_space_start, 0)
     patches = import_dialogue_variable(
-        ROOT / args.bank, ROOT / args.content, free_start
+        ROOT / args.bank, ROOT / args.content, free_start, args.rom
     )
     text = json.dumps({"patches": patches}, ensure_ascii=False, indent=2) + "\n"
     if args.output:
-        (ROOT / args.output).write_text(text, encoding="utf-8")
+        from tools.lib.io import write_text as write_text_lf
+        write_text_lf(ROOT / args.output, text)
     else:
         print(text, end="")
     return 0
