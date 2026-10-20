@@ -1603,14 +1603,50 @@ OK
 
 `tests/test_coverage_evidence_selector_repairs.py` 8 项全绿，无残留 error。
 
-### 24.3 审计器测试模块整体跑（**进行中**）
+### 24.3 审计器测试模块整体跑（**进行中**，2026-10-20 11:0x–12:0x）
 
-`tests/test_audit_rom_byte_coverage`（15,933 行 / **88 个测试类 / 359 个测试方法**）
-整体跑在后台，截至 09:2x：**35 项 ok / 0 项 FAIL**，仍在跑（PID 47459，
-100% CPU，单进程，已 35 min）。§22 的 131 处陈旧快照改写到目前为止
-**没有引出任何失败**；最终 summary 待它跑完补。
-跑满全模块的耗时预期在 **1 h 量级**（该模块的 `setUpClass` 会调
-`build_manifest`），不是分钟级。
+`tests/test_audit_rom_byte_coverage`（16,119 行 / **88 个测试类 / 359 个测试方法**）
+整体跑在后台。本轮把它**从串行改成 4 片并行**，因为模块的成本结构不是线性的
+（见 `notes/auditor-module-failures-20261020.md` §12.6）：
+全模块只有 **14 处** `build_manifest` 调用，但**每次**都要把整个 manifest 重建
+（独立实测 1,108 s / 496 MiB 峰值 RSS），而普通方法约 30 s。
+**原分片按方法数切，把这 14 次切成了 7 / 2 / 2 / 3** ⇒ 长尾片要付 7 次重建。
+
+本轮实测到的 12 个失效（不是首轮记录的 6 个——首轮只跑到 25%）
+全部已修并提交，根因有定量收据：**90 / 90 个生产者拒绝「拿最终账本重放」**
+（`notes/evidence/reverse-proof-update-20261020-v2/full-ledger-replay-20261020.json`）。
+
+权威轮（跑的是已修代码，日志 `/tmp/auditor-run2-shard{0,1,2,3}.log`，
+`PYTHONUNBUFFERED=1` 消除 stderr 块缓冲盲区）**仍在跑**，
+截至 11:4x：**68 项 ok / 0 项 FAIL**。
+
+**这 68 项不是逆向完成量。** 它只证明「68 条既有断言在新代码下仍成立」。
+四类分母一个都没动：
+
+| 分母 | 值 | 本轮是否变化 |
+|---|---:|---|
+| `unknown_bytes` | 86,089 | 否 |
+| `classified_bytes` | 6,205,367 | 否 |
+| `claim_count` | 16,913 | 否 |
+| `segment_count` | 18,675 | 否 |
+| formal `blockers` | 175 | 否（集合一致，无新增） |
+
+### 24.4 93 个 proof 测试套件重跑 —— **93/93 OK，0 失败**
+
+```
+Ran 93 tests in 1384.330s
+
+OK
+```
+
+- 日志：`/tmp/proof-suite10.log`，跑的是**已修代码**（`tests/test_audit_rom_byte_coverage.py`
+  改了 12 处断言 + 3 个新 helper）。
+- 关键用例 `test_current_repository_does_not_overclaim_completion` **通过**
+  ⇒ notes 改动没有把「反过度声明」这条红线碰坏。
+- 墙钟 1,384.330 s 比 §24.1 的 1,138.308 s 慢 21.6%：
+  本轮机器上同时有 4 片整模块跑 + 1 个 93 套件在抢核（load 5.9–7.8），
+  **不是代码变慢**（本轮没动 `tools/audit_rom_byte_coverage.py` 与 spec）。
+
 
 ---
 
