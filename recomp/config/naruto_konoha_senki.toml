@@ -1,0 +1,319 @@
+# config/naruto_konoha_senki.toml — 重编译器配置（recompiler config）
+#
+# 这是 **gba_recompile --config** 用的二进制配置，与同级的 game.toml（运行时配置）不同。
+# 本文件由 `gbarecomp --config` 的 TOML schema 规定，所有条目都绑定到具体二进制哈希。
+#
+# 依据：
+#   - gba_scan 实测输出（header/entry/save 探测）
+#   - 本仓库 notes/resource-locations.md 等逆向成果（资源区边界）
+#   - notes/static-recomp-iwram-code-copies-20261020.md（IWRAM 运行期拷贝代码映射）
+#
+# 用法：
+#   gba_recompile --rom roms/naruto_konoha_senki_cn.gba \
+#                 --config config/naruto_konoha_senki.toml \
+#                 --out generated
+#
+# 当前状态：**静态覆盖 100%**
+#   13,271 个静态函数 / 8 分片
+#   dispatch_misses = 0，interpreted_insns = 0，self_heal_coverage = FULLY_STATIC
+
+[program]
+name         = "Naruto: Konoha Senki (GBA)"
+id           = "naruto_konoha_senki"
+load_address = 0x08000000
+size         = 0x00600000
+# gba_scan: entry_branch_word=0xea00002e, entry_is_branch=1, entry_target=0x080000c0
+entry_pc     = 0x080000C0
+# 允许从可达的 PC 相对字面量里收集回调指针（switch 跳转表等）。
+speculative_literal_harvest = true
+# 可执行 ROM 扫描范围：0x080000C0 .. 0x080B9F80
+#   下界 = 入口；上界 = 首个压缩资源（battle map tileset gfx）的 file offset 0x0B9F80
+#   （见 notes/resource-locations.md「战斗地图图块」表，id 0 的 tile gfx 指针）
+#   注意：本 ROM 是汉化组重建过的，**代码与资源交错分布**，不存在干净的前后切分：
+#     0x08040000 - 0x080BFFFF  主代码（12,789 个函数，占 99.7%）
+#     0x085C0000 - 0x085FFFFF  启动模块（crt0，入口分支目标 0x085CCC04）
+#   aot_scan_* 只约束「回调表/描述符发现」，不约束正常分支跟随；
+#   启动模块靠入口分支自然可达。
+aot_scan_start = 0x080000C0
+aot_scan_end   = 0x080B9F80
+# 每条对齐指令都生成可恢复入口（IRQ/SWI 返回点）。
+static_resume_all = true
+codegen_shards   = 8
+
+[identity]
+sha1 = "26f60795fa5e63b4f0264b84e453beffd56b9f7d"
+
+# ── 数据区（禁止当作代码解码）─────────────────────────────────────────
+#
+# 原则（schema 原文）：
+#   "Missing a function is a miss — cheap. Decoding data as code is a false positive — catastrophic."
+#
+# 注意：data_range 写大一点会直接导致硬错误「control flow enters data_range」。
+#   本项目实测踩过两次：
+#   1. 把 0x080B9F80-0x08600000 整段标为数据 → 入口分支指向 0x085CCC04（crt0 启动模块）
+#      正好落在区间内 → 直接 abort。
+#   2. 把 0x08000000-0x080000C0 整段标为数据 → BIOS 复位时跳到复位向量 0x08000000，
+#      finder 拒绝进入 → runtime_dispatch miss，解释器桥接，tcc 自愈编译又失败 → 卡死。
+#   所以只标「确定不是代码」的小块，且必须避开 0x08000000 复位向量。
+
+# Nintendo Logo（156 字节，0x04-0x9F）
+[[data_range]]
+start = 0x08000004
+end   = 0x080000A0
+note  = "Nintendo Logo (156 bytes) — not code"
+
+# 头部字段：标题 / game code / maker code / 固定值 / 补位校验
+[[data_range]]
+start = 0x080000A0
+end   = 0x080000C0
+note  = "Cartridge header fields: title/code/maker/fixed/complement — not code"
+
+# 战斗地图图块数据：LZ77 压缩的图块/调色板/元块/通行值表
+# （见 notes/resource-locations.md：id 0..N 的 tile gfx / palette / metatile 指针，
+#   分布区间 0x0B9F80 - 0x0CB1xx）
+[[data_range]]
+start = 0x080B9F80
+end   = 0x080CC000
+note  = "LZ77-compressed battle-map tilesets/palettes/metiletes/terrain tables"
+
+# ── ROM 侧的人工函数入口 ─────────────────────────────────────────────
+#
+# 框架自愈机制在运行中自动提出「可达但静态没识别出来」的函数根
+# （见运行目录的 recomp_master_misses_AUEJ.toml.frag），人工审核后并入本文件。
+# 框架**从不自动合并**这些提案。
+
+# ROM 0x08000000 处的复位向量（ARM `b 0x080000C0`）。BIOS 复位时跳到这里，
+# 必须有静态实现，否则 runtime_dispatch miss → 解释器桥接 → tcc 自愈编译失败 → 卡在启动前。
+[[extra_func]]
+addr = 0x08000000
+mode = "arm"
+name = "reset_vector"
+note  = "Cartridge reset vector: ARM 'b 0x080000C0' — reached by the BIOS at reset"
+
+[[extra_func]]
+addr = 0x080612BC
+mode = "thumb"
+note  = "self-heal miss-log: bridged x19077"
+
+[[extra_func]]
+addr = 0x080614DC
+mode = "thumb"
+note  = "self-heal miss-log: bridged x180"
+
+[[extra_func]]
+addr = 0x080614E0
+mode = "thumb"
+note  = "self-heal miss-log: bridged x180"
+
+# 0x08063696 / 0x080636B4 / 0x080636C0 是同一个 switch 的跳转表候选。
+# 该 switch 用的是 **16 字节步长**的表
+# （`lsls r1,r5,#4; adds r2,r1,r3; ldr r4,[r2]` at 0x08063660），
+# 而框架的自动检测器只认 4 字节步长的表，无法定尺寸 → 三个 case 目标逐个声明。
+[[extra_func]]
+addr = 0x08063696
+mode = "thumb"
+note  = "self-heal miss-log: bridged x45 (jump-table candidate region, 16-byte stride)"
+
+[[extra_func]]
+addr = 0x080636B4
+mode = "thumb"
+note  = "self-heal miss-log: bridged x880 (jump-table candidate region, 16-byte stride)"
+
+[[extra_func]]
+addr = 0x080636C0
+mode = "thumb"
+note  = "self-heal miss-log: bridged x2243 (jump-table candidate region, 16-byte stride)"
+
+[[extra_func]]
+addr = 0x080645A2
+mode = "thumb"
+note  = "self-heal miss-log: bridged x32"
+
+[[extra_func]]
+addr = 0x0809A1EC
+mode = "thumb"
+note  = "self-heal miss-log: bridged x76"
+
+[[extra_func]]
+addr = 0x0809A25C
+mode = "thumb"
+note  = "self-heal miss-log: bridged x756"
+
+# ── IWRAM 运行期拷贝代码 ─────────────────────────────────────────────
+#
+# ★ 关键机制：下面这一组地址**不是 ROM 地址**。
+#
+#   游戏在启动时把 ROM 里的一段热代码**重定位到 IWRAM**（GBA 上 IWRAM 比卡带快），
+#   再通过 IWRAM 里的函数指针表间接调用。例如 ROM 0x080004C8 的跳板做的是：
+#       ldr r2,[pc,#0x3c]   ; 取 IWRAM 0x03000000
+#       ldr r1,[r2]         ; 从指针槽取出目标地址
+#       mov lr,pc
+#       bx r1               ; 跳到那个地址
+#   于是运行期出现的 0x03000680 / 0x03005CE8 等地址是**重定位后的地址**。
+#
+#   重编译器按卡带地址去取字节当然取不到 → runtime_dispatch miss →
+#   退化成解释器桥接 → 慢，且 tcc 自愈层也救不了（它同样没有
+#   「运行期地址 → ROM 源地址」的概念）。
+#
+#   正解是配置层面给映射：
+#     * [[code_copy]]      声明「RAM 区间 ← ROM 源区间」的**字节映射**
+#     * [[extra_func]]     声明**函数入口**，addr = 运行期落点，
+#                          source_addr = 指令字节的 ROM 来源
+#   两者必须配套：生成代码保留运行期 PC，却从 ROM 源取字节。
+#
+#   ⚠ 不要为这类 miss 去改 overlay ABI、也不要给 exe 加 /EXPORT——
+#     那是「ABI 缺 resume_pc 通道」的解法，不适用于本症状。
+#
+# 四张拷贝表的 (runtime_start, source_start) 是从**拷贝例程的字面量池**里
+# 成对读出来的；每张表的 size 是用「运行期 IWRAM 快照字节 == ROM 字节」
+# 实测的**连续逐字节相同长度**。
+#
+# 完整定位方法（四步法）与工具见：
+#   notes/static-recomp-iwram-code-copies-20261020.md
+#   build/eval-with-skill/tools/{find-iwram-source,block-extent,iwram-map,rom-inspect}.mjs
+#   build/eval-with-skill/tools/disasm_arm.py
+#
+#   ROM 字面量池位置    源地址        目标地址      bias
+#   0x08061730          0x080004C8    0x03000680    0x28001B8
+#   0x08061738          0x08000520    0x0300088C    0x2800036C
+#   0x08061744          0x080005AC    0x03000930    0x28000384
+#   0x08064638          0x08000638    0x03005CE8    0x279FF6B0
+
+# 0x080004C8 起的模块是**一张 16 字节步长的跳板表**，被装到两个 IWRAM 位置。
+[[code_copy]]
+runtime_start = 0x03000680
+source_start  = 0x080004C8
+size          = 0x00000200
+name = "iwram_stub_module_a"
+note  = "relocated stub module, bias 0x28001B8; 512 B verified byte-identical"
+
+[[code_copy]]
+runtime_start = 0x0300088C
+source_start  = 0x08000520
+size          = 0x000000A4
+name = "iwram_stub_module_b"
+note  = "relocated stub module, bias 0x2800036C; 164 B verified byte-identical"
+
+[[code_copy]]
+runtime_start = 0x03000930
+source_start  = 0x080005AC
+size          = 0x00000060
+name = "iwram_arith_helper"
+note  = "relocated helper, bias 0x28000384; 96 B verified byte-identical"
+
+[[code_copy]]
+runtime_start = 0x03005CE8
+source_start  = 0x08000638
+size          = 0x0000005C
+name = "iwram_table_helper"
+note  = "relocated helper, bias 0x279FF6B0; first 92 B verified byte-identical"
+
+# ── IWRAM 拷贝模块里的函数入口 ───────────────────────────────────────
+#
+# `addr` = CPU 实际落到的运行期地址
+# `source_addr` = 指令字节来自的 ROM 地址（**两者不可互换**）
+#
+# 同一段 ROM 会被装到多个 IWRAM 位置（热路径做两份），
+# 所以一个 source 往往对应多个 runtime 入口——只补一个会继续报 miss。
+# 函数头由 ARM 反汇编读出：
+#   0x080004C8 → 0x03000680  跳板 ldr r2,[pc]; ldr r1,[r2]; mov lr,pc; bx r1
+#   0x080004DC → 0x03000694  同上
+#   0x080004EC → 0x030006A4  同上
+#   0x080004FC → 0x030006B4  往 IWRAM 0x03007FF8 写半字 2（BIOS hook 开关）
+#   0x08000520 → 0x030006D8 / 0x0300088C  BIOS 分发 helper
+#   0x080005AC → 0x03000930  算术 helper
+#   0x080005E0 → 0x03000798 / 0x03000964  add r0,r0,#4
+#   0x080005F8 → 0x030007B0 / 0x0300097C  push {r8,sb,sl,fp} … pop
+#   0x08000638 → 0x03005CE8  表查找 helper
+
+[[extra_func]]
+addr        = 0x03000680
+source_addr = 0x080004C8
+mode = "arm"
+name = "iwram_trampoline_080004C8"
+note  = "IWRAM copy of the ROM trampoline at 0x080004C8"
+
+[[extra_func]]
+addr        = 0x03000694
+source_addr = 0x080004DC
+mode = "arm"
+name = "iwram_trampoline_080004DC"
+note  = "IWRAM copy of the ROM trampoline at 0x080004DC (self-heal miss x124032)"
+
+[[extra_func]]
+addr        = 0x030006A4
+source_addr = 0x080004EC
+mode = "arm"
+name = "iwram_trampoline_080004EC"
+note  = "IWRAM copy of the ROM trampoline at 0x080004EC (self-heal miss x124032)"
+
+[[extra_func]]
+addr        = 0x030006B4
+source_addr = 0x080004FC
+mode = "arm"
+name = "iwram_stub_080004FC"
+note  = "IWRAM copy of the ROM stub at 0x080004FC (self-heal miss x124032)"
+
+[[extra_func]]
+addr        = 0x030006D8
+source_addr = 0x08000520
+mode = "arm"
+name = "iwram_dispatch_08000520_a"
+note  = "IWRAM copy of the ROM BIOS-dispatch helper at 0x08000520 (copy site A)"
+
+[[extra_func]]
+addr        = 0x03000798
+source_addr = 0x080005E0
+mode = "arm"
+name = "iwram_inc4_080005E0_a"
+note  = "IWRAM copy of the ROM helper at 0x080005E0 (copy site A)"
+
+[[extra_func]]
+addr        = 0x030007B0
+source_addr = 0x080005F8
+mode = "arm"
+name = "iwram_frame_080005F8_a"
+note  = "IWRAM copy of the ROM helper at 0x080005F8 (copy site A)"
+
+[[extra_func]]
+addr        = 0x0300088C
+source_addr = 0x08000520
+mode = "arm"
+name = "iwram_dispatch_08000520_b"
+note  = "IWRAM copy of the ROM BIOS-dispatch helper at 0x08000520 (copy site B)"
+
+[[extra_func]]
+addr        = 0x03000930
+source_addr = 0x080005AC
+mode = "arm"
+name = "iwram_arith_080005AC"
+note  = "IWRAM copy of the ROM helper at 0x080005AC (self-heal miss x18897)"
+
+[[extra_func]]
+addr        = 0x03000964
+source_addr = 0x080005E0
+mode = "arm"
+name = "iwram_inc4_080005E0_c"
+note  = "IWRAM copy of the ROM helper at 0x080005E0 (copy site C)"
+
+[[extra_func]]
+addr        = 0x0300097C
+source_addr = 0x080005F8
+mode = "arm"
+name = "iwram_frame_080005F8_c"
+note  = "IWRAM copy of the ROM helper at 0x080005F8 (copy site C)"
+
+[[extra_func]]
+addr        = 0x03005CE8
+source_addr = 0x08000638
+mode = "arm"
+name = "iwram_lookup_08000638"
+note  = "IWRAM copy of the ROM helper at 0x08000638 (self-heal miss x124032)"
+
+# ── 后续可补（不影响当前 100% 静态覆盖）───────────────────────────────
+#
+# [[jump_table]]    switch 跳转表（需给出 addr/stride/count/format/entries_mode）
+#                   上面的 0x08063696/0x080636B4/0x080636C0 三条可以用一条
+#                   16 字节步长的 [[jump_table]] 替掉，让配置更贴近原始语义。
+# [[exclude_func]]  误判为代码的假阳性入口（必须写 reason）
+# [[extra_func]]    未来新增缺口的入口（dispatch miss 会给出精确 PC）

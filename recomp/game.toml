@@ -1,0 +1,80 @@
+# game.toml — 火影忍者：木叶战记（GBA）
+#
+# 运行时配置：决定加载哪个 ROM、用哪套区域配置、入口在哪、期望什么存档芯片。
+# 依据全部来自本仓库已有逆向成果 + gbarecomp 的 gba_scan 实测输出。
+#
+# 用法（最终游戏二进制）：
+#   NarutoKonohaSenkiRecomp [--bios <path>] [--rom <path>] [game.toml]
+# BIOS 与 ROM 都必须在启动前通过哈希校验，否则运行时拒绝启动。
+
+[game]
+name           = "火影忍者：木叶战记 (Naruto: Konoha Senki)"
+short_name     = "naruto_konoha_senki"
+# 熊组简体中文汉化版
+default_region = "cn"
+
+# ── BIOS 身份 ────────────────────────────────────────────────────────
+#
+# GBA BIOS 是任天堂版权的真实代码，必须由玩家从自己的主机导出。
+# SHA-1 = 300c20df6731a33952ded8c436f7f186d25d3492，16 KB。
+[bios]
+path = "bios/gba_bios.bin"
+sha1 = "300c20df6731a33952ded8c436f7f186d25d3492"
+
+# ── ROM 身份 ─────────────────────────────────────────────────────────
+#
+# 对应本仓库 rom/base.gba（SHA-1 相同）。
+[rom]
+path = "roms/naruto_konoha_senki_cn.gba"
+sha1 = "26f60795fa5e63b4f0264b84e453beffd56b9f7d"
+
+# ── 重编译器入口与布局 ───────────────────────────────────────────────
+#
+# entry_point 来自 gba_scan 实测：ROM 头 crt0 跳转目标 = 0x080000C0，
+# 与生成的第一个函数 gf_start_vector 对应。
+[recompiler]
+entry_point   = "0x080000C0"
+seeds         = "symbols/imported_symbols.tsv"
+boundaries    = "symbols/function_boundaries.tsv"
+out_dir       = "generated"
+strict        = true
+
+# ── 存档芯片 ─────────────────────────────────────────────────────────
+#
+# 框架支持 sram | flash512 | flash1m | eeprom，各自的有效尺寸固定：
+#   SRAM     = 32768 字节
+#   EEPROM   = 512 或 8192 字节
+#   Flash512 = 65536 字节
+#   Flash1M  = 131072 字节
+#
+# gba_scan 对本 ROM 返回 save_type=unknown（ROM 内没有标准 SDK 签名），
+# 但本仓库 rom/base.sav 恰为 32768 字节 → 与 SRAM 尺寸完全吻合，
+# 因此判定为 32 KB SRAM。
+# （曾误判为 EEPROM，实测被运行时拒绝：
+#   "save size 32768 is incompatible with EEPROM (expected 512 or 8192)"）
+[save]
+type = "sram"
+size = 32768
+
+# ── 运行时 ───────────────────────────────────────────────────────────
+[runtime]
+debug_port    = 19842
+window_title  = "NarutoKonohaSenkiRecomp"
+
+# ── 显示 ─────────────────────────────────────────────────────────────
+# raw = 忠实 BGR555 直通；其余为现时屏幕色彩模拟。
+# 移动端 UI 尚未实现，暂用 raw。
+[video]
+screen = "raw"
+
+# ── 音频 ─────────────────────────────────────────────────────────────
+[audio]
+shadow = true
+
+# ── 函数表（dispatch 提示）───────────────────────────────────────────
+#
+# 由 gba_recompile 自动发现；这里只放人工审阅过的补充项。
+# 本仓库 notes/ 中的地址表可直接作为符号导入的来源。
+[functions]
+arm   = []
+thumb = []
