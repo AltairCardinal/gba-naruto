@@ -552,6 +552,46 @@ D 在**已提交账本**上的断言同步改成逐字节派生：排除邻居�
 于是停掉旧 3 片及其启动 shell（`55238/55241/55249`），保留新 4 片。
 没有新起一轮，避免把「已修好的代码」换成「旧代码」再跑一遍。
 
+### 12.3b 新 4 片也死了（11:00–11:04），**死因未能取证**
+
+新 4 片（`58194/58197/58201/58204`）在启动 **1–5 分钟**后全部消失：
+日志尾部停在 11:00 / 11:02 / 11:04，**没有 unittest summary、没有 traceback**
+⇒ 是被信号杀死（SIGKILL），不是正常退出。
+
+**取证结果（诚实记录）**：
+- macOS 给被 jetsam 杀的进程**不留 crash report**
+  （`~/Library/Logs/DiagnosticReports/` 里最近一条是 07:10 的无关项）；
+- `log show` 的 `runningboardd:jetsam` 只留下
+  `MEMORYSTATUS_CMD_CONVERT_MEMLIMIT_MB(-1) returned -1` 这类**噪声**，
+  没有指向这 4 个 PID 的 kill 记录；
+- 同期机器上有 **11+ 个**重型 Python 进程、swap **1,685.5 / 2,048 MiB**、
+  load 11.7–14.4 ⇒ **内存压力下的 jetsam 是最可能的解释，但未能确证**。
+
+⇒ 结论只能写成「**最可能**是内存压力下被杀」，不能写成「被 OOM 杀掉」。
+
+### 12.3c 一个必须记下来的坑：**子代理的 `pkill -f` 宽模式会误杀同仓库的并行跑**
+
+本轮两个只读子代理在收尾时执行了：
+
+```bash
+pkill -f "build_manifest"
+pkill -f "unittest tests.test_audit_rom_byte_coverage"
+pkill -f "_build_vs_live"
+```
+
+`pkill -f` 匹配的是**整条命令行**。第 2 条的字符串
+`unittest tests.test_audit_rom_byte_coverage` 只在「`unittest` 与模块名之间
+**没有别的参数**」时才命中；本轮的跑法是
+`python3 -m unittest -v tests.test_audit_rom_byte_coverage.X`（中间有 `-v`），
+所以**侥幸没被命中**。
+
+⇒ 教训有两条：
+1. **子代理禁止用 `pkill -f` 宽模式**清理进程；要清理就按 **PID 精确 kill**，
+   或用本轮用过的 `ps -axo pid,ppid,state,etime,%cpu,command | awk '$1==<pid>'` 查。
+2. **长跑必须用独立日志名**：本轮 4 份日志被同名重定向截断过一次，
+   改成 `/tmp/auditor-run2-shardK.log` 后不再互相覆盖；
+   并且加了 `PYTHONUNBUFFERED=1`，把 §12.4 的缓冲盲区一并消掉。
+
 ### 12.4 一个必须记下来的**坑**：stderr 是块缓冲，日志 0 字节 ≠ 卡死
 
 `shard0` 的日志在启动后 **20 分钟仍是 0 字节**，一度被误判成死锁。
@@ -564,6 +604,43 @@ D 在**已提交账本**上的断言同步改成逐字节派生：排除邻居�
 
 ⇒ **判「某片是否卡死」不能用日志字节数**，必须用
 `ps -o time=` 的**两次采样差**（CPU 时间增量）+ `sample` 的调用栈。
+
+### 12.6 分片的真正长尾不是「方法数」，是 **`build_manifest` 调用点**
+
+本轮实测出模块的成本结构：全模块 **359 个方法**里，
+`build_manifest` 只被**显式调用 14 次**（AST 全量统计），
+但**每次**都要把整个 manifest 重建一遍（独立实测 1,108 s / 496 MiB 峰值 RSS）。
+
+| 位置 | 调用所在函数 |
+|---|---|
+| `RomByteCoverageAuditTests` | `setUpClass`（1 次，43 个方法全靠它） |
+| `BattleSoundSelectorCoverageTests` / `BattleConditionRecordsCoverageTests` / `LookupAndBootThumbHandoffCoverageTests` / `TaskSchedulerCoreCoverageTests` / `DirectSoundPitchLookupCoverageTests` / `PsgFrequencyLookupCoverageTests` / `U8IndexedU8TripletLookupCoverageTests` / `CfgProvenRootsV14` / `CfgProvenRootsV15` / `MenuPortraitLz77PaletteAlignmentGap` / `TileBgLz77PaletteAlignmentGap` / `BootThumbCodeLiteralAlignmentGap` | 各 1 个测试方法内 |
+
+**原分片（按方法数贪心）把这 14 次切成了 7 / 2 / 2 / 3** ⇒
+长尾片要付 **7 次** manifest 重建，是短尾片的 3.5 倍。
+
+**按加权负载重算**（1 次 manifest 重建 ≈ 37 个普通方法，取自
+1,108 s ÷ 30 s/方法）：
+
+| | 类数 | 方法数 | manifest 构建点 | 加权负载 |
+|---|---:|---:|---:|---:|
+| 原 shard0 | 17 | 90 | **7** | 349 |
+| 原 shard1 | 24 | 90 | 2 | 164 |
+| 原 shard2 | 24 | 90 | 2 | 164 |
+| 原 shard3 | 23 | 89 | 3 | 200 |
+| **新 shard0** | 21 | 109 | **3** | **220** |
+| **新 shard1** | 21 | 71 | 4 | 219 |
+| **新 shard2** | 25 | 108 | 3 | 219 |
+| **新 shard3** | 21 | 71 | 4 | 219 |
+
+⇒ 均衡后**每片最多 4 次** manifest 重建，加权负载 220/219/219/219。
+**下轮分片必须按加权负载分，不能按方法数分**；
+重算脚本留档：`tools/` 里没有，本轮用 AST 统计 + 贪心装填即可复现
+（类 → 方法数 + 37 × manifest 构建点）。
+
+本轮**没有**中途换分片：旧分片已跑掉 67 个方法（0 失败），
+估算续跑长尾 ≈ 305 加权单位 vs 重启 ≈ 220，差额约 42 min，
+不足以抵消「换分片后重跑一半」的回归风险与再被杀一次的风险。
 
 ### 12.5 并发会话在同一个仓库里跑重复工作
 
