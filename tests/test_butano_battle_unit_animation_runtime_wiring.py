@@ -10,11 +10,6 @@ MAKEFILE = ROOT / "butano-sequel" / "Makefile"
 class ButanoBattleUnitAnimationRuntimeWiringTest(unittest.TestCase):
     def test_runtime_uses_rom_timeline_and_component_sprites(self):
         source = RUNTIME.read_text(encoding="utf-8")
-        self.assertIn(
-            "constexpr bn::color battle_unit_selected_palette_color(\n"
-            "        0, 23, 23);",
-            source,
-        )
         start = source.index("void update_unit_sprites(")
         end = source.index(
             "\nvoid capture_deployment_telemetry(", start
@@ -23,22 +18,6 @@ class ButanoBattleUnitAnimationRuntimeWiringTest(unittest.TestCase):
 
         self.assertIn("battle_unit_sprite_state", source)
         self.assertIn("bn_sprite_palette_ptr.h", source)
-        self.assertIn("selected_palette", function)
-        self.assertIn(
-            "bn::sprite_palette_ptr::create_new(",
-            function,
-        )
-        self.assertIn(
-            "state.selected_unit == unit.id",
-            function,
-        )
-        self.assertIn(
-            "set_color(\n"
-            "                        15,\n"
-            "                        battle_unit_selected_palette_color)",
-            function,
-        )
-        self.assertIn("sprite->set_palette(", function)
         self.assertIn("battle_unit_visual_slot_for", function)
         self.assertIn("battle_unit_visual_animation::frame_at", function)
         self.assertIn(
@@ -87,6 +66,36 @@ class ButanoBattleUnitAnimationRuntimeWiringTest(unittest.TestCase):
         deployment = source[deployment_start:deployment_end]
         self.assertIn("update_unit_sprites(", deployment)
         self.assertNotIn("battle_unit_idle_visual_for", deployment)
+
+    def test_the_selected_unit_keeps_the_unit_art_palette(self):
+        """The original never paints a cyan outline on the selected unit.
+
+        The remake used to overwrite palette entry 15 of the selected unit
+        with RGB5 (0,23,23), which paints a teal outline the original does
+        not have: the 25 frames of the original S49 walk contain zero pixels
+        of that colour, and the one place the original does show it is the
+        battle entry, where it is already gone four frames later.  The gate
+        used to pin the presence of that override, which pinned a behaviour
+        the original does not have, so it now pins the absence.
+        """
+
+        source = RUNTIME.read_text(encoding="utf-8")
+        start = source.index("void update_unit_sprites(")
+        end = source.index(
+            "\nvoid capture_deployment_telemetry(", start
+        )
+        function = source[start:end]
+
+        self.assertNotIn("battle_unit_selected_palette_color", source)
+        self.assertNotIn("selected_palette", source)
+        self.assertNotIn("palette_selected", source)
+        self.assertNotIn("sprite_palette_ptr::create_new(", function)
+        self.assertNotIn("set_color(", function)
+        # The greyscale palette of the unit that is not acting is still
+        # applied, and the unit that is acting keeps the art's own palette.
+        self.assertIn("dimmed_unit_palette()", function)
+        self.assertIn("item->palette_item()", function)
+        self.assertIn("state.selected_unit == unit.id", function)
 
     def test_runtime_reserves_enough_depth_sort_layers(self):
         source = MAKEFILE.read_text(encoding="utf-8")

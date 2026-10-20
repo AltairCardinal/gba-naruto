@@ -103,6 +103,13 @@ MENUS = (
 )
 
 
+def _differing_pixels(image) -> int:
+    """Count non-zero pixels of an "L" image without deprecated APIs."""
+
+    histogram = image.histogram()
+    return image.size[0] * image.size[1] - histogram[0]
+
+
 def captures_available() -> bool:
     return all(
         (ORIGINAL / f"step-{original:02d}-A.png").is_file()
@@ -198,11 +205,7 @@ class MenuRowMarkerPixels(unittest.TestCase):
             box[0] + 8,
             box[1] + 16,
         )
-        differing = sum(
-            1
-            for value in difference.crop(cell).get_flattened_data()
-            if value > 0
-        )
+        differing = _differing_pixels(difference.crop(cell))
         self.assertEqual(
             differing,
             0,

@@ -1,0 +1,2483 @@
+{
+  "all_capacity_gates_hold": true,
+  "families": [
+    {
+      "artifact_schema": "battle-effect-resource-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "48c394ee4429bad64fd5d64f2a136601ef4b70b168d677a97f5436c46bbdab7a",
+        "rom": null,
+        "scope": {
+          "editable": "Complete 4bpp graphics tiles and 32-byte palettes may change without original compressed-slot limits; catalog-approved aliases may split while every selected graphics/palette pair remains explicit.",
+          "not_proved": "Different graphics geometry, OAM placement, affine parameters, animation timing, blend/window behavior, audio coupling or final runtime pixel equivalence.",
+          "proved": "All 34 battle-effect content resources, representing 35 physical LZ77 payloads and all 36 exact pair-table pointer fields, relocate into the registered battle-effects image region."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 34,
+          "allocation_end": 11816792,
+          "allocation_span": 20312,
+          "allocation_start": 11796480,
+          "applied_patch_count": 70,
+          "content_resource_count": 34,
+          "group_count": 18,
+          "logical_pointer_count": 36,
+          "physical_payload_count": 35,
+          "pointer_patch_count": 36,
+          "region_end": 11862016,
+          "remaining_bytes": 45224,
+          "stored_payload_bytes": 20269,
+          "unexpected_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/battle-effect-resource-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": 0
+      },
+      "family": "battle-effect-resource-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "battle-effect-resource-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/battle-effect-resource-relocation-v1/full-relocation-spec.json",
+          "sha256": "c8f8b3ae18b96eea1fa92d19e6957b38e732a831bb28412e25aaa7e0e7de73a4"
+        },
+        {
+          "path": "battle-effect-resource-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/battle-effect-resource-relocation-v1/relocation-audit.json",
+          "sha256": "745e14e928e7bf0147fb5b92098cfdc62a7807c355f765c4701893600252d490"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/battle-effect-resource-relocation-v1/manifest.json",
+      "manifest_sha256": "d1076ca1a1fc7ad4f6bc0fdc8fe0ebfc3eb51132721d5cf165237d8d3d46da9f",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "c8f8b3ae18b96eea1fa92d19e6957b38e732a831bb28412e25aaa7e0e7de73a4",
+        "relocation-audit.json": "745e14e928e7bf0147fb5b92098cfdc62a7807c355f765c4701893600252d490"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": 34,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "battle-effects",
+        "region_owner": "battle_effect_resources",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": null,
+        "schema": "battle-effect-resource-relocation-v1",
+        "source_catalog": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+        "source_catalog_sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963"
+      },
+      "rule_set_source": "artifacts/battle-effect-resource-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "Complete 4bpp graphics tiles and 32-byte palettes may change without original compressed-slot limits; catalog-approved aliases may split while every selected graphics/palette pair remains explicit.",
+        "not_proved": "Different graphics geometry, OAM placement, affine parameters, animation timing, blend/window behavior, audio coupling or final runtime pixel equivalence.",
+        "proved": "All 34 battle-effect content resources, representing 35 physical LZ77 payloads and all 36 exact pair-table pointer fields, relocate into the registered battle-effects image region."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_resource_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-resource-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "battle-effect-resource-writeback-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": {
+          "graphics_byte_offset": 0,
+          "kind": "first_editable_unit_low_bit_toggle",
+          "palette_byte_offset": 2,
+          "purpose": "bounded capacity witness only; overflow remains fail-closed"
+        },
+        "output_rom_sha256": null,
+        "rom": {
+          "path": "rom/base.gba",
+          "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "size": 6291456
+        },
+        "scope": {
+          "all_content_resources_audited": true,
+          "all_logical_references_accounted": true,
+          "all_physical_slots_audited": true,
+          "arbitrary_edit_capacity_complete": false,
+          "atomic_all_alias_capacity_gate": true,
+          "deterministic_first_unit_mutation_audited": true,
+          "explicit_physical_slot_targeting_available": true,
+          "generic_image_writeback_complete": false,
+          "guarded_in_place_importer_available": true,
+          "original_roundtrip_capacity_complete": true,
+          "pointer_rewrite_complete": false,
+          "resource_relocation_complete": false,
+          "runtime_pixel_equivalence": false,
+          "vram_safe_encoding_audited": true
+        },
+        "source_catalog": {
+          "content_resource_count": 34,
+          "logical_reference_count": 36,
+          "path": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+          "physical_slot_count": 35,
+          "sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963"
+        },
+        "summary": {
+          "content_resource_count": 34,
+          "logical_reference_count": 36,
+          "minimum_mutation_slot_margin": -2,
+          "minimum_original_slot_margin": 0,
+          "mutation_fit_all_alias_content_count": 23,
+          "mutation_fit_logical_reference_count": 24,
+          "mutation_fit_slot_count": 24,
+          "mutation_overflow_content_count": 11,
+          "mutation_overflow_logical_reference_count": 12,
+          "mutation_overflow_slot_count": 11,
+          "original_roundtrip_fit_content_count": 34,
+          "original_roundtrip_fit_slot_count": 35,
+          "physical_slot_count": 35
+        }
+      },
+      "audit_source": "artifacts/battle-effect-resource-writeback-v1/battle-effect-resource-writeback.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [
+          "guarded_in_place_importer_available"
+        ],
+        "holds": true,
+        "minimum_original_slot_margin": 0,
+        "mutation_overflow_content_count": 11,
+        "mutation_overflow_slot_count": 11,
+        "problems": [],
+        "roundtrips": [
+          {
+            "holds": true,
+            "roundtrip": 34,
+            "roundtrip_key": "original_roundtrip_fit_content_count",
+            "total": 34,
+            "total_key": "content_resource_count"
+          }
+        ],
+        "unexpected_pointer_count": null
+      },
+      "family": "battle-effect-resource-writeback-v1",
+      "imported_payloads": [
+        {
+          "path": "battle-effect-resource-writeback-v1/battle-effect-resource-writeback.json",
+          "reverse_path": "artifacts/battle-effect-resource-writeback-v1/battle-effect-resource-writeback.json",
+          "sha256": "3f7ed416b584980695198bf93a7bb6d61345d977e83ca2ba93c25b9bf3f0a534"
+        }
+      ],
+      "kind": "writeback",
+      "manifest": "artifacts/battle-effect-resource-writeback-v1/manifest.json",
+      "manifest_sha256": "47970ba90a761de5eeb67eebaea574558b2e780b8483129e22a02dbd61d3cb3c",
+      "reverse_file_hashes": {
+        "battle-effect-resource-writeback.json": "3f7ed416b584980695198bf93a7bb6d61345d977e83ca2ba93c25b9bf3f0a534"
+      },
+      "rule_set": {
+        "base_rom_sha256": null,
+        "description": null,
+        "edit_count": null,
+        "owner": null,
+        "partition": null,
+        "region": null,
+        "region_owner": null,
+        "region_registry": null,
+        "region_registry_sha256": null,
+        "resource_count": null,
+        "schema": null,
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": null,
+      "scope": {
+        "all_content_resources_audited": true,
+        "all_logical_references_accounted": true,
+        "all_physical_slots_audited": true,
+        "arbitrary_edit_capacity_complete": false,
+        "atomic_all_alias_capacity_gate": true,
+        "deterministic_first_unit_mutation_audited": true,
+        "explicit_physical_slot_targeting_available": true,
+        "generic_image_writeback_complete": false,
+        "guarded_in_place_importer_available": true,
+        "original_roundtrip_capacity_complete": true,
+        "pointer_rewrite_complete": false,
+        "resource_relocation_complete": false,
+        "runtime_pixel_equivalence": false,
+        "vram_safe_encoding_audited": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_resource_writeback_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-resource-writeback-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "bg-resource-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "41d91630051046a734c8191c94a52dbe274c469afab5f8e477f9b0da0ec9f79c",
+        "rom": null,
+        "scope": {
+          "editable": "Fixed-geometry graphics, 384-byte palettes and 640-byte tilemaps may change without original compressed-slot limits; catalog-approved descriptor aliases may split while the full 12-entry linked view continues to satisfy 4bpp/8bpp tile and palette constraints.",
+          "not_proved": "Different canvas geometry, bottom runtime-filled rows, modified resource runtime selection, scrolling, OBJ/window/blend composition or final pixel equivalence.",
+          "proved": "All 31 regular-BG content resources, representing 36 physical LZ77 payloads and all 36 exact descriptor pointer fields, relocate into the registered regular-bg image region."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 31,
+          "allocation_end": 11621745,
+          "allocation_span": 87409,
+          "allocation_start": 11534336,
+          "applied_patch_count": 67,
+          "content_resource_count": 31,
+          "entry_count": 12,
+          "logical_pointer_count": 36,
+          "physical_payload_count": 36,
+          "pointer_patch_count": 36,
+          "region_end": 11796480,
+          "remaining_bytes": 174735,
+          "stored_payload_bytes": 87366,
+          "unexpected_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/bg-resource-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": 0
+      },
+      "family": "bg-resource-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "bg-resource-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/bg-resource-relocation-v1/full-relocation-spec.json",
+          "sha256": "e2acaf1eab6f6d79c0b55a8fd8da57ff149e59922cd3f20f23b3c91e5c5f9b4c"
+        },
+        {
+          "path": "bg-resource-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/bg-resource-relocation-v1/relocation-audit.json",
+          "sha256": "84d7e0575234094a41889a70aaae38f1ca99f2ab65bfdc0ab59ccb52a5f7d29c"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/bg-resource-relocation-v1/manifest.json",
+      "manifest_sha256": "b4ce592ce1fc203a1e25943181a0e1e9b1cfd95f76537ba01dbbde0fb8b62199",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "e2acaf1eab6f6d79c0b55a8fd8da57ff149e59922cd3f20f23b3c91e5c5f9b4c",
+        "relocation-audit.json": "84d7e0575234094a41889a70aaae38f1ca99f2ab65bfdc0ab59ccb52a5f7d29c"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": 31,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "regular-bg",
+        "region_owner": "regular_bg_resources",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": null,
+        "schema": "bg-resource-relocation-v1",
+        "source_catalog": "artifacts/bg-resource-canvases-v1/manifest.json",
+        "source_catalog_sha256": "27096c9129823cc7d4f98aeb1fde304419a1c6abfadaf1cff6e13b80bf2fa99e"
+      },
+      "rule_set_source": "artifacts/bg-resource-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "Fixed-geometry graphics, 384-byte palettes and 640-byte tilemaps may change without original compressed-slot limits; catalog-approved descriptor aliases may split while the full 12-entry linked view continues to satisfy 4bpp/8bpp tile and palette constraints.",
+        "not_proved": "Different canvas geometry, bottom runtime-filled rows, modified resource runtime selection, scrolling, OBJ/window/blend composition or final pixel equivalence.",
+        "proved": "All 31 regular-BG content resources, representing 36 physical LZ77 payloads and all 36 exact descriptor pointer fields, relocate into the registered regular-bg image region."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_bg_resource_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/bg-resource-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "bg-resource-writeback-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": {
+          "graphics_byte_offset": 0,
+          "kind": "first_editable_unit_low_bit_toggle",
+          "palette_byte_offset": 2,
+          "purpose": "bounded capacity witness only; overflow remains fail-closed",
+          "tilemap_byte_offset": 0
+        },
+        "output_rom_sha256": null,
+        "rom": {
+          "path": "rom/base.gba",
+          "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "size": 6291456
+        },
+        "scope": {
+          "all_content_resources_audited": true,
+          "all_logical_references_accounted": true,
+          "all_physical_slots_audited": true,
+          "arbitrary_edit_capacity_complete": false,
+          "atomic_all_alias_capacity_gate": true,
+          "canvas_png_writeback_complete": false,
+          "deterministic_first_unit_mutation_audited": true,
+          "explicit_physical_slot_targeting_available": true,
+          "guarded_in_place_importer_available": true,
+          "linked_resource_validation_complete": true,
+          "original_roundtrip_capacity_complete": true,
+          "pointer_rewrite_complete": false,
+          "resource_relocation_complete": false,
+          "runtime_entry_selection_complete": false,
+          "runtime_pixel_equivalence": false,
+          "vram_safe_encoding_audited": true
+        },
+        "source_catalog": {
+          "content_resource_count": 31,
+          "logical_reference_count": 36,
+          "path": "artifacts/bg-resource-canvases-v1/manifest.json",
+          "physical_slot_count": 36,
+          "sha256": "27096c9129823cc7d4f98aeb1fde304419a1c6abfadaf1cff6e13b80bf2fa99e"
+        },
+        "summary": {
+          "content_resource_count": 31,
+          "logical_reference_count": 36,
+          "minimum_mutation_slot_margin": -3,
+          "minimum_original_slot_margin": 0,
+          "mutation_fit_all_alias_content_count": 10,
+          "mutation_fit_logical_reference_count": 10,
+          "mutation_fit_slot_count": 10,
+          "mutation_overflow_content_count": 21,
+          "mutation_overflow_logical_reference_count": 26,
+          "mutation_overflow_slot_count": 26,
+          "original_roundtrip_fit_content_count": 31,
+          "original_roundtrip_fit_slot_count": 36,
+          "physical_slot_count": 36
+        }
+      },
+      "audit_source": "artifacts/bg-resource-writeback-v1/bg-resource-writeback.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [
+          "guarded_in_place_importer_available"
+        ],
+        "holds": true,
+        "minimum_original_slot_margin": 0,
+        "mutation_overflow_content_count": 21,
+        "mutation_overflow_slot_count": 26,
+        "problems": [],
+        "roundtrips": [
+          {
+            "holds": true,
+            "roundtrip": 31,
+            "roundtrip_key": "original_roundtrip_fit_content_count",
+            "total": 31,
+            "total_key": "content_resource_count"
+          }
+        ],
+        "unexpected_pointer_count": null
+      },
+      "family": "bg-resource-writeback-v1",
+      "imported_payloads": [
+        {
+          "path": "bg-resource-writeback-v1/bg-resource-writeback.json",
+          "reverse_path": "artifacts/bg-resource-writeback-v1/bg-resource-writeback.json",
+          "sha256": "498f2dab4aecdb36d432b7189193fad6279b660d4028a6daf38fa131a59dba7e"
+        }
+      ],
+      "kind": "writeback",
+      "manifest": "artifacts/bg-resource-writeback-v1/manifest.json",
+      "manifest_sha256": "e14e1c9f43f26ebf6dbe34b3d813d50e90480a2f197a9771f76ccab821c08728",
+      "reverse_file_hashes": {
+        "bg-resource-writeback.json": "498f2dab4aecdb36d432b7189193fad6279b660d4028a6daf38fa131a59dba7e"
+      },
+      "rule_set": {
+        "base_rom_sha256": null,
+        "description": null,
+        "edit_count": null,
+        "owner": null,
+        "partition": null,
+        "region": null,
+        "region_owner": null,
+        "region_registry": null,
+        "region_registry_sha256": null,
+        "resource_count": null,
+        "schema": null,
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": null,
+      "scope": {
+        "all_content_resources_audited": true,
+        "all_logical_references_accounted": true,
+        "all_physical_slots_audited": true,
+        "arbitrary_edit_capacity_complete": false,
+        "atomic_all_alias_capacity_gate": true,
+        "canvas_png_writeback_complete": false,
+        "deterministic_first_unit_mutation_audited": true,
+        "explicit_physical_slot_targeting_available": true,
+        "guarded_in_place_importer_available": true,
+        "linked_resource_validation_complete": true,
+        "original_roundtrip_capacity_complete": true,
+        "pointer_rewrite_complete": false,
+        "resource_relocation_complete": false,
+        "runtime_entry_selection_complete": false,
+        "runtime_pixel_equivalence": false,
+        "vram_safe_encoding_audited": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_bg_resource_writeback_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/bg-resource-writeback-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "character-battle-bundle-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "8ad97b9f3ab623d487fc6aa17d3bc9caaeb7fb0d17302801b46f4ef1cc6fca22",
+        "rom": null,
+        "scope": {
+          "not_proved": "Modified-resource runtime pixel equivalence, arbitrary flash cartridge behavior, or references encoded in a non-pointer form.",
+          "preserved": "All 250 source graphics, copied 32-byte palettes, frame records including the single FBFF trailer, timelines and 342 logical descriptor aliases.",
+          "proved": "Every resource can be relocated together into the declared 2 MiB partition with rewritten internal and descriptor pointers. The sole additional aligned exact value is recorded as data inside a separately pointed strict LZ77 payload; no unknown aligned exact-pointer references remain."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocated_bytes": 2020612,
+          "allocation_end": 8312068,
+          "allocation_patch_count": 250,
+          "allocation_start": 6291456,
+          "animation_count": 784,
+          "component_count": 2190,
+          "compressed_payload_coincidence_count": 1,
+          "descriptor_patch_count": 342,
+          "descriptor_slot_count": 342,
+          "frame_count": 2004,
+          "keyframe_count": 3187,
+          "partition_end": 8388608,
+          "reference_count": 3815,
+          "reference_target_count": 3538,
+          "remaining_bytes": 76540,
+          "resource_count": 250,
+          "tile_count": 60430,
+          "unexpected_external_reference_count": 0
+        }
+      },
+      "audit_source": "artifacts/character-battle-bundle-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": null
+      },
+      "family": "character-battle-bundle-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "character-battle-bundle-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/character-battle-bundle-relocation-v1/full-relocation-spec.json",
+          "sha256": "be7ef10055a737547580942f54ba7f85de89206d76ac1e0bdc725d5ff241190a"
+        },
+        {
+          "path": "character-battle-bundle-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/character-battle-bundle-relocation-v1/relocation-audit.json",
+          "sha256": "d43d07e56669088ac3ee55ec03d11ef8f6f0e2830925856aafe5399a5f9c3ef2"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/character-battle-bundle-relocation-v1/manifest.json",
+      "manifest_sha256": "4f51f3fa95a29b3f8328e6d67ee7a60efe85383476aefc26f864fcbb9fa9dc20",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "be7ef10055a737547580942f54ba7f85de89206d76ac1e0bdc725d5ff241190a",
+        "relocation-audit.json": "d43d07e56669088ac3ee55ec03d11ef8f6f0e2830925856aafe5399a5f9c3ef2"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": "Capacity/fidelity audit: relocate every existing resource while preserving graphics, palette, frame records, timelines and aliases.",
+        "edit_count": 250,
+        "owner": "character_battle_visuals",
+        "partition": "character-battle-visual-bundles",
+        "region": null,
+        "region_owner": null,
+        "region_registry": null,
+        "region_registry_sha256": null,
+        "resource_count": null,
+        "schema": "character-battle-bundle-import-v1",
+        "source_catalog": "artifacts/character-battle-visuals-v1/manifest.json",
+        "source_catalog_sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+      },
+      "rule_set_source": "artifacts/character-battle-bundle-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "not_proved": "Modified-resource runtime pixel equivalence, arbitrary flash cartridge behavior, or references encoded in a non-pointer form.",
+        "preserved": "All 250 source graphics, copied 32-byte palettes, frame records including the single FBFF trailer, timelines and 342 logical descriptor aliases.",
+        "proved": "Every resource can be relocated together into the declared 2 MiB partition with rewritten internal and descriptor pointers. The sole additional aligned exact value is recorded as data inside a separately pointed strict LZ77 payload; no unknown aligned exact-pointer references remain."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_character_battle_bundle_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/character-battle-bundle-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "character-battle-graphics-writeback-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": {
+          "kind": "first_graphics_byte_low_bit_toggle",
+          "length_preserving": true,
+          "offset": 0,
+          "purpose": "witness that every raw graphics slot accepts an actual same-length edit"
+        },
+        "output_rom_sha256": null,
+        "rom": {
+          "path": "rom/base.gba",
+          "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "size": 6291456
+        },
+        "scope": {
+          "all_component_tile_ranges_accounted": true,
+          "all_physical_graphics_audited": true,
+          "all_resource_references_accounted": true,
+          "all_slot_references_accounted": true,
+          "arbitrary_fixed_length_raw_graphics_writeback_complete": true,
+          "frame_structure_writeback_complete": false,
+          "generic_image_writeback_complete": false,
+          "graphics_structure_non_overlap_complete": true,
+          "guarded_fixed_length_importer_available": true,
+          "pointer_rewrite_complete": false,
+          "resource_relocation_complete": false,
+          "runtime_pixel_equivalence": false,
+          "runtime_slot_selection_complete": false,
+          "same_resource_slot_aliases_atomic": true,
+          "variable_length_writeback_complete": false
+        },
+        "source_catalog": {
+          "path": "artifacts/character-battle-visuals-v1/manifest.json",
+          "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c",
+          "table_sha256": "baa3f86793e15d0d4abd44fcf10518da15ba0d76588b918838c3660e042e01dc"
+        },
+        "summary": {
+          "component_count": 2190,
+          "frame_count": 2004,
+          "graphics_byte_count": 1933760,
+          "maximum_graphics_size": 26624,
+          "minimum_graphics_size": 1600,
+          "mutation_writeback_count": 250,
+          "original_roundtrip_count": 250,
+          "physical_graphics_count": 250,
+          "resource_count": 250,
+          "slot_reference_count": 342,
+          "tile_count": 60430,
+          "unique_content_count": 250
+        }
+      },
+      "audit_source": "artifacts/character-battle-graphics-writeback-v1/character-battle-graphics-writeback.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [
+          "guarded_fixed_length_importer_available"
+        ],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [
+          {
+            "holds": true,
+            "roundtrip": 250,
+            "roundtrip_key": "original_roundtrip_count",
+            "total": 250,
+            "total_key": "resource_count"
+          }
+        ],
+        "unexpected_pointer_count": null
+      },
+      "family": "character-battle-graphics-writeback-v1",
+      "imported_payloads": [
+        {
+          "path": "character-battle-graphics-writeback-v1/character-battle-graphics-writeback.json",
+          "reverse_path": "artifacts/character-battle-graphics-writeback-v1/character-battle-graphics-writeback.json",
+          "sha256": "bf4a2a71c7c24899c8c1b4577379afbe56754b8cc4d07dbcea4c442f0f329573"
+        }
+      ],
+      "kind": "writeback",
+      "manifest": "artifacts/character-battle-graphics-writeback-v1/manifest.json",
+      "manifest_sha256": "a6d6aa819842e6d477111573f7d4d34608055e916dbe1126d7ff1a06fa4a41b4",
+      "reverse_file_hashes": {
+        "character-battle-graphics-writeback.json": "bf4a2a71c7c24899c8c1b4577379afbe56754b8cc4d07dbcea4c442f0f329573"
+      },
+      "rule_set": {
+        "base_rom_sha256": null,
+        "description": null,
+        "edit_count": null,
+        "owner": null,
+        "partition": null,
+        "region": null,
+        "region_owner": null,
+        "region_registry": null,
+        "region_registry_sha256": null,
+        "resource_count": null,
+        "schema": null,
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": null,
+      "scope": {
+        "all_component_tile_ranges_accounted": true,
+        "all_physical_graphics_audited": true,
+        "all_resource_references_accounted": true,
+        "all_slot_references_accounted": true,
+        "arbitrary_fixed_length_raw_graphics_writeback_complete": true,
+        "frame_structure_writeback_complete": false,
+        "generic_image_writeback_complete": false,
+        "graphics_structure_non_overlap_complete": true,
+        "guarded_fixed_length_importer_available": true,
+        "pointer_rewrite_complete": false,
+        "resource_relocation_complete": false,
+        "runtime_pixel_equivalence": false,
+        "runtime_slot_selection_complete": false,
+        "same_resource_slot_aliases_atomic": true,
+        "variable_length_writeback_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_character_battle_graphics_writeback_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/character-battle-graphics-writeback-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "character-battle-palette-writeback-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": null,
+        "rom": {
+          "path": "rom/base.gba",
+          "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "size": 6291456
+        },
+        "scope": {
+          "all_physical_palettes_audited": true,
+          "all_resource_references_accounted": true,
+          "all_slot_references_accounted": true,
+          "arbitrary_fixed_length_palette_writeback_complete": true,
+          "equal_content_distinct_pointers_independent": true,
+          "frame_structure_writeback_complete": false,
+          "generic_image_writeback_complete": false,
+          "graphics_writeback_complete": false,
+          "guarded_fixed_length_importer_available": true,
+          "pointer_rewrite_complete": false,
+          "resource_relocation_complete": false,
+          "runtime_pixel_equivalence": false,
+          "same_pointer_aliases_atomic": true
+        },
+        "source_catalog": {
+          "path": "artifacts/character-battle-visuals-v1/manifest.json",
+          "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+        },
+        "summary": {
+          "mutation_writeback_count": 48,
+          "original_roundtrip_count": 48,
+          "physical_palette_count": 48,
+          "resource_reference_count": 250,
+          "slot_reference_count": 342,
+          "unique_content_count": 40
+        }
+      },
+      "audit_source": "artifacts/character-battle-palette-writeback-v1/character-battle-palette-writeback.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [
+          "guarded_fixed_length_importer_available"
+        ],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [
+          {
+            "holds": true,
+            "roundtrip": 48,
+            "roundtrip_key": "original_roundtrip_count",
+            "total": 48,
+            "total_key": "physical_palette_count"
+          }
+        ],
+        "unexpected_pointer_count": null
+      },
+      "family": "character-battle-palette-writeback-v1",
+      "imported_payloads": [
+        {
+          "path": "character-battle-palette-writeback-v1/character-battle-palette-writeback.json",
+          "reverse_path": "artifacts/character-battle-palette-writeback-v1/character-battle-palette-writeback.json",
+          "sha256": "074896f5dd827f7a957511de88c141c68b723b2a4a75a280d86ae6288215f114"
+        }
+      ],
+      "kind": "writeback",
+      "manifest": "artifacts/character-battle-palette-writeback-v1/manifest.json",
+      "manifest_sha256": "262d1a8480cb93fe996e2c56412df0b3b559771b0c8a63c40a43fcafc6e944f0",
+      "reverse_file_hashes": {
+        "character-battle-palette-writeback.json": "074896f5dd827f7a957511de88c141c68b723b2a4a75a280d86ae6288215f114"
+      },
+      "rule_set": {
+        "base_rom_sha256": null,
+        "description": null,
+        "edit_count": null,
+        "owner": null,
+        "partition": null,
+        "region": null,
+        "region_owner": null,
+        "region_registry": null,
+        "region_registry_sha256": null,
+        "resource_count": null,
+        "schema": null,
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": null,
+      "scope": {
+        "all_physical_palettes_audited": true,
+        "all_resource_references_accounted": true,
+        "all_slot_references_accounted": true,
+        "arbitrary_fixed_length_palette_writeback_complete": true,
+        "equal_content_distinct_pointers_independent": true,
+        "frame_structure_writeback_complete": false,
+        "generic_image_writeback_complete": false,
+        "graphics_writeback_complete": false,
+        "guarded_fixed_length_importer_available": true,
+        "pointer_rewrite_complete": false,
+        "resource_relocation_complete": false,
+        "runtime_pixel_equivalence": false,
+        "same_pointer_aliases_atomic": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_character_battle_palette_writeback_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/character-battle-palette-writeback-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "character-battle-structure-writeback-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": null,
+        "rom": {
+          "path": "rom/base.gba",
+          "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "size": 6291456
+        },
+        "scope": {
+          "all_animations_and_keyframes_audited": true,
+          "all_frames_and_components_audited": true,
+          "all_resources_audited": true,
+          "all_slot_aliases_accounted": true,
+          "anomalous_trailer_preserved": true,
+          "component_semantic_writeback_complete": true,
+          "keyframe_semantic_writeback_complete": true,
+          "pointer_rewrite_complete": false,
+          "pointer_tables_immutable": true,
+          "resource_relocation_complete": false,
+          "runtime_pixel_equivalence": false,
+          "runtime_slot_selection_complete": false,
+          "terminators_immutable": true,
+          "variable_count_structure_writeback_complete": false
+        },
+        "source_catalog": {
+          "path": "artifacts/character-battle-visuals-v1/manifest.json",
+          "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c",
+          "table_sha256": "baa3f86793e15d0d4abd44fcf10518da15ba0d76588b918838c3660e042e01dc"
+        },
+        "summary": {
+          "animation_count": 784,
+          "anomalous_trailer_count": 1,
+          "component_count": 2190,
+          "component_mutation_count": 2190,
+          "component_roundtrip_count": 2190,
+          "frame_count": 2004,
+          "keyframe_count": 3187,
+          "keyframe_mutation_count": 3187,
+          "keyframe_roundtrip_count": 3187,
+          "resource_count": 250,
+          "slot_reference_count": 342
+        }
+      },
+      "audit_source": "artifacts/character-battle-structure-writeback-v1/character-battle-structure-writeback.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [
+          {
+            "holds": true,
+            "roundtrip": 2190,
+            "roundtrip_key": "component_roundtrip_count",
+            "total": 2190,
+            "total_key": "component_count"
+          },
+          {
+            "holds": true,
+            "roundtrip": 3187,
+            "roundtrip_key": "keyframe_roundtrip_count",
+            "total": 3187,
+            "total_key": "keyframe_count"
+          }
+        ],
+        "unexpected_pointer_count": null
+      },
+      "family": "character-battle-structure-writeback-v1",
+      "imported_payloads": [
+        {
+          "path": "character-battle-structure-writeback-v1/character-battle-structure-writeback.json",
+          "reverse_path": "artifacts/character-battle-structure-writeback-v1/character-battle-structure-writeback.json",
+          "sha256": "9035ad17d6ef05cff6f3432fa177c7077d58c8ea10456631c3408a9881e454ac"
+        }
+      ],
+      "kind": "writeback",
+      "manifest": "artifacts/character-battle-structure-writeback-v1/manifest.json",
+      "manifest_sha256": "e3727d069742f6dbe9bc26c9765060dfc725f61cf10f76da5de4ad1cf768e672",
+      "reverse_file_hashes": {
+        "character-battle-structure-writeback.json": "9035ad17d6ef05cff6f3432fa177c7077d58c8ea10456631c3408a9881e454ac"
+      },
+      "rule_set": {
+        "base_rom_sha256": null,
+        "description": null,
+        "edit_count": null,
+        "owner": null,
+        "partition": null,
+        "region": null,
+        "region_owner": null,
+        "region_registry": null,
+        "region_registry_sha256": null,
+        "resource_count": null,
+        "schema": null,
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": null,
+      "scope": {
+        "all_animations_and_keyframes_audited": true,
+        "all_frames_and_components_audited": true,
+        "all_resources_audited": true,
+        "all_slot_aliases_accounted": true,
+        "anomalous_trailer_preserved": true,
+        "component_semantic_writeback_complete": true,
+        "keyframe_semantic_writeback_complete": true,
+        "pointer_rewrite_complete": false,
+        "pointer_tables_immutable": true,
+        "resource_relocation_complete": false,
+        "runtime_pixel_equivalence": false,
+        "runtime_slot_selection_complete": false,
+        "terminators_immutable": true,
+        "variable_count_structure_writeback_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_character_battle_structure_writeback_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/character-battle-structure-writeback-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "cutscene-obj-bundle-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "4da5caf8e6aedf78182b13e75829931398dfb61aee7b7f5f45cd6ec324a33c16",
+        "rom": null,
+        "scope": {
+          "editable": "Each fixed ID may use 1..256 complete 4bpp tiles and one 16-color palette. The fixed 2/2/2/4 frame and animation slots each support 1..2 valid GBA OBJ components and a non-empty variable keyframe timeline with u16 durations.",
+          "not_proved": "Adding a fifth ID, changing the fixed frame/animation slot counts, more than two simultaneous components per frame, caller-level scene cleanup, or final screen-composited pixel/timing equivalence after modification.",
+          "proved": "All four fixed Cutscene OBJ IDs, 10 source frames/components, 10 source animations/keyframes and all 36 exact source pointer references are accounted for; 12 allocations and 16 root pointer patches rebuild a 16 MiB ROM."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 12,
+          "allocation_end": 12194544,
+          "allocation_span": 4848,
+          "allocation_start": 12189696,
+          "animation_count": 10,
+          "applied_patch_count": 28,
+          "component_count": 10,
+          "frame_count": 10,
+          "frame_counts": [
+            2,
+            2,
+            2,
+            4
+          ],
+          "keyframe_count": 10,
+          "maximum_safe_graphics_tiles": 256,
+          "pointer_patch_count": 16,
+          "region_end": 12255232,
+          "remaining_bytes": 60688,
+          "resource_count": 4,
+          "runtime_loader_call_count": 4,
+          "runtime_tile_base": 768,
+          "source_pointer_reference_count": 36,
+          "stored_payload_bytes": 4835,
+          "unexpected_source_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/cutscene-obj-bundle-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": null
+      },
+      "family": "cutscene-obj-bundle-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "cutscene-obj-bundle-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/cutscene-obj-bundle-relocation-v1/full-relocation-spec.json",
+          "sha256": "75ee745e721e7d2fee5092332ac0a61a80fb0f89b172c68cb33e08a5c22d3949"
+        },
+        {
+          "path": "cutscene-obj-bundle-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/cutscene-obj-bundle-relocation-v1/relocation-audit.json",
+          "sha256": "265b4b8a242e9b6e6df71afbb892e794cd76be7c2982aaaec1ef382661674dc6"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/cutscene-obj-bundle-relocation-v1/manifest.json",
+      "manifest_sha256": "5438878f03972989ca20c302cce4a526b594208b8458399a2b0d2d2455b1868b",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "75ee745e721e7d2fee5092332ac0a61a80fb0f89b172c68cb33e08a5c22d3949",
+        "relocation-audit.json": "265b4b8a242e9b6e6df71afbb892e794cd76be7c2982aaaec1ef382661674dc6",
+        "resource_0.4bpp.bin": "ff3e1b090a18378eb51b2c25ad7e9115ea33d6c9afe11ceeb09cbd392a5496c5",
+        "resource_0.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af",
+        "resource_1.4bpp.bin": "1494d4db49423aaf026f3a1d45df4a63c70db9a0c6c7bae72621f7f7688bae0d",
+        "resource_1.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af",
+        "resource_2.4bpp.bin": "ff180630c246cf7c9e161576b33c0e734157a2a927c07be6bc90a80619654079",
+        "resource_2.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af",
+        "resource_3.4bpp.bin": "d2b44e9c68dc23771249bedfb7397de35f19e6769f99a91f86512b7604b43ec1",
+        "resource_3.bgr555.bin": "99d45ddc5929d60c150146f1292cd55f56d89afbff70ffd0f377128fe75352af"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": null,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "cutscene-obj-bundle",
+        "region_owner": "cutscene_obj_resources",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": 4,
+        "schema": "cutscene-obj-bundle-relocation-v1",
+        "source_catalog": "artifacts/cutscene-obj-v1/manifest.json",
+        "source_catalog_sha256": "b8e1341172decef9f07080879cd8369bc5308274d84383d5c706de72a0b781e7"
+      },
+      "rule_set_source": "artifacts/cutscene-obj-bundle-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "Each fixed ID may use 1..256 complete 4bpp tiles and one 16-color palette. The fixed 2/2/2/4 frame and animation slots each support 1..2 valid GBA OBJ components and a non-empty variable keyframe timeline with u16 durations.",
+        "not_proved": "Adding a fifth ID, changing the fixed frame/animation slot counts, more than two simultaneous components per frame, caller-level scene cleanup, or final screen-composited pixel/timing equivalence after modification.",
+        "proved": "All four fixed Cutscene OBJ IDs, 10 source frames/components, 10 source animations/keyframes and all 36 exact source pointer references are accounted for; 12 allocations and 16 root pointer patches rebuild a 16 MiB ROM."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_cutscene_obj_bundle_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/cutscene-obj-bundle-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "direct-image-palette-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "638b1534e0e0d5f955ea06266cad783ed05b6a74575273302229bd17988c5cd2",
+        "rom": null,
+        "scope": {
+          "editable": "All three 16-color LZ77 palettes and every non-overlap-locked raw BGR555 byte may be replaced at fixed decoded size. The nested 0x08406010 source remains an alias of 0x08405FF0+0x20.",
+          "not_proved": "Editing the 72 bytes shared with the scene LZ77 stream, assigning palettes to the two unresolved graphics, changing PRAM destinations or copy lengths, and final screen-composited runtime equivalence.",
+          "proved": "All 18 strictly proven direct ROM-to-PRAM palette source addresses and all 29 exact aligned source-pointer roots are accounted for as 17 physical allocations. A preservation relocation rebuilds a 16 MiB ROM."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 17,
+          "allocation_end": 12321556,
+          "allocation_span": 788,
+          "allocation_start": 12320768,
+          "applied_patch_count": 46,
+          "logical_source_count": 18,
+          "lz77_decoded_size": 96,
+          "lz77_resource_count": 3,
+          "overlap_locked_size": 72,
+          "physical_resource_count": 17,
+          "pointer_patch_count": 29,
+          "raw_physical_size": 672,
+          "raw_resource_count": 14,
+          "region_end": 12321792,
+          "remaining_bytes": 236,
+          "source_pointer_reference_count": 29,
+          "stored_payload_bytes": 788,
+          "unexpected_source_pointer_count": 0,
+          "unresolved_graphics_palette_count": 2
+        }
+      },
+      "audit_source": "artifacts/direct-image-palette-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": null
+      },
+      "family": "direct-image-palette-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "direct-image-palette-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+          "sha256": "555724a02c1b051279245970349158c829c367439676845e570dc497ed3470fa"
+        },
+        {
+          "path": "direct-image-palette-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/direct-image-palette-relocation-v1/relocation-audit.json",
+          "sha256": "40fc2052167ec9403f7300f16113a044d3391afc6a780285a80f246e6359b01b"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/direct-image-palette-relocation-v1/manifest.json",
+      "manifest_sha256": "996a9dc0dfd9174154a3cdae9bfbdafd03799fc75fad91d646b21a3e8cced3c1",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "555724a02c1b051279245970349158c829c367439676845e570dc497ed3470fa",
+        "palette_080b9f5c.bgr555.bin": "d198ec85eff147b157978bb44d1948db5b9893edb5f8f63d4d9b96b5ca7e7e84",
+        "palette_08348668.bgr555.bin": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
+        "palette_08348be4.bgr555.bin": "6c8893d616cce74a88bbcc1b5ce8a91e5188c530d31b65f19c3ba1577467198e",
+        "palette_0834941c.bgr555.bin": "b5026d9f9be4c7a632a6ce2cb49b825cf6b735d60c256aeb7c1033e015379999",
+        "palette_083496b0.bgr555.bin": "ea3242236994abb7dd34e690f17a4257a7166f2586acd55c7743f0224b0dd3dd",
+        "palette_083f0ac8.bgr555.bin": "a0b2e109a1f53d565e41bc05112ad6018b6a390b9b9dd902e93526a788a00217",
+        "palette_083f0af0.bgr555.bin": "b11c213e0969ea51fb69f3b7060b5efcd06ce14b5ebf5c3c15c1955d07a8b50b",
+        "palette_083f1e60.bgr555.bin": "19567cb1079d1340c6f018d9f3019069126f53f2e2577cc3a15765d96fe39de3",
+        "palette_083f1f08.bgr555.bin": "48847c38fed3966e5ccea283d1e0d90e464cb6acad11e5788e62a8eeaf8d7c74",
+        "palette_083f2794.bgr555.bin": "14975f2391f88813040bbadc136bbfcaa736a408521af3701054bf0470d5a4f9",
+        "palette_083f2cb0.bgr555.bin": "bb58f9bc0be9a3b7ad2604ced29815b23d55660c89e70e59430959cf7aed8b2f",
+        "palette_08405ff0.bgr555.bin": "5450eec1d4290fbece155869547a8caccefad7c39d36cf05b56fc9f6f1b7ec60",
+        "palette_08457ea8.bgr555.bin": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+        "palette_0845830c.bgr555.bin": "379538be95492f6c67e56da98330241de43996021a339f41735769dd9e49fff2",
+        "palette_084638d4.bgr555.bin": "1a3f7ca023287acbbe2f4f7aa80e52160f687e5d791603a96e8c04ec13a155e7",
+        "palette_084638f4.bgr555.bin": "107efd33b08a2dd2a61391231890a52f1be532fadcece5cc6516327d51adb3d3",
+        "palette_08463ffc.bgr555.bin": "f668cd9e033cf7ed9902633fe6b9c3df99bc0a9bcb0aa1219912cf2ab9262e18",
+        "relocation-audit.json": "40fc2052167ec9403f7300f16113a044d3391afc6a780285a80f246e6359b01b"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": null,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "direct-image-palettes",
+        "region_owner": "direct_image_palettes",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": 17,
+        "schema": "direct-image-palette-relocation-v1",
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "All three 16-color LZ77 palettes and every non-overlap-locked raw BGR555 byte may be replaced at fixed decoded size. The nested 0x08406010 source remains an alias of 0x08405FF0+0x20.",
+        "not_proved": "Editing the 72 bytes shared with the scene LZ77 stream, assigning palettes to the two unresolved graphics, changing PRAM destinations or copy lengths, and final screen-composited runtime equivalence.",
+        "proved": "All 18 strictly proven direct ROM-to-PRAM palette source addresses and all 29 exact aligned source-pointer roots are accounted for as 17 physical allocations. A preservation relocation rebuilds a 16 MiB ROM."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_direct_image_palette_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/direct-image-palette-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "generic-sprite-bundle-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "2089a296c06d7a49b2fdccc82332f5138db38cd521917b748fbf2cdf00f2a9a7",
+        "rom": null,
+        "scope": {
+          "editable": "The shared graphics pack may contain 1..97 complete 4bpp tiles, the palette remains one 16-color bank, and each fixed ID may contain 1..2 valid GBA OBJ components, matching the proved source maximum. Animation 0 remains the proved single-frame hold-one-tick then stop sequence.",
+          "not_proved": "Adding Sprite IDs, adding animations or frames, scene-specific resource overwrites, natural selection of every ID, or final screen-composited pixel/timing equivalence after modification.",
+          "proved": "All 43 fixed generic Sprite IDs, 45 source components, the canonical graphics/palette payloads and all 174 exact source pointer references are accounted for; 45 payload allocations, 88 external pointer patches and 43 tile-base writes rebuild a 16 MiB ROM."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 45,
+          "allocation_end": 12126688,
+          "allocation_span": 2528,
+          "allocation_start": 12124160,
+          "applied_patch_count": 176,
+          "component_count": 45,
+          "entry_count": 43,
+          "graphics_tile_count": 49,
+          "maximum_runtime_tile_base": 927,
+          "maximum_safe_graphics_tiles": 97,
+          "pointer_patch_count": 88,
+          "region_end": 12189696,
+          "remaining_bytes": 63008,
+          "runtime_loader_call_count": 12,
+          "runtime_tile_bases": [
+            846,
+            927
+          ],
+          "source_pointer_reference_count": 174,
+          "stored_payload_bytes": 2525,
+          "tile_base_patch_count": 43,
+          "unexpected_source_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/generic-sprite-bundle-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": null
+      },
+      "family": "generic-sprite-bundle-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "generic-sprite-bundle-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/generic-sprite-bundle-relocation-v1/full-relocation-spec.json",
+          "sha256": "6681131547ab9d83111252c20c98b8d84cdd8032a469f041fe77d044f1afe63b"
+        },
+        {
+          "path": "generic-sprite-bundle-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/generic-sprite-bundle-relocation-v1/relocation-audit.json",
+          "sha256": "55a9d965b9f894246f04fb89ac3a7dd6b541d5294abe94627909258bcd43e61d"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/generic-sprite-bundle-relocation-v1/manifest.json",
+      "manifest_sha256": "775bc2ed1fa6d64e0107b5318cbfdfba7c70b07d7c29b54e3d1dac885e9aa941",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "6681131547ab9d83111252c20c98b8d84cdd8032a469f041fe77d044f1afe63b",
+        "relocation-audit.json": "55a9d965b9f894246f04fb89ac3a7dd6b541d5294abe94627909258bcd43e61d"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": null,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "generic-sprite-bundle",
+        "region_owner": "generic_sprite_resources",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": null,
+        "schema": "generic-sprite-bundle-relocation-v1",
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": "artifacts/generic-sprite-bundle-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "The shared graphics pack may contain 1..97 complete 4bpp tiles, the palette remains one 16-color bank, and each fixed ID may contain 1..2 valid GBA OBJ components, matching the proved source maximum. Animation 0 remains the proved single-frame hold-one-tick then stop sequence.",
+        "not_proved": "Adding Sprite IDs, adding animations or frames, scene-specific resource overwrites, natural selection of every ID, or final screen-composited pixel/timing equivalence after modification.",
+        "proved": "All 43 fixed generic Sprite IDs, 45 source components, the canonical graphics/palette payloads and all 174 exact source pointer references are accounted for; 45 payload allocations, 88 external pointer patches and 43 tile-base writes rebuild a 16 MiB ROM."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_generic_sprite_bundle_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/generic-sprite-bundle-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "map-resource-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "64fc632d2d2ee3e61f3f1ce211420d8145640a27dc2a40063bc8d011b6218403",
+        "rom": null,
+        "scope": {
+          "editable": "Map graphics, palettes, layouts, metatiles and collision grids may change size while every linked map remains valid.",
+          "not_proved": "Modified-map runtime pixel equivalence, dynamic overlays, camera behavior or final collision gameplay semantics.",
+          "proved": "All 166 deduplicated map contents and 249 exact map-header pointers relocate into the registered map image region."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocated_span_bytes": 385086,
+          "allocation_end": 10346558,
+          "allocation_start": 9961472,
+          "content_resource_count": 166,
+          "logical_reference_count": 249,
+          "map_count": 47,
+          "physical_source_count": 217,
+          "region_end": 11010048,
+          "relocated_stored_bytes": 384864,
+          "remaining_bytes": 663490,
+          "resource_type_counts": {
+            "alternate_layout": 12,
+            "bg_palette": 15,
+            "collision_grid": 35,
+            "metatile_definitions": 35,
+            "primary_layout": 35,
+            "tile_graphics": 34
+          },
+          "source_content_bytes": 548704,
+          "source_physical_stored_bytes": 468956,
+          "unexpected_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/map-resource-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": 0
+      },
+      "family": "map-resource-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "map-resource-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/map-resource-relocation-v1/full-relocation-spec.json",
+          "sha256": "9541c0294750debb5e0516ec5b5213bb4f071fe81dacb98e6abec63cfb0cdb85"
+        },
+        {
+          "path": "map-resource-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/map-resource-relocation-v1/relocation-audit.json",
+          "sha256": "9ccc7116ed5608d71e2855ace3e5584040b9d3015c59f186f54baf604024a165"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/map-resource-relocation-v1/manifest.json",
+      "manifest_sha256": "5c229b20e9842fc10da92b1fc64594d4766c4554ced744c9a343e0c844410d07",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "9541c0294750debb5e0516ec5b5213bb4f071fe81dacb98e6abec63cfb0cdb85",
+        "relocation-audit.json": "9ccc7116ed5608d71e2855ace3e5584040b9d3015c59f186f54baf604024a165"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": "Capacity/fidelity audit: relocate all 166 deduplicated map contents and all 249 exact map-header pointer aliases.",
+        "edit_count": 166,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "map-resources",
+        "region_owner": "map_resources",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": null,
+        "schema": "map-resource-relocation-v1",
+        "source_catalog": "artifacts/map-canvases-v1/manifest.json",
+        "source_catalog_sha256": "12a231a570a1cb9e56bec7e2f87cb6de4ac48d673765b1ba536bbc5b0137e19c"
+      },
+      "rule_set_source": "artifacts/map-resource-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "Map graphics, palettes, layouts, metatiles and collision grids may change size while every linked map remains valid.",
+        "not_proved": "Modified-map runtime pixel equivalence, dynamic overlays, camera behavior or final collision gameplay semantics.",
+        "proved": "All 166 deduplicated map contents and 249 exact map-header pointers relocate into the registered map image region."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_map_resource_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/map-resource-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "map-resource-writeback-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": {
+          "kind": "first_editable_unit_low_bit_toggle",
+          "other_resource_byte_offset": 0,
+          "palette_byte_offset": 2,
+          "purpose": "bounded capacity witness only; overflow remains fail-closed"
+        },
+        "output_rom_sha256": null,
+        "rom": {
+          "path": "rom/base.gba",
+          "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "size": 6291456
+        },
+        "scope": {
+          "all_content_resources_audited": true,
+          "all_logical_references_accounted": true,
+          "all_physical_slots_audited": true,
+          "arbitrary_edit_capacity_complete": false,
+          "atomic_all_alias_capacity_gate": true,
+          "deterministic_first_byte_mutation_audited": true,
+          "generic_image_writeback_complete": false,
+          "guarded_in_place_importer_available": true,
+          "linked_resource_index_validation_complete": true,
+          "original_roundtrip_capacity_complete": true,
+          "pointer_rewrite_complete": false,
+          "resource_relocation_complete": false,
+          "runtime_pixel_equivalence": false,
+          "vram_safe_encoding_audited": true
+        },
+        "source_catalog": {
+          "content_resource_count": 166,
+          "logical_reference_count": 249,
+          "path": "artifacts/map-canvases-v1/manifest.json",
+          "physical_slot_count": 217,
+          "sha256": "12a231a570a1cb9e56bec7e2f87cb6de4ac48d673765b1ba536bbc5b0137e19c"
+        },
+        "summary": {
+          "content_resource_count": 166,
+          "logical_reference_count": 249,
+          "minimum_mutation_slot_margin": -3,
+          "minimum_original_slot_margin": 0,
+          "mutation_fit_all_alias_content_count": 70,
+          "mutation_fit_slot_count": 91,
+          "mutation_overflow_content_count": 96,
+          "mutation_overflow_slot_count": 126,
+          "original_roundtrip_fit_content_count": 166,
+          "original_roundtrip_fit_slot_count": 217,
+          "physical_slot_count": 217
+        }
+      },
+      "audit_source": "artifacts/map-resource-writeback-v1/map-resource-writeback.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [
+          "guarded_in_place_importer_available"
+        ],
+        "holds": true,
+        "minimum_original_slot_margin": 0,
+        "mutation_overflow_content_count": 96,
+        "mutation_overflow_slot_count": 126,
+        "problems": [],
+        "roundtrips": [
+          {
+            "holds": true,
+            "roundtrip": 166,
+            "roundtrip_key": "original_roundtrip_fit_content_count",
+            "total": 166,
+            "total_key": "content_resource_count"
+          }
+        ],
+        "unexpected_pointer_count": null
+      },
+      "family": "map-resource-writeback-v1",
+      "imported_payloads": [
+        {
+          "path": "map-resource-writeback-v1/map-resource-writeback.json",
+          "reverse_path": "artifacts/map-resource-writeback-v1/map-resource-writeback.json",
+          "sha256": "847193c88478c2d1ceb2823935c32cfce271602d94b1828214cbf12bdb48911e"
+        }
+      ],
+      "kind": "writeback",
+      "manifest": "artifacts/map-resource-writeback-v1/manifest.json",
+      "manifest_sha256": "9c7333e7c817133738e035f32526ce1f065a6f223aeae02b87ef3ab56526439e",
+      "reverse_file_hashes": {
+        "map-resource-writeback.json": "847193c88478c2d1ceb2823935c32cfce271602d94b1828214cbf12bdb48911e"
+      },
+      "rule_set": {
+        "base_rom_sha256": null,
+        "description": null,
+        "edit_count": null,
+        "owner": null,
+        "partition": null,
+        "region": null,
+        "region_owner": null,
+        "region_registry": null,
+        "region_registry_sha256": null,
+        "resource_count": null,
+        "schema": null,
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": null,
+      "scope": {
+        "all_content_resources_audited": true,
+        "all_logical_references_accounted": true,
+        "all_physical_slots_audited": true,
+        "arbitrary_edit_capacity_complete": false,
+        "atomic_all_alias_capacity_gate": true,
+        "deterministic_first_byte_mutation_audited": true,
+        "generic_image_writeback_complete": false,
+        "guarded_in_place_importer_available": true,
+        "linked_resource_index_validation_complete": true,
+        "original_roundtrip_capacity_complete": true,
+        "pointer_rewrite_complete": false,
+        "resource_relocation_complete": false,
+        "runtime_pixel_equivalence": false,
+        "vram_safe_encoding_audited": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_map_resource_writeback_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/map-resource-writeback-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "menu-portrait-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "ab1e307d8def0fd8ce598680eb0d6bd04965e819bdd8f680270ed6e06c10725b",
+        "rom": null,
+        "scope": {
+          "editable": "Indexed 80x80 portraits may replace their compressed 6400-byte OBJ stream and 128-byte BGR555 palette, including explicit pair-alias splits, without the original compressed-slot capacity limit.",
+          "not_proved": "Arbitrary portrait dimensions, modified-resource runtime pixel equivalence, menu color transforms, transitions or final composition.",
+          "proved": "All 70 graphics and 70 palette payloads, representing 74 logical portrait pairs and 311 portraits, relocate through all 622 exact pair-table pointer fields into the registered menu-portraits region."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 140,
+          "allocation_end": 11241420,
+          "allocation_span": 231372,
+          "allocation_start": 11010048,
+          "applied_patch_count": 762,
+          "graphics_payload_count": 70,
+          "logical_pair_count": 74,
+          "logical_pointer_count": 622,
+          "logical_portrait_count": 311,
+          "palette_payload_count": 70,
+          "physical_payload_count": 140,
+          "pointer_patch_count": 622,
+          "region_end": 11534336,
+          "remaining_bytes": 292916,
+          "stored_payload_bytes": 231262,
+          "unexpected_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/menu-portrait-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": 0
+      },
+      "family": "menu-portrait-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "menu-portrait-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/menu-portrait-relocation-v1/full-relocation-spec.json",
+          "sha256": "f262c204f1dadcf48295cd038d2e91e4d76ed821b949d2f4743ab2bd3197f7df"
+        },
+        {
+          "path": "menu-portrait-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/menu-portrait-relocation-v1/relocation-audit.json",
+          "sha256": "162ba0b9b6cf6c8f20c116bcdb14cb55a1dd0877e4c52cb00de3b61ce45a120b"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/menu-portrait-relocation-v1/manifest.json",
+      "manifest_sha256": "451237d76f5208b2f36d7c7eeb29c8b86dfb051075b8aa39fccd8bfce15118ca",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "f262c204f1dadcf48295cd038d2e91e4d76ed821b949d2f4743ab2bd3197f7df",
+        "relocation-audit.json": "162ba0b9b6cf6c8f20c116bcdb14cb55a1dd0877e4c52cb00de3b61ce45a120b"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": 74,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "menu-portraits",
+        "region_owner": "menu_portrait_resources",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": null,
+        "schema": "menu-portrait-relocation-v1",
+        "source_catalog": "artifacts/menu-portraits-v1/manifest.json",
+        "source_catalog_sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3"
+      },
+      "rule_set_source": "artifacts/menu-portrait-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "Indexed 80x80 portraits may replace their compressed 6400-byte OBJ stream and 128-byte BGR555 palette, including explicit pair-alias splits, without the original compressed-slot capacity limit.",
+        "not_proved": "Arbitrary portrait dimensions, modified-resource runtime pixel equivalence, menu color transforms, transitions or final composition.",
+        "proved": "All 70 graphics and 70 palette payloads, representing 74 logical portrait pairs and 311 portraits, relocate through all 622 exact pair-table pointer fields into the registered menu-portraits region."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_menu_portrait_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/menu-portrait-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "menu-portrait-writeback-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": {
+          "after": "(before + 1) modulo 64",
+          "decompressed_stream_offset": 0,
+          "kind": "single_index_change",
+          "purpose": "bounded capacity witness only; it does not prove arbitrary PNGs fit"
+        },
+        "output_rom_sha256": null,
+        "rom": {
+          "path": "rom/base.gba",
+          "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "size": 6291456
+        },
+        "scope": {
+          "all_logical_portrait_aliases_accounted": true,
+          "all_unique_resources_audited": true,
+          "arbitrary_png_slot_fit_complete": false,
+          "fixed_length_palette_writeback_complete": true,
+          "fixed_slot_overflow_reported": true,
+          "generic_image_writeback_complete": false,
+          "guarded_in_place_importer_available": true,
+          "original_roundtrip_capacity_complete": true,
+          "pointer_rewrite_complete": false,
+          "resource_relocation_complete": false,
+          "runtime_pixel_equivalence": false,
+          "single_pixel_mutation_capacity_complete": false,
+          "vram_safe_encoding_audited": true
+        },
+        "source_catalog": {
+          "logical_portrait_count": 311,
+          "path": "artifacts/menu-portraits-v1/manifest.json",
+          "sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3",
+          "unique_resource_count": 74
+        },
+        "summary": {
+          "logical_portrait_count": 311,
+          "minimum_mutation_slot_margin": -4,
+          "minimum_original_slot_margin": 0,
+          "original_roundtrip_fit_count": 74,
+          "palette_fixed_length_writeback_count": 74,
+          "resource_count": 74,
+          "single_pixel_mutation_fit_count": 37
+        }
+      },
+      "audit_source": "artifacts/menu-portrait-writeback-v1/menu-portrait-writeback.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [
+          "guarded_in_place_importer_available"
+        ],
+        "holds": true,
+        "minimum_original_slot_margin": 0,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [
+          {
+            "holds": true,
+            "roundtrip": 74,
+            "roundtrip_key": "original_roundtrip_fit_count",
+            "total": 74,
+            "total_key": "resource_count"
+          }
+        ],
+        "unexpected_pointer_count": null
+      },
+      "family": "menu-portrait-writeback-v1",
+      "imported_payloads": [
+        {
+          "path": "menu-portrait-writeback-v1/menu-portrait-writeback.json",
+          "reverse_path": "artifacts/menu-portrait-writeback-v1/menu-portrait-writeback.json",
+          "sha256": "4d85be165101f35e53b2cf682d6db21a68a3010e7c8bcc0e8a8f9b5f05e00679"
+        }
+      ],
+      "kind": "writeback",
+      "manifest": "artifacts/menu-portrait-writeback-v1/manifest.json",
+      "manifest_sha256": "dbae133169f8ced45eb0893535084c5488345cfe2d3be6c6fef1611e3352278a",
+      "reverse_file_hashes": {
+        "menu-portrait-writeback.json": "4d85be165101f35e53b2cf682d6db21a68a3010e7c8bcc0e8a8f9b5f05e00679"
+      },
+      "rule_set": {
+        "base_rom_sha256": null,
+        "description": null,
+        "edit_count": null,
+        "owner": null,
+        "partition": null,
+        "region": null,
+        "region_owner": null,
+        "region_registry": null,
+        "region_registry_sha256": null,
+        "resource_count": null,
+        "schema": null,
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": null,
+      "scope": {
+        "all_logical_portrait_aliases_accounted": true,
+        "all_unique_resources_audited": true,
+        "arbitrary_png_slot_fit_complete": false,
+        "fixed_length_palette_writeback_complete": true,
+        "fixed_slot_overflow_reported": true,
+        "generic_image_writeback_complete": false,
+        "guarded_in_place_importer_available": true,
+        "original_roundtrip_capacity_complete": true,
+        "pointer_rewrite_complete": false,
+        "resource_relocation_complete": false,
+        "runtime_pixel_equivalence": false,
+        "single_pixel_mutation_capacity_complete": false,
+        "vram_safe_encoding_audited": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_menu_portrait_writeback_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/menu-portrait-writeback-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "residual-lz77-graphics-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "cb476351b0741e436128c3bc5906f2a167f435ef00084a46bccdd298d1993504",
+        "rom": null,
+        "scope": {
+          "editable": "Every resource may replace all of its complete 4bpp tiles while preserving that resource's decoded tile count. Recompression may use the entire registered 64 KiB region instead of the old slot.",
+          "not_proved": "Changing decoded tile counts or VRAM destinations, editing raw or LZ77 palettes, the two unresolved palette identities, natural business names, and final screen-composited runtime equivalence.",
+          "proved": "All 20 residual aligned-pointer-reachable 4bpp LZ77 graphics and all 34 exact source-pointer literals are accounted for. A full preservation relocation rebuilds a 16 MiB ROM."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 20,
+          "allocation_end": 12271834,
+          "allocation_span": 16602,
+          "allocation_start": 12255232,
+          "applied_patch_count": 54,
+          "decompressed_size": 36640,
+          "pointer_patch_count": 34,
+          "region_end": 12320768,
+          "remaining_bytes": 48934,
+          "resource_count": 20,
+          "source_compressed_size": 16574,
+          "source_pointer_reference_count": 34,
+          "stored_payload_bytes": 16574,
+          "unexpected_source_pointer_count": 0,
+          "unresolved_palette_count": 2
+        }
+      },
+      "audit_source": "artifacts/residual-lz77-graphics-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": null
+      },
+      "family": "residual-lz77-graphics-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+          "sha256": "757879fd57d32c9fd8dd7f66373b2fe533de83de0b3d3e479a6ca357f680187b"
+        },
+        {
+          "path": "residual-lz77-graphics-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/residual-lz77-graphics-relocation-v1/relocation-audit.json",
+          "sha256": "5560482dcaeb635975a9f99757665fba840fa0806367a23807516a36d3a6bace"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/residual-lz77-graphics-relocation-v1/manifest.json",
+      "manifest_sha256": "14b9667a6a3fada3cda3baf0c76352bd2192156c9d533da4916229d1883b2e18",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "757879fd57d32c9fd8dd7f66373b2fe533de83de0b3d3e479a6ca357f680187b",
+        "graphics_080b9e94.4bpp.bin": "0f86c8032129ef1b92fb1464c516a03b1c0ca71672ac5de4d37e8b302cf6ce40",
+        "graphics_0812c8b0.4bpp.bin": "97260176f5d96284f45e36a786b91951ae79e55dcb65c1dd11936ab368001a54",
+        "graphics_0812d134.4bpp.bin": "a58292fac1752ac0fb2cae52b220f6c1d40a90eb4a5f396b5fa2e6558d7ffa64",
+        "graphics_0812d2f0.4bpp.bin": "4659a40fdf0430232e594f3f8ac3a544e749c6e7de35a5d1d5805567556c0e15",
+        "graphics_083481e0.4bpp.bin": "a1b8359ba32e4d709124e556abfd1ba53c535c547629abae13cbd24181338c71",
+        "graphics_08348a3c.4bpp.bin": "0657b696d1702bd2a543b38857b46125731f34e6425effd3b030e41556895d79",
+        "graphics_08348f00.4bpp.bin": "1819e2bcbe0204fb3fe73907aab5fdbd561de0dfe7b8ccae316facc037357cae",
+        "graphics_0834943c.4bpp.bin": "01d33444012185e56e279086c4feb8eac4768b45446b4c861b2e5b3f05ebacae",
+        "graphics_083496f8.4bpp.bin": "0b079699856f54d695ce3190cae2cda5e74a17dcc2456813bc716b4f12cd375b",
+        "graphics_083f00c8.4bpp.bin": "9244c573b838e6cffd516a43ffc110571669172e1bd7db329dffd5995003c392",
+        "graphics_083f08f4.4bpp.bin": "758151da506aaa50edcb3e2261418c5606daac309bf15d4e008a0046281fc7e4",
+        "graphics_083f21e4.4bpp.bin": "dfaf8546650d59a8ad1ab1abf918feb4fbae953800e02806de14089dc6d2fbfd",
+        "graphics_083f2a18.4bpp.bin": "7f3d6eba5afb1d4cd802b346f716d0aa65b23128dea4a57fdb31cfc29189a64f",
+        "graphics_08405ea4.4bpp.bin": "2c757d754c5f1c0e043bbbb878dbad37c221a6b2b60ab96f666680a94da08d91",
+        "graphics_08405f10.4bpp.bin": "1b30ba083c2afd77ecf66986a1cecab33cef5a46147279af1e03815c281b2d70",
+        "graphics_08457d3c.4bpp.bin": "eea31d0d2012d3ec1c91a7c35340e4cdc25a8495c11092ec34f0a892401853ab",
+        "graphics_084580c8.4bpp.bin": "537002ffe5973c72f365e22d67895350bb79ed76f4827bdd96a3d6be2b45242e",
+        "graphics_08463688.4bpp.bin": "892ddfd26c50ca74564b24b32f34f14bbd20e7272c92762c72b084e32b4f55c6",
+        "graphics_085b6000.4bpp.bin": "2d9444c08bd4ad61bea7b9f977d423f960af2a0f4ee4257e3eecff5e1264aa15",
+        "graphics_085b6880.4bpp.bin": "6d3edca8c66980c173fcd176240a029a2de532ab5d697d6682a18a2f2d96a715",
+        "relocation-audit.json": "5560482dcaeb635975a9f99757665fba840fa0806367a23807516a36d3a6bace"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": null,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "residual-lz77-graphics",
+        "region_owner": "residual_lz77_graphics",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": 20,
+        "schema": "residual-lz77-graphics-relocation-v1",
+        "source_catalog": "artifacts/rom-pointer-lz77-graphics-v1/graphics-catalog.json",
+        "source_catalog_sha256": "9c3088165fb65004dbeaa124a800d65795395e37b2dcfb90f2d2eedfdd6cf37d"
+      },
+      "rule_set_source": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "Every resource may replace all of its complete 4bpp tiles while preserving that resource's decoded tile count. Recompression may use the entire registered 64 KiB region instead of the old slot.",
+        "not_proved": "Changing decoded tile counts or VRAM destinations, editing raw or LZ77 palettes, the two unresolved palette identities, natural business names, and final screen-composited runtime equivalence.",
+        "proved": "All 20 residual aligned-pointer-reachable 4bpp LZ77 graphics and all 34 exact source-pointer literals are accounted for. A full preservation relocation rebuilds a 16 MiB ROM."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_lz77_graphics_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-lz77-graphics-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "residual-text-bg-tilemap-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "b097462767a02f7c604198f83a9f79e75476809ee44efe3d30945aa7ea5a695c",
+        "rom": null,
+        "scope": {
+          "editable": "All 640 32x20 screen entries may select tile 0..5, palette bank 1, and standard horizontal or vertical flip bits.",
+          "not_proved": "Changing the screenblock destination, coordinated semantic authoring across its separately relocatable graphics/palette resources, the runtime ordering against another stream that may reuse 0x06001000, assigning a natural-language screen identity, and final screen-composited runtime equivalence.",
+          "proved": "The single pointer-reachable residual text-BG tilemap at 0x08349368 and its only aligned source-pointer root relocate into a 16 MiB ROM, with BG2, graphics and palette ownership bound to a separately verified artifact."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 1,
+          "allocation_end": 12321970,
+          "allocation_span": 178,
+          "allocation_start": 12321792,
+          "applied_patch_count": 2,
+          "compressed_source_size": 178,
+          "decoded_size": 1280,
+          "entry_count": 640,
+          "palette_banks": [
+            1
+          ],
+          "pointer_patch_count": 1,
+          "region_end": 12323840,
+          "remaining_bytes": 1870,
+          "source_count": 1,
+          "source_pointer_reference_count": 1,
+          "stored_payload_bytes": 178,
+          "tile_index_max": 5,
+          "tile_index_min": 0,
+          "unexpected_source_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/residual-text-bg-tilemap-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": null
+      },
+      "family": "residual-text-bg-tilemap-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "residual-text-bg-tilemap-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/residual-text-bg-tilemap-relocation-v1/full-relocation-spec.json",
+          "sha256": "3667bacc93a0d87cfdb03a516fd78ccab1b2ef15550305d861971e6e34a35954"
+        },
+        {
+          "path": "residual-text-bg-tilemap-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/residual-text-bg-tilemap-relocation-v1/relocation-audit.json",
+          "sha256": "f73b301b1daf9221a326d9b9c1c1def68861161a195606316c3f9694797a25dd"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/residual-text-bg-tilemap-relocation-v1/manifest.json",
+      "manifest_sha256": "14418c429239eb953f1aefa15e12ddbcaf4b9e13adb7f44f686134440b307679",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "3667bacc93a0d87cfdb03a516fd78ccab1b2ef15550305d861971e6e34a35954",
+        "relocation-audit.json": "f73b301b1daf9221a326d9b9c1c1def68861161a195606316c3f9694797a25dd",
+        "tilemap.bin": "0876b9165e63106e30681dd9ca5831d629ba8903a9f0d05fd5cbf8f1088e920c"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": null,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "residual-text-bg-tilemap",
+        "region_owner": "residual_text_bg_tilemap",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": null,
+        "schema": "residual-text-bg-tilemap-relocation-v1",
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": "artifacts/residual-text-bg-tilemap-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "All 640 32x20 screen entries may select tile 0..5, palette bank 1, and standard horizontal or vertical flip bits.",
+        "not_proved": "Changing the screenblock destination, coordinated semantic authoring across its separately relocatable graphics/palette resources, the runtime ordering against another stream that may reuse 0x06001000, assigning a natural-language screen identity, and final screen-composited runtime equivalence.",
+        "proved": "The single pointer-reachable residual text-BG tilemap at 0x08349368 and its only aligned source-pointer root relocate into a 16 MiB ROM, with BG2, graphics and palette ownership bound to a separately verified artifact."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_text_bg_tilemap_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-text-bg-tilemap-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "residual-wram-derived-tilemap-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "bcf83aba98abd840b422a57eecb1144f9c63fcdec9d6aab17a01729539bbe061",
+        "rom": null,
+        "scope": {
+          "editable": "All 832 u16 entries keep source geometry and palette bank while selecting tiles inside each source's observed range and using H/V flip bits.",
+          "not_proved": "Natural runtime reachability, queue-slot success and flush, exact natural-language screen identity, and final screen pixel or timing equivalence.",
+          "proved": "All four remaining pointer-reachable WRAM tilemap sources and their four exact aligned roots relocate into an owned 16 MiB ROM region, with their BG controls, graphics and palettes bound to a separately verified seven-source ownership catalog."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 4,
+          "allocation_end": 12326491,
+          "allocation_span": 603,
+          "allocation_start": 12325888,
+          "applied_patch_count": 8,
+          "decoded_size": 1664,
+          "entry_count": 832,
+          "literal_lz77_worst_case_bytes_with_alignment": 1888,
+          "pointer_patch_count": 4,
+          "region_end": 12327936,
+          "remaining_bytes": 1445,
+          "source_count": 4,
+          "source_pointer_reference_count": 4,
+          "stored_payload_bytes": 597
+        }
+      },
+      "audit_source": "artifacts/residual-wram-derived-tilemap-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": null
+      },
+      "family": "residual-wram-derived-tilemap-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "residual-wram-derived-tilemap-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/residual-wram-derived-tilemap-relocation-v1/full-relocation-spec.json",
+          "sha256": "d62548d1a7042de8e2d0b018b96b91c50d24da68aed3d0a0c7455349b40ccb05"
+        },
+        {
+          "path": "residual-wram-derived-tilemap-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/residual-wram-derived-tilemap-relocation-v1/relocation-audit.json",
+          "sha256": "3f71754306e9c77a4cf633882770ad94799430b2d4dc2989bde4fcb2e952fe2a"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/residual-wram-derived-tilemap-relocation-v1/manifest.json",
+      "manifest_sha256": "1cf450ddb482b287d62d108660443b332f988007eef07f34726fa30a218f0030",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "d62548d1a7042de8e2d0b018b96b91c50d24da68aed3d0a0c7455349b40ccb05",
+        "relocation-audit.json": "3f71754306e9c77a4cf633882770ad94799430b2d4dc2989bde4fcb2e952fe2a",
+        "tilemap-083f2108.bin": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+        "tilemap-084634b8.bin": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+        "tilemap-0846356c.bin": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+        "tilemap-084635d8.bin": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": null,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "residual-wram-derived-tilemaps",
+        "region_owner": "residual_wram_derived_tilemaps",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": 4,
+        "schema": "residual-wram-derived-tilemap-relocation-v1",
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": "artifacts/residual-wram-derived-tilemap-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "All 832 u16 entries keep source geometry and palette bank while selecting tiles inside each source's observed range and using H/V flip bits.",
+        "not_proved": "Natural runtime reachability, queue-slot success and flush, exact natural-language screen identity, and final screen pixel or timing equivalence.",
+        "proved": "All four remaining pointer-reachable WRAM tilemap sources and their four exact aligned roots relocate into an owned 16 MiB ROM region, with their BG controls, graphics and palettes bound to a separately verified seven-source ownership catalog."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_derived_tilemap_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-derived-tilemap-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "residual-wram-tilemap-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "a5a865c5cd4e7669ffa07d6b08dc96e78a98fdf92219ffce0060f06fae75b975",
+        "rom": null,
+        "scope": {
+          "editable": "All 657 entries keep their proven geometry and palette bank while selecting tiles inside each source's observed range and using standard horizontal or vertical flip bits.",
+          "not_proved": "Computed-pointer consumers outside the proved pointer/literal roots, queue-slot success or natural flush, runtime reachability of every static caller, exact natural-language screen identity, and final screen pixel or timing equivalence.",
+          "proved": "The three pointer/literal-reachable residual WRAM tilemaps at 0x0834928C, 0x083F1C98 and 0x085B67E0 and all three exact aligned source roots relocate into one owned region of a 16 MiB ROM, with their BG controls, graphics and palettes bound to a separately verified seven-source ownership catalog."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 3,
+          "allocation_end": 12324666,
+          "allocation_span": 826,
+          "allocation_start": 12323840,
+          "applied_patch_count": 6,
+          "compressed_source_size": 821,
+          "decoded_size": 1314,
+          "entry_count": 657,
+          "literal_lz77_worst_case_bytes_with_alignment": 1492,
+          "pointer_patch_count": 3,
+          "region_end": 12325888,
+          "remaining_bytes": 1222,
+          "source_count": 3,
+          "source_pointer_reference_count": 3,
+          "stored_payload_bytes": 821,
+          "unexpected_source_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/residual-wram-tilemap-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": null
+      },
+      "family": "residual-wram-tilemap-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "residual-wram-tilemap-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/residual-wram-tilemap-relocation-v1/full-relocation-spec.json",
+          "sha256": "85a4fd68aacc4372f9bd76f309798c0151c6d7f0134ee12cf43479c40c288cac"
+        },
+        {
+          "path": "residual-wram-tilemap-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/residual-wram-tilemap-relocation-v1/relocation-audit.json",
+          "sha256": "6b789099581dad8010efd5a3f1da6fe7d2d933e9d1a42ee1525bf44c77896aec"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/residual-wram-tilemap-relocation-v1/manifest.json",
+      "manifest_sha256": "93a767b4a81e8742e75d24943823ca3b140b056ebb67db8d7c84df039609e5c2",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "85a4fd68aacc4372f9bd76f309798c0151c6d7f0134ee12cf43479c40c288cac",
+        "relocation-audit.json": "6b789099581dad8010efd5a3f1da6fe7d2d933e9d1a42ee1525bf44c77896aec",
+        "tilemap-0834928c.bin": "4396144ffc41de6ee3d0da6383f825695bd37aefde1cb2100bd5672200d9140d",
+        "tilemap-083f1c98.bin": "8661e87accb82f8d07b4102c70203fe19093710d794b0cdde0f1d8ae96db2790",
+        "tilemap-085b67e0.bin": "2c841501108a1892a34aa8d877eee414fe2eed9f0bb0dce1e8700332a7726675"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": null,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "residual-wram-tilemaps",
+        "region_owner": "residual_wram_tilemaps",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": 3,
+        "schema": "residual-wram-tilemap-relocation-v1",
+        "source_catalog": null,
+        "source_catalog_sha256": null
+      },
+      "rule_set_source": "artifacts/residual-wram-tilemap-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "All 657 entries keep their proven geometry and palette bank while selecting tiles inside each source's observed range and using standard horizontal or vertical flip bits.",
+        "not_proved": "Computed-pointer consumers outside the proved pointer/literal roots, queue-slot success or natural flush, runtime reachability of every static caller, exact natural-language screen identity, and final screen pixel or timing equivalence.",
+        "proved": "The three pointer/literal-reachable residual WRAM tilemaps at 0x0834928C, 0x083F1C98 and 0x085B67E0 and all three exact aligned source roots relocate into one owned region of a 16 MiB ROM, with their BG controls, graphics and palettes bound to a separately verified seven-source ownership catalog."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_tilemap_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-tilemap-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "story-visual-resource-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "2f7efbdbba60342ec621b0460436b24429901f4473fdb34317eea9a296d8569b",
+        "rom": null,
+        "scope": {
+          "editable": "Each layer may replace its 4bpp graphics and 32x32 tilemap together, including changing the graphics tile count from 1 through 192; the palette remains 16 colors, tile IDs remain the exact contiguous 0x140-based range and every descriptor alias may split safely, subject to the aggregate registered-region capacity.",
+          "not_proved": "A different BG3 tilemap geometry, more than 192 tiles, another palette bank, changes to linked tile-assets config descriptors, scroll/window/blend timing, final screen equivalence or physical cartridge behavior.",
+          "proved": "All 49 story-layer content resources, representing 72 physical LZ77 payloads and all 72 exact descriptor pointer fields across 24 rows, relocate into the registered story-visual-layers image region."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 49,
+          "allocation_end": 11918661,
+          "allocation_span": 56645,
+          "allocation_start": 11862016,
+          "applied_patch_count": 121,
+          "content_resource_count": 49,
+          "layer_count": 24,
+          "logical_pointer_count": 72,
+          "physical_payload_count": 72,
+          "pointer_patch_count": 72,
+          "region_end": 11997184,
+          "remaining_bytes": 78523,
+          "stored_payload_bytes": 56585,
+          "unexpected_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/story-visual-resource-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": 0
+      },
+      "family": "story-visual-resource-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "story-visual-resource-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/story-visual-resource-relocation-v1/full-relocation-spec.json",
+          "sha256": "db7993714aa96e481542620d1de2e4c12a5e095415442344bcf5d64e3eb85b94"
+        },
+        {
+          "path": "story-visual-resource-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/story-visual-resource-relocation-v1/relocation-audit.json",
+          "sha256": "ab308b8244d86c1ce8e336b84f2132205b8f3f12363a2fa0edf5e551256bc414"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/story-visual-resource-relocation-v1/manifest.json",
+      "manifest_sha256": "8b6de4effe5fe10da40cb60e80ad9cf713d456a6650cf5a6054ebb258cfe9846",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "db7993714aa96e481542620d1de2e4c12a5e095415442344bcf5d64e3eb85b94",
+        "relocation-audit.json": "ab308b8244d86c1ce8e336b84f2132205b8f3f12363a2fa0edf5e551256bc414"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": 49,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "story-visual-layers",
+        "region_owner": "story_visual_resources",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": null,
+        "schema": "story-visual-resource-relocation-v1",
+        "source_catalog": "artifacts/story-visual-layers-v1/manifest.json",
+        "source_catalog_sha256": "556a7319ce57699e2542c578ce0bd1331b93efda58fde1f364271f12f5052fd8"
+      },
+      "rule_set_source": "artifacts/story-visual-resource-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "Each layer may replace its 4bpp graphics and 32x32 tilemap together, including changing the graphics tile count from 1 through 192; the palette remains 16 colors, tile IDs remain the exact contiguous 0x140-based range and every descriptor alias may split safely, subject to the aggregate registered-region capacity.",
+        "not_proved": "A different BG3 tilemap geometry, more than 192 tiles, another palette bank, changes to linked tile-assets config descriptors, scroll/window/blend timing, final screen equivalence or physical cartridge behavior.",
+        "proved": "All 49 story-layer content resources, representing 72 physical LZ77 payloads and all 72 exact descriptor pointer fields across 24 rows, relocate into the registered story-visual-layers image region."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_story_visual_resource_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/story-visual-resource-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "tile-asset-resource-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "43d8a617fdecd54759f6dddbc31d39818303338097ded9f488eef72ac4c31d40",
+        "rom": null,
+        "scope": {
+          "editable": "Raw 4bpp/8bpp graphics, u16 tilemaps and BGR555 palettes may change size where their layer geometry remains valid.",
+          "not_proved": "Modified-resource runtime pixel equivalence, final window/blend/timing composition, or the missing graphics/palette producers for descriptor 0 partial D.",
+          "proved": "All 323 graphics/tilemap/palette payloads and all 709 exact descriptor pointers relocate into the registered tile-assets image region with no unknown aligned exact references."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocated_span_bytes": 635532,
+          "allocation_end": 9024140,
+          "allocation_start": 8388608,
+          "complete_layer_count": 236,
+          "descriptor_count": 79,
+          "logical_pointer_count": 709,
+          "partial_layer_count": 1,
+          "region_end": 9961472,
+          "relocated_stored_bytes": 635194,
+          "remaining_bytes": 937332,
+          "resource_count": 323,
+          "resource_type_counts": {
+            "graphics": 107,
+            "palette": 108,
+            "tilemap": 108
+          },
+          "source_content_bytes": 1159684,
+          "source_stored_bytes": 635194,
+          "unexpected_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/tile-asset-resource-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": 0
+      },
+      "family": "tile-asset-resource-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "tile-asset-resource-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/tile-asset-resource-relocation-v1/full-relocation-spec.json",
+          "sha256": "956b9a3f812649893913833b9812e07ed0ae6f9ee98ff3bb6f4782cbb25c8e57"
+        },
+        {
+          "path": "tile-asset-resource-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/tile-asset-resource-relocation-v1/relocation-audit.json",
+          "sha256": "00afa4b1f96ca2bd9bf54a2a0573d3a7c260d3d5a8870e8685638230bd0504ee"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/tile-asset-resource-relocation-v1/manifest.json",
+      "manifest_sha256": "d645146c230b32528accfe4dccdb495bd0fcd63e9bfd0bc87441c6c271e080c3",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "956b9a3f812649893913833b9812e07ed0ae6f9ee98ff3bb6f4782cbb25c8e57",
+        "relocation-audit.json": "00afa4b1f96ca2bd9bf54a2a0573d3a7c260d3d5a8870e8685638230bd0504ee"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": "Capacity/fidelity audit: relocate all 323 tile-assets payloads and all 709 exact descriptor pointer aliases without editing.",
+        "edit_count": 323,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "tile-assets",
+        "region_owner": "tile_asset_resources",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": null,
+        "schema": "tile-asset-resource-import-v2",
+        "source_catalog": "artifacts/tile-assets-bg-v2/manifest.json",
+        "source_catalog_sha256": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749"
+      },
+      "rule_set_source": "artifacts/tile-asset-resource-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "Raw 4bpp/8bpp graphics, u16 tilemaps and BGR555 palettes may change size where their layer geometry remains valid.",
+        "not_proved": "Modified-resource runtime pixel equivalence, final window/blend/timing composition, or the missing graphics/palette producers for descriptor 0 partial D.",
+        "proved": "All 323 graphics/tilemap/palette payloads and all 709 exact descriptor pointers relocate into the registered tile-assets image region with no unknown aligned exact references."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_tile_asset_resource_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/tile-asset-resource-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "artifact_schema": "world-map-background-relocation-audit-v1",
+      "artifact_status": "accepted",
+      "audit": {
+        "mutation_model": null,
+        "output_rom_sha256": "7bc1b295cee244e4d8e16611597d077eafd47694cb09d2b8a35ba302584e524e",
+        "rom": null,
+        "scope": {
+          "editable": "Each page may use 1..512 complete 8bpp tiles; its fixed 30x20 tilemap and 160-color palette remain validated together. Catalog-approved aliases may split without original slot limits.",
+          "not_proved": "Location-label text edits, unlock rules, page 1/2 natural runtime selection, cursor behavior, transition timing or final composed pixel equivalence after modification.",
+          "proved": "All three world-map pages, seven content resources, nine physical payloads and all nine exact descriptor pointer fields relocate into the registered world-map-backgrounds image region."
+        },
+        "source_catalog": null,
+        "summary": {
+          "allocation_count": 7,
+          "allocation_end": 12087376,
+          "allocation_span": 90192,
+          "allocation_start": 11997184,
+          "applied_patch_count": 16,
+          "content_resource_count": 7,
+          "logical_pointer_count": 9,
+          "page_count": 3,
+          "physical_payload_count": 9,
+          "pointer_patch_count": 9,
+          "region_end": 12124160,
+          "remaining_bytes": 36784,
+          "stored_payload_bytes": 90191,
+          "unexpected_pointer_count": 0
+        }
+      },
+      "audit_source": "artifacts/world-map-background-relocation-v1/relocation-audit.json",
+      "base_rom_matches_project": true,
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "capacity_gate": {
+        "guarded_importer_flags": [],
+        "holds": true,
+        "minimum_original_slot_margin": null,
+        "mutation_overflow_content_count": null,
+        "mutation_overflow_slot_count": null,
+        "problems": [],
+        "roundtrips": [],
+        "unexpected_pointer_count": 0
+      },
+      "family": "world-map-background-relocation-v1",
+      "imported_payloads": [
+        {
+          "path": "world-map-background-relocation-v1/full-relocation-spec.json",
+          "reverse_path": "artifacts/world-map-background-relocation-v1/full-relocation-spec.json",
+          "sha256": "7962acda41e4d0c01f2c8d0d898bc30c15388f2b4560135b699aa0f5863f1edd"
+        },
+        {
+          "path": "world-map-background-relocation-v1/relocation-audit.json",
+          "reverse_path": "artifacts/world-map-background-relocation-v1/relocation-audit.json",
+          "sha256": "9c0b537b2f816ffa9f1839b5bebd5ddf47edae2ea7e57468ecfb416154f7159c"
+        }
+      ],
+      "kind": "relocation",
+      "manifest": "artifacts/world-map-background-relocation-v1/manifest.json",
+      "manifest_sha256": "90d45034d427bedb076c53d9ab315437f2ce6e8c6634a69ab4513e7d6c5a2f39",
+      "reverse_file_hashes": {
+        "full-relocation-spec.json": "7962acda41e4d0c01f2c8d0d898bc30c15388f2b4560135b699aa0f5863f1edd",
+        "relocation-audit.json": "9c0b537b2f816ffa9f1839b5bebd5ddf47edae2ea7e57468ecfb416154f7159c"
+      },
+      "rule_set": {
+        "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+        "description": null,
+        "edit_count": 7,
+        "owner": "sequel_image_assets",
+        "partition": "sequel-image-assets",
+        "region": "world-map-backgrounds",
+        "region_owner": "world_map_background_resources",
+        "region_registry": "sequel/image-resource-regions.json",
+        "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+        "resource_count": null,
+        "schema": "world-map-background-relocation-v1",
+        "source_catalog": "artifacts/world-map-backgrounds-v1/manifest.json",
+        "source_catalog_sha256": "b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3"
+      },
+      "rule_set_source": "artifacts/world-map-background-relocation-v1/full-relocation-spec.json",
+      "scope": {
+        "editable": "Each page may use 1..512 complete 8bpp tiles; its fixed 30x20 tilemap and 160-color palette remain validated together. Catalog-approved aliases may split without original slot limits.",
+        "not_proved": "Location-label text edits, unlock rules, page 1/2 natural runtime selection, cursor behavior, transition timing or final composed pixel equivalence after modification.",
+        "proved": "All three world-map pages, seven content resources, nine physical payloads and all nine exact descriptor pointer fields relocate into the registered world-map-backgrounds image region."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_world_map_background_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/world-map-background-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    }
+  ],
+  "family_count": 22,
+  "region_registry_sha256": [
+    "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f"
+  ],
+  "schema": "konoha.butano-relocation-spec-import.v1",
+  "source": {
+    "accepted_status_required": "accepted",
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "reverse_commit": "b4da99dfae5493c1318907f76a283fc0dd182fcb"
+  }
+}

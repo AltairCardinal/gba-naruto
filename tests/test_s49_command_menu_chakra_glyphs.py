@@ -57,6 +57,13 @@ CHAKRA_TOP = 56
 COMMAND_MENU_TEXT_BOX = (4, 20, 48, 108)
 
 
+def _differing_pixels(image) -> int:
+    """Count non-zero pixels of an "L" image without deprecated APIs."""
+
+    histogram = image.histogram()
+    return image.size[0] * image.size[1] - histogram[0]
+
+
 def captures_available() -> bool:
     return (
         (ORIGINAL / "step-18-A.png").is_file()
@@ -211,7 +218,7 @@ class CommandMenuChakraPixels(unittest.TestCase):
         remake = Image.open(REMAKE / "step-18-A.png").convert("RGB")
         difference = ImageChops.difference(original, remake).convert("L")
         cell = difference.crop(COMMAND_MENU_TEXT_BOX)
-        differing = sum(1 for value in cell.get_flattened_data() if value > 0)
+        differing = _differing_pixels(cell)
         self.assertEqual(
             differing,
             0,

@@ -1,0 +1,63 @@
+{
+  "schema": "konoha.s49-ledger-idle-sequence.v1",
+  "inputs": {
+    "idle_sweep": "artifacts/s49-fidelity-20261019-v1/original-idle-sweep",
+    "frames_measured": 192,
+    "first_frame_sha256": "7bb28820bd83fb89de189d1b0e36f76b54e349690383670dd42079c80d7a80da"
+  },
+  "measurement": {
+    "frames_with_change": 183,
+    "changed_region_bbox": [
+      109,
+      32,
+      146,
+      90
+    ],
+    "best_period_frames": 32,
+    "distinct_poses_in_one_period": 31,
+    "identical_neighbouring_frames_in_period": 1,
+    "period_table": [
+      {
+        "period": 8,
+        "transition_matches": 0,
+        "pose_matches": 0
+      },
+      {
+        "period": 16,
+        "transition_matches": 36,
+        "pose_matches": 0
+      },
+      {
+        "period": 24,
+        "transition_matches": 0,
+        "pose_matches": 0
+      },
+      {
+        "period": 32,
+        "transition_matches": 64,
+        "pose_matches": 7
+      },
+      {
+        "period": 40,
+        "transition_matches": 0,
+        "pose_matches": 0
+      },
+      {
+        "period": 48,
+        "transition_matches": 24,
+        "pose_matches": 1
+      },
+      {
+        "period": 56,
+        "transition_matches": 2,
+        "pose_matches": 0
+      },
+      {
+        "period": 64,
+        "transition_matches": 47,
+        "pose_matches": 12
+      }
+    ]
+  },
+  "conclusion": "the original unit idle animation changes its sprite on 183 of 191 frame transitions and shows 31 distinct sprites inside 32 frames, so the original animates every frame instead of holding a few poses"
+}

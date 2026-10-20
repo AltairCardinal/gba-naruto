@@ -21,6 +21,7 @@ enum class battle_ui_layer : std::uint8_t
     level_up,
     training,
     presentation,
+    turn_banner,
 };
 
 struct battle_ui_model
@@ -39,6 +40,10 @@ struct battle_ui_model
     bool show_action_detail = false;
     bool show_move_prompt = false;
     bool show_target_prompt = false;
+    // The original's small "SELECT詳細" hint in the top right corner.  It is
+    // shown while the player picks a unit, while they pick a destination and
+    // while they pick a target, and it is hidden behind every menu.
+    bool show_select_prompt = false;
     bool show_facing_prompt = false;
     bool show_instruction_panel = false;
     bool show_dialog_panel = false;
@@ -170,7 +175,15 @@ template<std::size_t MaxUnits>
 
     switch(state.phase)
     {
+    case battle_scene_phase::turn_banner:
+        // The original keeps the status bar up behind the round banner, so
+        // the panel is drawn over the battlefield instead of replacing it.
+        result.layer = battle_ui_layer::turn_banner;
+        break;
     case battle_scene_phase::unit_selection:
+        result.layer = battle_ui_layer::map_status;
+        result.show_select_prompt = true;
+        break;
     case battle_scene_phase::enemy_turn:
         result.layer = battle_ui_layer::map_status;
         break;
@@ -186,6 +199,7 @@ template<std::size_t MaxUnits>
         result.status_unit_id = battle_ui_unit_at_cursor(state);
         result.show_status_panel = result.status_unit_id != no_battle_unit;
         result.show_move_prompt = result.show_status_panel;
+        result.show_select_prompt = true;
         result.move_position =
                 state.player.move_position;
         result.move_cost = state.player.move_cost;
@@ -243,6 +257,7 @@ template<std::size_t MaxUnits>
     {
         result.layer = battle_ui_layer::target_select;
         result.show_target_prompt = true;
+        result.show_select_prompt = true;
         break;
     }
     case battle_scene_phase::target_preview:

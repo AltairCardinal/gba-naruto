@@ -1,0 +1,125 @@
+{
+  "edit": {
+    "after_byte": 18,
+    "after_index": 2,
+    "before_byte": 17,
+    "before_index": 1,
+    "frame_id": 0,
+    "frame_pixel_xy": [
+      20,
+      4
+    ],
+    "graphics_byte_offset": 82,
+    "resource_id": 1,
+    "screen_xy": [
+      60,
+      52
+    ],
+    "tile_id": 2,
+    "tile_pixel_xy": [
+      4,
+      4
+    ]
+  },
+  "input": {
+    "capture_frame": 512,
+    "event": {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    },
+    "path": "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9",
+    "resource_absent_before_input": true,
+    "sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a"
+  },
+  "runs": {
+    "baseline": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 79759,
+      "guard_sha256": "28e998a552969e1931f899afcd9c6d2c2fcaa423eaa9e05995bb688338475e4d",
+      "peak_tree_rss_mib": 56.0,
+      "pgid_clean": true,
+      "png_sha256": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "4da5caf8e6aedf78182b13e75829931398dfb61aee7b7f5f45cd6ec324a33c16",
+      "run_id": "91883e17d3d9f01e1e57b9e149f30a2c",
+      "state_sha256": "7c0379d448d3c81c7b6734117873df06beceeb53609880cde466b15f4c15ceb5"
+    },
+    "candidate": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 79801,
+      "guard_sha256": "bb0c9d22c6238ad144a7631f1a31b59e19769e3d538771a52cbcd25a96fc0999",
+      "peak_tree_rss_mib": 55.8046875,
+      "pgid_clean": true,
+      "png_sha256": "40d436fd93242a31ad422130a56069a55761a602e7f91c41e79a74dadb0201bf",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "223b91b49f8f07eaf0fa4bf65a7281a2402f1d568d6d53f304ac0acea9cc7e4c",
+      "run_id": "52127c609839fd56c75491d0f3a339df",
+      "state_sha256": "c20afcd85fe7197d91b5a4b4e8f2e11a184ec85b7c3403f2cb79d1b14397924f"
+    }
+  },
+  "runtime": {
+    "baseline_vram_byte": 17,
+    "candidate_vram_byte": 18,
+    "changed_vram_address": "0x06016052",
+    "graphics_vram_address": "0x06016000",
+    "memory_differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [],
+      "OAM": [],
+      "PRAM": [],
+      "VRAM": [
+        90194
+      ]
+    },
+    "oam_entry": 1,
+    "oam_tile": 768,
+    "oam_xy": [
+      40,
+      48
+    ],
+    "palette_bank": 12,
+    "pixels": {
+      "baseline_rgb_sha256": "051162ea4f830febd94823d2e87d75ad474223f352867e63fa0965912dbe7bc8",
+      "bbox": [
+        60,
+        52,
+        60,
+        52
+      ],
+      "candidate_rgb_sha256": "8984dbb21b063138face3e3944bcf7275e41cfa808b6f59c06726052c77f8744",
+      "changes": [
+        {
+          "after_rgb": [
+            181,
+            181,
+            181
+          ],
+          "before_rgb": [
+            255,
+            255,
+            255
+          ],
+          "x": 60,
+          "y": 52
+        }
+      ],
+      "count": 1
+    },
+    "renderer_exact": true
+  },
+  "schema": "cutscene-obj-id1-pixel-ab-runtime-v1",
+  "scope": {
+    "all_animations_runtime_verified": false,
+    "natural_victory_load": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "resource_1_frame_0_graphics_single_pixel": true,
+    "resources_0_2_3_runtime_verified": false
+  },
+  "verified": true
+}

@@ -32,7 +32,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 RUN = ROOT / "artifacts/s49-fidelity-20261019-v1"
 ORIGINAL = RUN / "walk-original-a24"
-REMAKE = RUN / "walk-remake-dd-a30-chakrafix"
+REMAKE = RUN / "walk-remake-dd-a30-banner6"
 SCENE = ROOT / "butano-sequel/game/src/battle_runtime_scene.cpp"
 
 BANNER_STEP = 15
@@ -65,6 +65,12 @@ PANEL_COLOURS = STRUCTURAL_COLOURS | frozenset(
 
 # Measured off walk-original-a24/step-15-A.png.
 BANNER_BOX = (72, 40, 151, 89)          # x0, y0, x1, y1 inclusive, outer frame
+# The panel is 50 rows tall.  Its bottom two rows are a dithered edge:
+# the highlight colour (247,255,222) appears only in rows 88 and 89,
+# where it alternates with the dithered grass of the battlefield.  A
+# column profile through x=110 shows grass in those rows and would
+# wrongly suggest a 48 row panel, so the flood fill is the measurement
+# that holds.
 INNER_BORDER_BOX = (78, 46, 145, 81)   # the yellow rule inside the frame
 CANVAS_BOX = (79, 47, 144, 80)         # cream drawing surface
 TEXT_LINES = (                         # y0, y1, x0, x1 of the inked text
@@ -186,33 +192,50 @@ class TurnBannerSpecification(unittest.TestCase):
 class TurnBannerNotBuiltYet(unittest.TestCase):
     """Deliberate red gate: names the feature that is still missing."""
 
-    def test_the_remake_still_does_not_draw_the_banner(self):
+    def test_the_remake_draws_the_banner(self):
+        """The banner is implemented, so the red gate becomes a frame gate."""
+
         source = SCENE.read_text(encoding="utf-8")
-        self.assertNotIn(
+        self.assertIn(
             "turn_banner",
             source,
-            "battle_ui_layer::turn_banner now exists — replace this gate with "
-            "a frame-parity gate against the original banner",
+            "the round banner phase and layer are gone again",
         )
 
-    def test_no_remake_frame_carries_the_banner_panel(self):
-        """The remake walks 33 steps; not one of them is the round banner."""
+    def test_the_remake_banner_panel_is_pixel_identical_to_the_original(self):
+        """The banner panel itself must match the original frame exactly."""
 
         if not REMAKE.is_dir():
             self.skipTest("the remake walk is unavailable")
-        offenders = []
+        if not ORIGINAL.is_dir():
+            self.skipTest("the original walk is unavailable")
+        original = _frame(ORIGINAL / f"step-{BANNER_STEP:02d}-A.png")
+        original_pixels = original.load()
+        found = []
         for path in sorted(REMAKE.glob("step-*.png")):
             pixels = _frame(path).load()
             if pixels[BANNER_SEED[0], BANNER_SEED[1]] != CANVAS:
                 continue
-            if _panel_box(pixels) == BANNER_BOX:
-                offenders.append(path.name)
-        self.assertEqual(
-            offenders,
-            [],
-            "the remake now draws the banner; swap this red gate for a "
-            "frame-parity gate against the original",
+            if _panel_box(pixels) != BANNER_BOX:
+                continue
+            differences = sum(
+                1
+                for y in range(BANNER_BOX[1], BANNER_BOX[3])
+                for x in range(BANNER_BOX[0], BANNER_BOX[2])
+                if pixels[x, y] != original_pixels[x, y]
+            )
+            found.append((path.name, differences))
+        self.assertTrue(
+            found,
+            "the remake draws no round banner at all",
         )
+        for name, differences in found:
+            self.assertEqual(
+                differences,
+                0,
+                f"the banner panel in {name} differs from the original in "
+                f"{differences} pixels",
+            )
 
     def test_banner_only_glyphs_are_still_unavailable(self):
         self.assertEqual(

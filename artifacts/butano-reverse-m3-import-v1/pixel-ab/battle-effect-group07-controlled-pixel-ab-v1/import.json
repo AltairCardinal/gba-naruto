@@ -1,0 +1,60 @@
+{
+  "applicability": "no-local-anchor-in-this-tree",
+  "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "battle-effect-group07-controlled-pixel-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/battle-effect-group07-controlled-pixel-ab-v1/baseline.png",
+      "sha256": "1cc09526ed317a57c754632e1ec0b874f6ce10f1a56738f26de94236ef3f1620",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "battle-effect-group07-controlled-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/battle-effect-group07-controlled-pixel-ab-v1/evidence.json",
+    "sha256": "e718a344fb2c853b5efca7d07497e3954854976a8d78d06afdb1e38e0008b5be"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": null,
+    "bbox": [
+      181,
+      26,
+      182,
+      27
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": null,
+    "changed_pixel_count": 1,
+    "source_path": "runtime"
+  },
+  "family": "battle-effect-group07-controlled-pixel-ab-v1",
+  "local_anchors": [],
+  "manifest": "artifacts/battle-effect-group07-controlled-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "25c6823fec18cdd32681a8a9a004378362eb11018850206d8440724fd98815f8",
+  "reverse_file_hashes": {
+    "baseline.png": "1cc09526ed317a57c754632e1ec0b874f6ce10f1a56738f26de94236ef3f1620",
+    "candidate.png": "150f8641d7b7b19c36374cdd8423cb4f720ddaca387b1b1c2339cb6c5afa848b",
+    "evidence.json": "e718a344fb2c853b5efca7d07497e3954854976a8d78d06afdb1e38e0008b5be",
+    "raw.tar": "2005c41111d7e47d4f9bab06167227f90a97884241eef768d184ef5e62125030"
+  },
+  "scope": {},
+  "unavailable_local_inputs": [
+    "sequel/content/battle-effect-controlled-pixel-ab/group-07-sequence-09-controlled.json"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_controlled_battle_effect_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group07-controlled-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

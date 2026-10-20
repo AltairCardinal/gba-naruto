@@ -1,0 +1,83 @@
+{
+  "applicability": "local-anchor-found",
+  "artifact_schema": "world-map-page0-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "baseline_images": [
+    {
+      "path": "world-map-page0-pixel-ab-v1/baseline/frame80.png",
+      "reverse_path": "artifacts/world-map-page0-pixel-ab-v1/raw/baseline/frame80.png",
+      "sha256": "989a9c9b60f3ea352758eb08f74402eefa524959565dbf00491e23563da51046",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "world-map-page0-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/world-map-page0-pixel-ab-v1/runtime-evidence.json",
+    "sha256": "11793b871249326e5127c41b706352710047190d93043dc5d1997e1971987d25"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": "80f987fd20333739f3710ba0b0f59ce83f2ae9ab66fdfa3c34314c49cea6cb69",
+    "bbox": [
+      116,
+      76,
+      116,
+      76
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": "9d56680df8d7bb5792ce6db42e5441160ce436b3f3433f67c9fd923d3f11d636",
+    "changed_pixel_count": 1,
+    "source_path": "runtime.pixels"
+  },
+  "family": "world-map-page0-pixel-ab-v1",
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-11.ss9"
+  ],
+  "manifest": "artifacts/world-map-page0-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "fef4ec504187bf0f3a36862bf9a067317124e02091f1317320504041da53bea7",
+  "reverse_file_hashes": {
+    "raw/baseline/audit.json": "4a5450f7aa751664c794bfe7b2da4d265b45216244e0aa0cc0792f371bd69de9",
+    "raw/baseline/background.8bpp.bin": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
+    "raw/baseline/frame80.png": "989a9c9b60f3ea352758eb08f74402eefa524959565dbf00491e23563da51046",
+    "raw/baseline/frame80.ss9": "5d49b2cbe4c770d88122a98db9893a3288e68e14edc4c6bd074c238fe7a4ef29",
+    "raw/baseline/guard.json": "455efb375d5290161f703c577cdf01ca94c89a8829c2ef598a51e850f8818700",
+    "raw/baseline/sentinel.json": "4a5450f7aa751664c794bfe7b2da4d265b45216244e0aa0cc0792f371bd69de9",
+    "raw/baseline/spec.json": "8a42f00b9b226d180a31eac24b0df74a4ceb236c5137200e1d7f8b894dd89526",
+    "raw/build-manifest.json": "9ea7649e4e0d8d728f669ab710424bbda60a5a7371463994f4425e3e7e4e7c35",
+    "raw/candidate/audit.json": "734d127e3396d8e548ff3eeea8a309b4de2b7c22ff353ab7706d7803d7a3ce96",
+    "raw/candidate/background.8bpp.bin": "1cc2f755948525ebd13d358fc97910658e4aa8c7ce82393c3ffc7b4be454fd1e",
+    "raw/candidate/frame80.png": "8ad24b4e6dea41c7067b84e1ea0c7f3d8fa917a4609d15943e5a481e284ff622",
+    "raw/candidate/frame80.ss9": "9b03c62bbd5ab1f4d552a3b605389f297569f77eccc6a16fe5c4aeb231a10387",
+    "raw/candidate/guard.json": "7c1a57189fc26e4fe0e6abf5ba5f01a1e4f0d4969249b0311200ddbd298dfc4e",
+    "raw/candidate/sentinel.json": "734d127e3396d8e548ff3eeea8a309b4de2b7c22ff353ab7706d7803d7a3ce96",
+    "raw/candidate/spec.json": "6b1e17a663ebda49fc4dd5e5e5488f328dfc4bfa8ed6b1af4cf658b4b3797d79",
+    "runtime-evidence.json": "11793b871249326e5127c41b706352710047190d93043dc5d1997e1971987d25"
+  },
+  "scope": {
+    "labels_cursor_transition_verified": false,
+    "natural_page0_load": true,
+    "page0_graphics_single_pixel": true,
+    "page1_and_page2_runtime_verified": false,
+    "physical_gba_verified": false,
+    "production_relocation_route": true
+  },
+  "unavailable_local_inputs": [],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_world_map_page0_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/world-map-page0-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "verified": true
+    }
+  }
+}

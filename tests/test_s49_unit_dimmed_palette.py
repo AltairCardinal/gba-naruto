@@ -32,6 +32,7 @@ from PIL import Image, ImageChops
 ROOT = Path(__file__).resolve().parents[1]
 
 DUMP = ROOT / "artifacts/s49-original-gpu-20261020-v2/step-18-cmdmenu"
+SCENE = ROOT / "butano-sequel/game/src/battle_runtime_scene.cpp"
 RECEIPT = ROOT / "artifacts/s49-original-gpu-20261020-v2/dimmed-palette-receipt.json"
 FRAME = ROOT / "artifacts/s49-fidelity-20261019-v1/walk-original-a24/step-18-A.png"
 BMP = ROOT / "butano-sequel/graphics/battle_unit_dimmed_palette.bmp"
@@ -186,15 +187,22 @@ class DimmedPaletteExplainsTheFrame(unittest.TestCase):
 
 class ShippedDimmedPaletteAsset(unittest.TestCase):
     def test_the_shipped_bmp_carries_the_palette(self):
+        """Index 0 is the remake's transparent magenta, not the original's grey.
+
+        The original's dimmed bank has a light grey at index 0, but its unit
+        tiles never reference that entry, so the value is irrelevant there.  The
+        remake's unit art uses index 0 for roughly half of every sprite, so a
+        grey there would paint a grey box behind every dimmed unit.
+        """
+
         if not BMP.is_file():
             self.skipTest("the dimmed palette asset is not generated")
         with Image.open(BMP) as image:
             self.assertEqual(image.mode, "P")
             flat = image.getpalette()
-        self.assertEqual(
-            [tuple(flat[index * 3:index * 3 + 3]) for index in range(16)],
-            list(DIMMED),
-        )
+        entries = [tuple(flat[index * 3:index * 3 + 3]) for index in range(16)]
+        self.assertEqual(entries[0], (197, 131, 255))
+        self.assertEqual(entries[1:], list(DIMMED[1:]))
 
     def test_the_sidecar_declares_a_sprite_palette(self):
         if not JSON_SIDECAR.is_file():
@@ -306,6 +314,46 @@ class DimmedBankPaintsTheInactiveUnit(unittest.TestCase):
             tuple(atlas.getpalette()[0:3]),
             (197, 131, 255),
             "the remake's index 0 is the transparent magenta",
+        )
+
+
+class DimmedUnitIsWired(unittest.TestCase):
+    """The scene must actually apply the dimmed palette to inactive units.
+
+    The palette being correct is only half the job; if the runtime never
+    swaps it in, the original's greyscale unit stays in colour and the whole
+    difference survives.  This gate reads the scene source, because the
+    emulator-free check is the one that survives losing the captures.
+    """
+
+    def test_the_scene_uses_the_dimmed_palette(self):
+        source = SCENE.read_text(encoding="utf-8")
+        self.assertIn(
+            "battle_unit_dimmed_palette", source,
+            "the scene never references the dimmed palette",
+        )
+        self.assertIn(
+            "dim_inactive_units", source,
+            "the scene has no switch for dimming inactive units",
+        )
+
+    def test_only_inactive_units_are_dimmed(self):
+        source = SCENE.read_text(encoding="utf-8")
+        self.assertRegex(
+            source,
+            r"dim_inactive_units\s*&&\s*!\s*acting_unit",
+            "the dimming must exclude the unit that is acting",
+        )
+
+    def test_the_dimming_follows_the_command_and_action_menus(self):
+        source = SCENE.read_text(encoding="utf-8")
+        self.assertIn(
+            "battle_ui_layer::command_menu", source,
+            "the dimming is not tied to the command menu",
+        )
+        self.assertIn(
+            "battle_ui_layer::action_menu", source,
+            "the dimming is not tied to the action menu",
         )
 
 

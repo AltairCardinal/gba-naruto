@@ -1,0 +1,119 @@
+{
+  "artifact_schema": "character-battle-palette-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": null,
+    "output_rom_sha256": null,
+    "rom": {
+      "path": "rom/base.gba",
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "size": 6291456
+    },
+    "scope": {
+      "all_physical_palettes_audited": true,
+      "all_resource_references_accounted": true,
+      "all_slot_references_accounted": true,
+      "arbitrary_fixed_length_palette_writeback_complete": true,
+      "equal_content_distinct_pointers_independent": true,
+      "frame_structure_writeback_complete": false,
+      "generic_image_writeback_complete": false,
+      "graphics_writeback_complete": false,
+      "guarded_fixed_length_importer_available": true,
+      "pointer_rewrite_complete": false,
+      "resource_relocation_complete": false,
+      "runtime_pixel_equivalence": false,
+      "same_pointer_aliases_atomic": true
+    },
+    "source_catalog": {
+      "path": "artifacts/character-battle-visuals-v1/manifest.json",
+      "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+    },
+    "summary": {
+      "mutation_writeback_count": 48,
+      "original_roundtrip_count": 48,
+      "physical_palette_count": 48,
+      "resource_reference_count": 250,
+      "slot_reference_count": 342,
+      "unique_content_count": 40
+    }
+  },
+  "audit_source": "artifacts/character-battle-palette-writeback-v1/character-battle-palette-writeback.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [
+      "guarded_fixed_length_importer_available"
+    ],
+    "holds": true,
+    "minimum_original_slot_margin": null,
+    "mutation_overflow_content_count": null,
+    "mutation_overflow_slot_count": null,
+    "problems": [],
+    "roundtrips": [
+      {
+        "holds": true,
+        "roundtrip": 48,
+        "roundtrip_key": "original_roundtrip_count",
+        "total": 48,
+        "total_key": "physical_palette_count"
+      }
+    ],
+    "unexpected_pointer_count": null
+  },
+  "family": "character-battle-palette-writeback-v1",
+  "imported_payloads": [
+    {
+      "path": "character-battle-palette-writeback-v1/character-battle-palette-writeback.json",
+      "reverse_path": "artifacts/character-battle-palette-writeback-v1/character-battle-palette-writeback.json",
+      "sha256": "074896f5dd827f7a957511de88c141c68b723b2a4a75a280d86ae6288215f114"
+    }
+  ],
+  "kind": "writeback",
+  "manifest": "artifacts/character-battle-palette-writeback-v1/manifest.json",
+  "manifest_sha256": "262d1a8480cb93fe996e2c56412df0b3b559771b0c8a63c40a43fcafc6e944f0",
+  "reverse_file_hashes": {
+    "character-battle-palette-writeback.json": "074896f5dd827f7a957511de88c141c68b723b2a4a75a280d86ae6288215f114"
+  },
+  "rule_set": {
+    "base_rom_sha256": null,
+    "description": null,
+    "edit_count": null,
+    "owner": null,
+    "partition": null,
+    "region": null,
+    "region_owner": null,
+    "region_registry": null,
+    "region_registry_sha256": null,
+    "resource_count": null,
+    "schema": null,
+    "source_catalog": null,
+    "source_catalog_sha256": null
+  },
+  "rule_set_source": null,
+  "scope": {
+    "all_physical_palettes_audited": true,
+    "all_resource_references_accounted": true,
+    "all_slot_references_accounted": true,
+    "arbitrary_fixed_length_palette_writeback_complete": true,
+    "equal_content_distinct_pointers_independent": true,
+    "frame_structure_writeback_complete": false,
+    "generic_image_writeback_complete": false,
+    "graphics_writeback_complete": false,
+    "guarded_fixed_length_importer_available": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "same_pointer_aliases_atomic": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_battle_palette_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/character-battle-palette-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "applicability": "no-local-anchor-in-this-tree",
+  "artifact_schema": "motion-effect-parameter-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "motion-effect-parameter-pixel-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/motion-effect-parameter-pixel-ab-v1/baseline.png",
+      "sha256": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "motion-effect-parameter-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/motion-effect-parameter-pixel-ab-v1/evidence.json",
+    "sha256": "ad645e7ff264cbf175a7567eb77f5e4f2e0b37db1858bfeb862c3c3d3284cd51"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": "12c28206d046864088b43898075275ce8aec11db414172f6b2f47fa0a69dff41",
+    "bbox": [
+      54,
+      88,
+      72,
+      107
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": "cec2e8a59c48f922a02123a8a81e449f23c7338387635e0e08d838462a25ff66",
+    "changed_pixel_count": 286,
+    "source_path": "runtime"
+  },
+  "family": "motion-effect-parameter-pixel-ab-v1",
+  "local_anchors": [],
+  "manifest": "artifacts/motion-effect-parameter-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "3741e9465acc813e881493c3c91bef2101e879d6b565ecbc8e01e98b902b9abd",
+  "reverse_file_hashes": {
+    "baseline.png": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+    "candidate.png": "6c220f7e5596c992a18741c0e031f55556965ddc06ae1f1b502cbfeba27017b7",
+    "evidence.json": "ad645e7ff264cbf175a7567eb77f5e4f2e0b37db1858bfeb862c3c3d3284cd51",
+    "raw.tar": "9b1d020dcf6dd1b9355e041971a1a77047d9b5b507906cb552462a007d64bd67"
+  },
+  "scope": {},
+  "unavailable_local_inputs": [
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
+    "sequel/content/motion-effect-parameter-pixel-ab/group-03-record-00-y-offset.json",
+    "sequel/content/palettes/bank.json"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_motion_effect_parameter_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/motion-effect-parameter-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

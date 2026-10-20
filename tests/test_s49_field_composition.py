@@ -44,6 +44,15 @@ def _bees(frame: Path) -> list[int]:
 
 
 class S49FieldComposition(unittest.TestCase):
+    """The bees are on the field early and gone by the command menu.
+
+    An earlier version of this gate asserted the remake never shows a bee.
+    That was wrong: the remake does show both bees from its step 06 to its
+    step 16, exactly like the original.  What differs is that they are gone by
+    the command menu, so the field empties out while the original keeps its
+    bees around the character it is protecting.
+    """
+
     def setUp(self):
         if not ORIGINAL_FRAME.is_file() or not REMAKE_FRAME.is_file():
             self.skipTest("the recorded walks are unavailable")
@@ -60,7 +69,7 @@ class S49FieldComposition(unittest.TestCase):
                 score = _match_score(image, needle)
                 self.assertEqual(score, self.needle_samples[index])
 
-    def test_the_remake_has_neither_bee(self):
+    def test_the_remake_loses_its_bees_before_the_command_menu(self):
         remake = Image.open(REMAKE_FRAME).convert("RGB")
         for index, box in enumerate(BEE_BOXES):
             with self.subTest(bee=index):
@@ -69,8 +78,8 @@ class S49FieldComposition(unittest.TestCase):
                 self.assertLess(
                     score,
                     self.needle_samples[index] * 0.6,
-                    f"the remake now shows bee {index}; swap this red gate for "
-                    f"a frame-parity gate",
+                    f"the remake now shows bee {index} in the command menu; "
+                    f"swap this red gate for a frame-parity gate",
                 )
 
     def test_the_two_bees_are_in_different_places(self):

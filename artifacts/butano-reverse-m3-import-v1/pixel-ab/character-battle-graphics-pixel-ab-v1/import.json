@@ -1,0 +1,100 @@
+{
+  "applicability": "local-anchor-found",
+  "artifact_schema": "character-battle-graphics-pixel-ab-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "character-battle-graphics-pixel-ab-v1/baseline/frame80.png",
+      "reverse_path": "artifacts/character-battle-graphics-pixel-ab-v1/baseline/frame80.png",
+      "sha256": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "character-battle-graphics-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/character-battle-graphics-pixel-ab-v1/runtime-evidence.json",
+    "sha256": "492be18b080602cd8b1fd077df2eaf3b9f986ee499fd49ef9fd2bb8b30912de5"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": null,
+    "bbox": null,
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": null,
+    "changed_pixel_count": 1,
+    "source_path": "runtime"
+  },
+  "family": "character-battle-graphics-pixel-ab-v1",
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-41-start-row.ss9"
+  ],
+  "manifest": "artifacts/character-battle-graphics-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "8dc56720ded15ca9e39d7cc75b2e941969ad020289c7cc2c4ffcc7fe73052a1c",
+  "reverse_file_hashes": {
+    "baseline/audit.json": "b73b0acecf4c05b8a461f004ff96a99f7648df55aa57513b615f8278598c9191",
+    "baseline/bundle.bin": "10b78ae7a78d886531b49b3d4810008f191bea11eadc62f364ad873bd79d636d",
+    "baseline/frame80.png": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+    "baseline/frame80.ss9": "99846a652a25c4716ddcfcb616d17bf0c66d2bc26813717b532546204ccd6ac2",
+    "baseline/guard.json": "9223495585e1507b9403732ab765ef0f7096d526d644c739ab5875610c553f6f",
+    "baseline/sentinel.json": "b73b0acecf4c05b8a461f004ff96a99f7648df55aa57513b615f8278598c9191",
+    "build-manifest.json": "4dd708286e41dd6a7f4cafc4aa3fcbc9895381c9b5ff4889f930f032abccac0d",
+    "candidate/audit.json": "ce6a0cd2ab5640f74527c8ccef11c6bfbb1e3775d83a8514e2a2408557a9ff8b",
+    "candidate/bundle.bin": "4a1523058a958909842e4cd5925795d8b2ba7cf9fdfd037ddee9bc759720c7c2",
+    "candidate/frame80.png": "ff00d40c06e4daee1ce204ba4c302d28712b48e636d78ffbd22a564cff6f5f7f",
+    "candidate/frame80.ss9": "20ecfa1ff5c444f7b9483f3efd5c8d20bf6d386bfe7c304c1e52f98c5ea29f33",
+    "candidate/guard.json": "f43ccdd0ecfe9c48c8834a33037570ac41e653432153003e7b996933f447b0d0",
+    "candidate/sentinel.json": "ce6a0cd2ab5640f74527c8ccef11c6bfbb1e3775d83a8514e2a2408557a9ff8b",
+    "runtime-evidence.json": "492be18b080602cd8b1fd077df2eaf3b9f986ee499fd49ef9fd2bb8b30912de5"
+  },
+  "scope": {
+    "all_250_resources_runtime_verified": false,
+    "all_character_slots_runtime_verified": false,
+    "camera_blend_transform_verified": false,
+    "character_resource_0_frame_3_graphics_pixel_ab": true,
+    "natural_entry": true,
+    "physical_gba_verified": false,
+    "relocated_bundle_runtime_verified": true
+  },
+  "unavailable_local_inputs": [],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_battle_graphics_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/character-battle-graphics-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "frame_id": 3,
+      "memory_differences": {
+        "VRAM": [
+          65830
+        ]
+      },
+      "pixel_changes": [
+        [
+          117,
+          25,
+          [
+            33,
+            33,
+            33
+          ],
+          [
+            255,
+            0,
+            0
+          ]
+        ]
+      ],
+      "resource_id": 0,
+      "verified": true
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "applicability": "local-anchor-found",
+  "artifact_schema": "battle-encounters-story-visual-pixel-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "battle-encounters-story-visual-pixel-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/battle-encounters-story-visual-pixel-ab-v1/baseline.png",
+      "sha256": "c1fbfc4b1050e8b60e83ad65bc050cf5a201157f8de64de9136f776d6794c180",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "battle-encounters-story-visual-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/battle-encounters-story-visual-pixel-ab-v1/evidence.json",
+    "sha256": "37ce7ddb7a3812745e82dfc7f4802a4af155f8ea3632338a7d000f9c6710b2ab"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": "3551e69b1b3eef6e7acfc179ba2556622608544f322e3999b25c66f9fd90a2ce",
+    "bbox": [
+      88,
+      48,
+      159,
+      108
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": "6b87ae09aadf58d8ccca94f78efa5dd9260c04b29f6f20a2a4fc29cd56bb444a",
+    "changed_pixel_count": 1603,
+    "source_path": "pixels"
+  },
+  "family": "battle-encounters-story-visual-pixel-ab-v1",
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-8.ss9"
+  ],
+  "manifest": "artifacts/battle-encounters-story-visual-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "6fc7148a5ec464142ac42d058751238bb0779f7e7f5fc4e7834bbd4dcc018c63",
+  "reverse_file_hashes": {
+    "baseline.png": "c1fbfc4b1050e8b60e83ad65bc050cf5a201157f8de64de9136f776d6794c180",
+    "candidate.png": "ec594790cbb0ab7173ec375af1632ba319680ba95a33930199d24f077628693f",
+    "evidence.json": "37ce7ddb7a3812745e82dfc7f4802a4af155f8ea3632338a7d000f9c6710b2ab",
+    "raw.tar": "491ada895f0094771c90854948fb6eb5486ce16e50bf1ec0aeccbd3b0c56eb9f"
+  },
+  "scope": {},
+  "unavailable_local_inputs": [
+    "artifacts/runtime-checkpoints/scenario-53-story-slideshow-command-controlled.ss9",
+    "tools/mgba_battle_encounters_story_visual_trace.lua"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_encounters_story_visual_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-encounters-story-visual-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

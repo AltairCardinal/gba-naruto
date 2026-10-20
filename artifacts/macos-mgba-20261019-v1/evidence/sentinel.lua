@@ -1,5 +1,5 @@
 local marker = "/Users/altair/github/gba-naruto/artifacts/macos-mgba-20261019-v1/evidence/sentinel-result.json"
-local run_id = "ab6f4894f3c91a4a813168780989f4bd"
+local run_id = "b1020b5b658c03dc571645cf830f5f6d"
 local frame = 0
 local capture_complete = false
 

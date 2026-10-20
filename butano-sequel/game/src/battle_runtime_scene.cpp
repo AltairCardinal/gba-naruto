@@ -75,6 +75,8 @@
 #include "bn_sprite_items_battle_ui_dialogue_speaker_label.h"
 #include "bn_sprite_items_battle_ui_dialogue_advance_icon.h"
 #include "bn_sprite_items_battle_ui_message_black_bar.h"
+#include "bn_sprite_items_battle_ui_select_prompt.h"
+#include "bn_sprite_items_battle_ui_turn_banner_panel.h"
 #include "bn_sprite_items_battle_ui_message_panel.h"
 #include "bn_sprite_items_battle_ui_panel.h"
 #include "bn_sprite_items_battle_ui_result_naruto.h"
@@ -87,6 +89,7 @@
 #include "bn_sprite_palette_items_battle_ui_dialogue_speaker_palette.h"
 #include "bn_sprite_palette_items_battle_ui_dialogue_text_palette.h"
 #include "bn_sprite_palette_items_battle_ui_result_total_palette.h"
+#include "bn_sprite_palette_items_battle_unit_dimmed_palette.h"
 #include "bn_sprite_palette_items_battle_ui_text_accent_palette.h"
 #include "bn_sprite_palette_items_battle_ui_text_warning_palette.h"
 #include "bn_sprite_item.h"
@@ -169,8 +172,6 @@ constexpr int cell_width = 32;
 constexpr int cell_height = 16;
 constexpr int screen_width = 240;
 constexpr int screen_height = 160;
-constexpr bn::color battle_unit_selected_palette_color(
-        0, 23, 23);
 
 [[nodiscard]] constexpr bool
 battle_phase_uses_full_screen_result(
@@ -1162,6 +1163,7 @@ public:
         _training_panel.reset();
         _training_text.reset();
         _training_rendered_page = 0xFF;
+        _turn_banner_palette.reset();
     }
 
     [[gnu::noinline]] void update(
@@ -1307,6 +1309,10 @@ public:
             {
                 _add_menu_column(-88);
             }
+        }
+        if(model.layer == battle_ui_layer::turn_banner)
+        {
+            _add_turn_banner();
         }
     }
 
@@ -1786,6 +1792,42 @@ private:
                 static_cast<bn::sprite_ptr&&>(sprite));
     }
 
+    // The round banner of the original (S49 original frame 15).  The panel
+    // measures 80x48, which is larger than any 4bpp sprite, so the asset is
+    // a strip of six 32x32 pieces and the words are already baked into them.
+    void _add_turn_banner()
+    {
+        if(! _turn_banner_palette)
+        {
+            _turn_banner_palette =
+                    bn::sprite_items::battle_ui_turn_banner_panel
+                            .palette_item()
+                            .create_palette();
+        }
+        constexpr int piece_x[] = { -32, 0, 32, -32, 0, 32, };
+        constexpr int piece_y[] = { -24, -24, -24, 8, 8, 8, };
+        for(int index = 0; index < 6; ++index)
+        {
+            if(_sprites.full())
+            {
+                return;
+            }
+            bn::sprite_ptr sprite = bn::sprite_ptr::create(
+                    piece_x[index],
+                    piece_y[index],
+                    bn::sprite_items::battle_ui_turn_banner_panel
+                            .shape_size(),
+                    bn::sprite_items::battle_ui_turn_banner_panel
+                            .tiles_item()
+                            .create_tiles(index),
+                    *_turn_banner_palette);
+            sprite.set_bg_priority(0);
+            sprite.set_z_order(20);
+            _sprites.push_back(
+                    static_cast<bn::sprite_ptr&&>(sprite));
+        }
+    }
+
     void _add_horizontal_panel(int y)
     {
         _add_status_panel(-88, y, 0);
@@ -1948,6 +1990,7 @@ private:
     bn::optional<bn::regular_bg_ptr> _training_panel;
     bn::optional<bn::regular_bg_ptr> _training_text;
     std::uint8_t _training_rendered_page = 0xFF;
+    bn::optional<bn::sprite_palette_ptr> _turn_banner_palette;
 };
 
 class battle_range_overlay
@@ -3430,7 +3473,11 @@ void render_status_panel_text(
             bn::sprite_palette_items::
                     battle_ui_text_accent_palette);
     generator.generate(-112, 64, identity, sprites);
-    if(state.phase == battle_scene_phase::unit_selection)
+    // The original shows 結束 only for a unit that already finished its
+    // action and 待機 for a unit that is still waiting.  Deciding this by
+    // phase instead put the red 結束 on the unit selection screen, where the
+    // original shows the blue 待機 (S49 original frame 17).
+    if(unit->completed)
     {
         if(! sprites.full())
         {
@@ -3821,11 +3868,31 @@ void render_unit_cycle_hint(
                 battle_runtime_scene_sprite_budget::
                         maximum_text_sprites>& sprites)
 {
-    generator.set_left_alignment();
-    generator.set_palette_item(
-            bn::sprite_palette_items::
-                    battle_ui_map_hint_palette);
-    generator.generate(56, -60, "SELECT人物", sprites);
+    // The original's hint is a small "SELECT詳細" in the top right corner.
+    // It is not drawn with the UI font: the original uses a narrow ASCII and
+    // 8x8 CJK cells, and the font atlases have neither, so the prompt is cut
+    // out of the original's own frame and is pixel exact that way.
+    // The region is 48 pixels wide, which no sprite can be, so the asset
+    // holds it as two 32x32 graphics side by side.
+    constexpr int prompt_piece_x[] = { 88, 120, };
+    constexpr int prompt_piece_y[] = { -52, -52, };
+    for(int piece = 0; piece < 2; ++piece)
+    {
+        if(sprites.full())
+        {
+            break;
+        }
+        bn::sprite_ptr prompt =
+                bn::sprite_items::battle_ui_select_prompt
+                        .create_sprite(
+                                prompt_piece_x[piece],
+                                prompt_piece_y[piece],
+                                piece);
+        prompt.set_bg_priority(0);
+        prompt.set_z_order(0);
+        sprites.push_back(
+                static_cast<bn::sprite_ptr&&>(prompt));
+    }
     generator.set_palette_item(
             bn::sprite_items::battle_ui_panel
                     .palette_item());
@@ -3921,7 +3988,7 @@ void render_battle_ui_text(
                 sprites);
     }
 
-    if(model.show_move_prompt)
+    if(model.show_select_prompt)
     {
         render_unit_cycle_hint(generator, sprites);
     }
@@ -4384,9 +4451,6 @@ struct battle_unit_sprite_state
             asset_indices = {
                 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
             };
-    bn::optional<bn::sprite_palette_ptr>
-            selected_palette;
-    bool palette_selected = false;
 
     void reset()
     {
@@ -4400,8 +4464,6 @@ struct battle_unit_sprite_state
         asset_indices = {
             0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
         };
-        selected_palette.reset();
-        palette_selected = false;
     }
 };
 
@@ -6408,6 +6470,20 @@ void update_battlefield_object_expiry_sprite(
     expiry_sprite->set_visible(true);
 }
 
+// The greyscale palette the original ROM puts on a unit that is not acting.
+// It is the ROM's OBJ palette bank 3, read out of the original's palette RAM
+// with tools/butano/capture_s49_gpu_state.py, with index 0 replaced by the
+// remake's transparent magenta: the original never renders that entry, while
+// the remake's unit art uses index 0 for about half of every sprite, so a grey
+// there would paint a grey box around every dimmed unit.
+[[nodiscard]] const bn::sprite_palette_ptr& dimmed_unit_palette()
+{
+    static bn::sprite_palette_ptr palette =
+            bn::sprite_palette_items::
+                    battle_unit_dimmed_palette.create_palette();
+    return palette;
+}
+
 void update_unit_sprites(
         const battle_scene_snapshot<12>& state,
         const battle_scene_presentation& presentation,
@@ -6417,7 +6493,8 @@ void update_unit_sprites(
                 battle_unit_sprite_state,
                 12>& sprites,
         bool force_rebind = false,
-        const battle_map_movement* movement = nullptr)
+        const battle_map_movement* movement = nullptr,
+        bool dim_inactive_units = false)
 {
     for(std::size_t index = 0;
             index < state.unit_count;
@@ -6539,20 +6616,17 @@ void update_unit_sprites(
                 sprite_state.character_id !=
                         visual_character_id ||
                 sprite_state.visual_slot != sample.slot;
-        const bool palette_selected =
+        // The selected unit keeps the unit art's own palette.  The original
+        // never paints a cyan outline on it: the 25 frames of the original
+        // S49 walk contain zero pixels of the outline colour, and the one
+        // place the original does show it is the battle entry, where it is
+        // already gone four frames later.
+        const bool acting_unit =
                 ! combat_stage &&
                 state.selected_unit == unit.id;
-        const bool palette_changed =
-                sprite_state.palette_selected !=
-                        palette_selected;
-        if(binding_changed || ! palette_selected)
-        {
-            sprite_state.selected_palette.reset();
-        }
         const battle_scene_unit_pose scene_pose =
                 presentation.pose(
-                        unit.id, map_visual_position);
-        const int default_combat_x =
+                        unit.id, map_visual_position);        const int default_combat_x =
                 combat.single_actor_stage() &&
                         combat_actor ?
                         36 :
@@ -6587,16 +6661,6 @@ void update_unit_sprites(
                     visual.component_items[
                             component_pose.asset_index];
             BN_ASSERT(item, "Missing component item");
-            if(palette_selected &&
-                    ! sprite_state.selected_palette)
-            {
-                sprite_state.selected_palette =
-                        bn::sprite_palette_ptr::create_new(
-                                item->palette_item());
-                sprite_state.selected_palette->set_color(
-                        15,
-                        battle_unit_selected_palette_color);
-            }
             const int graphics_index =
                     component_pose.graphics_index;
             constexpr int combat_sprite_scale = 1;
@@ -6651,12 +6715,27 @@ void update_unit_sprites(
                         item->tiles_item(),
                         graphics_index);
             }
-            if(palette_selected)
+            // S49 original frame 18: the unit that is not acting is drawn with
+            // a greyscale OBJ palette (the ROM's palette bank 3, which is the
+            // index-for-index twin of the unit's own colour bank).  The
+            // dimmed palette is a shared item, so it is created once per
+            // scene rather than per unit.
+            // The original keeps every unit in colour while the player is
+            // choosing where to move one (S49 frame 16), and greyscales the
+            // inactive ones only once the unit has taken its action phase
+            // (frames 17, 18, 20).  The remake runs the move grid inside the
+            // command-menu layer, so the phase is what separates the two.
+            const bool dimmed =
+                    dim_inactive_units &&
+                    ! acting_unit &&
+                    state.phase != battle_scene_phase::unit_selection &&
+                    state.phase != battle_scene_phase::move_selection;
+            if(dimmed)
             {
                 sprite->set_palette(
-                        *sprite_state.selected_palette);
+                        dimmed_unit_palette());
             }
-            else if(palette_changed || binding_changed)
+            else if(binding_changed)
             {
                 sprite->set_palette(
                         item->palette_item());
@@ -6685,8 +6764,6 @@ void update_unit_sprites(
         sprite_state.character_id = visual_character_id;
         sprite_state.visual_slot = sample.slot;
         sprite_state.frame_index = frame_index;
-        sprite_state.palette_selected =
-                palette_selected;
     }
 }
 
@@ -7493,7 +7570,11 @@ run_visible_battle_scene(
                 presentation,
                 scene_frame,
                 camera,
-                unit_sprites, false, &map_movement);
+                unit_sprites, false, &map_movement,
+                initial_ui_model.layer ==
+                        battle_ui_layer::command_menu ||
+                initial_ui_model.layer ==
+                        battle_ui_layer::action_menu);
         update_battlefield_object_expiry_sprite(
                 presentation,
                 camera,
@@ -7960,7 +8041,17 @@ run_visible_battle_scene(
                         presentation,
                         scene_frame,
                         camera,
-                        unit_sprites, false, &map_movement);
+                        unit_sprites, false, &map_movement,
+                        // S49 original frame 18: the unit that is not acting is
+                        // greyscale while the command and action menus are up.
+                        // The layer of the current frame is computed later in
+                        // this loop, so the previously observed one is used; a
+                        // menu stays up for many frames, so the lag is not
+                        // observable.
+                        observed_ui_layer ==
+                                battle_ui_layer::command_menu ||
+                        observed_ui_layer ==
+                                battle_ui_layer::action_menu);
             }
             update_battlefield_object_expiry_sprite(
                     presentation,

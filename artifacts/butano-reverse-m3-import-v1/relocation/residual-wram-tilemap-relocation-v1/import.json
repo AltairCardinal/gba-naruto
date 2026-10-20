@@ -1,0 +1,101 @@
+{
+  "artifact_schema": "residual-wram-tilemap-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": null,
+    "output_rom_sha256": "a5a865c5cd4e7669ffa07d6b08dc96e78a98fdf92219ffce0060f06fae75b975",
+    "rom": null,
+    "scope": {
+      "editable": "All 657 entries keep their proven geometry and palette bank while selecting tiles inside each source's observed range and using standard horizontal or vertical flip bits.",
+      "not_proved": "Computed-pointer consumers outside the proved pointer/literal roots, queue-slot success or natural flush, runtime reachability of every static caller, exact natural-language screen identity, and final screen pixel or timing equivalence.",
+      "proved": "The three pointer/literal-reachable residual WRAM tilemaps at 0x0834928C, 0x083F1C98 and 0x085B67E0 and all three exact aligned source roots relocate into one owned region of a 16 MiB ROM, with their BG controls, graphics and palettes bound to a separately verified seven-source ownership catalog."
+    },
+    "source_catalog": null,
+    "summary": {
+      "allocation_count": 3,
+      "allocation_end": 12324666,
+      "allocation_span": 826,
+      "allocation_start": 12323840,
+      "applied_patch_count": 6,
+      "compressed_source_size": 821,
+      "decoded_size": 1314,
+      "entry_count": 657,
+      "literal_lz77_worst_case_bytes_with_alignment": 1492,
+      "pointer_patch_count": 3,
+      "region_end": 12325888,
+      "remaining_bytes": 1222,
+      "source_count": 3,
+      "source_pointer_reference_count": 3,
+      "stored_payload_bytes": 821,
+      "unexpected_source_pointer_count": 0
+    }
+  },
+  "audit_source": "artifacts/residual-wram-tilemap-relocation-v1/relocation-audit.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [],
+    "holds": true,
+    "minimum_original_slot_margin": null,
+    "mutation_overflow_content_count": null,
+    "mutation_overflow_slot_count": null,
+    "problems": [],
+    "roundtrips": [],
+    "unexpected_pointer_count": null
+  },
+  "family": "residual-wram-tilemap-relocation-v1",
+  "imported_payloads": [
+    {
+      "path": "residual-wram-tilemap-relocation-v1/full-relocation-spec.json",
+      "reverse_path": "artifacts/residual-wram-tilemap-relocation-v1/full-relocation-spec.json",
+      "sha256": "85a4fd68aacc4372f9bd76f309798c0151c6d7f0134ee12cf43479c40c288cac"
+    },
+    {
+      "path": "residual-wram-tilemap-relocation-v1/relocation-audit.json",
+      "reverse_path": "artifacts/residual-wram-tilemap-relocation-v1/relocation-audit.json",
+      "sha256": "6b789099581dad8010efd5a3f1da6fe7d2d933e9d1a42ee1525bf44c77896aec"
+    }
+  ],
+  "kind": "relocation",
+  "manifest": "artifacts/residual-wram-tilemap-relocation-v1/manifest.json",
+  "manifest_sha256": "93a767b4a81e8742e75d24943823ca3b140b056ebb67db8d7c84df039609e5c2",
+  "reverse_file_hashes": {
+    "full-relocation-spec.json": "85a4fd68aacc4372f9bd76f309798c0151c6d7f0134ee12cf43479c40c288cac",
+    "relocation-audit.json": "6b789099581dad8010efd5a3f1da6fe7d2d933e9d1a42ee1525bf44c77896aec",
+    "tilemap-0834928c.bin": "4396144ffc41de6ee3d0da6383f825695bd37aefde1cb2100bd5672200d9140d",
+    "tilemap-083f1c98.bin": "8661e87accb82f8d07b4102c70203fe19093710d794b0cdde0f1d8ae96db2790",
+    "tilemap-085b67e0.bin": "2c841501108a1892a34aa8d877eee414fe2eed9f0bb0dce1e8700332a7726675"
+  },
+  "rule_set": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "description": null,
+    "edit_count": null,
+    "owner": "sequel_image_assets",
+    "partition": "sequel-image-assets",
+    "region": "residual-wram-tilemaps",
+    "region_owner": "residual_wram_tilemaps",
+    "region_registry": "sequel/image-resource-regions.json",
+    "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "resource_count": 3,
+    "schema": "residual-wram-tilemap-relocation-v1",
+    "source_catalog": null,
+    "source_catalog_sha256": null
+  },
+  "rule_set_source": "artifacts/residual-wram-tilemap-relocation-v1/full-relocation-spec.json",
+  "scope": {
+    "editable": "All 657 entries keep their proven geometry and palette bank while selecting tiles inside each source's observed range and using standard horizontal or vertical flip bits.",
+    "not_proved": "Computed-pointer consumers outside the proved pointer/literal roots, queue-slot success or natural flush, runtime reachability of every static caller, exact natural-language screen identity, and final screen pixel or timing equivalence.",
+    "proved": "The three pointer/literal-reachable residual WRAM tilemaps at 0x0834928C, 0x083F1C98 and 0x085B67E0 and all three exact aligned source roots relocate into one owned region of a 16 MiB ROM, with their BG controls, graphics and palettes bound to a separately verified seven-source ownership catalog."
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_tilemap_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-tilemap-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

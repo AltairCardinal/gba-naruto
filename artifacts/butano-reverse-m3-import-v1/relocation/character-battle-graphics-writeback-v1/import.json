@@ -1,0 +1,135 @@
+{
+  "artifact_schema": "character-battle-graphics-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": {
+      "kind": "first_graphics_byte_low_bit_toggle",
+      "length_preserving": true,
+      "offset": 0,
+      "purpose": "witness that every raw graphics slot accepts an actual same-length edit"
+    },
+    "output_rom_sha256": null,
+    "rom": {
+      "path": "rom/base.gba",
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "size": 6291456
+    },
+    "scope": {
+      "all_component_tile_ranges_accounted": true,
+      "all_physical_graphics_audited": true,
+      "all_resource_references_accounted": true,
+      "all_slot_references_accounted": true,
+      "arbitrary_fixed_length_raw_graphics_writeback_complete": true,
+      "frame_structure_writeback_complete": false,
+      "generic_image_writeback_complete": false,
+      "graphics_structure_non_overlap_complete": true,
+      "guarded_fixed_length_importer_available": true,
+      "pointer_rewrite_complete": false,
+      "resource_relocation_complete": false,
+      "runtime_pixel_equivalence": false,
+      "runtime_slot_selection_complete": false,
+      "same_resource_slot_aliases_atomic": true,
+      "variable_length_writeback_complete": false
+    },
+    "source_catalog": {
+      "path": "artifacts/character-battle-visuals-v1/manifest.json",
+      "sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c",
+      "table_sha256": "baa3f86793e15d0d4abd44fcf10518da15ba0d76588b918838c3660e042e01dc"
+    },
+    "summary": {
+      "component_count": 2190,
+      "frame_count": 2004,
+      "graphics_byte_count": 1933760,
+      "maximum_graphics_size": 26624,
+      "minimum_graphics_size": 1600,
+      "mutation_writeback_count": 250,
+      "original_roundtrip_count": 250,
+      "physical_graphics_count": 250,
+      "resource_count": 250,
+      "slot_reference_count": 342,
+      "tile_count": 60430,
+      "unique_content_count": 250
+    }
+  },
+  "audit_source": "artifacts/character-battle-graphics-writeback-v1/character-battle-graphics-writeback.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [
+      "guarded_fixed_length_importer_available"
+    ],
+    "holds": true,
+    "minimum_original_slot_margin": null,
+    "mutation_overflow_content_count": null,
+    "mutation_overflow_slot_count": null,
+    "problems": [],
+    "roundtrips": [
+      {
+        "holds": true,
+        "roundtrip": 250,
+        "roundtrip_key": "original_roundtrip_count",
+        "total": 250,
+        "total_key": "resource_count"
+      }
+    ],
+    "unexpected_pointer_count": null
+  },
+  "family": "character-battle-graphics-writeback-v1",
+  "imported_payloads": [
+    {
+      "path": "character-battle-graphics-writeback-v1/character-battle-graphics-writeback.json",
+      "reverse_path": "artifacts/character-battle-graphics-writeback-v1/character-battle-graphics-writeback.json",
+      "sha256": "bf4a2a71c7c24899c8c1b4577379afbe56754b8cc4d07dbcea4c442f0f329573"
+    }
+  ],
+  "kind": "writeback",
+  "manifest": "artifacts/character-battle-graphics-writeback-v1/manifest.json",
+  "manifest_sha256": "a6d6aa819842e6d477111573f7d4d34608055e916dbe1126d7ff1a06fa4a41b4",
+  "reverse_file_hashes": {
+    "character-battle-graphics-writeback.json": "bf4a2a71c7c24899c8c1b4577379afbe56754b8cc4d07dbcea4c442f0f329573"
+  },
+  "rule_set": {
+    "base_rom_sha256": null,
+    "description": null,
+    "edit_count": null,
+    "owner": null,
+    "partition": null,
+    "region": null,
+    "region_owner": null,
+    "region_registry": null,
+    "region_registry_sha256": null,
+    "resource_count": null,
+    "schema": null,
+    "source_catalog": null,
+    "source_catalog_sha256": null
+  },
+  "rule_set_source": null,
+  "scope": {
+    "all_component_tile_ranges_accounted": true,
+    "all_physical_graphics_audited": true,
+    "all_resource_references_accounted": true,
+    "all_slot_references_accounted": true,
+    "arbitrary_fixed_length_raw_graphics_writeback_complete": true,
+    "frame_structure_writeback_complete": false,
+    "generic_image_writeback_complete": false,
+    "graphics_structure_non_overlap_complete": true,
+    "guarded_fixed_length_importer_available": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "runtime_slot_selection_complete": false,
+    "same_resource_slot_aliases_atomic": true,
+    "variable_length_writeback_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_battle_graphics_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/character-battle-graphics-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}

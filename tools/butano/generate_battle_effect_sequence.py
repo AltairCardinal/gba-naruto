@@ -23,7 +23,42 @@ from tools.analyze_original_effect_sequence import (
     ROM_BASE,
     analyze_effect_sequence,
 )
+from tools.audit_butano_reverse_provenance import provenance_block
 from tools.extract_tileset import bgr555_to_rgb, lz77_decompress
+
+#: The signed reverse result that records the effect graphics and palettes
+#: the generator consumes, and the compressed ROM regions it records for
+#: every effect group.
+EFFECT_RESOURCE_FAMILY = "battle-effect-resource-pairs-v1"
+EFFECT_RESOURCE_MANIFEST_SHA256 = (
+    "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963"
+)
+
+#: The products this generator writes.  The provenance auditor reads this
+#: registry to learn the product set; it never guesses the set from a file
+#: name pattern.
+GENERATED_PRODUCTS = (
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_action_05_effect_content.h",
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_action_05_effect_items.h",
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_action_05_dust_effect_content.h",
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_action_05_dust_effect_items.h",
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_action_16_fire_effect_content.h",
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_action_16_fire_effect_items.h",
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_ninja_tool_bomb_projectile_content.h",
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_ninja_tool_bomb_projectile_items.h",
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_ninja_tool_bomb_smoke_content.h",
+    "butano-sequel/game/include/konoha/"
+    "generated_battle_ninja_tool_bomb_smoke_items.h",
+)
 
 
 @dataclass(frozen=True)
@@ -40,6 +75,11 @@ class EffectSequenceSpec:
     expected_asset_count: int
     include_semi_transparent: bool = False
     component_capacity: int = 8
+    #: The compressed ROM region of the effect graphics, as
+    #: ``(file offset, length, sha256)``, and the same for its palette.
+    #: Both are recorded by ``EFFECT_RESOURCE_FAMILY``.
+    tiles_region: tuple[int, int, str] = (0, 0, "")
+    palette_region: tuple[int, int, str] = (0, 0, "")
 
 
 ACTION_05_HIT_SPEC = EffectSequenceSpec(
@@ -53,6 +93,16 @@ ACTION_05_HIT_SPEC = EffectSequenceSpec(
     tile_count=120,
     palette_bank=5,
     expected_asset_count=14,
+    tiles_region=(
+        0x342938,
+        1165,
+        "3b31a8dfb6d8687f85bb406a021a8fb5654495005fa6a74f29bac8b038cfa771",
+    ),
+    palette_region=(
+        0x342DC8,
+        27,
+        "b7049120fa6357ffb814c3a5e48966ea13a45abd5e9939dac5b6aa0f335dd9bd",
+    ),
 )
 
 ACTION_05_DUST_SPEC = EffectSequenceSpec(
@@ -66,6 +116,16 @@ ACTION_05_DUST_SPEC = EffectSequenceSpec(
     tile_count=32,
     palette_bank=4,
     expected_asset_count=8,
+    tiles_region=(
+        0x3406F0,
+        735,
+        "d27493ed7b1eaba88211d65e66ad5ef3b2478963ee67b4e8e47c4f1d83e69a83",
+    ),
+    palette_region=(
+        0x3409D0,
+        29,
+        "64ca9f081dd7fa32aaf02832eeefda5a36c25024fcf3a990626237253a5db945",
+    ),
 )
 
 ACTION_16_FIRE_HIT_SPEC = EffectSequenceSpec(
@@ -79,6 +139,16 @@ ACTION_16_FIRE_HIT_SPEC = EffectSequenceSpec(
     tile_count=160,
     palette_bank=5,
     expected_asset_count=10,
+    tiles_region=(
+        0x345E64,
+        2138,
+        "af2f0647ba71e1bcd65da8d0b4ab3cb6de0cf764ef8b6d5ec8ee1c6d2c455bd8",
+    ),
+    palette_region=(
+        0x3466C0,
+        34,
+        "63b66efe1f8966349836c76e41c5ad63746e52adc5427072b5578725cd552625",
+    ),
 )
 
 NINJA_TOOL_BOMB_PROJECTILE_SPEC = EffectSequenceSpec(
@@ -92,6 +162,16 @@ NINJA_TOOL_BOMB_PROJECTILE_SPEC = EffectSequenceSpec(
     tile_count=64,
     palette_bank=4,
     expected_asset_count=4,
+    tiles_region=(
+        0x3426D8,
+        447,
+        "034f9601bb5df7698164696d20e34e29b9c578b2a80604c39721c05b2274b3d6",
+    ),
+    palette_region=(
+        0x342898,
+        22,
+        "c0332d8891d304e2d5904194ab063e41e2a39ce36e04a32807f0f018acbb86f3",
+    ),
 )
 
 NINJA_TOOL_BOMB_SMOKE_SPEC = EffectSequenceSpec(
@@ -107,7 +187,46 @@ NINJA_TOOL_BOMB_SMOKE_SPEC = EffectSequenceSpec(
     expected_asset_count=25,
     include_semi_transparent=True,
     component_capacity=16,
+    tiles_region=(
+        0x340AF8,
+        5294,
+        "93e130c77a3e564400928f8d34af4b85cc4bf05bf45dc4d20996fa94e6d6e132",
+    ),
+    palette_region=(
+        0x341FA8,
+        40,
+        "984579adbbce5adef32970c44577f21469547cdbd3dde06ace4fe08854031ad9",
+    ),
 )
+
+
+def _provenance_block(spec: EffectSequenceSpec) -> str:
+    """The provenance declaration of one effect sequence product.
+
+    The generator consumes the compressed graphics and palette streams of
+    the ROM; the signed reverse result records exactly those two regions, so
+    the declaration can be re-checked against the ROM itself.
+    """
+    tiles_offset, tiles_length, tiles_sha256 = spec.tiles_region
+    palette_offset, palette_length, palette_sha256 = spec.palette_region
+    if tiles_offset != spec.tiles_address - ROM_BASE:
+        raise ValueError(
+            f"{spec.symbol_prefix}: the declared graphics region does not "
+            "start at the tiles address"
+        )
+    if palette_offset != spec.palette_address - ROM_BASE:
+        raise ValueError(
+            f"{spec.symbol_prefix}: the declared palette region does not "
+            "start at the palette address"
+        )
+    return provenance_block(
+        sources=((EFFECT_RESOURCE_FAMILY, EFFECT_RESOURCE_MANIFEST_SHA256),),
+        roms=(
+            (tiles_offset, tiles_length, tiles_sha256),
+            (palette_offset, palette_length, palette_sha256),
+        ),
+    )
+
 
 
 def _sha256(data: bytes) -> str:
@@ -239,6 +358,9 @@ def _write_header(
     )
     text = "\n".join(
         [
+            "// Generated by tools/butano/generate_battle_effect_sequence.py."
+            " Do not edit.",
+            _provenance_block(spec),
             f"#ifndef KONOHA_{header_guard}",
             f"#define KONOHA_{header_guard}",
             "",
@@ -291,6 +413,9 @@ def _write_items_header(
     )
     text = "\n".join(
         [
+            "// Generated by tools/butano/generate_battle_effect_sequence.py."
+            " Do not edit.",
+            _provenance_block(spec),
             f"#ifndef KONOHA_{header_guard}",
             f"#define KONOHA_{header_guard}",
             "",

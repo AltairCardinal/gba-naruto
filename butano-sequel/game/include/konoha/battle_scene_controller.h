@@ -3,6 +3,7 @@
 
 #include "konoha/battle_encounter_runtime.h"
 #include "konoha/battle_mission_rules.h"
+#include "konoha/battle_original_states.h"
 #include "konoha/battle_presentation_script.h"
 #include "konoha/battle_training_flow.h"
 #include "konoha/battle_results.h"
@@ -46,7 +47,34 @@ enum class battle_scene_phase : std::uint8_t
     target_confirmation,
     end_confirmation,
     target_preview,
+    turn_banner,
 };
+
+// The alignment layer between the remake's phases and the original's state
+// machine.  The original dispatches the battle scene on a 16-bit code and the
+// reverse engineering closed all 38 non-default states of it; the remake's
+// phases are the states the original reaches, plus four the original does not
+// have.  `battle_original_states.h` is generated from the state table, so the
+// binding cannot drift from the reverse result it comes from.
+//
+// The binding kinds say what a correspondence is worth:
+//   direct     one remake phase is one original state
+//   sub_phase  the remake splits one original state into several phases
+//   remake_only the remake has a phase the original does not have
+//   candidate  the correspondence is not settled yet
+inline constexpr std::size_t battle_scene_phase_count =
+        battle_scene_phase_origins.size();
+
+static_assert(
+        battle_scene_phase_count == 24,
+        "the phase enum and the generated binding table disagree");
+
+[[nodiscard]] constexpr battle_scene_phase_origin
+battle_scene_phase_origin_of(battle_scene_phase phase)
+{
+    return battle_scene_phase_origins[
+            static_cast<std::size_t>(phase)];
+}
 
 enum class battle_scene_control_error : std::uint8_t
 {
@@ -128,6 +156,12 @@ struct battle_scene_snapshot
     static constexpr int maximum_overlay_rows = 32;
 
     battle_scene_phase phase = battle_scene_phase::preparation;
+    // The alignment with the original's state machine: the original code this
+    // phase stands for, and what that correspondence is worth.  Four of the
+    // remake's phases have no original counterpart and are marked as such.
+    std::uint16_t original_state_code = 0;
+    battle_scene_phase_binding phase_binding =
+            battle_scene_phase_binding::direct;
     int round = 0;
     battle_side current_side = battle_side::player;
     grid_point cursor = {};
@@ -319,10 +353,27 @@ public:
             _phase = battle_scene_phase::error;
             return _invalid_phase();
         }
-        if(! _start_boundary_scripts(
-                    _has_opening_allied_ai() ?
-                            battle_scene_phase::enemy_turn :
-                            battle_scene_phase::unit_selection))
+        const battle_scene_phase resume_phase =
+                _has_opening_allied_ai() ?
+                        battle_scene_phase::enemy_turn :
+                        battle_scene_phase::unit_selection;
+        if(_mission_rules.show_turn_banner)
+        {
+            // The original shows the round banner between the opening
+            // dialogue and the first move (original frames 14 -> 15 -> 17).
+            // The banner eats one button press, which is also what shifts
+            // every animation phase in the two walks.
+            _turn_banner_resume_phase = resume_phase;
+            if(! _start_boundary_scripts(
+                        battle_scene_phase::turn_banner))
+            {
+                return {
+                    battle_scene_control_error::script_failed,
+                };
+            }
+            return {};
+        }
+        if(! _start_boundary_scripts(resume_phase))
         {
             return {
                 battle_scene_control_error::script_failed,
@@ -335,6 +386,16 @@ public:
     {
         battle_scene_snapshot<MaxUnits> result;
         result.phase = _phase;
+        {
+            const battle_scene_phase_origin origin =
+                    battle_scene_phase_origin_of(_phase);
+            result.phase_binding = origin.binding;
+            result.original_state_code = origin.original_state_count > 0 ?
+                    battle_original_state_code(
+                            static_cast<battle_original_state>(
+                                    origin.original_states[0])) :
+                    static_cast<std::uint16_t>(0);
+        }
         result.round = _runtime.session().round_index();
         result.current_side =
                 _runtime.session().current_side();
@@ -701,6 +762,11 @@ public:
         {
         case battle_scene_phase::script_blocked:
             return _confirm_script();
+        case battle_scene_phase::turn_banner:
+            // The round banner waits for one button press and then hands the
+            // turn back to whatever the banner interrupted.
+            _phase = _turn_banner_resume_phase;
+            return {};
         case battle_scene_phase::unit_selection:
             return _confirm_unit();
         case battle_scene_phase::move_selection:
@@ -982,6 +1048,10 @@ public:
             _training.clear();
             _training_summary_active = false;
             _phase = battle_scene_phase::complete;
+            return {};
+        case battle_scene_phase::turn_banner:
+            // The banner cannot be dismissed; the original only advances it
+            // with the confirm button.
             return {};
         default:
             return _invalid_phase();
@@ -2428,6 +2498,8 @@ private:
     battle_scene_phase _script_resume_phase =
             battle_scene_phase::unit_selection;
     battle_presentation_script _script;
+    battle_scene_phase _turn_banner_resume_phase =
+            battle_scene_phase::unit_selection;
 };
 
 }

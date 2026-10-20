@@ -1,0 +1,19 @@
+{
+  "schema": "konoha.s49-ledger-standby-state.v1",
+  "inputs": {
+    "before_receipt": "artifacts/s49-fidelity-20261019-v1/region-diff-banner/field-unit-selection.json",
+    "before_receipt_sha256": "9c6f13b7aca8d1bce322c94b6184b3235353b16856cfe8be8cee50497844e388",
+    "after_receipt": "artifacts/s49-fidelity-20261019-v1/region-diff-banner2/field-unit-selection.json",
+    "after_receipt_sha256": "52f4efb64b199fa359b02c7c1a2e29594848fcb6ca92dee6c1b43ffb0fbc8140"
+  },
+  "measurement": {
+    "baseline": "field-unit-selection",
+    "status_bar_different_pixels_before": 121,
+    "status_bar_different_pixels_after": 0,
+    "before_original_frame": "step-17-A.png",
+    "before_remake_frame": "step-18-A.png",
+    "after_original_frame": "step-17-A.png",
+    "after_remake_frame": "step-18-A.png"
+  },
+  "conclusion": "the status bar of the unit selection screen went from 121 to 0 different pixels after the standby rule was changed to follow the unit state"
+}

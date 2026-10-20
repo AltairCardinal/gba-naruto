@@ -1,0 +1,107 @@
+{
+  "schema": "konoha.s49-ledger-select-prompt.v1",
+  "inputs": {
+    "original_reference_frame": "artifacts/s49-fidelity-20261019-v1/walk-original-a24/step-17-A.png",
+    "original_reference_frame_sha256": "b8a451c264e6a61849fa38de41ffa8d147f620bbb2b787f4e28dbe0ede2f4a7f",
+    "original_walk": "artifacts/s49-fidelity-20261019-v1/walk-original-a24",
+    "remake_walk": "artifacts/s49-fidelity-20261019-v1/walk-remake-dd-a30-banner2"
+  },
+  "measurement": {
+    "original": {
+      "ink_color": [
+        247,
+        255,
+        222
+      ],
+      "reference_step": "step-17",
+      "ink_bbox": [
+        193,
+        13,
+        231,
+        22
+      ],
+      "ink_width": 39,
+      "ink_height": 10,
+      "kanji_columns": [
+        216,
+        231
+      ],
+      "kanji_width": 16,
+      "kanji_inked_columns": 15,
+      "ascii_columns": [
+        193,
+        214
+      ],
+      "ascii_width": 22,
+      "ascii_band_rows": [
+        18,
+        22
+      ],
+      "separate_mark_columns": [
+        193,
+        196
+      ],
+      "visible_steps": [
+        "step-17",
+        "step-19",
+        "step-22",
+        "step-24"
+      ],
+      "hidden_steps": [
+        "step-11",
+        "step-12",
+        "step-13",
+        "step-14",
+        "step-15",
+        "step-16",
+        "step-18",
+        "step-20",
+        "step-21",
+        "step-23"
+      ]
+    },
+    "remake": {
+      "ink_color": [
+        255,
+        255,
+        255
+      ],
+      "ink_bbox": [
+        176,
+        13,
+        232,
+        26
+      ],
+      "ink_width": 57,
+      "ink_height": 14,
+      "kanji_columns": [
+        217,
+        232
+      ],
+      "ascii_columns": [
+        176,
+        216
+      ],
+      "reference_step": "step-32",
+      "visible_steps": [
+        "step-07",
+        "step-08",
+        "step-14",
+        "step-15",
+        "step-16",
+        "step-20",
+        "step-23",
+        "step-24",
+        "step-25",
+        "step-26",
+        "step-27",
+        "step-28",
+        "step-29",
+        "step-30",
+        "step-31",
+        "step-32"
+      ]
+    }
+  },
+  "conclusion": "the original prompt is a narrow 'SELECT' plus two 8 pixel kanji cells (39 ink pixels wide); the remake draws a wider label in a different ink and never hides it again once it appeared"
+}

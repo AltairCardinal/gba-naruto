@@ -1,0 +1,31 @@
+{
+  "schema": "konoha.s49-ledger-evidence.v1",
+  "root": "/Users/altair/github/gba-naruto",
+  "receipts": {
+    "action-menu-glyphs": {
+      "path": "artifacts/s49-ledger-evidence-v1/action-menu-glyphs.json",
+      "sha256": "4480d2aac33a75e1d553e56366ba97d1b8d2a7f485f5d4e8492ec76df3beb555",
+      "conclusion": "17/17 action menu glyph cells are byte identical to the original frame; 0 cells differ"
+    },
+    "select-prompt": {
+      "path": "artifacts/s49-ledger-evidence-v1/select-prompt.json",
+      "sha256": "51e515a2d101271395dc4a3886e9912d707f94eb0580e147f16812be2d9f9c42",
+      "conclusion": "the original prompt is a narrow 'SELECT' plus two 8 pixel kanji cells (39 ink pixels wide); the remake draws a wider label in a different ink and never hides it again once it appeared"
+    },
+    "move-grid-colors": {
+      "path": "artifacts/s49-ledger-evidence-v1/move-grid-colors.json",
+      "sha256": "8075c08273b78c534a8adad756b92729bf13206f5407e73fdbbbbefd24c55997",
+      "conclusion": "the original paints the move range with a dithered cyan overlay (18 cyan overlay colours over 8536 changed pixels); 19 map colours map to more than one overlay colour, so the overlay is a dither mask and not one flat tint"
+    },
+    "idle-sequence": {
+      "path": "artifacts/s49-ledger-evidence-v1/idle-sequence.json",
+      "sha256": "ca0fbc8559a76f51d1f2680d135ce0a216f7d3defeac418901ae781665a41af9",
+      "conclusion": "the original unit idle animation changes its sprite on 183 of 191 frame transitions and shows 31 distinct sprites inside 32 frames, so the original animates every frame instead of holding a few poses"
+    },
+    "standby-state": {
+      "path": "artifacts/s49-ledger-evidence-v1/standby-state.json",
+      "sha256": "54b597c1807452fb0d109f47b1cbdeb0767b366ae16e8d0ebea5799734fb63aa",
+      "conclusion": "the status bar of the unit selection screen went from 121 to 0 different pixels after the standby rule was changed to follow the unit state"
+    }
+  }
+}

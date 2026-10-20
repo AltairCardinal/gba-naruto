@@ -1,0 +1,117 @@
+{
+  "artifact_schema": "residual-lz77-graphics-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": null,
+    "output_rom_sha256": "cb476351b0741e436128c3bc5906f2a167f435ef00084a46bccdd298d1993504",
+    "rom": null,
+    "scope": {
+      "editable": "Every resource may replace all of its complete 4bpp tiles while preserving that resource's decoded tile count. Recompression may use the entire registered 64 KiB region instead of the old slot.",
+      "not_proved": "Changing decoded tile counts or VRAM destinations, editing raw or LZ77 palettes, the two unresolved palette identities, natural business names, and final screen-composited runtime equivalence.",
+      "proved": "All 20 residual aligned-pointer-reachable 4bpp LZ77 graphics and all 34 exact source-pointer literals are accounted for. A full preservation relocation rebuilds a 16 MiB ROM."
+    },
+    "source_catalog": null,
+    "summary": {
+      "allocation_count": 20,
+      "allocation_end": 12271834,
+      "allocation_span": 16602,
+      "allocation_start": 12255232,
+      "applied_patch_count": 54,
+      "decompressed_size": 36640,
+      "pointer_patch_count": 34,
+      "region_end": 12320768,
+      "remaining_bytes": 48934,
+      "resource_count": 20,
+      "source_compressed_size": 16574,
+      "source_pointer_reference_count": 34,
+      "stored_payload_bytes": 16574,
+      "unexpected_source_pointer_count": 0,
+      "unresolved_palette_count": 2
+    }
+  },
+  "audit_source": "artifacts/residual-lz77-graphics-relocation-v1/relocation-audit.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [],
+    "holds": true,
+    "minimum_original_slot_margin": null,
+    "mutation_overflow_content_count": null,
+    "mutation_overflow_slot_count": null,
+    "problems": [],
+    "roundtrips": [],
+    "unexpected_pointer_count": null
+  },
+  "family": "residual-lz77-graphics-relocation-v1",
+  "imported_payloads": [
+    {
+      "path": "residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+      "reverse_path": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+      "sha256": "757879fd57d32c9fd8dd7f66373b2fe533de83de0b3d3e479a6ca357f680187b"
+    },
+    {
+      "path": "residual-lz77-graphics-relocation-v1/relocation-audit.json",
+      "reverse_path": "artifacts/residual-lz77-graphics-relocation-v1/relocation-audit.json",
+      "sha256": "5560482dcaeb635975a9f99757665fba840fa0806367a23807516a36d3a6bace"
+    }
+  ],
+  "kind": "relocation",
+  "manifest": "artifacts/residual-lz77-graphics-relocation-v1/manifest.json",
+  "manifest_sha256": "14b9667a6a3fada3cda3baf0c76352bd2192156c9d533da4916229d1883b2e18",
+  "reverse_file_hashes": {
+    "full-relocation-spec.json": "757879fd57d32c9fd8dd7f66373b2fe533de83de0b3d3e479a6ca357f680187b",
+    "graphics_080b9e94.4bpp.bin": "0f86c8032129ef1b92fb1464c516a03b1c0ca71672ac5de4d37e8b302cf6ce40",
+    "graphics_0812c8b0.4bpp.bin": "97260176f5d96284f45e36a786b91951ae79e55dcb65c1dd11936ab368001a54",
+    "graphics_0812d134.4bpp.bin": "a58292fac1752ac0fb2cae52b220f6c1d40a90eb4a5f396b5fa2e6558d7ffa64",
+    "graphics_0812d2f0.4bpp.bin": "4659a40fdf0430232e594f3f8ac3a544e749c6e7de35a5d1d5805567556c0e15",
+    "graphics_083481e0.4bpp.bin": "a1b8359ba32e4d709124e556abfd1ba53c535c547629abae13cbd24181338c71",
+    "graphics_08348a3c.4bpp.bin": "0657b696d1702bd2a543b38857b46125731f34e6425effd3b030e41556895d79",
+    "graphics_08348f00.4bpp.bin": "1819e2bcbe0204fb3fe73907aab5fdbd561de0dfe7b8ccae316facc037357cae",
+    "graphics_0834943c.4bpp.bin": "01d33444012185e56e279086c4feb8eac4768b45446b4c861b2e5b3f05ebacae",
+    "graphics_083496f8.4bpp.bin": "0b079699856f54d695ce3190cae2cda5e74a17dcc2456813bc716b4f12cd375b",
+    "graphics_083f00c8.4bpp.bin": "9244c573b838e6cffd516a43ffc110571669172e1bd7db329dffd5995003c392",
+    "graphics_083f08f4.4bpp.bin": "758151da506aaa50edcb3e2261418c5606daac309bf15d4e008a0046281fc7e4",
+    "graphics_083f21e4.4bpp.bin": "dfaf8546650d59a8ad1ab1abf918feb4fbae953800e02806de14089dc6d2fbfd",
+    "graphics_083f2a18.4bpp.bin": "7f3d6eba5afb1d4cd802b346f716d0aa65b23128dea4a57fdb31cfc29189a64f",
+    "graphics_08405ea4.4bpp.bin": "2c757d754c5f1c0e043bbbb878dbad37c221a6b2b60ab96f666680a94da08d91",
+    "graphics_08405f10.4bpp.bin": "1b30ba083c2afd77ecf66986a1cecab33cef5a46147279af1e03815c281b2d70",
+    "graphics_08457d3c.4bpp.bin": "eea31d0d2012d3ec1c91a7c35340e4cdc25a8495c11092ec34f0a892401853ab",
+    "graphics_084580c8.4bpp.bin": "537002ffe5973c72f365e22d67895350bb79ed76f4827bdd96a3d6be2b45242e",
+    "graphics_08463688.4bpp.bin": "892ddfd26c50ca74564b24b32f34f14bbd20e7272c92762c72b084e32b4f55c6",
+    "graphics_085b6000.4bpp.bin": "2d9444c08bd4ad61bea7b9f977d423f960af2a0f4ee4257e3eecff5e1264aa15",
+    "graphics_085b6880.4bpp.bin": "6d3edca8c66980c173fcd176240a029a2de532ab5d697d6682a18a2f2d96a715",
+    "relocation-audit.json": "5560482dcaeb635975a9f99757665fba840fa0806367a23807516a36d3a6bace"
+  },
+  "rule_set": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "description": null,
+    "edit_count": null,
+    "owner": "sequel_image_assets",
+    "partition": "sequel-image-assets",
+    "region": "residual-lz77-graphics",
+    "region_owner": "residual_lz77_graphics",
+    "region_registry": "sequel/image-resource-regions.json",
+    "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "resource_count": 20,
+    "schema": "residual-lz77-graphics-relocation-v1",
+    "source_catalog": "artifacts/rom-pointer-lz77-graphics-v1/graphics-catalog.json",
+    "source_catalog_sha256": "9c3088165fb65004dbeaa124a800d65795395e37b2dcfb90f2d2eedfdd6cf37d"
+  },
+  "rule_set_source": "artifacts/residual-lz77-graphics-relocation-v1/full-relocation-spec.json",
+  "scope": {
+    "editable": "Every resource may replace all of its complete 4bpp tiles while preserving that resource's decoded tile count. Recompression may use the entire registered 64 KiB region instead of the old slot.",
+    "not_proved": "Changing decoded tile counts or VRAM destinations, editing raw or LZ77 palettes, the two unresolved palette identities, natural business names, and final screen-composited runtime equivalence.",
+    "proved": "All 20 residual aligned-pointer-reachable 4bpp LZ77 graphics and all 34 exact source-pointer literals are accounted for. A full preservation relocation rebuilds a 16 MiB ROM."
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_lz77_graphics_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-lz77-graphics-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

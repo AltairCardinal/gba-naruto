@@ -1,3 +1,18 @@
+## 2026-10-20：Butano 与逆向成果的差异已量化，修正 roadmap 已立项
+
+见 [Butano 与逆向成果的差异清单与修正 Roadmap](butano-reverse-gap-roadmap.md)。
+差异由 `tools/measure_butano_reverse_gap.py` 在全树扫描得出（9 项测试），
+机读底账在 `artifacts/butano-reverse-gap-v1/gap.{json,md}`。
+
+关键实测：**262 个逆向成果族里只有 33 个（12.6%）进入 Butano 构建链**，211 个仅停在
+文档层；`rom` 类 124 族 `build = 0`——原版 38 态分派器等控制流成果**一个都没被消费**。
+427 条逆向结论里有 213 条在本树从未被读过；台账仍有 5 项 `missing`。
+
+由此得出的框架更正（详见 `notes/full-customization-and-fidelity-theory-20261020.md`
+§8.4–8.6）：**1:1 迟滞的主因不是"逆向不够"，而是逆向成果没有接到 Butano 侧**。
+Roadmap 分 M0–M7 八个可验收里程碑，M0 先补生成产物的来源声明（当前 `build` 计数
+是下界），M1 消除无逆向依据的自造行为，M2 用原版 38 态替换自造 24 phase。
+
 ## 2026-10-13：第五版试玩收束
 
 用户因额度不足要求收束，完整逐帧验收Goal暂停。最新可试玩交付为 `artifacts/s49-full-fidelity-20261013-v1/release-v5/`：菜单/确认移动/取消、四向动画、毒草拾取、开场木叶丸顺序与44帧地面光标已改进，整关及S50冷载入通过。全屏384帧仍全部有差异，尚未达到100%；灰化、初始动画相位、多格到达补间、短音效及全操作覆盖仍待完成。详情见 `notes/butano-s49-full-fidelity-20261013.md`。

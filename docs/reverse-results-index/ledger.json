@@ -1,0 +1,167 @@
+{
+  "schema": "konoha.reverse-results-ledger.v1",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "note": "S49 复刻过程中每一项「需要什么 / 从哪来 / 现在什么状态」。status 的含义：reused=直接用逆向成果；derived=由逆向成果派生；reconstructed=逆向成果没有覆盖，本轮从原版 ROM/帧重新取证；not-applicable=本复刻不需要这项成果，理由写在 evidence 里；missing=两边都没有，是不许留下的缺口。source 写成相对路径，工具会在逆向工作树与本工作树两处解析，解析不到就把状态降级为 missing 并报进 ledger_problems；missing 本身也是问题。",
+  "entries": [
+    {
+      "id": "s49-map",
+      "category": "map",
+      "title": "S49 战场底图（map 14，30×19 格，480×304）",
+      "status": "reused",
+      "source": "artifacts/map-canvases-v1/canvases/map-14-primary.png",
+      "evidence": "与重制 butano-sequel/graphics/battle_14_map_chunk_0.bmp 的活动区逐像素一致（差 0 像素）。"
+    },
+    {
+      "id": "s49-entry-savestate",
+      "category": "runtime",
+      "title": "S49 战斗入口存档（原版录制的起点）",
+      "status": "reused",
+      "source": "artifacts/runtime-checkpoints/scenario-49-battle-14-entry.ss9",
+      "evidence": "原版 walk 的 inputs.json 记录 state_sha256=a3628723…，就是这份存档。"
+    },
+    {
+      "id": "s49-command-menu-glyphs",
+      "category": "presentation",
+      "title": "命令菜单字形（移動/木・忍具/查克拉/休息/行動結束）",
+      "status": "reconstructed",
+      "source": "artifacts/s49-original-ui-reference-v1/screens/command-menu-0.png",
+      "evidence": "逆向树的字形来源表指向 scenario-49-battle-14-original-ui-boundaries-v1，该目录已不在树上；本轮改为从原版自己的命令菜单帧裁字形。"
+    },
+    {
+      "id": "s49-action-menu-glyphs",
+      "category": "presentation",
+      "title": "动作菜单字形（瞬身术/影分身术/忍者组合拳/十字手里剑）",
+      "status": "reconstructed",
+      "source": "artifacts/s49-ledger-evidence-v1/action-menu-glyphs.json",
+      "evidence": "旧的逆向截图 scenario-49-battle-14-original-ui-boundaries-v1/turn4-skill-menu/frame.png 已随 artifacts/ 清理消失；本轮改用本树原版帧 artifacts/s49-fidelity-20261019-v1/walk-original-a24/step-21-A.png 作裁剪源，逐格与已验收字库 butano-sequel/graphics/battle_action_menu_font.bmp 比对：**17 格全部逐像素一致**（收据 artifacts/s49-ledger-evidence-v1/action-menu-glyphs.json，cells_identical=17、cells_differing=0）。**更正**：此前记录的「隐/年 两格差 105/128 与 69/128 像素」是**取证脚本的错标**（tools/butano/ledger_s49_evidence.py 的 ACTION_MENU_ROWS 把菜单写成了「隐身术/十年手里剑」）；原版帧 (8,40) 画的其实是「瞬」、(16,88) 画的是「字」，全 495 格穷举扫描中这两格唯一 0/128 命中即 瞬/字格 ⇒ **该缺陷不存在**，动作菜单字形已完全一致。"
+    },
+    {
+      "id": "s49-turn-banner",
+      "category": "presentation",
+      "title": "回合横幅面板与两行文字（回合 1 / 玩家 的行动）",
+      "status": "reconstructed",
+      "source": "artifacts/s49-original-ui-reference-v1/screens/turn-banner-0.png",
+      "evidence": "逆向成果没有这一屏的导出；从原版横幅帧切出 6 块 32×32 精灵，与原版帧 0 像素差异。"
+    },
+    {
+      "id": "s49-dimmed-palette",
+      "category": "visual",
+      "title": "非行动单位灰阶调色板（OBJ PRAM bank 3，16 项）",
+      "status": "reconstructed",
+      "source": "artifacts/s49-original-gpu-20261020-v2/dimmed-palette-receipt.json",
+      "evidence": "逆向成果未覆盖「非行动单位去色」；本轮直接从原版存档的 PRAM 读出并落成资产。"
+    },
+    {
+      "id": "s49-select-prompt",
+      "category": "presentation",
+      "title": "「SELECT詳細」提示语（详细两字）",
+      "status": "reconstructed",
+      "source": "artifacts/s49-ledger-evidence-v1/select-prompt.json",
+      "evidence": "原版提示语实测：墨色 (247,255,222)、描边 (57,57,57)、墨迹外框 x193..231/y13..22（39×10），ASCII 窄体 6 字母共 22 像素、2 个 8×8 汉字格在 x216..231。字体表既无窄体 ASCII 也无「詳/細」，故**从原版帧切出**（assets/s49-fidelity-20261019-v1/walk-original-a24/step-17-A.png，工具 tools/butano/generate_battle_select_prompt.py，资产 butano-sequel/graphics/battle_ui_select_prompt.bmp，两块 32×32 图元）。出现时机实测为**按屏显隐**（选人/移动网格/目标网格有；命令菜单、两项菜单、动作菜单、纯对话框无）——以 2 帧分辨率重录 25 帧排除了「闪烁」解释。**已实现并复测**：单位选择基线 1278 → **933**、移动网格 3463 → **2917**；门禁 tests/test_s49_select_prompt.py（4 项）。**未闭合**：原版在命令菜单/动作菜单隐藏提示语的触发条件，逆向侧尚未定位（已按实测的按屏显隐实现）。"
+    },
+    {
+      "id": "s49-move-grid-cost-colors",
+      "category": "battle",
+      "title": "移动范围网格的染色规则（可达/消耗/不可达）",
+      "status": "reconstructed",
+      "source": "artifacts/s49-ledger-evidence-v1/move-grid-colors.json",
+      "evidence": "本轮从原版帧实测（收据 artifacts/s49-ledger-evidence-v1/move-grid-colors.json）：把原版 step-19（画了移动范围）与 step-20（没画）逐像素相减，战场区 0..128 行共 22735 像素变化，其中 8536 像素落在 18 种青色覆盖色上；同一底色会落到多个覆盖色（例如底色 (173,173,49) → (123,236,190) 有 2339 像素，另有 (154,154,76)、(113,175,138) 等），19 个底色各对应多于一种覆盖色——所以原版用的是抖动遮罩而不是单一平涂。重制侧同一区域仍差 3463 像素（区域差分收据 artifacts/s49-fidelity-20261019-v1/region-diff-banner2/move-grid.json，command-menu-panel 1024 像素）。重制已有的染色模型在 butano-sequel/game/include/konoha/battle_range_ui_style.h（move_primary RGB5(3,25,31)、blend 10/16）。还差什么：每个格子属于「可达/消耗/不可达/光标」的映射规则与抖动掩码本身没有闭合，需要解码 artifacts/s49-original-gpu-20261020-v2/step-19/vram.bin 里 BG2 的 tilemap（步进覆盖层画在 BG2 上）才能把调色板索引逐格读出来。"
+    },
+    {
+      "id": "s49-ai-move-facing",
+      "category": "battle",
+      "title": "AI 纯移动之后的朝向规则",
+      "status": "reconstructed",
+      "source": "notes/s49-fidelity-handover-20261019.md",
+      "evidence": "原版给木叶丸 right（走了两格向东），重制的战斗 AI 之前按焦点位置取朝向；规则由原版行为反推得到，逆向成果里没有该公式。"
+    },
+    {
+      "id": "s49-camera",
+      "category": "map",
+      "title": "镜头偏移 (240,24) 与场景格→地图格 +10 列",
+      "status": "derived",
+      "source": "artifacts/map-canvases-v1/manifest.json",
+      "evidence": "镜头与坐标换算由重制侧实测，底图本身来自 map-canvases-v1。"
+    },
+    {
+      "id": "s49-unit-idle-sequence",
+      "category": "visual",
+      "title": "单位待机动画的帧序与相位",
+      "status": "reconstructed",
+      "source": "artifacts/s49-ledger-evidence-v1/idle-sequence.json",
+      "evidence": "本轮从原版 1800 帧待机扫描实测（收据 artifacts/s49-ledger-evidence-v1/idle-sequence.json）：变化只发生在被选中单位的精灵框 x=109..146、y=32..90，191 次帧间有 183 次该区域发生变化；帧间特征（bbox+变化像素数）以 32 帧为最强周期（32 帧候选命中 64 次，16 帧 36 次，48 帧 24 次，64 帧 47 次），但一个周期内 32 帧里有 31 个互不相同的精灵图——原版是每帧都在动的连续动画。重制模型 butano-sequel/game/include/konoha/battle_unit_visual_animation.h 是 32 帧四步（0/1/2/1 各 8 帧、只有 4 个姿态），相位 = scene_frame + idle_phase_offset(unit.id)（0 或 16 交替）：周期长度对得上，姿态数对不上（4 vs 31），这正是命令菜单基线残余 715 像素、行 2 残余 1183 像素的来源（全部落在单位精灵上，收据 artifacts/s49-fidelity-20261019-v1/region-diff-banner2/command-menu.json 与 command-menu-row2.json）。还差什么：每一相位对应原版哪一帧精灵（帧序表）没有闭合；逆向侧要补的是原版单位视觉表（重制生成器 tools/generate_butano_battle_unit_visual_content.py 从 ROM 偏移 0x596D5C 的 62×9 槽表读它，槽 0 是 field_idle_and_movement）的 idle 帧序与逐帧组件映射。"
+    },
+    {
+      "id": "s49-status-standby-state",
+      "category": "battle",
+      "title": "状态栏「結束 / 待機」的状态切换时机",
+      "status": "reconstructed",
+      "source": "artifacts/s49-ledger-evidence-v1/standby-state.json",
+      "evidence": "规则：原版按「该单位是否已行动完」判定——原版 step 1..14 状态栏是「蜜蜂 結束」，step 15 起是「漩涡鸣人 待機」；重制原先按阶段硬编码（unit_selection ⇒ 红色結束），改成 if(unit->completed)（butano-sequel/game/src/battle_runtime_scene.cpp:3479）。实测：单位选择屏 status-bar 的区域差分从 121 像素降到 0 像素（收据 artifacts/s49-ledger-evidence-v1/standby-state.json，前=artifacts/s49-fidelity-20261019-v1/region-diff-banner/field-unit-selection.json，后=…/region-diff-banner2/field-unit-selection.json），过程见 docs/konoha-senki/01-battle-s49.md 4.3.83.3。"
+    },
+    {
+      "id": "rom-boot-interwork-continuation-v1",
+      "category": "rom",
+      "title": "逆向成果族判定：ROM 启动期 ARM/Thumb 互操作闭包",
+      "status": "not-applicable",
+      "source": "artifacts/rom-boot-interwork-continuation-v1/manifest.json",
+      "evidence": "本复刻不经过原版 ROM 的启动路径：S49 重制从存档 artifacts/runtime-checkpoints/scenario-49-battle-14-entry.ss9 进入，用 Butano C++ 重新实现战斗（butano-sequel/game/src/battle_runtime_scene.cpp），从不执行原版 ROM 的代码。该族闭合的是 ROM 自己启动时的 ARM/Thumb veneer 与 BL→BX 链（逆向 manifest：coverage_denominator 覆盖全 ROM 6291456 字节、unknown_bytes=136138，consumer 是 ROM 内部的 BL/BX 调用），里面没有像素、公式或资产是重制要画或要算的——因此对本复刻不适用。它的价值是「逆向侧继续往下挖」的输入，不是重制侧的依赖。"
+    },
+    {
+      "id": "rom-cfg-seeds-v1",
+      "category": "rom",
+      "title": "逆向成果族判定：全 ROM 控制流图根种子集",
+      "status": "not-applicable",
+      "source": "artifacts/rom-cfg-seeds-v1/manifest.json",
+      "evidence": "该族是逆向侧 CFG 遍历的输入种子（manifest summary：root_seed_count=263、raw_dispatch_slot_count=829、unique_dispatch_handler_count=261），它自己的 scope 就写明 cfg_traversal_performed=false、global_dispatch_source_denominator_complete=false、global_function_entry_denominator_complete=false——即它没有给出任何可直接使用的规则，只是「下一步从哪挖」的指针。重制需要的战斗规则是从原版帧与 GPU 状态反推的（见本台账各 reconstructed 条目），重制的运行路径是 C++ 源码而不是原版二进制，因此该种子集对本复刻不适用。"
+    },
+    {
+      "id": "rom-chapter-script-unbound-tail-v1",
+      "category": "rom",
+      "title": "逆向成果族判定：章节脚本未绑定尾巴（slot 45/46）",
+      "status": "not-applicable",
+      "source": "artifacts/rom-chapter-script-unbound-tail-v1/manifest.json",
+      "evidence": "两个原因，都可核验：①该族的 artifact_status 是 candidate，逆向侧的导入规则只接受 accepted（W4 的导入器 tools/butano/import_rom_reverse_families.py:REJECTED_STATUSES 把 candidate 列为拒绝状态），candidate 不是成果；②它描述的是第 45/46 章的剧情脚本（root_vector 的 slot 45/46），scope 里 consumer_bound=false、natural_reachability_asserted=false，只闭合了解释器语法，没有闭合任何消费者；S49 复刻的场景内容由重制自己的 tools/generate_butano_battle_scenario_content.py 生成，不读章节脚本，因此对本复刻不适用。"
+    },
+    {
+      "id": "rom-fast-audit-four-packet-baseline-v1",
+      "category": "rom",
+      "title": "逆向成果族判定：2026-09-01 字节覆盖基线的四包重放输入",
+      "status": "not-applicable",
+      "source": "artifacts/rom-fast-audit-four-packet-baseline-v1/manifest.json",
+      "evidence": "该族是逆向侧的可复现性工件，不是内容结果：manifest 的 purpose 写明它是「四个成果从 2026-09-01 canonical 覆盖基线产出的不可变重放输入」，scope.historical_baseline_only=true、canonical_coverage_replacement=false，内容只是一个 gz 的 rom-byte-coverage 快照（1649084 字节）。重制既不读 ROM 字节覆盖也不跑逆向侧的 verifier（工具在逆向工作树 tools/ 里），因此对本复刻不适用。"
+    },
+    {
+      "id": "rom-sprite-component-source-v1",
+      "category": "rom",
+      "title": "逆向成果族判定：精灵组件源（12 个组件表 + 4 条动画时间线）",
+      "status": "not-applicable",
+      "source": "artifacts/rom-sprite-component-source-v1/manifest.json",
+      "evidence": "它描述的是原版通用精灵对象系统（0x06F2AA 消费链：allocator/selector/component_renderer/animation_timing），数据是 12 个组件表（96 条 20 字节记录）与 4 条时间线（每条 3 个关键帧，合计 16 帧）。对本复刻不适用，三条可核验的理由：①该族自己的 scope 写明 tile_palette_pixel_business_identity_proven=false、dynamic_state_proven=false、natural_runtime_reachability_proven=false，即它没有证明这些组件对应哪些像素，S49 战斗单位也不是走这条链——重制的单位精灵来自 ROM 的单位视觉表（重制生成器 tools/generate_butano_battle_unit_visual_content.py 读 ROM 偏移 0x596D5C 的 62×9 槽表，槽 0 是 field_idle_and_movement）；②每条时间线只有 3 个关键帧、合计 16 帧，而原版 S49 待机动画实测是 32 帧周期内 31 个互不相同的精灵图（收据 artifacts/s49-ledger-evidence-v1/idle-sequence.json），这套 3 关键帧时间线表达不了实测到的逐帧变化；③它的动画时间线与 S49 战斗单位之间没有任何已证的绑定，重制引入它不会关掉任何一项待办，因此对本复刻不适用。若将来要复活它，需要的是组件列表到 S49 单位精灵的逐像素绑定证据（逆向侧补），而不是把它挂进构建链。"
+    },
+    {
+      "id": "s49-fbff-corrupt-terminator",
+      "category": "visual",
+      "title": "单位视觉表里的损坏终止符 0xFBFF",
+      "status": "reconstructed",
+      "source": "artifacts/s49-ledger-evidence-v1/action-menu-glyphs.json",
+      "evidence": "原版 ROM 只有一处损坏的 component 终止符：角色 26 / 视觉槽 2 / 帧 2，0x0825A8E4 的字节是 fffb0000（signed -1025）；渲染器只认 -1（0xFFFF）作为结束，于是在这一帧**不会停下**，继续每 20 字节一个 component 往后读（原版运行期轨迹读到 4 个指针）。逆向侧用一字节 A/B 闭合并给出 control ROM 哈希。**本轮已让重制侧记录该缺陷**：tools/generate_butano_battle_unit_visual_content.py 现在把 frame_trailer_raw_hex / frame_trailer_signed_value / renderer_terminator 写进 butano-sequel/graphics/battle_unit_visual_catalog.json；全表 62 角色 × 342 个有效视觉槽里**只有这一帧**的终止符非法，与逆向侧结论一致。**故意不应用那一字节修复**：原版确实越界渲染，修了就与原版不一致；剩余未闭合项是**重制运行时不会越界**（重制只画列出的 component），该角色不在 S49 出场，故对 S49 像素无影响。门禁 tests/test_s49_rule_fbff.py（10 项全绿）。"
+    },
+    {
+      "id": "s49-battle-14-roster",
+      "category": "battle",
+      "title": "S49（battle 14）的九槽名册：角色、坐标、等级、体力与携带经验",
+      "status": "reused",
+      "source": "artifacts/character-runtime-unit-oam-bindings-v1/bindings.json",
+      "evidence": "原版 battle 14 入口的单位池直接从 EWRAM 读出（base 0x020240C0、stride 0x1D4、13 槽；记录 +0x00 角色、+0x01 等级、+0x0C 当前 HP、+0x0E 上限 HP、+0xC4/+0xC5 坐标、+0xCE 携带经验），收据在 artifacts/s49-original-battle14-roster-v1/；本机 mGBA 采到的 unit_pool SHA-256 = 9d508d991fb5a454a4bfe0b9008a7627490fafe99f7aa1dca63b316a4788c2c5，与逆向树签名绑定**逐字节一致**（两台独立构建的 mGBA 读到同一份内存）。读出的九槽是：槽1 鸣人(11,6) LV5 138HP、槽2 佐助(10,14) LV4 104HP、槽3 小樱(8,14) LV5 110HP、槽4 木叶丸(8,7) LV3 40HP、槽5-9 蜜蜂(55) 各 LV5 25HP 携带经验 50。重制侧的 ROM 阵型表（sequel/content/positions/bank.json，ROM 0x5461C4，group_id=battle_id）逐槽吻合角色与坐标，敌方与护送单位的等级也吻合；玩家三槽的等级由战役名册给出（battle_campaign_route.h 默认档 1→LV5 / 2→LV4 / 3→LV5）。九个体的 HP 全部能被重制自己的表复现：max_hp = 基础 + 成长×(等级-1)/100（鸣人 80+1450×4/100=138、佐助 60+1480×3/100=104、小樱 50+1500×4/100=110、木叶丸 10+1500×2/100=40、蜜蜂 5+500×4/100=25）。工具 tools/butano/capture_s49_battle_roster.py（只采集）与 tools/butano/verify_s49_battle_roster.py（独立复核），门禁 tests/test_s49_battle_roster.py（10 项，含三条变异双侧拒绝）。"
+    },
+    {
+      "id": "s49-battle-14-post-battle-settlement",
+      "category": "battle",
+      "title": "S49 战后的等级/经验结算（阈值表、成长表、按人分配的经验）",
+      "status": "reused",
+      "source": "notes/scenario-49-battle-14-runtime-20260720.md",
+      "evidence": "原版事实（逆向侧记录）：鸣人 LV5→LV6、体力 138→152、状态页 `EXP 100/325`；佐助 LV4→LV6、104→134；小樱 LV5→LV6、110→125。**两处被原版数据反向验证为「重制已对」**：阈值表（鸣人 LV6 下一阈值 250+15×5 = 325 = 状态页的 325）与成长表（升级体力 +14/+30/+15 = 基础+成长×(等级-1)/100）。**差异在经验按人还是按队发**：重制统一发 125+75+0 = 200，实测（跑生产 C++ 结算，收据 artifacts/s49-result-settlement-v1/）得鸣人停在 LV5、佐助只升一级、只有小樱 LV6；原版反推需 410 / ≥465 / 210+r ⇒ **能确定**的是鸣人恰好多 125、佐助至少多 115、小樱不多拿，**不能确定**额外项按什么规则分。⚠️ 「每击倒 1 个 +125」这条读法虽对鸣人是精确命中，但**对不上 5 个敌人的击倒归属**（只解释得掉 3 次）⇒ 是巧合不是规则，**未实现**。逆向侧同样未闭合（notes/levels-runtime-probe-20260713.md「下一步…捕获战后 EXP/level/训练点」）。工具 tools/butano/measure_s49_result_settlement.py + butano-sequel/benchmark/tests/test_battle_result_settlement.cpp，门禁 tests/test_s49_result_settlement.py（8 项，2 expectedFailure）。"
+    }
+  ]
+}

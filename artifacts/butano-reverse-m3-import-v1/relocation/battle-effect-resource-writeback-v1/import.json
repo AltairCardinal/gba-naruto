@@ -1,0 +1,136 @@
+{
+  "artifact_schema": "battle-effect-resource-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": {
+      "graphics_byte_offset": 0,
+      "kind": "first_editable_unit_low_bit_toggle",
+      "palette_byte_offset": 2,
+      "purpose": "bounded capacity witness only; overflow remains fail-closed"
+    },
+    "output_rom_sha256": null,
+    "rom": {
+      "path": "rom/base.gba",
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "size": 6291456
+    },
+    "scope": {
+      "all_content_resources_audited": true,
+      "all_logical_references_accounted": true,
+      "all_physical_slots_audited": true,
+      "arbitrary_edit_capacity_complete": false,
+      "atomic_all_alias_capacity_gate": true,
+      "deterministic_first_unit_mutation_audited": true,
+      "explicit_physical_slot_targeting_available": true,
+      "generic_image_writeback_complete": false,
+      "guarded_in_place_importer_available": true,
+      "original_roundtrip_capacity_complete": true,
+      "pointer_rewrite_complete": false,
+      "resource_relocation_complete": false,
+      "runtime_pixel_equivalence": false,
+      "vram_safe_encoding_audited": true
+    },
+    "source_catalog": {
+      "content_resource_count": 34,
+      "logical_reference_count": 36,
+      "path": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+      "physical_slot_count": 35,
+      "sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963"
+    },
+    "summary": {
+      "content_resource_count": 34,
+      "logical_reference_count": 36,
+      "minimum_mutation_slot_margin": -2,
+      "minimum_original_slot_margin": 0,
+      "mutation_fit_all_alias_content_count": 23,
+      "mutation_fit_logical_reference_count": 24,
+      "mutation_fit_slot_count": 24,
+      "mutation_overflow_content_count": 11,
+      "mutation_overflow_logical_reference_count": 12,
+      "mutation_overflow_slot_count": 11,
+      "original_roundtrip_fit_content_count": 34,
+      "original_roundtrip_fit_slot_count": 35,
+      "physical_slot_count": 35
+    }
+  },
+  "audit_source": "artifacts/battle-effect-resource-writeback-v1/battle-effect-resource-writeback.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [
+      "guarded_in_place_importer_available"
+    ],
+    "holds": true,
+    "minimum_original_slot_margin": 0,
+    "mutation_overflow_content_count": 11,
+    "mutation_overflow_slot_count": 11,
+    "problems": [],
+    "roundtrips": [
+      {
+        "holds": true,
+        "roundtrip": 34,
+        "roundtrip_key": "original_roundtrip_fit_content_count",
+        "total": 34,
+        "total_key": "content_resource_count"
+      }
+    ],
+    "unexpected_pointer_count": null
+  },
+  "family": "battle-effect-resource-writeback-v1",
+  "imported_payloads": [
+    {
+      "path": "battle-effect-resource-writeback-v1/battle-effect-resource-writeback.json",
+      "reverse_path": "artifacts/battle-effect-resource-writeback-v1/battle-effect-resource-writeback.json",
+      "sha256": "3f7ed416b584980695198bf93a7bb6d61345d977e83ca2ba93c25b9bf3f0a534"
+    }
+  ],
+  "kind": "writeback",
+  "manifest": "artifacts/battle-effect-resource-writeback-v1/manifest.json",
+  "manifest_sha256": "47970ba90a761de5eeb67eebaea574558b2e780b8483129e22a02dbd61d3cb3c",
+  "reverse_file_hashes": {
+    "battle-effect-resource-writeback.json": "3f7ed416b584980695198bf93a7bb6d61345d977e83ca2ba93c25b9bf3f0a534"
+  },
+  "rule_set": {
+    "base_rom_sha256": null,
+    "description": null,
+    "edit_count": null,
+    "owner": null,
+    "partition": null,
+    "region": null,
+    "region_owner": null,
+    "region_registry": null,
+    "region_registry_sha256": null,
+    "resource_count": null,
+    "schema": null,
+    "source_catalog": null,
+    "source_catalog_sha256": null
+  },
+  "rule_set_source": null,
+  "scope": {
+    "all_content_resources_audited": true,
+    "all_logical_references_accounted": true,
+    "all_physical_slots_audited": true,
+    "arbitrary_edit_capacity_complete": false,
+    "atomic_all_alias_capacity_gate": true,
+    "deterministic_first_unit_mutation_audited": true,
+    "explicit_physical_slot_targeting_available": true,
+    "generic_image_writeback_complete": false,
+    "guarded_in_place_importer_available": true,
+    "original_roundtrip_capacity_complete": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "vram_safe_encoding_audited": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_resource_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-resource-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}

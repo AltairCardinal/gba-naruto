@@ -1,0 +1,187 @@
+{
+  "schema": "konoha.s49-ledger-move-grid-colors.v1",
+  "inputs": {
+    "original_grid_frame": "artifacts/s49-fidelity-20261019-v1/walk-original-a24/step-19-A.png",
+    "original_grid_frame_sha256": "cb2da0d5132cbe6018d21e1748a87cfec2678c32ddf588b74086d2f5f317f2fe",
+    "original_untinted_frame": "artifacts/s49-fidelity-20261019-v1/walk-original-a24/step-20-A.png",
+    "original_untinted_frame_sha256": "c6611ae713930fc9a4eacd09379a3483a42b27a044f57c05319833878497d3bd",
+    "remake_frame": "artifacts/s49-fidelity-20261019-v1/walk-remake-dd-a30-banner2/step-20-A.png",
+    "remake_frame_sha256": "2ffed85a50792dc78b4c18291621d30e5bb14d3064ac8a88fce6720fee91d09a"
+  },
+  "measurement": {
+    "field_area": [
+      0,
+      0,
+      240,
+      128
+    ],
+    "changed_pixels_in_field": 22735,
+    "distinct_base_to_overlay_pairs": 459,
+    "distinct_overlay_colours": 115,
+    "cyan_overlay_colours": 18,
+    "cyan_pairs": 108,
+    "bases_with_several_cyan_overlays": 19,
+    "original_pixels_in_a_cyan_overlay_colour": 8658,
+    "remake_pixels_in_a_cyan_overlay_colour": 8116,
+    "original_vs_remake_different_pixels": 3463,
+    "top_cyan_pairs": [
+      {
+        "base": [
+          173,
+          173,
+          49
+        ],
+        "overlay": [
+          123,
+          236,
+          190
+        ],
+        "pixels": 2339
+      },
+      {
+        "base": [
+          198,
+          198,
+          66
+        ],
+        "overlay": [
+          138,
+          252,
+          200
+        ],
+        "pixels": 1296
+      },
+      {
+        "base": [
+          132,
+          189,
+          49
+        ],
+        "overlay": [
+          97,
+          246,
+          190
+        ],
+        "pixels": 1130
+      },
+      {
+        "base": [
+          198,
+          239,
+          82
+        ],
+        "overlay": [
+          138,
+          255,
+          210
+        ],
+        "pixels": 675
+      },
+      {
+        "base": [
+          156,
+          231,
+          66
+        ],
+        "overlay": [
+          112,
+          255,
+          200
+        ],
+        "pixels": 624
+      },
+      {
+        "base": [
+          123,
+          156,
+          41
+        ],
+        "overlay": [
+          91,
+          226,
+          185
+        ],
+        "pixels": 564
+      },
+      {
+        "base": [
+          148,
+          148,
+          33
+        ],
+        "overlay": [
+          107,
+          221,
+          180
+        ],
+        "pixels": 330
+      },
+      {
+        "base": [
+          231,
+          255,
+          107
+        ],
+        "overlay": [
+          159,
+          255,
+          226
+        ],
+        "pixels": 221
+      },
+      {
+        "base": [
+          115,
+          140,
+          33
+        ],
+        "overlay": [
+          86,
+          216,
+          180
+        ],
+        "pixels": 142
+      },
+      {
+        "base": [
+          222,
+          222,
+          90
+        ],
+        "overlay": [
+          153,
+          255,
+          215
+        ],
+        "pixels": 134
+      },
+      {
+        "base": [
+          123,
+          123,
+          16
+        ],
+        "overlay": [
+          91,
+          205,
+          169
+        ],
+        "pixels": 85
+      },
+      {
+        "base": [
+          198,
+          239,
+          82
+        ],
+        "overlay": [
+          128,
+          216,
+          159
+        ],
+        "pixels": 74
+      }
+    ]
+  },
+  "conclusion": "the original paints the move range with a dithered cyan overlay (18 cyan overlay colours over 8536 changed pixels); 19 map colours map to more than one overlay colour, so the overlay is a dither mask and not one flat tint"
+}

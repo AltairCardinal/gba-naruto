@@ -1,0 +1,42 @@
+{
+  "schema": "konoha.s49-turn-banner-assets.v2",
+  "source": "artifacts/s49-original-ui-reference-v1/screens/turn-banner-0.png",
+  "panel_box": [
+    72,
+    40,
+    152,
+    90
+  ],
+  "piece_size": 32,
+  "piece_origins": [
+    [
+      72,
+      40
+    ],
+    [
+      104,
+      40
+    ],
+    [
+      136,
+      40
+    ],
+    [
+      72,
+      72
+    ],
+    [
+      104,
+      72
+    ],
+    [
+      136,
+      72
+    ]
+  ],
+  "outputs": {
+    "panel_bmp": "butano-sequel/graphics/battle_ui_turn_banner_panel.bmp",
+    "panel_json": "butano-sequel/graphics/battle_ui_turn_banner_panel.json"
+  },
+  "notes": "The words are baked into the pixels, so no font atlas is needed and the banner is pixel exact by construction.  The bottom two rows are a dither: the colours that also occur in the rows below the panel belong to the battlefield and are cut as transparent."
+}

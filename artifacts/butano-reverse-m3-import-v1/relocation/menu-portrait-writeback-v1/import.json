@@ -1,0 +1,127 @@
+{
+  "artifact_schema": "menu-portrait-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": {
+      "after": "(before + 1) modulo 64",
+      "decompressed_stream_offset": 0,
+      "kind": "single_index_change",
+      "purpose": "bounded capacity witness only; it does not prove arbitrary PNGs fit"
+    },
+    "output_rom_sha256": null,
+    "rom": {
+      "path": "rom/base.gba",
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "size": 6291456
+    },
+    "scope": {
+      "all_logical_portrait_aliases_accounted": true,
+      "all_unique_resources_audited": true,
+      "arbitrary_png_slot_fit_complete": false,
+      "fixed_length_palette_writeback_complete": true,
+      "fixed_slot_overflow_reported": true,
+      "generic_image_writeback_complete": false,
+      "guarded_in_place_importer_available": true,
+      "original_roundtrip_capacity_complete": true,
+      "pointer_rewrite_complete": false,
+      "resource_relocation_complete": false,
+      "runtime_pixel_equivalence": false,
+      "single_pixel_mutation_capacity_complete": false,
+      "vram_safe_encoding_audited": true
+    },
+    "source_catalog": {
+      "logical_portrait_count": 311,
+      "path": "artifacts/menu-portraits-v1/manifest.json",
+      "sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3",
+      "unique_resource_count": 74
+    },
+    "summary": {
+      "logical_portrait_count": 311,
+      "minimum_mutation_slot_margin": -4,
+      "minimum_original_slot_margin": 0,
+      "original_roundtrip_fit_count": 74,
+      "palette_fixed_length_writeback_count": 74,
+      "resource_count": 74,
+      "single_pixel_mutation_fit_count": 37
+    }
+  },
+  "audit_source": "artifacts/menu-portrait-writeback-v1/menu-portrait-writeback.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [
+      "guarded_in_place_importer_available"
+    ],
+    "holds": true,
+    "minimum_original_slot_margin": 0,
+    "mutation_overflow_content_count": null,
+    "mutation_overflow_slot_count": null,
+    "problems": [],
+    "roundtrips": [
+      {
+        "holds": true,
+        "roundtrip": 74,
+        "roundtrip_key": "original_roundtrip_fit_count",
+        "total": 74,
+        "total_key": "resource_count"
+      }
+    ],
+    "unexpected_pointer_count": null
+  },
+  "family": "menu-portrait-writeback-v1",
+  "imported_payloads": [
+    {
+      "path": "menu-portrait-writeback-v1/menu-portrait-writeback.json",
+      "reverse_path": "artifacts/menu-portrait-writeback-v1/menu-portrait-writeback.json",
+      "sha256": "4d85be165101f35e53b2cf682d6db21a68a3010e7c8bcc0e8a8f9b5f05e00679"
+    }
+  ],
+  "kind": "writeback",
+  "manifest": "artifacts/menu-portrait-writeback-v1/manifest.json",
+  "manifest_sha256": "dbae133169f8ced45eb0893535084c5488345cfe2d3be6c6fef1611e3352278a",
+  "reverse_file_hashes": {
+    "menu-portrait-writeback.json": "4d85be165101f35e53b2cf682d6db21a68a3010e7c8bcc0e8a8f9b5f05e00679"
+  },
+  "rule_set": {
+    "base_rom_sha256": null,
+    "description": null,
+    "edit_count": null,
+    "owner": null,
+    "partition": null,
+    "region": null,
+    "region_owner": null,
+    "region_registry": null,
+    "region_registry_sha256": null,
+    "resource_count": null,
+    "schema": null,
+    "source_catalog": null,
+    "source_catalog_sha256": null
+  },
+  "rule_set_source": null,
+  "scope": {
+    "all_logical_portrait_aliases_accounted": true,
+    "all_unique_resources_audited": true,
+    "arbitrary_png_slot_fit_complete": false,
+    "fixed_length_palette_writeback_complete": true,
+    "fixed_slot_overflow_reported": true,
+    "generic_image_writeback_complete": false,
+    "guarded_in_place_importer_available": true,
+    "original_roundtrip_capacity_complete": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "single_pixel_mutation_capacity_complete": false,
+    "vram_safe_encoding_audited": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_menu_portrait_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/menu-portrait-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}

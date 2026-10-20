@@ -1,0 +1,134 @@
+{
+  "artifact_schema": "map-resource-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": {
+      "kind": "first_editable_unit_low_bit_toggle",
+      "other_resource_byte_offset": 0,
+      "palette_byte_offset": 2,
+      "purpose": "bounded capacity witness only; overflow remains fail-closed"
+    },
+    "output_rom_sha256": null,
+    "rom": {
+      "path": "rom/base.gba",
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "size": 6291456
+    },
+    "scope": {
+      "all_content_resources_audited": true,
+      "all_logical_references_accounted": true,
+      "all_physical_slots_audited": true,
+      "arbitrary_edit_capacity_complete": false,
+      "atomic_all_alias_capacity_gate": true,
+      "deterministic_first_byte_mutation_audited": true,
+      "generic_image_writeback_complete": false,
+      "guarded_in_place_importer_available": true,
+      "linked_resource_index_validation_complete": true,
+      "original_roundtrip_capacity_complete": true,
+      "pointer_rewrite_complete": false,
+      "resource_relocation_complete": false,
+      "runtime_pixel_equivalence": false,
+      "vram_safe_encoding_audited": true
+    },
+    "source_catalog": {
+      "content_resource_count": 166,
+      "logical_reference_count": 249,
+      "path": "artifacts/map-canvases-v1/manifest.json",
+      "physical_slot_count": 217,
+      "sha256": "12a231a570a1cb9e56bec7e2f87cb6de4ac48d673765b1ba536bbc5b0137e19c"
+    },
+    "summary": {
+      "content_resource_count": 166,
+      "logical_reference_count": 249,
+      "minimum_mutation_slot_margin": -3,
+      "minimum_original_slot_margin": 0,
+      "mutation_fit_all_alias_content_count": 70,
+      "mutation_fit_slot_count": 91,
+      "mutation_overflow_content_count": 96,
+      "mutation_overflow_slot_count": 126,
+      "original_roundtrip_fit_content_count": 166,
+      "original_roundtrip_fit_slot_count": 217,
+      "physical_slot_count": 217
+    }
+  },
+  "audit_source": "artifacts/map-resource-writeback-v1/map-resource-writeback.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [
+      "guarded_in_place_importer_available"
+    ],
+    "holds": true,
+    "minimum_original_slot_margin": 0,
+    "mutation_overflow_content_count": 96,
+    "mutation_overflow_slot_count": 126,
+    "problems": [],
+    "roundtrips": [
+      {
+        "holds": true,
+        "roundtrip": 166,
+        "roundtrip_key": "original_roundtrip_fit_content_count",
+        "total": 166,
+        "total_key": "content_resource_count"
+      }
+    ],
+    "unexpected_pointer_count": null
+  },
+  "family": "map-resource-writeback-v1",
+  "imported_payloads": [
+    {
+      "path": "map-resource-writeback-v1/map-resource-writeback.json",
+      "reverse_path": "artifacts/map-resource-writeback-v1/map-resource-writeback.json",
+      "sha256": "847193c88478c2d1ceb2823935c32cfce271602d94b1828214cbf12bdb48911e"
+    }
+  ],
+  "kind": "writeback",
+  "manifest": "artifacts/map-resource-writeback-v1/manifest.json",
+  "manifest_sha256": "9c7333e7c817133738e035f32526ce1f065a6f223aeae02b87ef3ab56526439e",
+  "reverse_file_hashes": {
+    "map-resource-writeback.json": "847193c88478c2d1ceb2823935c32cfce271602d94b1828214cbf12bdb48911e"
+  },
+  "rule_set": {
+    "base_rom_sha256": null,
+    "description": null,
+    "edit_count": null,
+    "owner": null,
+    "partition": null,
+    "region": null,
+    "region_owner": null,
+    "region_registry": null,
+    "region_registry_sha256": null,
+    "resource_count": null,
+    "schema": null,
+    "source_catalog": null,
+    "source_catalog_sha256": null
+  },
+  "rule_set_source": null,
+  "scope": {
+    "all_content_resources_audited": true,
+    "all_logical_references_accounted": true,
+    "all_physical_slots_audited": true,
+    "arbitrary_edit_capacity_complete": false,
+    "atomic_all_alias_capacity_gate": true,
+    "deterministic_first_byte_mutation_audited": true,
+    "generic_image_writeback_complete": false,
+    "guarded_in_place_importer_available": true,
+    "linked_resource_index_validation_complete": true,
+    "original_roundtrip_capacity_complete": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "vram_safe_encoding_audited": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_map_resource_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/map-resource-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}

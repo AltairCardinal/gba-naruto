@@ -1,0 +1,100 @@
+{
+  "schema": "konoha.s49-region-comparison.v1",
+  "comparison": "declared-pair-no-alignment-search-no-mask",
+  "baseline": "turn-banner",
+  "original_frame": "step-15-A.png",
+  "remake_frame": "step-17-A.png",
+  "regions": {
+    "full-screen": {
+      "box": [
+        0,
+        0,
+        240,
+        160
+      ],
+      "area_pixels": 38400,
+      "different_pixels": 730,
+      "difference_bbox": [
+        18,
+        30,
+        144,
+        98
+      ]
+    },
+    "dialogue-area": {
+      "box": [
+        0,
+        96,
+        240,
+        160
+      ],
+      "area_pixels": 15360,
+      "different_pixels": 6,
+      "difference_bbox": [
+        19,
+        96,
+        29,
+        98
+      ]
+    },
+    "status-bar": {
+      "box": [
+        0,
+        144,
+        240,
+        160
+      ],
+      "area_pixels": 3840,
+      "different_pixels": 0,
+      "difference_bbox": null
+    },
+    "portrait-area": {
+      "box": [
+        0,
+        0,
+        240,
+        96
+      ],
+      "area_pixels": 23040,
+      "different_pixels": 724,
+      "difference_bbox": [
+        18,
+        30,
+        144,
+        96
+      ]
+    },
+    "command-menu-panel": {
+      "box": [
+        4,
+        20,
+        48,
+        108
+      ],
+      "area_pixels": 3872,
+      "different_pixels": 582,
+      "difference_bbox": [
+        18,
+        50,
+        45,
+        98
+      ]
+    },
+    "left-unit-sprite": {
+      "box": [
+        64,
+        24,
+        150,
+        104
+      ],
+      "area_pixels": 6880,
+      "different_pixels": 148,
+      "difference_bbox": [
+        109,
+        30,
+        144,
+        89
+      ]
+    }
+  }
+}

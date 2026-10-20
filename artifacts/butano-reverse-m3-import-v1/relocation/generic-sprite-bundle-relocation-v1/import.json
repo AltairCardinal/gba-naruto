@@ -1,0 +1,104 @@
+{
+  "artifact_schema": "generic-sprite-bundle-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": null,
+    "output_rom_sha256": "2089a296c06d7a49b2fdccc82332f5138db38cd521917b748fbf2cdf00f2a9a7",
+    "rom": null,
+    "scope": {
+      "editable": "The shared graphics pack may contain 1..97 complete 4bpp tiles, the palette remains one 16-color bank, and each fixed ID may contain 1..2 valid GBA OBJ components, matching the proved source maximum. Animation 0 remains the proved single-frame hold-one-tick then stop sequence.",
+      "not_proved": "Adding Sprite IDs, adding animations or frames, scene-specific resource overwrites, natural selection of every ID, or final screen-composited pixel/timing equivalence after modification.",
+      "proved": "All 43 fixed generic Sprite IDs, 45 source components, the canonical graphics/palette payloads and all 174 exact source pointer references are accounted for; 45 payload allocations, 88 external pointer patches and 43 tile-base writes rebuild a 16 MiB ROM."
+    },
+    "source_catalog": null,
+    "summary": {
+      "allocation_count": 45,
+      "allocation_end": 12126688,
+      "allocation_span": 2528,
+      "allocation_start": 12124160,
+      "applied_patch_count": 176,
+      "component_count": 45,
+      "entry_count": 43,
+      "graphics_tile_count": 49,
+      "maximum_runtime_tile_base": 927,
+      "maximum_safe_graphics_tiles": 97,
+      "pointer_patch_count": 88,
+      "region_end": 12189696,
+      "remaining_bytes": 63008,
+      "runtime_loader_call_count": 12,
+      "runtime_tile_bases": [
+        846,
+        927
+      ],
+      "source_pointer_reference_count": 174,
+      "stored_payload_bytes": 2525,
+      "tile_base_patch_count": 43,
+      "unexpected_source_pointer_count": 0
+    }
+  },
+  "audit_source": "artifacts/generic-sprite-bundle-relocation-v1/relocation-audit.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [],
+    "holds": true,
+    "minimum_original_slot_margin": null,
+    "mutation_overflow_content_count": null,
+    "mutation_overflow_slot_count": null,
+    "problems": [],
+    "roundtrips": [],
+    "unexpected_pointer_count": null
+  },
+  "family": "generic-sprite-bundle-relocation-v1",
+  "imported_payloads": [
+    {
+      "path": "generic-sprite-bundle-relocation-v1/full-relocation-spec.json",
+      "reverse_path": "artifacts/generic-sprite-bundle-relocation-v1/full-relocation-spec.json",
+      "sha256": "6681131547ab9d83111252c20c98b8d84cdd8032a469f041fe77d044f1afe63b"
+    },
+    {
+      "path": "generic-sprite-bundle-relocation-v1/relocation-audit.json",
+      "reverse_path": "artifacts/generic-sprite-bundle-relocation-v1/relocation-audit.json",
+      "sha256": "55a9d965b9f894246f04fb89ac3a7dd6b541d5294abe94627909258bcd43e61d"
+    }
+  ],
+  "kind": "relocation",
+  "manifest": "artifacts/generic-sprite-bundle-relocation-v1/manifest.json",
+  "manifest_sha256": "775bc2ed1fa6d64e0107b5318cbfdfba7c70b07d7c29b54e3d1dac885e9aa941",
+  "reverse_file_hashes": {
+    "full-relocation-spec.json": "6681131547ab9d83111252c20c98b8d84cdd8032a469f041fe77d044f1afe63b",
+    "relocation-audit.json": "55a9d965b9f894246f04fb89ac3a7dd6b541d5294abe94627909258bcd43e61d"
+  },
+  "rule_set": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "description": null,
+    "edit_count": null,
+    "owner": "sequel_image_assets",
+    "partition": "sequel-image-assets",
+    "region": "generic-sprite-bundle",
+    "region_owner": "generic_sprite_resources",
+    "region_registry": "sequel/image-resource-regions.json",
+    "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "resource_count": null,
+    "schema": "generic-sprite-bundle-relocation-v1",
+    "source_catalog": null,
+    "source_catalog_sha256": null
+  },
+  "rule_set_source": "artifacts/generic-sprite-bundle-relocation-v1/full-relocation-spec.json",
+  "scope": {
+    "editable": "The shared graphics pack may contain 1..97 complete 4bpp tiles, the palette remains one 16-color bank, and each fixed ID may contain 1..2 valid GBA OBJ components, matching the proved source maximum. Animation 0 remains the proved single-frame hold-one-tick then stop sequence.",
+    "not_proved": "Adding Sprite IDs, adding animations or frames, scene-specific resource overwrites, natural selection of every ID, or final screen-composited pixel/timing equivalence after modification.",
+    "proved": "All 43 fixed generic Sprite IDs, 45 source components, the canonical graphics/palette payloads and all 174 exact source pointer references are accounted for; 45 payload allocations, 88 external pointer patches and 43 tile-base writes rebuild a 16 MiB ROM."
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_generic_sprite_bundle_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/generic-sprite-bundle-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "applicability": "no-local-anchor-in-this-tree",
+  "artifact_schema": "data-table-b-message0-pointer-pixel-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "data-table-b-message0-pointer-pixel-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/data-table-b-message0-pointer-pixel-ab-v1/baseline.png",
+      "sha256": "8a4a05f3de735771be17c19be170833aadc725cb76c5c7b58eb5dc98652e62f0",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "data-table-b-message0-pointer-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/data-table-b-message0-pointer-pixel-ab-v1/evidence.json",
+    "sha256": "b0d25756ca36b49a61ee5297aa0e238196ff6c9d49c610a29cd022e03c8594ff"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": "e85051ba9dd54f23ca225032a258db6d5e7d86691ba3ac77d6f55b4209d48bb7",
+    "bbox": null,
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": "54a09d69894ede9f3a51c1a9b5119851c43006ef0334f2210c5a3425fdfc1930",
+    "changed_pixel_count": 928,
+    "source_path": "runtime_effect"
+  },
+  "family": "data-table-b-message0-pointer-pixel-ab-v1",
+  "local_anchors": [],
+  "manifest": "artifacts/data-table-b-message0-pointer-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "fc0310e3f40d493ac0502d27bf2490817659999e32fa5bcade639f0699a50e9b",
+  "reverse_file_hashes": {
+    "baseline.png": "8a4a05f3de735771be17c19be170833aadc725cb76c5c7b58eb5dc98652e62f0",
+    "candidate.png": "53cb548afd752fdcf332e97c1f4cdb0ead68789e15c9b7eb15e460d32e3042d9",
+    "evidence.json": "b0d25756ca36b49a61ee5297aa0e238196ff6c9d49c610a29cd022e03c8594ff",
+    "raw.tar": "c942542186353266a9c0961b0bed3af58d2b22dbe2a7cbcab5eacfab4bf3119e"
+  },
+  "scope": {},
+  "unavailable_local_inputs": [
+    "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
+    "tools/mgba_input_sequence_replay.lua"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_data_table_b_message0_pointer_ab.py",
+      "artifacts/data-table-b-message0-pointer-pixel-ab-v1",
+      "--binary",
+      "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+    ],
+    "exit_code": 0
+  }
+}

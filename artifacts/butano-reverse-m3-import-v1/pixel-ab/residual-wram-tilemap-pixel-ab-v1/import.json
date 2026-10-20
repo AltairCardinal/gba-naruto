@@ -1,0 +1,90 @@
+{
+  "applicability": "no-local-anchor-in-this-tree",
+  "artifact_schema": "residual-wram-tilemap-pixel-ab-evidence-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "residual-wram-tilemap-pixel-ab-v1/baseline/frame1.png",
+      "reverse_path": "artifacts/residual-wram-tilemap-pixel-ab-v1/baseline/frame1.png",
+      "sha256": "aa03cd64df11cb7483b1a155f57d97270851293c2098d65e4ecf8aed966f1274",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "residual-wram-tilemap-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/residual-wram-tilemap-pixel-ab-v1/runtime-evidence.json",
+    "sha256": "82de12ac25ee412f7789f62ac796bd6d26d45a9c0e73899f0764b445f6229a3f"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": null,
+    "bbox": [
+      88,
+      64,
+      95,
+      71
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": null,
+    "changed_pixel_count": 50,
+    "source_path": "pixel_result"
+  },
+  "family": "residual-wram-tilemap-pixel-ab-v1",
+  "local_anchors": [],
+  "manifest": "artifacts/residual-wram-tilemap-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "46dba8f095d1fa2f07afbd6ac9f4405a5315f5ccc050f5fb1187502fd3088c2c",
+  "reverse_file_hashes": {
+    "baseline/frame1.png": "aa03cd64df11cb7483b1a155f57d97270851293c2098d65e4ecf8aed966f1274",
+    "baseline/frame1.ss9": "1a6679defa50d2af73b73d88ef35837c6d85e282ed89e9663a762176e61fd8d3",
+    "baseline/load-post.ss9": "7dde9091d2459b2cba59a58d4a215660dc484d10d393de8108af1d0f363545d5",
+    "baseline/load.ss9": "6cc6603785d1837c9b19ca1e56437f05352e590af3643f9db067130a6b8f3e21",
+    "baseline/output-rows.bin": "e02e746f8f3e9ec8bfe50333ff8c14349a915709cc58eb27f018f9fd0c386b21",
+    "baseline/post-vram-rows.bin": "e02e746f8f3e9ec8bfe50333ff8c14349a915709cc58eb27f018f9fd0c386b21",
+    "baseline/queue-post.ss9": "cad1bbad0f42a893a9ca610e99c26087958dcec53db47fa0e82b715bdcc469f2",
+    "baseline/replay-audit.json": "6ec1c975ff961cee2b3f5a9dc9db480e1bbecea2f16008ae235fe0db2cbcd2c6",
+    "baseline/replay-guard.json": "bf69403b7ac130b4fd72e5e729e065f189b14b33aad415fb98393a6640c67dfd",
+    "baseline/sequence-audit.json": "8e11e9fbfb479b0a55eed16d0380530dda371f8a4fa13cdc4d5b45025bb8ec48",
+    "baseline/sequence-guard.json": "98278c0d119f7b6681f7efb8be0fee18f4fbcd9cd7460cf09eb4397febc7083b",
+    "baseline/staging.bin": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640",
+    "build-manifest.json": "8dac17b8cf6eccda030022a50b980ea5b617f01407eab6f6c60301f367ead596",
+    "candidate/frame1.png": "73734c8527e10402358abc32dc431c041b921166850a2b9f1ade9353a8f1f4b9",
+    "candidate/frame1.ss9": "5bd638392b6488a7c704e0aa5143233bd49c495b84c838ef58eb7567d6f30955",
+    "candidate/load-post.ss9": "91317bc90ad89844c7915bbf72a69f539842c49852a49076f9ff36087d23e93f",
+    "candidate/load.ss9": "e2bf20d1d4a5c44e5fda996049fa8eb3174d6013413a5d570d1b54a262aceb35",
+    "candidate/output-rows.bin": "3dcbc2de8d4732fcfc3da6a6140408fbee0bc48c881e318395387e449e53b4c8",
+    "candidate/post-vram-rows.bin": "3dcbc2de8d4732fcfc3da6a6140408fbee0bc48c881e318395387e449e53b4c8",
+    "candidate/queue-post.ss9": "ec55a7430a9af0bb7b72027c3ea8801c7efee9874194064784112218613c1620",
+    "candidate/replay-audit.json": "c369b7695beabeeeacf03730a4026bd5069ae7defeb8c05ddcbe018b639d5d32",
+    "candidate/replay-guard.json": "a10223bfe357b11aa316d3146941988467af25a828f582702a0779284c837a31",
+    "candidate/sequence-audit.json": "86f9a967c6f15e32bcd2548d483a4539c2a2889b466097d7fb04928a1633fd3d",
+    "candidate/sequence-guard.json": "6984df079101b5637fbd48dc03befd7e69576957c519492f2f51292a88379f79",
+    "candidate/staging.bin": "945aec4bdd403d89b3ccbe6034cc34a6c68780e60783088177832c26978bdd30",
+    "runtime-evidence.json": "82de12ac25ee412f7789f62ac796bd6d26d45a9c0e73899f0764b445f6229a3f"
+  },
+  "scope": {
+    "controlled_entry": true,
+    "exact_50_pixel_oracle_verified": true,
+    "exclusive_writer": false,
+    "full_timing": false,
+    "modified_relocated_rom_runtime_load_verified": true,
+    "natural_entry": false,
+    "next_frame_mgba_pixel_diff_verified": true,
+    "post_queue_vram_entry_verified": true,
+    "single_source_byte_to_single_transformed_entry_verified": true
+  },
+  "unavailable_local_inputs": [],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_tilemap_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-tilemap-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

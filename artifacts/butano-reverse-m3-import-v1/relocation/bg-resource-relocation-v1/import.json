@@ -1,0 +1,96 @@
+{
+  "artifact_schema": "bg-resource-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": null,
+    "output_rom_sha256": "41d91630051046a734c8191c94a52dbe274c469afab5f8e477f9b0da0ec9f79c",
+    "rom": null,
+    "scope": {
+      "editable": "Fixed-geometry graphics, 384-byte palettes and 640-byte tilemaps may change without original compressed-slot limits; catalog-approved descriptor aliases may split while the full 12-entry linked view continues to satisfy 4bpp/8bpp tile and palette constraints.",
+      "not_proved": "Different canvas geometry, bottom runtime-filled rows, modified resource runtime selection, scrolling, OBJ/window/blend composition or final pixel equivalence.",
+      "proved": "All 31 regular-BG content resources, representing 36 physical LZ77 payloads and all 36 exact descriptor pointer fields, relocate into the registered regular-bg image region."
+    },
+    "source_catalog": null,
+    "summary": {
+      "allocation_count": 31,
+      "allocation_end": 11621745,
+      "allocation_span": 87409,
+      "allocation_start": 11534336,
+      "applied_patch_count": 67,
+      "content_resource_count": 31,
+      "entry_count": 12,
+      "logical_pointer_count": 36,
+      "physical_payload_count": 36,
+      "pointer_patch_count": 36,
+      "region_end": 11796480,
+      "remaining_bytes": 174735,
+      "stored_payload_bytes": 87366,
+      "unexpected_pointer_count": 0
+    }
+  },
+  "audit_source": "artifacts/bg-resource-relocation-v1/relocation-audit.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [],
+    "holds": true,
+    "minimum_original_slot_margin": null,
+    "mutation_overflow_content_count": null,
+    "mutation_overflow_slot_count": null,
+    "problems": [],
+    "roundtrips": [],
+    "unexpected_pointer_count": 0
+  },
+  "family": "bg-resource-relocation-v1",
+  "imported_payloads": [
+    {
+      "path": "bg-resource-relocation-v1/full-relocation-spec.json",
+      "reverse_path": "artifacts/bg-resource-relocation-v1/full-relocation-spec.json",
+      "sha256": "e2acaf1eab6f6d79c0b55a8fd8da57ff149e59922cd3f20f23b3c91e5c5f9b4c"
+    },
+    {
+      "path": "bg-resource-relocation-v1/relocation-audit.json",
+      "reverse_path": "artifacts/bg-resource-relocation-v1/relocation-audit.json",
+      "sha256": "84d7e0575234094a41889a70aaae38f1ca99f2ab65bfdc0ab59ccb52a5f7d29c"
+    }
+  ],
+  "kind": "relocation",
+  "manifest": "artifacts/bg-resource-relocation-v1/manifest.json",
+  "manifest_sha256": "b4ce592ce1fc203a1e25943181a0e1e9b1cfd95f76537ba01dbbde0fb8b62199",
+  "reverse_file_hashes": {
+    "full-relocation-spec.json": "e2acaf1eab6f6d79c0b55a8fd8da57ff149e59922cd3f20f23b3c91e5c5f9b4c",
+    "relocation-audit.json": "84d7e0575234094a41889a70aaae38f1ca99f2ab65bfdc0ab59ccb52a5f7d29c"
+  },
+  "rule_set": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "description": null,
+    "edit_count": 31,
+    "owner": "sequel_image_assets",
+    "partition": "sequel-image-assets",
+    "region": "regular-bg",
+    "region_owner": "regular_bg_resources",
+    "region_registry": "sequel/image-resource-regions.json",
+    "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "resource_count": null,
+    "schema": "bg-resource-relocation-v1",
+    "source_catalog": "artifacts/bg-resource-canvases-v1/manifest.json",
+    "source_catalog_sha256": "27096c9129823cc7d4f98aeb1fde304419a1c6abfadaf1cff6e13b80bf2fa99e"
+  },
+  "rule_set_source": "artifacts/bg-resource-relocation-v1/full-relocation-spec.json",
+  "scope": {
+    "editable": "Fixed-geometry graphics, 384-byte palettes and 640-byte tilemaps may change without original compressed-slot limits; catalog-approved descriptor aliases may split while the full 12-entry linked view continues to satisfy 4bpp/8bpp tile and palette constraints.",
+    "not_proved": "Different canvas geometry, bottom runtime-filled rows, modified resource runtime selection, scrolling, OBJ/window/blend composition or final pixel equivalence.",
+    "proved": "All 31 regular-BG content resources, representing 36 physical LZ77 payloads and all 36 exact descriptor pointer fields, relocate into the registered regular-bg image region."
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_bg_resource_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/bg-resource-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

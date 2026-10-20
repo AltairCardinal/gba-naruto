@@ -1,0 +1,110 @@
+{
+  "schema": "residual-text-bg-tilemap-relocation-audit-v1",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "layout": {
+    "path": "sequel/rom-layout.json",
+    "sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "target_rom_size": 16777216,
+    "partition": "sequel-image-assets",
+    "owner": "sequel_image_assets"
+  },
+  "region_registry": {
+    "path": "sequel/image-resource-regions.json",
+    "sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "region": "residual-text-bg-tilemap",
+    "owner": "residual_text_bg_tilemap",
+    "start": 12321792,
+    "end": 12323840
+  },
+  "inventory": {
+    "path": "artifacts/rom-pointer-lz77-inventory-v1/rom-pointer-lz77-inventory.json",
+    "sha256": "0c4aed52328b0506e8e41afebe5e5c0ef3dccb830cf8af6c092eb1d0566581c5"
+  },
+  "resource_ownership": {
+    "path": "artifacts/residual-text-bg-tilemap-resource-ownership-v1/resource-ownership.json",
+    "sha256": "95c4baf0febd70151d68c08d276bb694daa1f544035466f9b078f73e538d8741",
+    "verified_source_count": 1
+  },
+  "authoring_spec": {
+    "file": "full-relocation-spec.json",
+    "sha256": "3667bacc93a0d87cfdb03a516fd78ccab1b2ef15550305d861971e6e34a35954"
+  },
+  "implementation": {
+    "tools/export_rom_pointer_lz77_inventory.py": "291164c8b517b02a3f36999a838c2a925038b03d755114d40ba4164430c808c0",
+    "tools/verify_rom_pointer_lz77_inventory.py": "7226faf073dd2495392fba3792d52239c223709581846ed1e8e5a8419a736e6b",
+    "tools/export_residual_text_bg_tilemap_resource_ownership.py": "3b2ea866e603298c96d1289f78b02835e726f9d0f6cbd273359ec48d54a1daa7",
+    "tools/verify_residual_text_bg_tilemap_resource_ownership.py": "48e5695382da41c31bae37cea9478a5528efd3af424fbc871e6cc94c61f06af5",
+    "tools/import_residual_text_bg_tilemap_relocations.py": "c65ae3e204d96e1d1f6d687040fcf53056cb5ddb37c91ca2f2f248c3adcc76b9",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_residual_text_bg_tilemap_relocation_audit.py": "85ca0413fc8ee46e9a677e3de31589559438e021835f43541fb2da28e972e767",
+    "tools/verify_residual_text_bg_tilemap_relocation_audit.py": "4afe2c95978184a969e064ea3e72fc8be8276225ea92c29fb4829e0d49e46e05"
+  },
+  "summary": {
+    "source_count": 1,
+    "source_pointer_reference_count": 1,
+    "unexpected_source_pointer_count": 0,
+    "compressed_source_size": 178,
+    "decoded_size": 1280,
+    "entry_count": 640,
+    "tile_index_min": 0,
+    "tile_index_max": 5,
+    "palette_banks": [
+      1
+    ],
+    "allocation_count": 1,
+    "pointer_patch_count": 1,
+    "allocation_start": 12321792,
+    "allocation_end": 12321970,
+    "region_end": 12323840,
+    "stored_payload_bytes": 178,
+    "allocation_span": 178,
+    "remaining_bytes": 1870,
+    "applied_patch_count": 2
+  },
+  "allocation": {
+    "id": "residual-text-bg-tilemap",
+    "offset": 12321792,
+    "source_pointer": 137663336,
+    "new_pointer": 146539520,
+    "replacement_sha256": "0876b9165e63106e30681dd9ca5831d629ba8903a9f0d05fd5cbf8f1088e920c",
+    "decoded_size": 1280,
+    "encoded_size": 178,
+    "entry_count": 640,
+    "tile_index_range": [
+      0,
+      5
+    ],
+    "palette_banks": [
+      1
+    ],
+    "horizontal_flip_count": 0,
+    "vertical_flip_count": 12,
+    "destination": "0x06001000"
+  },
+  "pointer_patch": {
+    "id": "residual-text-bg-tilemap.pointer-08b464",
+    "offset": 570468,
+    "source_pointer": 137663336,
+    "new_pointer": 146539520,
+    "pointer_role": "tilemap_source"
+  },
+  "output_rom_sha256": "b097462767a02f7c604198f83a9f79e75476809ee44efe3d30945aa7ea5a695c",
+  "capability_fixture": {
+    "mutation": "increment entry 0 tile index modulo 6",
+    "changed_entries": 1,
+    "output_rom_sha256": "4f46eb5bc575644d34fbec4d3a9867e5c840a1fb86da0182c84676cdbbf1c069"
+  },
+  "scope": {
+    "proved": "The single pointer-reachable residual text-BG tilemap at 0x08349368 and its only aligned source-pointer root relocate into a 16 MiB ROM, with BG2, graphics and palette ownership bound to a separately verified artifact.",
+    "editable": "All 640 32x20 screen entries may select tile 0..5, palette bank 1, and standard horizontal or vertical flip bits.",
+    "not_proved": "Changing the screenblock destination, coordinated semantic authoring across its separately relocatable graphics/palette resources, the runtime ordering against another stream that may reuse 0x06001000, assigning a natural-language screen identity, and final screen-composited runtime equivalence."
+  }
+}

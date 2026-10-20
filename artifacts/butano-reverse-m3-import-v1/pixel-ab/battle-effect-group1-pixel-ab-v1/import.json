@@ -1,0 +1,86 @@
+{
+  "applicability": "local-anchor-found",
+  "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "baseline_images": [
+    {
+      "path": "battle-effect-group1-pixel-ab-v1/baseline/frame90.png",
+      "reverse_path": "artifacts/battle-effect-group1-pixel-ab-v1/raw/baseline/frame90.png",
+      "sha256": "ab62c1131c9c48f8fe62e5d5cc1647763ede2a87a1dbc7ddfd6baf891ba4eaee",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "battle-effect-group1-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/battle-effect-group1-pixel-ab-v1/runtime-evidence.json",
+    "sha256": "39063b00b1fd9dc204ec6df0c896994b1abceba054b83d928e5fc9dd44858017"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": "f1e33f90bbee0b5f38f5fc7e255b967b991f00dfdee63dc13cf44c69c2931ed8",
+    "bbox": [
+      37,
+      73,
+      44,
+      77
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": "24afc3a844296ddb342f3b72a4434808b5996fa02c86a56d5da263bfaada70d6",
+    "changed_pixel_count": 2,
+    "source_path": "runtime.pixels"
+  },
+  "family": "battle-effect-group1-pixel-ab-v1",
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9"
+  ],
+  "manifest": "artifacts/battle-effect-group1-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "9921f8060278ebe9227def7fa1917ce78bcc020e09d2e4e3b9ba59a23d272506",
+  "reverse_file_hashes": {
+    "raw/baseline/audit.json": "5647d7754f4fccbe4d779b6e6f12c99f8faf45069c41f0f00e792fec16f83497",
+    "raw/baseline/frame90.png": "ab62c1131c9c48f8fe62e5d5cc1647763ede2a87a1dbc7ddfd6baf891ba4eaee",
+    "raw/baseline/frame90.ss9": "199726c7e63c9d924d27cfc109ba4dd7d1c8577cb89e0520648a0f84322735b0",
+    "raw/baseline/group-01-graphics-4bpp.bin": "d2bdbe77b17e8ab4031f0a100851dffbbe5a8acf3a8b245ce1b6349d758221d3",
+    "raw/baseline/guard.json": "1feab685ecc86d4e4667831b384879abbb85e4cbc774a1e2692381f21e2420c7",
+    "raw/baseline/sentinel.json": "5647d7754f4fccbe4d779b6e6f12c99f8faf45069c41f0f00e792fec16f83497",
+    "raw/baseline/spec.json": "5857a78df3f006a3b5cf9fbd9995540a660fbf9aeff45e5042f78ed28fed1b8f",
+    "raw/build-manifest.json": "536c16eae8f837cca7b899f5a6e568c61f019c24a09c3032f754b6cf1e3aedcb",
+    "raw/candidate/audit.json": "2983e784c523bc6e7b15bb0467def9b1626acb4a9e9bf02c1efb2d3cde90612b",
+    "raw/candidate/frame90.png": "0d16a9875d5e45403c073ecfface1fe5df920f57bbfb2aa4338201a1e1980c4f",
+    "raw/candidate/frame90.ss9": "95d6841dea545a7cac6c037e04ec2fb3751b46685b3d5591776c261bdeaf5df2",
+    "raw/candidate/group-01-graphics-4bpp.bin": "4f97f83a177b50d9d0cc08d4a4d47d1420ab49c8e834e103b6e2160ab349e2e9",
+    "raw/candidate/guard.json": "22f3f0b5af0fb410b279fc72cc7c846927043ab852bdd4d8f23e9299d3975ee8",
+    "raw/candidate/sentinel.json": "2983e784c523bc6e7b15bb0467def9b1626acb4a9e9bf02c1efb2d3cde90612b",
+    "raw/candidate/spec.json": "1d463944ca5c5dc3bb8896d1120fddc27d045cb3dadfb804902823089fdd3d82",
+    "runtime-evidence.json": "39063b00b1fd9dc204ec6df0c896994b1abceba054b83d928e5fc9dd44858017"
+  },
+  "scope": {
+    "all_18_effect_groups_runtime_verified": false,
+    "all_group_frames_runtime_verified": false,
+    "full_affine_blend_timing_audio_equivalence": false,
+    "natural_active_action_route": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "single_group_single_frame_single_pixel": true
+  },
+  "unavailable_local_inputs": [
+    "sequel/content/battle-effect-pixel-ab/group-01-action5-dust.json"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group1-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "verified": true
+    }
+  }
+}

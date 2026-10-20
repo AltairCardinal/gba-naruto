@@ -1,0 +1,139 @@
+{
+  "binding": {
+    "encoded_action_id": 129,
+    "group_id": 11,
+    "ninja_tool_id": 1,
+    "sequence_id": 13
+  },
+  "edit": {
+    "after_byte": 34,
+    "after_index": 2,
+    "after_rgb": [
+      255,
+      214,
+      181
+    ],
+    "before_byte": 33,
+    "before_index": 1,
+    "before_rgb": [
+      255,
+      255,
+      255
+    ],
+    "component_index": 0,
+    "component_pixel_xy": [
+      4,
+      5
+    ],
+    "frame_id": 0,
+    "graphics_byte_offset": 22,
+    "screen_xy": [
+      172,
+      61
+    ]
+  },
+  "input": {
+    "capture_frame": 106,
+    "event": {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    },
+    "path": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
+    "resource_absent_before_input": true,
+    "sha256": "57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139"
+  },
+  "profile": "sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.json",
+  "profile_sha256": "27542da901dd6a96cfe37d320a8edc7519f1767398c61fe9ec24402d600eac17",
+  "runs": {
+    "baseline": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 93317,
+      "guard_sha256": "080d3626b17a84d4ae14aa1b6e01c238f3c56fb09d7881ca486594b7f39986a8",
+      "peak_tree_rss_mib": 56.09765625,
+      "pgid_clean": true,
+      "png_sha256": "c97ee113753c85db9233e433bf0cd52aec2fa11d80149e80f501cc576e10355d",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "8e24aa7de358ba92a4a5c7347e9c5898d7304b9e9a2bed4cf0a9906da5be0ff6",
+      "run_id": "7e2e38704f41d2f8683567cca79c1c64",
+      "state_sha256": "0cb839b5ac6972724b9551afd260ca2a91443399f6c3d1bae7ec2b7f917ae625"
+    },
+    "candidate": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 93350,
+      "guard_sha256": "74c1552a04d0684c7607002859d5bbd566cf00e71d821d59e2e9afe20d228db2",
+      "peak_tree_rss_mib": 55.85546875,
+      "pgid_clean": true,
+      "png_sha256": "a8176020c477cdbaf7890f97b802cd245e767b60f2407a1daa4f9095436526a5",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "1ffdb6f4d5b023465ba6b60bfe56ecc5f6ff65116cd751d1beac2c4cc92bdfd7",
+      "run_id": "ff76394bed4a9988e498f5914467294d",
+      "state_sha256": "a5815f67afb7051902ea0b922699636be59c54ed2553007756485aaf13cc0d82"
+    }
+  },
+  "runtime": {
+    "baseline_vram_byte": 33,
+    "candidate_vram_byte": 34,
+    "changed_vram_address": "0x06012C16",
+    "graphics_vram_address": "0x06012C00",
+    "memory_differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [],
+      "OAM": [],
+      "PRAM": [],
+      "VRAM": [
+        76822
+      ]
+    },
+    "oam_attributes": [
+      "0x0038",
+      "0x40A8",
+      "0x6960"
+    ],
+    "oam_entry": 0,
+    "palette_bank": 6,
+    "pixels": {
+      "baseline_rgb_sha256": "bc97f2d53db339c2ea43be6601be3e6d6106f78003f57679e79d95d905dbe9ae",
+      "bbox": [
+        172,
+        61,
+        172,
+        61
+      ],
+      "candidate_rgb_sha256": "aae6f7097fd41c1d18b9df93d21f2a6ed9777842e5b4880015c2ca9441fd94ae",
+      "changes": [
+        {
+          "after_rgb": [
+            255,
+            214,
+            181
+          ],
+          "before_rgb": [
+            255,
+            255,
+            255
+          ],
+          "x": 172,
+          "y": 61
+        }
+      ],
+      "count": 1
+    },
+    "renderer_exact": true
+  },
+  "schema": "battle-effect-pixel-ab-runtime-v1",
+  "scope": {
+    "all_18_effect_groups_runtime_verified": false,
+    "all_group_frames_runtime_verified": false,
+    "full_affine_blend_timing_audio_equivalence": false,
+    "natural_ninja_tool_route": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "single_group_single_frame_single_pixel": true
+  },
+  "verified": true
+}

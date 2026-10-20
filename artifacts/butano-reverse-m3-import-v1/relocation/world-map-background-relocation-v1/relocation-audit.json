@@ -1,0 +1,298 @@
+{
+  "schema": "world-map-background-relocation-audit-v1",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "layout": {
+    "path": "sequel/rom-layout.json",
+    "sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "target_rom_size": 16777216,
+    "partition": "sequel-image-assets",
+    "owner": "sequel_image_assets"
+  },
+  "region_registry": {
+    "path": "sequel/image-resource-regions.json",
+    "sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "region": "world-map-backgrounds",
+    "owner": "world_map_background_resources",
+    "start": 11997184,
+    "end": 12124160
+  },
+  "catalog": {
+    "path": "artifacts/world-map-backgrounds-v1/manifest.json",
+    "sha256": "b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3"
+  },
+  "authoring_spec": {
+    "file": "full-relocation-spec.json",
+    "sha256": "7962acda41e4d0c01f2c8d0d898bc30c15388f2b4560135b699aa0f5863f1edd"
+  },
+  "implementation": {
+    "tools/import_world_map_background_relocations.py": "97c84865bc7be957e37dc53c0e4947cd24acef1de47531d5a12b4c0620b0fe9e",
+    "tools/export_world_map_backgrounds.py": "4b93d729fdeb7cca34232a71cfb209acb4c01ccfbd5dee03a715001079c19824",
+    "tools/verify_world_map_backgrounds.py": "cba7504d100cf54c0f9fe5d30b1b410f37e86b455f3fbbc3ebe5cfb41fbeae2d",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_world_map_background_relocation_audit.py": "50ace99cb4741476b053754f1b1dbfe02a73626dd954a45dc9b329790fbfdfb1",
+    "tools/verify_world_map_background_relocation_audit.py": "581425d998bae99c828b61a5bc68bb7064626c5ba939e2aa8a92a77343954c9f"
+  },
+  "summary": {
+    "page_count": 3,
+    "content_resource_count": 7,
+    "physical_payload_count": 9,
+    "logical_pointer_count": 9,
+    "unexpected_pointer_count": 0,
+    "allocation_count": 7,
+    "pointer_patch_count": 9,
+    "allocation_start": 11997184,
+    "allocation_end": 12087376,
+    "region_end": 12124160,
+    "stored_payload_bytes": 90191,
+    "allocation_span": 90192,
+    "remaining_bytes": 36784,
+    "applied_patch_count": 16
+  },
+  "resources": [
+    {
+      "id": "world-map-graphics-00",
+      "resource_type": "graphics",
+      "resource_sha256": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
+      "replacement_sha256": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
+      "decompressed_size": 32768,
+      "encoded_size": 31988,
+      "storage_kind": "lz77",
+      "new_pointer": 146214912,
+      "offset": 11997184,
+      "physical_offsets": [
+        4461796
+      ],
+      "all_pointer_offsets": [
+        5931028
+      ],
+      "target_pointer_offsets": [
+        5931028
+      ],
+      "logical_aliases": [
+        {
+          "page_id": 0,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5931028,
+          "source_pointer": 138679524,
+          "physical_offset": 4461796
+        }
+      ],
+      "source_file": "artifacts/world-map-backgrounds-v1/page-00/background.8bpp.bin"
+    },
+    {
+      "id": "world-map-graphics-01",
+      "resource_type": "graphics",
+      "resource_sha256": "06f18201563ade7d8d824bb225a3f97f7f51cd6c4d878a8d27e6c443cbe8affe",
+      "replacement_sha256": "06f18201563ade7d8d824bb225a3f97f7f51cd6c4d878a8d27e6c443cbe8affe",
+      "decompressed_size": 32768,
+      "encoded_size": 27356,
+      "storage_kind": "lz77",
+      "new_pointer": 146246900,
+      "offset": 12029172,
+      "physical_offsets": [
+        4495292
+      ],
+      "all_pointer_offsets": [
+        5931040
+      ],
+      "target_pointer_offsets": [
+        5931040
+      ],
+      "logical_aliases": [
+        {
+          "page_id": 1,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5931040,
+          "source_pointer": 138713020,
+          "physical_offset": 4495292
+        }
+      ],
+      "source_file": "artifacts/world-map-backgrounds-v1/page-01/background.8bpp.bin"
+    },
+    {
+      "id": "world-map-graphics-02",
+      "resource_type": "graphics",
+      "resource_sha256": "5d2b7ae2220f3492dd897738749e5eb8dad326b0764a4169db0da1bcd8395fdb",
+      "replacement_sha256": "5d2b7ae2220f3492dd897738749e5eb8dad326b0764a4169db0da1bcd8395fdb",
+      "decompressed_size": 32768,
+      "encoded_size": 28699,
+      "storage_kind": "lz77",
+      "new_pointer": 146274256,
+      "offset": 12056528,
+      "physical_offsets": [
+        4524156
+      ],
+      "all_pointer_offsets": [
+        5931052
+      ],
+      "target_pointer_offsets": [
+        5931052
+      ],
+      "logical_aliases": [
+        {
+          "page_id": 2,
+          "resource_type": "graphics",
+          "table_pointer_offset": 5931052,
+          "source_pointer": 138741884,
+          "physical_offset": 4524156
+        }
+      ],
+      "source_file": "artifacts/world-map-backgrounds-v1/page-02/background.8bpp.bin"
+    },
+    {
+      "id": "world-map-tilemap-03",
+      "resource_type": "tilemap",
+      "resource_sha256": "6713f99e017c9e29c80972f338b577ee9fd5e1873cc8051ace13ab32e3803412",
+      "replacement_sha256": "6713f99e017c9e29c80972f338b577ee9fd5e1873cc8051ace13ab32e3803412",
+      "decompressed_size": 1200,
+      "encoded_size": 1188,
+      "storage_kind": "lz77",
+      "new_pointer": 146302956,
+      "offset": 12085228,
+      "physical_offsets": [
+        4493784,
+        4522648,
+        4552856
+      ],
+      "all_pointer_offsets": [
+        5931032,
+        5931044,
+        5931056
+      ],
+      "target_pointer_offsets": [
+        5931032,
+        5931044,
+        5931056
+      ],
+      "logical_aliases": [
+        {
+          "page_id": 0,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5931032,
+          "source_pointer": 138711512,
+          "physical_offset": 4493784
+        },
+        {
+          "page_id": 1,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5931044,
+          "source_pointer": 138740376,
+          "physical_offset": 4522648
+        },
+        {
+          "page_id": 2,
+          "resource_type": "tilemap",
+          "table_pointer_offset": 5931056,
+          "source_pointer": 138770584,
+          "physical_offset": 4552856
+        }
+      ],
+      "source_file": "artifacts/world-map-backgrounds-v1/shared/tilemap-30x20.bin"
+    },
+    {
+      "id": "world-map-palette-04",
+      "resource_type": "palette",
+      "resource_sha256": "605542775b27eba571bd59996f69ca7c2858132660f741e08b8b1573676a08af",
+      "replacement_sha256": "605542775b27eba571bd59996f69ca7c2858132660f741e08b8b1573676a08af",
+      "decompressed_size": 320,
+      "encoded_size": 320,
+      "storage_kind": "raw",
+      "new_pointer": 146304144,
+      "offset": 12086416,
+      "physical_offsets": [
+        4461476
+      ],
+      "all_pointer_offsets": [
+        5931036
+      ],
+      "target_pointer_offsets": [
+        5931036
+      ],
+      "logical_aliases": [
+        {
+          "page_id": 0,
+          "resource_type": "palette",
+          "table_pointer_offset": 5931036,
+          "source_pointer": 138679204,
+          "physical_offset": 4461476
+        }
+      ],
+      "source_file": "artifacts/world-map-backgrounds-v1/page-00/palette.bgr555.bin"
+    },
+    {
+      "id": "world-map-palette-05",
+      "resource_type": "palette",
+      "resource_sha256": "1e074c4a56c00df8af4a4ac3dc13fa48e7415265762df081522fb78990ec4edd",
+      "replacement_sha256": "1e074c4a56c00df8af4a4ac3dc13fa48e7415265762df081522fb78990ec4edd",
+      "decompressed_size": 320,
+      "encoded_size": 320,
+      "storage_kind": "raw",
+      "new_pointer": 146304464,
+      "offset": 12086736,
+      "physical_offsets": [
+        4494972
+      ],
+      "all_pointer_offsets": [
+        5931048
+      ],
+      "target_pointer_offsets": [
+        5931048
+      ],
+      "logical_aliases": [
+        {
+          "page_id": 1,
+          "resource_type": "palette",
+          "table_pointer_offset": 5931048,
+          "source_pointer": 138712700,
+          "physical_offset": 4494972
+        }
+      ],
+      "source_file": "artifacts/world-map-backgrounds-v1/page-01/palette.bgr555.bin"
+    },
+    {
+      "id": "world-map-palette-06",
+      "resource_type": "palette",
+      "resource_sha256": "ff9d3da29a3c93f48edcbea0422ca4a7d8117962b55df684bdcb5ce97854da5b",
+      "replacement_sha256": "ff9d3da29a3c93f48edcbea0422ca4a7d8117962b55df684bdcb5ce97854da5b",
+      "decompressed_size": 320,
+      "encoded_size": 320,
+      "storage_kind": "raw",
+      "new_pointer": 146304784,
+      "offset": 12087056,
+      "physical_offsets": [
+        4523836
+      ],
+      "all_pointer_offsets": [
+        5931060
+      ],
+      "target_pointer_offsets": [
+        5931060
+      ],
+      "logical_aliases": [
+        {
+          "page_id": 2,
+          "resource_type": "palette",
+          "table_pointer_offset": 5931060,
+          "source_pointer": 138741564,
+          "physical_offset": 4523836
+        }
+      ],
+      "source_file": "artifacts/world-map-backgrounds-v1/page-02/palette.bgr555.bin"
+    }
+  ],
+  "output_rom_sha256": "7bc1b295cee244e4d8e16611597d077eafd47694cb09d2b8a35ba302584e524e",
+  "scope": {
+    "proved": "All three world-map pages, seven content resources, nine physical payloads and all nine exact descriptor pointer fields relocate into the registered world-map-backgrounds image region.",
+    "editable": "Each page may use 1..512 complete 8bpp tiles; its fixed 30x20 tilemap and 160-color palette remain validated together. Catalog-approved aliases may split without original slot limits.",
+    "not_proved": "Location-label text edits, unlock rules, page 1/2 natural runtime selection, cursor behavior, transition timing or final composed pixel equivalence after modification."
+  }
+}

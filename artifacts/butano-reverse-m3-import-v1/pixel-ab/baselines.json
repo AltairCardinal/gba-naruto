@@ -1,0 +1,2366 @@
+{
+  "families": [
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group03-controlled-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group03-controlled-pixel-ab-v1/baseline.png",
+          "sha256": "56e4a857cde92fc4c367ac264fa5014dc235973708abc409da522976c24b54ed",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group03-controlled-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group03-controlled-pixel-ab-v1/evidence.json",
+        "sha256": "ce19582366d2dedddee82d691009bf8f896b9247c8b5deaa382bb39841a01fd3"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          129,
+          51,
+          130,
+          52
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 1,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group03-controlled-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group03-controlled-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "cb8e62f8de2bca8e550b0cc5704965c93d1f5d0b9d8d4f5f9c7d867502308729",
+      "reverse_file_hashes": {
+        "baseline.png": "56e4a857cde92fc4c367ac264fa5014dc235973708abc409da522976c24b54ed",
+        "candidate.png": "1de0774f8e04331e91fa2f6aed9f6ada72b2344f2bf47c918762d725ee2018b3",
+        "evidence.json": "ce19582366d2dedddee82d691009bf8f896b9247c8b5deaa382bb39841a01fd3",
+        "raw.tar": "cf2592434fdbe5c7fcabdfaf395a4389b1df4c0c30a29018c0d79cba6a75de94"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "sequel/content/battle-effect-controlled-pixel-ab/group-03-sequence-03-side-0-direct-spawn.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_controlled_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group03-controlled-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "natural-delayed-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group03-natural-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group03-natural-pixel-ab-v1/baseline.png",
+          "sha256": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group03-natural-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group03-natural-pixel-ab-v1/evidence.json",
+        "sha256": "a24bdd9fff829c43967923d5da8bb7778de605431ecfb2f65cee3601ec1eb752"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          70,
+          91,
+          71,
+          92
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 1,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group03-natural-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group03-natural-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "1d443078e52355b11b7324e82b11fda4e115c24e92301d3fd92515c2980e3c10",
+      "reverse_file_hashes": {
+        "baseline.png": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+        "candidate.png": "996658218a1b1de40ee1fc0aa5d7887040e9411bd13105685cfd2394f3d9a7f2",
+        "evidence.json": "a24bdd9fff829c43967923d5da8bb7778de605431ecfb2f65cee3601ec1eb752",
+        "raw.tar": "c55e5b7514bf32cc32474edf35ab0996b775db60f5f6a76205adaacece1d741f"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
+        "sequel/content/battle-effect-natural-pixel-ab/group-03-tool67-expiry.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group03-natural-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group06-controlled-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group06-controlled-pixel-ab-v1/baseline.png",
+          "sha256": "fc8963ab04f22a73913c5a1d014a4334f724129496c18b7ab8458b72fe424581",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group06-controlled-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group06-controlled-pixel-ab-v1/evidence.json",
+        "sha256": "54d71b5cf7d9f083bde29006f135507766071d9a5b46a9c1c94454eac2c2636a"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          173,
+          9,
+          184,
+          34
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 2,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group06-controlled-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group06-controlled-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "45512206443c21500a670d7aea8ebd0c2f5678aeed096cddf0730786edbac30b",
+      "reverse_file_hashes": {
+        "baseline.png": "fc8963ab04f22a73913c5a1d014a4334f724129496c18b7ab8458b72fe424581",
+        "candidate.png": "e968d14a4dd33392ee627b8020732d74feb5f319f3afb25de98fb6732f8670ed",
+        "evidence.json": "54d71b5cf7d9f083bde29006f135507766071d9a5b46a9c1c94454eac2c2636a",
+        "raw.tar": "683c4a6d289dc41a7af59aa00c8cda484cbd75ad74299bb49cf0be22cbe02469"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "sequel/content/battle-effect-controlled-pixel-ab/group-06-sequence-08-controlled.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_controlled_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group06-controlled-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group07-controlled-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group07-controlled-pixel-ab-v1/baseline.png",
+          "sha256": "1cc09526ed317a57c754632e1ec0b874f6ce10f1a56738f26de94236ef3f1620",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group07-controlled-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group07-controlled-pixel-ab-v1/evidence.json",
+        "sha256": "e718a344fb2c853b5efca7d07497e3954854976a8d78d06afdb1e38e0008b5be"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          181,
+          26,
+          182,
+          27
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 1,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group07-controlled-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group07-controlled-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "25c6823fec18cdd32681a8a9a004378362eb11018850206d8440724fd98815f8",
+      "reverse_file_hashes": {
+        "baseline.png": "1cc09526ed317a57c754632e1ec0b874f6ce10f1a56738f26de94236ef3f1620",
+        "candidate.png": "150f8641d7b7b19c36374cdd8423cb4f720ddaca387b1b1c2339cb6c5afa848b",
+        "evidence.json": "e718a344fb2c853b5efca7d07497e3954854976a8d78d06afdb1e38e0008b5be",
+        "raw.tar": "2005c41111d7e47d4f9bab06167227f90a97884241eef768d184ef5e62125030"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "sequel/content/battle-effect-controlled-pixel-ab/group-07-sequence-09-controlled.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_controlled_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group07-controlled-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group08-controlled-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group08-controlled-pixel-ab-v1/baseline.png",
+          "sha256": "880681fe9fdda8eb658009ca625221293f29ff51d978a2c26b4a66364e95fa8b",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group08-controlled-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group08-controlled-pixel-ab-v1/evidence.json",
+        "sha256": "088737533215719a7f87ca5bb7286b9b40b4370c7b3e5708c3ead75724b0da8e"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          184,
+          34,
+          185,
+          35
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 1,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group08-controlled-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group08-controlled-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "192b608f0e3d4fb92fbe2d3fcfc8dae755253790d7c579bc24a25469bc996738",
+      "reverse_file_hashes": {
+        "baseline.png": "880681fe9fdda8eb658009ca625221293f29ff51d978a2c26b4a66364e95fa8b",
+        "candidate.png": "b2aa795427a89e8f8d55fc9be034db4787d8d5a07071999f04538f00dfb5747e",
+        "evidence.json": "088737533215719a7f87ca5bb7286b9b40b4370c7b3e5708c3ead75724b0da8e",
+        "raw.tar": "c85d8c4a196a03f6cf697dfb3594dfe5f8ba70b7f1498dfc11980fc253a97e2e"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "sequel/content/battle-effect-controlled-pixel-ab/group-08-sequence-10-controlled.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_controlled_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group08-controlled-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group09-controlled-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group09-controlled-pixel-ab-v1/baseline.png",
+          "sha256": "48085212508934b50dbc451348452d0e3b6298d7c7d153608538757fbd42d18c",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group09-controlled-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group09-controlled-pixel-ab-v1/evidence.json",
+        "sha256": "5a8483a61c822a83a669b46b5983312a73bb6ccaf4f8701e125dccc79b0cecb7"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          170,
+          6,
+          199,
+          16
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 3,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group09-controlled-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group09-controlled-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "59d743e6ee65ed6efc0e86cf0716065ba04d1a1c512fbe1d1bdf39f7a98ebaac",
+      "reverse_file_hashes": {
+        "baseline.png": "48085212508934b50dbc451348452d0e3b6298d7c7d153608538757fbd42d18c",
+        "candidate.png": "3af0a8b950523c41cbdbd0076d9d05ce7e3fd205602cecdf9f83fd24ead13e8c",
+        "evidence.json": "5a8483a61c822a83a669b46b5983312a73bb6ccaf4f8701e125dccc79b0cecb7",
+        "raw.tar": "af6890b335ef4feeed25bf35dd430175623ccc03f99005c3445205c2b6d086d4"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "sequel/content/battle-effect-controlled-pixel-ab/group-09-sequence-11-controlled.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_controlled_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group09-controlled-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
+      "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group1-pixel-ab-v1/baseline/frame90.png",
+          "reverse_path": "artifacts/battle-effect-group1-pixel-ab-v1/raw/baseline/frame90.png",
+          "sha256": "ab62c1131c9c48f8fe62e5d5cc1647763ede2a87a1dbc7ddfd6baf891ba4eaee",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group1-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group1-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "39063b00b1fd9dc204ec6df0c896994b1abceba054b83d928e5fc9dd44858017"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "f1e33f90bbee0b5f38f5fc7e255b967b991f00dfdee63dc13cf44c69c2931ed8",
+        "bbox": [
+          37,
+          73,
+          44,
+          77
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "24afc3a844296ddb342f3b72a4434808b5996fa02c86a56d5da263bfaada70d6",
+        "changed_pixel_count": 2,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group1-pixel-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9"
+      ],
+      "manifest": "artifacts/battle-effect-group1-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "9921f8060278ebe9227def7fa1917ce78bcc020e09d2e4e3b9ba59a23d272506",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "5647d7754f4fccbe4d779b6e6f12c99f8faf45069c41f0f00e792fec16f83497",
+        "raw/baseline/frame90.png": "ab62c1131c9c48f8fe62e5d5cc1647763ede2a87a1dbc7ddfd6baf891ba4eaee",
+        "raw/baseline/frame90.ss9": "199726c7e63c9d924d27cfc109ba4dd7d1c8577cb89e0520648a0f84322735b0",
+        "raw/baseline/group-01-graphics-4bpp.bin": "d2bdbe77b17e8ab4031f0a100851dffbbe5a8acf3a8b245ce1b6349d758221d3",
+        "raw/baseline/guard.json": "1feab685ecc86d4e4667831b384879abbb85e4cbc774a1e2692381f21e2420c7",
+        "raw/baseline/sentinel.json": "5647d7754f4fccbe4d779b6e6f12c99f8faf45069c41f0f00e792fec16f83497",
+        "raw/baseline/spec.json": "5857a78df3f006a3b5cf9fbd9995540a660fbf9aeff45e5042f78ed28fed1b8f",
+        "raw/build-manifest.json": "536c16eae8f837cca7b899f5a6e568c61f019c24a09c3032f754b6cf1e3aedcb",
+        "raw/candidate/audit.json": "2983e784c523bc6e7b15bb0467def9b1626acb4a9e9bf02c1efb2d3cde90612b",
+        "raw/candidate/frame90.png": "0d16a9875d5e45403c073ecfface1fe5df920f57bbfb2aa4338201a1e1980c4f",
+        "raw/candidate/frame90.ss9": "95d6841dea545a7cac6c037e04ec2fb3751b46685b3d5591776c261bdeaf5df2",
+        "raw/candidate/group-01-graphics-4bpp.bin": "4f97f83a177b50d9d0cc08d4a4d47d1420ab49c8e834e103b6e2160ab349e2e9",
+        "raw/candidate/guard.json": "22f3f0b5af0fb410b279fc72cc7c846927043ab852bdd4d8f23e9299d3975ee8",
+        "raw/candidate/sentinel.json": "2983e784c523bc6e7b15bb0467def9b1626acb4a9e9bf02c1efb2d3cde90612b",
+        "raw/candidate/spec.json": "1d463944ca5c5dc3bb8896d1120fddc27d045cb3dadfb804902823089fdd3d82",
+        "runtime-evidence.json": "39063b00b1fd9dc204ec6df0c896994b1abceba054b83d928e5fc9dd44858017"
+      },
+      "scope": {
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_frames_runtime_verified": false,
+        "full_affine_blend_timing_audio_equivalence": false,
+        "natural_active_action_route": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "single_group_single_frame_single_pixel": true
+      },
+      "unavailable_local_inputs": [
+        "sequel/content/battle-effect-pixel-ab/group-01-action5-dust.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group1-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group10-controlled-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group10-controlled-pixel-ab-v1/baseline.png",
+          "sha256": "be1f12fc731b487eb310429022ac92de5fa936e35559ccbc4ecc96715c7b22c7",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group10-controlled-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group10-controlled-pixel-ab-v1/evidence.json",
+        "sha256": "277f7a0e544a72d3125cd70f2a8af697b42d8ead8efe0c9868cf56136d81aa0f"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          173,
+          7,
+          187,
+          41
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 3,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group10-controlled-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group10-controlled-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "384ec82bd668d7ebe330c650ed0dc93ab42d7d0b65e119973fce5d8b133d9ed1",
+      "reverse_file_hashes": {
+        "baseline.png": "be1f12fc731b487eb310429022ac92de5fa936e35559ccbc4ecc96715c7b22c7",
+        "candidate.png": "5afdd13fd329b235f51ae38085601c2d1895326a0ebd9be601f88f0266971be0",
+        "evidence.json": "277f7a0e544a72d3125cd70f2a8af697b42d8ead8efe0c9868cf56136d81aa0f",
+        "raw.tar": "ebe69e64ffbb57110027eab7134bba713f6b622e20055e894774429aa91c7092"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "sequel/content/battle-effect-controlled-pixel-ab/group-10-sequence-12-controlled.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_controlled_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group10-controlled-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group11-pixel-ab-v1/baseline/frame106.png",
+          "reverse_path": "artifacts/battle-effect-group11-pixel-ab-v1/raw/baseline/frame106.png",
+          "sha256": "c97ee113753c85db9233e433bf0cd52aec2fa11d80149e80f501cc576e10355d",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group11-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group11-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "f279620f646f2a221ce6a68a2e8d8a6d04c63c821eb734a2de34ef51a5337ead"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "bc97f2d53db339c2ea43be6601be3e6d6106f78003f57679e79d95d905dbe9ae",
+        "bbox": [
+          172,
+          61,
+          172,
+          61
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "aae6f7097fd41c1d18b9df93d21f2a6ed9777842e5b4880015c2ca9441fd94ae",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group11-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group11-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "b955b67eb1174d1dc33e74874e12ac952b609fc34ca33c0b060e6210a3338c53",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "f9d24d3f0a43d05f16ece3b04f0f22d9b5bdea220d26026faab7faa70bfeab6a",
+        "raw/baseline/frame106.png": "c97ee113753c85db9233e433bf0cd52aec2fa11d80149e80f501cc576e10355d",
+        "raw/baseline/frame106.ss9": "0cb839b5ac6972724b9551afd260ca2a91443399f6c3d1bae7ec2b7f917ae625",
+        "raw/baseline/group-11-graphics-4bpp.bin": "0b5d70562a4c656a0d11ab0e59b89479a7237be924d8a0765578dd132459e54a",
+        "raw/baseline/guard.json": "080d3626b17a84d4ae14aa1b6e01c238f3c56fb09d7881ca486594b7f39986a8",
+        "raw/baseline/sentinel.json": "f9d24d3f0a43d05f16ece3b04f0f22d9b5bdea220d26026faab7faa70bfeab6a",
+        "raw/baseline/spec.json": "94bf5a345415fefa7cd41e9908a6ac1e69906305d51289129bcc43bb1bb94205",
+        "raw/build-manifest.json": "a857dbb0cf3680d314bd3db2a6cf25024f603a04095a30ef496f51a0583b3848",
+        "raw/candidate/audit.json": "dfa365575b0f2302f5305498c9d87c7340e5366458be0dc0d209f5b46c197e30",
+        "raw/candidate/frame106.png": "a8176020c477cdbaf7890f97b802cd245e767b60f2407a1daa4f9095436526a5",
+        "raw/candidate/frame106.ss9": "a5815f67afb7051902ea0b922699636be59c54ed2553007756485aaf13cc0d82",
+        "raw/candidate/group-11-graphics-4bpp.bin": "62e4045cd64eb33e79caa6dc52a185ff7bfa74821b0899f6e9a1e00c0ca5498e",
+        "raw/candidate/guard.json": "74c1552a04d0684c7607002859d5bbd566cf00e71d821d59e2e9afe20d228db2",
+        "raw/candidate/sentinel.json": "dfa365575b0f2302f5305498c9d87c7340e5366458be0dc0d209f5b46c197e30",
+        "raw/candidate/spec.json": "7fb6b468fe9de7710ae3bcf909c49f67cb3a9a0cf9ad436bf420aca2d3f0e467",
+        "runtime-evidence.json": "f279620f646f2a221ce6a68a2e8d8a6d04c63c821eb734a2de34ef51a5337ead"
+      },
+      "scope": {
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_frames_runtime_verified": false,
+        "full_affine_blend_timing_audio_equivalence": false,
+        "natural_ninja_tool_route": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "single_group_single_frame_single_pixel": true
+      },
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
+        "sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group11-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group12-controlled-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group12-controlled-pixel-ab-v1/baseline.png",
+          "sha256": "d6764b2076e83bdcce0eacc3c9797ba67d4887dac465711d1bb934044ca9eff3",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group12-controlled-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group12-controlled-pixel-ab-v1/evidence.json",
+        "sha256": "59e062c8d73d7b7c9b66a0d0676e28b08b7334f4794823ebe00f7f1d0204cc24"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          177,
+          46,
+          178,
+          47
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 1,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group12-controlled-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group12-controlled-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "440606b9f367e3bfff873e436fd7afa1f29a915204ec2be1de4845de676e571f",
+      "reverse_file_hashes": {
+        "baseline.png": "d6764b2076e83bdcce0eacc3c9797ba67d4887dac465711d1bb934044ca9eff3",
+        "candidate.png": "dadcbb05b12fbde57bac64e734bcc4ada8890be7da252f77f1200265fe0e645f",
+        "evidence.json": "59e062c8d73d7b7c9b66a0d0676e28b08b7334f4794823ebe00f7f1d0204cc24",
+        "raw.tar": "e8565207e30d2eb0cb0c90cf2accd6ce5316007701f3897273fce2a08bcc5289"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "sequel/content/battle-effect-controlled-pixel-ab/group-12-sequence-14-controlled.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_controlled_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group12-controlled-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group13-pixel-ab-v1/baseline/frame590.png",
+          "reverse_path": "artifacts/battle-effect-group13-pixel-ab-v1/raw/baseline/frame590.png",
+          "sha256": "1d8e6736b274239f06400f6accc63bcd737506e1876f4a04a0385ce798b1bf3b",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group13-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group13-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "1368a0a2b4013b5a59d9810390546493ccc5c95c01c20596ce6d91becb1d68d8"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "205da018c285aaa36d407485a35b90189085f53846c8991b1282f38322ca9829",
+        "bbox": [
+          96,
+          63,
+          96,
+          63
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "2011ff8132ce7b788d601bb4226f60701f78052c6c9223281a7e143a132318c1",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group13-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group13-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "41e7c9af6cee5e8008085c8cbf73c36ecd4a1b37316b5ad92e83f4af7c2111b5",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "8eec100e7d83a0483d26fc257ff7eb4723626dd44a9be290d54183a22cc2404c",
+        "raw/baseline/frame590.png": "1d8e6736b274239f06400f6accc63bcd737506e1876f4a04a0385ce798b1bf3b",
+        "raw/baseline/frame590.ss9": "275be7e75fd7d90f19845c1c325f6891f47f39abbae9b7a3f8610176f32bf703",
+        "raw/baseline/group-13-graphics-4bpp.bin": "64033fc15513e33c63e1d9cdb9a7e5cd4f3d90f84e305463dd652a64f7a38d8a",
+        "raw/baseline/guard.json": "c476b5ef64e085d5442e50db69165498aa804489209ef0ef1cd3aa54ca0344af",
+        "raw/baseline/sentinel.json": "8eec100e7d83a0483d26fc257ff7eb4723626dd44a9be290d54183a22cc2404c",
+        "raw/baseline/spec.json": "92defe038ddad78de2adcf8f6326b33cb68a1eaa7db0c01df94ced1d7784c3b3",
+        "raw/build-manifest.json": "347260e4916e7e8043c102810ffbae55574adb2bfe94627c43583cd0935a3b88",
+        "raw/candidate/audit.json": "a3c84359e21c00e0b7b3fcb0ebe8b427d82ab8f5393200b2a2c76f0832d4a00a",
+        "raw/candidate/frame590.png": "0e6e7127abf70467fd6e352ea792c45503a1a8041beab331b8fb4306c430049d",
+        "raw/candidate/frame590.ss9": "578a631fd21ef44d99c5f86bac216e64251308f5da14ff1b03c866ba9e05ed1a",
+        "raw/candidate/group-13-graphics-4bpp.bin": "2e2544ba8e1cca9ae9553581e2deea9da4523a3a8ceae73ce1dbcdf4b1329596",
+        "raw/candidate/guard.json": "4b386e7fca04723139958131e15a7b19f509537f9d7b05e2e877a2a4ee0bc100",
+        "raw/candidate/sentinel.json": "a3c84359e21c00e0b7b3fcb0ebe8b427d82ab8f5393200b2a2c76f0832d4a00a",
+        "raw/candidate/spec.json": "73abb614595925b86f06850068cf24b05f70dd5c232e2be6cf479343e1cb2acb",
+        "runtime-evidence.json": "1368a0a2b4013b5a59d9810390546493ccc5c95c01c20596ce6d91becb1d68d8"
+      },
+      "scope": {
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_frames_runtime_verified": false,
+        "full_affine_blend_timing_audio_equivalence": false,
+        "natural_active_action_route": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "single_group_single_frame_single_pixel": true
+      },
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/battle3-action61-ai-preconfirm.ss9",
+        "sequel/content/battle-effect-pixel-ab/group-13-action61-execution.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group13-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group14-pixel-ab-v1/baseline/frame516.png",
+          "reverse_path": "artifacts/battle-effect-group14-pixel-ab-v1/raw/baseline/frame516.png",
+          "sha256": "c1c765a92b96ba832225434084f91ccce0f7e432f1825f7ec220872cf7728325",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group14-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group14-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "0ee561093ea098881d14f717a5e8300820d63af9707aa18006a7663f4dde2c64"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "b9350ccd03508af44c7f22494135ba28a377caf3367e1ab2d8b8f6e8614b06e0",
+        "bbox": [
+          173,
+          54,
+          173,
+          54
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "a25cae1d568d2fb7b7c72bf9c956bdac71ca3a915fc7f1458c13d9750be1fb89",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group14-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group14-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "74261b05f61b160dcbdd181eb94db56fdb6d3457716d19258394f4b6e2da2e75",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "3ce08b73be3504e41b7fb41013c124be11b70bc7005621d8c622cefe77fd4ebd",
+        "raw/baseline/frame516.png": "c1c765a92b96ba832225434084f91ccce0f7e432f1825f7ec220872cf7728325",
+        "raw/baseline/frame516.ss9": "0ec02a2eda478e3afbd571962ef90c54ca8703242e67390a28eda619584ad9a0",
+        "raw/baseline/group-14-graphics-4bpp.bin": "878505bd0d11d88fb0c72d9feeee8c4604625985cf9e496a3becb21a5165e867",
+        "raw/baseline/guard.json": "1abf01b161c5859eb560e1ab643fb0bdf4eb1f07b89073c30e75639fae4655fd",
+        "raw/baseline/sentinel.json": "3ce08b73be3504e41b7fb41013c124be11b70bc7005621d8c622cefe77fd4ebd",
+        "raw/baseline/spec.json": "43ec1dabc5265c1bfaceabb6ae0b1cb8e4de700e6d898d1e1e2e56d4652b3cc1",
+        "raw/build-manifest.json": "47b3f99b597a4e64df4c59a45d76e1551c1289114159dd01adf0b25dd4b23163",
+        "raw/candidate/audit.json": "987983f7366c7280a26c8fdbf7bac41939dadb1b3e22757212e6ee3c6819d0c0",
+        "raw/candidate/frame516.png": "c8b4f655bdfd1e6b6a7f661abb79ce9088a357bfb6987930d2dcd3893e486580",
+        "raw/candidate/frame516.ss9": "02dc16774ced37bafdd503a66f3172ea3b4946454cdd5dd513eba3b5b87ab237",
+        "raw/candidate/group-14-graphics-4bpp.bin": "fd258e9ff64e3a39829b20ee65a0472db2965853a5b91faa17faa8949a3b7e3b",
+        "raw/candidate/guard.json": "df4dba74c0bef2c72e95d0c79fb46bc03de8117fbb6fa1521fd6cf37b4f1a10d",
+        "raw/candidate/sentinel.json": "987983f7366c7280a26c8fdbf7bac41939dadb1b3e22757212e6ee3c6819d0c0",
+        "raw/candidate/spec.json": "7c4bd7e4ef4c832bbc609e7e0b3b210be8d289dcc3d419cd4c5e549c10ea824b",
+        "runtime-evidence.json": "0ee561093ea098881d14f717a5e8300820d63af9707aa18006a7663f4dde2c64"
+      },
+      "scope": {
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_frames_runtime_verified": false,
+        "full_affine_blend_timing_audio_equivalence": false,
+        "natural_active_action_route": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "single_group_single_frame_single_pixel": true
+      },
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-47-fire-action16-confirmation.ss9",
+        "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group14-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group15-pixel-ab-v1/baseline/frame1549.png",
+          "reverse_path": "artifacts/battle-effect-group15-pixel-ab-v1/raw/baseline/frame1549.png",
+          "sha256": "ec41b4da99fbab172b80c0a9ea5b57c668cecc30943b7fb60eac83d396b194c2",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group15-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group15-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "a85e92673392c83c2c4e55a7ea40065e8ab7a7265c31f4fb453d54f0c7c77e2c"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "beb692f5739ed378b299a57bbd9199160f55f802449262d07dd133bc402f591c",
+        "bbox": [
+          65,
+          56,
+          65,
+          56
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "10ac20927bf1d29e6021ab1514c27d46ec8c6d66955e614a6b35ad5796a9b779",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group15-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group15-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "4417d160289a72acb1d981c49063acaca9c51a498755ed95efbccdf5a36a1c6b",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "41fd52488548c48988196fdea2a49b3d2e2bd179366afa402eb89f9522d8354c",
+        "raw/baseline/frame1549.png": "ec41b4da99fbab172b80c0a9ea5b57c668cecc30943b7fb60eac83d396b194c2",
+        "raw/baseline/frame1549.ss9": "cdc4aab82c481d437fc9bdae8d6a14e73d3b1787edd8a84ef50c3f905fd6018a",
+        "raw/baseline/group-15-graphics-4bpp.bin": "caf034cec9cf78cf35763eb7416d25ef431f76f06252221390ef05ab21c0407a",
+        "raw/baseline/guard.json": "72dea51c2865e5fa4a0d43238cc1278120608f20ae5b9ffdc0afa424f094b33d",
+        "raw/baseline/sentinel.json": "41fd52488548c48988196fdea2a49b3d2e2bd179366afa402eb89f9522d8354c",
+        "raw/baseline/spec.json": "d12ece753cfa9a11a9d8d0fefc72300f0133f456d2bf9e81c0a7b81f200f62b0",
+        "raw/build-manifest.json": "40c28c7df66b8dbf3119d7999d2a3747dbf547f7b00c637fc6cccd7aac5666d9",
+        "raw/candidate/audit.json": "e1a6ce86ba4eca53636b76dac054d54dfaaa6302b9f0a363f6498acd74beec18",
+        "raw/candidate/frame1549.png": "bda895af569e24030657b304efc9e87aa70c616771d662e4773d739967a0d22a",
+        "raw/candidate/frame1549.ss9": "5b1b995a7f7c4c4d9b0e93e7f47eeed32618f1a8552f17f197ea05742772542c",
+        "raw/candidate/group-15-graphics-4bpp.bin": "3d26c129763cbb2a68c5f64f0c6754221ef68073e21c9c838066702b92696074",
+        "raw/candidate/guard.json": "0cbe80e1bf57067719895dbd15a8f62487ca155d0a5591aef9262fa75205593b",
+        "raw/candidate/sentinel.json": "e1a6ce86ba4eca53636b76dac054d54dfaaa6302b9f0a363f6498acd74beec18",
+        "raw/candidate/spec.json": "9f0ef69a64957f92ac055d1c248ace7898dac87056f104e1ee7a9d5c300bdffe",
+        "runtime-evidence.json": "a85e92673392c83c2c4e55a7ea40065e8ab7a7265c31f4fb453d54f0c7c77e2c"
+      },
+      "scope": {
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_frames_runtime_verified": false,
+        "full_affine_blend_timing_audio_equivalence": false,
+        "natural_active_action_route": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "single_group_single_frame_single_pixel": true
+      },
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/battle8-action64-ai-preconfirm.ss9",
+        "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group15-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group16-pixel-ab-v1/baseline/frame160.png",
+          "reverse_path": "artifacts/battle-effect-group16-pixel-ab-v1/raw/baseline/frame160.png",
+          "sha256": "5c115fc1361a5d126182fea3e81504e89d50bad414cbf9719671d44ad73b85f4",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group16-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group16-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "34b9e55ebf227b32cd73c4d73e2232bd1d6fcfdc727438ed5d33e51d2d0a53ab"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "2c7427e2482f270715c7fb6af268723e13e02bc432979811a56ae9d59103b9b1",
+        "bbox": [
+          169,
+          89,
+          169,
+          89
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "e01b6a3e4580cdfb338065d702eb892e63f67452d3fe42fea55369726c171523",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group16-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group16-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "393eee18bcecc2b1ddf6afa75fa325878ee528942b28c5db1ab4d5beeddb294f",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "4bb15c87f0f45c24d244382a385f8d5d4802721cdf481030f353a4d00e5eb349",
+        "raw/baseline/frame160.png": "5c115fc1361a5d126182fea3e81504e89d50bad414cbf9719671d44ad73b85f4",
+        "raw/baseline/frame160.ss9": "b2501aa7841871ebd8f20557bdad39c400f6468d404fe00cac6e74749c08fee8",
+        "raw/baseline/group-16-graphics-4bpp.bin": "1ba47dbc5ca54b40027b00c9baae52b3ce966b239b89e70c6eea483a8bcd0aad",
+        "raw/baseline/guard.json": "2769fd34b3b74063ac7aeba5329837d992da2329866f8eaa8befd43b14d42d3b",
+        "raw/baseline/sentinel.json": "4bb15c87f0f45c24d244382a385f8d5d4802721cdf481030f353a4d00e5eb349",
+        "raw/baseline/spec.json": "1c555f1cb803b9178f65f9dbf46c570f48273bb012693dbd1641d221c585c3db",
+        "raw/build-manifest.json": "f1279d3f3eae3ce9a4e515b34ab568616509f7f95aa8c8cc13bab5b4edd74bd3",
+        "raw/candidate/audit.json": "b637ed0caf995f3c7c4fd85da6e582d04f4641b2fdf5615d595fe4b94bbeac4b",
+        "raw/candidate/frame160.png": "65a7e87e66bdc36c4919bef2c7ed54c481edc9b645a0a115989c9368cfbffd6c",
+        "raw/candidate/frame160.ss9": "001315f4060850b9eb49534fa78ca385b6c2e87ea7604849e02c5c6b6b9ab7b9",
+        "raw/candidate/group-16-graphics-4bpp.bin": "585e0992853e4297177984ee28c4ab50caddc23670f3e1dfdd1d132c4790d2e9",
+        "raw/candidate/guard.json": "97eb0baf665feb86215b1393cd54b8a17603ee0a5eeac8a7cf0aff2f9a951456",
+        "raw/candidate/sentinel.json": "b637ed0caf995f3c7c4fd85da6e582d04f4641b2fdf5615d595fe4b94bbeac4b",
+        "raw/candidate/spec.json": "e327a2c5d14c952219d591d8ce524bb4a27539150fc84467cdf27d9a5950d808",
+        "runtime-evidence.json": "34b9e55ebf227b32cd73c4d73e2232bd1d6fcfdc727438ed5d33e51d2d0a53ab"
+      },
+      "scope": {
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_frames_runtime_verified": false,
+        "full_affine_blend_timing_audio_equivalence": false,
+        "natural_ninja_tool_handler_immediate_route": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "single_group_single_frame_single_pixel": true
+      },
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-confirmation.ss9",
+        "sequel/content/battle-effect-pixel-ab/group-16-tool67-tag.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group16-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group17-pixel-ab-v1/baseline/frame160.png",
+          "reverse_path": "artifacts/battle-effect-group17-pixel-ab-v1/raw/baseline/frame160.png",
+          "sha256": "a7eddd7158c349a5c96bf57049a4cef16118d83f72de7ac5650b0272615f2bb6",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group17-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group17-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "6d76e2cb1f9a3069bf24b3a16d1191bd351af8e1b53810c174dc71df3d43830e"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "2f8cddc238c4922c27c600f40629ee054fad03bed38589f0dfd3fc67e452021d",
+        "bbox": [
+          165,
+          92,
+          194,
+          97
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "821a437686c21705bce899bd524964c35bca386efba357f33c9ce19825eba546",
+        "changed_pixel_count": 3,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group17-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group17-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "22763a552782012c368a31554ed6d90861f4a86d1035c97317838de63f22cb68",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "533f5d8e51378b1b38b99ea9f2d5ca89af849960f3f3cfbbb12e1d1cc2bb922f",
+        "raw/baseline/frame160.png": "a7eddd7158c349a5c96bf57049a4cef16118d83f72de7ac5650b0272615f2bb6",
+        "raw/baseline/frame160.ss9": "f7653692b30f3d8fd276d66744233e50902b72fae20718b4749d59c9e0ff57a4",
+        "raw/baseline/group-17-graphics-4bpp.bin": "842b8ef56a357e93a0f88ca5cdf2839d360663463809a129560a6e98d6e2c37e",
+        "raw/baseline/guard.json": "620d764dad07c48d7a91d3fcf6f48cc3c92dc2345816ab11e97a1c9c807f1ad9",
+        "raw/baseline/sentinel.json": "533f5d8e51378b1b38b99ea9f2d5ca89af849960f3f3cfbbb12e1d1cc2bb922f",
+        "raw/baseline/spec.json": "3ad1d08c27147d1837e0f7f55884be9031cdcf4177c4ed4d0bccd5e4f41b1d41",
+        "raw/build-manifest.json": "45cee74890066a7a8a9b188c1e3ebe2bc18857ca1e3e35ef04b46690bfbfd953",
+        "raw/candidate/audit.json": "200c803fee8203323d7e69ff685b59d9083c2615c5f5a04fbf34818abe996fd3",
+        "raw/candidate/frame160.png": "3d868dc59f2b1ab050681d6671d8fde0f1809c9acc6ec7c3dbbf14196d46f88b",
+        "raw/candidate/frame160.ss9": "4714e6aea3fb8c7fcb7bff370b274e816ee76c10e4135cd4987edc1373294482",
+        "raw/candidate/group-17-graphics-4bpp.bin": "849419d388e9ae1421698090f5154f01a97ab660dc82878f0a2deb0b1dc1cd24",
+        "raw/candidate/guard.json": "c1e4e312a12cdf21159ac2e2eae8fb46ec037947aebf6d9e583dfb86f1f8b9c7",
+        "raw/candidate/sentinel.json": "200c803fee8203323d7e69ff685b59d9083c2615c5f5a04fbf34818abe996fd3",
+        "raw/candidate/spec.json": "fcaa1448219d1662693318dd583a529b30b5dbdd673bea00217c3d8434fa6b28",
+        "runtime-evidence.json": "6d76e2cb1f9a3069bf24b3a16d1191bd351af8e1b53810c174dc71df3d43830e"
+      },
+      "scope": {
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_frames_runtime_verified": false,
+        "full_affine_blend_timing_audio_equivalence": false,
+        "natural_ninja_tool_handler_immediate_route": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "single_group_single_frame_single_pixel": true
+      },
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation.ss9",
+        "sequel/content/battle-effect-pixel-ab/group-17-tool37-smoke.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group17-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group18-controlled-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group18-controlled-pixel-ab-v1/baseline.png",
+          "sha256": "1a0c0880facfae2d1312c50127d08d85a18a6d1601121ab1853adfad1d044153",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group18-controlled-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group18-controlled-pixel-ab-v1/evidence.json",
+        "sha256": "e1776d3c5c3e365199a8d279235cbf94ce459b834bb7f57000c71215a1d7d94c"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          124,
+          43,
+          125,
+          44
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 1,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group18-controlled-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group18-controlled-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "2bf6f491a1e24d0befec303cd7ba0a8a2087946ccf25b1c0ecf704caa86256e1",
+      "reverse_file_hashes": {
+        "baseline.png": "1a0c0880facfae2d1312c50127d08d85a18a6d1601121ab1853adfad1d044153",
+        "candidate.png": "8b342ce11205c380f9cb32737188d873b5fb400f6dca0d7a45092c5acfffe5ad",
+        "evidence.json": "e1776d3c5c3e365199a8d279235cbf94ce459b834bb7f57000c71215a1d7d94c",
+        "raw.tar": "ed9488024626840ebcc8f0a39d066748036bd88c45cec66c8b917bfdfa75e5af"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "sequel/content/battle-effect-controlled-pixel-ab/group-18-sequence-07-direct-spawn.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_controlled_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group18-controlled-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "natural-delayed-battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-effect-group18-natural-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-effect-group18-natural-pixel-ab-v1/baseline.png",
+          "sha256": "d44f1e4069a9b777a6e5db45f57ea2fe0abeec91991d88a1990f5a5fac36bd87",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group18-natural-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group18-natural-pixel-ab-v1/evidence.json",
+        "sha256": "d4b1d438f45c4fbffa5267e85ff821e926cd0670516a560ff10aeb25b4eda576"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          196,
+          68,
+          197,
+          69
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 1,
+        "source_path": "runtime"
+      },
+      "family": "battle-effect-group18-natural-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group18-natural-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "b74cc6e135bbb9cd3ac60e6cfe119cc3a43e75a9f28de36d676e49099f38a4b6",
+      "reverse_file_hashes": {
+        "baseline.png": "d44f1e4069a9b777a6e5db45f57ea2fe0abeec91991d88a1990f5a5fac36bd87",
+        "candidate.png": "ea4d03d89d4795fd4aaad89e5aa1cec8873f2216cafec901603708c288f680be",
+        "evidence.json": "d4b1d438f45c4fbffa5267e85ff821e926cd0670516a560ff10aeb25b4eda576",
+        "raw.tar": "ae0d4d08d6f7ff45a50b88e2f08d6c016e9a3292db0489ecf19c84a50668bbb8"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "artifacts/battle-effect-group18-natural-checkpoint-v1/manifest.json",
+        "artifacts/battle-effect-group18-natural-checkpoint-v1/raw/object-created.ss9",
+        "sequel/content/battle-effect-natural-pixel-ab/group-18-tool67-zero-event-expiry.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group18-natural-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group2-pixel-ab-v1/baseline/frame510.png",
+          "reverse_path": "artifacts/battle-effect-group2-pixel-ab-v1/raw/baseline/frame510.png",
+          "sha256": "177ed832b46253ddc54922036e3f6f65d4cd816361caa3888973066be0fae81d",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group2-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group2-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "f9bd8cb03f0d14ce668a9518e08514f08b6aa3666d21a86f82e220051f301d1a"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "bc15685075226e5d970b8d4d2386648e3f128688d6cfca9936a9b840873f2eb0",
+        "bbox": [
+          64,
+          82,
+          64,
+          82
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "c93f1646413e67ea1fb681b0600e6e192a9c4ab6651c7f7bbdfd237d9551ad29",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group2-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group2-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "a0be99cd55c092c96f355d9a9a2efc8e08b102ec5cb864463c826f30b19462b4",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "63276ea3cad0fdd98c608aa2ff93114d9c706b231c6c40d57d56e239e87d838b",
+        "raw/baseline/frame510.png": "177ed832b46253ddc54922036e3f6f65d4cd816361caa3888973066be0fae81d",
+        "raw/baseline/frame510.ss9": "313d12bb7d09ee5127f62536a6fb9569c8883d8f65402ca3dcb2b7d630f7a04f",
+        "raw/baseline/group-02-graphics-4bpp.bin": "eb9589427babaaa4d746b365cf1ea3083a5accd5cc408d53ac9c83131fb82475",
+        "raw/baseline/guard.json": "1b9b6dfe98cf2874bb289f287de461de0cf32413751995489b9828f6cfb69c2c",
+        "raw/baseline/sentinel.json": "63276ea3cad0fdd98c608aa2ff93114d9c706b231c6c40d57d56e239e87d838b",
+        "raw/baseline/spec.json": "fb6ced2d68c213414cc838faeda931fb36f1ffafab959b88fecf526e5e79be53",
+        "raw/build-manifest.json": "a895f8dc2583acba57a3d6ce5f830c72032cc9b5478ed5daa8b581cad04af3cf",
+        "raw/candidate/audit.json": "8d8e6e54302380de091d87f483d6523a8cde11b0cbb64555e4c4723b4b2484ba",
+        "raw/candidate/frame510.png": "2570a7104d156a9b86c1cc84f70b62097589e1aba0d71e1ed258aed2e76af388",
+        "raw/candidate/frame510.ss9": "eab52bdb1868e1d959bee56ee166db4805f586a7fd338373008cdaacd0f0dc12",
+        "raw/candidate/group-02-graphics-4bpp.bin": "64200fd6cb984b92e064e0c50577423aa1090e789e7bf62c8af76d6dc738f4e2",
+        "raw/candidate/guard.json": "c2be660b2335e7d4dfeef20e045decbc85a18d80022b44ee5e1f9e891b0f814f",
+        "raw/candidate/sentinel.json": "8d8e6e54302380de091d87f483d6523a8cde11b0cbb64555e4c4723b4b2484ba",
+        "raw/candidate/spec.json": "1109eca78925c9e5d524a7d155a8cac2cf3472a8941b30817699157a66296556",
+        "runtime-evidence.json": "f9bd8cb03f0d14ce668a9518e08514f08b6aa3666d21a86f82e220051f301d1a"
+      },
+      "scope": {
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_frames_runtime_verified": false,
+        "full_affine_blend_timing_audio_equivalence": false,
+        "natural_active_action_handler_immediate_route": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "single_group_single_frame_single_pixel": true
+      },
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
+        "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group2-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group4-pixel-ab-v1/baseline/frame96.png",
+          "reverse_path": "artifacts/battle-effect-group4-pixel-ab-v1/raw/baseline/frame96.png",
+          "sha256": "b19e098947b1ba3ff0b58fffaaee17e4372bc1d5acf423580763632ae4e317f1",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group4-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group4-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "00e139deaf606644dca76b49c57a70340d414e14afaa5a7b2ed6769e7933d6ff"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "9cf7e1dd489c0fea1271f1e2faca5bb524f0b2c4522a294df3a68d0769cb7470",
+        "bbox": [
+          83,
+          72,
+          83,
+          72
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "3f3e3c109be9d4708546b98a173ec0ef5b062aa93341cc2cd9be1283fb8e0fb3",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group4-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/battle-effect-group4-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "d88126122731f83b31ee06731afb33ea4b9641e3b3a33d2e639ff0358f288c34",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "7969afc9777561eee92340b0ee536bd6eeb47fe15a547ae8d1bcc4f66e8e8e35",
+        "raw/baseline/frame96.png": "b19e098947b1ba3ff0b58fffaaee17e4372bc1d5acf423580763632ae4e317f1",
+        "raw/baseline/frame96.ss9": "758358c79945b8496471607419440ceb10b80beaa44c28a59c66371a997ba8fe",
+        "raw/baseline/group-04-graphics-4bpp.bin": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+        "raw/baseline/guard.json": "7ed52cbe4b0cb8e6d8dbd293b21a965c4269b9718c0081f8a1abdd9951866e40",
+        "raw/baseline/sentinel.json": "7969afc9777561eee92340b0ee536bd6eeb47fe15a547ae8d1bcc4f66e8e8e35",
+        "raw/baseline/spec.json": "24928fed1c8a628035c71809ede11be0aa78be9f6473bb14883bdc722e20d9ef",
+        "raw/build-manifest.json": "b801b0892a31e41582904d916d03bcc256a3d3f99e3747ba349e05bb93872354",
+        "raw/candidate/audit.json": "a2d54cd2c9e583d3e3040fbce82ee34192c3965a71c389efb48efc3d715923e8",
+        "raw/candidate/frame96.png": "d1eb89fe8f82cc29d4dc7b8e588af2a2a21af4b359cb242170dfb8bf3757dafd",
+        "raw/candidate/frame96.ss9": "3de5bd5658f8732c42c6f7f7a0b55e22791cf73ab49cafc0bbef2488e1fe9794",
+        "raw/candidate/group-04-graphics-4bpp.bin": "0d1971e4a0ec19230cdb05eb6e20a24b89307964a15424a19672829e9ba88ef4",
+        "raw/candidate/guard.json": "772e22e8bbc613edc6d2befb7a6f1eb33ced6203254b57b5cc0ab15d146eb763",
+        "raw/candidate/sentinel.json": "a2d54cd2c9e583d3e3040fbce82ee34192c3965a71c389efb48efc3d715923e8",
+        "raw/candidate/spec.json": "a561c0c7892de9151c8316b45d9f86b7c6ac8b22b768ade86ee22b1fa304f33a",
+        "runtime-evidence.json": "00e139deaf606644dca76b49c57a70340d414e14afaa5a7b2ed6769e7933d6ff"
+      },
+      "scope": {
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_frames_runtime_verified": false,
+        "full_affine_blend_timing_audio_equivalence": false,
+        "natural_ninja_tool_route": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "single_group_single_frame_single_pixel": true
+      },
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
+        "sequel/content/battle-effect-pixel-ab/group-04-tool1-projectile.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group4-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
+      "artifact_schema": "battle-effect-group5-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "battle-effect-group5-pixel-ab-v1/baseline/frame150.png",
+          "reverse_path": "artifacts/battle-effect-group5-pixel-ab-v1/raw/baseline/frame150.png",
+          "sha256": "80d13b88e1f3f8ad324faf780f8f14fc9329f894035f9a8c8518d9c937d1b22a",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-effect-group5-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-effect-group5-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "2c9da0e7ddfa03dcfc88528d05b7cf304ed4d40707645549de420a78b61d6b98"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "f79234f8ad45ef93064d9c5e6685e7ea4d5d6b4e5c8c7dafa0225865c2a64581",
+        "bbox": [
+          160,
+          48,
+          160,
+          48
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "7215dae544256cbbc207e08821668810971c571ae4fbd9145c261ec30cb328f5",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "battle-effect-group5-pixel-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9"
+      ],
+      "manifest": "artifacts/battle-effect-group5-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "74c4afb1cb0d5079236d61d09adc7778d9009b6d2eb25e1f59003c7bcce672d0",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "e3df4be22aeb02869379ee4e7cee452e9892b34295653bf01f7c95609e6c457e",
+        "raw/baseline/frame150.png": "80d13b88e1f3f8ad324faf780f8f14fc9329f894035f9a8c8518d9c937d1b22a",
+        "raw/baseline/frame150.ss9": "a91c8cf865a1ac78c82dae7c9578815c469c7c0c1e2c68977d94aa3288125950",
+        "raw/baseline/group-05-graphics-4bpp.bin": "6628fdc3365f8d6f16b134797be5f9a1c7cb48662ffeeea634ace058c659bb32",
+        "raw/baseline/guard.json": "8f77e3864fa341d2dfdcba9d201d9fa3cd2995c1912704e14dae6be31a35efbb",
+        "raw/baseline/sentinel.json": "e3df4be22aeb02869379ee4e7cee452e9892b34295653bf01f7c95609e6c457e",
+        "raw/baseline/spec.json": "eb6e22ecac326a7b28692706894ab01b1d6cd289a0a62808afeb5aadaf45c473",
+        "raw/build-manifest.json": "e88eca03dfb14d72d6fc57aaa861c220910af2bf9132eecf8f3a008cdbca5d4d",
+        "raw/candidate/audit.json": "f1322fb1550ad6364457b89ca4a671297eb39fdc020799ca90ecdfddeb13cdcd",
+        "raw/candidate/frame150.png": "b9a643ccd68722aaa2929ed65bd03253548297c44080e5182fa9309af41e500d",
+        "raw/candidate/frame150.ss9": "b86d40e60b1a8f2ed147f26a0eb1b1aea1fb6c80ceecb8375dfbda598f66b533",
+        "raw/candidate/group-05-graphics-4bpp.bin": "8a418cc83c61101ac7380e5313f4b0577bb42465a378ab21fb617b22af2f43e1",
+        "raw/candidate/guard.json": "19adeeac38c1f26cad942c91384b6bebcaf166b0549984d68ba2a65f08cea351",
+        "raw/candidate/sentinel.json": "f1322fb1550ad6364457b89ca4a671297eb39fdc020799ca90ecdfddeb13cdcd",
+        "raw/candidate/spec.json": "22ca65a9805df193f1a7d34de1719e11e2140dbd9ae30d246272fa57d653002b",
+        "runtime-evidence.json": "2c9da0e7ddfa03dcfc88528d05b7cf304ed4d40707645549de420a78b61d6b98"
+      },
+      "scope": {
+        "affine_blend_timing_audio_equivalence": false,
+        "all_18_effect_groups_runtime_verified": false,
+        "all_group_5_frames_runtime_verified": false,
+        "natural_action_5_attack": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "sequence_6_group_5_frame_1_graphics_single_pixel": true
+      },
+      "unavailable_local_inputs": [],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_group5_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group5-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
+      "artifact_schema": "battle-encounters-story-visual-pixel-ab-artifact-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "battle-encounters-story-visual-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/battle-encounters-story-visual-pixel-ab-v1/baseline.png",
+          "sha256": "c1fbfc4b1050e8b60e83ad65bc050cf5a201157f8de64de9136f776d6794c180",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "battle-encounters-story-visual-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/battle-encounters-story-visual-pixel-ab-v1/evidence.json",
+        "sha256": "37ce7ddb7a3812745e82dfc7f4802a4af155f8ea3632338a7d000f9c6710b2ab"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "3551e69b1b3eef6e7acfc179ba2556622608544f322e3999b25c66f9fd90a2ce",
+        "bbox": [
+          88,
+          48,
+          159,
+          108
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "6b87ae09aadf58d8ccca94f78efa5dd9260c04b29f6f20a2a4fc29cd56bb444a",
+        "changed_pixel_count": 1603,
+        "source_path": "pixels"
+      },
+      "family": "battle-encounters-story-visual-pixel-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-8.ss9"
+      ],
+      "manifest": "artifacts/battle-encounters-story-visual-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "6fc7148a5ec464142ac42d058751238bb0779f7e7f5fc4e7834bbd4dcc018c63",
+      "reverse_file_hashes": {
+        "baseline.png": "c1fbfc4b1050e8b60e83ad65bc050cf5a201157f8de64de9136f776d6794c180",
+        "candidate.png": "ec594790cbb0ab7173ec375af1632ba319680ba95a33930199d24f077628693f",
+        "evidence.json": "37ce7ddb7a3812745e82dfc7f4802a4af155f8ea3632338a7d000f9c6710b2ab",
+        "raw.tar": "491ada895f0094771c90854948fb6eb5486ce16e50bf1ec0aeccbd3b0c56eb9f"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-53-story-slideshow-command-controlled.ss9",
+        "tools/mgba_battle_encounters_story_visual_trace.lua"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_encounters_story_visual_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-encounters-story-visual-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
+      "artifact_schema": "character-battle-graphics-pixel-ab-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "character-battle-graphics-pixel-ab-v1/baseline/frame80.png",
+          "reverse_path": "artifacts/character-battle-graphics-pixel-ab-v1/baseline/frame80.png",
+          "sha256": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "character-battle-graphics-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/character-battle-graphics-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "492be18b080602cd8b1fd077df2eaf3b9f986ee499fd49ef9fd2bb8b30912de5"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": null,
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 1,
+        "source_path": "runtime"
+      },
+      "family": "character-battle-graphics-pixel-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-start-row.ss9"
+      ],
+      "manifest": "artifacts/character-battle-graphics-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "8dc56720ded15ca9e39d7cc75b2e941969ad020289c7cc2c4ffcc7fe73052a1c",
+      "reverse_file_hashes": {
+        "baseline/audit.json": "b73b0acecf4c05b8a461f004ff96a99f7648df55aa57513b615f8278598c9191",
+        "baseline/bundle.bin": "10b78ae7a78d886531b49b3d4810008f191bea11eadc62f364ad873bd79d636d",
+        "baseline/frame80.png": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+        "baseline/frame80.ss9": "99846a652a25c4716ddcfcb616d17bf0c66d2bc26813717b532546204ccd6ac2",
+        "baseline/guard.json": "9223495585e1507b9403732ab765ef0f7096d526d644c739ab5875610c553f6f",
+        "baseline/sentinel.json": "b73b0acecf4c05b8a461f004ff96a99f7648df55aa57513b615f8278598c9191",
+        "build-manifest.json": "4dd708286e41dd6a7f4cafc4aa3fcbc9895381c9b5ff4889f930f032abccac0d",
+        "candidate/audit.json": "ce6a0cd2ab5640f74527c8ccef11c6bfbb1e3775d83a8514e2a2408557a9ff8b",
+        "candidate/bundle.bin": "4a1523058a958909842e4cd5925795d8b2ba7cf9fdfd037ddee9bc759720c7c2",
+        "candidate/frame80.png": "ff00d40c06e4daee1ce204ba4c302d28712b48e636d78ffbd22a564cff6f5f7f",
+        "candidate/frame80.ss9": "20ecfa1ff5c444f7b9483f3efd5c8d20bf6d386bfe7c304c1e52f98c5ea29f33",
+        "candidate/guard.json": "f43ccdd0ecfe9c48c8834a33037570ac41e653432153003e7b996933f447b0d0",
+        "candidate/sentinel.json": "ce6a0cd2ab5640f74527c8ccef11c6bfbb1e3775d83a8514e2a2408557a9ff8b",
+        "runtime-evidence.json": "492be18b080602cd8b1fd077df2eaf3b9f986ee499fd49ef9fd2bb8b30912de5"
+      },
+      "scope": {
+        "all_250_resources_runtime_verified": false,
+        "all_character_slots_runtime_verified": false,
+        "camera_blend_transform_verified": false,
+        "character_resource_0_frame_3_graphics_pixel_ab": true,
+        "natural_entry": true,
+        "physical_gba_verified": false,
+        "relocated_bundle_runtime_verified": true
+      },
+      "unavailable_local_inputs": [],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_character_battle_graphics_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/character-battle-graphics-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "frame_id": 3,
+          "memory_differences": {
+            "VRAM": [
+              65830
+            ]
+          },
+          "pixel_changes": [
+            [
+              117,
+              25,
+              [
+                33,
+                33,
+                33
+              ],
+              [
+                255,
+                0,
+                0
+              ]
+            ]
+          ],
+          "resource_id": 0,
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
+      "artifact_schema": "cutscene-obj-id1-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "cutscene-obj-id1-pixel-ab-v1/baseline/frame512.png",
+          "reverse_path": "artifacts/cutscene-obj-id1-pixel-ab-v1/raw/baseline/frame512.png",
+          "sha256": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "cutscene-obj-id1-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/cutscene-obj-id1-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "b934ad6f3bc89109a7bd58bb144988e74e49a02fbdaac6b89b99eee9402cc966"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "051162ea4f830febd94823d2e87d75ad474223f352867e63fa0965912dbe7bc8",
+        "bbox": [
+          60,
+          52,
+          60,
+          52
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "8984dbb21b063138face3e3944bcf7275e41cfa808b6f59c06726052c77f8744",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "cutscene-obj-id1-pixel-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9"
+      ],
+      "manifest": "artifacts/cutscene-obj-id1-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "c31638348f1f72a9a96e5fa13865974c83420e9afd55d096d1ff7455ee51052c",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "c7629215309ed75d656189fc8a5c22d84eaaa51aab778fdbf1a3e8b415963e8f",
+        "raw/baseline/frame512.png": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+        "raw/baseline/frame512.ss9": "7c0379d448d3c81c7b6734117873df06beceeb53609880cde466b15f4c15ceb5",
+        "raw/baseline/guard.json": "28e998a552969e1931f899afcd9c6d2c2fcaa423eaa9e05995bb688338475e4d",
+        "raw/baseline/resource_1.4bpp.bin": "1494d4db49423aaf026f3a1d45df4a63c70db9a0c6c7bae72621f7f7688bae0d",
+        "raw/baseline/sentinel.json": "c7629215309ed75d656189fc8a5c22d84eaaa51aab778fdbf1a3e8b415963e8f",
+        "raw/baseline/spec.json": "2005c8fe3dd03b4d2a92c5c2a1aef240162e49fccda497b7c6c4e3cfc56c2ced",
+        "raw/build-manifest.json": "34e8cf88ed9d57ff6a6e5c4148d3a3af8f055c50923b7e62f0e369e3dc356e3f",
+        "raw/candidate/audit.json": "98c6e580b02357312d1f8f783f61ba6cd9716a4ff4c0efb218e5958f645eaec9",
+        "raw/candidate/frame512.png": "40d436fd93242a31ad422130a56069a55761a602e7f91c41e79a74dadb0201bf",
+        "raw/candidate/frame512.ss9": "c20afcd85fe7197d91b5a4b4e8f2e11a184ec85b7c3403f2cb79d1b14397924f",
+        "raw/candidate/guard.json": "bb0c9d22c6238ad144a7631f1a31b59e19769e3d538771a52cbcd25a96fc0999",
+        "raw/candidate/resource_1.4bpp.bin": "a3d3b365ada377ca525d5b5d1aa2a6e1ab367dfad8928dcadace54a257b2bf05",
+        "raw/candidate/sentinel.json": "98c6e580b02357312d1f8f783f61ba6cd9716a4ff4c0efb218e5958f645eaec9",
+        "raw/candidate/spec.json": "5848470df8b0ce9946ccf747775cf26421032d8507f3a7aecdf6414e646fa355",
+        "runtime-evidence.json": "b934ad6f3bc89109a7bd58bb144988e74e49a02fbdaac6b89b99eee9402cc966"
+      },
+      "scope": {
+        "all_animations_runtime_verified": false,
+        "natural_victory_load": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "resource_1_frame_0_graphics_single_pixel": true,
+        "resources_0_2_3_runtime_verified": false
+      },
+      "unavailable_local_inputs": [],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_cutscene_obj_id1_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/cutscene-obj-id1-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "data-table-b-message0-pointer-pixel-ab-artifact-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "data-table-b-message0-pointer-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/data-table-b-message0-pointer-pixel-ab-v1/baseline.png",
+          "sha256": "8a4a05f3de735771be17c19be170833aadc725cb76c5c7b58eb5dc98652e62f0",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "data-table-b-message0-pointer-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/data-table-b-message0-pointer-pixel-ab-v1/evidence.json",
+        "sha256": "b0d25756ca36b49a61ee5297aa0e238196ff6c9d49c610a29cd022e03c8594ff"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "e85051ba9dd54f23ca225032a258db6d5e7d86691ba3ac77d6f55b4209d48bb7",
+        "bbox": null,
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "54a09d69894ede9f3a51c1a9b5119851c43006ef0334f2210c5a3425fdfc1930",
+        "changed_pixel_count": 928,
+        "source_path": "runtime_effect"
+      },
+      "family": "data-table-b-message0-pointer-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/data-table-b-message0-pointer-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "fc0310e3f40d493ac0502d27bf2490817659999e32fa5bcade639f0699a50e9b",
+      "reverse_file_hashes": {
+        "baseline.png": "8a4a05f3de735771be17c19be170833aadc725cb76c5c7b58eb5dc98652e62f0",
+        "candidate.png": "53cb548afd752fdcf332e97c1f4cdb0ead68789e15c9b7eb15e460d32e3042d9",
+        "evidence.json": "b0d25756ca36b49a61ee5297aa0e238196ff6c9d49c610a29cd022e03c8594ff",
+        "raw.tar": "c942542186353266a9c0961b0bed3af58d2b22dbe2a7cbcab5eacfab4bf3119e"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
+        "tools/mgba_input_sequence_replay.lua"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_data_table_b_message0_pointer_ab.py",
+          "artifacts/data-table-b-message0-pointer-pixel-ab-v1",
+          "--binary",
+          "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "map-events-e4-handler-pixel-ab-artifact-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "map-events-e4-handler-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/map-events-e4-handler-pixel-ab-v1/baseline.png",
+          "sha256": "329a4291fd0754628ab40c020dbbeb45b69e9ee4373d49e11b534d388b223e82",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "map-events-e4-handler-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/map-events-e4-handler-pixel-ab-v1/evidence.json",
+        "sha256": "0bcbccb4c47fe2b3a90622e1acffe5108460b65cbdf9780d3205c2e67929be17"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "12c28206d046864088b43898075275ce8aec11db414172f6b2f47fa0a69dff41",
+        "bbox": [
+          0,
+          0,
+          239,
+          159
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "3ac44a642a77c63c09f3048aff7069845f7c48772eaf07d46581637989f03c4a",
+        "changed_pixel_count": 37436,
+        "source_path": "pixels"
+      },
+      "family": "map-events-e4-handler-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/map-events-e4-handler-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "35f337be0534a1b93e9acc927eac35b981f4380bec99aed79d5abbb354912e48",
+      "reverse_file_hashes": {
+        "baseline.png": "329a4291fd0754628ab40c020dbbeb45b69e9ee4373d49e11b534d388b223e82",
+        "candidate.png": "8049027b2a7c8cf3153839d5d3578ffc03cf88cea9a157e80be2af89f46749b7",
+        "evidence.json": "0bcbccb4c47fe2b3a90622e1acffe5108460b65cbdf9780d3205c2e67929be17",
+        "raw.tar": "affb3ca3d01eae1b100caaa091d4ee95d690a7993c4d6ce75a309cb9de7d3766"
+      },
+      "scope": {
+        "not_proved": "This run resumes after the C3-to-E4 event was queued and does not re-hit 0x08081D74; source checkpoint and static-chain artifacts bind that upstream route. It does not prove secondary handlers, all 256 entries, full animation semantics, or physical-GBA output.",
+        "proved": "Natural zero-input recovery reaches E4 primary_handler_ptr through 0x0807FD36 and 0x0809C114; the baseline enters 0x0807F208 and renders group 3, while the isolated bx-lr candidate does neither and changes 37,436 final pixels."
+      },
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_map_events_e4_handler_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/map-events-e4-handler-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
+      "artifact_schema": "map-sprites-definition-pixel-ab-artifact-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "map-sprites-definition-id1-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/map-sprites-definition-id1-pixel-ab-v1/baseline.png",
+          "sha256": "b468ad8725bac086c6659f06ee0620ce3a9d1adfc575d0244747b2204e117ef8",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "map-sprites-definition-id1-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/map-sprites-definition-id1-pixel-ab-v1/evidence.json",
+        "sha256": "88d21cdaa8789a16b80d43bda8d38f91e756295554996c7d442aeb8fdb0d8de5"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "e97427bc6225d4a4691720c569bc5268f7d41d957ebfb543626e8415fcf40024",
+        "bbox": [
+          178,
+          64,
+          215,
+          71
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "79f98d2371b4a269ea4714e5c8256f1e29ce64285dd03e2786b540f64f17b399",
+        "changed_pixel_count": 213,
+        "source_path": "pixels"
+      },
+      "family": "map-sprites-definition-id1-pixel-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-combat-dialogue.ss9"
+      ],
+      "manifest": "artifacts/map-sprites-definition-id1-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "0175f0ee8ec2184e1c3a15bd192e55d99fc4e5487fdc426209d7fe758d03ab06",
+      "reverse_file_hashes": {
+        "baseline.png": "b468ad8725bac086c6659f06ee0620ce3a9d1adfc575d0244747b2204e117ef8",
+        "candidate.png": "70ecfe210eb78c64e927a0d5c3ece47a581bd67ffb466c7e35e4c6c773e05dca",
+        "evidence.json": "88d21cdaa8789a16b80d43bda8d38f91e756295554996c7d442aeb8fdb0d8de5",
+        "raw.tar": "dfd6657b2611e86294c76828e2410721a2ee05461ab081de90afe993b329a113"
+      },
+      "scope": {
+        "not_proved": "No natural input route recreated the generic task during this run; pixel compatibility with donor entry 37's native tile base is outside this single-field experiment.",
+        "proved": "Entry 1 definition_ptr is materialized from ROM into task 123; the changed pointer reaches frame selection and OAM composition and changes 213 final pixels."
+      },
+      "unavailable_local_inputs": [],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_map_sprites_definition_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/map-sprites-definition-id1-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
+      "artifact_schema": "map41-primary-layout-pixel-ab-evidence-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "map41-primary-layout-pixel-ab-v1/baseline/frame80.png",
+          "reverse_path": "artifacts/map41-primary-layout-pixel-ab-v1/baseline/frame80.png",
+          "sha256": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "map41-primary-layout-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/map41-primary-layout-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "f1e0326540b9e986cc07a9dc5c803503139929fdba5816dddf53a05a565a15be"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          8,
+          0,
+          39,
+          7
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 204,
+        "source_path": "pixel_result"
+      },
+      "family": "map41-primary-layout-pixel-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-start-row.ss9"
+      ],
+      "manifest": "artifacts/map41-primary-layout-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "56dedcd21904cc65b1e3582894128a5b62fab02bbb9f1c9830b456e0d4a11d25",
+      "reverse_file_hashes": {
+        "baseline/audit.json": "eca0a8ff18f859577b647cc6bd36869b6423fce62569de5330867082b3231db4",
+        "baseline/frame80.png": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+        "baseline/frame80.ss9": "e38e0e154ce0db7d07f8a6c24342f85045cff26e068fcd70f049ed846663c61a",
+        "baseline/guard.json": "12b1ab7be1b00a424e334ee1aa0244a8126576991a921349b0f0e943db843960",
+        "baseline/sentinel.json": "eca0a8ff18f859577b647cc6bd36869b6423fce62569de5330867082b3231db4",
+        "build-manifest.json": "b6e0cb12022840322b8e6b2ac2738062d9732152f1bc6b00c4ee5268c24bd6e4",
+        "candidate/audit.json": "06d1946c871f6c8745406f3727686127be683a5eaf2ef0471642dfda7017a884",
+        "candidate/frame80.png": "8d138b2a72f2a9b2fe973f333f74e420fc5464fbe7d65ed04f750735287524bf",
+        "candidate/frame80.ss9": "44d0433aa9acb634f45b4db0934f6b68a3b13ea471e799c3b9c2bebacdbc14ee",
+        "candidate/guard.json": "47bc5bab3d3a6f9932a65247516532be2cf8ec34c5a7f55971813c5bf38d6095",
+        "candidate/sentinel.json": "06d1946c871f6c8745406f3727686127be683a5eaf2ef0471642dfda7017a884",
+        "runtime-evidence.json": "f1e0326540b9e986cc07a9dc5c803503139929fdba5816dddf53a05a565a15be"
+      },
+      "scope": {
+        "exact_ewram_vram_pixel_diff_verified": true,
+        "exact_loader_pc_runtime_trace": false,
+        "full_camera_timing": false,
+        "map41_alias_split_verified": true,
+        "natural_entry": true,
+        "physical_gba_verified": false,
+        "preloader_zero_to_runtime_resource_verified": true
+      },
+      "unavailable_local_inputs": [],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_map41_primary_layout_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/map41-primary-layout-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
+      "artifact_schema": "menu-portrait-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "menu-portrait-pixel-ab-v1/baseline/frame80.png",
+          "reverse_path": "artifacts/menu-portrait-pixel-ab-v1/raw/baseline/frame80.png",
+          "sha256": "c1fed5e9ddd63b55334cd12345cde3eb9e9144acbb4f4cab746bc80b9e0514e6",
+          "size": [
+            240,
+            160
+          ]
+        },
+        {
+          "path": "menu-portrait-pixel-ab-v1/baseline/portrait.png",
+          "reverse_path": "artifacts/menu-portrait-pixel-ab-v1/raw/baseline/portrait.png",
+          "sha256": "40cf158dc46eba1e4213dc58ffe278994738a5343931d3e7a992cde93d9d737f",
+          "size": [
+            80,
+            80
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "menu-portrait-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/menu-portrait-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "2ec298d557af7cb78325cd9727acaf56085caaeb2e8a8533611b98476446bdad"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "aada62ba20f1629f42db886114b96fd17c05c73cb7ee58f137628913747a22bc",
+        "bbox": [
+          56,
+          48,
+          56,
+          48
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "f4ffd0cee4f4aa889b3598c4707b88dd7dd0ab67e40dc6bd96045cb49c8a79ed",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "menu-portrait-pixel-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-9.ss9"
+      ],
+      "manifest": "artifacts/menu-portrait-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "c09b4784e18db4177cc44a089501ccea29699a666bcf969555ba331d916d91ae",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "e0799ce02891683624cff9949eacbe1f0b9d37282062b469ec0d67084adb8df8",
+        "raw/baseline/frame80.png": "c1fed5e9ddd63b55334cd12345cde3eb9e9144acbb4f4cab746bc80b9e0514e6",
+        "raw/baseline/frame80.ss9": "189bcc8d12f3176596d97a28a9abd56305178657fff6f36793841d98b66ed492",
+        "raw/baseline/guard.json": "22fa3f012cb69d8a12044b35757aed31541d67f784576fff5db1b4766627af3c",
+        "raw/baseline/portrait.png": "40cf158dc46eba1e4213dc58ffe278994738a5343931d3e7a992cde93d9d737f",
+        "raw/baseline/sentinel.json": "e0799ce02891683624cff9949eacbe1f0b9d37282062b469ec0d67084adb8df8",
+        "raw/baseline/spec.json": "c3b85941f3783c2362044529be908b8f0b4b4fcff0ea8b1400a5a04c1a17ee40",
+        "raw/build-manifest.json": "1b2ec1560b5492ef90c354646f44a5f9ba872384ae3e6831984030474811bd69",
+        "raw/candidate/audit.json": "c5c1a84115e901a00e9ef59d83c17a8a5309c28b5e9891b65db7682c440f0c20",
+        "raw/candidate/frame80.png": "ffad0b4540e55d0fdcffd2038c6811545d5a86bb68eb8c66d090b7d6b279dfdf",
+        "raw/candidate/frame80.ss9": "41e45eb4374b425911532165e332ee7acf9d8b55156c7c4088ac627b64214fdf",
+        "raw/candidate/guard.json": "a187f260caf0addfd611995b78f8d6393de6e8012f65fc9320733f68a2868f01",
+        "raw/candidate/portrait.png": "430940e7779ff4307cd7e2286e789586432d07078a5de937e23846e90172922f",
+        "raw/candidate/sentinel.json": "c5c1a84115e901a00e9ef59d83c17a8a5309c28b5e9891b65db7682c440f0c20",
+        "raw/candidate/spec.json": "b5265261e5d1bd64ddf50d22c2ce71972d681cb5473593f290163d2055be4283",
+        "runtime-evidence.json": "2ec298d557af7cb78325cd9727acaf56085caaeb2e8a8533611b98476446bdad"
+      },
+      "scope": {
+        "all_311_portraits_runtime_verified": false,
+        "all_portrait_transitions_runtime_verified": false,
+        "natural_show_portrait_load": true,
+        "physical_gba_verified": false,
+        "production_relocation_route": true,
+        "row_1_variant_0_single_pixel": true
+      },
+      "unavailable_local_inputs": [],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_menu_portrait_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/menu-portrait-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "motion-effect-parameter-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "motion-effect-parameter-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/motion-effect-parameter-pixel-ab-v1/baseline.png",
+          "sha256": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "motion-effect-parameter-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/motion-effect-parameter-pixel-ab-v1/evidence.json",
+        "sha256": "ad645e7ff264cbf175a7567eb77f5e4f2e0b37db1858bfeb862c3c3d3284cd51"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "12c28206d046864088b43898075275ce8aec11db414172f6b2f47fa0a69dff41",
+        "bbox": [
+          54,
+          88,
+          72,
+          107
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "cec2e8a59c48f922a02123a8a81e449f23c7338387635e0e08d838462a25ff66",
+        "changed_pixel_count": 286,
+        "source_path": "runtime"
+      },
+      "family": "motion-effect-parameter-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/motion-effect-parameter-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "3741e9465acc813e881493c3c91bef2101e879d6b565ecbc8e01e98b902b9abd",
+      "reverse_file_hashes": {
+        "baseline.png": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+        "candidate.png": "6c220f7e5596c992a18741c0e031f55556965ddc06ae1f1b502cbfeba27017b7",
+        "evidence.json": "ad645e7ff264cbf175a7567eb77f5e4f2e0b37db1858bfeb862c3c3d3284cd51",
+        "raw.tar": "9b1d020dcf6dd1b9355e041971a1a77047d9b5b507906cb552462a007d64bd67"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
+        "sequel/content/motion-effect-parameter-pixel-ab/group-03-record-00-y-offset.json",
+        "sequel/content/palettes/bank.json"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_motion_effect_parameter_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/motion-effect-parameter-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "residual-wram-tilemap-pixel-ab-evidence-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "residual-wram-tilemap-pixel-ab-v1/baseline/frame1.png",
+          "reverse_path": "artifacts/residual-wram-tilemap-pixel-ab-v1/baseline/frame1.png",
+          "sha256": "aa03cd64df11cb7483b1a155f57d97270851293c2098d65e4ecf8aed966f1274",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "residual-wram-tilemap-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/residual-wram-tilemap-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "82de12ac25ee412f7789f62ac796bd6d26d45a9c0e73899f0764b445f6229a3f"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox": [
+          88,
+          64,
+          95,
+          71
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "changed_pixel_count": 50,
+        "source_path": "pixel_result"
+      },
+      "family": "residual-wram-tilemap-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/residual-wram-tilemap-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "46dba8f095d1fa2f07afbd6ac9f4405a5315f5ccc050f5fb1187502fd3088c2c",
+      "reverse_file_hashes": {
+        "baseline/frame1.png": "aa03cd64df11cb7483b1a155f57d97270851293c2098d65e4ecf8aed966f1274",
+        "baseline/frame1.ss9": "1a6679defa50d2af73b73d88ef35837c6d85e282ed89e9663a762176e61fd8d3",
+        "baseline/load-post.ss9": "7dde9091d2459b2cba59a58d4a215660dc484d10d393de8108af1d0f363545d5",
+        "baseline/load.ss9": "6cc6603785d1837c9b19ca1e56437f05352e590af3643f9db067130a6b8f3e21",
+        "baseline/output-rows.bin": "e02e746f8f3e9ec8bfe50333ff8c14349a915709cc58eb27f018f9fd0c386b21",
+        "baseline/post-vram-rows.bin": "e02e746f8f3e9ec8bfe50333ff8c14349a915709cc58eb27f018f9fd0c386b21",
+        "baseline/queue-post.ss9": "cad1bbad0f42a893a9ca610e99c26087958dcec53db47fa0e82b715bdcc469f2",
+        "baseline/replay-audit.json": "6ec1c975ff961cee2b3f5a9dc9db480e1bbecea2f16008ae235fe0db2cbcd2c6",
+        "baseline/replay-guard.json": "bf69403b7ac130b4fd72e5e729e065f189b14b33aad415fb98393a6640c67dfd",
+        "baseline/sequence-audit.json": "8e11e9fbfb479b0a55eed16d0380530dda371f8a4fa13cdc4d5b45025bb8ec48",
+        "baseline/sequence-guard.json": "98278c0d119f7b6681f7efb8be0fee18f4fbcd9cd7460cf09eb4397febc7083b",
+        "baseline/staging.bin": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640",
+        "build-manifest.json": "8dac17b8cf6eccda030022a50b980ea5b617f01407eab6f6c60301f367ead596",
+        "candidate/frame1.png": "73734c8527e10402358abc32dc431c041b921166850a2b9f1ade9353a8f1f4b9",
+        "candidate/frame1.ss9": "5bd638392b6488a7c704e0aa5143233bd49c495b84c838ef58eb7567d6f30955",
+        "candidate/load-post.ss9": "91317bc90ad89844c7915bbf72a69f539842c49852a49076f9ff36087d23e93f",
+        "candidate/load.ss9": "e2bf20d1d4a5c44e5fda996049fa8eb3174d6013413a5d570d1b54a262aceb35",
+        "candidate/output-rows.bin": "3dcbc2de8d4732fcfc3da6a6140408fbee0bc48c881e318395387e449e53b4c8",
+        "candidate/post-vram-rows.bin": "3dcbc2de8d4732fcfc3da6a6140408fbee0bc48c881e318395387e449e53b4c8",
+        "candidate/queue-post.ss9": "ec55a7430a9af0bb7b72027c3ea8801c7efee9874194064784112218613c1620",
+        "candidate/replay-audit.json": "c369b7695beabeeeacf03730a4026bd5069ae7defeb8c05ddcbe018b639d5d32",
+        "candidate/replay-guard.json": "a10223bfe357b11aa316d3146941988467af25a828f582702a0779284c837a31",
+        "candidate/sequence-audit.json": "86f9a967c6f15e32bcd2548d483a4539c2a2889b466097d7fb04928a1633fd3d",
+        "candidate/sequence-guard.json": "6984df079101b5637fbd48dc03befd7e69576957c519492f2f51292a88379f79",
+        "candidate/staging.bin": "945aec4bdd403d89b3ccbe6034cc34a6c68780e60783088177832c26978bdd30",
+        "runtime-evidence.json": "82de12ac25ee412f7789f62ac796bd6d26d45a9c0e73899f0764b445f6229a3f"
+      },
+      "scope": {
+        "controlled_entry": true,
+        "exact_50_pixel_oracle_verified": true,
+        "exclusive_writer": false,
+        "full_timing": false,
+        "modified_relocated_rom_runtime_load_verified": true,
+        "natural_entry": false,
+        "next_frame_mgba_pixel_diff_verified": true,
+        "post_queue_vram_entry_verified": true,
+        "single_source_byte_to_single_transformed_entry_verified": true
+      },
+      "unavailable_local_inputs": [],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_tilemap_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-tilemap-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "tile-asset-descriptor-pixel-ab-artifact-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "tile-asset-descriptor2-pixel-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/tile-asset-descriptor2-pixel-ab-v1/baseline.png",
+          "sha256": "06be5020360e05d035f59b0919dcf4655b917da353d08b0871dd9b8ee41828d4",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "tile-asset-descriptor2-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/tile-asset-descriptor2-pixel-ab-v1/evidence.json",
+        "sha256": "3433c4b0cedff5d713bcda3768fffc67513d8c123e69df8512c4553112ae2c59"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "44479ffd5aff26101927c079df4e658665a9e36552212bc0e08228938b8c566a",
+        "bbox": [
+          0,
+          0,
+          239,
+          159
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "dfe3df24453b540a1f6ceccffaeaabab3de32e2dc9ac990d9cfce7738b8f765b",
+        "changed_pixel_count": 38400,
+        "source_path": "pixels"
+      },
+      "family": "tile-asset-descriptor2-pixel-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/tile-asset-descriptor2-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "cceaa7a92507ac99fc0e9fc2abe40ba65426d4de5de03af671619510a3f1d5aa",
+      "reverse_file_hashes": {
+        "baseline.png": "06be5020360e05d035f59b0919dcf4655b917da353d08b0871dd9b8ee41828d4",
+        "candidate.png": "db4a9db58cc52e66cb8baf3486ac84562b6368143db77830fc1622971b0d7d36",
+        "evidence.json": "3433c4b0cedff5d713bcda3768fffc67513d8c123e69df8512c4553112ae2c59",
+        "raw.tar": "9364daa1156b6838fda98b52830d42d5f3c856347aeefa2655714a35fc98ed76"
+      },
+      "scope": {
+        "descriptor_2_layer_a_palette_pointer_runtime_verified": true,
+        "modified_rom_pixel_ab": true,
+        "natural_base_rom_route": true,
+        "other_descriptor_fields_runtime_verified": false,
+        "physical_gba_verified": false
+      },
+      "unavailable_local_inputs": [
+        "artifacts/residual-wram-tilemap-runtime-v2/scene-panel-setup.ss9",
+        "artifacts/runtime-checkpoints/scene-visual-controller-mode0-preselector.ss9"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_tile_asset_descriptor_pixel_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/tile-asset-descriptor2-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "expected": {
+          "verified": true
+        }
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
+      "artifact_schema": "world-map-page0-pixel-ab-runtime-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "baseline_images": [
+        {
+          "path": "world-map-page0-pixel-ab-v1/baseline/frame80.png",
+          "reverse_path": "artifacts/world-map-page0-pixel-ab-v1/raw/baseline/frame80.png",
+          "sha256": "989a9c9b60f3ea352758eb08f74402eefa524959565dbf00491e23563da51046",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "world-map-page0-pixel-ab-v1/evidence.json",
+        "reverse_path": "artifacts/world-map-page0-pixel-ab-v1/runtime-evidence.json",
+        "sha256": "11793b871249326e5127c41b706352710047190d93043dc5d1997e1971987d25"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "80f987fd20333739f3710ba0b0f59ce83f2ae9ab66fdfa3c34314c49cea6cb69",
+        "bbox": [
+          116,
+          76,
+          116,
+          76
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "9d56680df8d7bb5792ce6db42e5441160ce436b3f3433f67c9fd923d3f11d636",
+        "changed_pixel_count": 1,
+        "source_path": "runtime.pixels"
+      },
+      "family": "world-map-page0-pixel-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-11.ss9"
+      ],
+      "manifest": "artifacts/world-map-page0-pixel-ab-v1/manifest.json",
+      "manifest_sha256": "fef4ec504187bf0f3a36862bf9a067317124e02091f1317320504041da53bea7",
+      "reverse_file_hashes": {
+        "raw/baseline/audit.json": "4a5450f7aa751664c794bfe7b2da4d265b45216244e0aa0cc0792f371bd69de9",
+        "raw/baseline/background.8bpp.bin": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
+        "raw/baseline/frame80.png": "989a9c9b60f3ea352758eb08f74402eefa524959565dbf00491e23563da51046",
+        "raw/baseline/frame80.ss9": "5d49b2cbe4c770d88122a98db9893a3288e68e14edc4c6bd074c238fe7a4ef29",
+        "raw/baseline/guard.json": "455efb375d5290161f703c577cdf01ca94c89a8829c2ef598a51e850f8818700",
+        "raw/baseline/sentinel.json": "4a5450f7aa751664c794bfe7b2da4d265b45216244e0aa0cc0792f371bd69de9",
+        "raw/baseline/spec.json": "8a42f00b9b226d180a31eac24b0df74a4ceb236c5137200e1d7f8b894dd89526",
+        "raw/build-manifest.json": "9ea7649e4e0d8d728f669ab710424bbda60a5a7371463994f4425e3e7e4e7c35",
+        "raw/candidate/audit.json": "734d127e3396d8e548ff3eeea8a309b4de2b7c22ff353ab7706d7803d7a3ce96",
+        "raw/candidate/background.8bpp.bin": "1cc2f755948525ebd13d358fc97910658e4aa8c7ce82393c3ffc7b4be454fd1e",
+        "raw/candidate/frame80.png": "8ad24b4e6dea41c7067b84e1ea0c7f3d8fa917a4609d15943e5a481e284ff622",
+        "raw/candidate/frame80.ss9": "9b03c62bbd5ab1f4d552a3b605389f297569f77eccc6a16fe5c4aeb231a10387",
+        "raw/candidate/guard.json": "7c1a57189fc26e4fe0e6abf5ba5f01a1e4f0d4969249b0311200ddbd298dfc4e",
+        "raw/candidate/sentinel.json": "734d127e3396d8e548ff3eeea8a309b4de2b7c22ff353ab7706d7803d7a3ce96",
+        "raw/candidate/spec.json": "6b1e17a663ebda49fc4dd5e5e5488f328dfc4bfa8ed6b1af4cf658b4b3797d79",
+        "runtime-evidence.json": "11793b871249326e5127c41b706352710047190d93043dc5d1997e1971987d25"
+      },
+      "scope": {
+        "labels_cursor_transition_verified": false,
+        "natural_page0_load": true,
+        "page0_graphics_single_pixel": true,
+        "page1_and_page2_runtime_verified": false,
+        "physical_gba_verified": false,
+        "production_relocation_route": true
+      },
+      "unavailable_local_inputs": [],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_world_map_page0_pixel_ab_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/world-map-page0-pixel-ab-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "verified": true
+        }
+      }
+    }
+  ],
+  "family_count": 32,
+  "schema": "konoha.butano-pixel-ab-baseline-import.v1",
+  "source": {
+    "accepted_status_required": "accepted",
+    "reverse_commit": "b4da99dfae5493c1318907f76a283fc0dd182fcb",
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  }
+}

@@ -67,6 +67,7 @@ struct battle_mission_rules
     battle_result_policy result = {};
     bool confirm_targets = false;
     bool open_command_before_move = false;
+    bool show_turn_banner = false;
 
     [[nodiscard]] constexpr bool operator==(
             const battle_mission_rules& other) const
@@ -106,7 +107,8 @@ struct battle_mission_rules
                 result == other.result &&
                 confirm_targets == other.confirm_targets &&
                 open_command_before_move ==
-                        other.open_command_before_move;
+                        other.open_command_before_move &&
+                show_turn_banner == other.show_turn_banner;
     }
 };
 
@@ -140,10 +142,21 @@ battle_mission_rules_for(int battle_id, int variant)
         if(battle_id == 14)
         {
             result.control.allied_ai_before_first_player_turn = true;
+            // The original shows the command menu (original frame 18, five
+            // items including 移動) BEFORE the destination grid (frame 19),
+            // and the grid again after the move (frame 19) ends in the two
+            // item menu (frame 20).  The remake therefore keeps the menu
+            // before the move selection, and the move consumes the movement
+            // so that the second menu drops 移動.
+            // 4.3.85 measured the other order: it puts the five item menu
+            // after the grid, which is the opposite of the original.
             result.open_command_before_move = true;
             result.action_access.allow_direct_attack = false;
             result.command_access.allow_direct_attack = false;
             result.command_access.confirm_move_consumes_movement = true;
+            // The original shows a round banner between the opening dialogue
+            // and the first command (original frame 15: 回合 1 / 玩家 的行动).
+            result.show_turn_banner = true;
         }
         result.control.ai_units[0] = {
             30,

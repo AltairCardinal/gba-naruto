@@ -1,0 +1,85 @@
+{
+  "applicability": "no-local-anchor-in-this-tree",
+  "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "baseline_images": [
+    {
+      "path": "battle-effect-group14-pixel-ab-v1/baseline/frame516.png",
+      "reverse_path": "artifacts/battle-effect-group14-pixel-ab-v1/raw/baseline/frame516.png",
+      "sha256": "c1c765a92b96ba832225434084f91ccce0f7e432f1825f7ec220872cf7728325",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "battle-effect-group14-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/battle-effect-group14-pixel-ab-v1/runtime-evidence.json",
+    "sha256": "0ee561093ea098881d14f717a5e8300820d63af9707aa18006a7663f4dde2c64"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": "b9350ccd03508af44c7f22494135ba28a377caf3367e1ab2d8b8f6e8614b06e0",
+    "bbox": [
+      173,
+      54,
+      173,
+      54
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": "a25cae1d568d2fb7b7c72bf9c956bdac71ca3a915fc7f1458c13d9750be1fb89",
+    "changed_pixel_count": 1,
+    "source_path": "runtime.pixels"
+  },
+  "family": "battle-effect-group14-pixel-ab-v1",
+  "local_anchors": [],
+  "manifest": "artifacts/battle-effect-group14-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "74261b05f61b160dcbdd181eb94db56fdb6d3457716d19258394f4b6e2da2e75",
+  "reverse_file_hashes": {
+    "raw/baseline/audit.json": "3ce08b73be3504e41b7fb41013c124be11b70bc7005621d8c622cefe77fd4ebd",
+    "raw/baseline/frame516.png": "c1c765a92b96ba832225434084f91ccce0f7e432f1825f7ec220872cf7728325",
+    "raw/baseline/frame516.ss9": "0ec02a2eda478e3afbd571962ef90c54ca8703242e67390a28eda619584ad9a0",
+    "raw/baseline/group-14-graphics-4bpp.bin": "878505bd0d11d88fb0c72d9feeee8c4604625985cf9e496a3becb21a5165e867",
+    "raw/baseline/guard.json": "1abf01b161c5859eb560e1ab643fb0bdf4eb1f07b89073c30e75639fae4655fd",
+    "raw/baseline/sentinel.json": "3ce08b73be3504e41b7fb41013c124be11b70bc7005621d8c622cefe77fd4ebd",
+    "raw/baseline/spec.json": "43ec1dabc5265c1bfaceabb6ae0b1cb8e4de700e6d898d1e1e2e56d4652b3cc1",
+    "raw/build-manifest.json": "47b3f99b597a4e64df4c59a45d76e1551c1289114159dd01adf0b25dd4b23163",
+    "raw/candidate/audit.json": "987983f7366c7280a26c8fdbf7bac41939dadb1b3e22757212e6ee3c6819d0c0",
+    "raw/candidate/frame516.png": "c8b4f655bdfd1e6b6a7f661abb79ce9088a357bfb6987930d2dcd3893e486580",
+    "raw/candidate/frame516.ss9": "02dc16774ced37bafdd503a66f3172ea3b4946454cdd5dd513eba3b5b87ab237",
+    "raw/candidate/group-14-graphics-4bpp.bin": "fd258e9ff64e3a39829b20ee65a0472db2965853a5b91faa17faa8949a3b7e3b",
+    "raw/candidate/guard.json": "df4dba74c0bef2c72e95d0c79fb46bc03de8117fbb6fa1521fd6cf37b4f1a10d",
+    "raw/candidate/sentinel.json": "987983f7366c7280a26c8fdbf7bac41939dadb1b3e22757212e6ee3c6819d0c0",
+    "raw/candidate/spec.json": "7c4bd7e4ef4c832bbc609e7e0b3b210be8d289dcc3d419cd4c5e549c10ea824b",
+    "runtime-evidence.json": "0ee561093ea098881d14f717a5e8300820d63af9707aa18006a7663f4dde2c64"
+  },
+  "scope": {
+    "all_18_effect_groups_runtime_verified": false,
+    "all_group_frames_runtime_verified": false,
+    "full_affine_blend_timing_audio_equivalence": false,
+    "natural_active_action_route": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "single_group_single_frame_single_pixel": true
+  },
+  "unavailable_local_inputs": [
+    "artifacts/runtime-checkpoints/scenario-47-fire-action16-confirmation.ss9",
+    "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group14-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "verified": true
+    }
+  }
+}

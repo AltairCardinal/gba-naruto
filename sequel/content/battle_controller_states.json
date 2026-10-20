@@ -1,0 +1,2267 @@
+{
+  "schema_version": 1,
+  "identity": "konoha.original_battle_controller_states",
+  "title": "原版战斗主控制器 38 态状态表与 38<->24 映射",
+  "implemented": false,
+  "implemented_note": "This table records what the original ROM does and how the remake phases line up with it. It does NOT mean the remake implements the original state machine: the remake still runs its own 24-value battle_scene_phase enum. Replacing that enum with the original state codes is a separate change owned by the butano-sequel/game/ lane.",
+  "boundary": "Scope: the battle-scene layer only -- the 16-bit dispatcher inside the original battle controller 0x080732B4..0x0807509C. The nested 0x0809xxxx presentation / message / event layer has its own dispatchers (separate reverse-tree artifact families) and is deliberately NOT covered here. No claim in this file may be pushed up to that nested chain, and no nested-chain result may be read back into this layer.",
+  "source": {
+    "artifact_family": "rom-battle-controller-cfg-v1",
+    "artifact_manifest": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+    "artifact_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+    "artifact_payload": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+    "artifact_payload_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+    "controller_sha256": "c9bdc220590a851fa331960bcb32be90eb9ac7248a5cd3dabb9f8afa0b674bc1",
+    "dispatcher_sha256": "43fe396227bb6815aeedd5c48783effdb842194634360999d3e42f0ee316e2b1",
+    "mapping_denominator_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+    "input_denominator": 65536,
+    "default_state_count": 65498,
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "per_item_assertion": "tests/test_export_rom_battle_controller_cfg.py",
+    "per_item_assertion_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+    "naming_source": "notes/battle-controller-states-20260723.json",
+    "naming_source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+    "naming_join_key": "entry_address",
+    "naming_join_note": "The 2026-07-23 inventory carries 36 states and its dispatcher decode disagrees with the signed 38-state denominator: three of its labels (0x1020, 0x3310, 0x9200) are proven non-existent by the per-item assertion, and its 0x1220 label points at the handler that the signed denominator calls 0x1210. Names are therefore joined by handler entry address, never by the legacy state label; the legacy label is kept per state for traceability.",
+    "reverse_root": "/Users/altair/github/gba-naruto-reverse"
+  },
+  "state_count": 38,
+  "named_count": 26,
+  "unknown_count": 12,
+  "named_states": [
+    "0x0000",
+    "0x1100",
+    "0x1210",
+    "0x1300",
+    "0x2000",
+    "0x2010",
+    "0x3000",
+    "0x3110",
+    "0x3210",
+    "0x3300",
+    "0x4000",
+    "0x4100",
+    "0x5000",
+    "0x6000",
+    "0x7000",
+    "0x8000",
+    "0x9000",
+    "0x9100",
+    "0x9110",
+    "0xD000",
+    "0xE010",
+    "0xF000",
+    "0xF100",
+    "0xF200",
+    "0xF300",
+    "0xF400"
+  ],
+  "unknown_states": [
+    "0x0010",
+    "0x1000",
+    "0x1200",
+    "0x1220",
+    "0x3100",
+    "0x3200",
+    "0x3220",
+    "0x8010",
+    "0xA000",
+    "0xB000",
+    "0xC000",
+    "0xE000"
+  ],
+  "remake_phase_count": 24,
+  "remake_only_phases": [
+    "level_up",
+    "error",
+    "script_blocked",
+    "training"
+  ],
+  "original_only_states": [
+    "0x0010",
+    "0x1000",
+    "0x1100",
+    "0x1200",
+    "0x1220",
+    "0x3100",
+    "0x3200",
+    "0x3220",
+    "0x5000",
+    "0x6000",
+    "0x8010",
+    "0xA000",
+    "0xB000",
+    "0xC000",
+    "0xD000",
+    "0xE000",
+    "0xE010"
+  ],
+  "states": [
+    {
+      "state": 0,
+      "state_hex": "0x0000",
+      "entry_address": "0x080735CA",
+      "entry_sha256": "3863ad7357c018ed8ddd79f650770289127e0aa49be65db5281359b1f1f6c18a",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080735CA",
+        "end": "0x08073638",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "battlefield_entry_sequence",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "scenario-41 controller-entry task resumes directly at 0x08073616",
+      "legacy_label": "0x0000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "preparation"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x0000: 0x735CA,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "scenario-41 controller-entry task resumes directly at 0x08073616"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "controller_entry",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9",
+          "checkpoint_sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6",
+          "binding_kind": "direct_controller_resume",
+          "current_side": 1,
+          "current_unit": null,
+          "legacy_state_label": "0x0000"
+        }
+      ]
+    },
+    {
+      "state": 16,
+      "state_hex": "0x0010",
+      "entry_address": "0x08073638",
+      "entry_sha256": "484c15c853e7563d067d28096cd029250b38b1c80d5a65f95e59f15e05ffe238",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08073638",
+        "end": "0x0807364A",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0x0010",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x08073638, 0x0807364A). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x0010: 0x73638,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 4096,
+      "state_hex": "0x1000",
+      "entry_address": "0x0807364A",
+      "entry_sha256": "fd97763ae5e35a9133d02a0a384c7b1734fa50ca518cd41d9f749193fe3766e4",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x0807364A",
+        "end": "0x0807367C",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0x1000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x0807364A, 0x0807367C). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x1000: 0x7364A,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 4352,
+      "state_hex": "0x1100",
+      "entry_address": "0x0807367C",
+      "entry_sha256": "dae5c8f0aee4436b61b01d472df78215f2a58ef7c5bc3a0e922f5157a1d0c339",
+      "entry_size": 4,
+      "reachable_instruction_count": 3,
+      "frame_interval": {
+        "start": "0x0807367C",
+        "end": "0x080736B0",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "side_end_status_duration_tick",
+      "name_status": "named",
+      "name_source": "notes/battle-status-expiry-bindings-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_runtime",
+      "quote": "At state 0x1100 the original ROM decrements every active status duration for units 1 through 12 before toggling sides. Duration 2 becomes 1 and remains active; duration 1 reaches zero and the complete slot is removed.",
+      "legacy_label": "0x1100",
+      "legacy_label_matches_cfg": true,
+      "handler_range": {
+        "start": "0x0807367C",
+        "end": "0x0807368C",
+        "sha256": "2a0c42d909bf81f19ce2246cc1ce386bc70e97bbcf95ab0842263770d4758622",
+        "source": "notes/battlefield-object-effect-chain-bindings-20260802.json",
+        "source_root": "reverse",
+        "source_sha256": "2340c141505e17d843f9cfc18eac46cec30aca5ae4829654958abf24dbdee1b1"
+      },
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x1100: 0x7367C,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        },
+        {
+          "kind": "static_status_tick_claim",
+          "source": "notes/battle-status-expiry-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "89b79ea04d4bf9a5a3bf8629b5e4260a0aea059d9501f6c7ca4c7202bbd37c70",
+          "quote": "At state 0x1100 the original ROM decrements every active status duration for units 1 through 12 before toggling sides. Duration 2 becomes 1 and remains active; duration 1 reaches zero and the complete slot is removed."
+        },
+        {
+          "kind": "handler_range",
+          "source": "notes/battlefield-object-effect-chain-bindings-20260802.json",
+          "source_root": "reverse",
+          "source_sha256": "2340c141505e17d843f9cfc18eac46cec30aca5ae4829654958abf24dbdee1b1",
+          "quote": "\"side_end_controller\": {\n      \"end\": \"0x0807368C\",\n      \"sha256\": \"2a0c42d909bf81f19ce2246cc1ce386bc70e97bbcf95ab0842263770d4758622\",\n      \"start\": \"0x0807367C\"\n    }"
+        }
+      ]
+    },
+    {
+      "state": 4608,
+      "state_hex": "0x1200",
+      "entry_address": "0x080736B0",
+      "entry_sha256": "90a9471806db088790fe5f71ae0e36cafb6b2770685dccf3b0f9292985b177bd",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080736B0",
+        "end": "0x080736F8",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0x1200",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x080736B0, 0x080736F8). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x1200: 0x736B0,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 4624,
+      "state_hex": "0x1210",
+      "entry_address": "0x080736F8",
+      "entry_sha256": "88afecfab39ae65b0608e242da884da36d494e6986dab7924cc5b97403d066b9",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080736F8",
+        "end": "0x080737E6",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "round_transition_script",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "scenario-41 round tutorial checkpoint has a validated 0x08073780 controller frame",
+      "legacy_label": "0x1220",
+      "legacy_label_matches_cfg": false,
+      "handler_range": null,
+      "remake_phases": [
+        "turn_banner"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x1210: 0x736F8,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "scenario-41 round tutorial checkpoint has a validated 0x08073780 controller frame"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "round_tutorial_dialogue",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-turn-1-complete.ss9",
+          "checkpoint_sha256": "a9e255d86f983c0b6d062aee2467674d89685d8ca88896e2f2fefe6b3a7e5ae5",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": null,
+          "legacy_state_label": "0x1220"
+        }
+      ]
+    },
+    {
+      "state": 4640,
+      "state_hex": "0x1220",
+      "entry_address": "0x080737E6",
+      "entry_sha256": "c931832f082787d11c896c97508428f09f80c467ea44909db483052e92ed3239",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080737E6",
+        "end": "0x080738C0",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": null,
+      "legacy_label_matches_cfg": null,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory only holds 36 states and does not contain this handler at all, so it never carried a name for it. Missing: the same two items as the other unnamed states -- a handler-level static claim and a hash-bound runtime checkpoint whose controller frame lands in [0x080737E6, 0x080738C0).",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x1220: 0x737E6,"
+        },
+        {
+          "kind": "state_inventory_missing",
+          "source": "notes/battle-system-restoration-evidence-20260723.md",
+          "source_root": "local",
+          "source_sha256": "c92a0a576987645bc32a7908f71fb0444ca1c425850767bf53e9684be877dd1c",
+          "quote": "分派值共 36 个，从 `0x0000` 到 `0xF400`；每项保存入口地址和 16 字节前缀；"
+        }
+      ]
+    },
+    {
+      "state": 4864,
+      "state_hex": "0x1300",
+      "entry_address": "0x080738C0",
+      "entry_sha256": "0f238745c21b676eb3c0cd1d4779f7f2563e546f3e33af593d5d997074ca0574",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080738C0",
+        "end": "0x08073940",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "side_scheduler",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_runtime",
+      "quote": "0x080738C0 scans unit slots 1..12 by affiliation/status",
+      "legacy_label": "0x1300",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "enemy_turn"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x1300: 0x738C0,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x080738C0 scans unit slots 1..12 by affiliation/status"
+        }
+      ]
+    },
+    {
+      "state": 8192,
+      "state_hex": "0x2000",
+      "entry_address": "0x08073940",
+      "entry_sha256": "16335969330eb68b88771c641f3416ee6c24931a95398d6de429a0f0496c83b8",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08073940",
+        "end": "0x080739D0",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "player_unit_selection",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_runtime",
+      "quote": "0x08073940 opens selector input and validates the selected unit",
+      "legacy_label": "0x2000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "unit_selection"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x2000: 0x73940,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08073940 opens selector input and validates the selected unit"
+        }
+      ]
+    },
+    {
+      "state": 8208,
+      "state_hex": "0x2010",
+      "entry_address": "0x080739D0",
+      "entry_sha256": "4ff80d5d386bef1bf97a4e3c04ea961522078ccc4e4239037b1ffb5de5dae274",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080739D0",
+        "end": "0x08073A04",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "current_unit_activation",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "partial_static",
+      "quote": "0x080739D0 dereferences selected slot and initializes the current unit UI",
+      "legacy_label": "0x1020",
+      "legacy_label_matches_cfg": false,
+      "handler_range": null,
+      "remake_phases": [
+        "unit_selection"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x2010: 0x739D0,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x080739D0 dereferences selected slot and initializes the current unit UI"
+        }
+      ]
+    },
+    {
+      "state": 12288,
+      "state_hex": "0x3000",
+      "entry_address": "0x08073A04",
+      "entry_sha256": "18a01c3803a67fe610d3df4677e71b1389e45ac231da16894178d51aa5b48bbb",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08073A04",
+        "end": "0x08073B84",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "unit_action_menu",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "0x08073A04 dispatches on current-unit +0xC0 action-category bits",
+      "legacy_label": "0x3000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "action_selection",
+        "chakra_selection",
+        "combination_decision",
+        "command_selection",
+        "end_confirmation"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x3000: 0x73A04,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08073A04 dispatches on current-unit +0xC0 action-category bits"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "action_menu_initial",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-0.ss9",
+          "checkpoint_sha256": "863737740529a3fbd74931acdbc6eca822e4d01c09772e11a5800ab0097537ab",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 4,
+            "position_y": 10,
+            "action_flags": "0x00000100"
+          },
+          "legacy_state_label": "0x3000"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "end_action_confirmation",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-end-confirmation.ss9",
+          "checkpoint_sha256": "6ddd7ada5ac3e58f7b3b634f40b87dbae31273487d2d31a4f37f26e739601b4a",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 4,
+            "position_y": 10,
+            "action_flags": "0x00000100"
+          },
+          "legacy_state_label": "0x3000"
+        }
+      ]
+    },
+    {
+      "state": 12544,
+      "state_hex": "0x3100",
+      "entry_address": "0x08073B84",
+      "entry_sha256": "ce5ebc29f28dba630107d4993688023fb79b7432653ea84eddd7dcf0bea816cf",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08073B84",
+        "end": "0x08073BA8",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0x3100",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x08073B84, 0x08073BA8). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x3100: 0x73B84,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 12560,
+      "state_hex": "0x3110",
+      "entry_address": "0x08073BA8",
+      "entry_sha256": "d2d6e177db1022be70a0415aa11f1572b8e286c72e67e3609150d4632670296a",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08073BA8",
+        "end": "0x08073E14",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "player_move_selection",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "scenario-41 selectable movement grid binds through 0x08073C88 -> 0x0806F718",
+      "legacy_label": "0x3110",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "move_selection"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x3110: 0x73BA8,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "scenario-41 selectable movement grid binds through 0x08073C88 -> 0x0806F718"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "player_move_selection",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-player-turn.ss9",
+          "checkpoint_sha256": "ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 4,
+            "position_y": 10,
+            "action_flags": "0x00000100"
+          },
+          "legacy_state_label": "0x3110"
+        }
+      ]
+    },
+    {
+      "state": 12800,
+      "state_hex": "0x3200",
+      "entry_address": "0x08073E14",
+      "entry_sha256": "43574062e77bca2bf8011c0f0be37d3bb172ddf84f20f6c3cd7a28041d59bc78",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08073E14",
+        "end": "0x08073EB0",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0x3200",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x08073E14, 0x08073EB0). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x3200: 0x73E14,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 12816,
+      "state_hex": "0x3210",
+      "entry_address": "0x08073EB0",
+      "entry_sha256": "b91fc79a4f85fea6e1652e836428b2969095d49e6e35f39e21011925aa599e20",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08073EB0",
+        "end": "0x08074074",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "chakra_exchange_result",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "checkpoint_runtime_transaction",
+      "quote": "battle-15 single-input checkpoint crosses 0x3000 -> 0x3210",
+      "legacy_label": "0x3210",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "chakra_selection"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x3210: 0x73EB0,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "battle-15 single-input checkpoint crosses 0x3000 -> 0x3210"
+        }
+      ]
+    },
+    {
+      "state": 12832,
+      "state_hex": "0x3220",
+      "entry_address": "0x08074074",
+      "entry_sha256": "210b02d7f331349db71bb2055d4da4f8b0abde0eb90396ad4a0871e28baa9d1b",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074074",
+        "end": "0x080740D4",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0x3300",
+      "legacy_label_matches_cfg": false,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x08074074, 0x080740D4). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x3220: 0x74074,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 13056,
+      "state_hex": "0x3300",
+      "entry_address": "0x080740D4",
+      "entry_sha256": "88aa1f35f293dae41d32ef290c22f02151e55ec4d94cd1955f128ead663f810a",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080740D4",
+        "end": "0x0807410C",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "rest_confirmation",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "checkpoint_runtime_transaction",
+      "quote": "battle-13 checkpoint binds the rest confirmation immediately before commit",
+      "legacy_label": "0x3310",
+      "legacy_label_matches_cfg": false,
+      "handler_range": null,
+      "remake_phases": [
+        "rest_confirmation"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x3300: 0x740D4,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "battle-13 checkpoint binds the rest confirmation immediately before commit"
+        }
+      ]
+    },
+    {
+      "state": 16384,
+      "state_hex": "0x4000",
+      "entry_address": "0x0807410C",
+      "entry_sha256": "1491ffe3d746fe0680d2553f84280f181350d18ebdecdf9acce91e65b04cfa72",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x0807410C",
+        "end": "0x08074190",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "post_move_action_menu",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "scenario-41 action menu after movement binds through 0x08074132 -> 0x08067158",
+      "legacy_label": "0x4000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "command_selection"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x4000: 0x7410C,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "scenario-41 action menu after movement binds through 0x08074132 -> 0x08067158"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "action_menu_after_move",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-1.ss9",
+          "checkpoint_sha256": "21601d4d031b8c8d1147afd457267735fc42080a545fc5be16708d9f79f03d5b",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 4,
+            "position_y": 10,
+            "action_flags": "0x00000100"
+          },
+          "legacy_state_label": "0x4000"
+        }
+      ]
+    },
+    {
+      "state": 16640,
+      "state_hex": "0x4100",
+      "entry_address": "0x08074190",
+      "entry_sha256": "9fe4f52eee186fd7cb3bfca0d514b275a681319a5449bd2bf843dfa4242387a6",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074190",
+        "end": "0x08074200",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "technique_targeting",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "scenario-41 target selection and attack confirmation both bind through 0x08074192 -> 0x08070DF8",
+      "legacy_label": "0x4100",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "target_confirmation",
+        "target_preview",
+        "target_selection"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x4100: 0x74190,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "scenario-41 target selection and attack confirmation both bind through 0x08074192 -> 0x08070DF8"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "technique_target_selection",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-target-select.ss9",
+          "checkpoint_sha256": "fee59b98fa22b1f05d083f490566aaa690406c73ead0bd808522cc660497eafc",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 5,
+            "position_y": 6,
+            "action_flags": "0x00000100"
+          },
+          "legacy_state_label": "0x4100"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "attack_confirmation",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+          "checkpoint_sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 5,
+            "position_y": 6,
+            "action_flags": "0x00000100"
+          },
+          "legacy_state_label": "0x4100"
+        }
+      ]
+    },
+    {
+      "state": 20480,
+      "state_hex": "0x5000",
+      "entry_address": "0x08074200",
+      "entry_sha256": "d836d599db0d4e30d7a4f029cd8d5d3c7a1aba05a47992136e59b2fd4498c6ab",
+      "entry_size": 4,
+      "reachable_instruction_count": 44,
+      "frame_interval": {
+        "start": "0x08074200",
+        "end": "0x080742A4",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "side_completion_scan",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "partial_static",
+      "quote": "0x08074200 scans all active unit records and updates per-side state",
+      "legacy_label": "0x5000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x5000: 0x74200,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074200 scans all active unit records and updates per-side state"
+        }
+      ]
+    },
+    {
+      "state": 24576,
+      "state_hex": "0x6000",
+      "entry_address": "0x080742A4",
+      "entry_sha256": "678d958e5de2c3ed16b8ce43d23092d1052aa2c710b3e04931afdcaffc9c22dd",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080742A4",
+        "end": "0x080742E4",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "player_action_confirmation",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_control_flow",
+      "quote": "0x0807419E confirmation success in state 0x4100 assigns state 0x6000",
+      "legacy_label": "0x6000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x6000: 0x742A4,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x0807419E confirmation success in state 0x4100 assigns state 0x6000"
+        }
+      ]
+    },
+    {
+      "state": 28672,
+      "state_hex": "0x7000",
+      "entry_address": "0x080742E4",
+      "entry_sha256": "1d2fab2b85dfd26dc435ba359887021dabc792742243816f2cb704fe09b8d07e",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080742E4",
+        "end": "0x080743D4",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "enemy_action_preparation",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "0x080738CA sends non-player side directly to state 0x7000",
+      "legacy_label": "0x7000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "enemy_turn"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x7000: 0x742E4,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x080738CA sends non-player side directly to state 0x7000"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "scenario_45_enemy_planning",
+          "checkpoint": "build/scenario-45-round1-enemy-phase-20260719/pulse-01.ss9",
+          "checkpoint_sha256": "7db288e9a40d0af4797332b9562c47ffe0f76da1af25a6fbf6eb2233d814963d",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 1,
+          "current_unit": null,
+          "legacy_state_label": "0x7000"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "scenario_50_enemy_planning",
+          "checkpoint": "build/scenario-50-battle-15-round2-resource-route-20260720/k11-defense/output.ss9",
+          "checkpoint_sha256": "80c17bac1d199c71f7c438799e0104ba049b2c9d32a27fcf39fdab62553f1260",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 1,
+          "current_unit": null,
+          "legacy_state_label": "0x7000"
+        }
+      ]
+    },
+    {
+      "state": 32768,
+      "state_hex": "0x8000",
+      "entry_address": "0x080743D4",
+      "entry_sha256": "ead281da7cfa22c74eaa3da3b5b2c999a66d038ae90b907df5063e2fbafcc4e3",
+      "entry_size": 4,
+      "reachable_instruction_count": 43,
+      "frame_interval": {
+        "start": "0x080743D4",
+        "end": "0x08074510",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "action_resolution_and_outcome",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "combat dialogue binds through 0x0807443C -> 0x080722A8",
+      "legacy_label": "0x8000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "outcome"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x8000: 0x743D4,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "combat dialogue binds through 0x0807443C -> 0x080722A8"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "combat_dialogue",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-combat-dialogue.ss9",
+          "checkpoint_sha256": "3741a385a4473919243e9f3220f9cbdf79d590b8002107f71e22f67e6b74ab1c",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 6,
+            "position_y": 4,
+            "action_flags": "0x00000100"
+          },
+          "legacy_state_label": "0x8000"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "combat_result_popup",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9",
+          "checkpoint_sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 6,
+            "position_y": 4,
+            "action_flags": "0x00000110"
+          },
+          "legacy_state_label": "0x8000"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "victory_presentation",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-victory.ss9",
+          "checkpoint_sha256": "7a24a7a628c301493418d93e88ab239c0fbb6b77de139a67b91e8e0bcadf6200",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 6,
+            "position_y": 4,
+            "action_flags": "0x00000110"
+          },
+          "legacy_state_label": "0x8000"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "scenario_45_enemy_resolution",
+          "checkpoint": "build/scenario-45-round1-enemy-phase-20260719/pulse-02.ss9",
+          "checkpoint_sha256": "dffac7885997065f30b4beef23585fc6ad5fc9b3cff6b62ef2c79655391cece2",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 1,
+          "current_unit": {
+            "slot": 4,
+            "character_id": 7,
+            "affiliation": 1,
+            "action_state": 1,
+            "position_x": 5,
+            "position_y": 10,
+            "action_flags": "0x00000101"
+          },
+          "legacy_state_label": "0x8000"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "scenario_50_enemy_resolution",
+          "checkpoint": "build/scenario-50-battle-15-round2-resource-route-20260720/e1-wait/output.ss9",
+          "checkpoint_sha256": "2d3a63b3858b66033d3711d2720c4cfc9b8d5203f0acd243c15ccfb0a5428470",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 1,
+          "current_unit": {
+            "slot": 7,
+            "character_id": 35,
+            "affiliation": 1,
+            "action_state": 1,
+            "position_x": 7,
+            "position_y": 8,
+            "action_flags": "0x00000101"
+          },
+          "legacy_state_label": "0x8000"
+        }
+      ]
+    },
+    {
+      "state": 32784,
+      "state_hex": "0x8010",
+      "entry_address": "0x08074510",
+      "entry_sha256": "b9fe83a27fcdb1fe85fe5382982b0ed8407170ec41e479ea9b59033930b6d6e8",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074510",
+        "end": "0x08074550",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": null,
+      "legacy_label_matches_cfg": null,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory only holds 36 states and does not contain this handler at all, so it never carried a name for it. Missing: the same two items as the other unnamed states -- a handler-level static claim and a hash-bound runtime checkpoint whose controller frame lands in [0x08074510, 0x08074550).",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x8010: 0x74510,"
+        },
+        {
+          "kind": "state_inventory_missing",
+          "source": "notes/battle-system-restoration-evidence-20260723.md",
+          "source_root": "local",
+          "source_sha256": "c92a0a576987645bc32a7908f71fb0444ca1c425850767bf53e9684be877dd1c",
+          "quote": "分派值共 36 个，从 `0x0000` 到 `0xF400`；每项保存入口地址和 16 字节前缀；"
+        }
+      ]
+    },
+    {
+      "state": 36864,
+      "state_hex": "0x9000",
+      "entry_address": "0x08074550",
+      "entry_sha256": "1a54556d176d1c7b6bd0d567b0f9163ad4a9f66b1852dd42e51978fc248a04ff",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074550",
+        "end": "0x080747E0",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "facing_selection",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "scenario-41 facing checkpoint resumes directly at 0x080745A4",
+      "legacy_label": "0x9000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "facing_selection"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x9000: 0x74550,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "scenario-41 facing checkpoint resumes directly at 0x080745A4"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "facing_selection",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-first-movedone-facing.ss9",
+          "checkpoint_sha256": "1bc95c63cb11d469e4b2e80e8bae5a937f04ad40e18d7a15706fc261cb9ffb94",
+          "binding_kind": "direct_controller_resume",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 4,
+            "position_y": 10,
+            "action_flags": "0x00000110"
+          },
+          "legacy_state_label": "0x9000"
+        }
+      ]
+    },
+    {
+      "state": 37120,
+      "state_hex": "0x9100",
+      "entry_address": "0x080747E0",
+      "entry_sha256": "087dbfe56d309c291f1d91d646d0650c92ec45dc1f87e0920b01c77489f459d4",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080747E0",
+        "end": "0x08074834",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "defense_preparation",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "scenario-41 defense confirmation binds through 0x080747F4 -> 0x08067158",
+      "legacy_label": "0x9100",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "defense_decision"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x9100: 0x747E0,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "scenario-41 defense confirmation binds through 0x080747F4 -> 0x08067158"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "defense_confirmation",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-defense-confirmation.ss9",
+          "checkpoint_sha256": "695d14e7828251b6c908f8dc57a5f0e8951fc9cc877c22525479e2a687323fa3",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 4,
+            "position_y": 10,
+            "action_flags": "0x00000110"
+          },
+          "legacy_state_label": "0x9100"
+        }
+      ]
+    },
+    {
+      "state": 37136,
+      "state_hex": "0x9110",
+      "entry_address": "0x08074834",
+      "entry_sha256": "ce13d79d902a0a3f7b46ef1913fa9aa234530642888c1ce20ba5f786b3c8d720",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074834",
+        "end": "0x0807484E",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "technique_menu",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_checkpoint_runtime",
+      "quote": "scenario-41 technique detail/menu binds through 0x08074836 -> 0x08070DF8",
+      "legacy_label": "0x9200",
+      "legacy_label_matches_cfg": false,
+      "handler_range": null,
+      "remake_phases": [
+        "defense_selection"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0x9110: 0x74834,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "scenario-41 technique detail/menu binds through 0x08074836 -> 0x08070DF8"
+        },
+        {
+          "kind": "runtime_checkpoint",
+          "source": "notes/battle-controller-checkpoint-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "b12acafd034a842cbe135eb8c057305fba082466ffa4d80a21669f0274e98646",
+          "quote": "technique_menu",
+          "checkpoint": "artifacts/runtime-checkpoints/scenario-41-first-turn-technique-menu.ss9",
+          "checkpoint_sha256": "039030d6b754f66a07582356402c9eaf99832badaf0821939af4dbdc8e83c6c1",
+          "binding_kind": "validated_controller_ancestor",
+          "current_side": 0,
+          "current_unit": {
+            "slot": 1,
+            "character_id": 1,
+            "affiliation": 0,
+            "action_state": 255,
+            "position_x": 4,
+            "position_y": 10,
+            "action_flags": "0x00000110"
+          },
+          "legacy_state_label": "0x9200"
+        }
+      ]
+    },
+    {
+      "state": 40960,
+      "state_hex": "0xA000",
+      "entry_address": "0x0807484E",
+      "entry_sha256": "f52b8e493527c112618a8238cc6025e4506250e377b1accd88c200536847c362",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x0807484E",
+        "end": "0x08074870",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0xA000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x0807484E, 0x08074870). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xA000: 0x7484E,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 45056,
+      "state_hex": "0xB000",
+      "entry_address": "0x08074870",
+      "entry_sha256": "4631f1d6a96747bd2e53b6bedb25b2aae7eecf51862246e97b6cda63acdd9210",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074870",
+        "end": "0x080748AC",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0xB000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x08074870, 0x080748AC). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xB000: 0x74870,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 49152,
+      "state_hex": "0xC000",
+      "entry_address": "0x080748AC",
+      "entry_sha256": "8b4204c512f58520d5fa463c457b2dd999392bbbf801496d877659fba46237b2",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080748AC",
+        "end": "0x08074918",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0xC000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x080748AC, 0x08074918). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xC000: 0x748AC,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 53248,
+      "state_hex": "0xD000",
+      "entry_address": "0x08074918",
+      "entry_sha256": "50a57e3c6daf40c655678302a3d45296aff939bb35f99a7addd3cb9b3d4dcaf1",
+      "entry_size": 4,
+      "reachable_instruction_count": 0,
+      "frame_interval": {
+        "start": "0x08074918",
+        "end": "0x08074988",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "secondary_action_completion",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_runtime",
+      "quote": "0x08074918 calls the checked 0x080722A8 MOVEDONE queue",
+      "legacy_label": "0xD000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xD000: 0x74918,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074918 calls the checked 0x080722A8 MOVEDONE queue"
+        }
+      ]
+    },
+    {
+      "state": 57344,
+      "state_hex": "0xE000",
+      "entry_address": "0x08074988",
+      "entry_sha256": "8bec9186eb5bddabb8eada4d5a84f9db7b2b3ff21aeadc7f9b66d1402fdcf721",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074988",
+        "end": "0x080749CC",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": null,
+      "name_status": "unknown",
+      "name_source": null,
+      "name_source_root": "reverse",
+      "semantic_status": null,
+      "quote": null,
+      "legacy_label": "0xE000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": "The 2026-07-23 state inventory carries this dispatcher state and its entry address only (\"behavior not yet named\"). Missing: a handler-level static claim that says what the handler reads or writes, and at least one hash-bound runtime checkpoint whose controller frame lands in [0x08074988, 0x080749CC). Until both exist this state must stay unnamed.",
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xE000: 0x74988,"
+        },
+        {
+          "kind": "state_inventory_unresolved",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "dispatcher state and entry address only; behavior not yet named"
+        }
+      ]
+    },
+    {
+      "state": 57360,
+      "state_hex": "0xE010",
+      "entry_address": "0x080749CC",
+      "entry_sha256": "55eb0d6cb9e669f7b4d2e737b46f2956f050c5c2eacc438336582cbd9cabb84e",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x080749CC",
+        "end": "0x08074A98",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "victory_exit_check",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "partial_static",
+      "quote": "0x080749CC calls 0x0807305C before scanning active unit records",
+      "legacy_label": "0xE010",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [],
+      "mapping_status": "original_only",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xE010: 0x749CC,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x080749CC calls 0x0807305C before scanning active unit records"
+        }
+      ]
+    },
+    {
+      "state": 61440,
+      "state_hex": "0xF000",
+      "entry_address": "0x08074A98",
+      "entry_sha256": "4a2834669492bc337316bcc9bbd97a1fdcd66ebacdf95fc19d83006980884149",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074A98",
+        "end": "0x08074C2E",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "result_state_router",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "partial_static",
+      "quote": "0x08074A98 routes result substate 0..3 to 0xF100..0xF400",
+      "legacy_label": "0xF000",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "result"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xF000: 0x74A98,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074A98 routes result substate 0..3 to 0xF100..0xF400"
+        }
+      ]
+    },
+    {
+      "state": 61696,
+      "state_hex": "0xF100",
+      "entry_address": "0x08074C2E",
+      "entry_sha256": "502c19e5aeac3295c233fca78efdb20edc79f56096d5c6f8813dffdeb5d205c9",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074C2E",
+        "end": "0x08074C7C",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "result_page_setup",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "partial_static",
+      "quote": "0x08074C2E initializes result UI state",
+      "legacy_label": "0xF100",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "result"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xF100: 0x74C2E,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074C2E initializes result UI state"
+        }
+      ]
+    },
+    {
+      "state": 61952,
+      "state_hex": "0xF200",
+      "entry_address": "0x08074C7C",
+      "entry_sha256": "79c811af91d1039f77edfe6d226ff7d7f40958c11747e1374b6f349c84a55625",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074C7C",
+        "end": "0x08074E48",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "result_unit_enumeration",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "partial_static",
+      "quote": "0x08074C7C enumerates active slots before result presentation",
+      "legacy_label": "0xF200",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "result"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xF200: 0x74C7C,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074C7C enumerates active slots before result presentation"
+        }
+      ]
+    },
+    {
+      "state": 62208,
+      "state_hex": "0xF300",
+      "entry_address": "0x08074E48",
+      "entry_sha256": "dd28004967999818ee3b23396cf6a27b9f63d75808b56e53e49e8ebbf4a407e5",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074E48",
+        "end": "0x08074EE6",
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "result_transition",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "partial_static",
+      "quote": "0x08074E48 performs the bounded result-to-postbattle transition",
+      "legacy_label": "0xF300",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "result"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xF300: 0x74E48,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074E48 performs the bounded result-to-postbattle transition"
+        }
+      ]
+    },
+    {
+      "state": 62464,
+      "state_hex": "0xF400",
+      "entry_address": "0x08074EE6",
+      "entry_sha256": "9e50315cb47471f7a2b23e155befd0ab63a3f440866bf3b61479ea1f9833b306",
+      "entry_size": 4,
+      "reachable_instruction_count": 2756,
+      "frame_interval": {
+        "start": "0x08074EE6",
+        "end": null,
+        "note": "handler entry interval; the 2026-07-23 inventory could not separate states that share one interval"
+      },
+      "name": "postbattle",
+      "name_status": "named",
+      "name_source": "notes/battle-controller-states-20260723.json",
+      "name_source_root": "reverse",
+      "semantic_status": "static_plus_runtime",
+      "quote": "0x08074EE6 enters the official postbattle/save wrapper",
+      "legacy_label": "0xF400",
+      "legacy_label_matches_cfg": true,
+      "handler_range": null,
+      "remake_phases": [
+        "complete"
+      ],
+      "mapping_status": "mapped",
+      "missing_evidence": null,
+      "evidence": [
+        {
+          "kind": "dispatcher_denominator",
+          "source": "tests/test_export_rom_battle_controller_cfg.py",
+          "source_root": "reverse",
+          "source_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+          "quote": "0xF400: 0x74EE6,"
+        },
+        {
+          "kind": "state_inventory_claim",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074EE6 enters the official postbattle/save wrapper"
+        }
+      ]
+    }
+  ],
+  "mapping": [
+    {
+      "remake_phase": "preparation",
+      "original_states": [
+        "0x0000"
+      ],
+      "status": "direct",
+      "note": "原版战场入口任务（resume 0x08073616）；重制用 preparation 表示加载完成后的起始相。"
+    },
+    {
+      "remake_phase": "unit_selection",
+      "original_states": [
+        "0x2000",
+        "0x2010"
+      ],
+      "status": "direct",
+      "note": "原版先在 0x2000 浏览玩家单位 roster（A 确认后由 0x2010 激活当前单位）；重制合并成一个 unit_selection。"
+    },
+    {
+      "remake_phase": "move_selection",
+      "original_states": [
+        "0x3110"
+      ],
+      "status": "direct",
+      "note": "原版 0x3110 打开可移动格选择，checkpoint 绑定 0x08073C88 -> 0x0806F718。"
+    },
+    {
+      "remake_phase": "command_selection",
+      "original_states": [
+        "0x3000",
+        "0x4000"
+      ],
+      "status": "sub_phase",
+      "note": "原版只有一个按 unit+0xC0 行动类别位分派的菜单态（0x3000）与移动后的精简菜单（0x4000）；重制把同一菜单拆成 command_selection / action_selection / chakra_selection / combination_decision 四个相。"
+    },
+    {
+      "remake_phase": "chakra_selection",
+      "original_states": [
+        "0x3000",
+        "0x3210"
+      ],
+      "status": "sub_phase",
+      "note": "查克拉数量在 0x3000 菜单内选择，0x3210 是提交后的查克拉资源交换结果态。"
+    },
+    {
+      "remake_phase": "rest_confirmation",
+      "original_states": [
+        "0x3300"
+      ],
+      "status": "direct",
+      "note": "原版休息确认在 0x3300（2026-07-23 库存把它标成 0x3310，因为那一版只解出了 36 态），确认后跨到回合过渡脚本（见转移表 rest_confirmation_commit）。"
+    },
+    {
+      "remake_phase": "action_selection",
+      "original_states": [
+        "0x3000"
+      ],
+      "status": "sub_phase",
+      "note": "0x3000 内按 unit+0xC0 行动类别位选择具体行动；重制把它单独拆成一个相。"
+    },
+    {
+      "remake_phase": "combination_decision",
+      "original_states": [
+        "0x3000"
+      ],
+      "status": "sub_phase",
+      "note": "连携决定同样落在 0x3000 的行动类别分派里；原版没有独立顶层态。"
+    },
+    {
+      "remake_phase": "target_selection",
+      "original_states": [
+        "0x4100"
+      ],
+      "status": "direct",
+      "note": "原版 0x4100 同时承载目标选择与攻击确认，checkpoint 绑定 0x08074192 -> 0x08070DF8。"
+    },
+    {
+      "remake_phase": "target_preview",
+      "original_states": [
+        "0x4100"
+      ],
+      "status": "sub_phase",
+      "note": "目标预览在原版共享的嵌套控制器内，没有独立顶层态。"
+    },
+    {
+      "remake_phase": "target_confirmation",
+      "original_states": [
+        "0x4100"
+      ],
+      "status": "sub_phase",
+      "note": "目标确认在 0x4100 内；确认成功后原版会经过独立的 0x6000 提交门，重制没有对应相。"
+    },
+    {
+      "remake_phase": "facing_selection",
+      "original_states": [
+        "0x9000"
+      ],
+      "status": "direct",
+      "note": "原版 0x9000 消费方向输入并写当前单位朝向，checkpoint 直接 resume 0x080745A4。"
+    },
+    {
+      "remake_phase": "defense_decision",
+      "original_states": [
+        "0x9100"
+      ],
+      "status": "direct",
+      "note": "原版 0x9100 是防御准备提示（checkpoint 绑定 0x080747F4 -> 0x08067158）。"
+    },
+    {
+      "remake_phase": "defense_selection",
+      "original_states": [
+        "0x9110"
+      ],
+      "status": "sub_phase",
+      "note": "原版防御准备复用通用动作浏览器 0x9110，并在该态的确认边界重新判定类别。"
+    },
+    {
+      "remake_phase": "enemy_turn",
+      "original_states": [
+        "0x1300",
+        "0x7000"
+      ],
+      "status": "direct",
+      "note": "0x1300 阵营调度在当前阵营非玩家侧时直接转 0x7000；0x7000 是敌方行动准备。"
+    },
+    {
+      "remake_phase": "outcome",
+      "original_states": [
+        "0x8000"
+      ],
+      "status": "direct",
+      "note": "原版 0x8000 是玩家与 AI 共用的解析/结果链（对白、结果弹窗、胜利演出都在此态内）。"
+    },
+    {
+      "remake_phase": "result",
+      "original_states": [
+        "0xF000",
+        "0xF100",
+        "0xF200",
+        "0xF300"
+      ],
+      "status": "direct",
+      "note": "0xF000 是结果路由器，按 result substate 0..3 分派到 0xF100 / 0xF200 / 0xF300。"
+    },
+    {
+      "remake_phase": "level_up",
+      "original_states": [],
+      "status": "remake_only",
+      "note": "原版 38 态里没有闭合的独立升级顶层态；0xD000（次级行动完成）与 0xE010（胜负/退出检查）的语义没有闭合到「升级」，不得凭印象对应。"
+    },
+    {
+      "remake_phase": "complete",
+      "original_states": [
+        "0xF400"
+      ],
+      "status": "direct",
+      "note": "原版 0xF400 进入官方 postbattle/save 包装。"
+    },
+    {
+      "remake_phase": "error",
+      "original_states": [],
+      "status": "remake_only",
+      "note": "原版 38 态没有错误态；未覆盖的输入走默认分支（default_target 479310）。"
+    },
+    {
+      "remake_phase": "script_blocked",
+      "original_states": [],
+      "status": "remake_only",
+      "note": "重制的 script_blocked 是脚本失败/阻塞态；原版 0x1210 是回合过渡脚本（推进态，不是阻塞失败），两者语义不同，不能合并。"
+    },
+    {
+      "remake_phase": "training",
+      "original_states": [],
+      "status": "remake_only",
+      "note": "原版 38 态里没有训练态；训练是重制侧自加的流程。"
+    },
+    {
+      "remake_phase": "end_confirmation",
+      "original_states": [
+        "0x3000"
+      ],
+      "status": "sub_phase",
+      "note": "原版行动结束确认在 0x3000 菜单内（checkpoint 绑定 0x08073A82 -> 0x08067158）。"
+    },
+    {
+      "remake_phase": "turn_banner",
+      "original_states": [
+        "0x1210"
+      ],
+      "status": "candidate",
+      "note": "原版 0x1210 已闭合的内容是回合边界对白/脚本，横幅本身没有独立状态；候选对应但未闭合，不作定论。"
+    }
+  ]
+}

@@ -1,0 +1,1804 @@
+{
+  "schema": "story-visual-resource-relocation-audit-v1",
+  "base_rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "layout": {
+    "path": "sequel/rom-layout.json",
+    "sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "target_rom_size": 16777216,
+    "partition": "sequel-image-assets",
+    "owner": "sequel_image_assets"
+  },
+  "region_registry": {
+    "path": "sequel/image-resource-regions.json",
+    "sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "region": "story-visual-layers",
+    "owner": "story_visual_resources",
+    "start": 11862016,
+    "end": 11997184
+  },
+  "catalog": {
+    "path": "artifacts/story-visual-layers-v1/manifest.json",
+    "sha256": "556a7319ce57699e2542c578ce0bd1331b93efda58fde1f364271f12f5052fd8"
+  },
+  "source_artifact": {
+    "path": "artifacts/story-visual-resource-sources-v1",
+    "manifest_sha256": "6a6aebe1cc1b9a37b8651309d461550cb13d36e319b587a8dbf657ebcc1ea1cc",
+    "payload_sha256": "8b8d07777832498c4cf63c8c986ba1667becd3fd3a6738d0d027998ee61f2a61"
+  },
+  "linked_tile_assets": {
+    "table_offset": 5911052,
+    "entry_count": 79,
+    "entry_size": 68,
+    "table_sha256": "0db18948a6619ac723bebc60f9c2b79f1fea1786c6e80db389064c5f07655f73",
+    "relationship": "config_id only; no linked descriptor is patched"
+  },
+  "authoring_spec": {
+    "file": "full-relocation-spec.json",
+    "sha256": "db7993714aa96e481542620d1de2e4c12a5e095415442344bcf5d64e3eb85b94"
+  },
+  "implementation": {
+    "tools/import_story_visual_resource_relocations.py": "439f4ce6cdcf7d40ea57485112f058d1d343f26c41e201c193774e4957312eeb",
+    "tools/export_story_visual_resource_sources.py": "c2a88ad8413030f9ab6cd99595f08f10d4893dec9d7d86fc131697dc75679fd1",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_story_visual_resource_relocation_audit.py": "065888653c2146d8001a677eb4796a52ec517d8aa33fc90be4fec88b028f3d14",
+    "tools/verify_story_visual_resource_relocation_audit.py": "693761efd28871b5b856602a83328aff147f6420411cfa424e7449683daddd93",
+    "tools/export_story_visual_layers.py": "25aa675326b0a441883b7b0f9c0ac96aec54a9481e58971d2938da74d3310a78",
+    "tools/verify_story_visual_layer_export.py": "afe74d4b65fded6d867c987bc6a0c2df021a5334460fc146e320654f6bf83a99"
+  },
+  "summary": {
+    "layer_count": 24,
+    "content_resource_count": 49,
+    "physical_payload_count": 72,
+    "logical_pointer_count": 72,
+    "unexpected_pointer_count": 0,
+    "allocation_count": 49,
+    "pointer_patch_count": 72,
+    "allocation_start": 11862016,
+    "allocation_end": 11918661,
+    "region_end": 11997184,
+    "stored_payload_bytes": 56585,
+    "allocation_span": 56645,
+    "remaining_bytes": 78523,
+    "applied_patch_count": 121
+  },
+  "resources": [
+    {
+      "id": "story-visual-graphics-000",
+      "resource_type": "graphics",
+      "resource_sha256": "eebb3c181bd2c146fcdab6d46aea34cb1765409c9d15cc282715dafd3b128399",
+      "replacement_sha256": "eebb3c181bd2c146fcdab6d46aea34cb1765409c9d15cc282715dafd3b128399",
+      "decompressed_size": 1248,
+      "encoded_size": 790,
+      "new_pointer": 146079744,
+      "offset": 11862016,
+      "physical_offsets": [
+        1245008
+      ],
+      "all_pointer_offsets": [
+        5513884
+      ],
+      "target_pointer_offsets": [
+        5513884
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 0,
+          "config_id": 4,
+          "descriptor_file_offset": 5513884,
+          "table_pointer_offset": 5513884,
+          "physical_offset": 1245008,
+          "source_pointer": 135462736
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/eebb3c181bd2c146fcdab6d46aea34cb1765409c9d15cc282715dafd3b128399.4bpp.bin"
+    },
+    {
+      "id": "story-visual-palette-001",
+      "resource_type": "palette",
+      "resource_sha256": "5b4a67a7354e94cd7f8f99541ceaf43bdf2a978d5783b77b0d9c46c91432ce35",
+      "replacement_sha256": "5b4a67a7354e94cd7f8f99541ceaf43bdf2a978d5783b77b0d9c46c91432ce35",
+      "decompressed_size": 32,
+      "encoded_size": 40,
+      "new_pointer": 146080536,
+      "offset": 11862808,
+      "physical_offsets": [
+        1245800,
+        1248560,
+        1251220,
+        1254052,
+        1256352,
+        1259792,
+        1262792,
+        1264156,
+        1266508,
+        1268832,
+        1270856,
+        1272872,
+        1275244,
+        1278260,
+        1281868,
+        1284716,
+        1288784,
+        1290168,
+        1291840,
+        1293960,
+        1295676,
+        1297268,
+        1299468,
+        1302064
+      ],
+      "all_pointer_offsets": [
+        5513888,
+        5513904,
+        5513920,
+        5513936,
+        5513952,
+        5513968,
+        5513984,
+        5514000,
+        5514016,
+        5514032,
+        5514048,
+        5514064,
+        5514080,
+        5514096,
+        5514112,
+        5514128,
+        5514144,
+        5514160,
+        5514176,
+        5514192,
+        5514208,
+        5514224,
+        5514240,
+        5514256
+      ],
+      "target_pointer_offsets": [
+        5513888,
+        5513904,
+        5513920,
+        5513936,
+        5513952,
+        5513968,
+        5513984,
+        5514000,
+        5514016,
+        5514032,
+        5514048,
+        5514064,
+        5514080,
+        5514096,
+        5514112,
+        5514128,
+        5514144,
+        5514160,
+        5514176,
+        5514192,
+        5514208,
+        5514224,
+        5514240,
+        5514256
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 0,
+          "config_id": 4,
+          "descriptor_file_offset": 5513884,
+          "table_pointer_offset": 5513888,
+          "physical_offset": 1245800,
+          "source_pointer": 135463528
+        },
+        {
+          "layer_id": 1,
+          "config_id": 10,
+          "descriptor_file_offset": 5513900,
+          "table_pointer_offset": 5513904,
+          "physical_offset": 1248560,
+          "source_pointer": 135466288
+        },
+        {
+          "layer_id": 2,
+          "config_id": 14,
+          "descriptor_file_offset": 5513916,
+          "table_pointer_offset": 5513920,
+          "physical_offset": 1251220,
+          "source_pointer": 135468948
+        },
+        {
+          "layer_id": 3,
+          "config_id": 24,
+          "descriptor_file_offset": 5513932,
+          "table_pointer_offset": 5513936,
+          "physical_offset": 1254052,
+          "source_pointer": 135471780
+        },
+        {
+          "layer_id": 4,
+          "config_id": 17,
+          "descriptor_file_offset": 5513948,
+          "table_pointer_offset": 5513952,
+          "physical_offset": 1256352,
+          "source_pointer": 135474080
+        },
+        {
+          "layer_id": 5,
+          "config_id": 18,
+          "descriptor_file_offset": 5513964,
+          "table_pointer_offset": 5513968,
+          "physical_offset": 1259792,
+          "source_pointer": 135477520
+        },
+        {
+          "layer_id": 6,
+          "config_id": 21,
+          "descriptor_file_offset": 5513980,
+          "table_pointer_offset": 5513984,
+          "physical_offset": 1262792,
+          "source_pointer": 135480520
+        },
+        {
+          "layer_id": 7,
+          "config_id": 25,
+          "descriptor_file_offset": 5513996,
+          "table_pointer_offset": 5514000,
+          "physical_offset": 1264156,
+          "source_pointer": 135481884
+        },
+        {
+          "layer_id": 8,
+          "config_id": 29,
+          "descriptor_file_offset": 5514012,
+          "table_pointer_offset": 5514016,
+          "physical_offset": 1266508,
+          "source_pointer": 135484236
+        },
+        {
+          "layer_id": 9,
+          "config_id": 28,
+          "descriptor_file_offset": 5514028,
+          "table_pointer_offset": 5514032,
+          "physical_offset": 1268832,
+          "source_pointer": 135486560
+        },
+        {
+          "layer_id": 10,
+          "config_id": 34,
+          "descriptor_file_offset": 5514044,
+          "table_pointer_offset": 5514048,
+          "physical_offset": 1270856,
+          "source_pointer": 135488584
+        },
+        {
+          "layer_id": 11,
+          "config_id": 76,
+          "descriptor_file_offset": 5514060,
+          "table_pointer_offset": 5514064,
+          "physical_offset": 1272872,
+          "source_pointer": 135490600
+        },
+        {
+          "layer_id": 12,
+          "config_id": 30,
+          "descriptor_file_offset": 5514076,
+          "table_pointer_offset": 5514080,
+          "physical_offset": 1275244,
+          "source_pointer": 135492972
+        },
+        {
+          "layer_id": 13,
+          "config_id": 47,
+          "descriptor_file_offset": 5514092,
+          "table_pointer_offset": 5514096,
+          "physical_offset": 1278260,
+          "source_pointer": 135495988
+        },
+        {
+          "layer_id": 14,
+          "config_id": 48,
+          "descriptor_file_offset": 5514108,
+          "table_pointer_offset": 5514112,
+          "physical_offset": 1281868,
+          "source_pointer": 135499596
+        },
+        {
+          "layer_id": 15,
+          "config_id": 49,
+          "descriptor_file_offset": 5514124,
+          "table_pointer_offset": 5514128,
+          "physical_offset": 1284716,
+          "source_pointer": 135502444
+        },
+        {
+          "layer_id": 16,
+          "config_id": 51,
+          "descriptor_file_offset": 5514140,
+          "table_pointer_offset": 5514144,
+          "physical_offset": 1288784,
+          "source_pointer": 135506512
+        },
+        {
+          "layer_id": 17,
+          "config_id": 52,
+          "descriptor_file_offset": 5514156,
+          "table_pointer_offset": 5514160,
+          "physical_offset": 1290168,
+          "source_pointer": 135507896
+        },
+        {
+          "layer_id": 18,
+          "config_id": 58,
+          "descriptor_file_offset": 5514172,
+          "table_pointer_offset": 5514176,
+          "physical_offset": 1291840,
+          "source_pointer": 135509568
+        },
+        {
+          "layer_id": 19,
+          "config_id": 61,
+          "descriptor_file_offset": 5514188,
+          "table_pointer_offset": 5514192,
+          "physical_offset": 1293960,
+          "source_pointer": 135511688
+        },
+        {
+          "layer_id": 20,
+          "config_id": 74,
+          "descriptor_file_offset": 5514204,
+          "table_pointer_offset": 5514208,
+          "physical_offset": 1295676,
+          "source_pointer": 135513404
+        },
+        {
+          "layer_id": 21,
+          "config_id": 16,
+          "descriptor_file_offset": 5514220,
+          "table_pointer_offset": 5514224,
+          "physical_offset": 1297268,
+          "source_pointer": 135514996
+        },
+        {
+          "layer_id": 22,
+          "config_id": 77,
+          "descriptor_file_offset": 5514236,
+          "table_pointer_offset": 5514240,
+          "physical_offset": 1299468,
+          "source_pointer": 135517196
+        },
+        {
+          "layer_id": 23,
+          "config_id": 5,
+          "descriptor_file_offset": 5514252,
+          "table_pointer_offset": 5514256,
+          "physical_offset": 1302064,
+          "source_pointer": 135519792
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/palette/5b4a67a7354e94cd7f8f99541ceaf43bdf2a978d5783b77b0d9c46c91432ce35.bgr555.bin"
+    },
+    {
+      "id": "story-visual-tilemap-002",
+      "resource_type": "tilemap",
+      "resource_sha256": "0d67a5681a8e05c9c527c0ee9122871732fb0a44e59f218faef6095889fd98ff",
+      "replacement_sha256": "0d67a5681a8e05c9c527c0ee9122871732fb0a44e59f218faef6095889fd98ff",
+      "decompressed_size": 2048,
+      "encoded_size": 341,
+      "new_pointer": 146080576,
+      "offset": 11862848,
+      "physical_offsets": [
+        1245840
+      ],
+      "all_pointer_offsets": [
+        5513892
+      ],
+      "target_pointer_offsets": [
+        5513892
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 0,
+          "config_id": 4,
+          "descriptor_file_offset": 5513884,
+          "table_pointer_offset": 5513892,
+          "physical_offset": 1245840,
+          "source_pointer": 135463568
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/0d67a5681a8e05c9c527c0ee9122871732fb0a44e59f218faef6095889fd98ff.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-003",
+      "resource_type": "graphics",
+      "resource_sha256": "e949cec416aa3dce0083bb0afefc6b449f4c28deb73967ebbf5604e3a3268b24",
+      "replacement_sha256": "e949cec416aa3dce0083bb0afefc6b449f4c28deb73967ebbf5604e3a3268b24",
+      "decompressed_size": 3552,
+      "encoded_size": 2375,
+      "new_pointer": 146080920,
+      "offset": 11863192,
+      "physical_offsets": [
+        1246184
+      ],
+      "all_pointer_offsets": [
+        5513900
+      ],
+      "target_pointer_offsets": [
+        5513900
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 1,
+          "config_id": 10,
+          "descriptor_file_offset": 5513900,
+          "table_pointer_offset": 5513900,
+          "physical_offset": 1246184,
+          "source_pointer": 135463912
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/e949cec416aa3dce0083bb0afefc6b449f4c28deb73967ebbf5604e3a3268b24.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-004",
+      "resource_type": "tilemap",
+      "resource_sha256": "811b496c9f6f7bbc56b05b7113ab2ac4069b0c5532b01945c06528c54f58086d",
+      "replacement_sha256": "811b496c9f6f7bbc56b05b7113ab2ac4069b0c5532b01945c06528c54f58086d",
+      "decompressed_size": 2048,
+      "encoded_size": 503,
+      "new_pointer": 146083296,
+      "offset": 11865568,
+      "physical_offsets": [
+        1248600
+      ],
+      "all_pointer_offsets": [
+        5513908
+      ],
+      "target_pointer_offsets": [
+        5513908
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 1,
+          "config_id": 10,
+          "descriptor_file_offset": 5513900,
+          "table_pointer_offset": 5513908,
+          "physical_offset": 1248600,
+          "source_pointer": 135466328
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/811b496c9f6f7bbc56b05b7113ab2ac4069b0c5532b01945c06528c54f58086d.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-005",
+      "resource_type": "graphics",
+      "resource_sha256": "2508dc1894d94213d923dc42702c0bc1e8d24254fec4581c6417962948f13ba3",
+      "replacement_sha256": "2508dc1894d94213d923dc42702c0bc1e8d24254fec4581c6417962948f13ba3",
+      "decompressed_size": 3200,
+      "encoded_size": 2113,
+      "new_pointer": 146083800,
+      "offset": 11866072,
+      "physical_offsets": [
+        1249104
+      ],
+      "all_pointer_offsets": [
+        5513916
+      ],
+      "target_pointer_offsets": [
+        5513916
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 2,
+          "config_id": 14,
+          "descriptor_file_offset": 5513916,
+          "table_pointer_offset": 5513916,
+          "physical_offset": 1249104,
+          "source_pointer": 135466832
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/2508dc1894d94213d923dc42702c0bc1e8d24254fec4581c6417962948f13ba3.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-006",
+      "resource_type": "tilemap",
+      "resource_sha256": "5632f29b7a840739ca91fd8a6ade36cae1da33bbfadfe51e05b9f49165f371c1",
+      "replacement_sha256": "5632f29b7a840739ca91fd8a6ade36cae1da33bbfadfe51e05b9f49165f371c1",
+      "decompressed_size": 2048,
+      "encoded_size": 473,
+      "new_pointer": 146085916,
+      "offset": 11868188,
+      "physical_offsets": [
+        1251260
+      ],
+      "all_pointer_offsets": [
+        5513924
+      ],
+      "target_pointer_offsets": [
+        5513924
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 2,
+          "config_id": 14,
+          "descriptor_file_offset": 5513916,
+          "table_pointer_offset": 5513924,
+          "physical_offset": 1251260,
+          "source_pointer": 135468988
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/5632f29b7a840739ca91fd8a6ade36cae1da33bbfadfe51e05b9f49165f371c1.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-007",
+      "resource_type": "graphics",
+      "resource_sha256": "51eb2ca969a8e4cfd8c3133317a19fe7f2260861db054783e54d275249d643ed",
+      "replacement_sha256": "51eb2ca969a8e4cfd8c3133317a19fe7f2260861db054783e54d275249d643ed",
+      "decompressed_size": 2880,
+      "encoded_size": 2315,
+      "new_pointer": 146086392,
+      "offset": 11868664,
+      "physical_offsets": [
+        1251736
+      ],
+      "all_pointer_offsets": [
+        5513932
+      ],
+      "target_pointer_offsets": [
+        5513932
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 3,
+          "config_id": 24,
+          "descriptor_file_offset": 5513932,
+          "table_pointer_offset": 5513932,
+          "physical_offset": 1251736,
+          "source_pointer": 135469464
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/51eb2ca969a8e4cfd8c3133317a19fe7f2260861db054783e54d275249d643ed.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-008",
+      "resource_type": "tilemap",
+      "resource_sha256": "8356aaa3dddc6fa93b1810d6c1572c213181d8290950baa86f97ee32bc216a05",
+      "replacement_sha256": "8356aaa3dddc6fa93b1810d6c1572c213181d8290950baa86f97ee32bc216a05",
+      "decompressed_size": 2048,
+      "encoded_size": 456,
+      "new_pointer": 146088708,
+      "offset": 11870980,
+      "physical_offsets": [
+        1254092
+      ],
+      "all_pointer_offsets": [
+        5513940
+      ],
+      "target_pointer_offsets": [
+        5513940
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 3,
+          "config_id": 24,
+          "descriptor_file_offset": 5513932,
+          "table_pointer_offset": 5513940,
+          "physical_offset": 1254092,
+          "source_pointer": 135471820
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/8356aaa3dddc6fa93b1810d6c1572c213181d8290950baa86f97ee32bc216a05.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-009",
+      "resource_type": "graphics",
+      "resource_sha256": "3ec2f257de9725764ca70a9c58d8ef1453e4c770eb8388f7181085fe13eecbe9",
+      "replacement_sha256": "3ec2f257de9725764ca70a9c58d8ef1453e4c770eb8388f7181085fe13eecbe9",
+      "decompressed_size": 2400,
+      "encoded_size": 1801,
+      "new_pointer": 146089164,
+      "offset": 11871436,
+      "physical_offsets": [
+        1254548
+      ],
+      "all_pointer_offsets": [
+        5513948
+      ],
+      "target_pointer_offsets": [
+        5513948
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 4,
+          "config_id": 17,
+          "descriptor_file_offset": 5513948,
+          "table_pointer_offset": 5513948,
+          "physical_offset": 1254548,
+          "source_pointer": 135472276
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/3ec2f257de9725764ca70a9c58d8ef1453e4c770eb8388f7181085fe13eecbe9.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-010",
+      "resource_type": "tilemap",
+      "resource_sha256": "d7aef53758995f0b3a8bb86e5b02201edbc5b532734e8736e0e79beb17f127d7",
+      "replacement_sha256": "d7aef53758995f0b3a8bb86e5b02201edbc5b532734e8736e0e79beb17f127d7",
+      "decompressed_size": 2048,
+      "encoded_size": 427,
+      "new_pointer": 146090968,
+      "offset": 11873240,
+      "physical_offsets": [
+        1256392
+      ],
+      "all_pointer_offsets": [
+        5513956
+      ],
+      "target_pointer_offsets": [
+        5513956
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 4,
+          "config_id": 17,
+          "descriptor_file_offset": 5513948,
+          "table_pointer_offset": 5513956,
+          "physical_offset": 1256392,
+          "source_pointer": 135474120
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/d7aef53758995f0b3a8bb86e5b02201edbc5b532734e8736e0e79beb17f127d7.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-011",
+      "resource_type": "graphics",
+      "resource_sha256": "9455c6ae6de51bdc84d5ef8930157dce72295e8af044c14f3712b0b7b44d9df3",
+      "replacement_sha256": "9455c6ae6de51bdc84d5ef8930157dce72295e8af044c14f3712b0b7b44d9df3",
+      "decompressed_size": 4256,
+      "encoded_size": 2971,
+      "new_pointer": 146091396,
+      "offset": 11873668,
+      "physical_offsets": [
+        1256820
+      ],
+      "all_pointer_offsets": [
+        5513964
+      ],
+      "target_pointer_offsets": [
+        5513964
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 5,
+          "config_id": 18,
+          "descriptor_file_offset": 5513964,
+          "table_pointer_offset": 5513964,
+          "physical_offset": 1256820,
+          "source_pointer": 135474548
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/9455c6ae6de51bdc84d5ef8930157dce72295e8af044c14f3712b0b7b44d9df3.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-012",
+      "resource_type": "tilemap",
+      "resource_sha256": "a72dd85cbe2c455f72e7df226f3c9ab33cabf5934a29bc629759493226f76fff",
+      "replacement_sha256": "a72dd85cbe2c455f72e7df226f3c9ab33cabf5934a29bc629759493226f76fff",
+      "decompressed_size": 2048,
+      "encoded_size": 535,
+      "new_pointer": 146094368,
+      "offset": 11876640,
+      "physical_offsets": [
+        1259832
+      ],
+      "all_pointer_offsets": [
+        5513972
+      ],
+      "target_pointer_offsets": [
+        5513972
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 5,
+          "config_id": 18,
+          "descriptor_file_offset": 5513964,
+          "table_pointer_offset": 5513972,
+          "physical_offset": 1259832,
+          "source_pointer": 135477560
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/a72dd85cbe2c455f72e7df226f3c9ab33cabf5934a29bc629759493226f76fff.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-013",
+      "resource_type": "graphics",
+      "resource_sha256": "80b110243f443bfc34cd37b6bdd7c786322c3c619d4d4e33a3f8e63dc753e9ed",
+      "replacement_sha256": "80b110243f443bfc34cd37b6bdd7c786322c3c619d4d4e33a3f8e63dc753e9ed",
+      "decompressed_size": 3264,
+      "encoded_size": 2424,
+      "new_pointer": 146094904,
+      "offset": 11877176,
+      "physical_offsets": [
+        1260368
+      ],
+      "all_pointer_offsets": [
+        5513980
+      ],
+      "target_pointer_offsets": [
+        5513980
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 6,
+          "config_id": 21,
+          "descriptor_file_offset": 5513980,
+          "table_pointer_offset": 5513980,
+          "physical_offset": 1260368,
+          "source_pointer": 135478096
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/80b110243f443bfc34cd37b6bdd7c786322c3c619d4d4e33a3f8e63dc753e9ed.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-014",
+      "resource_type": "tilemap",
+      "resource_sha256": "6b379a0abeea661efc98a5870c164515c138382bd4600612cedea8d710170692",
+      "replacement_sha256": "6b379a0abeea661efc98a5870c164515c138382bd4600612cedea8d710170692",
+      "decompressed_size": 2048,
+      "encoded_size": 472,
+      "new_pointer": 146097328,
+      "offset": 11879600,
+      "physical_offsets": [
+        1262832
+      ],
+      "all_pointer_offsets": [
+        5513988
+      ],
+      "target_pointer_offsets": [
+        5513988
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 6,
+          "config_id": 21,
+          "descriptor_file_offset": 5513980,
+          "table_pointer_offset": 5513988,
+          "physical_offset": 1262832,
+          "source_pointer": 135480560
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/6b379a0abeea661efc98a5870c164515c138382bd4600612cedea8d710170692.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-015",
+      "resource_type": "graphics",
+      "resource_sha256": "83340aa1afd72c5eaa8ef5e23dbc984ed54e548680c3c21335d131dd4f4325a7",
+      "replacement_sha256": "83340aa1afd72c5eaa8ef5e23dbc984ed54e548680c3c21335d131dd4f4325a7",
+      "decompressed_size": 1408,
+      "encoded_size": 850,
+      "new_pointer": 146097800,
+      "offset": 11880072,
+      "physical_offsets": [
+        1263304
+      ],
+      "all_pointer_offsets": [
+        5513996
+      ],
+      "target_pointer_offsets": [
+        5513996
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 7,
+          "config_id": 25,
+          "descriptor_file_offset": 5513996,
+          "table_pointer_offset": 5513996,
+          "physical_offset": 1263304,
+          "source_pointer": 135481032
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/83340aa1afd72c5eaa8ef5e23dbc984ed54e548680c3c21335d131dd4f4325a7.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-016",
+      "resource_type": "tilemap",
+      "resource_sha256": "9b757a424a8ce0f89664226b4fc084645135a3bcded305d2aaf99dc7acc4126b",
+      "replacement_sha256": "9b757a424a8ce0f89664226b4fc084645135a3bcded305d2aaf99dc7acc4126b",
+      "decompressed_size": 2048,
+      "encoded_size": 335,
+      "new_pointer": 146098652,
+      "offset": 11880924,
+      "physical_offsets": [
+        1264196
+      ],
+      "all_pointer_offsets": [
+        5514004
+      ],
+      "target_pointer_offsets": [
+        5514004
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 7,
+          "config_id": 25,
+          "descriptor_file_offset": 5513996,
+          "table_pointer_offset": 5514004,
+          "physical_offset": 1264196,
+          "source_pointer": 135481924
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/9b757a424a8ce0f89664226b4fc084645135a3bcded305d2aaf99dc7acc4126b.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-017",
+      "resource_type": "graphics",
+      "resource_sha256": "3be76585d84d3e4c9ba4142698a31a3f00788ec304ba23a93fb919b2e5f17b8c",
+      "replacement_sha256": "3be76585d84d3e4c9ba4142698a31a3f00788ec304ba23a93fb919b2e5f17b8c",
+      "decompressed_size": 2880,
+      "encoded_size": 1976,
+      "new_pointer": 146098988,
+      "offset": 11881260,
+      "physical_offsets": [
+        1264532
+      ],
+      "all_pointer_offsets": [
+        5514012
+      ],
+      "target_pointer_offsets": [
+        5514012
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 8,
+          "config_id": 29,
+          "descriptor_file_offset": 5514012,
+          "table_pointer_offset": 5514012,
+          "physical_offset": 1264532,
+          "source_pointer": 135482260
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/3be76585d84d3e4c9ba4142698a31a3f00788ec304ba23a93fb919b2e5f17b8c.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-018",
+      "resource_type": "tilemap",
+      "resource_sha256": "5371154c962920d46b3d5c3d64fd5634a99b67326090529b7568c98182c4ce4b",
+      "replacement_sha256": "5371154c962920d46b3d5c3d64fd5634a99b67326090529b7568c98182c4ce4b",
+      "decompressed_size": 2048,
+      "encoded_size": 432,
+      "new_pointer": 146100964,
+      "offset": 11883236,
+      "physical_offsets": [
+        1266548
+      ],
+      "all_pointer_offsets": [
+        5514020
+      ],
+      "target_pointer_offsets": [
+        5514020
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 8,
+          "config_id": 29,
+          "descriptor_file_offset": 5514012,
+          "table_pointer_offset": 5514020,
+          "physical_offset": 1266548,
+          "source_pointer": 135484276
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/5371154c962920d46b3d5c3d64fd5634a99b67326090529b7568c98182c4ce4b.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-019",
+      "resource_type": "graphics",
+      "resource_sha256": "21a338a37b972c92d8152df0fea7e51489026c4ac5d58c1b62d9c086c2c92486",
+      "replacement_sha256": "21a338a37b972c92d8152df0fea7e51489026c4ac5d58c1b62d9c086c2c92486",
+      "decompressed_size": 2848,
+      "encoded_size": 1852,
+      "new_pointer": 146101396,
+      "offset": 11883668,
+      "physical_offsets": [
+        1266980
+      ],
+      "all_pointer_offsets": [
+        5514028
+      ],
+      "target_pointer_offsets": [
+        5514028
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 9,
+          "config_id": 28,
+          "descriptor_file_offset": 5514028,
+          "table_pointer_offset": 5514028,
+          "physical_offset": 1266980,
+          "source_pointer": 135484708
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/21a338a37b972c92d8152df0fea7e51489026c4ac5d58c1b62d9c086c2c92486.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-020",
+      "resource_type": "tilemap",
+      "resource_sha256": "85b92fd69500a1a2ba952762c2be96574775a86b97e28f2934f4ff63ba98ced4",
+      "replacement_sha256": "85b92fd69500a1a2ba952762c2be96574775a86b97e28f2934f4ff63ba98ced4",
+      "decompressed_size": 2048,
+      "encoded_size": 441,
+      "new_pointer": 146103248,
+      "offset": 11885520,
+      "physical_offsets": [
+        1268872
+      ],
+      "all_pointer_offsets": [
+        5514036
+      ],
+      "target_pointer_offsets": [
+        5514036
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 9,
+          "config_id": 28,
+          "descriptor_file_offset": 5514028,
+          "table_pointer_offset": 5514036,
+          "physical_offset": 1268872,
+          "source_pointer": 135486600
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/85b92fd69500a1a2ba952762c2be96574775a86b97e28f2934f4ff63ba98ced4.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-021",
+      "resource_type": "graphics",
+      "resource_sha256": "826ad76b16021de3d77c4e2cf6bf15a1a386f89a97ddae63c21c9a9f3282f375",
+      "replacement_sha256": "826ad76b16021de3d77c4e2cf6bf15a1a386f89a97ddae63c21c9a9f3282f375",
+      "decompressed_size": 2368,
+      "encoded_size": 1539,
+      "new_pointer": 146103692,
+      "offset": 11885964,
+      "physical_offsets": [
+        1269316
+      ],
+      "all_pointer_offsets": [
+        5514044
+      ],
+      "target_pointer_offsets": [
+        5514044
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 10,
+          "config_id": 34,
+          "descriptor_file_offset": 5514044,
+          "table_pointer_offset": 5514044,
+          "physical_offset": 1269316,
+          "source_pointer": 135487044
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/826ad76b16021de3d77c4e2cf6bf15a1a386f89a97ddae63c21c9a9f3282f375.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-022",
+      "resource_type": "tilemap",
+      "resource_sha256": "e677c1c5f86378d58d4c831882173c0fccd802986a79b57596704d440559ae8b",
+      "replacement_sha256": "e677c1c5f86378d58d4c831882173c0fccd802986a79b57596704d440559ae8b",
+      "decompressed_size": 2048,
+      "encoded_size": 420,
+      "new_pointer": 146105232,
+      "offset": 11887504,
+      "physical_offsets": [
+        1270896
+      ],
+      "all_pointer_offsets": [
+        5514052
+      ],
+      "target_pointer_offsets": [
+        5514052
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 10,
+          "config_id": 34,
+          "descriptor_file_offset": 5514044,
+          "table_pointer_offset": 5514052,
+          "physical_offset": 1270896,
+          "source_pointer": 135488624
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/e677c1c5f86378d58d4c831882173c0fccd802986a79b57596704d440559ae8b.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-023",
+      "resource_type": "graphics",
+      "resource_sha256": "5ca2d1bf62617e8f7c8ef6d5dbe1e08d0282c207b47ce6125889febb15d8fab1",
+      "replacement_sha256": "5ca2d1bf62617e8f7c8ef6d5dbe1e08d0282c207b47ce6125889febb15d8fab1",
+      "decompressed_size": 2400,
+      "encoded_size": 1555,
+      "new_pointer": 146105652,
+      "offset": 11887924,
+      "physical_offsets": [
+        1271316
+      ],
+      "all_pointer_offsets": [
+        5514060
+      ],
+      "target_pointer_offsets": [
+        5514060
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 11,
+          "config_id": 76,
+          "descriptor_file_offset": 5514060,
+          "table_pointer_offset": 5514060,
+          "physical_offset": 1271316,
+          "source_pointer": 135489044
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/5ca2d1bf62617e8f7c8ef6d5dbe1e08d0282c207b47ce6125889febb15d8fab1.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-024",
+      "resource_type": "tilemap",
+      "resource_sha256": "754e25b1cce7e57194b62528c1043f663f72a7cc9f25f77d1e3c5c6ba67fbf42",
+      "replacement_sha256": "754e25b1cce7e57194b62528c1043f663f72a7cc9f25f77d1e3c5c6ba67fbf42",
+      "decompressed_size": 2048,
+      "encoded_size": 424,
+      "new_pointer": 146107208,
+      "offset": 11889480,
+      "physical_offsets": [
+        1272912
+      ],
+      "all_pointer_offsets": [
+        5514068
+      ],
+      "target_pointer_offsets": [
+        5514068
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 11,
+          "config_id": 76,
+          "descriptor_file_offset": 5514060,
+          "table_pointer_offset": 5514068,
+          "physical_offset": 1272912,
+          "source_pointer": 135490640
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/754e25b1cce7e57194b62528c1043f663f72a7cc9f25f77d1e3c5c6ba67fbf42.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-025",
+      "resource_type": "graphics",
+      "resource_sha256": "127b3b92ac19fb83b687249f348e0773f08bef3a54058df8b50b04de5b9c71d4",
+      "replacement_sha256": "127b3b92ac19fb83b687249f348e0773f08bef3a54058df8b50b04de5b9c71d4",
+      "decompressed_size": 2848,
+      "encoded_size": 1907,
+      "new_pointer": 146107632,
+      "offset": 11889904,
+      "physical_offsets": [
+        1273336
+      ],
+      "all_pointer_offsets": [
+        5514076
+      ],
+      "target_pointer_offsets": [
+        5514076
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 12,
+          "config_id": 30,
+          "descriptor_file_offset": 5514076,
+          "table_pointer_offset": 5514076,
+          "physical_offset": 1273336,
+          "source_pointer": 135491064
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/127b3b92ac19fb83b687249f348e0773f08bef3a54058df8b50b04de5b9c71d4.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-026",
+      "resource_type": "tilemap",
+      "resource_sha256": "7b1f7df0d1a5d97351622aa01c0f886463322c7c75554a6e7fe6b99ea89c64dc",
+      "replacement_sha256": "7b1f7df0d1a5d97351622aa01c0f886463322c7c75554a6e7fe6b99ea89c64dc",
+      "decompressed_size": 2048,
+      "encoded_size": 453,
+      "new_pointer": 146109540,
+      "offset": 11891812,
+      "physical_offsets": [
+        1275284
+      ],
+      "all_pointer_offsets": [
+        5514084
+      ],
+      "target_pointer_offsets": [
+        5514084
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 12,
+          "config_id": 30,
+          "descriptor_file_offset": 5514076,
+          "table_pointer_offset": 5514084,
+          "physical_offset": 1275284,
+          "source_pointer": 135493012
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/7b1f7df0d1a5d97351622aa01c0f886463322c7c75554a6e7fe6b99ea89c64dc.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-027",
+      "resource_type": "graphics",
+      "resource_sha256": "fb851da4dfbb222a0c3fd200bd7bc4ea86e717f60525683e3df8245216c3c85c",
+      "replacement_sha256": "fb851da4dfbb222a0c3fd200bd7bc4ea86e717f60525683e3df8245216c3c85c",
+      "decompressed_size": 3584,
+      "encoded_size": 2518,
+      "new_pointer": 146109996,
+      "offset": 11892268,
+      "physical_offsets": [
+        1275740
+      ],
+      "all_pointer_offsets": [
+        5514092
+      ],
+      "target_pointer_offsets": [
+        5514092
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 13,
+          "config_id": 47,
+          "descriptor_file_offset": 5514092,
+          "table_pointer_offset": 5514092,
+          "physical_offset": 1275740,
+          "source_pointer": 135493468
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/fb851da4dfbb222a0c3fd200bd7bc4ea86e717f60525683e3df8245216c3c85c.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-028",
+      "resource_type": "tilemap",
+      "resource_sha256": "195562c29d15806dd87c85f641c13b57d8065ce689ecae94cd5a5d41133a4149",
+      "replacement_sha256": "195562c29d15806dd87c85f641c13b57d8065ce689ecae94cd5a5d41133a4149",
+      "decompressed_size": 2048,
+      "encoded_size": 487,
+      "new_pointer": 146112516,
+      "offset": 11894788,
+      "physical_offsets": [
+        1278300
+      ],
+      "all_pointer_offsets": [
+        5514100
+      ],
+      "target_pointer_offsets": [
+        5514100
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 13,
+          "config_id": 47,
+          "descriptor_file_offset": 5514092,
+          "table_pointer_offset": 5514100,
+          "physical_offset": 1278300,
+          "source_pointer": 135496028
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/195562c29d15806dd87c85f641c13b57d8065ce689ecae94cd5a5d41133a4149.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-029",
+      "resource_type": "graphics",
+      "resource_sha256": "a1cb81fe84167cc6b6ed27f9a05ebd38223068dd4cbc0f79a71ad34d99a5423d",
+      "replacement_sha256": "a1cb81fe84167cc6b6ed27f9a05ebd38223068dd4cbc0f79a71ad34d99a5423d",
+      "decompressed_size": 4096,
+      "encoded_size": 3080,
+      "new_pointer": 146113004,
+      "offset": 11895276,
+      "physical_offsets": [
+        1278788
+      ],
+      "all_pointer_offsets": [
+        5514108
+      ],
+      "target_pointer_offsets": [
+        5514108
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 14,
+          "config_id": 48,
+          "descriptor_file_offset": 5514108,
+          "table_pointer_offset": 5514108,
+          "physical_offset": 1278788,
+          "source_pointer": 135496516
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/a1cb81fe84167cc6b6ed27f9a05ebd38223068dd4cbc0f79a71ad34d99a5423d.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-030",
+      "resource_type": "tilemap",
+      "resource_sha256": "7d5a774b71f95dd39f8f0461e16988ee7139ecedf37629767b2d45aabf487f02",
+      "replacement_sha256": "7d5a774b71f95dd39f8f0461e16988ee7139ecedf37629767b2d45aabf487f02",
+      "decompressed_size": 2048,
+      "encoded_size": 535,
+      "new_pointer": 146116084,
+      "offset": 11898356,
+      "physical_offsets": [
+        1281908
+      ],
+      "all_pointer_offsets": [
+        5514116
+      ],
+      "target_pointer_offsets": [
+        5514116
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 14,
+          "config_id": 48,
+          "descriptor_file_offset": 5514108,
+          "table_pointer_offset": 5514116,
+          "physical_offset": 1281908,
+          "source_pointer": 135499636
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/7d5a774b71f95dd39f8f0461e16988ee7139ecedf37629767b2d45aabf487f02.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-031",
+      "resource_type": "graphics",
+      "resource_sha256": "f2bb17743698f2c8cd5b85a9abeff333e2a102b556d0f61ecc8cf32644ae6ea6",
+      "replacement_sha256": "f2bb17743698f2c8cd5b85a9abeff333e2a102b556d0f61ecc8cf32644ae6ea6",
+      "decompressed_size": 3296,
+      "encoded_size": 2272,
+      "new_pointer": 146116620,
+      "offset": 11898892,
+      "physical_offsets": [
+        1282444
+      ],
+      "all_pointer_offsets": [
+        5514124
+      ],
+      "target_pointer_offsets": [
+        5514124
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 15,
+          "config_id": 49,
+          "descriptor_file_offset": 5514124,
+          "table_pointer_offset": 5514124,
+          "physical_offset": 1282444,
+          "source_pointer": 135500172
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/f2bb17743698f2c8cd5b85a9abeff333e2a102b556d0f61ecc8cf32644ae6ea6.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-032",
+      "resource_type": "tilemap",
+      "resource_sha256": "a4c02916c0f3d4a0b883d769f1996cece5d0d7922dda1e4a2c9d40c70ebe6f25",
+      "replacement_sha256": "a4c02916c0f3d4a0b883d769f1996cece5d0d7922dda1e4a2c9d40c70ebe6f25",
+      "decompressed_size": 2048,
+      "encoded_size": 467,
+      "new_pointer": 146118892,
+      "offset": 11901164,
+      "physical_offsets": [
+        1284756
+      ],
+      "all_pointer_offsets": [
+        5514132
+      ],
+      "target_pointer_offsets": [
+        5514132
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 15,
+          "config_id": 49,
+          "descriptor_file_offset": 5514124,
+          "table_pointer_offset": 5514132,
+          "physical_offset": 1284756,
+          "source_pointer": 135502484
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/a4c02916c0f3d4a0b883d769f1996cece5d0d7922dda1e4a2c9d40c70ebe6f25.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-033",
+      "resource_type": "graphics",
+      "resource_sha256": "3510922615eef68331934a7fd021cc617433db74fc25b1b691ba53f771c16e54",
+      "replacement_sha256": "3510922615eef68331934a7fd021cc617433db74fc25b1b691ba53f771c16e54",
+      "decompressed_size": 4768,
+      "encoded_size": 3558,
+      "new_pointer": 146119360,
+      "offset": 11901632,
+      "physical_offsets": [
+        1285224
+      ],
+      "all_pointer_offsets": [
+        5514140
+      ],
+      "target_pointer_offsets": [
+        5514140
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 16,
+          "config_id": 51,
+          "descriptor_file_offset": 5514140,
+          "table_pointer_offset": 5514140,
+          "physical_offset": 1285224,
+          "source_pointer": 135502952
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/3510922615eef68331934a7fd021cc617433db74fc25b1b691ba53f771c16e54.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-034",
+      "resource_type": "tilemap",
+      "resource_sha256": "849081c9e7370b5e26aa73d16ecf745e0c5e2c3ae76ce69926156549e8715cdf",
+      "replacement_sha256": "849081c9e7370b5e26aa73d16ecf745e0c5e2c3ae76ce69926156549e8715cdf",
+      "decompressed_size": 2048,
+      "encoded_size": 590,
+      "new_pointer": 146122920,
+      "offset": 11905192,
+      "physical_offsets": [
+        1288824
+      ],
+      "all_pointer_offsets": [
+        5514148
+      ],
+      "target_pointer_offsets": [
+        5514148
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 16,
+          "config_id": 51,
+          "descriptor_file_offset": 5514140,
+          "table_pointer_offset": 5514148,
+          "physical_offset": 1288824,
+          "source_pointer": 135506552
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/849081c9e7370b5e26aa73d16ecf745e0c5e2c3ae76ce69926156549e8715cdf.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-035",
+      "resource_type": "graphics",
+      "resource_sha256": "12e6ed9845dd95c282d57dd8cf53a42d355110bfb063dfd54c895797763de2ca",
+      "replacement_sha256": "12e6ed9845dd95c282d57dd8cf53a42d355110bfb063dfd54c895797763de2ca",
+      "decompressed_size": 1088,
+      "encoded_size": 750,
+      "new_pointer": 146123512,
+      "offset": 11905784,
+      "physical_offsets": [
+        1289416
+      ],
+      "all_pointer_offsets": [
+        5514156
+      ],
+      "target_pointer_offsets": [
+        5514156
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 17,
+          "config_id": 52,
+          "descriptor_file_offset": 5514156,
+          "table_pointer_offset": 5514156,
+          "physical_offset": 1289416,
+          "source_pointer": 135507144
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/12e6ed9845dd95c282d57dd8cf53a42d355110bfb063dfd54c895797763de2ca.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-036",
+      "resource_type": "tilemap",
+      "resource_sha256": "43cb0267cd46566dd33dd3e04e269a81ead525d448664cc8193ba03d63be2f10",
+      "replacement_sha256": "43cb0267cd46566dd33dd3e04e269a81ead525d448664cc8193ba03d63be2f10",
+      "decompressed_size": 2048,
+      "encoded_size": 318,
+      "new_pointer": 146124264,
+      "offset": 11906536,
+      "physical_offsets": [
+        1290208
+      ],
+      "all_pointer_offsets": [
+        5514164
+      ],
+      "target_pointer_offsets": [
+        5514164
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 17,
+          "config_id": 52,
+          "descriptor_file_offset": 5514156,
+          "table_pointer_offset": 5514164,
+          "physical_offset": 1290208,
+          "source_pointer": 135507936
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/43cb0267cd46566dd33dd3e04e269a81ead525d448664cc8193ba03d63be2f10.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-037",
+      "resource_type": "graphics",
+      "resource_sha256": "cd05d084edb32ac5051517e60dc2275f3ea56852ac77a3b5fb55da9f5aa78d20",
+      "replacement_sha256": "cd05d084edb32ac5051517e60dc2275f3ea56852ac77a3b5fb55da9f5aa78d20",
+      "decompressed_size": 1856,
+      "encoded_size": 1310,
+      "new_pointer": 146124584,
+      "offset": 11906856,
+      "physical_offsets": [
+        1290528
+      ],
+      "all_pointer_offsets": [
+        5514172
+      ],
+      "target_pointer_offsets": [
+        5514172
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 18,
+          "config_id": 58,
+          "descriptor_file_offset": 5514172,
+          "table_pointer_offset": 5514172,
+          "physical_offset": 1290528,
+          "source_pointer": 135508256
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/cd05d084edb32ac5051517e60dc2275f3ea56852ac77a3b5fb55da9f5aa78d20.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-038",
+      "resource_type": "tilemap",
+      "resource_sha256": "3165f04f8e8967942a5e9549f3c0d220d54a675a1c829c3696fbd18692815630",
+      "replacement_sha256": "3165f04f8e8967942a5e9549f3c0d220d54a675a1c829c3696fbd18692815630",
+      "decompressed_size": 2048,
+      "encoded_size": 363,
+      "new_pointer": 146125896,
+      "offset": 11908168,
+      "physical_offsets": [
+        1291880
+      ],
+      "all_pointer_offsets": [
+        5514180
+      ],
+      "target_pointer_offsets": [
+        5514180
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 18,
+          "config_id": 58,
+          "descriptor_file_offset": 5514172,
+          "table_pointer_offset": 5514180,
+          "physical_offset": 1291880,
+          "source_pointer": 135509608
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/3165f04f8e8967942a5e9549f3c0d220d54a675a1c829c3696fbd18692815630.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-039",
+      "resource_type": "graphics",
+      "resource_sha256": "0bbeb4fe314a823ef4b5b73a4ae8cff407689412d4d78d213d8a2fa7df0d057a",
+      "replacement_sha256": "0bbeb4fe314a823ef4b5b73a4ae8cff407689412d4d78d213d8a2fa7df0d057a",
+      "decompressed_size": 2816,
+      "encoded_size": 1714,
+      "new_pointer": 146126260,
+      "offset": 11908532,
+      "physical_offsets": [
+        1292244
+      ],
+      "all_pointer_offsets": [
+        5514188
+      ],
+      "target_pointer_offsets": [
+        5514188
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 19,
+          "config_id": 61,
+          "descriptor_file_offset": 5514188,
+          "table_pointer_offset": 5514188,
+          "physical_offset": 1292244,
+          "source_pointer": 135509972
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/0bbeb4fe314a823ef4b5b73a4ae8cff407689412d4d78d213d8a2fa7df0d057a.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-040",
+      "resource_type": "tilemap",
+      "resource_sha256": "59deae68338f5387aa1075505b56991909ba8cff281f2f59f22977a2d62563c6",
+      "replacement_sha256": "59deae68338f5387aa1075505b56991909ba8cff281f2f59f22977a2d62563c6",
+      "decompressed_size": 2048,
+      "encoded_size": 424,
+      "new_pointer": 146127976,
+      "offset": 11910248,
+      "physical_offsets": [
+        1294000
+      ],
+      "all_pointer_offsets": [
+        5514196
+      ],
+      "target_pointer_offsets": [
+        5514196
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 19,
+          "config_id": 61,
+          "descriptor_file_offset": 5514188,
+          "table_pointer_offset": 5514196,
+          "physical_offset": 1294000,
+          "source_pointer": 135511728
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/59deae68338f5387aa1075505b56991909ba8cff281f2f59f22977a2d62563c6.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-041",
+      "resource_type": "graphics",
+      "resource_sha256": "8997bcd4bc71a96a40caf92b30057fab58ad080d0e68be8d1c4766c2b331819c",
+      "replacement_sha256": "8997bcd4bc71a96a40caf92b30057fab58ad080d0e68be8d1c4766c2b331819c",
+      "decompressed_size": 2016,
+      "encoded_size": 1249,
+      "new_pointer": 146128400,
+      "offset": 11910672,
+      "physical_offsets": [
+        1294424
+      ],
+      "all_pointer_offsets": [
+        5514204
+      ],
+      "target_pointer_offsets": [
+        5514204
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 20,
+          "config_id": 74,
+          "descriptor_file_offset": 5514204,
+          "table_pointer_offset": 5514204,
+          "physical_offset": 1294424,
+          "source_pointer": 135512152
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/8997bcd4bc71a96a40caf92b30057fab58ad080d0e68be8d1c4766c2b331819c.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-042",
+      "resource_type": "tilemap",
+      "resource_sha256": "4f5be8e10cac6a42edbec045791ab88a4788fe5ffd76807462de184fadef2bda",
+      "replacement_sha256": "4f5be8e10cac6a42edbec045791ab88a4788fe5ffd76807462de184fadef2bda",
+      "decompressed_size": 2048,
+      "encoded_size": 371,
+      "new_pointer": 146129652,
+      "offset": 11911924,
+      "physical_offsets": [
+        1295716
+      ],
+      "all_pointer_offsets": [
+        5514212
+      ],
+      "target_pointer_offsets": [
+        5514212
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 20,
+          "config_id": 74,
+          "descriptor_file_offset": 5514204,
+          "table_pointer_offset": 5514212,
+          "physical_offset": 1295716,
+          "source_pointer": 135513444
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/4f5be8e10cac6a42edbec045791ab88a4788fe5ffd76807462de184fadef2bda.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-043",
+      "resource_type": "graphics",
+      "resource_sha256": "af8794baca9e41309785571f8cd75f623fbeab86f7677be41aee782a30b0cd0f",
+      "replacement_sha256": "af8794baca9e41309785571f8cd75f623fbeab86f7677be41aee782a30b0cd0f",
+      "decompressed_size": 1792,
+      "encoded_size": 1180,
+      "new_pointer": 146130024,
+      "offset": 11912296,
+      "physical_offsets": [
+        1296088
+      ],
+      "all_pointer_offsets": [
+        5514220
+      ],
+      "target_pointer_offsets": [
+        5514220
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 21,
+          "config_id": 16,
+          "descriptor_file_offset": 5514220,
+          "table_pointer_offset": 5514220,
+          "physical_offset": 1296088,
+          "source_pointer": 135513816
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/af8794baca9e41309785571f8cd75f623fbeab86f7677be41aee782a30b0cd0f.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-044",
+      "resource_type": "tilemap",
+      "resource_sha256": "34e21ba29b59c7ead31c0426575e6967890dae8f47dada29aa0972f1bc75ee5f",
+      "replacement_sha256": "34e21ba29b59c7ead31c0426575e6967890dae8f47dada29aa0972f1bc75ee5f",
+      "decompressed_size": 2048,
+      "encoded_size": 366,
+      "new_pointer": 146131204,
+      "offset": 11913476,
+      "physical_offsets": [
+        1297308
+      ],
+      "all_pointer_offsets": [
+        5514228
+      ],
+      "target_pointer_offsets": [
+        5514228
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 21,
+          "config_id": 16,
+          "descriptor_file_offset": 5514220,
+          "table_pointer_offset": 5514228,
+          "physical_offset": 1297308,
+          "source_pointer": 135515036
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/34e21ba29b59c7ead31c0426575e6967890dae8f47dada29aa0972f1bc75ee5f.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-045",
+      "resource_type": "graphics",
+      "resource_sha256": "24af7849dbfb5ebc8192d0abece1009cee58fed413a14e1f8ab8913dc8957ccd",
+      "replacement_sha256": "24af7849dbfb5ebc8192d0abece1009cee58fed413a14e1f8ab8913dc8957ccd",
+      "decompressed_size": 2560,
+      "encoded_size": 1790,
+      "new_pointer": 146131572,
+      "offset": 11913844,
+      "physical_offsets": [
+        1297676
+      ],
+      "all_pointer_offsets": [
+        5514236
+      ],
+      "target_pointer_offsets": [
+        5514236
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 22,
+          "config_id": 77,
+          "descriptor_file_offset": 5514236,
+          "table_pointer_offset": 5514236,
+          "physical_offset": 1297676,
+          "source_pointer": 135515404
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/24af7849dbfb5ebc8192d0abece1009cee58fed413a14e1f8ab8913dc8957ccd.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-046",
+      "resource_type": "tilemap",
+      "resource_sha256": "bb611579b091e2106da64a01fa0e8c24bf00d216dbc1b9e3b9b6fccaca98bb2b",
+      "replacement_sha256": "bb611579b091e2106da64a01fa0e8c24bf00d216dbc1b9e3b9b6fccaca98bb2b",
+      "decompressed_size": 2048,
+      "encoded_size": 435,
+      "new_pointer": 146133364,
+      "offset": 11915636,
+      "physical_offsets": [
+        1299508
+      ],
+      "all_pointer_offsets": [
+        5514244
+      ],
+      "target_pointer_offsets": [
+        5514244
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 22,
+          "config_id": 77,
+          "descriptor_file_offset": 5514236,
+          "table_pointer_offset": 5514244,
+          "physical_offset": 1299508,
+          "source_pointer": 135517236
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/bb611579b091e2106da64a01fa0e8c24bf00d216dbc1b9e3b9b6fccaca98bb2b.u16le.bin"
+    },
+    {
+      "id": "story-visual-graphics-047",
+      "resource_type": "graphics",
+      "resource_sha256": "0b07fe8227f92a1ee99d0e2b5059265b18320ce5258b10cfb400faa176ea6347",
+      "replacement_sha256": "0b07fe8227f92a1ee99d0e2b5059265b18320ce5258b10cfb400faa176ea6347",
+      "decompressed_size": 3392,
+      "encoded_size": 2119,
+      "new_pointer": 146133800,
+      "offset": 11916072,
+      "physical_offsets": [
+        1299944
+      ],
+      "all_pointer_offsets": [
+        5514252
+      ],
+      "target_pointer_offsets": [
+        5514252
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 23,
+          "config_id": 5,
+          "descriptor_file_offset": 5514252,
+          "table_pointer_offset": 5514252,
+          "physical_offset": 1299944,
+          "source_pointer": 135517672
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/graphics/0b07fe8227f92a1ee99d0e2b5059265b18320ce5258b10cfb400faa176ea6347.4bpp.bin"
+    },
+    {
+      "id": "story-visual-tilemap-048",
+      "resource_type": "tilemap",
+      "resource_sha256": "59d43322b13c2b9519688ac7cdc0ba5fe9ab4935b23f41b6e22fd854fa950bbe",
+      "replacement_sha256": "59d43322b13c2b9519688ac7cdc0ba5fe9ab4935b23f41b6e22fd854fa950bbe",
+      "decompressed_size": 2048,
+      "encoded_size": 469,
+      "new_pointer": 146135920,
+      "offset": 11918192,
+      "physical_offsets": [
+        1302104
+      ],
+      "all_pointer_offsets": [
+        5514260
+      ],
+      "target_pointer_offsets": [
+        5514260
+      ],
+      "logical_aliases": [
+        {
+          "layer_id": 23,
+          "config_id": 5,
+          "descriptor_file_offset": 5514252,
+          "table_pointer_offset": 5514260,
+          "physical_offset": 1302104,
+          "source_pointer": 135519832
+        }
+      ],
+      "source_file": "artifacts/story-visual-resource-sources-v1/tilemap/59d43322b13c2b9519688ac7cdc0ba5fe9ab4935b23f41b6e22fd854fa950bbe.u16le.bin"
+    }
+  ],
+  "output_rom_sha256": "2f7efbdbba60342ec621b0460436b24429901f4473fdb34317eea9a296d8569b",
+  "scope": {
+    "proved": "All 49 story-layer content resources, representing 72 physical LZ77 payloads and all 72 exact descriptor pointer fields across 24 rows, relocate into the registered story-visual-layers image region.",
+    "editable": "Each layer may replace its 4bpp graphics and 32x32 tilemap together, including changing the graphics tile count from 1 through 192; the palette remains 16 colors, tile IDs remain the exact contiguous 0x140-based range and every descriptor alias may split safely, subject to the aggregate registered-region capacity.",
+    "not_proved": "A different BG3 tilemap geometry, more than 192 tiles, another palette bank, changes to linked tile-assets config descriptors, scroll/window/blend timing, final screen equivalence or physical cartridge behavior."
+  }
+}

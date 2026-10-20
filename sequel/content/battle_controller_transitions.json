@@ -1,0 +1,759 @@
+{
+  "schema_version": 1,
+  "identity": "konoha.original_battle_controller_transitions",
+  "title": "原版战斗主控制器状态转移表（输入 x RAM 状态 -> 下一状态 + 守卫）",
+  "implemented": false,
+  "implemented_note": "This is a record of the original ROM behaviour. It is not a claim that the remake implements these transitions; the remake still runs its own 24-value phase enum.",
+  "boundary": "Scope: the battle-scene layer only -- transitions between the 38 top-level dispatcher states of the original battle controller (0x080732B4..0x0807509C). The nested 0x0809xxxx presentation / message / event layer has its own dispatchers (separate reverse-tree artifact families) and is NOT covered here. A transition that the original performs inside a nested controller (for example the target preview inside 0x4100) is not a top-level transition and must not be listed here.",
+  "source": {
+    "artifact_family": "rom-battle-controller-cfg-v1",
+    "artifact_manifest": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
+    "artifact_manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+    "artifact_payload": "artifacts/rom-battle-controller-cfg-v1/rom-battle-controller-cfg.json",
+    "artifact_payload_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+    "mapping_denominator_sha256": "ce5e8ea24e274c4456482611609ee90144d31e064fccf0d85bf8f4643f44ac15",
+    "input_denominator": 65536,
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "per_item_assertion": "tests/test_export_rom_battle_controller_cfg.py",
+    "per_item_assertion_sha256": "412ae14c68d0ccd0a402f199fcaf9fbf1333ab75369fbd6212c4494b2aadf1a7",
+    "state_table": "sequel/content/battle_controller_states.json",
+    "legacy_numbering_note": "The 2026-07-23 notes label the dispatcher states with their own 36-state decode. Three of those labels (0x1020, 0x3310, 0x9200) are proven non-existent by the signed per-item assertion, and 0x1220 points at the handler the signed denominator calls 0x1210. This table uses the signed 38-state numbering and keeps the legacy label in \"legacy_labels\" for traceability.",
+    "reverse_root": "/Users/altair/github/gba-naruto-reverse"
+  },
+  "evidence_kinds": {
+    "static_control_flow": "a cited instruction writes the next top-level state",
+    "runtime_checkpoint_crossing": "two hash-bound original-ROM checkpoints show the state change",
+    "runtime_transaction": "a hash-bound single-input replay with a domain resource delta",
+    "runtime_checkpoint_sequence": "a hash-bound checkpoint chain over several states",
+    "runtime_checkpoint_matrix": "a hash-bound matrix of samples over the same edge"
+  },
+  "transition_count": 24,
+  "transitions": [
+    {
+      "id": "side_scheduler_to_enemy_preparation",
+      "from_state": "0x1300",
+      "to_state": "0x7000",
+      "to_state_alternatives": [],
+      "kind": "static_control_flow",
+      "input": "none (frame boundary)",
+      "guard": "the current side (RAM 0x0202680E) is not the player side",
+      "ram_condition": "RAM 0x0202680E != player side",
+      "legacy_labels": {
+        "0x1300": "0x1300",
+        "0x7000": "0x7000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "static_control_flow",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x080738CA sends non-player side directly to state 0x7000"
+        }
+      ],
+      "note": "阵营调度在非玩家侧直接进入敌方行动准备，不经过玩家菜单态。"
+    },
+    {
+      "id": "enemy_preparation_to_shared_resolution",
+      "from_state": "0x7000",
+      "to_state": "0x8000",
+      "to_state_alternatives": [],
+      "kind": "static_control_flow",
+      "input": "none (frame boundary)",
+      "guard": "an affiliation-1 unit has been picked and its action context has been copied into the shared buffer",
+      "ram_condition": "unit+0xCC == 1 for the selected unit",
+      "legacy_labels": {
+        "0x7000": "0x7000",
+        "0x8000": "0x8000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "static_control_flow",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x080742E4 scans affiliation-1 units, calls 0x080851F8, copies the action context, and assigns state 0x8000"
+        }
+      ],
+      "note": "AI 产出的行动与玩家行动汇入同一个 0x8000 解析链。"
+    },
+    {
+      "id": "target_confirm_to_commit_gate",
+      "from_state": "0x4100",
+      "to_state": "0x6000",
+      "to_state_alternatives": [],
+      "kind": "static_control_flow",
+      "input": "A (confirm)",
+      "guard": "the target confirmation succeeds",
+      "ram_condition": null,
+      "legacy_labels": {
+        "0x4100": "0x4100",
+        "0x6000": "0x6000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "static_control_flow",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x0807419E confirmation success in state 0x4100 assigns state 0x6000"
+        }
+      ],
+      "note": "原版在目标确认与共享解析之间还有一道独立的 0x6000 提交门，重制没有对应相。"
+    },
+    {
+      "id": "commit_gate_to_shared_resolution",
+      "from_state": "0x6000",
+      "to_state": "0x8000",
+      "to_state_alternatives": [],
+      "kind": "static_control_flow",
+      "input": "A (confirm)",
+      "guard": "the player confirmation UI finishes and the action is handed to the shared resolver",
+      "ram_condition": null,
+      "legacy_labels": {
+        "0x6000": "0x6000",
+        "0x8000": "0x8000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "static_control_flow",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x080742A4 conditionally runs the player confirmation UI and converges on state 0x8000"
+        }
+      ],
+      "note": "玩家提交门与敌方行动准备共同汇入 0x8000。"
+    },
+    {
+      "id": "result_router_to_f100",
+      "from_state": "0xF000",
+      "to_state": "0xF100",
+      "to_state_alternatives": [],
+      "kind": "static_control_flow",
+      "input": "none (frame boundary)",
+      "guard": "the result substate equals 0",
+      "ram_condition": "result substate register == 0",
+      "legacy_labels": {
+        "0xF000": "0xF000",
+        "0xF100": "0xF100"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "static_control_flow",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074A98 routes result substate 0..3 to 0xF100..0xF400"
+        }
+      ],
+      "note": "结果路由器按 substate 0..3 分派；substate 的具体取值未逐项闭合。"
+    },
+    {
+      "id": "result_router_to_f200",
+      "from_state": "0xF000",
+      "to_state": "0xF200",
+      "to_state_alternatives": [],
+      "kind": "static_control_flow",
+      "input": "none (frame boundary)",
+      "guard": "the result substate equals 1",
+      "ram_condition": "result substate register == 1",
+      "legacy_labels": {
+        "0xF000": "0xF000",
+        "0xF200": "0xF200"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "static_control_flow",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074A98 routes result substate 0..3 to 0xF100..0xF400"
+        }
+      ],
+      "note": "结果路由器按 substate 0..3 分派；substate 的具体取值未逐项闭合。"
+    },
+    {
+      "id": "result_router_to_f300",
+      "from_state": "0xF000",
+      "to_state": "0xF300",
+      "to_state_alternatives": [],
+      "kind": "static_control_flow",
+      "input": "none (frame boundary)",
+      "guard": "the result substate equals 2",
+      "ram_condition": "result substate register == 2",
+      "legacy_labels": {
+        "0xF000": "0xF000",
+        "0xF300": "0xF300"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "static_control_flow",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074A98 routes result substate 0..3 to 0xF100..0xF400"
+        }
+      ],
+      "note": "结果路由器按 substate 0..3 分派；substate 的具体取值未逐项闭合。"
+    },
+    {
+      "id": "result_router_to_f400",
+      "from_state": "0xF000",
+      "to_state": "0xF400",
+      "to_state_alternatives": [],
+      "kind": "static_control_flow",
+      "input": "none (frame boundary)",
+      "guard": "the result substate equals 3",
+      "ram_condition": "result substate register == 3",
+      "legacy_labels": {
+        "0xF000": "0xF000",
+        "0xF400": "0xF400"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "static_control_flow",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "0x08074A98 routes result substate 0..3 to 0xF100..0xF400"
+        }
+      ],
+      "note": "结果路由器按 substate 0..3 分派；substate 的具体取值未逐项闭合。"
+    },
+    {
+      "id": "roster_confirm_to_action_menu",
+      "from_state": "0x2000",
+      "to_state": "0x3000",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "A (confirm)",
+      "guard": "the selected player unit has an unspent action (unit+0xC0 low byte 0) and affiliation 0",
+      "ram_condition": "unit+0xC0 low byte == 0, unit+0xCC == 0",
+      "legacy_labels": {
+        "0x2000": "0x2000",
+        "0x3000": "0x3000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-unit-eligibility-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e98541e27a6e404a064c3aec86684b6f67988447df277cbf1bbcc0f774b2666b",
+          "quote": "\"controller_transition\": \"0x2000 -> 0x3000\",",
+          "before": "build/scenario-50-battle-15-early-intercept-20260720/b9-sakura/output.ss9",
+          "before_sha256": "ef7639c0cf2fe97b895ad02525e48dff628ce6ecec1e42e2a1b6d64b5fcdaf72",
+          "after": "build/battle-unit-eligibility-sakura-a-20260723-01/output.ss9",
+          "after_sha256": "997fdc1cfa62f2f8b4b2a148731f6b8882e4f6fd0077ddb639cdc084a7a3d676",
+          "selected_unit": {
+            "slot": 3,
+            "character_id": 3,
+            "action_flags_low": 0,
+            "affiliation": 0,
+            "action_state": 255
+          }
+        }
+      ],
+      "note": "roster 浏览阶段不预筛资格，资格在 A 确认边界才判定。"
+    },
+    {
+      "id": "roster_confirm_rejected_action_complete_player_unit_rejected",
+      "from_state": "0x2000",
+      "to_state": "0x2000",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "A (confirm)",
+      "guard": "the selected unit already spent its action (unit+0xC0 low byte 16)",
+      "ram_condition": "unit+0xC0 low byte == 16",
+      "legacy_labels": {
+        "0x2000": "0x2000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-unit-eligibility-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e98541e27a6e404a064c3aec86684b6f67988447df277cbf1bbcc0f774b2666b",
+          "quote": "\"id\": \"action_complete_player_unit_rejected\",",
+          "before": "build/battle-unit-selection-completed-l-20260723-01/output.ss9",
+          "before_sha256": "8eb67803187e4467983bf6ce2078c32e4ec94e7146ceb1cd71d00928c1badfb1",
+          "after": "build/battle-unit-eligibility-completed-a-20260723-01/output.ss9",
+          "after_sha256": "867b5a7c094b7b8239c525ef8de29bd88e2d30336d55b597f8b84f7e6db55c14",
+          "selected_unit": {
+            "slot": 2,
+            "character_id": 2,
+            "action_flags_low": 16,
+            "affiliation": 0,
+            "action_state": 255
+          }
+        }
+      ],
+      "note": "确认失败时顶层状态保持不变；单位池与战斗控制区零差异。"
+    },
+    {
+      "id": "roster_confirm_rejected_escort_objective_unit_rejected",
+      "from_state": "0x2000",
+      "to_state": "0x2000",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "A (confirm)",
+      "guard": "the selected unit is an escort/objective unit (action flags 144, action state 2)",
+      "ram_condition": "unit+0xC0 low byte == 144, unit+0xCD == 2",
+      "legacy_labels": {
+        "0x2000": "0x2000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-unit-eligibility-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e98541e27a6e404a064c3aec86684b6f67988447df277cbf1bbcc0f774b2666b",
+          "quote": "\"id\": \"escort_objective_unit_rejected\",",
+          "before": "build/battle-unit-selection-completed-r-20260723-01/output.ss9",
+          "before_sha256": "57cea1e8c21514f4b8ab8fc9d4a604309ee958b654aabd7dba0d61f73173301d",
+          "after": "build/battle-unit-eligibility-escort-a-20260723-01/output.ss9",
+          "after_sha256": "b796f285d0b9a9075e471d7217118f858bc1118ddb710e830f9db3df2cf1bb57",
+          "selected_unit": {
+            "slot": 4,
+            "character_id": 30,
+            "action_flags_low": 144,
+            "affiliation": 0,
+            "action_state": 2
+          }
+        }
+      ],
+      "note": "确认失败时顶层状态保持不变；单位池与战斗控制区零差异。"
+    },
+    {
+      "id": "chakra_exchange_commit",
+      "from_state": "0x3000",
+      "to_state": "0x3210",
+      "to_state_alternatives": [],
+      "kind": "runtime_transaction",
+      "input": "A (confirm)",
+      "guard": "the chakra command is committed: the acting unit pays HP and receives chakra",
+      "ram_condition": "acting unit HP 134 -> 119, chakra 4 -> 5",
+      "legacy_labels": {
+        "0x3000": "0x3000",
+        "0x3210": "0x3210"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_transaction",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "battle-15 single-input checkpoint crosses 0x3000 -> 0x3210"
+        },
+        {
+          "kind": "runtime_transaction",
+          "source": "notes/battle-resource-transaction-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "6e6bdde545219997980eb6fe0a6ed798813457f8efa50cabe8bf15aafc77c1a5",
+          "quote": "\"before_controller_state\": \"0x3000\",",
+          "before": "build/scenario-50-battle-15-rng-consume-20260720/a5-basic/output.ss9",
+          "before_sha256": "1551a1123771a333b97f98f2d7020982e71446c5e51c3afd780e571109334829",
+          "after": "build/scenario-50-battle-15-rng-consume-20260720/a6-grid/output.ss9",
+          "after_sha256": "d16b5630cd09ee4ab97a5fcd318f924a93c46e6baf59e4c7b85b785e228afec1",
+          "audit": "build/scenario-50-battle-15-rng-consume-20260720/a6-grid/audit.json",
+          "audit_sha256": "491f0d5f39dcb7d435004eebce4b845b4a13dbce1739f4c4f7be70b04deb710f"
+        }
+      ],
+      "note": "资源在命令提交边界交换，忍具库存不变。"
+    },
+    {
+      "id": "rest_confirmation_commit",
+      "from_state": "0x3300",
+      "to_state": "0x1210",
+      "to_state_alternatives": [
+        "0x1220"
+      ],
+      "kind": "runtime_transaction",
+      "input": "A (confirm)",
+      "guard": "the rest confirmation is committed: the acting unit heals and its action completes",
+      "ram_condition": "acting unit HP 24 -> 41, chakra 4 -> 4, action flags 0 -> 32",
+      "legacy_labels": {
+        "0x3310": "0x3300",
+        "0x1220": "0x1210"
+      },
+      "ambiguity": "The 2026-07-23 inventory only held 36 states, so its 0x1220 label covers the whole [0x080736F8, 0x080738C0) frame interval, which the signed 38-state denominator splits into 0x1210 (entry 0x080736F8) and the unnamed 0x1220 (entry 0x080737E6). The target is recorded as 0x1210 with 0x1220 kept as an explicit alternative; it must not be read as a closed edge until the round-tutorial checkpoint frame (0x08073780) is re-bound against the 38-state denominator.",
+      "evidence": [
+        {
+          "kind": "runtime_transaction",
+          "source": "notes/battle-controller-states-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "e0157597e6d7fddb94d036ddfa7a0d2e74fa232450ad08534cd868d6c6fe1336",
+          "quote": "confirming crosses 0x3310 -> 0x1220, heals the acting unit from 24 to 41 HP, preserves chakra, and completes its action"
+        },
+        {
+          "kind": "runtime_transaction",
+          "source": "notes/battle-resource-transaction-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "6e6bdde545219997980eb6fe0a6ed798813457f8efa50cabe8bf15aafc77c1a5",
+          "quote": "\"before_controller_state\": \"0x3310\",",
+          "before": "build/scenario-47-team-rest-route-20260720/t10k-rest/output.ss9",
+          "before_sha256": "f6ea08ca42349aa2430bc29b463743034d26df80e34f7cc13718a56071e5eb3d",
+          "after": "build/scenario-47-team-rest-route-20260720/t10k-confirm/output.ss9",
+          "after_sha256": "901bd1e3ac5c112c2ab1f16b160fb0ff5d95a59150aae3e29541fd9cb65cbe07",
+          "audit": "build/scenario-47-team-rest-route-20260720/t10k-confirm/audit.json",
+          "audit_sha256": "7f94cbabc41b9f40e9c96952fb5f2639b647a3614096629ef7f6f02bb2139796"
+        }
+      ],
+      "note": "休息在恢复 HP 的同时完成当前单位行动，不再进入普通攻击/移动草案。"
+    },
+    {
+      "id": "target_cancel_to_action_menu",
+      "from_state": "0x4100",
+      "to_state": "0x3000",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "B (cancel)",
+      "guard": "the player cancels target selection and falls back to the action menu",
+      "ram_condition": null,
+      "legacy_labels": {
+        "0x4100": "0x4100",
+        "0x3000": "0x3000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-action-transaction-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "f326f6c115df200ee2d5cefb44c577304c0bb34db55482b4ab2d5b19da6c452a",
+          "quote": "\"id\": \"target_to_action_cancel\",",
+          "before": "build/scenario-45-safe-resume-20260719/round6-sakura-target-cancel.ss9",
+          "before_sha256": "2bb1b6cacf5353d2650a6c991d5f21984dc3390c8b1548e2d9db2b80a633272b",
+          "after": "build/scenario-45-safe-resume-20260719/round6-sakura-tech-cancel.ss9",
+          "after_sha256": "ad6454f9d1734d80399b415bed653f70c04238733f909ef65b627f6cf09bc578"
+        }
+      ],
+      "note": "取消只回退顶层态，持久领域状态零差异。"
+    },
+    {
+      "id": "action_menu_cancel_stays",
+      "from_state": "0x3000",
+      "to_state": "0x3000",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "B (cancel)",
+      "guard": "the player cancels out of the move/action menu",
+      "ram_condition": null,
+      "legacy_labels": {
+        "0x3000": "0x3000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-action-transaction-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "f326f6c115df200ee2d5cefb44c577304c0bb34db55482b4ab2d5b19da6c452a",
+          "quote": "\"id\": \"move_menu_cancel\",",
+          "before": "build/scenario-45-safe-resume-20260719/sasuke-move-open.ss9",
+          "before_sha256": "0246b29daf34322cd4b9db4fd801932d27311e38b16386eb1334abc526c4aba8",
+          "after": "build/scenario-45-safe-resume-20260719/sasuke-move-cancel.ss9",
+          "after_sha256": "93ab9e19f19b7f16ccff77a6888e910e4044d3c010645a1634761c72c8c06a8f"
+        }
+      ],
+      "note": "取消后顶层保持 0x3000。"
+    },
+    {
+      "id": "nested_skill_cancel_stays",
+      "from_state": "0x4100",
+      "to_state": "0x4100",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "B (cancel)",
+      "guard": "the player cancels inside the nested skill/target controller",
+      "ram_condition": null,
+      "legacy_labels": {
+        "0x4100": "0x4100"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-action-transaction-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "f326f6c115df200ee2d5cefb44c577304c0bb34db55482b4ab2d5b19da6c452a",
+          "quote": "\"id\": \"nested_skill_cancel\",",
+          "before": "build/scenario-50-battle-15-round2-resource-route-20260720/s12-skills/output.ss9",
+          "before_sha256": "8c0e7c0e1578240dc125a8cc5ba160debe664f2fb30274c7459756dd25bc9246",
+          "after": "build/scenario-50-battle-15-round2-resource-route-20260720/s13-cancel-linked/output.ss9",
+          "after_sha256": "762b3d0880813fa0d95ff2a047a4a34dc858697af6e409b12095bc0d05134045"
+        }
+      ],
+      "note": "嵌套控制器内的取消不改变顶层态。"
+    },
+    {
+      "id": "teleport_commit_to_facing",
+      "from_state": "0x8000",
+      "to_state": "0x9000",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "A (confirm the resolution)",
+      "guard": "the shared resolver commits the teleport: chakra, destination and action flags are written at this boundary",
+      "ram_condition": "acting unit chakra 1 -> 0, position (5,6) -> (3,5), action flags 0 -> 16",
+      "legacy_labels": {
+        "0x8000": "0x8000",
+        "0x9000": "0x9000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-action-transaction-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "f326f6c115df200ee2d5cefb44c577304c0bb34db55482b4ab2d5b19da6c452a",
+          "quote": "\"id\": \"teleport_commit\",",
+          "before": "build/scenario-50-battle-15-round2-resource-route-20260720/r8d15-execute/output.ss9",
+          "before_sha256": "8e5a728676a1684cb327a60e4785c4f1de7b19c0cb95cade74f41ab282e2e82e",
+          "after": "build/scenario-50-battle-15-round2-resource-route-20260720/r8d16-settle/output.ss9",
+          "after_sha256": "f267341f632e6a062ce461b5b04d5deb2722bad8030078c63452eba50c05b1e6"
+        }
+      ],
+      "note": "资源、位置与行动标记在同一个 0x8000 -> 0x9000 边界提交。"
+    },
+    {
+      "id": "target_confirm_to_shared_resolution",
+      "from_state": "0x4100",
+      "to_state": "0x8000",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_sequence",
+      "input": "A (confirm)",
+      "guard": "the final confirmation succeeds; the preview has not committed any resource yet",
+      "ram_condition": "target HP unchanged at the 0x4100 -> 0x8000 boundary",
+      "legacy_labels": {
+        "0x4100": "0x4100",
+        "0x8000": "0x8000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_sequence",
+          "source": "notes/battle-effect-resolution-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "2a7577cbd62ee099a3d3c1c4a4ce0e7007d9d7ca27ff093d36a12da5e04eec7a",
+          "quote": "Each chain begins in controller state 0x4100, crosses shared resolution 0x8000, and ends in facing state 0x9000.",
+          "controller_sequence": [
+            "0x4100",
+            "0x8000",
+            "0x9000"
+          ],
+          "state_sha256": [
+            "1101909e2416f7fa7797911d22346d88b6ab0d2bc4bfd0b474bd2553d5ee77d5",
+            "7edc3a1da9b644e587ac8170ead39c6ec43dea97295d4536630117276436382d",
+            "ab84562741a7daa4075e90eff852e227af4a6bacdf74084f060d7fbcdf7a3761"
+          ],
+          "branch": "normal_damage"
+        },
+        {
+          "kind": "runtime_checkpoint_sequence",
+          "source": "notes/battle-effect-resolution-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "2a7577cbd62ee099a3d3c1c4a4ce0e7007d9d7ca27ff093d36a12da5e04eec7a",
+          "quote": "\"id\": \"normal_damage\","
+        }
+      ],
+      "note": "进入 0x8000 时 HP 与资源都未提交，伤害在下一解析边界才写入。"
+    },
+    {
+      "id": "shared_resolution_to_facing",
+      "from_state": "0x8000",
+      "to_state": "0x9000",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_matrix",
+      "input": "A (confirm the resolution) or none for the audited zero-input replays",
+      "guard": "the resolver commits the outcome: damage writes the target HP, a substitution writes the target position",
+      "ram_condition": "unit+0x154 holds the reaction code (0 = damage, 22 = substitution) at the resolution entry",
+      "legacy_labels": {
+        "0x8000": "0x8000",
+        "0x9000": "0x9000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_matrix",
+          "source": "notes/battle-reaction-matrix-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "f812f434ef35c8555d9068c51233b66b4c96ad3ad9af64410f8a532ede3578f0",
+          "quote": "Cross-check every retained battle-15 audit whose input is shared resolution 0x8000 and output is facing 0x9000",
+          "sample_count": 29,
+          "outcome_counts": {
+            "damage": 18,
+            "substitution": 11
+          }
+        },
+        {
+          "kind": "runtime_checkpoint_matrix",
+          "source": "notes/battle-reaction-matrix-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "f812f434ef35c8555d9068c51233b66b4c96ad3ad9af64410f8a532ede3578f0",
+          "quote": "\"sample_count\": 29,"
+        }
+      ],
+      "note": "29 个哈希绑定样本全部从 0x8000 进入 0x9000；结果类型由解析入口的 unit+0x154 决定。"
+    },
+    {
+      "id": "target_confirm_to_facing",
+      "from_state": "0x4100",
+      "to_state": "0x9000",
+      "to_state_alternatives": [],
+      "kind": "runtime_transaction",
+      "input": "A (confirm)",
+      "guard": "a shuriken attack is confirmed: the equipped tool slot is consumed and the action flag is set",
+      "ram_condition": "acting unit HP 46 -> 46, chakra 5 -> 5, action flags 0 -> 16, unit+0xB1 1 -> 0",
+      "legacy_labels": {
+        "0x4100": "0x4100",
+        "0x9000": "0x9000"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_transaction",
+          "source": "notes/battle-system-restoration-evidence-20260723.md",
+          "source_root": "local",
+          "source_sha256": "c92a0a576987645bc32a7908f71fb0444ca1c425850767bf53e9684be877dd1c",
+          "quote": "battle 13 的十字手里剑确认由一次审计过的单次 A 输入触发，从 `0x4100 → 0x9000`。"
+        }
+      ],
+      "note": "本样本的确认没有经过 0x8000 演出态，直接进入面向选择；因此 0x4100 -> 0x9000 是一条独立于共享解析链的边。"
+    },
+    {
+      "id": "defense_prompt_stays_on_yes",
+      "from_state": "0x9100",
+      "to_state": "0x9100",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "Up (answer yes)",
+      "guard": "the defense prompt is answered yes; only the nested menu selection changes",
+      "ram_condition": null,
+      "legacy_labels": {
+        "0x9100": "0x9100"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-defense-preparation-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "6303a83093c9e647f466e4ebc54cd07ab4941821434289a75d31ef383e661783",
+          "quote": "\"id\": \"choose_yes\",",
+          "key": "Up",
+          "audit": "build/battle-defense-sasuke-yes-20260723-01/audit.json",
+          "audit_sha256": "ba0769c6ada5a6197915a2acc3e305a890d406d0ff55252caf5efa3e7641ab5f"
+        }
+      ],
+      "note": "确认前顶层态不变，单位池与战斗控制区零差异。"
+    },
+    {
+      "id": "defense_prompt_to_action_browser",
+      "from_state": "0x9100",
+      "to_state": "0x9110",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "A (open the learned-action list)",
+      "guard": "the defense prompt is answered yes and the shared learned-action list opens",
+      "ram_condition": null,
+      "legacy_labels": {
+        "0x9100": "0x9100",
+        "0x9200": "0x9110"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-defense-preparation-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "6303a83093c9e647f466e4ebc54cd07ab4941821434289a75d31ef383e661783",
+          "quote": "\"id\": \"open_action_list\",",
+          "key": "A",
+          "audit": "build/battle-defense-sasuke-list-20260723-01/audit.json",
+          "audit_sha256": "5c8a15ec3a883151daf6091b25ab51554cf1a1bb2721c4a2f2204cd742330c24"
+        }
+      ],
+      "note": "防御准备复用通用动作浏览器，原版 2026-07-23 编号记为 0x9200，对应签名分母的 0x9110。"
+    },
+    {
+      "id": "offensive_action_rejected_in_defense_browser",
+      "from_state": "0x9110",
+      "to_state": "0x9110",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "A (confirm the selected action)",
+      "guard": "the selected action is not a defense/substitution category, so the confirmation is rejected",
+      "ram_condition": null,
+      "legacy_labels": {
+        "0x9200": "0x9110"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-defense-preparation-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "6303a83093c9e647f466e4ebc54cd07ab4941821434289a75d31ef383e661783",
+          "quote": "\"id\": \"reject_offensive_action\",",
+          "key": "A",
+          "audit": "build/battle-defense-sasuke-offense-reject-20260723-01/audit.json",
+          "audit_sha256": "62323d5a169026352817819d6468a2446109bfa95567c60b26d6247df487054a",
+          "visible_rejection": {
+            "selected_action": "火遁术",
+            "feedback": "只能选择防御系・回避系的术・忍具",
+            "screenshot_sha256": "1497e46d53049f4c43d258ec88f029797b7c1a8b0ea417ed5b1df8cd5245f300"
+          }
+        }
+      ],
+      "note": "防御类别资格在确认边界重新验证，不是进表时过滤。"
+    },
+    {
+      "id": "objective_result_to_victory_exit_check",
+      "from_state": "0xE000",
+      "to_state": "0xE010",
+      "to_state_alternatives": [],
+      "kind": "runtime_checkpoint_crossing",
+      "input": "none (frame boundary)",
+      "guard": "the battle objective is satisfied: the result flag flips 0 -> 1",
+      "ram_condition": "RAM 0x02026807 0 -> 1",
+      "legacy_labels": {
+        "0xE000": "0xE000",
+        "0xE010": "0xE010"
+      },
+      "ambiguity": null,
+      "evidence": [
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-objective-transition-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "934f4768b2bdee7a4ecaa8f7695249b70417dbf8728de4ec80e5b431446dacf2",
+          "quote": "\"before_controller_state\": \"0xE000\",",
+          "before": "build/scenario-44-postobjective-dialogue-scan-20260718/pulse-06.ss9",
+          "before_sha256": "31a7694642f7351808062f5d24ed6beabb003c90bce8062f1a5280462cc18c73",
+          "after": "build/scenario-44-postobjective-dialogue-scan-20260718/pulse-07.ss9",
+          "after_sha256": "25e2fc5f4ba6432ed5488f1e192a780de8959022b344c83f7aef0a306a478e74"
+        },
+        {
+          "kind": "runtime_checkpoint_crossing",
+          "source": "notes/battle-objective-transition-bindings-20260723.json",
+          "source_root": "reverse",
+          "source_sha256": "934f4768b2bdee7a4ecaa8f7695249b70417dbf8728de4ec80e5b431446dacf2",
+          "quote": "\"after_controller_state\": \"0xE010\","
+        }
+      ],
+      "note": "目标结果可以抢占普通行动尾部，胜利不是「清敌即胜」。"
+    }
+  ]
+}

@@ -1,0 +1,519 @@
+{
+  "blending_enabled": false,
+  "dispcnt_changed_fields": [
+    "bg3_char_base_10000"
+  ],
+  "dispcnt_difference_bits": "0x0400",
+  "grid16_second_instance": {
+    "bg0_hoffs": 152,
+    "bg0_voffs": 40,
+    "dispcnt": "0x1D40",
+    "note": "A second instance of the move-range screen (walk step-16, camera panned to 152/40) repeats the same pattern: the overlay is present exactly when DISPCNT bit 10 is set, and it does not depend on the camera.",
+    "screenshot_delta_versus_field": 36323
+  },
+  "grid_versus_field": {
+    "dispcnt_field": "0x1940",
+    "dispcnt_grid": "0x1D40",
+    "memory_delta": {
+      "pram_banks_changed": [
+        16
+      ],
+      "pram_bytes_changed": 1,
+      "vram_bytes_changed": 1491,
+      "vram_highest_changed": "0x103cf",
+      "vram_lowest_changed": "0x1198"
+    },
+    "note": "The field screen is the right baseline for the dimming: the round banner is a full-screen overlay of its own and hides everything else.",
+    "registers_differing": [
+      "dispcnt"
+    ],
+    "screen_registers_identical": true,
+    "sprites_active": {
+      "field": 20,
+      "grid": 20
+    }
+  },
+  "move_range_frame": {
+    "bg3_screen_base": 6144,
+    "bg3_tilemap": {
+      "cells": 1024,
+      "non_zero_cells": 1024,
+      "top_tiles": [
+        {
+          "count": 764,
+          "index": 57792
+        },
+        {
+          "count": 140,
+          "index": 448
+        },
+        {
+          "count": 28,
+          "index": 57798
+        },
+        {
+          "count": 28,
+          "index": 57799
+        },
+        {
+          "count": 21,
+          "index": 57793
+        },
+        {
+          "count": 2,
+          "index": 57800
+        }
+      ]
+    },
+    "bg_tilemap_cells": {
+      "bg0": 1,
+      "bg1": 0,
+      "bg2": 706,
+      "bg3": 175
+    },
+    "colour_space": {
+      "frame_colours": 162,
+      "frame_colours_missing_from_the_palette": 97,
+      "frame_colours_that_are_palette_entries": 65,
+      "palette_entries": 175
+    },
+    "directory": "/Users/altair/github/gba-naruto/artifacts/s49-original-movegrid-frame-v1",
+    "map_layer_unchanged": {
+      "bg0_palette_entries_changed": 0,
+      "bg0_tile_graphics_bytes_changed": 0,
+      "bg1_tile_graphics_bytes_changed": 0,
+      "bg2_region_bytes_changed": 706
+    },
+    "registers": {
+      "bg_hoffs": [
+        240,
+        240,
+        240,
+        0
+      ],
+      "bg_voffs": [
+        24,
+        24,
+        24,
+        0
+      ],
+      "bgcnt": [
+        "0x0007",
+        "0x0105",
+        "0x0202",
+        "0x030C"
+      ],
+      "bgcnt_fields": [
+        {
+          "char_base_block": 1,
+          "mosaic": 0,
+          "overflow": 0,
+          "palette_256": 0,
+          "priority": 3,
+          "screen_base_block": 0
+        },
+        {
+          "char_base_block": 1,
+          "mosaic": 0,
+          "overflow": 0,
+          "palette_256": 0,
+          "priority": 1,
+          "screen_base_block": 1
+        },
+        {
+          "char_base_block": 0,
+          "mosaic": 0,
+          "overflow": 0,
+          "palette_256": 0,
+          "priority": 2,
+          "screen_base_block": 2
+        },
+        {
+          "char_base_block": 3,
+          "mosaic": 0,
+          "overflow": 0,
+          "palette_256": 0,
+          "priority": 0,
+          "screen_base_block": 3
+        }
+      ],
+      "bldalpha": "0x0000",
+      "bldcnt": "0x0000",
+      "bldy": "0x0000",
+      "dispcnt": "0x1D40",
+      "dispcnt_fields": {
+        "bg0_char_base_10000": 0,
+        "bg1_char_base_10000": 1,
+        "bg2_char_base_10000": 0,
+        "bg3_char_base_10000": 1,
+        "bg_mode": 0,
+        "frame_select": 0,
+        "hblank_free": 0,
+        "lcd_enable": 0,
+        "obj_1d_mapping": 1,
+        "obj_char_base_10000": 1,
+        "obj_enable": 1
+      }
+    },
+    "screen_registers": {
+      "bldalpha": "0x0000",
+      "bldcnt": "0x0000",
+      "bldy": "0x0000",
+      "mosaic": "0x3F3F",
+      "winin": "0x00F0",
+      "winout": "0xFFFF"
+    },
+    "sprites": {
+      "active": 20,
+      "entries_only_here": [
+        [
+          80,
+          12,
+          128,
+          20
+        ],
+        [
+          110,
+          0,
+          0,
+          16
+        ],
+        [
+          110,
+          2,
+          0,
+          20
+        ],
+        [
+          112,
+          0,
+          0,
+          36
+        ],
+        [
+          112,
+          2,
+          0,
+          40
+        ],
+        [
+          136,
+          1,
+          0,
+          36
+        ],
+        [
+          136,
+          3,
+          0,
+          40
+        ],
+        [
+          192,
+          4,
+          0,
+          4
+        ],
+        [
+          208,
+          0,
+          128,
+          4
+        ],
+        [
+          216,
+          4,
+          0,
+          4
+        ]
+      ],
+      "extra_versus_banner": [
+        {
+          "palette": 2,
+          "shape": 0,
+          "size_bits": 0,
+          "slot": 17,
+          "tile": 112,
+          "x": 0,
+          "y": 40
+        },
+        {
+          "palette": 1,
+          "shape": 0,
+          "size_bits": 8,
+          "slot": 18,
+          "tile": 136,
+          "x": 0,
+          "y": 36
+        },
+        {
+          "palette": 0,
+          "shape": 0,
+          "size_bits": 0,
+          "slot": 19,
+          "tile": 112,
+          "x": 0,
+          "y": 36
+        }
+      ],
+      "slots_only_here": [
+        17,
+        18,
+        19
+      ]
+    }
+  },
+  "round_banner_frame": {
+    "bg3_screen_base": 6144,
+    "bg3_tilemap": {
+      "cells": 1024,
+      "non_zero_cells": 1024,
+      "top_tiles": [
+        {
+          "count": 844,
+          "index": 57792
+        },
+        {
+          "count": 37,
+          "index": 57793
+        },
+        {
+          "count": 36,
+          "index": 57798
+        },
+        {
+          "count": 36,
+          "index": 57799
+        },
+        {
+          "count": 6,
+          "index": 57800
+        },
+        {
+          "count": 6,
+          "index": 57801
+        }
+      ]
+    },
+    "colour_space": {
+      "frame_colours": 81,
+      "frame_colours_missing_from_the_palette": 0,
+      "frame_colours_that_are_palette_entries": 81,
+      "palette_entries": 170
+    },
+    "directory": "/Users/altair/github/gba-naruto/artifacts/s49-original-banner-frame-v1",
+    "map_layer_unchanged": {
+      "bg0_palette_entries_changed": 0,
+      "bg0_tile_graphics_bytes_changed": 0,
+      "bg1_tile_graphics_bytes_changed": 0,
+      "bg2_region_bytes_changed": 0
+    },
+    "registers": {
+      "bg_hoffs": [
+        240,
+        240,
+        240,
+        0
+      ],
+      "bg_voffs": [
+        24,
+        24,
+        24,
+        0
+      ],
+      "bgcnt": [
+        "0x0007",
+        "0x0105",
+        "0x0202",
+        "0x030C"
+      ],
+      "bgcnt_fields": [
+        {
+          "char_base_block": 1,
+          "mosaic": 0,
+          "overflow": 0,
+          "palette_256": 0,
+          "priority": 3,
+          "screen_base_block": 0
+        },
+        {
+          "char_base_block": 1,
+          "mosaic": 0,
+          "overflow": 0,
+          "palette_256": 0,
+          "priority": 1,
+          "screen_base_block": 1
+        },
+        {
+          "char_base_block": 0,
+          "mosaic": 0,
+          "overflow": 0,
+          "palette_256": 0,
+          "priority": 2,
+          "screen_base_block": 2
+        },
+        {
+          "char_base_block": 3,
+          "mosaic": 0,
+          "overflow": 0,
+          "palette_256": 0,
+          "priority": 0,
+          "screen_base_block": 3
+        }
+      ],
+      "bldalpha": "0x0000",
+      "bldcnt": "0x0000",
+      "bldy": "0x0000",
+      "dispcnt": "0x1940",
+      "dispcnt_fields": {
+        "bg0_char_base_10000": 0,
+        "bg1_char_base_10000": 1,
+        "bg2_char_base_10000": 0,
+        "bg3_char_base_10000": 0,
+        "bg_mode": 0,
+        "frame_select": 0,
+        "hblank_free": 0,
+        "lcd_enable": 0,
+        "obj_1d_mapping": 1,
+        "obj_char_base_10000": 1,
+        "obj_enable": 1
+      }
+    },
+    "screen_registers": {
+      "bldalpha": "0x0000",
+      "bldcnt": "0x0000",
+      "bldy": "0x0000",
+      "mosaic": "0x3F3F",
+      "winin": "0x00F0",
+      "winout": "0xFFFF"
+    },
+    "sprites": {
+      "active": 17,
+      "entries_only_here": [
+        [
+          16,
+          12,
+          128,
+          20
+        ],
+        [
+          16,
+          12,
+          128,
+          76
+        ],
+        [
+          80,
+          12,
+          128,
+          76
+        ],
+        [
+          109,
+          0,
+          0,
+          16
+        ],
+        [
+          109,
+          2,
+          0,
+          20
+        ],
+        [
+          110,
+          0,
+          0,
+          35
+        ],
+        [
+          110,
+          2,
+          0,
+          41
+        ],
+        [
+          112,
+          12,
+          128,
+          12
+        ],
+        [
+          120,
+          0,
+          0,
+          15
+        ],
+        [
+          120,
+          2,
+          0,
+          21
+        ],
+        [
+          128,
+          1,
+          0,
+          15
+        ],
+        [
+          128,
+          3,
+          0,
+          21
+        ],
+        [
+          136,
+          1,
+          0,
+          16
+        ],
+        [
+          136,
+          3,
+          0,
+          20
+        ],
+        [
+          138,
+          1,
+          0,
+          35
+        ],
+        [
+          138,
+          3,
+          0,
+          41
+        ],
+        [
+          176,
+          8,
+          0,
+          20
+        ]
+      ],
+      "extra_versus_banner": [],
+      "slots_only_here": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16
+      ]
+    }
+  },
+  "schema": "konoha.s49-movegrid-mechanism.v1"
+}

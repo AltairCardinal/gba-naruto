@@ -141,9 +141,21 @@ def check_against_the_frame(palette, frame_path: Path) -> dict[str, object]:
     }
 
 
-def write_palette(palette, bmp_path: Path = OUTPUT_BMP, json_path: Path = OUTPUT_JSON):
-    """Write a 16-entry sprite palette in the shape Butano's asset tool reads."""
+TRANSPARENT = (197, 131, 255)
 
+
+def write_palette(palette, bmp_path: Path = OUTPUT_BMP, json_path: Path = OUTPUT_JSON):
+    """Write a 16-entry sprite palette in the shape Butano's asset tool reads.
+
+    Index 0 is replaced by the remake's transparent magenta.  The original's
+    dimmed bank has a light grey at index 0, but that entry is never rendered
+    there -- the original's dimmed sprite keeps its transparent pixels
+    transparent.  The remake's unit art, on the other hand, uses index 0 for
+    roughly half of every sprite, so a light grey there would paint a grey box
+    around every dimmed unit.
+    """
+
+    palette = [TRANSPARENT] + [tuple(entry) for entry in palette[1:]]
     image = Image.new("P", (8, 8), 0)
     flat: list[int] = []
     for entry in palette:

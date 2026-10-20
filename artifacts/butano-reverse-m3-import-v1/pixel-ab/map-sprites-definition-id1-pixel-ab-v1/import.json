@@ -1,0 +1,63 @@
+{
+  "applicability": "local-anchor-found",
+  "artifact_schema": "map-sprites-definition-pixel-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "map-sprites-definition-id1-pixel-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/map-sprites-definition-id1-pixel-ab-v1/baseline.png",
+      "sha256": "b468ad8725bac086c6659f06ee0620ce3a9d1adfc575d0244747b2204e117ef8",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "map-sprites-definition-id1-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/map-sprites-definition-id1-pixel-ab-v1/evidence.json",
+    "sha256": "88d21cdaa8789a16b80d43bda8d38f91e756295554996c7d442aeb8fdb0d8de5"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": "e97427bc6225d4a4691720c569bc5268f7d41d957ebfb543626e8415fcf40024",
+    "bbox": [
+      178,
+      64,
+      215,
+      71
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": "79f98d2371b4a269ea4714e5c8256f1e29ce64285dd03e2786b540f64f17b399",
+    "changed_pixel_count": 213,
+    "source_path": "pixels"
+  },
+  "family": "map-sprites-definition-id1-pixel-ab-v1",
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-41-combat-dialogue.ss9"
+  ],
+  "manifest": "artifacts/map-sprites-definition-id1-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "0175f0ee8ec2184e1c3a15bd192e55d99fc4e5487fdc426209d7fe758d03ab06",
+  "reverse_file_hashes": {
+    "baseline.png": "b468ad8725bac086c6659f06ee0620ce3a9d1adfc575d0244747b2204e117ef8",
+    "candidate.png": "70ecfe210eb78c64e927a0d5c3ece47a581bd67ffb466c7e35e4c6c773e05dca",
+    "evidence.json": "88d21cdaa8789a16b80d43bda8d38f91e756295554996c7d442aeb8fdb0d8de5",
+    "raw.tar": "dfd6657b2611e86294c76828e2410721a2ee05461ab081de90afe993b329a113"
+  },
+  "scope": {
+    "not_proved": "No natural input route recreated the generic task during this run; pixel compatibility with donor entry 37's native tile base is outside this single-field experiment.",
+    "proved": "Entry 1 definition_ptr is materialized from ROM into task 123; the changed pointer reaches frame selection and OAM composition and changes 213 final pixels."
+  },
+  "unavailable_local_inputs": [],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_map_sprites_definition_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/map-sprites-definition-id1-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

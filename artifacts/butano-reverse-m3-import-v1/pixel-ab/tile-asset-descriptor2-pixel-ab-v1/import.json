@@ -1,0 +1,70 @@
+{
+  "applicability": "no-local-anchor-in-this-tree",
+  "artifact_schema": "tile-asset-descriptor-pixel-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "tile-asset-descriptor2-pixel-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/tile-asset-descriptor2-pixel-ab-v1/baseline.png",
+      "sha256": "06be5020360e05d035f59b0919dcf4655b917da353d08b0871dd9b8ee41828d4",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "tile-asset-descriptor2-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/tile-asset-descriptor2-pixel-ab-v1/evidence.json",
+    "sha256": "3433c4b0cedff5d713bcda3768fffc67513d8c123e69df8512c4553112ae2c59"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": "44479ffd5aff26101927c079df4e658665a9e36552212bc0e08228938b8c566a",
+    "bbox": [
+      0,
+      0,
+      239,
+      159
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": "dfe3df24453b540a1f6ceccffaeaabab3de32e2dc9ac990d9cfce7738b8f765b",
+    "changed_pixel_count": 38400,
+    "source_path": "pixels"
+  },
+  "family": "tile-asset-descriptor2-pixel-ab-v1",
+  "local_anchors": [],
+  "manifest": "artifacts/tile-asset-descriptor2-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "cceaa7a92507ac99fc0e9fc2abe40ba65426d4de5de03af671619510a3f1d5aa",
+  "reverse_file_hashes": {
+    "baseline.png": "06be5020360e05d035f59b0919dcf4655b917da353d08b0871dd9b8ee41828d4",
+    "candidate.png": "db4a9db58cc52e66cb8baf3486ac84562b6368143db77830fc1622971b0d7d36",
+    "evidence.json": "3433c4b0cedff5d713bcda3768fffc67513d8c123e69df8512c4553112ae2c59",
+    "raw.tar": "9364daa1156b6838fda98b52830d42d5f3c856347aeefa2655714a35fc98ed76"
+  },
+  "scope": {
+    "descriptor_2_layer_a_palette_pointer_runtime_verified": true,
+    "modified_rom_pixel_ab": true,
+    "natural_base_rom_route": true,
+    "other_descriptor_fields_runtime_verified": false,
+    "physical_gba_verified": false
+  },
+  "unavailable_local_inputs": [
+    "artifacts/residual-wram-tilemap-runtime-v2/scene-panel-setup.ss9",
+    "artifacts/runtime-checkpoints/scene-visual-controller-mode0-preselector.ss9"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_tile_asset_descriptor_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/tile-asset-descriptor2-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "expected": {
+      "verified": true
+    }
+  }
+}

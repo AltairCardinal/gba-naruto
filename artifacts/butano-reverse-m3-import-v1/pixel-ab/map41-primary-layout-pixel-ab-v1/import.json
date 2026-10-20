@@ -1,0 +1,76 @@
+{
+  "applicability": "local-anchor-found",
+  "artifact_schema": "map41-primary-layout-pixel-ab-evidence-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "map41-primary-layout-pixel-ab-v1/baseline/frame80.png",
+      "reverse_path": "artifacts/map41-primary-layout-pixel-ab-v1/baseline/frame80.png",
+      "sha256": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "map41-primary-layout-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/map41-primary-layout-pixel-ab-v1/runtime-evidence.json",
+    "sha256": "f1e0326540b9e986cc07a9dc5c803503139929fdba5816dddf53a05a565a15be"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": null,
+    "bbox": [
+      8,
+      0,
+      39,
+      7
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": null,
+    "changed_pixel_count": 204,
+    "source_path": "pixel_result"
+  },
+  "family": "map41-primary-layout-pixel-ab-v1",
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-41-start-row.ss9"
+  ],
+  "manifest": "artifacts/map41-primary-layout-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "56dedcd21904cc65b1e3582894128a5b62fab02bbb9f1c9830b456e0d4a11d25",
+  "reverse_file_hashes": {
+    "baseline/audit.json": "eca0a8ff18f859577b647cc6bd36869b6423fce62569de5330867082b3231db4",
+    "baseline/frame80.png": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+    "baseline/frame80.ss9": "e38e0e154ce0db7d07f8a6c24342f85045cff26e068fcd70f049ed846663c61a",
+    "baseline/guard.json": "12b1ab7be1b00a424e334ee1aa0244a8126576991a921349b0f0e943db843960",
+    "baseline/sentinel.json": "eca0a8ff18f859577b647cc6bd36869b6423fce62569de5330867082b3231db4",
+    "build-manifest.json": "b6e0cb12022840322b8e6b2ac2738062d9732152f1bc6b00c4ee5268c24bd6e4",
+    "candidate/audit.json": "06d1946c871f6c8745406f3727686127be683a5eaf2ef0471642dfda7017a884",
+    "candidate/frame80.png": "8d138b2a72f2a9b2fe973f333f74e420fc5464fbe7d65ed04f750735287524bf",
+    "candidate/frame80.ss9": "44d0433aa9acb634f45b4db0934f6b68a3b13ea471e799c3b9c2bebacdbc14ee",
+    "candidate/guard.json": "47bc5bab3d3a6f9932a65247516532be2cf8ec34c5a7f55971813c5bf38d6095",
+    "candidate/sentinel.json": "06d1946c871f6c8745406f3727686127be683a5eaf2ef0471642dfda7017a884",
+    "runtime-evidence.json": "f1e0326540b9e986cc07a9dc5c803503139929fdba5816dddf53a05a565a15be"
+  },
+  "scope": {
+    "exact_ewram_vram_pixel_diff_verified": true,
+    "exact_loader_pc_runtime_trace": false,
+    "full_camera_timing": false,
+    "map41_alias_split_verified": true,
+    "natural_entry": true,
+    "physical_gba_verified": false,
+    "preloader_zero_to_runtime_resource_verified": true
+  },
+  "unavailable_local_inputs": [],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_map41_primary_layout_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/map41-primary-layout-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

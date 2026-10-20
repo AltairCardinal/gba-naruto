@@ -82,6 +82,17 @@ int main()
     assert(model.move_position == grid_point({ 3, 4 }));
     assert(model.move_cost == 2);
 
+    // The round banner is the original's screen between the opening dialogue
+    // and the first command (S49 original frame 15).  It is drawn over the
+    // battlefield, so the status bar stays up behind it.
+    state.phase = battle_scene_phase::turn_banner;
+    model = make_battle_ui_model(state, false);
+    assert(model.layer == battle_ui_layer::turn_banner);
+    assert(model.show_status_panel);
+    assert(! model.show_menu_panel);
+    assert(! model.show_move_prompt);
+    assert(! model.show_target_prompt);
+
     state.phase = battle_scene_phase::command_selection;
     state.player.command_count = 3;
     state.player.command_index = 1;

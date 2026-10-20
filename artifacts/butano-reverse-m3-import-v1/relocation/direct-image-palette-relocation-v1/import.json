@@ -1,0 +1,118 @@
+{
+  "artifact_schema": "direct-image-palette-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "audit": {
+    "mutation_model": null,
+    "output_rom_sha256": "638b1534e0e0d5f955ea06266cad783ed05b6a74575273302229bd17988c5cd2",
+    "rom": null,
+    "scope": {
+      "editable": "All three 16-color LZ77 palettes and every non-overlap-locked raw BGR555 byte may be replaced at fixed decoded size. The nested 0x08406010 source remains an alias of 0x08405FF0+0x20.",
+      "not_proved": "Editing the 72 bytes shared with the scene LZ77 stream, assigning palettes to the two unresolved graphics, changing PRAM destinations or copy lengths, and final screen-composited runtime equivalence.",
+      "proved": "All 18 strictly proven direct ROM-to-PRAM palette source addresses and all 29 exact aligned source-pointer roots are accounted for as 17 physical allocations. A preservation relocation rebuilds a 16 MiB ROM."
+    },
+    "source_catalog": null,
+    "summary": {
+      "allocation_count": 17,
+      "allocation_end": 12321556,
+      "allocation_span": 788,
+      "allocation_start": 12320768,
+      "applied_patch_count": 46,
+      "logical_source_count": 18,
+      "lz77_decoded_size": 96,
+      "lz77_resource_count": 3,
+      "overlap_locked_size": 72,
+      "physical_resource_count": 17,
+      "pointer_patch_count": 29,
+      "raw_physical_size": 672,
+      "raw_resource_count": 14,
+      "region_end": 12321792,
+      "remaining_bytes": 236,
+      "source_pointer_reference_count": 29,
+      "stored_payload_bytes": 788,
+      "unexpected_source_pointer_count": 0,
+      "unresolved_graphics_palette_count": 2
+    }
+  },
+  "audit_source": "artifacts/direct-image-palette-relocation-v1/relocation-audit.json",
+  "base_rom_matches_project": true,
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "capacity_gate": {
+    "guarded_importer_flags": [],
+    "holds": true,
+    "minimum_original_slot_margin": null,
+    "mutation_overflow_content_count": null,
+    "mutation_overflow_slot_count": null,
+    "problems": [],
+    "roundtrips": [],
+    "unexpected_pointer_count": null
+  },
+  "family": "direct-image-palette-relocation-v1",
+  "imported_payloads": [
+    {
+      "path": "direct-image-palette-relocation-v1/full-relocation-spec.json",
+      "reverse_path": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+      "sha256": "555724a02c1b051279245970349158c829c367439676845e570dc497ed3470fa"
+    },
+    {
+      "path": "direct-image-palette-relocation-v1/relocation-audit.json",
+      "reverse_path": "artifacts/direct-image-palette-relocation-v1/relocation-audit.json",
+      "sha256": "40fc2052167ec9403f7300f16113a044d3391afc6a780285a80f246e6359b01b"
+    }
+  ],
+  "kind": "relocation",
+  "manifest": "artifacts/direct-image-palette-relocation-v1/manifest.json",
+  "manifest_sha256": "996a9dc0dfd9174154a3cdae9bfbdafd03799fc75fad91d646b21a3e8cced3c1",
+  "reverse_file_hashes": {
+    "full-relocation-spec.json": "555724a02c1b051279245970349158c829c367439676845e570dc497ed3470fa",
+    "palette_080b9f5c.bgr555.bin": "d198ec85eff147b157978bb44d1948db5b9893edb5f8f63d4d9b96b5ca7e7e84",
+    "palette_08348668.bgr555.bin": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
+    "palette_08348be4.bgr555.bin": "6c8893d616cce74a88bbcc1b5ce8a91e5188c530d31b65f19c3ba1577467198e",
+    "palette_0834941c.bgr555.bin": "b5026d9f9be4c7a632a6ce2cb49b825cf6b735d60c256aeb7c1033e015379999",
+    "palette_083496b0.bgr555.bin": "ea3242236994abb7dd34e690f17a4257a7166f2586acd55c7743f0224b0dd3dd",
+    "palette_083f0ac8.bgr555.bin": "a0b2e109a1f53d565e41bc05112ad6018b6a390b9b9dd902e93526a788a00217",
+    "palette_083f0af0.bgr555.bin": "b11c213e0969ea51fb69f3b7060b5efcd06ce14b5ebf5c3c15c1955d07a8b50b",
+    "palette_083f1e60.bgr555.bin": "19567cb1079d1340c6f018d9f3019069126f53f2e2577cc3a15765d96fe39de3",
+    "palette_083f1f08.bgr555.bin": "48847c38fed3966e5ccea283d1e0d90e464cb6acad11e5788e62a8eeaf8d7c74",
+    "palette_083f2794.bgr555.bin": "14975f2391f88813040bbadc136bbfcaa736a408521af3701054bf0470d5a4f9",
+    "palette_083f2cb0.bgr555.bin": "bb58f9bc0be9a3b7ad2604ced29815b23d55660c89e70e59430959cf7aed8b2f",
+    "palette_08405ff0.bgr555.bin": "5450eec1d4290fbece155869547a8caccefad7c39d36cf05b56fc9f6f1b7ec60",
+    "palette_08457ea8.bgr555.bin": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+    "palette_0845830c.bgr555.bin": "379538be95492f6c67e56da98330241de43996021a339f41735769dd9e49fff2",
+    "palette_084638d4.bgr555.bin": "1a3f7ca023287acbbe2f4f7aa80e52160f687e5d791603a96e8c04ec13a155e7",
+    "palette_084638f4.bgr555.bin": "107efd33b08a2dd2a61391231890a52f1be532fadcece5cc6516327d51adb3d3",
+    "palette_08463ffc.bgr555.bin": "f668cd9e033cf7ed9902633fe6b9c3df99bc0a9bcb0aa1219912cf2ab9262e18",
+    "relocation-audit.json": "40fc2052167ec9403f7300f16113a044d3391afc6a780285a80f246e6359b01b"
+  },
+  "rule_set": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "description": null,
+    "edit_count": null,
+    "owner": "sequel_image_assets",
+    "partition": "sequel-image-assets",
+    "region": "direct-image-palettes",
+    "region_owner": "direct_image_palettes",
+    "region_registry": "sequel/image-resource-regions.json",
+    "region_registry_sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "resource_count": 17,
+    "schema": "direct-image-palette-relocation-v1",
+    "source_catalog": null,
+    "source_catalog_sha256": null
+  },
+  "rule_set_source": "artifacts/direct-image-palette-relocation-v1/full-relocation-spec.json",
+  "scope": {
+    "editable": "All three 16-color LZ77 palettes and every non-overlap-locked raw BGR555 byte may be replaced at fixed decoded size. The nested 0x08406010 source remains an alias of 0x08405FF0+0x20.",
+    "not_proved": "Editing the 72 bytes shared with the scene LZ77 stream, assigning palettes to the two unresolved graphics, changing PRAM destinations or copy lengths, and final screen-composited runtime equivalence.",
+    "proved": "All 18 strictly proven direct ROM-to-PRAM palette source addresses and all 29 exact aligned source-pointer roots are accounted for as 17 physical allocations. A preservation relocation rebuilds a 16 MiB ROM."
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_direct_image_palette_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/direct-image-palette-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

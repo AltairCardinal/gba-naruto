@@ -1,0 +1,62 @@
+{
+  "applicability": "no-local-anchor-in-this-tree",
+  "artifact_schema": "natural-delayed-battle-effect-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "battle-effect-group03-natural-pixel-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/battle-effect-group03-natural-pixel-ab-v1/baseline.png",
+      "sha256": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "battle-effect-group03-natural-pixel-ab-v1/evidence.json",
+    "reverse_path": "artifacts/battle-effect-group03-natural-pixel-ab-v1/evidence.json",
+    "sha256": "a24bdd9fff829c43967923d5da8bb7778de605431ecfb2f65cee3601ec1eb752"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": null,
+    "bbox": [
+      70,
+      91,
+      71,
+      92
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": null,
+    "changed_pixel_count": 1,
+    "source_path": "runtime"
+  },
+  "family": "battle-effect-group03-natural-pixel-ab-v1",
+  "local_anchors": [],
+  "manifest": "artifacts/battle-effect-group03-natural-pixel-ab-v1/manifest.json",
+  "manifest_sha256": "1d443078e52355b11b7324e82b11fda4e115c24e92301d3fd92515c2980e3c10",
+  "reverse_file_hashes": {
+    "baseline.png": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+    "candidate.png": "996658218a1b1de40ee1fc0aa5d7887040e9411bd13105685cfd2394f3d9a7f2",
+    "evidence.json": "a24bdd9fff829c43967923d5da8bb7778de605431ecfb2f65cee3601ec1eb752",
+    "raw.tar": "c55e5b7514bf32cc32474edf35ab0996b775db60f5f6a76205adaacece1d741f"
+  },
+  "scope": {},
+  "unavailable_local_inputs": [
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
+    "sequel/content/battle-effect-natural-pixel-ab/group-03-tool67-expiry.json"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group03-natural-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

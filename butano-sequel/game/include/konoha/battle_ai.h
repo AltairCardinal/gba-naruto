@@ -961,13 +961,11 @@ public:
                 candidate.destination = destination;
                 candidate.scoring_position =
                         destination;
+                // S49 original frame 18: the unit that walked two cells east
+                // ends up facing east, not facing its focus position.  A unit
+                // that has only moved faces the way it moved; the focus
+                // position steers where it goes, not where it looks.
                 candidate.facing =
-                        objective.has_focus_position ?
-                        battle_ai_candidate_scorer::
-                                facing_toward(
-                                        destination,
-                                        objective.focus_position,
-                                        acting_unit.facing) :
                         battle_ai_candidate_scorer::
                                 facing_toward(
                                         acting_unit.position,
