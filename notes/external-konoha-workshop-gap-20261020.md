@@ -378,6 +378,82 @@ python tools/probe_external_re_claims.py
 
 ---
 
+## 9. 取证：这份成果由什么做的
+
+**记录时间**: 2026-10-20（与 §1~§8 同批）
+
+### 9.1 物证：原始 MCP 调用转录
+
+`源码/asset_import/generated/完整生成调用记录.txt` 保留了作者生成凯的头像与战斗精灵时
+**未经加工的原始调用文本**：
+
+```javascript
+// @exec: {"yield_time_ms": 1000, "max_output_tokens": 1000}
+const result=await tools.image_gen__imagegen({transparent_background:true,
+  referenced_image_paths:["/mnt/d/gba_hack/火影木叶战记改版/asset_import/reference/portrait_47.png"],
+  prompt:"Use case: stylized-concept\nAsset type: a replacement pixel-art dialogue portrait ..."});
+store("guy_portrait_result",result);generatedImage(result);
+```
+
+`源码/asset_import/generated/生成记录.json` 同步记录 `"mode": "built-in image_gen.imagegen"`。
+
+由此可确定该工作流具备下列特征：
+1. JS **exec 块**（`// @exec:` pragma，键名 `yield_time_ms` / `max_output_tokens`）
+2. MCP 工具以 **`server__tool`** 形式暴露（`tools.image_gen__imagegen`）
+3. 会话级辅助函数 **`store(key, value)`** 与 **`generatedImage(result)`**
+4. 图像生成 MCP 服务名 `image_gen`、工具名 `imagegen`，
+   参数 `transparent_background` / `referenced_image_paths`
+
+### 9.2 平台归属判断
+
+**结论：高度指向 MiniMax Code（MCode）家族（即本仓库当前所处的同一产品族），但无法 100% 证实。**
+
+支持证据（本机可验证）：
+- 本机 `mcode-tools` 技能文档明确采用 `server__tool` 命名族：
+  "Names in the form `connector__<provider>__<tool>` are CLI arguments"
+- 本机 MCode 3.1.4 安装包（`resources/app.asar`, 415 MB）内含
+  `parseMcpToolName` 正则 `/^mcp__(.+?)__(.+)$/`、RuntimeTool 注册表、
+  `mcp_invoke`(129)、`tool_search`(222)、`self_reminder`(72)、`mavis`(38903)
+  —— 同一套"MCP 工具注入 + 委派 + 会话"模型
+- 包内含 `mcode-tools` beta 相关代码（211 处）与 `@anthropic-ai/sdk`
+- 交付形态与 MCode 工程习惯吻合：`AGENTS.md` 式规则、源码 + 入口说明、
+  `给AI的修改入口.md` 明确为"让 AI 继续改造"而写
+
+反向证据（必须记下）：
+- 本机 MCode 3.1.4 桌面包内 **查不到** `// @exec:`、`yield_time_ms`、
+  `store()`、`generatedImage()`、`referenced_image_paths`、`transparent_background`，
+  也没有名为 `image_gen` 的 MCP 服务（`image_gen` 的 97 处命中全部来自 Vertex AI SDK）
+- 说明作者的会话跑在**更新版 / beta / 其他 agent 运行时**上，而非我能检视的 3.1.4 桌面包
+- 唯一无法排除的替代解释是 **Claude Code**：`// @exec: {"yield_time_ms", "max_output_tokens"}`
+  是其公开的 JS 块约定；但 `store()` / `generatedImage()` / `image_gen` 这套组合
+  未见于其文档。**Claude Code 的 helper 集合本机无法验证，故不作断言。**
+
+### 9.3 人机分工（比"哪个模型"更重要）
+
+物证显示 AI 是**主力执行者**，但人类是**导演**：
+- 作者主动交付"给AI的修改入口.md"，并在许可说明里写"可以自行或使用AI修改"
+- 证据分级纪律（"编辑器导出通过 / 原生判定定点 / 模拟器正常按键 / 完整通关"四档，
+  且自陈"本次没有重新完整打通两版各26场"）—— 这种**主动防止夸大**的要求通常来自人类指令
+- 图像提示词是**纯人工美术指导**：
+  "Never substitute Rock Lee"、"leave 4 logical pixels of transparent margin"、
+  逐帧姿态清单、"15 flat opaque colors plus transparency"——
+  这需要懂 GBA 限制、懂凯这个角色、还要懂忍术动作语义
+- 交付节奏：2026-10-18 11:45 → 10-19 11:39，约 24 小时连续冲刺，
+  00:06 / 00:19 / 01:18 / 02:09 / 03:47 均有产物 —— 典型 vibe coding 长跑
+- 工作目录自曝：`D:/gba_hack/火影木叶战记改版/`（Windows）与
+  `/mnt/d/gba_hack/...`（WSL）两套路径并存
+
+### 9.4 对我们工作的直接影响
+
+- 对方留下的 `源码/` 是**自编 MIT 代码**，可读可复用；
+  但**不能把它当作"已验证的正确性基准"**（对方自陈未完整通关）
+- 对方的"四级证据分级"可直接搬进我们 `notes/runtime-verification-gates-20260710.md`
+- 对方的 exec 块 + `image_gen` 能力说明该平台具备**直接生成像素素材**的通路，
+  我们若要补凯这类新角色资产，可复用同一路径（见 `skills/` 中的 `fal-ai-generation`）
+
+
+---
+
 ## 9. 第三方源码已 vendored 入库
 
 该包的自编代码（MIT 授权部分）已按原目录结构复制到
