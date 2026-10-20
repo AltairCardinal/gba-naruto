@@ -27,7 +27,15 @@ import { renderRoute, renderStage as renderRouteStage } from '../js/modules/rout
 import { renderAudio } from '../js/modules/audio.js';
 import { renderAssets } from '../js/modules/assets.js';
 import { renderRaw, applyPatch } from '../js/modules/raw.js';
-import { hexToBytes } from '../js/bytes.js';
+import { hexToBytes, base64ToBytes } from '../js/bytes.js';
+import { scanTokens } from '../js/textcodec.js';
+
+/** 一段字节里有多少个控制码。 */
+function countCtrl(bytes) {
+  let n = 0;
+  for (const token of scanTokens(bytes)) if (token.k === 'c') n += 1;
+  return n;
+}
 import { renderDomainIndex, renderPanel } from '../js/modules/common.js';
 
 const out = document.getElementById('out');
@@ -338,6 +346,49 @@ const MODULES = [
         check('同址二次修改合并进同一条补丁',
           ctx.pack.patches.length === before && changed9.length === 1 && changed9[0] === at,
           `补丁数 ${before} → ${ctx.pack.patches.length}`);
+      } finally {
+        ctx.pack = saved;
+      }
+    }
+
+    // --- 10. 控制码：改写文本不得破坏排版 -------------------------------
+    info('控制码：改写文本不得破坏排版…');
+    {
+      const saved = ctx.pack;
+      ctx.pack = ContentPack.fromJSON(JSON.parse(packText));
+      try {
+        const table = ctx.pack.textTable('mission_descriptions');
+        const target = table.records.find((r) => {
+          const raw = base64ToBytes(r.raw || '');
+          return raw.some((b) => b === 1 || b === 2);
+        });
+        check('找到带控制码的文本记录', !!target,
+          target ? `${target.id}（${target.text.length} 字）` : '没有');
+        if (target) {
+          const before = base64ToBytes(target.raw);
+          const beforeCtrl = countCtrl(before);
+          ctx.pack.setText(table, target, target.text + '改');
+          const out11 = buildRom(ctx.pack, base);
+          // 变长的记录会被搬到空闲区，断言要看它的新位置
+          const movedNow = out11.report.movedTexts.find(
+            (m) => m.table === table.id && m.id === target.id);
+          const home = movedNow ? movedNow.to : target.text_offset;
+          const newLen = ctx.pack.textBytes(target).length;
+          const after = out11.bytes.slice(home, home + newLen);
+          const afterCtrl = countCtrl(after);
+          check('编辑后控制码一个不少', afterCtrl === beforeCtrl && out11.report.errors.length === 0,
+            `${beforeCtrl} → ${afterCtrl}；${out11.report.errors.join('; ')}`);
+
+          let othersChanged = 0;
+          for (const r of table.records) {
+            if (r.id === target.id) continue;
+            const original = base64ToBytes(r.raw || '');
+            const now = out11.bytes.slice(r.text_offset, r.text_offset + original.length);
+            if (now.some((b, i) => b !== original[i])) othersChanged += 1;
+          }
+          check('同表其它记录逐字节未变', othersChanged === 0,
+            `${othersChanged} 条被牵连`);
+        }
       } finally {
         ctx.pack = saved;
       }

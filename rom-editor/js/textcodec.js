@@ -122,8 +122,133 @@ export class FontCodec {
     return new Uint8Array(bytes);
   }
 
+  /** The same text, as a token stream (so control codes can be carried). */
+  encodeTokens(text, onMissing) {
+    const tokens = [];
+    for (const ch of text) {
+      if (ch === '\n') {
+        tokens.push({ k: 't', c: 10 });
+        continue;
+      }
+      const code = this.charToCode.get(ch);
+      if (code === undefined) {
+        if (onMissing) onMissing(ch);
+        continue;
+      }
+      tokens.push({ k: 't', c: code });
+    }
+    return tokens;
+  }
+
   /** Byte length the encoded form of `text` will occupy. */
   encodedLength(text) {
     return this.encode(text).length;
   }
+}
+
+/**
+ * Scan a byte run into a token stream that **preserves control codes**.
+ *
+ * Mirrors `tools/konoha_font.py::scan_tokens`:
+ *   {k:'t', c}  a font code (2 bytes in the ROM) or an ASCII byte
+ *   {k:'c', b}  a control code, exactly as it appears in the ROM
+ *
+ * Control bytes 0x01/0x02 carry layout meaning (line breaks, page breaks).
+ * Anything that writes text back has to work on tokens, never on the decoded
+ * string — see notes/font-encoding.md.
+ */
+export function scanTokens(bytes) {
+  const tokens = [];
+  let p = 0;
+  while (p < bytes.length) {
+    const a = bytes[p];
+    if (a === 0) break;
+    if (a === 1 || a === 2) {
+      // A control code takes 2 or 3 bytes.  When the run ends right after the
+      // control byte, the remaining payload byte is the string terminator and
+      // belongs to the *next* record — so the control code is recorded with
+      // only the bytes that are actually here, and the round trip stays
+      // byte-exact.  (The repo's scanner runs on the whole ROM and swallows
+      // the terminator, which merges two records.)
+      const width = a === 1 ? 2 : 3;
+      const b = [a];
+      for (let i = 1; i < width && p + i < bytes.length; i++) b.push(bytes[p + i]);
+      tokens.push({ k: 'c', b });
+      p += b.length;
+      continue;
+    }
+    if (a >= 0x80 && a <= 0x9f) {
+      if (p + 1 >= bytes.length || bytes[p + 1] === 0) break;
+      tokens.push({ k: 't', c: (a << 8) | bytes[p + 1] });
+      p += 2;
+      continue;
+    }
+    tokens.push({ k: 't', c: a });
+    p += 1;
+  }
+  return tokens;
+}
+
+/**
+ * Encode a token stream back into ROM bytes.
+ * Mirrors `tools/konoha_font.py::encode_tokens`.
+ */
+export function encodeTokens(tokens) {
+  const out = [];
+  for (const token of tokens) {
+    if (token.k === 'c') {
+      for (const b of token.b) out.push(b & 0xff);
+      continue;
+    }
+    const code = token.c;
+    if (code === 10) out.push(0x0a);
+    else if (code >= 32 && code < 127) out.push(code);
+    else if (code === 0x8140) out.push(0x81, 0x40);
+    else out.push((code >> 8) & 0xff, code & 0xff);
+  }
+  return new Uint8Array(out);
+}
+
+/** How many control codes a token stream carries. */
+export function countControlCodes(tokens) {
+  return tokens.reduce((n, t) => n + (t.k === 'c' ? 1 : 0), 0);
+}
+
+/**
+ * Replace the text of an existing token stream while **keeping every control
+ * code where it was**.
+ *
+ * The original stream is T0 C1 T1 C2 T2 … Cn-1 Cn Tn.  The new text is split
+ * across the same n+1 runs (each run keeps its original length when it can,
+ * the last run absorbs the difference), so the control codes stay exactly
+ * where the author had them — line breaks and page breaks do not move.
+ */
+export function mergeTokens(originalTokens, newTextTokens) {
+  const runs = [];
+  const controls = [];
+  let current = [];
+  for (const token of originalTokens) {
+    if (token.k === 'c') {
+      controls.push(token);
+      runs.push(current);
+      current = [];
+    } else {
+      current.push(token);
+    }
+  }
+  runs.push(current);
+
+  const out = [];
+  let index = 0;
+  for (let i = 0; i < runs.length; i++) {
+    const wanted = i < runs.length - 1
+      ? runs[i].length
+      : newTextTokens.length - index;
+    for (let j = 0; j < wanted && index < newTextTokens.length; j++) {
+      out.push(newTextTokens[index++]);
+    }
+    if (i < controls.length) out.push(controls[i]);
+  }
+  while (index < newTextTokens.length) out.push(newTextTokens[index++]);
+  return out;
 }

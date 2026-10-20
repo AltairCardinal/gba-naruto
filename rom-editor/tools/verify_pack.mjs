@@ -18,6 +18,15 @@ import { dirname, join } from 'node:path';
 
 import { ContentPack } from '../js/pack.js';
 import { buildRom } from '../js/rom.js';
+import { scanTokens } from '../js/textcodec.js';
+import { base64ToBytes } from '../js/bytes.js';
+
+/** How many control codes (0x01 / 0x02) a byte run carries. */
+function countCtrl(bytes) {
+  let n = 0;
+  for (const token of scanTokens(bytes)) if (token.k === 'c') n += 1;
+  return n;
+}
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, '..');
@@ -247,6 +256,81 @@ console.log('\n6) 剧情 VM：脚本里的「下一场景」与定宽操作数')
       changed8[0] === operand.rom_offset && out8.bytes[operand.rom_offset] === wanted,
       out8.report.errors.join('; ') ||
       `改动 @0x${operand.rom_offset.toString(16)}（期望 0x${wanted.toString(16)}）`);
+  }
+}
+
+console.log('\n7) 控制码：改写文本不得破坏排版');
+{
+  const p9 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  const table = p9.textTable('mission_descriptions');
+  // 找一条带控制码的记录
+  const target = table.records.find((r) => {
+    const bytes = base64ToBytes(r.raw || '');
+    return countCtrl(bytes) > 0;
+  });
+  check('找到带控制码的记录', !!target,
+    target ? `${target.id}（${target.text.length} 字，${countCtrl(base64ToBytes(target.raw))} 个控制码）` : '没有');
+
+  if (target) {
+    const before = base64ToBytes(target.raw);
+    const beforeCtrl = countCtrl(before);
+    const newText = target.text + '改';
+    p9.setText(table, target, newText);
+    const out9 = buildRom(p9, rom);
+    check('构建无错误', out9.report.errors.length === 0, out9.report.errors.join('; '));
+
+    // 控制码必须还在，而且位置不变
+    const movedNow = out9.report.movedTexts.find((m) => m.table === table.id && m.id === target.id);
+    const home = movedNow ? movedNow.to : target.text_offset;
+    const newLen = p9.textBytes(target).length;
+    const after = out9.bytes.slice(home, home + newLen);
+    const afterCtrl = countCtrl(after);
+    check('编辑后控制码一个不少', afterCtrl === beforeCtrl,
+      `${beforeCtrl} → ${afterCtrl}${movedNow ? `（记录搬到 0x${movedNow.to.toString(16)}）` : ''}`);
+
+    // 别的记录不能被牵连
+    const changed = [];
+    for (let i = 0; i < out9.bytes.length; i++) if (out9.bytes[i] !== rom[i]) changed.push(i);
+    const tableStart = Math.min(...table.records.map((r) => r.text_offset).filter((v) => v !== null));
+    const tableEnd = Math.max(...table.records.map((r) => r.text_offset + (r.raw ? base64ToBytes(r.raw).length : 0)));
+    const pointerSlots = table.records
+      .map((r) => r.pointer_offset)
+      .filter((v) => v !== null && v !== undefined);
+    const pointerStart = Math.min(...pointerSlots);
+    const pointerEnd = Math.max(...pointerSlots) + 4;
+    // 变长的那条记录被搬到空闲区，它的新副本也算「表外改动」
+    const newHome = home;
+    const newHomeEnd = newHome + newLen + 1;   // +1 = NUL 结束符
+    const outside = changed.filter((i) => i < tableStart || i >= tableEnd);
+    const onlyExpected = outside.every(
+      (i) => (i >= pointerStart && i < pointerEnd) || (i >= newHome && i < newHomeEnd));
+    const others = table.records.filter((r) => r.id !== target.id);
+    let othersChanged = 0;
+    for (const r of others) {
+      const original = base64ToBytes(r.raw || '');
+      const now = out9.bytes.slice(r.text_offset, r.text_offset + original.length);
+      if (now.some((b, i) => b !== original[i])) othersChanged += 1;
+    }
+    check('同表其它记录逐字节未变', othersChanged === 0,
+      `${othersChanged} 条被牵连`);
+    check('表外只改了指针与搬走那条记录的新副本', onlyExpected,
+      onlyExpected
+        ? `共改 ${changed.length} 字节（表内 ${changed.length - outside.length}，表外 ${outside.length}）`
+        : `表外改了 ${outside.length} 字节 @ ${outside.map((i) => '0x' + i.toString(16)).join(',')}` +
+          `；指针表 0x${pointerStart.toString(16)}–0x${pointerEnd.toString(16)}，` +
+          `新副本 0x${newHome.toString(16)}–0x${newHomeEnd.toString(16)}`);
+
+    // 导出 → 导入 后，改动必须还在（内容包是编辑器的存档格式）
+    const reloaded = ContentPack.fromJSON(JSON.parse(JSON.stringify(p9.toJSON())));
+    const out9b = buildRom(reloaded, rom);
+    let same = out9b.bytes.length === out9.bytes.length;
+    if (same) {
+      for (let i = 0; i < out9.bytes.length; i++) {
+        if (out9b.bytes[i] !== out9.bytes[i]) { same = false; break; }
+      }
+    }
+    check('导出内容包再导入，构建结果不变', same && out9b.report.errors.length === 0,
+      out9b.report.errors.join('; ') || '一致');
   }
 }
 

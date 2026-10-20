@@ -100,7 +100,7 @@
 
 ### 2.1 逐字节相同（B 命题）
 
-`node rom-editor/tools/verify_pack.mjs`（19 项，全 PASS）：
+`node rom-editor/tools/verify_pack.mjs`（25 项，全 PASS）：
 
 ```
 [ PASS ] 写出字节与原版完全一致 — 重建 sha256=1198ece781aaf629…
@@ -165,11 +165,68 @@ ROM 里的文本是**字形码流**（lead 0x80–0x9F 的双字节码），不�
 |---|---|
 | LZ77 压缩载荷（战场图块/调色板/图层/组合图块/通行值表、头像图像、资源记录里的图块） | 仓库里只有字面量编码器（`tools/lib/lz77.py::compress_literal`），没有与原版逐字节一致的压缩器；原地改写需要「压缩后长度 ≤ 原长 + 0..3 字节对齐余量」 |
 | 故事 VM 剧本的**指令与文本** | 分支目标是**绝对 ROM 地址**，改长度会让全部分支失效；仓库既有写回路径（`tools/import_story_script.py`）也只改定宽操作数（编辑器同样只暴露这些） |
+| 文本里的**控制码本身** | 编辑器的文本框只显示文字；控制码（`0x01`/`0x02`，带换行/分页的排版含义）**按原位置保留**但不可在文本框里改，要改请用「原始字节」模块。影响 2,953 条记录 / 9,729 个控制字节 |
 | 道具记录 16 字节的字段语义 | 仓库里**没有任何一处**证明过它们是什么，所以按原始字节呈现与编辑，不臆造字段名 |
 | 音频采样本体 | 音频是 m4a 格式；包里只有**描述符层**（歌曲头、轨道指针、sound-ID 分派表），采样数据要另走 m4a 导入流程 |
 | 指针指向的资源本体 | 头像 / 关卡块 / 底图 / 资源记录指向的图形与调色板不在包里（同第一条：缺一致的 LZ77 压缩器） |
 
 ---
+
+### 2.2.1 控制码：改写文本不得破坏排版（一个真的数据破坏 bug）
+
+**症状**：编辑 `mission_descriptions` / `mission_hints` / `rom_text_index`
+里的任意一条文本，构建报告却是 `errors=0, warnings=0`，但：
+
+* 改 1 条 `mission_descriptions` 记录 → **改动 2,186 字节**；
+* 该表 **77 条记录的控制码全部被抹掉**。
+
+**成因链**（三处都错）：
+
+1. `tools/export_content_pack.py` 用 `tools/text_codec.py::decode` 解码文本，
+   而 `decode` **剥掉**控制码（`01 xx` / `02 xx yy`）→ `record.text` 里没有它们；
+2. `rom-editor/js/textcodec.js` 的 `FontCodec.encode()` 只按字符串编码，
+   **吐不出**控制码；
+3. `rom-editor/js/rom.js` 的 `rebuildTextTable` 整表重新编码 →
+   控制码被静默丢弃，而**排版含义（换行/分页）就这样没了**。
+
+这直接违反仓库既定规则（`notes/font-encoding.md:133-143`：「控制码必须保留…改写已有
+文本不能用纯字符串编码，否则会破坏排版」，要求走 token 流 `encode_tokens`），
+也违反编辑器自称的写回模型。
+
+**修法**（四处）：
+
+1. **JS 侧补齐 token 流**（`rom-editor/js/textcodec.js`）：
+   `scanTokens` / `encodeTokens` / `mergeTokens` / `countControlCodes`，
+   与 `tools/konoha_font.py::scan_tokens` / `encode_tokens` 对齐。
+2. **写回走 token 流**（`rom-editor/js/pack.js::setText`）：
+   新文字按**原分段长度**切分塞回原来的文本段，控制码留在原位
+   （`mergeTokens`：原流是 T0 C1 T1 C2 T2…，新文字按 T0/T1/T2 的原长度分配，末段吸收增减）。
+3. **构建器逐条记录处理**（`rom-editor/js/rom.js::rebuildTextTable`）：
+   放得下的记录**原地写、指针不动**；放不下的**单独**搬到空闲区并改写它自己的指针。
+   → 改一条文本只动那一条记录，不再整表重排。
+4. **构建器不再修改内容包**：摆放结果只记进 `report.movedTexts`。
+   此前构建会把 `record.text_offset` 改掉，于是「导出 → 导入 → 再构建」得到的是
+   **另一个** ROM；现在内容包保持原样，构建是确定性的。
+
+**顺带发现并修掉的两个真 bug**：
+
+* **悬空控制字节**：有些记录末尾是 `… 6a 01`，`01` 的载荷字节就是字符串结束符。
+  扫描时按「缓冲区里实际有几个字节就记几个」处理，否则会给它补一个 0，
+  往返就不逐字节相等了。（仓库的 Python 扫描器跑在整块 ROM 上，会把结束符吞掉
+  并**串到下一条记录**——编辑器按记录切片，不犯这个错。）
+* **固定槽位的零填充**：内联的说话人名表每条 12 字节，字符串后面是 0 填充；
+  重新编码时要把填充补回去，否则槽位形状变了。
+
+**校验结果**：
+
+| 检查 | 结果 |
+|---|---|
+| 1,895 条文本记录「token → 字节」逐字节还原 | **0 条不一致** |
+| 编辑一条带控制码的记录 | 控制码 **2 → 2**，一个不少 |
+| 同表其它记录 | **0 条**被牵连（此前整表重排） |
+| 改动量 | **29 字节**（此前 2,186 字节） |
+| 导出内容包再导入后重建 | 结果**一致** |
+| 控制码会不会变少 | 构建器会**拒绝写回并报错**（`errors` 非空） |
 
 ### 2.2.2 剧情路线：路线不在表里，在脚本里
 
@@ -327,7 +384,7 @@ ROM 本身 6,291,456 字节 ≈ 6.3 MB，单独占满预算。
 | `rom-editor/js/editors.js` | 通用结构编辑器 / 文本表编辑器（由内容包驱动） |
 | `rom-editor/js/modules/*.js` | 六个域 + 音频 + 素材与资源 + 概览 + 原始字节 |
 | `rom-editor/tools/verify_pack.mjs` | 命令行自检（重建 + 逐域落点） |
-| `rom-editor/tools/selftest.html` | 浏览器内自检（所有模块渲染 + 面板打开 + 逐域落点 + 原始字节补丁 + 剧情 VM 操作数） |
+| `rom-editor/tools/selftest.html` | 浏览器内自检（所有模块渲染 + 面板打开 + 逐域落点 + 原始字节补丁 + 剧情 VM 操作数 + 控制码保留） |
 | `rom-editor/tools/serve.mjs` | 静态服务器 |
 | `docs/rom-editor.md` | 面向使用者的说明 |
 
@@ -336,7 +393,7 @@ ROM 本身 6,291,456 字节 ≈ 6.3 MB，单独占满预算。
 ```powershell
 python tools\export_content_pack.py          # 重新导出内容包
 python tools\export_content_pack.py --check  # 校验内容包 == 当前 ROM
-node rom-editor\tools\verify_pack.mjs        # 命令行自检（19 项）
+node rom-editor\tools\verify_pack.mjs        # 命令行自检（25 项）
 node rom-editor\tools\serve.mjs 8765         # 起编辑器
-# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（38 项）
+# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（41 项）
 ```

@@ -448,6 +448,12 @@ export class TextTableEditor {
       ]));
     }
 
+    this.detail.appendChild(el('div', { class: 'field-hint' }, [
+      '文本在 ROM 里是**字形码流**；控制码 0x01/0x02 带着换行/分页的排版含义，',
+      '文本框里看不到它们，但写回时会按原位置保留（走 token 流，不用纯字符串编码）。',
+      '要改控制码本身，请用「原始字节」模块。',
+    ]));
+
     this.detail.appendChild(el('div', { class: 'detail-actions' }, [
       el('button', {
         class: 'btn btn-ghost',
@@ -482,6 +488,24 @@ export class TextTableEditor {
         text: ` · 字库缺字: ${missing.join('')}`,
       }));
     }
+    // 控制码：文本框里看不到，但它们带着换行/分页的排版含义，
+    // 写回时会被原样保留（走 token 流，不走纯字符串编码）。
+    const ctrl = this.controlCodeCount(record);
+    if (ctrl > 0) {
+      counter.appendChild(el('span', {
+        class: 'ok',
+        title: '控制码 0x01/0x02 带着换行/分页的排版含义，编辑文本时按原位置保留',
+        text: ` · 含 ${ctrl} 个控制码（已保留）`,
+      }));
+    }
+  }
+
+  /** 这条文本里有多少个控制码。 */
+  controlCodeCount(record) {
+    const tokens = this.pack.textTokens(record);
+    let n = 0;
+    for (const token of tokens) if (token.k === 'c') n += 1;
+    return n;
   }
 }
 

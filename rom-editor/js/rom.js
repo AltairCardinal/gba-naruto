@@ -12,7 +12,15 @@
 // property is the acceptance test for the whole editor (see
 // rom-editor/tools/verify_pack.mjs).
 
-import { bytesToHex, hexToBytes, offsetToPointer, isRomPointer } from './bytes.js';
+import { bytesToHex, hexToBytes, base64ToBytes, offsetToPointer, isRomPointer } from './bytes.js';
+import { scanTokens, encodeTokens, countControlCodes } from './textcodec.js';
+
+/** Do two byte runs match? */
+function bytesEqual(a, b) {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  return true;
+}
 
 export class BuildError extends Error {}
 
@@ -33,11 +41,14 @@ export class RomBuilder {
       textsChanged: 0,
       patches: 0,
       freeRegionsUsed: [],
+      movedTexts: [],
       warnings: [],
       errors: [],
     };
     /** Ranges this build has already claimed for a relocated text blob. */
     this.allocated = [];
+    /** Ranges freed by a text record that moved elsewhere. */
+    this.released = [];
   }
 
   build() {
@@ -116,24 +127,39 @@ export class RomBuilder {
    *
    * A table whose texts are all unchanged is skipped completely — that is what
    * keeps an untouched pack byte-identical to the original ROM.
+   *
+   * Text is re-encoded from its **token stream**, so the control codes
+   * (0x01 / 0x02, which carry line-break and page-break meaning) survive a
+   * rewrite.  A table is only re-laid-out when a record's length actually
+   * changed; otherwise every record is written back in place and only the
+   * edited record's bytes differ.
    */
   rebuildTextTable(table) {
-    const codec = this.pack.font;
+    const pack = this.pack;
     const records = table.records || [];
     if (!records.length) return false;
 
+    const nulTerminated = table.nul_terminated !== false;
     const encoded = records.map((record) => {
-      const text = record.text ?? '';
-      const bytes = codec.encode(text);
-      return { record, bytes, text };
+      const bytes = pack.textBytes(record);
+      const original = record.raw ? base64ToBytes(record.raw) : new Uint8Array(0);
+      const changed = bytes.length !== original.length || !bytesEqual(bytes, original);
+      return { record, bytes, original, changed };
     });
 
-    const changed = encoded.some(
-      (e) => (e.record.original_text ?? '') !== e.text
-    );
-    if (!changed) return false;
+    if (!encoded.some((e) => e.changed)) return false;
 
-    const nulTerminated = table.nul_terminated !== false;
+    // Control codes must never be lost.
+    for (const e of encoded) {
+      const before = countControlCodes(scanTokens(e.original));
+      const after = countControlCodes(scanTokens(e.bytes));
+      if (after < before) {
+        this.report.errors.push(
+          `${table.id}#${e.record.id} 的控制码会丢失（${before} → ${after}），已拒绝写回`);
+        return false;
+      }
+    }
+
     const sizes = encoded.map((e) => e.bytes.length + (nulTerminated ? 1 : 0));
     const total = sizes.reduce((a, b) => a + b, 0);
 
@@ -156,29 +182,64 @@ export class RomBuilder {
           );
           continue;
         }
+        if (!e.changed) continue;
         this.bytes.set(e.bytes, e.record.text_offset);
         if (nulTerminated) this.bytes[e.record.text_offset + e.bytes.length] = 0;
       }
       return true;
     }
 
-    // --- relocatable: lay the whole table out as one blob ---------------
-    const blobOffset = this.placeTextBlob(table, encoded, sizes, total, nulTerminated);
-
-    let cursor = blobOffset;
-    for (let i = 0; i < encoded.length; i++) {
-      const e = encoded[i];
-      const rec = e.record;
-      this.bytes.set(e.bytes, cursor);
-      if (nulTerminated) this.bytes[cursor + e.bytes.length] = 0;
-      const pointer = e.bytes.length ? offsetToPointer(cursor) : 0;
-      if (rec.pointer_offset !== null && rec.pointer_offset !== undefined) {
-        this.writeU32(rec.pointer_offset, pointer);
-      } else {
-        rec.pointer = pointer;
+    // --- relocatable ---------------------------------------------------
+    // 每条记录单独处理：能原地放下就原地放（指针不动），放不下才搬到
+    // 空闲区并改写它自己的指针。改一条文本通常只动那一条记录，
+    // 而不会把整张表连同指针表一起重排。
+    const moved = [];
+    for (const e of encoded) {
+      if (e.record.text_offset === null || e.record.text_offset === undefined) {
+        if (e.bytes.length) {
+          this.report.errors.push(
+            `${table.id}#${e.record.id} 没有可写位置（text_offset 为空）`);
+        }
+        continue;
       }
-      rec.text_offset = cursor;
-      cursor += sizes[i];
+      if (e.bytes.length <= e.original.length) {
+        this.bytes.set(e.bytes, e.record.text_offset);
+        if (nulTerminated) this.bytes[e.record.text_offset + e.bytes.length] = 0;
+        continue;
+      }
+      moved.push(e);
+    }
+
+    for (const e of moved) {
+      const need = e.bytes.length + (nulTerminated ? 1 : 0);
+      const offset = this.allocate(need);
+      if (offset === null) {
+        this.report.errors.push(
+          `${table.id}#${e.record.id} 需要 ${need} 字节空闲空间，但 ROM 中找不到足够大的空闲区`);
+        continue;
+      }
+      this.bytes.set(e.bytes, offset);
+      if (nulTerminated) this.bytes[offset + e.bytes.length] = 0;
+      const pointer = offsetToPointer(offset);
+      if (e.record.pointer_offset !== null && e.record.pointer_offset !== undefined) {
+        this.writeU32(e.record.pointer_offset, pointer);
+      } else {
+        e.record.pointer = pointer;
+      }
+      // 旧槽位空出来了，可以给别的记录用
+      this.released.push({
+        start: e.record.text_offset,
+        end: e.record.text_offset + e.original.length,
+      });
+      // 摆放结果只记在构建报告里：**不改动内容包**，
+      // 否则「导出 → 导入 → 再构建」会得到不同的 ROM。
+      this.report.movedTexts.push({
+        table: table.id,
+        id: e.record.id,
+        from: e.record.text_offset,
+        to: offset,
+        bytes: e.bytes.length,
+      });
     }
     return true;
   }
@@ -277,19 +338,23 @@ export class RomBuilder {
   /** Byte ranges the pack owns; the allocator must not touch them. */
   claimedRanges() {
     const ranges = [];
+    const released = this.released || [];
+    const isReleased = (start, end) => released.some((r) => start >= r.start && end <= r.end);
     for (const structure of this.pack.structures || []) {
       for (const record of structure.records || []) {
         const size = structure.entry_size || 0;
-        ranges.push({ start: record.rom_offset, end: record.rom_offset + size });
+        const range = { start: record.rom_offset, end: record.rom_offset + size };
+        if (!isReleased(range.start, range.end)) ranges.push(range);
       }
     }
     for (const table of this.pack.texts || []) {
       for (const record of table.records || []) {
         if (record.text_offset === null || record.text_offset === undefined) continue;
-        ranges.push({
+        const range = {
           start: record.text_offset,
           end: record.text_offset + (record.capacity || 0),
-        });
+        };
+        if (!isReleased(range.start, range.end)) ranges.push(range);
       }
     }
     for (const patch of this.pack.patches || []) {

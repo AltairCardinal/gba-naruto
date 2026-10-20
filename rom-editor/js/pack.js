@@ -12,7 +12,7 @@
 //      So an untouched pack rebuilds the original ROM byte for byte.
 
 import { bytesToBase64, base64ToBytes, bytesToHex, hexToBytes, readUint, writeUint } from './bytes.js';
-import { FontCodec } from './textcodec.js';
+import { FontCodec, scanTokens, encodeTokens, mergeTokens } from './textcodec.js';
 
 export const FIELD_TYPES = {
   u8: { size: 1, label: 'u8' },
@@ -106,9 +106,48 @@ export class ContentPack {
     this.dirty.add(`${structure.id}#${record.id}`);
   }
 
+  /**
+   * Rewrite one text record.
+   *
+   * The write-back goes through the **token stream**, never through the
+   * decoded string: the control codes 0x01/0x02 carry layout meaning
+   * (line breaks, page breaks) and the decoded string does not contain them,
+   * so a plain string encode would silently destroy the layout.  The original
+   * bytes are kept in `record.raw`, so the control codes can be re-scanned
+   * and re-inserted at their original positions.
+   */
   setText(table, record, text) {
+    const tokens = this.textTokens(record);
+    const newTokens = this.font.encodeTokens(text);
+    record.tokens = mergeTokens(tokens, newTokens);
     record.text = text;
+    record.text_changed = true;
     this.dirty.add(`${table.id}#${record.id}`);
+  }
+
+  /** The original token stream of a text record (control codes included). */
+  textTokens(record) {
+    if (record.tokens) return record.tokens;
+    const raw = record.raw ? base64ToBytes(record.raw) : new Uint8Array(0);
+    record.tokens = scanTokens(raw);
+    return record.tokens;
+  }
+
+  /**
+   * The bytes a text record currently encodes to.
+   *
+   * Fixed-slot records (the inline speaker-name table) carry zero padding
+   * after the string; the padding is restored so the record keeps its shape.
+   */
+  textBytes(record) {
+    const bytes = encodeTokens(this.textTokens(record));
+    const original = record.raw ? base64ToBytes(record.raw) : new Uint8Array(0);
+    if (bytes.length < original.length) {
+      const padded = new Uint8Array(original.length);
+      padded.set(bytes, 0);
+      return padded;
+    }
+    return bytes;
   }
 
   /**
