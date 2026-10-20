@@ -1162,7 +1162,10 @@ PSG_FREQUENCY_VERIFIER_TEST_SHA256 = (
 
 **因此 §18.4 的「改测试不动这些文件 → 零下游成本」是错的**：
 审计器**把测试文件本身当受管输入钉住**，改测试就会打破 `rom_byte_coverage` 门。
-这不是新问题，而是**系统性模式**——审计器里共有 **174 处** `*_TEST_SHA256` 形式的硬钉。
+这不是新问题，而是**系统性模式**——审计器里共有 **174 处** `*_TEST_SHA256` 形式的硬钉
+（**口径更正，2026-10-20 09:2x**：174 是该**模式在文件里的字符串出现次数**
+（64 个常量定义 + 110 处使用），**不是**「被钉的测试文件数」；后者是 **62 个不同的
+测试文件**。下面的连锁成本按 62 算，见 §19.5）。
 
 **失败是自伤造成的**：子代理在套件运行**中途**改了测试文件，
 而审计器在运行**时**从磁盘读该文件并与硬钉比对 → 套件末尾才报出来。
@@ -1214,6 +1217,26 @@ PSG_FREQUENCY_VERIFIER_TEST_SHA256 = (
 可行的收窄方向：区分两种 pin 的语义——
 「该文件必须存在且自述」的改成**与活文件对拍**；
 「必须是某一版」的才保留硬编码。**本轮未动**（174 处一次性改动风险过高）。
+
+**口径更正（2026-10-20 09:2x，实测脚本解析）**：
+「174 处」是 `*_TEST_SHA256` 这个**模式在审计器文件里的字符串出现次数**
+（**64 个常量定义 + 110 处使用**），**不是**「被钉的测试文件数量」。
+后者是 **62 个不同的测试文件**（64 个常量 → 62 条不同路径，其中 2 个文件被钉两次）。
+连锁成本要按 **62** 估，不是 174：
+
+| 口径 | 数 | 含义 |
+|---|---:|---|
+| `*_TEST_SHA256` 字符串出现次数 | 174 | 模式在文件里出现多频繁（63% 是使用点，37% 是定义点） |
+| `_TEST*_SHA256` 常量定义数 | 64 | 审计器里有多少个 pin 常量 |
+| **被 pin 的不同测试文件数** | **62** | **改一个就要付一次 formal 的实际成本** |
+
+另有 2 个文件也引用了被钉测试文件（`tools/rom_boot_interwork_continuation_contract.py`、
+`tools/verify_rom_boot_thumb_code_literal_alignment_gaps.py`），
+所以改某些测试文件时**扇出不止审计器一个**。
+除此之外还有 **5 对 exporter/verifier**（共 10 个文件）各自用 `SOURCE_TEST_SHA256`
+钉自己的测试文件：`chapter_selector_code_slice`、`profile_selector_code_slices`、
+`battle_status_bar_caller_slice`、`sprite_loader_tail`、`boot_interwork_continuation`。
+这类 pin **不经过审计器**，但改测试会连带改 exporter + verifier **两个**脚本的 SHA。
 
 ## 20. 甲线三包接入施工单（只读侦察产出，2026-10-20 08:0x）
 
@@ -1542,21 +1565,98 @@ OK
 
 ### 24.3 审计器测试模块整体跑（**进行中**）
 
-`tests/test_audit_rom_byte_coverage`（15,933 行 / 60+ 测试类）整体跑在后台，
-截至 09:0x：**35 项 ok / 0 项 FAIL**，仍在跑（PID 47459，100% CPU，单进程）。
-§22 的 131 处陈旧快照改写到目前为止**没有引出任何失败**；最终 summary 待它跑完补。
+`tests/test_audit_rom_byte_coverage`（15,933 行 / **88 个测试类 / 359 个测试方法**）
+整体跑在后台，截至 09:2x：**35 项 ok / 0 项 FAIL**，仍在跑（PID 47459，
+100% CPU，单进程，已 35 min）。§22 的 131 处陈旧快照改写到目前为止
+**没有引出任何失败**；最终 summary 待它跑完补。
+跑满全模块的耗时预期在 **1 h 量级**（该模块的 `setUpClass` 会调
+`build_manifest`），不是分钟级。
 
 ---
 
+## 25. 三个待裁决项的实测答案（2026-10-20 09:2x）
+
+### 25.1 裁决 ④（purelib 加固）：**存在一条「零脚本改动」的更优路径**
+
+原问题被表述成「加固为补所有候选 purelib（改动需同步 SHA + 重跑 formal）」。
+**实测表明有更省的路**：
+
+| 事实 | 证据 |
+|---|---|
+| Pillow 12.2.0 在 `/usr/local/lib/python3.14/site-packages/PIL/` | `python3 -I -c "import PIL"` → **OK** |
+| `-I -S` 下 Pillow **不可见** | `python3 -I -S -c "import PIL"` → `ModuleNotFoundError: No module named 'PIL'` |
+| venv（`--system-site-packages`）的 `-I` 也能看到 | `.venv/bin/python3 -I -c "import PIL"` → OK |
+| 触发点**不在脚本里**，在 **spec** | `sequel/reverse-engineering-proof.json` 的 `gates.rom_byte_coverage.verifiers[95].command` = `['python3','-I','-S','tools/verify_rom_sprite_loader_tail.py','--root','.','--artifact-dir','artifacts/rom-sprite-loader-tail-v1']` |
+| spec 的 SHA **没有被任何脚本或测试钉住** | `grep -rn "reverse-engineering-proof.json" tools/*.py tests/*.py \| grep -i sha` → **无结果** |
+| 验证器**自己记录的**命令本来就没有 `-I -S` | `tools/verify_rom_sprite_loader_tail.py:443-452` 记的是 `['python3','tools/verify_rom_sprite_loader_tail.py','--root','.','--artifact-dir',...]` → 改 spec **不与 artifact 冲突** |
+| 审计器是 **in-process import**，不是子进程 | `tools/audit_rom_byte_coverage.py:119` `from tools.verify_rom_sprite_loader_tail import verify_artifact`；`:33054` 硬钉该验证器 SHA `4bbb8db3…` |
+
+**结论**：把 spec 里那条命令的 `-S` 删掉（`-I -S` → `-I`），
+**不动任何脚本** ⇒ 验证器 SHA 不变 ⇒ artifact `rom-sprite-loader-tail-v1` 不变
+⇒ 审计器不变 ⇒ **零 SHA 连锁**。原「补 purelib」的改法反而要动验证器源码
+⇒ 触发上面整条链，是**更贵**的方案。
+
+**仍需重跑一次 formal 的唯一原因**：formal 报告的
+`trust_anchor.spec_sha256` 钉的是 spec 自身的 SHA（当前 `39b7ebd7…`），
+改 spec 后旧收据不再绑定新 spec ⇒ 需一次 formal 产出新收据。
+（`trust_anchor.verified=false` **不是失败**：那是
+`tools/audit_reverse_engineering_proof.py:1062-1071` 的设计——只有外部传入
+`--trusted-spec-sha256` 才为 true；当前 `claim_status=incomplete`，
+不触发任何 blocker。）
+
+**代价对比**：
+
+| 方案 | 改什么 | SHA 连锁 | 额外成本 |
+|---|---|---|---|
+| **A（推荐）** | spec 删 `-S`（1 行） | **零** | 1 次 formal（~1,465 s） |
+| B（原设想） | 验证器补候选 purelib | 验证器 → artifact → 审计器 → spec 四级 | artifact 重落地 + 1 次 formal |
+
+**取舍要说清**：`-I` 仍隔离环境变量与 user site，但**重新暴露 system
+site-packages** ⇒ 该验证器会看到已安装的第三方包。这对「要用 Pillow 的验证器」
+是必需的，但确实降低了隔离度。是否接受由用户定。
+
+### 25.2 一个被实测证伪的预测（影响下一个优化方向的选择）
+
+早先的只读侦察报告（基于 `0827b497` 之前的代码）预测：
+「atomize 优化后覆盖审计段将降到 **~200–300 s**」。**本次 A/B 证伪了这个预测**：
+
+- 实测优化后独立审计 = **1,108.276 s**（不是 200–300 s）。
+- 也就是说 `atomize_claims` 之外**还有 1,108 s** 的成本，
+  比侦察报告的「其余 ~200 s」上界高出约 5 倍。
+- 推论：§23.3 说的「剩下的是 112 个 producer 的**验证器冷重放**」，
+  规模上**就是**这 1,108 s 的大头，不是「小头」。
+  **下一个优化杠杆因此从「atomize」转移到「producer 内冷重放」**，
+  而后者按侦察报告的评估需要改 97 个函数 + 两阶段拆分 + 报错按链序归位，
+  属于**高风险大改**。
+- 这个量级差也解释了为什么 formal v2（1,464.7 s，4 路并发）比
+  独立审计（1,108.3 s，单线程）只慢 **356 s**：并发验证器段已经比
+  单线程覆盖段短，并发带来的争用把收益吃掉了一部分。
+
+### 25.3 硬件/资源瓶颈：现状实测
+
+| 项 | 实测值 | 来源 |
+|---|---|---|
+| 审计器并行度 | **只吃满 1 核**（单线程 CPU 瓶颈） | 独立审计全程 100% CPU / 1 进程 |
+| 审计器峰值 RSS | 495.47 → 500.68 MiB（+1.05%） | 两份 `auditor-*guard.json` |
+| formal v2 峰值 RSS | 845 MiB | `formal-parallel-guard.json` |
+| 4 路并发验证器段 | 564 s（空闲）→ **1,528 s**（有争用）= **2.7× 更慢** | 9-30 收据 vs 10-20 收据 |
+| 机器 | 16 GiB 内存 / 12 逻辑核 / swap 2,048 MiB（已用 1,240）/ 磁盘 75 GiB 可用 | `notes/line-a-progress-20261019.md` §11.5.1 / §21.1 |
+
+**最有决策价值的一条**：**并发不等于更快**。在有其它长跑任务占着宿主时，
+4 路并发把验证器段从 564 s 推到 1,528 s，整轮 formal 反而比串行基线慢
+（3,905 s vs 2,383.5 s）。**空闲宿主上单线程覆盖段（1,108 s）目前仍是最优解**，
+4 路并发只在覆盖段与验证器段**真正重叠**且宿主空闲时才可能赢。
+
+---
 
 ### 18.5 待裁决项（证据已齐，等口径）
 
 | # | 事项 | 关键实测证据 | 决策点 |
 |---|---|---|---|
-| ① | psg 修复路线 | legacy 活账本路径**在设计上**只认冻结状态；bundle 门绿 | 走「只改测试对齐 bundle 合同」（零 formal 成本）还是「连 legacy+导出器一起修、artifact 重落地」（需一次 formal） |
+| ① | psg 修复路线 | legacy 活账本路径**在设计上**只认冻结状态；bundle 门绿 | 走「只改测试对齐 bundle 合同」（**已完成**，零 formal 成本）还是「连 legacy+导出器一起修、artifact 重落地」（需一次 formal） |
 | ② | **D0** bank 字段穷尽定义 | data-table-b 静态闭包**已 100% 提交**（79 记录、2740+316 B、unknown 0、2 个消费者已绑定），但 `natural_gameplay_all_ids_proven=false` | 「字段穷尽」= 静态闭包即可（A），还是每条记录都要运行时因果证据（B → 79 次采集） |
 | ③ | **Tier-2 门槛** | 门槛三选一：≥10 KiB \| ≥0.15 pp \| 同类待接入 ≥4 个。命令脚本类现为 **3 个 packet / 4,334 B / 0.0689 pp**，三门槛**全不满足**；两包 2,721 B 跨信任边界，政策明禁合计 | 是否允许以「同类 packet 计数」或「跨类合计」触门槛，还是先补第四个同边界 packet |
-| ④ | `sprite_loader_tail` 的 purelib workaround | `.venv` 是 `--system-site-packages` 建的，**venv 自己的 purelib 是空的**；验证器一律 `-I -S`（Pillow 本不可见），全靠手动补 purelib | 是否加固为「补所有候选 purelib」（改动需同步 SHA + 重跑 formal） |
+| ④ | `sprite_loader_tail` 的 purelib workaround | **已实测出零脚本改动的解法**（§25.1）：改 spec 删 `-S`，`-I` 下 Pillow 可见、验证器 SHA 与 artifact 全不变、零 SHA 连锁 | 接受「重新暴露 system site-packages」这点隔离度取舍 + 一次 formal？还是坚持原方案（改验证器源码 → 四级 SHA 连锁） |
 
 
 
