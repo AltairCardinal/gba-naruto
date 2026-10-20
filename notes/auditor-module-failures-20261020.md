@@ -366,3 +366,148 @@ REPROJECTED_PACKET_CHAIN = (
 
 **代价**（诚实记录）：分片结果**不能**与首次串行跑的**墙钟**直接比较；
 它只回答「是否全绿」，不回答「串行要多久」。
+
+---
+
+## 10. 分 4 片的第一轮结果：9 个失败（不是 6 个）
+
+首轮 4 片跑出的失败比 §0 记录的 6 个多，原因见 §10.1：**6 个是在只跑到 25% 时
+看到的**，后面 3 个类在首轮启动时**还没排到**。
+
+| # | 用例 | 所在类 | 真因（实测 traceback） |
+|---|---|---|---|
+| A | `test_projects_exact_30_records_and_four_packet_total` | `FixedRendererScriptRecordsQuickProjectionTests` | 过期投影点（§8）：本包自己已在账本里，基线没剔掉 |
+| B | `test_projection_rejects_non_unknown_overlap` | 同上 | 同上 |
+| C | `test_committed_manifest_has_exact_projected_totals_segments_and_limitation` | `MPlayMainSchedulerCoverageTests` | 硬编码段区间键 `(0x09A3DC,0x09A42C)` 被后继批次切开 ⇒ KeyError |
+| D | `Mp2kNoteAllocatorCoverageTests` 的 3 个用例 | `Mp2kNoteAllocatorCoverageTests` | 拿最终账本重放生产者，撞 current-unknown 门 |
+| E | `test_promotes_only_verified_current_unknown_windows` | `SpriteDefinitionResolvedWindowCoverageTests` | 同 D |
+| F | `test_exact_seven_packet_projection_and_evidence` | `CfgConsumedLiteralBatchCoverageTests` | `non_claims` 条数**按批不同**（4/5/6），旧断言一律写死 4 |
+| G | `test_promotes_exact_semantic_ranges_and_preserves_holes_and_rejection` | `CfgProvenRootsV15CoverageTests` | v15 的空洞/被拒范围被**后继批次 v16** 认领 |
+
+### 10.1 A/B 与 §8 的关系：`_reproject_chain` 的语义漏洞
+
+§8 的 `_reproject_chain(coverage, rom, upto)` 里 `upto` 兼任了两个职责：
+「剔掉前 N 个批次」与「重建前 N 个批次」。但调用方真正需要的是**三件事**分开：
+
+1. 剔掉本用例**自己要重投影**的那个包（否则生产者认领到自己已在账本里的字节）；
+2. 剔掉**后继批次**（否则生产者看到的是最终账本而不是自己回合的账本）；
+3. 重建前置链包（按原链序）。
+
+修法：给 helper 加独立的 `excluded` 参数，**剔掉但不重建**：
+
+```python
+def _reproject_chain(coverage, rom, upto, excluded=()):
+    rebuilt_batches = {batch for batch, _ in REPROJECTED_PACKET_CHAIN[:upto]}
+    dropped_batches = rebuilt_batches | set(excluded)
+    ...
+```
+
+调用方：`TextBgTaskClosureQuickProjectionTests` → `upto=2, excluded=("rom-text-bg-task-closure-v1",)`；
+`FixedRendererScriptRecordsQuickProjectionTests` → `upto=3, excluded=("rom-fixed-renderer-script-records-v1",)`。
+
+### 10.2 C：硬编码段区间键 ⇒ 改成派生比对
+
+`MPlayMainSchedulerCoverageTests` 原本钉 5 个**段区间键**。其中
+`(0x09A3DC, 0x09A42C)` 当初是 unknown 间隙，后来被
+`armv4t_cfg_v2_consumed_literal_word` 与 `armv4t_cfg_proven_roots_v15_*`
+合法切开 ⇒ 键不存在 ⇒ `KeyError: (631772, 631852)`。
+
+**实测到的全局不变量**（本轮新发现，16,913 条 claim / 18,675 段全量核对）：
+
+> **段表 = 主 claim 表的逐字节投影。**
+> 6,205,367 个被认领字节逐个比对，错配 **0**；86,089 个 unknown 字节与
+> `summary.unknown_bytes` **完全相等**；16,913 条 claim 的 `role` **全部**是
+> `primary`（无第二角色）；主 claim 之间重叠 **0**。
+
+这个不变量比「钉死区间键」**更强**：区间键只能证明「当初那个区间现在还是那样」，
+而投影比对能证明「段表和 claim 表处处自洽」。于是新增模块级 helper：
+
+```python
+def _window_tiles(claims, segments, start, end):
+    """tiles = 段表在窗口上的铺法；owner = 每字节的 (primary_class, promotion_batch)"""
+```
+
+C 改为：窗口必须**连续铺满** → 每段类别必须**等于**该字节的 claim 投影 →
+本包自己认领的两段必须**原样在位**（`[[0x09A42C,0x09A684],[0x09A688,0x09A694]]`）
+→ 窗口内其余字节**不得**挂在本包名下。
+
+### 10.3 D/E：链时基线
+
+D（mp2k）：`_mp2k_note_allocator_claims` 在 `build_manifest` 里排在
+`_cfg_consumed_literal_batch_claims` **之前**；后者认领了本包排除邻居
+`[0x09A6D2,0x09A6D8)` 里的 **4 个字节** `[0x09A6D4,0x09A6D8)`。
+生产链里两者不重叠，所以账本是对的；但拿**最终账本**重放本包生产者，
+生产者会看到「排除邻居已不是 unknown」⇒ raise
+`MP2K note-allocator excluded bytes are no longer unknown`。
+修法：`_baseline()` 里加 `LATER_BATCHES = ("rom-cfg-v2-consumed-literals-v1",)`。
+
+E（sprite-definition）：本包**已晋升**（3 条 claim，`claim_kind ==
+"sprite_definition_resolved_window_bytes"`），用最终账本重放 ⇒
+`sprite-definition resolved-window promotion changed`。
+修法：基线剔掉本包自己的 `claim_kind`。实测：剔掉后重放得回
+**3 段 / 1,720 B**（`[0x12F598,0x12F7DC)`、`[0x12F7DC,0x12F818)`、
+`[0x12F818,0x12FDA0)`），与账本一致。
+
+D 在**已提交账本**上的断言同步改成逐字节派生：排除邻居的每个字节
+要么仍是 `unknown`、要么归**别的批次**，但**绝不能**挂在本包名下。
+
+### 10.4 F：`non_claims` 条数是**批次增量**
+
+旧断言对所有 7 个批次一律 `assertEqual(4, len(row["non_claims"]))`。
+实测每批自带清单长度不同：
+
+| 批次 | `non_claims` 条数 |
+|---|---:|
+| `rom-cfg-proven-roots-batch-consumed-literals-v1` | 4 |
+| `rom-cfg-v1-consumed-literals-v1` | 4 |
+| `rom-cfg-v2-consumed-literals-v1` | 5 |
+| `rom-cfg-v3-consumed-literals-v1` | 5 |
+| `rom-cfg-v6-consumed-literals-v1` | 5 |
+| `rom-battle-controller-consumed-literals-v1` | 5 |
+| `rom-cfg-v2-shadowed-consumed-literals-v1` | 6 |
+
+⇒ 写进 `EXPECTED` 表作为**每批硬编码的批次增量**（不是全局量，不该派生）。
+⚠️ 侦察阶段报出来的 live 值 4 是**陈旧的**，真值 5——再次印证
+「任何被引用的数字必须自己重测再落盘」。
+
+### 10.5 G：v15 空洞被 v16 认领
+
+`CfgProvenRootsV15CoverageTests` 的 `HOLES` 与 `REJECTED_RANGE` 断言
+「必须仍是 unknown」。实测：v15 的空洞 `[0x06128C,0x0612BC)` 已被
+`rom-cfg-proven-roots-v16`（code + `rom-cfg-proven-roots-v16-consumed-literals-v1`）
+认领，`REJECTED_RANGE [0x09C0F4,0x09C110)` 同理——**v16 的目标区正是 v15 的空洞**。
+这与 D 同构：v15 的空洞在链时是 unknown，链时被 v16 合法占用。
+改法与 D 一致（逐字节派生，断言「不是 v15 自己的」）。
+
+---
+
+## 11. 根因的定量收据：**90 / 90** 个生产者拒绝「拿最终账本重放」
+
+新增可复现探针
+`notes/evidence/reverse-proof-update-20261020-v2/probe_full_ledger_replay_20261020.py`
+（只读；按 `build_manifest` 的**生产链顺序**解析出 90 个 `claims += _xxx_claims(root, rom, claims)`
+调用点，逐个拿**最终账本**重放，记录抛错）。
+
+**结果：90 个生产者，90 个全部 raise，0 个能干净重放**（总耗时 617.3 s）。
+
+| 错误类型 | 数量 | 含义 |
+|---|---:|---|
+| A `… batch is already present` | 40 | 本包已晋升，重复批次 |
+| B `… is / are not current unknown` | 33 | 字节已被**后继批次**认领 |
+| C `… require a pre-X baseline` | 14 | 基线必须早于本包 |
+| D `… promotion changed` | 1 | 窗口被后继批次切开 |
+| E `duplicate … promotion batch` | 1 | 同 A |
+| F `battle-controller CFG promoted code denominator …` | 1 | 分母守卫 |
+
+**结论（比 §0 的猜测更强）**：「拿最终账本当基线重放生产者」这个写法
+**在全模块 100% 不成立**——不是 9 处个案，而是**模式本身**。
+每条生产链上的生产者都有自己的守卫（重复批次 / current-unknown / pre-X 基线），
+只有「链时基线」才让得通。
+
+**代价最贵的重放**（说明「重放一次生产者」不是廉价操作）：
+`_boot_register_init_dependency_cfg_claims` 83.7 s、
+`_cfg_proven_roots_v18_claims` 67.5 s、`_fast_audit_four_packet_claims` 66.3 s、
+`_cfg_proven_roots_v17_claims` 60.3 s。
+最便宜的 5 个是 0.000 s（批次守卫先触发）。
+
+收据：`notes/evidence/reverse-proof-update-20261020-v2/full-ledger-replay-20261020.json`。

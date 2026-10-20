@@ -143,19 +143,28 @@ REPROJECTED_PACKET_CHAIN = (
 )
 
 
-def _reproject_chain(coverage: dict, rom: bytes, upto: int) -> list[dict]:
+def _reproject_chain(
+    coverage: dict, rom: bytes, upto: int, excluded: tuple[str, ...] = ()
+) -> list[dict]:
     """Rebuild the first `upto` packets of the already-promoted chain.
 
     `coverage["claims"]` is the canonical ledger.  The first `upto` chain packets
     are removed from it and re-projected in the original order, so the returned
     claim list covers exactly the same bytes as the ledger does, while the
     individual producers can run their own current-unknown gate again.
+
+    `excluded` names additional batches that must be dropped from the baseline
+    *without* being re-projected.  A packet that the caller projects itself
+    still lives in the canonical ledger, so leaving it in the baseline would
+    make the producer's current-unknown gate reject the caller's own
+    projection.
     """
     rebuilt_batches = {batch for batch, _ in REPROJECTED_PACKET_CHAIN[:upto]}
+    dropped_batches = rebuilt_batches | set(excluded)
     claims = [
         claim
         for claim in coverage["claims"]
-        if claim.get("promotion_batch") not in rebuilt_batches
+        if claim.get("promotion_batch") not in dropped_batches
     ]
     for _, helper_name in REPROJECTED_PACKET_CHAIN[:upto]:
         claims = [
@@ -173,6 +182,48 @@ def _reproject_chain_baseline(coverage: dict, upto: int) -> list[dict]:
         for claim in coverage["claims"]
         if claim.get("promotion_batch") not in rebuilt_batches
     ]
+
+
+def _window_tiles(claims: list[dict], segments: list[dict], start: int, end: int):
+    """Return (tiles, owner) for the window [start, end).
+
+    `tiles` is the ordered list of ``(begin, stop, primary_class)`` pieces the
+    segment table lays over the window; `owner` maps every byte of the window
+    to the ``(primary_class, promotion_batch)`` of the primary claim that owns
+    it, or to ``("unknown", None)`` when no primary claim owns it.
+
+    The segment table is the byte-wise projection of the primary claim table,
+    so comparing the two is a stronger contract than pinning a frozen interval
+    key: a later batch may legitimately subdivide an interval that was unknown
+    when the contract was written, and a frozen key would then fail on a
+    ledger that is still correct.
+    """
+    owner: dict[int, tuple[str, str | None]] = {}
+    for claim in claims:
+        if claim.get("role") != "primary":
+            continue
+        claim_start, claim_end = claim["range"]
+        if claim_end <= start or claim_start >= end:
+            continue
+        for offset in range(max(claim_start, start), min(claim_end, end)):
+            owner[offset] = (claim["primary_class"], claim.get("promotion_batch"))
+    for offset in range(start, end):
+        owner.setdefault(offset, ("unknown", None))
+    tiles: list[tuple[int, int, str]] = []
+    for piece in segments:
+        piece_start, piece_end = piece["range"]
+        if piece_end <= start or piece_start >= end:
+            continue
+        tiles.append(
+            (max(piece_start, start), min(piece_end, end), piece["primary_class"])
+        )
+    tiles.sort()
+    return tiles, owner
+
+
+def _ledger_window_tiles(manifest: dict, start: int, end: int):
+    """`_window_tiles` over the committed ledger."""
+    return _window_tiles(manifest["claims"], manifest["segments"], start, end)
 
 
 def _expected_cfg_registry_sha256(claims: list[dict]) -> str:
@@ -5389,8 +5440,16 @@ class SpriteDefinitionResolvedWindowCoverageTests(unittest.TestCase):
     def test_promotes_only_verified_current_unknown_windows(self):
         coverage = json.loads((ROOT / "sequel/rom-byte-coverage.json").read_text())
         rom = (ROOT / "rom/base.gba").read_bytes()
+        # 本包已晋升进账本，生产者自己的 current-unknown 门会拒绝拿最终账本
+        # 重投影（"sprite-definition resolved-window promotion changed"）。
+        # 必须用链时基线：账本去掉本包自己那 3 条 claim。
+        baseline = [
+            claim
+            for claim in coverage["claims"]
+            if claim.get("claim_kind") != "sprite_definition_resolved_window_bytes"
+        ]
         claims = _sprite_definition_resolved_window_claims(
-            ROOT, rom, coverage["claims"]
+            ROOT, rom, baseline
         )
         self.assertEqual(3, len(claims))
         self.assertEqual(
@@ -10997,15 +11056,39 @@ class MPlayMainSchedulerCoverageTests(unittest.TestCase):
         self.assertEqual(612, summary["mplaymain_scheduler_promoted_bytes"])
         self.assertEqual(2, summary["mplaymain_scheduler_promotion_claim_count"])
         segments = {tuple(item["range"]): item for item in manifest["segments"]}
-        expected = {
-            (0x09A3DC, 0x09A42C): "unknown",
-            (0x09A42C, 0x09A684): self.CLASSES[0],
-            (0x09A684, 0x09A686): "armv4t_cfg_reachable_thumb_code",
-            (0x09A686, 0x09A688): "unknown",
-            (0x09A688, 0x09A694): self.CLASSES[1],
-        }
-        for interval, primary_class in expected.items():
-            self.assertEqual(primary_class, segments[interval]["primary_class"])
+        # 段表必须连续铺满本包所在窗口，并与主 claim 表的逐字节投影一致。
+        # 冻结区间键不可用：后继批次（cfg-v2 consumed literal 与
+        # cfg-proven-roots-v15）会合法地把当初的 unknown 间隙再切开，
+        # 区间键随之消失，但账本本身仍然正确。
+        tiles, owner = _ledger_window_tiles(manifest, 0x09A3DC, 0x09A694)
+        self.assertEqual(0x09A3DC, tiles[0][0])
+        self.assertEqual(0x09A694, tiles[-1][1])
+        for previous, current in zip(tiles, tiles[1:]):
+            self.assertEqual(previous[1], current[0])
+        for begin, stop, primary_class in tiles:
+            for offset in range(begin, stop):
+                self.assertEqual(owner[offset][0], primary_class)
+        # 本包自己认领的两段必须原样在位，且窗口内其余字节不得挂在本包名下。
+        self.assertEqual(
+            self.CLASSES[0],
+            segments[(0x09A42C, 0x09A684)]["primary_class"],
+        )
+        self.assertEqual(
+            self.CLASSES[1],
+            segments[(0x09A688, 0x09A694)]["primary_class"],
+        )
+        owned_ranges: list[list[int]] = []
+        for offset in sorted(owner):
+            if owner[offset][1] != self.BATCH:
+                continue
+            if owned_ranges and owned_ranges[-1][1] == offset:
+                owned_ranges[-1][1] = offset + 1
+            else:
+                owned_ranges.append([offset, offset + 1])
+        self.assertEqual(
+            [[0x09A42C, 0x09A684], [0x09A688, 0x09A694]],
+            owned_ranges,
+        )
         self.assertIn(
             coverage_auditor.MPLAYMAIN_COVERAGE_LIMITATION,
             manifest["limitations"],
@@ -11707,6 +11790,13 @@ class Mp2kNoteAllocatorCoverageTests(unittest.TestCase):
         [0x09AEF4, 0x09AF24],
         [0x09AF28, 0x09AF34],
     ]
+    # 生产链里 cfg-v2 consumed literals 排在 note allocator 之后
+    # （build_manifest 里 _cfg_consumed_literal_batch_claims 在
+    # _mp2k_note_allocator_claims 之后），它认领了本包排除邻居
+    # [0x09A6D2, 0x09A6D8) 里的 4 个字节。拿最终账本当基线重放本包
+    # 生产者会撞上自己的 current-unknown 门，所以必须用链时基线：
+    # 把后继批次从基线里剔掉。
+    LATER_BATCHES = ("rom-cfg-v2-consumed-literals-v1",)
 
     @staticmethod
     def _rom() -> bytes:
@@ -11723,6 +11813,7 @@ class Mp2kNoteAllocatorCoverageTests(unittest.TestCase):
             if claim.get("promotion_batch") != cls.BATCH
             and claim.get("claim_kind") not in set(cls.KINDS)
             and claim.get("id") not in cls.IDS
+            and claim.get("promotion_batch") not in cls.LATER_BATCHES
         ]
 
     def _helper(self):
@@ -11897,8 +11988,20 @@ class Mp2kNoteAllocatorCoverageTests(unittest.TestCase):
         segments = {tuple(item["range"]): item for item in manifest["segments"]}
         for interval, primary_class in zip(self.RANGES, self.CLASSES, strict=True):
             self.assertEqual(primary_class, segments[tuple(interval)]["primary_class"])
-        for interval in self.EXCLUDED:
-            self.assertEqual("unknown", segments[tuple(interval)]["primary_class"])
+        # 排除邻居在链时必须保持 unknown；在最终账本里，其中 4 个字节已被
+        # 后继批次（cfg-v2 consumed literals）认领，所以改为逐字节检查：
+        # 仍为 unknown 或归别的批次，且绝不能挂在本包名下。
+        for start, end in self.EXCLUDED:
+            tiles, owner = _ledger_window_tiles(manifest, start, end)
+            self.assertEqual(start, tiles[0][0])
+            self.assertEqual(end, tiles[-1][1])
+            for begin, stop, primary_class in tiles:
+                for offset in range(begin, stop):
+                    owner_class, owner_batch = owner[offset]
+                    self.assertEqual(owner_class, primary_class)
+                    self.assertNotEqual(self.BATCH, owner_batch)
+                    if owner_class == "unknown":
+                        self.assertIsNone(owner_batch)
         self.assertIn(
             coverage_auditor.MP2K_NOTE_ALLOCATOR_COVERAGE_LIMITATION,
             manifest["limitations"],
@@ -12450,13 +12553,18 @@ class CfgProvenRootsV15CoverageTests(unittest.TestCase):
         )
         for start, end in [*self.HOLES, self.REJECTED_RANGE]:
             with self.subTest(range=[start, end]):
-                for offset in (start, end - 1):
-                    segment = next(
-                        item
-                        for item in segments
-                        if item["range"][0] <= offset < item["range"][1]
-                    )
-                    self.assertEqual("unknown", segment["primary_class"])
+                # 空洞与被拒范围在链时必须保持 unknown；最终账本里 v16 批次
+                # 已合法认领其中一部分（v15 空洞正是 v16 的目标区），所以
+                # 改为逐字节检查：仍为 unknown 或归后继批次，且绝不能挂在
+                # 本包（v15）名下。
+                tiles, owner = _window_tiles([*baseline, *claims], segments, start, end)
+                self.assertEqual(start, tiles[0][0])
+                self.assertEqual(end, tiles[-1][1])
+                for begin, stop, primary_class in tiles:
+                    for offset in range(begin, stop):
+                        owner_class, owner_batch = owner[offset]
+                        self.assertEqual(owner_class, primary_class)
+                        self.assertNotEqual(self.BATCH, owner_batch)
                 self.assertFalse(
                     any(
                         claim["range"][0] < end and start < claim["range"][1]
@@ -13475,14 +13583,16 @@ class BootThumbCodeLiteralAlignmentGapCoverageTests(unittest.TestCase):
 
 
 class CfgConsumedLiteralBatchCoverageTests(unittest.TestCase):
+    # 每批：(claim 数, 字节数, primary_class, claim_kind, non_claims 条数)
+    # non_claims 条数是批次增量（每批自带的非声明清单长度不同），保持硬编码。
     EXPECTED = {
-        "rom-cfg-v2-consumed-literals-v1": (653, 6796, "armv4t_cfg_v2_consumed_literal_word", "armv4t_cfg_v2_consumed_literal_word_bytes"),
-        "rom-cfg-v6-consumed-literals-v1": (185, 2980, "armv4t_cfg_v6_consumed_literal_word", "armv4t_cfg_v6_consumed_literal_word_bytes"),
-        "rom-cfg-v1-consumed-literals-v1": (108, 1396, "armv4t_cfg_v1_consumed_literal_word", "armv4t_cfg_v1_consumed_literal_word_bytes"),
-        "rom-cfg-v3-consumed-literals-v1": (95, 1220, "armv4t_cfg_v3_consumed_literal_word", "armv4t_cfg_v3_consumed_literal_word_bytes"),
-        "rom-cfg-proven-roots-batch-consumed-literals-v1": (116, 1256, "armv4t_cfg_proven_roots_batch_consumed_literal_word", "armv4t_cfg_proven_roots_batch_consumed_literal_word_bytes"),
-        "rom-battle-controller-consumed-literals-v1": (46, 536, "armv4t_cfg_battle_controller_consumed_literal_word", "armv4t_cfg_battle_controller_consumed_literal_word_bytes"),
-        "rom-cfg-v2-shadowed-consumed-literals-v1": (17, 308, "armv4t_cfg_v2_shadowed_consumed_literal_word", "armv4t_cfg_v2_shadowed_consumed_literal_word_bytes"),
+        "rom-cfg-v2-consumed-literals-v1": (653, 6796, "armv4t_cfg_v2_consumed_literal_word", "armv4t_cfg_v2_consumed_literal_word_bytes", 5),
+        "rom-cfg-v6-consumed-literals-v1": (185, 2980, "armv4t_cfg_v6_consumed_literal_word", "armv4t_cfg_v6_consumed_literal_word_bytes", 5),
+        "rom-cfg-v1-consumed-literals-v1": (108, 1396, "armv4t_cfg_v1_consumed_literal_word", "armv4t_cfg_v1_consumed_literal_word_bytes", 4),
+        "rom-cfg-v3-consumed-literals-v1": (95, 1220, "armv4t_cfg_v3_consumed_literal_word", "armv4t_cfg_v3_consumed_literal_word_bytes", 5),
+        "rom-cfg-proven-roots-batch-consumed-literals-v1": (116, 1256, "armv4t_cfg_proven_roots_batch_consumed_literal_word", "armv4t_cfg_proven_roots_batch_consumed_literal_word_bytes", 4),
+        "rom-battle-controller-consumed-literals-v1": (46, 536, "armv4t_cfg_battle_controller_consumed_literal_word", "armv4t_cfg_battle_controller_consumed_literal_word_bytes", 5),
+        "rom-cfg-v2-shadowed-consumed-literals-v1": (17, 308, "armv4t_cfg_v2_shadowed_consumed_literal_word", "armv4t_cfg_v2_shadowed_consumed_literal_word_bytes", 6),
     }
 
     @classmethod
@@ -13511,7 +13621,7 @@ class CfgConsumedLiteralBatchCoverageTests(unittest.TestCase):
         self.assertEqual(1_220, len(claims))
         self.assertEqual(14_492, sum(c["range"][1] - c["range"][0] for c in claims))
         seen_ranges: set[tuple[int, int]] = set()
-        for batch, (count, size, primary_class, claim_kind) in self.EXPECTED.items():
+        for batch, (count, size, primary_class, claim_kind, non_claims) in self.EXPECTED.items():
             rows = [c for c in claims if c["promotion_batch"] == batch]
             self.assertEqual(count, len(rows), batch)
             self.assertEqual(size, sum(c["range"][1] - c["range"][0] for c in rows), batch)
@@ -13530,7 +13640,7 @@ class CfgConsumedLiteralBatchCoverageTests(unittest.TestCase):
                 self.assertEqual(64, len(row["independent_verifier_sha256"]))
                 self.assertEqual(64, len(row["promotion_manifest_sha256"]))
                 self.assertTrue(row["evidence_selector"].startswith("/promotion/range_records/"))
-                self.assertEqual(4, len(row["non_claims"]))
+                self.assertEqual(non_claims, len(row["non_claims"]))
         segments = coverage_auditor.atomize_claims(len(self._rom()), [*baseline, *claims])
         classified = sum(b-a for s in segments if s["primary_class"] != "unknown" for a,b in [s["range"]])
         self.assertGreaterEqual(classified, 6_142_176)
@@ -14510,7 +14620,15 @@ class TextBgTaskClosureQuickProjectionTests(unittest.TestCase):
         )
         # text-BG loop continuation 与 boot copy source 都已在 canonical 账本里，
         # 必须先剔掉再按原链序重投影，本用例自己再投影 text-BG task closure。
-        cls.PRIOR = _reproject_chain(cls.COVERAGE, cls.ROM, 2)
+        # text-BG task closure 本身也已在账本里，必须一并从基线里剔掉
+        # （但不由这里重建），否则生产者自己的 current-unknown 门会拒绝
+        # 本用例对自己的重投影。
+        cls.PRIOR = _reproject_chain(
+            cls.COVERAGE,
+            cls.ROM,
+            2,
+            excluded=("rom-text-bg-task-closure-v1",),
+        )
 
     def _prior(self):
         return json.loads(json.dumps(self.PRIOR))
@@ -14559,7 +14677,14 @@ class FixedRendererScriptRecordsQuickProjectionTests(unittest.TestCase):
         cls.COVERAGE = json.loads((ROOT / "sequel/rom-byte-coverage.json").read_text())
         # 前三个链包都已在 canonical 账本里，先剔掉再按原链序重投影，
         # 本用例自己再投影 fixed renderer script records。
-        cls.PRIOR = _reproject_chain(cls.COVERAGE, cls.ROM, 3)
+        # 第 4 个链包（fixed renderer script records）同样已在账本里，
+        # 必须一并从基线里剔掉（但不由这里重建）。
+        cls.PRIOR = _reproject_chain(
+            cls.COVERAGE,
+            cls.ROM,
+            3,
+            excluded=("rom-fixed-renderer-script-records-v1",),
+        )
 
     def _prior(self):
         return json.loads(json.dumps(self.PRIOR))

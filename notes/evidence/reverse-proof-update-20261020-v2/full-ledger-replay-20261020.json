@@ -1,0 +1,547 @@
+{
+  "ledger_sha256_placeholder": null,
+  "producer_count": 90,
+  "raised": [
+    {
+      "producer": "_referenced_text_slot_padding_claims",
+      "line": 43,
+      "error": "ValueError: referenced text slot padding batch is already present",
+      "seconds": 0.021
+    },
+    {
+      "producer": "_selector_direct_source_record_claims",
+      "line": 44,
+      "error": "ValueError: selector direct source record batch is already present",
+      "seconds": 0.021
+    },
+    {
+      "producer": "_dialogue_padding_claims",
+      "line": 45,
+      "error": "ValueError: dialogue padding claims must be derived from a pre-padding baseline",
+      "seconds": 0.002
+    },
+    {
+      "producer": "_cfg_inventory_claims",
+      "line": 46,
+      "error": "ValueError: CFG inventory claims must be derived from a pre-CFG baseline",
+      "seconds": 0.0
+    },
+    {
+      "producer": "_verified_artifact_reuse_claims",
+      "line": 47,
+      "error": "ValueError: verified artifact reuse claims require a pre-reuse baseline",
+      "seconds": 0.018
+    },
+    {
+      "producer": "_cfg_inventory_v3_claims",
+      "line": 48,
+      "error": "ValueError: CFG v3 claims must be derived from a pre-v3 baseline",
+      "seconds": 0.0
+    },
+    {
+      "producer": "_cfg_proven_roots_claims",
+      "line": 49,
+      "error": "ValueError: CFG proven-root claims must be derived from a pre-proven-root baseline",
+      "seconds": 0.0
+    },
+    {
+      "producer": "_cfg_proven_roots_v2_claims",
+      "line": 50,
+      "error": "ValueError: CFG proven-root v2 claims must be derived from a pre-v2 baseline",
+      "seconds": 0.0
+    },
+    {
+      "producer": "_battle_controller_cfg_claims",
+      "line": 51,
+      "error": "ValueError: battle-controller CFG promoted code denominator changed: claims=0, bytes=0",
+      "seconds": 10.996
+    },
+    {
+      "producer": "_cfg_proven_roots_v3_claims",
+      "line": 52,
+      "error": "ValueError: CFG proven-root v3 requires a pre-v3 baseline",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_cfg_proven_roots_v4_claims",
+      "line": 53,
+      "error": "ValueError: CFG proven-root v4 requires a pre-v4 baseline",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_cfg_proven_roots_v5_claims",
+      "line": 54,
+      "error": "ValueError: v5 requires a pre-v5 baseline",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_cfg_proven_roots_v6_claims",
+      "line": 55,
+      "error": "ValueError: v6 requires a pre-v6 baseline",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_cfg_proven_roots_v7_claims",
+      "line": 56,
+      "error": "ValueError: v7 requires a pre-v7 baseline",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_cfg_proven_roots_v8_claims",
+      "line": 57,
+      "error": "ValueError: v8 requires a pre-v8 baseline",
+      "seconds": 0.002
+    },
+    {
+      "producer": "_sprite_definition_resolved_window_claims",
+      "line": 58,
+      "error": "ValueError: sprite-definition resolved-window promotion changed",
+      "seconds": 0.217
+    },
+    {
+      "producer": "_battle_effect_sprite_animation_source_claims",
+      "line": 59,
+      "error": "ValueError: battle-effect sprite source claims require a pre-source baseline",
+      "seconds": 0.023
+    },
+    {
+      "producer": "_selector_code_window_claims",
+      "line": 60,
+      "error": "ValueError: selector code window batch is already present",
+      "seconds": 0.02
+    },
+    {
+      "producer": "_menu_portrait_palette_claims",
+      "line": 61,
+      "error": "ValueError: menu portrait palette batch is already present",
+      "seconds": 0.029
+    },
+    {
+      "producer": "_menu_portrait_lz77_palette_alignment_gap_claims",
+      "line": 62,
+      "error": "ValueError: pre-menu gap claim is already present or baseline claim changed",
+      "seconds": 1.375
+    },
+    {
+      "producer": "_tile_bg_lz77_palette_alignment_gap_claims",
+      "line": 63,
+      "error": "ValueError: pre-tile-BG gap claim is already present or baseline claim changed",
+      "seconds": 1.333
+    },
+    {
+      "producer": "_scene_visual_source_range_claims",
+      "line": 64,
+      "error": "ValueError: scene visual source batch is already present",
+      "seconds": 0.022
+    },
+    {
+      "producer": "_cutscene_obj_source_range_claims",
+      "line": 65,
+      "error": "ValueError: cutscene OBJ source batch is already present",
+      "seconds": 0.028
+    },
+    {
+      "producer": "_positions_aux_dispatch_claims",
+      "line": 66,
+      "error": "ValueError: positions auxiliary dispatch batch is already present",
+      "seconds": 0.025
+    },
+    {
+      "producer": "_battle_sound_selector_claims",
+      "line": 67,
+      "error": "ValueError: battle sound selector batch is already present",
+      "seconds": 0.032
+    },
+    {
+      "producer": "_battle_condition_record_claims",
+      "line": 68,
+      "error": "ValueError: battle condition records batch is already present",
+      "seconds": 0.021
+    },
+    {
+      "producer": "_cfg_proven_roots_v9_claims",
+      "line": 72,
+      "error": "ValueError: v9 requires a pre-v9 baseline",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_parser_bound_zero_padding_claims",
+      "line": 73,
+      "error": "ValueError: parser-bound zero padding batch is already present",
+      "seconds": 0.0
+    },
+    {
+      "producer": "_direct_cpuset_bound_palette_claims",
+      "line": 74,
+      "error": "ValueError: direct CpuSet bound palette batch is already present",
+      "seconds": 0.003
+    },
+    {
+      "producer": "_boot_interwork_padding_claims",
+      "line": 75,
+      "error": "ValueError: boot-interwork padding batch is already present",
+      "seconds": 0.003
+    },
+    {
+      "producer": "_sjis_empty_lookup_row_claims",
+      "line": 76,
+      "error": "ValueError: SJIS empty lookup rows batch is already present",
+      "seconds": 0.007
+    },
+    {
+      "producer": "_motion_spawn_sequence_alignment_gap_claims",
+      "line": 77,
+      "error": "ValueError: motion spawn sequence alignment gap batch is already present",
+      "seconds": 0.005
+    },
+    {
+      "producer": "_cfg_proven_roots_v10_claims",
+      "line": 84,
+      "error": "ValueError: v10 claims require a pre-v10 baseline; batch is already present",
+      "seconds": 0.002
+    },
+    {
+      "producer": "_cfg_proven_roots_v11_claims",
+      "line": 85,
+      "error": "ValueError: v11 claims require a pre-v11 baseline; batch is already present",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_cfg_proven_roots_v12_claims",
+      "line": 86,
+      "error": "ValueError: v12 claims require a pre-v12 baseline; batch is already present",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_cfg_proven_roots_v13_claims",
+      "line": 87,
+      "error": "ValueError: v13 claims require a pre-v13 baseline; batch is already present",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_cfg_proven_roots_v14_claims",
+      "line": 88,
+      "error": "ValueError: v14 claims require a pre-v14 baseline; batch is already present",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_cfg_proven_roots_v15_claims",
+      "line": 89,
+      "error": "ValueError: v15 claims require a pre-v15 baseline; batch is already present",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_u8_indexed_u16_pair_lookup_claims",
+      "line": 90,
+      "error": "ValueError: u8 lookup claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.004
+    },
+    {
+      "producer": "_boot_thumb_handoff_cfg_claims",
+      "line": 91,
+      "error": "ValueError: boot Thumb handoff claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_boot_thumb_code_literal_alignment_gap_claims",
+      "line": 92,
+      "error": "ValueError: pre-boot-code/literal gap claim is already present or baseline changed",
+      "seconds": 0.111
+    },
+    {
+      "producer": "_task_scheduler_core_claims",
+      "line": 93,
+      "error": "ValueError: task scheduler claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_directsound_pitch_lookup_claims",
+      "line": 94,
+      "error": "ValueError: DirectSound pitch claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.004
+    },
+    {
+      "producer": "_psg_frequency_lookup_claims",
+      "line": 95,
+      "error": "ValueError: PSG frequency claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.004
+    },
+    {
+      "producer": "_u8_indexed_u8_triplet_lookup_claims",
+      "line": 96,
+      "error": "ValueError: u8 triplet claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.002
+    },
+    {
+      "producer": "_historical_artifact_bound_alignment_gap_claims",
+      "line": 97,
+      "error": "ValueError: artifact-bound alignment-gap claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.077
+    },
+    {
+      "producer": "_mplaymain_scheduler_claims",
+      "line": 98,
+      "error": "ValueError: MPlayMain scheduler claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.004
+    },
+    {
+      "producer": "_soundmain_relocated_cfg_claims",
+      "line": 99,
+      "error": "ValueError: SoundMain relocated claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.004
+    },
+    {
+      "producer": "_soundmain_relocated_alignment_gap_claims",
+      "line": 100,
+      "error": "ValueError: SoundMain alignment-gap claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.023
+    },
+    {
+      "producer": "_m4a_initializer_chain_claims",
+      "line": 101,
+      "error": "ValueError: M4A initializer claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.004
+    },
+    {
+      "producer": "_mp2k_note_allocator_claims",
+      "line": 102,
+      "error": "ValueError: MP2K note-allocator claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.003
+    },
+    {
+      "producer": "_mp2k_dispatcher_claims",
+      "line": 103,
+      "error": "ValueError: MP2K dispatcher claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.004
+    },
+    {
+      "producer": "_cgb_helper_bounded_cfg_claims",
+      "line": 104,
+      "error": "ValueError: CGB helper bounded CFG claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.005
+    },
+    {
+      "producer": "_cgbsound_bounded_cfg_claims",
+      "line": 105,
+      "error": "ValueError: CgbSound bounded CFG claims require a pre-promotion baseline; batch is already present",
+      "seconds": 0.004
+    },
+    {
+      "producer": "_artifact_bound_alignment_gap_claims",
+      "line": 106,
+      "error": "ValueError: artifact-bound alignment-gap claims require either an empty or exact historical-four baseline; batch is already present",
+      "seconds": 0.073
+    },
+    {
+      "producer": "_cfg_consumed_literal_batch_claims",
+      "line": 107,
+      "error": "ValueError: CFG consumed-literal batch is already present",
+      "seconds": 0.001
+    },
+    {
+      "producer": "_accepted_consumer_code_slice_packet_claims",
+      "line": 108,
+      "error": "ValueError: duplicate consumer code-slice promotion batch: rom-profile-selector-code-slices-v1",
+      "seconds": 0.141
+    },
+    {
+      "producer": "_fast_audit_four_packet_claims",
+      "line": 109,
+      "error": "ValueError: fast-audit packet is not current unknown",
+      "seconds": 66.328
+    },
+    {
+      "producer": "_cfg_proven_roots_v17_claims",
+      "line": 110,
+      "error": "ValueError: CFG proven-roots v17 is not current unknown",
+      "seconds": 60.26
+    },
+    {
+      "producer": "_cfg_proven_roots_v18_claims",
+      "line": 111,
+      "error": "ValueError: CFG proven-roots v18 is not current unknown",
+      "seconds": 67.477
+    },
+    {
+      "producer": "_boot_interwork_continuation_claims",
+      "line": 112,
+      "error": "ValueError: boot interwork continuation is not current unknown",
+      "seconds": 5.971
+    },
+    {
+      "producer": "_cfg_proven_roots_v19_claims",
+      "line": 113,
+      "error": "ValueError: CFG proven-roots v19 is not current unknown",
+      "seconds": 11.127
+    },
+    {
+      "producer": "_unbound_chapter_script_tail_claims",
+      "line": 114,
+      "error": "ValueError: unbound chapter-script tail is not current unknown",
+      "seconds": 0.099
+    },
+    {
+      "producer": "_chapter_script_consumer_root_claims",
+      "line": 115,
+      "error": "ValueError: chapter-script consumer roots is not current unknown",
+      "seconds": 0.154
+    },
+    {
+      "producer": "_battle_condition_result_text_claims",
+      "line": 116,
+      "error": "ValueError: battle-condition result text is not current unknown",
+      "seconds": 0.118
+    },
+    {
+      "producer": "_alternate_dialogue_table_claims",
+      "line": 117,
+      "error": "ValueError: alternate-dialogue table is not current unknown",
+      "seconds": 0.152
+    },
+    {
+      "producer": "_story_state_callback_cfg_claims",
+      "line": 118,
+      "error": "ValueError: story-state callback CFG is not current unknown",
+      "seconds": 31.012
+    },
+    {
+      "producer": "_story_state_entry_c4cc_claims",
+      "line": 119,
+      "error": "ValueError: story-state entry C4CC is not current unknown",
+      "seconds": 37.174
+    },
+    {
+      "producer": "_text_bg_loop_continuation_claims",
+      "line": 120,
+      "error": "ValueError: text-BG loop continuation is not current unknown",
+      "seconds": 6.297
+    },
+    {
+      "producer": "_boot_copy_source_claims",
+      "line": 121,
+      "error": "ValueError: boot copy sources are not current unknown",
+      "seconds": 26.356
+    },
+    {
+      "producer": "_text_bg_task_closure_claims",
+      "line": 122,
+      "error": "ValueError: text-BG task closure range is not current unknown",
+      "seconds": 7.144
+    },
+    {
+      "producer": "_fixed_renderer_script_record_claims",
+      "line": 123,
+      "error": "ValueError: fixed renderer-script records is not current unknown",
+      "seconds": 29.54
+    },
+    {
+      "producer": "_renderer_script_pointer_pool_record_claims",
+      "line": 124,
+      "error": "ValueError: renderer script pointer-pool records is not current unknown",
+      "seconds": 0.115
+    },
+    {
+      "producer": "_boot_state_dispatcher_cfg_claims",
+      "line": 125,
+      "error": "ValueError: boot-state dispatcher CFG is not current unknown",
+      "seconds": 11.783
+    },
+    {
+      "producer": "_fixed_animation_descriptor_group_claims",
+      "line": 126,
+      "error": "ValueError: fixed animation descriptor groups is not current unknown",
+      "seconds": 0.102
+    },
+    {
+      "producer": "_battle_distance_dispatcher_cfg_claims",
+      "line": 127,
+      "error": "ValueError: battle-distance dispatcher CFG is not current unknown",
+      "seconds": 0.148
+    },
+    {
+      "producer": "_bounded_index_u16_pair_table_claims",
+      "line": 128,
+      "error": "ValueError: bounded-index u16-pair table is not current unknown",
+      "seconds": 0.13
+    },
+    {
+      "producer": "_v17_v18_helper_cfg_claims",
+      "line": 129,
+      "error": "ValueError: V17/V18 helper CFG is not current unknown",
+      "seconds": 4.185
+    },
+    {
+      "producer": "_fixed_pair_table_claims",
+      "line": 130,
+      "error": "ValueError: fixed pair tables is not current unknown",
+      "seconds": 0.894
+    },
+    {
+      "producer": "_prebattle_menu_controller_cfg_claims",
+      "line": 131,
+      "error": "ValueError: pre-battle menu controller CFG is not current unknown",
+      "seconds": 44.526
+    },
+    {
+      "producer": "_scene_source_closure_claims",
+      "line": 132,
+      "error": "ValueError: scene source closures is not current unknown",
+      "seconds": 3.364
+    },
+    {
+      "producer": "_story_callback_dependency_claims",
+      "line": 133,
+      "error": "ValueError: story callback dependency closures is not current unknown",
+      "seconds": 4.355
+    },
+    {
+      "producer": "_cfg_proven_roots_v20_claims",
+      "line": 134,
+      "error": "ValueError: CFG proven-roots v20 is not current unknown",
+      "seconds": 17.91
+    },
+    {
+      "producer": "_story_next_dependency_cfg_claims",
+      "line": 135,
+      "error": "ValueError: story-next dependency CFG is not current unknown",
+      "seconds": 40.008
+    },
+    {
+      "producer": "_boot_register_init_dependency_cfg_claims",
+      "line": 136,
+      "error": "ValueError: boot register-init dependency CFG is not current unknown",
+      "seconds": 83.654
+    },
+    {
+      "producer": "_fixed_index_u8_tail_claims",
+      "line": 137,
+      "error": "ValueError: fixed-index u8 tail is not current unknown",
+      "seconds": 6.247
+    },
+    {
+      "producer": "_story_selector_dependency_cfg_claims",
+      "line": 138,
+      "error": "ValueError: story-selector dependency CFG is not current unknown",
+      "seconds": 9.831
+    },
+    {
+      "producer": "_task_callback_078e38_closure_claims",
+      "line": 139,
+      "error": "ValueError: task-callback 0x078E38 closure is not current unknown",
+      "seconds": 6.595
+    },
+    {
+      "producer": "_cfg_proven_roots_v21_claims",
+      "line": 140,
+      "error": "ValueError: CFG proven-roots v21 is not current unknown",
+      "seconds": 5.692
+    },
+    {
+      "producer": "_small_cfg_dependency_batch_claims",
+      "line": 141,
+      "error": "ValueError: small CFG dependency four-packet batch is not current unknown",
+      "seconds": 13.907
+    }
+  ],
+  "ok": []
+}
