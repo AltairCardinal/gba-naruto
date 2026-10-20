@@ -1617,19 +1617,56 @@ OK
 （`notes/evidence/reverse-proof-update-20261020-v2/full-ledger-replay-20261020.json`）。
 
 权威轮（跑的是已修代码，日志 `/tmp/auditor-run2-shard{0,1,2,3}.log`，
-`PYTHONUNBUFFERED=1` 消除 stderr 块缓冲盲区）**仍在跑**，
-截至 11:4x：**68 项 ok / 0 项 FAIL**。
+`PYTHONUNBUFFERED=1` 消除 stderr 块缓冲盲区）跑到 **165 项 ok / 0 项 FAIL** 时被停下 ——
+因为晋升会改审计器与账本，**那一轮的收据对最终代码无效**，改按**均衡分片**在
+晋升后重跑（见 §24.5）。
 
-**这 68 项不是逆向完成量。** 它只证明「68 条既有断言在新代码下仍成立」。
-四类分母一个都没动：
+### 24.5 Tier-2 门槛例外：三包入账后的权威结果（2026-10-20 12:2x–12:5x）
 
-| 分母 | 值 | 本轮是否变化 |
-|---|---:|---|
-| `unknown_bytes` | 86,089 | 否 |
-| `classified_bytes` | 6,205,367 | 否 |
-| `claim_count` | 16,913 | 否 |
-| `segment_count` | 18,675 | 否 |
-| formal `blockers` | 175 | 否（集合一致，无新增） |
+**这是本轮唯一改变四类分母的动作。**
+
+| 分母 | 晋升前 | **晋升后** | 变化 |
+|---|---:|---:|---:|
+| `unknown_bytes` | 86,089 | **82,728** | **−3,361** |
+| `classified_bytes` | 6,205,367 | **6,208,728** | **+3,361** |
+| `claim_count` | 16,913 | **17,028** | **+115** |
+| `segment_count` | 18,675 | **18,882** | **+207** |
+| formal `blockers` | 175 | **175** | **零新增、零减少** |
+
+三包（全部是已 accepted、已由独立 verifier 逐字节重建的 artifact）：
+
+| 包 | claim 数 | 字节 | primary_class | 备注 |
+|---|---:|---:|---|---|
+| `rom-renderer-records-delta-v1` | 29 | 1,668 | `fixed_cfg_consumer_renderer_command_script` | 34 accepted / 13 excluded site 冻结 |
+| `rom-display-text-delta-v1` | 85 | 1,053 | `fixed_cfg_consumer_renderer_display_text` | 固定候选 site 分母 |
+| `rom-animation-descriptor-pool-v2` | 1 | 640 | `fixed_consumer_animation_descriptor_group_bytes` | **与既有 `rom-fixed-animation-descriptor-groups-v1` 同名** ⇒ 账本按 class 汇总会合并（1,136 + 640 = 1,776 B），已在包级 limitation 写明 |
+
+**formal 收据**（`notes/evidence/reverse-proof-update-20261020-v3/formal-run.log`）：
+
+```
+[formal-v3] guard exit: 0  wall: 1349s
+complete: False      blockers: 175      verifiers_executed: 109      failed_verifiers: []
+coverage summary: {"unknown_bytes": 82728, "classified_bytes": 6208728,
+                   "claim_count": 17028, "segment_count": 18882}
+```
+
+- **账本 / spec / formal 报告三方逐项一致**（§24.5 详见 `notes/four-decisions-20261020.md` §6）。
+- **「例外没有放松任何判据」的三条硬证据**：blockers 175→175 一条没动；
+  verifiers 108→**109**（新增的正是 M1 的独立验证器）且 `failed_verifiers: []`；
+  两个 renderer verifier **故意不进** spec 的 `verifiers`（报告无 `/schema`，
+  `_contract()` 会拒收 ⇒ 新增 blocker）⇒ 只进 `evidence`（哈希绑定），
+  验证由审计器 in-process 调用承担。**没有为「看起来更绿」而放宽合同形状。**
+- 墙钟 1,349 s，比 v2 的 1,464.7 s **快 115.7 s**；但 v2 那轮跑在 load 5.4–7.9、
+  swap 已用 1,176 MiB 的环境下，本轮机器空（load 4.7–6.5）⇒ **这是「机器空出来更快」，
+  不是「代码变快」**。
+
+**门槛例外本身**：三道门槛（≥10 KiB / ≥0.15 pp / 同类待接入 ≥4 个）**实测全不满足**
+（3,361 B / 0.0534 pp / 3 个不同 `primary_class` 各 1 个；即便把已入账的同族
+pointer-pool 1,542 B 与 fixed-renderer 1,124 B 算进来也只有 3 包 / 4,903 B / 0.0779 pp），
+故按用户授权走**一次性例外**；例外理由、可回溯性与「不产生政策先例」的界定见
+`notes/four-decisions-20261020.md` §1，并在 `AGENTS.md` 任务模式登记表与
+`docs/sequel-roadmap.md` 三处留痕。
+
 
 ### 24.4 93 个 proof 测试套件重跑 —— **93/93 OK，0 失败**
 

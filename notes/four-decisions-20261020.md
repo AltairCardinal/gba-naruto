@@ -200,3 +200,70 @@ $ .venv/bin/python3 -I -S tools/verify_rom_sprite_loader_tail.py --root . \
 | 账本重建收据 | `notes/evidence/reverse-proof-update-20261020-v3/ledger-guard.json` |
 | formal 收据 | `notes/evidence/reverse-proof-update-20261020-v3/formal-guard.json` + `formal-report.json` |
 | 根因定量收据（90/90 生产者拒绝拿最终账本重放） | `notes/evidence/reverse-proof-update-20261020-v2/full-ledger-replay-20261020.json` |
+
+---
+
+## 6. 裁决① 的 formal 收据（**Tier-2 例外晋升已完整闭环**）
+
+`notes/evidence/reverse-proof-update-20261020-v3/formal-run.log`：
+
+```
+[formal-v3] guard exit: 0  wall: 1349s
+complete: False
+blockers: 175
+verifiers_executed: 109
+failed_verifiers: []
+trust_anchor: {"externally_supplied": false,
+                "spec_sha256": "754042fef0a6ac64ef72ab57397791dd23a55c6a32408bf545f620f198b5403b",
+                "verified": false}
+coverage summary: {"unknown_bytes": 82728, "classified_bytes": 6208728,
+                   "claim_count": 17028, "segment_count": 18882}
+```
+
+guard 收据：`exit_code 0`、`degraded false`、`peak_tree_rss_mib 917.52`、
+`protection_backend posix-process-group`。
+
+### 6.1 三方一致（账本 / spec / formal 报告）
+
+| 项 | 账本 | spec 断言 | formal 报告 | 一致 |
+|---|---:|---:|---:|:--:|
+| `unknown_bytes` | 82,728 | 82,728 | 82,728 | ✓ |
+| `classified_bytes` | 6,208,728 | 6,208,728 | 6,208,728 | ✓ |
+| `claim_count` | 17,028 | 17,028 | 17,028 | ✓ |
+| `segment_count` | 18,882 | 18,882 | 18,882 | ✓ |
+
+### 6.2 「例外没有放松任何判据」的三条硬证据
+
+1. **blockers 175 → 175，一条没减也没加**：
+   22 个 runtime bank 的 132 条 blocker（44 条 `not exhaustively ID-bound` +
+   44 条 `no verifier contract binds the exhaustive …` + 44 条
+   `coverage status=…, expected 'exhaustive'`）与 43 条 gate 级 blocker
+   **全部原样保留**。例外的效果**只**体现在 `unknown_bytes` 少了 3,361。
+2. **verifiers_executed 108 → 109**（新增的正是 M1 `verify_rom_animation_descriptor_pool_v2.py`），
+   `failed_verifiers: []` ⇒ 新包的独立验证器在 formal 里**实跑通过**。
+3. **两个 renderer verifier 故意不进 `verifiers`**：报告无 `/schema`，
+   `_contract()` 会拒收 ⇒ 只进 `evidence`（哈希绑定），
+   验证由审计器 in-process 调用承担。⇒ **没有**为了「看起来更绿」而放宽合同形状。
+
+### 6.3 `complete: False` 与 `trust_anchor.verified: false` 都不是失败
+
+- `complete: False` 是**设计**：22 个 runtime bank 仍非 exhaustive，
+  `claim_status` 保持 `"incomplete"`，policy 第 5 条（每个有效 bank 按记录 ID 与
+  字段 ID 穷尽覆盖）**一字未改**。
+- `trust_anchor.verified: false` 是**设计**
+  （`tools/audit_reverse_engineering_proof.py:1062-1071`：只有外部传
+  `--trusted-spec-sha256` 才为 true；`claim_status=incomplete` 不触发 blocker）。
+  报告里记的 `spec_sha256 = 754042fe…` 是**现算写入**，不是外部钉。
+
+### 6.4 墙钟对照
+
+| 轮次 | 墙钟 | 说明 |
+|---|---:|---|
+| formal v1（3,905 s 那轮） | 3,905 s | 解释器漂移那一轮（176 blockers） |
+| formal v2（2026-10-20 早） | 1,464.7 s | 解释器契约修正后（175 blockers） |
+| **formal v3（本轮）** | **1,349 s** | 三包入账后（175 blockers、109 验证器） |
+
+比 v2 **快 115.7 s（−7.9 %）**：本轮机器空（用户关了后台程序，load 4.7–6.5），
+且 `atomize_claims` 的扫描线优化对更大的 claim 集（17,028 条）收益更明显。
+⇒ **这不是「代码变快」的证据**，而是「机器空出来之后同样的代码跑得更快」的证据；
+v2 那轮是在 load 5.4–7.9、swap 已用 1,176 MiB 的环境下跑的。

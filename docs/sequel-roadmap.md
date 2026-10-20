@@ -188,6 +188,29 @@
 > 旧描述器合同CLI实际通过；两新样例首槽各2×0x14 entries并终止于FFFF。
 > flags bit8改变slot advance，完整新caller/flags域仍缺；不沿用旧group分母，promotion=0。
 
+> 2026-10-20 [四道口径裁决与 Tier-2 门槛例外晋升](../notes/four-decisions-20261020.md)：
+> 用户授权四道裁决——① Tier-2 门槛走**一次性例外**、② D0 走**方案 B（79 次运行时采集）**、
+> ③ psg **连 legacy 验证器 + 导出器一起修**、④ purelib **加固 workaround（补所有候选 purelib）**。
+> ①已完整闭环：promote 两包 + 审计器接线（26 常量 / 3 claim 投影函数 / 3 行 `claims +=`），
+> 离线预演先证**对 16,913 条 primary claim 零重叠**、四元组精确命中；受管账本重建
+> exit 0 / degraded false / 峰值 RSS 442 MiB；canonical 更新为 **6,208,728 classified /
+> 82,728 unknown / 17,028 claims / 18,882 segments**（98.68507385253906%），净增 3,361 B /
+> 115 claims / 207 segments。proof 同步（幂等 + 失败关闭）：6 条 evidence + M1 verifier
+> 合同 + 审计器 SHA `15425f37…`→`ea5b8b50…` + 4 条 `/summary/*` + 3 条包级 limitation
+> + policy 计数。**formal v3：exit 0 / wall 1,349 s / blockers 175（零新增零减少）/
+> verifiers_executed 109（新增 M1）/ failed_verifiers []**，账本、spec、formal 报告
+> 三方逐项一致。两个 renderer verifier **故意不进** spec `verifiers`（报告无 `/schema`，
+> `_contract()` 会拒收并新增 blocker）⇒ 只进 evidence 哈希绑定，验证由审计器
+> in-process 调用承担。M1 与既有 `rom-fixed-animation-descriptor-groups-v1` **共用
+> primary_class** ⇒ 按 class 汇总会合并（1,136 + 640 = 1,776 B），已在包级 limitation 写明。
+> **门槛三道实测全不满足**（3,361 B / 0.0534 pp / 3 个不同 primary_class 各 1 个），
+> 故按一次性例外处理，**例外不放松任何判据**（bank 级 132 条 + gate 级 43 条 blocker
+> 全部原样保留，`claim_status` 保持 `incomplete`，policy 第 5 条一字未改），
+> 例外理由与「不产生政策先例」的界定见 notes §1，并在 AGENTS.md 登记表留痕。
+> ②③④ 的设计与下一步见 notes §3/§4/§2；另更正两条被实测推翻的结论：
+> 删 `-S` 的「零脚本路径」会新增 1 个 blocker（175→176、hash_bound 97→96），
+> 且那 175 条 blocker **零个**与 purelib 有关（第 176 条的真因是审计器解释器被换成 venv）。
+
 > 2026-10-01 [17大段锚点筛选](../notes/rom-large-unknown-anchor-screen-20261001.md)双重重放通过：
 > 45832C段固定base进入626B4 allocator可复用已知合同，12EE10段需区分固定copy与RAM文本链。
 > 两路线优先于继续高成本生命周期碎片调查；所有形态保持候选，promotion=0、账本不变。
