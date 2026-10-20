@@ -234,7 +234,10 @@ python tools/eol_probe.py D:\Shell\Github\gba-naruto-reverse sequel/rom-byte-cov
 ## 6. 本次留下的仓库内产物
 
 - `tools/prepare_rom_verifier_contracts_win.py`（逆向树 `codex/reverse-engineering`）：
-  Windows 版合同恢复工具，新增文件，**未改动任何被 pin 的文件**。
+  Windows 版合同恢复工具，新增文件，**未改动任何被 pin 的文件**；
+  配套 `tests/test_prepare_rom_verifier_contracts_win.py` 9/9 绿
+  （上游 `tests/test_prepare_rom_verifier_contracts.py` 在 Windows 上是
+  2 failures + 10 errors，被测的原工具是 POSIX-only，本机不可用）。
 - `tools/eol_probe.py`（本 `master` 线）：工作区字节 vs blob 字节的逐文件比对探针，
   用来在任何机器上复验 §2.1 的换行符击穿问题。
 - 本文件 + `docs/sequel-roadmap.md` 的平台约束条目（`master` 线）。
