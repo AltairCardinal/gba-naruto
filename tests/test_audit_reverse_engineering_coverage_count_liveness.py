@@ -206,6 +206,74 @@ def _summary_key_scoped(node: ast.AST) -> tuple[str | None, str | None, str]:
     return None, None, "none"
 
 
+def _summary_aliases(tree: ast.Module) -> dict[str, str]:
+    """找出「本地别名 → summary 字典」的绑定：别名 → 基对象名。
+
+    形如 ``summary = manifest["summary"]``。这类写法很常见，而只认
+    ``<obj>["summary"][<key>]`` 直接下标链的检查会**整类漏掉**
+    ——2026-10-20 实测：``tests/test_audit_rom_byte_coverage.py`` 里有
+    **80 处**陈旧账本快照全是这个形态，元守卫一个都没抓到。
+    """
+    aliases: dict[str, str] = {}
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Assign):
+            continue
+        value = node.value
+        if not (
+            isinstance(value, ast.Subscript)
+            and isinstance(value.slice, ast.Constant)
+            and value.slice.value == "summary"
+        ):
+            continue
+        base = _base_name(_chain_base(value))
+        if base is None:
+            continue
+        for target in node.targets:
+            if isinstance(target, ast.Name):
+                aliases[target.id] = base
+    return aliases
+
+
+#: 上下界断言的方法 → 方向。``ge`` = 断言 actual ≥ bound，``le`` = actual ≤ bound。
+_BOUND_METHODS = {"assertGreaterEqual": "ge", "assertLessEqual": "le"}
+
+
+def _bound_assertions(source: str) -> list[tuple[int, str, int, str, str | None]]:
+    """列出所有「活账本键 vs 字面量」的**上下界**断言。
+
+    返回 (行号, 键, 界, 方向, 基对象名)。只收**规范形态**
+    （第一个参数是实际值、第二个是字面量界）；参数顺序写反的那种由
+    ``test_at_least_assertions_put_the_expression_first`` 单独负责。
+    """
+    tree = ast.parse(source)
+    aliases = _summary_aliases(tree)
+    found: list[tuple[int, str, int, str, str | None]] = []
+    for node in ast.walk(tree):
+        if not (
+            isinstance(node, ast.Call)
+            and isinstance(node.func, ast.Attribute)
+            and node.func.attr in _BOUND_METHODS
+            and len(node.args) == 2
+        ):
+            continue
+        direction = _BOUND_METHODS[node.func.attr]
+        actual_side, bound_side = node.args
+        bound = _const_int(bound_side)
+        if bound is None:
+            continue
+        key, base, kind = _summary_key_scoped(actual_side)
+        if key is None and isinstance(actual_side, ast.Subscript):
+            if isinstance(actual_side.value, ast.Name):
+                alias = actual_side.value.id
+                raw_key = _const_str(actual_side.slice)
+                if raw_key is not None and alias in aliases:
+                    key, base, kind = raw_key, aliases[alias], "direct_summary"
+        if key is None:
+            continue
+        found.append((node.lineno, key, bound, direction, base))
+    return found
+
+
 def _scoped_literal_assertions(
     source: str,
 ) -> list[tuple[int, str, int, str, str | None]]:
@@ -214,6 +282,7 @@ def _scoped_literal_assertions(
     返回 (行号, 键, 字面量, 形态, 基对象名)。
     """
     tree = ast.parse(source)
+    aliases = _summary_aliases(tree)
     found: list[tuple[int, str, int, str, str | None]] = []
     for node in ast.walk(tree):
         if not (
@@ -229,6 +298,13 @@ def _scoped_literal_assertions(
             if literal is None:
                 continue
             key, base, kind = _summary_key_scoped(pointer_side)
+            if key is None and isinstance(pointer_side, ast.Subscript):
+                # <别名>[<键>] —— 别名绑定到 <基对象>["summary"]
+                if isinstance(pointer_side.value, ast.Name):
+                    alias = pointer_side.value.id
+                    raw_key = _const_str(pointer_side.slice)
+                    if raw_key is not None and alias in aliases:
+                        key, base, kind = raw_key, aliases[alias], "direct_summary"
             if key is None:
                 continue
             found.append((node.lineno, key, literal, kind, base))
@@ -699,6 +775,40 @@ class CoverageCountLivenessTests(unittest.TestCase):
         )
         self.assertEqual(3, len(_reversed_bound_assertions(reversed_case)))
         self.assertEqual([], _reversed_bound_assertions(correct_cases))
+
+    def test_bound_assertions_against_live_keys_keep_the_bound_on_the_right_side(self) -> None:
+        """上下界断言里的「界」必须在**正确的一侧**。
+
+        快照断言 ``assertEqual(<冻结值>, summary["unknown_bytes"])`` 在每次晋升后
+        都会变成历史值。正确的改法是把它变成**界**：
+
+        - 只会**增长**的量（``classified_bytes`` / ``claim_count`` / ``segment_count``
+          / ``cfg_*`` 家族聚合）→ **下界** ``assertGreaterEqual(实际值, 冻结值)``；
+        - 只会**缩小**的量（``unknown_bytes``）→ **上界**
+          ``assertLessEqual(实际值, 冻结值)``。
+
+        界必须留在正确的一侧，否则断言立刻失败 —— 而且失败的含义是
+        「这个界已经不再成立了」，不是「这个量变了」。
+
+        本条与 ``test_no_test_source_hardcodes_a_live_ledger_quantity`` 互补：
+        那条抓「字面量等号」，这条抓「界放错侧」。
+        """
+        offenders: list[tuple[str, int, str, int, int, str]] = []
+        for path in sorted(TESTS_DIR.glob("*.py")):
+            source = path.read_text(encoding="utf-8")
+            if "assertGreaterEqual" not in source and "assertLessEqual" not in source:
+                continue
+            live_names = _live_ledger_names(source)
+            for line, key, bound, direction, base in _bound_assertions(source):
+                if base not in live_names:
+                    continue
+                current = self.live.get(key)
+                if current is None:
+                    continue
+                holds = current >= bound if direction == "ge" else current <= bound
+                if not holds:
+                    offenders.append((path.name, line, key, bound, current, direction))
+        self.assertEqual([], offenders)
 
     def test_per_verifier_contracts_do_not_use_global_derived_values(self) -> None:
         """单验证器合同与合成夹具**不得**引用全局派生量。
