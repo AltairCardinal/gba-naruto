@@ -260,6 +260,25 @@ sprite-loader-tail 一包即 5 个值（审计器 sha、验证器 sha、2 个 ev
   （Butano 复刻会话的在飞改动，**未提交**）⇒ 换机器前要么先提交它，要么把那 8 行
   手工带过去；本轮**没有**碰它。
 
+### 5.5 本轮为保全在飞工作额外做的两个提交（主树 `codex/butano-foundation-research`）
+
+宿主机器退役，为免只存在于本机磁盘的工作丢失，主树另有两个提交已推送：
+
+- `157bdfb7` docs: 任务模式登记表补 19 行 —— **只提交 `AGENTS.md`**，
+  把用户此前只在工作区的登记表改动（+19 行，含逆向侧新沉淀的模式与站点发布/调色板/
+  索引色派生三条）入账。
+- `b78e3f74` wip(main-tree): Butano 复刻在飞工作快照 ——
+  691 个文件（复刻侧 C++ 头文件与 graphics、`tools/butano/*` 29 个新工具、
+  `tools/{measure_butano_reverse_gap,build_reverse_results_index,build_reverse_notes_index,
+  audit_butano_reverse_provenance}.py`、`sequel/content/battle_controller_*.json`、
+  20 余个 `tests/test_s49_*.py` 等）、`artifacts/s49-fidelity-20261019-v1` 等采集产物、
+  以及重建后的 `artifacts/macos-mgba-20261019-v1` 证据。
+  **这是 WIP 快照，不是已验收里程碑**：本轮未对其做全量构建/测试验收，
+  接手方需自行复核（尤其 `artifacts/macos-mgba-20261019-v1/manifest.json`
+  记录的二进制摘要与旧记录不同，是重建后的新值）。
+
+主树工作区在交接时是**干净的**（两提交已把全部在飞改动收进版本库）。
+
 ---
 
 ## 6. 已知坑（别再踩）
