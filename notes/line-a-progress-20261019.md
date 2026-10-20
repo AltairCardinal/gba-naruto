@@ -551,8 +551,20 @@ formal 内部先跑覆盖门再跑验证器池）。
 - **验证器段**在基线上只要 **564–588 s**；本轮 1,528 s 是 **2.7× 争用放大**
   （我同时并发跑了回归套件与探针）。
   ⚠️ 原节写的「并发墙钟被 `tools/verify_rom_cfg_proven_roots_v9.py` 单跑
-  ~18 分钟（1,080 s）封顶」**不成立**：v9 **从未出现在 formal 的验证器列表里**
-  （9-30 与 10-20 两份 formal 报告的脚本清单都没有它），且 1,080 s 没有收据。
+  ~18 分钟（1,080 s）封顶」——**本节原先判定为「不成立」，那个判定本身是错的，
+  2026-10-20 09:4x 独立复核后更正**：
+  - **v9 确实在 formal 的验证器列表里**。实测三份 formal 报告的 `verifiers_executed`：
+    9-30 基线 107 项**含 v9**、10-20 v1 108 项**含 v9**、10-20 v2 108 项**含 v9**；
+    条目 `label="gate rom_byte_coverage"`、`contract_ok: true`、`exit_code: 0`，
+    命令 `python3.14 -I -S tools/verify_rom_cfg_proven_roots_v9.py --root .
+    --artifact-dir artifacts/rom-cfg-proven-roots-v9`。
+    **本节原写的「v9 从未出现在 formal 的验证器列表里」是错的。**
+  - **仍然成立的部分**：v9 单跑 ~1,080 s 这个数字**全仓没有任何收据**
+    （23 份提到 `proven_roots_v9` 的 JSON 全是 report/manifest，没有单独计时）。
+  - ⇒ 该假设的正确状态是「**前提错、结论未证**」，不是「已否」。
+    若 v9 真需 ~1,080–1,387 s，4 路池的 makespan 下界被它压住，
+    1,528 s 与「最长单项主导」自洽 ⇒ **与「争用 2.7×」互斥，
+    但仓库数据无法排除任一方**（见 §27.1）。
 
 #### 第一轮（6,214 s / 176 blockers）：环境漂移，不是语义失败
 
@@ -645,11 +657,17 @@ formal 内部先跑覆盖门再跑验证器池）。
    并加了 4 项等价性回归闸门（真实账本 + 400 组随机 + 失败关闭文案 + 性能）。
    预期覆盖段从 1,819.5 s 降到 **200–400 s 量级** —— 这需要一次受管重测确认
    （§21.3）。
+   ⚠️ **2026-10-20 09:4x 更正**：这个预期**被实测证伪**。优化后独立审计实测
+   **1,108.276 s**（§23.4），不是 200–400 s，差约 2.8–5.5 倍。
+   ⇒ **atomize 之外还有 1,108 s 的成本**，下一个优化杠杆不是 atomize，
+   而是 producer 内的验证器冷重放（见 §25.2、§27）。
 5. 本轮交付的**工具侧**提速仍然有效，但它的收益只有在宿主不饱和时才兑现：
    - 验证器并发化（`--verifier-jobs`，按可用内存夹取）→ 108 个验证器不再串行；
      基线验证器段本来就只要 **564–588 s**，本轮 1,528 s 是争用 2.7× 的结果
-     （**不是** 1.38× 的算法收益，也**不是**被 v9 封顶——v9 从未进过 formal
-     的验证器列表）；
+     （**不是** 1.38× 的算法收益）；**原写「也不是被 v9 封顶——v9 从未进过 formal
+     的验证器列表」是错的**（v9 三份报告里都在，见 §13 的更正），
+     只能说 v9 的 1,080 s 无收据 ⇒「最长单项主导」与「争用 2.7×」两个解释
+     **互斥但都无法排除**；
    - 守卫保留子进程输出 → 失败可诊断（**本轮直接靠它定位了
      `ModuleNotFoundError: No module named 'PIL'` 的解释器漂移**，见 §15）；
    - policy 文档 + 测试夹具与晋升链解耦 → 每次晋升不再打破约 12 个测试
@@ -1469,7 +1487,7 @@ ROM SHA + artifact SHA + verifier SHA，缓存命中必须可被独立复验，�
 | coverage 门 | `verified=true`，`errors=[]` |
 | 账本数 | `unknown_bytes=86089` / `claim_count=16913` / `segment_count=18675` |
 
-### 23.2 墙钟对比（全部来自收据，不是推算）
+### 23.2 墙钟对比（**收据强度逐列标注**，2026-10-20 09:4x 更正）
 
 | 轮次 | 墙钟 | 覆盖段 | 验证器段 |
 |---|---:|---:|---:|
@@ -1480,6 +1498,20 @@ ROM SHA + artifact SHA + verifier SHA，缓存命中必须可被独立复验，�
 
 - **vs 10-20 同配置：2.67× 更快**
 - **vs 9-30 空闲基线：1.63× 更快**
+
+⚠️ **本节原标题写「全部来自收据，不是推算」——这句话对 10-20 那两列不成立，
+2026-10-20 09:4x 更正**。逐列收据强度：
+
+| 数字 | 强度 |
+|---|---|
+| formal 总 3,905.06 s | **收据**（`formal-parallel-guard.json` 的 `started_at`/`finished_at`） |
+| `--verifier-jobs 4` | **收据**（同上）——但这是**请求值**；有效并发 = `_verifier_job_count(4)`（`tools/audit_reverse_engineering_proof.py:846-866`）按启动瞬间可用内存夹取，**结果不落 report、不落收据** |
+| 覆盖段 2,377 s | **无独立收据**；同工作负载的独立实测 2,413.787 s 强佐证（差 1.5%） |
+| 验证器段 1,528 s | **纯减法推算**（3,905 − 2,377），无收据 |
+| 基线 564.0 / 587.5 s | 两个**不同**受管运行相减 ⇒ 是**上界**（formal 内部还会再跑一遍覆盖门） |
+
+⇒ 「1,528 / 564 = 2.71× 争用放大」是**下界**；且该数字与「最长单验证器封顶」
+（v9 确实在列表里，但 1,080 s 无收据）**互斥而无法排除任一方**（§27.1）。
 
 ### 23.3 结论要写得诚实
 
@@ -1649,13 +1681,231 @@ site-packages** ⇒ 该验证器会看到已安装的第三方包。这对「要
 
 ---
 
+## 26. Tier-2 门槛：原文固化 + 我们自己转述的错误（2026-10-20 09:3x）
+
+原文、先例、差异表已单独固化为
+**`notes/tier2-threshold-policy-source-20261020.md`**（本节只记要点与更正）。
+
+### 26.1 三条决定性事实
+
+1. **这道门没有代码实现**。`tools/` 与 `tests/` 里搜不到任何阈值常量，
+   proof spec 顶层也没有 threshold/milestone 键 ⇒ 它是**人读约定**。
+   裁决结果**不能靠改一个常量生效**，必须落进 `AGENTS.md` /
+   `docs/reverse-engineering-proof-policy.md` / `notes/`。
+2. **有效字节门槛是 9,437 B，不是 10 KiB**。`docs/remaining-reverse-work-plan-20261001.md:301`
+   给了换算：「0.15个百分点对本ROM 约9,438B」；ROM accounted = 6,291,456 B ⇒
+   0.15 pp = 9,437.2 B < 10 KiB = 10,240 B。我们此前转述的「≥10 KiB」**高估了 803 B**。
+3. **原文没有"晋升受门控"这回事**。Tier-1 通过的 packet **已经**可以进待接入队列
+   （`policy:88-89`）。原文是「**才触发二级里程碑审计**」——**批次**进 canonical，
+   不是单个 packet 被卡住。
+
+### 26.2 我们自己笔记的错误（必须更正的三处）
+
+| # | 错误 | 更正 |
+|---|---|---|
+| **E6** | 笔记里同时存在 **3,361 B**（§20.1）、**4,334 B**（§18.5 ③ 行）、**4,903 B**（对话）三个数 | 直接读账本实测：**待接入 = 3,361 B**（640 + 1,668 + 1,053）；**4,334 B** 是**命令脚本类全体**（1,668 待接入 + 1,542 pointer-pool + 1,124 fixed-renderer）；**4,903 B 是算错的**（只加了 pointer-pool 却点名 fixed-renderer） |
+| **E7** | 「政策明禁合计」 | 仓库里**没有**这六个字，是我们的转述。原文是**五条**不同措辞的禁令（`AGENTS.md:41` 合并异构证据 / `remaining-reverse-work-plan:302` 不得硬拼凑4包 / `rom-release-gate-work-plan:95` 不能把不同信任边界合并凑审计次数 / `rom-renderer-records-delta-tier1:88-89` 不能为凑包数拆相邻同边界记录 / `sequel-roadmap:153-154` 这两包**分开**） |
+| **E9/E10** | 把 pointer-pool + fixed-renderer 算进「同类待接入 4 个」；把 M1 当新类 | `AGENTS.md:36` 字面是「同类**待接入**」——这两个包**已在账本里**（实测 2,666 B），按字面**不计入**；M1 的 `primary_class` 与既有 `rom-fixed-animation-descriptor-groups-v1` **完全同名**，接入后并为 1,776 B，是**向既有类追加**不是新类 |
+
+### 26.3 账本实测（`sequel/rom-byte-coverage.json` SHA `9f8a8196…`）
+
+| `primary_class` | 账本现状 | 待接入 |
+|---|---|---:|
+| `fixed_cfg_consumer_renderer_command_script` | 31 claims / 2,666 B | 1,668 B |
+| `fixed_cfg_consumer_renderer_display_text` | **不存在（0 claims）** | 1,053 B |
+| `fixed_consumer_animation_descriptor_group_bytes` | 1 claim / 1,136 B | 640 B（并为 1,776 B） |
+
+⇒ 待接入 **3 包 / 3,361 B / 3 个不同 class 各 1 个** = **0.0534 pp** ⇒ 三门槛全不满足。
+
+### 26.4 历史先例给出的两条出路
+
+- **宽义是既成事实**：2026-09-01（7,140 B 四包，`proof.json:4966`）与
+  2026-09-02（gross 8,083 B → **净增 4,738 B / 0.0753 pp** 四包，
+  `sequel-roadmap.md:3860-3862`、`:3895-3897`）**都跨 primary_class**，
+  却按「4 packets」放行 ⇒ 实践中"同类"被解释得**很宽**。
+- **最干净的「不通过」样本正是我们这一对**：2026-10-01
+  `sequel-roadmap.md:153-154` —— 新显示文本 1 包 + 旧命令脚本 1 包 = 2,721 B，
+  「**分开**…未达同类/净增门槛，不做Tier-2」。**同样的两包，今天仍然不接。**
+- 但**118 B 四包通过**（2026-09-30，`notes/rom-small-cfg-dependency-tier2-20260930.md:16`）
+  证明「4-packet 计数」这条路成本极低 ⇒ **补第 4 个包比等字节数现实**。
+  只是必须**新做逆向证据**：12 B 孤儿包是命令脚本包 1,668 B 的**逐字节真子集**，
+  接进去会让 `atomize_claims` 抛 `conflicting primary claims` ⇒ **绝不能接**。
+
+---
+
+## 27. 推进速度瓶颈：收据级证据链（2026-10-20 09:4x）
+
+### 27.1 「4 路并发反而更慢」：三个候选，逐一给证据
+
+| 候选 | 判定 | 依据 |
+|---|---|---|
+| 覆盖段与验证器段**重叠** | **结构性排除** | `tools/audit_reverse_engineering_proof.py:1149` 覆盖门 `_check_rom_gate` 先跑完，`:1209` 才起验证器池；同进程严格顺序。`run_formal_parallel.sh:37-46` 只起一个进程 |
+| **并发本身变慢** | **无证据** | 池是 `ThreadPoolExecutor(max_workers=jobs)` + `subprocess`（`:904-918`），无共享可变状态、无锁；结果按原 group 序号重排（`:919`）保证顺序与串行一致；108 项全 `contract_ok: true` / `exit 0`，无超时无重试 |
+| **宿主争用** | **只有自述，收据层面对账为负** | 窗口 `2026-10-19T20:39:40Z–21:44:45Z` 内，`notes/**/*.json` 的时间戳**只有 2 条**（formal 自身）。全仓 476 份 guard 收据**无一份**落在窗口内。**根因是结构性的：回归套件与探针不走 guard，所以永远不会有 guard.json** ⇒ 该自述**天然无法被收据证实或否证** |
+
+⇒ **诚实结论：在补上「每验证器耗时」与「有效并发度」两项记录之前，
+不能断言 2.7× 是宿主争用。** 两个互斥解释都还活着：
+「最长单验证器封顶」（v9 确实在列表里，但其 1,080 s 无收据）
+与「宿主争用」（作者自述，窗口内无并发任务收据）。
+
+### 27.2 有效并发度根本没被记录（这是可修的工程缺口）
+
+`--verifier-jobs 4` 只是**请求值**。实际并发 = `_verifier_job_count(4)`
+（`tools/audit_reverse_engineering_proof.py:846-866`），按**启动瞬间**的可用内存夹取
+（`<2048 MiB → 1`、`<4096 MiB → 2`、否则 `≤4`；darwin 下
+`available_physical_memory_mib()` = free + inactive + speculative，
+`tools/project_resource_guard.py:133-152`）。
+**该值既不写 report 也不写 guard 收据** ⇒ 那轮宿主 swap 已用 86%（3,542/4,096 MiB）、
+负载 9.4–10.4 的情况下，**有效并发可能只有 2 甚至 1**，仓库里查不到实际值。
+
+同理，**每个验证器的耗时也完全没被记录**：
+`verifiers_executed` 的 108 项字段只有 `command/contract_ok/exit_code/label/labels`；
+`formal-parallel-guard.json.stdout.log` 与 report **逐字节相同**（md5 `a9c9918…`），
+无任何时间行；`tools/audit_reverse_engineering_proof.py` 全文**没有**
+`monotonic`/`perf_counter`/`elapsed`。
+
+**⇒ 这两条是「影响推进速度的瓶颈」里唯一还能靠工程手段消除的盲区**：
+加两个字段（有效并发度 + 每验证器墙钟）就能把 2.7× 的归因变成可判定。
+成本极低（只改报告 schema），但改审计器要同步 spec SHA + 重跑 formal。
+
+### 27.3 「瓶颈真实咬过人」的异常收据（全仓 476 份 guard 收据扫描）
+
+分母：`notes/evidence/**` 下 476 份 guard 收据（含 `reason`/`started_at`），
+另 25 份 mGBA 的 `guard.json.done.json` 非收据 schema 已排除。
+`reason` 分布：`completed` 310 ｜ `child-exit` 157 ｜ `idle-timeout` 5 ｜
+`lock-busy` 3 ｜ `mgba-crash-report` 1。**`degraded: true` 的收据 0 份。**
+
+| 时刻（UTC） | reason | exit | 墙钟 | 任务 |
+|---|---|---:|---:|---|
+| 10-19T17:23:45 | **child-exit** | **−15** | 5,071.8 s | 串行 formal 被 SIGTERM 杀掉 |
+| 10-19T15:05:03.53 | **lock-busy** | **75** | 0.001 s | heavy 锁探针 0 / 1（2/2 被拒） |
+| 10-01T13:11:12 | **idle-timeout** | **124** | 61.05 s | animation-object-native batch-v2 |
+| 10-01T05:21:43 | **idle-timeout** | **124** | 60.08 s | animation-pool-lifecycle validation |
+| 10-01T16:11:06 | **idle-timeout** | **124** | 61.02 s | map-roundtrip tdd/green |
+| 09-30T11:41:42 | **idle-timeout** | **124** | 60.18 s | small-cfg-batch-publication green1 |
+| 09-05T08:06:53 | **idle-timeout** | **124** | 120.54 s | legacy-acceptance candidate-verify-v1 |
+| 10-01T03:02:26 | **mgba-crash-report** | **125** | 1.05 s | cutscene ptr-ab zero-baseline-1 |
+
+- **没有 wall-timeout 的收据**（476 份中 0 次）；`wall-timeout` 代码路径在
+  `tools/project_resource_guard.py:1037-1040`。
+- 另有 2 条 idle-timeout 证据（coverage 审计 60.82 s / formal proof 60.24 s）
+  **收据文件已不在树上**，只以 `stdout_tail` 内嵌在
+  `notes/evidence/reverse-throughput-20261019-v1/throughput.json:85-200`。
+- 5 次 idle-timeout 全部落在 **60–61 s** ⇒ 正是守卫**默认 idle 60 s** 的行为，
+  已通过把默认改成 7,200 s 修掉（`tools/project_resource_guard.py:31-40`）。
+
+### 27.4 机器级事实（标注采集时刻，过期的已标）
+
+| 项 | 值 | 时刻 | 状态 |
+|---|---|---|---|
+| CPU 逻辑核 | 12 | 10-19T15:05Z | 稳定 |
+| 物理内存 | 16.0 GiB | 10-20 08:0x | 稳定 |
+| swap 总量/已用 | 2,048 / 1,240 MiB | 10-20 08:0x | **仓库内最新**（更早的 3,072/2,247 与 4,096/3,542 已过期） |
+| 磁盘可用 | 74–77 GiB | 10-20 08:0x | **仓库内最新**（更早的 6.6–9.9 GiB / 96–98% 占用已过期） |
+| 1 分钟负载 | 3.4–4.8 | 10-20 08:0x | **仓库内最新**（更早的 9.4–10.4、10.12 已过期） |
+| **4 路 CPU 并行** | 串行 11.707 s → 并行 4.711 s，**加速 2.485×**，并行效率 **0.621** | 10-19T15:05Z | 实测 |
+| **单线程瓶颈** | 覆盖审计器 CPU **100.0%（恰好 1 核）**，`ps` 连续观测 20+ 分钟 | 10-20 08:0x | 实测 |
+| heavy 锁争用 | 2/2 并发受管运行被 `lock-busy`(75) 拒 | 10-19T15:05Z | 实测 |
+| 守卫默认（现行代码） | wall **9000** / idle **7200** / min_avail 1024 MiB / max_rss 1536 MiB | 现行 | 已从 600/60 上调 |
+
+**⇒ 瓶颈结论（诚实版）**：限制推进速度的第一因是覆盖审计器的**单线程算法**
+（`atomize_claims` 被调 39 次，实测 60.50 s → 0.09 s，681×，占覆盖段 ≈54% 已消除），
+**不是** CPU 核数，**不是**子代理数。剩下的 1,108 s 是 producer 内的验证器冷重放，
+要再压需要改 97 个函数做两阶段拆分（高风险大改）。
+宿主侧（16 GiB / 12 核 / 2 GiB swap）**不是**当前瓶颈。
+
+---
+
+## 28. D0「bank 字段穷尽」：闸门真身与真实量级（2026-10-20 09:4x）
+
+完整证据链已固化为 **`notes/d0-bank-exhaustion-gate-20261020.md`**。要点：
+
+### 28.1 原来的二选一（A 静态闭包 vs B 79 次采集）框架本身有问题
+
+1. **`natural_gameplay_all_ids_proven` 不是闸门，也不是阻塞源**。
+   它是一个被哈希钉死的「**不夸大**标记」——
+   `tools/audit_rom_byte_coverage.py:29523`/`:29532` 只对 scope **字典整体**做相等性
+   比对，**从不对其中任何布尔量做 `if` 分支**；
+   把它改成 `true` 反而会让审计器 **raise**（fail-closed，防静默超额声明）。
+   `grep -n "natural_gameplay" tools/audit_reverse_engineering_proof.py` → **零命中**；
+   `sequel/bank-proofs.json` 里也没有这个字段。
+2. **真正的闸门**在 `tools/audit_reverse_engineering_proof.py:648-679`，判三条：
+   ① `coverage.status == "exhaustive"` ② `record_ids_covered == record_ids_total`
+   ③ 存在哈希绑定了 record/field/bank/evidence 四组 ID 的 verifier 合同。
+3. **字节层早已 100% 入账**：region `[5903744, 5906800)` = 3,056 B / 159 段 /
+   **unknown 0**（指针表 316 B + 文本与间隙 2,740 B），2 个消费者已绑定
+   （`0x08098624` / `0x08099D58`）。⇒ D0 是 **bank 完结判定**问题，
+   **不是字节晋升问题**。
+4. **D0 的真实量级不是 79 条**：同一份 175-blocker 报告里，
+   `coverage_status_not_exhaustive` / `record_coverage_not_id_bound` /
+   `no_exhaustive_contract` **各 22 条**；`declared_runtime_record_coverage`
+   = **{records_covered: 23, records_total: 2954}**；
+   `docs/final-completion-report.md:29-30` 写「有效 bank 全记录/字段穷尽 **0 / 22**」。
+   ⇒ **D0 决定 22 个 bank / 2,954 条记录 / 25,543 个 record×field 单元的完结判定；
+   data-table-b 的 79 条只占 2.7%。**
+
+### 28.2 方案 B 的成本差是**两到三个数量级**，不是「一个数量级」
+
+| 组成 | 量级 | 标注 |
+|---|---|---|
+| 纯 emulator 时间 | 79 × 2 × 6.35 s ≈ **16.7 分钟** | [实测单次外推]，来源 `artifacts/data-table-b-message0-pointer-pixel-ab-v1/raw.tar` 的 `guard.json`（baseline 6.357 s / candidate 6.335 s） |
+| 含 ROM 重建的单条端到端 | ≈ **80 s/条 ⇒ 79 条 ≈ 1.8 小时** | [由实测时间戳推导] |
+| **route 发现**（真正的成本大头） | battle-effect 同构 campaign：18 组 / **8 天**（2026-08-01→08-09） | [类比推算] 79 组外推 ⇒ **24–40 工作日** |
+| 结构性放大因子 | 79 个 message ID ↔ 79 个战斗/特效 descriptor **一对一**（`sequel/content/data-table-b/bank.json` notes 原文）⇒ route 发现次数 ≈ **79 而不是 1** | 原文直述 |
+
+**⇒ 只看 emulator 时间会把 B 与 A 的差距看成「分钟级 vs 零」，严重低估。**
+另有一个硬约束：现有探针 `tools/build_battle_message_runtime_probe.py:31-54` 每次命中
+都写**同一个** `SCRATCH = 0x0203FD60`，**一次 run 只能产出一条 ID 的证据**。
+
+### 28.3 仓库里已有 5 类中间方案先例
+
+- `sequel/bank-proofs.json` 的 `coverage.status` **已有 17 种 denomination**，
+  data-table-b 用的是 `artifact_verified_natural_route`（1/79）；
+  **没有任何一个 bank 是 `"exhaustive"`** ⇒
+  「静态闭包 + 代表性运行时抽样 + 显式未覆盖分母」就是既有正式口径。
+- **typed partial contract 工具链已存在**：
+  `tools/verify_data_table_b_partial_bank.py` +
+  `tools/data/data-table-b-partial-bank-contract-v1.json`
+  （1/79 覆盖 + **78 个单元显式列入 `cells_uncovered`**，exhaustive=false，
+  离线重放仅 **4.14 s**）。⚠️ 状态是**候选**，未入正式 catalog
+  （`notes/rom-data-table-b-partial-bank-20261001.md:66` 原文：
+  "proposal.json 仅作候选，**没有写入 sequel/bank-proofs.json**"）。
+- **分数式「N/79」** 已在用（`artifacts/battle-effect-group18-natural-pixel-ab-v1`：
+  `"production_natural_pixel_ab": "9/18"`）。
+- **107 个已提交 artifact** 带 false 自然标记**且都已入账** ⇒
+  「静态闭包已提交、运行时标记留 false」是全仓库既定做法。
+- **OpenSpec 已把「单条代表性 A/B + 显式降级」写成正式任务**
+  （`openspec/changes/upgrade-remaining-runtime-banks/tasks.md:22-23`）。
+
+### 28.4 建议：把 D0 拆成两个独立判据
+
+- 仓库已把「静态闭包穷尽」与「运行时自然可达」拆成**两个不同的 scope 字段**
+  （`fixed_79_slot_denominator_complete` vs `natural_gameplay_all_ids_proven`），
+  且 `docs/reverse-engineering-proof-policy.md:123` 明文要求
+  「控制物化、自然入口和实体硬件**分别声明**」⇒
+  **把 D0 合成一个布尔量本身就违反仓库自己的分声明原则。**
+- 最小落法：保留 `natural_gameplay_all_ids_proven=false` 不动；
+  在 `sequel/bank-proofs.json` 加第三维（允许 `partial_explicit_denominator` +
+  `records_uncovered` 显式列表），复用已写好的 typed partial 合同；
+  改 `audit_reverse_engineering_proof.py:648-679` 接受「显式未覆盖分母」为合法态，
+  **保留** policy 第 5 条对最终 100% 声明的要求；
+  同步 spec 的 `bank_proofs.sha256` + 审计器 SHA → 重跑 1 次 formal（~24.4 min）。
+  `notes/rom-data-table-b-partial-bank-20261001.md:65-66` 已预演过这个接入动作：
+  "真实 auditor 的 CLI contract_ok=true，但 partial bank complete=false，保留 4 个局部
+  blockers" ⇒ **脚本和合同都已就绪，只差 policy 决策**。
+- **若坚持 B**：先做一个抽样探针测 `k` = 一次 battle run 最多能自然产出多少个不同
+  message ID。这直接把 B 从「79 条 route」降到「约 79/k 条 route」，
+  是**唯一能把 B 的成本从数周压到可裁决区间的信息**，成本约 1 个工作日。
+
+---
+
 ### 18.5 待裁决项（证据已齐，等口径）
 
 | # | 事项 | 关键实测证据 | 决策点 |
 |---|---|---|---|
 | ① | psg 修复路线 | legacy 活账本路径**在设计上**只认冻结状态；bundle 门绿 | 走「只改测试对齐 bundle 合同」（**已完成**，零 formal 成本）还是「连 legacy+导出器一起修、artifact 重落地」（需一次 formal） |
-| ② | **D0** bank 字段穷尽定义 | data-table-b 静态闭包**已 100% 提交**（79 记录、2740+316 B、unknown 0、2 个消费者已绑定），但 `natural_gameplay_all_ids_proven=false` | 「字段穷尽」= 静态闭包即可（A），还是每条记录都要运行时因果证据（B → 79 次采集） |
-| ③ | **Tier-2 门槛** | 门槛三选一：≥10 KiB \| ≥0.15 pp \| 同类待接入 ≥4 个。命令脚本类现为 **3 个 packet / 4,334 B / 0.0689 pp**，三门槛**全不满足**；两包 2,721 B 跨信任边界，政策明禁合计 | 是否允许以「同类 packet 计数」或「跨类合计」触门槛，还是先补第四个同边界 packet |
+| ② | **D0** bank 字段穷尽定义 | **完整证据链见 `notes/d0-bank-exhaustion-gate-20261020.md`**。原问题框架有误：①`natural_gameplay_all_ids_proven` **不是闸门**（是 fail-closed 的「不夸大」钉，改 true 反而 raise），真闸门在 `audit_reverse_engineering_proof.py:648-679`；②字节层**已 100% 入账**（3,056 B / unknown 0）；③**真实量级是 22 bank / 2,954 记录 / 25,543 单元**，data-table-b 的 79 条只占 2.7%；④B 的成本差是**两到三个数量级**（emulator 仅 16.7 min，但 route 发现 24–40 工作日） | 走**中间方案**（把「静态闭包穷尽」与「运行时自然可达」拆成两个判据，typed partial 合同工具链已就绪、离线重放 4.14 s、仓库已有 5 类先例）还是坚持 B（先做 1 天的 `k` 抽样探针把成本从「数周」变成可裁决数字） |
+| ③ | **Tier-2 门槛** | **口径原文与先例已固化到 `notes/tier2-threshold-policy-source-20261020.md`**。三个门槛**全不满足**：待接入 3 包 = 3,361 B = **0.0534 pp**，字节门槛**有效值是 9,437 B**（0.15 pp 换算，比 10 KiB 低 803 B）、同类待接入按 `primary_class` 每类各 1 个 | 三点待裁：①「同类」按 `primary_class` / `promotion_batch` / 文字信任边界哪个判（**原文无定义**）② 窄义（同批次内同边界）还是宽义（历史先例 09-01、09-02 两批**跨 primary_class 放行**）③「待接入」是否排除已入账包（`AGENTS.md:36` 字面排除） |
 | ④ | `sprite_loader_tail` 的 purelib workaround | **已实测出零脚本改动的解法**（§25.1）：改 spec 删 `-S`，`-I` 下 Pillow 可见、验证器 SHA 与 artifact 全不变、零 SHA 连锁 | 接受「重新暴露 system site-packages」这点隔离度取舍 + 一次 formal？还是坚持原方案（改验证器源码 → 四级 SHA 连锁） |
 
 
