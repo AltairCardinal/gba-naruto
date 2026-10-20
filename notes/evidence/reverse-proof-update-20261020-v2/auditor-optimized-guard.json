@@ -1,0 +1,19 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 48413,
+  "peak_tree_rss_mib": 500.6796875,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/usr/local/bin/python3",
+    "tools/audit_rom_byte_coverage.py",
+    "--root",
+    "."
+  ],
+  "cwd": "/Users/altair/github/gba-naruto-reverse",
+  "started_at": "2026-10-20T00:49:31.460630Z",
+  "finished_at": "2026-10-20T01:07:59.736877Z",
+  "child_stdout_log": "notes/evidence/reverse-proof-update-20261020-v2/auditor-optimized-guard.json.stdout.log",
+  "child_stderr_log": "notes/evidence/reverse-proof-update-20261020-v2/auditor-optimized-guard.json.stderr.log"
+}
