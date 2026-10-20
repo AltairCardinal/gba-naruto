@@ -1667,10 +1667,42 @@ OK
 | 验证器**自己记录的**命令本来就没有 `-I -S` | `tools/verify_rom_sprite_loader_tail.py:443-452` 记的是 `['python3','tools/verify_rom_sprite_loader_tail.py','--root','.','--artifact-dir',...]` → 改 spec **不与 artifact 冲突** |
 | 审计器是 **in-process import**，不是子进程 | `tools/audit_rom_byte_coverage.py:119` `from tools.verify_rom_sprite_loader_tail import verify_artifact`；`:33054` 硬钉该验证器 SHA `4bbb8db3…` |
 
-**结论**：把 spec 里那条命令的 `-S` 删掉（`-I -S` → `-I`），
+**结论（已更正，见下）**：把 spec 里那条命令的 `-S` 删掉（`-I -S` → `-I`），
 **不动任何脚本** ⇒ 验证器 SHA 不变 ⇒ artifact `rom-sprite-loader-tail-v1` 不变
-⇒ 审计器不变 ⇒ **零 SHA 连锁**。原「补 purelib」的改法反而要动验证器源码
+⇒ 审计器不变 ⇒ 零 SHA 连锁。原「补 purelib」的改法反而要动验证器源码
 ⇒ 触发上面整条链，是**更贵**的方案。
+
+> ### ⚠️ 2026-10-20 12:2x 更正：这条「零脚本路径」按原样**不成立**
+>
+> 只读子代理做了逐条实测（`notes/four-decisions-20261020.md` §2），**本节结论被推翻**：
+>
+> 1. **删 `-S` 会新增 1 个 blocker**：
+>    `tools/audit_reverse_engineering_proof.py:427-441` 的 flag 白名单**只接受**
+>    `["-I","-S"]` 或「无 flag」；`-I` 单独出现会命中
+>    `command[1].startswith("-")` 分支 ⇒ 产出
+>    `verifier uses unsupported python flags: -I`。
+>    实测（in-process 全量 blocker 对比）：
+>    `[BEFORE] blockers=175 hash_bound=97` → `[AFTER] blockers=176 hash_bound=96`。
+>    还必须连带改 `tools/verify_legacy_artifact_acceptance.py:128`
+>    （`offset = 2 if key[:2] == ('-I','-S') else 0`）⇒ **不是零脚本改动，是 4 处同步**。
+> 2. **175 个 blocker 零个与 purelib 有关**：
+>    `notes/evidence/reverse-proof-update-20261020-v2/formal-parallel-report.json` 里
+>    108 个 verifier **全部 `contract_ok: true`**，36 条 `-I -S` 命令 **36/36 exit 0**，
+>    没有任何一条 blocker 提到 PIL / purelib / ImportError。
+> 3. **第 176 条的真因是审计器自己的解释器**：
+>    `tools/audit_reverse_engineering_proof.py:470` 把 spec 里的 `"python3"` 换成
+>    `sys.executable` ⇒ **子验证器用的解释器 = 审计器的解释器**；
+>    v1 那轮用了 venv（`--system-site-packages`，但**venv 自己的 purelib 是空的**）⇒ exit 1。
+>    v2 轮 `run_formal_parallel.sh` 固定了 `PATH=/usr/local/bin:…$PATH` ⇒ 175。
+> 4. **`-S` 本来就拦不住它**：
+>    `tools/verify_rom_sprite_loader_tail.py:194-196` 自己把
+>    `sysconfig.get_path("purelib")` 补回 `sys.path`
+>    ⇒ 系统解释器下 `-I -S` 实跑也是 `verified: true` exit 0。
+>
+> ⇒ **本节「删 `-S` 是零脚本路径」的结论作废**。用户在 2026-10-20 11:58 的裁决里
+> 选的也不是这条路，而是**「加固 workaround：补所有候选 purelib（系统 + venv）」**
+> ——口径（保住 `-I -S` 的最大隔离性）是对的，且在实测证据下更稳。
+> 落地口径与验收命令见 `notes/four-decisions-20261020.md` §2。
 
 **仍需重跑一次 formal 的唯一原因**：formal 报告的
 `trust_anchor.spec_sha256` 钉的是 spec 自身的 SHA（当前 `39b7ebd7…`），
@@ -1680,12 +1712,13 @@ OK
 `--trusted-spec-sha256` 才为 true；当前 `claim_status=incomplete`，
 不触发任何 blocker。）
 
-**代价对比**：
+**代价对比（已更正）**：
 
 | 方案 | 改什么 | SHA 连锁 | 额外成本 |
 |---|---|---|---|
-| **A（推荐）** | spec 删 `-S`（1 行） | **零** | 1 次 formal（~1,465 s） |
+| ~~A（原推荐）~~ | spec 删 `-S`（1 行） | 零 | **作废**：会新增 1 个 blocker，且需连带改 2 处工具 |
 | B（原设想） | 验证器补候选 purelib | 验证器 → artifact → 审计器 → spec 四级 | artifact 重落地 + 1 次 formal |
+| **C（用户裁决）** | **加�� workaround：改 2 个脚本，补所有候选 purelib（系统 + venv）** | 同 B，但 `-I -S` 保持不变 ⇒ 隔离度不降 | artifact 重落地 + 1 次 formal |
 
 **取舍要说清**：`-I` 仍隔离环境变量与 user site，但**重新暴露 system
 site-packages** ⇒ 该验证器会看到已安装的第三方包。这对「要用 Pillow 的验证器」

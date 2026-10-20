@@ -160,9 +160,9 @@ wrapper 直接调用旧 A/B verifier，覆盖 1/86 单元，现有全量审计�
 
 - 字节状态清单覆盖 `6,291,456 / 6,291,456` 字节；这里的“覆盖”包含显式
   `unknown`，不代表语义破解完成。
-- authoritative canonical 的保守精确定位并集为 `6,205,367` 字节
-  （`98.63165219624838%`），显式 unknown 为 `86,089` 字节；当前为 16,913 claims /
-  18,675 segments。下列按资源族展开的数字是累计证据说明，不再要求它们逐项相加等于
+- authoritative canonical 的保守精确定位并集为 `6,208,728` 字节
+  （`98.68507385253906%`），显式 unknown 为 `82,728` 字节；当前为 17,028 claims /
+  18,882 segments。下列按资源族展开的数字是累计证据说明，不再要求它们逐项相加等于
   authoritative 总数；总数只以 coverage auditor 的无重叠 union 为准：
   - 本批 fixed-index u8 tail 4 bytes、story-selector dependency CFG 80 bytes、task
     callback `0x078E38` closure 778 bytes 与 CFG proven-roots v21 116 bytes 已真实接入，

@@ -33682,6 +33682,52 @@ FIXED_ANIMATION_DESCRIPTOR_GROUPS_VERIFIER = Path(
 FIXED_ANIMATION_DESCRIPTOR_GROUPS_VERIFIER_SHA256 = (
     "9555d5bf37c1b19fdb1b5e8dada5fad5aaa32eabbcaa9c803e96b6037896e529"
 )
+RENDERER_RECORDS_DELTA_ARTIFACT = Path("artifacts/rom-renderer-records-delta-v1")
+RENDERER_RECORDS_DELTA_PAYLOAD = "rom-renderer-records-delta.json"
+RENDERER_RECORDS_DELTA_MANIFEST_SIZE = 1_569
+RENDERER_RECORDS_DELTA_MANIFEST_SHA256 = (
+    "7191a579d0995fef7c55b41af2488abf02a882e8d22c06dd5489d0e4b0d2c72e"
+)
+RENDERER_RECORDS_DELTA_PAYLOAD_SIZE = 35_709
+RENDERER_RECORDS_DELTA_PAYLOAD_SHA256 = (
+    "12f9688e7ac67e83b089f341001bb0e0c543c2197fe22202399b9a4119794b67"
+)
+RENDERER_RECORDS_DELTA_VERIFIER = Path("tools/verify_rom_renderer_records_delta.py")
+RENDERER_RECORDS_DELTA_VERIFIER_SHA256 = (
+    "cad0e044a09dacc00ad75ac905edb8d83d9d92f836d219eca1f7ce8e5f349f46"
+)
+DISPLAY_TEXT_DELTA_ARTIFACT = Path("artifacts/rom-display-text-delta-v1")
+DISPLAY_TEXT_DELTA_PAYLOAD = "rom-display-text-delta.json"
+DISPLAY_TEXT_DELTA_MANIFEST_SIZE = 1_683
+DISPLAY_TEXT_DELTA_MANIFEST_SHA256 = (
+    "c63319575c27969f9c0bbeb271a436cd4195f32f946b26bda62f64dbf0cbc69d"
+)
+DISPLAY_TEXT_DELTA_PAYLOAD_SIZE = 94_550
+DISPLAY_TEXT_DELTA_PAYLOAD_SHA256 = (
+    "1fb3541e0d97fe383e665723c337760a40d19aebade32e7e1f6afa53a599e75a"
+)
+DISPLAY_TEXT_DELTA_VERIFIER = Path("tools/verify_rom_display_text_delta.py")
+DISPLAY_TEXT_DELTA_VERIFIER_SHA256 = (
+    "01e9a8a6ba4e0137bfa60a4a6f4d632caa3fc3a5a76b9989426196e4ce828cb0"
+)
+ANIMATION_DESCRIPTOR_POOL_V2_ARTIFACT = Path(
+    "artifacts/rom-animation-descriptor-pool-v2"
+)
+ANIMATION_DESCRIPTOR_POOL_V2_PAYLOAD = "rom-animation-descriptor-pool-v2.json"
+ANIMATION_DESCRIPTOR_POOL_V2_MANIFEST_SIZE = 1_195
+ANIMATION_DESCRIPTOR_POOL_V2_MANIFEST_SHA256 = (
+    "81a4e698d523a0e78c379a2c0dbb8bed48cdeec726b11fb096cf8b7a70befffa"
+)
+ANIMATION_DESCRIPTOR_POOL_V2_PAYLOAD_SIZE = 35_254
+ANIMATION_DESCRIPTOR_POOL_V2_PAYLOAD_SHA256 = (
+    "7f9c4a36c0f29f3abe0351a7ba5af96c5f27a8d396d81fbe28ed34df574ebf7f"
+)
+ANIMATION_DESCRIPTOR_POOL_V2_VERIFIER = Path(
+    "tools/verify_rom_animation_descriptor_pool_v2.py"
+)
+ANIMATION_DESCRIPTOR_POOL_V2_VERIFIER_SHA256 = (
+    "53d7a82acf5a8a55ceb311ce51da392a29c5ec6dfcd18d1c2a21cd2a8745fea7"
+)
 BATTLE_DISTANCE_DISPATCHER_CFG_ARTIFACT = Path(
     "artifacts/rom-battle-distance-dispatcher-cfg-v1"
 )
@@ -35262,6 +35308,160 @@ def _fixed_animation_descriptor_group_claims(root, rom, existing_claims):
     return claims
 
 
+def _renderer_records_delta_claims(root, rom, existing_claims):
+    """Project the 29 renderer command-script records of the delta packet."""
+
+    from tools.verify_rom_renderer_records_delta import verify_artifact
+
+    def class_for(row):
+        value = row.get("primary_class")
+        if value != "fixed_cfg_consumer_renderer_command_script":
+            raise ValueError("renderer records delta semantic class changed")
+        return value
+
+    def kind_for(row):
+        value = row.get("claim_kind")
+        if value != "fixed_cfg_consumer_renderer_command_script_bytes":
+            raise ValueError("renderer records delta claim kind changed")
+        return value
+
+    spec = {
+        "label": "renderer records delta",
+        "artifact": RENDERER_RECORDS_DELTA_ARTIFACT,
+        "payload": RENDERER_RECORDS_DELTA_PAYLOAD,
+        "manifest_size": RENDERER_RECORDS_DELTA_MANIFEST_SIZE,
+        "manifest_sha": RENDERER_RECORDS_DELTA_MANIFEST_SHA256,
+        "payload_size": RENDERER_RECORDS_DELTA_PAYLOAD_SIZE,
+        "payload_sha": RENDERER_RECORDS_DELTA_PAYLOAD_SHA256,
+        "verifier": RENDERER_RECORDS_DELTA_VERIFIER,
+        "verifier_sha": RENDERER_RECORDS_DELTA_VERIFIER_SHA256,
+        "promotion_bytes": 1_668,
+        "claim_count": 29,
+        "batch": "rom-renderer-records-delta-v1",
+        "hash_field": "bytes_sha256",
+        "class_for": class_for,
+        "kind_for": kind_for,
+    }
+    claims = _project_dependency_packet_claims(
+        root,
+        rom,
+        existing_claims,
+        spec=spec,
+        verify_root=lambda verifier_root, artifact: verify_artifact(
+            verifier_root, artifact
+        ),
+    )
+    for claim in claims:
+        claim["current_unknown_verified_by_auditor"] = True
+        claim["coverage_projection_gate"] = "current_unknown_before_projection"
+        claim["canonical_cfg_consumer_denominator_verified"] = True
+        claim["interpreter_r0_parameter_flow_verified"] = True
+    return claims
+
+
+def _display_text_delta_claims(root, rom, existing_claims):
+    """Project the 85 display-text records of the delta packet."""
+
+    from tools.verify_rom_display_text_delta import verify_artifact
+
+    def class_for(row):
+        value = row.get("primary_class")
+        if value != "fixed_cfg_consumer_renderer_display_text":
+            raise ValueError("display text delta semantic class changed")
+        return value
+
+    def kind_for(row):
+        value = row.get("claim_kind")
+        if value != "fixed_cfg_consumer_renderer_display_text_bytes":
+            raise ValueError("display text delta claim kind changed")
+        return value
+
+    spec = {
+        "label": "display text delta",
+        "artifact": DISPLAY_TEXT_DELTA_ARTIFACT,
+        "payload": DISPLAY_TEXT_DELTA_PAYLOAD,
+        "manifest_size": DISPLAY_TEXT_DELTA_MANIFEST_SIZE,
+        "manifest_sha": DISPLAY_TEXT_DELTA_MANIFEST_SHA256,
+        "payload_size": DISPLAY_TEXT_DELTA_PAYLOAD_SIZE,
+        "payload_sha": DISPLAY_TEXT_DELTA_PAYLOAD_SHA256,
+        "verifier": DISPLAY_TEXT_DELTA_VERIFIER,
+        "verifier_sha": DISPLAY_TEXT_DELTA_VERIFIER_SHA256,
+        "promotion_bytes": 1_053,
+        "claim_count": 85,
+        "batch": "rom-display-text-delta-v1",
+        "hash_field": "bytes_sha256",
+        "class_for": class_for,
+        "kind_for": kind_for,
+    }
+    claims = _project_dependency_packet_claims(
+        root,
+        rom,
+        existing_claims,
+        spec=spec,
+        verify_root=lambda verifier_root, artifact: verify_artifact(
+            verifier_root, artifact
+        ),
+    )
+    for claim in claims:
+        claim["current_unknown_verified_by_auditor"] = True
+        claim["coverage_projection_gate"] = "current_unknown_before_projection"
+        claim["canonical_cfg_consumer_denominator_verified"] = True
+        claim["interpreter_r0_parameter_flow_verified"] = True
+    return claims
+
+
+def _animation_descriptor_pool_v2_claims(root, rom, existing_claims):
+    """Project the animation descriptor pool's single 640-byte group claim."""
+
+    from tools.verify_rom_animation_descriptor_pool_v2 import verify_artifact
+
+    def class_for(row):
+        value = row.get("primary_class")
+        if value != "fixed_consumer_animation_descriptor_group_bytes":
+            raise ValueError("animation descriptor pool semantic class changed")
+        return value
+
+    def kind_for(row):
+        value = row.get("claim_kind")
+        if value != "fixed_consumer_animation_descriptor_group_bytes":
+            raise ValueError("animation descriptor pool claim kind changed")
+        return value
+
+    spec = {
+        "label": "animation descriptor pool v2",
+        "artifact": ANIMATION_DESCRIPTOR_POOL_V2_ARTIFACT,
+        "payload": ANIMATION_DESCRIPTOR_POOL_V2_PAYLOAD,
+        "manifest_size": ANIMATION_DESCRIPTOR_POOL_V2_MANIFEST_SIZE,
+        "manifest_sha": ANIMATION_DESCRIPTOR_POOL_V2_MANIFEST_SHA256,
+        "payload_size": ANIMATION_DESCRIPTOR_POOL_V2_PAYLOAD_SIZE,
+        "payload_sha": ANIMATION_DESCRIPTOR_POOL_V2_PAYLOAD_SHA256,
+        "verifier": ANIMATION_DESCRIPTOR_POOL_V2_VERIFIER,
+        "verifier_sha": ANIMATION_DESCRIPTOR_POOL_V2_VERIFIER_SHA256,
+        "promotion_bytes": 640,
+        "claim_count": 1,
+        "batch": "rom-animation-descriptor-pool-v2",
+        "hash_field": "bytes_sha256",
+        "class_for": class_for,
+        "kind_for": kind_for,
+    }
+    claims = _project_dependency_packet_claims(
+        root,
+        rom,
+        existing_claims,
+        spec=spec,
+        verify_root=lambda verifier_root, artifact: verify_artifact(
+            verifier_root, artifact
+        ),
+    )
+    for claim in claims:
+        claim["current_unknown_verified_by_auditor"] = True
+        claim["coverage_projection_gate"] = "current_unknown_before_projection"
+        claim["descriptor_pool_denominator_verified"] = True
+        claim["pointer_slot_terminator_verified"] = True
+        claim["natural_runtime_claimed"] = False
+    return claims
+
+
 def _battle_distance_dispatcher_cfg_claims(root, rom, existing_claims):
     """Project the fixed seven-slot dispatcher and its zero-frontier closure."""
 
@@ -36109,6 +36309,9 @@ def build_manifest(root: Path) -> dict[str, Any]:
     claims += _task_callback_078e38_closure_claims(root, rom, claims)
     claims += _cfg_proven_roots_v21_claims(root, rom, claims)
     claims += _small_cfg_dependency_batch_claims(root, rom, claims)
+    claims += _renderer_records_delta_claims(root, rom, claims)
+    claims += _display_text_delta_claims(root, rom, claims)
+    claims += _animation_descriptor_pool_v2_claims(root, rom, claims)
     claims.sort(key=lambda claim: (claim["range"], claim["id"]))
     segments = atomize_claims(len(rom), claims)
     totals: dict[str, int] = {}

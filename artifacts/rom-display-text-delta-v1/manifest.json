@@ -1,0 +1,57 @@
+{
+  "artifact_schema": "rom-display-text-delta-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-display-text-delta.json": {
+      "sha256": "1fb3541e0d97fe383e665723c337760a40d19aebade32e7e1f6afa53a599e75a",
+      "size": 94550
+    }
+  },
+  "implementation_inputs": [
+    {
+      "path": "tools/export_rom_display_text_delta.py",
+      "sha256": "10f6c5bebe56aa832ddbd766c5bd087fccd3637ecbcbd1acbba696331fdca944",
+      "size": 6857
+    },
+    {
+      "path": "tools/verify_rom_display_text_delta.py",
+      "sha256": "01e9a8a6ba4e0137bfa60a4a6f4d632caa3fc3a5a76b9989426196e4ce828cb0",
+      "size": 12148
+    },
+    {
+      "path": "tools/rom_display_text_parameter_flow.py",
+      "sha256": "416c7652a1ad9e7c281305fae8283c9636eb334fb8ed4708f033afa99ee4098e",
+      "size": 3282
+    },
+    {
+      "path": "tests/test_rom_display_text_delta.py",
+      "sha256": "7c32e692eef0c984fc26ae62370f4e1ab467c6ce8663c26148f3cfc90f12df98",
+      "size": 9533
+    }
+  ],
+  "public_contract_sha256": "ca0f7e4e384fdaffd7c7ae5dd73da1c6ff9bcc9ff5d5a0f211a8810f5f76e390",
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_display_text_delta.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-display-text-delta-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "consumer_count": 92,
+      "contract_ok": true,
+      "current_unknown_checked": false,
+      "errors": [],
+      "immutable_unknown_projection_checked": true,
+      "natural_runtime_reachability": false,
+      "promotion_bytes": 1053,
+      "record_count": 85,
+      "source_verifier_count": 6,
+      "verified": true
+    }
+  }
+}

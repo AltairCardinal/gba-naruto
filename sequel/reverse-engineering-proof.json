@@ -27,7 +27,7 @@
       "evidence": [
         {
           "path": "sequel/rom-byte-coverage.json",
-          "sha256": "9f8a819647afba8f2dc01791dd19bf6a5776012d324e5a2ff694fb51634efb26"
+          "sha256": "d34672a8f41adb6206b54f5324c8ff1220c302d916576a8ae8d7251033e1e88d"
         },
         {
           "path": "artifacts/rom-battle-controller-cfg-v1/manifest.json",
@@ -776,6 +776,30 @@
         {
           "path": "artifacts/rom-renderer-script-pointer-pool-records-v1/rom-renderer-script-pointer-pool-records.json",
           "sha256": "60cbe250ff5d1d9f8f260df0149fbc52e2b90c10338e19aeb64b9194caf6f79c"
+        },
+        {
+          "path": "artifacts/rom-renderer-records-delta-v1/manifest.json",
+          "sha256": "7191a579d0995fef7c55b41af2488abf02a882e8d22c06dd5489d0e4b0d2c72e"
+        },
+        {
+          "path": "artifacts/rom-renderer-records-delta-v1/rom-renderer-records-delta.json",
+          "sha256": "12f9688e7ac67e83b089f341001bb0e0c543c2197fe22202399b9a4119794b67"
+        },
+        {
+          "path": "artifacts/rom-display-text-delta-v1/manifest.json",
+          "sha256": "c63319575c27969f9c0bbeb271a436cd4195f32f946b26bda62f64dbf0cbc69d"
+        },
+        {
+          "path": "artifacts/rom-display-text-delta-v1/rom-display-text-delta.json",
+          "sha256": "1fb3541e0d97fe383e665723c337760a40d19aebade32e7e1f6afa53a599e75a"
+        },
+        {
+          "path": "artifacts/rom-animation-descriptor-pool-v2/manifest.json",
+          "sha256": "81a4e698d523a0e78c379a2c0dbb8bed48cdeec726b11fb096cf8b7a70befffa"
+        },
+        {
+          "path": "artifacts/rom-animation-descriptor-pool-v2/rom-animation-descriptor-pool-v2.json",
+          "sha256": "7f9c4a36c0f29f3abe0351a7ba5af96c5f27a8d396d81fbe28ed34df574ebf7f"
         }
       ],
       "verifiers": [
@@ -786,7 +810,7 @@
             "--root",
             "."
           ],
-          "script_sha256": "15425f37c47cc99bfcb3ef6dd4b56068bc66c50c91da2540d291b6b4c0fc8827",
+          "script_sha256": "ea5b8b5050880cdea63133bf7000a61fb99664bb4cf8ab85e705f8406075b5ed",
           "contract": {
             "format": "json",
             "assertions": {
@@ -794,10 +818,10 @@
               "/verified": true,
               "/state_inventory_complete": true,
               "/semantic_classification_complete": false,
-              "/summary/unknown_bytes": 86089,
-              "/summary/classified_bytes": 6205367,
-              "/summary/claim_count": 16913,
-              "/summary/segment_count": 18675,
+              "/summary/unknown_bytes": 82728,
+              "/summary/classified_bytes": 6208728,
+              "/summary/claim_count": 17028,
+              "/summary/segment_count": 18882,
               "/summary/fast_audit_four_packet_bytes": 7140,
               "/summary/fast_audit_four_packet_claim_count": 116,
               "/summary/fast_audit_immutable_baseline_sha256": "064370aa0eca861d99d96e4ee15be4b50c569bea86c67a279d4084517e543baa",
@@ -4954,10 +4978,33 @@
               "/promotion_bytes": 1542
             }
           }
+        },
+        {
+          "command": [
+            "python3",
+            "tools/verify_rom_animation_descriptor_pool_v2.py",
+            "--root",
+            ".",
+            "--artifact-dir",
+            "artifacts/rom-animation-descriptor-pool-v2"
+          ],
+          "script_sha256": "53d7a82acf5a8a55ceb311ce51da392a29c5ec6dfcd18d1c2a21cd2a8745fea7",
+          "contract": {
+            "format": "json",
+            "assertions": {
+              "/schema": "rom-animation-descriptor-pool-v2-verification-v1",
+              "/verified": true,
+              "/errors": [],
+              "/promotion_bytes": 640,
+              "/descriptor_count": 8,
+              "/descriptor_entry_count": 24,
+              "/base_pair_count": 7
+            }
+          }
         }
       ],
       "limitations": [
-        "The manifest explicitly accounts for all 6291456 bytes, but 86089 bytes (1.3683%) remain semantically unknown.",
+        "The manifest explicitly accounts for all 6291456 bytes, but 82728 bytes (1.3149%) remain semantically unknown.",
         "The 2026-09-05 post-story four-packet Tier-2 milestone classifies exactly 978 previously unknown bytes in 21 disjoint claims: four fixed-index u8 table-tail bytes, 80 story-selector dependency instruction bytes, 778 task-callback closure bytes, and 116 CFG proven-roots v21 bytes. The packets replay the same immutable precoverage artifact. Five two-byte task-callback holes remain unknown; the cross-owner BL at 0x06347C is decoded in full but only its unknown suffix at 0x06347E..0x063480 is newly claimed. The callback and v21 BX frontiers remain unresolved and no structured return is claimed for either packet. CFG aggregation has 54 active claim kinds. Natural reachability, global or indirect producer exhaustiveness, opaque callee stack or memory effects, adjacent padding, editing, relocation, write-back, and free space remain unclaimed.",
         "The 2026-09-05 story-dependency four-packet Tier-2 milestone classifies exactly 4382 previously unknown bytes in 77 disjoint claims: 1932 bytes in 32 claims from nine producer-bound story callback dependency closures, 1150 bytes in 18 claims from the continuation-proven CFG v20 root, 854 bytes in 19 claims from the accepted story-next dependency CFG, and 446 bytes in eight claims from the boot register-init dependency CFG. All coverage-dependent packets replay the same immutable pre-promotion coverage artifact; documented two-byte holes, three unresolved boot register-init BX frontiers, three unresolved story-next BX frontiers, and the boot-handoff-owned 24-byte outside-worklist exclusion remain unclaimed or retain their prior owners. Natural runtime reachability, global caller or indirect-target exhaustiveness, loaded literal business meaning, ABI or compiler intent, editing, relocation, write-back, padding intent, and free or allocatable space remain unclaimed.",
         "The 2026-09-05 scene-source four-packet Tier-2 milestone classifies exactly 4231 previously unknown bytes in 141 disjoint claims: 1254 bytes in 14 claims from the bounded v17/v18 helper CFG, 42 bytes in two claims from four fixed pair tables, 1920 bytes in 52 claims from the prebattle menu-controller CFG, and 1015 bytes in 73 claims from 71 parser-bounded source records plus two fixed OBJ definition/animation closures. Its three coverage-dependent packet verifiers replay the exact immutable pre-promotion coverage artifact after canonical promotion. The 90 verified alignment bytes remain separate claims and 199 residual bytes remain unknown; natural runtime reachability, global consumer or code exhaustiveness, field business meaning, editing, relocation, write-back, padding intent, and free or allocatable space remain unclaimed.",
@@ -5020,7 +5067,10 @@
         "The independently verified battle-effect sprite source batch classifies exactly 11120 current-unknown bytes across 237 complete source ranges: 9452 bytes in 178 component lists, 712 bytes in 18 definition pointer tables, 864 bytes in 23 animation timelines, and 92 bytes in 18 animation pointer tables. Natural runtime reachability, graphics or palette payload expansion, editable-space safety, and writeback safety remain unclaimed.",
         "The independently verified additive artifact classifies exactly 133 referenced post-NUL slot suffixes and 1255 structural zero-padding bytes: 550 bytes in 46 direct-selector slots, 368 bytes in 38 configured-selector slots, and 337 bytes in 49 chapter speaker-label slots. It does not classify unreferenced slots or the NUL/prefix bytes and does not claim text semantics, natural runtime reachability, editing safety, writeback safety, or safely allocatable space.",
         "The consumer-bound dialogue inventory classifies the 305x20-byte pointer table and 1220 direct NUL-terminated targets; a separate independently rebuilt denominator classifies all 1219 adjacent gaps and 16814 bytes as structural inter-record zero padding, without claiming text semantics, runtime reachability, or safe allocatable space; full runtime reachability of rows 0..304 and natural-language glyph decoding remain unclaimed.",
-        "The renderer script pointer-pool artifact classifies exactly 1542 previously unknown bytes as 27 gapless renderer command records at [0x000CEA,0x0012F0), bound to the 28-slot pointer table at [0x0053DF00,0x0053DF70) whose slot 0 is null and whose slots 1..27 point at the record roots in order, and to the single consumer read at [0x000712D0,0x00071350) whose BL at 0x071340 enters the interpreter at 0x067158. The record grammar is the already accepted opcode set; natural runtime reachability, the RAM row index domain (no <=27 guard exists), the row writer lifecycle, the null-slot semantics and consumer completeness remain unclaimed."
+        "The renderer script pointer-pool artifact classifies exactly 1542 previously unknown bytes as 27 gapless renderer command records at [0x000CEA,0x0012F0), bound to the 28-slot pointer table at [0x0053DF00,0x0053DF70) whose slot 0 is null and whose slots 1..27 point at the record roots in order, and to the single consumer read at [0x000712D0,0x00071350) whose BL at 0x071340 enters the interpreter at 0x067158. The record grammar is the already accepted opcode set; natural runtime reachability, the RAM row index domain (no <=27 guard exists), the row writer lifecycle, the null-slot semantics and consumer completeness remain unclaimed.",
+        "The renderer records delta artifact classifies exactly 1,668 previously unknown bytes as 29 fixed-consumer renderer command-script records whose record grammar is the already accepted opcode set; the source CFG, the canonical CFG consumer denominator, the raw parameter paths and the immutable unknown projection are verified, and the 34 accepted and 13 excluded sites are frozen. New opcode semantics, the whole-ROM consumer denominator, context lifecycle, padding or free space, editing or relocation safety and natural runtime reachability remain unclaimed.",
+        "The display text delta artifact classifies exactly 1,053 previously unknown bytes as 85 fixed-consumer renderer display-text records at the fixed candidate site denominator; the source CFG and the raw parameter paths are verified and the command-script semantics, the whole-ROM consumer denominator, padding or free space, editing or relocation safety and natural runtime reachability remain unclaimed. No claim is made about Unicode semantics or editability.",
+        "The animation descriptor pool v2 artifact classifies exactly 640 previously unknown bytes as one fixed-consumer animation descriptor group (7 base pairs, 8 descriptors, 24 descriptor entries, 8 sequences, 16 pointer slots over 14 tables); the descriptor table pointer, the group table pointer, the record slot and the sequence index are bound to the literal loader sites, and the 488-byte heterogeneous tail at 0x4585AC..0x458794 is excluded from the claim. The callback domain, the caller denominator (48 base-pair pools, 2 attributed, 2 located callers), the flags domain, the index domain, descriptor editing safety, opaque renderer side effects, the heterogeneous tail family and natural runtime reachability remain unclaimed. This package shares its primary_class with the already accepted 0x12D574 descriptor-groups packet, so the ledger aggregates the two families under one class."
       ],
       "coverage": {
         "case_ids_total": [
