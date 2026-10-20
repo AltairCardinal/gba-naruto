@@ -1221,7 +1221,13 @@ class RomByteCoverageAuditTests(unittest.TestCase):
         self.assertEqual("armv4t_cfg_reachable_thumb_code", class_at(0x09C574))
         self.assertEqual("training_text_command_script", class_at(0x007554))
         self.assertEqual("training_text_command_script", class_at(0x007F1C))
-        self.assertEqual("unknown", class_at(0x007F1D))
+        # 0x007F1D 当初是 unknown，后来被 rom-battle-condition-result-text-v1
+        # 认领为 battle_condition_result_renderer_text（claim
+        # battle-condition-result-text-000）。单字节断言天然抗切段，
+        # 只需把期望值更新为当前类别。
+        self.assertEqual(
+            "battle_condition_result_renderer_text", class_at(0x007F1D)
+        )
         self.assertEqual("consumer_code_slice", class_at(0x0663A6))
         self.assertEqual("consumer_code_slice", class_at(0x0663B3))
         self.assertEqual("consumer_code_slice", class_at(0x08AFE0))
@@ -9788,18 +9794,35 @@ class DirectSoundPitchLookupCoverageTests(unittest.TestCase):
         self.assertEqual(12, summary["directsound_pitch_lookup_frequency_entry_count"])
 
         segments = {tuple(segment["range"]): segment for segment in manifest["segments"]}
-        expected = {
+        # 本包自己认领的 5 段：主 claim 之间不可重叠，后继批次切不开它们，
+        # 所以仍然可以用精确区间键断言。
+        own = {
             (0x099D7C, 0x099D8C): self.CLASSES[0],
-            (0x09A996, 0x09A998): "unknown",
             (0x09A998, 0x09A9F4): self.CLASSES[1],
             (0x09A9F4, 0x09A9FC): self.CLASSES[2],
-            (0x09A9FC, 0x09AA00): "unknown",
             (0x4645C4, 0x464678): self.CLASSES[3],
             (0x464678, 0x4646A8): self.CLASSES[4],
-            (0x4646A8, 0x46480C): "unknown",
         }
-        for interval, primary_class in expected.items():
+        for interval, primary_class in own.items():
             self.assertEqual(primary_class, segments[interval]["primary_class"])
+        # 三段「应当仍为 unknown」的邻接区不能用冻结区间键断言：
+        # 后继批次 rom-psg-frequency-lookup-v1（生产链里排在本包之后）
+        # 合法认领了 [0x46475C,0x464798)，把 (0x4646A8,0x46480C) 切成了三段，
+        # 区间键随之消失。改为逐字节派生：窗口连续铺满、段表与主 claim 表
+        # 逐字节投影一致、且本包不得认领窗口内任何字节。
+        for start, end in (
+            (0x09A996, 0x09A998),
+            (0x09A9FC, 0x09AA00),
+            (0x4646A8, 0x46480C),
+        ):
+            tiles, owner = _ledger_window_tiles(manifest, start, end)
+            self.assertEqual(start, tiles[0][0])
+            self.assertEqual(end, tiles[-1][1])
+            for begin, stop, primary_class in tiles:
+                for offset in range(begin, stop):
+                    owner_class, owner_batch = owner[offset]
+                    self.assertEqual(owner_class, primary_class)
+                    self.assertNotEqual(self.BATCH, owner_batch)
         self.assertIn(
             coverage_auditor.DIRECTSOUND_PITCH_COVERAGE_LIMITATION,
             manifest["limitations"],
@@ -14340,12 +14363,24 @@ class StoryStateEntryC4ccCoverageTests(unittest.TestCase):
             "rom-battle-condition-result-text-v1",
             "rom-alternate-dialogue-table-v1",
         }
+        # 链时基线：生产链里 rom-text-bg-task-closure-v1 排在本包**之后**
+        # （build_manifest: _story_state_entry_c4cc_claims 在 36089 行，
+        # _text_bg_task_closure_claims 在 36092 行），所以它在链时看不到本包；
+        # 本包在链时同样看不到 text-bg 认领的那 948 字节。
+        # 拿最终账本当基线会把后继批次的字节算进来，于是
+        # 「[0x08C5A8,0x08CBB4) 整窗仍为 unknown」这个**链时**不变式被打破
+        # （实测：该窗口被 text-bg 切成 13 段，无单段覆盖整窗）。
+        # 必须把后继批次从基线里剔掉。
+        later = {
+            "rom-text-bg-task-closure-v1",
+        }
         return [
             claim
             for claim in json.loads(
                 (ROOT / "sequel/rom-byte-coverage.json").read_text()
             )["claims"]
             if claim.get("promotion_batch") not in queued
+            and claim.get("promotion_batch") not in later
         ]
 
     def _queued_claims(self, rom, baseline):

@@ -511,3 +511,168 @@ D 在**已提交账本**上的断言同步改成逐字节派生：排除邻居�
 最便宜的 5 个是 0.000 s（批次守卫先触发）。
 
 收据：`notes/evidence/reverse-proof-update-20261020-v2/full-ledger-replay-20261020.json`。
+
+---
+
+## 12. 本轮的资源瓶颈实测（不是 CPU，也不是磁盘）
+
+本轮 4 片并行跑的过程中，机器同时被**另一个并发会话**占用，实测数据如下。
+
+### 12.1 机器
+
+| 项 | 值 |
+|---|---:|
+| RAM | 16.0 GiB |
+| 逻辑核 | 12 |
+| swap | 2,048 MiB（**已用 1,685.5 MiB，剩 362.5 MiB**） |
+
+### 12.2 瓶颈定位：CPU 满但**没跑满**，磁盘完全空闲
+
+| 观测 | 值 | 结论 |
+|---|---|---|
+| `iostat` 磁盘吞吐 | **0.00 KB/t、0 tps、0.00 MB/s** | **不是 I/O 瓶颈** |
+| CPU 占用 | 83 % user + 1 % sys + **16 % idle** | CPU 绑定，但**没吃满 12 核** |
+| load average | 11.7 – 14.4 | 与并发进程数一致 |
+| swap | 1,176 → **1,685.5 MiB** | 内存压力显性化，但换页不是主因（磁盘 0 吞吐） |
+
+⇒ **主因是「进程数超订 + 内存压力」，不是 CPU 算力，也不是磁盘。**
+每个分片进程 RSS 186–235 MB，加 9 个受影响类的跑 319 MB、
+并发会话的 4 个进程 ~600 MB，再加 MiniMax Code Helper 607 MB（**184 % CPU**，
+自己就吃 2 核）、Firefox 343 + 334 MB、Docker 153 MB。
+
+### 12.3 一个必须记下来的**事故**：并发重跑把 4 份日志截断了
+
+`10:59:28`（本轮 cron 定义被删除前的最后一次触发）**又拉起了一套 4 片**，
+用 `> /tmp/auditor-shardK.log` **截断了**上一套正在写的 4 份日志。
+于是旧 3 片（`55254/55255/55257`）还在往已被截断的日志里写
+（写偏移停在旧位置，形成稀疏文件），新 4 片从 0 开始写。
+
+**处置**：核对「新分片读到的代码」——测试文件最后修改时间 `10:49:23`，
+新分片启动 `10:59:28` ⇒ **新 4 片跑的是已修好的代码**；
+于是停掉旧 3 片及其启动 shell（`55238/55241/55249`），保留新 4 片。
+没有新起一轮，避免把「已修好的代码」换成「旧代码」再跑一遍。
+
+### 12.4 一个必须记下来的**坑**：stderr 是块缓冲，日志 0 字节 ≠ 卡死
+
+`shard0` 的日志在启动后 **20 分钟仍是 0 字节**，一度被误判成死锁。
+`sampling` 显示它 100% 在跑 Python 字节比较（`bytes_richcompare` /
+`_platform_memmove`），`ps` 的瞬时 CPU 增量一度读 0 s。
+
+真因：**`unittest -v` 的输出走 stderr，重定向到文件时是块缓冲**，
+要攒满 4 KiB 才落盘。`shard1/2/3` 的缓冲早已写满，所以它们的日志「看起来在动」，
+而 `shard0` 还在第一个 4 KiB 之前。
+
+⇒ **判「某片是否卡死」不能用日志字节数**，必须用
+`ps -o time=` 的**两次采样差**（CPU 时间增量）+ `sample` 的调用栈。
+
+### 12.5 并发会话在同一个仓库里跑重复工作
+
+本轮实测到另一个会话在同一逆向树上跑了 4 个重活：
+`/tmp/record_producers.py`（重放全部生产者，≈ 本轮探针的同款）、
+`build_manifest` 输出 vs 活账本逐段比对、`/tmp/probe_replay.py`（同款探针）、
+以及一段 `tests.test_audit_rom_byte_coverage.*` 的 unittest。
+它们与本轮的探针**完全重复**，且**只写 /tmp、不写仓库**，
+但会抢走 3–4 核与 ~600 MB 内存，直接把 4 片的推进速度压掉近一半。
+
+**教训（可复用）**：同一仓库并发跑重活时，
+**先确认对方跑的是不是同一件事**；重复的重活应当由**一方**承担，
+否则两份同样的 `build_manifest` / 外部验证器冷重放会把机器推进交换区。
+
+---
+
+## 13. 两个只读子代理的全量静态扫描：又找出 **3 个真实失败** + 1 个必须澄清的误判
+
+§10 的 9 个失败是**跑出来的**。本轮另派两个只读子代理做**全量 AST 扫描**
+（16,119 行测试文件 / 789k 行账本），把「冻结区间键」与「必须保持 unknown」
+两类站点一次性枚举，再逐个对活账本实测核对。
+
+### 13.1 新发现的 3 个真实失败（均已修）
+
+| # | 用例 | 真因（活账本实测） | 修法 |
+|---|---|---|---|
+| H | `DirectSoundPitchLookupCoverageTests.test_build_manifest_projects_directsound_totals_and_segments` | 区间键 `(0x4646A8, 0x46480C)` **不存在**。生产链里 `_psg_frequency_lookup_claims`（36065 行）排在 `_directsound_pitch_lookup_claims`（36064 行）**之后**，它认领了 `[0x46475C,0x464798)`（`psg_noise_register_descriptor_table`），把原区间切成 3 段 | 本包自己认领的 5 段仍用精确键；3 段「应当仍为 unknown」的邻接区改逐字节派生 |
+| I | `RomByteCoverageAuditTests.test_repository_manifest_accounts_for_every_byte_but_is_not_semantically_complete` | `class_at(0x007F1D)` 期望 `unknown`，实测已是 `battle_condition_result_renderer_text`（claim `battle-condition-result-text-000`，批次 `rom-battle-condition-result-text-v1`） | 单字节断言天然抗切段，只需把期望值更新为当前类别。该用例另有 **13 个**仍为 unknown 的见证字节，不变式未丢 |
+| J | `StoryStateEntryC4ccCoverageTests.test_packet_projects_exact_target_local_code_and_literals` | 断言「存在**单个** unknown 段覆盖 `[0x08C5A8,0x08CBB4)`」。生产链里 `_text_bg_task_closure_claims`（36092 行）排在 `_story_state_entry_c4cc_claims`（36089 行）**之后**，认领了该窗内 948 字节（940 B code + 8 B literal），窗口被切成 **13 段** | **链时基线**：把后继批次 `rom-text-bg-task-closure-v1` 从基线里剔掉。c4cc 自己认领 `[0x08C4CC,0x08C5A8)`（184 + 36 = 220 B），与 text-bg 无重叠，剔掉不影响其产出 |
+
+J 这一条最能说明「链时 vs 账本时」的区别：本包在链上跑的时候，
+它**看不到**后继批次，于是那 268 字节的邻接区**确实是** unknown；
+用最终账本重放就会把后继批次的字节算进来，把一个**链时**不变式误判成账本漂移。
+
+### 13.2 子代理的一处**误判**，必须澄清（我已实测推翻）
+
+子代理把 4 处「直接喂 `coverage["claims"]` / `self.repository_manifest["claims"]`
+给生产者」判为**必改**：
+
+- `tests/test_audit_rom_byte_coverage.py:2017` `_cfg_inventory_v3_claims(..., self.repository_manifest["claims"])`
+- `:3654` `_cfg_inventory_v3_claims(..., [*coverage["claims"], duplicate])`
+- `:3844` `_cfg_proven_roots_v7_claims(..., coverage["claims"])`
+- `:4081` `_cfg_proven_roots_v9_claims(..., coverage["claims"])`
+
+**这 4 处是故意的 fail-closed 断言**，不是 bug：它们期望生产者**抛错**
+（`assertRaisesRegex(ValueError, "pre-v3 baseline")` / `"pre-v7 baseline"` /
+`"requires a pre-v9 baseline"`）。喂最终账本**正是**它们要验证的前提。
+⇒ **不改**。
+
+这条也是「子代理结论必须回到实测复核」的又一个例子：
+「生产者拿最终账本会 raise」是**对的行为**，
+在**故意**要 raise 的用例里恰恰是**被期望的行为**。
+
+### 13.3 扫描还确认了一大批**当前仍成立**的站点（不用改）
+
+子代理用 `atomize_claims` 在各自**链时基线**上复算了 60 余处
+「必须保持 unknown」断言，包括：V12/V13 的洞、V17/V18/V19 的 gap
+（每个 gap 恰好 1 个精确 unknown 段）、V9/V11 的单字节见证、
+`BattleConditionRecords` 的两个单字节、6 个 QuickProjection 类的 hole/right_gap、
+以及 `Mp2kDispatcher` 与 `M4aInitializerChain` 的两处。
+**全部命中** ⇒ 断言与链时基线自洽，不改。
+
+子代理另外标出 3 处**当前成立但结构脆弱**的站点
+（`PsgFrequencyLookup` 的两个 unknown 区间键、
+`Mp2kDispatcher` 的 EXCLUDED、`M4aInitializerChain` 的 `(0x09B1E6,0x09B1E8)`），
+建议按同一范式逐字节化；这属于**加固**而非**必改**。
+
+### 13.4 第二个子代理的全量 AST 清单：179 处重放点，98 处**潜在**脆弱（当前不炸）
+
+第二个子代理把测试文件里所有生产者调用点解析成表（**239** 处 =
+209 处直接 `_xxx_claims(...)` + **30** 处间接 `self._helper()()` /
+`getattr(coverage_auditor, "_xxx_claims")`），其中 **179** 处传了
+`existing_claims` 基线，**171** 处重放的是**已晋升**的生产者。
+
+分类结果：
+
+| 形态 | 数量 | 处置 |
+|---|---:|---|
+| 账本派生但已剔本包（自身批次 / `claim_kind`） | 160 | **当前不炸**；下一个批次落地时会炸 |
+| 账本原样（故意 fail-closed 断言） | 4 | **不改**（见 §13.2） |
+| 链时基线 `_reproject_chain` | 4 | 已修（9 类内） |
+| 本地派生（`PRIOR`/`HELPER`/`CLAIMS` 链） | 11 | 形态正确 |
+
+**一个必须记下来的结构事实**：活账本 **10,326 / 16,913 条 claim（61%）
+根本没有 `promotion_batch` 字段**（全部来自链首 30 个生产者：
+`_lz77_claims` … `_cfg_inventory_claims`）。
+⇒ 只按 `promotion_batch` 过滤的基线**剔不掉**它们，
+链时基线 helper 必须**同时**按 `claim_kind` / `id` 剔。
+
+**一个反例，必须写下来**：`_task_scheduler_core_claims`
+**要求后继批次 `rom-artifact-bound-alignment-gaps-v1` 必须在基线里**
+（`tools/audit_rom_byte_coverage.py:13739-13744`）。
+⇒ **不能一刀切「一律剔后继批次」**。这一类要逐个看生产者源码的门。
+
+**已自带规避、不要动**（6 处）：
+`LookupAndBootThumbHandoffCoverageTests` 的 `_boot_thumb_handoff_cfg_claims`
+（空洞不在生产者的 `_require_current_unknown_ranges` 目标集内）、
+`TaskSchedulerCoreCoverageTests` 的 4 处 `_task_scheduler_core_claims`；
+以及 `FixedIndexU8TailQuickProjectionTests` /
+`StorySelectorDependencyCfgQuickProjectionTests` /
+`TaskCallback078E38QuickProjectionTests`（用**不可变 pre-coverage 归档**
+`artifacts/rom-post-story-dependency-precoverage-v1/rom-byte-coverage.json.gz`）。
+
+**诚实声明**：这 98 处「潜在脆弱」是**静态分析 + 活账本 owner 比对 + 生产者源码门
+逐个读**得出的，**不是实测 raise**。子代理实测过 11 个生产者
+（`_cfg_inventory*`、`_cfg_proven_roots` v1–v7、`_battle_controller_cfg`），
+在「账本 − own kind」基线下**全部 OK**（n 与字节数与账本完全一致），
+说明这批 FRAGILE **当前大概率不炸**。
+⇒ 建议作为一个**独立任务**做：写一个按 `build_manifest` 顺序自动剔
+「本包 + 其后所有批次」的链时基线 helper，**一次性**覆盖 30 个类，
+再跑一次全模块分片验收。**不要**在本轮顺手改（本轮已改 12 处，再改 98 处
+会把「已验证」变成「未验证」）。
