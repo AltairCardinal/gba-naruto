@@ -1,5 +1,31 @@
 # Tools
 
+## ROM editor content pack (new, 2026-10-21)
+
+### `export_content_pack.py`
+
+Exports the editor's **initial data** — a self-describing dump of every
+editable structure in `rom/base.gba`:
+
+* 25 structures / 5,740 records (角色定义表、忍术记录表、道具记录表、奖励表、
+  战场描述符、编成矩阵、战斗目标、剧情脚本四根根表、任务索引表、字形段表 …);
+* 10 text tables / 2,199 texts (对白槽位表 1,524 槽、任务三张文本表、各类名字表 …);
+* the font code table, in both directions (decode + **canonical** encode);
+* the base ROM, gzip-compressed, for the editor to rebuild from.
+
+Two invariants make "an untouched pack rebuilds the original ROM byte for byte"
+true: every structure's field list **tiles its record exactly** (unknown bytes
+become `hex` fields), and every record keeps its original bytes next to the
+decoded values.
+
+```powershell
+python tools\export_content_pack.py            # → rom-editor/content/
+python tools\export_content_pack.py --check    # 只校验内容包是否与 ROM 一致
+```
+
+The editor itself is `rom-editor/` (see `docs/rom-editor.md`); its
+command-line self-check is `node rom-editor/tools/verify_pack.mjs`.
+
 ## Text encoding (new, 2026-10-20)
 
 The game's Chinese text uses a **custom double-byte font code**, not Shift-JIS.

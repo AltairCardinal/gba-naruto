@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>内容包载入器</title>
+</head>
+<body>
+<script>
+// Loads the content pack and hands it to the editor.
+//
+// Why a separate document: browsers cap how much a single document may
+// download (measured: ~6 MB in the desktop FilePanel browser).  The editor
+// needs two large payloads — the content pack and the base ROM — so each is
+// fetched by a document of its own.
+(function () {
+  function report(state, payload) {
+    if (window.parent === window) return;
+    window.parent.postMessage({ source: 'pack-loader', state, payload }, '*');
+  }
+
+  async function gunzip(buffer) {
+    if (typeof DecompressionStream !== 'function') return null;
+    const stream = new Response(buffer).body.pipeThrough(new DecompressionStream('gzip'));
+    return await new Response(stream).arrayBuffer();
+  }
+
+  (async function () {
+    try {
+      let response = await fetch('pack.min.json.gz', { cache: 'no-cache' });
+      let text = null;
+      if (response.ok) {
+        const raw = await response.arrayBuffer();
+        if (response.headers.get('content-encoding') === 'gzip') {
+          text = new TextDecoder().decode(raw);
+        } else {
+          const plain = await gunzip(raw);
+          if (plain) text = new TextDecoder().decode(plain);
+        }
+      }
+      if (text === null) {
+        response = await fetch('pack.json', { cache: 'no-cache' });
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        text = await response.text();
+      }
+      report('ok', text);
+    } catch (err) {
+      report('error', String(err && err.message ? err.message : err));
+    }
+  })();
+})();
+</script>
+</body>
+</html>

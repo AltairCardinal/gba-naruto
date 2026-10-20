@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>火影忍者 · 木叶战记 ROM 编辑器</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">木叶</span>
+    <div>
+      <div class="brand-title">火影忍者 · 木叶战记 ROM 编辑器</div>
+      <div class="brand-sub" id="rom-status">正在载入内容包…</div>
+    </div>
+  </div>
+  <div class="topbar-tools">
+    <label class="file-btn" for="rom-file" title="载入原版 ROM（作为构建基底）">
+      载入 ROM
+      <input type="file" id="rom-file" accept=".gba">
+    </label>
+    <button class="btn btn-ghost" id="btn-load-bundled"
+      title="从编辑器自带的内容包里取回原版 ROM">载入内置 ROM</button>
+    <button class="btn btn-ghost" id="btn-import-pack">导入内容包</button>
+    <button class="btn btn-ghost" id="btn-export-pack">导出内容包</button>
+    <button class="btn btn-primary" id="btn-build">构建 ROM</button>
+    <span class="dirty-badge hidden" id="dirty-badge">0</span>
+  </div>
+</header>
+
+<div class="layout">
+  <nav class="sidenav" id="sidenav"></nav>
+  <main class="main" id="main"></main>
+</div>
+
+<div class="statusbar" id="statusbar">
+  <span id="status-text">就绪</span>
+  <span class="spacer"></span>
+  <span id="status-hint"></span>
+</div>
+
+<input type="file" id="pack-file" accept=".json" hidden>
+
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

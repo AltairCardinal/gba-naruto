@@ -1,0 +1,109 @@
+// Small DOM toolkit.  No build step, no framework: the editor has to run from
+// a plain file:// URL on a machine that has nothing but a browser.
+
+export function el(tag, props = {}, children = []) {
+  const node = document.createElement(tag);
+  for (const [key, value] of Object.entries(props || {})) {
+    if (value === null || value === undefined) continue;
+    if (key === 'class') node.className = value;
+    else if (key === 'text') node.textContent = value;
+    else if (key === 'html') node.innerHTML = value;
+    else if (key.startsWith('on') && typeof value === 'function') {
+      node.addEventListener(key.slice(2).toLowerCase(), value);
+    } else if (key === 'dataset') {
+      Object.assign(node.dataset, value);
+    } else if (key === 'style' && typeof value === 'object') {
+      Object.assign(node.style, value);
+    } else if (value === true) {
+      node.setAttribute(key, '');
+    } else if (value !== false) {
+      node.setAttribute(key, value);
+    }
+  }
+  for (const child of [].concat(children)) {
+    if (child === null || child === undefined || child === false) continue;
+    node.appendChild(typeof child === 'string' || typeof child === 'number'
+      ? document.createTextNode(String(child))
+      : child);
+  }
+  return node;
+}
+
+export function clear(node) {
+  while (node.firstChild) node.removeChild(node.firstChild);
+  return node;
+}
+
+export function formatNumber(value) {
+  if (value === null || value === undefined) return '';
+  return String(value);
+}
+
+export function formatHex32(value) {
+  return '0x' + (value >>> 0).toString(16).toUpperCase().padStart(8, '0');
+}
+
+export function formatOffset(value) {
+  return '0x' + (value >>> 0).toString(16).toUpperCase();
+}
+
+/** A labelled read-only statistic. */
+export function stat(label, value, hint) {
+  return el('div', { class: 'stat' }, [
+    el('div', { class: 'stat-label', text: label }),
+    el('div', { class: 'stat-value', text: String(value) }),
+    hint ? el('div', { class: 'stat-hint', text: hint }) : null,
+  ]);
+}
+
+/** A simple modal dialog. */
+export function modal(title, bodyNode, actions = []) {
+  const overlay = el('div', { class: 'modal-overlay' });
+  const box = el('div', { class: 'modal' }, [
+    el('div', { class: 'modal-title', text: title }),
+    el('div', { class: 'modal-body' }, [bodyNode]),
+    el('div', { class: 'modal-actions' },
+      actions.map((a) => el('button', {
+        class: 'btn ' + (a.primary ? 'btn-primary' : ''),
+        text: a.label,
+        onclick: () => {
+          const keep = a.onClick && a.onClick();
+          if (!keep) overlay.remove();
+        },
+      }))),
+  ]);
+  overlay.appendChild(box);
+  overlay.addEventListener('mousedown', (e) => {
+    if (e.target === overlay) overlay.remove();
+  });
+  document.body.appendChild(overlay);
+  return overlay;
+}
+
+export function toast(message, kind = 'info') {
+  const node = el('div', { class: `toast toast-${kind}`, text: message });
+  document.body.appendChild(node);
+  setTimeout(() => node.classList.add('toast-out'), 3200);
+  setTimeout(() => node.remove(), 3800);
+  return node;
+}
+
+/** Download a Blob under `filename`. */
+export function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = el('a', { href: url, download: filename });
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+}
+
+/** Read a File as an ArrayBuffer. */
+export function readFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(new Uint8Array(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsArrayBuffer(file);
+  });
+}
