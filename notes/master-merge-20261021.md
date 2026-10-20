@@ -241,7 +241,25 @@ master 的 `generate_*` 则是逆向侧的直接写入器——两者不是同�
 master 的 `field_0..7` 注释「旧字段名来自错位窗口，已作废」指的是
 **legacy 基址 0x546100** 的旧字段，不是 0x545BE4 这张已证明表的字段。
 
-### 4.5 其它
+### 4.5 并行写入：合并窗口期工作区被同时修改
+
+排查最后 2 项失败时发现，**合并窗口期（02:19–02:23）本工作区被同时写入了
+7 组重制侧 round-25 战场 overlay 在飞工作**：
+
+- `butano-sequel/game/include/konoha/generated_battle_battlefield_overlay_content.h`（新）
+- `tools/generate_butano_battlefield_overlay.py`（新）
+- `butano-sequel/game/include/konoha/battle_range_ui_style.h`（改）
+- `butano-sequel/game/src/battle_runtime_scene.cpp`（改）
+- `tests/test_s49_overlay_implementation.py`（新）
+- `notes/battle-persistent-passive-stat-bindings-20260727.json`（新）
+- `artifacts/s49-remake-overlay-step1-20261021-v1/`（新，75 个文件）
+
+这 7 组**在 master 和保全提交 `777b2c96` 里都不存在**，是并行写入的在飞工作，
+不是合并产物。**处置**：从合并提交 `68ab647a` 中排除（索引回退到 HEAD 版本、
+新文件从索引移除但保留磁盘），另做独立保全提交 `b8a49c7e`，
+避免把在飞工作混进合并提交，同时不让这批未入库的新文件失去保护。
+
+### 4.6 其它
 
 - `tools/automated_test.py`：master 把 `build_report_path()` /
   `output_rom_path()` 合并成了 `build_output_paths()`，且**读模块常量**而非
