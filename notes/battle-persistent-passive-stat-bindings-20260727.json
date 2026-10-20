@@ -1,0 +1,126 @@
+{
+  "boundary": "Targets 1-11 are consumed directly inside the character stat loader rather than through the generic passive query at 0x0806DDA4. Target 10 raises the byte-valued capacity stat up to 99; this manifest does not infer the separate equipment slot or per-tool capacity-allocation rules.",
+  "definition_table": {
+    "address": "0x085459C8",
+    "base_a_offset": 2,
+    "per_level_a_offset": 6,
+    "record_size": 12,
+    "target_type_offset": 0
+  },
+  "function": {
+    "range": "0x0806D964..0x0806DDA3",
+    "sha256": "9cbcf9e7a568f31c837e2aa7acdb3ed265ccde914044746dd99eaa498a9c2a2c"
+  },
+  "identity": "battle_persistent_passive_stat_bindings",
+  "pass_order": [
+    "percentage_and_reduction",
+    "flat_addition"
+  ],
+  "passes": {
+    "flat_addition": {
+      "jump_table": "0x0806DC7C",
+      "jump_table_entries": [
+        "0x0806DCA4",
+        "0x0806DD86",
+        "0x0806DCC8",
+        "0x0806DCE8",
+        "0x0806DD08",
+        "0x0806DD86",
+        "0x0806DD28",
+        "0x0806DD86",
+        "0x0806DD48",
+        "0x0806DD68"
+      ],
+      "jump_table_sha256": "987d6c826346bdb3bbd698c8e274d7fe0c7c6724b30094906384d0c2d7947d2b",
+      "range": "0x0806DC1A..0x0806DD95",
+      "sha256": "6e29782b34cf169955b8da7e1b2d55c9a653fa8df7c88560929fd92c15539542",
+      "targets": {
+        "1": {
+          "cap": 999,
+          "field": "max_hp",
+          "operation": "add"
+        },
+        "10": {
+          "cap": 99,
+          "field": "ninja_tool_capacity",
+          "operation": "add"
+        },
+        "2": {
+          "operation": "no_op"
+        },
+        "3": {
+          "cap": 9,
+          "field": "chakra_capacity",
+          "operation": "add"
+        },
+        "4": {
+          "cap": 99,
+          "field": "attack",
+          "operation": "add"
+        },
+        "5": {
+          "cap": 99,
+          "field": "defense",
+          "operation": "add"
+        },
+        "6": {
+          "operation": "no_op"
+        },
+        "7": {
+          "cap": 99,
+          "field": "agility",
+          "operation": "add"
+        },
+        "8": {
+          "operation": "no_op"
+        },
+        "9": {
+          "cap": 9,
+          "field": "movement",
+          "operation": "add"
+        }
+      }
+    },
+    "percentage_and_reduction": {
+      "range": "0x0806DAE6..0x0806DC19",
+      "sha256": "8f9a658a9355a07995f8fc0f701c399695d6a889acf349f0a51aea2d22068768",
+      "targets": {
+        "11": {
+          "field": "hand_seals",
+          "minimum": 1,
+          "operation": "reduce_percent"
+        },
+        "2": {
+          "cap": 999,
+          "field": "max_hp",
+          "operation": "increase_percent"
+        },
+        "6": {
+          "cap": 99,
+          "field": "defense",
+          "operation": "increase_percent"
+        },
+        "8": {
+          "cap": 99,
+          "field": "agility",
+          "operation": "increase_percent"
+        }
+      }
+    }
+  },
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "secondary_slots": {
+    "count": 24,
+    "inactive_passive_id": 0,
+    "inactive_stored_levels": [
+      0,
+      255
+    ],
+    "passive_id_offset": "unit+0x50",
+    "stored_level_offset": "unit+0x51",
+    "stride": 4
+  },
+  "value_formula": "base_a + per_level_a * (stored_level - 1)"
+}
