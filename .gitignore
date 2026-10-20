@@ -9,6 +9,9 @@ node_modules/
 .vite/
 
 # Build artifacts
+# build/ 下是运行时产物（探针截图、存档、日志、探针 JSON），可由 tools/ 脚本重建；
+# 2026-10-20 实测本地已累积约 2 GB，不入库。
+build/*
 build/*.gba
 build/*.sav
 build/*-report.json
@@ -17,6 +20,11 @@ build/users/
 build/audio/
 build/tiles/
 
+# 例外：续作开发 ROM 是 README / docs/content-pipeline.md 明确引用的工作流产物
+!build/naruto-sequel-dev.gba
+!build/naruto-sequel-dev.rom-source.md
+!build/naruto-sequel-build-report.json
+
 # Generated data
 *.db
 *.db-wal
@@ -24,10 +32,19 @@ build/tiles/
 
 # Tool state
 .ralph/
+.pi/
+
+# 本地工具链与外部参考素材（非本仓库产物）
+.venv/
+references/
 
 # Experiment outputs
 rom/experiment-*.gba
 rom/experiment-*.sav
+
+# 模拟器状态（非真源：存档与即时状态快照）
+rom/base.sav
+rom/base.ss2
 
 # Secrets
 .env
