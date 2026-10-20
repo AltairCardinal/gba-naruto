@@ -142,9 +142,18 @@ GATE_CASES = {
     "physical_hardware": ("original-gba-release-smoke",),
 }
 REQUIRED_GATES = tuple(GATE_CASES)
-# The reproducible full-ROM coverage verifier currently needs about four and a half
-# minutes on the desktop runtime. Keep a bounded margin while the outer resource
-# guard enforces the whole audit's memory, idle and wall-clock limits.
+# The reproducible full-ROM coverage verifier is the longest single step of the
+# audit.  Receipt-backed history on the desktop runtime: 1,901.8 s (2026-09-05,
+# notes/evidence/rom-post-story-four-packet-tier2-20260905/coverage-guard.json)
+# and 1,819.5 s (2026-09-30,
+# notes/evidence/rom-small-cfg-batch-canonical-20260930-v1/coverage-guard.json).
+# That cost was dominated by ``atomize_claims`` being called 39 times with an
+# O(segments x claims) scan (60.50 s per full-ledger call).  Since 2026-10-20
+# that scan is a sweep (0.09 s per call, byte-identical output; see
+# tests/test_audit_rom_byte_coverage_atomize_sweep.py), so the coverage step is
+# expected back in the low hundreds of seconds.  Keep a bounded margin while
+# the outer resource guard enforces the whole audit's memory, idle and
+# wall-clock limits.
 VERIFIER_TIMEOUT_SECONDS = 1_800
 VERIFIER_PATH_OPTIONS = {
     "--artifact",
