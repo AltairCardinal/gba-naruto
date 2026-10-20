@@ -7034,33 +7034,55 @@ def atomize_claims(
     if len(set(identifiers)) != len(identifiers):
         raise ValueError("claim ids must be unique")
 
-    ranges: dict[str, tuple[int, int]] = {}
+    count = len(normalized)
+    starts: list[int] = [0] * count
+    ends: list[int] = [0] * count
     endpoints = {0, domain_end}
-    for claim in normalized:
+    for index, claim in enumerate(normalized):
         role = claim.get("role")
         if role not in {"primary", "secondary"}:
             raise ValueError(f"claim {claim['id']!r} has an invalid role")
         if role == "primary" and not isinstance(claim.get("primary_class"), str):
             raise ValueError(f"primary claim {claim['id']!r} has no class")
         start, end = _validated_range(claim, domain_end)
-        ranges[claim["id"]] = (start, end)
+        starts[index] = start
+        ends[index] = end
         endpoints.update((start, end))
 
+    # 扫描线：一次遍历端点，维护「覆盖当前段」的活跃 claim 集合。
+    #
+    # 原实现对**每个段**全量扫一遍所有 claim（O(段数 × claim 数)）。在真实
+    # 账本上（16 913 条 claim / 18 675 段）这是约 5.7 亿次内层迭代，单次调用
+    # 实测 60.50 s —— 覆盖审计的**单线程 CPU 瓶颈**。
+    #
+    # 等价性：某 claim 覆盖段 [a, b) 当且仅当 claim.start <= a 且 claim.end >= b。
+    # 因为 b 是 a 之后的**下一个端点**，而所有 claim 的端点都在 endpoints 里，
+    # 所以 claim.end >= b 等价于 claim.end > a。于是「活跃集合」就是
+    # {claim : start <= a < end}，可以用起点/终点两个有序指针增量维护。
+    # 输出按 claim id 排序（原实现也是按 id 排序），因此与原实现**逐字节一致**；
+    # 等价性由 tests/test_audit_rom_byte_coverage_atomize_sweep.py 钉住
+    # （真实账本 + 400 组随机输入 + 失败关闭语义 + 性能闸门）。
+    by_start = sorted(range(count), key=lambda index: (starts[index], index))
+    by_end = sorted(range(count), key=lambda index: (ends[index], index))
     ordered = sorted(endpoints)
     segments: list[dict[str, Any]] = []
+    active: set[int] = set()
+    add_index = 0
+    remove_index = 0
     for start, end in zip(ordered, ordered[1:]):
-        active = [
-            claim
-            for claim in normalized
-            if ranges[claim["id"]][0] <= start
-            and end <= ranges[claim["id"]][1]
-        ]
+        while add_index < count and starts[by_start[add_index]] <= start:
+            active.add(by_start[add_index])
+            add_index += 1
+        while remove_index < count and ends[by_end[remove_index]] <= start:
+            active.discard(by_end[remove_index])
+            remove_index += 1
+        active_claims = [normalized[index] for index in sorted(active)]
         primary = sorted(
-            (claim for claim in active if claim["role"] == "primary"),
+            (claim for claim in active_claims if claim["role"] == "primary"),
             key=lambda claim: claim["id"],
         )
         secondary = sorted(
-            (claim for claim in active if claim["role"] == "secondary"),
+            (claim for claim in active_claims if claim["role"] == "secondary"),
             key=lambda claim: claim["id"],
         )
         if len(primary) > 1:
