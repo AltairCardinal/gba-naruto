@@ -65,12 +65,14 @@
   因此脚本里的分支目标依然有效——与仓库既有写回路径
   （`tools/import_story_script.py`）成立的是同一个前提。
 - **自检两条**：
-  - 命令行 `node rom-editor/tools/verify_pack.mjs` → **18/18 PASS**
+  - 命令行 `node rom-editor/tools/verify_pack.mjs` → **19/19 PASS**
     （含「未改动的内容包重建 ROM 与原版逐字节相同」、逐域落点、文本重定位、
     原始字节补丁落点、剧情 VM 操作数落点）；
-  - 浏览器内 `rom-editor/tools/selftest.html` → **31/31 PASS**
+  - 浏览器内 `rom-editor/tools/selftest.html` → **38/38 PASS**
     （九个模块视图与八个关键面板全部渲染成功、逐域落点全部正确、文本改动经指针可回读、
     原始字节补丁与「下一场景」改写真的进 ROM）。
+  - 另有 `python build\content_pack_roundtrip.py`：**6,666/6,666 条记录**都能
+    只用字段值重建回原字节（`values → bytes == raw == ROM`）。
 - **一处环境限制（如实记录）**：本机内置浏览器对**单页下载量**有上限（实测约 6.3 MB），
   而原版 ROM 本身就是 6,291,456 字节。因此 ROM 由作者用顶栏「载入 ROM」选文件提供
   （0 字节下载，永远可靠），「载入内置 ROM」作为便捷路径。详见
@@ -110,7 +112,7 @@
   `tools/extract_all_structures.py` 用系统默认编码（GBK）读自己写的 UTF-8 JSON。
 - **审计变化**：等级分布 **L4=0 / L3=4 / L2=5 / L1=35 / 已裁决=3**；
   格式已证明 **44/47**、写回可用 **24/47**（其中 **19** 条是可执行往返自检）、
-  失败探针 **0**、阻塞缺口 **0**、加固缺口 **122**。
+  失败探针 **0**、阻塞缺口 **0**、加固缺口 **119**。
 - **回归**：unittest **84 OK**、automated_test **28/28**、写回自检 **18/18**、
   alias_audit **OK**、审计 `--check` 退出 **0**。
 
@@ -150,7 +152,7 @@
   UTF-8 JSON（`UnicodeDecodeError`）；`import tools.lib.io` 缺仓库根 `sys.path`
   （`ModuleNotFoundError`）；并让它**跳过** `positions` 这类非扁平记录表而不是崩掉整轮抽取。
 - **审计变化**：等级分布 **L4=0 / L3=4 / L2=1 / L1=39 / 已裁决=3**；
-  格式已证明 **44/47**、写回可用 **24/47**、失败探针 **0**、阻塞缺口 **0**、加固缺口 **121**。
+  格式已证明 **44/47**、写回可用 **24/47**、失败探针 **0**、阻塞缺口 **0**、加固缺口 **119**。
 - **回归**：unittest **84 OK**、automated_test **28/28**、写回自检 **17/17**、
   alias_audit **OK**、审计 `--check` 退出 **0**、746 文本文件 **0 CRLF / 0 BOM**。
 

@@ -100,7 +100,7 @@
 
 ### 2.1 逐字节相同（B 命题）
 
-`node rom-editor/tools/verify_pack.mjs`（15 项，全 PASS）：
+`node rom-editor/tools/verify_pack.mjs`（19 项，全 PASS）：
 
 ```
 [ PASS ] 写出字节与原版完全一致 — 重建 sha256=1198ece781aaf629…
@@ -327,7 +327,7 @@ ROM 本身 6,291,456 字节 ≈ 6.3 MB，单独占满预算。
 | `rom-editor/js/editors.js` | 通用结构编辑器 / 文本表编辑器（由内容包驱动） |
 | `rom-editor/js/modules/*.js` | 六个域 + 音频 + 素材与资源 + 概览 + 原始字节 |
 | `rom-editor/tools/verify_pack.mjs` | 命令行自检（重建 + 逐域落点） |
-| `rom-editor/tools/selftest.html` | 浏览器内自检（所有模块渲染 + 面板打开） |
+| `rom-editor/tools/selftest.html` | 浏览器内自检（所有模块渲染 + 面板打开 + 逐域落点 + 原始字节补丁 + 剧情 VM 操作数） |
 | `rom-editor/tools/serve.mjs` | 静态服务器 |
 | `docs/rom-editor.md` | 面向使用者的说明 |
 
@@ -336,7 +336,7 @@ ROM 本身 6,291,456 字节 ≈ 6.3 MB，单独占满预算。
 ```powershell
 python tools\export_content_pack.py          # 重新导出内容包
 python tools\export_content_pack.py --check  # 校验内容包 == 当前 ROM
-node rom-editor\tools\verify_pack.mjs        # 命令行自检（18 项）
+node rom-editor\tools\verify_pack.mjs        # 命令行自检（19 项）
 node rom-editor\tools\serve.mjs 8765         # 起编辑器
-# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（31 项）
+# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（38 项）
 ```
