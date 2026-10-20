@@ -143,5 +143,9 @@ macOS 上以 LF 提交的文件在 Windows 检出时被转成 CRLF，**工作区
 ## 4. 本次留下的产物
 
 - `tools/prepare_rom_verifier_contracts_win.py`：Windows 版合同恢复工具（新增文件）。
+- `tests/test_prepare_rom_verifier_contracts_win.py`：孪生工具的失败关闭测试
+  （新建/幂等/默认只读/源变异/源缺失/多成员/consumer 变异/冲突目标不覆盖/同内容复用，9/9 绿）。
+  上游 `tests/test_prepare_rom_verifier_contracts.py` 在 Windows 上是
+  **2 failures + 10 errors**（被测的原工具是 POSIX-only），本机不可用。
 - `notes/windows-porting-20261020.md`：本文件。
 - `AGENTS.md` 任务模式登记表新增一行「跨平台迁移后的新检出初始化与字节级身份复验」。
