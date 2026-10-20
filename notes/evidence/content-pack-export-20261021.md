@@ -186,8 +186,29 @@ python build\content_pack_roundtrip.py
 
 ### 4.1 已被证实、但**尚未导出**的表（15 张）
 
-`tools/table_registry.py` 里标成 `verified=True` 的 68 张表中，有 **15 张
-不在包里**：
+> **2026-10-21 补记**：本节列出的 15 张表已全部补进内容包
+> （新增「音频」与「素材与资源」两个模块），内容包现为 **39 张结构表 / 6,666 条记录**。
+> 逐条对应：
+>
+> | 表 | 现在在包里 |
+> |---|---|
+> | `sound_id_table` | ✅ `sound_id_table`（159 × 8） |
+> | `audio_song_1/2/8/11/14` | ✅ `audio_song_1/2/8/11/14`（m4a SongHeader） |
+> | `function_pointer_table` | ✅ `function_pointer_table`（13 槽 u32） |
+> | `font_width_table` | ✅ `font_width_table`（256 × u8） |
+> | `battle_handler_table` | ✅ `battle_handler_table`（256 × 8） |
+> | `sprite_frame_descriptors` | ✅ `sprite_frame_descriptors`（15 × 10） |
+> | `pickup_dispatch` | ✅ `pickup_dispatch`（7 槽 u32） |
+> | `data_pointer_table_a` | ✅ `data_pointer_table_a`（46 × u32） |
+> | `data_pointer_table_b` | ✅ `data_pointer_table_b`（90 × u32） |
+> | `tile_asset_records` | ✅ `tile_asset_records`（79 × 68） |
+> | `palette_source_table` | ✅ 以 `speaker_names` 呈现（**同一批字节**：0x5A57C4，12 字节/条；registry 读作「调色板源表」，剧情 VM 的 0x08 指令读作「内联说话人名」） |
+>
+> 剩余的真实缺口只有 **§4.2 资源本体**（指针指向的图形/调色板/采样数据）。
+> `build/content_pack_gaps.py` 现在只会报出 `palette_source_table` 一条，
+> 那是因为它按 registry 的**名字**比对，而包里的名字是 `speaker_names`。
+>
+> 下面是补齐**之前**的原始清单，保留作对照：
 
 | 表 | ROM 基址 | 说明 |
 |---|---|---|

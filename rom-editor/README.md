@@ -24,10 +24,10 @@ node rom-editor\tools\serve.mjs 8765
 
 ```powershell
 node rom-editor\tools\verify_pack.mjs
-#   → 12 项全 PASS，含「未改动的内容包重建 ROM 与原版逐字节相同」
+#   → 15 项全 PASS，含「未改动的内容包重建 ROM 与原版逐字节相同」
 ```
 
-浏览器内自检（25 项：所有模块视图渲染、关键面板打开、逐域落点、文本回读）：
+浏览器内自检（29 项：所有模块视图渲染、关键面板打开、逐域落点、原始字节补丁）：
 
 ```
 http://localhost:8765/rom-editor/tools/selftest.html

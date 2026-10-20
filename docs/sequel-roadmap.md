@@ -59,9 +59,12 @@
   `story_logic_root`/`story_events_root` **47** 槽不是 56；
   忍术记录 `+0x0E` 是**单字节**（`+0x0F` 在 87 条里恒为 0）。
 - **自检两条**：
-  - 命令行 `node rom-editor/tools/verify_pack.mjs` → **12/12 PASS**；
-  - 浏览器内 `rom-editor/tools/selftest.html` → **27/27 PASS**
-    （九个模块视图与八个关键面板全部渲染成功、逐域落点全部正确、文本改动经指针可回读）。
+  - 命令行 `node rom-editor/tools/verify_pack.mjs` → **15/15 PASS**
+    （含「未改动的内容包重建 ROM 与原版逐字节相同」、逐域落点、文本重定位、
+    **原始字节补丁落点**）；
+  - 浏览器内 `rom-editor/tools/selftest.html` → **29/29 PASS**
+    （九个模块视图与八个关键面板全部渲染成功、逐域落点全部正确、文本改动经指针可回读、
+    原始字节补丁真的进 ROM）。
 - **一处环境限制（如实记录）**：本机内置浏览器对**单页下载量**有上限（实测约 6.3 MB），
   而原版 ROM 本身就是 6,291,456 字节。因此 ROM 由作者用顶栏「载入 ROM」选文件提供
   （0 字节下载，永远可靠），「载入内置 ROM」作为便捷路径。详见

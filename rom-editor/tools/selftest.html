@@ -26,7 +26,7 @@ import { renderBattle } from '../js/modules/battle.js';
 import { renderRoute } from '../js/modules/route.js';
 import { renderAudio } from '../js/modules/audio.js';
 import { renderAssets } from '../js/modules/assets.js';
-import { renderRaw } from '../js/modules/raw.js';
+import { renderRaw, applyPatch } from '../js/modules/raw.js';
 import { renderDomainIndex, renderPanel } from '../js/modules/common.js';
 
 const out = document.getElementById('out');
@@ -273,6 +273,31 @@ const MODULES = [
     const rawText = stage.textContent || '';
     check('原始字节：可编辑整卡带', !rawError && rawText.includes('原始字节编辑'),
       rawError ? String(rawError.message) : `${rawText.length} 字符`);
+
+    // --- 8. 原始字节补丁真的进 ROM --------------------------------------
+    info('原始字节补丁落点…');
+    {
+      // applyPatch 写进 ctx.pack.patches，构建器再把它们写进 ROM
+      const at = 0x00076d;
+      const original = base[at];
+      const wanted = (original ^ 0xff) & 0xff;
+      applyPatch(ctx, at, wanted);
+      const out8 = buildRom(ctx.pack, base);
+      const changed8 = diffIndexes(out8.bytes, reference);
+      check('原始字节补丁落在指定地址',
+        out8.report.errors.length === 0 && changed8.length === 1 && changed8[0] === at &&
+        out8.bytes[at] === wanted,
+        out8.report.errors.join('; ') || `改动 ${changed8.length} 字节 @0x${at.toString(16)}`);
+
+      // 同一地址再改一次应合并进同一条补丁，而不是新增一条
+      const before = ctx.pack.patches.length;
+      applyPatch(ctx, at, (wanted ^ 0x0f) & 0xff);
+      const out9 = buildRom(ctx.pack, base);
+      const changed9 = diffIndexes(out9.bytes, reference);
+      check('同址二次修改合并进同一条补丁',
+        ctx.pack.patches.length === before && changed9.length === 1 && changed9[0] === at,
+        `补丁数 ${before} → ${ctx.pack.patches.length}`);
+    }
 
     say('');
     say(failures === 0

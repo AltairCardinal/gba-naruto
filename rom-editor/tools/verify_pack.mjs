@@ -163,5 +163,59 @@ console.log('\n4) 变长文本：指针表驱动的文本可重定位');
     `新指针 0x${newPtr.toString(16)}（原 0x${record.pointer.toString(16)}），回读 ${JSON.stringify(decoded.slice(0, 20))}`);
 }
 
+console.log('\n5) 原始字节补丁：任意字节都能改');
+{
+  // 5a. 一个单字节补丁落点正确
+  const p5 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  const offset = 0x00076d;            // 标题画面文本区
+  const before = rom[offset];
+  const value = (before ^ 0xff) & 0xff;
+  p5.patches.push({
+    id: 'raw.test',
+    offset,
+    before_hex: before.toString(16).padStart(2, '0'),
+    after_hex: value.toString(16).padStart(2, '0'),
+  });
+  const out5 = buildRom(p5, rom);
+  const changed = [];
+  for (let i = 0; i < out5.bytes.length; i++) if (out5.bytes[i] !== rom[i]) changed.push(i);
+  check('单字节补丁落在指定地址',
+    out5.report.errors.length === 0 && changed.length === 1 && changed[0] === offset &&
+    out5.bytes[offset] === value,
+    out5.report.errors.join('; ') || `改动 ${changed.length} 字节 @0x${offset.toString(16)}`);
+
+  // 5b. 原字节不匹配时必须跳过并报告，而不是改坏别处
+  const p6 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  p6.patches.push({
+    id: 'raw.stale',
+    offset: 0x00076d,
+    before_hex: '00',               // 与真实原字节不符
+    after_hex: 'aa',
+  });
+  const out6 = buildRom(p6, rom);
+  check('原字节不匹配的补丁被跳过并报告',
+    out6.report.warnings.length > 0 && out6.report.warnings.some((w) => w.includes('raw.stale')) &&
+    out6.bytes[0x00076d] === rom[0x00076d],
+    out6.report.warnings.join('; ') || '没有产生警告');
+
+  // 5c. 多个补丁同时生效
+  const p7 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  const spots = [0x00076d, 0x00076e, 0x5461c4];
+  for (const at of spots) {
+    p7.patches.push({
+      id: `raw.${at.toString(16)}`,
+      offset: at,
+      before_hex: rom[at].toString(16).padStart(2, '0'),
+      after_hex: ((rom[at] ^ 0x5a) & 0xff).toString(16).padStart(2, '0'),
+    });
+  }
+  const out7 = buildRom(p7, rom);
+  const changed7 = [];
+  for (let i = 0; i < out7.bytes.length; i++) if (out7.bytes[i] !== rom[i]) changed7.push(i);
+  check('多个补丁同时生效且互不干扰',
+    changed7.length === spots.length && spots.every((at) => changed7.includes(at)),
+    `改动 ${changed7.length} 字节`);
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);

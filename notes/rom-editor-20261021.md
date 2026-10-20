@@ -100,7 +100,7 @@
 
 ### 2.1 逐字节相同（B 命题）
 
-`node rom-editor/tools/verify_pack.mjs`（12 项，全 PASS）：
+`node rom-editor/tools/verify_pack.mjs`（15 项，全 PASS）：
 
 ```
 [ PASS ] 写出字节与原版完全一致 — 重建 sha256=1198ece781aaf629…
@@ -109,6 +109,10 @@
 
 未改动内容包 → 重建 ROM → **sha256 与 `rom/base.gba` 完全相同**。
 内容包自身的等价校验：`python tools\export_content_pack.py --check` → `OK`。
+
+更强的形式（探针 `build/content_pack_roundtrip.py`）：
+**6,666/6,666 条记录都能只用字段值重建回原字节**（`values → bytes == raw == ROM`），
+也就是「初始数据」与「ROM」之间的双向一致。
 
 ### 2.2 逐域落点（改一个字段，只动那几字节）
 
@@ -122,6 +126,19 @@
 | 剧情路线 | `mission_index.value` | `0x348DB0`（1 字节） |
 
 每项都断言「改动的字节**全部**落在该字段区间内」。
+
+### 2.2.1 原始字节补丁：任意字节都能改（C 命题的兜底通道）
+
+「原始字节」模块把改动记成**显式补丁**（`pack.patches`：`offset` + `before_hex` +
+`after_hex`），构建时按「原字节必须匹配」写回。三条断言已加进命令行自检：
+
+| 断言 | 结果 |
+|---|---|
+| 单字节补丁落在指定地址 | ✅ 改动 1 字节 @0x76D |
+| 原字节不匹配的补丁**被跳过并报告**（不写坏别处） | ✅ 警告「补丁 raw.stale 的原始字节不匹配（已跳过）」 |
+| 多个补丁同时生效且互不干扰 | ✅ 改动 3 字节 |
+
+同址二次修改会**合并进同一条补丁**（浏览器内自检断言补丁数不变）。
 
 ### 2.3 文本：两类长度策略
 
@@ -284,7 +301,7 @@ ROM 本身 6,291,456 字节 ≈ 6.3 MB，单独占满预算。
 ```powershell
 python tools\export_content_pack.py          # 重新导出内容包
 python tools\export_content_pack.py --check  # 校验内容包 == 当前 ROM
-node rom-editor\tools\verify_pack.mjs        # 命令行自检（12 项）
+node rom-editor\tools\verify_pack.mjs        # 命令行自检（15 项）
 node rom-editor\tools\serve.mjs 8765         # 起编辑器
-# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（27 项）
+# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（29 项）
 ```
