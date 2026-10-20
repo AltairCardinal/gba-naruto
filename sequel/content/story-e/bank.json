@@ -1,28 +1,186 @@
 {
-  "version": 3,
-  "description": "Disproved tombstone: story-e was a +4 slice of audio song descriptor for sound ID 14, not a story/chapter table.",
-  "structure_kind": "disproved-story-table",
-  "table_offset": 5489600,
-  "table_offset_hex": "0x53C3C0",
-  "entry_count": 0,
+  "version": 1,
+  "description": "m4a SongHeader of sound id 14 (track_count=8, block_count=0). Reached from the sound-ID table 0x465B70 at row 14*8. NOT a story table.",
+  "table_offset": 5489596,
+  "table_offset_hex": "0x53C3BC",
+  "entry_count": 10,
   "entry_size": 4,
   "entry_format": {
-    "description": "No story entries. Former u32 pointers are the voicegroup pointer followed by per-track sequence pointers in one song descriptor."
+    "description": "m4a SongHeader: u8 track_count, u8 block_count, u16 pad, u32 voicegroup_ptr, u32 track_ptr[track_count]",
+    "fields": [
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "header_word0",
+        "type": "u32",
+        "description": "packed header: track_count=8 (byte +0), block_count=0 (byte +1), pad (u16 +2)"
+      },
+      {
+        "offset": 4,
+        "size": 4,
+        "name": "voicegroup_ptr",
+        "type": "u32",
+        "description": "tone/voicegroup pointer (12-byte tone records)"
+      },
+      {
+        "offset": 8,
+        "size": 4,
+        "name": "track_ptr_00",
+        "type": "u32",
+        "description": "track 0 data pointer"
+      },
+      {
+        "offset": 12,
+        "size": 4,
+        "name": "track_ptr_01",
+        "type": "u32",
+        "description": "track 1 data pointer"
+      },
+      {
+        "offset": 16,
+        "size": 4,
+        "name": "track_ptr_02",
+        "type": "u32",
+        "description": "track 2 data pointer"
+      },
+      {
+        "offset": 20,
+        "size": 4,
+        "name": "track_ptr_03",
+        "type": "u32",
+        "description": "track 3 data pointer"
+      },
+      {
+        "offset": 24,
+        "size": 4,
+        "name": "track_ptr_04",
+        "type": "u32",
+        "description": "track 4 data pointer"
+      },
+      {
+        "offset": 28,
+        "size": 4,
+        "name": "track_ptr_05",
+        "type": "u32",
+        "description": "track 5 data pointer"
+      },
+      {
+        "offset": 32,
+        "size": 4,
+        "name": "track_ptr_06",
+        "type": "u32",
+        "description": "track 6 data pointer"
+      },
+      {
+        "offset": 36,
+        "size": 4,
+        "name": "track_ptr_07",
+        "type": "u32",
+        "description": "track 7 data pointer"
+      }
+    ]
   },
-  "verification": "disproved",
-  "verification_method": "0x0809AAC0 indexes 0x08465B70 by sound ID and calls audio track initializer 0x0809B1F4. The m4a SongHeader has track_count at byte 0, voicegroup_ptr at +4, and track sequence pointers at +8.",
-  "notes": "Sound ID 14 descriptor starts at 0x53C3BC; this address is its +4 voicegroup pointer. Empty tombstone and disabled writeback prevent audio payload from being edited as story data.",
-  "former_claim": {
-    "kind": "story/chapter pointer table",
-    "offset": 5489600
-  },
-  "actual_container": {
-    "master_table_offset": 4610928,
-    "master_index": 14,
-    "descriptor_offset": 5489596,
-    "track_count": 8,
-    "priority": 0
-  },
-  "writeback": "disabled",
-  "entries": []
+  "notes": "2026-10-21 更正：旧基址 0x53C3C0 晚了 4 字节 —— 它锚在 voicegroup_ptr 字段（+0x04）而不是表头起点。原生读者 `0x0809B242 ldr r0,[r7,#4]` 读的就是 voicegroup；入口是 sound-ID 表 0x465B70 的第 14 行（`0x0809AAC8 lsrs r0,r0,#0xd` = sound_id*8）。详见 notes/evidence/story-table-family-20261020.md。",
+  "entries_sample": [
+    {
+      "index": 0,
+      "offset": 5489600,
+      "offset_hex": "0x53C3C0",
+      "chapter_ptr": "0x08464C5C",
+      "notes": "Header or special entry"
+    },
+    {
+      "index": 1,
+      "offset": 5489604,
+      "offset_hex": "0x53C3C4",
+      "chapter_ptr": "0x0853BC14",
+      "notes": "Chapter 1 data"
+    },
+    {
+      "index": 2,
+      "offset": 5489608,
+      "offset_hex": "0x53C3C8",
+      "chapter_ptr": "0x0853BD2B",
+      "notes": "Chapter 2 data"
+    },
+    {
+      "index": 3,
+      "offset": 5489612,
+      "offset_hex": "0x53C3CC",
+      "chapter_ptr": "0x0853BEC6",
+      "notes": "Chapter 3 data"
+    },
+    {
+      "index": 4,
+      "offset": 5489616,
+      "offset_hex": "0x53C3D0",
+      "chapter_ptr": "0x0853BF93",
+      "notes": "Chapter 4 data"
+    }
+  ],
+  "verification_method": "Static analysis - found 9 consecutive u32 pointers at 0x53C3C0, all pointing to valid ROM addresses. Target data starts with 0xBE 0x66 0xBC 0x00 pattern consistent with chapter data.",
+  "discovered_by": "Examining region 0x53C000-0x53D000 between story tables and map headers",
+  "entries": [
+    {
+      "_raw_offset": 5489600,
+      "chapter_ptr": 138824796,
+      "chapter_ptr_hex": "5c4c4608",
+      "_index": 0
+    },
+    {
+      "_raw_offset": 5489604,
+      "chapter_ptr": 139705364,
+      "chapter_ptr_hex": "14bc5308",
+      "_index": 1
+    },
+    {
+      "_raw_offset": 5489608,
+      "chapter_ptr": 139705643,
+      "chapter_ptr_hex": "2bbd5308",
+      "_index": 2
+    },
+    {
+      "_raw_offset": 5489612,
+      "chapter_ptr": 139706054,
+      "chapter_ptr_hex": "c6be5308",
+      "_index": 3
+    },
+    {
+      "_raw_offset": 5489616,
+      "chapter_ptr": 139706259,
+      "chapter_ptr_hex": "93bf5308",
+      "_index": 4
+    },
+    {
+      "_raw_offset": 5489620,
+      "chapter_ptr": 139706430,
+      "chapter_ptr_hex": "3ec05308",
+      "_index": 5
+    },
+    {
+      "_raw_offset": 5489624,
+      "chapter_ptr": 139706563,
+      "chapter_ptr_hex": "c3c05308",
+      "_index": 6
+    },
+    {
+      "_raw_offset": 5489628,
+      "chapter_ptr": 139706823,
+      "chapter_ptr_hex": "c7c15308",
+      "_index": 7
+    },
+    {
+      "_raw_offset": 5489632,
+      "chapter_ptr": 139707032,
+      "chapter_ptr_hex": "98c25308",
+      "_index": 8
+    }
+  ],
+  "verification": "static_verified",
+  "extraction": {
+    "tool": "tools/populate_bank_json.py::populate_audio_song_header",
+    "extracted_count": 10,
+    "rom_offset": 5489596,
+    "rom_offset_hex": "0x53C3BC"
+  }
 }

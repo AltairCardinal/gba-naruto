@@ -1,179 +1,202 @@
 #!/usr/bin/env python3
-"""
-decode_dialogue_record.py — Decode dialogue records from chapter 1 intro
-at IWRAM 0x78 LE-interpreted offsets (0x8DF0..0xB8EB).
+"""Decode a dialogue record with the game's own font codes.
 
-Each record (~374-383 bytes) contains multiple dialogue segments separated by
-the independent control byte 0x0A. Inside each segment are SJIS-compatible
-byte pairs encoding localized glyphs plus other control bytes (0x01, 0x02,
-0x1F, etc.) and templates. The non-empty glyph code 0x8B62 is not a newline
-and remains unresolved.
+History
+-------
+This tool used to decode "chapter 1 intro" dialogue records with a hand-made
+20-character table (``sequel/content/text/sjis-to-tile-mapping.json``) whose
+values were double-encoded mojibake, and it split records on the byte pair
+0x8B62.  Both are wrong on this ROM:
+
+* the ROM's text is a custom double-byte *font code* (lead byte 0x80..0x9F),
+  not Shift-JIS - see notes/font-encoding.md;
+* 0x8B62 is the font code for the character U+7684 ("的"), not a delimiter.
+  Splitting on it chopped sentences in the middle of a word.
+
+The hand-made table is retired; this tool now goes through
+``tools/text_codec.py``, the single sanctioned codec entry point.
+
+What it does now
+----------------
+Given a byte range (a record captured in RAM, or a stretch of the ROM), split
+it into the game's control codes / text tokens and render the text with the
+ROM's own font.  Control codes are reported, not silently dropped, because
+they carry layout meaning.
+
+The 30 "state" offsets below are IWRAM addresses from an old RAM-dump
+analysis, *not* ROM file offsets - reading them out of the ROM file yields
+arbitrary bytes (mostly zeroes and stray font codes), not dialogue.  They
+are kept so an old RAM capture can still be decoded with the same state
+indexes, and the tool says so when it is used that way.
 
 Usage:
-  python3 tools/decode_dialogue_record.py <state_index>
-  # or
-  python3 tools/decode_dialogue_record.py <hex_offset>
-
-Output: decoded segments using sjis-to-tile-mapping.json (currently 19 named chars),
-unknown byte pairs flagged for manual investigation.
+    python tools/decode_dialogue_record.py 0x8DF0 --file ram-dump.bin
+    python tools/decode_dialogue_record.py 0 --file ram-dump.bin
+    python tools/decode_dialogue_record.py 0x459414 --rom rom/base.gba
+    python tools/decode_dialogue_record.py 0x459414 --rom rom/base.gba --length 41
 """
+from __future__ import annotations
 
+import argparse
+import pathlib
 import sys
-import json
-from pathlib import Path
 
-# Load existing mapping
-SCRIPT_DIR = Path(__file__).parent
-MAP_PATH = SCRIPT_DIR.parent / "sequel" / "content" / "text" / "sjis-to-tile-mapping.json"
-DIALOGUE_MAPPING = SCRIPT_DIR.parent / "sequel" / "analysis" / "mapping-extension-20260701" / "dialogue_pointer_mapping.json"
+REPO = pathlib.Path(__file__).resolve().parents[1]
+if str(REPO / "tools") not in sys.path:
+    sys.path.insert(0, str(REPO / "tools"))
+if str(REPO) not in sys.path:
+    sys.path.insert(0, str(REPO))
 
-# LE-interpreted pointers (corrected from the BE bug in BREAKTHROUGH commit 473a737)
+import konoha_font as kf  # noqa: E402
+import text_codec as tc  # noqa: E402
+
+# LE-interpreted IWRAM pointers (corrected from the BE bug in BREAKTHROUGH
+# commit 473a737).  These are RAM addresses of a captured chapter-1 intro
+# state table - they are NOT ROM file offsets.
 CORRECT_PTRS = [
     0x8DF0, 0x8F6F, 0x90E5, 0x9261, 0x93DD, 0x955A, 0x96D6, 0x9850, 0x99CB, 0x9B47,
     0x9CC4, 0x9E41, 0x9FC0, 0xA13E, 0xA2B6, 0xA42E, 0xA5AB, 0xA728, 0xA8A0, 0xAA1E,
     0xAB9E, 0xAD17, 0xAE8F, 0xB006, 0xB180, 0xB2FE, 0xB476, 0xB5F3, 0xB76F, 0xB8EB,
 ]
 
-ROM_PATH = SCRIPT_DIR.parent / "build" / "naruto-sequel-dev.gba"
+DEFAULT_RECORD_LENGTH = 384
 
 
-def load_mapping():
-    with MAP_PATH.open(encoding="utf-8") as f:
-        raw = json.load(f)
-    named = raw.get("mapping")
-    if not isinstance(named, dict):
-        raise ValueError("dialogue glyph mapping has no mapping object")
-    out = {}
-    for k, v in named.items():
-        # Map is keyed by SJIS bytes (hex) → Chinese char (or special)
-        if isinstance(k, str) and len(k) == 4:
-            try:
-                bytes_seq = bytes.fromhex(k)
-                out[bytes_seq] = v
-            except ValueError:
-                pass
-    return out
+def decode_record(record: bytes, mapping: dict[int, str]) -> tuple[list[dict], list[int]]:
+    """Decode a record into segments.
 
-
-def load_dialogue_mapping():
-    with open(DIALOGUE_MAPPING) as f:
-        data = json.load(f)
-    # Index by state_index
-    return {r["state"]: r for r in data}
-
-
-def decode_record(record_bytes, mapping):
-    """Decode a record into segments, applying the SJIS mapping."""
-    segments = []
-    cur_seg_bytes = []
-    i = 0
-    while i < len(record_bytes):
-        b = record_bytes[i]
-        if b == 0x0A:
-            # Independent newline control byte; never consume a glyph pair.
-            segments.append(cur_seg_bytes)
-            cur_seg_bytes = []
-            i += 1
+    A segment is a run of text between control codes.  Returns the segments
+    and the list of unknown font codes that were hit (so a caller can report
+    characters the ROM's font cannot draw).
+    """
+    tokens = kf.scan_tokens(record, 0)
+    segments: list[dict] = []
+    current: list[str] = []
+    unknown: list[int] = []
+    for kind, value in tokens:
+        if kind == "ctrl":
+            segments.append({
+                "text": "".join(current),
+                "control": value.hex().upper(),
+            })
+            current = []
+            continue
+        code = value
+        if code == 10:
+            current.append("\n")
+        elif 32 <= code < 127:
+            current.append(chr(code))
+        elif code == 0x8140:
+            current.append("　")
         else:
-            cur_seg_bytes.append(b)
-            i += 1
-    if cur_seg_bytes:
-        segments.append(cur_seg_bytes)
-
-    # Now decode each segment
-    decoded_segments = []
-    unknown_pairs = set()
-    for seg in segments:
-        i = 0
-        decoded = []
-        while i < len(seg) - 1:
-            bp = bytes([seg[i], seg[i + 1]])
-            if bp in mapping:
-                decoded.append(mapping[bp])
-                i += 2
-            elif 0x81 <= seg[i] <= 0xFC and 0x40 <= seg[i + 1] <= 0xFC:
-                # Possible SJIS pair but unknown mapping
-                decoded.append(f"[{bp.hex().upper()}]")
-                unknown_pairs.add(bp)
-                i += 2
+            char = mapping.get(code)
+            if char is None:
+                unknown.append(code)
+                current.append(f"{{字{code:04X}}}")
             else:
-                decoded.append(f"({seg[i]:02X})")
-                i += 1
-        # Handle trailing single byte
-        if i < len(seg):
-            decoded.append(f"(tail:{seg[i]:02X})")
-        decoded_segments.append("".join(decoded))
-
-    return decoded_segments, sorted(unknown_pairs)
+                current.append(char)
+    if current:
+        segments.append({"text": "".join(current), "control": None})
+    return segments, sorted(set(unknown))
 
 
-def main():
-    if len(sys.argv) < 2:
-        print(__doc__)
-        print()
-        print("Available states: 0-29")
-        sys.exit(1)
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Decode a dialogue record with the game's font codes.")
+    parser.add_argument("offset", help="offset: hex (0x1234) or a state index 0-29")
+    parser.add_argument("--file", type=pathlib.Path, default=None,
+                        help="read the record from this file (e.g. a RAM dump)")
+    parser.add_argument("--rom", type=pathlib.Path, default=None,
+                        help="read the record from the ROM (default: rom/base.gba)")
+    parser.add_argument("--length", type=int, default=DEFAULT_RECORD_LENGTH,
+                        help="record length in bytes")
+    parser.add_argument("--json", type=pathlib.Path, default=None,
+                        help="write the decoded record as JSON here")
+    return parser.parse_args()
 
-    arg = sys.argv[1]
-    if arg.startswith("0x") or arg.startswith("0X"):
-        offset = int(arg, 16)
-        ptr_idx = None
+
+def main() -> int:
+    args = parse_args()
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
+
+    state_index = None
+    if args.offset.lower().startswith("0x"):
+        offset = int(args.offset, 16)
     else:
-        idx = int(arg)
-        if idx < 0 or idx >= len(CORRECT_PTRS):
-            print(f"State {idx} out of range")
-            sys.exit(1)
-        offset = CORRECT_PTRS[idx]
-        ptr_idx = idx
+        state_index = int(args.offset)
+        if not 0 <= state_index < len(CORRECT_PTRS):
+            print(f"State {state_index} out of range (0..{len(CORRECT_PTRS) - 1})",
+                  file=sys.stderr)
+            return 2
+        offset = CORRECT_PTRS[state_index]
 
-    # Load ROM
-    with open(ROM_PATH, "rb") as f:
-        rom = f.read()
-
-    if offset >= len(rom):
-        print(f"Offset 0x{offset:X} exceeds ROM size")
-        sys.exit(1)
-
-    # Get record (next record is at pointer + record_size; record size varies slightly)
-    # Just read 384 bytes for now
-    record = rom[offset : offset + 384]
-
-    # Find next pointer in CORRECT_PTRS
-    next_ptr = None
-    for p in CORRECT_PTRS:
-        if p > offset:
-            next_ptr = p
-            break
-    if next_ptr is None:
-        next_ptr = offset + 384
-    record_size = next_ptr - offset
-    record = rom[offset : offset + record_size]
-
-    # Load mappings
-    mapping = load_mapping()
-    dialogue = load_dialogue_mapping()
-
-    # Print
-    if ptr_idx is not None:
-        meta = dialogue.get(ptr_idx, {})
-        print(f"State {ptr_idx} @ offset 0x{offset:X}, size {record_size} bytes")
-        print(f"OCR: {meta.get('ocr', '?')}")
+    if args.file is not None:
+        blob = args.file.read_bytes()
+        source = str(args.file)
+        is_ram = True
     else:
-        print(f"@ offset 0x{offset:X}, size {record_size} bytes")
+        rom_path = tc.resolve_rom(args.rom)
+        blob = rom_path.read_bytes()
+        source = str(rom_path)
+        is_ram = False
+
+    if offset >= len(blob):
+        print(f"Offset 0x{offset:X} exceeds the size of {source}", file=sys.stderr)
+        return 2
+
+    length = args.length
+    if state_index is not None and is_ram:
+        nxt = next((p for p in CORRECT_PTRS if p > offset), None)
+        if nxt is not None:
+            length = nxt - offset
+    record = blob[offset:offset + length]
+
+    mapping, report = tc.load_mapping(args.rom)
+    segments, unknown = decode_record(record, mapping)
+
+    print(f"source   : {source}")
+    if state_index is not None:
+        print(f"state {state_index} @ IWRAM 0x{offset:04X}, {len(record)} bytes")
+        if is_ram:
+            print("           (IWRAM state pointer from the captured chapter-1 intro table)")
+        else:
+            print("           WARNING: this is an IWRAM address, not a ROM file offset;")
+            print("           reading it from the ROM yields arbitrary bytes.")
+    else:
+        print(f"offset   : 0x{offset:X}, {len(record)} bytes")
+    print(f"mapping  : {len(mapping)} font codes, "
+          f"{report['catalog_segments_matched']}/"
+          f"{report['catalog_segments_total']} segments fingerprint-matched")
     print()
-
-    segments, unknowns = decode_record(record, mapping)
 
     print(f"Decoded segments ({len(segments)}):")
-    for i, seg in enumerate(segments):
-        print(f"  seg {i:>2}: {seg}")
-    print()
+    for index, seg in enumerate(segments):
+        text = seg["text"].replace("\n", "\\n")
+        ctrl = f"  [ctrl {seg['control']}]" if seg["control"] else ""
+        print(f"  seg {index:>2}: {text!r}{ctrl}")
 
-    if unknowns:
-        print(f"Unknown byte pairs ({len(unknowns)}):")
-        for bp in unknowns:
-            print(f"  {bp.hex().upper()}")
+    if unknown:
+        print(f"\nUnknown font codes ({len(unknown)}):")
+        for code in unknown:
+            print(f"  0x{code:04X}")
+
+    if args.json is not None:
+        import json
+        from tools.lib.io import write_text
+        payload = {
+            "source": source,
+            "offset": offset,
+            "length": len(record),
+            "state_index": state_index,
+            "segments": segments,
+            "unknown_codes": ["0x%04X" % c for c in unknown],
+        }
+        write_text(args.json, json.dumps(payload, ensure_ascii=False, indent=2) + "\n")
+        print(f"\nJSON report written to: {args.json}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

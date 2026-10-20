@@ -1,0 +1,122 @@
+{
+  "ai_combination_policies": {
+    "combination_flag_mask": "0x1800",
+    "forced_behavior": "skip the single-component candidate and loop immediately until a second component is selected",
+    "forced_follow_action_ids": [
+      9,
+      14,
+      25,
+      29
+    ],
+    "forced_follow_mask": "0x1000",
+    "optional_behavior": "return the single-component candidate first, then retain the follow cursor so later calls enumerate two-component candidates",
+    "optional_follow_action_ids": [
+      12,
+      16
+    ],
+    "optional_follow_mask": "0x0800"
+  },
+  "ai_forced_follow": {
+    "action_id": 9,
+    "action_template_address": "0x085454E8",
+    "action_template_halfword": "0x1008",
+    "behavior": "The enemy planner reaches the shared component enumerator. Action 9 carries the forced-follow flag, so the enumerator builds and filters a second action/tool catalog and loops until a second component is selected before returning the candidate component count.",
+    "candidate_to_component_enumerator_call": {
+      "callsite": "0x080831B6",
+      "target": "0x08082354"
+    },
+    "combination_flag_mask": "0x1800",
+    "forced_second_component_mask": "0x1000",
+    "planner_to_candidate_enumerator_call": {
+      "callsite": "0x080855C6",
+      "target": "0x08083040"
+    },
+    "second_component_catalog_call": {
+      "callsite": "0x080824D8",
+      "target": "0x0806FDA4"
+    },
+    "second_component_filter_call": {
+      "callsite": "0x080824E4",
+      "target": "0x08082280"
+    }
+  },
+  "boundary": "This binds the ordered two-component builder, five replacement recipes, encoded tool wildcard, unmatched two-event fallback, and the enemy planner's forced-follow path for action 9. It does not by itself identify menu prompt text or prove every optional first-component policy.",
+  "builder_address": "0x08075B58",
+  "component_count_gate": 2,
+  "component_initializers": {
+    "active_action": "0x0806D85C",
+    "ninja_tool": "0x0806D910"
+  },
+  "encoded_ninja_tool_range": [
+    "0x81",
+    "0x91"
+  ],
+  "evidence_ranges": {
+    "ai_candidate_enumerator": {
+      "end": "0x0808326E",
+      "sha256": "a4aaf575a838b3975ae31290dcc24990ad5a56452adaf30662c549295af22aff",
+      "start": "0x08083040"
+    },
+    "ai_component_enumerator": {
+      "end": "0x08082596",
+      "sha256": "bf084a305073bee7e041ca059519a377eb0a8b01ed3f083fee758fcdbd0665a0",
+      "start": "0x08082354"
+    },
+    "ai_planner": {
+      "end": "0x080855FE",
+      "sha256": "d94ce211153c95b9d6065691179a6887b149c443be27311c8baaf679c8d85b95",
+      "start": "0x080851F8"
+    },
+    "generic_pair_builder": {
+      "end": "0x08075DF8",
+      "sha256": "6ff74d87a0fff0c93d00c21b250c2381cccb2ea188b14962ec6dd34ef960e1e8",
+      "start": "0x08075D10"
+    },
+    "pair_builder_prefix": {
+      "end": "0x08075D12",
+      "sha256": "6d863a3e7462225fa4dba24af9ffedd5237f8bf875bf12226c8d464c9ab65b64",
+      "start": "0x08075B58"
+    },
+    "recipe_match_branch": {
+      "end": "0x08075C34",
+      "sha256": "1d00ebc972e9ce6fdf2d71ea34e0aa8f0007422071bef610bb3f317007d2809b",
+      "start": "0x08075BD0"
+    }
+  },
+  "identity": "battle_action_combination_builder_binding",
+  "matched_recipe_behavior": "replace two selected components with one derived action",
+  "recipes": [
+    {
+      "first_action_id": 9,
+      "result_action_id": 10,
+      "second_action_id": 8
+    },
+    {
+      "first_action_id": 9,
+      "result_action_id": 11,
+      "second_action_id": 5
+    },
+    {
+      "first_action_id": 12,
+      "result_action_id": 13,
+      "second_action_id": 12
+    },
+    {
+      "first_action_id": 16,
+      "result_action_id": 17,
+      "second_action_id": 16
+    },
+    {
+      "first_action_id": 16,
+      "result_action_id": 18,
+      "second_action_id": "ninja_tool_1_through_17"
+    }
+  ],
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "table_address": "0x0853DFB0",
+  "table_literal_address": "0x08075C0C",
+  "table_sha256": "4bc5756627fd8cc0f60230d5394e422d81e63ef4b689241a520e1314fc4f2f6e",
+  "unmatched_pair_behavior": "preserve both selected components and initialize both action events"
+}

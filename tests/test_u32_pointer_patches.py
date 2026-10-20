@@ -97,8 +97,11 @@ class U32PointerPatchTests(unittest.TestCase):
              0x5A5774, "db_menu_ui_unmapped"),
             (generate_resource_pointer_patches, "rom_resource_pointers", "resource_ptr", 20,
              0x596F0C, "db_resource_pointer_unmapped"),
-            (generate_sprite_animation_patches, "rom_sprite_animations", "anim_ptr", 38,
-             0x53F200, "db_sprite_animation_unmapped"),
+            # 2026-10-21 merge: `sprite-animations` is no longer the
+            # falsified 0x53F200 window -- it now points at the **proved**
+            # sprite action table 0x596CCC, so its generator writes there
+            # instead of refusing.  See
+            # test_sprite_animation_wrapper_writes_the_real_action_table.
             (generate_tile_asset_patches, "rom_tile_assets", "tile_ptr", 6,
              0x5A3218, "db_tile_asset_unmapped"),
         ]
@@ -142,3 +145,28 @@ class U32PointerPatchTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+    def test_sprite_animation_wrapper_writes_the_real_action_table(self):
+        """The sprite action table is 0x596CCC with a 16-byte stride."""
+        db = self.make_editor_db()
+        patches = generate_sprite_animation_patches(db)
+        self.assertEqual(len(patches), 8)          # 2 rows x 4 pointer columns
+        self.assertEqual(patches[0]["offset"], 0x596CCC)
+        self.assertEqual(patches[-1]["offset"], 0x596CCC + 16 + 12)
+        self.assertNotIn(0x53F200, {p["offset"] for p in patches})
+
+
+    def test_falsified_alias_writers_refuse_instead_of_corrupting(self):
+        """0x53F138 and 0x596F0C are windows, not table bases."""
+        db = self.make_editor_db()
+        for generator, marker in (
+            (generate_palette_patches, "db_palette_unmapped"),
+            (generate_resource_pointer_patches, "db_resource_pointer_unmapped"),
+        ):
+            with self.subTest(generator=generator.__name__):
+                patches = generator(db)
+                self.assertTrue(patches)
+                self.assertTrue(all(p["type"] == marker for p in patches))
+                self.assertNotIn("bytes", {p["type"] for p in patches})
+
+

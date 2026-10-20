@@ -8,6 +8,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from tools.lib import parse_int
+from tools import text_codec
 
 
 def clean_segment(data: bytes) -> bytes:
@@ -42,7 +43,13 @@ def split_block(data: bytes) -> list[bytes]:
 
 
 def render_text(data: bytes) -> str:
-    return data.decode("shift_jis", errors="replace")
+    """Decode ROM text with the game's own font codes.
+
+    The ROM stores a custom double-byte font code, not Shift-JIS; decoding it
+    as shift_jis produced mojibake.  See notes/font-encoding.md.
+    """
+    mapping, _ = text_codec.load_mapping()
+    return text_codec.decode(data, mapping)
 
 
 def extract_block(buf: bytes, start: int, size: int) -> dict:

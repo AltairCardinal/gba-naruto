@@ -9,7 +9,9 @@ node_modules/
 .vite/
 
 # Build artifacts
-build/
+# build/ 下是运行时产物（探针截图、存档、日志、探针 JSON），可由 tools/ 脚本重建；
+# 2026-10-20 实测本地已累积约 2 GB，不入库。
+build/*
 build/*.gba
 build/*.sav
 build/*-report.json
@@ -18,6 +20,11 @@ build/users/
 build/audio/
 build/tiles/
 
+# 例外：续作开发 ROM 是 README / docs/content-pipeline.md 明确引用的工作流产物
+!build/naruto-sequel-dev.gba
+!build/naruto-sequel-dev.rom-source.md
+!build/naruto-sequel-build-report.json
+
 # Butano build artifacts
 butano-sequel/build/
 butano-sequel/build-*/
@@ -25,7 +32,6 @@ butano-sequel/*.gba
 butano-sequel/*.elf
 butano-sequel/*.map
 butano-sequel/*.sav
-build/butano-agent-benchmark-*/
 
 # Generated data
 *.db
@@ -35,9 +41,9 @@ build/butano-agent-benchmark-*/
 # Tool state
 .ralph/
 .pi/
-.venv/
 
-# 外部参考素材（非本仓库产物，由引用方自带）
+# 本地工具链与外部参考素材（非本仓库产物）
+.venv/
 references/
 
 # 过期音频副本（2026-07-22 实验遗留；Makefile 只用 butano-sequel/audio，
@@ -57,9 +63,12 @@ artifacts/s49-fidelity-20261019-v1/**/*.mp4
 artifacts/macos-mgba-20261019-v1/evidence/sentinel-base.gba
 
 # Experiment outputs
-rom/base.sav
 rom/experiment-*.gba
 rom/experiment-*.sav
+
+# 模拟器状态（非真源：存档与即时状态快照）
+rom/base.sav
+rom/base.ss2
 
 # Secrets
 .env
@@ -73,22 +82,3 @@ credentials.*
 .idea/
 .DS_Store
 Thumbs.db
-
-# Notes generated files
-notes/*.json
-!notes/re-completion-audit.json
-!notes/battle-presentation-script-bindings-20260725.json
-!notes/battle-reaction-family-runtime-20260725.json
-!notes/battle-passive-consumer-bindings-20260725.json
-!notes/battle-continuation-hit-observations-20260725.json
-!notes/battle-continuation-hit-bindings-20260725.json
-!notes/battle-side-start-passive-bindings-20260725.json
-!notes/battlefield-object-runtime-20260726.json
-!notes/reverse-model-benchmark-20260819.json
-!notes/battle-effect-flag-followups-20260726.json
-!notes/battle-command-blocker-bindings-20260727.json
-notes/*.png
-notes/*.txt
-notes/*.bin
-notes/*.log
-notes/*.done

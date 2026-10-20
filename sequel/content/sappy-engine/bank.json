@@ -1,44 +1,55 @@
 {
-  "version": 3,
-  "description": "Real GBA FIFO/DMA audio-engine initialization code, replacing the disproved message-dispatcher identity.",
-  "structure_kind": "gba-fifo-dma-audio-engine-code",
-  "table_offset": 634428,
-  "table_offset_hex": "0x09AE3C",
+  "version": 2,
+  "description": "Sappy 引擎 bank。2026-10-20 裁决：已证伪。0x08079668 是文本/消息显示对象的分派函数，不是 Sappy 音频分发器；本 bank 记录的 command_handlers / event_audio_mapping 结论全部作废。",
+  "table_offset": 497256,
+  "table_offset_hex": "0x079668",
   "entry_count": 1,
-  "entry_size": 128,
+  "entry_size": 32,
   "entry_format": {
+    "description": "First 32 bytes of the verified Thumb audio dispatcher code region.",
     "fields": [
       {
         "offset": 0,
-        "size": 128,
+        "size": 32,
         "name": "code",
         "type": "bytes"
       }
     ]
   },
-  "hardware_registers": [
-    "0x04000060",
-    "0x04000080",
-    "0x04000084",
-    "0x040000A0",
-    "0x040000A4"
-  ],
-  "related_functions": {
-    "sound_id_dispatch": "0x0809AAC0",
-    "song_track_initializer": "0x0809B1F4",
-    "stop_song": "0x0809B2D8",
-    "public_sound_id_wrapper": "0x08061E6C"
-  },
-  "verification": "code_verified",
-  "verification_method": "Literal and Thumb-flow audit proves writes to SOUNDCNT/FIFO/DMA registers and connects public sound-ID wrapper to the song descriptor loader.",
   "entries": [
     {
-      "_index": 0,
-      "_raw_offset": 634428,
-      "rom_offset": 634428,
-      "rom_offset_hex": "0x09AE3C",
-      "code": "30b581b0051c00232b602b490868802292041040002801d028480860284908681040002801d02548086026488022d200111c01800c30018023498f2008800239224a101c0880224a11783f2008404021084310701f49d4229200a818086004311d480860083198221201a818086004311a4808601a48056000931a4a6846291c",
-      "code_hex": "30b581b0051c00232b602b490868802292041040002801d028480860284908681040002801d02548086026488022d200111c01800c30018023498f2008800239224a101c0880224a11783f2008404021084310701f49d4229200a818086004311d480860083198221201a818086004311a4808601a48056000931a4a6846291c"
+      "_raw_offset": 497256,
+      "code": "00b581b00006020ee32a47d8802010400006010e002931d1652a11d0652a02dc",
+      "code_hex": "00b581b00006020ee32a47d8802010400006010e002931d1652a11d0652a02dc",
+      "_index": 0
     }
-  ]
+  ],
+  "verification": "falsified",
+  "call_sites": 15,
+  "unique_functions": 6,
+  "extraction": {
+    "tool": "tools/extract_all_structures.py",
+    "extracted_count": 1,
+    "rom_offset": 497256,
+    "rom_offset_hex": "0x79668"
+  },
+  "falsified": true,
+  "falsification": {
+    "verdict": "falsify",
+    "claimed_address": "0x079668",
+    "reason": "0x08079668 从 0x08599634（忍具名文本指针表，条目是字模编码中文串，如 0x08002288 = '81 7C 81 7C ... 00'）与 0x0859937C 取文本指针，或从状态结构 +0x60/+0x64/+0x68/+0x8C 取，然后调用 0x08066758；0x08066758 先 'bl 0x080655b4' 分配显示对象再 'bl 0x0806626c' 初始化，是显示对象构造而非音频播放。全 ROM 没有任何字面量指向 0x53F138。",
+    "void_claims": [
+      "command_handlers: 0x64-0x67 / 0x80-0xE3 不是 Sappy 音频命令",
+      "related_structures.audio_table: 0x53F138 不是 Sappy 音频表",
+      "related_structures.indexed_command_table: 0x08599634 是忍具名文本指针表",
+      "related_structures.sappy_playback_function: 0x08066758 是显示对象构造函数",
+      "event_audio_mapping: 全部作废"
+    ],
+    "replacement": {
+      "sound_id_table": "0x465B70",
+      "registry_entry": "sound_id_table"
+    },
+    "note": "详见 notes/alias-conflicts-20261020.md"
+  },
+  "notes": "【2026-10-20 裁决后】本 bank 的结论作废，仅保留 entries 里的 32 字节原始码字供追溯；0x079668 是代码区而不是数据表，因此本 bank 没有自己的基址。"
 }

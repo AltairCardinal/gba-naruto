@@ -4,9 +4,9 @@
 
 - 索引 schema：`konoha.reverse-results-index.v1`
 - 逆向工作树：`/Users/altair/github/gba-naruto-reverse`
-- 逆向 commit：`f054f4c1e240c87583f1059b64eb1fc199aada07`
+- 逆向 commit：`821d0937e058245aa7e6d29f23f96c7fc78e7375`
 - 逆向工作树是否有未提交改动：False
-- 条目总数：2204
+- 条目总数：2207
 
 ## 分类统计
 
@@ -14,9 +14,9 @@
 | --- | --- |
 | audio | 5 |
 | battle | 13 |
-| code | 1440 |
+| code | 1442 |
 | map | 33 |
-| other | 240 |
+| other | 241 |
 | overview | 3 |
 | presentation | 29 |
 | residual | 23 |
@@ -64,6 +64,7 @@
 | 同帧收据**完全自洽**：从 dump 重建 = PNG 38,400/38,400 逐像素一致（推翻「PNG 与 dump 不自洽」） | other | reused | `docs/konoha-senki/01-battle-s49.md` | source found |
 | 覆盖层「只换原版高亮图块」被实测否证：缺的是族 0 的常驻网格网（已回滚） | visual | reused | `notes/s49-movegrid-overlay-swap-experiment-20261021.md` | source found |
 | 原版覆盖层 = 每张地图烘焙好的一张静态布局图（BG2 tilemap，16 种签名，212 格会变） | visual | reused | `notes/s49-battlefield-overlay-baked-20261021.md` | source found |
+| 原版单位描边色的每帧写入点：ROM 0x0806A7A0（PRAM 0x0500021E+bank*32，值 (v<<10)|(v<<5)，v=(global&0xF)*2+1） | visual | reused | `notes/s49-pram-outline-write-20261021.md` | source found |
 
 台账无问题：每条都给出了状态与可核验的来源指针，没有条目留在 `missing`。
 
@@ -97,7 +98,7 @@
 | `battle-system-restoration-evidence-20260723` | note | `notes/battle-system-restoration-evidence-20260723.md` | — | 0 | 0 |
 | `battlefield-object-effect-chain-20260802` | note | `notes/battlefield-object-effect-chain-20260802.md` | — | 0 | 0 |
 
-### code（1440）
+### code（1442）
 
 | id | 类型 | 路径 | 提供的结论 | 公式数 | 地址数 |
 | --- | --- | --- | --- | --- | --- |
@@ -593,6 +594,7 @@
 | `patch_sjis` | tool | `tools/patch_sjis.py` | — | 0 | 0 |
 | `populate_bank_json` | tool | `tools/populate_bank_json.py` | — | 0 | 0 |
 | `prepare_rom_verifier_contracts` | tool | `tools/prepare_rom_verifier_contracts.py` | — | 0 | 0 |
+| `prepare_rom_verifier_contracts_win` | tool | `tools/prepare_rom_verifier_contracts_win.py` | — | 0 | 0 |
 | `profile_coverage_build` | tool | `tools/profile_coverage_build.py` | — | 0 | 0 |
 | `profile_table_blocks` | tool | `tools/profile_table_blocks.py` | — | 0 | 0 |
 | `project_resource_guard` | tool | `tools/project_resource_guard.py` | — | 0 | 0 |
@@ -1360,6 +1362,7 @@
 | `test_populate_units_bank` | test | `tests/test_populate_units_bank.py` | — | 0 | 0 |
 | `test_positions_integration` | test | `tests/test_positions_integration.py` | — | 0 | 0 |
 | `test_prepare_rom_verifier_contracts` | test | `tests/test_prepare_rom_verifier_contracts.py` | — | 0 | 0 |
+| `test_prepare_rom_verifier_contracts_win` | test | `tests/test_prepare_rom_verifier_contracts_win.py` | — | 0 | 0 |
 | `test_project_resource_guard` | test | `tests/test_project_resource_guard.py` | — | 0 | 0 |
 | `test_published_call_observer` | test | `tests/test_published_call_observer.py` | — | 0 | 0 |
 | `test_python_version_gate` | test | `tests/test_python_version_gate.py` | — | 0 | 0 |
@@ -1580,7 +1583,7 @@
 | `world-map-page0-pixel-ab-20260801` | note | `notes/world-map-page0-pixel-ab-20260801.md` | — | 0 | 0 |
 | `world-map-runtime-composition-20260729` | note | `notes/world-map-runtime-composition-20260729.md` | — | 0 | 0 |
 
-### other（240）
+### other（241）
 
 | id | 类型 | 路径 | 提供的结论 | 公式数 | 地址数 |
 | --- | --- | --- | --- | --- | --- |
@@ -1761,6 +1764,7 @@
 | `wasm-formation-navigation-probe-20260710` | note | `notes/wasm-formation-navigation-probe-20260710.md` | — | 0 | 0 |
 | `wasm-formation-probe-result-20260710` | note | `notes/wasm-formation-probe-result-20260710.md` | — | 0 | 0 |
 | `wasm-runtime-api-audit-20260710` | note | `notes/wasm-runtime-api-audit-20260710.md` | — | 0 | 0 |
+| `windows-porting-20261020` | note | `notes/windows-porting-20261020.md` | — | 0 | 0 |
 | `writeback-experiment-00076D` | note | `notes/writeback-experiment-00076D.md` | — | 0 | 0 |
 | `build-pipeline` | doc | `docs/build-pipeline.md` | — | 0 | 0 |
 | `butano-konoha-systems-cost` | doc | `docs/butano-konoha-systems-cost.md` | — | 0 | 0 |

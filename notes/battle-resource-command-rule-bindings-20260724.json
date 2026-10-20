@@ -1,0 +1,87 @@
+{
+  "boundary": "The base command formula and transaction boundary are closed for the sampled unmodified units; passive modifiers, status modifiers, scripted scenario overrides, and presentation timing remain separate policies.",
+  "chakra_exchange": {
+    "cost_field": "unit+0x0A",
+    "cost_semantic": "hand_seals",
+    "current_chakra_cap_field": "unit+0x08",
+    "hp_guard": "current_hp > cost",
+    "minimum_remaining_hp": 1,
+    "per_point": true,
+    "preview_is_rolled_back_before_confirmation": true
+  },
+  "identity": "battle_resource_command_rules",
+  "inputs": {
+    "checkpoints": {
+      "battle_13_entry": {
+        "path": "artifacts/runtime-checkpoints/scenario-47-battle-13-entry.ss9",
+        "sha256": "af1c2f79643bbe45bf4f179ea36e4b951bdaa4de70d54aa754c11085c30f8e03"
+      },
+      "battle_15_entry": {
+        "path": "artifacts/runtime-checkpoints/scenario-50-battle-15-entry.ss9",
+        "sha256": "9e74b086029b0873dfae1c6237e1ebf5fbccc4a01b493cdff35981b0bb6c2cc8"
+      },
+      "battle_15_rest_before": {
+        "path": "artifacts/runtime-checkpoints/scenario-50-battle-15-round8-objective28-frontblock.ss9",
+        "sha256": "ef761db1ff4ba3d985150d9ec7d1e75d49e35717d3fe76acaf995ea1673922b8"
+      }
+    },
+    "transaction_bindings": {
+      "identity": "battle_resource_transaction_boundaries",
+      "path": "notes/battle-resource-transaction-bindings-20260723.json",
+      "sha256": "6e6bdde545219997980eb6fe0a6ed798813457f8efa50cabe8bf15aafc77c1a5"
+    }
+  },
+  "rest": {
+    "commit_behavior": "complete_unit_action",
+    "formula": "floor(max_hp / 5)",
+    "max_hp_field": "unit+0x0E",
+    "samples": [
+      {
+        "character_id": 2,
+        "expected_restore": 17,
+        "hp_after": 41,
+        "hp_before": 24,
+        "level": 3,
+        "max_hp": 89
+      },
+      {
+        "character_id": 1,
+        "expected_restore": 30,
+        "hp_after": 47,
+        "hp_before": 17,
+        "level": 6,
+        "max_hp": 152
+      }
+    ]
+  },
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "static_ranges": {
+    "chakra_amount_adjustment": {
+      "end": "0x08074036",
+      "sha256": "89042d133a9f82534998a8e63d5ae6f1eac4e88ccf51603a4de3cbb2b6c9e49e",
+      "start": "0x08073FC8"
+    },
+    "chakra_confirmation_rollback": {
+      "end": "0x080740C0",
+      "sha256": "626fa23193526eb84428a1329b35e7f4683cfe14d283485899cd2185f74705af",
+      "start": "0x08074074"
+    },
+    "chakra_initial_preview": {
+      "end": "0x08073E6C",
+      "sha256": "b1490ea677af7571a4ac2662436f568d0b2fc694447b499b3743a700fdda758a",
+      "start": "0x08073E14"
+    },
+    "resource_event_commit_gate": {
+      "end": "0x0807504E",
+      "sha256": "9854e04ef100fb49a1540da125fc80c2e2fb80a7958fbbfd5edc3d59df6fa3a4",
+      "start": "0x0807503C"
+    },
+    "rest_confirmation": {
+      "end": "0x080740FA",
+      "sha256": "16f5256d1e464777948e27ad18beaa18cfdb63f3e24ae2cd54c4616960b30475",
+      "start": "0x080740D4"
+    }
+  }
+}

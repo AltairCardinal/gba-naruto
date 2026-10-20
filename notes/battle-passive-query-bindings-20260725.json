@@ -1,0 +1,536 @@
+{
+  "boundary": "All 45 progression rows and the generic lookup are code-verified. Only consumers independently bound to a target type may assign gameplay meaning.",
+  "identity": "battle_passive_query",
+  "progression_table": {
+    "address": "0x085459C8",
+    "entry_count": 45,
+    "entry_size": 12,
+    "sha256": "4746ef6114975d356d893267d1bd78e5e7c49a0cc705b8c721acaf7d1664aafd"
+  },
+  "query_contract": {
+    "inactive_passive_ids": [
+      0
+    ],
+    "inactive_stored_levels": [
+      0,
+      255
+    ],
+    "return_value": "slot_index_or_0xFF",
+    "selection": "first_active_slot_with_matching_target_type",
+    "value_a": "base_a + per_level_a * (stored_level - 1)",
+    "value_b": "base_b + per_level_b * (stored_level - 1)"
+  },
+  "query_function": {
+    "end_inclusive": "0x0806DE15",
+    "sha256": "1a129adf0d5d492f5cbd8531c9bd2b6e49934b56879b2163ee9971f6ccc04681",
+    "size": 114,
+    "start": "0x0806DDA4"
+  },
+  "records": [
+    {
+      "base_a": 0,
+      "base_b": 0,
+      "passive_id": 0,
+      "per_level_a": 0,
+      "per_level_b": 0,
+      "raw_hex": "000000000000000000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 0
+    },
+    {
+      "base_a": 30,
+      "base_b": 0,
+      "passive_id": 1,
+      "per_level_a": 30,
+      "per_level_b": 0,
+      "raw_hex": "01001e0000001e0000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 1
+    },
+    {
+      "base_a": 1,
+      "base_b": 0,
+      "passive_id": 2,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "030001000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 3
+    },
+    {
+      "base_a": 3,
+      "base_b": 0,
+      "passive_id": 3,
+      "per_level_a": 2,
+      "per_level_b": 0,
+      "raw_hex": "040003000000020000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 4
+    },
+    {
+      "base_a": 5,
+      "base_b": 0,
+      "passive_id": 4,
+      "per_level_a": 4,
+      "per_level_b": 0,
+      "raw_hex": "050005000000040000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 5
+    },
+    {
+      "base_a": 4,
+      "base_b": 0,
+      "passive_id": 5,
+      "per_level_a": 3,
+      "per_level_b": 0,
+      "raw_hex": "070004000000030000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 7
+    },
+    {
+      "base_a": 1,
+      "base_b": 0,
+      "passive_id": 6,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "090001000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 9
+    },
+    {
+      "base_a": 1,
+      "base_b": 0,
+      "passive_id": 7,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "0a0001000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 10
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 8,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "0b000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 11
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 9,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "0c000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 12
+    },
+    {
+      "base_a": 2,
+      "base_b": 0,
+      "passive_id": 10,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "0d0002000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 13
+    },
+    {
+      "base_a": 2,
+      "base_b": 0,
+      "passive_id": 11,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "0f0002000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 15
+    },
+    {
+      "base_a": 2,
+      "base_b": 0,
+      "passive_id": 12,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "110002000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 17
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 13,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "12000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 18
+    },
+    {
+      "base_a": 5,
+      "base_b": 0,
+      "passive_id": 14,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "130005000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 19
+    },
+    {
+      "base_a": 30,
+      "base_b": 0,
+      "passive_id": 15,
+      "per_level_a": 30,
+      "per_level_b": 0,
+      "raw_hex": "14001e0000001e0000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 20
+    },
+    {
+      "base_a": 5,
+      "base_b": 0,
+      "passive_id": 16,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "150005000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 21
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 17,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "16000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 22
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 18,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "17000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 23
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 19,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "18000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 24
+    },
+    {
+      "base_a": 20,
+      "base_b": 0,
+      "passive_id": 20,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "190014000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 25
+    },
+    {
+      "base_a": 2,
+      "base_b": 0,
+      "passive_id": 21,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "1a0002000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 26
+    },
+    {
+      "base_a": 2,
+      "base_b": 0,
+      "passive_id": 22,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "1b0002000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 27
+    },
+    {
+      "base_a": 2,
+      "base_b": 0,
+      "passive_id": 23,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "1c0002000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 28
+    },
+    {
+      "base_a": 200,
+      "base_b": 0,
+      "passive_id": 24,
+      "per_level_a": 50,
+      "per_level_b": 0,
+      "raw_hex": "1d00c8000000320000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 29
+    },
+    {
+      "base_a": 25,
+      "base_b": 100,
+      "passive_id": 25,
+      "per_level_a": 5,
+      "per_level_b": 50,
+      "raw_hex": "1e0019006400050032000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 30
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 26,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "1f000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 31
+    },
+    {
+      "base_a": 1,
+      "base_b": 0,
+      "passive_id": 27,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "0a0001000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 10
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 28,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "0b000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 11
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 29,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "02000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 2
+    },
+    {
+      "base_a": 1,
+      "base_b": 0,
+      "passive_id": 30,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "030001000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 3
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 31,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "10000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 16
+    },
+    {
+      "base_a": 20,
+      "base_b": 0,
+      "passive_id": 32,
+      "per_level_a": 10,
+      "per_level_b": 0,
+      "raw_hex": "1000140000000a0000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 16
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 33,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "0c000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 12
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 34,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "0c000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 12
+    },
+    {
+      "base_a": 10,
+      "base_b": 10,
+      "passive_id": 35,
+      "per_level_a": 5,
+      "per_level_b": 5,
+      "raw_hex": "20000a000a00050005000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 32
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 36,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "0e000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 14
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 37,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "06000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 6
+    },
+    {
+      "base_a": 1,
+      "base_b": 0,
+      "passive_id": 38,
+      "per_level_a": 1,
+      "per_level_b": 0,
+      "raw_hex": "0a0001000000010000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 10
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 39,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "0b000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 11
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 40,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "10000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 16
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 41,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "06000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 6
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 42,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "08000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 8
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 43,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "08000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 8
+    },
+    {
+      "base_a": 10,
+      "base_b": 0,
+      "passive_id": 44,
+      "per_level_a": 5,
+      "per_level_b": 0,
+      "raw_hex": "0c000a000000050000000000",
+      "reserved1": 0,
+      "reserved_a": 0,
+      "target_type": 12
+    }
+  ],
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "slot_layout": {
+    "base_offset": "0x50",
+    "count": 24,
+    "passive_id_offset": 0,
+    "stored_level_offset": 1,
+    "stride": 4
+  }
+}

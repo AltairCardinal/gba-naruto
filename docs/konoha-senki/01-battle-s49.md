@@ -4578,3 +4578,19 @@ PNG SHA-256（已独立复核）：
 ⇒ 也解释了「dither mask」旧规则：同底色对应多种覆盖色，是因为布局图不同区域用了不同族。
 ⇒ **重制侧的正确做法**：把 `artifacts/s49-original-battlefield-overlay-v1/bg2-tilemap-field.bin`
 （2048 B，烘焙好的静态布局图）作为**静态资产**接进覆盖层，再用重制自己的状态算那 212 格。
+
+### 4.3.105 第 25 轮：**描边色的每帧写入点已定位并逐字节坐实（`0x0806A7A0`）**
+
+| 项 | 值 |
+| --- | --- |
+| 函数 | ROM **`0x0806A7A0`**（`push {lr}` 开头），落笔 **`0x0806A7EE`**（`strh r1, [r0]`） |
+| 地址 | **PRAM `0x0500021E + bank*32`**（OBJ 调色板 index 15）；bank 来自 `ldrb r0,[r3,#0x12]` |
+| 值 | **`(v << 10) | (v << 5)`**，`v = (global & 0xF) * 2 + 1` ⇒ **1,3,…,31 的 32 帧三角波** |
+| 前置条件 | `ldrh r0,[r3,#0x14] <= 3` 且单位记录首字 bit3 == 0，否则跳过 |
+| 工具 | `tools/export_rom_pram_halfword_writes.py`（普查 ROM 里 912 处 PRAM 字面量、142 个不同值，逐个解出 LDR 与所属函数） |
+| 门禁 | `tests/test_rom_pram_halfword_writes.py`（7 项，含「三角波计算必须在收据自己的字节里可见」） |
+| 收据 | `artifacts/rom-pram-halfword-writes-v1/pram-halfword-writes.json` |
+
+⇒ ⇒ **S49 单位动画那条「每帧 1 px 差异」的根已经找到**：重制侧要 1:1，必须复刻这个
+**每帧改写描边色**的三角波（帧序第 17 轮已闭合，但描边色一直没做 ⇒ 这正是
+「帧序对上了、像素仍差」的原因）。

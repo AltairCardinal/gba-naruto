@@ -31,40 +31,101 @@
 
 - **ARM address**: `0x0853D910`
 - **File offset**: `0x53D910`
-- **Entry size**: **32 bytes** (CORRECTED from prior 16-byte estimate)
-- **Total entries**: 8 valid entries (indices 0–7)
-- **Index formula**: `entry_ptr = 0x0853D910 + 4 + chapter_id * 32`
+- **Entry size**: **32 bytes**
+- **Total entries**: **47 valid entries (indices 0–46)**; index 47 onward is garbage
+  (`raw_width = 513`, pointers outside ROM)
+- **Index formula**: `entry_ptr = 0x0853D910 + chapter_id * 32`
+  (the reader at `0x08069002` masks the index to 8 bits and computes
+  `index << 5` at `0x08069044`)
 
-> The `+4` offset skips an unknown 4-byte value at the table base.
-> This was confirmed by disassembling `0x08068FF0`:
-> `lsls r6, r2, #5` (multiply by 32) and `adds r0, r5, #4` (skip header).
+> **CORRECTED 2026-10-20** — 本文件原先写"8 valid entries (0–7)"，是**旧误判**。
+> 本轮用 LZ77 解压长度对**全部 47 条**逐条自证（见下），每一条都满足
+> 4 个等式，无一例外 ⇒ 表长是 47，不是 8。
+>
+> 此前本文件与 `notes/chapter-flow-format.md` 各自给出一套互相矛盾的 32 字节布局
+> （一份把 palette 放在 +0x10、flags 在 +0x18；另一份把宽高放在 +0x00 且把 gfx
+> 放在 +0x04）。两套都**与实测不符**。
+> 正确布局已由 `tools/probe_external_re_claims.py` 在本仓库 ROM 上按
+> LZ77 解压长度逐字段验证，详见 `notes/external-konoha-workshop-gap-20261020.md` §2.1。
 
-**Entry format (32 bytes = 8 × u32) — CORRECTED 2026-04-01:**
+**Entry format (32 bytes) — CORRECTED 2026-10-20:**
 | Offset | Type | Name | Description |
 |---|---|---|---|
-| +0x00 | u32 | tile_gfx_ptr | ROM pointer to LZ77-compressed tile graphics (4bpp) |
-| +0x04 | u32 | tilemap_ptr | ROM pointer to LZ77-compressed tilemap layout |
-| +0x08 | u32 | tilemap_alt_ptr | ROM pointer to LZ77-compressed alternate tilemap |
-| +0x0C | u32 | extra_ptr | ROM pointer to optional extra data (0 = absent) |
-| +0x10 | u32 | palette_ptr | ROM pointer to LZ77-compressed BG palette (actual BGR555 colors; mask bit15) |
-| +0x14 | u32 | palette2_ptr | ROM pointer to LZ77-compressed attribute data (all 0x8000, not colors) |
-| +0x18 | u32 | flags | 0x01=normal, 0x02=alt mode, 0x102=special |
-| +0x1C | u16+u16 | width, height | Map dimensions in tiles (width=bits 15-0, height=bits 31-16) |
+| +0x00 | u16 | raw_width | 原始宽（÷4 = 图块宽） |
+| +0x02 | u16 | raw_height | 原始高（÷2 = 图块高） |
+| +0x04 | u32 | tile_gfx_ptr | ROM 指针 → LZ77 压缩 tile 图形 (4bpp) |
+| +0x08 | u32 | palette_ptr | ROM 指针 → LZ77 压缩调色板 (解压 384 字节) |
+| +0x0C | u32 | layer0_ptr | ROM 指针 → LZ77 压缩图块层 0 (tilemap) |
+| +0x10 | u32 | layer1_ptr | ROM 指针 → LZ77 压缩图块层 1（可为 0） |
+| +0x14 | u32 | metatile_ptr | ROM 指针 → LZ77 压缩组合图块表（8 字节/项） |
+| +0x18 | u32 | terrain_ptr | ROM 指针 → LZ77 压缩通行值表（每格 u16） |
+| +0x1C | u8 | background_id | 剧情底图 ID（story background id） |
 
-> **Prior error**: earlier docs had `u16+u16 dim` at +0x00 and `flags` at +0x18. Corrected by
-> inspecting actual ROM data at 0x53D914 with `extract_tileset.py` (2026-04-01).
+> **验证依据**：entry 0 的 terrain 解压长度 = **1472 = 23 × 32 × 2**，
+> 与 图块宽(92/4=23) × 图块高(64/2=32) × 每格 2 字节 精确吻合；
+> metatiles 解压长度 = 6160 = 770 × 8 字节，吻合 8 字节/项。
+> entry 1、entry 3 同样吻合。
+>
+> **2026-10-20 补：47 条全部自证。** 每条都满足
+> `len(layer0) = 2 × cells × 2`、`len(layer1) ∈ {0, 2 × cells × 2}`、
+> `len(metatile) ≡ 0 (mod 8)`、`len(terrain) = cells × 2`
+> （cells = (raw_width>>2) × (raw_height>>1)）。逐条数据见
+> `notes/evidence/mechanism-sprite-background-20261020.md` §4.4。
 
-**Valid scenarios (IDs 0–7) — CORRECTED dims:**
-| ID | W×H tiles | tile_gfx (file) | tilemap (file) | palette (file) | flags |
-|---|---|---|---|---|---|
-| 0 | 60×30 | 0x0B9F80 | 0x0BD608 | 0x0BE10C | 0x01 |
-| 1 | 36×36 | 0x0BF318 | 0x0C166C | 0x0C18EC | 0x01 |
-| 2 | 36×40 | 0x0C1CF8 | 0x0C416C | 0x0C43E4 | 0x01 |
-| 3 | 36×40 | 0x0C4880 | 0x0C5F24 | 0x0C6140 | 0x01 |
-| 4 | 36×46 | 0x0C6450 | 0x0C8454 | 0x0C86D8 | 0x01 |
-| 5 | 60×32 | 0x0C8AF4 | 0x0CAA94 | 0x0CAD38 | 0x01 |
-| 6 | 60×32 | 0x0CB18C | 0x0CCB54 | 0x0CCE1C | 0x02 |
-| 7 | 60×32 | 0x0CD260 | 0x0D0054 | 0x0D0638 | 0x102 |
+### 原生读取器 `0x08068FF0`（2026-10-20 补）
+
+```
+0x08069040: ldr  r5, [pc, #0x98]     ; r5 = 0x0853D910（表基址）
+0x08069044: lsls r6, r2, #5          ; index * 32
+0x0806904A: ldr  r0, [r0]            ; entry+0x04 tile_gfx
+0x08069056: bl   #0x809c0e8          ; LZ77UnCompVram → 0x06000000 + charblock*0x4000
+0x08069060: ldr  r0, [r0]            ; entry+0x08 palette
+0x08069066: bl   #0x809c0e8          ; LZ77UnCompVram → 0x05000000
+0x08069070: ldr  r0, [r0]            ; entry+0x0C layer0
+0x08069076: bl   #0x809c0ec          ; LZ77UnCompWram → 0x0201BE2C
+0x08069080: ldr  r2, [r0]            ; entry+0x10 layer1
+0x08069082: cmp  r2, #0
+0x08069084: beq  #0x0806909e         ; ← NULL ⇒ 跳过整个 layer 1
+0x08069096: adds r1, r4, r7          ; layer1 → 0x0201BE2C + 0x1000
+0x0806909A: bl   #0x809c0ec
+0x080690A4: ldr  r0, [r0]            ; entry+0x14 metatile
+0x080690A8: bl   #0x809c0ec          ; LZ77UnCompWram → 0x0201DE2C
+```
+
+**「没有 layer 1」的判据 = `layer1_ptr` 是 NULL 指针（0）**，没有别的哨兵值。
+47 条里 14 条非空（0,7,8,9,10,11,12,21,22,23,31,32,34,35），33 条为 0。
+
+**metatile 缓冲与容量**：
+
+| 项 | 值 | 证据 |
+|---|---|---|
+| 缓冲地址 | WRAM `0x0201DE2C` | `0x080690A6` 的字面量 |
+| 条目大小 | **8 字节**（4 × u16 图块描述符 = 2×2 图块） | `0x08068F38 lsls r0, r0, #3` |
+| 容量 | **2048 个 metatile** | 缓冲上界 0x4000 字节（见下） |
+| 实测最大用量 | **770**（entry 0） | 47 条的 metatile 解压长度全是 8 的整数倍 |
+
+缓冲的两端由**原生代码写过的其它结构**夹出：
+下方是 layer 平面区（`0x0201BE2C`，layer1 在 `+0x1000`），
+上方是地图格表 `0x02021E2C`（`0x08080FC8` / `0x08080FD4` 写入），
+⇒ metatile 缓冲 = `0x0201DE2C .. 0x02021E2C` = **0x4000 = 16384 字节** = 2048 个 metatile。
+
+> ⚠️ 2048 是**由上下两块原生结构夹出来的上界**，不是从一条显式的分配语句读出来的；
+> 本轮未找到对该缓冲做 memset / 显式分配的代码。
+
+**Sample entries (IDs 0–7) — dims CORRECTED 2026-10-20**（表里实际有 47 条有效项，这里只列前 8 条作为样本）:
+| ID | 图块 W×H | tile_gfx (file) | palette (file) | layer0 (file) | metatiles (file) | terrain (file) | +0x1C |
+|---|---|---|---|---|---|---|---|
+| 0 | 23×32 | 0x0B9F80 | 0x0BD608 | 0x0BD70C | 0x0BE10C | 0x0BF250 | 1 |
+| 1 | 15×15 | 0x0BF318 | 0x0C166C | 0x0C1710 | 0x0C18EC | 0x0C1CAC | 1 |
+| 2 | 9×18 | 0x0C1CF8 | 0x0C416C | 0x0C4210 | 0x0C43E4 | 0x0C4844 | 1 |
+| 3 | 9×20 | 0x0C4880 | 0x0C5F24 | 0x0C5FC8 | 0x0C6140 | 0x0C6410 | 1 |
+| 4 | 9×20 | 0x0C6450 | 0x0C8454 | 0x0C84F8 | 0x0C86D8 | 0x0C8ABC | 1 |
+| 5 | 9×23 | 0x0C8AF4 | 0x0CAA94 | 0x0CAB30 | 0x0CAD38 | 0x0CB138 | 1 |
+| 6 | 15×16 | 0x0CB18C | 0x0CCB54 | 0x0CCC28 | 0x0CCE1C | 0x0CD21C | 2 |
+| 7 | 15×16 | 0x0CD260 | 0x0D0054 | 0x0D0154 | 0x0D041C | 0x0D0638 | 2 |
+
+> 旧版本记录的 "60×30 / 36×36 / 36×40 / 36×46 / 60×32" 是把 raw 宽高直接当图块尺寸，
+> 以及把字段整体错位两格造成的，**不要再引用**。
 
 ### ptr1 Data Format (Tilemap)
 
@@ -115,17 +176,25 @@ Located at ROM `0x0853D848` (file `0x53D848`). Contains `{u32 wram_addr, u32 siz
 
 ### Unit Structure
 
-- **Size**: 236 bytes (0xEC) per unit
-- **Max units**: ~25 (6084 / 236)
+- **Size**: **468 bytes (0x1D4)** per unit — CORRECTED 2026-10-20
+  （此前本文件写 236 字节 / `0x02024294` 为 234×25 数组；实测
+  `0x02024294 - 0x020240C0 = 0x1D4 = 468`，`docs/sequel-roadmap.md`
+  与 `tools/extract_positions.py` 早已采用 468）
+- **Max units**: 12（`0x020240C0 + n*468`，n = 1..12）
 - **Loop bound**: Code at `0x06D46C` iterates 12 units
 
-Known field offsets:
+Known field offsets (battle slot, base `0x020240C0 + n*468`):
 | Offset | Type | Evidence |
 |---|---|---|
-| +0x00 | u8 | Existence flag (==0 means empty) |
-| +0xBC (188) | u8 | Copy source for offset 0x00 |
-| +0xD0 (208) | u32 | Non-zero check |
-| +0xD4 (212) | u8 | Index value |
+| +0x00 | u8 | 角色 ID（0 = 空位） |
+| +0x01 | u8 | 等级 |
+| +0x02..0x04 | u8×3 | 三维数值（可加成，敌方上限 99） |
+| +0x0C..0x0D | u16 | 当前 HP |
+| +0x0E..0x0F | u16 | 最大 HP |
+| +0xC0 (192) | u8 | 标志位（bit4 被判定逻辑使用） |
+| +0xC4 (196) | u8 | X 坐标 |
+| +0xC5 (197) | u8 | Y 坐标 |
+| +0xCC (204) | u8 | 守卫/无敌标志 |
 
 ### Battle State Machine Event Labels
 
@@ -154,6 +223,13 @@ Located at ROM `0x12EE00-0x12FF00`:
 
 **Recommended**: Use mGBA Qt with Xvfb and Lua scripting, or save a savestate during battle for headless analysis.
 
+> **2026-10-20 方法论线索**：上述"无法注入按键"是 **CLI 调试器工具层限制**，不是游戏本身的限制。
+> 第三方包用 **mGBA 0.11 的 C API**（`tools/gba_probe.c`，链接 mGBA 头文件与库，
+> 编译时 `-DENABLE_DIRECTORIES`）在 C 层直接驱动模拟器，**可以注入按键**，
+> 并把证据分为：正常按键操作 / 脚本协程注入事件 / 关卡对象生成定点 /
+> 学习函数定点 / SAV 冷启动。移植思路见
+> `notes/external-konoha-workshop-gap-20261020.md` §3 P3-1。
+
 ## Investigation History
 
 1. ASCII string search found battle state machine event labels
@@ -162,6 +238,7 @@ Located at ROM `0x12EE00-0x12FF00`:
 4. Code analysis identified unit struct size (236 bytes), battle data array layout
 5. Watchpoint test: `0x020240C0` first write is BIOS zeroing WRAM during boot
 6. Battle scenario config table located at `0x0853D910` with 8 valid entries
+   (⚠️ 2026-10-20：条目 32 字节字段顺序已按 LZ77 解压长度重新验证并更正，见上文)
 7. Unit ID mapping table confirmed at `0x0853F298` (u16[64])
 8. ptr2 data confirmed as LZ77-compressed (decompressed size = 384 bytes)
 9. 10000-frame headless advance: battle WRAM remains zeroed (game never reaches battle)

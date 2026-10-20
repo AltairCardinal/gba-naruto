@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+import warnings
 from pathlib import Path
 
 from tools.import_dialogue_var import import_dialogue_variable
@@ -9,6 +10,17 @@ ROOT = Path(__file__).resolve().parent.parent
 
 
 class DialogueVariableImportTest(unittest.TestCase):
+    """Allocation / pointer-redirect contract of the variable-length path.
+
+    2026-10-21 merge: the tool moved from the legacy ``cp932`` encoder to the
+    game's own font codes, and the fail-closed guards (pointer mismatch,
+    non-0xFF free space, free-space exhaustion) were restored from the
+    sequel branch.  This test pins the *allocation* behaviour, which is
+    orthogonal to the encoder, so it keeps ``cp932`` in the fixture for
+    readable expected bytes; the encoder itself is covered by
+    ``tests/test_text_writeback.py``.
+    """
+
     def fixture(self, text):
         tmp = tempfile.TemporaryDirectory(); self.addCleanup(tmp.cleanup)
         root = Path(tmp.name)
@@ -25,9 +37,17 @@ class DialogueVariableImportTest(unittest.TestCase):
         rom[0x200:0x300] = b'\xFF' * 0x100
         return bp, cp, bytes(rom)
 
+    def import_patches(self, bp, cp, rom, free_space_end=0x300):
+        # The fixture uses the legacy cp932 encoding on purpose (readable
+        # expected bytes); the font-code codec warns about that.
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore", DeprecationWarning)
+            return import_dialogue_variable(
+                bp, cp, 0x200, free_space_end=free_space_end, rom=rom)
+
     def test_long_text_allocates_aligned_data_and_redirects_pointer(self):
         bp, cp, rom = self.fixture('ABCDE')
-        patches = import_dialogue_variable(bp, cp, 0x200, 0x300, rom=rom)
+        patches = self.import_patches(bp, cp, rom)
         self.assertEqual([p['type'] for p in patches], ['bytes', 'pointer_redirect'])
         self.assertEqual(patches[0]['offset'], 0x200)
         self.assertEqual(bytes.fromhex(patches[0]['after_hex']), b'ABCDE\x00')
@@ -36,7 +56,7 @@ class DialogueVariableImportTest(unittest.TestCase):
 
     def test_short_text_stays_in_place(self):
         bp, cp, rom = self.fixture('XY')
-        patches = import_dialogue_variable(bp, cp, 0x200, 0x300, rom=rom)
+        patches = self.import_patches(bp, cp, rom)
         self.assertEqual(len(patches), 1)
         self.assertEqual(patches[0]['offset'], 0x100)
         self.assertEqual(patches[0]['after_hex'], '58590000')
@@ -45,12 +65,12 @@ class DialogueVariableImportTest(unittest.TestCase):
         bp, cp, rom = self.fixture('ABCDE')
         bad_pointer = bytearray(rom); bad_pointer[0x80] ^= 1
         with self.assertRaisesRegex(ValueError, 'base pointer mismatch'):
-            import_dialogue_variable(bp, cp, 0x200, 0x300, rom=bytes(bad_pointer))
+            self.import_patches(bp, cp, bytes(bad_pointer))
         bad_space = bytearray(rom); bad_space[0x250] = 0
         with self.assertRaisesRegex(ValueError, 'not entirely 0xFF'):
-            import_dialogue_variable(bp, cp, 0x200, 0x300, rom=bytes(bad_space))
+            self.import_patches(bp, cp, bytes(bad_space))
         with self.assertRaisesRegex(ValueError, 'exhausted'):
-            import_dialogue_variable(bp, cp, 0x200, 0x205, rom=rom)
+            self.import_patches(bp, cp, rom, free_space_end=0x205)
 
 
 if __name__ == '__main__':

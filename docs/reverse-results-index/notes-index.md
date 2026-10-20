@@ -6,18 +6,18 @@
 
 | 桶 | 含义 | 条数 | 占比 |
 | --- | --- | ---: | ---: |
-| `implemented_in_code` | 本树构建链已引用，附消费文件与行号 | 21 | 4.8% |
+| `implemented_in_code` | 本树构建链已引用，附消费文件与行号 | 28 | 6.4% |
 | `not_applicable` | 与本复刻无关，附理由 | 43 | 9.9% |
 | `missing_evidence` | 证据未闭合，回逆向侧补齐 | 19 | 4.4% |
-| `needs_guard` | 已给出原版结论，尚未转成门禁——M1/M2 的原料 | 339 | 77.9% |
+| `needs_guard` | 已给出原版结论，尚未转成门禁——M1/M2 的原料 | 333 | 76.4% |
 | `needs_human_review` | 自动判读不了，附原因 | 13 | 3.0% |
 
-- 合计：**435** 个 note 文件
-- 其中不重复的 note id：397（证据包内嵌的快照与顶层同名，计数以文件为单位）
-- 逆向 commit：`f054f4c1e240c87583f1059b64eb1fc199aada07`
-- 扫描文件数：4240
+- 合计：**436** 个 note 文件
+- 其中不重复的 note id：398（证据包内嵌的快照与顶层同名，计数以文件为单位）
+- 逆向 commit：`821d0937e058245aa7e6d29f23f96c7fc78e7375`
+- 扫描文件数：4358
 
-- `needs_guard` 里有 **20** 条已经在 `tests/` 被引用过，**319** 条连测试都没有引用 ⇒ P2 的真实分母是后者。⚠️ **上界不是真值**：`tests/` 里的引用可能是**文档类测试**而不是行为门禁，所以「已被引用」只能当作「可能已有门禁」的上界，逐条判定仍需人看。
+- `needs_guard` 里有 **19** 条已经在 `tests/` 被引用过，**314** 条连测试都没有引用 ⇒ P2 的真实分母是后者。⚠️ **上界不是真值**：`tests/` 里的引用可能是**文档类测试**而不是行为门禁，所以「已被引用」只能当作「可能已有门禁」的上界，逐条判定仍需人看。
 
 ## 索引前的引用状态
 
@@ -25,10 +25,10 @@
 
 | 索引前状态 | 条数 |
 | --- | ---: |
-| `build` | 21 |
+| `build` | 28 |
 | `local_artifact` | 3 |
-| `test` | 27 |
-| `doc` | 174 |
+| `test` | 26 |
+| `doc` | 169 |
 | `none` | 210 |
 
 ## 按类别 × 桶
@@ -36,42 +36,49 @@
 | 类别 | `implemented_in_code` | `not_applicable` | `missing_evidence` | `needs_guard` | `needs_human_review` | 合计 |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: |
 | audio | 0 | 0 | 0 | 4 | 0 | 4 |
-| battle | 2 | 0 | 0 | 8 | 0 | 10 |
+| battle | 3 | 0 | 0 | 7 | 0 | 10 |
 | map | 0 | 0 | 0 | 18 | 0 | 18 |
-| other | 14 | 29 | 4 | 109 | 13 | 169 |
+| other | 18 | 29 | 4 | 106 | 13 | 170 |
 | overview | 0 | 0 | 0 | 1 | 0 | 1 |
 | presentation | 0 | 0 | 0 | 15 | 0 | 15 |
 | residual | 0 | 0 | 0 | 10 | 0 | 10 |
-| rom | 0 | 14 | 15 | 94 | 0 | 123 |
-| runtime | 0 | 0 | 0 | 8 | 0 | 8 |
+| rom | 1 | 14 | 15 | 93 | 0 | 123 |
+| runtime | 1 | 0 | 0 | 7 | 0 | 8 |
 | scenario | 3 | 0 | 0 | 14 | 0 | 17 |
 | visual | 2 | 0 | 0 | 58 | 0 | 60 |
 
-## `implemented_in_code`（21）
+## `implemented_in_code`（28）
 
 | note | 类别 | 消费指针 | 引用强度 |
 | --- | --- | --- | --- |
-| `notes/addresses.md` | other | `sequel/content/battle-config/ninja-tool-identities.json:3`、`sequel/content/text/sjis-to-tile-addr-20260703.json:6`、`tools/README.md:484` | code |
-| `notes/battle-config-format.md` | battle | `tools/mgba_trace_chapter_init.lua:12` | code |
+| `notes/addresses.md` | other | `sequel/content/battle-config/ninja-tool-identities.json:3`、`sequel/content/items/bank.json:56`、`sequel/content/story-c/bank.json:128` | code |
+| `notes/battle-config-format.md` | battle | `tools/import_battle_config.py:23`、`tools/import_battle_config.py:68`、`tools/import_battle_config.py:165` | code |
+| `notes/battle-config-unsafe-template-fix-20260710.md` | battle | `tools/completion_audit.py:716` | code |
 | `notes/battle-system-restoration-evidence-20260723.md` | battle | `sequel/content/battle_controller_states.json:431`、`sequel/content/battle_controller_states.json:1413`、`sequel/content/battle_controller_transitions.json:627` | code |
 | `notes/character-definition-source-20260711.md` | visual | `sequel/content/units/bank.json:19984`、`tools/extract_character_definitions.py:4`、`tools/extract_character_definitions.py:190` | code |
 | `notes/character-runtime-unit-oam-bindings-20260730.md` | visual | `tools/butano/measure_s49_rule_ai_facing.py:26` | code |
 | `notes/dialogue-font-table-discovery-20260703.md` | other | `sequel/content/fonts/bank.json:10` | code |
+| `notes/dialogue-format.md` | other | `tools/konoha_font.py:7` | code |
 | `notes/dialogue-render-analysis.md` | other | `tools/analyze_dialogue_render.py:29` | code |
 | `notes/dialogue-watch-record-bank.md` | other | `tools/mgba_trace_dialogue_writes.lua:48` | code |
 | `notes/dialogue-watch-sb-struct.md` | other | `tools/mgba_trace_dialogue_writes.lua:40` | code |
 | `notes/dialogue-watch-vram-glyph.md` | other | `tools/mgba_trace_dialogue_writes.lua:32` | code |
 | `notes/dialogue-watch-vram-tilemap.md` | other | `tools/mgba_trace_dialogue_writes.lua:24` | code |
-| `notes/dialogue-watch-wram.md` | other | `tools/README.md:168`、`tools/README.md:170`、`tools/mgba_trace_dialogue_writes.lua:16` | code |
-| `notes/free-space.md` | other | `tools/import_chapter_scripts.py:50`、`tools/import_chapter_scripts.py:52`、`tools/import_dialogue_var.py:75` | code |
-| `notes/macos-intel-runtime-preflight-20260715.md` | other | `tools/README.md:280` | markdown-mention |
+| `notes/dialogue-watch-wram.md` | other | `tools/README.md:699`、`tools/README.md:701`、`tools/mgba_trace_dialogue_writes.lua:16` | code |
+| `notes/free-space.md` | other | `tools/import_chapter_scripts.py:50`、`tools/import_chapter_scripts.py:52` | code |
+| `notes/macos-intel-runtime-preflight-20260715.md` | other | `tools/README.md:811` | markdown-mention |
 | `notes/ninja-tool-addresses.md` | other | `sequel/content/battle-config/ninja-tool-identities.json:3` | code |
 | `notes/positions-rom-source-20260710.md` | other | `tools/extract_positions.py:4`、`tools/extract_positions.py:266` | code |
-| `notes/re-completion-audit.md` | other | `tools/audit_re_completion.py:292`、`tools/audit_re_completion.py:293` | code |
+| `notes/re-completion-audit.md` | other | `tools/audit_re_completion.py:292`、`tools/audit_re_completion.py:293`、`tools/completion_audit.py:6` | code |
+| `notes/resource-locations.md` | other | `tools/README.md:138`、`tools/completion_audit.py:131`、`tools/completion_audit.py:132` | code |
+| `notes/rom-gpu-copy-queue-inventory-20260730.md` | rom | `tools/export_rom_pram_halfword_writes.py:9` | code |
+| `notes/runtime-verification-gates-20260710.md` | runtime | `tools/completion_audit.py:16`、`tools/mgba_probe/navigate.py:5`、`tools/mgba_probe/runtime_probe.py:6` | code |
 | `notes/scenario-45-safe-resume-20260719.md` | scenario | `sequel/content/battle_controller_transitions.json:437`、`sequel/content/battle_controller_transitions.json:439`、`sequel/content/battle_controller_transitions.json:465` | code |
 | `notes/scenario-49-battle-14-runtime-20260720.md` | scenario | `butano-sequel/benchmark/tests/test_battle_result_settlement.cpp:5`、`tools/butano/verify_s49_battle_roster.py:103`、`tools/butano/verify_s49_battle_roster.py:113` | code |
 | `notes/scenario-50-battle-15-runtime-20260720.md` | scenario | `tools/analyze_battle_resource_command_rules.py:235` | code |
-| `notes/similar-tables.md` | other | `tools/README.md:121` | markdown-mention |
+| `notes/similar-tables.md` | other | `tools/README.md:652` | markdown-mention |
+| `notes/u32-pointer-real-writeback-20260710.md` | other | `tools/table_registry.py:10` | code |
+| `notes/wasm-formation-probe-result-20260710.md` | other | `tools/completion_audit.py:517` | code |
 
 ## `not_applicable`（43）
 
@@ -145,7 +152,7 @@
 | `notes/rom-renderer-handler-context-preflight-20260930.md` | rom | 未晋升 | 本条自述为开放工作项（预检/计划/缺口清单，或明写结论未成立），证据尚未闭合，需回到逆向侧补齐。 |
 | `notes/rom-task-callback-alignment-gap-candidate-20260905.md` | rom | 仅候选 | 本条自述为开放工作项（预检/计划/缺口清单，或明写结论未成立），证据尚未闭合，需回到逆向侧补齐。 |
 
-## `needs_guard`（339）
+## `needs_guard`（333）
 
 | note | 类别 | 可转门禁的材料 | 理由 |
 | --- | --- | --- | --- |
@@ -158,7 +165,6 @@
 | `notes/auto-exit-prevention-mgba-compile-20260806.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/bank-player-visible-closure-plan-20260806.md` | other | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（25 处 ROM 地址、5 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/battle-action-detail-renderer-20260713.md` | battle | guard_condition、data_contract | 已给出原版行为的可核验结论（25 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/battle-config-unsafe-template-fix-20260710.md` | battle | guard_condition、data_contract | 已给出原版行为的可核验结论（12 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/battle-effect-controlled-phase-extension-20260809.md` | visual | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（3 处 ROM 地址、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/battle-effect-controlled-runtime-20260801.md` | visual | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（1 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/battle-effect-direct-spawn-runtime-20260802.md` | visual | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（8 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -236,7 +242,6 @@
 | `notes/debugging-record.md` | other | defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（47 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-caller-runtime.md` | other | tick_cadence | 已给出原版行为的可核验结论（54 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-font-atlas-export-20260729.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（50 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/dialogue-format.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（23 处 ROM 地址、2 个逆向成果族、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-function-analysis.md` | other | tick_cadence、data_contract | 已给出原版行为的可核验结论（80 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-mapping-blocker-20260702.md` | other | defect_semantics、data_contract | 已给出原版行为的可核验结论（23 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-mapping-decoder-20260702.md` | other | guard_condition、data_contract | 已给出原版行为的可核验结论（19 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -321,7 +326,6 @@
 | `notes/residual-wram-tilemap-resource-ownership-20260731.md` | residual | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（18 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/residual-wram-tilemap-runtime-reachability-20260731.md` | residual | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（21 处 ROM 地址、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/residual-wram-transformed-tilemap-runtime-20260801.md` | residual | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（14 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/resource-locations.md` | other | data_contract | 已给出原版行为的可核验结论（43 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/resource-pointer-alias-correction-20260730.md` | other | defect_semantics、data_contract | 已给出原版行为的可核验结论（8 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/resource-table-596F98.md` | other | data_contract | 已给出原版行为的可核验结论（38 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/reverse-method-review-20261002.md` | other | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（12 处 ROM 地址、5 个逆向成果族），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -373,7 +377,6 @@
 | `notes/rom-fixed-consumer-text-inventory-20260811.md` | rom | defect_semantics、data_contract | 已给出原版行为的可核验结论（42 处 ROM 地址、2 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/rom-fixed-index-u8-tail-20260905.md` | rom | guard_condition、data_contract | 已给出原版行为的可核验结论（15 处 ROM 地址、5 个逆向成果族、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/rom-fixed-pair-tables-20260904.md` | rom | guard_condition、data_contract | 已给出原版行为的可核验结论（8 处 ROM 地址、3 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/rom-gpu-copy-queue-inventory-20260730.md` | rom | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（53 处 ROM 地址、2 个逆向成果族、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/rom-large-unknown-anchor-screen-20261001.md` | rom | guard_condition、data_contract | 已给出原版行为的可核验结论（2 个逆向成果族），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/rom-low-script-delta-tier1-20261001.md` | rom | guard_condition、data_contract | 已给出原版行为的可核验结论（4 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/rom-m4a-initializer-chain-20260829.md` | rom | guard_condition、data_contract | 已给出原版行为的可核验结论（31 处 ROM 地址、4 个逆向成果族、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -426,7 +429,6 @@
 | `notes/runtime-layer-static-provenance-20260730.md` | runtime | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/runtime-mode0-screen-compositor-20260730.md` | runtime | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（3 处 ROM 地址、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/runtime-state-entry-audit-20260710.md` | runtime | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（14 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/runtime-verification-gates-20260710.md` | runtime | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（96 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/sappy-engine-master-enable-runtime-20260809.md` | other | guard_condition、data_contract | 已给出原版行为的可核验结论（13 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/save-descriptor-layout-correction-20260712.md` | other | tick_cadence、data_contract | 已给出原版行为的可核验结论（28 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/save-state-wasm-probe-20260711.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（20 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -469,7 +471,6 @@
 | `notes/tile-assets-descriptor-player-visible-20260809.md` | visual | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（9 处 ROM 地址、3 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/tileset-extraction-correction-20260712.md` | visual | guard_condition | 已给出原版行为的可核验结论（9 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/tutorial-victory-save-load-runtime-20260712.md` | other | data_contract | 已给出原版行为的可核验结论（9 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/u32-pointer-real-writeback-20260710.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（37 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/unit-id-mapping-analysis.md` | other | data_contract | 已给出原版行为的可核验结论（22 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/unit-skill-addresses.md` | other | data_contract | 已给出原版行为的可核验结论（20 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/units-unsafe-table-fix-20260711.md` | other | guard_condition、data_contract | 已给出原版行为的可核验结论（23 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -481,8 +482,8 @@
 | `notes/variable-dialogue-relocation-20260712.md` | other | guard_condition、data_contract | 已给出原版行为的可核验结论（16 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/vram-safe-lz77-runtime-20260801.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（2 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/wasm-formation-navigation-probe-20260710.md` | other | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（12 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/wasm-formation-probe-result-20260710.md` | other | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（17 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/wasm-runtime-api-audit-20260710.md` | other | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（10 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
+| `notes/windows-porting-20261020.md` | other | guard_condition、data_contract | 已给出原版行为的可核验结论（2 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/world-map-background-export-20260729.md` | map | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（37 处 ROM 地址、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/world-map-background-relocation-20260731.md` | map | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（17 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/world-map-page0-pixel-ab-20260801.md` | map | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（10 处 ROM 地址、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -522,7 +523,7 @@
 | `notes/bank-player-visible-closure-plan-20260806.md` | `needs_guard` | `none` | other |
 | `notes/battle-action-detail-renderer-20260713.md` | `needs_guard` | `test` | battle |
 | `notes/battle-config-format.md` | `implemented_in_code` | `build` | battle |
-| `notes/battle-config-unsafe-template-fix-20260710.md` | `needs_guard` | `doc` | battle |
+| `notes/battle-config-unsafe-template-fix-20260710.md` | `implemented_in_code` | `build` | battle |
 | `notes/battle-effect-controlled-phase-extension-20260809.md` | `needs_guard` | `none` | visual |
 | `notes/battle-effect-controlled-runtime-20260801.md` | `needs_guard` | `doc` | visual |
 | `notes/battle-effect-direct-spawn-runtime-20260802.md` | `needs_guard` | `none` | visual |
@@ -610,7 +611,7 @@
 | `notes/dialogue-caller-runtime.md` | `needs_guard` | `doc` | other |
 | `notes/dialogue-font-atlas-export-20260729.md` | `needs_guard` | `doc` | other |
 | `notes/dialogue-font-table-discovery-20260703.md` | `implemented_in_code` | `build` | other |
-| `notes/dialogue-format.md` | `needs_guard` | `doc` | other |
+| `notes/dialogue-format.md` | `implemented_in_code` | `build` | other |
 | `notes/dialogue-function-analysis.md` | `needs_guard` | `doc` | other |
 | `notes/dialogue-mapping-blocker-20260702.md` | `needs_guard` | `doc` | other |
 | `notes/dialogue-mapping-decoder-20260702.md` | `needs_guard` | `doc` | other |
@@ -691,7 +692,7 @@
 | `notes/function-pointer-runtime-probe-20260713.md` | `needs_guard` | `doc` | other |
 | `notes/generic-sprite-bundle-relocation-20260731.md` | `needs_guard` | `none` | other |
 | `notes/group12-natural-entry-ai-observer-20260806.md` | `needs_guard` | `none` | other |
-| `notes/handover-20261020-reverse-tree.md` | `needs_guard` | `none` | other |
+| `notes/handover-20261020-reverse-tree.md` | `needs_guard` | `doc` | other |
 | `notes/headless-workflow.md` | `needs_guard` | `doc` | other |
 | `notes/initializer-resource-pack-export-20260730.md` | `needs_guard` | `none` | other |
 | `notes/legacy-artifact-acceptance-20260905.md` | `needs_guard` | `none` | other |
@@ -757,7 +758,7 @@
 | `notes/residual-wram-tilemap-resource-ownership-20260731.md` | `needs_guard` | `none` | residual |
 | `notes/residual-wram-tilemap-runtime-reachability-20260731.md` | `needs_guard` | `none` | residual |
 | `notes/residual-wram-transformed-tilemap-runtime-20260801.md` | `needs_guard` | `none` | residual |
-| `notes/resource-locations.md` | `needs_guard` | `test` | other |
+| `notes/resource-locations.md` | `implemented_in_code` | `build` | other |
 | `notes/resource-pointer-alias-correction-20260730.md` | `needs_guard` | `none` | other |
 | `notes/resource-table-596F98.md` | `needs_guard` | `doc` | other |
 | `notes/reverse-engineering-current-gaps-20260806.md` | `missing_evidence` | `none` | other |
@@ -818,7 +819,7 @@
 | `notes/rom-fixed-index-u8-tail-20260905.md` | `needs_guard` | `none` | rom |
 | `notes/rom-fixed-pair-tables-20260904.md` | `needs_guard` | `none` | rom |
 | `notes/rom-fixed-text-route-preflight-20261001.md` | `missing_evidence` | `none` | rom |
-| `notes/rom-gpu-copy-queue-inventory-20260730.md` | `needs_guard` | `doc` | rom |
+| `notes/rom-gpu-copy-queue-inventory-20260730.md` | `implemented_in_code` | `build` | rom |
 | `notes/rom-large-unknown-anchor-screen-20261001.md` | `needs_guard` | `none` | rom |
 | `notes/rom-later-cfg-renderer-consumers-preflight-20261001.md` | `missing_evidence` | `none` | rom |
 | `notes/rom-low-script-delta-tier1-20261001.md` | `needs_guard` | `none` | rom |
@@ -879,7 +880,7 @@
 | `notes/runtime-layer-static-provenance-20260730.md` | `needs_guard` | `none` | runtime |
 | `notes/runtime-mode0-screen-compositor-20260730.md` | `needs_guard` | `none` | runtime |
 | `notes/runtime-state-entry-audit-20260710.md` | `needs_guard` | `doc` | runtime |
-| `notes/runtime-verification-gates-20260710.md` | `needs_guard` | `doc` | runtime |
+| `notes/runtime-verification-gates-20260710.md` | `implemented_in_code` | `build` | runtime |
 | `notes/sappy-engine-master-enable-runtime-20260809.md` | `needs_guard` | `none` | other |
 | `notes/save-descriptor-layout-correction-20260712.md` | `needs_guard` | `doc` | other |
 | `notes/save-state-wasm-probe-20260711.md` | `needs_guard` | `doc` | other |
@@ -927,7 +928,7 @@
 | `notes/tile-assets-descriptor-player-visible-20260809.md` | `needs_guard` | `none` | visual |
 | `notes/tileset-extraction-correction-20260712.md` | `needs_guard` | `doc` | visual |
 | `notes/tutorial-victory-save-load-runtime-20260712.md` | `needs_guard` | `doc` | other |
-| `notes/u32-pointer-real-writeback-20260710.md` | `needs_guard` | `doc` | other |
+| `notes/u32-pointer-real-writeback-20260710.md` | `implemented_in_code` | `build` | other |
 | `notes/unit-id-mapping-analysis.md` | `needs_guard` | `doc` | other |
 | `notes/unit-skill-addresses.md` | `needs_guard` | `doc` | other |
 | `notes/units-unsafe-table-fix-20260711.md` | `needs_guard` | `doc` | other |
@@ -939,8 +940,9 @@
 | `notes/variable-dialogue-relocation-20260712.md` | `needs_guard` | `doc` | other |
 | `notes/vram-safe-lz77-runtime-20260801.md` | `needs_guard` | `none` | other |
 | `notes/wasm-formation-navigation-probe-20260710.md` | `needs_guard` | `doc` | other |
-| `notes/wasm-formation-probe-result-20260710.md` | `needs_guard` | `doc` | other |
+| `notes/wasm-formation-probe-result-20260710.md` | `implemented_in_code` | `build` | other |
 | `notes/wasm-runtime-api-audit-20260710.md` | `needs_guard` | `doc` | other |
+| `notes/windows-porting-20261020.md` | `needs_guard` | `none` | other |
 | `notes/world-map-background-export-20260729.md` | `needs_guard` | `doc` | map |
 | `notes/world-map-background-relocation-20260731.md` | `needs_guard` | `none` | map |
 | `notes/world-map-page0-pixel-ab-20260801.md` | `needs_guard` | `none` | map |

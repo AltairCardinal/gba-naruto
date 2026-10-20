@@ -1,0 +1,23 @@
+'use strict';
+const fs=require('fs'),path=require('path'),assert=require('assert');
+const {chromium}=require('/mnt/c/Users/APP/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
+const root=path.resolve(__dirname,'../..'),out=path.join(root,'continuation/evidence/skills_roster_fix05/ui');fs.mkdirSync(out,{recursive:true});
+(async()=>{
+ const browser=await chromium.launch({executablePath:'/home/app/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome',headless:true,args:['--no-sandbox']});
+ const context=await browser.newContext({viewport:{width:1680,height:1000}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));page.on('dialog',d=>d.accept());
+ await page.goto(require('url').pathToFileURL(path.join(root,'editor/index.html')).href);
+ await page.locator('#romFile').setInputFiles(path.join(root,'continuation/build/naruto_restart_v041_FIX05.gba'));
+ await page.waitForFunction(()=>editorState.model);await page.locator('#flowGroup').selectOption({label:'少年篇续章'});
+ await page.locator('[data-flow="campaign:56:battle:null"]').click();
+ const row=page.locator('.actorrow[data-index="0"]');assert((await row.locator('.entryrule').innerText()).includes('固定人物'));
+ await page.screenshot({path:path.join(out,'01_fixed_entry_rule.png'),fullPage:true});
+ await row.locator('[name=id]').selectOption('255');assert((await row.locator('.entryrule').innerText()).includes('战前编队'));
+ assert.equal(await page.evaluate(()=>editorState.model.byte(editorState.model.layout().loadouts)),0);
+ await page.screenshot({path:path.join(out,'02_follow_team_slot.png'),fullPage:true});
+ const downloaded=page.waitForEvent('download');await page.locator('#exportRom').click();const file=path.join(out,'team_slot_export.gba');await(await downloaded).saveAs(file);
+ await page.locator('#undo').click();assert((await page.locator('.actorrow[data-index="0"] .entryrule').innerText()).includes('固定人物'));
+ assert.equal(errors.length,0,errors.join('\n'));
+ fs.copyFileSync(path.join(root,'continuation/build/naruto_restart_v041_FIX05.gba.layout.json'),file+'.layout.json');
+ fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({result:'pass',kind:'actual editor controls, ROM export and undo',errors,checks:['fixed entry mode is visible','selecting current team slot updates entry rule','fixed loadout cleared','actual ROM export','undo restores fixed identity'],export:file},null,2));
+ await context.close();await browser.close();console.log('PASS editor entry rules and team-slot export');
+})().catch(e=>{console.error(e);process.exitCode=1;});

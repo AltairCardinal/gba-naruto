@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "identity": "battle_ai_candidate_field_runtime",
+  "run_id": "battle-ai-candidate-field-runtime-20260725-264",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "emulator": {
+    "path": "build/signed-tooling/mGBA.app/Contents/MacOS/mGBA",
+    "version": "0.11-1-d8bad14",
+    "sha256": "151ecb68819df5b6756ab96c8ff0eb4659e70cdafb98273109ad6d3f3cb75ccb",
+    "audio": "muted"
+  },
+  "lineage": [
+    {
+      "checkpoint": "artifacts/runtime-checkpoints/scenario-41-first-movedone-facing.ss9",
+      "sha256": "1bc95c63cb11d469e4b2e80e8bae5a937f04ad40e18d7a15706fc261cb9ffb94",
+      "input": "A",
+      "frames": {
+        "down": 5,
+        "up": 13,
+        "capture": 128
+      },
+      "output": "build/battle-ai-candidate-field-runtime-20260725-263/facing-confirmed.ss9",
+      "output_sha256": "559347514adf4d12a20402942f8faddde01895dd6912eae97ebf5631deed52d2",
+      "guard_summary": "build/resource-guard/battle-ai-candidate-field-facing-confirm-20260725-263.json",
+      "guard_summary_sha256": "5e29329c2b05e74ab67a1a01f4769ab908f58bb96cdba60797e956bf7dd8fc68"
+    },
+    {
+      "checkpoint": "build/battle-ai-candidate-field-runtime-20260725-263/facing-confirmed.ss9",
+      "input": "A",
+      "frames": {
+        "down": 5,
+        "up": 13
+      },
+      "breakpoint": "0x08085590",
+      "meaning": "return from the second 0x080833A8 candidate-field build immediately before candidate scoring"
+    }
+  ],
+  "breakpoint": "0x08085590",
+    "map": {
+        "width": 9,
+        "height": 22
+    },
+    "map_width_address": "0x0201BE2A",
+    "map_height_address": "0x0201BE2B",
+  "planner": {
+    "acting_slot": 2,
+    "acting_character": 30,
+    "acting_side": 1,
+    "position": {
+      "x": 6,
+      "y": 4
+    },
+    "current_facing": 2,
+    "candidate_facing": 1
+  },
+  "threat_source": {
+    "slot": 1,
+    "character": 1,
+    "side": 0,
+    "position": {
+      "x": 4,
+      "y": 10
+    },
+    "movement": 3,
+    "available_hostile_action": 5,
+    "hostile_action_range": 1
+  },
+  "candidate_field": {
+    "address": "0x02002880",
+    "length": 198,
+    "sha256": "5746d3415c2d8170d01896df2c8f46e1c50fc455b9f4c592fa04fab01f62448f",
+    "hex": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001100000000000000811121000000000011815131110000009111b1d1b13131000081f1b1f1f1f1210000c1c1f1f1f16161000000c1c1f161610000000000c14161000000000000004100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "key_cells": {
+    "4,6": "0x11",
+    "1,10": "0x81",
+    "4,10": "0xF1",
+    "7,10": "0x21",
+    "4,14": "0x41"
+  },
+  "bit_semantics": {
+    "0x01": "threatened by at least one available hostile damage action",
+    "0x10": "at least one source is below the candidate",
+    "0x20": "at least one source is left of the candidate",
+    "0x40": "at least one source is above the candidate",
+    "0x80": "at least one source is right of the candidate"
+  },
+  "runtime_shape": "The non-zero field is the Manhattan-radius-4 union produced by movement 3 plus hostile range 1 around the source at (4,10), with direction bits ORed from every reachable attack origin.",
+  "artifacts": [
+    {
+      "path": "build/battle-ai-candidate-field-runtime-20260725-264/probe.json",
+      "sha256": "d1cff7ad080d854d237c1cb3173bebcc70c1ebfa38bb4a5e066b52a2d64dc6fb"
+    },
+    {
+      "path": "build/resource-guard/battle-ai-candidate-field-runtime-20260725-264.json",
+      "sha256": "008b254b1061af36fdd6f55bbe7cb98057e20ebaa7721c69b5e094a514f2ca77"
+    },
+    {
+      "path": "build/battle-ai-candidate-field-runtime-20260725-265/probe.json",
+      "sha256": "5b1f7ed9b9280d5fb119fa3f4e448539a0e47a6f7762bd9b58f45c2dfc6b70a8"
+    },
+    {
+      "path": "build/resource-guard/battle-ai-candidate-field-runtime-20260725-265.json",
+      "sha256": "8ec1875bf3743f7ba847ec364415883dd8a1d48cfbe19c1ca7a67b081d73d4c2"
+    }
+  ],
+  "boundary": "This capture closes the field identity, five bit meanings, damage-family scope, and the scenario-41 movement-plus-range union. It does not yet close every 0/2/4/6 helper mode, status exclusion, line-of-sight rule, area-action edge case, or all collision filters. Those must remain explicit restoration boundaries rather than being inferred from grid_map flags."
+}

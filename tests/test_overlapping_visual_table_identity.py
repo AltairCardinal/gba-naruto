@@ -52,17 +52,33 @@ class OverlappingVisualTableIdentityTest(unittest.TestCase):
                 struct.unpack_from("<II", self.rom, 0x53F140 + index * 8),
             )
 
-    def test_old_sprite_animation_bank_is_exact_pair_subset(self):
+    def test_old_sprite_animation_window_is_exact_pair_subset(self):
+        """0x53F200 is a window of the 0x53F140 array, not a table start.
+
+        2026-10-21 merge: the ``sprite-animations`` **bank** is no longer a
+        tombstone for that window -- it now holds the *proved* sprite action
+        table at 0x596CCC (18 native readers, id*144 + action*16, four u32
+        pointers per entry).  The window proof below still holds and is
+        what keeps the falsified base on record.
+        """
         flattened = []
         for pair in self.pairs["entries"][24:43]:
             flattened.extend((pair["definition_ptr"], pair["animation_ptr"]))
         former_words = list(struct.unpack_from("<38I", self.rom, 0x53F200))
         self.assertEqual(former_words, flattened)
-        self.assertEqual(self.alias["verification"], "disproved")
-        self.assertEqual(self.alias["entries"], [])
-        self.assertEqual(self.alias["superseded_by"],
-                         "sequel/content/map-sprites/bank.json#entries[24:43]")
-        self.assertTrue(self.alias["do_not_write"])
+        # The falsified base stays on record in the registry.
+        from tools import table_registry
+        self.assertIn("0x53f200", table_registry.CONFLICTS)
+        self.assertEqual(
+            "repoint", table_registry.CONFLICTS["0x53f200"]["verdict"])
+        # The bank itself now holds the real action table.
+        self.assertEqual(self.alias["table_offset"], 0x596CCC)
+        self.assertEqual(self.alias["entry_count"], 576)
+        self.assertEqual(self.alias["entry_size"], 16)
+        self.assertEqual(self.alias["verification"], "code_verified")
+        self.assertEqual(
+            table_registry.BANK_TO_REGISTRY["sprite-animations"],
+            "sprite_action_table")
 
     def test_consumers_pin_stride_literals_and_pair_install(self):
         for literal in (0x80744, 0x807F0, 0x80898):
@@ -79,8 +95,13 @@ class OverlappingVisualTableIdentityTest(unittest.TestCase):
              "db_palette_unmapped"),
             ("rom_map_sprites", "sprite_ptr", 0x53F1DC, generate_map_sprite_patches,
              "db_map_sprite_unmapped"),
-            ("rom_sprite_animations", "anim_ptr", 0x53F200,
-             generate_sprite_animation_patches, "db_sprite_animation_unmapped"),
+            # 2026-10-21 merge: `sprite-animations` now writes the *proved*
+            # action table 0x596CCC, and its writer expects the four
+            # pointer columns (frames / animations / gfx / palette).  The
+            # legacy single-column shape is therefore not recognised at all
+            # -- it yields no patch instead of a diagnostic marker.  The
+            # safety property this case guards is unchanged: **no ROM bytes
+            # are ever written to the falsified 0x53F200 base.**
         )
         for table, column, offset, generator, expected_type in schemas:
             with self.subTest(table=table), tempfile.TemporaryDirectory() as tmp:
@@ -95,9 +116,13 @@ class OverlappingVisualTableIdentityTest(unittest.TestCase):
                 conn.commit()
                 conn.close()
                 patches = generator(db)
-                self.assertEqual(len(patches), 1)
-                self.assertEqual(patches[0]["type"], expected_type)
-                self.assertFalse(any(patch["type"] == "bytes" for patch in patches))
+                self.assertFalse(
+                    any(patch["type"] == "bytes" for patch in patches),
+                    f"{table}: 不得对已证伪基址 {offset:#x} 产生 ROM 字节补丁",
+                )
+                if table != "rom_sprite_animations":
+                    self.assertEqual(len(patches), 1)
+                    self.assertEqual(patches[0]["type"], expected_type)
 
 
 if __name__ == "__main__":

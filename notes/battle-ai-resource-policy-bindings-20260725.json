@@ -1,0 +1,110 @@
+{
+  "boundary": {
+    "closed": [
+      "shared player/AI replenish-chakra and rest legality/formulas",
+      "AI resource projection through the ROM-bound standard utility weights",
+      "origin-only resource candidates because movement makes both commands illegal",
+      "atomic AI resource commit, condition evaluation, unit completion and side transition",
+      "read-only scene presentation and appended runtime telemetry"
+    ],
+    "not_closed": [
+      "AI defense preparation choice",
+      "special map collision helper modes",
+      "a natural resource choice in battle 9",
+      "non-muted audio quality"
+    ]
+  },
+  "implementation": {
+    "candidate_actions": [
+      "replenish_chakra",
+      "rest"
+    ],
+    "replenish_formula": {
+      "chakra_gain_per_amount": 1,
+      "hp_cost_per_amount": "unit.hand_seals",
+      "maximum": "hand_seals == 0 ? max_chakra - chakra : min(max_chakra - chakra, floor((hp - 1) / hand_seals))",
+      "minimum_remaining_hp": 1
+    },
+    "rest_formula": "min(max_hp - hp, floor(max_hp / 5))",
+    "standard_utility_weights": {
+      "base_no_event": 1000,
+      "actor_hp_gain": 3000,
+      "actor_hp_survival": 7000,
+      "actor_chakra_gain": 6000,
+      "actor_chakra_retention": 500
+    },
+    "tie_rule": "replace only when candidate.score > best.score",
+    "transaction": "copy session and RNG, commit shared resource command, run complete_non_target_action, publish only after every step succeeds"
+  },
+  "source_evidence": {
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "utility_binding": "notes/battle-ai-utility-policy-bindings-20260723.json",
+    "utility_binding_sha256": "670f6d3313ea380db368235ba8022f36f35d6814c74ea653458838718486e4d4"
+  },
+  "verification": {
+    "tdd": {
+      "red": [
+        "pure preview overload missing",
+        "AI resource action and amount missing",
+        "AI turn resource result missing",
+        "scene presentation resource projection missing",
+        "telemetry resource fields missing"
+      ],
+      "green_host_tests": [
+        "test_battle_resource_commands",
+        "test_battle_ai",
+        "test_battle_ai_turn_flow",
+        "test_battle_scene_presentation",
+        "test_battle_scene_controller",
+        "test_battle_runtime_scene_gate"
+      ]
+    },
+    "arm": {
+      "summary": "build/resource-guard/butano-ai-resource-policy-arm-20260725-02.json",
+      "exit_code": 0,
+      "peak_tree_rss_mib": 20.578125,
+      "rom_sha256": "88801406b163b01bcf99e335302a4e1e73a3d883b6cd9b721eab3e265184ee0d",
+      "elf_sha256": "e76299a8c88d04e977cf41d0869417bdc588a675e3b0e4f4aada9f911167c23a",
+      "telemetry_address": "0x02014FB8"
+    },
+    "mgba": {
+      "accepted_battle_9": {
+        "artifact": "artifacts/butano-ai-resource-runtime-b09-20260725-03",
+        "battles_observed": [
+          41,
+          43,
+          9
+        ],
+        "round": 2,
+        "active_units": 9,
+        "controller_errors": 0,
+        "player_errors": 0,
+        "resource_events": 0,
+        "audio": "muted"
+      },
+      "accepted_battle_43": {
+        "artifact": "artifacts/butano-ai-resource-presentation-b43-20260725-01",
+        "script_pages": 5,
+        "phase": "unit_selection",
+        "controller_errors": 0,
+        "player_errors": 0,
+        "audio": "muted"
+      },
+      "non_trigger_probe": {
+        "artifact": "artifacts/butano-ai-resource-runtime-b09-20260725-02",
+        "maximum_round_observed": 110,
+        "resource_events": 0,
+        "conclusion": "Battle 9 retained a higher-scoring usable action; this is not positive resource-presentation evidence and no screenshot was fabricated."
+      }
+    }
+  },
+  "source_hashes": {
+    "battle_ai.h": "e6deb18cc4a6973f52c562bed867b09713a1ab73a61aefb0ee1267778a785585",
+    "battle_ai_turn_flow.h": "1bfdca4283ed6f844e01e2dbd8fa9d4db0d65c46fb709f6840ec969d71de3a66",
+    "battle_resource_commands.h": "1f8fe003d97f0ad8ba4c86893bc9f69648fa343ed4aaf52ca630890d45b742e8",
+    "battle_scene_controller.h": "a7c9eb00be73d70336dd9c55d6e6e3a75f36c560beb9f337ec17aa9e7ac0ac86",
+    "battle_scene_presentation.h": "fbbda94150d6722d52c6ba2eb3b02d5e7a9003f8232d9cd068b8e91ec14a6f68",
+    "battle_runtime_scene.cpp": "8f19a61eed6545a19b9d065f1475d5a5608d8a0ae66717e65805bbf0a2590ad0",
+    "mgba_battle_09_character_actions.lua": "5f98f2cbe28d16464fd74fb4cbeeecbaafccd12653731ca6ea5fb94518d4748f"
+  }
+}

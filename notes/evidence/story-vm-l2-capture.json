@@ -1,0 +1,215 @@
+{
+  "captured_by": "tools/mgba_probe/runtime_probe.py",
+  "rom": "rom\\base.gba",
+  "command": "python tools/mgba_probe/runtime_probe.py rom/base.gba --boot-frames 1500 --press START --press A --press A --press A --press A --breakpoint 0x0808F5D0 --breakpoint 0x080977B8 --settle-frames 90 --json notes/evidence/story-vm-l2-capture.json",
+  "note": "The trigger is the THIRD A press.  The exact frame timing is sensitive: with a different set of armed breakpoints the same key sequence lands on a different code path, so re-run the command above rather than a shortened variant.",
+  "trace": [
+    {
+      "step": "boot",
+      "frames_requested": null,
+      "frames_done": null,
+      "breakpoint_hit": null,
+      "watchpoint_hit": null,
+      "pc": null,
+      "lr": null,
+      "registers": null,
+      "state": {
+        "held": 64512,
+        "held_mask": "0xFC00",
+        "new": 0,
+        "new_mask": "0x0000",
+        "history_mask": "0x0000",
+        "pressed_now": [],
+        "pressed_new": []
+      }
+    },
+    {
+      "step": "press:START",
+      "frames_requested": 8,
+      "frames_done": 8,
+      "breakpoint_hit": false,
+      "watchpoint_hit": false,
+      "pc": null,
+      "lr": null,
+      "registers": {
+        "r0": "0x00000001",
+        "r1": "0xFFFFFFFF",
+        "r10": "0x0201BD5E",
+        "r11": "0x00000000",
+        "r12": "0x00000050",
+        "r13": "0x03007EE4",
+        "r14": "0x080610AB",
+        "r15": "0x0806112E",
+        "r2": "0x0300067C",
+        "r3": "0x00000001",
+        "r4": "0x00000002",
+        "r5": "0x03000A84",
+        "r6": "0x0200A884",
+        "r7": "0x0200A8A4",
+        "r8": "0x00000000",
+        "r9": "0x0201BD60"
+      },
+      "state": {
+        "held": 64520,
+        "held_mask": "0xFC08",
+        "new": 0,
+        "new_mask": "0x0000",
+        "history_mask": "0x0000",
+        "pressed_now": [
+          "START"
+        ],
+        "pressed_new": []
+      }
+    },
+    {
+      "step": "press:A",
+      "frames_requested": 8,
+      "frames_done": 8,
+      "breakpoint_hit": false,
+      "watchpoint_hit": false,
+      "pc": null,
+      "lr": null,
+      "registers": {
+        "r0": "0x00000001",
+        "r1": "0xFFFFFFFF",
+        "r10": "0x00000000",
+        "r11": "0x00000000",
+        "r12": "0x00000050",
+        "r13": "0x03007EE4",
+        "r14": "0x080610AB",
+        "r15": "0x0806112C",
+        "r2": "0x0300067C",
+        "r3": "0x00000001",
+        "r4": "0x00000002",
+        "r5": "0x03000A84",
+        "r6": "0x00000258",
+        "r7": "0x0300597C",
+        "r8": "0x00000009",
+        "r9": "0x00000258"
+      },
+      "state": {
+        "held": 64513,
+        "held_mask": "0xFC01",
+        "new": 0,
+        "new_mask": "0x0000",
+        "history_mask": "0x0000",
+        "pressed_now": [
+          "A"
+        ],
+        "pressed_new": []
+      }
+    },
+    {
+      "step": "press:A",
+      "frames_requested": 8,
+      "frames_done": 1,
+      "breakpoint_hit": true,
+      "watchpoint_hit": false,
+      "pc": "0x080977BA",
+      "lr": "0x00000000",
+      "registers": {
+        "r0": "0x08049E76",
+        "r1": "0x00000000",
+        "r10": "0x00000000",
+        "r11": "0x00000000",
+        "r12": "0x0000000F",
+        "r13": "0x03001248",
+        "r14": "0x0808F5D5",
+        "r15": "0x080977BA",
+        "r2": "0x08060C74",
+        "r3": "0x00000000",
+        "r4": "0x00000036",
+        "r5": "0x00000000",
+        "r6": "0x020311D4",
+        "r7": "0x020311D4",
+        "r8": "0x08060C74",
+        "r9": "0x08060D54"
+      },
+      "state": {
+        "held": 64512,
+        "held_mask": "0xFC00",
+        "new": 0,
+        "new_mask": "0x0000",
+        "history_mask": "0x0000",
+        "pressed_now": [],
+        "pressed_new": []
+      }
+    },
+    {
+      "step": "press:A",
+      "frames_requested": 8,
+      "frames_done": 8,
+      "breakpoint_hit": false,
+      "watchpoint_hit": false,
+      "pc": null,
+      "lr": null,
+      "registers": {
+        "r0": "0x00000001",
+        "r1": "0xFFFFFFFF",
+        "r10": "0x00000000",
+        "r11": "0x00000000",
+        "r12": "0x00000010",
+        "r13": "0x03007EE4",
+        "r14": "0x080610AB",
+        "r15": "0x0806112C",
+        "r2": "0x0300067C",
+        "r3": "0x00000001",
+        "r4": "0x00000002",
+        "r5": "0x03000A84",
+        "r6": "0x00000020",
+        "r7": "0x00000000",
+        "r8": "0x00000000",
+        "r9": "0x08060D54"
+      },
+      "state": {
+        "held": 64513,
+        "held_mask": "0xFC01",
+        "new": 0,
+        "new_mask": "0x0000",
+        "history_mask": "0x0000",
+        "pressed_now": [
+          "A"
+        ],
+        "pressed_new": []
+      }
+    },
+    {
+      "step": "press:A",
+      "frames_requested": 8,
+      "frames_done": 8,
+      "breakpoint_hit": false,
+      "watchpoint_hit": false,
+      "pc": null,
+      "lr": null,
+      "registers": {
+        "r0": "0x00000001",
+        "r1": "0xFFFFFFFF",
+        "r10": "0x00000000",
+        "r11": "0x00000000",
+        "r12": "0x00000010",
+        "r13": "0x03007EE4",
+        "r14": "0x080610AB",
+        "r15": "0x0806112C",
+        "r2": "0x0300067C",
+        "r3": "0x00000001",
+        "r4": "0x00000002",
+        "r5": "0x03000A84",
+        "r6": "0x0000002C",
+        "r7": "0x00000000",
+        "r8": "0x00000000",
+        "r9": "0x00000001"
+      },
+      "state": {
+        "held": 64513,
+        "held_mask": "0xFC01",
+        "new": 0,
+        "new_mask": "0x0000",
+        "history_mask": "0x0000",
+        "pressed_now": [
+          "A"
+        ],
+        "pressed_new": []
+      }
+    }
+  ]
+}

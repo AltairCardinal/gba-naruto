@@ -1,0 +1,56 @@
+{
+  "boundary": "This manifest closes deterministic handler routing and state mutations. Sprite, sound, camera, and message calls in the same range are presentation-only.",
+  "families": {
+    "battlefield_object": {
+      "0x0C": "type_2",
+      "0x18": "type_1_with_source"
+    },
+    "damage": {
+      "0x01": "normal",
+      "0x14": "status_0x13_gated_then_consumed",
+      "0x15": "damage_then_status_and_reaction_state"
+    },
+    "resource": {
+      "0x06": "max_hp_percent_heal",
+      "0x11": "status_2_plus_hp_and_chakra_restore",
+      "0x1A": "max_hp_percent_heal",
+      "0x1C": "chakra_add_capped",
+      "0x1D": "chakra_subtract_floored"
+    },
+    "state": {
+      "0x0F": "status_plus_reaction_state_0x30",
+      "0x3F": "reaction_state_0x30"
+    },
+    "summon": {
+      "0x02": "copy_source_and_link",
+      "0x07": "identity_variant_copy_and_link",
+      "0x17": "paired_clone_graph"
+    }
+  },
+  "handler_range": {
+    "end": "0x0807764E",
+    "sha256": "2e80b66092e3dd94ecdc20afdfb93e9cd41b6e549ab04e92c33c1cf6fc2282c0",
+    "start": "0x08077040"
+  },
+  "helper_calls": {
+    "battlefield_object_allocate": "0x08081024",
+    "damage_resolve": "0x08076A30",
+    "paired_summon": "0x0806B030",
+    "reaction_state": "0x0806A8C0",
+    "single_summon": "0x0806ADD0",
+    "variant_summon": "0x0806AEE8"
+  },
+  "identity": "battle_effect_handler_families",
+  "implementation_contract": [
+    "Dispatch every nonempty action through its numeric effect code.",
+    "Action cost is committed once before a specialized handler mutates its targets.",
+    "Summons copy source battle data, preserve stable slot identities, and create explicit links.",
+    "Percent healing scales from target maximum HP and clamps at that maximum.",
+    "Chakra additions clamp at maximum and subtractions clamp at zero.",
+    "Battlefield objects live in the encounter session used by condition evaluation.",
+    "Unknown presentation work remains outside the deterministic domain transaction."
+  ],
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1
+}

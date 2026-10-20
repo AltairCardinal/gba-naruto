@@ -1,16 +1,16 @@
 {
  "schema": "konoha.reverse-notes-index-manifest.v1",
- "generated_at": "2026-10-20T17:25:20.727555+00:00",
+ "generated_at": "2026-10-20T18:11:28.307113+00:00",
  "source": {
   "reverse_root": "/Users/altair/github/gba-naruto-reverse",
   "reverse_notes_dir": "/Users/altair/github/gba-naruto-reverse/notes",
-  "reverse_commit": "f054f4c1e240c87583f1059b64eb1fc199aada07",
-  "note_files": 435,
-  "unique_note_ids": 397
+  "reverse_commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375",
+  "note_files": 436,
+  "unique_note_ids": 398
  },
  "measurement": {
   "unit": "reverse note file",
-  "scanned_files": 4240,
+  "scanned_files": 4358,
   "scan_roots": [
    "butano-sequel",
    "tools",
@@ -41,38 +41,38 @@
   "min_bare_identifier": 8
  },
  "summary": {
-  "total": 435,
+  "total": 436,
   "by_bucket": {
-   "implemented_in_code": 21,
+   "implemented_in_code": 28,
    "not_applicable": 43,
    "missing_evidence": 19,
-   "needs_guard": 339,
+   "needs_guard": 333,
    "needs_human_review": 13
   },
   "by_pre_index_status": {
-   "build": 21,
+   "build": 28,
    "local_artifact": 3,
-   "test": 27,
-   "doc": 174,
+   "test": 26,
+   "doc": 169,
    "none": 210
   },
-  "needs_guard_already_referenced_from_tests": 20,
-  "needs_guard_without_any_test_reference": 319,
+  "needs_guard_already_referenced_from_tests": 19,
+  "needs_guard_without_any_test_reference": 314,
   "by_category": {
    "audio": {
     "needs_guard": 4
    },
    "battle": {
-    "implemented_in_code": 2,
-    "needs_guard": 8
+    "implemented_in_code": 3,
+    "needs_guard": 7
    },
    "map": {
     "needs_guard": 18
    },
    "other": {
-    "implemented_in_code": 14,
+    "implemented_in_code": 18,
     "missing_evidence": 4,
-    "needs_guard": 109,
+    "needs_guard": 106,
     "needs_human_review": 13,
     "not_applicable": 29
    },
@@ -86,12 +86,14 @@
     "needs_guard": 10
    },
    "rom": {
+    "implemented_in_code": 1,
     "missing_evidence": 15,
-    "needs_guard": 94,
+    "needs_guard": 93,
     "not_applicable": 14
    },
    "runtime": {
-    "needs_guard": 8
+    "implemented_in_code": 1,
+    "needs_guard": 7
    },
    "scenario": {
     "implemented_in_code": 3,
@@ -106,11 +108,11 @@
  "outputs": {
   "index": {
    "path": "artifacts/reverse-notes-index-v1/notes-index.json",
-   "sha256": "50bae64770afc4dda2d25b6752b116fe3492dd9ccc333129186fbb34872bd964"
+   "sha256": "7e9043bd314791a54c79152f7789b65be56b349a2d189326caac3ecbfb9d0638"
   },
   "doc": {
    "path": "docs/reverse-results-index/notes-index.md",
-   "sha256": "4e9ef0dc0edc1f75dabe9727cffed8abc75a05f002c7ae6ea4018b70a5bc183d"
+   "sha256": "8c23915cf4536af6174f97c5b17b1970620d997506230869f23b453224bffa13"
   }
  }
 }

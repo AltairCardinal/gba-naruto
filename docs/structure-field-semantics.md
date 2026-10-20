@@ -289,23 +289,48 @@ The static layout uses `(width/4)×(height/2)` little-endian u32 cells. Each
 cell's low/high u16 selects the left/right 2×2 metatile; each metatile is four
 standard GBA BG u16 entries in TL/TR/BL/BR order.
 
+> **CORRECTED 2026-10-20** — 本节原先的字段顺序
+> （width/height 在 +0x00/+0x04、tileset 在 +0x08、flags 在 +0x18）**与实测不符**。
+> 正确布局已按 LZ77 解压长度逐字段验证：
+> `+0x00 u16 原始宽 / +0x02 u16 原始高 / +0x04 tile gfx / +0x08 palette /
+> +0x0C layer0 tilemap / +0x10 layer1 tilemap / +0x14 metatiles /
+> +0x18 terrain / +0x1C 剧情底图ID`。
+> 宽÷4、高÷2 得图块尺寸；terrain 解压长度 = 宽×高×2 精确吻合。
+> 复现：`tools/probe_external_re_claims.py`；
+> 详见 `notes/external-konoha-workshop-gap-20261020.md` §2.1。
+
 | Field | Type | Description |
 |-------|------|-------------|
-| `+0x00` width | u16 | Canvas width in 8×8 tiles |
-| `+0x02` height | u16 | Canvas height in 8×8 tiles |
-| `+0x04` tile_gfx_ptr | u32 | 4bpp tile graphics |
-| `+0x08` bg_palette_ptr | u32 | BGR555 BG palette banks |
-| `+0x0C` primary_layout_ptr | u32 | Primary coarse-cell layout |
-| `+0x10` alternate_layout_ptr | u32 | Candidate alternate layout; null for 33 rows |
-| `+0x14` metatile_attributes_ptr | u32 | 8-byte 2×2 metatile definitions |
-| `+0x18` collision_grid_ptr | u32 | One u16 per coarse cell |
-| `+0x1C` flags | u32 | Map configuration flags |
+| `+0x00` raw_width | u16 | 原始宽（÷4 = 图块宽） |
+| `+0x02` raw_height | u16 | 原始高（÷2 = 图块高） |
+| `+0x04` tile_gfx_ptr | u32 | Pointer to tile graphics data (LZ77) |
+| `+0x08` palette_ptr | u32 | Pointer to palette data (LZ77) |
+| `+0x0C` layer0_ptr | u32 | Pointer to layer 0 tilemap (LZ77) |
+| `+0x10` layer1_ptr | u32 | Pointer to layer 1 tilemap (LZ77, may be 0) |
+| `+0x14` metatile_ptr | u32 | Pointer to metatile table (LZ77, 8 bytes/entry) |
+| `+0x18` terrain_ptr | u32 | Pointer to terrain/passability table (LZ77, u16/cell) |
+| `+0x1C` background_id | u8 | Story background id |
+
+> **命名沿革（2026-10-21 合并）**：重制侧此前用另一套名字描述同一批槽位
+> —— `width` / `height`（`+0x00`/`+0x02`）、`bg_palette_ptr`（`+0x08`）、
+> `primary_layout_ptr`（`+0x0C`）、`alternate_layout_ptr`（`+0x10`，
+> 33 行为 null）、`metatile_attributes_ptr`（`+0x14`）、
+> `collision_grid_ptr`（`+0x18`）、`flags`（`+0x1C`，u32）。
+> **槽位偏移两套完全一致**，差别只在读法与宽度：
+> 逆向侧按 `0x08068FF0` 加载器反汇编 + LZ77 解压长度逐字段验证，
+> 确认 `+0x00/+0x02` 是**原始**宽高（÷4 / ÷2 才是图块数）、
+> `+0x08` 是调色板、`+0x0C/+0x10` 是 layer0/layer1 两层 tilemap、
+> `+0x18` 是通行（terrain）表、`+0x1C` 是 1 字节剧情底图 ID。
+> 上表采用逆向侧的修正读法；`tools/extract_tileset.py`（重制侧）仍用
+> 重制侧命名，两边指同一批槽位。
 
 `artifacts/map-canvases-v1/` preserves all 47 primary canvases, all 14
 non-null alternate candidates, expanded u16 tilemaps and 166 content-deduplicated
 raw resources. Runtime selection is proven only for map 41 primary; alternate
 selection, runtime scrolling/chunking and dynamic occupancy overlays remain
-outside this static export.
+outside this static export.（2026-07-13 证据等级复核：maps 已是 **runtime** ——
+宽度受控 row-40 36→32 A/B，row-41 严格战斗采样逐项比对 VRAM tile gfx /
+BG 调色板 / primary layout / metatile 定义 / alternate-layout 跳过 / 通行性。）
 
 ---
 
@@ -390,6 +415,14 @@ runtime sprite object. The old 20-u32 view merely flattened the records.
 the selected pointer is passed to message-object setup at `0x08066758` and
 text parsing at `0x0806626C`. Values `0x64..0x67` select four pointers from the
 caller's state. The former Sappy/audio interpretation is revoked.
+
+> **CONFLICT 2026-10-20 — 需重新定位**
+> `0x08599634` (file `0x599634`) 实测是**忍具名称文本指针表**（u32[93]，
+> 每项指向一段 SJIS 名称串），**不是**音频索引表。
+> 因此 "Commands 0x80-0xE3 → 0x08599634" 这条映射存疑，
+> Sappy dispatcher 的真实索引表需要重新定位。
+> 复现：`tools/probe_external_re_claims.py`；
+> 详见 `notes/external-konoha-workshop-gap-20261020.md` §4 C3。
 
 | Field | Type | Description |
 |-------|------|-------------|

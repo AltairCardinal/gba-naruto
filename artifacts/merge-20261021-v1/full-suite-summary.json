@@ -1,0 +1,22 @@
+{
+  "reason": "child-exit",
+  "exit_code": 1,
+  "child_pid": 50746,
+  "peak_tree_rss_mib": 1.078125,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/usr/local/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-t",
+    ".",
+    "-v"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto",
+  "started_at": "2026-10-20T18:22:41.222063Z",
+  "finished_at": "2026-10-20T18:22:42.259565Z"
+}

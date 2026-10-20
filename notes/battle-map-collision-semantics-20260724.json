@@ -1,0 +1,946 @@
+{
+  "schema_version": 2,
+  "identity": "battle_map_collision_runtime",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "functions": {
+    "consumer": {
+      "start": "0x080698B4",
+      "end": "0x08069D1C",
+      "sha256": "143a7223550ccd44c69615b39e76fc2f96e7ba4ec62671a9ff6de62adaa844aa"
+    },
+    "path_setup": {
+      "start": "0x08069D1C",
+      "end": "0x08069DB8",
+      "sha256": "7a33e919213bcd0f218293306f08587dd642414fb5f99e0da9147febcf0579be"
+    },
+    "traversal_configuration": {
+      "start": "0x08069DB8",
+      "end": "0x08069E44",
+      "sha256": "415a0f9cb1ab184f6b40d257a82905abb4201c7a2d8723621624ecbf2bf786fb"
+    },
+    "occupancy_set": {
+      "start": "0x0806A9EC",
+      "end": "0x0806AA2A",
+      "sha256": "d6806b36d847701cca41569f8bb189e46d531090dfdbdd4443a9b7e87c81f9a5"
+    },
+    "occupancy_clear": {
+      "start": "0x0806AA38",
+      "end": "0x0806AA58",
+      "sha256": "a4c090b88b422af9a960b0593f9afbea83f557ec07e04afe5652f7a9c6d93a73"
+    }
+  },
+  "consumer": {
+    "function": "0x080698B4",
+    "terrain_class_switch": "0x08069B54",
+    "path_setup": "0x08069D1C",
+    "traversal_configuration": "0x08069DB8",
+    "collision_buffer": "0x02021E2C",
+    "map_width": "0x0201BE2A",
+    "map_height": "0x0201BE2B"
+  },
+  "terrain": {
+    "classes": {
+      "normal": 0,
+      "passive_0x1A": 1,
+      "passive_0x1C": 3,
+      "passive_0x1B": 7,
+      "blocked": 15
+    },
+    "traversal_limit_targets": {
+      "1": "0x1A",
+      "3": "0x1C",
+      "7": "0x1B"
+    },
+    "fully_closed": 15,
+    "boundary": "The low nibble is a terrain class, not four independent direction bits. A path consumes one matching class budget for every visited tile, including its origin; recursive backtracking restores the budget for sibling paths. Classes 1, 3, and 7 receive budgets from passive targets 0x1A, 0x1C, and 0x1B respectively, while 0xF is always blocked. Values 2 and 4 occur only on map 0 in the extracted content and are not assigned a traversal passive by this consumer."
+  },
+  "occupancy": {
+    "unit_slot_shift": 11,
+    "unit_slot_mask": "0x7800",
+    "side_shift": 15,
+    "side_mask": "0x8000",
+    "terrain_mask": "0x000F"
+  },
+  "maps": [
+    {
+      "battle_id": 0,
+      "width": 23,
+      "height": 32,
+      "cell_count": 736,
+      "sha256": "7fb4ceb2891f5879247dd0c18eb7988edab3abc23083ef38dcae16a280d6a036",
+      "low_nibble_values": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "low_nibble_counts": {
+        "0": 733,
+        "1": 1,
+        "2": 1,
+        "4": 1
+      }
+    },
+    {
+      "battle_id": 1,
+      "width": 15,
+      "height": 15,
+      "cell_count": 225,
+      "sha256": "84abb3f0fca37732c10cbcc990f405806326762cff97293721da59e289934e01",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 102,
+        "3": 1,
+        "7": 10,
+        "15": 112
+      }
+    },
+    {
+      "battle_id": 2,
+      "width": 9,
+      "height": 18,
+      "cell_count": 162,
+      "sha256": "c06a190612735178b9042e9d06903e99199257f9213933e10b2523581f740b01",
+      "low_nibble_values": [
+        0,
+        1,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 62,
+        "1": 14,
+        "7": 4,
+        "15": 82
+      }
+    },
+    {
+      "battle_id": 3,
+      "width": 9,
+      "height": 20,
+      "cell_count": 180,
+      "sha256": "3c020524c098098e49ca8762374092b24066c2db4403bfa0cdb7daf20b494006",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 69,
+        "1": 21,
+        "3": 4,
+        "7": 2,
+        "15": 84
+      }
+    },
+    {
+      "battle_id": 4,
+      "width": 9,
+      "height": 20,
+      "cell_count": 180,
+      "sha256": "623f90f38ccb04e764c01b75ace51021eb670abb4a621e9b493f5380a39d4d87",
+      "low_nibble_values": [
+        0,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 94,
+        "15": 86
+      }
+    },
+    {
+      "battle_id": 5,
+      "width": 9,
+      "height": 23,
+      "cell_count": 207,
+      "sha256": "e28c276b7cfeb6272c1f7bfdaf0568635a0a458d0f1309a061946d934ce9d0e8",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 100,
+        "3": 7,
+        "7": 8,
+        "15": 92
+      }
+    },
+    {
+      "battle_id": 6,
+      "width": 15,
+      "height": 16,
+      "cell_count": 240,
+      "sha256": "e56732e5b2a5f4e72ac70915576d0e6f6452b0564f261c4d403be04954c80c14",
+      "low_nibble_values": [
+        0,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 120,
+        "7": 10,
+        "15": 110
+      }
+    },
+    {
+      "battle_id": 7,
+      "width": 15,
+      "height": 16,
+      "cell_count": 240,
+      "sha256": "9b51c4133eeca6afae43e411954c0099e05ccde5de7a5242a3e8cb45029919bd",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 54,
+        "3": 2,
+        "7": 4,
+        "15": 180
+      }
+    },
+    {
+      "battle_id": 8,
+      "width": 15,
+      "height": 16,
+      "cell_count": 240,
+      "sha256": "3d1b7699aac3521ad1da6cc0483710eea8a922f9c4be46959fbd6a62120f5522",
+      "low_nibble_values": [
+        0,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 68,
+        "15": 172
+      }
+    },
+    {
+      "battle_id": 9,
+      "width": 16,
+      "height": 32,
+      "cell_count": 512,
+      "sha256": "032920c40549f3aea5973fffb352423797266aa8bda10822464ec88ba496d166",
+      "low_nibble_values": [
+        0,
+        1,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 200,
+        "1": 20,
+        "15": 292
+      }
+    },
+    {
+      "battle_id": 10,
+      "width": 16,
+      "height": 21,
+      "cell_count": 336,
+      "sha256": "be7623bc28038807ce59679fb2fa805c5392078ac5cb0fe1bb3064dbf21e38a5",
+      "low_nibble_values": [
+        0,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 106,
+        "15": 230
+      }
+    },
+    {
+      "battle_id": 11,
+      "width": 17,
+      "height": 30,
+      "cell_count": 510,
+      "sha256": "439804d823149d9ae5b56608940808cb2d68d1e8692f3dc58e71fe5e3cc564cf",
+      "low_nibble_values": [
+        0,
+        1,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 170,
+        "1": 22,
+        "15": 318
+      }
+    },
+    {
+      "battle_id": 12,
+      "width": 11,
+      "height": 32,
+      "cell_count": 352,
+      "sha256": "50402c03354bfc545bf636ced62f8fa520267744d93f97b2946d7af2da4ebeec",
+      "low_nibble_values": [
+        0,
+        1,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 140,
+        "1": 14,
+        "15": 198
+      }
+    },
+    {
+      "battle_id": 13,
+      "width": 13,
+      "height": 21,
+      "cell_count": 273,
+      "sha256": "37273d8d6a9777e5596e151fa7580bb577132121584386a94fb2dce9406fbaa0",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 137,
+        "3": 4,
+        "7": 20,
+        "15": 112
+      }
+    },
+    {
+      "battle_id": 14,
+      "width": 15,
+      "height": 19,
+      "cell_count": 285,
+      "sha256": "1c861e488115a41b8bdb2ede0ae02163643efcd74e18b55e451fd7042e2622dd",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 144,
+        "1": 10,
+        "3": 3,
+        "7": 8,
+        "15": 120
+      }
+    },
+    {
+      "battle_id": 15,
+      "width": 12,
+      "height": 21,
+      "cell_count": 252,
+      "sha256": "0f201d4bbcbd88192fcb92d773ae5ca434382a47ca8ec41fb8e489c49dc8d654",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 125,
+        "3": 9,
+        "7": 12,
+        "15": 106
+      }
+    },
+    {
+      "battle_id": 16,
+      "width": 9,
+      "height": 20,
+      "cell_count": 180,
+      "sha256": "73844f0fc6033517576425ab77a289f877ff5251de5f2e879ddbf67e74882ac6",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 81,
+        "3": 5,
+        "7": 8,
+        "15": 86
+      }
+    },
+    {
+      "battle_id": 17,
+      "width": 12,
+      "height": 20,
+      "cell_count": 240,
+      "sha256": "afecd20a4d57ec73938ec5d900b6ec857bc5c0fe5e9507662ee7a9fd7103c4a7",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 112,
+        "1": 12,
+        "3": 4,
+        "7": 8,
+        "15": 104
+      }
+    },
+    {
+      "battle_id": 18,
+      "width": 15,
+      "height": 21,
+      "cell_count": 315,
+      "sha256": "5fa3f75ca03c51f260d8f599f680562fd4bce18b663cebeba24f791837218da5",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 139,
+        "1": 42,
+        "3": 4,
+        "7": 6,
+        "15": 124
+      }
+    },
+    {
+      "battle_id": 19,
+      "width": 15,
+      "height": 21,
+      "cell_count": 315,
+      "sha256": "f3ef842d9befd5bcc0d3e9b184aa9c533d500f94cf733684e0ac07535dd2c52c",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 167,
+        "3": 10,
+        "7": 16,
+        "15": 122
+      }
+    },
+    {
+      "battle_id": 20,
+      "width": 15,
+      "height": 21,
+      "cell_count": 315,
+      "sha256": "9f3ec0717962bded3925bd0f01fa4ebd42d3813b1c0025bfd9060822261d45d4",
+      "low_nibble_values": [
+        0,
+        3,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 183,
+        "3": 10,
+        "15": 122
+      }
+    },
+    {
+      "battle_id": 21,
+      "width": 9,
+      "height": 16,
+      "cell_count": 144,
+      "sha256": "7c7eb6e3424999a1e7b3d035ec4bc79151a93b5d01b76dd62438e6d5cee1aa49",
+      "low_nibble_values": [
+        0,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 70,
+        "15": 74
+      }
+    },
+    {
+      "battle_id": 22,
+      "width": 13,
+      "height": 20,
+      "cell_count": 260,
+      "sha256": "b48d01cd6f9e18232083dc4026d77c865f48297b4e061f4090e4fab41f5dddba",
+      "low_nibble_values": [
+        0,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 144,
+        "7": 10,
+        "15": 106
+      }
+    },
+    {
+      "battle_id": 23,
+      "width": 15,
+      "height": 17,
+      "cell_count": 255,
+      "sha256": "98a4bc7337184416dd7c5b8a703e3b14e6a37c9b24f7ecee729acb9344311dbd",
+      "low_nibble_values": [
+        0,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 89,
+        "7": 54,
+        "15": 112
+      }
+    },
+    {
+      "battle_id": 24,
+      "width": 13,
+      "height": 17,
+      "cell_count": 221,
+      "sha256": "8043ee5031d0ce997900fc6f1cb8e6fc08a5b91ecf1750ea9cc66fe31a02cf89",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 93,
+        "3": 6,
+        "7": 18,
+        "15": 104
+      }
+    },
+    {
+      "battle_id": 25,
+      "width": 13,
+      "height": 20,
+      "cell_count": 260,
+      "sha256": "96b77d817dbd8faef27e44af0afef0d7de7d6156de8bc60fa28e51373f0bb633",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 110,
+        "1": 20,
+        "3": 20,
+        "15": 110
+      }
+    },
+    {
+      "battle_id": 26,
+      "width": 11,
+      "height": 20,
+      "cell_count": 220,
+      "sha256": "8a74e2d1506b75f9a2fbee5a3187e300c5b4c02d32fe3435be0f3d4abd7e766a",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 108,
+        "3": 10,
+        "7": 4,
+        "15": 98
+      }
+    },
+    {
+      "battle_id": 27,
+      "width": 11,
+      "height": 21,
+      "cell_count": 231,
+      "sha256": "c46bcf2c97c3f595f3b8d0d74a31573af59035fba6fc2be580ffb7203d0f5073",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 91,
+        "1": 28,
+        "3": 4,
+        "7": 8,
+        "15": 100
+      }
+    },
+    {
+      "battle_id": 28,
+      "width": 9,
+      "height": 23,
+      "cell_count": 207,
+      "sha256": "b2e18c9ae1933ce239253c68776c65cb3d528e279c3c4c8c7fc026edba28fbf0",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 104,
+        "3": 5,
+        "7": 8,
+        "15": 90
+      }
+    },
+    {
+      "battle_id": 29,
+      "width": 9,
+      "height": 20,
+      "cell_count": 180,
+      "sha256": "08a43ebc41f0c0fe5f7d1678579765af3fe17060660ee80d571e3a21707340ac",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 86,
+        "3": 6,
+        "7": 2,
+        "15": 86
+      }
+    },
+    {
+      "battle_id": 30,
+      "width": 13,
+      "height": 20,
+      "cell_count": 260,
+      "sha256": "17e203f8341213f7a0b3e10f398fedf56a4f0ea892ae933cf13323408be2e0ca",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 142,
+        "3": 2,
+        "7": 6,
+        "15": 110
+      }
+    },
+    {
+      "battle_id": 31,
+      "width": 11,
+      "height": 21,
+      "cell_count": 231,
+      "sha256": "feb29d7ff92ff55e902f61471b230aa9bb58aa64f719c1cefa820ec9d41623b6",
+      "low_nibble_values": [
+        0,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 117,
+        "7": 12,
+        "15": 102
+      }
+    },
+    {
+      "battle_id": 32,
+      "width": 13,
+      "height": 26,
+      "cell_count": 338,
+      "sha256": "233b18424490a34a770ef8c0ccac9ed83efd56654dd8284d3b523525056a663d",
+      "low_nibble_values": [
+        0,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 179,
+        "7": 4,
+        "15": 155
+      }
+    },
+    {
+      "battle_id": 33,
+      "width": 9,
+      "height": 20,
+      "cell_count": 180,
+      "sha256": "73844f0fc6033517576425ab77a289f877ff5251de5f2e879ddbf67e74882ac6",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 81,
+        "3": 5,
+        "7": 8,
+        "15": 86
+      }
+    },
+    {
+      "battle_id": 34,
+      "width": 9,
+      "height": 16,
+      "cell_count": 144,
+      "sha256": "7c7eb6e3424999a1e7b3d035ec4bc79151a93b5d01b76dd62438e6d5cee1aa49",
+      "low_nibble_values": [
+        0,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 70,
+        "15": 74
+      }
+    },
+    {
+      "battle_id": 35,
+      "width": 11,
+      "height": 32,
+      "cell_count": 352,
+      "sha256": "50402c03354bfc545bf636ced62f8fa520267744d93f97b2946d7af2da4ebeec",
+      "low_nibble_values": [
+        0,
+        1,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 140,
+        "1": 14,
+        "15": 198
+      }
+    },
+    {
+      "battle_id": 36,
+      "width": 13,
+      "height": 17,
+      "cell_count": 221,
+      "sha256": "8043ee5031d0ce997900fc6f1cb8e6fc08a5b91ecf1750ea9cc66fe31a02cf89",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 93,
+        "3": 6,
+        "7": 18,
+        "15": 104
+      }
+    },
+    {
+      "battle_id": 37,
+      "width": 11,
+      "height": 21,
+      "cell_count": 231,
+      "sha256": "c46bcf2c97c3f595f3b8d0d74a31573af59035fba6fc2be580ffb7203d0f5073",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 91,
+        "1": 28,
+        "3": 4,
+        "7": 8,
+        "15": 100
+      }
+    },
+    {
+      "battle_id": 38,
+      "width": 15,
+      "height": 21,
+      "cell_count": 315,
+      "sha256": "9f3ec0717962bded3925bd0f01fa4ebd42d3813b1c0025bfd9060822261d45d4",
+      "low_nibble_values": [
+        0,
+        3,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 183,
+        "3": 10,
+        "15": 122
+      }
+    },
+    {
+      "battle_id": 39,
+      "width": 9,
+      "height": 22,
+      "cell_count": 198,
+      "sha256": "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 99,
+        "1": 6,
+        "3": 1,
+        "7": 2,
+        "15": 90
+      }
+    },
+    {
+      "battle_id": 40,
+      "width": 9,
+      "height": 22,
+      "cell_count": 198,
+      "sha256": "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 99,
+        "1": 6,
+        "3": 1,
+        "7": 2,
+        "15": 90
+      }
+    },
+    {
+      "battle_id": 41,
+      "width": 9,
+      "height": 22,
+      "cell_count": 198,
+      "sha256": "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 99,
+        "1": 6,
+        "3": 1,
+        "7": 2,
+        "15": 90
+      }
+    },
+    {
+      "battle_id": 42,
+      "width": 9,
+      "height": 22,
+      "cell_count": 198,
+      "sha256": "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 99,
+        "1": 6,
+        "3": 1,
+        "7": 2,
+        "15": 90
+      }
+    },
+    {
+      "battle_id": 43,
+      "width": 9,
+      "height": 22,
+      "cell_count": 198,
+      "sha256": "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 99,
+        "1": 6,
+        "3": 1,
+        "7": 2,
+        "15": 90
+      }
+    },
+    {
+      "battle_id": 44,
+      "width": 9,
+      "height": 22,
+      "cell_count": 198,
+      "sha256": "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 99,
+        "1": 6,
+        "3": 1,
+        "7": 2,
+        "15": 90
+      }
+    },
+    {
+      "battle_id": 45,
+      "width": 9,
+      "height": 22,
+      "cell_count": 198,
+      "sha256": "b5519b9ecc7124c0da001af9f3901f2a1ef2bbd94799366474a12b016db66c91",
+      "low_nibble_values": [
+        0,
+        1,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 99,
+        "1": 6,
+        "3": 1,
+        "7": 2,
+        "15": 90
+      }
+    },
+    {
+      "battle_id": 46,
+      "width": 11,
+      "height": 20,
+      "cell_count": 220,
+      "sha256": "7b15b55965d5ab937a687ed0e7365611f335e53d83108c519e661957f3bab60b",
+      "low_nibble_values": [
+        0,
+        3,
+        7,
+        15
+      ],
+      "low_nibble_counts": {
+        "0": 84,
+        "3": 12,
+        "7": 18,
+        "15": 106
+      }
+    }
+  ]
+}

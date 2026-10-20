@@ -1,0 +1,99 @@
+{
+  "format": "naruto-continuation-project",
+  "version": 1,
+  "title": "编辑器基础演习模板",
+  "scope": "独立教学演习。",
+  "assetLimitations": [
+    "凯有新增独立头像与基础战斗动作；其他缺少原版素材的新增角色仍由通用战斗形象代演，名称与技能配置独立。",
+    "螺旋丸、千鸟、守鹤等新增表现借用原版同类效果，不是完整新动画。"
+  ],
+  "editions": {
+    "continuation": {
+      "entry": 54,
+      "baseLevel": 12,
+      "retainOriginalCampaign": true
+    },
+    "restart": {
+      "entry": 1,
+      "baseLevel": 1,
+      "replaceFirstBattle": true
+    }
+  },
+  "battles": [
+    {
+      "title": "演习·基础训练",
+      "arc": "编辑器教学",
+      "map": 32,
+      "actors": [
+        {
+          "id": 47,
+          "side": 0,
+          "x": 4,
+          "y": 4,
+          "level": 12,
+          "skills": [
+            41
+          ],
+          "hpFloor": 200
+        },
+        {
+          "id": 33,
+          "side": 1,
+          "x": 7,
+          "y": 4,
+          "level": 1,
+          "skills": [
+            5
+          ]
+        }
+      ],
+      "before": [
+        {
+          "speaker": 47,
+          "text": "训练开始！先看清道路，再向对手靠近。"
+        },
+        {
+          "speaker": 47,
+          "text": "这是一场基础演习。完成战斗后，我们再试着修改关卡。"
+        }
+      ],
+      "after": [
+        {
+          "speaker": 47,
+          "text": "演习完成！配合移动和攻击，才能把握战斗的节奏。"
+        },
+        {
+          "speaker": 47,
+          "text": "接下来轮到你安排新的任务了。"
+        }
+      ],
+      "objective": "击退演习对手",
+      "description": "阿凯带领的基础战斗演习。",
+      "hint": "先移动到敌人附近，再使用攻击。",
+      "aliases": {
+        "33": "演习对手"
+      },
+      "mechanic": "tutorial",
+      "canonicalOutcome": "基础演习完成。"
+    }
+  ],
+  "sources": [
+    {
+      "title": "官方漫画第8卷：预选开始",
+      "url": "https://naruto-official.com/comics/01_90"
+    },
+    {
+      "title": "官方漫画第16卷：木叶崩溃结束",
+      "url": "https://naruto-official.com/comics/01_98"
+    },
+    {
+      "title": "官方漫画第19卷：三忍之战",
+      "url": "https://naruto-official.com/comics/01_101"
+    },
+    {
+      "title": "官方漫画第27卷：旅立之日",
+      "url": "https://naruto-official.com/comics/01_109"
+    }
+  ],
+  "basicAttackPower": 25
+}

@@ -1,9 +1,9 @@
 {
   "schema": "konoha.reverse-results-index.v1",
-  "generated_at": "2026-10-20T17:25:16.815509+00:00",
+  "generated_at": "2026-10-20T18:11:24.118394+00:00",
   "source": {
     "reverse_root": "/Users/altair/github/gba-naruto-reverse",
-    "commit": "f054f4c1e240c87583f1059b64eb1fc199aada07",
+    "commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375",
     "dirty": false,
     "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
   },
@@ -12,14 +12,14 @@
     "visual": 130,
     "battle": 13,
     "presentation": 29,
-    "other": 240,
+    "other": 241,
     "overview": 3,
     "map": 33,
     "residual": 23,
     "rom": 252,
     "runtime": 13,
     "scenario": 23,
-    "code": 1440
+    "code": 1442
   },
   "entries": [
     {
@@ -8306,6 +8306,13 @@
       "title": "WASM 运行时 API 审计（2026-07-10）"
     },
     {
+      "id": "windows-porting-20261020",
+      "kind": "note",
+      "category": "other",
+      "path": "notes/windows-porting-20261020.md",
+      "title": "Windows 迁移：逆向工具链的平台缺口（2026-10-20）"
+    },
+    {
       "id": "world-map-background-export-20260729",
       "kind": "note",
       "category": "map",
@@ -12238,6 +12245,13 @@
       "category": "code",
       "path": "tools/prepare_rom_verifier_contracts.py",
       "title": "These are original CONTRACT_SHA256 values, not new semantic attestations."
+    },
+    {
+      "id": "prepare_rom_verifier_contracts_win",
+      "kind": "tool",
+      "category": "code",
+      "path": "tools/prepare_rom_verifier_contracts_win.py",
+      "title": "Identical table to tools/prepare_rom_verifier_contracts.py:"
     },
     {
       "id": "profile_coverage_build",
@@ -17609,6 +17623,13 @@
       "title": "test_prepare_rom_verifier_contracts"
     },
     {
+      "id": "test_prepare_rom_verifier_contracts_win",
+      "kind": "test",
+      "category": "code",
+      "path": "tests/test_prepare_rom_verifier_contracts_win.py",
+      "title": "test_prepare_rom_verifier_contracts_win"
+    },
+    {
       "id": "test_project_resource_guard",
       "kind": "test",
       "category": "code",
@@ -19205,7 +19226,7 @@
       "status": "reused",
       "title": "同帧收据**完全自洽**：从 dump 重建 = PNG 38,400/38,400 逐像素一致（推翻「PNG 与 dump 不自洽」）",
       "audit": "source found",
-      "source_sha256": "2812c34702b8511a6247624a7fa2e3dedfc26e10394dd32dc31d8a25d230180f"
+      "source_sha256": "bbdc78c6efe7c469793eb5ad5bc97c821a7c4fbb098d7353172df4410d505a85"
     },
     {
       "category": "visual",
@@ -19226,6 +19247,16 @@
       "title": "原版覆盖层 = 每张地图烘焙好的一张静态布局图（BG2 tilemap，16 种签名，212 格会变）",
       "audit": "source found",
       "source_sha256": "ea8e98fca4b1f9c4bea46ec4bede6901f89fb7b1213256848b057baad8fb0d79"
+    },
+    {
+      "category": "visual",
+      "evidence": "逐字节坐实（Capstone 反汇编，落在收据 `artifacts/rom-pram-halfword-writes-v1/pram-halfword-writes.json` 里）：`push {lr}` @0x0806A7A0 → `ldrb r0,[r3,#0x12]`（bank）→ `lsls #5` → `ldr r1,[pc,#0xc]`（=0x0500021E，字面量池 @0x0806A7F4）→ `adds` → `lsls r1,r2,#5` / `lsls r2,r2,#0xa` / `ors` → **`strh r1,[r0]` @0x0806A7EE**；而 `v` 来自 `ldr r1,[r0]`（全局计数器）→ `movs r0,#0xf` → `ands r0,r1` → `lsls #1` → `adds #1` ⇒ **v = (global & 0xF) * 2 + 1**（1,3,…,31 的 32 帧三角波）。⇒ **S49 单位动画每帧 1 px 差异的根已找到**：重制侧必须复刻这个每帧描边色写入。工具 `tools/export_rom_pram_halfword_writes.py`（普查 ROM 里 912 处指向 PRAM 的字面量、142 个不同值，逐个解出加载它的 Thumb LDR 与所属函数，候选 PUSH 用反汇编复核）；门禁 `tests/test_rom_pram_halfword_writes.py`（7 项，含「三角波计算必须在收据自己的字节里可见」）；scope 如实声明：覆盖经字面量池到达 PRAM 的写法，**不覆盖**无字面量的纯寄存器计算地址。",
+      "id": "s49-pram-outline-write",
+      "source": "notes/s49-pram-outline-write-20261021.md",
+      "status": "reused",
+      "title": "原版单位描边色的每帧写入点：ROM 0x0806A7A0（PRAM 0x0500021E+bank*32，值 (v<<10)|(v<<5)，v=(global&0xF)*2+1）",
+      "audit": "source found",
+      "source_sha256": "adc8fb1872422d96b3fe91e1b47717aaf22af33321fdc6f60afc19b6eb538666"
     }
   ],
   "ledger_problems": []

@@ -1,16 +1,16 @@
 {
  "schema": "konoha.reverse-notes-index.v1",
- "generated_at": "2026-10-20T17:25:20.727555+00:00",
+ "generated_at": "2026-10-20T18:11:28.307113+00:00",
  "source": {
   "reverse_root": "/Users/altair/github/gba-naruto-reverse",
   "reverse_notes_dir": "/Users/altair/github/gba-naruto-reverse/notes",
-  "reverse_commit": "f054f4c1e240c87583f1059b64eb1fc199aada07",
-  "note_files": 435,
-  "unique_note_ids": 397
+  "reverse_commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375",
+  "note_files": 436,
+  "unique_note_ids": 398
  },
  "measurement": {
   "unit": "reverse note file",
-  "scanned_files": 4240,
+  "scanned_files": 4358,
   "scan_roots": [
    "butano-sequel",
    "tools",
@@ -41,38 +41,38 @@
   "min_bare_identifier": 8
  },
  "summary": {
-  "total": 435,
+  "total": 436,
   "by_bucket": {
-   "implemented_in_code": 21,
+   "implemented_in_code": 28,
    "not_applicable": 43,
    "missing_evidence": 19,
-   "needs_guard": 339,
+   "needs_guard": 333,
    "needs_human_review": 13
   },
   "by_pre_index_status": {
-   "build": 21,
+   "build": 28,
    "local_artifact": 3,
-   "test": 27,
-   "doc": 174,
+   "test": 26,
+   "doc": 169,
    "none": 210
   },
-  "needs_guard_already_referenced_from_tests": 20,
-  "needs_guard_without_any_test_reference": 319,
+  "needs_guard_already_referenced_from_tests": 19,
+  "needs_guard_without_any_test_reference": 314,
   "by_category": {
    "audio": {
     "needs_guard": 4
    },
    "battle": {
-    "implemented_in_code": 2,
-    "needs_guard": 8
+    "implemented_in_code": 3,
+    "needs_guard": 7
    },
    "map": {
     "needs_guard": 18
    },
    "other": {
-    "implemented_in_code": 14,
+    "implemented_in_code": 18,
     "missing_evidence": 4,
-    "needs_guard": 109,
+    "needs_guard": 106,
     "needs_human_review": 13,
     "not_applicable": 29
    },
@@ -86,12 +86,14 @@
     "needs_guard": 10
    },
    "rom": {
+    "implemented_in_code": 1,
     "missing_evidence": 15,
-    "needs_guard": 94,
+    "needs_guard": 93,
     "not_applicable": 14
    },
    "runtime": {
-    "needs_guard": 8
+    "implemented_in_code": 1,
+    "needs_guard": 7
    },
    "scenario": {
     "implemented_in_code": 3,
@@ -110,13 +112,33 @@
    "title": "Confirmed",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（sequel/content/battle-config/ninja-tool-identities.json:3、sequel/content/text/sjis-to-tile-addr-20260703.json:6、tools/README.md:484）。",
-   "evidence": "sequel/content/battle-config/ninja-tool-identities.json; sequel/content/text/sjis-to-tile-addr-20260703.json; tools/README.md; tools/analyze_battle_condition_interpreter.py; tools/analyze_battle_defense_reaction.py; tools/analyze_battle_status_consumers.py",
+   "reason": "本树构建链引用了本条结论（sequel/content/battle-config/ninja-tool-identities.json:3、sequel/content/items/bank.json:56、sequel/content/story-c/bank.json:128）。",
+   "evidence": "sequel/content/battle-config/ninja-tool-identities.json; sequel/content/items/bank.json; sequel/content/story-c/bank.json; sequel/content/story-d/bank.json; sequel/content/story-e/bank.json; sequel/content/text/sjis-to-tile-addr-20260703.json",
    "missing": "",
    "consumers": [
     {
      "path": "sequel/content/battle-config/ninja-tool-identities.json",
      "line": 3,
+     "kind": "code"
+    },
+    {
+     "path": "sequel/content/items/bank.json",
+     "line": 56,
+     "kind": "code"
+    },
+    {
+     "path": "sequel/content/story-c/bank.json",
+     "line": 128,
+     "kind": "code"
+    },
+    {
+     "path": "sequel/content/story-d/bank.json",
+     "line": 135,
+     "kind": "code"
+    },
+    {
+     "path": "sequel/content/story-e/bank.json",
+     "line": 121,
      "kind": "code"
     },
     {
@@ -126,12 +148,27 @@
     },
     {
      "path": "tools/README.md",
-     "line": 484,
+     "line": 46,
      "kind": "markdown"
     },
     {
      "path": "tools/README.md",
-     "line": 777,
+     "line": 72,
+     "kind": "markdown"
+    },
+    {
+     "path": "tools/README.md",
+     "line": 479,
+     "kind": "markdown"
+    },
+    {
+     "path": "tools/README.md",
+     "line": 1015,
+     "kind": "markdown"
+    },
+    {
+     "path": "tools/README.md",
+     "line": 1308,
      "kind": "markdown"
     },
     {
@@ -155,6 +192,76 @@
      "kind": "code"
     },
     {
+     "path": "tools/automated_test.py",
+     "line": 857,
+     "kind": "code"
+    },
+    {
+     "path": "tools/battle_rules_runtime.py",
+     "line": 84,
+     "kind": "code"
+    },
+    {
+     "path": "tools/battle_rules_runtime.py",
+     "line": 143,
+     "kind": "code"
+    },
+    {
+     "path": "tools/completion_audit.py",
+     "line": 118,
+     "kind": "code"
+    },
+    {
+     "path": "tools/completion_audit.py",
+     "line": 530,
+     "kind": "code"
+    },
+    {
+     "path": "tools/consumer_locate.py",
+     "line": 24,
+     "kind": "code"
+    },
+    {
+     "path": "tools/consumer_locate.py",
+     "line": 233,
+     "kind": "code"
+    },
+    {
+     "path": "tools/consumer_locate.py",
+     "line": 981,
+     "kind": "code"
+    },
+    {
+     "path": "tools/cutscene_block.py",
+     "line": 288,
+     "kind": "code"
+    },
+    {
+     "path": "tools/decode_dialogue_record.py",
+     "line": 26,
+     "kind": "code"
+    },
+    {
+     "path": "tools/decode_dialogue_record.py",
+     "line": 54,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_rom_pram_halfword_writes.py",
+     "line": 25,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_rom_pram_halfword_writes.py",
+     "line": 85,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_rom_pram_halfword_writes.py",
+     "line": 235,
+     "kind": "code"
+    },
+    {
      "path": "tools/find_resource_tables.py",
      "line": 14,
      "kind": "code"
@@ -175,8 +282,38 @@
      "kind": "code"
     },
     {
+     "path": "tools/hook_points.py",
+     "line": 16,
+     "kind": "code"
+    },
+    {
+     "path": "tools/hook_points.py",
+     "line": 61,
+     "kind": "code"
+    },
+    {
      "path": "tools/import_battle_config.py",
-     "line": 47,
+     "line": 62,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_battle_config.py",
+     "line": 133,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_battle_config.py",
+     "line": 691,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_battle_config.py",
+     "line": 731,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_story_script.py",
+     "line": 19,
      "kind": "code"
     },
     {
@@ -185,8 +322,18 @@
      "kind": "code"
     },
     {
+     "path": "tools/mechanism_map.py",
+     "line": 147,
+     "kind": "code"
+    },
+    {
      "path": "tools/mgba-headless-snapshot.py",
      "line": 175,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/render_screen.py",
+     "line": 91,
      "kind": "code"
     },
     {
@@ -195,13 +342,68 @@
      "kind": "code"
     },
     {
+     "path": "tools/probe_external_re_claims.py",
+     "line": 5,
+     "kind": "code"
+    },
+    {
+     "path": "tools/probe_external_re_claims.py",
+     "line": 26,
+     "kind": "code"
+    },
+    {
      "path": "tools/reverse_benchmark/packets.py",
      "line": 678,
      "kind": "code"
     },
     {
+     "path": "tools/reward_rules_semantics.py",
+     "line": 38,
+     "kind": "code"
+    },
+    {
+     "path": "tools/runtime_state.py",
+     "line": 13,
+     "kind": "code"
+    },
+    {
+     "path": "tools/runtime_state.py",
+     "line": 112,
+     "kind": "code"
+    },
+    {
+     "path": "tools/story_table_locate.py",
+     "line": 130,
+     "kind": "code"
+    },
+    {
+     "path": "tools/story_table_locate.py",
+     "line": 268,
+     "kind": "code"
+    },
+    {
+     "path": "tools/story_table_locate.py",
+     "line": 280,
+     "kind": "code"
+    },
+    {
+     "path": "tools/story_table_locate.py",
+     "line": 400,
+     "kind": "code"
+    },
+    {
      "path": "tools/summarize_watch_hits.py",
      "line": 70,
+     "kind": "code"
+    },
+    {
+     "path": "tools/table_registry.py",
+     "line": 2,
+     "kind": "code"
+    },
+    {
+     "path": "tools/table_registry.py",
+     "line": 163,
      "kind": "code"
     }
    ],
@@ -209,13 +411,13 @@
    "pre_index_status": "build",
    "pre_index_references": [
     "build:sequel/content/battle-config/ninja-tool-identities.json",
+    "build:sequel/content/items/bank.json",
+    "build:sequel/content/story-c/bank.json",
+    "build:sequel/content/story-d/bank.json",
+    "build:sequel/content/story-e/bank.json",
     "build:sequel/content/text/sjis-to-tile-addr-20260703.json",
     "build:tools/README.md",
-    "build:tools/analyze_battle_condition_interpreter.py",
-    "build:tools/analyze_battle_defense_reaction.py",
-    "build:tools/analyze_battle_status_consumers.py",
-    "build:tools/find_resource_tables.py",
-    "build:tools/generate_butano_battle_presentation_glyphs.py"
+    "build:tools/analyze_battle_condition_interpreter.py"
    ],
    "material_kinds": [
     "data_contract"
@@ -510,10 +712,35 @@
    "title": "Status",
    "category": "battle",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/mgba_trace_chapter_init.lua:12）。",
-   "evidence": "tools/mgba_trace_chapter_init.lua",
+   "reason": "本树构建链引用了本条结论（tools/import_battle_config.py:165、tools/import_battle_config.py:209、tools/import_battle_config.py:23）。",
+   "evidence": "tools/import_battle_config.py; tools/mgba_trace_chapter_init.lua",
    "missing": "",
    "consumers": [
+    {
+     "path": "tools/import_battle_config.py",
+     "line": 23,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_battle_config.py",
+     "line": 68,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_battle_config.py",
+     "line": 165,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_battle_config.py",
+     "line": 209,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_battle_config.py",
+     "line": 277,
+     "kind": "code"
+    },
     {
      "path": "tools/mgba_trace_chapter_init.lua",
      "line": 12,
@@ -523,12 +750,14 @@
    "reference_strength": "code",
    "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/import_battle_config.py",
     "build:tools/mgba_trace_chapter_init.lua",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/battle-config-format.md",
+    "doc:notes/battle-tables.md",
     "doc:notes/chapter-entry-points.md",
     "doc:notes/chapter-flow-format.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/evidence/mechanism-sprite-background-20261020.md"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -549,15 +778,25 @@
    "path": "notes/battle-config-unsafe-template-fix-20260710.md",
    "title": "尝试内容",
    "category": "battle",
-   "bucket": "needs_guard",
-   "reason": "已给出原版行为的可核验结论（12 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。",
-   "evidence": "notes/battle-config-unsafe-template-fix-20260710.md",
+   "bucket": "implemented_in_code",
+   "reason": "本树构建链引用了本条结论（tools/completion_audit.py:716）。",
+   "evidence": "tools/completion_audit.py",
    "missing": "",
-   "consumers": [],
-   "reference_strength": "",
-   "pre_index_status": "doc",
+   "consumers": [
+    {
+     "path": "tools/completion_audit.py",
+     "line": 716,
+     "kind": "code"
+    }
+   ],
+   "reference_strength": "code",
+   "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/completion_audit.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
+    "doc:notes/alias-conflicts-20261020.md",
+    "doc:notes/completion-audit-20261020.md",
+    "doc:notes/db-writeback-correction-20261020.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/s49-needs-guard-gates-20261020.md"
    ],
@@ -2434,7 +2673,10 @@
    "pre_index_status": "doc",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
+    "doc:notes/battle-config-format.md",
     "doc:notes/chapter-entry-points.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/mgba-probe-build-20261020.md",
     "doc:notes/re-completion-audit.json"
    ],
    "material_kinds": [
@@ -2762,6 +3004,7 @@
     "build:sequel/content/units/bank.json",
     "build:tools/extract_character_definitions.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
+    "doc:notes/character-template-format-20261020.md",
     "doc:notes/dynamic-verification-audit.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/re-completion-audit.json",
@@ -3292,16 +3535,25 @@
    "path": "notes/dialogue-format.md",
    "title": "权威基线",
    "category": "other",
-   "bucket": "needs_guard",
-   "reason": "已给出原版行为的可核验结论（23 处 ROM 地址、2 个逆向成果族、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。",
-   "evidence": "notes/dialogue-format.md",
+   "bucket": "implemented_in_code",
+   "reason": "本树构建链引用了本条结论（tools/konoha_font.py:7）。",
+   "evidence": "tools/konoha_font.py",
    "missing": "",
-   "consumers": [],
-   "reference_strength": "",
-   "pre_index_status": "doc",
+   "consumers": [
+    {
+     "path": "tools/konoha_font.py",
+     "line": 7,
+     "kind": "code"
+    }
+   ],
+   "reference_strength": "code",
+   "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/konoha_font.py",
     "doc:notes/dialogue-format.md",
-    "doc:notes/dialogue-mapping-blocker-20260702.md"
+    "doc:notes/dialogue-mapping-blocker-20260702.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/font-encoding.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -3363,7 +3615,9 @@
    "reference_strength": "",
    "pre_index_status": "doc",
    "pre_index_references": [
-    "doc:notes/dialogue-mapping-blocker-20260702.md"
+    "doc:notes/dialogue-mapping-blocker-20260702.md",
+    "doc:notes/gba-static-recomp-baseline-eval-20261020.md",
+    "doc:notes/gba-static-recomp-feasibility-20261020.md"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -3683,18 +3937,18 @@
    "title": "Top PCs",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/README.md:168、tools/README.md:170、tools/mgba_trace_dialogue_writes.lua:16）。",
+   "reason": "本树构建链引用了本条结论（tools/README.md:699、tools/README.md:701、tools/mgba_trace_dialogue_writes.lua:16）。",
    "evidence": "tools/README.md; tools/mgba_trace_dialogue_writes.lua",
    "missing": "",
    "consumers": [
     {
      "path": "tools/README.md",
-     "line": 168,
+     "line": 699,
      "kind": "markdown"
     },
     {
      "path": "tools/README.md",
-     "line": 170,
+     "line": 701,
      "kind": "markdown"
     },
     {
@@ -4059,8 +4313,11 @@
    "pre_index_references": [
     "doc:docs/final-completion-report.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/runtime-verification-gates-20260710.md"
+    "doc:notes/runtime-verification-gates-20260710.md",
+    "doc:notes/unknown-bgm-sfx.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -5652,8 +5909,8 @@
    "title": "Summary",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/import_chapter_scripts.py:50、tools/import_chapter_scripts.py:52、tools/import_dialogue_var.py:144）。",
-   "evidence": "tools/import_chapter_scripts.py; tools/import_dialogue_var.py",
+   "reason": "本树构建链引用了本条结论（tools/import_chapter_scripts.py:50、tools/import_chapter_scripts.py:52）。",
+   "evidence": "tools/import_chapter_scripts.py",
    "missing": "",
    "consumers": [
     {
@@ -5665,28 +5922,12 @@
      "path": "tools/import_chapter_scripts.py",
      "line": 52,
      "kind": "code"
-    },
-    {
-     "path": "tools/import_dialogue_var.py",
-     "line": 75,
-     "kind": "code"
-    },
-    {
-     "path": "tools/import_dialogue_var.py",
-     "line": 77,
-     "kind": "code"
-    },
-    {
-     "path": "tools/import_dialogue_var.py",
-     "line": 144,
-     "kind": "code"
     }
    ],
    "reference_strength": "code",
    "pre_index_status": "build",
    "pre_index_references": [
     "build:tools/import_chapter_scripts.py",
-    "build:tools/import_dialogue_var.py",
     "doc:docs/development-status.md",
     "doc:docs/web-editor-spec.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
@@ -5806,8 +6047,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "none",
-   "pre_index_references": [],
+   "pre_index_status": "doc",
+   "pre_index_references": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
    "material_kinds": [
     "guard_condition",
     "defect_semantics",
@@ -6356,13 +6599,13 @@
    "title": "Outcome and boundary",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/README.md:280）。",
+   "reason": "本树构建链引用了本条结论（tools/README.md:811）。",
    "evidence": "tools/README.md",
    "missing": "",
    "consumers": [
     {
      "path": "tools/README.md",
-     "line": 280,
+     "line": 811,
      "kind": "markdown"
     }
    ],
@@ -6491,9 +6734,11 @@
     "doc:docs/rom-sequel-plan.md",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/chapter-flow-format.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/map-format.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/tile-asset-rules-20261020.md"
    ],
    "material_kinds": [
     "data_contract"
@@ -6698,7 +6943,8 @@
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:notes/battle-config-format.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/tile-asset-rules-20261020.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -7274,8 +7520,11 @@
    "reference_strength": "",
    "pre_index_status": "doc",
    "pre_index_references": [
-    "doc:notes/patch-generator-audit.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/resource-locations.md",
+    "doc:notes/unknown-bgm-sfx.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -7348,7 +7597,8 @@
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:notes/addresses.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/runtime-and-object-tables-20261020.md"
    ],
    "material_kinds": [
     "data_contract"
@@ -7430,8 +7680,8 @@
    "title": "汇总",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/audit_re_completion.py:292、tools/audit_re_completion.py:293）。",
-   "evidence": "tools/audit_re_completion.py",
+   "reason": "本树构建链引用了本条结论（tools/audit_re_completion.py:292、tools/audit_re_completion.py:293、tools/completion_audit.py:6）。",
+   "evidence": "tools/audit_re_completion.py; tools/completion_audit.py",
    "missing": "",
    "consumers": [
     {
@@ -7443,16 +7693,24 @@
      "path": "tools/audit_re_completion.py",
      "line": 293,
      "kind": "code"
+    },
+    {
+     "path": "tools/completion_audit.py",
+     "line": 6,
+     "kind": "code"
     }
    ],
    "reference_strength": "code",
    "pre_index_status": "build",
    "pre_index_references": [
     "build:tools/audit_re_completion.py",
+    "build:tools/completion_audit.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md",
-    "doc:notes/current-re-progress-20260711.md"
+    "doc:notes/completion-audit-20261020.md",
+    "doc:notes/current-re-progress-20260711.md",
+    "doc:notes/why-external-editor-shipped-20261020.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -7793,19 +8051,53 @@
    "path": "notes/resource-locations.md",
    "title": "Battle Map Tilesets",
    "category": "other",
-   "bucket": "needs_guard",
-   "reason": "已给出原版行为的可核验结论（43 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。",
-   "evidence": "notes/resource-locations.md",
+   "bucket": "implemented_in_code",
+   "reason": "本树构建链引用了本条结论（tools/README.md:138、tools/completion_audit.py:131、tools/completion_audit.py:132）。",
+   "evidence": "tools/README.md; tools/completion_audit.py",
    "missing": "",
-   "consumers": [],
-   "reference_strength": "",
-   "pre_index_status": "test",
+   "consumers": [
+    {
+     "path": "tools/README.md",
+     "line": 138,
+     "kind": "markdown"
+    },
+    {
+     "path": "tools/completion_audit.py",
+     "line": 131,
+     "kind": "code"
+    },
+    {
+     "path": "tools/completion_audit.py",
+     "line": 132,
+     "kind": "code"
+    },
+    {
+     "path": "tools/completion_audit.py",
+     "line": 166,
+     "kind": "code"
+    },
+    {
+     "path": "tools/completion_audit.py",
+     "line": 167,
+     "kind": "code"
+    },
+    {
+     "path": "tools/completion_audit.py",
+     "line": 335,
+     "kind": "code"
+    }
+   ],
+   "reference_strength": "code",
+   "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/README.md",
+    "build:tools/completion_audit.py",
     "doc:docs/development-status.md",
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/map-format.md",
-    "doc:notes/re-completion-audit.json",
-    "test:tests/test_butano_research_docs.py"
+    "doc:notes/completion-audit-20261020.md",
+    "doc:notes/evidence/story-table-family-20261020.md",
+    "doc:notes/evidence/text-encoding-l3-20261020.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md"
    ],
    "material_kinds": [
     "data_contract"
@@ -9523,14 +9815,21 @@
    "path": "notes/rom-gpu-copy-queue-inventory-20260730.md",
    "title": "结论",
    "category": "rom",
-   "bucket": "needs_guard",
-   "reason": "已给出原版行为的可核验结论（53 处 ROM 地址、2 个逆向成果族、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。",
-   "evidence": "notes/rom-gpu-copy-queue-inventory-20260730.md",
+   "bucket": "implemented_in_code",
+   "reason": "本树构建链引用了本条结论（tools/export_rom_pram_halfword_writes.py:9）。",
+   "evidence": "tools/export_rom_pram_halfword_writes.py",
    "missing": "",
-   "consumers": [],
-   "reference_strength": "",
-   "pre_index_status": "doc",
+   "consumers": [
+    {
+     "path": "tools/export_rom_pram_halfword_writes.py",
+     "line": 9,
+     "kind": "code"
+    }
+   ],
+   "reference_strength": "code",
+   "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/export_rom_pram_halfword_writes.py",
     "doc:docs/konoha-senki/01-battle-s49.md",
     "doc:notes/s49-field-frame-order-20261020.md"
    ],
@@ -11233,7 +11532,7 @@
    "reference_strength": "",
    "pre_index_status": "doc",
    "pre_index_references": [
-    "doc:notes/runtime-state-entry-audit-20260710.md",
+    "doc:notes/mgba-c-api-probe-plan-20261020.md",
     "doc:notes/runtime-verification-gates-20260710.md"
    ],
    "material_kinds": [
@@ -11259,16 +11558,43 @@
    "path": "notes/runtime-verification-gates-20260710.md",
    "title": "目的与结论",
    "category": "runtime",
-   "bucket": "needs_guard",
-   "reason": "已给出原版行为的可核验结论（96 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。",
-   "evidence": "notes/runtime-verification-gates-20260710.md",
+   "bucket": "implemented_in_code",
+   "reason": "本树构建链引用了本条结论（tools/completion_audit.py:16、tools/mgba_probe/navigate.py:5、tools/mgba_probe/runtime_probe.py:6）。",
+   "evidence": "tools/completion_audit.py; tools/mgba_probe/navigate.py; tools/mgba_probe/runtime_probe.py; tools/mgba_probe/sample_l2.py",
    "missing": "",
-   "consumers": [],
-   "reference_strength": "",
-   "pre_index_status": "doc",
+   "consumers": [
+    {
+     "path": "tools/completion_audit.py",
+     "line": 16,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/navigate.py",
+     "line": 5,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/runtime_probe.py",
+     "line": 6,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/sample_l2.py",
+     "line": 4,
+     "kind": "code"
+    }
+   ],
+   "reference_strength": "code",
+   "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/completion_audit.py",
+    "build:tools/mgba_probe/navigate.py",
+    "build:tools/mgba_probe/runtime_probe.py",
+    "build:tools/mgba_probe/sample_l2.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/ai-cost-of-native-port-projects-20261020.md",
+    "doc:notes/alias-conflicts-20261020.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12108,13 +12434,13 @@
    "title": "2026-08-09 strict-proof rescan",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/README.md:121）。",
+   "reason": "本树构建链引用了本条结论（tools/README.md:652）。",
    "evidence": "tools/README.md",
    "missing": "",
    "consumers": [
     {
      "path": "tools/README.md",
-     "line": 121,
+     "line": 652,
      "kind": "markdown"
     }
    ],
@@ -12589,7 +12915,9 @@
    "reference_strength": "",
    "pre_index_status": "doc",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/gba-static-recomp-feasibility-20261020.md",
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/recomp-modification-surfaces-20261020.md"
    ],
    "material_kinds": [
     "data_contract"
@@ -12783,15 +13111,23 @@
    "path": "notes/u32-pointer-real-writeback-20260710.md",
    "title": "尝试内容",
    "category": "other",
-   "bucket": "needs_guard",
-   "reason": "已给出原版行为的可核验结论（37 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。",
-   "evidence": "notes/u32-pointer-real-writeback-20260710.md",
+   "bucket": "implemented_in_code",
+   "reason": "本树构建链引用了本条结论（tools/table_registry.py:10）。",
+   "evidence": "tools/table_registry.py",
    "missing": "",
-   "consumers": [],
-   "reference_strength": "",
-   "pre_index_status": "doc",
+   "consumers": [
+    {
+     "path": "tools/table_registry.py",
+     "line": 10,
+     "kind": "code"
+    }
+   ],
+   "reference_strength": "code",
+   "pre_index_status": "build",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "build:tools/table_registry.py",
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/re-methodology-improvements-20261020.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12884,6 +13220,8 @@
    "pre_index_status": "doc",
    "pre_index_references": [
     "doc:docs/reverse-engineering-handoff-20260711.md",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/evidence/units-offset-table-20261020.md",
     "doc:notes/re-completion-audit.json"
    ],
    "material_kinds": [
@@ -12914,7 +13252,10 @@
    "pre_index_status": "doc",
    "pre_index_references": [
     "doc:docs/rom-reverse-engineering-results.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/patch-generator-audit.md",
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/resource-locations.md"
    ],
    "material_kinds": [
     "data_contract"
@@ -12999,6 +13340,7 @@
    "pre_index_status": "doc",
    "pre_index_references": [
     "doc:docs/rom-reverse-engineering-results.md",
+    "doc:notes/evidence/writeback-paths-20261020.md",
     "doc:notes/re-completion-audit.json"
    ],
    "material_kinds": [],
@@ -13134,20 +13476,28 @@
    "path": "notes/wasm-formation-probe-result-20260710.md",
    "title": "证据修正",
    "category": "other",
-   "bucket": "needs_guard",
-   "reason": "已给出原版行为的可核验结论（17 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。",
-   "evidence": "notes/wasm-formation-probe-result-20260710.md",
+   "bucket": "implemented_in_code",
+   "reason": "本树构建链引用了本条结论（tools/completion_audit.py:517）。",
+   "evidence": "tools/completion_audit.py",
    "missing": "",
-   "consumers": [],
-   "reference_strength": "",
-   "pre_index_status": "doc",
+   "consumers": [
+    {
+     "path": "tools/completion_audit.py",
+     "line": 517,
+     "kind": "code"
+    }
+   ],
+   "reference_strength": "code",
+   "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/completion_audit.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
+    "doc:notes/completion-audit-20261020.md",
     "doc:notes/dynamic-verification-audit.md",
+    "doc:notes/evidence/runtime-state-l3-20261020.md",
     "doc:notes/map-position-pc-probe-20260710.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/runtime-verification-gates-20260710.md",
-    "doc:notes/wasm-formation-navigation-probe-20260710.md"
+    "doc:notes/runtime-verification-gates-20260710.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -13191,6 +13541,35 @@
     "rom_families": 0,
     "artifact_refs": 0,
     "rom_note_refs": 0,
+    "domain_category": false,
+    "is_rom_conclusion": true
+   }
+  },
+  {
+   "id": "windows-porting-20261020",
+   "path": "notes/windows-porting-20261020.md",
+   "title": "0. 一句话状态",
+   "category": "other",
+   "bucket": "needs_guard",
+   "reason": "已给出原版行为的可核验结论（2 个逆向成果族、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。",
+   "evidence": "notes/windows-porting-20261020.md",
+   "missing": "",
+   "consumers": [],
+   "reference_strength": "",
+   "pre_index_status": "none",
+   "pre_index_references": [],
+   "material_kinds": [
+    "guard_condition",
+    "data_contract"
+   ],
+   "open_headings": [
+    "1. 缺口清单"
+   ],
+   "rom_evidence": {
+    "rom_addresses": 0,
+    "rom_families": 2,
+    "artifact_refs": 1,
+    "rom_note_refs": 2,
     "domain_category": false,
     "is_rom_conclusion": true
    }

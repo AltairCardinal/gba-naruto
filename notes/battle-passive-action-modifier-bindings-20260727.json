@@ -1,0 +1,127 @@
+{
+  "boundary": "Targets 13-19 modify a per-command runtime action copy after active-action level growth or ninja-tool template loading. This manifest binds numeric predicates and does not assign unverified player-facing passive names.",
+  "definition_table": {
+    "address": "0x085459C8",
+    "base_a_offset": 2,
+    "per_level_a_offset": 6,
+    "record_size": 12,
+    "target_type_offset": 0
+  },
+  "function": {
+    "range": "0x0806D6B8..0x0806D855",
+    "sha256": "eb6688fd7b16927475ffe10c3a833326e0792ea13c8595de9a642722324182ff"
+  },
+  "identity": "battle_passive_action_modifier_bindings",
+  "initializers": {
+    "active_action": {
+      "function": "0x0806D85C",
+      "order": "action_level_growth_then_passive_modifiers",
+      "passive_modifier_callsite": "0x0806D906"
+    },
+    "ninja_tool": {
+      "function": "0x0806D910",
+      "order": "template_then_passive_modifiers",
+      "passive_modifier_callsite": "0x0806D954"
+    }
+  },
+  "pass_order": [
+    "percentage",
+    "flat_addition"
+  ],
+  "passes": {
+    "flat_addition": {
+      "jump_table": "0x0806D7B8",
+      "jump_table_entries": [
+        "0x0806D7D4",
+        "0x0806D846",
+        "0x0806D7F2",
+        "0x0806D846",
+        "0x0806D7FC",
+        "0x0806D820",
+        "0x0806D832"
+      ],
+      "jump_table_sha256": "96d0da6fa4d9f53c7a9ea90ffe142314317fa5258f5dfa5dd80036308b86ddd2",
+      "range": "0x0806D75E..0x0806D84F",
+      "sha256": "2627a331461dcb7a69d23ff10739f1842034b612f125a9e9ebb92f305467ae94",
+      "targets": {
+        "13": {
+          "cap": 99,
+          "field": "potency",
+          "operation": "add",
+          "predicate": "(header_0_1 == 0x0102 and effect_code != 0x21) or effect_code == 0x0A"
+        },
+        "14": {
+          "operation": "no_op"
+        },
+        "15": {
+          "cap": 99,
+          "field": "potency",
+          "operation": "add",
+          "predicate": "header_0_1 == 0x0101"
+        },
+        "16": {
+          "operation": "no_op"
+        },
+        "17": {
+          "cap": 99,
+          "field": "potency",
+          "operation": "add",
+          "predicate": "header_0_1 == 0x0105"
+        },
+        "18": {
+          "explicit_cap": null,
+          "field": "potency",
+          "operation": "add",
+          "predicate": "effect_code == 0x1A",
+          "storage": "u8"
+        },
+        "19": {
+          "comparison_cap_before_store": 999,
+          "field": "success_rate_percent",
+          "operation": "add",
+          "predicate": "all_runtime_actions",
+          "storage": "u8"
+        }
+      }
+    },
+    "percentage": {
+      "range": "0x0806D6C0..0x0806D75D",
+      "sha256": "60d7c5e123dc9f1ff1ecd2fa1b7f9ec13288263ea8f6cee7204c529febac090c",
+      "targets": {
+        "14": {
+          "cap": 99,
+          "field": "potency",
+          "operation": "increase_percent",
+          "predicate": "(header_0_1 == 0x0102 and effect_code != 0x21) or effect_code == 0x0A"
+        },
+        "16": {
+          "cap": 99,
+          "field": "potency",
+          "operation": "increase_percent",
+          "predicate": "header_0_1 == 0x0101"
+        }
+      }
+    }
+  },
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "runtime_action_fields": {
+    "effect_code": "+2 low 6 bits",
+    "header_0_1": "+0 u16",
+    "potency": "+4 u8",
+    "success_rate_percent": "+6 u8"
+  },
+  "schema_version": 1,
+  "secondary_slots": {
+    "count": 24,
+    "inactive_passive_id": 0,
+    "inactive_stored_levels": [
+      0,
+      255
+    ],
+    "passive_id_offset": "unit+0x50",
+    "stored_level_offset": "unit+0x51",
+    "stride": 4
+  },
+  "value_formula": "base_a + per_level_a * (stored_level - 1)"
+}

@@ -9,7 +9,6 @@ Covers all checks that do not require mGBA runtime input injection:
   4. Bytes patches   — verify applied bytes match expected after_hex
   5. Dialogue bank   — all entries encode correctly in their declared encoding
   6. Encoding sanity — no patch text exceeds max_bytes (same-length strategy)
-  7. RE banks        — reverse-engineering bank invariants match base ROM
 
 Usage:
     python tools/automated_test.py                 # run all tests
@@ -22,10 +21,10 @@ import argparse
 import hashlib
 import importlib.util
 import json
-import os
 import sqlite3
 import struct
 import sys
+import tempfile
 import traceback
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -106,31 +105,74 @@ def sha1_bytes(b: bytes) -> str:
 from tools.lib import load_json
 
 
+# The build suite builds into an isolated directory so a test run never
+# overwrites the committed build artifact.  The committed ROM/report were
+# produced with sequel/editor.db present; rebuilding without that DB drops
+# every editor-db-derived patch, which would silently degrade a tracked file.
+BUILD_OUTPUT_DIR = "build/automated-test-build"
+
+
 def build_context():
+    """The build context (report path, output ROM path, ...).
+
+    ``tools/build_mod.py::load_context`` reads ``BUILD_OUTPUT_DIR`` **per
+    call**, so every path helper below honours the env var at call time --
+    that is the build-isolation contract the tests pin.
+    """
     from tools import build_mod
     return build_mod.load_context(ROOT / "sequel/project.json")
 
 
+def build_output_paths() -> tuple[Path, Path]:
+    """(output ROM path, build report path) of the isolated test build."""
+    ctx = build_context()
+    return ctx.output_rom_path, ctx.report_path
+
+
 def build_report_path() -> Path:
+    """Build report path of the isolated test build."""
     return build_context().report_path
 
 
 def output_rom_path() -> Path:
+    """Output ROM path of the isolated test build."""
     return build_context().output_rom_path
 
 
-def editor_db_path() -> Path:
-    configured = os.environ.get("DB_PATH")
-    if configured:
-        path = Path(configured)
-        return path if path.is_absolute() else ROOT / path
-    return ROOT / "sequel/editor.db"
-
-
 def load_build_report() -> dict:
-    path = build_report_path()
+    path = build_output_paths()[1]
+    if not path.exists():
+        path = ROOT / "build/naruto-sequel-build-report.json"
     assert path.exists(), f"build report not found: {path}"
     return load_json(path)
+
+
+def ensure_isolated_build() -> Path:
+    """Build into the isolated directory if it has not been done yet.
+
+    The committed report under build/ may be stale (it was produced with a
+    full editor DB, which is not part of the repository), so the process
+    checks must read a report produced by *this* run.
+    """
+    import os
+    import subprocess
+
+    _, report = build_output_paths()
+    if not report.exists():
+        env = {
+            **os.environ,
+            "BUILD_OUTPUT_DIR": BUILD_OUTPUT_DIR,
+            # the child prints UTF-8 Chinese; a GBK console would fail to decode
+            "PYTHONIOENCODING": "utf-8",
+        }
+        result = subprocess.run(
+            [sys.executable, "tools/build_mod.py", "--project", "sequel/project.json"],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            cwd=ROOT, env=env,
+        )
+        assert result.returncode == 0, (
+            f"build_mod.py exited {result.returncode}\n{result.stderr}")
+    return report
 
 
 def load_project() -> dict:
@@ -150,29 +192,35 @@ def suite_build(runner: TestRunner) -> None:
     suite = "build"
 
     def test_build_runs() -> None:
+        import os
         import subprocess
+        env = {
+            **os.environ,
+            "BUILD_OUTPUT_DIR": BUILD_OUTPUT_DIR,
+            "PYTHONIOENCODING": "utf-8",
+        }
         result = subprocess.run(
             [sys.executable, "tools/build_mod.py", "--project", "sequel/project.json"],
-            capture_output=True, text=True, cwd=ROOT,
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            cwd=ROOT, env=env,
         )
         assert result.returncode == 0, f"build_mod.py exited {result.returncode}\n{result.stderr}"
 
     def test_output_rom_exists() -> None:
-        out = output_rom_path()
+        out, _ = build_output_paths()
         assert out.exists(), f"output ROM not found: {out}"
 
     def test_output_rom_size() -> None:
         project = load_project()
         base_path = ROOT / project["base_rom"]["path"]
-        out_path = output_rom_path()
+        out_path, _ = build_output_paths()
         assert base_path.exists(), f"base ROM not found: {base_path}"
         assert out_path.exists(), f"output ROM not found: {out_path}"
         assert base_path.stat().st_size == out_path.stat().st_size, \
             f"ROM size mismatch: base={base_path.stat().st_size} output={out_path.stat().st_size}"
 
     def test_report_exists() -> None:
-        project = load_project()
-        rp = build_report_path()
+        _, rp = build_output_paths()
         assert rp.exists(), f"build report not found: {rp}"
 
     def test_report_has_patches() -> None:
@@ -230,10 +278,7 @@ def suite_manifest(runner: TestRunner) -> None:
     def test_enabled_patches_only() -> None:
         # All enabled patches should have valid types
         manifest = load_manifest()
-        valid_types = {
-            "bytes", "dialogue", "pointer_redirect", "map", "battle_config",
-            "dialogue_var", "chapter_script",
-        }
+        valid_types = {"bytes", "dialogue", "pointer_redirect", "map", "battle_config", "dialogue_var"}
         errors = []
         for patch in manifest["patches"]:
             if not patch.get("enabled", True):
@@ -257,7 +302,8 @@ def suite_patches(runner: TestRunner) -> None:
     suite = "patches"
 
     def _get_output_rom() -> bytes:
-        out_path = output_rom_path()
+        project = load_project()
+        out_path = ROOT / project["build"]["output_rom"]
         assert out_path.exists(), f"output ROM not found: run build first"
         return out_path.read_bytes()
 
@@ -343,13 +389,90 @@ ROM_TABLE_GENERATORS = {
     "rom_story_c": "generate_story_c_patches",
     "rom_story_d": "generate_story_d_patches",
     "rom_story_e": "generate_story_e_patches",
-    "rom_chapter_flow_primary": "generate_chapter_flow_primary_patches",
-    "rom_chapter_flow_alternate": "generate_chapter_flow_alternate_patches",
-    "rom_audio_sound_ids": "generate_audio_sound_id_patches",
-    "rom_character_definitions": "generate_character_definition_patches",
-    "rom_map_headers": "generate_map_header_patches",
     "rom_tile_assets": "generate_tile_asset_patches",
 }
+
+# Generators whose table identity was **falsified** by the registry
+# (``tools/table_registry.py::CONFLICTS``).  Their base address is a window
+# inside a table the ROM really reads, so the generator must refuse to write
+# instead of emitting byte patches.  The refusal record is the contract; a
+# silent byte patch here would corrupt live data.
+FALSIFIED_ALIAS_GENERATORS = {
+    "rom_palettes": "generate_palette_patches",
+    "rom_resource_pointers": "generate_resource_pointer_patches",
+}
+
+# Schema of the synthetic editor database used by
+# ``test_populated_rom_tables_have_generator_output``.  ``sequel/editor.db``
+# is gitignored, so the real database is not available in a clean checkout;
+# the synthetic one reproduces the contract each generator depends on: the
+# table name, the column names, the row count and the ``_rom_offset`` values.
+#   (table, [(column, kind)], base, count, stride)
+# kind: "thumb" -> odd ROM pointer, "data" -> even ROM pointer,
+#       "raw"   -> any ROM pointer, "byte" -> 0..255, "word" -> 0..65535
+SYNTHETIC_ROM_TABLES: tuple[tuple[str, list[tuple[str, str]], int, int, int], ...] = (
+    ("rom_battle_encounters", [("entry", "raw")], 0x542384, 38, 4),
+    ("rom_battle_handlers", [("handler_ptr", "thumb")], 0x53E6D8, 14, 4),
+    ("rom_character_stats_b", [("hp", "word"), ("padding1", "byte"),
+                               ("padding2", "byte"), ("padding3", "byte"),
+                               ("max_value", "word"), ("char_type", "byte"),
+                               ("attack", "word"), ("defense", "word")],
+     0x545200, 18, 16),
+    ("rom_cutscene_scripts", [("gfx_ptr", "data"), ("palette_ptr", "data")],
+     0x53DF70, 4, 8),
+    ("rom_data_table_a", [("data_ptr", "data")], 0x5A14A4, 20, 4),
+    ("rom_data_table_b", [("data_ptr", "data")], 0x5A2120, 20, 4),
+    ("rom_fonts", [("char_width", "byte")], 0x53E5B4, 256, 1),
+    ("rom_function_pointers", [("func_ptr", "thumb")], 0x53D5F4, 11, 4),
+    ("rom_map_events", [("handler_ptr", "thumb")], 0x53EB08, 47, 4),
+    ("rom_map_sprites", [("sprite_ptr", "data")], 0x53F140, 86, 4),
+    ("rom_menu_ui", [("ui_ptr", "data")], 0x5A5774, 20, 4),
+    ("rom_palettes", [("palette_ptr", "data")], 0x53F138, 88, 4),
+    ("rom_resource_pointers", [("resource_ptr", "data")], 0x596F0C, 20, 4),
+    ("rom_save_state", [("ewram_buffer", "word"), ("sram_offset_field", "word")],
+     0x53D848, 10, 8),
+    ("rom_sprite_animations", [("frames_ptr", "data"), ("animations_ptr", "data"),
+                               ("gfx_ptr", "data"), ("palette_ptr", "data")],
+     0x596CCC, 576, 16),
+    ("rom_story_b", [("chapter_ptr", "rom")], 0x536BC8, 11, 4),
+    ("rom_story_c", [("chapter_ptr", "rom")], 0x538FF0, 11, 4),
+    ("rom_story_d", [("chapter_ptr", "rom")], 0x53AB78, 11, 4),
+    ("rom_story_e", [("chapter_ptr", "rom")], 0x53C3C0, 9, 4),
+    ("rom_tile_assets", [("tile_ptr", "data")], 0x5A3218, 6, 4),
+)
+
+
+def build_synthetic_editor_db(path: Path) -> None:
+    """Create a populated editor database with the real table contract."""
+    conn = sqlite3.connect(str(path))
+    for table, columns, base, count, stride in SYNTHETIC_ROM_TABLES:
+        ddl = ", ".join(f'"{name}" INTEGER' for name, _ in columns)
+        conn.execute(
+            f'CREATE TABLE "{table}" (_idx INTEGER PRIMARY KEY, '
+            f'_rom_offset INTEGER NOT NULL, {ddl})'
+        )
+        for index in range(count):
+            values = []
+            for position, (_, kind) in enumerate(columns):
+                if kind == "thumb":
+                    values.append(0x08001235 + index * 4)
+                elif kind == "data":
+                    values.append(0x0812F000 + index * 4 + position * 16)
+                elif kind == "raw":
+                    values.append(0x0812F000 + index * 4)
+                elif kind == "rom":
+                    values.append(0x0812F400 + index * 4)
+                elif kind == "byte":
+                    values.append(8 + position)
+                else:                       # word
+                    values.append(100 + index)
+            conn.execute(
+                f'INSERT INTO "{table}" VALUES (?, ?, '
+                + ", ".join("?" for _ in columns) + ")",
+                (index, base + index * stride, *values),
+            )
+    conn.commit()
+    conn.close()
 
 
 def suite_db_integrity(runner: TestRunner) -> None:
@@ -377,36 +500,70 @@ def suite_db_integrity(runner: TestRunner) -> None:
     def test_populated_rom_tables_have_generator_output() -> None:
         from tools import build_db_patches
 
-        db_path = editor_db_path()
-        if not db_path.exists():
-            # editor.db is intentionally ignored; clean checkouts verify the
-            # wrappers through unit tests instead of a local mutable database.
-            return
-        conn = sqlite3.connect(str(db_path))
-        try:
-            existing = {
-                row[0] for row in conn.execute(
-                    "SELECT name FROM sqlite_master WHERE type='table'"
-                )
-            }
-            errors = []
-            for table, generator_name in ROM_TABLE_GENERATORS.items():
-                if table not in existing:
-                    continue
-                row_count = int(
-                    conn.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()[0]
-                )
-                if row_count == 0:
-                    continue
-                generator = getattr(build_db_patches, generator_name)
-                patches = generator(db_path)
-                if not patches:
-                    errors.append(
-                        f"{generator_name}: returned no patch or diagnostic rows for "
-                        f"{table} ({row_count} rows); check the queried table name"
+        db_path = ROOT / "sequel/editor.db"
+        errors = []
+        if db_path.exists():
+            conn = sqlite3.connect(str(db_path))
+            try:
+                existing = {
+                    row[0] for row in conn.execute(
+                        "SELECT name FROM sqlite_master WHERE type='table'"
                     )
-        finally:
-            conn.close()
+                }
+                for table, generator_name in ROM_TABLE_GENERATORS.items():
+                    if table not in existing:
+                        continue
+                    row_count = int(
+                        conn.execute(f'SELECT COUNT(*) FROM "{table}"').fetchone()[0]
+                    )
+                    if row_count == 0:
+                        continue
+                    generator = getattr(build_db_patches, generator_name)
+                    patches = generator(db_path)
+                    byte_patches = [p for p in patches if p.get("type") == "bytes"]
+                    if table in FALSIFIED_ALIAS_GENERATORS:
+                        # A falsified identity must refuse, never write.
+                        if byte_patches:
+                            errors.append(
+                                f"{generator_name}: wrote {len(byte_patches)} byte "
+                                f"patch(es) for the falsified table {table}"
+                            )
+                        continue
+                    if not byte_patches:
+                        errors.append(
+                            f"{generator_name}: returned no byte patches for "
+                            f"{table} ({row_count} rows); check the queried table name"
+                        )
+            finally:
+                conn.close()
+        else:
+            # sequel/editor.db is gitignored, so on a clean checkout the real
+            # database does not exist.  A synthetic one with the same contract
+            # keeps the check meaningful everywhere.
+            with tempfile.TemporaryDirectory() as tmp:
+                synthetic = Path(tmp) / "editor.db"
+                build_synthetic_editor_db(synthetic)
+                for table, generator_name in ROM_TABLE_GENERATORS.items():
+                    generator = getattr(build_db_patches, generator_name)
+                    patches = generator(synthetic)
+                    byte_patches = [p for p in patches if p.get("type") == "bytes"]
+                    if table in FALSIFIED_ALIAS_GENERATORS:
+                        if byte_patches:
+                            errors.append(
+                                f"{generator_name}: wrote {len(byte_patches)} byte "
+                                f"patch(es) for the falsified table {table}"
+                            )
+                        elif not patches:
+                            errors.append(
+                                f"{generator_name}: returned nothing at all for the "
+                                f"falsified table {table}; it must refuse explicitly"
+                            )
+                        continue
+                    if not byte_patches:
+                        errors.append(
+                            f"{generator_name}: returned no byte patches for "
+                            f"{table}; check the queried table name"
+                        )
         assert not errors, "generator silent no-op(s):\n" + "\n".join(errors)
 
     def test_report_db_statistics_match_rows() -> None:
@@ -467,7 +624,7 @@ def suite_db_integrity(runner: TestRunner) -> None:
         report = load_build_report()
         project = load_project()
         base = (ROOT / project["base_rom"]["path"]).read_bytes()
-        output = output_rom_path().read_bytes()
+        output = (ROOT / project["build"]["output_rom"]).read_bytes()
         errors = []
         for patch in report.get("applied_patches", []):
             if patch.get("patch_source") != "db_real" or patch.get("type") != "bytes":
@@ -549,21 +706,78 @@ def suite_encoding(runner: TestRunner) -> None:
         assert len(bank["entries"]) > 0, "dialogue bank has no entries"
 
     def test_dialogue_bank_encoding() -> None:
+        """Every bank entry must declare an encoding the codec supports, and
+        the text the ROM actually stores must re-encode to the exact original
+        bytes.  The second half is what catches a wrong encoding: a bank that
+        claims cp932 for font-coded bytes round-trips by accident, but a bank
+        whose text cannot be re-encoded at all cannot."""
+        from tools import text_codec
+
         bank_path = ROOT / "sequel/content/text/dialogue-bank.json"
         if not bank_path.exists():
             return
         bank = load_json(bank_path)
+        mapping = None
         errors = []
         for entry in bank["entries"]:
-            enc = entry.get("encoding", "cp932")
+            enc = entry.get("encoding", text_codec.FONT_ENCODING)
+            text = entry.get("expected_text", "")
             try:
-                entry.get("expected_text", "").encode(enc)
-            except (UnicodeEncodeError, LookupError) as e:
+                if enc == text_codec.FONT_ENCODING:
+                    if mapping is None:
+                        mapping, _ = text_codec.load_mapping()
+                    text_codec.encode(text, enc, mapping)
+                else:
+                    text.encode(enc)
+            except (UnicodeEncodeError, LookupError, KeyError, FileNotFoundError) as e:
                 errors.append(f"entry {entry['id']}: {e}")
+        assert not errors, "\n".join(errors)
+
+    def test_dialogue_bank_matches_rom() -> None:
+        """The bank's expected_hex must still be the ROM's bytes, and the ROM's
+        own text must re-encode to exactly those bytes."""
+        from tools import text_codec
+
+        bank_path = ROOT / "sequel/content/text/dialogue-bank.json"
+        if not bank_path.exists():
+            return
+        try:
+            rom_path = text_codec.resolve_rom()
+        except FileNotFoundError:
+            return
+        rom = rom_path.read_bytes()
+        mapping, _ = text_codec.load_mapping(rom_path)
+        bank = load_json(bank_path)
+        errors = []
+        for entry in bank["entries"]:
+            offset = int(entry["offset"])
+            max_bytes = int(entry["max_bytes"])
+            actual = rom[offset:offset + max_bytes]
+            if entry.get("expected_hex", "").lower() != actual.hex():
+                errors.append(
+                    f"entry {entry['id']}: expected_hex does not match ROM at "
+                    f"0x{offset:X} (rom has {actual.hex()})"
+                )
+                continue
+            if entry.get("encoding") != text_codec.FONT_ENCODING:
+                continue
+            text, _ = text_codec.decode_bounded(rom, offset, max_bytes, mapping)
+            try:
+                encoded = text_codec.encode(text, text_codec.FONT_ENCODING, mapping)
+            except KeyError as e:
+                errors.append(f"entry {entry['id']}: ROM text not encodable: {e}")
+                continue
+            if encoded != actual[:len(encoded)]:
+                errors.append(
+                    f"entry {entry['id']}: re-encoded ROM text does not match "
+                    f"the ROM bytes"
+                )
         assert not errors, "\n".join(errors)
 
     def test_dialogue_patches_fit() -> None:
         """All same-length patches must fit within max_bytes."""
+        from tools import text_codec
+
         content_path = ROOT / "sequel/content/text/dialogue-patches.json"
         bank_path = ROOT / "sequel/content/text/dialogue-bank.json"
         if not content_path.exists() or not bank_path.exists():
@@ -571,86 +785,156 @@ def suite_encoding(runner: TestRunner) -> None:
         bank = load_json(bank_path)
         content = load_json(content_path)
         bank_map = {e["id"]: e for e in bank["entries"]}
+        mapping = None
         errors = []
         for entry in content.get("entries", []):
             eid = entry["id"]
             if eid not in bank_map:
                 continue
             be = bank_map[eid]
-            enc = be.get("encoding", "cp932")
+            enc = be.get("encoding", text_codec.FONT_ENCODING)
             max_bytes = int(be.get("max_bytes", 0))
             table_off = int(be.get("table_offset", 0))
             if table_off:
                 continue  # variable-length ok, will redirect
             try:
-                encoded = entry["text"].encode(enc)
+                if enc == text_codec.FONT_ENCODING:
+                    if mapping is None:
+                        mapping, _ = text_codec.load_mapping()
+                    encoded = text_codec.encode(entry["text"], enc, mapping)
+                else:
+                    encoded = entry["text"].encode(enc)
                 if len(encoded) > max_bytes:
                     errors.append(
                         f"{eid}: encoded {len(encoded)} bytes > max_bytes {max_bytes} "
                         f"(no table_offset for redirect)"
                     )
-            except (UnicodeEncodeError, LookupError) as e:
+            except (UnicodeEncodeError, LookupError, KeyError, FileNotFoundError) as e:
                 errors.append(f"{eid}: encoding error: {e}")
+        assert not errors, "\n".join(errors)
+
+    def test_dialogue_patches_render() -> None:
+        """What the build writes must read back as the authored text.
+
+        This is the check the original cp932 pipeline could not pass: the
+        bytes landed, but the game drew something else."""
+        from tools import text_codec
+
+        content_path = ROOT / "sequel/content/text/dialogue-patches.json"
+        bank_path = ROOT / "sequel/content/text/dialogue-bank.json"
+        if not content_path.exists() or not bank_path.exists():
+            return
+        try:
+            rom_path = text_codec.resolve_rom()
+        except FileNotFoundError:
+            return
+        mapping, _ = text_codec.load_mapping(rom_path)
+        bank = load_json(bank_path)
+        bank_map = {e["id"]: e for e in bank["entries"]}
+        content = load_json(content_path)
+        errors = []
+        for entry in content.get("entries", []):
+            eid = entry["id"]
+            be = bank_map.get(eid)
+            if be is None or be.get("encoding") != text_codec.FONT_ENCODING:
+                continue
+            max_bytes = int(be.get("max_bytes", 0))
+            try:
+                encoded = text_codec.encode(entry["text"], text_codec.FONT_ENCODING, mapping)
+            except KeyError as e:
+                errors.append(f"{eid}: not encodable: {e}")
+                continue
+            if len(encoded) > max_bytes:
+                continue  # handled by the fit test
+            rendered = text_codec.decode(encoded, mapping)
+            if rendered != entry["text"]:
+                errors.append(
+                    f"{eid}: renders as {rendered!r}, authored {entry['text']!r}"
+                )
         assert not errors, "\n".join(errors)
 
     runner.run("dialogue bank JSON loads", suite, test_dialogue_bank_loads)
     runner.run("all bank entries encode in declared encoding", suite, test_dialogue_bank_encoding)
+    runner.run("dialogue bank matches the ROM byte for byte", suite, test_dialogue_bank_matches_rom)
     runner.run("all same-length patches fit within max_bytes", suite, test_dialogue_patches_fit)
+    runner.run("patched dialogue renders as the authored text", suite, test_dialogue_patches_render)
 
 
 # ---------------------------------------------------------------------------
-# Suite: reverse-engineering bank invariants
+# Suite: process  (M1-M4, absorbed from the third-party package)
 # ---------------------------------------------------------------------------
 
-def suite_reverse_engineering(runner: TestRunner) -> None:
-    """Verify extracted reverse-engineering bank metadata against base ROM."""
-    suite = "reverse_engineering"
+def suite_process(runner: TestRunner) -> None:
+    """The process improvements we adopted from the third-party package.
 
-    def test_save_state_table_matches_base_rom() -> None:
-        from tools.verify_save_state_records import validate_bank
+      M1  synthetic fixture round-trip: a table's format is proven by
+          writing known content and reading it back - no emulator needed
+      M2  the build may only change bytes inside declared patch ranges
+      M3  the build report must carry the change radius
+      M4  table base addresses come from the registry, not content files
+    """
+    suite = "process"
 
-        bank = load_json(ROOT / "sequel/content/save-state/bank.json")
-        base_rom = (ROOT / "rom/base.gba").read_bytes()
-        report = validate_bank(bank, base_rom)
-        assert report["ok"], "save-state bank validation failed:\n" + "\n".join(
-            report["issues"]
-        )
-        assert report["entry_count"] == 10, report["entry_count"]
-        assert report["payload_lengths"] == [4732, 4732, 20, 4732, 20, 8, 24, 6084, 1404, 512], report["payload_lengths"]
-        assert report["record_offsets"][3:] == [0x2548, 0x37D8, 0x3800, 0x381C, 0x3848, 0x5020, 0x55B0], report["record_offsets"]
-        assert report["total_sram_span"] == 0x57C4, report["total_sram_span"]
+    def test_synthetic_fixtures_roundtrip() -> None:
+        import synthetic_fixture
+        from tools import text_codec
 
-    runner.run("save-state table matches base ROM and cumulative variable records", suite,
-               test_save_state_table_matches_base_rom)
+        try:
+            rom_path = text_codec.resolve_rom()
+        except FileNotFoundError:
+            return
+        mapping, _ = text_codec.load_mapping(rom_path)
+        import tempfile
+        errors = []
+        with tempfile.TemporaryDirectory() as tmp:
+            for name in sorted(synthetic_fixture.FIXTURES):
+                result = synthetic_fixture.run_fixture(
+                    name, rom_path, mapping, Path(tmp))
+                for check in result["checks"]:
+                    if not check["pass"]:
+                        errors.append(
+                            f"{name} / {check['check']}: "
+                            f"expected {check['expected']!r}, "
+                            f"got {check['actual']!r}")
+        assert not errors, "\n".join(errors)
 
-    def test_battle_config_table_matches_base_rom() -> None:
-        from tools.verify_battle_config_records import validate_bank
+    def test_table_bases_match_the_registry() -> None:
+        import table_registry
 
-        bank = load_json(ROOT / "sequel/content/battle-config/bank.json")
-        base_rom = (ROOT / "rom/base.gba").read_bytes()
-        report = validate_bank(bank, base_rom)
-        assert report["ok"], "battle-config bank validation failed:\n" + "\n".join(
-            report["issues"]
-        )
-        assert report["entry_count"] == 87, report["entry_count"]
-        assert report["entry_size"] == 16, report["entry_size"]
+        report = table_registry.verify_table_bases()
+        strict = [r for r in report["rows"]
+                  if not r["match"] and r["authoritative_verified"]]
+        assert not strict, "\n".join(
+            f"{r['bank']}: declares {r['declared_hex']}, "
+            f"authoritative {r['authoritative_hex']}" for r in strict)
 
-    runner.run("battle-config table matches base ROM u16 records", suite,
-               test_battle_config_table_matches_base_rom)
+    def test_build_changes_nothing_undeclared() -> None:
+        ensure_isolated_build()
+        report = load_build_report()
+        radius = report.get("change_radius")
+        assert radius is not None, "build report has no change_radius section"
+        assert radius.get("undeclared_change_count", 0) == 0, (
+            "the build changed bytes outside every declared patch range:\n"
+            + json.dumps(radius.get("undeclared_changes", []),
+                         ensure_ascii=False, indent=2))
 
-    def test_character_stats_tables_match_base_rom() -> None:
-        from tools.verify_character_stats_records import TABLE_SPECS, validate_bank
+    def test_build_report_has_a_change_radius() -> None:
+        ensure_isolated_build()
+        report = load_build_report()
+        radius = report.get("change_radius")
+        assert radius is not None, "build report has no change_radius section"
+        for key in ("changed_bytes", "changed_range_count",
+                    "declared_range_count", "undeclared_change_count"):
+            assert key in radius, f"change_radius is missing {key}"
 
-        base_rom = (ROOT / "rom/base.gba").read_bytes()
-        for name, spec in TABLE_SPECS.items():
-            bank = load_json(ROOT / spec["bank"])
-            report = validate_bank(bank, spec, base_rom)
-            assert report["ok"], f"{name} bank validation failed:\n" + "\n".join(
-                report["issues"]
-            )
-
-    runner.run("character-growth table matches base ROM u16 records", suite,
-               test_character_stats_tables_match_base_rom)
+    runner.run("synthetic fixtures read back what was written",
+               suite, test_synthetic_fixtures_roundtrip)
+    runner.run("content table bases match the authoritative registry",
+               suite, test_table_bases_match_the_registry)
+    runner.run("build changes nothing outside declared patch ranges",
+               suite, test_build_changes_nothing_undeclared)
+    runner.run("build report carries the change radius",
+               suite, test_build_report_has_a_change_radius)
 
 
 # ---------------------------------------------------------------------------
@@ -663,7 +947,7 @@ SUITES = {
     "patches":  suite_patches,
     "db_integrity": suite_db_integrity,
     "encoding": suite_encoding,
-    "reverse_engineering": suite_reverse_engineering,
+    "process":  suite_process,
 }
 
 

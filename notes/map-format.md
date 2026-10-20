@@ -13,23 +13,44 @@
 `0x596D5C`, 312 tile IDs and the listed 32×32 candidate grids was not consumer-verified and
 must not be used.
 
+> **CORRECTED 2026-10-20 — 重要更正**
+>
+> 本文件原先把 `0x596D5C` 记为 "Tile Descriptor Table"（312 行 × 16 字节，列为
+> 嵌套描述符 / 属性 / 布局 / 调色板）。**这个识别是错的。**
+>
+> 实测 `0x596CCC + id*144 + action*16` 才是**精灵动作表**
+> （60 角色 × 9 动作 × 16 字节，每项 4 个指针：
+> `frames, animations, gfx, palette`），而
+> `0x596CCC + 1*144 = 0x596D5C` —— 也就是说我们记录的 `0x596D5C`
+> 恰好是精灵动作表的 **id=1 行**，我们看到的"4 个指针"正是
+> frames / animations / gfx / palette。调色板 32 字节解出 16 个 BGR555
+> 色值（含 `0x7FFF` 透明），与精灵调色板一致，而非地图图块调色板。
+>
+> 复现：`tools/probe_external_re_claims.py`；分析：
+> `notes/external-konoha-workshop-gap-20261020.md` §2.2。
+>
+> **地图图块数据不在 `0x596D5C`**，而在地图表 `0x53D910` 的 +0x04 指针
+> （LZ77 压缩 tile gfx）、+0x08 palette、+0x14 metatiles、+0x18 terrain。
+> 正确地图表布局见 `notes/battle-config-format.md`。
+
 ## Tile Descriptor Table
 
-### Primary Table: `0x596D5C`
+### Primary Table: `0x596D5C`  ⚠️ 实为精灵动作表 id=1 行
 
 - **Location**: ROM file offset `0x596D5C`
 - **Entry size**: 16 bytes
 - **Row count**: ~312 non-zero entries
-- **Interpretation**: 4-column descriptor table, one entry per tile (8×8 or 16×16 pixel tile)
+- **真实解释**: `0x596CCC + id*144 + action*16`，列含义为
+  `frames_ptr / animations_ptr / gfx_ptr / palette_ptr`
 
 ### Column Structure
 
 | Column | Offset | Type | Description |
 |--------|--------|------|-------------|
-| col 0 | +0x00 | u32 pointer | Nested descriptor pointing to tile graphics data. Each pointed block starts with 8 u32 ROM pointers. |
-| col 1 | +0x04 | u32 pointer | Sparse binary or nested descriptor. Layout attributes, tile dimensions (0x0040=64, 0x0020=32 pixel values observed). |
-| col 2 | +0x08 | u32 pointer | Sparse binary. Secondary layout or attribute data. |
-| col 3 | +0x0C | u32 pointer | Palette data (GBA BGR555 format). Shared across groups of tiles: 0x13E070 (rows 0-8), 0x14FD78 (rows 9-17), 0x160680 (rows 18-26), etc. |
+| col 0 | +0x00 | u32 pointer | 帧列表指针（frames） |
+| col 1 | +0x04 | u32 pointer | 动画序列指针（animations） |
+| col 2 | +0x08 | u32 pointer | 精灵图形指针（gfx，4bpp 原始图块） |
+| col 3 | +0x0C | u32 pointer | 调色板指针（16 色 BGR555，32 字节） |
 
 ### Example Entry (row 0 at 0x596D5C)
 

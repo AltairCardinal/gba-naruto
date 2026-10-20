@@ -1,12 +1,12 @@
 {
  "schema": "konoha.butano-reverse-gap.v1",
- "generated_at": "2026-10-20T17:25:24.809520+00:00",
+ "generated_at": "2026-10-20T18:11:32.091821+00:00",
  "index": {
   "path": "artifacts/reverse-results-index-v1/index.json",
-  "sha256": "9e1cb4fbec469afa4fd0213ca22bd541dc427d3e07f5dbf1abad0a389feeafb1",
+  "sha256": "1674c8542b2f188977d6b28380647c3515ebb90a31a19017246f959e00680050",
   "schema": "konoha.reverse-results-index.v1",
   "reverse_root": "/Users/altair/github/gba-naruto-reverse",
-  "reverse_commit": "f054f4c1e240c87583f1059b64eb1fc199aada07",
+  "reverse_commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375",
   "reverse_dirty": false,
   "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
  },
@@ -21,7 +21,7 @@
    "tool",
    "test"
   ],
-  "scanned_files": 4241,
+  "scanned_files": 4359,
   "scan_roots": [
    "butano-sequel",
    "tools",
@@ -5441,7 +5441,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 62,
+   "hit_count": 72,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -5456,12 +5456,16 @@
    "hits": [
     "doc:docs/butano-reverse-results-guide.md",
     "doc:docs/final-completion-report.md",
+    "doc:docs/sequel-roadmap.md",
     "doc:docs/structure-field-semantics.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/repo-size-audit-20261019.md"
+    "doc:notes/repo-size-audit-20261019.md",
+    "doc:notes/resource-locations.md",
+    "doc:notes/unknown-bgm-sfx.md"
    ],
-   "hit_count": 6,
+   "hit_count": 10,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -5492,9 +5496,10 @@
    "status": "doc",
    "hits": [
     "doc:docs/web-editor-spec.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/why-external-editor-shipped-20261020.md"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -5541,9 +5546,10 @@
    "schema": "",
    "status": "doc",
    "hits": [
-    "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md"
+    "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
+    "doc:notes/windows-migration-20261020.md"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -5646,14 +5652,20 @@
    "schema": "",
    "status": "build",
    "hits": [
+    "build:tools/import_battle_config.py",
     "build:tools/mgba_trace_chapter_init.lua",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/battle-config-format.md",
+    "doc:notes/battle-tables.md",
     "doc:notes/chapter-entry-points.md",
     "doc:notes/chapter-flow-format.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/evidence/mechanism-sprite-background-20261020.md",
+    "doc:notes/evidence/writeback-paths-20261020.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/map-format.md",
+    "doc:notes/mechanisms-20261020.md"
    ],
-   "hit_count": 6,
+   "hit_count": 16,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -5664,14 +5676,18 @@
    "category": "battle",
    "path": "notes/battle-config-unsafe-template-fix-20260710.md",
    "schema": "",
-   "status": "doc",
+   "status": "build",
    "hits": [
+    "build:tools/completion_audit.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
+    "doc:notes/alias-conflicts-20261020.md",
     "doc:notes/battle-config-unsafe-template-fix-20260710.md",
+    "doc:notes/completion-audit-20261020.md",
+    "doc:notes/db-writeback-correction-20261020.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/s49-needs-guard-gates-20261020.md"
    ],
-   "hit_count": 4,
+   "hit_count": 8,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -5869,11 +5885,13 @@
     "doc:docs/rom-sequel-plan.md",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/chapter-flow-format.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/map-format.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/tile-asset-rules-20261020.md"
    ],
-   "hit_count": 6,
+   "hit_count": 8,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -5971,9 +5989,10 @@
     "doc:notes/battle-config-format.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/maps-runtime-fields-20260711.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/tile-asset-rules-20261020.md"
    ],
-   "hit_count": 5,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -6194,19 +6213,19 @@
    "status": "build",
    "hits": [
     "build:sequel/content/battle-config/ninja-tool-identities.json",
+    "build:sequel/content/items/bank.json",
+    "build:sequel/content/story-c/bank.json",
+    "build:sequel/content/story-d/bank.json",
+    "build:sequel/content/story-e/bank.json",
     "build:sequel/content/text/sjis-to-tile-addr-20260703.json",
     "build:tools/README.md",
     "build:tools/analyze_battle_condition_interpreter.py",
     "build:tools/analyze_battle_defense_reaction.py",
     "build:tools/analyze_battle_status_consumers.py",
-    "build:tools/find_resource_tables.py",
-    "build:tools/generate_butano_battle_presentation_glyphs.py",
-    "build:tools/import_battle_config.py",
-    "build:tools/inspect_mgba_savestate.py",
-    "build:tools/mgba-headless-snapshot.py",
-    "build:tools/mgba_trace_dialogue_writes.lua"
+    "build:tools/automated_test.py",
+    "build:tools/battle_rules_runtime.py"
    ],
-   "hit_count": 61,
+   "hit_count": 92,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -6477,11 +6496,14 @@
    "status": "doc",
    "hits": [
     "doc:docs/sequel-roadmap.md",
+    "doc:notes/battle-config-format.md",
     "doc:notes/chapter-entry-points.md",
     "doc:notes/chapter-flow-format.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/mgba-probe-build-20261020.md",
     "doc:notes/re-completion-audit.json"
    ],
-   "hit_count": 4,
+   "hit_count": 7,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -6659,12 +6681,15 @@
    "category": "other",
    "path": "notes/dialogue-format.md",
    "schema": "",
-   "status": "doc",
+   "status": "build",
    "hits": [
+    "build:tools/konoha_font.py",
     "doc:notes/dialogue-format.md",
-    "doc:notes/dialogue-mapping-blocker-20260702.md"
+    "doc:notes/dialogue-mapping-blocker-20260702.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/font-encoding.md"
    ],
-   "hit_count": 2,
+   "hit_count": 5,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -6696,9 +6721,11 @@
    "schema": "",
    "status": "doc",
    "hits": [
-    "doc:notes/dialogue-mapping-blocker-20260702.md"
+    "doc:notes/dialogue-mapping-blocker-20260702.md",
+    "doc:notes/gba-static-recomp-baseline-eval-20261020.md",
+    "doc:notes/gba-static-recomp-feasibility-20261020.md"
    ],
-   "hit_count": 1,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -7077,11 +7104,14 @@
    "hits": [
     "doc:docs/final-completion-report.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
+    "doc:docs/sequel-roadmap.md",
     "doc:notes/dynamic-verification-audit.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/runtime-verification-gates-20260710.md"
+    "doc:notes/runtime-verification-gates-20260710.md",
+    "doc:notes/unknown-bgm-sfx.md"
    ],
-   "hit_count": 5,
+   "hit_count": 8,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -7159,7 +7189,6 @@
    "status": "build",
    "hits": [
     "build:tools/import_chapter_scripts.py",
-    "build:tools/import_dialogue_var.py",
     "doc:docs/development-status.md",
     "doc:docs/web-editor-spec.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
@@ -7168,7 +7197,7 @@
     "doc:notes/scan-summary.md",
     "doc:notes/variable-dialogue-relocation-20260712.md"
    ],
-   "hit_count": 9,
+   "hit_count": 8,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -7221,9 +7250,11 @@
    "category": "other",
    "path": "notes/handover-20261020-reverse-tree.md",
    "schema": "",
-   "status": "none",
-   "hits": [],
-   "hit_count": 0,
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -7784,10 +7815,14 @@
    "schema": "",
    "status": "doc",
    "hits": [
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/patch-generator-audit.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/resource-locations.md",
+    "doc:notes/unknown-bgm-sfx.md"
    ],
-   "hit_count": 2,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -7818,9 +7853,10 @@
     "doc:notes/addresses.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/positions-rom-source-20260710.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "doc:notes/runtime-and-object-tables-20261020.md"
    ],
-   "hit_count": 6,
+   "hit_count": 7,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -7868,14 +7904,17 @@
    "status": "build",
    "hits": [
     "build:tools/audit_re_completion.py",
+    "build:tools/completion_audit.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md",
+    "doc:notes/completion-audit-20261020.md",
     "doc:notes/current-re-progress-20260711.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/re-completion-audit.md"
+    "doc:notes/re-completion-audit.md",
+    "doc:notes/why-external-editor-shipped-20261020.md"
    ],
-   "hit_count": 7,
+   "hit_count": 10,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -7993,16 +8032,22 @@
    "category": "other",
    "path": "notes/resource-locations.md",
    "schema": "",
-   "status": "test",
+   "status": "build",
    "hits": [
+    "build:tools/README.md",
+    "build:tools/completion_audit.py",
     "doc:docs/development-status.md",
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/map-format.md",
-    "doc:notes/re-completion-audit.json",
-    "doc:notes/resource-locations.md",
-    "test:tests/test_butano_research_docs.py"
+    "doc:notes/completion-audit-20261020.md",
+    "doc:notes/evidence/story-table-family-20261020.md",
+    "doc:notes/evidence/text-encoding-l3-20261020.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/font-encoding.md",
+    "doc:notes/gba-static-recomp-feasibility-20261020.md",
+    "doc:notes/legacy-table-base-correction-20261020.md",
+    "doc:notes/map-format.md"
    ],
-   "hit_count": 6,
+   "hit_count": 15,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8304,7 +8349,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 62,
+   "hit_count": 72,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8330,7 +8375,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 62,
+   "hit_count": 72,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8356,7 +8401,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 62,
+   "hit_count": 72,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8382,7 +8427,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 62,
+   "hit_count": 72,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8408,7 +8453,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 62,
+   "hit_count": 72,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8434,7 +8479,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 62,
+   "hit_count": 72,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8578,10 +8623,12 @@
    "schema": "",
    "status": "doc",
    "hits": [
+    "doc:notes/gba-static-recomp-feasibility-20261020.md",
     "doc:notes/re-completion-audit.json",
+    "doc:notes/recomp-modification-surfaces-20261020.md",
     "doc:notes/text-regions.md"
    ],
-   "hit_count": 2,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8638,12 +8685,14 @@
    "category": "other",
    "path": "notes/u32-pointer-real-writeback-20260710.md",
    "schema": "",
-   "status": "doc",
+   "status": "build",
    "hits": [
+    "build:tools/table_registry.py",
     "doc:notes/re-completion-audit.json",
+    "doc:notes/re-methodology-improvements-20261020.md",
     "doc:notes/u32-pointer-real-writeback-20260710.md"
    ],
-   "hit_count": 2,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8695,10 +8744,12 @@
    "status": "doc",
    "hits": [
     "doc:docs/reverse-engineering-handoff-20260711.md",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/evidence/units-offset-table-20261020.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/units-unsafe-table-fix-20260711.md"
    ],
-   "hit_count": 3,
+   "hit_count": 5,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8712,10 +8763,13 @@
    "status": "doc",
    "hits": [
     "doc:docs/rom-reverse-engineering-results.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/patch-generator-audit.md",
     "doc:notes/re-completion-audit.json",
+    "doc:notes/resource-locations.md",
     "doc:notes/unknown-bgm-sfx.md"
    ],
-   "hit_count": 3,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8763,10 +8817,11 @@
    "status": "doc",
    "hits": [
     "doc:docs/rom-reverse-engineering-results.md",
+    "doc:notes/evidence/writeback-paths-20261020.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/unknown-save-state.md"
    ],
-   "hit_count": 3,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8834,17 +8889,20 @@
    "category": "other",
    "path": "notes/wasm-formation-probe-result-20260710.md",
    "schema": "",
-   "status": "doc",
+   "status": "build",
    "hits": [
+    "build:tools/completion_audit.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
+    "doc:notes/completion-audit-20261020.md",
     "doc:notes/dynamic-verification-audit.md",
+    "doc:notes/evidence/runtime-state-l3-20261020.md",
     "doc:notes/map-position-pc-probe-20260710.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/runtime-verification-gates-20260710.md",
     "doc:notes/wasm-formation-navigation-probe-20260710.md",
     "doc:notes/wasm-formation-probe-result-20260710.md"
    ],
-   "hit_count": 7,
+   "hit_count": 10,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8861,6 +8919,19 @@
     "doc:notes/wasm-runtime-api-audit-20260710.md"
    ],
    "hit_count": 2,
+   "ledger_status": null,
+   "ledger_id": null,
+   "manifest_hint": ""
+  },
+  {
+   "id": "windows-porting-20261020",
+   "kind": "note",
+   "category": "other",
+   "path": "notes/windows-porting-20261020.md",
+   "schema": "",
+   "status": "none",
+   "hits": [],
+   "hit_count": 0,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -10111,12 +10182,13 @@
    "category": "rom",
    "path": "notes/rom-gpu-copy-queue-inventory-20260730.md",
    "schema": "",
-   "status": "doc",
+   "status": "build",
    "hits": [
+    "build:tools/export_rom_pram_halfword_writes.py",
     "doc:docs/konoha-senki/01-battle-s49.md",
     "doc:notes/s49-field-frame-order-20261020.md"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -11032,10 +11104,11 @@
    "schema": "",
    "status": "doc",
    "hits": [
+    "doc:notes/mgba-c-api-probe-plan-20261020.md",
     "doc:notes/runtime-state-entry-audit-20260710.md",
     "doc:notes/runtime-verification-gates-20260710.md"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -11046,13 +11119,22 @@
    "category": "runtime",
    "path": "notes/runtime-verification-gates-20260710.md",
    "schema": "",
-   "status": "doc",
+   "status": "build",
    "hits": [
+    "build:tools/completion_audit.py",
+    "build:tools/mgba_probe/navigate.py",
+    "build:tools/mgba_probe/runtime_probe.py",
+    "build:tools/mgba_probe/sample_l2.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
-    "doc:notes/re-completion-audit.json",
-    "doc:notes/runtime-verification-gates-20260710.md"
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/ai-cost-of-native-port-projects-20261020.md",
+    "doc:notes/alias-conflicts-20261020.md",
+    "doc:notes/completion-audit-20261020.md",
+    "doc:notes/evidence/story-vm-l2-20261020.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/fixture-coverage-20261020.md"
    ],
-   "hit_count": 3,
+   "hit_count": 21,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -12061,12 +12143,13 @@
     "build:tools/extract_character_definitions.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:notes/character-definition-source-20260711.md",
+    "doc:notes/character-template-format-20261020.md",
     "doc:notes/dynamic-verification-audit.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/s49-post-battle-exp-rule-20261020.md"
    ],
-   "hit_count": 8,
+   "hit_count": 9,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -12807,9 +12890,10 @@
    "schema": "",
    "status": "doc",
    "hits": [
-    "doc:notes/butano-reverse-gap-verification-20261020.md"
+    "doc:notes/butano-reverse-gap-verification-20261020.md",
+    "doc:notes/windows-migration-20261020.md"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -13129,9 +13213,11 @@
    "category": "code",
    "path": "tests/test_build_battle_message_runtime_probe_slots.py",
    "schema": "",
-   "status": "none",
-   "hits": [],
-   "hit_count": 0,
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -14522,9 +14608,11 @@
    "category": "code",
    "path": "tests/test_data_table_b_partial_bank.py",
    "schema": "",
-   "status": "none",
-   "hits": [],
-   "hit_count": 0,
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -18481,9 +18569,13 @@
    "schema": "",
    "status": "test",
    "hits": [
+    "doc:notes/db-writeback-correction-20261020.md",
+    "doc:notes/evidence/story-table-family-20261020.md",
+    "doc:notes/evidence/writeback-paths-20261020.md",
+    "doc:notes/text-writeback-migration-20261020.md",
     "test:tests/test_positions_integration.py"
    ],
-   "hit_count": 1,
+   "hit_count": 5,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -18494,9 +18586,26 @@
    "category": "code",
    "path": "tests/test_prepare_rom_verifier_contracts.py",
    "schema": "",
-   "status": "none",
-   "hits": [],
-   "hit_count": 0,
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
+   "ledger_status": null,
+   "ledger_id": null,
+   "manifest_hint": ""
+  },
+  {
+   "id": "test_prepare_rom_verifier_contracts_win",
+   "kind": "test",
+   "category": "code",
+   "path": "tests/test_prepare_rom_verifier_contracts_win.py",
+   "schema": "",
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -19699,10 +19808,14 @@
    "schema": "",
    "status": "test",
    "hits": [
+    "doc:notes/db-writeback-correction-20261020.md",
+    "doc:notes/evidence/story-table-family-20261020.md",
+    "doc:notes/evidence/writeback-paths-20261020.md",
+    "doc:notes/legacy-table-base-correction-20261020.md",
     "doc:notes/u32-pointer-real-writeback-20260710.md",
     "test:tests/test_u32_pointer_patches.py"
    ],
-   "hit_count": 2,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -19717,9 +19830,10 @@
    "hits": [
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:notes/legacy-generator-safety-20260711.md",
+    "doc:notes/re-methodology-improvements-20261020.md",
     "test:tests/test_unsafe_legacy_patches.py"
    ],
-   "hit_count": 3,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -19732,10 +19846,11 @@
    "schema": "",
    "status": "test",
    "hits": [
+    "doc:notes/re-methodology-improvements-20261020.md",
     "doc:notes/units-unsafe-table-fix-20260711.md",
     "test:tests/test_unsafe_unit_patch.py"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -21807,9 +21922,11 @@
     "doc:docs/superpowers/plans/2026-07-14-reverse-engineering-resource-safety.md",
     "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md",
     "doc:notes/memory-incident-root-cause-20260714.md",
+    "doc:notes/re-completion-audit.md",
+    "doc:notes/re-methodology-improvements-20261020.md",
     "test:tests/test_re_completion_audit.py"
    ],
-   "hit_count": 7,
+   "hit_count": 9,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -21838,9 +21955,10 @@
    "status": "doc",
    "hits": [
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
-    "doc:notes/repo-size-audit-20261019.md"
+    "doc:notes/repo-size-audit-20261019.md",
+    "doc:notes/windows-migration-20261020.md"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -21861,12 +21979,12 @@
     "doc:docs/phase3-final-status.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/rom-reverse-engineering-results.md",
+    "doc:docs/sequel-roadmap.md",
     "doc:docs/testing-checklist.md",
     "doc:docs/web-editor-spec.md",
-    "doc:notes/editor-isolated-writeback-smoke-20260713.md",
-    "doc:notes/evidence/remaining-reverse-plan-20260930-v2/research-receipt.json"
+    "doc:notes/db-writeback-correction-20261020.md"
    ],
-   "hit_count": 18,
+   "hit_count": 28,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -22411,17 +22529,17 @@
     "build:tools/automated_test.py",
     "build:tools/build_db_patches.py",
     "build:tools/build_mod.py",
+    "build:tools/completion_audit.py",
+    "build:tools/import_battle_config.py",
     "build:tools/import_dialogue.py",
     "doc:docs/final-completion-report.md",
     "doc:docs/phase3-final-status.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/rom-reverse-engineering-results.md",
-    "doc:notes/patch-generator-audit.md",
-    "doc:notes/u32-pointer-real-writeback-20260710.md",
-    "test:tests/db-to-rom-e2e-report.md",
-    "test:tests/full-real-rom-e2e-report.md"
+    "doc:notes/db-writeback-correction-20261020.md",
+    "doc:notes/evidence/writeback-paths-20261020.md"
    ],
-   "hit_count": 29,
+   "hit_count": 35,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -22614,15 +22732,15 @@
     "build:tools/build_db_patches.py",
     "build:tools/build_mod.py",
     "build:tools/import_map.py",
+    "build:tools/verify_text_writeback.py",
     "doc:docs/build-pipeline.md",
     "doc:docs/commit-convention.md",
     "doc:docs/content-pipeline.md",
     "doc:docs/development-status.md",
     "doc:docs/editor-emulator-link.md",
-    "doc:docs/final-completion-report.md",
-    "doc:docs/phase3-final-status.md"
+    "doc:docs/final-completion-report.md"
    ],
-   "hit_count": 31,
+   "hit_count": 37,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -23237,13 +23355,19 @@
    "schema": "",
    "status": "build",
    "hits": [
+    "build:tools/completion_audit.py",
     "build:tools/decode_dialogue_record.py",
+    "build:tools/translate_sjis_to_chinese.py",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/completion-audit-20261020.md",
     "doc:notes/dialogue-font-atlas-export-20260729.md",
     "doc:notes/dialogue-mapping-progress-20260702.md",
+    "doc:notes/font-encoding.md",
     "doc:notes/repo-size-audit-20261019.md",
+    "doc:notes/text-writeback-migration-20261020.md",
     "test:tests/test_decode_dialogue_record.py"
    ],
-   "hit_count": 5,
+   "hit_count": 11,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -23302,10 +23426,10 @@
     "doc:notes/battle-start-control-flow-20260713.md",
     "doc:notes/butano-s49-interaction-fixes-20261011.md",
     "doc:notes/character-growth-runtime-chain-20260711.md",
-    "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
-    "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/rom-ai-config-writer-preflight-20260930.md"
+    "doc:notes/character-template-format-20261020.md",
+    "doc:notes/evidence/char-reward-fields-20261020.md"
    ],
-   "hit_count": 18,
+   "hit_count": 23,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26227,10 +26351,11 @@
    "status": "build",
    "hits": [
     "build:tools/export_story_visual_layers.py",
+    "build:tools/table_registry.py",
     "doc:notes/story-visual-layer-export-20260729.md",
     "test:tests/test_export_story_visual_layers.py"
    ],
-   "hit_count": 3,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26375,11 +26500,17 @@
    "schema": "",
    "status": "build",
    "hits": [
+    "build:sequel/content/cutscene-scripts/bank.json",
+    "build:sequel/content/encounter-zones/bank.json",
     "build:sequel/content/function-pointers/bank.json",
     "build:sequel/content/maps/bank.json",
-    "build:tools/extract_all_structures.py"
+    "build:sequel/content/resource-pointers/bank.json",
+    "build:sequel/content/sappy-engine/bank.json",
+    "build:tools/extract_all_structures.py",
+    "doc:notes/completion-audit-20261020.md",
+    "doc:notes/re-methodology-improvements-20261020.md"
    ],
-   "hit_count": 3,
+   "hit_count": 9,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26392,13 +26523,19 @@
    "schema": "",
    "status": "build",
    "hits": [
+    "build:tools/README.md",
+    "build:tools/completion_audit.py",
     "build:tools/extract_audio.py",
     "doc:docs/development-status.md",
+    "doc:docs/sequel-roadmap.md",
     "doc:docs/web-editor-spec.md",
+    "doc:notes/alias-conflicts-20261020.md",
     "doc:notes/audio-engine-runtime-chain-20260712.md",
+    "doc:notes/completion-audit-20261020.md",
+    "doc:notes/evidence/story-table-family-20261020.md",
     "doc:notes/resource-locations.md"
    ],
-   "hit_count": 5,
+   "hit_count": 11,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26411,7 +26548,6 @@
    "schema": "",
    "status": "build",
    "hits": [
-    "build:tools/extract_audio.py",
     "build:tools/extract_audio_assets.py",
     "build:tools/m4a_runtime_channels.py",
     "build:tools/map_m4a_instruments.py",
@@ -26420,7 +26556,7 @@
     "doc:notes/resource-locations.md",
     "test:tests/test_extract_audio_assets.py"
    ],
-   "hit_count": 8,
+   "hit_count": 7,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26490,13 +26626,12 @@
     "build:tools/extract_audio_assets.py",
     "build:tools/extract_audio_resource_sets.py",
     "build:tools/extract_graphics_resource_sets.py",
-    "build:tools/populate_bank_json.py",
     "build:tools/revoke_false_story_banks.py",
     "doc:notes/audio-engine-runtime-chain-20260712.md",
     "doc:notes/story-bank-identity-correction-20260712.md",
     "test:tests/test_extract_audio_resource_sets.py"
    ],
-   "hit_count": 8,
+   "hit_count": 7,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26602,7 +26737,6 @@
    "hits": [
     "build:sequel/content/units/bank.json",
     "build:tools/extract_character_definitions.py",
-    "build:tools/populate_bank_json.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/character-definition-source-20260711.md",
@@ -26611,7 +26745,7 @@
     "test:tests/test_character_overview_field_semantics.py",
     "test:tests/test_extract_character_definitions.py"
    ],
-   "hit_count": 10,
+   "hit_count": 9,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26643,10 +26777,15 @@
    "schema": "",
    "status": "build",
    "hits": [
+    "build:tools/completion_audit.py",
     "build:tools/extract_dialogue_full.py",
-    "build:tools/import_rom_to_editor.py"
+    "build:tools/import_rom_to_editor.py",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/font-encoding.md",
+    "doc:notes/re-methodology-improvements-20261020.md",
+    "doc:notes/text-writeback-migration-20261020.md"
    ],
-   "hit_count": 2,
+   "hit_count": 7,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26677,17 +26816,18 @@
    "hits": [
     "build:tools/README.md",
     "build:tools/build_db_patches.py",
+    "build:tools/completion_audit.py",
     "build:tools/extract_positions.py",
+    "build:tools/import_battle_config.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:docs/superpowers/plans/2026-07-26-butano-formation-runtime-config.md",
+    "doc:notes/battle-config-format.md",
     "doc:notes/battle-result-progression-runtime-20260725.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/rom-ai-config-writer-preflight-20260930.md",
-    "doc:notes/positions-rom-source-20260710.md",
-    "test:tests/test_extract_positions.py",
-    "test:tests/test_positions_integration.py"
+    "doc:notes/positions-rom-source-20260710.md"
    ],
-   "hit_count": 11,
+   "hit_count": 14,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26701,11 +26841,10 @@
    "status": "build",
    "hits": [
     "build:tools/extract_save_descriptors.py",
-    "build:tools/populate_bank_json.py",
     "doc:notes/tutorial-victory-save-load-runtime-20260712.md",
     "test:tests/test_extract_save_descriptors.py"
    ],
-   "hit_count": 4,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26739,9 +26878,13 @@
    "status": "build",
    "hits": [
     "build:tools/README.md",
-    "build:tools/extract_text_block.py"
+    "build:tools/extract_text_block.py",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/font-encoding.md",
+    "doc:notes/recomp-modification-surfaces-20261020.md",
+    "doc:notes/text-writeback-migration-20261020.md"
    ],
-   "hit_count": 2,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26754,6 +26897,7 @@
    "schema": "",
    "status": "build",
    "hits": [
+    "build:tools/README.md",
     "build:tools/analyze_battle_map_collision.py",
     "build:tools/analyze_battlefield_object_runtime.py",
     "build:tools/analyze_original_action_components.py",
@@ -26763,11 +26907,10 @@
     "build:tools/butano/generate_battle_effect_sequence.py",
     "build:tools/butano/generate_battle_scenario_49_scenery.py",
     "build:tools/butano/generate_scenario_41_assets.py",
-    "build:tools/export_battle_visual_runtime_timelines.py",
-    "build:tools/export_bg_resource_canvases.py",
-    "build:tools/export_cutscene_obj_assets.py"
+    "build:tools/completion_audit.py",
+    "build:tools/export_battle_visual_runtime_timelines.py"
    ],
-   "hit_count": 40,
+   "hit_count": 45,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26797,9 +26940,10 @@
     "build:tools/find_pointer_refs.py",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/rom-ai-producer-and-pool-alias-20260930.md",
     "doc:notes/scan-summary.md",
+    "doc:notes/story-vm-opcodes-20261020.md",
     "test:tests/test_find_pointer_refs.py"
    ],
-   "hit_count": 5,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26846,11 +26990,17 @@
    "status": "build",
    "hits": [
     "build:tools/README.md",
+    "build:tools/completion_audit.py",
     "build:tools/find_sjis_blocks.py",
+    "build:tools/translate_sjis_to_chinese.py",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/completion-audit-20261020.md",
+    "doc:notes/font-encoding.md",
     "doc:notes/scan-summary.md",
-    "doc:notes/text-regions.md"
+    "doc:notes/text-regions.md",
+    "doc:notes/text-writeback-migration-20261020.md"
    ],
-   "hit_count": 4,
+   "hit_count": 10,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27130,19 +27280,19 @@
    "status": "build",
    "hits": [
     "build:tools/README.md",
+    "build:tools/build_db_patches.py",
     "build:tools/build_mod.py",
+    "build:tools/completion_audit.py",
     "build:tools/find_resource_tables.py",
     "build:tools/import_battle_config.py",
+    "build:tools/writeback_paths.py",
     "doc:docs/build-pipeline.md",
     "doc:docs/development-status.md",
     "doc:docs/sequel-roadmap.md",
     "doc:docs/web-editor-spec.md",
-    "doc:notes/battle-config-format.md",
-    "doc:notes/chapter-flow-format.md",
-    "doc:notes/character-stats-addresses.md",
-    "doc:notes/ninja-tool-addresses.md"
+    "doc:notes/battle-config-format.md"
    ],
-   "hit_count": 14,
+   "hit_count": 20,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27207,7 +27357,6 @@
    "schema": "",
    "status": "build",
    "hits": [
-    "build:tools/build_db_patches.py",
     "build:tools/build_mod.py",
     "build:tools/build_relocated_chapter_runtime_probe.py",
     "build:tools/import_chapter_scripts.py",
@@ -27215,7 +27364,7 @@
     "doc:notes/chapter-script-production-writeback-20260713.md",
     "test:tests/test_import_chapter_scripts.py"
    ],
-   "hit_count": 7,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27296,13 +27445,17 @@
     "build:tools/README.md",
     "build:tools/build_db_patches.py",
     "build:tools/build_mod.py",
+    "build:tools/completion_audit.py",
     "build:tools/import_dialogue.py",
+    "build:tools/translate_sjis_to_chinese.py",
+    "build:tools/verify_text_writeback.py",
     "doc:docs/build-pipeline.md",
     "doc:docs/sequel-roadmap.md",
     "doc:docs/web-editor-spec.md",
-    "test:tests/real-rom-patches-report.md"
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/font-encoding.md"
    ],
-   "hit_count": 8,
+   "hit_count": 17,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27320,10 +27473,15 @@
     "doc:docs/development-status.md",
     "doc:docs/sequel-roadmap.md",
     "doc:docs/web-editor-spec.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/font-encoding.md",
+    "doc:notes/re-methodology-improvements-20261020.md",
+    "doc:notes/text-writeback-migration-20261020.md",
     "doc:notes/variable-dialogue-relocation-20260712.md",
-    "test:tests/test_import_dialogue_var.py"
+    "test:tests/test_import_dialogue_var.py",
+    "test:tests/test_text_writeback.py"
    ],
-   "hit_count": 7,
+   "hit_count": 12,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27488,9 +27646,12 @@
    "schema": "",
    "status": "build",
    "hits": [
-    "build:tools/import_rom_to_editor.py"
+    "build:tools/import_rom_to_editor.py",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/font-encoding.md",
+    "doc:notes/text-writeback-migration-20261020.md"
    ],
-   "hit_count": 1,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27904,9 +28065,11 @@
    "category": "code",
    "path": "tools/macos_mgba_toolchain_profile.py",
    "schema": "",
-   "status": "none",
-   "hits": [],
-   "hit_count": 0,
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27966,9 +28129,9 @@
     "doc:notes/m4a-emulator-differential-20260713.md",
     "doc:notes/m4a-player-slot-runtime-differential-20260713.md",
     "doc:notes/map-position-pc-probe-20260710.md",
-    "doc:notes/offline-e2e-smoke-20260713.md"
+    "doc:notes/mgba-c-api-probe-plan-20261020.md"
    ],
-   "hit_count": 14,
+   "hit_count": 15,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27990,11 +28153,11 @@
     "doc:docs/superpowers/plans/2026-07-17-scenario-41-active-current-unit-observer.md",
     "doc:docs/superpowers/specs/2026-07-15-scenario-41-battle-runtime-design.md",
     "doc:docs/superpowers/specs/2026-07-17-macos-mgba-gdb-ownership-design.md",
+    "doc:notes/mgba-c-api-probe-plan-20261020.md",
     "doc:notes/s49-fidelity-handover-20261019.md",
-    "local_artifact:artifacts/s49-fidelity-20261019-v1/gdb-probe-a-handler/guard.json",
-    "local_artifact:artifacts/s49-fidelity-20261019-v1/gdb-probe-bit17/guard.json"
+    "local_artifact:artifacts/s49-fidelity-20261019-v1/gdb-probe-a-handler/guard.json"
    ],
-   "hit_count": 18,
+   "hit_count": 19,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -28146,10 +28309,12 @@
    "hits": [
     "build:tools/automated_test.py",
     "build:tools/build_mod.py",
+    "build:tools/hook_points.py",
     "build:tools/patch_safety.py",
+    "doc:notes/re-methodology-improvements-20261020.md",
     "test:tests/test_patch_safety.py"
    ],
-   "hit_count": 4,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -28163,9 +28328,14 @@
    "status": "build",
    "hits": [
     "build:tools/README.md",
-    "build:tools/patch_sjis.py"
+    "build:tools/patch_sjis.py",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/font-encoding.md",
+    "doc:notes/recomp-modification-surfaces-20261020.md",
+    "doc:notes/text-writeback-migration-20261020.md"
    ],
-   "hit_count": 2,
+   "hit_count": 7,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -28179,13 +28349,19 @@
    "status": "build",
    "hits": [
     "build:sequel/content/battle-encounters/bank.json",
-    "build:sequel/content/cutscene-scripts/bank.json",
+    "build:sequel/content/character-stats-b/bank.json",
+    "build:sequel/content/character-stats/bank.json",
+    "build:sequel/content/items/bank.json",
+    "build:sequel/content/levels/bank.json",
+    "build:sequel/content/skills/bank.json",
+    "build:sequel/content/story-c/bank.json",
+    "build:sequel/content/story-d/bank.json",
+    "build:sequel/content/story-e/bank.json",
     "build:tools/populate_bank_json.py",
     "doc:docs/final-completion-report.md",
-    "doc:notes/cutscene-visual-resource-consumer-20260712.md",
-    "test:tests/test_populate_units_bank.py"
+    "doc:docs/sequel-roadmap.md"
    ],
-   "hit_count": 6,
+   "hit_count": 21,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -28227,7 +28403,23 @@
    "schema": "",
    "status": "doc",
    "hits": [
-    "doc:notes/evidence/remaining-reverse-plan-20260930-v1/source-snapshots/docs/reverse-engineering-handoff-current-20260905.md"
+    "doc:notes/evidence/remaining-reverse-plan-20260930-v1/source-snapshots/docs/reverse-engineering-handoff-current-20260905.md",
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 2,
+   "ledger_status": null,
+   "ledger_id": null,
+   "manifest_hint": ""
+  },
+  {
+   "id": "prepare_rom_verifier_contracts_win",
+   "kind": "tool",
+   "category": "code",
+   "path": "tools/prepare_rom_verifier_contracts_win.py",
+   "schema": "",
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
    ],
    "hit_count": 1,
    "ledger_status": null,
@@ -28758,9 +28950,11 @@
    "category": "code",
    "path": "tools/rom_small_cfg_callback_gaps_independent_verifier.py",
    "schema": "",
-   "status": "none",
-   "hits": [],
-   "hit_count": 0,
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -29474,9 +29668,11 @@
    "status": "build",
    "hits": [
     "build:tools/translate_sjis_to_chinese.py",
+    "doc:notes/font-encoding.md",
+    "doc:notes/text-writeback-migration-20261020.md",
     "test:tests/test_export_dialogue_font_atlases.py"
    ],
-   "hit_count": 2,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -29531,13 +29727,12 @@
    "schema": "",
    "status": "build",
    "hits": [
-    "build:tools/automated_test.py",
     "build:tools/verify_battle_config_records.py",
     "doc:notes/battle-effect-template-consumer-20260711.md",
     "doc:notes/dynamic-verification-audit.md",
     "test:tests/test_verify_battle_config_records.py"
    ],
-   "hit_count": 5,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -30170,13 +30365,12 @@
    "schema": "",
    "status": "build",
    "hits": [
-    "build:tools/automated_test.py",
     "build:tools/verify_character_stats_records.py",
     "doc:notes/character-growth-runtime-chain-20260711.md",
     "doc:notes/dynamic-verification-audit.md",
     "test:tests/test_verify_character_stats_records.py"
    ],
-   "hit_count": 5,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -30273,9 +30467,11 @@
    "category": "code",
    "path": "tools/verify_data_table_b_message0_pointer_ab.py",
    "schema": "",
-   "status": "none",
-   "hits": [],
-   "hit_count": 0,
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -30286,9 +30482,11 @@
    "category": "code",
    "path": "tools/verify_data_table_b_partial_bank.py",
    "schema": "",
-   "status": "none",
-   "hits": [],
-   "hit_count": 0,
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -31692,9 +31890,11 @@
    "category": "code",
    "path": "tools/verify_rom_cgbsound_bounded_cfg.py",
    "schema": "",
-   "status": "none",
-   "hits": [],
-   "hit_count": 0,
+   "status": "doc",
+   "hits": [
+    "doc:notes/windows-migration-20261020.md"
+   ],
+   "hit_count": 1,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -32897,14 +33097,13 @@
    "schema": "",
    "status": "build",
    "hits": [
-    "build:tools/automated_test.py",
     "build:tools/verify_save_state_records.py",
     "doc:notes/dynamic-verification-audit.md",
     "doc:notes/runtime-verification-gates-20260710.md",
     "doc:notes/tutorial-victory-save-load-runtime-20260712.md",
     "test:tests/test_verify_save_state_records.py"
    ],
-   "hit_count": 6,
+   "hit_count": 5,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -33346,7 +33545,6 @@
   "four-decisions-20261020",
   "generic-sprite-bundle-relocation-20260731",
   "group12-natural-entry-ai-observer-20260806",
-  "handover-20261020-reverse-tree",
   "initializer-resource-pack-export-20260730",
   "legacy-artifact-acceptance-20260905",
   "line-a-progress-20261019",
@@ -33366,6 +33564,7 @@
   "tier2-threshold-policy-source-20261020",
   "unresolved-lz77-palette-survey-20260730",
   "vram-safe-lz77-runtime-20260801",
+  "windows-porting-20261020",
   "三包接入施工单-raw",
   "overview-gradient-overlay-export-20260730",
   "cutscene-obj-bundle-relocation-20260731",
@@ -33530,13 +33729,13 @@
  ],
  "ledger_missing": [],
  "summary": {
-  "total": 2204,
+  "total": 2207,
   "by_status": {
-   "build": 365,
-   "doc": 507,
+   "build": 372,
+   "doc": 512,
    "local_artifact": 3,
-   "none": 1081,
-   "test": 248
+   "none": 1073,
+   "test": 247
   },
   "by_category": {
    "audio": {
@@ -33544,15 +33743,14 @@
     "test": 1
    },
    "battle": {
-    "build": 4,
-    "doc": 1,
+    "build": 5,
     "none": 2,
     "test": 6
    },
    "code": {
     "build": 251,
-    "doc": 121,
-    "none": 857,
+    "doc": 131,
+    "none": 849,
     "test": 211
    },
    "map": {
@@ -33561,11 +33759,11 @@
     "none": 10
    },
    "other": {
-    "build": 19,
-    "doc": 159,
+    "build": 23,
+    "doc": 157,
     "local_artifact": 1,
     "none": 42,
-    "test": 19
+    "test": 18
    },
    "overview": {
     "build": 1,
@@ -33583,14 +33781,14 @@
     "none": 9
    },
    "rom": {
-    "build": 5,
-    "doc": 138,
+    "build": 6,
+    "doc": 137,
     "none": 108,
     "test": 1
    },
    "runtime": {
-    "build": 1,
-    "doc": 7,
+    "build": 2,
+    "doc": 6,
     "none": 5
    },
    "scenario": {
@@ -33619,25 +33817,25 @@
     "test": 6
    },
    "note": {
-    "build": 21,
-    "doc": 174,
+    "build": 28,
+    "doc": 169,
     "local_artifact": 3,
     "none": 210,
-    "test": 27
+    "test": 26
    },
    "test": {
     "build": 1,
-    "doc": 3,
-    "none": 408,
+    "doc": 7,
+    "none": 405,
     "test": 211
    },
    "tool": {
     "build": 250,
-    "doc": 118,
-    "none": 449
+    "doc": 124,
+    "none": 444
    }
   },
-  "result_total": 764,
+  "result_total": 765,
   "result_gap": 224,
   "ledger_missing": 0,
   "artifact_family_total": 264,

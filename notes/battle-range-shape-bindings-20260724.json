@@ -1,0 +1,43 @@
+{
+  "area_builder": {
+    "end": "0x0806A774",
+    "sha256": "01c73a6dc0b944ee7d4574cd3e3e6ea0bde47c0e886d8b448b84ca81fa63c874",
+    "start": "0x0806A4AC"
+  },
+  "area_shape_encoding": {
+    "high_bit_0": "manhattan_diamond",
+    "high_bit_1": "four_cardinal_axes",
+    "size": "low_7_bits_including_center",
+    "zero_size": "center_only_for_implicit_or_special_actions"
+  },
+  "boundary": "The original function closes the two area geometries and repeated target-policy evaluation. Terrain blocking in the cardinal branch remains a map-service concern; the zero-size convention is retained only for implicit or special actions.",
+  "examples": {
+    "0x01": [
+      "center"
+    ],
+    "0x02": [
+      "center",
+      "four_cardinal_neighbors"
+    ],
+    "0x83": [
+      "center",
+      "four_cardinal_axes_through_distance_2"
+    ]
+  },
+  "identity": "battle_range_shape",
+  "implementation_contract": [
+    "Decode area size independently from maximum selection distance.",
+    "Collect every active unit on covered cells that passes the same target policy.",
+    "Preserve unit-slot scan order when constructing the target set.",
+    "Charge action cost once and resolve one queued effect event per collected target."
+  ],
+  "rom": "rom/base.gba",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "schema_version": 1,
+  "target_policy_calls": [
+    "0x0806A5D2",
+    "0x0806A658",
+    "0x0806A740"
+  ],
+  "target_policy_function": "0x0806A2F4"
+}

@@ -361,19 +361,32 @@ class DialogueFontAtlasExportTests(unittest.TestCase):
         self.assertFalse(scope["full_unicode_naming_complete"])
 
     def test_group0_control_byte_is_not_mislabeled_as_a_sjis_glyph(self):
-        from tools.translate_sjis_to_chinese import (
-            load_mapping,
-            translate_bytes,
-        )
+        """2026-10-21 merge: the old hand-made SJIS table is retired.
+
+        The previous version of this test decoded the same 41 ROM bytes with
+        a 19-entry hand-made table and got a *different* sentence plus
+        "8B62 is an unresolved control byte".  Both claims were falsified:
+        the ROM stores the game's own double-byte font codes (not
+        Shift-JIS), the hand-made table's values are themselves
+        double-encoded mojibake, and ``0x8B62`` is the font code for
+        U+7684 ("的"), not a delimiter.
+
+        The verified decoding comes from ``tools/text_codec.py`` (the ROM's
+        own font catalogue, fingerprint-matched segment by segment).
+        """
+        from tools.text_codec import decode_bounded, load_mapping
 
         rom = (ROOT / "rom/base.gba").read_bytes()
-        raw = rom[0x459414 : 0x459414 + 41]
-        translated, unknowns = translate_bytes(raw, load_mapping())
+        mapping, meta = load_mapping()
+        self.assertGreater(len(mapping), 4000)
+        text, _ = decode_bounded(rom, 0x459414, 41, mapping)
         self.assertEqual(
-            "什么！？……真拿你没办法?\n最后一次哦！！",
-            translated,
+            "把九尾妖狐封印在鸣人体内的\n是第几代火影？",
+            text,
         )
-        self.assertEqual(["8B62"], unknowns)
+        # 0x8B62 is a drawable glyph, not an unresolved control byte.
+        self.assertEqual("的", mapping[0x8B62])
+        self.assertNotIn("{字", text)
 
     def test_sjis_atlas_stacks_ordered_half_tiles_vertically(self):
         dataset = self.manifest["datasets"]["sjis_full"]

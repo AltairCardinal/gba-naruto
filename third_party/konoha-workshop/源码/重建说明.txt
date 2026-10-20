@@ -1,0 +1,10 @@
+﻿本目录含自编扩展源码、剧情原稿和素材。编辑器源码同时位于包根目录editor，源码/editor为同版构建副本。
+包内不包含原版、改版ROM、存档或即时状态。先自行准备说明中的对应原版，然后运行：
+python 准备自有基底.py "你的原版.gba"
+再安装Node.js、Python3/Pillow、ARM GCC，按顺序构建，不要同时运行：
+NARUTO_CAMPAIGN_EDITION=restart NARUTO_CAMPAIGN_OUTPUT=my_restart.gba node continuation/tools/build_campaign.js
+NARUTO_CAMPAIGN_EDITION=continuation NARUTO_CAMPAIGN_OUTPUT=my_continuation.gba node continuation/tools/build_campaign.js
+Windows命令提示符请用set设置变量后执行node。可用NARUTO_ARM_PREFIX指定arm-none-eabi-完整前缀、NARUTO_PYTHON指定Python；Windows源码构建未实测。
+修改continuation/project/campaign.json或campaign_continuation.json编写剧情，不要运行create_story.py覆盖手工编剧原稿。
+基础引擎补丁及两版DEMO补丁均以同一原输入为基底，三者单独应用，不能叠加。
+测试工具可能引用作者本机mGBA或路径，迁移时请让AI按环境调整。不要运行历史tools/build.py覆盖固定基底。

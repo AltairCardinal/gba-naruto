@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
 from tools.lib import load_json
+from tools import text_codec
 
 
 def find_free_space(data: bytes, size: int, start: int = 0) -> int:
@@ -43,27 +44,35 @@ def build_pointer_redirect(
 
 
 ROM_BASE = 0x08000000
-FREE_SPACE_START = 0x5F0000
-FREE_SPACE_END = 0x5F8000  # exclusive; lower half of shared content free space
+FREE_SPACE_START = 0x5DFBEC  # first 0xFF-filled byte after all game data (128 KB free)
+FREE_SPACE_END   = 0x5FFFFF  # last byte of ROM
 
 
 def import_dialogue_variable(
     bank_path: Path,
     content_path: Path,
     free_space_start: int = FREE_SPACE_START,
-    free_space_end: int = FREE_SPACE_END,
+    rom_path: Path | None = None,
     *,
+    free_space_end: int = FREE_SPACE_END,
     rom: bytes | None = None,
     overrides: dict[str, str] | None = None,
 ) -> list[dict]:
     """Generate patches for variable-length dialogue entries.
 
     For each dialogue content entry:
-    1. Encode text in the target encoding
+    1. Encode text in the target encoding ("font" = the game's own font codes)
     2. If length matches existing slot, generate a bytes patch (in-place)
     3. If length differs, generate:
        - a bytes patch to write new text into free space
        - a pointer_redirect patch to update the pointer table
+
+    Fail-closed (2026-10-21 merge, restored from the sequel branch): the
+    free-space partition must be inside the ROM and entirely 0xFF, the
+    pointer table entry must still hold the pointer the bank declares, the
+    table offset must be unique and inside the ROM, and the allocation must
+    not run past ``free_space_end``.  Any of these raises instead of
+    emitting a patch that would corrupt the ROM.
     """
     bank = load_json(bank_path)
     content = load_json(content_path)
@@ -78,6 +87,7 @@ def import_dialogue_variable(
 
     patches = []
     text_cursor = free_space_start
+    mapping: dict[int, str] | None = None
     seen_tables: set[int] = set()
 
     for entry in content["entries"]:
@@ -86,9 +96,11 @@ def import_dialogue_variable(
             raise ValueError(f"dialogue entry {entry_id} missing from bank")
 
         bank_entry = bank_map[entry_id]
-        encoding = bank_entry.get("encoding", "cp932")
+        encoding = bank_entry.get("encoding", text_codec.FONT_ENCODING)
+        if encoding == text_codec.FONT_ENCODING and mapping is None:
+            mapping, _ = text_codec.load_mapping(rom_path)
         text = overrides.get(entry_id, entry["text"]) if overrides else entry["text"]
-        encoded = text.encode(encoding)
+        encoded = text_codec.encode(text, encoding, mapping)
         if b"\x00" in encoded:
             raise ValueError(f"dialogue entry {entry_id} encodes an embedded NUL")
         max_bytes = int(bank_entry["max_bytes"])
@@ -123,10 +135,12 @@ def import_dialogue_variable(
                     f"but has no table_offset in bank"
                 )
             if table_offset in seen_tables:
-                raise ValueError(f"duplicate dialogue pointer table offset 0x{table_offset:X}")
+                raise ValueError(
+                    f"duplicate dialogue pointer table offset 0x{table_offset:X}")
             seen_tables.add(table_offset)
             if not 0 <= table_offset <= len(rom) - 4:
-                raise ValueError(f"dialogue pointer offset 0x{table_offset:X} outside ROM")
+                raise ValueError(
+                    f"dialogue pointer offset 0x{table_offset:X} outside ROM")
             actual_old_ptr = struct.unpack_from("<I", rom, table_offset)[0]
             expected_old_ptr = ROM_BASE + old_text_offset
             if actual_old_ptr != expected_old_ptr:
@@ -141,8 +155,9 @@ def import_dialogue_variable(
             after_bytes = encoded + b"\x00"
             if text_cursor + len(after_bytes) > free_space_end:
                 raise ValueError(
-                    f"dialogue free-space exhausted by {entry_id}: need {len(after_bytes)} "
-                    f"bytes at 0x{text_cursor:X}, end is 0x{free_space_end:X}"
+                    f"dialogue free-space exhausted by {entry_id}: need "
+                    f"{len(after_bytes)} bytes at 0x{text_cursor:X}, end is "
+                    f"0x{free_space_end:X}"
                 )
             patches.append(
                 {
@@ -190,16 +205,21 @@ def main() -> int:
         help="Start offset for free space in ROM (hex)",
     )
     parser.add_argument("--output", help="Optional output JSON path")
-    parser.add_argument("--free-space-end", default=hex(FREE_SPACE_END))
+    parser.add_argument(
+        "--rom",
+        default=None,
+        help="ROM used for the font code table (default rom/base.gba)",
+    )
     args = parser.parse_args()
 
     free_start = int(args.free_space_start, 0)
     patches = import_dialogue_variable(
-        ROOT / args.bank, ROOT / args.content, free_start, int(args.free_space_end, 0)
+        ROOT / args.bank, ROOT / args.content, free_start, args.rom
     )
     text = json.dumps({"patches": patches}, ensure_ascii=False, indent=2) + "\n"
     if args.output:
-        (ROOT / args.output).write_text(text, encoding="utf-8")
+        from tools.lib.io import write_text as write_text_lf
+        write_text_lf(ROOT / args.output, text)
     else:
         print(text, end="")
     return 0

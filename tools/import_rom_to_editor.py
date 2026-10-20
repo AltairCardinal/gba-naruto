@@ -95,13 +95,17 @@ def import_dialogues(conn, dry_run=False):
       2. 0x458000-0x460000 (258 segments — bulk of 熊组 Chinese localization)
       3. title screen text @ 0x00076D
 
-    Note on 'garbled' text:
-        GBA's native text encoding is SJIS (cp932). 熊组 2004 年的
-        汉化 patch 替换了部分 dialogue bytes 为 GBK 编码中文，但
-        GBA text engine 不能完美解码 GBK 双字节字符，所以 cp932 和
-        GBK 两种解码都不能完美还原——编辑器里看到 '乱码' 是 ROM
-        真实数据的限制。要看到流畅中文需要 ROM 字体表改造 + 逐字
-        节重新编码，是 GBA 汉化的标准工作流。
+    Note on the encoding (corrected 2026-10-20):
+        The ROM does NOT store cp932/Shift-JIS.  It stores a custom
+        double-byte font code (lead byte 0x80..0x9F) that indexes the ROM's
+        own bitmap font.  See notes/font-encoding.md.
+
+        This ROM is the 熊组 Chinese localization, so decoding the font codes
+        yields the Chinese text directly - there is no recoverable original
+        Japanese (the patch replaced it).  The extractor therefore fills
+        `text_zh` with the real text and mirrors it into `text_ja`, which is
+        the column the editor edits and the column the build reads back as an
+        override.  What the editor shows is what the game will render.
     """
     cur = conn.cursor()
     full_path = CONTENT_DIR / 'text' / 'dialogue-bank-full.json'
