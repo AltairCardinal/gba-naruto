@@ -18,7 +18,7 @@ python tools\export_content_pack.py
 node rom-editor\tools\serve.mjs 8765
 #   → http://localhost:8765/rom-editor/
 
-# 3) 浏览器自检（41 项：所有模块渲染 + 面板打开 + 构建与落点 + 原始字节补丁 + 剧情 VM + 控制码）
+# 3) 浏览器自检（42 项：所有模块渲染 + 面板打开 + 构建与落点 + 原始字节补丁 + 剧情 VM + 控制码）
 #    打开 http://localhost:8765/rom-editor/tools/selftest.html
 
 # 4) 命令行自检（25 项：重建 ROM + 逐域落点 + 原始字节补丁 + 剧情 VM + 控制码）

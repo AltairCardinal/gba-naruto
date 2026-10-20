@@ -395,5 +395,5 @@ python tools\export_content_pack.py          # 重新导出内容包
 python tools\export_content_pack.py --check  # 校验内容包 == 当前 ROM
 node rom-editor\tools\verify_pack.mjs        # 命令行自检（25 项）
 node rom-editor\tools\serve.mjs 8765         # 起编辑器
-# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（41 项）
+# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（42 项）
 ```

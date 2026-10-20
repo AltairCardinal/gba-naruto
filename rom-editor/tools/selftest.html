@@ -388,6 +388,18 @@ const MODULES = [
           }
           check('同表其它记录逐字节未变', othersChanged === 0,
             `${othersChanged} 条被牵连`);
+
+          // 界面必须把控制码的存在告诉作者
+          const { TextTableEditor } = await import('../js/editors.js');
+          const editor = new TextTableEditor(ctx.pack, table, { onChange: ctx.onChange });
+          const host = document.createElement('div');
+          document.body.appendChild(host);
+          editor.render(host);
+          editor.openDetail(target);
+          const detail = host.textContent || '';
+          check('文本编辑器向作者披露控制码', detail.includes('控制码'),
+            detail.includes('控制码') ? '已显示' : '没有显示控制码提示');
+          host.remove();
         }
       } finally {
         ctx.pack = saved;
