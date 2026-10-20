@@ -69,6 +69,31 @@ export async function ensureTextIndex() {
     setStatus(`全 ROM 文本索引载入失败：${err.message}`);
   }}
 
+/**
+ * Route state in the URL hash, so a view can be linked to directly:
+ *   #overview            概览
+ *   #route               剧情路线
+ *   #route/stage/3       剧情路线的第 3 关
+ *   #battle/stage/40/0   战斗的第 40 关、变体 0
+ */
+function parseHash() {
+  const raw = location.hash.replace(/^#/, '');
+  if (!raw) return { module: 'overview', panel: null };
+  const parts = raw.split('/');
+  const module = MODULES.some((m) => m.id === parts[0]) ? parts[0] : 'overview';
+  if (parts[1] === 'stage') {
+    return {
+      module,
+      panel: {
+        kind: 'stage',
+        id: 'stage',
+        params: { stage: Number(parts[2]) || 1, variant: Number(parts[3]) || 0 },
+      },
+    };
+  }
+  return { module, panel: null };
+}
+
 /** Drill into one structure or text table. */
 export function openPanel(kind, id, params) {
   if (kind === 'text' && id === 'rom_text_index' && !state.pack.textTable('rom_text_index')) {
@@ -80,11 +105,25 @@ export function openPanel(kind, id, params) {
     return;
   }
   state.view.panel = { kind, id, params: params || {} };
+  syncHash();
   render();
+}
+
+function syncHash() {
+  const view = state.view;
+  if (view.panel && view.panel.kind === 'stage') {
+    const { stage, variant } = view.panel.params;
+    const next = `#${view.module}/stage/${stage}/${variant || 0}`;
+    if (location.hash !== next) location.hash = next;
+    return;
+  }
+  const next = `#${view.module}`;
+  if (location.hash !== next) location.hash = next;
 }
 
 export function goModule(id) {
   state.view = { module: id, panel: null };
+  syncHash();
   render();
 }
 
@@ -487,11 +526,9 @@ function build() {
   });
 
   window.addEventListener('hashchange', () => {
-    const id = location.hash.replace('#', '');
-    if (id && MODULES.some((m) => m.id === id)) {
-      state.view = { module: id, panel: null };
-      render();
-    }
+    const view = parseHash();
+    state.view = view;
+    render();
   });
 }
 
@@ -510,10 +547,7 @@ async function boot() {
   setRomStatus();
   markDirty();
   setStatus('内容包已载入 —— 用「载入 ROM」或「载入内置 ROM」提供构建基底');
-  const hash = location.hash.replace('#', '');
-  if (hash && MODULES.some((m) => m.id === hash)) {
-    state.view = { module: hash, panel: null };
-  }
+  state.view = parseHash();
   render();
   trace('first render done');
 }
