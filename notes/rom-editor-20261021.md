@@ -44,13 +44,36 @@
 
 `tools/export_content_pack.py` 从 `rom/base.gba` 导出：
 
-* 25 张结构表 / 5,740 条记录；
+* **39 张结构表 / 6,666 条记录**；
 * 10 张文本表 / 2,199 条文本；
-* 字形码表 4,261 项（解码用 `code_to_char` + 编码用 `char_to_code`）。
+* 字形码表 4,261 项（解码用 `code_to_char` + 编码用 `char_to_code`）；
+* 原版 ROM（gzip）随包一起提供，供编辑器直接重建。
 
 **用仓库既有工具，不重新推导**：`tools/text_codec.py`（字形码）、
 `tools/table_registry.py`（基址裁决）、`tools/character_templates.py`、
 `tools/import_battle_config.py` 的字段定义。
+
+### 1.2.1 记录模型的一条硬规则（踩过坑）
+
+字段列表必须描述**单条记录**，不是整张表。
+
+踩坑形态：字段按整张表展开（`value_0..value_42`、`ptr_0..ptr_55`…），
+但记录模型是「一条记录 = 一行」。于是每条记录的 `values` 里塞进了
+**跨越到后续记录**的字段，而 `tile()` 不报错。
+
+后果有三层：
+
+1. 包里同一张表的整行数据被复制到每一行（包体积虚胖）。
+2. 编辑器 `recordBytes()` 把每个字段写进 `entry_size` 长的缓冲里，
+   **偏移越界的字段被静默丢弃** —— 也就是**改了不生效**。
+3. `values` 与 `raw` 不自洽，违反「只用字段值就能重建」这条不变量。
+
+修复：每条记录只带属于自己那几字节的字段（`unit_slot_remap` / `unit_delta_table` /
+`object_descriptors` / 四张剧情根表由「整表字段」改成单字段），
+并给 `tile()` 加了越界检查，消息直接写明「字段必须描述【单条】记录」。
+
+> 这条缺陷的完整证据与复现命令见
+> `notes/evidence/content-pack-export-20261021.md` §3。
 
 ### 1.3 两条必须遵守的硬约束（踩过坑）
 
@@ -85,6 +108,7 @@
 ```
 
 未改动内容包 → 重建 ROM → **sha256 与 `rom/base.gba` 完全相同**。
+内容包自身的等价校验：`python tools\export_content_pack.py --check` → `OK`。
 
 ### 2.2 逐域落点（改一个字段，只动那几字节）
 
@@ -122,9 +146,11 @@ ROM 里的文本是**字形码流**（lead 0x80–0x9F 的双字节码），不�
 
 | 不能改 | 为什么 |
 |---|---|
-| LZ77 压缩载荷（战场图块/调色板/图层/组合图块/通行值表） | 仓库里只有字面量编码器（`tools/lib/lz77.py::compress_literal`），没有与原版逐字节一致的压缩器；原地改写需要「压缩后长度 ≤ 原长 + 0..3 字节对齐余量」 |
+| LZ77 压缩载荷（战场图块/调色板/图层/组合图块/通行值表、头像图像、资源记录里的图块） | 仓库里只有字面量编码器（`tools/lib/lz77.py::compress_literal`），没有与原版逐字节一致的压缩器；原地改写需要「压缩后长度 ≤ 原长 + 0..3 字节对齐余量」 |
 | 故事 VM 剧本的指令与文本 | 分支目标是**绝对 ROM 地址**，改长度会让全部分支失效；仓库既有写回路径（`tools/import_story_script.py`）也只改定宽操作数 |
 | 道具记录 16 字节的字段语义 | 仓库里**没有任何一处**证明过它们是什么，所以按原始字节呈现与编辑，不臆造字段名 |
+| 音频采样本体 | 音频是 m4a 格式；包里只有**描述符层**（歌曲头、轨道指针、sound-ID 分派表），采样数据要另走 m4a 导入流程 |
+| 指针指向的资源本体 | 头像 / 关卡块 / 底图 / 资源记录指向的图形与调色板不在包里（同第一条：缺一致的 LZ77 压缩器） |
 
 ---
 
@@ -150,12 +176,18 @@ ROM 里的文本是**字形码流**（lead 0x80–0x9F 的双字节码），不�
 
 | 域 | 结构表 | 文本表 |
 |---|---|---|
-| 剧情与对白 | 剧情脚本四根根表 `0x060C74/0x060D54/0x060E34/0x060EF0`、字形段表 `0x53D644`、剧情底图表 `0x59903C` | 对白槽位表 `0x461CE8`（1524 槽）、说话人名表 `0x5A57C4`（内联）、全 ROM 文本索引（16,008 条） |
+| 剧情与对白 | 剧情脚本四根根表 `0x060C74/0x060D54/0x060E34/0x060EF0`、字形段表 `0x53D644`、字宽表 `0x53E596`、剧情底图表 `0x59903C` | 对白槽位表 `0x461CE8`（1,524 槽）、说话人名表 `0x5A57C4`（内联）、全 ROM 文本索引（16,008 条） |
 | 道具 | 道具/忍具记录表 `0x545BE4`、奖励表 `0x59EAE0` | 忍具名表 `0x599634`、强化素材名表 `0x5A7E8C` |
 | 角色属性与技能 | 角色定义表 `0x54241C`、逐角色成长表 `0x545068`、角色特性表 `0x5459C8`、头像表 `0x5A4DEC`、头像拼块表 `0x4643C0` | 人物名表 `0x599280`、技能名表 `0x5A7060` |
 | 忍术 | 忍术记录表 `0x545458` | 忍术名表 `0x59937C` |
-| 战斗 | 战场描述符 `0x53D910`、编成矩阵 `0x5461C4`、战场物件（编成组 +0x8A4）、战斗目标 `0x594758`、战斗遭遇记录 `0x54229C`、关卡数据块 `0x53DF70`、对象描述符 `0x53F140`、精灵动作表 `0x596CCC` | — |
+| 战斗 | 战场描述符 `0x53D910`、编成矩阵 `0x5461C4`、战场物件（编成组 +0x8A4）、战斗目标 `0x594758`、战斗遭遇记录 `0x54229C`、关卡数据块 `0x53DF70`、对象描述符 `0x53F140`、精灵动作表 `0x596CCC`、战斗/地图事件分派表 `0x53E698`、精灵帧描述符 `0x53EE98`、拾取分派表 `0x0815E4` | — |
 | 剧情路线 | 任务索引表 `0x348DAC`、剧情脚本根表 | 任务标题 `0x59AA5C` / 说明 `0x59D214` / 提示 `0x59E920` |
+| 音频 | sound-ID 表 `0x465B70`、5 首 m4a SongHeader（`0x536368` 等）、函数指针表 `0x53D5F0` | — |
+| 素材与资源 | 数据指针表 A `0x5A143C` / B `0x5A2034`、图块/精灵资源记录表 `0x5A320C` | — |
+
+> 「音频」与「素材与资源」不是用户点名的六个域，但这些表在 ROM 里**已被证实**
+> （`tools/table_registry.py` 标 `verified=True`），不摆出来就谈不上
+> 「所有内容的呈现」。它们指向的**资源本体**不在包里（见 §2.4）。
 
 ### 战斗的「四件套」是按原生 id 串起来的
 
@@ -232,16 +264,16 @@ ROM 本身 6,291,456 字节 ≈ 6.3 MB，单独占满预算。
 
 | 文件 | 作用 |
 |---|---|
-| `tools/export_content_pack.py` | 内容包导出器（结构 + 文本表 + 字形码表 + 内置 ROM 分片） |
-| `rom-editor/content/pack.json` | 内容包（人读/工具用，带缩进） |
+| `tools/export_content_pack.py` | 内容包导出器（39 结构 + 10 文本表 + 字形码表 + 内置 ROM） |
+| `rom-editor/content/pack.json` | 内容包（39 结构 / 6,666 记录 / 10 文本表 / 2,199 文本） |
 | `rom-editor/content/pack.min.json(.gz)` | 内容包（紧凑/压缩，浏览器用） |
 | `rom-editor/content/text-index.json(.gz)` | 全 ROM 文本索引（16,008 条，按需载入） |
-| `rom-editor/content/base-rom/` | 内置原版 ROM（gzip 分片）+ 载入器页面 |
+| `rom-editor/content/base-rom/` | 内置原版 ROM（gzip）+ 载入器页面 |
 | `rom-editor/js/rom.js` | ROM 构建器（结构写回 + 文本重定位 + 空闲区分配） |
 | `rom-editor/js/pack.js` | 内容包模型（记录重编码、脏标记） |
 | `rom-editor/js/textcodec.js` | 字形码编解码 |
 | `rom-editor/js/editors.js` | 通用结构编辑器 / 文本表编辑器（由内容包驱动） |
-| `rom-editor/js/modules/*.js` | 六个域 + 概览 + 原始字节 |
+| `rom-editor/js/modules/*.js` | 六个域 + 音频 + 素材与资源 + 概览 + 原始字节 |
 | `rom-editor/tools/verify_pack.mjs` | 命令行自检（重建 + 逐域落点） |
 | `rom-editor/tools/selftest.html` | 浏览器内自检（所有模块渲染 + 面板打开） |
 | `rom-editor/tools/serve.mjs` | 静态服务器 |
@@ -251,7 +283,8 @@ ROM 本身 6,291,456 字节 ≈ 6.3 MB，单独占满预算。
 
 ```powershell
 python tools\export_content_pack.py          # 重新导出内容包
+python tools\export_content_pack.py --check  # 校验内容包 == 当前 ROM
 node rom-editor\tools\verify_pack.mjs        # 命令行自检（12 项）
 node rom-editor\tools\serve.mjs 8765         # 起编辑器
-# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html
+# 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（27 项）
 ```
