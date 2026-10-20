@@ -1621,6 +1621,13 @@ OK
 因为晋升会改审计器与账本，**那一轮的收据对最终代码无效**，改按**均衡分片**在
 晋升后重跑（见 §24.5）。
 
+**晋升后的均衡分片重跑（2026-10-20 13:0x–13:4x）没有跑完**：
+宿主机器退役时 4 片各跑到 **1 / 7 / 7 / 6 项 ok、0 失败**（约 8%），被按精确 PID 停止。
+⇒ **「整模块全绿」这一条至今不成立**，必须在新机器上补跑。
+分片清单、日志与状态收据在 `notes/evidence/auditor-module-shards-20261020-v1/`
+（`status.json` 里写明了「stopped-before-completion」与停止原因，避免被误读成通过）。
+本轮**唯一完成**的重跑是 93 套件（见 §29.1）。
+
 ### 24.5 Tier-2 门槛例外：三包入账后的权威结果（2026-10-20 12:2x–12:5x）
 
 **这是本轮唯一改变四类分母的动作。**
@@ -2026,3 +2033,96 @@ site-packages** ⇒ 该验证器会看到已安装的第三方包。这对「要
 
 
 
+
+## 29. 第四轮收尾（2026-10-20 12:5x–13:4x）：晋升后权威轮 + 两个新发现
+
+本节只记**本轮新增**的事实；分母口径见 §24.5，逆向量口径见 §2。
+
+### 29.1 晋升后的 93 套件：**93/93 OK，0 失败**
+
+`tests.test_audit_reverse_engineering_proof`，日志
+`notes/evidence/auditor-module-shards-20261020-v1/proof-suite11.log`：
+
+```
+Ran 93 tests in 2691.708s — OK
+```
+
+含 `test_current_repository_does_not_overclaim_completion`（进程内跑完整 formal）
+⇒ 晋升**没有**破坏「不夸大完成度」这条红线。
+用时比晋升前那轮（1,384.330 s）长，是因为本轮宿主同时跑着 4 片审计器分片，
+**不是代码变慢**（formal v3 反而比 v2 快 115.7 s，那也是因为机器空出来）。
+
+### 29.2 新发现 A：晋升打红了 4 个导出器测试模块（23 项），根因是「整账本 SHA 做身份」
+
+本轮三包晋升把活账本从 `24cf30aa…` 换成 `d34672a8…`，
+于是**以整账本摘要做身份**的导出器全部失效：
+
+| 测试模块 | 结果 |
+| --- | --- |
+| `tests.test_export_rom_sprite_loader_tail` | 9 项：1 failure + 5 errors |
+| `tests.test_export_rom_chapter_selector_code_slice` | 9 项：1 failure + 5 errors |
+| `tests.test_export_rom_profile_selector_code_slices` | 6 项：5 errors |
+| `tests.test_export_rom_battle_status_bar_caller_slice` | 9 项：1 failure + 5 errors |
+| `tests.test_export_rom_psg_frequency_lookup` | 15 项：**OK**（它钉的是重建基线） |
+
+**这 4 个模块既不在 93 套件内，也不在整模块 `tests.test_audit_rom_byte_coverage` 内**
+⇒ 两轮长跑都看不到它们 ⇒ 这是本轮晋升引入的**未覆盖回归**，不是历史遗留。
+
+根因与可用范式（实测）：同一族包的**验证器**早已实现 `baseline` / `post` 双模式
+（`digest == COVERAGE_SHA256` ⇒ baseline，否则 post 并改验「本包 claim 精确持有该段」），
+**导出器**却仍硬钉「整账本摘要相等」。
+逐对 AST 比对：导出器的 `_validate_coverage` = 验证器同函数**减去 post 模式**，
+差异 79–91 行且**全部**是这一件事 ⇒ 机械移植即可，不需要发明新机制。
+
+系统性规模：`tools/` 下 **41+ 个工具**以整账本 SHA 做身份。
+四份活账本包的验证器已修好，导出器侧待修（本轮未执行，见 §29.5 与交接文档 §4.2）。
+
+### 29.3 新发现 B：D0 契约把「采集时冻结 provenance」与「活树重放输入」混成了一件事
+
+`tools/data/data-table-b-partial-bank-contract-v1.json` 钉了
+`tools/project_resource_guard.py = 17ca1354…`，而该文件后来为吞吐工作改过
+（idle 60→7200、wall 600→9000）⇒ 当前实况 `60bc5987…` ⇒ 契约身份不匹配 ⇒ **D0 验证器红**。
+
+**语义更正**：离线重放**从不执行** guard，它只在 2026-08-09 采集时被用过；
+把它绑死在活树上，等于让「guard 后来改了」被误判为「证据漂移」。
+⇒ 契约 v2 把该项移入新的 `frozen_capture_inputs`（采集时冻结 provenance），
+其余 21 项仍是活树输入（离线重放真正读到的文件）。
+v1 文件**保持原样不动**（sha 仍为 `c8f736cd…`），作历史留档。
+验证器另加两条失败关闭：冻结组与活树组不得重叠、冻结摘要须 64 位十六进制。
+`tests.test_data_table_b_partial_bank.py` **14/14 绿**。
+
+legacy 验证器（`tools/verify_data_table_b_message0_pointer_ab.py`）**不能改**：
+它的 sha 被 legacy artifact 的 manifest 钉死，改了会让 D0 离线重放失效。
+故 `test_frozen_legacy_verifier_agrees` 改为用其内层离线重建 `collect_evidence` 做交叉核对，
+并**显式钉住** legacy 整包验收现在只因 guard 一项而失败。
+
+### 29.4 D0 多槽探针：**真机验证通过**
+
+多槽化必须做成**新工具**（旧探针被 legacy artifact 的 manifest 冻结）：
+`tools/build_battle_message_runtime_probe_slots.py`。
+
+- 槽表地址 `0x0203F174`（4 字节对齐），79 槽 × 16 B = 1,264 B。
+- 该地址**不是猜的**：对 4 份归档 mGBA 存档求 EWRAM **共同零区**得
+  `0x0203F173..0x0203FD60`（3,053 B），槽表落在其中且不与 legacy scratch `0x0203FD60` 重叠。
+- 工具内置**等价性自检**：关掉槽代码时生成的 stub 与旧探针 stub **逐字节相同**（68 B）；
+  开槽后 stub 96 B，在 ROM 零跑 570 B 之内。
+- **运行时验证**（`notes/evidence/d0-multi-slot-probe-20261020/runtime-verification.json`）：
+  自建 mGBA（d8bad14b）跑同一场景，槽表精确记录
+  `message_id=0, hit_count=1, selected_pointer=0x085A1580`（与 legacy scratch 一致），
+  **截图与归档 baseline.png 逐字节相同** ⇒ 槽代码不扰动游戏。
+  `tests/test_build_battle_message_runtime_probe_slots.py` 8/8 绿。
+
+顺带实测到的工具链事实：旧 c16 mGBA 构建**已损坏**（`libmgba.0.11.dylib` 随 /tmp 清理消失），
+Homebrew 0.10.5 **不支持 `--script`**；可用的是 `mgba-build-qt`（d8bad14b，支持 `--script`），
+它复现归档采集时**截图与 scratch 全等**。
+
+### 29.5 本轮未执行的三项（下一台机器按序做）
+
+1. ④ purelib 加固（`verify/export_rom_sprite_loader_tail.py` 补全部候选 purelib）
+2. ③ psg 链时语义身份（legacy 验证器 + 导出器）
+3. 上面 4 个红导出器的 post 模式移植
+
+① ② 与这三项**会改被 pin 的脚本**，必须**一次做完 → 重新落地 5 个 artifact →
+只重建一次账本 → 只跑一次 formal**。施工面与偏差更正见
+`notes/live-ledger-identity-repair-20261020.md` 与
+`notes/handover-20261020-reverse-tree.md`。

@@ -1,0 +1,56 @@
+{
+  "archived_baseline_png_sha256": "8a4a05f3de735771be17c19be170833aadc725cb76c5c7b58eb5dc98652e62f0",
+  "capture_frame": 300,
+  "emulator": {
+    "binary": "/Users/altair/github/mgba-build-qt/qt/mGBA.app/Contents/MacOS/mGBA",
+    "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "script": "tools/mgba_input_sequence_replay.lua",
+    "script_sha256": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "version": "0.11-1-d8bad14 (d8bad14b4540f9114246c0281d74985cf81adc68)"
+  },
+  "input_state": "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
+  "input_state_sha256": "2b800fe1609923966c7e3898cc8bc81c67e106e3f04a93afed919ed950e5ae71",
+  "legacy_scratch": {
+    "entry_address": 140124212,
+    "hit_count": 1,
+    "magic": 1380994370,
+    "message_id": 0,
+    "selected_pointer": 140121472,
+    "target_prefix_hex": "8ddc816081608160816090529c8f88c7"
+  },
+  "limitations": [
+    "This run reaches exactly one battle message (natural action 7, message id 0); it does not by itself cover the other 78 message ids.",
+    "The slot table records only message ids the selector actually selected during the run; absence of a slot is not proof that the id is unreachable.",
+    "The probe binary is reproducible from the tool and the base ROM; the 6 MiB probe ROM itself is not archived here, only its digest.",
+    "The declared-current mGBA toolchain in this repository is d8bad14b; the older c16 build is broken (its libmgba dylib is gone) and the Homebrew 0.10.5 build has no --script support."
+  ],
+  "output_png": "notes/evidence/d0-multi-slot-probe-20261020/output.png",
+  "output_png_sha256": "8a4a05f3de735771be17c19be170833aadc725cb76c5c7b58eb5dc98652e62f0",
+  "output_state": "notes/evidence/d0-multi-slot-probe-20261020/output.ss9",
+  "output_state_sha256": "56661435be92a3f0180f29c30ba03e8f6cb527bd15226a67fa3cb6686d57185e",
+  "probe_rom_reproducible": "tools/build_battle_message_runtime_probe_slots.py rom/base.gba <out>",
+  "probe_rom_sha256": "c7d91fb6219a1c3321fb2382dd716ecde3489de1a8ec442f6f5b0dfc436ec101",
+  "runtime_verified": true,
+  "safe_region": [
+    33812851,
+    33815904
+  ],
+  "schedule": "A:5:13",
+  "schema": "d0-multi-slot-probe-runtime-verification-v1",
+  "screen_identical_to_archived_baseline": true,
+  "slot_count": 79,
+  "slot_size": 16,
+  "slot_table": 33812852,
+  "slot_table_size": 1264,
+  "stub_bytes": 96,
+  "tool": "tools/build_battle_message_runtime_probe_slots.py",
+  "tool_sha256": "e717de5da8acc6b9fb6ae1a8652df670db3383d9a50c0c980a2691a95128a06f",
+  "touched_slots": [
+    {
+      "hit_count": 1,
+      "message_id": 0,
+      "selected_pointer": 140121472,
+      "target_prefix_hex": "8ddc816081608160"
+    }
+  ]
+}

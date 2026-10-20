@@ -20,8 +20,8 @@ from tools import verify_data_table_b_message0_pointer_ab as legacy
 from tools.rom_small_cfg_callback_gaps_independent_verifier import read_regular, sha
 
 SCHEMA = "data-table-b-partial-bank-verification-v1"
-CONTRACT = "tools/data/data-table-b-partial-bank-contract-v1.json"
-CONTRACT_SHA = "c8f736cd52ff52bea19625304a47fb06f31f7e97baf0e233835e803811374fab"
+CONTRACT = "tools/data/data-table-b-partial-bank-contract-v2.json"
+CONTRACT_SHA = "9120234570cb65c22d8f4279d2870ccef95b6795effc1b4d12db88e04cf01fbc"
 BANK = "sequel/content/data-table-b/bank.json"
 ARTIFACT = "artifacts/data-table-b-message0-pointer-pixel-ab-v1"
 SCRIPT = "tools/verify_data_table_b_partial_bank.py"
@@ -38,11 +38,19 @@ def load_contract(root):
     if sha(raw) != CONTRACT_SHA:
         raise ValueError("contract identity mismatch")
     value = json.loads(raw)
-    if value["schema"] != "data-table-b-partial-bank-inputs-v1":
+    if value["schema"] != "data-table-b-partial-bank-inputs-v2":
         raise ValueError("contract schema mismatch")
     for name, digest in value["inputs"].items():
         if sha(read_regular(root / name)) != digest:
             raise ValueError(f"input identity mismatch: {name}")
+    frozen = value.get("frozen_capture_inputs")
+    if not isinstance(frozen, dict) or not frozen:
+        raise ValueError("contract frozen capture inputs are missing")
+    for name, digest in frozen.items():
+        if name in value["inputs"]:
+            raise ValueError(f"contract input is both live and frozen: {name}")
+        if not isinstance(digest, str) or len(digest) != 64:
+            raise ValueError(f"contract frozen capture digest is malformed: {name}")
     return value
 
 
@@ -182,8 +190,13 @@ def verify_partial_bank(root):
     for name, digest in manifest["files"].items():
         if inputs[f"{ARTIFACT}/{name}"] != digest:
             raise ValueError("legacy payload binding mismatch")
+    frozen = contract["frozen_capture_inputs"]
+    for name in frozen:
+        if name not in manifest["implementation"]:
+            raise ValueError("frozen capture input is not bound by the legacy manifest")
     for name, digest in manifest["implementation"].items():
-        if inputs[name] != digest:
+        expected = frozen.get(name, inputs.get(name))
+        if expected != digest:
             raise ValueError("legacy implementation binding mismatch")
     with tempfile.TemporaryDirectory() as directory:
         raw = Path(directory).resolve(strict=True)

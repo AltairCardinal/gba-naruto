@@ -1,0 +1,33 @@
+{
+  "frozen_capture_inputs": {
+    "tools/project_resource_guard.py": "17ca1354306bd58071d4e5f57009c20d765b3ee55156f15dc98707f3598ac1c4"
+  },
+  "historical_capture_root": "/Users/altair/github/gba-naruto-reverse",
+  "historical_capture_run": "build/experiments/active/data-table-b-caller-inventory/20260809-r1",
+  "inputs": {
+    "artifacts/data-table-b-message0-pointer-pixel-ab-v1/baseline.png": "8a4a05f3de735771be17c19be170833aadc725cb76c5c7b58eb5dc98652e62f0",
+    "artifacts/data-table-b-message0-pointer-pixel-ab-v1/candidate.png": "53cb548afd752fdcf332e97c1f4cdb0ead68789e15c9b7eb15e460d32e3042d9",
+    "artifacts/data-table-b-message0-pointer-pixel-ab-v1/evidence.json": "b0d25756ca36b49a61ee5297aa0e238196ff6c9d49c610a29cd022e03c8594ff",
+    "artifacts/data-table-b-message0-pointer-pixel-ab-v1/manifest.json": "fc0310e3f40d493ac0502d27bf2490817659999e32fa5bcade639f0699a50e9b",
+    "artifacts/data-table-b-message0-pointer-pixel-ab-v1/raw.tar": "c942542186353266a9c0961b0bed3af58d2b22dbe2a7cbcab5eacfab4bf3119e",
+    "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9": "2b800fe1609923966c7e3898cc8bc81c67e106e3f04a93afed919ed950e5ae71",
+    "rom/base.gba": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "sequel/content/data-table-b/bank.json": "5b8bf5e464c52dac97cd5522c079dea6e31527beb51ed4c0f8b07f934e2a7059",
+    "tests/test_build_battle_message_runtime_probe.py": "6398dda322400d01d81380b7a327fb725f249d3d084dc2482748add9fc514aef",
+    "tests/test_data_table_b_message0_pointer_ab_artifact.py": "0bebac3389f85fffc8f607ef8fbf36a6e7a3d114dd8c2fe7a6f97aaafe45588c",
+    "tools/build_battle_message_runtime_probe.py": "9391346b346c29b99baf9e4a640f1b4714f91c8b527144d3f633d652b1044557",
+    "tools/build_chapter_script_probe.py": "c0f6bd905d35158ad4bb5cc2f7b78b7224340af92cea186c8d17e7d8dc78b7ed",
+    "tools/build_save_state_runtime_probe.py": "f11ad18cdca695f317866a209ba14b6f12aa25ad507e409674ae1c11006e6c7c",
+    "tools/export_data_table_b_message0_pointer_ab.py": "02e8b305742b381c22d49a06163023871775b816bbb3f7a5abeb95e06500c18b",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_input_sequence_replay.lua": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/rom_small_cfg_callback_gaps_independent_verifier.py": "c6244e7fbb08b63dd8387cbba9b381564e24ad72b13f717d1cc9752dd3f3d083",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+    "tools/verify_data_table_b_message0_pointer_ab.py": "a834781ed94415d46eaeae28d967845e0b08ac80ec9ac3ccd0a877d2c5099ec7"
+  },
+  "schema": "data-table-b-partial-bank-inputs-v2",
+  "supersedes": "tools/data/data-table-b-partial-bank-contract-v1.json",
+  "supersedes_reason": "v1 froze tools/project_resource_guard.py at its capture-time sha, but the guard was later changed (idle 60->7200, wall 600->9000) for unrelated throughput work. The offline replay never executes the guard, so the capture-time identity is the correct binding for it; every file the replay actually reads stays pinned to the live tree under inputs. v1 is kept on disk unmodified as frozen provenance."
+}

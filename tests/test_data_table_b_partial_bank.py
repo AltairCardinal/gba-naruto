@@ -11,10 +11,12 @@ from tools.audit_reverse_engineering_proof import _check_bank, _execute_contract
 from tools.verify_data_table_b_partial_bank import (
     proof_binding, verify_archive_contents, verify_partial_bank,
 )
-from tools.verify_data_table_b_message0_pointer_ab import extract_raw, verify_artifact
+from tools.verify_data_table_b_message0_pointer_ab import (
+    MESSAGE_ID, collect_evidence, extract_raw, verify_artifact,
+)
 
 ROOT = Path(__file__).resolve().parents[1]
-CONTRACT = "tools/data/data-table-b-partial-bank-contract-v1.json"
+CONTRACT = "tools/data/data-table-b-partial-bank-contract-v2.json"
 BANK = "sequel/content/data-table-b/bank.json"
 ARTIFACT = "artifacts/data-table-b-message0-pointer-pixel-ab-v1"
 SCRIPT = "tools/verify_data_table_b_partial_bank.py"
@@ -47,10 +49,21 @@ class PartialMessageBankTests(unittest.TestCase):
         self.assertEqual(result["scope"], "legacy_archived_natural_action7_pointer_ab")
 
     def test_frozen_legacy_verifier_agrees(self):
-        old = verify_artifact(ROOT, ROOT / ARTIFACT)
+        # The legacy verifier binds the whole artifact to the capture-time tree,
+        # so it stopped accepting the artifact once project_resource_guard.py
+        # changed (that file is never executed by the offline replay).  Its
+        # independent offline reconstruction stays the cross-check, and the one
+        # remaining divergence is pinned so it cannot drift unnoticed.
+        with tempfile.TemporaryDirectory() as directory:
+            raw = Path(directory).resolve(strict=True)
+            extract_raw(ROOT / ARTIFACT / "raw.tar", raw)
+            evidence, _ = collect_evidence(ROOT, raw)
         result = verify_partial_bank(ROOT)
-        self.assertEqual(result["record_ids_covered"], [str(old["message_id"])])
-        self.assertEqual(result["changed_pixel_count"], old["different_pixel_count"])
+        self.assertEqual(result["record_ids_covered"], [str(MESSAGE_ID)])
+        self.assertEqual(result["changed_pixel_count"], evidence["runtime_effect"]["different_pixel_count"])
+        self.assertEqual(evidence["runtime_effect"]["different_pixel_count"], 928)
+        with self.assertRaisesRegex(ValueError, "implementation hash mismatch: tools/project_resource_guard.py"):
+            verify_artifact(ROOT, ROOT / ARTIFACT)
 
     def test_portable_root_and_real_cli_without_capture_host_files(self):
         expected = verify_partial_bank(ROOT)

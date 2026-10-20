@@ -291,3 +291,62 @@ guard 收据：`exit_code 0`、`degraded false`、`peak_tree_rss_mib 917.52`、
 且 `atomize_claims` 的扫描线优化对更大的 claim 集（17,028 条）收益更明显。
 ⇒ **这不是「代码变快」的证据**，而是「机器空出来之后同样的代码跑得更快」的证据；
 v2 那轮是在 load 5.4–7.9、swap 已用 1,176 MiB 的环境下跑的。
+
+## 7. 执行期更正（2026-10-20 13:2x–13:4x，宿主退役前）
+
+本节更正本文件 §2.3、§3.3、§4.3 三处**已被实测推翻**的说法，并记录裁决②的实际进展。
+依据见 `notes/live-ledger-identity-repair-20261020.md` 与
+`notes/handover-20261020-reverse-tree.md`。
+
+### 7.1 更正一：④ 的「不需要重跑账本」不成立
+
+原文说「同步 spec 的 3 个值、**不需要重跑账本**（claim 不变）」。
+**实测不成立**：
+
+- 账本 claim 里内嵌 `evidence_sha256` / `promotion_manifest_sha256` /
+  `independent_verifier_sha256` / `independent_verifier_report_sha256`
+  （活账本里 `rom-sprite-loader-tail-v1` 那条 claim 就带着这四个值）
+  ⇒ 重新落地 artifact ⇒ 这四个值变 ⇒ **账本字节变 ⇒ 必须重建**。
+- spec 要同步的**不是 3 个值**：除审计器 `script_sha256` 与 2 个 evidence sha 外，
+  还有验证器自身的 `script_sha256`（spec 的 `gates.rom_byte_coverage.verifiers` 条目里
+  确实有 `python3 -I -S tools/verify_rom_sprite_loader_tail.py`）与账本自身的 sha
+  ⇒ sprite-loader-tail 一包即 **5 个值**，必须按改动面逐项重算。
+
+### 7.2 更正二：④ 的前提「只补当前解释器 purelib」要补全部候选，但必须同 minor 版本
+
+`tools/verify_rom_sprite_loader_tail.py:194-196` 只补 `sysconfig.get_path("purelib")`：
+
+- 系统解释器 → `/usr/local/lib/python3.14/site-packages` → **有 PIL** ✓
+- 逆向树 `.venv` → `.venv/lib/python3.14/site-packages` → **只有 pip，没有 PIL** ✗
+  （`tools/verify_sprite_definition_animations.py:14` 需要 PIL）
+
+⇒ 补**所有候选** purelib（当前解释器 + 系统 + venv），但 PIL 是 C 扩展，
+**只能补与当前解释器同 minor 版本的 site-packages**，否则引入 ABI 不兼容的二进制扩展。
+
+### 7.3 更正三：③ psg 的改动面比预想小
+
+psg 的 **payload 不内嵌 implementation**（`implementation` 只在 manifest 里）
+⇒ 改 psg 验证器/导出器后 **payload 摘要不变、只有 manifest 变**；
+且 `tools/verify_rom_psg_frequency_lookup_bundle.py` 本身就是「不与活账本耦合」的旁路验证器
+⇒ psg 走链时语义身份有现成先例。
+
+### 7.4 裁决② 的实际进展（已落地部分）
+
+- **契约 v2 已建立**（`tools/data/data-table-b-partial-bank-contract-v2.json`），
+  把 `project_resource_guard.py` 从活树输入移入**冻结采集 provenance 组**
+  ⇒ D0 验证器**由红转绿**，`tests.test_data_table_b_partial_bank.py` **14/14 绿**。
+  v1 文件保持原样不动。
+- **多槽探针已实现并真机验证通过**（新文件，不改被 manifest 冻结的旧探针）：
+  槽表 79 槽 × 16 B 落在**实测**的 4 份归档存档共同零区 `0x0203F173..0x0203FD60` 内；
+  真机跑出 `message_id=0, hit_count=1, selected_pointer=0x085A1580`，
+  与 legacy scratch 一致，且**截图与归档 baseline.png 逐字节相同**。
+- **仍未闭合**：D0 闸门本身（`records_covered 1 / 79`）。
+  多槽探针解决的是「一次运行只记一条 ID」的采集瓶颈，
+  79 条采集仍需真实运行到 79 个不同消息状态。
+
+### 7.5 裁决③④ 与 4 个红导出器必须合并做
+
+本轮实测发现：4 个导出器测试模块被本轮晋升打红（23 项，同根因＝整账本 SHA 做身份），
+且这些模块既不在 93 套件也不在整模块覆盖内。
+它们与裁决③④ 改的是同一批脚本 ⇒ **一次改完 → 重新落地 5 个 artifact →
+只重建一次账本 → 只跑一次 formal**。施工面见 handover 文档 §4.2。

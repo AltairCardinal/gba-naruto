@@ -1,0 +1,65 @@
+{
+  "note": "Log receipt for the post-promotion re-runs started 2026-10-20. The 93-test proof suite completed; the four balanced shards of the byte-coverage auditor module were stopped before completion when the host machine was retired.",
+  "proof_suite": {
+    "failures": 0,
+    "log": "notes/evidence/auditor-module-shards-20261020-v1/proof-suite11.log",
+    "log_bytes": 19139,
+    "log_sha256": "14cb2e500687ad687e2e859731c5ec575ecee9943055457b3b0a8c62485f42cf",
+    "module": "tests.test_audit_reverse_engineering_proof",
+    "note": "Includes test_current_repository_does_not_overclaim_completion, which runs the whole formal audit in-process.",
+    "ok": 93,
+    "result": "OK",
+    "summary_line": "Ran 93 tests in 2691.708s",
+    "tests_run": 93,
+    "wall_seconds": 2691.708
+  },
+  "schema": "auditor-module-shards-20261020-v1",
+  "shard_status_note": "All four shards were running clean (zero failures) when they were stopped at roughly 8 percent of the module; no shard produced a final summary, so the whole-module result is NOT established.",
+  "sharding": "balanced by weighted load (1 build_manifest call weighs 37 ordinary methods); 3/4/3/4 manifest rebuilds per shard, weighted 220/219/219/219",
+  "shards": [
+    {
+      "completed_ok": 1,
+      "failures": 0,
+      "log": "notes/evidence/auditor-module-shards-20261020-v1/shard0.log",
+      "log_bytes": 361,
+      "log_sha256": "b1d011d68fb028fd940869bf2d68827859dfdd46dc51f8fa3b7bc0702c9fde58",
+      "shard": 0,
+      "status": "stopped-before-completion",
+      "stop_reason": "host machine retired mid-run; terminated by exact PID (SIGTERM then SIGKILL)",
+      "test_count": 21
+    },
+    {
+      "completed_ok": 7,
+      "failures": 0,
+      "log": "notes/evidence/auditor-module-shards-20261020-v1/shard1.log",
+      "log_bytes": 1569,
+      "log_sha256": "f9cdc915fea12f97263e172a994593294424cc39d7d89e253aad03ef78050712",
+      "shard": 1,
+      "status": "stopped-before-completion",
+      "stop_reason": "host machine retired mid-run; terminated by exact PID (SIGTERM then SIGKILL)",
+      "test_count": 21
+    },
+    {
+      "completed_ok": 7,
+      "failures": 0,
+      "log": "notes/evidence/auditor-module-shards-20261020-v1/shard2.log",
+      "log_bytes": 1743,
+      "log_sha256": "02d8e254366aa20796cd7ff192d2ea57a57317863bb217715b2c5fb3408f3e8e",
+      "shard": 2,
+      "status": "stopped-before-completion",
+      "stop_reason": "host machine retired mid-run; terminated by exact PID (SIGTERM then SIGKILL)",
+      "test_count": 25
+    },
+    {
+      "completed_ok": 6,
+      "failures": 0,
+      "log": "notes/evidence/auditor-module-shards-20261020-v1/shard3.log",
+      "log_bytes": 1290,
+      "log_sha256": "8e3a5e403348738347e4e7e8d3f888e9580458f7a5f45e01db76da391b29da8b",
+      "shard": 3,
+      "status": "stopped-before-completion",
+      "stop_reason": "host machine retired mid-run; terminated by exact PID (SIGTERM then SIGKILL)",
+      "test_count": 21
+    }
+  ]
+}
