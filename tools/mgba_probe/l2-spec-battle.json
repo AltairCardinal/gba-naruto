@@ -1,0 +1,55 @@
+{
+  "_comment": "L2 native-decision-point sampling spec. Each target names a consumer we identified statically; the sampler sets a breakpoint there, continues, and captures PC/LR plus the ROM and WRAM windows around the field.",
+  "rom": "rom/base.gba",
+  "targets": [
+    {
+      "name": "story-scene-entry",
+      "_why": "剧情脚本入口：场景 54 的 before 脚本起点",
+      "breakpoint": "0x08049E76",
+      "rom_windows": [{"addr": "0x08060C74", "len": 16}],
+      "wram_windows": [{"addr": "0x020311EA", "len": 8}]
+    },
+    {
+      "name": "scene-start-dispatch",
+      "_why": "场景开始派发（我们的笔记记录：0x0808F672 场景开始）",
+      "breakpoint": "0x0808F672",
+      "rom_windows": [{"addr": "0x0853D910", "len": 32}],
+      "wram_windows": [{"addr": "0x0201BE28", "len": 16}]
+    },
+    {
+      "name": "background-dispatch",
+      "_why": "剧情底图派发（0x0808F515），底图表 0x59903C 的消费者",
+      "breakpoint": "0x0808F515",
+      "rom_windows": [{"addr": "0x0859903C", "len": 32}],
+      "wram_windows": [{"addr": "0x020311EA", "len": 4}]
+    },
+    {
+      "name": "event-gate",
+      "_why": "事件闸门（0x0808A549）",
+      "breakpoint": "0x0808A549",
+      "rom_windows": [{"addr": "0x08560EF0", "len": 16}],
+      "wram_windows": [{"addr": "0x02026804", "len": 8}]
+    },
+    {
+      "name": "map-loader",
+      "_why": "战斗地图表 0x53D910 的加载器",
+      "breakpoint": "0x08068FF0",
+      "rom_windows": [{"addr": "0x0853D910", "len": 32}],
+      "wram_windows": [{"addr": "0x0201BE28", "len": 16}]
+    },
+    {
+      "name": "battle-config-loader",
+      "_why": "战斗配置 0x545458 的加载点",
+      "breakpoint": "0x0806D866",
+      "rom_windows": [{"addr": "0x08545458", "len": 32}],
+      "wram_windows": [{"addr": "0x020240C0", "len": 32}]
+    },
+    {
+      "name": "pickup-dispatch-ninjutsu",
+      "_why": "忍具拾取（0x08081600），忍具名表 0x599634 的消费者",
+      "breakpoint": "0x08081600",
+      "rom_windows": [{"addr": "0x08599634", "len": 16}],
+      "wram_windows": [{"addr": "0x02026604", "len": 16}]
+    }
+  ]
+}
