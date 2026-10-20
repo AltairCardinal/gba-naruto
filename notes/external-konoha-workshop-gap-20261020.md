@@ -462,7 +462,7 @@ store("guy_portrait_result",result);generatedImage(result);
 
 ---
 
-## 9. 第三方源码已 vendored 入库
+## 10. 第三方源码已 vendored 入库
 
 该包的自编代码（MIT 授权部分）已按原目录结构复制到
 `third_party/konoha-workshop/`（155 文件，1.28 MB，SHA-256 逐一核对一致），
@@ -475,7 +475,7 @@ store("guy_portrait_result",result);generatedImage(result);
 
 ---
 
-## 10. 成果吸收：已落地为本仓库自有实现
+## 11. 成果吸收：已落地为本仓库自有实现
 
 第三方包的价值已经被吸收成**本仓库自己的工具与笔记**（不是直接改第三方代码）：
 
@@ -487,7 +487,14 @@ store("guy_portrait_result",result);generatedImage(result);
 | 可读剧本导出（6184 行） | `tools/dump_story_text.py` | 同上 §7 |
 | 战斗条件表 / 任务文字表 / 角色槽 | `tools/extract_battle_tables.py` | `notes/battle-tables.md` |
 
-### 10.1 吸收过程中发现的更大问题：本仓库的文本编码前提是错的
+> 剧情脚本 VM 正是 `notes/why-external-editor-shipped-20261020.md` §6.1 建议的
+> **第一个真实目标**（"实现 VM 解码器 → 能在编辑器里看到这一场有哪些对白"），
+> 验证标准取其"产物可见"而非"全结构动态证明"。
+> 同文的 L1（写回模型改为"复制原生条目 + 只改已知字段"）与 L7（每次调查必须含一次证伪）
+> 已在本次实现中体现：地图表 47/47 条目穷举校验、旧手工映射表 0/20 判定、
+> 分支边界全量校验，都属于"能判死的实验"。
+
+### 11.1 吸收过程中发现的更大问题：本仓库的文本编码前提是错的
 
 第三方包带来的最大收获不是那几个地址，而是它的**字形码映射**。
 用它做指纹校验后确认：**游戏文本是自定义双字节字形码，不是 Shift-JIS**，
@@ -499,7 +506,7 @@ store("guy_portrait_result",result);generatedImage(result);
 `tools/import_dialogue_var.py` 是**写回**路径，用 cp932 编码中文会写坏 ROM，
 是当前最高优先级的待修项。
 
-### 10.2 吸收后的验证强度
+### 11.2 吸收后的验证强度
 
 | 验证 | 结果 |
 |---|---|

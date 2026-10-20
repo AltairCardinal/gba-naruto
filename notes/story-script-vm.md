@@ -3,6 +3,9 @@
 **日期**: 2026-10-20
 **工具**: `tools/decode_story_script.py`、`tools/dump_story_text.py`
 **状态**: ✅ 全场景静态验证通过（55 场景，0 问题）
+**关联**: `notes/why-external-editor-shipped-20261020.md` §6.1（把本项作为
+"第一个真实目标"，验证标准取"产物可见"而非全结构动态证明）、
+`notes/font-encoding.md`（文本编码，本 VM 的前置）
 
 ---
 

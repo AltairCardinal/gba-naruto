@@ -3,6 +3,9 @@
 **日期**: 2026-10-20
 **工具**: `tools/konoha_font.py`、`tools/font_roundtrip.py`
 **状态**: ✅ 已静态验证 + 字节级往返验证
+**关联**: `notes/why-external-editor-shipped-20261020.md`（方法论复盘）、
+`notes/external-konoha-workshop-gap-20261020.md`（差集清单）、
+`notes/story-script-vm.md`（剧情脚本 VM）
 
 ---
 
