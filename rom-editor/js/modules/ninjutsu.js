@@ -5,8 +5,8 @@ import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './commo
 export function renderNinjutsu(container, ctx) {
   const panel = ctx.state.view.panel;
   if (panel) {
-    const { kind, id } = panel;
-    return renderPanel(container, ctx, kind, id);
+    const { kind, id, params } = panel;
+    return renderPanel(container, ctx, kind, id, params);
   }
 
   const pack = ctx.pack;

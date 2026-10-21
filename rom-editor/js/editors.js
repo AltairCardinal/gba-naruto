@@ -360,6 +360,7 @@ export class StructureEditor {
     return {
       pack: this.pack,
       onChange: this.onChange,
+      onJump: this.options.onJump,
       onCommit: () => {
         for (const refresh of this.refreshers) refresh();
         this.renderTable();
@@ -384,7 +385,7 @@ export class StructureEditor {
     label.appendChild(marker);
     label.appendChild(offset);
 
-    const { node } = fieldControl(
+    const { node, link } = fieldControl(
       this.fieldContext(), structure, record, field);
     const hintLine = el('div', { class: 'field-hint' });
 
@@ -404,6 +405,7 @@ export class StructureEditor {
     wrapper.appendChild(label);
     wrapper.appendChild(node);
     wrapper.appendChild(hintLine);
+    if (link) wrapper.appendChild(el('div', { class: 'field-link' }, [link]));
     return wrapper;
   }
 

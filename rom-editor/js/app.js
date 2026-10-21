@@ -13,6 +13,7 @@ import { buildRom } from './rom.js';
 import { loadBundledRom } from './romsource.js';
 import { loadPackWithProgress, loadPackInFrame } from './loader.js';
 import { ensureTextIndex } from './textindex.js';
+import { parseHash as parseHashRaw, hashFor } from './routing.js';
 import { el, clear, toast, modal, downloadBlob, readFile } from './ui.js';
 
 export const MODULES = [
@@ -96,28 +97,16 @@ export function currentModule() {
 export { ensureTextIndex };
 
 /**
- * Route state in the URL hash, so a view can be linked to directly:
- *   #overview            概览
- *   #route               剧情路线
- *   #route/stage/3       剧情路线的第 3 关
- *   #battle/stage/40/0   战斗的第 40 关、变体 0
+ * Route state in the URL hash, so a view can be linked to directly.
+ * (The rules live in js/routing.js so they can be tested without a browser.)
  */
 function parseHash() {
-  const raw = location.hash.replace(/^#/, '');
-  if (!raw) return { module: 'overview', panel: null };
-  const parts = raw.split('/');
-  const module = MODULES.some((m) => m.id === parts[0]) ? parts[0] : 'overview';
-  if (parts[1] === 'stage') {
-    return {
-      module,
-      panel: {
-        kind: 'stage',
-        id: 'stage',
-        params: { stage: Number(parts[2]) || 1, variant: Number(parts[3]) || 0 },
-      },
-    };
-  }
-  return { module, panel: null };
+  return parseHashRaw(location.hash);
+}
+
+function syncHash() {
+  const next = hashFor(state.view);
+  if (location.hash !== next) location.hash = next;
 }
 
 /** Drill into one structure or text table. */
@@ -125,6 +114,7 @@ export function openPanel(kind, id, params) {
   if (kind === 'text' && id === 'rom_text_index' && !state.pack.textTable('rom_text_index')) {
     ensureTextIndex(state.pack, setStatus).then(() => {
       state.view.panel = { kind, id, params: params || {} };
+      syncHash();
       render();
     });
     setStatus('正在载入全 ROM 文本索引…');
@@ -133,18 +123,6 @@ export function openPanel(kind, id, params) {
   state.view.panel = { kind, id, params: params || {} };
   syncHash();
   render();
-}
-
-function syncHash() {
-  const view = state.view;
-  if (view.panel && view.panel.kind === 'stage') {
-    const { stage, variant } = view.panel.params;
-    const next = `#${view.module}/stage/${stage}/${variant || 0}`;
-    if (location.hash !== next) location.hash = next;
-    return;
-  }
-  const next = `#${view.module}`;
-  if (location.hash !== next) location.hash = next;
 }
 
 export function goModule(id) {
@@ -166,12 +144,55 @@ export function render() {
     if (node) node.classList.toggle('active', item.id === state.view.module);
   }
   module.render(main, context());
+  const crumb = renderBreadcrumb();
+  if (crumb) main.insertBefore(crumb, main.firstChild);
+}
+
+/**
+ * The breadcrumb: where am I, and how do I get back up?
+ *
+ * Every level but the last one is clickable, so the way back is always
+ * visible — before, "返回" was a lone button in the corner and the table
+ * level could not be reached from the URL at all.
+ */
+function renderBreadcrumb() {
+  const view = state.view;
+  const crumbs = [{ label: '总览', go: () => goModule('overview') }];
+  const mod = MODULES.find((m) => m.id === view.module);
+  if (mod) crumbs.push({ label: mod.label, go: () => goModule(mod.id) });
+  if (view.panel) {
+    if (view.panel.kind === 'stage') {
+      const p = view.panel.params || {};
+      const suffix = view.module === 'battle' ? ` · 变体 ${p.variant || 0}` : '';
+      crumbs.push({ label: `第 ${p.stage} 关${suffix}` });
+    } else {
+      const table = view.panel.kind === 'structure'
+        ? state.pack.structure(view.panel.id)
+        : state.pack.textTable(view.panel.id);
+      crumbs.push({ label: table ? (table.label || table.id) : view.panel.id });
+      const recordId = view.panel.params && view.panel.params.recordId;
+      if (recordId !== undefined && recordId !== null) {
+        crumbs.push({ label: `记录 ${recordId}` });
+      }
+    }
+  }
+  if (crumbs.length < 2) return null;
+  const bar = el('div', { class: 'breadcrumb' });
+  crumbs.forEach((crumb, i) => {
+    if (i) bar.appendChild(el('span', { class: 'crumb-sep', text: '/' }));
+    const last = i === crumbs.length - 1;
+    bar.appendChild(el('span', {
+      class: 'crumb' + (last ? ' current' : ''),
+      text: crumb.label,
+      onclick: last ? null : crumb.go,
+    }));
+  });
+  return bar;
 }
 
 function context() {
   return {
-    pack: state.pack,
-    rom: state.rom,
+    pack: state.pack,    rom: state.rom,
     baseRom: state.baseRom,
     state,
     render,
@@ -179,7 +200,26 @@ function context() {
     openPanel,
     goModule,
     setStatus,
+    onJump,
   };
+}
+
+/**
+ * Jump to another table (possibly in another domain) and to a record.
+ *
+ * The pack knows the relations (「忍术 id 37 → 忍术名表第 37 条」), so the
+ * author can follow a reference instead of hunting for the id by hand.
+ */
+export function onJump(target) {
+  if (!target) return;
+  if (target.module && target.module !== state.view.module) {
+    state.view.module = target.module;
+  }
+  openPanel(target.kind, target.id, {
+    recordId: target.recordId === null ? undefined : target.recordId,
+  });
+  setStatus(`已跳到 ${target.label}` +
+    (target.recordId === null || target.recordId === undefined ? '' : ` · 记录 ${target.recordId}`));
 }
 
 // --------------------------------------------------------------------------

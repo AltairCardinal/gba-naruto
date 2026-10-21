@@ -4,8 +4,8 @@ import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './commo
 
 export function renderItems(container, ctx) {
   if (ctx.state.view.panel) {
-    const { kind, id } = ctx.state.view.panel;
-    return renderPanel(container, ctx, kind, id);
+    const { kind, id, params } = ctx.state.view.panel;
+    return renderPanel(container, ctx, kind, id, params);
   }
 
   const pack = ctx.pack;

@@ -174,7 +174,7 @@ function domainTableRows(ctx, options) {
 }
 
 /** Render the editor for one structure or text table. */
-export function renderPanel(container, ctx, kind, id) {
+export function renderPanel(container, ctx, kind, id, params) {
   clear(container);
   container.appendChild(el('div', { style: { marginBottom: '12px' } }, [
     backButton(ctx),
@@ -187,8 +187,15 @@ export function renderPanel(container, ctx, kind, id) {
     }
     const editor = new StructureEditor(ctx.pack, structure, {
       onChange: ctx.onChange,
+      onJump: ctx.onJump,
     });
     editor.render(container);
+    const recordId = params && params.recordId;
+    if (recordId !== undefined && recordId !== null) {
+      const record = (structure.records || []).find((r) => r.id === recordId);
+      if (record) editor.openDetail(record);
+      else toast(`这张表里没有记录 ${recordId}`, 'error');
+    }
   } else {
     const table = ctx.pack.textTable(id);
     if (!table) {
@@ -199,6 +206,12 @@ export function renderPanel(container, ctx, kind, id) {
       onChange: ctx.onChange,
     });
     editor.render(container);
+    const recordId = params && params.recordId;
+    if (recordId !== undefined && recordId !== null) {
+      const record = (table.records || []).find((r) => r.id === recordId);
+      if (record) editor.openDetail(record);
+      else toast(`这张表里没有记录 ${recordId}`, 'error');
+    }
   }
 }
 

@@ -128,7 +128,7 @@ export function renderArrayTable(ctx, structure, record, array) {
     tr.appendChild(el('td', { class: 'col-id', text: String(index - array.base + 1) }));
     for (const item of array.items) {
       const field = row[item];
-      const { node } = fieldControl(ctx, structure, record, field);
+      const { node, link } = fieldControl(ctx, structure, record, field);
       const cell = el('td', { class: 'slot-cell' }, [node]);
       const hintLine = el('div', { class: 'field-hint' });
       const refresh = () => {
@@ -137,6 +137,7 @@ export function renderArrayTable(ctx, structure, record, array) {
       refresh();
       if (ctx.registerRefresh) ctx.registerRefresh(refresh);
       cell.appendChild(hintLine);
+      if (link) cell.appendChild(el('div', { class: 'field-link' }, [link]));
       tr.appendChild(cell);
     }
     body.appendChild(tr);

@@ -214,6 +214,23 @@ tr.changed td { background: rgba(217, 164, 65, .07); }
 .detail-sub { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 10.5px; color: var(--fg-dim); }
 .field-raw .hex-input { font-size: 13px; letter-spacing: .5px; }
 
+/* ---------- 跨表引用跳转 ---------- */
+.field-link { margin-top: 3px; }
+.xref-link {
+  color: var(--accent-2); font-size: 10.5px; cursor: pointer; font-family: var(--mono);
+}
+.xref-link:hover { text-decoration: underline; }
+
+/* ---------- 面包屑 ---------- */
+.breadcrumb {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 10px; padding: 5px 2px; font-size: 11.5px; color: var(--fg-dim);
+}
+.crumb { cursor: pointer; }
+.crumb:hover { color: var(--fg); text-decoration: underline; }
+.crumb.current { color: var(--fg); font-weight: 600; cursor: default; }
+.crumb-sep { color: #4b5162; }
+
 /* ---------- 域首页：可编辑内容表 + 推荐入口 ---------- */
 table.domain-tables { width: 100%; }
 table.domain-tables th { font-size: 10.5px; }

@@ -14,8 +14,8 @@ export function renderRoute(container, ctx) {
     if (panel.kind === 'stage') {
       return renderStage(container, ctx, panel.params.stage);
     }
-    const { kind, id } = panel;
-    return renderPanel(container, ctx, kind, id);
+    const { kind, id, params } = panel;
+    return renderPanel(container, ctx, kind, id, params);
   }
 
   const pack = ctx.pack;

@@ -208,7 +208,8 @@ export function fieldHint(pack, structure, record, field) {
 /**
  * The control for one field.
  *
- * Returns { node, hint } — `node` is the input, `hint` the line under it.
+ * Returns { node, hint, link } — `node` is the input, `hint` the lines under
+ * it, `link` a clickable jump to the record this field points at.
  */
 export function fieldControl(ctx, structure, record, field) {
   const pack = ctx.pack;
@@ -293,5 +294,59 @@ export function fieldControl(ctx, structure, record, field) {
     });
   }
 
-  return { node, hint: fieldHint(pack, structure, record, field) };
+  return {
+    node,
+    hint: fieldHint(pack, structure, record, field),
+    link: relationLink(ctx, structure, record, field),
+  };
+}
+
+/**
+ * A clickable link to the record this field points at.
+ *
+ * The pack knows the relation (「忍术 id 37 → 忍术名表第 37 条」), so the
+ * author can jump straight to it instead of hunting for the id by hand.
+ */
+function relationLink(ctx, structure, record, field) {
+  if (!field.relation || !ctx.onJump) return null;
+  const value = record.values ? record.values[field.key] : undefined;
+  const hit = resolveByCategory(ctx.pack, structure, field, record) ||
+    resolveRelation(ctx.pack, field.relation, value);
+  if (!hit) return null;
+  const target = findTarget(ctx.pack, hit);
+  if (!target) return null;
+  return el('span', {
+    class: 'xref-link',
+    title: `跳到 ${target.label} · 记录 ${target.recordId}`,
+    text: `跳到「${hit.name}」→`,
+    onclick: () => ctx.onJump(target),
+  });
+}
+
+/** Where a relation points: module + table + record. */
+export function findTarget(pack, hit) {
+  if (!hit || !hit.table) return null;
+  const textTable = pack.textTable(hit.table);
+  if (textTable) {
+    const record = hit.record || (textTable.records || [])[0];
+    return {
+      module: textTable.module,
+      kind: 'text',
+      id: hit.table,
+      recordId: record ? record.id : null,
+      label: textTable.label || hit.table,
+    };
+  }
+  const structure = pack.structure(hit.table);
+  if (structure) {
+    const record = hit.record || (structure.records || [])[0];
+    return {
+      module: structure.module,
+      kind: 'structure',
+      id: hit.table,
+      recordId: record ? record.id : null,
+      label: structure.label || hit.table,
+    };
+  }
+  return null;
 }

@@ -605,5 +605,51 @@ console.log('\n8) 域首页：每张表都够得着 + 带可编辑性信息');
     '可达');
 }
 
+console.log('\n9) 导航：URL 可寻址 + 跨域引用可点');
+{
+  const routing = await import('../js/routing.js');
+  const cases = [
+    ['#overview', 'overview', null],
+    ['#battle', 'battle', null],
+    ['#battle/stage/40/0', 'battle', 'stage'],
+    ['#characters/structure/character_template/1', 'characters', 'structure'],
+    ['#characters/text/dialogue_slots/12', 'characters', 'text'],
+  ];
+  for (const [hash, module, kind] of cases) {
+    const parsed = routing.parseHash(hash);
+    check(`URL 可寻址 ${hash}`,
+      parsed.module === module && (kind === null || (parsed.panel && parsed.panel.kind === kind)),
+      `${parsed.module}/${parsed.panel ? parsed.panel.kind : '无面板'}`);
+  }
+  check('hash 能写回去',
+    routing.hashFor({ module: 'characters', panel: { kind: 'structure', id: 'character_template', params: { recordId: 1 } } })
+      === '#characters/structure/character_template/1',
+    '往返一致');
+
+  // 跨域跳转：忍术 id 字段旁边应当有可点的链接
+  const { StructureEditor } = await import('../js/editors.js');
+  const template = pack.structure('character_template');
+  const jumps = [];
+  const host = new StubNode('div');
+  const editor = new StructureEditor(pack, template, {
+    onChange: ctx.onChange,
+    onJump: (target) => jumps.push(target),
+  });
+  editor.render(host);
+  const record = template.records.find((r) => r.id === 1);
+  editor.collapsed.clear();     // 忍术槽在折叠的分组里，展开才看得见链接
+  editor.openDetail(record);
+  const links = editor.detail.descendants().filter((n) => (n.className || '') === 'xref-link');
+  check('跨表引用是可点的链接', links.length > 0, `${links.length} 个链接`);
+  if (links.length) {
+    links[0].listeners.click[0]({ target: {} });
+    const target = jumps[0];
+    check('点击链接跳到目标表与记录',
+      !!target && target.module === 'ninjutsu' && target.kind === 'text' &&
+      target.id === 'jutsu_names' && target.recordId !== null,
+      target ? `${target.module}/${target.kind}/${target.id}#${target.recordId}` : '没有跳转');
+  }
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);
