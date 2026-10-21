@@ -12,6 +12,7 @@
 // content pack); the ROM is only needed to *build* and for the raw hex view.
 
 import { readFile } from './ui.js';
+import { editorUrl } from './loader.js';
 
 export async function loadBundledRom(onProgress) {
   if (onProgress) onProgress('正在载入内置原版 ROM…');
@@ -23,11 +24,23 @@ export async function loadBundledRom(onProgress) {
   if (viaFrame) return viaFrame;
 
   if (onProgress) onProgress('内置 ROM 不可用，改为读取仓库副本…');
-  for (const candidate of ['../rom/base.gba', 'content/base-rom/base-rom.bin']) {
+  for (const candidate of ['../rom/base.gba', 'content/base-rom/base-rom.bin.gz']) {
     try {
-      const response = await fetch(candidate, { cache: 'no-cache' });
-      if (!response.ok) continue;
-      const buffer = await response.arrayBuffer();
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 30000);
+      let buffer;
+      try {
+        const response = await fetch(editorUrl(candidate), { cache: 'no-cache', signal: controller.signal });
+        if (!response.ok) continue;
+        if (candidate.endsWith('.gz') && typeof DecompressionStream === 'function') {
+          const stream = response.body.pipeThrough(new DecompressionStream('gzip'));
+          buffer = await new Response(stream).arrayBuffer();
+        } else {
+          buffer = await response.arrayBuffer();
+        }
+      } finally {
+        clearTimeout(timer);
+      }
       if (buffer.byteLength < 0x100000) continue;
       return new Uint8Array(buffer);
     } catch (err) {
@@ -50,7 +63,8 @@ async function loadRomInFrame(onProgress) {
 
 /** One slice of the ROM, fetched by its own document. */
 function loadRomSlice(from, count) {
-  const ATTEMPTS = 3;
+  const ATTEMPTS = 2;
+  const ATTEMPT_TIMEOUT_MS = 20000;
   return new Promise((resolve) => {
     let attempt = 0;
     let frame = null;
@@ -72,7 +86,13 @@ function loadRomSlice(from, count) {
       const data = event.data;
       if (!data || data.source !== 'rom-loader') return;
       if (data.state === 'ok') {
-        finish(new Uint8Array(data.buffer));
+        const bytes = new Uint8Array(data.payload || 0);
+        if (bytes.byteLength > 0x100000) {
+          finish(bytes);
+        } else {
+          console.log(`[editor] rom loader returned only ${bytes.byteLength} bytes`);
+          retry();
+        }
       } else {
         console.log(`[editor] rom loader failed: ${data.payload}`);
         retry();
@@ -88,7 +108,7 @@ function loadRomSlice(from, count) {
       if (frame) frame.remove();
       frame = document.createElement('iframe');
       frame.style.display = 'none';
-      frame.src = 'content/base-rom/rom-loader.html';
+      frame.src = editorUrl('content/base-rom/rom-loader.html');
       frame.addEventListener('error', retry);
       frame.addEventListener('load', () => {
         // The slice range travels by postMessage: a query string does not
@@ -100,7 +120,7 @@ function loadRomSlice(from, count) {
         }
       });
       document.body.appendChild(frame);
-      timer = setTimeout(retry, 45000);
+      timer = setTimeout(retry, ATTEMPT_TIMEOUT_MS);
     };
 
     window.addEventListener('message', onMessage);

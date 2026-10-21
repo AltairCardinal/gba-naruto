@@ -11,6 +11,7 @@
 import { ContentPack } from './pack.js';
 import { buildRom } from './rom.js';
 import { loadBundledRom } from './romsource.js';
+import { loadPackWithProgress, loadPackInFrame, fetchWithTimeout, editorUrl } from './loader.js';
 import { el, clear, toast, modal, downloadBlob, readFile } from './ui.js';
 
 export const MODULES = [
@@ -39,6 +40,38 @@ const dom = {};
 export function setStatus(text) {
   state.status = text;
   dom.statusText.textContent = text;
+}
+
+// --- 载入进度 ------------------------------------------------------------
+function showProgress(phase) {
+  const box = dom.loadProgress;
+  const fill = dom.loadProgressFill;
+  const text = dom.loadProgressText;
+  if (!box) return;
+  box.classList.remove('hidden', 'error');
+  if (phase.error) {
+    box.classList.add('error');
+    fill.style.width = '100%';
+    fill.classList.remove('indeterminate');
+    text.textContent = phase.label;
+    dom.romStatus.textContent = '内容包载入失败';
+    dom.retryButton.classList.remove('hidden');
+    return;
+  }
+  dom.retryButton.classList.add('hidden');
+  if (phase.stage === 'download' && phase.percent === undefined) {
+    fill.classList.add('indeterminate');
+  } else {
+    fill.classList.remove('indeterminate');
+    fill.style.width = `${phase.percent ?? 100}%`;
+  }
+  text.textContent = phase.detail ? `${phase.label} ${phase.detail}` : phase.label;
+  dom.romStatus.textContent = phase.label;
+}
+
+function hideProgress() {
+  if (dom.loadProgress) dom.loadProgress.classList.add('hidden');
+  if (dom.retryButton) dom.retryButton.classList.add('hidden');
 }
 
 export function markDirty() {
@@ -160,83 +193,71 @@ function context() {
 // boot
 // --------------------------------------------------------------------------
 /** Fetch JSON, transparently using the gzipped copy when it exists. */
-async function fetchJsonSmart(url) {
+async function fetchJsonSmart(url, timeoutMs = 20000) {
   const gz = url + '.gz';
   if (typeof DecompressionStream === 'function') {
     try {
-      const response = await fetch(gz, { cache: 'no-cache' });
-      if (response.ok) {
-        // The server may already have decoded it (Content-Encoding: gzip);
-        // only decompress by hand when it has not.
-        if (response.headers.get('content-encoding') === 'gzip') {
-          return await response.json();
+      const { response, release } = await fetchWithTimeout(gz, timeoutMs);
+      try {
+        if (response.ok) {
+          // The server may already have decoded it (Content-Encoding: gzip);
+          // only decompress by hand when it has not.
+          if (response.headers.get('content-encoding') === 'gzip') {
+            return await response.json();
+          }
+          const stream = response.body.pipeThrough(new DecompressionStream('gzip'));
+          return await new Response(stream).json();
         }
-        const stream = response.body.pipeThrough(new DecompressionStream('gzip'));
-        return await new Response(stream).json();
+      } finally {
+        release();
       }
     } catch (err) {
       /* fall through to the plain file */
     }
   }
-  const response = await fetch(url, { cache: 'no-cache' });
-  if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
-  return response.json();
+  const { response, release } = await fetchWithTimeout(url, timeoutMs);
+  try {
+    if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
+    return await response.json();
+  } finally {
+    release();
+  }
 }
 /**
  * Load the content pack.
  *
- * The pack is fetched directly (gzipped on the wire, decompressed with
- * DecompressionStream).  A dedicated loader document is kept as a fallback
- * for browsers that cap how much one document may download.
+ * The pack comes with a progress bar, a timeout per source and an actionable
+ * error message — a stalled response must never leave the UI frozen on
+ * "正在载入内容包…".
  */
 async function loadPack() {
-  const direct = await fetchJsonSmart('content/pack.min.json').catch(() => null);
-  if (direct) {
-    if (direct.format !== 'naruto-konoha-content-pack') {
-      throw new Error(`内容包格式不对: ${direct.format}`);
+  let data = null;
+  try {
+    data = await loadPackWithProgress(showProgress);
+  } catch (err) {
+    // 最后再试一次专用载入文档（有些环境里 iframe 的网络栈是独立的）
+    const text = await loadPackInFrame();
+    if (text) {
+      try {
+        data = JSON.parse(text);
+        hideProgress();
+      } catch (parseErr) {
+        data = null;
+      }
     }
-    return ContentPack.fromJSON(direct);
-  }
-  const viaFrame = await loadPackInFrame();
-  if (viaFrame) {
-    const data = JSON.parse(viaFrame);
-    if (data.format !== 'naruto-konoha-content-pack') {
-      throw new Error(`内容包格式不对: ${data.format}`);
+    if (!data) {
+      showProgress({ error: true, label: err.message });
+      setStatus('内容包载入失败');
+      throw err;
     }
-    return ContentPack.fromJSON(data);
   }
-  const data = await fetchJsonSmart('content/pack.json');
   if (data.format !== 'naruto-konoha-content-pack') {
-    throw new Error(`内容包格式不对: ${data.format}`);
+    const err = new Error(`内容包格式不对: ${data.format}`);
+    showProgress({ error: true, label: err.message });
+    throw err;
   }
+  hideProgress();
   return ContentPack.fromJSON(data);
-}
-
-function loadPackInFrame() {
-  return new Promise((resolve) => {
-    const frame = document.createElement('iframe');
-    frame.style.display = 'none';
-    frame.src = 'content/pack-loader.html';
-    const onMessage = (event) => {
-      const data = event.data;
-      if (!data || data.source !== 'pack-loader') return;
-      window.removeEventListener('message', onMessage);
-      frame.remove();
-      resolve(data.state === 'ok' ? data.payload : null);
-    };
-    window.addEventListener('message', onMessage);
-    frame.addEventListener('error', () => {
-      window.removeEventListener('message', onMessage);
-      frame.remove();
-      resolve(null);
-    });
-    document.body.appendChild(frame);
-    setTimeout(() => {
-      window.removeEventListener('message', onMessage);
-      frame.remove();
-      resolve(null);
-    }, 30000);
-  });
 }
 
 async function sha256Hex(bytes) {
@@ -481,6 +502,10 @@ function build() {
   dom.statusText = document.getElementById('status-text');
   dom.statusHint = document.getElementById('status-hint');
   dom.romStatus = document.getElementById('rom-status');
+  dom.loadProgress = document.getElementById('load-progress');
+  dom.loadProgressFill = document.getElementById('load-progress-fill');
+  dom.loadProgressText = document.getElementById('load-progress-text');
+  dom.retryButton = document.getElementById('btn-retry');
   dom.dirtyBadge = document.getElementById('dirty-badge');
   dom.buildButton = document.getElementById('btn-build');
   dom.loadBundledButton = document.getElementById('btn-load-bundled');
@@ -509,6 +534,9 @@ function build() {
   }
 
   document.getElementById('btn-build').addEventListener('click', doBuild);
+  document.getElementById('btn-retry').addEventListener('click', () => {
+    window.location.reload();
+  });
   document.getElementById('btn-load-bundled').addEventListener('click', loadBundledRomAction);
   document.getElementById('btn-export-pack').addEventListener('click', exportPack);
   document.getElementById('btn-import-pack').addEventListener('click', () => {
@@ -560,13 +588,24 @@ async function loadBundledRomAction() {
   }
   const button = dom.loadBundledButton;
   button.disabled = true;
+  console.log('[editor] loading bundled rom…');
+  showProgress({ stage: 'download', label: '正在载入内置原版 ROM…', percent: undefined });
   try {
-    const rom = await loadBundledRom((msg) => setStatus(msg));
+    const rom = await loadBundledRom((msg) => {
+      console.log('[editor] rom progress: ' + msg);
+      showProgress({ stage: 'download', label: msg, percent: undefined });
+    });
     if (!rom) {
-      toast('内置 ROM 载入失败，请用「载入 ROM」手动选择', 'error');
-      setStatus('内置 ROM 载入失败 —— 请用「载入 ROM」手动选择原版 ROM');
+      console.log('[editor] bundled rom unavailable');
+      showProgress({
+        error: true,
+        label: '内置 ROM 载入失败 —— 浏览器可能限制了单页下载量。\n' +
+          '请用顶栏「载入 ROM」手动选择 rom/base.gba（文件选择不走网络，一定能成功）。',
+      });
+      setStatus('内置 ROM 载入失败 —— 请用「载入 ROM」手动选择');
       return;
     }
+    console.log('[editor] bundled rom ok: ' + rom.length + ' bytes');
     state.rom = rom;
     state.baseRom = rom;
     try {
@@ -577,13 +616,15 @@ async function loadBundledRomAction() {
     } catch (err) {
       /* the hash is a nicety, not a requirement */
     }
+    hideProgress();
     setRomStatus();
     markDirty();
     setStatus('就绪 —— 初始数据可直接构建出与原版逐字节相同的 ROM');
     render();
     toast('内置原版 ROM 已载入', 'ok');
   } catch (err) {
-    toast(`内置 ROM 载入失败：${err.message}`, 'error');
+    showProgress({ error: true, label: `内置 ROM 载入失败：${err.message}` });
+    setStatus('内置 ROM 载入失败');
   } finally {
     button.disabled = false;
   }

@@ -53,7 +53,7 @@ createServer((req, res) => {
       res.writeHead(200, {
         'content-type': TYPES['.html'],
         'content-length': body.length,
-        'cache-control': 'no-cache',
+        'cache-control': 'no-store',
       });
       res.end(body);
     } catch {
@@ -72,22 +72,15 @@ createServer((req, res) => {
       .end('404 ' + path);
     return;
   }
-  const headers = {
+  res.writeHead(200, {
     'content-type': TYPES[extname(target)] || 'application/octet-stream',
     'content-length': body.length,
-    'cache-control': 'no-cache',
-    // One connection per response: some embedded browsers never release a
-    // keep-alive connection after a large body, and the *next* large request
-    // then waits forever for a free slot.
-    'connection': 'close',
-  };
-  res.writeHead(200, headers);
-  res.end(body, () => {
-    // Close the socket once the body is flushed.  Some embedded browsers
-    // never release a keep-alive connection after a large body, and the next
-    // large request then waits forever for a free slot.
-    res.socket?.end();
+    'cache-control': 'no-store',
   });
+  // Let Node finish the response on its own.  Closing the socket by hand can
+  // truncate a large body, and the browser then waits forever for bytes that
+  // will never arrive.
+  res.end(body);
 }).listen(port, () => {
   console.log(`编辑器已启动： http://localhost:${port}/rom-editor/`);
   console.log(`（服务根目录： ${repoRoot}）`);

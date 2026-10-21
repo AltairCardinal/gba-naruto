@@ -40,6 +40,28 @@ body { display: flex; flex-direction: column; }
 .brand-sub { font-size: 11px; color: var(--fg-dim); font-family: var(--mono); }
 .topbar-tools { display: flex; align-items: center; gap: 8px; }
 
+/* ---------- 载入进度 ---------- */
+.load-progress { flex: 1 1 auto; max-width: 320px; margin: 0 14px; }
+.load-progress-bar {
+  height: 5px; background: var(--bg-3); border-radius: 3px; overflow: hidden;
+  border: 1px solid var(--line);
+}
+.load-progress-fill {
+  height: 100%; width: 0; background: var(--accent-2); transition: width .2s;
+}
+.load-progress-fill.indeterminate {
+  width: 35%; animation: slide 1.1s linear infinite;
+}
+@keyframes slide {
+  0% { margin-left: -35%; } 100% { margin-left: 100%; }
+}
+.load-progress-text {
+  font-size: 10.5px; color: var(--fg-dim); font-family: var(--mono); margin-top: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.load-progress.error .load-progress-fill { background: var(--bad); }
+.load-progress.error .load-progress-text { color: var(--bad); white-space: pre-wrap; }
+
 /* ---------- buttons ---------- */
 .btn {
   border: 1px solid var(--line); background: var(--bg-3); color: var(--fg);

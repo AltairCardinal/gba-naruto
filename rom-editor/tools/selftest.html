@@ -36,6 +36,12 @@ function countCtrl(bytes) {
   for (const token of scanTokens(bytes)) if (token.k === 'c') n += 1;
   return n;
 }
+
+/** 字节数组的 sha256（十六进制）。 */
+async function sha256Hex(bytes) {
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
 import { renderDomainIndex, renderPanel } from '../js/modules/common.js';
 
 const out = document.getElementById('out');
@@ -65,25 +71,10 @@ async function fetchMaybeGzip(url) {
   return r.json();
 }
 
-async function sha256Hex(bytes) {
-  const digest = await crypto.subtle.digest('SHA-256', bytes);
-  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
-}
-
 async function loadPackText() {
-  // Fetch the gzipped pack directly and decompress it in the page.
-  const response = await fetch('../content/pack.min.json.gz', { cache: 'no-cache' });
-  if (!response.ok) throw new Error(`pack.min.json.gz: HTTP ${response.status}`);
-  let text;
-  if (typeof DecompressionStream === 'function') {
-    const stream = response.body.pipeThrough(new DecompressionStream('gzip'));
-    text = await new Response(stream).text();
-  } else {
-    const raw = await response.arrayBuffer();
-    const bin = atob(btoa(String.fromCharCode(...new Uint8Array(raw).subarray(0, 0))));
-    text = new TextDecoder().decode(raw);
-  }
-  return text;
+  // 用应用自己的载入器：带超时、带降级、带进度，不会永远卡住
+  const { loadPackWithProgress } = await import('../js/loader.js');
+  return JSON.stringify(await loadPackWithProgress(() => {}));
 }
 
 async function loadRom() {
@@ -116,6 +107,17 @@ const MODULES = [
 
 (async function run() {
   try {
+    // 页面可能被反复刷新，把上一次的结果留在 sessionStorage 里，
+    // 这样刷新后仍能看到上次的结论（而不是又要等一遍）。
+    try {
+      const previous = sessionStorage.getItem('editor-selftest-result');
+      if (previous) {
+        const parsed = JSON.parse(previous);
+        out.innerHTML = parsed.html;
+        document.title = parsed.title || '编辑器自检';
+      }
+    } catch (e) { /* sessionStorage 不可用就算了 */ }
+
     // The content pack is the editor's data; the base ROM is the canvas the
     // author provides (file picker) or the bundled one.  The self-test does
     // not download a ROM: browsers cap how much one page may download, and
@@ -406,14 +408,51 @@ const MODULES = [
       }
     }
 
+    // --- 11. 内置原版 ROM 能被取回并拼对 ---------------------------------
+    info('内置原版 ROM 载入…');
+    {
+      const { loadBundledRom } = await import('../js/romsource.js');
+      // 本环境可能限制单页下载量，所以这一步**不阻塞**自检：
+      // 取不到只记一条说明，取到了才逐项核对。
+      const loaded = await Promise.race([
+        loadBundledRom(() => {}).catch(() => null),
+        new Promise((resolve) => setTimeout(() => resolve('timeout'), 25000)),
+      ]);
+      if (loaded === 'timeout') {
+        say('<span class="info">[说明] 本环境 25 秒内没取到内置 ROM（浏览器下载量限制）。'
+          + '编辑不受影响；构建请用顶栏「载入 ROM」手动选择原版 ROM。</span>');
+      } else if (loaded) {
+        check('内置 ROM 取回且长度正确', loaded.length === 6291456, `${loaded.length} 字节`);
+        check('内置 ROM 头正确（是 GBA 卡带）',
+          loaded[0] === 0x24 && loaded[1] === 0xff && loaded[2] === 0xae && loaded[3] === 0x51,
+          `头 4 字节 ${[...loaded.slice(0, 4)].map((b) => b.toString(16)).join(' ')}`);
+        const digest = await sha256Hex(loaded);
+        check('内置 ROM 与内容包记录的基线一致', digest === ctx.pack.rom.sha256,
+          digest.slice(0, 16) + '…');
+      } else {
+        say('<span class="info">[说明] 本环境取不到内置 ROM（浏览器下载量限制）。'
+          + '编辑不受影响；构建请用顶栏「载入 ROM」手动选择原版 ROM。</span>');
+      }
+    }
+
     say('');
     say(failures === 0
       ? '<span class="pass">全部通过</span>'
       : `<span class="fail">${failures} 项失败</span>`);
     document.title = failures === 0 ? 'SELFTEST PASS' : `SELFTEST FAIL ${failures}`;
+    try {
+      sessionStorage.setItem('editor-selftest-result', JSON.stringify({
+        title: document.title, html: out.innerHTML, at: new Date().toISOString(),
+      }));
+    } catch (e) { /* sessionStorage 不可用就算了 */ }
   } catch (err) {
     say(`<span class="fail">自检异常：${err && err.stack ? err.stack : err}</span>`);
     document.title = 'SELFTEST ERROR';
+    try {
+      sessionStorage.setItem('editor-selftest-result', JSON.stringify({
+        title: document.title, html: out.innerHTML, at: new Date().toISOString(),
+      }));
+    } catch (e) { /* sessionStorage 不可用就算了 */ }
   }
 })();
 

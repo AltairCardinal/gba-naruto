@@ -15,7 +15,12 @@
       <div class="brand-sub" id="rom-status">正在载入内容包…</div>
     </div>
   </div>
+  <div class="load-progress hidden" id="load-progress">
+    <div class="load-progress-bar"><div class="load-progress-fill" id="load-progress-fill"></div></div>
+    <div class="load-progress-text" id="load-progress-text"></div>
+  </div>
   <div class="topbar-tools">
+    <button class="btn btn-ghost hidden" id="btn-retry" title="重新载入内容包">重试</button>
     <label class="file-btn" for="rom-file" title="载入原版 ROM（作为构建基底）">
       载入 ROM
       <input type="file" id="rom-file" accept=".gba">

@@ -24,24 +24,63 @@
     return await new Response(stream).arrayBuffer();
   }
 
+  /**
+   * fetch with a timeout that really fires.
+   *
+   * The timeout is a *race* against a rejecting timer, not only an abort:
+   * some browsers never reject a stalled response body when the abort signal
+   * fires, so an abort-only timeout would never fire.
+   */
+  async function fetchWithTimeout(url, gzipped) {
+    let lastError = null;
+    for (let attempt = 1; attempt <= 4; attempt++) {
+      const controller = new AbortController();
+      let timer = null;
+      const guard = new Promise((_, reject) => {
+        timer = setTimeout(() => {
+          controller.abort();
+          reject(new Error(url + ' 超时'));
+        }, 8000);
+      });
+      try {
+        const request = fetch(url, { cache: 'no-cache', signal: controller.signal })
+          .then(async (response) => {
+            if (!response.ok) throw new Error(url + ': HTTP ' + response.status);
+            if (gzipped) {
+              const raw = await response.arrayBuffer();
+              if (response.headers.get('content-encoding') === 'gzip') {
+                return new TextDecoder().decode(raw);
+              }
+              const plain = await gunzip(raw);
+              return plain ? new TextDecoder().decode(plain) : null;
+            }
+            return await response.text();
+          });
+        const text = await Promise.race([request, guard]);
+        if (text !== null) return text;
+        lastError = new Error(url + ' 解压失败');
+      } catch (err) {
+        lastError = err;
+        console.log('[pack-loader] ' + url + ' failed: ' + err.message);
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    throw new Error(url + ': ' + (lastError && lastError.message ? lastError.message : lastError));
+  }
+
   (async function () {
     try {
-      let response = await fetch('pack.min.json.gz', { cache: 'no-cache' });
       let text = null;
-      if (response.ok) {
-        const raw = await response.arrayBuffer();
-        if (response.headers.get('content-encoding') === 'gzip') {
-          text = new TextDecoder().decode(raw);
-        } else {
-          const plain = await gunzip(raw);
-          if (plain) text = new TextDecoder().decode(plain);
+      for (const url of ['pack.min.json.gz', 'pack.json']) {
+        try {
+          text = await fetchWithTimeout(url, url.endsWith('.gz'));
+          break;
+        } catch (err) {
+          console.log('[pack-loader] ' + url + ' failed: ' + err.message);
         }
       }
-      if (text === null) {
-        response = await fetch('pack.json', { cache: 'no-cache' });
-        if (!response.ok) throw new Error('HTTP ' + response.status);
-        text = await response.text();
-      }
+      if (text === null) throw new Error('内容包取不到');
       report('ok', text);
     } catch (err) {
       report('error', String(err && err.message ? err.message : err));
