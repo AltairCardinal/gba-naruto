@@ -1762,17 +1762,17 @@ def build_text_tables(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any
         id_prefix="素材",
     ))
 
-    for table_id, base, label in (
-        ("mission_titles", MISSION_TITLE_BASE, "任务标题表"),
-        ("mission_descriptions", MISSION_DESC_BASE, "任务说明表"),
-        ("mission_hints", MISSION_HINT_BASE, "任务提示表"),
+    for table_id, base, label, prefix in (
+        ("mission_titles", MISSION_TITLE_BASE, "任务标题表", "标题"),
+        ("mission_descriptions", MISSION_DESC_BASE, "任务说明表", "说明"),
+        ("mission_hints", MISSION_HINT_BASE, "任务提示表", "提示"),
     ):
         out.append(build_text_table(
             rom, mapping, table_id, "route", label,
             base, MISSION_ENTRY_COUNT,
             note="每关 3 个子奖励文本。下标 = 任务索引表[关卡] + 子编号（0..2），"
                  "最大用到 111 号槽位，所以表长 112。",
-            id_prefix="条目",
+            id_prefix=prefix,
         ))
 
     out.append(build_text_table(
@@ -1841,9 +1841,20 @@ def build_battle_objectives(
             end = len(rom)
         raw = rom[offset:end]
         text = decode_text(raw, mapping)
+        # 标签：作者认的是「第几关的哪条条件」，不是地址。
+        # 一段说明文字可能被好几条战斗目标共用，这时把共用处数也写出来。
+        first = entry["bindings"][0] if entry["bindings"] else None
+        if first:
+            group_name = "胜利条件" if first["group"] == 0 else "失败条件"
+            label = (f"第{first['stage']}关 · 变体{first['variant']} · "
+                     f"{group_name}{first['index']}")
+            if len(entry["bindings"]) > 1:
+                label += f" 等 {len(entry['bindings'])} 处"
+        else:
+            label = f"0x{entry['pointer']:08X}"
         records.append({
             "id": record_id,
-            "label": f"0x{entry['pointer']:08X}",
+            "label": label,
             "pointer_offset": None,
             "pointer": entry["pointer"],
             "text_offset": offset,

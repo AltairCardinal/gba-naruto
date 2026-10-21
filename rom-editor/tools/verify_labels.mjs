@@ -97,5 +97,29 @@ for (const s of pack.structures) {
 check('未解码的字节统一叫「未解字节 +0xNN」', rawLabels.length === 0,
   rawLabels.length ? `${rawLabels.length} 个：${rawLabels.slice(0, 6).join('、')}` : '全部统一');
 
+console.log('\n6) 记录级标签也说得清');
+const hexLabels = [];
+for (const t of pack.texts) {
+  for (const r of t.records || []) {
+    if (/^0x[0-9A-F]{8}$/.test(String(r.label || ''))) {
+      hexLabels.push(`${t.id}#${r.id}`);
+    }
+  }
+}
+check('没有用裸地址当记录标签', hexLabels.length === 0,
+  hexLabels.length ? `${hexLabels.length} 个：${hexLabels.slice(0, 6).join('、')}` : '全部是人话');
+
+const objectives = pack.texts.find((t) => t.id === 'battle_objectives');
+const objectiveLabel = (objectives.records || [])[0]?.label || '';
+check('战斗目标说明文字的标签写的是「第几关的哪条条件」',
+  /第\d+关.*条件/.test(objectiveLabel), objectiveLabel);
+
+const titles = pack.texts.find((t) => t.id === 'mission_titles');
+check('任务文本三表的标签各是标题 / 说明 / 提示',
+  String(titles.records?.[0]?.label || '').startsWith('标题'),
+  `${titles.records?.[0]?.label} / ` +
+  `${pack.texts.find((t) => t.id === 'mission_descriptions')?.records?.[0]?.label} / ` +
+  `${pack.texts.find((t) => t.id === 'mission_hints')?.records?.[0]?.label}`);
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);
