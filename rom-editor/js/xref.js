@@ -257,7 +257,14 @@ function buildSourceIndex(pack) {
   // 「忍术记录表 #37」与「忍术名表 #37」说的是同一个忍术；
   // 「角色定义表 #5」与「逐角色成长表 #5」说的是同一个角色。
   // 所以一条记录的「来源」里应该有同一个 id 的其它那张表。
-  for (const structure of pack.structures || []) {
+  //
+  // 注意要**文本表也进来**：名表在文本侧、记录表在结构侧，
+  // 只遍历结构表的话，「道具记录表 #5」就找不到它的同名表。
+  const allTables = [
+    ...(pack.structures || []),
+    ...(pack.texts || []),
+  ];
+  for (const structure of allTables) {
     const space = idSpace(pack, structure.id);
     if (space.length < 2) continue;
     for (const alias of space) {
@@ -295,19 +302,21 @@ function buildSourceIndex(pack) {
       for (const record of structure.records || []) {
         const hit = byKey.get(peerKey(structure, record, peer.by));
         if (!hit) continue;
+        const same = peer.by === 'stage' ? '同一关' : '同一个 id';
+        // 这一条说的是「**谁**在讲同一件事」，所以标签写的是**来源那张表**。
         add(targetKey(other.id, hit.id), {
           kind: 'peer',
           structure,
           record,
           tableId: other.id,
-          label: `${structure.label} · ${peer.label || other.label}`,
+          label: `${structure.label} · ${same}`,
         });
         add(targetKey(structure.id, record.id), {
           kind: 'peer',
           structure: other,
           record: hit,
           tableId: structure.id,
-          label: `${other.label} · ${peer.label || structure.label}`,
+          label: `${other.label} · ${same}`,
         });
       }
     }
