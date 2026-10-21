@@ -997,6 +997,41 @@ console.log('\n15) 复合键 / 大表行数上限 / 空记录隐藏 / 原生不�
     routing.hashFor({ module: 'raw', panel: { kind: 'raw-offset', id: 'raw', params: { offset: 0x5a15c0 } } })
       === '#raw/offset/0x5A15C0',
     routing.hashFor({ module: 'raw', panel: { kind: 'raw-offset', id: 'raw', params: { offset: 0x5a15c0 } } }));
+
+  // 17. id 空间的另一张表也要能跳过去
+  //   （用户的原话：「技能表不支持配置么」—— 技能表其实能配，
+  //    但从角色的技能槽跳过去只能到技能名表，技能自己的参数那张表没有入口。）
+  const template2 = pack.structure('character_template');
+  const tmplRecord = template2.records.find((r) => r.id === 5) || template2.records[0];
+  const trainId = template2.fields.find((f) => f.key === 'train_0_id');
+  const jumps = [];
+  const linkCtx = {
+    pack,
+    onChange() {},
+    onJump(target) { jumps.push(target); },
+  };
+  const { fieldControl: fieldControl2 } = await import('../js/fields.js');
+  const trainLinks = fieldControl2(linkCtx, template2, tmplRecord, trainId).links || [];
+  check('技能槽给的链接不止技能名表一条', trainLinks.length >= 2,
+    `${trainLinks.length} 条：${trainLinks.map((l) => l.textContent).join(' / ')}`);
+  check('技能槽能跳到「角色特性表（技能）」—— 技能自己的参数在那儿',
+    trainLinks.some((l) => String(l.textContent || '').includes('角色特性表')),
+    trainLinks.map((l) => l.textContent).join(' / '));
+  const perkLink = trainLinks.find((l) => String(l.textContent || '').includes('角色特性表'));
+  if (perkLink) {
+    perkLink.listeners.click[0]({ target: perkLink });
+    const landed = jumps[jumps.length - 1];
+    check('点它就落到角色特性表的那条记录上',
+      landed && landed.id === 'character_perks' && landed.kind === 'structure',
+      landed ? `${landed.module}/${landed.id} #${landed.recordId}` : '没跳');
+  }
+
+  // 忍术槽同理：忍术名表 ↔ 忍术记录表
+  const jutsuId = template2.fields.find((f) => f.key === 'jutsu_0_id');
+  const jutsuLinks = fieldControl2(linkCtx, template2, tmplRecord, jutsuId).links || [];
+  check('忍术槽能跳到「忍术记录表」',
+    jutsuLinks.some((l) => String(l.textContent || '').includes('忍术记录表')),
+    jutsuLinks.map((l) => l.textContent).join(' / '));
 }
 
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);

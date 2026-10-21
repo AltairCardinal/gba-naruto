@@ -13,6 +13,7 @@
 import { el, toast } from './ui.js';
 import { readField } from './pack.js';
 import { base64ToBytes, ROM_BASE } from './bytes.js';
+import { idSpaceOthers, tableOf } from './idspace.js';
 
 /** The sibling field of the same array slot, e.g. slot0_category for slot0_item. */
 export function siblingField(structure, field, item) {
@@ -552,6 +553,7 @@ export function fieldControl(ctx, structure, record, field) {
     node,
     hint: fieldHint(pack, structure, record, field),
     link: relationLink(ctx, structure, record, field),
+    links: relationLinks(ctx, structure, record, field),
   };
 }
 /**
@@ -574,6 +576,49 @@ function relationLink(ctx, structure, record, field) {
     text: `跳到「${hit.name}」→`,
     onclick: () => ctx.onJump(target),
   });
+}
+
+/**
+ * Every link this field offers — not just the one the relation names.
+ *
+ * **同一个 id 在几张表里指的是同一个东西**：技能名表 #12 与角色特性表 #12
+ * 是同一个技能（一个是名字，一个是这个技能自己的参数：效果类型 / 基础值 /
+ * 每级成长）。以前「跳过去」只能落到名字表上，作者就找不到技能参数在哪儿 ——
+ * 看上去就像「技能表不支持配置」。
+ *
+ * 所以这里把 id 空间里的**其它表**也各给一条链接。
+ */
+function relationLinks(ctx, structure, record, field) {
+  const links = [];
+  const first = relationLink(ctx, structure, record, field);
+  if (first) links.push(first);
+  if (!field.relation || !ctx.onJump) return links;
+  const relation = field.relation;
+  if (relation.kind === 'by_category') return links;
+
+  const value = record.values ? record.values[field.key] : undefined;
+  if (typeof value !== 'number') return links;
+  const tableId = relation.table;
+  if (!tableId) return links;
+
+  for (const other of idSpaceOthers(ctx.pack, tableId)) {
+    const target = tableOf(ctx.pack, other);
+    if (!target) continue;
+    const label = target.label || other;
+    links.push(el('span', {
+      class: 'xref-link',
+      title: `跳到 ${label} · 记录 ${value}（同一个 id 的另一张表）`,
+      text: `跳到${label} #${value} →`,
+      onclick: () => ctx.onJump({
+        module: target.module,
+        kind: 'structure',
+        id: other,
+        recordId: value,
+        label,
+      }),
+    }));
+  }
+  return links;
 }
 
 /** Where a relation points: module + table + record. */

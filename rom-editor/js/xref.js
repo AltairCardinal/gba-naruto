@@ -11,6 +11,9 @@
 
 import { idRelationName } from './fields.js';
 import { indexKey } from './indexkey.js';
+import { idSpace } from './idspace.js';
+
+export { idSpace };
 
 const ROM_BASE = 0x08000000;
 
@@ -83,29 +86,12 @@ function referenceLabel(pack, structure, record, field) {
  * 这个别名关系把「谁引用了我」从 6 张表扩展到全部 id 空间，
  * 而不必在每个字段上重复声明。
  *
+ * 实现见 `idspace.js`（fields.js 也要用它，所以单独放）。
+ *
  * @param {ContentPack} pack
  * @param {string} tableId
  * @returns {string[]} 表 id 列表（含自己）
  */
-export function idSpace(pack, tableId) {
-  const members = new Set([tableId]);
-  let grew = true;
-  while (grew) {
-    grew = false;
-    for (const structure of pack.structures || []) {
-      const relation = structure.id_relation;
-      if (!relation || !relation.table) continue;
-      if (members.has(structure.id) && !members.has(relation.table)) {
-        members.add(relation.table);
-        grew = true;
-      } else if (members.has(relation.table) && !members.has(structure.id)) {
-        members.add(structure.id);
-        grew = true;
-      }
-    }
-  }
-  return [...members];
-}
 
 const indexCache = new WeakMap();
 

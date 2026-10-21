@@ -131,7 +131,7 @@ export function renderArrayTable(ctx, structure, record, array) {
     tr.appendChild(el('td', { class: 'col-id', text: String(index - array.base + 1) }));
     for (const item of array.items) {
       const field = row[item];
-      const { node, link } = fieldControl(ctx, structure, record, field);
+      const { node, link, links } = fieldControl(ctx, structure, record, field);
       const cell = el('td', { class: 'slot-cell' }, [node]);
       const hintLine = el('div', { class: 'field-hint' });
       const refresh = () => {
@@ -140,7 +140,12 @@ export function renderArrayTable(ctx, structure, record, array) {
       refresh();
       if (ctx.registerRefresh) ctx.registerRefresh(refresh);
       cell.appendChild(hintLine);
-      if (link) cell.appendChild(el('div', { class: 'field-link' }, [link]));
+      if (link) {
+        // 同一个 id 在几张表里指的是同一个东西：技能的槽位除了技能名表，
+        // 还要能跳到「角色特性表（技能）」—— 技能自己的参数在那儿。
+        const all = links && links.length ? links : [link];
+        cell.appendChild(el('div', { class: 'field-link' }, all));
+      }
       tr.appendChild(cell);
     }
     body.appendChild(tr);

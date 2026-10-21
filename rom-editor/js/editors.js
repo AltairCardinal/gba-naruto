@@ -673,7 +673,7 @@ export class StructureEditor {
     label.appendChild(restore);
     label.appendChild(offset);
 
-    const { node, link } = fieldControl(
+    const { node, link, links } = fieldControl(
       this.fieldContext(), structure, record, field);
     const hintLine = el('div', { class: 'field-hint' });
 
@@ -694,7 +694,12 @@ export class StructureEditor {
     wrapper.appendChild(label);
     wrapper.appendChild(node);
     wrapper.appendChild(hintLine);
-    if (link) wrapper.appendChild(el('div', { class: 'field-link' }, [link]));
+    if (link) {
+      // 一个字段可能给好几条链接（同一个 id 在几张表里指的是同一个东西），
+      // 比如角色的技能槽：技能名表 + 角色特性表（技能自己的参数）。
+      const all = links && links.length ? links : [link];
+      wrapper.appendChild(el('div', { class: 'field-link' }, all));
+    }
     return wrapper;
   }
 
