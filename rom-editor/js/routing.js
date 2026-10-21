@@ -26,12 +26,34 @@ export function parseHash(hash) {
   const parts = raw.split('/');
   const module = DOMAIN_IDS.includes(parts[0]) ? parts[0] : 'overview';
   if (parts[1] === 'stage') {
+    const stage = Number(parts[2]);
+    const variant = Number(parts[3]);
     return {
       module,
       panel: {
         kind: 'stage',
         id: 'stage',
-        params: { stage: Number(parts[2]) || 1, variant: Number(parts[3]) || 0 },
+        // 以前写的是 `Number(parts[2]) || 1`：第 0 关会被解析成第 1 关。
+        params: {
+          stage: Number.isFinite(stage) ? stage : 1,
+          variant: Number.isFinite(variant) ? variant : 0,
+        },
+      },
+    };
+  }
+  if (parts[1] === 'graph') {
+    // 「整条路线总览」这类整域视图。
+    return { module, panel: { kind: 'graph', id: 'graph', params: {} } };
+  }
+  if (parts[1] === 'offset' && parts[2]) {
+    // 「原始字节」按地址打开：#raw/offset/0x5A15C0
+    const offset = parseInt(String(parts[2]).replace(/^0x/i, ''), 16);
+    return {
+      module,
+      panel: {
+        kind: 'raw-offset',
+        id: 'raw',
+        params: { offset: Number.isFinite(offset) ? offset : 0 },
       },
     };
   }
@@ -81,6 +103,13 @@ export function hashFor(view) {
   if (panel.kind === 'script') {
     const { root, scene } = panel.params || {};
     return `#${module}/script/${root || 'before'}/${scene || 1}`;
+  }
+  if (panel.kind === 'graph') {
+    return `#${module}/graph`;
+  }
+  if (panel.kind === 'raw-offset') {
+    const offset = (panel.params && panel.params.offset) || 0;
+    return `#${module}/offset/0x${(offset >>> 0).toString(16).toUpperCase()}`;
   }
   return `#${module}`;
 }

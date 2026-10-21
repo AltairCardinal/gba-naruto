@@ -34,6 +34,28 @@ export function plainText(text) {
   return String(text || '').replace(/\*\*/g, '');
 }
 
+/**
+ * Does a value match what the author typed?
+ *
+ * The list shows pointers as `0x0859F988` but the value itself is the
+ * decimal 140114312 — so an author who copies the address out of the list
+ * and pastes it into the search box found nothing.  Match both spellings.
+ */
+export function valueMatches(value, query) {
+  if (value === null || value === undefined) return false;
+  const q = String(query || '').toLowerCase();
+  if (!q) return false;
+  if (String(value).toLowerCase().includes(q)) return true;
+  if (typeof value === 'number' && Number.isFinite(value)) {
+    const hex = (value >>> 0).toString(16).toLowerCase();
+    const padded = hex.padStart(8, '0');
+    if (padded.includes(q)) return true;
+    if (('0x' + hex).includes(q)) return true;
+    if (('0x' + padded).includes(q)) return true;
+  }
+  return false;
+}
+
 export class StructureEditor {
   /**
    * @param {ContentPack} pack
@@ -97,7 +119,7 @@ export class StructureEditor {
       const key = indexKey(this.structure, r);
       if (key && key.text.includes(this.query)) return true;
       return (r.values ? Object.values(r.values) : []).some(
-        (v) => String(v).toLowerCase().includes(query)
+        (v) => valueMatches(v, query)
       );
     });
     if (searching) {
@@ -291,7 +313,12 @@ export class StructureEditor {
   formatCell(record, field) {
     const value = record.values ? record.values[field.key] : undefined;
     if (value === undefined || value === null) return '';
-    if (field.type === 'ptr') return formatHex32(value);
+    if (field.type === 'ptr') {
+      const hex = formatHex32(value);
+      // 指针的载荷（压缩块 / 原始数据 / 空哨兵）由导出时判定的事实给出。
+      const payload = this.pack.pointerTarget ? this.pack.pointerTarget(value) : null;
+      return payload && payload.label ? `${hex} · ${payload.label}` : hex;
+    }
     if (field.type === 'hex') {
       const text = String(value);
       return text.slice(0, 12) + (text.length > 12 ? '…' : '');
@@ -340,7 +367,13 @@ export class StructureEditor {
 
     this.detail.appendChild(el('div', { class: 'detail-sub' }, [
       el('span', { text: `ROM ${formatOffset(record.rom_offset)}` }),
-      el('span', { text: `第 ${record.id + 1} / ${(structure.records || []).length} 条` }),
+      // 「记录下标本身就是 id」的表（音效 id、忍术 id）不该用「第 N 条」计数 ——
+      // 音效 #0 就是音效 #0，不是「第 1 条」。
+      el('span', {
+        text: structure.id_is_index
+          ? `id ${record.id}`
+          : `第 ${record.id + 1} / ${(structure.records || []).length} 条`,
+      }),
       this.isDirty(record) ? el('span', { class: 'tag tag-warn', text: '已改动' }) : null,
     ]));
 

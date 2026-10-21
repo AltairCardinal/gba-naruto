@@ -3,10 +3,14 @@
 
 export function el(tag, props = {}, children = []) {
   const node = document.createElement(tag);
+  // 说明性文字里用了 markdown 的粗体标记，而编辑器不渲染 markdown，
+  // 星号会原样露出来。只在说明类容器里去掉，不动用户数据。
+  const prose = PROSE_CLASSES.some((name) =>
+    String((props && props.class) || '').includes(name));
   for (const [key, value] of Object.entries(props || {})) {
     if (value === null || value === undefined) continue;
     if (key === 'class') node.className = value;
-    else if (key === 'text') node.textContent = value;
+    else if (key === 'text') node.textContent = prose ? stripStars(value) : value;
     else if (key === 'html') node.innerHTML = value;
     else if (key.startsWith('on') && typeof value === 'function') {
       node.addEventListener(key.slice(2).toLowerCase(), value);
@@ -20,18 +24,22 @@ export function el(tag, props = {}, children = []) {
       node.setAttribute(key, value);
     }
   }
-  // 说明性文字里用了 markdown 的粗体标记，而编辑器不渲染 markdown，
-  // 星号会原样露出来。只在说明类容器里去掉，不动用户数据。
-  if (PROSE_CLASSES.some((name) => node.className.includes(name))) {
-    node.textContent = String(node.textContent || '').replace(/\*\*/g, '');
-  }
   for (const child of [].concat(children)) {
     if (child === null || child === undefined || child === false) continue;
-    node.appendChild(typeof child === 'string' || typeof child === 'number'
-      ? document.createTextNode(String(child))
-      : child);
+    if (typeof child === 'string' || typeof child === 'number') {
+      // 以前只处理 `text` 属性，**当子节点传进来时就漏出去了**
+      // （素材域那句「但**资源内容本身**要另走导入流程」就是这么露的）。
+      node.appendChild(document.createTextNode(prose ? stripStars(child) : String(child)));
+    } else {
+      node.appendChild(child);
+    }
   }
   return node;
+}
+
+/** Remove markdown's bold markers from prose text. */
+function stripStars(text) {
+  return String(text === null || text === undefined ? '' : text).replace(/\*\*/g, '');
 }
 
 /** Containers whose text is prose (not user data). */

@@ -56,6 +56,15 @@ export function resolveRelation(pack, relation, value) {
     if (!record) return null;
     return { name: record.label ?? `#${record.id}`, table: tableId, record };
   }
+  if (relation.kind === 'pointer') {
+    // 指针型关系：字段存的是**地址**，要按记录所在的 ROM 地址去找
+    // （音效描述符、乐曲头都是这种）。
+    const structure = pack.structure(tableId);
+    if (!structure) return null;
+    const record = (structure.records || []).find((r) => r.rom_offset === value);
+    if (!record) return null;
+    return { name: record.label ?? `#${record.id}`, table: tableId, record };
+  }
   return null;
 }
 
@@ -122,7 +131,7 @@ export function originalValue(structure, record, field) {
  * table the pack knows about.
  */
 export function describePointer(pack, value) {
-  if (!value) return { text: 'NULL', fileOffset: null, inside: null, target: null };
+  if (!value) return { text: 'NULL', fileOffset: null, inside: null, target: null, payload: null };
   const offset = value - ROM_BASE;
   const inside = [];
   for (const structure of pack.structures || []) {
@@ -153,12 +162,41 @@ export function describePointer(pack, value) {
     }
     if (target) break;
   }
+  // 指针指向的**载荷是什么**，由导出时判定的事实给出（见 pack.derived）。
+  // 没有载入原版 ROM 时也要能回答，所以这个判定不能只存在于运行时。
+  const payload = pack.pointerTarget ? pack.pointerTarget(value) : null;
   return {
     text: '0x' + (value >>> 0).toString(16).toUpperCase(),
     fileOffset: offset >= 0 ? offset : null,
     inside: inside.length ? inside : null,
     target,
+    payload,
   };
+}
+
+/**
+ * One line that says what a pointer points at.
+ *
+ * The list shows `0x0859F988`; the author needs to know *what* that is.
+ * The answer comes from the pack (a known structure's record, a text record,
+ * or the payload kind the exporter worked out).
+ */
+export function pointerSummary(pack, value) {
+  const described = describePointer(pack, value);
+  if (!value) return '空指针（原版就是空的）';
+  const parts = [];
+  if (described.target) {
+    parts.push(`${described.target.table} ·「${described.target.text}」`);
+  } else if (described.inside) {
+    parts.push(described.inside.join('、'));
+  }
+  if (described.payload && described.payload.label) {
+    parts.push(described.payload.label);
+  }
+  const where = described.fileOffset === null
+    ? '不在 ROM 范围内'
+    : 'ROM 0x' + described.fileOffset.toString(16).toUpperCase();
+  return [where, ...parts].join(' · ');
 }
 
 /**
@@ -194,6 +232,10 @@ export function fieldHint(pack, structure, record, field) {
       hint.push(`目标：${described.target.table} ·「${described.target.text}」`);
     } else if (described.inside) {
       hint.push(`落在：${described.inside.join('、')}`);
+    }
+    if (described.payload && described.payload.label) {
+      // 载荷是什么（压缩块 / 原始数据 / 空哨兵）—— 导出时判定的事实。
+      hint.push(`载荷：${described.payload.label}`);
     }
   }
   if (field.relation) {
@@ -279,6 +321,17 @@ export function relationOptions(pack, structure, record, field) {
     }
     return options;
   }
+
+  if (relation.kind === 'pointer') {
+    // 指针型关系：选项是「目标表的每条记录」，值是它所在的 ROM 地址。
+    const structure = pack.structure(relation.table);
+    if (!structure) return null;
+    return (structure.records || []).map((r) => ({
+      value: r.rom_offset,
+      label: `${r.label ?? `#${r.id}`} · ROM 0x${(r.rom_offset >>> 0).toString(16).toUpperCase()}`,
+      outOfRange: false,
+    }));
+  }
   return null;
 }
 
@@ -296,7 +349,22 @@ export function fieldControl(ctx, structure, record, field) {
 
   const commit = (raw) => {
     let parsed = raw;
-    if (['u8', 'u16', 's16', 'u32', 's32', 'ptr'].includes(field.type)) {
+    if (field.type === 'ptr') {
+      // 指针按**十六进制**输入。列表里显示的就是 `0x0859F988`，
+      // 以前详情给的是十进制框（140114312）——同一屏两种写法，抄地址必然抄错。
+      const text = String(raw).trim();
+      const looksHex = /^0x/i.test(text) ||
+        (/^[0-9a-fA-F]+$/.test(text) && /[a-fA-F]/.test(text));
+      parsed = looksHex ? parseInt(text.replace(/^0x/i, ''), 16) : Number(text);
+      if (!Number.isFinite(parsed)) {
+        toast('请输入地址', 'error');
+        return false;
+      }
+      if (parsed !== 0 && (parsed < ROM_BASE || parsed >= ROM_BASE + 0x600000)) {
+        toast('指针必须为 0 或落在 0x08000000–0x085FFFFF 内', 'error');
+        return false;
+      }
+    } else if (['u8', 'u16', 's16', 'u32', 's32'].includes(field.type)) {
       parsed = Number(raw);
       if (!Number.isFinite(parsed)) {
         toast('请输入数字', 'error');
@@ -306,11 +374,6 @@ export function fieldControl(ctx, structure, record, field) {
       if (range && (parsed < range.min || parsed > range.max)) {
         // 越界必须**拒绝**，不能落到写回时的掩码里被悄悄截断。
         toast(`请输入 ${range.label} 的整数`, 'error');
-        return false;
-      }
-      if (field.type === 'ptr' && parsed !== 0 &&
-          (parsed < ROM_BASE || parsed >= ROM_BASE + 0x600000)) {
-        toast('指针必须为 0 或落在 0x08000000–0x085FFFFF 内', 'error');
         return false;
       }
     } else if (field.type === 'hex') {
@@ -425,6 +488,27 @@ export function fieldControl(ctx, structure, record, field) {
         onchange: (e) => { if (!commit(e.target.value)) e.target.value = String(value ?? ''); },
       });
     }
+  } else if (field.type === 'ptr') {
+    // 指针：十六进制输入框 + 目标说明。列表与详情现在用同一种写法了。
+    const hexText = value === undefined || value === null
+      ? ''
+      : '0x' + (value >>> 0).toString(16).toUpperCase().padStart(8, '0');
+    node = el('input', {
+      class: 'num-input ptr-box',
+      type: 'text',
+      spellcheck: 'false',
+      value: hexText,
+      onchange: (e) => {
+        if (!commit(e.target.value)) {
+          e.target.value = hexText;
+          return;
+        }
+        const next = (record.values || {})[field.key];
+        e.target.value = next === undefined || next === null
+          ? ''
+          : '0x' + (next >>> 0).toString(16).toUpperCase().padStart(8, '0');
+      },
+    });
   } else if (field.type === 'hex') {
     node = el('textarea', {
       class: 'hex-input',

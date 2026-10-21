@@ -96,3 +96,36 @@ export function missionIndexOwners(pack) {
 export function ownerLabel(owner) {
   return `第 ${owner.stage} 关子 ${owner.sub}`;
 }
+
+/**
+ * Which records hold a pointer to this address?
+ *
+ * The pack's own relation kinds answer 「谁引用了这个 id」, but a **pointer**
+ * has no id — it is an address.  Audio descriptors, resource pointers and
+ * script operands are all raw addresses, so the backward direction has to
+ * scan the `ptr` fields of every structure.
+ *
+ * @param {ContentPack} pack
+ * @param {number} address  a ROM address
+ * @returns {Array<{structure: object, field: object, record: object, label: string}>}
+ */
+export function backReferencesByPointer(pack, address) {
+  const out = [];
+  if (!address) return out;
+  for (const structure of pack.structures || []) {
+    for (const field of structure.fields || []) {
+      if (field.type !== 'ptr') continue;
+      for (const record of structure.records || []) {
+        const value = record.values ? record.values[field.key] : undefined;
+        if (value !== address) continue;
+        out.push({
+          structure,
+          field,
+          record,
+          label: referenceLabel(pack, structure, record, field),
+        });
+      }
+    }
+  }
+  return out;
+}

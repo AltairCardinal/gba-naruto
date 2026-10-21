@@ -48,6 +48,26 @@ export class ContentPack {
      */
     this.undoStack = [];
     this.notes = data.notes || [];
+    /**
+     * Derived facts the exporter worked out about the ROM (pointer payload
+     * kinds, shared bytes, …).  They are **read-only** facts, not records:
+     * anything the builder would have to write back must live in
+     * `structures` / `texts` / `patches`, because `rom.js` only writes those.
+     */
+    this.derived = data.derived || null;
+  }
+
+  /**
+   * What does this ROM address point at?
+   *
+   * @param {number} address  a ROM address (0x08xxxxxx)
+   * @returns {?{kind: string, label: string, size: ?number}}
+   */
+  pointerTarget(address) {
+    if (!this.derived || !this.derived.pointer_targets) return null;
+    if (!address) return null;
+    const key = '0x' + (address >>> 0).toString(16).toUpperCase();
+    return this.derived.pointer_targets[key] || null;
   }
 
   /** Undo stack limit. */

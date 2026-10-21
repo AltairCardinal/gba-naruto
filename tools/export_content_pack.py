@@ -480,6 +480,7 @@ def make_structure(
     verification: str = "",
     raw_only: bool = False,
     id_relation: dict[str, str] | None = None,
+    consumers: list[str] | None = None,
 ) -> dict[str, Any]:
     tiled = tile(entry_size, fields)
     records = []
@@ -517,6 +518,9 @@ def make_structure(
     if id_relation:
         # 记录下标本身就是一个 id，指向另一张表的同号槽位。
         structure["id_relation"] = id_relation
+    if consumers:
+        # 原生读者地址：改这张表会动到谁，界面直接写出来。
+        structure["consumers"] = consumers
     if structure_id in INDEX_SCHEMES:
         # 复合下标的分解方案：界面据此把记录下标还原成
         # 「第 12 关 · 变体 1 · 槽 3」，作者不用自己手算 id。
@@ -634,7 +638,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         note="下标 = 技能（技术）id，与技能名表 0x5A7060 同空间。",
         id_relation={"table": "training_names", "kind": "text", "label": "技能名"},
         primary_columns=["kind", "base", "growth"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     portrait_fields: list[dict[str, Any]] = []
@@ -655,7 +659,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="每行 40 字节 = 5 个表情 × (图像指针 + 调色板指针)。",
         primary_columns=["expr0_gfx", "expr0_palette"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     piece_fields = [
@@ -673,7 +677,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="6 块拼成 80×80 头像。",
         primary_columns=["tile", "x", "y"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     # ---- 忍术 -----------------------------------------------------------
@@ -844,7 +848,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         object_offsets, rom,
         note="每关卡变体 16 个物件，位于编成组 +0x8A4（紧跟在 12 个角色槽后面）。",
         primary_columns=["type", "target", "x", "y"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     rule_fields = [F("turn_limit", 0x00, 1, "u8", "回合上限", "0 = 无限制", "回合")]
@@ -879,7 +883,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rule_offsets, rom,
         note="47 关 × 3 变体 × 0x44 字节。index = 关卡 s / 变体 u。",
         primary_columns=["turn_limit"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     encounter_fields = [
@@ -896,7 +900,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="24 条 16 字节记录。目标记录的自描述格式尚未解码。",
         primary_columns=["entry_id", "ptr_0"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     remap_fields = [F("value", 0, 2, "u16", "重映射值",
@@ -920,7 +924,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="16 项有符号 u16。",
         primary_columns=["delta"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     wram_fields = [
@@ -939,6 +943,15 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
              "这张表只决定每个子系统分到多少 EWRAM。",
         primary_columns=["wram_addr", "alloc_size"],
         verification="L3 格式已证明 / 写回路径可用（tools/import_battle_config.py::write_wram_alloc）",
+        # 只有 3 段有仓库依据（notes/battle-config-format.md:162-165），
+        # 其余 4 段**不编名字** —— 界面上写「未命名」比瞎猜强。
+        record_labels={
+            0: "战斗状态结构",
+            1: "战斗状态结构",
+            3: "战斗状态结构",
+            5: "战斗控制标志",
+            7: "战斗主数据",
+        },
     ))
 
     level_fields = [
@@ -998,7 +1011,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
              "**只有 id 1..7 与 9..13 符合背景记录格式**（图形/调色板/tilemap/色深）；"
              "id 14..35 是另一种记录形态（32 字节调色板），字段含义不同。",
         primary_columns=["gfx_ptr", "palette_ptr", "bpp_flag"],
-        verification="L1 结构已证明（id 1..7、9..13）/ 尚无写回路径",
+        verification="L1 结构已证明（id 1..7、9..13）· 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     for table_id, base, slots, label, note in (
@@ -1033,7 +1046,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
              "本表 48 字节（关卡 0..47）。",
         primary_columns=["value"],
         record_labels={s: f"第{s}关" for s in range(MISSION_INDEX_STAGES)},
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     font_fields = [
@@ -1050,7 +1063,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="31 段 × 8 字节。字库本身决定游戏能画出哪些字。",
         primary_columns=["start_code", "count"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     # --- 其余已证实、此前未进包的表 ---------------------------------------
@@ -1067,7 +1080,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="159 条 × 8 字节：指向 m4a 歌曲描述符，并给出播放通道与配置。",
         primary_columns=["descriptor_ptr", "player_index"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     for sound_id, (base, tracks) in sorted(AUDIO_SONG_BASE.items()):
@@ -1089,7 +1102,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
             note=f"m4a SongHeader：8 字节头 + {tracks} 个轨道指针（40 字节以内的描述符）。"
                  "音频样本本体不在本表里。",
             primary_columns=["track_count", "block_count", "priority"],
-            verification="L1 结构已证明 / 尚无写回路径",
+            verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
         ))
 
     out.append(make_structure(
@@ -1101,7 +1114,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="13 槽 u32。",
         primary_columns=["ptr"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     out.append(make_structure(
@@ -1112,7 +1125,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="256 字节，按字符码索引的宽度。",
         primary_columns=["width"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     handler_fields = [
@@ -1128,7 +1141,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         note="256 条 × 8 字节，每条两个代码指针（167 条非空）。"
              "各字段的业务名尚未定。",
         primary_columns=["handler_a", "handler_b"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     frame_fields = [
@@ -1146,7 +1159,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="15 条 × 10 字节，五个 u16 字段的业务名都还没定。",
         primary_columns=["kind", "delta_2", "kind_6"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     out.append(make_structure(
@@ -1157,22 +1170,27 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="7 个拾取处理程序指针。",
         primary_columns=["handler"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
-    for table_id, base, count, label in (
-        ("data_pointer_table_a", DATA_POINTER_A_BASE, DATA_POINTER_A_COUNT, "数据指针表 A"),
-        ("data_pointer_table_b", DATA_POINTER_B_BASE, DATA_POINTER_B_COUNT, "数据指针表 B"),
+    for table_id, base, count, label, readers in (
+        ("data_pointer_table_a", DATA_POINTER_A_BASE, DATA_POINTER_A_COUNT,
+         "数据指针表 A", ["0x0808A6BA", "0x0808B19E"]),
+        ("data_pointer_table_b", DATA_POINTER_B_BASE, DATA_POINTER_B_COUNT,
+         "数据指针表 B", ["0x080985D8", "0x08099D26"]),
     ):
         out.append(make_structure(
             table_id, "assets", label,
             base, 4,
-            [F("ptr", 0, 4, "ptr", "指针", "", "指针")],
+            [F("ptr", 0, 4, "ptr", "指针",
+               "这一格决定「用哪一份资源」；指向的资源本体（压缩载荷）"
+               "在编辑器里改不了", "指针")],
             (base + i * 4 for i in range(count)),
             rom,
             note=f"{count} 项 u32 指针表；指向的资源本体不在本表里。",
             primary_columns=["ptr"],
-            verification="L1 结构已证明 / 尚无写回路径",
+            verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
+            consumers=readers,
         ))
 
     asset_fields = [
@@ -1180,20 +1198,25 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     ]
     for t in range(6):
         asset_fields.append(F(f"tile_ptr_{t}", 0x0C + t * 4, 4, "ptr",
-                               f"图块指针{t}", "", "图块"))
+                               f"图块指针{t}", "", "图块",
+                               array="gfx", index=t, item="ptr"))
     asset_fields.append(F("mid", 0x24, 4, "hex", "中间字段", "未解码", "资源记录"))
     for s in range(3):
         asset_fields.append(F(f"script_ptr_{s}", 0x28 + s * 4, 4, "ptr",
-                               f"脚本指针{s}", "", "脚本"))
+                               f"脚本指针{s}", "", "脚本",
+                               array="script", index=s, item="ptr"))
     out.append(make_structure(
         "tile_asset_records", "assets", "图块/精灵资源记录表",
         TILE_ASSET_RECORDS_BASE, TILE_ASSET_RECORDS_STRIDE, asset_fields,
         (TILE_ASSET_RECORDS_BASE + i * TILE_ASSET_RECORDS_STRIDE
          for i in range(TILE_ASSET_RECORDS_COUNT)),
         rom,
-        note="79 条 × 68 字节：6 个图块指针 + 3 个脚本指针，其余未解码。",
+        note="79 条 × 68 字节：6 个图块指针 + 3 个脚本指针，其余未解码。"
+             "79 条记录里只有 31 种不同的图块组合、69 种不同的脚本组合 —— "
+             "改一条会影响共用同一组合的那些记录。",
         primary_columns=["tile_ptr_0", "script_ptr_0"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
+        consumers=["0x0809881E"],
     ))
 
     return out
@@ -1604,6 +1627,61 @@ def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
     }
 
 
+def build_derived(rom: bytes, structures: list[dict[str, Any]],
+                  texts: list[dict[str, Any]]) -> dict[str, Any]:
+    """Facts the exporter worked out about the ROM that are **not** records.
+
+    Right now that is one thing: what a ROM pointer points at.  The editor
+    has to answer 「0x0859F988 是什么」, and it must be able to answer it
+    **without the original ROM being loaded** — so the judgement is made
+    here, at export time, and travels with the pack.
+
+    A pointer's payload is judged from the byte at the target: GBA LZ77
+    blocks start with 0x10 and carry their decompressed size in the next
+    three bytes; anything else is raw data.  Pointers that land on a
+    known structure record are left out — the editor already names those.
+    """
+    # 地址 → 落在哪张表的哪条记录（已知结构优先）
+    known: dict[int, str] = {}
+    for structure in structures:
+        for record in structure.get("records", []):
+            known.setdefault(int(record["rom_offset"]), structure["label"])
+
+    addresses: set[int] = set()
+    for structure in structures:
+        for field in structure.get("fields", []):
+            if field.get("type") != "ptr":
+                continue
+            for record in structure.get("records", []):
+                value = (record.get("values") or {}).get(field["key"])
+                if isinstance(value, int) and value:
+                    addresses.add(value)
+
+    targets: dict[str, Any] = {}
+    for address in sorted(addresses):
+        if address in known:
+            continue
+        offset = address - ROM_BASE
+        if offset < 0 or offset + 4 > len(rom):
+            continue
+        header = rom[offset]
+        key = f"0x{address:08X}"
+        if header == 0x10:
+            size = int.from_bytes(rom[offset + 1:offset + 4], "little")
+            targets[key] = {
+                "kind": "lz77",
+                "size": size,
+                "label": f"LZ77 块（解压后 {size:,} 字节）",
+            }
+        else:
+            targets[key] = {
+                "kind": "raw",
+                "size": None,
+                "label": "未压缩原始数据",
+            }
+    return {"pointer_targets": targets}
+
+
 def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
     rom = rom_path.read_bytes()
     mapping, report = text_codec.load_mapping(rom_path)
@@ -1671,6 +1749,7 @@ def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
         "texts": texts,
         "scripts": build_scripts(rom),
         "patches": [],
+        "derived": build_derived(rom, structures, texts),
         "notes": [
             "本包由 tools/export_content_pack.py 从 rom/base.gba 导出。",
             "每个结构的字段列表精确铺满整条记录，未解码的字节以 hex 字段原样保留。",

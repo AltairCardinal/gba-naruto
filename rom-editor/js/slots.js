@@ -20,6 +20,8 @@ const ARRAY_NOUNS = {
   slots: '道具位',
   rules: '条件',
   expr: '表情',
+  tracks: '轨道',
+  gfx: '图块',
 };
 
 const ITEM_LABELS = {
@@ -34,6 +36,7 @@ const ITEM_LABELS = {
   c: '参数C',
   text_ptr: '说明文字',
   category: '类别',
+  ptr: '指针',
   item_id: '物品',
   gfx: '图像',
   palette: '配色',
