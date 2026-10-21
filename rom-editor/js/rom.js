@@ -175,16 +175,35 @@ export class RomBuilder {
           }
           continue;
         }
-        if (e.bytes.length + (nulTerminated ? 1 : 0) > capacity) {
+        if (e.record.owned_by) {
+          // 这段字节属于另一张表（内容包已标明归属）。
+          // 在这里再写一次会覆盖那边的改动，所以跳过并说明。
+          if (e.changed) {
+            this.report.warnings.push(
+              `${table.id}#${e.record.id} 的这段文字属于 ${e.record.owned_by}，` +
+              '请在归属它的表里改'
+            );
+          }
+          continue;
+        }
+        // 容量判定必须用**内容长度**：写回时字节会被补齐到槽位大小，
+        // 拿补齐后的长度去比容量，会把「4 字节的字 + 12 字节的槽」误判成超长。
+        const content = pack.textContentBytes(e.record);
+        if (content.length + (nulTerminated ? 1 : 0) > capacity) {
           this.report.errors.push(
             `${table.id}#${e.record.id} 文本超长：` +
-              `${e.bytes.length} 字节 > 槽位 ${capacity} 字节（该表不可重定位）`
+              `写回需要 ${content.length + (nulTerminated ? 1 : 0)} 字节，` +
+              `槽位只有 ${capacity} 字节（该表不可重定位，只能等长改写）`
           );
           continue;
         }
         if (!e.changed) continue;
-        this.bytes.set(e.bytes, e.record.text_offset);
-        if (nulTerminated) this.bytes[e.record.text_offset + e.bytes.length] = 0;
+        this.bytes.set(content, e.record.text_offset);
+        if (nulTerminated) this.bytes[e.record.text_offset + content.length] = 0;
+        // 把旧文本多出来的尾巴清零：字符串以 NUL 结束，后面的残字节不该留着。
+        for (let k = content.length + (nulTerminated ? 1 : 0); k < e.original.length; k++) {
+          this.bytes[e.record.text_offset + k] = 0;
+        }
       }
       return true;
     }
@@ -210,35 +229,49 @@ export class RomBuilder {
       moved.push(e);
     }
 
+    // 共用同一段字节的记录其实是**同一段字符串**：只搬一次，
+    // 所有指向它的指针改到同一个新地址（否则会搬出 27 份一样的副本）。
+    const movedByOffset = new Map();
     for (const e of moved) {
+      const key = e.record.text_offset;
+      if (!movedByOffset.has(key)) movedByOffset.set(key, []);
+      movedByOffset.get(key).push(e);
+    }
+
+    for (const [from, group] of movedByOffset) {
+      const e = group[0];
       const need = e.bytes.length + (nulTerminated ? 1 : 0);
       const offset = this.allocate(need);
       if (offset === null) {
-        this.report.errors.push(
-          `${table.id}#${e.record.id} 需要 ${need} 字节空闲空间，但 ROM 中找不到足够大的空闲区`);
+        for (const item of group) {
+          this.report.errors.push(
+            `${table.id}#${item.record.id} 需要 ${need} 字节空闲空间，但 ROM 中找不到足够大的空闲区`);
+        }
         continue;
       }
       this.bytes.set(e.bytes, offset);
       if (nulTerminated) this.bytes[offset + e.bytes.length] = 0;
       const pointer = offsetToPointer(offset);
-      if (e.record.pointer_offset !== null && e.record.pointer_offset !== undefined) {
-        this.writeU32(e.record.pointer_offset, pointer);
-      } else {
-        e.record.pointer = pointer;
+      for (const item of group) {
+        if (item.record.pointer_offset !== null && item.record.pointer_offset !== undefined) {
+          this.writeU32(item.record.pointer_offset, pointer);
+        } else {
+          item.record.pointer = pointer;
+        }
+        // 摆放结果只记在构建报告里：**不改动内容包**，
+        // 否则「导出 → 导入 → 再构建」会得到不同的 ROM。
+        this.report.movedTexts.push({
+          table: table.id,
+          id: item.record.id,
+          from: item.record.text_offset,
+          to: offset,
+          bytes: e.bytes.length,
+        });
       }
       // 旧槽位空出来了，可以给别的记录用
       this.released.push({
-        start: e.record.text_offset,
-        end: e.record.text_offset + e.original.length,
-      });
-      // 摆放结果只记在构建报告里：**不改动内容包**，
-      // 否则「导出 → 导入 → 再构建」会得到不同的 ROM。
-      this.report.movedTexts.push({
-        table: table.id,
-        id: e.record.id,
-        from: e.record.text_offset,
-        to: offset,
-        bytes: e.bytes.length,
+        start: from,
+        end: from + e.original.length,
       });
     }
     return true;

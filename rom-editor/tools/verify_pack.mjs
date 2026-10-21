@@ -432,5 +432,91 @@ console.log('\n8) 战斗目标说明文字：指针能解析成原文，且能�
   }
 }
 
+console.log('\n9) 文本表的数据完整性：容量判定 / 共用字节 / 跨表归属 / 字节级恢复');
+{
+  const p11 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  let index11 = null;
+  try {
+    index11 = JSON.parse(gunzipSync(readFileSync(textIndexPath)).toString('utf8'));
+    p11.texts.push(index11);
+  } catch (err) { index11 = null; }
+
+  // 9a. 改一条说话人名必须能构建（容量判定要用**内容长度**，
+  //     拿补齐后的长度比槽位会把「4 字节的字 + 12 字节的槽」误判成超长）
+  {
+    const table = p11.textTable('speaker_names');
+    const record = table.records.find((r) => r.text);
+    p11.setText(table, record, record.text + '！');
+    const out = buildRom(p11, rom);
+    const changed = [];
+    for (let i = 0; i < out.bytes.length; i++) if (out.bytes[i] !== rom[i]) changed.push(i);
+    check('改说话人名能构建且只动那一处',
+      out.report.errors.length === 0 && changed.length > 0 &&
+      changed.every((i) => i >= record.text_offset && i < record.text_offset + 12),
+      out.report.errors.join('; ') || `改动 ${changed.length} 字节 @0x${record.text_offset.toString(16)}`);
+    p11.resetText(table, record);
+  }
+
+  // 9b. 同表内共用同一段字节的记录：改一处必须一起改，
+  //     否则构建时后写的覆盖先写的、改动凭空消失
+  {
+    const table = p11.textTable('mission_titles');
+    const shared = table.records.find((r) => (r.shared_with || []).length > 0);
+    if (!shared) {
+      check('存在共用同一段字节的记录', false, '没有找到');
+    } else {
+      const expected = p11.font.encode('甲');
+      p11.setText(table, shared, '甲');
+      const updated = table.records.filter(
+        (r) => (r.shared_with || []).length > 0 && r.text === '甲').length;
+      const out = buildRom(p11, rom);
+      const at = shared.text_offset;
+      const written = out.bytes.slice(at, at + expected.length);
+      check('共用同一段字节的记录一起改',
+        updated === 1 + shared.shared_with.length && out.report.errors.length === 0 &&
+        written.length === expected.length && written.every((b, i) => b === expected[i]),
+        `${shared.shared_with.length + 1} 处一起改，写回 ${written.length} 字节`);
+      p11.resetText(table, shared);
+    }
+  }
+
+  // 9c. 跨表重复：具名表改的字不能被「全 ROM 文本索引」覆盖
+  {
+    if (!index11) {
+      check('跨表重复不互相覆盖', false, '没有文本索引');
+    } else {
+      const names = p11.textTable('character_names');
+      const record = names.records.find((r) => r.text && r.text.includes('鸣人'));
+      // 等长替换：变长的话这条可重定位的文本会搬到空闲区，指针也跟着改，
+      // 读旧地址自然还是旧字 —— 那样测的就不是「有没有被覆盖」了。
+      const replaced = record.text.replace('鸣', '人');
+      p11.setText(names, record, replaced);
+      const out = buildRom(p11, rom);
+      const at = record.text_offset;
+      const decoded = p11.font.decode(out.bytes.slice(at, at + 16));
+      check('具名表的改动不被文本索引覆盖',
+        out.report.errors.length === 0 && decoded.startsWith(replaced),
+        `回读 ${JSON.stringify(decoded.slice(0, 8))}`);
+      p11.resetText(names, record);
+    }
+  }
+
+  // 9d. 「恢复原文」必须字节级还原（控制码不能跑到句中）
+  {
+    const table = p11.textTable('mission_descriptions');
+    const record = table.records.find((r) => r.text && r.raw && r.raw.includes('AQ'));
+    if (!record) {
+      check('恢复原文是字节级', false, '没有找到带控制码的记录');
+    } else {
+      const original = record.raw;
+      p11.setText(table, record, record.text + '改');
+      p11.resetText(table, record);
+      const now = Buffer.from(p11.textBytes(record)).toString('base64');
+      check('恢复原文是字节级还原', now === original,
+        now === original ? '逐字节一致' : `还原后与原文不同`);
+    }
+  }
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);

@@ -115,6 +115,12 @@ export class ContentPack {
    * so a plain string encode would silently destroy the layout.  The original
    * bytes are kept in `record.raw`, so the control codes can be re-scanned
    * and re-inserted at their original positions.
+   *
+   * When several records of the same table point at the **same bytes** (the
+   * task-title table has 27 slots sharing one blank string), they are really
+   * one string: editing one of them edits all of them, otherwise the build
+   * would write the same address twice and one of the two changes would
+   * vanish.
    */
   setText(table, record, text) {
     const tokens = this.textTokens(record);
@@ -123,6 +129,46 @@ export class ContentPack {
     record.text = text;
     record.text_changed = true;
     this.dirty.add(`${table.id}#${record.id}`);
+    for (const other of this.sharingBytes(table, record)) {
+      other.tokens = mergeTokens(this.textTokens(other), this.font.encodeTokens(text));
+      other.text = text;
+      other.text_changed = true;
+      this.dirty.add(`${table.id}#${other.id}`);
+    }
+  }
+
+  /** The other records of `table` that live at the same ROM address. */
+  sharingBytes(table, record) {
+    if (!table || !record || record.text_offset === null ||
+        record.text_offset === undefined) {
+      return [];
+    }
+    return (table.records || []).filter(
+      (r) => r !== record && r.text_offset === record.text_offset
+    );
+  }
+
+  /**
+   * Restore a text record to its original **bytes**.
+   *
+   * Merging the original string back into an already-modified token stream
+   * would move the control codes (the text comes back, the bytes do not),
+   * so the original bytes are re-scanned instead.
+   */
+  resetText(table, record) {
+    const raw = record.raw ? base64ToBytes(record.raw) : new Uint8Array(0);
+    record.tokens = scanTokens(raw);
+    record.text = this.font.decode(raw);
+    record.original_text = record.text;
+    delete record.text_changed;
+    this.dirty.add(`${table.id}#${record.id}`);
+    for (const other of this.sharingBytes(table, record)) {
+      other.tokens = scanTokens(raw);
+      other.text = record.text;
+      other.original_text = record.text;
+      delete other.text_changed;
+      this.dirty.add(`${table.id}#${other.id}`);
+    }
   }
 
   /** The original token stream of a text record (control codes included). */
@@ -148,6 +194,17 @@ export class ContentPack {
       return padded;
     }
     return bytes;
+  }
+
+  /**
+   * The bytes a text record encodes to, **without** the slot padding.
+   *
+   * The capacity check has to use this: a 4-byte name in a 12-byte slot
+   * writes 12 bytes but only *needs* 5 (4 + NUL); comparing the padded
+   * length against the slot would report every such record as too long.
+   */
+  textContentBytes(record) {
+    return encodeTokens(this.textTokens(record));
   }
 
   /**

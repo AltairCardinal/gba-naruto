@@ -1413,7 +1413,8 @@ def build_scripts(rom: bytes) -> list[dict[str, Any]]:
 
 def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
                                limit: int = 20000,
-                               exclude: set[int] | frozenset[int] = frozenset()
+                               exclude: set[int] | frozenset[int] = frozenset(),
+                               owned: dict[int, str] | None = None
                                ) -> dict[str, Any]:
     """Every font-coded string in the cartridge, found with the ROM's own font.
 
@@ -1423,6 +1424,11 @@ def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
     `exclude` holds the ROM offsets of strings that already belong to a
     dedicated table (the battle objectives) — a string must have exactly one
     home, otherwise two tables would write the same address.
+
+    `owned` maps a ROM offset to the table that already owns it.  Those
+    strings are still *listed* here (so the author can find them), but they
+    are marked `owned_by` and the builder skips them: editing the same bytes
+    from two tables would silently overwrite one of the two changes.
     """
     def is_text(seg: bytes) -> bool:
         j = 0
@@ -1470,7 +1476,7 @@ def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
         text = decode_text(seg, mapping)
         if len(text) < 1:
             continue
-        records.append({
+        record = {
             "id": len(records),
             "label": f"0x{s:06X}",
             "pointer_offset": None,
@@ -1480,7 +1486,12 @@ def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
             "text": text,
             "original_text": text,
             "raw": b64(seg),
-        })
+        }
+        if owned and s in owned:
+            # 这段字节已经属于某张具名表：在这里只**列出来**，
+            # 但写回时跳过 —— 同一段字节被两张表各写一次，改动会互相覆盖。
+            record["owned_by"] = owned[s]
+        records.append(record)
 
     return {
         "id": "rom_text_index",
@@ -1504,8 +1515,36 @@ def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
     structures = build_structures(rom, mapping)
     texts, objective_offsets = build_text_tables(rom, mapping)
     if with_text_index:
+        # 具名表已经拥有的字节：文本索引里仍然列出来（作者找得到），
+        # 但标记归属并跳过写回，免得两处改同一段字互相覆盖。
+        owned: dict[int, str] = {}
+        for table in texts:
+            for record in table.get("records", []):
+                offset = record.get("text_offset")
+                if offset is None or offset in owned:
+                    continue
+                owned[offset] = f"{table['id']}#{record['id']}"
         texts.append(build_dominant_text_index(rom, mapping,
-                                               exclude=objective_offsets))
+                                               exclude=objective_offsets,
+                                               owned=owned))
+
+    # 同一张表里，多条记录可能指向**同一段字节**（例如任务标题表里 27 个槽位
+    # 共用同一串全角空格）。那其实是**同一个字符串**，改一处必须一起改，
+    # 否则构建时后写的会覆盖先写的、改动凭空消失。
+    for table in texts:
+        by_offset: dict[int, list[int]] = {}
+        for record in table.get("records", []):
+            offset = record.get("text_offset")
+            if offset is None:
+                continue
+            by_offset.setdefault(offset, []).append(record["id"])
+        for record in table.get("records", []):
+            offset = record.get("text_offset")
+            if offset is None:
+                continue
+            shared = by_offset.get(offset, [])
+            if len(shared) > 1:
+                record["shared_with"] = [i for i in shared if i != record["id"]]
 
     # The encoder must emit the *canonical* code for a character: eight
     # characters are spelled by two codes and only the base-run spelling is
