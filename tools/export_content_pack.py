@@ -333,7 +333,7 @@ HIDE_EMPTY = {
 #
 # 战斗的「四件套」就是这样：战场布置 map_table 是按关卡编号的，
 # 角色出生点 / 战场物件 / 战斗目标按「关卡 × 变体 × 槽」编号，
-# 但它们讲的���是**同一关**。以前界面上这几张表互不相干，
+# 但它们讲的是**同一关**。以前界面上这几张表互不相干，
 # 作者在「战场物件」里改一个值，看不出它属于哪一关的哪一关卡。
 #
 # by = "stage"：按 index_scheme 里的关卡号对应（没有 index_scheme 的按记录下标）。
@@ -667,16 +667,41 @@ def make_structure(
 
 def character_template_fields() -> list[dict[str, Any]]:
     fields = [
-        F("flag_00", 0x00, 1, "u8", "标志00", "恒为 1，无原生读者", "头部"),
-        F("stat_a", 0x01, 1, "u8", "属性A 基础", "三项主属性之一，上限 99", "基础属性"),
-        F("stat_b", 0x02, 1, "u8", "属性B 基础", "三项主属性之一，上限 99", "基础属性"),
-        F("stat_c", 0x03, 1, "u8", "属性C 基础", "三项主属性之一，上限 99", "基础属性"),
-        F("stat_d", 0x04, 1, "u8", "属性D 基础", "上限 5", "基础属性"),
-        F("stat_e", 0x05, 1, "u8", "属性E 基础", "上限 9", "基础属性"),
-        F("stat_f", 0x06, 1, "u8", "属性F 基础", "上限 9", "基础属性"),
-        F("flag_07", 0x07, 1, "u8", "标志07", "恒为 0，无原生读者", "头部"),
-        F("aux_stat", 0x08, 2, "u16", "副属性", "运行时上限 999", "基础属性"),
-        F("hp_base", 0x0A, 2, "u16", "HP 基础", "运行时上限 999", "基础属性"),
+        F("flag_00", 0x00, 1, "u8", "标志 00",
+          "恒为 1；4 个消费者都不读它（notes/character-template-format-20261020.md 未解项 1）",
+          "头部"),
+        # 这六格以前叫「属性A~F」—— 界面上作者根本看不出是什么。
+        # 仓库自己的指令级分析证明了它们进运行时实例的哪个偏移
+        # （notes/character-template-format-20261020.md §2.2 的拷贝表），
+        # 名字来自第三方逆向 notes/character-stats-addresses.md。
+        # 两边的证据等级不同，所以标签写名字、说明写出处。
+        F("stat_a", 0x01, 1, "u8", "攻击力",
+          "运行时实例 +0x02。第三方逆向记作『攻击力』，仓库自己的指令级分析只证明它进实例 +0x02。上限 99",
+          "基础属性"),
+        F("stat_b", 0x02, 1, "u8", "防御力",
+          "运行时实例 +0x03。第三方逆向记作『防御力』。上限 99",
+          "基础属性"),
+        F("stat_c", 0x03, 1, "u8", "敏捷度",
+          "运行时实例 +0x04。第三方逆向记作『敏捷度』。上限 99",
+          "基础属性"),
+        F("stat_d", 0x04, 1, "u8", "移动力",
+          "运行时实例 +0x05。第三方逆向记作『移动力』。上限 5",
+          "基础属性"),
+        F("stat_e", 0x05, 1, "u8", "忍具数",
+          "运行时实例 +0x06。第三方逆向记作『忍具数』。上限 9",
+          "基础属性"),
+        F("stat_f", 0x06, 1, "u8", "查克拉",
+          "运行时实例 +0x08。第三方逆向记作『查克拉』。上限 9",
+          "基础属性"),
+        F("flag_07", 0x07, 1, "u8", "标志 07",
+          "恒为 0；4 个消费者都不读它（未解项 2）",
+          "头部"),
+        F("aux_stat", 0x08, 2, "u16", "副属性",
+          "运行时实例 +0x0A，u16 整体拷贝。第三方逆向观察到它与手印数相同。上限 999",
+          "基础属性"),
+        F("hp_base", 0x0A, 2, "u16", "体力（HP）基础",
+          "运行时实例 +0x0E = 体力上限；每级加 成长×(等级−1)÷100。上限 999",
+          "基础属性"),
     ]
     for i in range(15):
         base = 0x0C + i * 4
@@ -959,20 +984,32 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
          for i in range(CHARACTER_TEMPLATE_COUNT)),
         rom,
         note="每个角色 0xB4 字节。id 0 是空槽，1..62 是有效角色。"
-             "忍术列表 15 项、技能列表 24 项、道具槽 9 项。",
+             "忍术列表 15 项、技能列表 24 项、道具槽 9 项。"
+             "12 字节头里的六项属性在运行时实例里依次是 +0x02 / +0x03 / +0x04 / +0x05 / +0x06 / +0x08；"
+             "仓库自己的指令级分析证明了偏移"
+             "（notes/character-template-format-20261020.md §2.2 的拷贝表），"
+             "名字（攻击力 / 防御力 / 敏捷度 / 移动力 / 忍具数 / 查克拉）"
+             "来自第三方逆向 notes/character-stats-addresses.md —— 名字是第三方给的，不是本仓库证的。",
         id_relation={"table": "character_names", "kind": "text", "label": "角色名"},
         primary_columns=["stat_a", "stat_b", "stat_c", "hp_base", "aux_stat"],
         verification="L1 结构已证明 / 写回路径 tools/import_character_template.py",
     ))
 
     growth_fields = [
-        F("hp_gain", 0x00, 2, "u16", "HP 成长", "每级成长 ×100", "成长"),
-        F("stat_f_gain", 0x02, 2, "u16", "属性F 成长", "每级成长 ×100", "成长"),
-        F("stat_a_gain", 0x04, 2, "u16", "属性A 成长", "每级成长 ×100", "成长"),
-        F("stat_b_gain", 0x06, 2, "u16", "属性B 成长", "每级成长 ×100", "成长"),
-        F("stat_c_gain", 0x08, 2, "u16", "属性C 成长", "每级成长 ×100", "成长"),
-        F("stat_d_gain", 0x0A, 2, "u16", "属性D 成长", "每级成长 ×100", "成长"),
-        F("stat_e_gain", 0x0C, 2, "u16", "属性E 成长", "每级成长 ×100", "成长"),
+        F("hp_gain", 0x00, 2, "u16", "体力每级成长",
+          "×100 存，除以 100 后加到体力上（0x0806DA3A）", "成长"),
+        F("stat_f_gain", 0x02, 2, "u16", "查克拉每级成长",
+          "×100 存，除以 100 后加到查克拉（实例 +0x08）", "成长"),
+        F("stat_a_gain", 0x04, 2, "u16", "攻击力每级成长",
+          "×100 存，除以 100 后加到攻击力（实例 +0x02）", "成长"),
+        F("stat_b_gain", 0x06, 2, "u16", "防御力每级成长",
+          "×100 存，除以 100 后加到防御力（实例 +0x03）", "成长"),
+        F("stat_c_gain", 0x08, 2, "u16", "敏捷度每级成长",
+          "×100 存，除以 100 后加到敏捷度（实例 +0x04）", "成长"),
+        F("stat_d_gain", 0x0A, 2, "u16", "移动力每级成长",
+          "×100 存，除以 100 后加到移动力（实例 +0x05）", "成长"),
+        F("stat_e_gain", 0x0C, 2, "u16", "忍具数每级成长",
+          "×100 存，除以 100 后加到忍具数（实例 +0x06）", "成长"),
         F("unused", 0x0E, 2, "u16", "未使用", "恒为 0", "成长"),
     ]
     out.append(make_structure(
@@ -982,7 +1019,10 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         (PER_CHARACTER_STATS_BASE + i * PER_CHARACTER_STATS_STRIDE
          for i in range(PER_CHARACTER_STATS_COUNT)),
         rom,
-        note="每级数值 = 基础 + 成长 ×(等级−1) ÷ 100（整数除法）。",
+        note="每级数值 = 基础 + 成长 ×(等级−1) ÷ 100（整数除法）。"
+             "成长项的名字跟角色定义表的六项属性一一对应"
+             "（体力 / 攻击力 / 防御力 / 敏捷度 / 移动力 / 忍具数 / 查克拉），"
+             "名字同样出自第三方逆向 notes/character-stats-addresses.md。",
         id_relation={"table": "character_names", "kind": "text", "label": "角色名"},
         primary_columns=["hp_gain", "stat_a_gain", "stat_b_gain", "stat_c_gain"],
         verification="L1 结构已证明 / 写回路径 tools/import_character_template.py",
@@ -990,12 +1030,13 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
 
     perk_fields = [
         F("kind", 0x00, 1, "u8", "特性类型", "决定效果分支（0x0D..0x13 出现过），语义未解", "特性"),
-        F("unused_01", 0x01, 1, "u8", "未使用", "", "特性"),
+        F("unused_01", 0x01, 1, "u8", "未使用 +0x01", "恒为 0", "特性"),
         F("base", 0x02, 2, "u16", "基础值", "特性基础数值", "特性"),
         F("secondary", 0x04, 2, "u16", "次要值", "原生 0x0806DDF6 读取", "特性"),
         F("growth", 0x06, 2, "u16", "每级成长", "总成长 = 基础 + 成长×(等级值−1)", "特性"),
-        F("extra_stat", 0x08, 2, "u16", "附加属性", "", "特性"),
-        F("unused_0a", 0x0A, 2, "u16", "未使用", "", "特性"),
+        F("extra_stat", 0x08, 2, "u16", "附加属性",
+          "语义未解（notes/completion-audit-20261020.md 未解项 8）", "特性"),
+        F("unused_0a", 0x0A, 2, "u16", "未使用 +0x0A", "恒为 0", "特性"),
     ]
     out.append(make_structure(
         "character_perks", "characters", "角色特性表（技能）",
@@ -1031,10 +1072,10 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
 
     piece_fields = [
         F("tile", 0x00, 4, "u32", "图块下标", "0xFFFF = 结束标记", "拼块"),
-        F("x", 0x04, 2, "u16", "目标 X", "", "拼块"),
-        F("y", 0x06, 2, "u16", "目标 Y", "", "拼块"),
-        F("w", 0x08, 2, "u16", "宽度(px)", "", "拼块"),
-        F("h", 0x0A, 2, "u16", "高度(px)", "", "拼块"),
+        F("x", 0x04, 2, "u16", "目标 X", "这块拼在头像的哪个 X 位置（像素）", "拼块"),
+        F("y", 0x06, 2, "u16", "目标 Y", "这块拼在头像的哪个 Y 位置（像素）", "拼块"),
+        F("w", 0x08, 2, "u16", "宽度（像素）", "这块占多宽", "拼块"),
+        F("h", 0x0A, 2, "u16", "高度（像素）", "这块占多高", "拼块"),
     ]
     out.append(make_structure(
         "portrait_pieces", "characters", "头像拼块表",
@@ -1049,8 +1090,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
 
     # ---- 忍术 -----------------------------------------------------------
     jutsu_fields = [
-        F("unknown_00", 0x00, 1, "u8", "未知00", "复制到已习得忍术记录 +0x04，语义未解", "记录"),
-        F("unknown_01", 0x01, 1, "u8", "未知01", "复制到已习得忍术记录 +0x05，语义未解", "记录"),
+        F("unknown_00", 0x00, 1, "u8", "未解字节 +0x00", "复制到已习得忍术记录 +0x04，语义未解", "记录"),
+        F("unknown_01", 0x01, 1, "u8", "未解字节 +0x01", "复制到已习得忍术记录 +0x05，语义未解", "记录"),
         F("flags", 0x02, 2, "u16", "标志位",
           "&0x1800>>5 → 0..0xC0 等级/点数；高字节在仓库里另被标为「未解」", "记录"),
     ]
@@ -1059,22 +1100,26 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         # `growth_type` 的取值 1..6 指向的就是这六个字节，而它们自己的下标是 0 基，
         # 两套编号相反会让作者把「成长目标=4」当成 grow_4（其实是 grow_3）。
         jutsu_fields.append(F(f"grow_{i}", 0x04 + i, 1, "u8", f"成长目标{i + 1}",
-                              f"字节 +0x{0x04 + i:02X}：随等级成长的初值", "成长"))
+                              f"字节 +0x{0x04 + i:02X}：随等级成长的初值；"
+                              f"由下面的「成长目标」字段选中（1..6 指到这里）", "成长"))
     jutsu_fields += [
-        F("unknown_0a", 0x0A, 1, "u8", "未知0A", "", "记录"),
-        F("unknown_0b", 0x0B, 1, "u8", "未知0B", "", "记录"),
+        F("unknown_0a", 0x0A, 1, "u8", "未解字节 +0x0A",
+          "语义未解（notes/completion-audit-20261020.md 未解项 8）", "记录"),
+        F("unknown_0b", 0x0B, 1, "u8", "未解字节 +0x0B",
+          "语义未解（未解项 8）", "记录"),
         F("growth_type", 0x0C, 1, "u8", "成长目标",
           "0/7 = 不成长；1..6 指向上面的成长目标1..6", "成长",
           enum={0: "不成长", 7: "不成长", 1: "成长目标1（+0x04）",
                 2: "成长目标2（+0x05）", 3: "成长目标3（+0x06）",
                 4: "成长目标4（+0x07）", 5: "成长目标5（+0x08）",
                 6: "成长目标6（+0x09）"}),
-        F("unknown_0d", 0x0D, 1, "u8", "未知0D", "", "记录"),
+        F("unknown_0d", 0x0D, 1, "u8", "未解字节 +0x0D",
+          "语义未解（未解项 8）", "记录"),
         F("growth_amount", 0x0E, 1, "u8", "每级成长量",
           "值 = (等级−1) × 本值；实测 87 条记录中 +0x0F 恒为 0，"
           "所以本字段是单字节（仓库里把 +0x0E 记成 u16 属高字节恒零的等价写法）",
           "成长"),
-        F("pad_0f", 0x0F, 1, "u8", "填充0F", "实测 87 条记录恒为 0", "记录"),
+        F("pad_0f", 0x0F, 1, "u8", "填充 +0x0F", "实测 87 条记录恒为 0", "记录"),
     ]
     out.append(make_structure(
         "jutsu_record", "ninjutsu", "忍术记录表",
@@ -1088,8 +1133,11 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     ))
 
     # ---- 道具 -----------------------------------------------------------
-    item_fields = [F(f"raw_{i:02x}", i, 1, "hex", f"字节{i:02X}",
-                     "16 字节的字段语义尚未证明，按原始字节编辑", "原始字节")
+    # 标签跟包里其它未解码字节统一（「未解字节 +0xNN」），
+    # 免得作者以为「字节00」是某种编号。
+    item_fields = [F(f"raw_{i:02x}", i, 1, "hex", f"未解字节 +0x{i:02X}",
+                     "16 字节的字段语义尚未证明（7 个原生读者，见 notes/completion-audit-20261020.md）；"
+                     "按原始字节编辑", "原始字节")
                    for i in range(16)]
     out.append(make_structure(
         "item_record", "items", "道具/忍具记录表",
@@ -1122,8 +1170,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
                         "categories": REWARD_CATEGORY_TABLES}),
         ]
     reward_fields += [
-        F("reserved_16", 0x16, 1, "u8", "保留16", "恒为 0，无消费者", "保留"),
-        F("reserved_17", 0x17, 1, "u8", "保留17", "恒为 0，无消费者", "保留"),
+        F("reserved_16", 0x16, 1, "u8", "保留 +0x16", "恒为 0，没有消费者读它", "保留"),
+        F("reserved_17", 0x17, 1, "u8", "保留 +0x17", "恒为 0，没有消费者读它", "保留"),
     ]
     out.append(make_structure(
         "reward_table", "items", "奖励表",
@@ -1195,8 +1243,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         F("type", 0x00, 1, "u8", "物件类型",
           "决定外观与音效", "物件", enum=OBJECT_TYPE_ENUMS),
         F("target", 0x01, 1, "u8", "触发目标", "决定触发的剧本（13 项效果表）", "物件"),
-        F("x", 0x02, 1, "u8", "X", "", "物件"),
-        F("y", 0x03, 1, "u8", "Y", "", "物件"),
+        F("x", 0x02, 1, "u8", "X 坐标", "物件所在的 X 坐标（格）", "物件"),
+        F("y", 0x03, 1, "u8", "Y 坐标", "物件所在的 Y 坐标（格）", "物件"),
     ]
     object_offsets = []
     for g in range(BATTLE_GROUP_COUNT):
@@ -1228,10 +1276,14 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
                   "原生语义见 notes/battle-tables.md §1.1.1",
                   label, "rules", group * 4 + k, "type",
                   enum=CONDITION_TYPE_ENUMS),
-                F(f"g{group}_{k}_a", base + 1, 1, "u8", f"{label}{k} 参数A", "", label,
-                  "rules", group * 4 + k, "a"),
+                F(f"g{group}_{k}_a", base + 1, 1, "u8", f"{label}{k} 参数A",
+                  "含义随类型而变：1 = 1 我方胜 / 0 我方负；3 = 阵营；"
+                  "6 = 道具序号；7/8/9 = 0 我方 / 1 对方。类型 2 不读它。"
+                  "逐类型的原生语义见 notes/battle-tables.md §1.1",
+                  label, "rules", group * 4 + k, "a"),
                 F(f"g{group}_{k}_b", base + 2, 1, "u8", f"{label}{k} 参数B",
-                  "类型 3 时是角色 id", label, "rules", group * 4 + k, "b",
+                  "类型 3 = 角色 id（判据在 0x020240C0 的 12 个单位槽）；"
+                  "类型 2 不读它", label, "rules", group * 4 + k, "b",
                   relation={"table": "character_names", "kind": "text", "label": "角色名",
                             "when": "type=3"}),
                 F(f"g{group}_{k}_c", base + 3, 1, "u8", f"{label}{k} 参数C", "恒为 0", label,
@@ -1248,15 +1300,24 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         "battle_rules", "battle", "战斗目标（胜负条件）",
         BATTLE_RULES_BASE, BATTLE_RULE_SUB_STRIDE, rule_fields,
         rule_offsets, rom,
-        note="47 关 × 3 变体 × 0x44 字节。index = 关卡 s / 变体 u。",
+        note="47 关 × 3 变体 × 0x44 字节。index = 关卡 s / 变体 u。"
+             "每条记录 2 组条件（胜利 / 失败）× 4 条，每条 8 字节："
+             "类型 u8、参数 A/B/C 各 u8、说明文字指针 u32。"
+             "类型的原生语义：1 = 击破敌方全部 / 我方全灭（a=1 胜 / 0 负）；"
+             "2 = 回合用尽（**代码完全不读 a/b**）；"
+             "3 = 指定角色已离场（a=阵营、b=角色 id）；"
+             "6 = 获得指定道具（a=道具序号）；"
+             "7 = 剩余体力比较、8 = 击杀数比较、9 = 收集物数量比较（a=0 我方 / 1 对方）。"
+             "逐条的原生语义与证据见 notes/battle-tables.md §1.1。",
         primary_columns=["turn_limit"],
         verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
     encounter_fields = [
-        F("ptr_0", 0x00, 4, "ptr", "指针0", "消费者只取其低字节作下标", "遭遇"),
-        F("ptr_1", 0x04, 4, "ptr", "指针1", "无原生读者", "遭遇"),
-        F("ptr_2", 0x08, 4, "ptr", "指针2", "无原生读者", "遭遇"),
+        F("ptr_0", 0x00, 4, "ptr", "指针 0（效果表下标）",
+          "消费者只取它的低字节作 13 项效果表的下标", "遭遇"),
+        F("ptr_1", 0x04, 4, "ptr", "指针 1", "没有原生读者读它", "遭遇"),
+        F("ptr_2", 0x08, 4, "ptr", "指针 2", "没有原生读者读它", "遭遇"),
         F("entry_id", 0x0C, 4, "u32", "遭遇ID", "两个原生读者都读这一项", "遭遇"),
     ]
     out.append(make_structure(
@@ -1350,8 +1411,14 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     ))
 
     sprite_fields = []
-    for i, name in enumerate(("frames_ptr", "animations_ptr", "gfx_ptr", "palette_ptr")):
-        sprite_fields.append(F(name, i * 4, 4, "ptr", name, "精灵资源指针", "指针"))
+    sprite_ptr_labels = (
+        ("frames_ptr", "帧指针", "精灵帧描述符表（精灵帧描述符表 0x53EE98）"),
+        ("animations_ptr", "动画指针", "动画数据块"),
+        ("gfx_ptr", "图块图形", "LZ77 图形"),
+        ("palette_ptr", "调色板", "调色板"),
+    )
+    for i, (name, label, desc) in enumerate(sprite_ptr_labels):
+        sprite_fields.append(F(name, i * 4, 4, "ptr", label, desc, "指针"))
     out.append(make_structure(
         "sprite_action_table", "battle", "精灵动作表",
         SPRITE_ACTION_BASE, SPRITE_ACTION_STRIDE, sprite_fields,
@@ -1367,7 +1434,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     background_fields = [
         F("gfx_ptr", 0x00, 4, "ptr", "图块图形", "LZ77 图形", "背景"),
         F("palette_ptr", 0x04, 4, "ptr", "调色板", "LZ77 384 字节", "背景"),
-        F("tilemap_ptr", 0x08, 4, "ptr", "tilemap", "LZ77 640 字节（32×32）", "背景"),
+        F("tilemap_ptr", 0x08, 4, "ptr", "tilemap 图层",
+          "LZ77 640 字节（32×32 的图层数据）", "背景"),
         F("bpp_flag", 0x0C, 4, "u32", "色深标志", "0 = 4bpp，1 = 8bpp", "背景"),
     ]
     out.append(make_structure(
@@ -1432,7 +1500,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     font_fields = [
         F("start_code", 0x00, 2, "u16", "起始码", "本段第一个字形码", "字形段"),
         F("count", 0x02, 1, "u8", "字数", "本段字形数量", "字形段"),
-        F("pad", 0x03, 1, "u8", "填充", "", "字形段"),
+        F("pad", 0x03, 1, "u8", "填充 +0x03", "对齐用的填充字节", "字形段"),
         F("glyph_offset", 0x04, 4, "ptr", "字形偏移", "ROM 指针，每字形 32 字节（8×8 4bpp）", "字形段"),
     ]
     out.append(make_structure(
@@ -1561,8 +1629,10 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     ))
 
     handler_fields = [
-        F("handler_a", 0x00, 4, "ptr", "处理程序 A", "", "分派", ptr_kind="code"),
-        F("handler_b", 0x04, 4, "ptr", "处理程序 B", "", "分派", ptr_kind="code"),
+        F("handler_a", 0x00, 4, "ptr", "处理程序 A",
+          "本条事件的第一个处理程序（代码地址）", "分派", ptr_kind="code"),
+        F("handler_b", 0x04, 4, "ptr", "处理程序 B",
+          "本条事件的第二个处理程序（代码地址）", "分派", ptr_kind="code"),
     ]
     out.append(make_structure(
         "battle_handler_table", "battle", "战斗/地图事件处理程序分派表",
@@ -1627,16 +1697,19 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         ))
 
     asset_fields = [
-        F("head", 0x00, 12, "hex", "头部", "未解码的 12 字节", "资源记录"),
+        F("head", 0x00, 12, "hex", "未解头部 +0x00", "未解码的 12 字节，原样保留", "资源记录"),
     ]
     for t in range(6):
         asset_fields.append(F(f"tile_ptr_{t}", 0x0C + t * 4, 4, "ptr",
-                               f"图块指针{t}", "", "图块",
+                               f"图块指针 {t + 1}",
+                               "指向一份图块资源（载荷不可改，改的是「用哪一份」）", "图块",
                                array="gfx", index=t, item="ptr"))
-    asset_fields.append(F("mid", 0x24, 4, "hex", "中间字段", "未解码", "资源记录"))
+    asset_fields.append(F("mid", 0x24, 4, "hex", "未解中段 +0x24",
+                          "未解码的 4 字节，原样保留", "资源记录"))
     for s in range(3):
         asset_fields.append(F(f"script_ptr_{s}", 0x28 + s * 4, 4, "ptr",
-                               f"脚本指针{s}", "", "脚本",
+                               f"脚本指针 {s + 1}",
+                               "指向一段脚本资源（载荷不可改，改的是「用哪一份」）", "脚本",
                                array="script", index=s, item="ptr"))
     out.append(make_structure(
         "tile_asset_records", "assets", "图块/精灵资源记录表",

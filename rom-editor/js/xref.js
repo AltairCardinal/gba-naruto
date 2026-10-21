@@ -160,7 +160,7 @@ function buildSourceIndex(pack) {
     }
   }
 
-  // --- 1. 声明了关系���字段 ------------------------------------------------
+  // --- 1. 声明了关系的字段 -----------------------------------------------
   for (const structure of pack.structures || []) {
     for (const field of structure.fields || []) {
       const relation = field.relation;
