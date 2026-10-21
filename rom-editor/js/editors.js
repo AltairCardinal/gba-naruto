@@ -5,10 +5,22 @@
 // describes it — no new UI code.  The per-domain modules (剧情 / 道具 /
 // 角色 / 忍术 / 战斗 / 路线) are curated views that pick the structures they
 // care about and add domain-specific framing.
+//
+// The editors are driven by the *semantics the pack carries*:
+//   * `field.group`    → the record is presented as collapsible sections
+//   * `field.enum`     → a bare 0/1 becomes 我方/敌方
+//   * `field.relation` → an id is shown with the name it points at
+//   * `structure.raw_only` → a table nobody decoded is one hex box, not 16
+// (see js/fields.js for the metadata layer itself.)
 
 import { el, clear, formatHex32, formatOffset, toast } from './ui.js';
-import { readField, writeField } from './pack.js';
-import { bytesToBase64, base64ToBytes, bytesToHex, ROM_BASE } from './bytes.js';
+import { readField } from './pack.js';
+import { bytesToBase64, base64ToBytes, bytesToHex } from './bytes.js';
+import {
+  fieldControl, fieldHint, groupFields, isRawOnly, originalValue, resolveRelation,
+  resolveByCategory, enumLabel,
+} from './fields.js';
+import { arraysIn, renderArrayTable, columnLabel, arrayFields } from './slots.js';
 
 const MAX_COLUMNS = 6;
 
@@ -26,6 +38,33 @@ export class StructureEditor {
     this.selected = null;
     this.columns = options.columns || defaultColumns(structure);
     this.onChange = options.onChange || (() => {});
+    /** 分组折叠状态：默认展开「有主列的分组」与「第一张槽位表」。 */
+    this.collapsed = new Set();
+    this.groups = groupFields(structure.fields);
+    this.refreshers = [];
+    this.openDefaultGroups(structure);
+    this.jumpTo = '';
+  }
+
+  /**
+   * Which groups are open when a record is first shown.
+   *
+   * Opening *everything* would put the author back into the 175-row form, and
+   * opening *nothing* would show an empty panel.  The rule: open the groups
+   * that carry the structure's primary columns (the author comes here to
+   * change those); everything else stays collapsed, with its size in the
+   * section header so nothing is hidden invisibly.
+   */
+  openDefaultGroups(structure) {
+    const primary = new Set(structure.primary_columns || []);
+    const withPrimary = this.groups.filter((g) =>
+      g.fields.some((f) => primary.has(f.key)));
+    const open = new Set();
+    for (const group of withPrimary) open.add(group.name);
+    if (!open.size && this.groups.length) open.add(this.groups[0].name);
+    for (const group of this.groups) {
+      if (!open.has(group.name)) this.collapsed.add(group.name);
+    }
   }
 
   get records() {
@@ -34,11 +73,18 @@ export class StructureEditor {
     const q = this.query.toLowerCase();
     return all.filter((r) => {
       if (String(r.id).toLowerCase().includes(q)) return true;
-      if (r.label && String(r.label).toLowerCase().includes(q)) return true;
+      if (r.label && String(r.label).includes(q)) return true;
       return (r.values ? Object.values(r.values) : []).some(
         (v) => String(v).toLowerCase().includes(q)
       );
     });
+  }
+
+  /** 这条记录相对原版是否被改过。 */
+  isDirty(record) {
+    const bytes = this.pack.recordBytes(this.structure, record);
+    const raw = base64ToBytes(record.raw || '');
+    return bytesToBase64(bytes) !== bytesToBase64(raw);
   }
 
   render(container) {
@@ -64,6 +110,23 @@ export class StructureEditor {
           oninput: (e) => {
             this.query = e.target.value;
             this.renderTable();
+          },
+        }),
+        el('input', {
+          class: 'num-input',
+          type: 'text',
+          style: { width: '86px' },
+          placeholder: '跳到 id',
+          value: this.jumpTo,
+          onchange: (e) => {
+            this.jumpTo = e.target.value;
+            const id = Number(e.target.value);
+            const record = (structure.records || []).find((r) => r.id === id);
+            if (!record) {
+              toast(`没有 id 为 ${e.target.value} 的记录`, 'error');
+              return;
+            }
+            this.openDetail(record);
           },
         }),
         el('button', {
@@ -103,16 +166,17 @@ export class StructureEditor {
     const body = el('tbody');
     const records = this.records;
     for (const record of records) {
+      const dirty = this.isDirty(record);
       const row = el('tr', {
         onclick: () => this.openDetail(record),
-        class: this.selected === record ? 'selected' : '',
+        class: (this.selected === record ? 'selected' : '') + (dirty ? ' changed' : ''),
       }, [
         el('td', { class: 'col-id', text: String(record.label ?? record.id) }),
-        ...fields.map((f) => el('td', { text: formatCell(record, f) })),
+        ...fields.map((f) => el('td', { text: this.formatCell(record, f) })),
         el('td', { class: 'col-actions' }, [
           el('button', {
             class: 'btn btn-tiny',
-            text: '编辑',
+            text: dirty ? '已改' : '编辑',
             onclick: (e) => {
               e.stopPropagation();
               this.openDetail(record);
@@ -127,35 +191,77 @@ export class StructureEditor {
     if (!records.length) {
       this.tableWrap.appendChild(el('div', { class: 'empty', text: '没有匹配的记录' }));
     }
+    const dirtyCount = (structure.records || []).filter((r) => this.isDirty(r)).length;
     this.tableWrap.appendChild(
-      el('div', { class: 'table-foot', text: `显示 ${records.length} / ${(structure.records || []).length} 条` })
+      el('div', { class: 'table-foot' }, [
+        el('span', { text: `显示 ${records.length} / ${(structure.records || []).length} 条` }),
+        dirtyCount ? el('span', { class: 'tag tag-warn', text: `已改 ${dirtyCount} 条` }) : null,
+      ])
     );
+  }
+
+  /**
+   * The cell text: numbers as numbers, pointers as hex, and — when the field
+   * points at another table — the *name* it points at, not the raw id.
+   */
+  formatCell(record, field) {
+    const value = record.values ? record.values[field.key] : undefined;
+    if (value === undefined || value === null) return '';
+    if (field.type === 'ptr') return formatHex32(value);
+    if (field.type === 'hex') {
+      const text = String(value);
+      return text.slice(0, 12) + (text.length > 12 ? '…' : '');
+    }
+    const label = enumLabel(field, value);
+    if (label) return `${value} · ${label}`;
+    const hit = resolveByCategory(this.pack, this.structure, field, record) ||
+      resolveRelation(this.pack, field.relation, value);
+    if (hit) return `${value} · ${hit.name}`;
+    return String(value);
   }
 
   openDetail(record) {
     this.selected = record;
+    this.refreshers = [];
     clear(this.detail);
     this.detail.classList.remove('hidden');
     const structure = this.structure;
 
     this.detail.appendChild(el('div', { class: 'detail-head' }, [
       el('h3', { text: `${structure.label || structure.id} · ${record.label ?? record.id}` }),
-      el('button', {
-        class: 'btn btn-ghost',
-        text: '✕',
-        onclick: () => {
-          this.detail.classList.add('hidden');
-          this.selected = null;
-          this.renderTable();
-        },
-      }),
+      el('div', { class: 'detail-nav' }, [
+        el('button', {
+          class: 'btn btn-tiny', text: '← 上一条',
+          onclick: () => this.step(-1),
+        }),
+        el('button', {
+          class: 'btn btn-tiny', text: '下一条 →',
+          onclick: () => this.step(1),
+        }),
+        el('button', {
+          class: 'btn btn-ghost', text: '✕',
+          onclick: () => {
+            this.detail.classList.add('hidden');
+            this.selected = null;
+            this.renderTable();
+          },
+        }),
+      ]),
     ]));
 
-    this.detail.appendChild(el('div', { class: 'detail-sub', text: `ROM ${formatOffset(record.rom_offset)}` }));
+    this.detail.appendChild(el('div', { class: 'detail-sub' }, [
+      el('span', { text: `ROM ${formatOffset(record.rom_offset)}` }),
+      el('span', { text: `第 ${record.id + 1} / ${(structure.records || []).length} 条` }),
+      this.isDirty(record) ? el('span', { class: 'tag tag-warn', text: '已改动' }) : null,
+    ]));
 
     const form = el('div', { class: 'field-list' });
-    for (const field of structure.fields || []) {
-      form.appendChild(this.renderField(record, field));
+    if (isRawOnly(structure)) {
+      form.appendChild(this.renderRawRecord(record));
+    } else {
+      for (const group of this.groups) {
+        form.appendChild(this.renderGroup(group, record));
+      }
     }
     this.detail.appendChild(form);
 
@@ -188,83 +294,162 @@ export class StructureEditor {
     ]));
   }
 
+  /** Move to the previous / next record. */
+  step(delta) {
+    const records = this.structure.records || [];
+    if (!this.selected) {
+      if (records.length) this.openDetail(records[0]);
+      return;
+    }
+    const at = records.indexOf(this.selected);
+    const next = records[at + delta];
+    if (!next) {
+      toast(delta > 0 ? '已经是最后一条了' : '已经是第一条了', 'error');
+      return;
+    }
+    this.openDetail(next);
+  }
+
+  /** One collapsible section: a group of fields. */
+  renderGroup(group, record) {
+    const collapsed = this.collapsed.has(group.name);
+    const section = el('div', { class: 'group' + (collapsed ? ' collapsed' : '') });
+    const head = el('button', {
+      class: 'group-head',
+      onclick: () => {
+        if (this.collapsed.has(group.name)) this.collapsed.delete(group.name);
+        else this.collapsed.add(group.name);
+        this.openDetail(record);
+      },
+    }, [
+      el('span', { class: 'group-caret', text: collapsed ? '▸' : '▾' }),
+      el('span', { class: 'group-name', text: group.name }),
+      el('span', { class: 'group-count', text: `${group.fields.length} 项` }),
+    ]);
+    section.appendChild(head);
+    if (!collapsed) {
+      const body = el('div', { class: 'group-body' });
+      // 重复槽位（忍术 15 / 技能 24 / 奖励 8 / 条件 4 …）渲染成一张表，
+      // 而不是 N×M 个输入框。
+      const arrays = arraysIn(group.fields);
+      const inArray = arrayFields(arrays);
+      for (const array of arrays) {
+        body.appendChild(el('div', { class: 'slot-block' }, [
+          el('div', { class: 'slot-caption', text: `${columnLabel(array.name, 'id')}列表（${array.rows.size} 项）` }),
+          renderArrayTable(this.fieldContext(), this.structure, record, array),
+        ]));
+      }
+      for (const field of group.fields) {
+        if (inArray.has(field)) continue;
+        body.appendChild(this.renderField(record, field));
+      }
+      section.appendChild(body);
+    }
+    return section;
+  }
+
+  /**
+   * The context handed to the shared field controls.
+   *
+   * `onCommit` runs after a value is written: it refreshes the *local*
+   * markers (the 「已改」 tag, the 原值 line, the slot table hints) and the
+   * record list, without rebuilding the whole detail panel — rebuilding it
+   * would throw away the author's focus and scroll position.
+   */
+  fieldContext() {
+    return {
+      pack: this.pack,
+      onChange: this.onChange,
+      onCommit: () => {
+        for (const refresh of this.refreshers) refresh();
+        this.renderTable();
+      },
+      registerRefresh: (fn) => this.refreshers.push(fn),
+    };
+  }
+
+  /** Register a local refresher (called after every commit). */
+  registerRefresh(fn) {
+    this.refreshers.push(fn);
+  }
+
   renderField(record, field) {
     const structure = this.structure;
-    const value = record.values ? record.values[field.key] : undefined;
     const wrapper = el('div', { class: 'field' });
-
     const label = el('label', { class: 'field-label' }, [
       el('span', { text: field.label || field.key }),
-      el('span', { class: 'field-offset', text: `+${formatOffset(field.offset)}` }),
     ]);
+    const marker = el('span', { class: 'tag tag-warn', text: '已改' });
+    const offset = el('span', { class: 'field-offset', text: `+${formatOffset(field.offset)}` });
+    label.appendChild(marker);
+    label.appendChild(offset);
 
-    let control;
-    const commit = (raw) => {
-      let parsed = raw;
-      if (field.type === 'u8' || field.type === 'u16' || field.type === 's16' ||
-          field.type === 'u32' || field.type === 's32') {
-        parsed = Number(raw);
-        if (!Number.isFinite(parsed)) {
-          toast('请输入数字', 'error');
-          return;
-        }
-      } else if (field.type === 'ptr') {
-        parsed = Number(raw);
-        if (!Number.isFinite(parsed)) {
-          toast('请输入数字或 0', 'error');
-          return;
-        }
-        if (parsed !== 0 && (parsed < ROM_BASE || parsed >= ROM_BASE + 0x600000)) {
-          toast('指针必须为 0 或落在 0x08000000–0x085FFFFF 内', 'error');
-          return;
-        }
-      } else if (field.type === 'hex') {
-        const clean = String(raw).replace(/[^0-9a-fA-F]/g, '');
-        if (clean.length % 2) {
-          toast('十六进制长度必须是偶数', 'error');
-          return;
-        }
-        if (field.size !== undefined && clean.length !== field.size * 2) {
-          toast(`该字段固定 ${field.size} 字节（${field.size * 2} 个十六进制字符）`, 'error');
-          return;
-        }
-        parsed = clean;
-      }
-      this.pack.setValue(structure, record, field.key, parsed);
-      this.renderTable();
-      this.onChange();
+    const { node } = fieldControl(
+      this.fieldContext(), structure, record, field);
+    const hintLine = el('div', { class: 'field-hint' });
+
+    const refresh = () => {
+      const original = originalValue(structure, record, field);
+      const current = record.values ? record.values[field.key] : undefined;
+      const changed = JSON.stringify(original) !== JSON.stringify(current);
+      wrapper.classList.toggle('field-changed', changed);
+      marker.classList.toggle('hidden', !changed);
+      const lines = fieldHint(this.pack, structure, record, field);
+      if (changed) lines.push(`原值 ${original}`);
+      hintLine.textContent = lines.join(' · ');
     };
-
-    if (field.type === 'hex') {
-      control = el('textarea', {
-        class: 'hex-input',
-        rows: 2,
-        spellcheck: 'false',
-        value: value === undefined ? '' : String(value),
-        onchange: (e) => commit(e.target.value),
-      });
-    } else {
-      control = el('input', {
-        class: 'num-input',
-        type: 'text',
-        spellcheck: 'false',
-        value: value === undefined ? '' : String(value),
-        onchange: (e) => commit(e.target.value),
-      });
-    }
-
-    const hint = [];
-    if (field.type === 'ptr' && value) {
-      hint.push(`文件偏移 ${formatOffset(value - ROM_BASE)}`);
-    }
-    if (field.desc) hint.push(field.desc);
+    this.registerRefresh(refresh);
+    refresh();
 
     wrapper.appendChild(label);
-    wrapper.appendChild(control);
-    if (hint.length) {
-      wrapper.appendChild(el('div', { class: 'field-hint', text: hint.join(' · ') }));
-    }
+    wrapper.appendChild(node);
+    wrapper.appendChild(hintLine);
     return wrapper;
+  }
+
+  /**
+   * A record whose fields nobody decoded: one hex box for the whole record
+   * instead of sixteen one-byte boxes.
+   */
+  renderRawRecord(record) {
+    const structure = this.structure;
+    const fields = structure.fields || [];
+    const bytes = base64ToBytes(record.raw || '');
+    const hex = bytesToHex(bytes);
+    const area = el('textarea', {
+      class: 'hex-input',
+      rows: 4,
+      spellcheck: 'false',
+      value: hex,
+      onchange: (e) => {
+        const clean = String(e.target.value).replace(/[^0-9a-fA-F]/g, '');
+        if (clean.length !== hex.length) {
+          toast(`这条记录固定 ${hex.length / 2} 字节（${hex.length} 个十六进制字符）`, 'error');
+          e.target.value = hex;
+          return;
+        }
+        const next = base64ToBytes(clean);
+        for (let i = 0; i < fields.length; i++) {
+          const field = fields[i];
+          const value = readField(next, field);
+          this.pack.setValue(structure, record, field.key, value);
+        }
+        this.openDetail(record);
+        this.renderTable();
+        this.onChange();
+      },
+    });
+    return el('div', { class: 'field field-raw' }, [
+      el('label', { class: 'field-label' }, [
+        el('span', { text: '整条记录的字节' }),
+        el('span', { class: 'field-offset', text: `${bytes.length} 字节` }),
+      ]),
+      area,
+      el('div', { class: 'field-hint' }, [
+        '这张表的字段语义**尚未证明**，所以整条记录按原始字节编辑；',
+        '改这里等于直接改 ROM 里的这串字节。',
+      ]),
+    ]);
   }
 
   openColumnPicker() {
@@ -515,12 +700,4 @@ export function defaultColumns(structure) {
   const picked = preferred.filter((key) => fields.some((f) => f.key === key));
   if (picked.length) return picked.slice(0, MAX_COLUMNS);
   return fields.slice(0, 5).map((f) => f.key);
-}
-
-function formatCell(record, field) {
-  const value = record.values ? record.values[field.key] : undefined;
-  if (value === undefined || value === null) return '';
-  if (field.type === 'ptr') return formatHex32(value);
-  if (field.type === 'hex') return String(value).slice(0, 12) + (String(value).length > 12 ? '…' : '');
-  return String(value);
 }

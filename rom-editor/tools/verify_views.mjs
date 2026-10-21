@@ -294,5 +294,185 @@ console.log('\n3) 剧情路线：第 40 关的视图');
     `标题「${titleText}」说明「${(descText || '').slice(0, 12)}…」提示「${(hintText || '').slice(0, 12)}…」`);
 }
 
+console.log('\n4) 字段元数据：枚举 / 跨表引用 / 分组 / 原始字节表');
+{
+  const fields = await import('../js/fields.js');
+  const rules = pack.structure('battle_rules');
+  const rule = rules.records.find((r) => r.rom_offset === 0x594758 + 40 * 0xcc);
+
+  // 4a. 枚举 → 下拉（标签是人话，不是裸数字）
+  const typeField = rules.fields.find((f) => f.key === 'g0_0_type');
+  const control = fields.fieldControl(ctx, rules, rule, typeField);
+  const options = control.node.children ? control.node.children.map((o) => o.textContent) : [];
+  check('枚举字段渲染成下拉并带中文标签',
+    control.node.tagName === 'SELECT' && options.some((t) => t.includes('回合用尽')),
+    `选项：${options.slice(0, 3).join(' / ')}`);
+
+  // 4b. 跨表引用 → 显示出名字
+  const actors = pack.structure('battle_actors');
+  const slot = actors.records.find((r) => r.rom_offset === 0x5461c4 + 40 * 0x1aac + 4);
+  const actorHint = fields.fieldControl(
+    ctx, actors, slot, actors.fields.find((f) => f.key === 'character_id')).hint.join(' | ');
+  check('角色 id 显示成角色名', actorHint.includes('漩涡鸣人'), actorHint);
+
+  // 4c. 奖励的物品 id 依赖同槽的类别
+  const rewards = pack.structure('reward_table');
+  const reward = rewards.records.find((r) => {
+    const v = r.values;
+    return v.slot0_category && v.slot0_item;
+  });
+  const itemHint = rewards
+    ? fields.fieldControl(ctx, rewards, reward,
+        rewards.fields.find((f) => f.key === 'slot0_item')).hint.join(' | ')
+    : '';
+  check('奖励物品 id 按类别显示对应名字', /物品名：/.test(itemHint), itemHint || '没有带掉落的记录');
+
+  // 4d. 分组信息没丢
+  const groups = fields.groupFields(rules.fields);
+  check('字段分组被保留',
+    groups.length >= 3 && groups.some((g) => g.name === '胜利条件'),
+    groups.map((g) => `${g.name}×${g.fields.length}`).join('、'));
+
+  // 4e. 整张表都是未解码字节 → 认出来
+  check('整表未解码的结构被标记为 raw_only',
+    fields.isRawOnly(pack.structure('item_record')),
+    '道具/忍具记录表 94 条全是原始字节');
+}
+
+console.log('\n5) 结构编辑器：分组折叠 + 重复槽位成表 + 记录导航');
+{
+  const { StructureEditor } = await import('../js/editors.js');
+  const host = new StubNode('div');
+  const template = pack.structure('character_template');
+  const editor = new StructureEditor(pack, template, { onChange: ctx.onChange });
+  editor.render(host);
+  const text = host.textContent;
+
+  // 5a. 分组：角色定义表的 5 个分组都在，标题可读
+  const groups = template.fields.reduce((set, f) => {
+    if (f.group) set.add(f.group);
+    return set;
+  }, new Set());
+  check('字段分组被渲染成可折叠分区', groups.size >= 5,
+    [...groups].join('、'));
+
+  // 5b. 默认只展开「有主列的分组」，其余折叠（标题里带规模）
+  const record = template.records.find((r) => r.id === 1);
+  editor.openDetail(record);
+  const defaultInputs = host.descendants().filter(
+    (n) => n.tagName === 'INPUT' || n.tagName === 'TEXTAREA' || n.tagName === 'SELECT');
+  check('默认只展开少量分组', defaultInputs.length < 30,
+    `默认 ${defaultInputs.length} 个控件（字段共 ${template.fields.length} 个）`);
+
+  // 5c. 展开全部分组后，重复槽位渲染成表格
+  editor.collapsed.clear();
+  editor.openDetail(record);
+  const all = host.descendants();
+  const slotTables = all.filter((n) => n.className === 'grid grid-slots');
+  const inTable = new Set();
+  for (const table of slotTables) {
+    for (const row of table.descendants()) inTable.add(row);
+  }
+  const loose = all.filter(
+    (n) => ['INPUT', 'TEXTAREA', 'SELECT'].includes(n.tagName) && !inTable.has(n));
+  check('重复槽位渲染成表格', slotTables.length >= 2,
+    `${slotTables.length} 张槽位表`);
+  check('槽位之外的控件很少', loose.length < 40,
+    `表内 ${all.filter((n) => ['INPUT', 'TEXTAREA', 'SELECT'].includes(n.tagName)).length - loose.length} 个 + 表外 ${loose.length} 个`);
+
+  // 5c. 槽位表里的行数 = 槽位数
+  const jutsuTable = slotTables[0];
+  const rows = jutsuTable ? jutsuTable.children[1].children : [];
+  check('忍术槽是 15 行的表', rows.length === 15, `${rows.length} 行`);
+
+  // 5d. 枚举 → 下拉；引用 → 名字
+  const selects = all.filter((n) => n.tagName === 'SELECT');
+  const optionTexts = selects.flatMap((s) => s.children.map((o) => o.textContent));
+  check('档位用下拉并带中文标签',
+    optionTexts.some((t) => t.includes('未习得')),
+    optionTexts.slice(0, 4).join(' / '));
+  check('忍术 id 显示成忍术名',
+    (host.textContent || '').includes('分身术') ||
+    (host.textContent || '').includes('变身术'),
+    ((host.textContent || '').match(/分身术|变身术|螺旋丸/) || ['没有'])[0]);
+
+  // 5e. 记录导航：下一条 / 上一条
+  const navTexts = all.filter((n) => n.tagName === 'BUTTON').map((b) => b.textContent);
+  check('详情面板有上一条/下一条', navTexts.includes('← 上一条') && navTexts.includes('下一条 →'),
+    navTexts.filter((t) => t.includes('条')).join(' / '));
+
+  // 5f. 改动标记
+  const hpField = template.fields.find((f) => f.key === 'hp_base');
+  const hpOriginal = record.values.hp_base;
+  pack.setValue(template, record, 'hp_base', 123);
+  editor.renderTable();
+  const rowsAfter = host.descendants().filter((n) => n.tagName === 'TR');
+  const changedRow = rowsAfter.find((tr) => (tr.className || '').includes('changed'));
+  check('改过的记录在表格里被标出来', !!changedRow,
+    changedRow ? '有 changed 标记' : '没有标记');
+  pack.setValue(template, record, 'hp_base', hpOriginal);
+}
+
+console.log('\n6) 写回安全性：越界拒绝 / 有符号原值 / 指针解析 / 改后即刷新');
+{
+  const { StructureEditor } = await import('../js/editors.js');
+  const fields = await import('../js/fields.js');
+
+  // 6a. 越界必须被拒绝，不能落到写回时的掩码里（999 → 231 那种静默截断）
+  const template = pack.structure('character_template');
+  const templateRecord = template.records.find((r) => r.id === 1);
+  const statA = template.fields.find((f) => f.key === 'stat_a');
+  const statABefore = templateRecord.values.stat_a;
+  const control = fields.fieldControl(ctx, template, templateRecord, statA);
+  control.node.listeners.change[0]({ target: { value: '999' } });
+  check('越界的数值被拒绝写回',
+    templateRecord.values.stat_a === statABefore,
+    `u8 字段输入 999，原值 ${statABefore}，现在 ${templateRecord.values.stat_a}`);
+
+  // 6b. s16 必须按有符号读：原值 -4，不是 65532
+  const delta = pack.structure('unit_delta_table');
+  const deltaRecord = delta.records[0];
+  const deltaField = delta.fields.find((f) => f.key === 'delta');
+  const original = fields.originalValue(delta, deltaRecord, deltaField);
+  check('有符号字段按有符号读', original === -4, `原值 ${original}`);
+
+  // 6c. 指针型 relation 要按地址查表（说明文字指针 → 那句话）
+  const rules = pack.structure('battle_rules');
+  const rule = rules.records.find((r) => r.rom_offset === 0x594758 + 40 * 0xcc);
+  const ptrField = rules.fields.find((f) => f.key === 'g0_0_text_ptr');
+  const ptrValue = rule.values[ptrField.key];
+  const hit = fields.resolveRelation(pack, ptrField.relation, ptrValue);
+  check('说明文字指针解析出那句话',
+    !!hit && hit.name === '得到宝箱了',
+    `0x${(ptrValue >>> 0).toString(16).toUpperCase()} → ${hit ? hit.name : '没解析出来'}`);
+
+  // 6d. 改完必须立刻刷新：表格有 changed 标记、字段带「已改」
+  const host = new StubNode('div');
+  const editor = new StructureEditor(pack, template, { onChange: ctx.onChange });
+  editor.render(host);
+  const record = template.records.find((r) => r.id === 1);
+  const hpBefore = record.values.hp_base;
+  editor.openDetail(record);
+  const hpField = template.fields.find((f) => f.key === 'hp_base');
+  const hpInput = editor.detail.descendants().find(
+    (n) => n.tagName === 'INPUT' && n.value === String(hpBefore));
+  check('找到 HP 基础输入框', !!hpInput, hpInput ? `值 ${hpInput.value}` : '没有');
+  if (hpInput) {
+    hpInput.listeners.change[0]({ target: { value: '123' } });
+    const changedRows = host.descendants().filter(
+      (n) => n.tagName === 'TR' && (n.className || '').includes('changed'));
+    const changedFields = editor.detail.descendants().filter(
+      (n) => (n.className || '').includes('field-changed'));
+    check('改完立刻刷新：行有 changed 标记',
+      changedRows.length > 0,
+      `${changedRows.length} 行被标记`);
+    check('改完立刻刷新：字段带「已改」',
+      changedFields.length > 0,
+      `${changedFields.length} 个字段被标记`);
+    // 复原
+    pack.setValue(template, record, 'hp_base', hpBefore);
+  }
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);

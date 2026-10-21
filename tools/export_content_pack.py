@@ -115,6 +115,48 @@ SPRITE_ACTION_STRIDE = 16
 BACKGROUND_TABLE_BASE = 0x59903C
 BACKGROUND_TABLE_STRIDE = 16
 BACKGROUND_TABLE_COUNT = 14
+
+# ---------------------------------------------------------------------------
+# 取值域（界面据此把裸数字渲染成带名字的下拉）
+# ---------------------------------------------------------------------------
+# 胜负条件类型。语义见 notes/battle-tables.md §1.1（原版说明文字）
+# 与 §1.1.1（类型 2 / 3 的原生断点定案）。
+CONDITION_TYPE_ENUMS = {
+    1: "全灭敌方（a=1）/ 我方全灭（a=0）",
+    2: "回合用尽（原生不读 a/b）",
+    3: "指定角色已离场（a=阵营, b=角色 id）",
+    6: "获得指定道具（a=道具序号）",
+    7: "剩余体力比较（a=阵营）",
+    8: "击杀数比较（a=阵营）",
+    9: "收集物数量比较（a=阵营）",
+}
+
+# 战场物件类型。来源 notes/external-konoha-workshop-gap-20261020.md:178。
+OBJECT_TYPE_ENUMS = {
+    0: "空",
+    1: "忍具",
+    2: "强化素材",
+    3: "专属修行卷轴",
+    4: "认识卡",
+    5: "机关宝箱",
+    6: "特殊机关",
+    7: "剧情物件",
+}
+
+# 奖励类别。来源 notes/reward-and-rules-semantics-20261020.md §3.1；
+# 类别 → 名字表的对应由 ROM 自带的 4 槽指针表 0x0859F5E0 证明。
+REWARD_CATEGORY_ENUMS = {
+    0: "忍具",
+    1: "强化素材",
+    2: "认识卡",
+    3: "技术",
+}
+REWARD_CATEGORY_TABLES = {
+    "0": "ninjutsu_names",
+    "1": "material_names",
+    "2": "character_names",
+    "3": "training_names",
+}
 STORY_BEFORE_ROOT = 0x060C74
 STORY_AFTER_ROOT = 0x060D54
 STORY_LOGIC_ROOT = 0x060E34
@@ -181,7 +223,9 @@ TASK_LABEL = "任务"
 def F(key: str, offset: int, size: int, ftype: str, label: str,
       desc: str = "", group: str | None = None,
       array: str | None = None, index: int | None = None,
-      item: str | None = None) -> dict[str, Any]:
+      item: str | None = None,
+      enum: dict[int, str] | None = None,
+      relation: dict[str, str] | None = None) -> dict[str, Any]:
     field = {
         "key": key,
         "offset": offset,
@@ -199,6 +243,12 @@ def F(key: str, offset: int, size: int, ftype: str, label: str,
         field["index"] = index
     if item:
         field["item"] = item
+    if enum:
+        # 取值域 → 标签。界面据此渲染下拉，而不是让作者面对裸数字。
+        field["enum"] = {str(k): v for k, v in enum.items()}
+    if relation:
+        # 该字段是一个 id，指向另一张表的同号槽位（界面据此显示名字并可跳转）。
+        field["relation"] = relation
     return field
 
 
@@ -356,6 +406,8 @@ def make_structure(
     primary_columns: list[str] | None = None,
     record_labels: dict[int, str] | None = None,
     verification: str = "",
+    raw_only: bool = False,
+    id_relation: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     tiled = tile(entry_size, fields)
     records = []
@@ -386,6 +438,13 @@ def make_structure(
         structure["primary_columns"] = primary_columns
     if verification:
         structure["verification"] = verification
+    if raw_only:
+        # 这张表**一个已知字段都没有**：全是未解码的原始字节。界面据此
+        # 只给一个十六进制编辑区，而不是 16 个一模一样的字段框。
+        structure["raw_only"] = True
+    if id_relation:
+        # 记录下标本身就是一个 id，指向另一张表的同号槽位。
+        structure["id_relation"] = id_relation
     return structure
 
 
@@ -406,9 +465,11 @@ def character_template_fields() -> list[dict[str, Any]]:
         base = 0x0C + i * 4
         fields += [
             F(f"jutsu_{i}_id", base, 1, "u8", f"忍术{i} ID",
-              "忍术记录表下标（0x59937C）", "忍术列表", "jutsu", i, "id"),
+              "忍术记录表下标（0x59937C）", "忍术列表", "jutsu", i, "id",
+              relation={"table": "jutsu_names", "kind": "text", "label": "忍术名"}),
             F(f"jutsu_{i}_value", base + 1, 1, "u8", f"忍术{i} 等级值",
-              "0/1/3，0xFF = 未习得", "忍术列表", "jutsu", i, "value"),
+              "0/1/3，0xFF = 未习得", "忍术列表", "jutsu", i, "value",
+              enum={0: "等级 0", 1: "等级 1", 3: "等级 3", 0xFF: "未习得"}),
             F(f"jutsu_{i}_unlock", base + 2, 1, "u8", f"忍术{i} 解锁等级",
               "0 = 不会自动习得", "忍术列表", "jutsu", i, "unlock_level"),
             F(f"jutsu_{i}_pad", base + 3, 1, "u8", f"忍术{i} 填充",
@@ -418,7 +479,8 @@ def character_template_fields() -> list[dict[str, Any]]:
         base = 0x48 + i * 4
         fields += [
             F(f"train_{i}_id", base, 1, "u8", f"技能{i} ID",
-              "技能/特性表下标（0x5459C8 / 0x5A7060）", "技能列表", "training", i, "id"),
+              "技能/特性表下标（0x5459C8 / 0x5A7060）", "技能列表", "training", i, "id",
+              relation={"table": "training_names", "kind": "text", "label": "技能名"}),
             F(f"train_{i}_value", base + 1, 1, "u8", f"技能{i} 等级值",
               "等级值，B−1 是成长倍率", "技能列表", "training", i, "value"),
             F(f"train_{i}_unlock", base + 2, 1, "u8", f"技能{i} 解锁等级",
@@ -428,7 +490,8 @@ def character_template_fields() -> list[dict[str, Any]]:
         ]
     for i in range(9):
         fields.append(F(f"item_{i}", 0xA8 + i, 1, "u8", f"道具槽{i}",
-                        "忍具名表下标（0x599634），0 = 空", "道具槽", "items", i, "id"))
+                        "忍具名表下标（0x599634），0 = 空", "道具槽", "items", i, "id",
+                        relation={"table": "ninjutsu_names", "kind": "text", "label": "忍具名"}))
     return fields
 
 
@@ -445,6 +508,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         rom,
         note="每个角色 0xB4 字节。id 0 是空槽，1..62 是有效角色。"
              "忍术列表 15 项、技能列表 24 项、道具槽 9 项。",
+        id_relation={"table": "character_names", "kind": "text", "label": "角色名"},
         primary_columns=["stat_a", "stat_b", "stat_c", "hp_base", "aux_stat"],
         verification="L1 结构已证明 / 写回路径 tools/import_character_template.py",
     ))
@@ -467,6 +531,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
          for i in range(PER_CHARACTER_STATS_COUNT)),
         rom,
         note="每级数值 = 基础 + 成长 ×(等级−1) ÷ 100（整数除法）。",
+        id_relation={"table": "character_names", "kind": "text", "label": "角色名"},
         primary_columns=["hp_gain", "stat_a_gain", "stat_b_gain", "stat_c_gain"],
         verification="L1 结构已证明 / 写回路径 tools/import_character_template.py",
     ))
@@ -486,6 +551,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         (PERK_BASE + i * PERK_STRIDE for i in range(PERK_COUNT)),
         rom,
         note="下标 = 技能（技术）id，与技能名表 0x5A7060 同空间。",
+        id_relation={"table": "training_names", "kind": "text", "label": "技能名"},
         primary_columns=["kind", "base", "growth"],
         verification="L1 结构已证明 / 尚无写回路径",
     ))
@@ -494,10 +560,12 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     for expr in range(5):
         portrait_fields.append(F(f"expr{expr}_gfx", expr * 8, 4, "ptr",
                                  f"表情{expr} 图像",
-                                 "LZ77 4bpp 头像图块，80×80", "头像"))
+                                 "LZ77 4bpp 头像图块，80×80", "头像",
+                                 "expr", expr, "gfx"))
         portrait_fields.append(F(f"expr{expr}_palette", expr * 8 + 4, 4, "ptr",
                                  f"表情{expr} 调色板",
-                                 "64 色 BGR555（未压缩）", "头像"))
+                                 "64 色 BGR555（未压缩）", "头像",
+                                 "expr", expr, "palette"))
     out.append(make_structure(
         "portrait_table", "characters", "头像指针表",
         PORTRAIT_TABLE_BASE, PORTRAIT_TABLE_STRIDE, portrait_fields,
@@ -554,6 +622,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         (JUTSU_RECORD_BASE + i * JUTSU_RECORD_STRIDE for i in range(JUTSU_RECORD_COUNT)),
         rom,
         note="下标 = 忍术 id，与忍术名表 0x59937C 同空间。",
+        id_relation={"table": "jutsu_names", "kind": "text", "label": "忍术名"},
         primary_columns=["growth_type", "growth_amount", "flags"],
         verification="L1 结构已证明 / 写回路径 tools/import_character_template.py",
     ))
@@ -571,6 +640,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
              "所以本表按原始字节呈现并编辑，不臆造字段名。",
         primary_columns=["raw_00", "raw_01", "raw_02", "raw_03"],
         verification="L1 结构已证明 / 尚无写回路径",
+        raw_only=True,
+        id_relation={"table": "ninjutsu_names", "kind": "text", "label": "忍具名"},
     ))
 
     reward_fields = [
@@ -581,9 +652,12 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     for k in range(8):
         reward_fields += [
             F(f"slot{k}_category", 0x06 + k * 2, 1, "u8", f"道具位{k} 类别",
-              "0=忍具 1=强化素材 2=认识卡 3=技能", "道具掉落", "slots", k, "category"),
+              "类别 → 名字表的对应由 ROM 自带的 4 槽指针表 0x0859F5E0 证明",
+              "道具掉落", "slots", k, "category", enum=REWARD_CATEGORY_ENUMS),
             F(f"slot{k}_item", 0x07 + k * 2, 1, "u8", f"道具位{k} 物品ID",
-              "该类别的名称表下标；0 = 列表结束", "道具掉落", "slots", k, "item_id"),
+              "该类别的名称表下标；0 = 列表结束", "道具掉落", "slots", k, "item_id",
+              relation={"kind": "by_category", "label": "物品名",
+                        "categories": REWARD_CATEGORY_TABLES}),
         ]
     reward_fields += [
         F("reserved_16", 0x16, 1, "u8", "保留16", "恒为 0，无消费者", "保留"),
@@ -609,7 +683,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         F("layer1_ptr", 0x10, 4, "ptr", "图层1", "LZ77 tilemap；0 = 无图层1", "资源指针"),
         F("metatile_ptr", 0x14, 4, "ptr", "组合图块表", "LZ77，8 字节/项", "资源指针"),
         F("terrain_ptr", 0x18, 4, "ptr", "通行值表", "LZ77，每格 u16", "资源指针"),
-        F("background_id", 0x1C, 1, "u8", "剧情底图ID", "指向底图表 0x59903C", "底图"),
+        F("background_id", 0x1C, 1, "u8", "剧情底图ID", "指向底图表 0x59903C", "底图",
+          relation={"table": "background_table", "kind": "structure", "label": "底图"}),
     ]
     out.append(make_structure(
         "map_table", "battle", "战场布置描述符",
@@ -622,12 +697,16 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     ))
 
     actor_fields = [
-        F("character_id", 0x00, 1, "u8", "角色ID", "0 = 空槽", "角色"),
-        F("side", 0x01, 1, "u8", "阵营", "0=我方 1=敌方（编成路径不读此字段）", "角色"),
+        F("character_id", 0x00, 1, "u8", "角色ID", "0 = 空槽", "角色",
+          relation={"table": "character_names", "kind": "text", "label": "角色名"}),
+        F("side", 0x01, 1, "u8", "阵营（原生不读）",
+          "0=我方 1=敌方。**编成消费者不读这一字节**，阵营走 unit_flags 的 bit0",
+          "角色", enum={0: "我方", 1: "敌方"}),
         F("x", 0x02, 1, "u8", "出生 X", "初始 X 坐标（格）", "出生点"),
         F("y", 0x03, 1, "u8", "出生 Y", "初始 Y 坐标（格）", "出生点"),
         F("facing", 0x04, 1, "u8", "朝向/参数", "写入 unit+0xC9", "出生点"),
-        F("unit_flags", 0x08, 4, "u32", "单位标志", "bit0 = 阵营；unit+0xC0 = flags|side|0x10", "角色"),
+        F("unit_flags", 0x08, 4, "u32", "单位标志",
+          "bit0 = 阵营（这个才是生效的）；unit+0xC0 = flags|side|0x10", "角色"),
         F("level", 0x0F, 1, "u8", "等级", "unit+0x0F", "角色"),
     ]
     actor_offsets = []
@@ -651,7 +730,7 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
 
     object_fields = [
         F("type", 0x00, 1, "u8", "物件类型",
-          "0空 1忍具 2强化素材 3修行卷轴 4认识卡 5机关宝箱 6特殊机关 7剧情物件", "物件"),
+          "决定外观与音效", "物件", enum=OBJECT_TYPE_ENUMS),
         F("target", 0x01, 1, "u8", "触发目标", "决定触发的剧本（13 项效果表）", "物件"),
         F("x", 0x02, 1, "u8", "X", "", "物件"),
         F("y", 0x03, 1, "u8", "Y", "", "物件"),
@@ -679,16 +758,20 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
             base = 0x04 + group * 0x20 + k * 8
             rule_fields += [
                 F(f"g{group}_{k}_type", base, 1, "u8", f"{label}{k} 类型",
-                  "1全灭 2指定角色在场 3指定角色离场 6获得道具 7剩余HP 8击杀数 9收集数",
-                  label, "rules", group * 4 + k, "type"),
+                  "原生语义见 notes/battle-tables.md §1.1.1",
+                  label, "rules", group * 4 + k, "type",
+                  enum=CONDITION_TYPE_ENUMS),
                 F(f"g{group}_{k}_a", base + 1, 1, "u8", f"{label}{k} 参数A", "", label,
                   "rules", group * 4 + k, "a"),
                 F(f"g{group}_{k}_b", base + 2, 1, "u8", f"{label}{k} 参数B",
-                  "类型 3 时是角色 id", label, "rules", group * 4 + k, "b"),
+                  "类型 3 时是角色 id", label, "rules", group * 4 + k, "b",
+                  relation={"table": "character_names", "kind": "text", "label": "角色名",
+                            "when": "type=3"}),
                 F(f"g{group}_{k}_c", base + 3, 1, "u8", f"{label}{k} 参数C", "恒为 0", label,
                   "rules", group * 4 + k, "c"),
                 F(f"g{group}_{k}_text_ptr", base + 4, 4, "ptr", f"{label}{k} 说明文本",
-                  "「条件」页显示的说明", label, "rules", group * 4 + k, "text_ptr"),
+                  "「条件」页显示的说明", label, "rules", group * 4 + k, "text_ptr",
+                  relation={"table": "battle_objectives", "kind": "text", "label": "说明文字"}),
             ]
     rule_offsets = [
         BATTLE_RULES_BASE + s * BATTLE_RULE_STAGE_STRIDE + u * BATTLE_RULE_SUB_STRIDE

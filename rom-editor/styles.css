@@ -188,6 +188,41 @@ table.grid .text-cell { max-width: 560px; overflow: hidden; text-overflow: ellip
 .check { display: flex; align-items: center; gap: 6px; padding: 3px 0; font-size: 12px; }
 .column-picker { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2px 14px; max-height: 50vh; overflow: auto; }
 
+/* ---------- 分组折叠（记录被拆成若干语义段） ---------- */
+.group { border: 1px solid var(--line); border-radius: 7px; margin-bottom: 8px; overflow: hidden; }
+.group-head {
+  display: flex; align-items: center; gap: 8px; width: 100%;
+  background: var(--bg-2); border: 0; color: var(--fg); cursor: pointer;
+  padding: 7px 10px; text-align: left; font-size: 12px; font-family: inherit;
+}
+.group-head:hover { background: var(--bg-3); }
+.group-caret { color: var(--fg-dim); font-size: 10px; width: 10px; }
+.group-name { font-weight: 600; }
+.group-count { margin-left: auto; color: var(--fg-dim); font-size: 10.5px; font-family: var(--mono); }
+.group-body { padding: 10px 12px 2px; border-top: 1px solid var(--line); }
+.group.collapsed .group-body { display: none; }
+
+/* ---------- 改动标记 ---------- */
+.field-changed { border-left: 2px solid var(--warn, #d9a441); padding-left: 8px; margin-left: -10px; }
+.tag {
+  display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px;
+  font-family: var(--mono); background: var(--bg-3); color: var(--fg-dim);
+}
+.tag-warn { background: rgba(217, 164, 65, .18); color: #e0b45c; }
+tr.changed td { background: rgba(217, 164, 65, .07); }
+.detail-nav { display: flex; align-items: center; gap: 6px; }
+.detail-sub { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 10.5px; color: var(--fg-dim); }
+.field-raw .hex-input { font-size: 13px; letter-spacing: .5px; }
+
+/* ---------- 重复槽位渲染成表格 ---------- */
+.slot-block { margin-bottom: 10px; }
+.slot-caption { font-size: 10.5px; color: var(--fg-dim); margin-bottom: 4px; font-family: var(--mono); }
+table.grid-slots { width: 100%; }
+table.grid-slots th { font-size: 10.5px; padding: 4px 6px; }
+table.grid-slots td { padding: 4px 6px; vertical-align: top; }
+table.grid-slots .slot-cell .field-hint { font-size: 9.5px; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+table.grid-slots .num-input { min-width: 68px; }
+
 /* ---------- stats / cards ---------- */
 .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 10px; margin-bottom: 18px; }
 .stat { background: var(--bg-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }

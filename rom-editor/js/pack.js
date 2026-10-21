@@ -11,7 +11,7 @@
 //      fields plus `hex` filler fields for every byte nobody has decoded yet.
 //      So an untouched pack rebuilds the original ROM byte for byte.
 
-import { bytesToBase64, base64ToBytes, bytesToHex, hexToBytes, readUint, writeUint } from './bytes.js';
+import { bytesToBase64, base64ToBytes, bytesToHex, hexToBytes, readUint, readInt, writeUint } from './bytes.js';
 import { FontCodec, scanTokens, encodeTokens, mergeTokens } from './textcodec.js';
 
 export const FIELD_TYPES = {
@@ -248,12 +248,17 @@ export function readField(bytes, field) {
     case 'u8':
       return readUint(bytes, field.offset, 1);
     case 'u16':
-    case 's16':
       return readUint(bytes, field.offset, 2);
+    case 's16':
+      // 有符号必须按有符号读：导出器写进内容包的就是带符号值
+      // （unit_delta_table.delta = -4），按无符号读会变成 65532，
+      // 于是「原值」永远对不上、每条记录都被标成「已改」。
+      return readInt(bytes, field.offset, 2);
     case 'u32':
     case 'ptr':
-    case 's32':
       return readUint(bytes, field.offset, 4);
+    case 's32':
+      return readInt(bytes, field.offset, 4);
     case 'hex': {
       const count = field.size ?? 0;
       let out = '';
