@@ -187,13 +187,13 @@ BACKGROUND_TABLE_COUNT = 36     # 0x59903C .. 0x599280 之间放得下 36 条
 SOUND_ID_TABLE_BASE = 0x465B70
 SOUND_ID_TABLE_STRIDE = 8
 SOUND_ID_TABLE_COUNT = 159
-AUDIO_SONG_BASE = {            # m4a SongHeader：8 字节头 + track_count × 4 字节轨道指针
-    1: (0x536368, 8),
-    2: (0x536BC4, 10),
-    8: (0x538FEC, 9),
-    11: (0x53AB74, 10),
-    14: (0x53C3BC, 8),
-}
+# m4a SongHeader：8 字节头 + track_count × 4 字节轨道指针。
+#
+# 描述符**不再硬编码**：sound-ID 表里出现过的每一个描述符地址都被导出成一张
+# 结构（notes/audio-ux-redesign-20261021.md §1.1：159 条音效指向 81 个不同
+# 地址 = 80 个真实描述符 + 79 个音效共用的空哨兵）。
+AUDIO_EMPTY_DESCRIPTOR = 0x08466068   # 空哨兵（0 轨 = 没有声音）
+AUDIO_SONG_EMPTY_ID = "audio_song_empty"
 FUNCTION_POINTER_TABLE_BASE = 0x53D5F0
 FUNCTION_POINTER_TABLE_COUNT = 13
 FONT_WIDTH_TABLE_BASE = 0x53E596
@@ -228,6 +228,7 @@ def F(key: str, offset: int, size: int, ftype: str, label: str,
       relation: dict[str, str] | None = None,
       not_read: bool = False,
       bits: list[dict[str, Any]] | None = None,
+      ptr_kind: str | None = None,
       param_meanings: dict[str, dict[str, str]] | None = None) -> dict[str, Any]:
     field = {
         "key": key,
@@ -259,6 +260,10 @@ def F(key: str, offset: int, size: int, ftype: str, label: str,
     if bits:
         # 位域里的若干位（其余位原样保留）。
         field["bits"] = bits
+    if ptr_kind:
+        # 这个指针指向的是**代码**（处理程序 / 剧本入口），不是数据载荷。
+        # 界面上不能对代码指针说「未压缩原始数据」——那是数据载荷的说法。
+        field["ptr_kind"] = ptr_kind
     if param_meanings:
         # 这个字段的取值决定了同一条记录里其它字段的含义
         # （例如条件类型 1/2/3 的 a/b 各自代表什么）。
@@ -481,6 +486,8 @@ def make_structure(
     raw_only: bool = False,
     id_relation: dict[str, str] | None = None,
     consumers: list[str] | None = None,
+    id_is_index: bool = False,
+    ptr_relation: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     tiled = tile(entry_size, fields)
     records = []
@@ -521,6 +528,15 @@ def make_structure(
     if consumers:
         # 原生读者地址：改这张表会动到谁，界面直接写出来。
         structure["consumers"] = consumers
+    if id_is_index:
+        # 记录下标**本身就是 id**（音效 id、忍术 id…）。界面据此显示「id N」，
+        # 而不是「第 N / M 条」那种 1 基计数 —— 音效 #0 就是音效 #0。
+        structure["id_is_index"] = True
+    if ptr_relation:
+        # 指针型关系：这个字段存的是**地址**，而目标分散在多张表里
+        # （音效描述符每个一条结构），所以这里给的是
+        # 「地址 → 目标结构记录」的完整映射，界面据此生成下拉。
+        structure["ptr_relation"] = ptr_relation
     if structure_id in INDEX_SCHEMES:
         # 复合下标的分解方案：界面据此把记录下标还原成
         # 「第 12 关 · 变体 1 · 槽 3」，作者不用自己手算 id。
@@ -578,6 +594,241 @@ def character_template_fields() -> list[dict[str, Any]]:
                         "忍具名表下标（0x599634），0 = 空", "道具槽", "items", i, "id",
                         relation={"table": "ninjutsu_names", "kind": "text", "label": "忍具名"}))
     return fields
+
+
+# --------------------------------------------------------------------------
+# 音频：sound-ID 表与 m4a 描述符
+# --------------------------------------------------------------------------
+def read_sound_id_rows(rom: bytes) -> list[dict[str, Any]]:
+    """sound-ID 表的 159 行（每行 8 字节：描述符指针 + 播放通道 + 播放配置）。"""
+    rows: list[dict[str, Any]] = []
+    for sid in range(SOUND_ID_TABLE_COUNT):
+        off = SOUND_ID_TABLE_BASE + sid * SOUND_ID_TABLE_STRIDE
+        ptr, channel, config = struct.unpack_from("<IHH", rom, off)
+        rows.append({
+            "id": sid,
+            "address": ptr,
+            "offset": ptr - ROM_BASE if ptr else None,
+            "channel": channel,
+            "config": config,
+        })
+    return rows
+
+
+def read_song_header(rom: bytes, address: int) -> dict[str, Any]:
+    """一个 m4a SongHeader：8 字节头 + track_count 个 4 字节轨道指针。
+
+    布局（与 tools/audio_song_headers.py 一致）：
+        +0x00 u8  track_count
+        +0x01 u8  block_count
+        +0x02 u8  priority
+        +0x03 u8  reverb（原生只读 bit7）
+        +0x04 u32 voicegroup_ptr
+        +0x08 u32 track_ptr[track_count]
+    """
+    off = address - ROM_BASE
+    track_count = rom[off]
+    return {
+        "address": address,
+        "offset": off,
+        "track_count": track_count,
+        "block_count": rom[off + 1],
+        "priority": rom[off + 2],
+        "reverb": rom[off + 3],
+        "voicegroup_ptr": struct.unpack_from("<I", rom, off + 4)[0],
+        "track_ptrs": [
+            struct.unpack_from("<I", rom, off + 8 + i * 4)[0]
+            for i in range(track_count)
+        ],
+        "size": 8 + track_count * 4,
+    }
+
+
+def build_audio_descriptors(rom: bytes) -> dict[str, Any]:
+    """sound-ID 表指向的每一个描述符（按地址去重）。
+
+    159 条音效指向 81 个不同地址：80 个真实描述符各被一条音效使用，
+    其余 79 条共用同一个空哨兵（0 轨 = 没有声音）。
+    """
+    rows = read_sound_id_rows(rom)
+    descriptors: dict[int, dict[str, Any]] = {}
+    for row in rows:
+        address = row["address"]
+        if not address:
+            continue
+        header = descriptors.get(address)
+        if header is None:
+            header = read_song_header(rom, address)
+            header["sound_ids"] = []
+            descriptors[address] = header
+        header["sound_ids"].append(row["id"])
+    for header in descriptors.values():
+        ids = header["sound_ids"]
+        if header["track_count"] == 0:
+            # 空哨兵：没有轨道，也没有声音。
+            header["structure_id"] = AUDIO_SONG_EMPTY_ID
+            header["label"] = "空哨兵描述符（没有声音）"
+            header["kind"] = "empty"
+        else:
+            header["structure_id"] = f"audio_song_{ids[0]}"
+            header["label"] = f"音频曲 {ids[0]}（m4a SongHeader）"
+            header["kind"] = "song" if header["track_count"] > 1 else "sfx"
+    return {"rows": rows, "descriptors": descriptors}
+
+
+def read_play_thunk(rom: bytes, pointer: int) -> dict[str, Any]:
+    """函数指针表的一个槽：是不是「movs r0,#k」的播放 thunk。
+
+    表里存的是 Thumb 入口（地址低位 1 = Thumb），指令从 pointer & ~1 开始：
+
+        push {lr} / movs r0,#k / bl <共享例程> / pop {r0} / bx r0
+
+    k 就是这条 thunk 交给播放例程的参数。
+    """
+    code = pointer & ~1
+    off = code - ROM_BASE
+    info: dict[str, Any] = {"kind": "unknown", "pointer": pointer, "code": code}
+    if off < 0 or off + 12 > len(rom):
+        return info
+    push, movs, bl1, bl2, pop, bx = struct.unpack_from("<6H", rom, off)
+    if push != 0xB500 or bx != 0x4700:
+        return info
+    if (movs & 0xFF00) != 0x2000:
+        return info
+    info["kind"] = "play_entry"
+    info["sound_id"] = movs & 0xFF
+    # Thumb BL：第一个半字 11110 S imm10，第二个半字 11 J1 1 J2 imm11。
+    if (bl1 & 0xF800) == 0xF000 and (bl2 & 0xD000) == 0xD000:
+        s = (bl1 >> 10) & 1
+        imm10 = bl1 & 0x3FF
+        j1 = (bl2 >> 13) & 1
+        j2 = (bl2 >> 11) & 1
+        imm11 = bl2 & 0x7FF
+        i1 = 1 - (j1 ^ s)
+        i2 = 1 - (j2 ^ s)
+        value = (s << 24) | (i1 << 23) | (i2 << 22) | (imm10 << 12) | (imm11 << 1)
+        if value & 0x1000000:
+            value -= 0x2000000
+        info["target"] = (code + 8 + value) & 0xFFFFFFFF
+    return info
+
+
+AUDIO_KIND_NAMES = {"song": "乐曲", "sfx": "短音效", "empty": "空哨兵", "null": "空指针"}
+
+
+def build_audio_stats(rom: bytes) -> dict[str, Any]:
+    """音频域的派生事实。
+
+    这些事实**不占 ROM 字节**（统计、映射、共用关系），所以只能放在内容包的
+    顶层 derived 段 —— 做成结构表的话，rom.js 会试图把它写回 ROM。
+    """
+    audio = build_audio_descriptors(rom)
+    rows = audio["rows"]
+    descriptors = audio["descriptors"]
+
+    channel_hist: dict[int, int] = {}
+    channel_kinds: dict[int, dict[str, int]] = {}
+    for row in rows:
+        channel = row["channel"]
+        channel_hist[channel] = channel_hist.get(channel, 0) + 1
+        header = descriptors.get(row["address"])
+        kind = header["kind"] if header else "null"
+        kinds = channel_kinds.setdefault(channel, {})
+        kinds[kind] = kinds.get(kind, 0) + 1
+
+    channel_enum: dict[str, str] = {}
+    for channel in sorted(channel_hist):
+        kinds = channel_kinds[channel]
+        detail = "、".join(
+            f"{AUDIO_KIND_NAMES.get(kind, kind)} {count} 条"
+            for kind, count in sorted(kinds.items(), key=lambda kv: -kv[1])
+        )
+        channel_enum[str(channel)] = (
+            f"{channel} · 通道 {channel}（{channel_hist[channel]} 条：{detail}）"
+        )
+
+    slots: dict[str, Any] = {}
+    for slot in range(FUNCTION_POINTER_TABLE_COUNT):
+        off = FUNCTION_POINTER_TABLE_BASE + slot * 4
+        value = struct.unpack_from("<I", rom, off)[0]
+        if value == 0xFFFFFFFF:
+            slots[str(slot)] = {
+                "kind": "sentinel",
+                "value": "0xFFFFFFFF",
+                "label": "哨兵（FFFFFFFF）",
+            }
+            continue
+        info = read_play_thunk(rom, value)
+        entry: dict[str, Any] = {"kind": info["kind"], "value": f"0x{value:08X}"}
+        if info["kind"] == "play_entry":
+            k = info["sound_id"]
+            entry["sound_id"] = k
+            entry["label"] = f"播放入口 · 音效 #{k}（推定）"
+            entry["code"] = f"0x{info['code']:08X}"
+            entry["target"] = f"0x{info['target']:08X}" if "target" in info else None
+            # 槽号 → 音效号的对应是**静态推定**（thunk 里的 movs r0,#k），
+            # 仓库里没有运行时证据闭环。
+            entry["evidence"] = "static"
+        else:
+            entry["label"] = "（不是播放 thunk）"
+        slots[str(slot)] = entry
+
+    targets = sorted({
+        entry["target"] for entry in slots.values()
+        if entry.get("kind") == "play_entry" and entry.get("target")
+    })
+    if len(targets) == 1:
+        target_text = f"全部跳向同一个例程 {targets[0]}"
+    elif targets:
+        target_text = "跳向 " + "、".join(targets)
+    else:
+        target_text = "没有解析出跳转目标"
+
+    empty_ids = descriptors.get(AUDIO_EMPTY_DESCRIPTOR, {}).get("sound_ids", [])
+    kinds_hist: dict[str, int] = {}
+    for header in descriptors.values():
+        kinds_hist[header["kind"]] = kinds_hist.get(header["kind"], 0) + 1
+
+    return {
+        "sound_id_count": len(rows),
+        "descriptor_count": len(descriptors),
+        "real_descriptor_count": sum(
+            1 for header in descriptors.values() if header["kind"] != "empty"),
+        "descriptor_kinds": {
+            AUDIO_KIND_NAMES.get(kind, kind): count
+            for kind, count in sorted(kinds_hist.items())
+        },
+        "empty_descriptor": f"0x{AUDIO_EMPTY_DESCRIPTOR:08X}",
+        "empty_descriptor_offset": f"0x{AUDIO_EMPTY_DESCRIPTOR - ROM_BASE:06X}",
+        "empty_sound_ids": len(empty_ids),
+        "channel_histogram": {str(k): v for k, v in sorted(channel_hist.items())},
+        "channel_kinds": {
+            str(channel): {
+                AUDIO_KIND_NAMES.get(kind, kind): count
+                for kind, count in sorted(kinds.items(), key=lambda kv: -kv[1])
+            }
+            for channel, kinds in sorted(channel_kinds.items())
+        },
+        "channel_enum": channel_enum,
+        "config_equals_channel": all(row["config"] == row["channel"] for row in rows),
+        "descriptors": {
+            f"0x{address:08X}": {
+                "structure": header["structure_id"],
+                "label": header["label"],
+                "kind": header["kind"],
+                "tracks": header["track_count"],
+                "blocks": header["block_count"],
+                "sound_ids": header["sound_ids"],
+            }
+            for address, header in sorted(descriptors.items())
+        },
+        "function_pointer_slots": slots,
+        "function_pointer_note": (
+            "1..11 槽是 11 条「movs r0,#k」的播放 thunk（k = 1..11），"
+            f"{target_text}。"
+            "k 与音效号的对应是静态推定，尚未由运行时证据闭环。"
+        ),
+    }
 
 
 def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]]:
@@ -1024,7 +1275,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         ("story_events_root", STORY_EVENTS_ROOT, STORY_BATTLE_ROOT_SLOTS,
          "战场事件根表", "场景 1..46 指向战斗事件表剧本。"),
     ):
-        fields = [F("ptr", 0, 4, "ptr", "剧本首地址", "该场景的剧本首地址", "场景指针")]
+        fields = [F("ptr", 0, 4, "ptr", "剧本首地址", "该场景的剧本首地址", "场景指针",
+          ptr_kind="code")]
         out.append(make_structure(
             table_id, "story" if table_id in ("story_before_root", "story_after_root") else "battle",
             label, base, 4, fields,
@@ -1067,10 +1319,37 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     ))
 
     # --- 其余已证实、此前未进包的表 ---------------------------------------
+    # --- 音频：sound-ID 分派表 + 全部 m4a 描述符 ---------------------------
+    audio = build_audio_descriptors(rom)
+    descriptors = audio["descriptors"]
+    audio_stats = build_audio_stats(rom)
+    channel_enum = {int(k): v for k, v in audio_stats["channel_enum"].items()}
+
     sound_id_fields = [
-        F("descriptor_ptr", 0x00, 4, "ptr", "描述符指针", "指向 m4a SongHeader", "声音"),
-        F("player_index", 0x04, 2, "u16", "播放通道", "", "声音"),
-        F("player_config", 0x06, 2, "u16", "播放配置", "", "声音"),
+        F("descriptor_ptr", 0x00, 4, "ptr", "描述符指针",
+          "指向 m4a SongHeader（编辑器里是带名字的下拉）", "声音"),
+        F("player_index", 0x04, 2, "u16", "播放通道",
+          "原生 voice 索引，取值 0..3", "声音", enum=channel_enum),
+        F("player_config", 0x06, 2, "u16", "播放配置",
+          "原生 159 行里与播放通道逐行相等", "声音", enum=channel_enum),
+    ]
+    # 描述符指针的选项集：81 个地址（80 个真实描述符 + 1 个空哨兵）。
+    # 它们分散在 81 张结构里，所以选项集放在**结构级**（ptr_relation），
+    # 而不是字段级 relation（那只能挂一张表）。
+    ptr_options = [
+        {
+            "value": address,
+            "label": header["label"],
+            "structure": header["structure_id"],
+            "record_id": 0,
+            "tracks": header["track_count"],
+            "blocks": header["block_count"],
+            "kind": header["kind"],
+            "empty": header["kind"] == "empty",
+            "sound_ids": header["sound_ids"],
+            "shared": len(header["sound_ids"]),
+        }
+        for address, header in sorted(descriptors.items())
     ]
     out.append(make_structure(
         "sound_id_table", "audio", "音频 sound-ID 表",
@@ -1078,29 +1357,52 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         (SOUND_ID_TABLE_BASE + i * SOUND_ID_TABLE_STRIDE
          for i in range(SOUND_ID_TABLE_COUNT)),
         rom,
-        note="159 条 × 8 字节：指向 m4a 歌曲描述符，并给出播放通道与配置。",
+        note="159 条 × 8 字节：指向 m4a 歌曲描述符，并给出播放通道与配置。"
+             "79 条指向空哨兵（ROM 0x466068，0 轨 = 没有声音），"
+             "其余 80 条各有一个真实描述符。音效 id 就是这张表里的下标（0 基）。",
         primary_columns=["descriptor_ptr", "player_index"],
+        record_labels={i: f"音效 #{i}" for i in range(SOUND_ID_TABLE_COUNT)},
+        id_is_index=True,
+        ptr_relation={
+            "kind": "pointer_map",
+            "field": "descriptor_ptr",
+            "options": ptr_options,
+        },
         verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
-    for sound_id, (base, tracks) in sorted(AUDIO_SONG_BASE.items()):
-        size = 8 + tracks * 4
+    for address, header in sorted(descriptors.items()):
+        tracks = header["track_count"]
         song_fields = [
-            F("track_count", 0x00, 1, "u8", "轨道数", "", "歌曲头"),
-            F("block_count", 0x01, 1, "u8", "块数", "", "歌曲头"),
-            F("priority", 0x02, 1, "u8", "优先级", "", "歌曲头"),
-            F("reverb", 0x03, 1, "u8", "混响", "", "歌曲头"),
-            F("voicegroup_ptr", 0x04, 4, "ptr", "音色组指针", "", "歌曲头"),
+            F("track_count", 0x00, 1, "u8", "轨道数",
+              "引擎按这个数读轨道指针", "歌曲头"),
+            F("block_count", 0x01, 1, "u8", "块数",
+              "原生 ROM 里全部为 0；这一字节的用途未证实", "歌曲头"),
+            F("priority", 0x02, 1, "u8", "优先级",
+              "原生取值 0 / 10 / 255，语义未完全证实", "歌曲头"),
+            F("reverb", 0x03, 1, "u8", "混响",
+              "原生只读 bit7（L2 运行时证据）", "歌曲头",
+              enum={0: "关", 128: "开（bit7）"}),
+            F("voicegroup_ptr", 0x04, 4, "ptr", "音色组指针",
+              "音色组在 0x084648xx 区，尚未解码", "歌曲头"),
         ]
         for t in range(tracks):
             song_fields.append(F(f"track{t}_ptr", 8 + t * 4, 4, "ptr",
-                                 f"轨道{t} 指针", "", "轨道"))
+                                 f"轨道 {t + 1} 指针",
+                                 "指向压缩的轨道数据（编辑器改不了采样本身）", "轨道",
+                                 array="tracks", index=t, item="ptr"))
+        if header["kind"] == "empty":
+            song_note = ("空哨兵：0 个轨道 —— 这个描述符没有声音。"
+                         f"{len(header['sound_ids'])} 个音效共用它。")
+        else:
+            song_note = (f"m4a SongHeader：8 字节头 + {tracks} 个轨道指针。"
+                         "音频样本本体是压缩载荷，不在本表里；"
+                         "这里能改的是「指向哪段轨道数据」。")
         out.append(make_structure(
-            f"audio_song_{sound_id}", "audio", f"音频曲 {sound_id}（m4a SongHeader）",
-            base, size, song_fields,
-            (base,), rom,
-            note=f"m4a SongHeader：8 字节头 + {tracks} 个轨道指针（40 字节以内的描述符）。"
-                 "音频样本本体不在本表里。",
+            header["structure_id"], "audio", header["label"],
+            header["offset"], header["size"], song_fields,
+            (header["offset"],), rom,
+            note=song_note,
             primary_columns=["track_count", "block_count", "priority"],
             verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
         ))
@@ -1108,12 +1410,14 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     out.append(make_structure(
         "function_pointer_table", "audio", "函数指针表",
         FUNCTION_POINTER_TABLE_BASE, 4,
-        [F("ptr", 0, 4, "ptr", "代码指针", "槽 0 与槽 12 是 FFFFFFFF 哨兵", "指针")],
+        [F("ptr", 0, 4, "ptr", "代码指针", "槽 0 与槽 12 是 FFFFFFFF 哨兵", "指针",
+              ptr_kind="code")],
         (FUNCTION_POINTER_TABLE_BASE + i * 4
          for i in range(FUNCTION_POINTER_TABLE_COUNT)),
         rom,
-        note="13 槽 u32。",
+        note="13 槽 u32。" + audio_stats["function_pointer_note"],
         primary_columns=["ptr"],
+        record_labels={i: f"槽 {i}" for i in range(FUNCTION_POINTER_TABLE_COUNT)},
         verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
@@ -1129,8 +1433,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     ))
 
     handler_fields = [
-        F("handler_a", 0x00, 4, "ptr", "处理程序 A", "", "分派"),
-        F("handler_b", 0x04, 4, "ptr", "处理程序 B", "", "分派"),
+        F("handler_a", 0x00, 4, "ptr", "处理程序 A", "", "分派", ptr_kind="code"),
+        F("handler_b", 0x04, 4, "ptr", "处理程序 B", "", "分派", ptr_kind="code"),
     ]
     out.append(make_structure(
         "battle_handler_table", "battle", "战斗/地图事件处理程序分派表",
@@ -1165,7 +1469,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     out.append(make_structure(
         "pickup_dispatch", "battle", "原生拾取分派表",
         PICKUP_DISPATCH_BASE, 4,
-        [F("handler", 0, 4, "ptr", "处理程序", "7 个拾取处理程序", "分派")],
+        [F("handler", 0, 4, "ptr", "处理程序", "7 个拾取处理程序", "分派",
+              ptr_kind="code")],
         (PICKUP_DISPATCH_BASE + i * 4 for i in range(PICKUP_DISPATCH_COUNT)),
         rom,
         note="7 个拾取处理程序指针。",
@@ -1679,7 +1984,14 @@ def build_derived(rom: bytes, structures: list[dict[str, Any]],
                 "size": None,
                 "label": "未压缩原始数据",
             }
-    return {"pointer_targets": targets}
+    return {
+        "pointer_targets": targets,
+        # 音频域的派生事实：描述符 → 音效 id 列表 / 轨道数 / 共用关系、
+        # 播放通道分布、函数指针表每个槽「是什么」。
+        # 这些**不占 ROM 字节**，所以只能放顶层 derived 段
+        # （做成结构表的话 rom.js 会试图把它们写回 ROM）。
+        "sound_stats": build_audio_stats(rom),
+    }
 
 
 def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:

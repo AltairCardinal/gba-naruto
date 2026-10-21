@@ -1,0 +1,54 @@
+/* 音频域专用样式（音效工作台 + 乐曲描述符 + 函数指针表）。
+ *
+ * 通用类在 styles.css 里，这里只补音频自己用到的几件：
+ * 三张入口卡的栅格、音效状态徽章、推定标注。
+ */
+
+.audio-cards {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+}
+
+/* ---------- 状态徽章 ---------- */
+.pill-song {
+  background: rgba(111, 154, 216, .16);
+  color: #8fb4e8;
+}
+
+.pill-sfx {
+  background: rgba(76, 175, 125, .16);
+  color: #7fc9a1;
+}
+
+.pill-empty {
+  background: rgba(140, 146, 166, .16);
+  color: #9aa1b5;
+}
+
+/* 「静态推定」：这不是已证的事实，必须一眼看出来。 */
+.audio-estimate {
+  margin-left: 6px;
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--warn, #d9a441);
+  border: 1px dashed rgba(217, 164, 65, .5);
+  border-radius: 999px;
+  padding: 0 6px;
+}
+
+/* ---------- 控件 ---------- */
+select.audio-descriptor {
+  max-width: 320px;
+}
+
+select.audio-filter {
+  min-width: 92px;
+}
+
+/* 描述符下拉里的选项文字比较长，截断显示但保留完整 title。 */
+select.audio-descriptor option {
+  font-family: var(--mono);
+  font-size: 11px;
+}
