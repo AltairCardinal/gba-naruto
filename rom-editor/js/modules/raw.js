@@ -37,6 +37,8 @@ export function renderRaw(container, ctx) {
   container.appendChild(el('p', { class: 'section-note' }, [
     '直接点字节就能改；改动记为显式补丁，构建时按「原字节必须匹配」写回。' +
     '也可以用下面的跳转 / 搜索定位到结构化编辑器没覆盖的地址。',
+    '补丁在**结构与文本写回之后**才写：所以落在某张表记录里的补丁能生效，' +
+    '但如果那一格已经被结构化编辑器改过，补丁会被跳过并在构建报告里点名。',
   ]));
 
   // --- 控件 ------------------------------------------------------------
@@ -135,6 +137,17 @@ export function renderRaw(container, ctx) {
     return out;
   }
 
+  /** The addresses that carry a local patch (so they can be highlighted). */
+  function patchedAddresses() {
+    const set = new Set();
+    for (const patch of pack.patches) {
+      const after = hexToBytes(patch.after_hex || '');
+      for (let i = 0; i < after.length; i++) set.add(patch.offset + i);
+    }
+    return set;
+  }
+  const patched = patchedAddresses();
+
   function draw() {
     clear(grid);
     const pageStart = Math.max(0, Math.floor(cursor / PAGE) * PAGE);
@@ -149,10 +162,12 @@ export function renderRaw(container, ctx) {
         const at = addr + i;
         const b = at < rom.length ? bytes[rowStart + i] : 0;
         const cell = el('span', {
-          class: 'editable',
+          class: 'editable' + (at === cursor ? ' hex-cursor' : '') +
+            (patched.has(at) ? ' hex-changed' : ''),
           text: b.toString(16).padStart(2, '0'),
           title: '点击修改',
           onclick: () => {
+            cursor = at;
             const input = window.prompt(
               `修改 0x${at.toString(16).toUpperCase()} 的字节（0x00–0xFF）`,
               b.toString(16).padStart(2, '0')
@@ -193,9 +208,84 @@ export function renderRaw(container, ctx) {
     if (e.key === 'ArrowRight') { cursor = Math.min(rom.length - 1, cursor + 16); draw(); e.preventDefault(); }
   };
   window.addEventListener('keydown', onKey);
-  window.addEventListener('popstate', () => {});
 
   draw();
+  renderSide();
+
+  /**
+   * The right-hand column: where the cursor is, which table owns that address,
+   * and the list of patches (with undo).
+   *
+   * Before this, the module had no patch list at all: the author could not see
+   * what they had changed, could not undo it, and the build report did not even
+   * render the warnings.
+   */
+  function renderSide() {
+  const pack = ctx.pack;
+  const rom = ctx.rom || ctx.baseRom;
+  const where = locateAddress(pack, rom, cursor);
+  const side = el('div', { class: 'detail-panel' }, [
+    el('div', { class: 'detail-head' }, [
+      el('h3', { text: `当前字节 0x${cursor.toString(16).toUpperCase()}` }),
+    ]),
+    el('div', { class: 'detail-sub' }, [
+      el('span', { text: where ? where.text : '不被任何表写回' }),
+    ]),
+    where
+      ? el('div', { class: 'rule-note rule-warn' }, [
+        el('span', { class: 'rule-title', text: '落点' }),
+        el('span', {
+          text: `这个地址在${where.text}里。构建时那一条记录会整段写回，` +
+            '所以在这里改它要靠补丁生效（补丁在结构写回之后才写）。',
+        }),
+      ])
+      : null,
+  ]);
+
+  // --- 补丁清单 --------------------------------------------------------
+  const patches = pack.patches || [];
+  const list = el('div', { class: 'xref-block' }, [
+    el('div', { class: 'xref-title', text: `补丁 ${patches.length} 条` }),
+  ]);
+  if (!patches.length) {
+    list.appendChild(el('div', { class: 'xref-hint', text: '还没有补丁。在左边的十六进制视图里点一个字节就能改。' }));
+  }
+  for (const patch of patches) {
+    const before = patch.before_hex || '';
+    const after = patch.after_hex || '';
+    list.appendChild(el('div', { class: 'xref-row' }, [
+      el('span', { text: `0x${patch.offset.toString(16).toUpperCase()}` }),
+      el('span', { text: `${before} → ${after}` }),
+      el('button', {
+        class: 'btn btn-tiny',
+        text: '撤销',
+        onclick: () => {
+          pack.removePatch(patch);
+          ctx.onChange();
+          draw();
+          renderSide();
+          toast(`已撤销 0x${patch.offset.toString(16).toUpperCase()}`);
+        },
+      }),
+    ]));
+  }
+  side.appendChild(list);
+  side.appendChild(el('div', { class: 'detail-actions' }, [
+    el('button', {
+      class: 'btn btn-ghost',
+      text: '全部撤销',
+      onclick: () => {
+        const n = pack.patches.length;
+        pack.patches.length = 0;
+        ctx.onChange();
+        draw();
+        renderSide();
+        toast(`已撤销 ${n} 条补丁`);
+      },
+    }),
+  ]));
+  container.appendChild(side);
+  }
 }
 
 /** Record a one-byte change as an explicit patch in the pack. */
@@ -207,10 +297,53 @@ export function applyPatch(ctx, offset, value) {
   const after = hexToBytes(patch.after_hex || '');
   const merged = new Uint8Array(Math.max(after.length, 1));
   merged.set(after, 0);
-  merged[0] = value & 0xff;
+  // 要改的是**用户点的那一个字节**，不是这条补丁的第 0 字节。
+  // 早先写的是 merged[0] = value：点一条多字节补丁（剧情操作数）里的
+  // 第 2 个字节时，被改的其实是补丁的第 0 字节，而且没有任何提示。
+  const index = Math.max(0, Math.min(merged.length - 1, offset - patch.offset));
+  merged[index] = value & 0xff;
   patch.after_hex = bytesToHex(merged);
   if (!patch.before_hex) patch.before_hex = bytesToHex(new Uint8Array([original]));
   return patch;
+}
+
+/**
+ * Which table record covers this address?
+ *
+ * The author needs to know where a byte lives before changing it: a byte
+ * inside a structure record will be rewritten by that record's write-back.
+ */
+export function locateAddress(pack, rom, offset) {
+  for (const structure of pack.structures || []) {
+    const size = structure.entry_size || 0;
+    for (const record of structure.records || []) {
+      if (offset >= record.rom_offset && offset < record.rom_offset + size) {
+        return {
+          kind: 'structure',
+          id: structure.id,
+          label: structure.label,
+          recordId: record.id,
+          text: `${structure.label} 第 ${record.id + 1} 条记录内`,
+        };
+      }
+    }
+  }
+  for (const table of pack.texts || []) {
+    for (const record of table.records || []) {
+      if (record.text_offset === null || record.text_offset === undefined) continue;
+      const end = record.text_offset + (record.capacity || 0);
+      if (offset >= record.text_offset && offset < end) {
+        return {
+          kind: 'text',
+          id: table.id,
+          label: table.label,
+          recordId: record.id,
+          text: `${table.label} 第 ${record.id + 1} 条文本内`,
+        };
+      }
+    }
+  }
+  return null;
 }
 
 function findBytes(rom, needle, pack) {

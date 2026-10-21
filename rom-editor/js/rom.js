@@ -52,9 +52,21 @@ export class RomBuilder {
   }
 
   build() {
-    this.applyPatches();
+    // 写回顺序：**补丁最后写**。
+    //
+    // 早先的顺序是「补丁 → 结构 → 文本」，于是**落在结构表或文本表写回范围内
+    // 的补丁会被整段覆盖回去** —— 作者在编辑器里看到新值，ROM 里却没有，
+    // 而且构建报告一个错都不报（实测：改 battle_actors 记录里的一个字节，
+    // 构建后该字节仍是原值，warnings=[]、errors=[]）。
+    //
+    // 现在结构与文本先写回，补丁最后写；补丁的「原字节必须匹配」校验改成
+    // 对着**当前**字节做，于是：
+    //   * 那个字节没被结构化编辑器改过 → 补丁生效（兜底通道真的兜得住）；
+    //   * 那个字节被结构化编辑器改过 → 字节已变，补丁被跳过并报告
+    //     （结构化改动优先，而且用户看得见）。
     this.applyStructures();
     this.applyTextTables();
+    this.applyPatches();
     if (this.report.errors.length) {
       throw new BuildError(this.report.errors.join('\n'));
     }
@@ -76,7 +88,8 @@ export class RomBuilder {
         const actual = this.bytes.subarray(offset, offset + before.length);
         if (bytesToHex(actual) !== bytesToHex(before)) {
           this.report.warnings.push(
-            `补丁 ${patch.id} 的原始字节不匹配（已跳过）`
+            `补丁 ${patch.id} 的原始字节不匹配（已跳过）——` +
+            '这个地址可能已经被结构化编辑器改过，请确认两处改动谁生效'
           );
           continue;
         }

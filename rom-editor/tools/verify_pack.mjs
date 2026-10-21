@@ -518,5 +518,45 @@ console.log('\n9) 文本表的数据完整性：容量判定 / 共用字节 / �
   }
 }
 
+console.log('\n10) 原始字节补丁：能落在结构表里生效，被结构化改过才跳过');
+{
+  const p12 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  // 补丁落在 battle_actors 第 0 条记录内（0x5461C8 起）
+  const actors = p12.structure('battle_actors');
+  const first = actors.records.find((r) => r.rom_offset === 0x5461c8);
+  const at = first.rom_offset + 0x02;          // 记录里的 x 字段
+  const original = rom[at];
+  p12.patches.push({
+    id: 'raw.test',
+    offset: at,
+    before_hex: original.toString(16).padStart(2, '0'),
+    after_hex: 'ff',
+  });
+  const out = buildRom(p12, rom);
+  check('落在结构表记录里的补丁能真正进 ROM',
+    out.report.errors.length === 0 && out.bytes[at] === 0xff,
+    out.report.errors.join('; ') ||
+    `@0x${at.toString(16)} = 0x${out.bytes[at].toString(16)}（原 0x${original.toString(16)}）`);
+
+  // 同一地址如果被结构化编辑器改过，补丁必须被跳过并**报告**
+  const p13 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  const actors2 = p13.structure('battle_actors');
+  const first2 = actors2.records.find((r) => r.rom_offset === 0x5461c8);
+  p13.setValue(actors2, first2, 'x', 7);
+  p13.patches.push({
+    id: 'raw.conflict',
+    offset: first2.rom_offset + 0x02,
+    before_hex: rom[first2.rom_offset + 0x02].toString(16).padStart(2, '0'),
+    after_hex: 'ff',
+  });
+  const out2 = buildRom(p13, rom);
+  check('与结构化改动冲突的补丁被跳过并报告',
+    out2.report.warnings.some((w) => w.includes('raw.conflict')),
+    out2.report.warnings.join('; ') || '没有警告');
+  check('结构化改动本身仍然生效',
+    out2.bytes[first2.rom_offset + 0x02] === 7,
+    `x = ${out2.bytes[first2.rom_offset + 0x02]}`);
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);

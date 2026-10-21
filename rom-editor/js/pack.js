@@ -347,7 +347,25 @@ export class ContentPack {
         if (record.text !== undefined && record.text !== record.original_text) n += 1;
       }
     }
+    // 显式补丁（原始字节 / 剧情操作数）也是改动 —— 以前它们不进计数，
+    // 顶栏徽标对这类改动完全不响应，改了等于隐形。
+    n += this.changedPatchCount();
     return n;
+  }
+
+  /** How many patches actually change something. */
+  changedPatchCount() {
+    let n = 0;
+    for (const patch of this.patches || []) {
+      if ((patch.after_hex || '') !== (patch.before_hex || '')) n += 1;
+    }
+    return n;
+  }
+
+  /** Drop a patch (the author changed his mind). */
+  removePatch(patch) {
+    const at = (this.patches || []).indexOf(patch);
+    if (at >= 0) this.patches.splice(at, 1);
   }
 
   /**

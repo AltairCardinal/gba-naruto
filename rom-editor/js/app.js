@@ -343,6 +343,14 @@ function showBuildReport(report, bytes) {
     report.errors.length
       ? el('div', { class: 'pill pill-bad', text: `${report.errors.length} 处错误` })
       : el('div', { class: 'pill pill-ok', text: '无错误' }),
+    // 警告以前完全不渲染，于是「原字节不匹配（已跳过）」「这段文字属于别处」
+    // 这类信息对作者是不可见的 —— 现在摊开给人看。
+    report.warnings && report.warnings.length
+      ? el('div', { class: 'build-warnings' }, [
+        el('div', { class: 'build-warn-title', text: `警告 ${report.warnings.length} 条` }),
+        ...report.warnings.map((w) => el('div', { class: 'build-warn', text: w })),
+      ])
+      : null,
   ]);
   const actions = [];
   if (bytes) {
