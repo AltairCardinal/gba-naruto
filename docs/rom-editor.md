@@ -31,7 +31,10 @@ node rom-editor\tools\verify_views.mjs
 # 6) 路线工作台专项自检（剧情路线域的 6 条验收标准）
 node rom-editor\tools\verify_route_workbench.mjs
 
-# 7) 语法门禁（33 个文件：编辑器全部 JS）
+# 7) 音效工作台专项自检（音频域的 7 条验收标准）
+node rom-editor\tools\verify_audio_workbench.mjs
+
+# 8) 语法门禁（37 个文件：编辑器全部 JS）
 node rom-editor\tools\verify_syntax.mjs
 ```
 
@@ -79,8 +82,8 @@ node rom-editor\tools\verify_syntax.mjs
 
 | 承诺 | 怎么保证 |
 |---|---|
-| **初始数据即可构建完整原版 ROM** | 内容包 `content/pack.json` 含有原版 ROM 中**所有可证实结构的全量内容**（40 张结构表 / 6,676 条记录 / 11 张文本表 / 2,418 条文本 / 4,261 个字形码）；`node rom-editor/tools/verify_pack.mjs` 现场证明「用未改动的内容包重建的 ROM 与原版逐字节相同」 |
-| **任意内容都能改** | 结构化编辑器覆盖 40 张表 / 6,676 条记录；剧情脚本的定宽操作数（路线、地图、子配置、队员）可改；「原始字节」模块给出整张卡带的十六进制编辑器，兜住其余每一个字节——改动记成**显式补丁**，构建时按「原字节必须匹配」写回，不匹配就跳过并报告 |
+| **初始数据即可构建完整原版 ROM** | 内容包 `content/pack.json` 含有原版 ROM 中**所有可证实结构的全量内容**（116 张结构表 / 6,752 条记录 / 11 张文本表 / 2,418 条文本 / 4,261 个字形码）；`node rom-editor/tools/verify_pack.mjs` 现场证明「用未改动的内容包重建的 ROM 与原版逐字节相同」 |
+| **任意内容都能改** | 结构化编辑器覆盖 116 张表 / 6,752 条记录；剧情脚本的定宽操作数（路线、地图、子配置、队员）可改；「原始字节」模块给出整张卡带的十六进制编辑器，兜住其余每一个字节——改动记成**显式补丁**，构建时按「原字节必须匹配」写回，不匹配就跳过并报告 |
 | **改完能出 ROM** | 「构建 ROM」用内容包重写原版 ROM 并下载；改写遵循仓库既有模型：**复制原生条目 + 只改已知字段 + 未知字节原样保留** |
 | **不会写坏** | 文本分两类：指针表驱动的（可重定位、可变长）与被代码用绝对地址引用的（只能等长改写）；越界会报错而不是悄悄截断 |
 
@@ -273,18 +276,25 @@ rom-editor/
 │  ├─ rom.js               ROM 构建器：结构写回 + 文本重定位 + 空闲区分配
 │  ├─ ui.js                DOM 工具
 │  ├─ editors.js           通用结构编辑器 / 文本表编辑器（由内容包驱动）
+│  ├─ fields.js            字段元数据层：枚举 / 关系 / 位域 / 指针 / 只读标记
+│  ├─ indexkey.js          复合下标分解 / 空记录 / 大表视图
+│  ├─ xref.js              反查引用（按 id 与按指针地址）
 │  ├─ loader.js            内容包载入（进度 / 超时 / 降级链）
 │  ├─ textindex.js         全 ROM 文本索引的按需载入
 │  ├─ romsource.js         原版 ROM 取回
 │  └─ modules/             六个域 + 概览 + 原始字节
 ├─ content/
-│  ├─ pack.json(.gz)       编辑器初始数据：40 结构 / 6,676 记录 / 11 文本表
+│  ├─ pack.json(.gz)       编辑器初始数据：116 结构 / 6,752 记录 / 11 文本表
 │  ├─ text-index.json(.gz) 全卡带文本索引（16,915 条，按需载入）
 │  └─ base-rom/            内置原版 ROM（gzip 分片）+ 载入器页面
+├─ css/                    各域样式（route / assets / audio）
 └─ tools/
    ├─ serve.mjs            静态服务器（兼收自检结果上报）
    ├─ verify_pack.mjs      命令行自检：重建 ROM + 逐域落点
    ├─ verify_views.mjs     无头视图自检：九个模块渲染 + 战斗视图断言
+   ├─ verify_route_workbench.mjs  路线工作台专项
+   ├─ verify_audio_workbench.mjs   音效工作台专项
+   ├─ verify_syntax.mjs    语法门禁（编辑器全部 JS）
    └─ selftest.html        浏览器内自检：所有模块渲染 + 面板打开
 ```
 
@@ -315,9 +325,39 @@ rom-editor/
                   "text_offset": 7408, "capacity": 13,
                   "text": "漩涡鸣人", "original_text": "漩涡鸣人", "raw": "<base64>" }]
   }],
-  "patches": []
+  "patches": [],
+  "derived": {
+    // 导出时判定的事实。**不是记录**：`rom.js` 只写 structures / texts / patches，
+    // 所以不占 ROM 字节的东西一律放这里。
+    "pointer_targets": {
+      "0x0859F988": { "kind": "raw", "size": null, "label": "未压缩原始数据" }
+    },
+    "sound_stats": { … }
+  }
 }
 ```
+
+### 字段与结构上的机器可读语义
+
+界面只渲染，不硬编码语义。下面这些键是内容包与界面之间的契约：
+
+| 位置 | 键 | 含义 |
+|---|---|---|
+| 字段 | `group` | 字段属于记录的哪一段（决定折叠分区） |
+| 字段 | `array` + `index` + `item` | **重复槽位**（决定渲染成一张表） |
+| 字段 | `enum` | 取值域 → 中文标签（下拉） |
+| 字段 | `relation` | 这个值是另一张表的 id / 指针（`kind: text/structure/pointer/by_category`） |
+| 字段 | `bits` | 位域（已知的位给下拉，其余位原样保留） |
+| 字段 | `not_read` | 原生代码**不读**这一字节（界面降级为只读并说明） |
+| 字段 | `ptr_kind: "code"` | 这个指针指向**代码**（不适用「载荷」说法） |
+| 结构 | `raw_only` | 整张表没有已知字段 |
+| 结构 | `id_relation` | 记录下标本身就是一个 id |
+| 结构 | `id_is_index` | 记录下标是**基数为 0**的 id（详情不写「第 N 条」） |
+| 结构 | `index_scheme` | 复合下标的分解方案（「第 12 关 · 变体 1 · 槽 3」） |
+| 结构 | `hide_empty` | 绝大多数记录是全零的，默认藏起来 |
+| 结构 | `consumers` | 原生读者地址（改这张表会动到谁） |
+| 结构 | `record_labels` | 记录的名字（战斗状态结构 / 战斗控制标志…） |
+| 文本记录 | `owned_by` / `shared_with` | 这段字节属于别的表 / 同表内多记录共用同一段字节 |
 
 ### 两条硬约束
 

@@ -71,8 +71,8 @@
 | 剧情路线 | **一屏一关的路线工作台**：① 路线走向（本关出边 + 谁会跳到本关 + 「下一场景 id」下拉）② 任务文案（3 个子任务就地可改，跨关共用写在行脚注）③ 本关奖励（金币/强化点/门槛 + 8 个掉落位就地可改）；另有 `#route/graph` 整条路线总览 | `notes/specs/route-workbench.md` / `verify_route_workbench.mjs` |
 | 剧情脚本 | 剧本查看器：反汇编成指令表（ROM 地址 · 指令中文名 · 操作数 · 文本 · 分支目标），定宽操作数可改 | `verify_views` 第 14 组 |
 | 剧情与对白 | 字宽表 / 域首页两张入口卡（305 组对白 / 202 个剧本） | `verify_views` 第 10 组 |
-| 素材与资源 | 接线总表 / EWRAM 内存条带 / 载荷类型判定 | `notes/specs/assets-domain.md` |
-| 音频 | 音效分派表按类型分组 / 描述符带名字的下拉 / 「谁指向这个描述符」反查 / 函数指针表 1..11 槽（标「推定」） | `notes/audio-ux-redesign-20261021.md` |
+| 素材与资源 | **接线总表**（847 个指针槽，可搜索，同址计数）/ **EWRAM 内存条带**（7 段 + 未分配空隙 + 实时覆盖告警）/ 79 条资源记录（9 个指针成两张表，每行带目标摘要）；域首页第一屏是结论横幅「改指针能换资源，载荷本身动不了」 | `notes/specs/assets-domain.md` / `notes/assets-domain-implementation-20261022.md` |
+| 音频 | 音效工作台：描述符**带名字的下拉**（81 项）/「谁指向这个描述符」反查（空哨兵被 79 个音效共用）/ 乐曲轨道成表 / 函数指针表 1..11 槽标「播放入口 · 音效 #k（推定）」；域首页是三张入口卡 + 统计一览（不再是 159 行表） | `notes/audio-ux-redesign-20261021.md` / `rom-editor/tools/verify_audio_workbench.mjs` |
 
 ### 2.5 底层与全局
 
@@ -100,9 +100,19 @@
 cd D:\Github\gba-naruto
 python tools\export_content_pack.py --check    # 内容包 == ROM
 node rom-editor\tools\verify_pack.mjs          # 命令行自检
-node rom-editor\tools\verify_views.mjs         # 无头视图自检
+node rom-editor\tools\verify_views.mjs         # 无头视图自检（16 组）
 node rom-editor\tools\verify_route_workbench.mjs   # 路线工作台专项
+node rom-editor\tools\verify_audio_workbench.mjs    # 音效工作台专项
 node rom-editor\tools\verify_syntax.mjs        # 语法门禁
 python -m unittest discover -s tests           # 仓库单测
-python build\content_pack_roundtrip.py         # 内容包往返
+python build\content_pack_roundtrip.py         # 内容包往返（116 结构 / 6,752 记录）
 ```
+
+## 5. 这一轮之后的样子（一句话）
+
+**六个域每个域都有「作者第一步该点哪儿」的入口**，
+每一个可改的字节都有控件、标记与可撤销的写回，
+每一个「这是什么东西」都从内容包里的机器可读语义来，
+而**不成立的说法**（载荷不可改、代码指针不谈载荷、静态推定标「推定」）
+都在界面上写死，不靠散文暗示。
+
