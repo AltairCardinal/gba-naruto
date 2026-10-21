@@ -1203,6 +1203,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
             5: "战斗控制标志",
             7: "战斗主数据",
         },
+        # 4 个原生读者（notes/completion-audit-20261020.md「save-state」行）
+        consumers=["0x0806869A", "0x08068954", "0x08068CC0", "0x08068D98"],
     ))
 
     level_fields = [

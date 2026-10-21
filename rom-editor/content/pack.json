@@ -96853,7 +96853,13 @@
     "wram_addr",
     "alloc_size"
    ],
-   "verification": "L3 格式已证明 / 写回路径可用（tools/import_battle_config.py::write_wram_alloc）"
+   "verification": "L3 格式已证明 / 写回路径可用（tools/import_battle_config.py::write_wram_alloc）",
+   "consumers": [
+    "0x0806869A",
+    "0x08068954",
+    "0x08068CC0",
+    "0x08068D98"
+   ]
   },
   {
    "id": "level_blocks",

@@ -16,6 +16,21 @@ export const DOMAIN_IDS = [
 ];
 
 /**
+ * Sub-views that are not tables but whole panels of one domain.
+ *
+ * The domain dispatches on `kind`; `id` is the Chinese label the
+ * breadcrumb shows.  Listing them here makes those panels deep-linkable
+ * (`#assets/wiring`) and lets the browser Back button work inside the
+ * editor instead of leaving it.
+ */
+export const SUBVIEW_LABELS = {
+  wiring: '接线表',
+  records: '资源记录表',
+  memory: 'EWRAM 内存图',
+  overview: '指针接线总表',
+};
+
+/**
  * Parse a hash into { module, panel }.
  *
  * @param {string} hash  e.g. "#battle/stage/40/0"
@@ -44,6 +59,13 @@ export function parseHash(hash) {
   if (parts[1] === 'graph') {
     // 「整条路线总览」这类整域视图。
     return { module, panel: { kind: 'graph', id: 'graph', params: {} } };
+  }
+  if (parts[1] && SUBVIEW_LABELS[parts[1]]) {
+    // 域内的整块面板（接线表 / 内存图 / …）。
+    return {
+      module,
+      panel: { kind: parts[1], id: SUBVIEW_LABELS[parts[1]], params: {} },
+    };
   }
   if (parts[1] === 'offset' && parts[2]) {
     // 「原始字节」按地址打开：#raw/offset/0x5A15C0
@@ -106,6 +128,9 @@ export function hashFor(view) {
   }
   if (panel.kind === 'graph') {
     return `#${module}/graph`;
+  }
+  if (SUBVIEW_LABELS[panel.kind]) {
+    return `#${module}/${panel.kind}`;
   }
   if (panel.kind === 'raw-offset') {
     const offset = (panel.params && panel.params.offset) || 0;
