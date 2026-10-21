@@ -25,10 +25,13 @@ node rom-editor\tools\serve.mjs 8765
 # 4) 命令行自检（34 项：重建 ROM + 逐域落点 + 原始字节补丁 + 剧情 VM + 控制码 + 战斗目标说明文字）
 node rom-editor\tools\verify_pack.mjs
 
-# 5) 无头视图自检（74 项：九个模块渲染 + 战斗视图 + 文本表视图 + 域首页 + 导航）
+# 5) 无头视图自检（128 项：九个模块渲染 + 战斗视图 + 文本表视图 + 域首页 + 导航 + 指针/复合键/深链）
 node rom-editor\tools\verify_views.mjs
 
-# 6) 语法门禁（28 个文件：编辑器全部 JS）
+# 6) 路线工作台专项自检（剧情路线域的 6 条验收标准）
+node rom-editor\tools\verify_route_workbench.mjs
+
+# 7) 语法门禁（33 个文件：编辑器全部 JS）
 node rom-editor\tools\verify_syntax.mjs
 ```
 

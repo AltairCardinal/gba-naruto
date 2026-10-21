@@ -316,7 +316,10 @@ export class StructureEditor {
     if (field.type === 'ptr') {
       const hex = formatHex32(value);
       // 指针的载荷（压缩块 / 原始数据 / 空哨兵）由导出时判定的事实给出。
-      const payload = this.pack.pointerTarget ? this.pack.pointerTarget(value) : null;
+      // 代码指针（处理程序 / 剧本入口）不谈「载荷」—— 那是数据指针的说法。
+      const payload = field.ptr_kind === 'code'
+        ? null
+        : (this.pack.pointerTarget ? this.pack.pointerTarget(value) : null);
       return payload && payload.label ? `${hex} · ${payload.label}` : hex;
     }
     if (field.type === 'hex') {

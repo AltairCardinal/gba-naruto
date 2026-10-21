@@ -181,7 +181,7 @@ export function describePointer(pack, value) {
  * The answer comes from the pack (a known structure's record, a text record,
  * or the payload kind the exporter worked out).
  */
-export function pointerSummary(pack, value) {
+export function pointerSummary(pack, value, field) {
   const described = describePointer(pack, value);
   if (!value) return '空指针（原版就是空的）';
   const parts = [];
@@ -190,7 +190,10 @@ export function pointerSummary(pack, value) {
   } else if (described.inside) {
     parts.push(described.inside.join('、'));
   }
-  if (described.payload && described.payload.label) {
+  if (field && field.ptr_kind === 'code') {
+    // 代码指针：说「载荷是什么」是错的 —— 那是数据指针的说法。
+    parts.push('代码地址');
+  } else if (described.payload && described.payload.label) {
     parts.push(described.payload.label);
   }
   const where = described.fileOffset === null
@@ -233,9 +236,12 @@ export function fieldHint(pack, structure, record, field) {
     } else if (described.inside) {
       hint.push(`落在：${described.inside.join('、')}`);
     }
-    if (described.payload && described.payload.label) {
+    if (described.payload && described.payload.label && field.ptr_kind !== 'code') {
       // 载荷是什么（压缩块 / 原始数据 / 空哨兵）—— 导出时判定的事实。
+      // 代码指针不能说「载荷」：那是数据指针的说法。
       hint.push(`载荷：${described.payload.label}`);
+    } else if (field.ptr_kind === 'code') {
+      hint.push('代码地址');
     }
   }
   if (field.relation) {
