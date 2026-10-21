@@ -603,12 +603,20 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
           "&0x1800>>5 → 0..0xC0 等级/点数；高字节在仓库里另被标为「未解」", "记录"),
     ]
     for i in range(6):
-        jutsu_fields.append(F(f"grow_{i}", 0x04 + i, 1, "u8", f"成长目标{i}",
-                              "六个随等级成长的字节属性", "成长"))
+        # 标签用 **1 基**（成长目标1..6）并带上字节偏移：
+        # `growth_type` 的取值 1..6 指向的就是这六个字节，而它们自己的下标是 0 基，
+        # 两套编号相反会让作者把「成长目标=4」当成 grow_4（其实是 grow_3）。
+        jutsu_fields.append(F(f"grow_{i}", 0x04 + i, 1, "u8", f"成长目标{i + 1}",
+                              f"字节 +0x{0x04 + i:02X}：随等级成长的初值", "成长"))
     jutsu_fields += [
         F("unknown_0a", 0x0A, 1, "u8", "未知0A", "", "记录"),
         F("unknown_0b", 0x0B, 1, "u8", "未知0B", "", "记录"),
-        F("growth_type", 0x0C, 1, "u8", "成长目标", "0/7 = 不成长；1..6 指向上面的成长目标", "成长"),
+        F("growth_type", 0x0C, 1, "u8", "成长目标",
+          "0/7 = 不成长；1..6 指向上面的成长目标1..6", "成长",
+          enum={0: "不成长", 7: "不成长", 1: "成长目标1（+0x04）",
+                2: "成长目标2（+0x05）", 3: "成长目标3（+0x06）",
+                4: "成长目标4（+0x07）", 5: "成长目标5（+0x08）",
+                6: "成长目标6（+0x09）"}),
         F("unknown_0d", 0x0D, 1, "u8", "未知0D", "", "记录"),
         F("growth_amount", 0x0E, 1, "u8", "每级成长量",
           "值 = (等级−1) × 本值；实测 87 条记录中 +0x0F 恒为 0，"
@@ -637,9 +645,11 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         (ITEM_RECORD_BASE + i * ITEM_RECORD_STRIDE for i in range(ITEM_RECORD_COUNT)),
         rom,
         note="94 条 16 字节记录。仓库里**没有任何一处证明**这 16 字节的字段含义，"
-             "所以本表按原始字节呈现并编辑，不臆造字段名。",
+             "所以本表按原始字节呈现并编辑，不臆造字段名。\n"
+             "**编辑器构建线会把它原样写回**（`rom.js::applyStructures`），"
+             "所以在编辑器里改这里是真的会进 ROM 的。",
         primary_columns=["raw_00", "raw_01", "raw_02", "raw_03"],
-        verification="L1 结构已证明 / 尚无写回路径",
+        verification="L1 结构已证明 / 编辑器构建线会写回（外部 Python 导入线尚无）",
         raw_only=True,
         id_relation={"table": "ninjutsu_names", "kind": "text", "label": "忍具名"},
     ))

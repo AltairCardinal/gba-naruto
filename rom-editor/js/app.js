@@ -80,7 +80,30 @@ export function markDirty() {
   const count = state.pack ? state.pack.changedCount() : 0;
   dom.dirtyBadge.textContent = String(count);
   dom.dirtyBadge.classList.toggle('hidden', count === 0);
+  if (dom.undoButton) {
+    const depth = state.pack ? state.pack.undoDepth : 0;
+    dom.undoButton.classList.toggle('hidden', depth === 0);
+    dom.undoButton.textContent = depth ? `撤销（${depth}）` : '撤销';
+    dom.undoButton.title = depth
+      ? `撤销上一步改动（Ctrl+Z），栈里还有 ${depth} 步`
+      : '还没有可撤销的改动';
+  }
   dom.buildButton.disabled = !state.rom;
+}
+
+/** Undo the most recent change and refresh the view. */
+export function undo() {
+  if (!state.pack || !state.pack.canUndo) {
+    toast('没有可撤销的改动', 'error');
+    return;
+  }
+  if (!state.pack.undo()) {
+    toast('撤销失败：这条记录已被重新导入覆盖', 'error');
+    return;
+  }
+  markDirty();
+  render();
+  toast('已撤销上一步改动');
 }
 
 export function currentModule() {
@@ -536,6 +559,16 @@ function build() {
   }
 
   document.getElementById('btn-build').addEventListener('click', doBuild);
+  dom.undoButton = document.getElementById('btn-undo');
+  if (dom.undoButton) {
+    dom.undoButton.addEventListener('click', undo);
+  }
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'z' || e.key === 'Z')) {
+      e.preventDefault();
+      undo();
+    }
+  });
   document.getElementById('btn-retry').addEventListener('click', () => {
     window.location.reload();
   });

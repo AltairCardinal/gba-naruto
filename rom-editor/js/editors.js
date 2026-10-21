@@ -17,10 +17,11 @@ import { el, clear, formatHex32, formatOffset, toast } from './ui.js';
 import { readField } from './pack.js';
 import { bytesToBase64, base64ToBytes, bytesToHex } from './bytes.js';
 import {
-  fieldControl, fieldHint, groupFields, isRawOnly, originalValue, resolveRelation,
-  resolveByCategory, enumLabel,
+  fieldControl, fieldHint, groupFields, idRelationName, isRawOnly, originalValue,
+  resolveRelation, resolveByCategory, enumLabel,
 } from './fields.js';
 import { arraysIn, renderArrayTable, columnLabel, arrayFields } from './slots.js';
+import { backReferences } from './xref.js';
 
 const MAX_COLUMNS = 6;
 
@@ -69,15 +70,18 @@ export class StructureEditor {
 
   get records() {
     const all = this.structure.records || [];
-    if (!this.query) return all;
-    const q = this.query.toLowerCase();
-    return all.filter((r) => {
-      if (String(r.id).toLowerCase().includes(q)) return true;
-      if (r.label && String(r.label).includes(q)) return true;
+    const query = this.query.toLowerCase();
+    const filtered = !query ? all : all.filter((r) => {
+      if (String(r.id).toLowerCase().includes(query)) return true;
+      if (r.label && String(r.label).toLowerCase().includes(query)) return true;
+      // 记录名（id_relation）也要能搜到 —— 搜「分身术」应该找得到忍术 id 3。
+      const name = idRelationName(this.pack, this.structure, r);
+      if (name && name.toLowerCase().includes(query)) return true;
       return (r.values ? Object.values(r.values) : []).some(
-        (v) => String(v).toLowerCase().includes(q)
+        (v) => String(v).toLowerCase().includes(query)
       );
     });
+    return filtered;
   }
 
   /** 这条记录相对原版是否被改过。 */
@@ -165,13 +169,17 @@ export class StructureEditor {
 
     const body = el('tbody');
     const records = this.records;
+    const named = !!this.structure.id_relation;
     for (const record of records) {
       const dirty = this.isDirty(record);
+      const name = idRelationName(this.pack, this.structure, record);
       const row = el('tr', {
         onclick: () => this.openDetail(record),
         class: (this.selected === record ? 'selected' : '') + (dirty ? ' changed' : ''),
       }, [
         el('td', { class: 'col-id', text: String(record.label ?? record.id) }),
+        // 有 id_relation 的表，第一列之后多一列**名字** —— 列表里不再只有数字。
+        named ? el('td', { class: 'name-cell', text: name || '（无名字）' }) : null,
         ...fields.map((f) => el('td', { text: this.formatCell(record, f) })),
         el('td', { class: 'col-actions' }, [
           el('button', {
@@ -254,6 +262,36 @@ export class StructureEditor {
       el('span', { text: `第 ${record.id + 1} / ${(structure.records || []).length} 条` }),
       this.isDirty(record) ? el('span', { class: 'tag tag-warn', text: '已改动' }) : null,
     ]));
+
+    // 谁引用了这条记录 —— 改了它会动到谁。
+    const refs = backReferences(this.pack, {
+      kind: 'structure', id: structure.id, recordId: record.id,
+    });
+    if (refs.length) {
+      this.detail.appendChild(el('div', { class: 'xref-block' }, [
+        el('div', { class: 'xref-title', text: `被谁引用（${refs.length} 处）` }),
+        el('div', { class: 'xref-hint', text: '改这条会同时影响下面这些地方。' }),
+        ...refs.slice(0, 12).map((ref) => el('div', { class: 'xref-row' }, [
+          el('span', { text: ref.label }),
+          el('button', {
+            class: 'btn btn-tiny',
+            text: '跳过去',
+            onclick: () => this.options.onJump
+              ? this.options.onJump({
+                module: ref.structure.module,
+                kind: 'structure',
+                id: ref.structure.id,
+                recordId: ref.record.id,
+                label: ref.structure.label,
+              })
+              : null,
+          }),
+        ])),
+        refs.length > 12
+          ? el('div', { class: 'xref-hint', text: `…还有 ${refs.length - 12} 处` })
+          : null,
+      ]));
+    }
 
     const form = el('div', { class: 'field-list' });
     if (isRawOnly(structure)) {
@@ -381,8 +419,22 @@ export class StructureEditor {
       el('span', { text: field.label || field.key }),
     ]);
     const marker = el('span', { class: 'tag tag-warn', text: '已改' });
+    const restore = el('button', {
+      class: 'btn btn-tiny',
+      text: '↺',
+      title: '把这个字段恢复成原值',
+      onclick: () => {
+        const original = originalValue(structure, record, field);
+        this.pack.setValue(structure, record, field.key, original);
+        this.onChange();
+        refresh();
+        this.renderTable();
+        toast(`已恢复「${field.label || field.key}」的原值 ${original}`);
+      },
+    });
     const offset = el('span', { class: 'field-offset', text: `+${formatOffset(field.offset)}` });
     label.appendChild(marker);
+    label.appendChild(restore);
     label.appendChild(offset);
 
     const { node, link } = fieldControl(
@@ -395,6 +447,7 @@ export class StructureEditor {
       const changed = JSON.stringify(original) !== JSON.stringify(current);
       wrapper.classList.toggle('field-changed', changed);
       marker.classList.toggle('hidden', !changed);
+      restore.classList.toggle('hidden', !changed);
       const lines = fieldHint(this.pack, structure, record, field);
       if (changed) lines.push(`原值 ${original}`);
       hintLine.textContent = lines.join(' · ');

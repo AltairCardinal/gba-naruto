@@ -206,6 +206,79 @@ export function fieldHint(pack, structure, record, field) {
 }
 
 /**
+ * The name of a record, when the structure says its id *is* an id elsewhere.
+ *
+ * `structure.id_relation` means "the record index is an id in that other
+ * table" — e.g. 忍术记录表 #5 is 忍术名表 #5.  The list then shows
+ * 「忍者组合拳」instead of a bare number.
+ */
+export function idRelationName(pack, structure, record) {
+  const relation = structure && structure.id_relation;
+  if (!relation || !record) return null;
+  if (relation.kind === 'text') {
+    const table = pack.textTable(relation.table);
+    if (!table) return null;
+    const hit = table.records[record.id];
+    return hit && hit.text ? hit.text : null;
+  }
+  if (relation.kind === 'structure') {
+    const target = pack.structure(relation.table);
+    if (!target) return null;
+    const hit = target.records[record.id];
+    return hit ? (hit.label ?? `#${hit.id}`) : null;
+  }
+  return null;
+}
+
+/**
+ * The options of a relation field: [{ value, label }].
+ *
+ * A field that is an id into another table is shown as a **list with names**,
+ * not as a bare number box — and an id that is outside the target table is
+ * marked as such instead of silently showing nothing.
+ */
+export function relationOptions(pack, structure, record, field) {
+  const relation = field && field.relation;
+  if (!relation) return null;
+  const values = record.values || {};
+  const value = values[field.key];
+
+  if (relation.kind === 'by_category') {
+    const catField = siblingField(structure, field, 'category');
+    if (!catField) return null;
+    const cat = values[catField.key];
+    const tableId = (relation.categories || {})[String(cat)];
+    if (!tableId) return null;
+    const table = pack.textTable(tableId);
+    if (!table) return null;
+    return table.records.map((r, i) => ({
+      value: i,
+      label: r.text || `（空 ${i}）`,
+      outOfRange: false,
+    }));
+  }
+
+  if (relation.kind === 'text') {
+    const table = pack.textTable(relation.table);
+    if (!table) return null;
+    const options = table.records.map((r, i) => ({
+      value: i,
+      label: r.text || `（空 ${i}）`,
+      outOfRange: false,
+    }));
+    if (value !== undefined && value !== null && value >= table.records.length) {
+      options.push({
+        value,
+        label: `（越界：id ${value} > 表长 ${table.records.length}）`,
+        outOfRange: true,
+      });
+    }
+    return options;
+  }
+  return null;
+}
+
+/**
  * The control for one field.
  *
  * Returns { node, hint, link } — `node` is the input, `hint` the lines under
@@ -276,6 +349,40 @@ export function fieldControl(ctx, structure, record, field) {
       }));
     }
     node = select;
+  } else if (field.relation) {
+    // 这个字段是另一张表的 id → 用「id · 名字」的下拉，而不是裸数字框。
+    const options = relationOptions(pack, structure, record, field);
+    if (options && options.length) {
+      const select = el('select', {
+        class: 'num-input',
+        onchange: (e) => {
+          if (!commit(e.target.value)) e.target.value = String(value ?? '');
+        },
+      });
+      for (const option of options) {
+        select.appendChild(el('option', {
+          value: String(option.value),
+          text: `${option.value} · ${option.label}`,
+          selected: String(value) === String(option.value),
+        }));
+      }
+      if (value !== undefined && !options.some((o) => String(o.value) === String(value))) {
+        select.appendChild(el('option', {
+          value: String(value),
+          text: `${value}（越界）`,
+          selected: true,
+        }));
+      }
+      node = select;
+    } else {
+      node = el('input', {
+        class: 'num-input',
+        type: 'text',
+        spellcheck: 'false',
+        value: value === undefined ? '' : String(value),
+        onchange: (e) => { if (!commit(e.target.value)) e.target.value = String(value ?? ''); },
+      });
+    }
   } else if (field.type === 'hex') {
     node = el('textarea', {
       class: 'hex-input',

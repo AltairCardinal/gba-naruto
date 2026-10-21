@@ -66,6 +66,7 @@ class StubNode {
     }
     return node;
   }
+  get parentElement() { return this.parentNode || null; }
   removeChild(node) {
     const at = this.children.indexOf(node);
     if (at >= 0) this.children.splice(at, 1);
@@ -673,6 +674,104 @@ console.log('\n9) 导航：URL 可寻址 + 跨域引用可点');
       target.id === 'jutsu_names' && target.recordId !== null,
       target ? `${target.module}/${target.kind}/${target.id}#${target.recordId}` : '没有跳转');
   }
+}
+
+console.log('\n10) 撤销：字段级恢复 + 全局撤销栈');
+{
+  const { StructureEditor } = await import('../js/editors.js');
+  const template = pack.structure('character_template');
+  const record = template.records.find((r) => r.id === 1);
+  const hpField = template.fields.find((f) => f.key === 'hp_base');
+  const before = record.values.hp_base;
+
+  // 字段级 ↺：把这个字段恢复成原值
+  const host = new StubNode('div');
+  const editor = new StructureEditor(pack, template, { onChange: ctx.onChange });
+  editor.render(host);
+  editor.openDetail(record);
+  const hpInput = editor.detail.descendants().find(
+    (n) => n.tagName === 'INPUT' && n.value === String(before));
+  if (!hpInput) {
+    check('找到 HP 基础输入框', false, '没有');
+  } else {
+    hpInput.listeners.change[0]({ target: { value: '123' } });
+    check('改值后记录被标记为已改', record.values.hp_base === 123,
+      `hp_base = ${record.values.hp_base}`);
+    // 找 ↺ 按钮并点它（要的是 hp_base 那个字段里的那一个）
+    const field = hpInput.parentElement;
+    const undoButton = field
+      ? field.descendants().find((n) => n.tagName === 'BUTTON' && n.textContent === '↺')
+      : null;
+    check('改过的字段旁边有 ↺ 恢复按钮', !!undoButton, undoButton ? '有' : '没有');
+    if (undoButton) {
+      undoButton.listeners.click[0]({ target: {} });
+      check('↺ 把字段恢复成原值', record.values.hp_base === before,
+        `hp_base = ${record.values.hp_base}（原值 ${before}）`);
+    }
+  }
+
+  // 全局撤销栈
+  const depthBefore = pack.undoDepth;
+  pack.setValue(template, record, 'stat_a', (record.values.stat_a + 1) % 200);
+  const changed = record.values.stat_a;
+  check('改动进了撤销栈', pack.undoDepth === depthBefore + 1,
+    `栈深 ${depthBefore} → ${pack.undoDepth}`);
+  pack.undo();
+  check('撤销把值恢复回去', record.values.stat_a !== changed,
+    `stat_a = ${record.values.stat_a}`);
+  pack.setValue(template, record, 'stat_a', changed);
+  pack.undo();
+}
+
+console.log('\n11) 通用能力：记录名 / 按名字搜 / 反查引用');
+{
+  const { StructureEditor } = await import('../js/editors.js');
+  const { idRelationName } = await import('../js/fields.js');
+  const { backReferences, missionIndexOwners } = await import('../js/xref.js');
+
+  // 11a. 有 id_relation 的表，记录有名字
+  const jutsu = pack.structure('jutsu_record');
+  const named = jutsu.records.find((r) => idRelationName(pack, jutsu, r));
+  check('记录名能从 id_relation 解析出来', !!named,
+    named ? `id ${named.id} = ${idRelationName(pack, jutsu, named)}` : '没有');
+
+  // 11b. 按名字能搜到（以前搜「分身术」永远 0 命中）
+  const host = new StubNode('div');
+  const editor = new StructureEditor(pack, jutsu, { onChange: ctx.onChange });
+  editor.render(host);
+  const name = named ? idRelationName(pack, jutsu, named) : '';
+  editor.query = name;
+  check('按名字能搜到记录', editor.records.length > 0,
+    `搜「${name}」命中 ${editor.records.length} 条`);
+
+  // 11c. 列表里多出名字一列
+  editor.query = '';
+  editor.renderTable();
+  const nameCells = host.descendants().filter((n) => (n.className || '') === 'name-cell');
+  check('记录列表显示名字', nameCells.length > 0,
+    `${nameCells.length} 行有名字`);
+
+  // 11d. 反查：谁引用了这条忍术（挑一条真的被引用的，跳过 id 0 的「没有」占位）
+  const allRefs = jutsu.records
+    .filter((r) => r.id > 0)
+    .map((r) => ({
+      record: r,
+      refs: backReferences(pack, {
+        kind: 'structure', id: 'jutsu_record', recordId: r.id,
+      }),
+    }))
+    .sort((a, b) => b.refs.length - a.refs.length);
+  const most = allRefs[0];
+  check('能反查「谁引用了这条记录」', most && most.refs.length > 0,
+    most
+      ? `id ${most.record.id}（${idRelationName(pack, jutsu, most.record)}）被 ${most.refs.length} 处引用`
+      : '没有引用');
+
+  // 11e. 奖励表的下标归属（不是 3×(关卡−1)）
+  const owners = missionIndexOwners(pack);
+  const shared = [...owners.entries()].filter(([, list]) => list.length > 1);
+  check('奖励表下标能反查到关卡', owners.size > 0,
+    `${owners.size} 个下标，${shared.length} 个被多关共用`);
 }
 
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);

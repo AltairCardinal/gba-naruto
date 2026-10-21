@@ -39,7 +39,57 @@ export class ContentPack {
       (data.font && data.font.char_to_code) || null
     );
     this.dirty = new Set();
+    /**
+     * The undo stack (this session only — it is not part of the exported pack).
+     *
+     * One entry per change, holding the *previous* value, so undo restores
+     * exactly what was there before.  The stack is bounded so a long session
+     * cannot grow without limit.
+     */
+    this.undoStack = [];
     this.notes = data.notes || [];
+  }
+
+  /** Undo stack limit. */
+  static UNDO_LIMIT = 100;
+
+  /** Remember the previous value of one change so it can be undone. */
+  pushUndo(entry) {
+    this.undoStack.push(entry);
+    if (this.undoStack.length > ContentPack.UNDO_LIMIT) {
+      this.undoStack.shift();
+    }
+  }
+
+  get canUndo() {
+    return this.undoStack.length > 0;
+  }
+
+  get undoDepth() {
+    return this.undoStack.length;
+  }
+
+  /**
+   * Undo the most recent change.
+   *
+   * @returns {boolean} whether something was undone
+   */
+  undo() {
+    const entry = this.undoStack.pop();
+    if (!entry) return false;
+    if (entry.kind === 'value') {
+      entry.record.values[entry.key] = entry.before;
+      this.dirty.add(`${entry.structure.id}#${entry.record.id}`);
+    } else if (entry.kind === 'text') {
+      entry.record.tokens = entry.before.tokens;
+      entry.record.text = entry.before.text;
+      if (entry.before.original !== undefined) {
+        entry.record.original_text = entry.before.original;
+      }
+      delete entry.record.text_changed;
+      this.dirty.add(`${entry.table.id}#${entry.record.id}`);
+    }
+    return true;
   }
 
   static fromJSON(data) {
@@ -102,6 +152,16 @@ export class ContentPack {
 
   setValue(structure, record, key, value) {
     if (!record.values) record.values = {};
+    const before = record.values[key];
+    if (before === value) return;
+    this.pushUndo({
+      kind: 'value',
+      structure,
+      record,
+      key,
+      before,
+      after: value,
+    });
     record.values[key] = value;
     this.dirty.add(`${structure.id}#${record.id}`);
   }
@@ -125,6 +185,17 @@ export class ContentPack {
   setText(table, record, text) {
     const tokens = this.textTokens(record);
     const newTokens = this.font.encodeTokens(text);
+    this.pushUndo({
+      kind: 'text',
+      table,
+      record,
+      before: {
+        text: record.text,
+        tokens: tokens.slice(),
+        original: record.original_text,
+      },
+      after: { text, tokens: newTokens },
+    });
     record.tokens = mergeTokens(tokens, newTokens);
     record.text = text;
     record.text_changed = true;
@@ -157,6 +228,17 @@ export class ContentPack {
    */
   resetText(table, record) {
     const raw = record.raw ? base64ToBytes(record.raw) : new Uint8Array(0);
+    this.pushUndo({
+      kind: 'text',
+      table,
+      record,
+      before: {
+        text: record.text,
+        tokens: this.textTokens(record).slice(),
+        original: record.original_text,
+      },
+      after: { text: record.text, tokens: scanTokens(raw) },
+    });
     record.tokens = scanTokens(raw);
     record.text = this.font.decode(raw);
     record.original_text = record.text;
