@@ -44,7 +44,7 @@
 
 `tools/export_content_pack.py` 从 `rom/base.gba` 导出：
 
-* **39 张结构表 / 6,666 条记录**；
+* **40 张结构表 / 6,676 条记录**；
 * 10 张文本表 / 2,199 条文本；
 * 字形码表 4,261 项（解码用 `code_to_char` + 编码用 `char_to_code`）；
 * 原版 ROM（gzip）随包一起提供，供编辑器直接重建。
@@ -111,7 +111,7 @@
 内容包自身的等价校验：`python tools\export_content_pack.py --check` → `OK`。
 
 更强的形式（探针 `build/content_pack_roundtrip.py`）：
-**6,666/6,666 条记录都能只用字段值重建回原字节**（`values → bytes == raw == ROM`），
+**6,676/6,676 条记录都能只用字段值重建回原字节**（`values → bytes == raw == ROM`），
 也就是「初始数据」与「ROM」之间的双向一致。
 
 ### 2.2 逐域落点（改一个字段，只动那几字节）
@@ -426,7 +426,48 @@ ROM 本身 6,291,456 字节 ≈ 6.3 MB，单独占满预算。
 `(阵营, 角色ID)` 是冗余的。编辑器现在按**原生行为**标注，并把每个类型的
 a/b 含义写出来（type 3 = 指定角色**已离场**，a=阵营、b=角色 id）。
 
-### 5.4.4 环境坑：页面加载后约 210 ms 自动重载
+### 5.4.5 覆盖面核对：审计的 47 个结构 vs 内容包的 40 张表
+
+**试了什么**：完成度审计（`tools/completion_audit.py`）覆盖 **47** 个结构，
+而内容包只有 **39** 张表（现已补到 **40**）。差的那些是什么？会不会漏了
+「原版 ROM 里已证实的内容」？
+
+**怎么核对的**：把审计条目按**基址**与内容包的结构对齐（同址不同名的算同一张）：
+
+| 审计 key | 基址 | 内容包里的对应物 |
+|---|---|---|
+| `resource-pointers` | `0x596F0C` | `sprite_action_table` `0x596CCC` 的**窗口**（`+0x240` = 精灵 4 / 动作 0）——不是独立表 |
+| `text-writeback` | `0x461CE8` | 文本表 `dialogue_slots`（同一个指针表） |
+| `ninjutsu-names` | `0x599634` | 文本表 `ninjutsu_names` |
+| `story-b/c/d/e`、`story` | `0x536368` 等 | 音频域的 5 个 m4a SongHeader |
+| `sprite-animations` / `sprite-action-table` | `0x596CCC` | `sprite_action_table` |
+| `levels` | `0x5459C8` | `character_perks`（角色特性表，同一张） |
+| `character-stats` / `-b` | `0x545068` | `per_character_stats` |
+| `units` | `0x53F298` | `unit_slot_remap` |
+| `encounter-zones` | `0x53D910` | `map_table`（战场描述符） |
+| `menu-ui` / `portrait-table` | `0x5A4DEC` | `portrait_table`（头像表） |
+| `battle-config` / `skills` / `items` | `0x545458` / `0x545BE4` | `jutsu_record` / `item_record` |
+| `map-sprites` | `0x53F140` | `object_descriptors` |
+| `battle-handlers` / `map-events` | `0x53E698` | `battle_handler_table` |
+| `mechanism-effects` | `0x0808136C` | **代码地址**，只读参考 |
+| `runtime-state` | — | **WRAM 运行时状态**，不在 ROM 里，只读参考 |
+| `sappy-engine` / `palettes` / `audio` | — | **已退役**（审计里 `retired=True`） |
+| **`save-state`** | **`0x53D848`** | **原先缺！** → 已补进内容包（`wram_allocation`） |
+
+**结论**：唯一真正漏掉的是 `save-state` `0x53D848` —— 它已被证实是
+**WRAM 分配表**（10 组 `{u32 EWRAM 地址, u32 大小}`，4 个原生读者
+`0x0806869A / 0x08068954 / 0x08068CC0 / 0x08068D98`），
+**不是**存档描述符表（存档数据在 SRAM，不在 ROM）。
+现在它作为 `wram_allocation` 进包（素材与资源域）。
+
+补完之后，**审计覆盖的 47 个结构里，所有「在 ROM 里且未被裁决为只读/退役」的
+结构都在内容包中**；剩下的 4 个是只读参考（2）与已退役（3），
+外加 `resource-pointers` 那个窗口（已被精灵动作表覆盖）。
+
+**验证**：内容包 40 结构 / 6,676 记录，`values → bytes == raw == ROM` 全部成立
+（`build/content_pack_roundtrip.py`），重建 ROM 与原版逐字节相同。
+
+### 5.4.6 环境坑：页面加载后约 210 ms 自动重载
 
 **现象**：内置浏览器打开 `tools/selftest.html` 后，**约 210 ms 后页面被重新加载**，
 自检跑到一半就被冲掉（服务器日志里能看到 `GET /selftest.html` 反复出现）。
@@ -460,8 +501,8 @@ a/b 含义写出来（type 3 = 指定角色**已离场**，a=阵营、b=角色 i
 
 | 文件 | 作用 |
 |---|---|
-| `tools/export_content_pack.py` | 内容包导出器（39 结构 + 11 文本表 + 字形码表 + 内置 ROM） |
-| `rom-editor/content/pack.json` | 内容包（39 结构 / 6,666 记录 / 11 文本表 / 2,418 文本） |
+| `tools/export_content_pack.py` | 内容包导出器（40 结构 + 11 文本表 + 字形码表 + 内置 ROM） |
+| `rom-editor/content/pack.json` | 内容包（40 结构 / 6,676 记录 / 11 文本表 / 2,418 文本） |
 | `rom-editor/content/pack.min.json(.gz)` | 内容包（紧凑/压缩，浏览器用） |
 | `rom-editor/content/text-index.json(.gz)` | 全 ROM 文本索引（16,915 条，按需载入） |
 | `rom-editor/content/base-rom/` | 内置原版 ROM（gzip）+ 载入器页面 |

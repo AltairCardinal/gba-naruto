@@ -109,7 +109,7 @@ capstone 的统一加载器。仓库自带的 `tools/_vendor/capstone` 在本机
 Exports the editor's **initial data** — a self-describing dump of every
 editable structure in `rom/base.gba`:
 
-* 39 structures / 6,666 records (角色定义表、忍术记录表、道具记录表、奖励表、
+* 40 structures / 6,676 records (角色定义表、忍术记录表、道具记录表、奖励表、
   战场描述符、编成矩阵、战斗目标、剧情脚本四根根表、任务索引表、字形段表 …);
 * 11 text tables / 2,418 texts (对白槽位表 1,524 槽、任务三张文本表、各类名字表、
   **战斗目标说明文字 219 条** …);

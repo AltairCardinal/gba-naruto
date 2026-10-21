@@ -95936,6 +95936,132 @@
    "verification": "L1 结构已证明 / 尚无写回路径"
   },
   {
+   "id": "wram_allocation",
+   "module": "assets",
+   "label": "WRAM 分配表",
+   "rom_offset": 5494856,
+   "entry_size": 8,
+   "entry_count": 10,
+   "fields": [
+    {
+     "key": "wram_addr",
+     "offset": 0,
+     "size": 4,
+     "type": "u32",
+     "label": "EWRAM 起始地址",
+     "desc": "子系统分到的内存起点",
+     "group": "内存分配"
+    },
+    {
+     "key": "alloc_size",
+     "offset": 4,
+     "size": 4,
+     "type": "u32",
+     "label": "分配大小",
+     "desc": "字节数",
+     "group": "内存分配"
+    }
+   ],
+   "records": [
+    {
+     "id": 0,
+     "rom_offset": 5494856,
+     "raw": "MC4CAnwSAAA=",
+     "values": {
+      "wram_addr": 33697328,
+      "alloc_size": 4732
+     }
+    },
+    {
+     "id": 1,
+     "rom_offset": 5494864,
+     "raw": "MC4CAnwSAAA=",
+     "values": {
+      "wram_addr": 33697328,
+      "alloc_size": 4732
+     }
+    },
+    {
+     "id": 2,
+     "rom_offset": 5494872,
+     "raw": "rEACAhQAAAA=",
+     "values": {
+      "wram_addr": 33702060,
+      "alloc_size": 20
+     }
+    },
+    {
+     "id": 3,
+     "rom_offset": 5494880,
+     "raw": "MC4CAnwSAAA=",
+     "values": {
+      "wram_addr": 33697328,
+      "alloc_size": 4732
+     }
+    },
+    {
+     "id": 4,
+     "rom_offset": 5494888,
+     "raw": "rEACAhQAAAA=",
+     "values": {
+      "wram_addr": 33702060,
+      "alloc_size": 20
+     }
+    },
+    {
+     "id": 5,
+     "rom_offset": 5494896,
+     "raw": "BGgCAggAAAA=",
+     "values": {
+      "wram_addr": 33712132,
+      "alloc_size": 8
+     }
+    },
+    {
+     "id": 6,
+     "rom_offset": 5494904,
+     "raw": "yGsCAhgAAAA=",
+     "values": {
+      "wram_addr": 33713096,
+      "alloc_size": 24
+     }
+    },
+    {
+     "id": 7,
+     "rom_offset": 5494912,
+     "raw": "wEACAsQXAAA=",
+     "values": {
+      "wram_addr": 33702080,
+      "alloc_size": 6084
+     }
+    },
+    {
+     "id": 8,
+     "rom_offset": 5494920,
+     "raw": "hFgCAnwFAAA=",
+     "values": {
+      "wram_addr": 33708164,
+      "alloc_size": 1404
+     }
+    },
+    {
+     "id": 9,
+     "rom_offset": 5494928,
+     "raw": "BGYCAgACAAA=",
+     "values": {
+      "wram_addr": 33711620,
+      "alloc_size": 512
+     }
+    }
+   ],
+   "note": "10 组 {u32 EWRAM 地址, u32 大小}。4 个原生读者：0x0806869A / 0x08068954 / 0x08068CC0 / 0x08068D98。\n**旧称「存档描述符表」是错的**：存档数据在 SRAM，不在 ROM；这张表只决定每个子系统分到多少 EWRAM。",
+   "primary_columns": [
+    "wram_addr",
+    "alloc_size"
+   ],
+   "verification": "L3 格式已证明 / 写回路径可用（tools/import_battle_config.py::write_wram_alloc）"
+  },
+  {
    "id": "level_blocks",
    "module": "battle",
    "label": "关卡数据块表",

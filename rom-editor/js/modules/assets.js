@@ -45,12 +45,14 @@ export function renderAssets(container, ctx) {
       el('span', { text: '数据指针表 A ROM 0x5A143C（46 项）' }),
       el('span', { text: '数据指针表 B ROM 0x5A2034（90 项）' }),
       el('span', { text: '资源记录表 ROM 0x5A320C（79 条）' }),
+      el('span', { text: 'WRAM 分配表 ROM 0x53D848（10 组）' }),
     ],
     intro:
       '资源类表：指针表负责「指向哪份」，资源记录表负责「图块与脚本的组合」。' +
       '两者都只呈现指针层，载荷层的改写受限于仓库里缺失的逐字节一致 LZ77 压缩器。',
     extra,
-    structures: ['data_pointer_table_a', 'data_pointer_table_b', 'tile_asset_records'],
+    structures: ['data_pointer_table_a', 'data_pointer_table_b', 'tile_asset_records',
+      'wram_allocation'],
     texts: [],
   });
 }

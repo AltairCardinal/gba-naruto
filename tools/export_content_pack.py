@@ -99,6 +99,11 @@ UNIT_REMAP_BASE = 0x53F298
 UNIT_REMAP_COUNT = 43
 UNIT_DELTA_BASE = 0x53F2EE
 UNIT_DELTA_COUNT = 16
+# WRAM 分配表（legacy bank "save-state"）：10 组 {u32 wram_addr, u32 alloc_size}。
+# 存档数据本身在 SRAM，不在 ROM —— 这张表只管「每个子系统分到多少 EWRAM」。
+WRAM_ALLOC_BASE = 0x53D848
+WRAM_ALLOC_COUNT = 10
+WRAM_ALLOC_STRIDE = 8
 LEVEL_BLOCK_BASE = 0x53DF70
 LEVEL_BLOCK_COUNT = 4
 OBJECT_DESCRIPTOR_BASE = 0x53F140
@@ -737,6 +742,23 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         note="16 项有符号 u16。",
         primary_columns=["delta"],
         verification="L1 结构已证明 / 尚无写回路径",
+    ))
+
+    wram_fields = [
+        F("wram_addr", 0x00, 4, "u32", "EWRAM 起始地址", "子系统分到的内存起点", "内存分配"),
+        F("alloc_size", 0x04, 4, "u32", "分配大小", "字节数", "内存分配"),
+    ]
+    out.append(make_structure(
+        "wram_allocation", "assets", "WRAM 分配表",
+        WRAM_ALLOC_BASE, WRAM_ALLOC_STRIDE, wram_fields,
+        (WRAM_ALLOC_BASE + i * WRAM_ALLOC_STRIDE for i in range(WRAM_ALLOC_COUNT)),
+        rom,
+        note="10 组 {u32 EWRAM 地址, u32 大小}。4 个原生读者："
+             "0x0806869A / 0x08068954 / 0x08068CC0 / 0x08068D98。\n"
+             "**旧称「存档描述符表」是错的**：存档数据在 SRAM，不在 ROM；"
+             "这张表只决定每个子系统分到多少 EWRAM。",
+        primary_columns=["wram_addr", "alloc_size"],
+        verification="L3 格式已证明 / 写回路径可用（tools/import_battle_config.py::write_wram_alloc）",
     ))
 
     level_fields = [
