@@ -110,7 +110,7 @@ const MODULES = [
     // 页面可能被反复刷新，把上一次的结果留在 sessionStorage 里，
     // 这样刷新后仍能看到上次的结论（而不是又要等一遍）。
     try {
-      const previous = sessionStorage.getItem('editor-selftest-result');
+      const previous = sessionStorage.getItem(RESULT_KEY);
       if (previous) {
         const parsed = JSON.parse(previous);
         out.innerHTML = parsed.html;
@@ -440,19 +440,9 @@ const MODULES = [
       ? '<span class="pass">全部通过</span>'
       : `<span class="fail">${failures} 项失败</span>`);
     document.title = failures === 0 ? 'SELFTEST PASS' : `SELFTEST FAIL ${failures}`;
-    try {
-      sessionStorage.setItem('editor-selftest-result', JSON.stringify({
-        title: document.title, html: out.innerHTML, at: new Date().toISOString(),
-      }));
-    } catch (e) { /* sessionStorage 不可用就算了 */ }
   } catch (err) {
     say(`<span class="fail">自检异常：${err && err.stack ? err.stack : err}</span>`);
     document.title = 'SELFTEST ERROR';
-    try {
-      sessionStorage.setItem('editor-selftest-result', JSON.stringify({
-        title: document.title, html: out.innerHTML, at: new Date().toISOString(),
-      }));
-    } catch (e) { /* sessionStorage 不可用就算了 */ }
   }
 })();
 

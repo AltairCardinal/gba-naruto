@@ -197,17 +197,17 @@ async function fetchJsonSmart(url, timeoutMs = 20000) {
   const gz = url + '.gz';
   if (typeof DecompressionStream === 'function') {
     try {
-      const { response, release } = await fetchWithTimeout(gz, timeoutMs);
-      try {
-        if (response.ok) {
-          // The server may already have decoded it (Content-Encoding: gzip);
-          // only decompress by hand when it has not.
-          if (response.headers.get('content-encoding') === 'gzip') {
-            return await response.json();
-          }
-          const stream = response.body.pipeThrough(new DecompressionStream('gzip'));
-          return await new Response(stream).json();
+      // The body read has to happen *inside* the timeout, otherwise a stalled
+      // body would hang forever.
+      const { body, release } = await fetchWithTimeout(gz, timeoutMs, async (res) => {
+        if (res.headers.get('content-encoding') === 'gzip') {
+          return await res.text();
         }
+        const stream = res.body.pipeThrough(new DecompressionStream('gzip'));
+        return await new Response(stream).text();
+      });
+      try {
+        return JSON.parse(body);
       } finally {
         release();
       }
@@ -215,10 +215,9 @@ async function fetchJsonSmart(url, timeoutMs = 20000) {
       /* fall through to the plain file */
     }
   }
-  const { response, release } = await fetchWithTimeout(url, timeoutMs);
+  const { body, release } = await fetchWithTimeout(url, timeoutMs);
   try {
-    if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
-    return await response.json();
+    return JSON.parse(body);
   } finally {
     release();
   }

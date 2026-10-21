@@ -25,17 +25,18 @@ export function editorUrl(path) {
 }
 
 /**
- * fetch with a hard timeout that also covers reading the body.
+ * fetch + read the body, with a timeout that covers **both**.
  *
- * The timeout is enforced by *racing* a rejecting timer against the request,
- * not only by aborting it: some browsers do not reject a stalled body when
- * the signal fires, so an abort-only timeout would never fire and the page
- * would hang on "正在载入内容包…" forever.
+ * Two things had to be right for a stalled response to actually time out:
  *
- * The returned `release()` must be called once the body has been consumed;
- * until then the timer keeps the request from hanging forever.
+ * 1. the timeout is a *race* against a rejecting timer, not only an abort —
+ *    some browsers never reject a stalled response body when the abort
+ *    signal fires, so an abort-only timeout would never fire;
+ * 2. the body read happens **inside** the raced promise — a timeout that only
+ *    covers the response headers leaves a stalled *body* hanging forever,
+ *    which is exactly how the UI got stuck on "正在载入内容包…".
  */
-export function fetchWithTimeout(url, timeoutMs = 20000) {
+export function fetchWithTimeout(url, timeoutMs = 20000, readBody) {
   const controller = new AbortController();
   let timer = null;
   const guard = new Promise((_, reject) => {
@@ -45,7 +46,11 @@ export function fetchWithTimeout(url, timeoutMs = 20000) {
     }, timeoutMs);
   });
   const request = fetch(url, { cache: 'no-cache', signal: controller.signal })
-    .then((response) => ({ response, release: () => clearTimeout(timer) }))
+    .then(async (response) => {
+      if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
+      const body = readBody ? await readBody(response) : await response.arrayBuffer();
+      return { response, body, release: () => clearTimeout(timer) };
+    })
     .catch((err) => {
       clearTimeout(timer);
       if (err && err.name === 'AbortError') {
@@ -56,11 +61,10 @@ export function fetchWithTimeout(url, timeoutMs = 20000) {
   return Promise.race([request, guard]);
 }
 
-/** Read a response body while reporting progress. */
+/** Read a response body while reporting progress. Returns an ArrayBuffer. */
 async function readWithProgress(response, onChunk) {
   if (!onChunk || !response.body) {
-    const buffer = await response.arrayBuffer();
-    return { buffer, total: buffer.byteLength };
+    return await response.arrayBuffer();
   }
   const reader = response.body.getReader();
   const chunks = [];
@@ -76,7 +80,7 @@ async function readWithProgress(response, onChunk) {
   const merged = new Uint8Array(total);
   let offset = 0;
   for (const chunk of chunks) { merged.set(chunk, offset); offset += chunk.length; }
-  return { buffer: merged.buffer, total };
+  return merged.buffer;
 }
 
 async function gunzip(buffer) {
@@ -108,11 +112,10 @@ export async function loadPackWithProgress(onProgress) {
       onProgress({
         stage: 'download', label: `正在下载${source.label}…`, percent: 0,
       });
-      const { response, release } = await fetchWithTimeout(editorUrl(source.url), 20000);
-      try {
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const { buffer, total } = await readWithProgress(response, (received, length) => {
-          const known = Number(length) || total || 0;
+      const { response, body, release } = await fetchWithTimeout(
+        editorUrl(source.url), 20000,
+        (res) => readWithProgress(res, (received, length) => {
+          const known = Number(length) || 0;
           onProgress({
             stage: 'download',
             label: `正在下载${source.label}…`,
@@ -121,15 +124,16 @@ export async function loadPackWithProgress(onProgress) {
             total: known,
             percent: known ? Math.round((received / known) * 100) : undefined,
           });
-        });
+        }));
+      try {
         if (source.gzipped) {
           onProgress({ stage: 'decompress', label: '正在解压内容包…', percent: undefined });
-          const plain = await gunzip(buffer);
+          const plain = await gunzip(body);
           onProgress({ stage: 'parse', label: '正在解析内容包…', percent: undefined });
           return JSON.parse(new TextDecoder().decode(plain));
         }
         onProgress({ stage: 'parse', label: '正在解析内容包…', percent: undefined });
-        return JSON.parse(new TextDecoder().decode(buffer));
+        return JSON.parse(new TextDecoder().decode(body));
       } finally {
         release();
       }
