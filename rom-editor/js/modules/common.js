@@ -79,7 +79,7 @@ export function renderDomainIndex(container, ctx, options) {
   if (options.primary) {
     container.appendChild(el('div', { class: 'section' }, [
       el('h3', { text: '推荐入口' }),
-      el('div', { class: 'card-grid' }, [options.primary]),
+      el('div', { class: 'card-grid' }, [options.primary, options.secondary].filter(Boolean)),
     ]));
   }
 

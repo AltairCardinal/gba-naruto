@@ -20,6 +20,11 @@ export function el(tag, props = {}, children = []) {
       node.setAttribute(key, value);
     }
   }
+  // 说明性文字里用了 markdown 的粗体标记，而编辑器不渲染 markdown，
+  // 星号会原样露出来。只在说明类容器里去掉，不动用户数据。
+  if (PROSE_CLASSES.some((name) => node.className.includes(name))) {
+    node.textContent = String(node.textContent || '').replace(/\*\*/g, '');
+  }
   for (const child of [].concat(children)) {
     if (child === null || child === undefined || child === false) continue;
     node.appendChild(typeof child === 'string' || typeof child === 'number'
@@ -28,6 +33,9 @@ export function el(tag, props = {}, children = []) {
   }
   return node;
 }
+
+/** Containers whose text is prose (not user data). */
+const PROSE_CLASSES = ['section-note', 'stat-hint', 'rule-note', 'field-hint', 'entry-card'];
 
 export function clear(node) {
   while (node.firstChild) node.removeChild(node.firstChild);

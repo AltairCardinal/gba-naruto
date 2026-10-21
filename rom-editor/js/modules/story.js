@@ -1,10 +1,12 @@
 // 剧情与对白
 import { el, formatOffset } from '../ui.js';
 import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
+import { renderScriptView } from './scriptview.js';
 
 export function renderStory(container, ctx) {
   if (ctx.state.view.panel) {
     const { kind, id, params } = ctx.state.view.panel;
+    if (kind === 'script') return renderScriptView(container, ctx);
     return renderPanel(container, ctx, kind, id, params);
   }
 
@@ -12,6 +14,7 @@ export function renderStory(container, ctx) {
   const slots = pack.textTable('dialogue_slots');
   const index = pack.textTable('rom_text_index');
   const nonEmpty = slots ? slots.records.filter((r) => r.text).length : 0;
+  const scripts = (pack.scripts || []).length;
 
   const extra = el('div', {}, [
     el('div', { class: 'card-grid' }, [
@@ -25,15 +28,25 @@ export function renderStory(container, ctx) {
 
   const primary = entryCard(ctx, {
     title: '按对白改',
-    headline: '1,524 个对白槽位',
-    desc: '对白指针表 0x461CE8：305 组，每组 4 条（1 道题 + 3 个选项）+ 1 个空指针分隔。' +
+    headline: '305 组对白（1 道题 + 3 个选项）',
+    desc: '对白指针表 0x461CE8：305 组，每组 4 条 + 1 个空指针分隔。' +
       '这一组是可重定位的，改长会重定位并改写指针。',
     panel: { kind: 'text', id: 'dialogue_slots' },
     actionLabel: '去改对白',
   });
 
+  const secondary = entryCard(ctx, {
+    title: '看某个场景的剧情脚本',
+    headline: `${scripts} 个剧本`,
+    desc: '剧情 VM 的字节码反汇编：指令、文本、分支目标。' +
+      '指令与文本不可改，但定宽操作数（下一场景 / 地图 / 子配置 / 队员）可以原地改。',
+    panel: { kind: 'script', id: 'script' },
+    actionLabel: '看剧本',
+  });
+
   renderDomainIndex(container, ctx, {
     primary,
+    secondary,
     module: 'story',
     title: '剧情与对白',
     subtitle: [
@@ -41,7 +54,7 @@ export function renderStory(container, ctx) {
       el('span', { text: '字形码 ' + pack.font.codeToChar.size }),
     ],
     intro:
-      '对白文本在 ROM 里是**字形码**流（每个汉字 2 字节，lead 0x80–0x9F），不是 Shift-JIS。' +
+      '对白文本在 ROM 里是字形码流（每个汉字 2 字节，lead 0x80–0x9F），不是 Shift-JIS。' +
       '指针表驱动的文本（对白槽位表、任务表、名字表）可以改变长度——构建时会重定位到空闲区并改写指针；' +
       '被代码用绝对地址引用的文本只能等长改写。' +
       '对白指针表 0x461CE8 共 1524 个槽位 = 305 组 ×（4 条 + 1 个 NULL 分隔），' +
@@ -51,7 +64,7 @@ export function renderStory(container, ctx) {
     structures: [
       'story_before_root', 'story_after_root',
       'story_logic_root', 'story_events_root',
-      'font_segments', 'background_table',
+      'font_segments', 'font_width_table', 'background_table',
     ],
   });
 }

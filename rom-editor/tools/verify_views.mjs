@@ -860,5 +860,38 @@ console.log('\n13) 对白按组呈现：305 组「一道题 + 三个选项」');
     detail.includes('题干') ? '有题干/选项' : '没有');
 }
 
+console.log('\n14) 剧情脚本查看器：反汇编 + 可改操作数');
+{
+  const { renderScriptView } = await import('../js/modules/scriptview.js');
+  const { readFileSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const { dirname } = await import('node:path');
+  const here = dirname(fileURLToPath(import.meta.url));
+  const rom = new Uint8Array(readFileSync(join(here, '..', '..', 'rom', 'base.gba')));
+
+  const host = new StubNode('div');
+  const saved = ctx.rom;
+  ctx.rom = rom;
+  ctx.state.view = { panel: { kind: 'script', id: 'script', params: { root: 'before', scene: 3 } } };
+  let error = null;
+  try {
+    renderScriptView(host, ctx);
+  } catch (err) {
+    error = err;
+  }
+  const text = host.textContent || '';
+  check('剧本查看器渲染成功', !error && text.includes('指令表'),
+    error ? String(error.message) : `${text.length} 字符`);
+  check('剧本查看器列出中文指令名',
+    /0x[0-9A-F]{2} \S/.test(text) && (text.includes('下一场景') || text.includes('显示文本') || text.includes('设置头像')),
+    (text.match(/0x[0-9A-F]{2} [^ ]+/) || [''])[0]);
+  const inputs = host.descendants().filter((n) => n.tagName === 'INPUT');
+  check('可改的定宽操作数给成输入框', inputs.length > 0,
+    `${inputs.length} 个可改操作数`);
+  ctx.rom = saved;
+  ctx.state.view = { panel: null };
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);

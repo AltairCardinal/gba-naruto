@@ -46,6 +46,16 @@ export function parseHash(hash) {
       },
     };
   }
+  if (parts[1] === 'script' && parts[2]) {
+    return {
+      module,
+      panel: {
+        kind: 'script',
+        id: 'script',
+        params: { root: parts[2], scene: Number(parts[3]) || 1 },
+      },
+    };
+  }
   return { module, panel: null };
 }
 
@@ -67,6 +77,10 @@ export function hashFor(view) {
     const recordId = panel.params && panel.params.recordId;
     return `#${module}/${panel.kind}/${panel.id}` +
       (recordId === null || recordId === undefined ? '' : `/${recordId}`);
+  }
+  if (panel.kind === 'script') {
+    const { root, scene } = panel.params || {};
+    return `#${module}/script/${root || 'before'}/${scene || 1}`;
   }
   return `#${module}`;
 }
