@@ -1,5 +1,5 @@
 // 战斗：战场布置 / 角色出生点 / 战斗中的剧情与角色出生 / 战斗目标
-import { el, clear, formatOffset } from '../ui.js';
+import { el, clear, formatOffset, toast } from '../ui.js';
 import { renderDomainIndex, renderPanel, summaryTable, operandInput } from './common.js';
 
 const STAGE_COUNT = 47;
@@ -15,14 +15,31 @@ const RULE_SUB_STRIDE = 0x44;
 const OBJECT_OFFSET = 0x8a4;
 const OBJECT_COUNT = 16;
 
+/**
+ * 条件类型的原版语义。
+ *
+ * 语义来源见 notes/battle-tables.md §1.1（原版说明文字）与 §1.1.1
+ * （类型 2 / 3 的原生断点定案）。
+ */
 const CONDITION_TYPES = {
-  1: '全灭敌方 / 覆灭己方',
-  2: '指定角色仍在场上',
-  3: '指定角色离场',
-  6: '获得道具',
-  7: '剩余 HP 比较',
+  1: '全灭敌方（a=1）/ 我方全灭（a=0）',
+  2: '回合用尽 —— 原生根本不读 a/b',
+  3: '指定角色已离场',
+  6: '获得指定道具',
+  7: '剩余体力比较',
   8: '击杀数比较',
-  9: '收集数比较',
+  9: '收集物数量比较',
+};
+
+/** 每个类型里 a / b 两个字节的原生含义。 */
+const CONDITION_PARAMS = {
+  1: { a: '阵营（1=胜 / 0=负）', b: '未用' },
+  2: { a: '冗余：原生不读', b: '冗余：原生不读' },
+  3: { a: '阵营（0=我方 / 1=敌方）', b: '角色 id' },
+  6: { a: '道具序号', b: '未用' },
+  7: { a: '阵营（0=我方 / 1=对方）', b: '未用' },
+  8: { a: '阵营（0=我方 / 1=对方）', b: '未用' },
+  9: { a: '阵营（0=我方 / 1=对方）', b: '未用' },
 };
 
 const OBJECT_TYPES = {
@@ -66,7 +83,7 @@ export function renderBattle(container, ctx) {
     extra,
     structures: ['map_table', 'battle_actors', 'battle_map_objects', 'battle_rules',
       'battle_encounter_records', 'level_blocks', 'object_descriptors', 'sprite_action_table'],
-    texts: [],
+    texts: ['battle_objectives'],
   });
 }
 
@@ -212,18 +229,21 @@ export function renderStage(container, ctx, stage, variant) {
     : null;
   if (ruleRecord) {
     const v = ruleRecord.values;
-    const rows = { head: ['条件', '类型', '参数A', '参数B', '说明文本地址'], body: [] };
+    const objectiveTable = pack.textTable('battle_objectives');
+    const objectiveTexts = objectiveBindings(objectiveTable);
+    const rows = { head: ['条件', '类型', '参数A', '参数B', '说明文字（可直接改）'], body: [] };
     for (let g = 0; g < 2; g++) {
       for (let k = 0; k < 4; k++) {
         const label = g === 0 ? `胜利 ${k + 1}` : `失败 ${k + 1}`;
         const type = v[`g${g}_${k}_type`];
         if (type === 0 && v[`g${g}_${k}_a`] === 0 && v[`g${g}_${k}_b`] === 0) continue;
+        const params = CONDITION_PARAMS[type] || { a: '未用', b: '未用' };
         rows.body.push([
           label,
           `${type} · ${CONDITION_TYPES[type] || '未知'}`,
-          v[`g${g}_${k}_a`],
-          v[`g${g}_${k}_b`],
-          ptrText(v[`g${g}_${k}_text_ptr`]),
+          paramCell(v[`g${g}_${k}_a`], params.a),
+          paramCell(v[`g${g}_${k}_b`], params.b),
+          descriptionCell(ctx, objectiveTable, objectiveTexts.get(`${ruleRecord.id}:${g}:${k}`)),
         ]);
       }
     }
@@ -231,9 +251,16 @@ export function renderStage(container, ctx, stage, variant) {
       el('h3', { text: '战斗目标' }),
       el('p', { class: 'section-note' }, [
         `回合上限：${v.turn_limit === 0 ? '无限制' : v.turn_limit}。`,
-        '每条记录 4 个胜利条件 + 4 个失败条件；类型 2 的原生行为是「回合耗尽」而不是数据写的「指定角色在场」。',
+        '每条记录 4 个胜利条件 + 4 个失败条件。',
+        '类型 2 的数据写着「指定角色仍在场」，但原生代码根本不读这两个字节，',
+        '它比较的是回合计数与回合上限 —— 这一版 ROM 的 type-2 实际表达的是「回合用尽」',
+        '（notes/battle-tables.md §1.1.1；2026-10-21 用真实战斗读数证实 0x0202680C 就是回合计数）。',
+        '类型 3 是「指定角色已离场」，a=阵营、b=角色 id。',
       ]),
       summaryTable(rows),
+      el('p', { class: 'section-note' }, [
+        '说明文字被代码用绝对地址引用，只能等长改写：超过原槽位长度时编辑器会拒绝并提示。',
+      ]),
     ]));
   }
 
@@ -298,6 +325,83 @@ function section(title, structureId, rows) {
       el('dt', { text: k }),
       el('dd', { text: v === null || v === undefined ? '—' : String(v) + (hint ? `  (${hint})` : '') }),
     ])),
+  ]);
+}
+
+/**
+ * One condition parameter: the raw byte plus what that byte means here.
+ */
+function paramCell(value, meaning) {
+  return el('div', {}, [
+    el('code', { text: String(value) }),
+    el('div', { class: 'stat-hint', text: meaning }),
+  ]);
+}
+
+/**
+ * Map "rule record : group : index" to the sentence that describes it.
+ *
+ * The battle-objective text table carries the sentences; the `bindings` array
+ * says which condition each sentence belongs to (several conditions share one
+ * sentence, so the map is not one-to-one).
+ */
+function objectiveBindings(table) {
+  const map = new Map();
+  if (!table) return map;
+  const records = table.records || [];
+  for (const binding of table.bindings || []) {
+    const record = records[binding.text_id];
+    if (!record) continue;
+    map.set(`${binding.rule}:${binding.group}:${binding.index}`, record);
+  }
+  return map;
+}
+
+/**
+ * The battle objective's description sentence.
+ *
+ * The rule record holds an **absolute** pointer to the sentence the player
+ * sees on the Conditions page.  The sentence itself lives in the battle
+ * objective text table, so it can be shown and edited in place — but only to
+ * the same byte length, because the address is baked into the ROM.
+ */
+function descriptionCell(ctx, textTable, record) {
+  if (!record) return el('span', { class: 'stat-hint', text: '—' });
+  const text = record.text ?? '';
+  const used = ctx.pack.font.encodedLength(text);
+  const input = el('input', {
+    class: 'text-input-inline',
+    type: 'text',
+    value: text,
+    onchange: (e) => {
+      const value = e.target.value;
+      const missing = ctx.pack.font.missingCharacters(value);
+      if (missing.length) {
+        toast(`字库里没有这些字：${missing.join(' ')}`, 'error');
+        e.target.value = text;
+        return;
+      }
+      const bytes = ctx.pack.font.encodedLength(value);
+      if (record.capacity && bytes + 1 > record.capacity) {
+        toast(
+          `超长：需要 ${bytes + 1} 字节，槽位只有 ${record.capacity} 字节` +
+          '（该说明文字被绝对地址引用，只能等长改写）',
+          'error'
+        );
+        e.target.value = text;
+        return;
+      }
+      ctx.pack.setText(textTable, record, value);
+      ctx.onChange();
+      toast('已改写战斗目标说明文字');
+    },
+  });
+  return el('div', {}, [
+    input,
+    el('div', {
+      class: 'stat-hint',
+      text: `${used} / ${record.capacity} 字节 · ${ptrText(record.pointer)}`,
+    }),
   ]);
 }
 

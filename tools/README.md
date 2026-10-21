@@ -1,5 +1,107 @@
 # Tools
 
+## L4 / L2 运行时证据闸门（2026-10-21）
+
+### `mgba_probe/l4_battle_matrix.py`
+
+L4 的可执行闸门：**全流程 / 全人物组合 / 全地图** 三条轴各跑一遍，
+缺证据时**退出码非 0**。
+
+* **全流程** —— 55 场逐场调度（脚本指针与根表条目逐位相等），
+  外加**游戏自己驱动**的场景转移（见下面的 `l4_playthrough_flow.py`）。
+* **全人物组合** —— 85 组真实队伍**全部被游戏自己打进过**。
+  机制是三处内存写：停在状态机循环头 `0x0808F752`，然后
+  `0x020311E6`←`0x0110`、`0x020311EA`←组号、`0x020311ED`←子配置号。
+* **全地图** —— 47 个地图描述符全部被游戏真正载入并渲染，
+  **47 个互不相同的 VRAM 哈希**。
+
+```powershell
+python tools\mgba_probe\l4_battle_matrix.py rom\base.gba --axis all \
+    --out build\l4-bm --json build\l4-battle-matrix.json
+```
+
+### `mgba_probe/l4_playthrough_flow.py`
+
+采集**游戏自己走出的场景转移图**。这个游戏的故事是**分支图**而不是一条链
+（场景 39 给出 40..45 的分支，场景 45 把相位设成 `0x0100` 表示本章结束），
+所以「全流程」的证据是**边集**：每条边都记录游戏选的场景号，
+以及游戏随后**实际执行**的脚本指针（必须等于根表条目）。
+
+```powershell
+python tools\mgba_probe\l4_playthrough_flow.py rom\base.gba --scenes 1-55 \
+    --out build\l4-graph --json build\l4-scene-graph.json
+```
+
+### `l2_runtime_capture.py`
+
+L2（原生定点）闸门：断点命中原生消费者，寄存器/内存与字段一一对应，
+再与静态表交叉核对，并带**反向对照**（故意改坏寄存器时检查必须失败）。
+内置 `title` / `dispatch` / `battle` / `battle+sweep` 四条路线。
+
+```powershell
+python tools\l2_runtime_capture.py --list
+python tools\l2_runtime_capture.py --self-test --json build\l2-runtime.json
+```
+
+### `mgba_probe/callback_census.py`
+
+**回调表派发断点普查**。把哨兵点（战斗包装 `0x080732B4`、角色属性读数
+`0x0806D98C`、地图载入读数 `0x08069040`）与**所有**已知派发点
+（`0x0807FD28` / `0x0807F0FC` / `0x0807EE98` / `0x0807FE56` / `0x08080E44` …）
+一起挂上，再跑 `battle` / `save` / `sweep` 三条路线。
+
+用途：把「某个结构的原生读者够不到」从**猜测**变成**实测**——
+哨兵命中而派发点 0 命中，就说明缺的是**一条能进入该模式的路线**，
+而不是「还没试对按键」。结论见
+`notes/evidence/callback-dispatch-tables-20261021.md`。
+
+```powershell
+python tools\mgba_probe\callback_census.py rom\base.gba --route battle --groups 0-5 --presses 40
+python tools\mgba_probe\callback_census.py rom\base.gba --route sweep --scenes 1-55
+```
+
+### `mgba_probe/unitslot_probe.py`
+
+在战斗里读出 12 个战斗单元槽的关键字段（`+0x00` / `+0x0C` / `+0x0E` /
+`+0xBE` / `+0xC0`），并可**改写** `unit[0x0C]`。
+`fn 0x0806DF88` 只在 `unit[0x0C] <= 9` 时才会走到回调派发路径，
+这个工具用来测那个门控到底成不成立。
+
+```powershell
+python tools\mgba_probe\unitslot_probe.py rom\base.gba --groups 0,9
+python tools\mgba_probe\unitslot_probe.py rom\base.gba --groups 0 --force
+```
+
+### `m4a_block_table.py`
+
+m4a **block 表**格式的逐字段拆解 + 往返自检：decode→encode 对 45 个原生
+block **逐字节相同**（9952 字节 / 6333 条命令）。
+同时提供块级重写（就地重写 / 重建 / 停在自由区并改指针）。
+
+```powershell
+python tools\m4a_block_table.py rom\base.gba --self-test
+python tools\m4a_block_table.py rom\base.gba --sound-id 1 --json build\audio\blocks_001.json
+```
+
+### `build_editor_db.py`
+
+`sequel/editor.db` 被 gitignore，所以**纯净检出下编辑器→构建的 override 链
+安静地空转**。本工具从仓库内容（`sequel/content/*/bank.json`）**重建**它，
+并当场验证链真的产出补丁（`--check` 会逐个生成器报 applied/rejected，
+「全部被拒」就是基址或字段名过期的信号）。
+
+```powershell
+python tools\build_editor_db.py
+python tools\build_editor_db.py --check
+```
+
+### `capstone_loader.py`
+
+capstone 的统一加载器。仓库自带的 `tools/_vendor/capstone` 在本机
+**加载不了**它的原生库（`ImportError: fail to load the dynamic library`），
+真正能用的是 `build/python-deps` 里那份。直接 `import capstone` 的工具
+会直接崩，所以统一走这里。
+
 ## ROM editor content pack (new, 2026-10-21)
 
 ### `export_content_pack.py`
@@ -7,9 +109,10 @@
 Exports the editor's **initial data** — a self-describing dump of every
 editable structure in `rom/base.gba`:
 
-* 25 structures / 5,740 records (角色定义表、忍术记录表、道具记录表、奖励表、
+* 39 structures / 6,666 records (角色定义表、忍术记录表、道具记录表、奖励表、
   战场描述符、编成矩阵、战斗目标、剧情脚本四根根表、任务索引表、字形段表 …);
-* 10 text tables / 2,199 texts (对白槽位表 1,524 槽、任务三张文本表、各类名字表 …);
+* 11 text tables / 2,418 texts (对白槽位表 1,524 槽、任务三张文本表、各类名字表、
+  **战斗目标说明文字 219 条** …);
 * the font code table, in both directions (decode + **canonical** encode);
 * the base ROM, gzip-compressed, for the editor to rebuild from.
 
@@ -18,13 +121,23 @@ true: every structure's field list **tiles its record exactly** (unknown bytes
 become `hex` fields), and every record keeps its original bytes next to the
 decoded values.
 
+Two more invariants for the text tables:
+
+* **0x0A (换行) is a legal code** (`notes/font-encoding.md` §2).  The
+  whole-ROM text scan used to reject it and dropped **1,126 strings** — among
+  them the 32 battle-objective sentences.
+* **One byte, one home.**  The battle-objective sentences have their own table
+  and are excluded from the whole-ROM text index, so two tables never write
+  the same address.
+
 ```powershell
 python tools\export_content_pack.py            # → rom-editor/content/
 python tools\export_content_pack.py --check    # 只校验内容包是否与 ROM 一致
 ```
 
 The editor itself is `rom-editor/` (see `docs/rom-editor.md`); its
-command-line self-check is `node rom-editor/tools/verify_pack.mjs`.
+command-line self-check is `node rom-editor/tools/verify_pack.mjs`, and the
+headless view check is `node rom-editor/tools/verify_views.mjs`.
 
 ## Text encoding (new, 2026-10-20)
 

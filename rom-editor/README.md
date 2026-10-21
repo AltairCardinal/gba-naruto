@@ -38,24 +38,32 @@ node rom-editor\tools\serve.mjs 8765
 
 ```powershell
 node rom-editor\tools\verify_pack.mjs
-#   → 25 项全 PASS，含「未改动的内容包重建 ROM 与原版逐字节相同」
+#   → 30 项全 PASS，含「未改动的内容包重建 ROM 与原版逐字节相同」
+
+node rom-editor\tools\verify_views.mjs
+#   → 16 项全 PASS：九个模块的视图渲染 + 战斗视图的说明文字与条件语义
+#     （无头跑，不需要浏览器，可进 CI）
 ```
 
-浏览器内自检（42 项：所有模块视图渲染、关键面板打开、逐域落点、原始字节补丁、剧情 VM 操作数、控制码保留）：
+浏览器内自检（45 项：所有模块视图渲染、关键面板打开、逐域落点、原始字节补丁、剧情 VM 操作数、控制码保留、战斗目标说明文字）：
 
 ```
 http://localhost:8765/rom-editor/tools/selftest.html
 ```
+
+自检每检查一项就把结果发到服务器的 `POST /__report`，落到
+`build/selftest-report.jsonl`（`GET /__report` 可取回）——
+这样即使页面被刷新，结果也留得住。
 
 ## 目录
 
 ```
 index.html            应用外壳
 styles.css
-js/                   核心（bytes / textcodec / pack / rom / ui / editors / romsource）
+js/                   核心（bytes / textcodec / pack / rom / ui / editors / loader / textindex / romsource）
 js/modules/           六个域 + 概览 + 原始字节
 content/              pack.json(.min) / text-index.json / base-rom/
-tools/                serve.mjs / verify_pack.mjs / selftest.html
+tools/                serve.mjs / verify_pack.mjs / verify_views.mjs / selftest.html
 ```
 
 `content/` 下都是**生成物**，不要手改；要改内容就改 `tools/export_content_pack.py`

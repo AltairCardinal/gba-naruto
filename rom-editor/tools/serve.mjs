@@ -6,8 +6,11 @@
 //
 //   node rom-editor/tools/serve.mjs [port]
 //   → http://localhost:8000/rom-editor/
+//
+// It also accepts `POST /__report`: the in-browser self-test posts its
+// results there, so a run survives a browser tab that keeps reloading.
 import { createServer } from 'node:http';
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync, statSync, mkdirSync, appendFileSync } from 'node:fs';
 import { extname, join, normalize, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { dirname } from 'node:path';
@@ -15,6 +18,7 @@ import { dirname } from 'node:path';
 const here = dirname(fileURLToPath(import.meta.url));
 const repoRoot = resolve(here, '..', '..');
 const port = Number(process.argv[2] || 8000);
+const REPORT_PATH = join(repoRoot, 'build', 'selftest-report.jsonl');
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -32,12 +36,44 @@ const TYPES = {
 createServer((req, res) => {
   let path = decodeURIComponent(req.url.split('?')[0]);
   if (path === '/') path = '/rom-editor/';
+
+  // --- 自检结果上报 ----------------------------------------------------
+  if (path === '/__report') {
+    if (req.method === 'GET') {
+      let body = '';
+      try { body = readFileSync(REPORT_PATH, 'utf8'); } catch { body = ''; }
+      res.writeHead(200, { 'content-type': 'application/json; charset=utf-8' });
+      res.end(body);
+      return;
+    }
+    const chunks = [];
+    req.on('data', (chunk) => chunks.push(chunk));
+    req.on('end', () => {
+      const text = Buffer.concat(chunks).toString('utf8');
+      try {
+        mkdirSync(dirname(REPORT_PATH), { recursive: true });
+        appendFileSync(REPORT_PATH, text.replace(/\n/g, ' ') + '\n', 'utf8');
+      } catch (err) {
+        console.log(`上报落盘失败：${err.message}`);
+      }
+      let summary = text;
+      try {
+        const parsed = JSON.parse(text);
+        summary = `failures=${parsed.failures} lines=${(parsed.lines || []).length}`;
+      } catch { /* keep the raw text */ }
+      console.log(`SELFTEST 报告： ${summary}`);
+      res.writeHead(204, { 'access-control-allow-origin': '*' });
+      res.end();
+    });
+    return;
+  }
+
   const target = normalize(join(repoRoot, path));
   if (!target.startsWith(repoRoot)) {
     res.writeHead(403).end('forbidden');
     return;
   }
-  console.log(`${req.method} ${path}`);
+  console.log(`${new Date().toISOString().slice(11, 23)} ${req.method} ${path}`);
   let stat;
   try {
     stat = statSync(target);

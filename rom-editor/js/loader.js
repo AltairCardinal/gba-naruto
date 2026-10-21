@@ -177,3 +177,40 @@ export function loadPackInFrame(timeoutMs = 30000) {
     const timer = setTimeout(() => done(null), timeoutMs);
   });
 }
+
+/**
+ * Fetch a JSON file, transparently using the gzipped copy when it exists.
+ *
+ * `url` should already be resolved against the editor root (see `editorUrl`),
+ * because the self-test page lives in tools/ and a page-relative path would
+ * look for content/ under tools/.
+ */
+export async function fetchJsonSmart(url, timeoutMs = 20000) {
+  const gz = url + '.gz';
+  if (typeof DecompressionStream === 'function') {
+    try {
+      // The body read has to happen *inside* the timeout, otherwise a stalled
+      // body would hang forever.
+      const { body, release } = await fetchWithTimeout(gz, timeoutMs, async (res) => {
+        if (res.headers.get('content-encoding') === 'gzip') {
+          return await res.text();
+        }
+        const stream = res.body.pipeThrough(new DecompressionStream('gzip'));
+        return await new Response(stream).text();
+      });
+      try {
+        return JSON.parse(body);
+      } finally {
+        release();
+      }
+    } catch (err) {
+      /* fall through to the plain file */
+    }
+  }
+  const { body, release } = await fetchWithTimeout(url, timeoutMs);
+  try {
+    return JSON.parse(body);
+  } finally {
+    release();
+  }
+}

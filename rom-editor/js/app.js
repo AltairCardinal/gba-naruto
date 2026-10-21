@@ -11,7 +11,8 @@
 import { ContentPack } from './pack.js';
 import { buildRom } from './rom.js';
 import { loadBundledRom } from './romsource.js';
-import { loadPackWithProgress, loadPackInFrame, fetchWithTimeout, editorUrl } from './loader.js';
+import { loadPackWithProgress, loadPackInFrame } from './loader.js';
+import { ensureTextIndex } from './textindex.js';
 import { el, clear, toast, modal, downloadBlob, readFile } from './ui.js';
 
 export const MODULES = [
@@ -89,18 +90,10 @@ export function currentModule() {
  * Load the exhaustive ROM text index on demand.
  *
  * It lists every font-coded string in the cartridge, so it is far bigger
- * than the core pack; it is fetched only when the 剧情与对白 module asks for
- * it.
+ * than the core pack; it is fetched only when a view asks for it.  The
+ * loader itself lives in js/textindex.js so the battle view can use it too.
  */
-export async function ensureTextIndex() {
-  if (!state.pack) return;
-  if (state.pack.textTable('rom_text_index')) return;
-  try {
-    const table = await fetchJsonSmart('content/text-index.json');
-    state.pack.texts.push(table);
-  } catch (err) {
-    setStatus(`全 ROM 文本索引载入失败：${err.message}`);
-  }}
+export { ensureTextIndex };
 
 /**
  * Route state in the URL hash, so a view can be linked to directly:
@@ -130,7 +123,7 @@ function parseHash() {
 /** Drill into one structure or text table. */
 export function openPanel(kind, id, params) {
   if (kind === 'text' && id === 'rom_text_index' && !state.pack.textTable('rom_text_index')) {
-    ensureTextIndex().then(() => {
+    ensureTextIndex(state.pack, setStatus).then(() => {
       state.view.panel = { kind, id, params: params || {} };
       render();
     });
@@ -192,36 +185,6 @@ function context() {
 // --------------------------------------------------------------------------
 // boot
 // --------------------------------------------------------------------------
-/** Fetch JSON, transparently using the gzipped copy when it exists. */
-async function fetchJsonSmart(url, timeoutMs = 20000) {
-  const gz = url + '.gz';
-  if (typeof DecompressionStream === 'function') {
-    try {
-      // The body read has to happen *inside* the timeout, otherwise a stalled
-      // body would hang forever.
-      const { body, release } = await fetchWithTimeout(gz, timeoutMs, async (res) => {
-        if (res.headers.get('content-encoding') === 'gzip') {
-          return await res.text();
-        }
-        const stream = res.body.pipeThrough(new DecompressionStream('gzip'));
-        return await new Response(stream).text();
-      });
-      try {
-        return JSON.parse(body);
-      } finally {
-        release();
-      }
-    } catch (err) {
-      /* fall through to the plain file */
-    }
-  }
-  const { body, release } = await fetchWithTimeout(url, timeoutMs);
-  try {
-    return JSON.parse(body);
-  } finally {
-    release();
-  }
-}
 /**
  * Load the content pack.
  *

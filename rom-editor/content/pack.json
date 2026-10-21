@@ -140529,6 +140529,3809 @@
      "raw": "iuyckpLGAAAAAAAA"
     }
    ]
+  },
+  {
+   "id": "battle_objectives",
+   "module": "battle",
+   "label": "战斗目标说明文字",
+   "pointer_table_offset": null,
+   "count": 219,
+   "relocatable": false,
+   "nul_terminated": true,
+   "note": "胜负条件表里每条条件都带一个绝对地址指针，指向游戏内「条件」页显示的那句话（例：「打败业头・冥头了」）。\n**只能等长改写**：这些地址被 ROM 里的代码写死，改长了没有地方放。\n这些句子不在「全 ROM 文本索引」里，以免同一段字节有两个归属。",
+   "records": [
+    {
+     "id": 0,
+     "label": "0x08007F1D",
+     "pointer_offset": null,
+     "pointer": 134250269,
+     "text_offset": 32541,
+     "capacity": 17,
+     "text": "打败业头・冥头了",
+     "original_text": "打败业头・冥头了",
+     "raw": "iu+I2pndl1WBRZzIl1WRaQ=="
+    },
+    {
+     "id": 1,
+     "label": "0x08007F36",
+     "pointer_offset": null,
+     "pointer": 134250294,
+     "text_offset": 32566,
+     "capacity": 13,
+     "text": "保护了达兹纳",
+     "original_text": "保护了达兹纳",
+     "raw": "iUKOQpFpiuyckpLG"
+    },
+    {
+     "id": 2,
+     "label": "0x08007F4D",
+     "pointer_offset": null,
+     "pointer": 134250317,
+     "text_offset": 32589,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 3,
+     "label": "0x08007F6A",
+     "pointer_offset": null,
+     "pointer": 134250346,
+     "text_offset": 32618,
+     "capacity": 15,
+     "text": "没能保护达兹纳",
+     "original_text": "没能保护达兹纳",
+     "raw": "klmS2YlCjkKK7JySksY="
+    },
+    {
+     "id": 4,
+     "label": "0x08007F89",
+     "pointer_offset": null,
+     "pointer": 134250377,
+     "text_offset": 32649,
+     "capacity": 17,
+     "text": "打败业头・冥头了",
+     "original_text": "打败业头・冥头了",
+     "raw": "iu+I2pndl1WBRZzIl1WRaQ=="
+    },
+    {
+     "id": 5,
+     "label": "0x08007FA2",
+     "pointer_offset": null,
+     "pointer": 134250402,
+     "text_offset": 32674,
+     "capacity": 13,
+     "text": "保护了达兹纳",
+     "original_text": "保护了达兹纳",
+     "raw": "iUKOQpFpiuyckpLG"
+    },
+    {
+     "id": 6,
+     "label": "0x08007FB9",
+     "pointer_offset": null,
+     "pointer": 134250425,
+     "text_offset": 32697,
+     "capacity": 13,
+     "text": "大家被打败了",
+     "original_text": "大家被打败了",
+     "raw": "ivCOz4laiu+I2pFp"
+    },
+    {
+     "id": 7,
+     "label": "0x08007FD6",
+     "pointer_offset": null,
+     "pointer": 134250454,
+     "text_offset": 32726,
+     "capacity": 19,
+     "text": "没能保护达兹纳……",
+     "original_text": "没能保护达兹纳……",
+     "raw": "klmS2YlCjkKK7JySksaBY4Fj"
+    },
+    {
+     "id": 8,
+     "label": "0x08007FF5",
+     "pointer_offset": null,
+     "pointer": 134250485,
+     "text_offset": 32757,
+     "capacity": 17,
+     "text": "打败卡多的手下了",
+     "original_text": "打败卡多的手下了",
+     "raw": "iu+I2pBGi92LYpXTmGCRaQ=="
+    },
+    {
+     "id": 9,
+     "label": "0x08008014",
+     "pointer_offset": null,
+     "pointer": 134250516,
+     "text_offset": 32788,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 10,
+     "label": "0x08008031",
+     "pointer_offset": null,
+     "pointer": 134250545,
+     "text_offset": 32817,
+     "capacity": 17,
+     "text": "打败卡多的手下了",
+     "original_text": "打败卡多的手下了",
+     "raw": "iu+I2pBGi92LYpXTmGCRaQ=="
+    },
+    {
+     "id": 11,
+     "label": "0x08008050",
+     "pointer_offset": null,
+     "pointer": 134250576,
+     "text_offset": 32848,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 12,
+     "label": "0x0800806D",
+     "pointer_offset": null,
+     "pointer": 134250605,
+     "text_offset": 32877,
+     "capacity": 17,
+     "text": "打败卡多的手下了",
+     "original_text": "打败卡多的手下了",
+     "raw": "iu+I2pBGi92LYpXTmGCRaQ=="
+    },
+    {
+     "id": 13,
+     "label": "0x0800808C",
+     "pointer_offset": null,
+     "pointer": 134250636,
+     "text_offset": 32908,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 14,
+     "label": "0x080080A9",
+     "pointer_offset": null,
+     "pointer": 134250665,
+     "text_offset": 32937,
+     "capacity": 25,
+     "text": "解开再不斩的《水牢术》了",
+     "original_text": "解开再不斩的《水牢术》了",
+     "raw": "j4GQSJtEibibgItigXOWTJDLlfKBdJFp"
+    },
+    {
+     "id": 15,
+     "label": "0x080080C8",
+     "pointer_offset": null,
+     "pointer": 134250696,
+     "text_offset": 32968,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 16,
+     "label": "0x080080E5",
+     "pointer_offset": null,
+     "pointer": 134250725,
+     "text_offset": 32997,
+     "capacity": 19,
+     "text": "没能保护达兹纳……",
+     "original_text": "没能保护达兹纳……",
+     "raw": "klmS2YlCjkKK7JySksaBY4Fj"
+    },
+    {
+     "id": 17,
+     "label": "0x08008104",
+     "pointer_offset": null,
+     "pointer": 134250756,
+     "text_offset": 33028,
+     "capacity": 25,
+     "text": "解开再不斩的《水牢术》了",
+     "original_text": "解开再不斩的《水牢术》了",
+     "raw": "j4GQSJtEibibgItigXOWTJDLlfKBdJFp"
+    },
+    {
+     "id": 18,
+     "label": "0x08008123",
+     "pointer_offset": null,
+     "pointer": 134250787,
+     "text_offset": 33059,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 19,
+     "label": "0x08008140",
+     "pointer_offset": null,
+     "pointer": 134250816,
+     "text_offset": 33088,
+     "capacity": 19,
+     "text": "没能保护达兹纳……",
+     "original_text": "没能保护达兹纳……",
+     "raw": "klmS2YlCjkKK7JySksaBY4Fj"
+    },
+    {
+     "id": 20,
+     "label": "0x0800815F",
+     "pointer_offset": null,
+     "pointer": 134250847,
+     "text_offset": 33119,
+     "capacity": 25,
+     "text": "解开再不斩的《水牢术》了",
+     "original_text": "解开再不斩的《水牢术》了",
+     "raw": "j4GQSJtEibibgItigXOWTJDLlfKBdJFp"
+    },
+    {
+     "id": 21,
+     "label": "0x0800817E",
+     "pointer_offset": null,
+     "pointer": 134250878,
+     "text_offset": 33150,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 22,
+     "label": "0x0800819B",
+     "pointer_offset": null,
+     "pointer": 134250907,
+     "text_offset": 33179,
+     "capacity": 19,
+     "text": "没能保护达兹纳……",
+     "original_text": "没能保护达兹纳……",
+     "raw": "klmS2YlCjkKK7JySksaBY4Fj"
+    },
+    {
+     "id": 23,
+     "label": "0x080081BA",
+     "pointer_offset": null,
+     "pointer": 134250938,
+     "text_offset": 33210,
+     "capacity": 17,
+     "text": "打败卡多的手下了",
+     "original_text": "打败卡多的手下了",
+     "raw": "iu+I2pBGi92LYpXTmGCRaQ=="
+    },
+    {
+     "id": 24,
+     "label": "0x080081D9",
+     "pointer_offset": null,
+     "pointer": 134250969,
+     "text_offset": 33241,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 25,
+     "label": "0x080081F6",
+     "pointer_offset": null,
+     "pointer": 134250998,
+     "text_offset": 33270,
+     "capacity": 17,
+     "text": "打败卡多的手下了",
+     "original_text": "打败卡多的手下了",
+     "raw": "iu+I2pBGi92LYpXTmGCRaQ=="
+    },
+    {
+     "id": 26,
+     "label": "0x08008215",
+     "pointer_offset": null,
+     "pointer": 134251029,
+     "text_offset": 33301,
+     "capacity": 17,
+     "text": "鸣人被打败了……",
+     "original_text": "鸣人被打败了……",
+     "raw": "kpiUyIlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 27,
+     "label": "0x08008232",
+     "pointer_offset": null,
+     "pointer": 134251058,
+     "text_offset": 33330,
+     "capacity": 17,
+     "text": "打败卡多的手下了",
+     "original_text": "打败卡多的手下了",
+     "raw": "iu+I2pBGi92LYpXTmGCRaQ=="
+    },
+    {
+     "id": 28,
+     "label": "0x08008251",
+     "pointer_offset": null,
+     "pointer": 134251089,
+     "text_offset": 33361,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 29,
+     "label": "0x0800826E",
+     "pointer_offset": null,
+     "pointer": 134251118,
+     "text_offset": 33390,
+     "capacity": 17,
+     "text": "打倒草鞋・草履了",
+     "original_text": "打倒草鞋・草履了",
+     "raw": "iu+LV4namNSBRYnakcGRaQ=="
+    },
+    {
+     "id": 30,
+     "label": "0x08008287",
+     "pointer_offset": null,
+     "pointer": 134251143,
+     "text_offset": 33415,
+     "capacity": 13,
+     "text": "鸣人被打败了",
+     "original_text": "鸣人被打败了",
+     "raw": "kpiUyIlaiu+I2pFp"
+    },
+    {
+     "id": 31,
+     "label": "0x080082A4",
+     "pointer_offset": null,
+     "pointer": 134251172,
+     "text_offset": 33444,
+     "capacity": 17,
+     "text": "打倒草鞋・草履了",
+     "original_text": "打倒草鞋・草履了",
+     "raw": "iu+LV4namNSBRYnakcGRaQ=="
+    },
+    {
+     "id": 32,
+     "label": "0x080082BD",
+     "pointer_offset": null,
+     "pointer": 134251197,
+     "text_offset": 33469,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 33,
+     "label": "0x080082DA",
+     "pointer_offset": null,
+     "pointer": 134251226,
+     "text_offset": 33498,
+     "capacity": 17,
+     "text": "打败卡多的手下了",
+     "original_text": "打败卡多的手下了",
+     "raw": "iu+I2pBGi92LYpXTmGCRaQ=="
+    },
+    {
+     "id": 34,
+     "label": "0x080082F9",
+     "pointer_offset": null,
+     "pointer": 134251257,
+     "text_offset": 33529,
+     "capacity": 23,
+     "text": "佐助和小樱被打败了……",
+     "original_text": "佐助和小樱被打败了……",
+     "raw": "nL6cZY3KmMmabIlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 35,
+     "label": "0x0800831E",
+     "pointer_offset": null,
+     "pointer": 134251294,
+     "text_offset": 33566,
+     "capacity": 17,
+     "text": "打败卡多的手下了",
+     "original_text": "打败卡多的手下了",
+     "raw": "iu+I2pBGi92LYpXTmGCRaQ=="
+    },
+    {
+     "id": 36,
+     "label": "0x0800833D",
+     "pointer_offset": null,
+     "pointer": 134251325,
+     "text_offset": 33597,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 37,
+     "label": "0x0800835A",
+     "pointer_offset": null,
+     "pointer": 134251354,
+     "text_offset": 33626,
+     "capacity": 17,
+     "text": "打败卡多的手下了",
+     "original_text": "打败卡多的手下了",
+     "raw": "iu+I2pBGi92LYpXTmGCRaQ=="
+    },
+    {
+     "id": 38,
+     "label": "0x08008379",
+     "pointer_offset": null,
+     "pointer": 134251385,
+     "text_offset": 33657,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 39,
+     "label": "0x08008396",
+     "pointer_offset": null,
+     "pointer": 134251414,
+     "text_offset": 33686,
+     "capacity": 9,
+     "text": "打败白了",
+     "original_text": "打败白了",
+     "raw": "iu+I2ojVkWk="
+    },
+    {
+     "id": 40,
+     "label": "0x080083A7",
+     "pointer_offset": null,
+     "pointer": 134251431,
+     "text_offset": 33703,
+     "capacity": 23,
+     "text": "鸣人和佐助被打败了……",
+     "original_text": "鸣人和佐助被打败了……",
+     "raw": "kpiUyI3KnL6cZYlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 41,
+     "label": "0x080083CC",
+     "pointer_offset": null,
+     "pointer": 134251468,
+     "text_offset": 33740,
+     "capacity": 9,
+     "text": "打败白了",
+     "original_text": "打败白了",
+     "raw": "iu+I2ojVkWk="
+    },
+    {
+     "id": 42,
+     "label": "0x080083DD",
+     "pointer_offset": null,
+     "pointer": 134251485,
+     "text_offset": 33757,
+     "capacity": 17,
+     "text": "鸣人被打败了……",
+     "original_text": "鸣人被打败了……",
+     "raw": "kpiUyIlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 43,
+     "label": "0x080083FA",
+     "pointer_offset": null,
+     "pointer": 134251514,
+     "text_offset": 33786,
+     "capacity": 9,
+     "text": "打败白了",
+     "original_text": "打败白了",
+     "raw": "iu+I2ojVkWk="
+    },
+    {
+     "id": 44,
+     "label": "0x0800840B",
+     "pointer_offset": null,
+     "pointer": 134251531,
+     "text_offset": 33803,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 45,
+     "label": "0x08008428",
+     "pointer_offset": null,
+     "pointer": 134251560,
+     "text_offset": 33832,
+     "capacity": 13,
+     "text": "打败再不斩了",
+     "original_text": "打败再不斩了",
+     "raw": "iu+I2ptEibibgJFp"
+    },
+    {
+     "id": 46,
+     "label": "0x0800843D",
+     "pointer_offset": null,
+     "pointer": 134251581,
+     "text_offset": 33853,
+     "capacity": 19,
+     "text": "卡卡西被打败了……",
+     "original_text": "卡卡西被打败了……",
+     "raw": "kEaQRpf0iVqK74jakWmBY4Fj"
+    },
+    {
+     "id": 47,
+     "label": "0x0800845A",
+     "pointer_offset": null,
+     "pointer": 134251610,
+     "text_offset": 33882,
+     "capacity": 13,
+     "text": "打败再不斩了",
+     "original_text": "打败再不斩了",
+     "raw": "iu+I2ptEibibgJFp"
+    },
+    {
+     "id": 48,
+     "label": "0x0800846F",
+     "pointer_offset": null,
+     "pointer": 134251631,
+     "text_offset": 33903,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 49,
+     "label": "0x0800848C",
+     "pointer_offset": null,
+     "pointer": 134251660,
+     "text_offset": 33932,
+     "capacity": 11,
+     "text": "抓住小虎了",
+     "original_text": "抓住小虎了",
+     "raw": "nG6capjJjkCRaQ=="
+    },
+    {
+     "id": 50,
+     "label": "0x0800849F",
+     "pointer_offset": null,
+     "pointer": 134251679,
+     "text_offset": 33951,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 51,
+     "label": "0x080084BC",
+     "pointer_offset": null,
+     "pointer": 134251708,
+     "text_offset": 33980,
+     "capacity": 11,
+     "text": "抓住小虎了",
+     "original_text": "抓住小虎了",
+     "raw": "nG6capjJjkCRaQ=="
+    },
+    {
+     "id": 52,
+     "label": "0x080084CF",
+     "pointer_offset": null,
+     "pointer": 134251727,
+     "text_offset": 33999,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 53,
+     "label": "0x080084EC",
+     "pointer_offset": null,
+     "pointer": 134251756,
+     "text_offset": 34028,
+     "capacity": 17,
+     "text": "打败冒牌货鸣人了",
+     "original_text": "打败冒牌货鸣人了",
+     "raw": "iu+I2pJOk2SOlJKYlMiRaQ=="
+    },
+    {
+     "id": 54,
+     "label": "0x08008505",
+     "pointer_offset": null,
+     "pointer": 134251781,
+     "text_offset": 34053,
+     "capacity": 17,
+     "text": "鸣人被打败了……",
+     "original_text": "鸣人被打败了……",
+     "raw": "kpiUyIlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 55,
+     "label": "0x08008522",
+     "pointer_offset": null,
+     "pointer": 134251810,
+     "text_offset": 34082,
+     "capacity": 11,
+     "text": "打败鸣人了",
+     "original_text": "打败鸣人了",
+     "raw": "iu+I2pKYlMiRaQ=="
+    },
+    {
+     "id": 56,
+     "label": "0x08008537",
+     "pointer_offset": null,
+     "pointer": 134251831,
+     "text_offset": 34103,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 57,
+     "label": "0x08008554",
+     "pointer_offset": null,
+     "pointer": 134251860,
+     "text_offset": 34132,
+     "capacity": 15,
+     "text": "打败不明忍者了",
+     "original_text": "打败不明忍者了",
+     "raw": "iu+I2om4kpaUyZupkWk="
+    },
+    {
+     "id": 58,
+     "label": "0x0800856D",
+     "pointer_offset": null,
+     "pointer": 134251885,
+     "text_offset": 34157,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 59,
+     "label": "0x0800858A",
+     "pointer_offset": null,
+     "pointer": 134251914,
+     "text_offset": 34186,
+     "capacity": 15,
+     "text": "打败不明忍者了",
+     "original_text": "打败不明忍者了",
+     "raw": "iu+I2om4kpaUyZupkWk="
+    },
+    {
+     "id": 60,
+     "label": "0x080085A3",
+     "pointer_offset": null,
+     "pointer": 134251939,
+     "text_offset": 34211,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 61,
+     "label": "0x080085C0",
+     "pointer_offset": null,
+     "pointer": 134251968,
+     "text_offset": 34240,
+     "capacity": 11,
+     "text": "抓住小虎了",
+     "original_text": "抓住小虎了",
+     "raw": "nG6capjJjkCRaQ=="
+    },
+    {
+     "id": 62,
+     "label": "0x080085D3",
+     "pointer_offset": null,
+     "pointer": 134251987,
+     "text_offset": 34259,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 63,
+     "label": "0x080085F0",
+     "pointer_offset": null,
+     "pointer": 134252016,
+     "text_offset": 34288,
+     "capacity": 11,
+     "text": "抓住小虎了",
+     "original_text": "抓住小虎了",
+     "raw": "nG6capjJjkCRaQ=="
+    },
+    {
+     "id": 64,
+     "label": "0x08008603",
+     "pointer_offset": null,
+     "pointer": 134252035,
+     "text_offset": 34307,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 65,
+     "label": "0x08008620",
+     "pointer_offset": null,
+     "pointer": 134252064,
+     "text_offset": 34336,
+     "capacity": 15,
+     "text": "打败不明忍者了",
+     "original_text": "打败不明忍者了",
+     "raw": "iu+I2om4kpaUyZupkWk="
+    },
+    {
+     "id": 66,
+     "label": "0x0800863D",
+     "pointer_offset": null,
+     "pointer": 134252093,
+     "text_offset": 34365,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 67,
+     "label": "0x0800865A",
+     "pointer_offset": null,
+     "pointer": 134252122,
+     "text_offset": 34394,
+     "capacity": 15,
+     "text": "打败不明忍者了",
+     "original_text": "打败不明忍者了",
+     "raw": "iu+I2om4kpaUyZupkWk="
+    },
+    {
+     "id": 68,
+     "label": "0x08008677",
+     "pointer_offset": null,
+     "pointer": 134252151,
+     "text_offset": 34423,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 69,
+     "label": "0x08008694",
+     "pointer_offset": null,
+     "pointer": 134252180,
+     "text_offset": 34452,
+     "capacity": 11,
+     "text": "赶走蜜蜂了",
+     "original_text": "赶走蜜蜂了",
+     "raw": "jMycqZJ5jIORaQ=="
+    },
+    {
+     "id": 70,
+     "label": "0x080086A9",
+     "pointer_offset": null,
+     "pointer": 134252201,
+     "text_offset": 34473,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 71,
+     "label": "0x080086C6",
+     "pointer_offset": null,
+     "pointer": 134252230,
+     "text_offset": 34502,
+     "capacity": 23,
+     "text": "没能很好保护木叶丸……",
+     "original_text": "没能很好保护木叶丸……",
+     "raw": "klmS2Y3ZjcCJQo5CkruZ3peHgWOBYw=="
+    },
+    {
+     "id": 72,
+     "label": "0x080086E7",
+     "pointer_offset": null,
+     "pointer": 134252263,
+     "text_offset": 34535,
+     "capacity": 11,
+     "text": "赶走蜜蜂了",
+     "original_text": "赶走蜜蜂了",
+     "raw": "jMycqZJ5jIORaQ=="
+    },
+    {
+     "id": 73,
+     "label": "0x080086FC",
+     "pointer_offset": null,
+     "pointer": 134252284,
+     "text_offset": 34556,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 74,
+     "label": "0x08008719",
+     "pointer_offset": null,
+     "pointer": 134252313,
+     "text_offset": 34585,
+     "capacity": 23,
+     "text": "没能很好保护木叶丸……",
+     "original_text": "没能很好保护木叶丸……",
+     "raw": "klmS2Y3ZjcCJQo5CkruZ3peHgWOBYw=="
+    },
+    {
+     "id": 75,
+     "label": "0x0800873A",
+     "pointer_offset": null,
+     "pointer": 134252346,
+     "text_offset": 34618,
+     "capacity": 15,
+     "text": "打败傀儡人偶了",
+     "original_text": "打败傀儡人偶了",
+     "raw": "iu+I2pCdkNmUyJNakWk="
+    },
+    {
+     "id": 76,
+     "label": "0x08008753",
+     "pointer_offset": null,
+     "pointer": 134252371,
+     "text_offset": 34643,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 77,
+     "label": "0x08008770",
+     "pointer_offset": null,
+     "pointer": 134252400,
+     "text_offset": 34672,
+     "capacity": 23,
+     "text": "没能很好保护木叶丸……",
+     "original_text": "没能很好保护木叶丸……",
+     "raw": "klmS2Y3ZjcCJQo5CkruZ3peHgWOBYw=="
+    },
+    {
+     "id": 78,
+     "label": "0x08008791",
+     "pointer_offset": null,
+     "pointer": 134252433,
+     "text_offset": 34705,
+     "capacity": 15,
+     "text": "打败傀儡人偶了",
+     "original_text": "打败傀儡人偶了",
+     "raw": "iu+I2pCdkNmUyJNakWk="
+    },
+    {
+     "id": 79,
+     "label": "0x080087AA",
+     "pointer_offset": null,
+     "pointer": 134252458,
+     "text_offset": 34730,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 80,
+     "label": "0x080087C7",
+     "pointer_offset": null,
+     "pointer": 134252487,
+     "text_offset": 34759,
+     "capacity": 23,
+     "text": "没能很好保护木叶丸……",
+     "original_text": "没能很好保护木叶丸……",
+     "raw": "klmS2Y3ZjcCJQo5CkruZ3peHgWOBYw=="
+    },
+    {
+     "id": 81,
+     "label": "0x080087E8",
+     "pointer_offset": null,
+     "pointer": 134252520,
+     "text_offset": 34792,
+     "capacity": 15,
+     "text": "打败傀儡人偶了",
+     "original_text": "打败傀儡人偶了",
+     "raw": "iu+I2pCdkNmUyJNakWk="
+    },
+    {
+     "id": 82,
+     "label": "0x08008801",
+     "pointer_offset": null,
+     "pointer": 134252545,
+     "text_offset": 34817,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 83,
+     "label": "0x0800881E",
+     "pointer_offset": null,
+     "pointer": 134252574,
+     "text_offset": 34846,
+     "capacity": 15,
+     "text": "打败傀儡人偶了",
+     "original_text": "打败傀儡人偶了",
+     "raw": "iu+I2pCdkNmUyJNakWk="
+    },
+    {
+     "id": 84,
+     "label": "0x08008837",
+     "pointer_offset": null,
+     "pointer": 134252599,
+     "text_offset": 34871,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 85,
+     "label": "0x08008854",
+     "pointer_offset": null,
+     "pointer": 134252628,
+     "text_offset": 34900,
+     "capacity": 13,
+     "text": "使老虎安静了",
+     "original_text": "使老虎安静了",
+     "raw": "lbaQzI5AiLCPr5Fp"
+    },
+    {
+     "id": 86,
+     "label": "0x0800886D",
+     "pointer_offset": null,
+     "pointer": 134252653,
+     "text_offset": 34925,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 87,
+     "label": "0x0800888A",
+     "pointer_offset": null,
+     "pointer": 134252682,
+     "text_offset": 34954,
+     "capacity": 13,
+     "text": "使老虎安静了",
+     "original_text": "使老虎安静了",
+     "raw": "lbaQzI5AiLCPr5Fp"
+    },
+    {
+     "id": 88,
+     "label": "0x080088A3",
+     "pointer_offset": null,
+     "pointer": 134252707,
+     "text_offset": 34979,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 89,
+     "label": "0x080088C0",
+     "pointer_offset": null,
+     "pointer": 134252736,
+     "text_offset": 35008,
+     "capacity": 13,
+     "text": "使老虎安静了",
+     "original_text": "使老虎安静了",
+     "raw": "lbaQzI5AiLCPr5Fp"
+    },
+    {
+     "id": 90,
+     "label": "0x080088DD",
+     "pointer_offset": null,
+     "pointer": 134252765,
+     "text_offset": 35037,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 91,
+     "label": "0x080088FA",
+     "pointer_offset": null,
+     "pointer": 134252794,
+     "text_offset": 35066,
+     "capacity": 13,
+     "text": "使老虎安静了",
+     "original_text": "使老虎安静了",
+     "raw": "lbaQzI5AiLCPr5Fp"
+    },
+    {
+     "id": 92,
+     "label": "0x08008917",
+     "pointer_offset": null,
+     "pointer": 134252823,
+     "text_offset": 35095,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 93,
+     "label": "0x08008934",
+     "pointer_offset": null,
+     "pointer": 134252852,
+     "text_offset": 35124,
+     "capacity": 9,
+     "text": "赶走熊了",
+     "original_text": "赶走熊了",
+     "raw": "jMycqZlHkWk="
+    },
+    {
+     "id": 94,
+     "label": "0x0800894D",
+     "pointer_offset": null,
+     "pointer": 134252877,
+     "text_offset": 35149,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 95,
+     "label": "0x0800896A",
+     "pointer_offset": null,
+     "pointer": 134252906,
+     "text_offset": 35178,
+     "capacity": 9,
+     "text": "赶走熊了",
+     "original_text": "赶走熊了",
+     "raw": "jMycqZlHkWk="
+    },
+    {
+     "id": 96,
+     "label": "0x08008983",
+     "pointer_offset": null,
+     "pointer": 134252931,
+     "text_offset": 35203,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 97,
+     "label": "0x080089A0",
+     "pointer_offset": null,
+     "pointer": 134252960,
+     "text_offset": 35232,
+     "capacity": 23,
+     "text": "打败井野・鹿丸・丁次了",
+     "original_text": "打败井野・鹿丸・丁次了",
+     "raw": "iu+I2o+rmdiBRZG2l4eBRYueisuRaQ=="
+    },
+    {
+     "id": 98,
+     "label": "0x080089C7",
+     "pointer_offset": null,
+     "pointer": 134252999,
+     "text_offset": 35271,
+     "capacity": 15,
+     "text": "挖到了很多甘薯",
+     "original_text": "挖到了很多甘薯",
+     "raw": "l3iLW5FpjdmL3YzHleo="
+    },
+    {
+     "id": 99,
+     "label": "0x080089E2",
+     "pointer_offset": null,
+     "pointer": 134253026,
+     "text_offset": 35298,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 100,
+     "label": "0x080089FF",
+     "pointer_offset": null,
+     "pointer": 134253055,
+     "text_offset": 35327,
+     "capacity": 21,
+     "text": "甘薯被抢走了很多……",
+     "original_text": "甘薯被抢走了很多……",
+     "raw": "jMeV6olalF6cqZFpjdmL3YFjgWM="
+    },
+    {
+     "id": 101,
+     "label": "0x08008A22",
+     "pointer_offset": null,
+     "pointer": 134253090,
+     "text_offset": 35362,
+     "capacity": 23,
+     "text": "打败井野・鹿丸・丁次了",
+     "original_text": "打败井野・鹿丸・丁次了",
+     "raw": "iu+I2o+rmdiBRZG2l4eBRYueisuRaQ=="
+    },
+    {
+     "id": 102,
+     "label": "0x08008A49",
+     "pointer_offset": null,
+     "pointer": 134253129,
+     "text_offset": 35401,
+     "capacity": 15,
+     "text": "挖到了很多甘薯",
+     "original_text": "挖到了很多甘薯",
+     "raw": "l3iLW5FpjdmL3YzHleo="
+    },
+    {
+     "id": 103,
+     "label": "0x08008A64",
+     "pointer_offset": null,
+     "pointer": 134253156,
+     "text_offset": 35428,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 104,
+     "label": "0x08008A81",
+     "pointer_offset": null,
+     "pointer": 134253185,
+     "text_offset": 35457,
+     "capacity": 21,
+     "text": "没有挖到很多甘薯……",
+     "original_text": "没有挖到很多甘薯……",
+     "raw": "klmampd4i1uN2YvdjMeV6oFjgWM="
+    },
+    {
+     "id": 105,
+     "label": "0x08008AA4",
+     "pointer_offset": null,
+     "pointer": 134253220,
+     "text_offset": 35492,
+     "capacity": 13,
+     "text": "仓库的门开了",
+     "original_text": "仓库的门开了",
+     "raw": "idOQgYtikmOQSJFp"
+    },
+    {
+     "id": 106,
+     "label": "0x08008ABB",
+     "pointer_offset": null,
+     "pointer": 134253243,
+     "text_offset": 35515,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 107,
+     "label": "0x08008AD8",
+     "pointer_offset": null,
+     "pointer": 134253272,
+     "text_offset": 35544,
+     "capacity": 13,
+     "text": "仓库的门开了",
+     "original_text": "仓库的门开了",
+     "raw": "idOQgYtikmOQSJFp"
+    },
+    {
+     "id": 108,
+     "label": "0x08008AEF",
+     "pointer_offset": null,
+     "pointer": 134253295,
+     "text_offset": 35567,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 109,
+     "label": "0x08008B0C",
+     "pointer_offset": null,
+     "pointer": 134253324,
+     "text_offset": 35596,
+     "capacity": 13,
+     "text": "仓库的门开了",
+     "original_text": "仓库的门开了",
+     "raw": "idOQgYtikmOQSJFp"
+    },
+    {
+     "id": 110,
+     "label": "0x08008B23",
+     "pointer_offset": null,
+     "pointer": 134253347,
+     "text_offset": 35619,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 111,
+     "label": "0x08008B40",
+     "pointer_offset": null,
+     "pointer": 134253376,
+     "text_offset": 35648,
+     "capacity": 13,
+     "text": "仓库的门开了",
+     "original_text": "仓库的门开了",
+     "raw": "idOQgYtikmOQSJFp"
+    },
+    {
+     "id": 112,
+     "label": "0x08008B57",
+     "pointer_offset": null,
+     "pointer": 134253399,
+     "text_offset": 35671,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 113,
+     "label": "0x08008B74",
+     "pointer_offset": null,
+     "pointer": 134253428,
+     "text_offset": 35700,
+     "capacity": 15,
+     "text": "得到“密书”了",
+     "original_text": "得到“密书”了",
+     "raw": "i2GLW4FnknqV5oFokWk="
+    },
+    {
+     "id": 114,
+     "label": "0x08008B93",
+     "pointer_offset": null,
+     "pointer": 134253459,
+     "text_offset": 35731,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 115,
+     "label": "0x08008BB0",
+     "pointer_offset": null,
+     "pointer": 134253488,
+     "text_offset": 35760,
+     "capacity": 15,
+     "text": "得到“密书”了",
+     "original_text": "得到“密书”了",
+     "raw": "i2GLW4FnknqV5oFokWk="
+    },
+    {
+     "id": 116,
+     "label": "0x08008BCF",
+     "pointer_offset": null,
+     "pointer": 134253519,
+     "text_offset": 35791,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 117,
+     "label": "0x08008BEC",
+     "pointer_offset": null,
+     "pointer": 134253548,
+     "text_offset": 35820,
+     "capacity": 11,
+     "text": "打败蜈蚣了",
+     "original_text": "打败蜈蚣了",
+     "raw": "iu+I2pzJnMqRaQ=="
+    },
+    {
+     "id": 118,
+     "label": "0x08008C01",
+     "pointer_offset": null,
+     "pointer": 134253569,
+     "text_offset": 35841,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 119,
+     "label": "0x08008C1E",
+     "pointer_offset": null,
+     "pointer": 134253598,
+     "text_offset": 35870,
+     "capacity": 11,
+     "text": "打败蜈蚣了",
+     "original_text": "打败蜈蚣了",
+     "raw": "iu+I2pzJnMqRaQ=="
+    },
+    {
+     "id": 120,
+     "label": "0x08008C33",
+     "pointer_offset": null,
+     "pointer": 134253619,
+     "text_offset": 35891,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 121,
+     "label": "0x08008C50",
+     "pointer_offset": null,
+     "pointer": 134253648,
+     "text_offset": 35920,
+     "capacity": 23,
+     "text": "打败井野・鹿丸・丁次了",
+     "original_text": "打败井野・鹿丸・丁次了",
+     "raw": "iu+I2o+rmdiBRZG2l4eBRYueisuRaQ=="
+    },
+    {
+     "id": 122,
+     "label": "0x08008C77",
+     "pointer_offset": null,
+     "pointer": 134253687,
+     "text_offset": 35959,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 123,
+     "label": "0x08008C94",
+     "pointer_offset": null,
+     "pointer": 134253716,
+     "text_offset": 35988,
+     "capacity": 23,
+     "text": "打败井野・鹿丸・丁次了",
+     "original_text": "打败井野・鹿丸・丁次了",
+     "raw": "iu+I2o+rmdiBRZG2l4eBRYueisuRaQ=="
+    },
+    {
+     "id": 124,
+     "label": "0x08008CBB",
+     "pointer_offset": null,
+     "pointer": 134253755,
+     "text_offset": 36027,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 125,
+     "label": "0x08008CD8",
+     "pointer_offset": null,
+     "pointer": 134253784,
+     "text_offset": 36056,
+     "capacity": 21,
+     "text": "打败牙・志乃・雏田了",
+     "original_text": "打败牙・志乃・雏田了",
+     "raw": "iu+I2pmKgUWb5pLIgUWKmpbskWk="
+    },
+    {
+     "id": 126,
+     "label": "0x08008CF9",
+     "pointer_offset": null,
+     "pointer": 134253817,
+     "text_offset": 36089,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 127,
+     "label": "0x08008D16",
+     "pointer_offset": null,
+     "pointer": 134253846,
+     "text_offset": 36118,
+     "capacity": 21,
+     "text": "打败牙・志乃・雏田了",
+     "original_text": "打败牙・志乃・雏田了",
+     "raw": "iu+I2pmKgUWb5pLIgUWKmpbskWk="
+    },
+    {
+     "id": 128,
+     "label": "0x08008D37",
+     "pointer_offset": null,
+     "pointer": 134253879,
+     "text_offset": 36151,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 129,
+     "label": "0x08008D54",
+     "pointer_offset": null,
+     "pointer": 134253908,
+     "text_offset": 36180,
+     "capacity": 21,
+     "text": "打败宁次・李・天天了",
+     "original_text": "打败宁次・李・天天了",
+     "raw": "iu+I2pL7isuBRZDrgUWW6ZbpkWk="
+    },
+    {
+     "id": 130,
+     "label": "0x08008D77",
+     "pointer_offset": null,
+     "pointer": 134253943,
+     "text_offset": 36215,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 131,
+     "label": "0x08008D94",
+     "pointer_offset": null,
+     "pointer": 134253972,
+     "text_offset": 36244,
+     "capacity": 21,
+     "text": "打败宁次・李・天天了",
+     "original_text": "打败宁次・李・天天了",
+     "raw": "iu+I2pL7isuBRZDrgUWW6ZbpkWk="
+    },
+    {
+     "id": 132,
+     "label": "0x08008DB7",
+     "pointer_offset": null,
+     "pointer": 134254007,
+     "text_offset": 36279,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 133,
+     "label": "0x08008DD4",
+     "pointer_offset": null,
+     "pointer": 134254036,
+     "text_offset": 36308,
+     "capacity": 15,
+     "text": "打倒了大蛇的头",
+     "original_text": "打倒了大蛇的头",
+     "raw": "iu+LV5FpivCVfYtil1U="
+    },
+    {
+     "id": 134,
+     "label": "0x08008DEB",
+     "pointer_offset": null,
+     "pointer": 134254059,
+     "text_offset": 36331,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 135,
+     "label": "0x08008E08",
+     "pointer_offset": null,
+     "pointer": 134254088,
+     "text_offset": 36360,
+     "capacity": 15,
+     "text": "打倒了大蛇的头",
+     "original_text": "打倒了大蛇的头",
+     "raw": "iu+LV5FpivCVfYtil1U="
+    },
+    {
+     "id": 136,
+     "label": "0x08008E1F",
+     "pointer_offset": null,
+     "pointer": 134254111,
+     "text_offset": 36383,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 137,
+     "label": "0x08008E3C",
+     "pointer_offset": null,
+     "pointer": 134254140,
+     "text_offset": 36412,
+     "capacity": 21,
+     "text": "打倒萨克・多斯・金了",
+     "original_text": "打倒萨克・多斯・金了",
+     "raw": "iu+LV5T1kGmBRYvdlleBRY+PkWk="
+    },
+    {
+     "id": 138,
+     "label": "0x08008E5D",
+     "pointer_offset": null,
+     "pointer": 134254173,
+     "text_offset": 36445,
+     "capacity": 21,
+     "text": "小樱和李被打败了……",
+     "original_text": "小樱和李被打败了……",
+     "raw": "mMmabI3KkOuJWorviNqRaYFjgWM="
+    },
+    {
+     "id": 139,
+     "label": "0x08008E80",
+     "pointer_offset": null,
+     "pointer": 134254208,
+     "text_offset": 36480,
+     "capacity": 21,
+     "text": "打倒萨克・多斯・金了",
+     "original_text": "打倒萨克・多斯・金了",
+     "raw": "iu+LV5T1kGmBRYvdlleBRY+PkWk="
+    },
+    {
+     "id": 140,
+     "label": "0x08008EA1",
+     "pointer_offset": null,
+     "pointer": 134254241,
+     "text_offset": 36513,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 141,
+     "label": "0x08008EBE",
+     "pointer_offset": null,
+     "pointer": 134254270,
+     "text_offset": 36542,
+     "capacity": 19,
+     "text": "打倒胧・篝・梦火了",
+     "original_text": "打倒胧・篝・梦火了",
+     "raw": "iu+LV5zHgUWcxoFFkmyOj5Fp"
+    },
+    {
+     "id": 142,
+     "label": "0x08008ED9",
+     "pointer_offset": null,
+     "pointer": 134254297,
+     "text_offset": 36569,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 143,
+     "label": "0x08008EF6",
+     "pointer_offset": null,
+     "pointer": 134254326,
+     "text_offset": 36598,
+     "capacity": 19,
+     "text": "打倒胧・篝・梦火了",
+     "original_text": "打倒胧・篝・梦火了",
+     "raw": "iu+LV5zHgUWcxoFFkmyOj5Fp"
+    },
+    {
+     "id": 144,
+     "label": "0x08008F11",
+     "pointer_offset": null,
+     "pointer": 134254353,
+     "text_offset": 36625,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 145,
+     "label": "0x08008F2E",
+     "pointer_offset": null,
+     "pointer": 134254382,
+     "text_offset": 36654,
+     "capacity": 9,
+     "text": "打败李了",
+     "original_text": "打败李了",
+     "raw": "iu+I2pDrkWk="
+    },
+    {
+     "id": 146,
+     "label": "0x08008F41",
+     "pointer_offset": null,
+     "pointer": 134254401,
+     "text_offset": 36673,
+     "capacity": 17,
+     "text": "佐助被打败了……",
+     "original_text": "佐助被打败了……",
+     "raw": "nL6cZYlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 147,
+     "label": "0x08008F5E",
+     "pointer_offset": null,
+     "pointer": 134254430,
+     "text_offset": 36702,
+     "capacity": 15,
+     "text": "打败对方队伍了",
+     "original_text": "打败对方队伍了",
+     "raw": "iu+I2ovRjFuL0JfmkWk="
+    },
+    {
+     "id": 148,
+     "label": "0x08008F79",
+     "pointer_offset": null,
+     "pointer": 134254457,
+     "text_offset": 36729,
+     "capacity": 22,
+     "text": "我方的净胜数比对方多\n",
+     "original_text": "我方的净胜数比对方多\n",
+     "raw": "l8+MW4tij7iVoZX6iWeL0Yxbi90K"
+    },
+    {
+     "id": 149,
+     "label": "0x08008FA1",
+     "pointer_offset": null,
+     "pointer": 134254497,
+     "text_offset": 36769,
+     "capacity": 28,
+     "text": "我方剩下的体力比对方队伍多\n",
+     "original_text": "我方剩下的体力比对方队伍多\n",
+     "raw": "l8+MW5WgmGCLYpbikUSJZ4vRjFuL0Jfmi90K"
+    },
+    {
+     "id": 150,
+     "label": "0x08008FD3",
+     "pointer_offset": null,
+     "pointer": 134254547,
+     "text_offset": 36819,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 151,
+     "label": "0x08008FF0",
+     "pointer_offset": null,
+     "pointer": 134254576,
+     "text_offset": 36848,
+     "capacity": 22,
+     "text": "对方的净胜数比我方多\n",
+     "original_text": "对方的净胜数比我方多\n",
+     "raw": "i9GMW4tij7iVoZX6iWeXz4xbi90K"
+    },
+    {
+     "id": 152,
+     "label": "0x0800901C",
+     "pointer_offset": null,
+     "pointer": 134254620,
+     "text_offset": 36892,
+     "capacity": 32,
+     "text": "对方队伍剩下的体力比我方多……\n",
+     "original_text": "对方队伍剩下的体力比我方多……\n",
+     "raw": "i9GMW4vQl+aVoJhgi2KW4pFEiWeXz4xbi92BY4FjCg=="
+    },
+    {
+     "id": 153,
+     "label": "0x08009054",
+     "pointer_offset": null,
+     "pointer": 134254676,
+     "text_offset": 36948,
+     "capacity": 9,
+     "text": "打败李了",
+     "original_text": "打败李了",
+     "raw": "iu+I2pDrkWk="
+    },
+    {
+     "id": 154,
+     "label": "0x08009067",
+     "pointer_offset": null,
+     "pointer": 134254695,
+     "text_offset": 36967,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 155,
+     "label": "0x08009084",
+     "pointer_offset": null,
+     "pointer": 134254724,
+     "text_offset": 36996,
+     "capacity": 15,
+     "text": "打败对方队伍了",
+     "original_text": "打败对方队伍了",
+     "raw": "iu+I2ovRjFuL0JfmkWk="
+    },
+    {
+     "id": 156,
+     "label": "0x0800909F",
+     "pointer_offset": null,
+     "pointer": 134254751,
+     "text_offset": 37023,
+     "capacity": 24,
+     "text": "我方的净胜数比对方的多\n",
+     "original_text": "我方的净胜数比对方的多\n",
+     "raw": "l8+MW4tij7iVoZX6iWeL0Yxbi2KL3Qo="
+    },
+    {
+     "id": 157,
+     "label": "0x080090C7",
+     "pointer_offset": null,
+     "pointer": 134254791,
+     "text_offset": 37063,
+     "capacity": 30,
+     "text": "我方剩下的体力比对方队伍的多\n",
+     "original_text": "我方剩下的体力比对方队伍的多\n",
+     "raw": "l8+MW5WgmGCLYpbikUSJZ4vRjFuL0Jfmi2KL3Qo="
+    },
+    {
+     "id": 158,
+     "label": "0x080090F9",
+     "pointer_offset": null,
+     "pointer": 134254841,
+     "text_offset": 37113,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 159,
+     "label": "0x08009116",
+     "pointer_offset": null,
+     "pointer": 134254870,
+     "text_offset": 37142,
+     "capacity": 24,
+     "text": "对方的净胜数比我方的多\n",
+     "original_text": "对方的净胜数比我方的多\n",
+     "raw": "i9GMW4tij7iVoZX6iWeXz4xbi2KL3Qo="
+    },
+    {
+     "id": 160,
+     "label": "0x08009142",
+     "pointer_offset": null,
+     "pointer": 134254914,
+     "text_offset": 37186,
+     "capacity": 34,
+     "text": "对方队伍剩下的体力比我方的多……\n",
+     "original_text": "对方队伍剩下的体力比我方的多……\n",
+     "raw": "i9GMW4vQl+aVoJhgi2KW4pFEiWeXz4xbi2KL3YFjgWMK"
+    },
+    {
+     "id": 161,
+     "label": "0x0800917A",
+     "pointer_offset": null,
+     "pointer": 134254970,
+     "text_offset": 37242,
+     "capacity": 15,
+     "text": "打败对方队伍了",
+     "original_text": "打败对方队伍了",
+     "raw": "iu+I2ovRjFuL0JfmkWk="
+    },
+    {
+     "id": 162,
+     "label": "0x08009195",
+     "pointer_offset": null,
+     "pointer": 134254997,
+     "text_offset": 37269,
+     "capacity": 22,
+     "text": "我方的净胜数比对方多\n",
+     "original_text": "我方的净胜数比对方多\n",
+     "raw": "l8+MW4tij7iVoZX6iWeL0Yxbi90K"
+    },
+    {
+     "id": 163,
+     "label": "0x080091BD",
+     "pointer_offset": null,
+     "pointer": 134255037,
+     "text_offset": 37309,
+     "capacity": 30,
+     "text": "我方剩下的体力比对方队伍的多\n",
+     "original_text": "我方剩下的体力比对方队伍的多\n",
+     "raw": "l8+MW5WgmGCLYpbikUSJZ4vRjFuL0Jfmi2KL3Qo="
+    },
+    {
+     "id": 164,
+     "label": "0x080091EF",
+     "pointer_offset": null,
+     "pointer": 134255087,
+     "text_offset": 37359,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 165,
+     "label": "0x0800920C",
+     "pointer_offset": null,
+     "pointer": 134255116,
+     "text_offset": 37388,
+     "capacity": 22,
+     "text": "对方的净胜数比我方多\n",
+     "original_text": "对方的净胜数比我方多\n",
+     "raw": "i9GMW4tij7iVoZX6iWeXz4xbi90K"
+    },
+    {
+     "id": 166,
+     "label": "0x08009238",
+     "pointer_offset": null,
+     "pointer": 134255160,
+     "text_offset": 37432,
+     "capacity": 34,
+     "text": "对方队伍剩下的体力比我方的多……\n",
+     "original_text": "对方队伍剩下的体力比我方的多……\n",
+     "raw": "i9GMW4vQl+aVoJhgi2KW4pFEiWeXz4xbi2KL3YFjgWMK"
+    },
+    {
+     "id": 167,
+     "label": "0x08009270",
+     "pointer_offset": null,
+     "pointer": 134255216,
+     "text_offset": 37488,
+     "capacity": 15,
+     "text": "打败对方队伍了",
+     "original_text": "打败对方队伍了",
+     "raw": "iu+I2ovRjFuL0JfmkWk="
+    },
+    {
+     "id": 168,
+     "label": "0x0800928B",
+     "pointer_offset": null,
+     "pointer": 134255243,
+     "text_offset": 37515,
+     "capacity": 22,
+     "text": "我方的净胜数比对方多\n",
+     "original_text": "我方的净胜数比对方多\n",
+     "raw": "l8+MW4tij7iVoZX6iWeL0Yxbi90K"
+    },
+    {
+     "id": 169,
+     "label": "0x080092B3",
+     "pointer_offset": null,
+     "pointer": 134255283,
+     "text_offset": 37555,
+     "capacity": 30,
+     "text": "我方剩下的体力比对方队伍的多\n",
+     "original_text": "我方剩下的体力比对方队伍的多\n",
+     "raw": "l8+MW5WgmGCLYpbikUSJZ4vRjFuL0Jfmi2KL3Qo="
+    },
+    {
+     "id": 170,
+     "label": "0x080092E5",
+     "pointer_offset": null,
+     "pointer": 134255333,
+     "text_offset": 37605,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 171,
+     "label": "0x08009302",
+     "pointer_offset": null,
+     "pointer": 134255362,
+     "text_offset": 37634,
+     "capacity": 24,
+     "text": "对方的净胜数比我方的多\n",
+     "original_text": "对方的净胜数比我方的多\n",
+     "raw": "i9GMW4tij7iVoZX6iWeXz4xbi2KL3Qo="
+    },
+    {
+     "id": 172,
+     "label": "0x0800932E",
+     "pointer_offset": null,
+     "pointer": 134255406,
+     "text_offset": 37678,
+     "capacity": 34,
+     "text": "对方队伍剩下的体力比我方的多……\n",
+     "original_text": "对方队伍剩下的体力比我方的多……\n",
+     "raw": "i9GMW4vQl+aVoJhgi2KW4pFEiWeXz4xbi2KL3YFjgWMK"
+    },
+    {
+     "id": 173,
+     "label": "0x08009366",
+     "pointer_offset": null,
+     "pointer": 134255462,
+     "text_offset": 37734,
+     "capacity": 15,
+     "text": "打败对方队伍了",
+     "original_text": "打败对方队伍了",
+     "raw": "iu+I2ovRjFuL0JfmkWk="
+    },
+    {
+     "id": 174,
+     "label": "0x08009381",
+     "pointer_offset": null,
+     "pointer": 134255489,
+     "text_offset": 37761,
+     "capacity": 24,
+     "text": "我方的净胜数比对方的多\n",
+     "original_text": "我方的净胜数比对方的多\n",
+     "raw": "l8+MW4tij7iVoZX6iWeL0Yxbi2KL3Qo="
+    },
+    {
+     "id": 175,
+     "label": "0x080093A9",
+     "pointer_offset": null,
+     "pointer": 134255529,
+     "text_offset": 37801,
+     "capacity": 30,
+     "text": "我方剩下的体力比对方队伍的多\n",
+     "original_text": "我方剩下的体力比对方队伍的多\n",
+     "raw": "l8+MW5WgmGCLYpbikUSJZ4vRjFuL0Jfmi2KL3Qo="
+    },
+    {
+     "id": 176,
+     "label": "0x080093DB",
+     "pointer_offset": null,
+     "pointer": 134255579,
+     "text_offset": 37851,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 177,
+     "label": "0x080093F8",
+     "pointer_offset": null,
+     "pointer": 134255608,
+     "text_offset": 37880,
+     "capacity": 24,
+     "text": "对方的净胜数比我方的多\n",
+     "original_text": "对方的净胜数比我方的多\n",
+     "raw": "i9GMW4tij7iVoZX6iWeXz4xbi2KL3Qo="
+    },
+    {
+     "id": 178,
+     "label": "0x08009424",
+     "pointer_offset": null,
+     "pointer": 134255652,
+     "text_offset": 37924,
+     "capacity": 34,
+     "text": "对方队伍剩下的体力比我方的多……\n",
+     "original_text": "对方队伍剩下的体力比我方的多……\n",
+     "raw": "i9GMW4vQl+aVoJhgi2KW4pFEiWeXz4xbi2KL3YFjgWMK"
+    },
+    {
+     "id": 179,
+     "label": "0x0800945C",
+     "pointer_offset": null,
+     "pointer": 134255708,
+     "text_offset": 37980,
+     "capacity": 15,
+     "text": "打败对方队伍了",
+     "original_text": "打败对方队伍了",
+     "raw": "iu+I2ovRjFuL0JfmkWk="
+    },
+    {
+     "id": 180,
+     "label": "0x08009477",
+     "pointer_offset": null,
+     "pointer": 134255735,
+     "text_offset": 38007,
+     "capacity": 24,
+     "text": "我方的净胜数比对方的多\n",
+     "original_text": "我方的净胜数比对方的多\n",
+     "raw": "l8+MW4tij7iVoZX6iWeL0Yxbi2KL3Qo="
+    },
+    {
+     "id": 181,
+     "label": "0x0800949F",
+     "pointer_offset": null,
+     "pointer": 134255775,
+     "text_offset": 38047,
+     "capacity": 30,
+     "text": "我方剩下的体力比对方队伍的多\n",
+     "original_text": "我方剩下的体力比对方队伍的多\n",
+     "raw": "l8+MW5WgmGCLYpbikUSJZ4vRjFuL0Jfmi2KL3Qo="
+    },
+    {
+     "id": 182,
+     "label": "0x080094D1",
+     "pointer_offset": null,
+     "pointer": 134255825,
+     "text_offset": 38097,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 183,
+     "label": "0x080094EE",
+     "pointer_offset": null,
+     "pointer": 134255854,
+     "text_offset": 38126,
+     "capacity": 24,
+     "text": "对方的净胜数比我方的多\n",
+     "original_text": "对方的净胜数比我方的多\n",
+     "raw": "i9GMW4tij7iVoZX6iWeXz4xbi2KL3Qo="
+    },
+    {
+     "id": 184,
+     "label": "0x0800951A",
+     "pointer_offset": null,
+     "pointer": 134255898,
+     "text_offset": 38170,
+     "capacity": 34,
+     "text": "对方队伍剩下的体力比我方的多……\n",
+     "original_text": "对方队伍剩下的体力比我方的多……\n",
+     "raw": "i9GMW4vQl+aVoJhgi2KW4pFEiWeXz4xbi2KL3YFjgWMK"
+    },
+    {
+     "id": 185,
+     "label": "0x08009552",
+     "pointer_offset": null,
+     "pointer": 134255954,
+     "text_offset": 38226,
+     "capacity": 15,
+     "text": "打败对方队伍了",
+     "original_text": "打败对方队伍了",
+     "raw": "iu+I2ovRjFuL0JfmkWk="
+    },
+    {
+     "id": 186,
+     "label": "0x0800956D",
+     "pointer_offset": null,
+     "pointer": 134255981,
+     "text_offset": 38253,
+     "capacity": 24,
+     "text": "我方的净胜数比对方的多\n",
+     "original_text": "我方的净胜数比对方的多\n",
+     "raw": "l8+MW4tij7iVoZX6iWeL0Yxbi2KL3Qo="
+    },
+    {
+     "id": 187,
+     "label": "0x08009595",
+     "pointer_offset": null,
+     "pointer": 134256021,
+     "text_offset": 38293,
+     "capacity": 30,
+     "text": "我方剩下的体力比对方队伍的多\n",
+     "original_text": "我方剩下的体力比对方队伍的多\n",
+     "raw": "l8+MW5WgmGCLYpbikUSJZ4vRjFuL0Jfmi2KL3Qo="
+    },
+    {
+     "id": 188,
+     "label": "0x080095C7",
+     "pointer_offset": null,
+     "pointer": 134256071,
+     "text_offset": 38343,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 189,
+     "label": "0x080095E4",
+     "pointer_offset": null,
+     "pointer": 134256100,
+     "text_offset": 38372,
+     "capacity": 24,
+     "text": "对方的净胜数比我方的多\n",
+     "original_text": "对方的净胜数比我方的多\n",
+     "raw": "i9GMW4tij7iVoZX6iWeXz4xbi2KL3Qo="
+    },
+    {
+     "id": 190,
+     "label": "0x08009610",
+     "pointer_offset": null,
+     "pointer": 134256144,
+     "text_offset": 38416,
+     "capacity": 34,
+     "text": "对方队伍剩下的体力比我方的多……\n",
+     "original_text": "对方队伍剩下的体力比我方的多……\n",
+     "raw": "i9GMW4vQl+aVoJhgi2KW4pFEiWeXz4xbi2KL3YFjgWMK"
+    },
+    {
+     "id": 191,
+     "label": "0x08009648",
+     "pointer_offset": null,
+     "pointer": 134256200,
+     "text_offset": 38472,
+     "capacity": 15,
+     "text": "打败对方队伍了",
+     "original_text": "打败对方队伍了",
+     "raw": "iu+I2ovRjFuL0JfmkWk="
+    },
+    {
+     "id": 192,
+     "label": "0x08009663",
+     "pointer_offset": null,
+     "pointer": 134256227,
+     "text_offset": 38499,
+     "capacity": 15,
+     "text": "挖到了很多甘薯",
+     "original_text": "挖到了很多甘薯",
+     "raw": "l3iLW5FpjdmL3YzHleo="
+    },
+    {
+     "id": 193,
+     "label": "0x0800967E",
+     "pointer_offset": null,
+     "pointer": 134256254,
+     "text_offset": 38526,
+     "capacity": 24,
+     "text": "我方的净胜数比对方的多\n",
+     "original_text": "我方的净胜数比对方的多\n",
+     "raw": "l8+MW4tij7iVoZX6iWeL0Yxbi2KL3Qo="
+    },
+    {
+     "id": 194,
+     "label": "0x080096A6",
+     "pointer_offset": null,
+     "pointer": 134256294,
+     "text_offset": 38566,
+     "capacity": 30,
+     "text": "我方剩下的体力比对方队伍的多\n",
+     "original_text": "我方剩下的体力比对方队伍的多\n",
+     "raw": "l8+MW5WgmGCLYpbikUSJZ4vRjFuL0Jfmi2KL3Qo="
+    },
+    {
+     "id": 195,
+     "label": "0x080096D8",
+     "pointer_offset": null,
+     "pointer": 134256344,
+     "text_offset": 38616,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 196,
+     "label": "0x080096F5",
+     "pointer_offset": null,
+     "pointer": 134256373,
+     "text_offset": 38645,
+     "capacity": 21,
+     "text": "甘薯被抢走了很多……",
+     "original_text": "甘薯被抢走了很多……",
+     "raw": "jMeV6olalF6cqZFpjdmL3YFjgWM="
+    },
+    {
+     "id": 197,
+     "label": "0x08009718",
+     "pointer_offset": null,
+     "pointer": 134256408,
+     "text_offset": 38680,
+     "capacity": 24,
+     "text": "我方的净胜数比对方的多\n",
+     "original_text": "我方的净胜数比对方的多\n",
+     "raw": "l8+MW4tij7iVoZX6iWeL0Yxbi2KL3Qo="
+    },
+    {
+     "id": 198,
+     "label": "0x08009744",
+     "pointer_offset": null,
+     "pointer": 134256452,
+     "text_offset": 38724,
+     "capacity": 34,
+     "text": "对方队伍剩下的体力比我方的多……\n",
+     "original_text": "对方队伍剩下的体力比我方的多……\n",
+     "raw": "i9GMW4vQl+aVoJhgi2KW4pFEiWeXz4xbi2KL3YFjgWMK"
+    },
+    {
+     "id": 199,
+     "label": "0x0800977C",
+     "pointer_offset": null,
+     "pointer": 134256508,
+     "text_offset": 38780,
+     "capacity": 19,
+     "text": "卡卡西老师被打败了",
+     "original_text": "卡卡西老师被打败了",
+     "raw": "kEaQRpf0kMyVo4laiu+I2pFp"
+    },
+    {
+     "id": 200,
+     "label": "0x08009795",
+     "pointer_offset": null,
+     "pointer": 134256533,
+     "text_offset": 38805,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 201,
+     "label": "0x080097B2",
+     "pointer_offset": null,
+     "pointer": 134256562,
+     "text_offset": 38834,
+     "capacity": 15,
+     "text": "卡卡西被打败了",
+     "original_text": "卡卡西被打败了",
+     "raw": "kEaQRpf0iVqK74jakWk="
+    },
+    {
+     "id": 202,
+     "label": "0x080097C7",
+     "pointer_offset": null,
+     "pointer": 134256583,
+     "text_offset": 38855,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 203,
+     "label": "0x080097E4",
+     "pointer_offset": null,
+     "pointer": 134256612,
+     "text_offset": 38884,
+     "capacity": 11,
+     "text": "得到宝箱了",
+     "original_text": "得到宝箱了",
+     "raw": "i2GLW4lFmK6RaQ=="
+    },
+    {
+     "id": 204,
+     "label": "0x080097F7",
+     "pointer_offset": null,
+     "pointer": 134256631,
+     "text_offset": 38903,
+     "capacity": 17,
+     "text": "鸣人被打败了……",
+     "original_text": "鸣人被打败了……",
+     "raw": "kpiUyIlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 205,
+     "label": "0x08009814",
+     "pointer_offset": null,
+     "pointer": 134256660,
+     "text_offset": 38932,
+     "capacity": 15,
+     "text": "狠狠打了木叶丸",
+     "original_text": "狠狠打了木叶丸",
+     "raw": "jdqN2orvkWmSu5nel4c="
+    },
+    {
+     "id": 206,
+     "label": "0x0800982D",
+     "pointer_offset": null,
+     "pointer": 134256685,
+     "text_offset": 38957,
+     "capacity": 17,
+     "text": "鸣人被打败了……",
+     "original_text": "鸣人被打败了……",
+     "raw": "kpiUyIlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 207,
+     "label": "0x0800984A",
+     "pointer_offset": null,
+     "pointer": 134256714,
+     "text_offset": 38986,
+     "capacity": 15,
+     "text": "打败傀儡人偶了",
+     "original_text": "打败傀儡人偶了",
+     "raw": "iu+I2pCdkNmUyJNakWk="
+    },
+    {
+     "id": 208,
+     "label": "0x08009863",
+     "pointer_offset": null,
+     "pointer": 134256739,
+     "text_offset": 39011,
+     "capacity": 17,
+     "text": "鸣人被打败了……",
+     "original_text": "鸣人被打败了……",
+     "raw": "kpiUyIlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 209,
+     "label": "0x08009880",
+     "pointer_offset": null,
+     "pointer": 134256768,
+     "text_offset": 39040,
+     "capacity": 15,
+     "text": "打败傀儡人偶了",
+     "original_text": "打败傀儡人偶了",
+     "raw": "iu+I2pCdkNmUyJNakWk="
+    },
+    {
+     "id": 210,
+     "label": "0x08009899",
+     "pointer_offset": null,
+     "pointer": 134256793,
+     "text_offset": 39065,
+     "capacity": 17,
+     "text": "鸣人被打败了……",
+     "original_text": "鸣人被打败了……",
+     "raw": "kpiUyIlaiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 211,
+     "label": "0x080098B6",
+     "pointer_offset": null,
+     "pointer": 134256822,
+     "text_offset": 39094,
+     "capacity": 11,
+     "text": "得到宝箱了",
+     "original_text": "得到宝箱了",
+     "raw": "i2GLW4lFmK6RaQ=="
+    },
+    {
+     "id": 212,
+     "label": "0x080098C9",
+     "pointer_offset": null,
+     "pointer": 134256841,
+     "text_offset": 39113,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 213,
+     "label": "0x080098E6",
+     "pointer_offset": null,
+     "pointer": 134256870,
+     "text_offset": 39142,
+     "capacity": 19,
+     "text": "卡卡西老师被打败了",
+     "original_text": "卡卡西老师被打败了",
+     "raw": "kEaQRpf0kMyVo4laiu+I2pFp"
+    },
+    {
+     "id": 214,
+     "label": "0x080098FF",
+     "pointer_offset": null,
+     "pointer": 134256895,
+     "text_offset": 39167,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 215,
+     "label": "0x0800991C",
+     "pointer_offset": null,
+     "pointer": 134256924,
+     "text_offset": 39196,
+     "capacity": 13,
+     "text": "打败大蛇丸了",
+     "original_text": "打败大蛇丸了",
+     "raw": "iu+I2orwlX2Xh5Fp"
+    },
+    {
+     "id": 216,
+     "label": "0x08009931",
+     "pointer_offset": null,
+     "pointer": 134256945,
+     "text_offset": 39217,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    },
+    {
+     "id": 217,
+     "label": "0x0800994E",
+     "pointer_offset": null,
+     "pointer": 134256974,
+     "text_offset": 39246,
+     "capacity": 13,
+     "text": "打败大蛇丸了",
+     "original_text": "打败大蛇丸了",
+     "raw": "iu+I2orwlX2Xh5Fp"
+    },
+    {
+     "id": 218,
+     "label": "0x08009963",
+     "pointer_offset": null,
+     "pointer": 134256995,
+     "text_offset": 39267,
+     "capacity": 17,
+     "text": "大家被打败了……",
+     "original_text": "大家被打败了……",
+     "raw": "ivCOz4laiu+I2pFpgWOBYw=="
+    }
+   ],
+   "bindings": [
+    {
+     "rule": 3,
+     "group": 0,
+     "index": 0,
+     "text_id": 0
+    },
+    {
+     "rule": 4,
+     "group": 0,
+     "index": 0,
+     "text_id": 0
+    },
+    {
+     "rule": 3,
+     "group": 0,
+     "index": 1,
+     "text_id": 1
+    },
+    {
+     "rule": 3,
+     "group": 1,
+     "index": 0,
+     "text_id": 2
+    },
+    {
+     "rule": 4,
+     "group": 1,
+     "index": 0,
+     "text_id": 2
+    },
+    {
+     "rule": 3,
+     "group": 1,
+     "index": 1,
+     "text_id": 3
+    },
+    {
+     "rule": 5,
+     "group": 0,
+     "index": 0,
+     "text_id": 4
+    },
+    {
+     "rule": 5,
+     "group": 0,
+     "index": 1,
+     "text_id": 5
+    },
+    {
+     "rule": 5,
+     "group": 1,
+     "index": 0,
+     "text_id": 6
+    },
+    {
+     "rule": 5,
+     "group": 1,
+     "index": 1,
+     "text_id": 7
+    },
+    {
+     "rule": 6,
+     "group": 0,
+     "index": 0,
+     "text_id": 8
+    },
+    {
+     "rule": 6,
+     "group": 1,
+     "index": 0,
+     "text_id": 9
+    },
+    {
+     "rule": 7,
+     "group": 0,
+     "index": 0,
+     "text_id": 10
+    },
+    {
+     "rule": 7,
+     "group": 1,
+     "index": 0,
+     "text_id": 11
+    },
+    {
+     "rule": 8,
+     "group": 0,
+     "index": 0,
+     "text_id": 12
+    },
+    {
+     "rule": 8,
+     "group": 1,
+     "index": 0,
+     "text_id": 13
+    },
+    {
+     "rule": 9,
+     "group": 0,
+     "index": 0,
+     "text_id": 14
+    },
+    {
+     "rule": 9,
+     "group": 1,
+     "index": 2,
+     "text_id": 14
+    },
+    {
+     "rule": 9,
+     "group": 1,
+     "index": 0,
+     "text_id": 15
+    },
+    {
+     "rule": 9,
+     "group": 1,
+     "index": 1,
+     "text_id": 16
+    },
+    {
+     "rule": 10,
+     "group": 0,
+     "index": 0,
+     "text_id": 17
+    },
+    {
+     "rule": 10,
+     "group": 1,
+     "index": 2,
+     "text_id": 17
+    },
+    {
+     "rule": 10,
+     "group": 1,
+     "index": 0,
+     "text_id": 18
+    },
+    {
+     "rule": 10,
+     "group": 1,
+     "index": 1,
+     "text_id": 19
+    },
+    {
+     "rule": 11,
+     "group": 0,
+     "index": 0,
+     "text_id": 20
+    },
+    {
+     "rule": 11,
+     "group": 1,
+     "index": 2,
+     "text_id": 20
+    },
+    {
+     "rule": 11,
+     "group": 1,
+     "index": 0,
+     "text_id": 21
+    },
+    {
+     "rule": 11,
+     "group": 1,
+     "index": 1,
+     "text_id": 22
+    },
+    {
+     "rule": 12,
+     "group": 0,
+     "index": 0,
+     "text_id": 23
+    },
+    {
+     "rule": 12,
+     "group": 1,
+     "index": 0,
+     "text_id": 24
+    },
+    {
+     "rule": 13,
+     "group": 0,
+     "index": 0,
+     "text_id": 25
+    },
+    {
+     "rule": 13,
+     "group": 1,
+     "index": 0,
+     "text_id": 26
+    },
+    {
+     "rule": 14,
+     "group": 0,
+     "index": 0,
+     "text_id": 27
+    },
+    {
+     "rule": 14,
+     "group": 1,
+     "index": 0,
+     "text_id": 28
+    },
+    {
+     "rule": 15,
+     "group": 0,
+     "index": 0,
+     "text_id": 29
+    },
+    {
+     "rule": 15,
+     "group": 1,
+     "index": 0,
+     "text_id": 30
+    },
+    {
+     "rule": 17,
+     "group": 0,
+     "index": 0,
+     "text_id": 31
+    },
+    {
+     "rule": 17,
+     "group": 1,
+     "index": 0,
+     "text_id": 32
+    },
+    {
+     "rule": 18,
+     "group": 0,
+     "index": 0,
+     "text_id": 33
+    },
+    {
+     "rule": 18,
+     "group": 1,
+     "index": 0,
+     "text_id": 34
+    },
+    {
+     "rule": 19,
+     "group": 0,
+     "index": 0,
+     "text_id": 35
+    },
+    {
+     "rule": 19,
+     "group": 1,
+     "index": 0,
+     "text_id": 36
+    },
+    {
+     "rule": 20,
+     "group": 0,
+     "index": 0,
+     "text_id": 37
+    },
+    {
+     "rule": 20,
+     "group": 1,
+     "index": 0,
+     "text_id": 38
+    },
+    {
+     "rule": 21,
+     "group": 0,
+     "index": 0,
+     "text_id": 39
+    },
+    {
+     "rule": 21,
+     "group": 1,
+     "index": 0,
+     "text_id": 40
+    },
+    {
+     "rule": 22,
+     "group": 0,
+     "index": 0,
+     "text_id": 41
+    },
+    {
+     "rule": 22,
+     "group": 1,
+     "index": 0,
+     "text_id": 42
+    },
+    {
+     "rule": 23,
+     "group": 0,
+     "index": 0,
+     "text_id": 43
+    },
+    {
+     "rule": 23,
+     "group": 1,
+     "index": 0,
+     "text_id": 44
+    },
+    {
+     "rule": 24,
+     "group": 0,
+     "index": 0,
+     "text_id": 45
+    },
+    {
+     "rule": 24,
+     "group": 1,
+     "index": 0,
+     "text_id": 46
+    },
+    {
+     "rule": 26,
+     "group": 0,
+     "index": 0,
+     "text_id": 47
+    },
+    {
+     "rule": 26,
+     "group": 1,
+     "index": 0,
+     "text_id": 48
+    },
+    {
+     "rule": 27,
+     "group": 0,
+     "index": 0,
+     "text_id": 49
+    },
+    {
+     "rule": 27,
+     "group": 1,
+     "index": 0,
+     "text_id": 50
+    },
+    {
+     "rule": 29,
+     "group": 0,
+     "index": 0,
+     "text_id": 51
+    },
+    {
+     "rule": 29,
+     "group": 1,
+     "index": 0,
+     "text_id": 52
+    },
+    {
+     "rule": 30,
+     "group": 0,
+     "index": 0,
+     "text_id": 53
+    },
+    {
+     "rule": 30,
+     "group": 1,
+     "index": 1,
+     "text_id": 53
+    },
+    {
+     "rule": 30,
+     "group": 1,
+     "index": 0,
+     "text_id": 54
+    },
+    {
+     "rule": 32,
+     "group": 0,
+     "index": 0,
+     "text_id": 55
+    },
+    {
+     "rule": 32,
+     "group": 1,
+     "index": 1,
+     "text_id": 55
+    },
+    {
+     "rule": 32,
+     "group": 1,
+     "index": 0,
+     "text_id": 56
+    },
+    {
+     "rule": 33,
+     "group": 0,
+     "index": 0,
+     "text_id": 57
+    },
+    {
+     "rule": 33,
+     "group": 1,
+     "index": 0,
+     "text_id": 58
+    },
+    {
+     "rule": 35,
+     "group": 0,
+     "index": 0,
+     "text_id": 59
+    },
+    {
+     "rule": 35,
+     "group": 1,
+     "index": 0,
+     "text_id": 60
+    },
+    {
+     "rule": 36,
+     "group": 0,
+     "index": 0,
+     "text_id": 61
+    },
+    {
+     "rule": 36,
+     "group": 1,
+     "index": 0,
+     "text_id": 62
+    },
+    {
+     "rule": 38,
+     "group": 0,
+     "index": 0,
+     "text_id": 63
+    },
+    {
+     "rule": 38,
+     "group": 1,
+     "index": 0,
+     "text_id": 64
+    },
+    {
+     "rule": 39,
+     "group": 0,
+     "index": 0,
+     "text_id": 65
+    },
+    {
+     "rule": 39,
+     "group": 1,
+     "index": 0,
+     "text_id": 66
+    },
+    {
+     "rule": 41,
+     "group": 0,
+     "index": 0,
+     "text_id": 67
+    },
+    {
+     "rule": 41,
+     "group": 1,
+     "index": 0,
+     "text_id": 68
+    },
+    {
+     "rule": 42,
+     "group": 0,
+     "index": 0,
+     "text_id": 69
+    },
+    {
+     "rule": 42,
+     "group": 0,
+     "index": 1,
+     "text_id": 69
+    },
+    {
+     "rule": 42,
+     "group": 1,
+     "index": 0,
+     "text_id": 70
+    },
+    {
+     "rule": 42,
+     "group": 1,
+     "index": 1,
+     "text_id": 71
+    },
+    {
+     "rule": 44,
+     "group": 0,
+     "index": 0,
+     "text_id": 72
+    },
+    {
+     "rule": 44,
+     "group": 0,
+     "index": 1,
+     "text_id": 72
+    },
+    {
+     "rule": 44,
+     "group": 1,
+     "index": 0,
+     "text_id": 73
+    },
+    {
+     "rule": 44,
+     "group": 1,
+     "index": 1,
+     "text_id": 74
+    },
+    {
+     "rule": 45,
+     "group": 0,
+     "index": 0,
+     "text_id": 75
+    },
+    {
+     "rule": 45,
+     "group": 0,
+     "index": 1,
+     "text_id": 75
+    },
+    {
+     "rule": 45,
+     "group": 1,
+     "index": 0,
+     "text_id": 76
+    },
+    {
+     "rule": 45,
+     "group": 1,
+     "index": 1,
+     "text_id": 77
+    },
+    {
+     "rule": 47,
+     "group": 0,
+     "index": 0,
+     "text_id": 78
+    },
+    {
+     "rule": 47,
+     "group": 0,
+     "index": 1,
+     "text_id": 78
+    },
+    {
+     "rule": 47,
+     "group": 1,
+     "index": 0,
+     "text_id": 79
+    },
+    {
+     "rule": 47,
+     "group": 1,
+     "index": 1,
+     "text_id": 80
+    },
+    {
+     "rule": 48,
+     "group": 0,
+     "index": 0,
+     "text_id": 81
+    },
+    {
+     "rule": 48,
+     "group": 1,
+     "index": 0,
+     "text_id": 82
+    },
+    {
+     "rule": 50,
+     "group": 0,
+     "index": 0,
+     "text_id": 83
+    },
+    {
+     "rule": 50,
+     "group": 1,
+     "index": 0,
+     "text_id": 84
+    },
+    {
+     "rule": 51,
+     "group": 0,
+     "index": 0,
+     "text_id": 85
+    },
+    {
+     "rule": 51,
+     "group": 1,
+     "index": 0,
+     "text_id": 86
+    },
+    {
+     "rule": 53,
+     "group": 0,
+     "index": 0,
+     "text_id": 87
+    },
+    {
+     "rule": 53,
+     "group": 1,
+     "index": 0,
+     "text_id": 88
+    },
+    {
+     "rule": 54,
+     "group": 0,
+     "index": 0,
+     "text_id": 89
+    },
+    {
+     "rule": 54,
+     "group": 1,
+     "index": 0,
+     "text_id": 90
+    },
+    {
+     "rule": 56,
+     "group": 0,
+     "index": 0,
+     "text_id": 91
+    },
+    {
+     "rule": 56,
+     "group": 1,
+     "index": 0,
+     "text_id": 92
+    },
+    {
+     "rule": 57,
+     "group": 0,
+     "index": 0,
+     "text_id": 93
+    },
+    {
+     "rule": 57,
+     "group": 1,
+     "index": 0,
+     "text_id": 94
+    },
+    {
+     "rule": 59,
+     "group": 0,
+     "index": 0,
+     "text_id": 95
+    },
+    {
+     "rule": 59,
+     "group": 1,
+     "index": 0,
+     "text_id": 96
+    },
+    {
+     "rule": 60,
+     "group": 0,
+     "index": 0,
+     "text_id": 97
+    },
+    {
+     "rule": 60,
+     "group": 0,
+     "index": 1,
+     "text_id": 98
+    },
+    {
+     "rule": 60,
+     "group": 1,
+     "index": 0,
+     "text_id": 99
+    },
+    {
+     "rule": 60,
+     "group": 1,
+     "index": 1,
+     "text_id": 100
+    },
+    {
+     "rule": 62,
+     "group": 0,
+     "index": 0,
+     "text_id": 101
+    },
+    {
+     "rule": 62,
+     "group": 0,
+     "index": 1,
+     "text_id": 102
+    },
+    {
+     "rule": 62,
+     "group": 1,
+     "index": 0,
+     "text_id": 103
+    },
+    {
+     "rule": 62,
+     "group": 1,
+     "index": 1,
+     "text_id": 104
+    },
+    {
+     "rule": 63,
+     "group": 0,
+     "index": 0,
+     "text_id": 105
+    },
+    {
+     "rule": 63,
+     "group": 1,
+     "index": 0,
+     "text_id": 106
+    },
+    {
+     "rule": 65,
+     "group": 0,
+     "index": 0,
+     "text_id": 107
+    },
+    {
+     "rule": 65,
+     "group": 1,
+     "index": 0,
+     "text_id": 108
+    },
+    {
+     "rule": 66,
+     "group": 0,
+     "index": 0,
+     "text_id": 109
+    },
+    {
+     "rule": 66,
+     "group": 1,
+     "index": 0,
+     "text_id": 110
+    },
+    {
+     "rule": 68,
+     "group": 0,
+     "index": 0,
+     "text_id": 111
+    },
+    {
+     "rule": 68,
+     "group": 1,
+     "index": 0,
+     "text_id": 112
+    },
+    {
+     "rule": 69,
+     "group": 0,
+     "index": 0,
+     "text_id": 113
+    },
+    {
+     "rule": 69,
+     "group": 1,
+     "index": 0,
+     "text_id": 114
+    },
+    {
+     "rule": 71,
+     "group": 0,
+     "index": 0,
+     "text_id": 115
+    },
+    {
+     "rule": 71,
+     "group": 1,
+     "index": 0,
+     "text_id": 116
+    },
+    {
+     "rule": 72,
+     "group": 0,
+     "index": 0,
+     "text_id": 117
+    },
+    {
+     "rule": 72,
+     "group": 1,
+     "index": 0,
+     "text_id": 118
+    },
+    {
+     "rule": 74,
+     "group": 0,
+     "index": 0,
+     "text_id": 119
+    },
+    {
+     "rule": 74,
+     "group": 1,
+     "index": 0,
+     "text_id": 120
+    },
+    {
+     "rule": 75,
+     "group": 0,
+     "index": 0,
+     "text_id": 121
+    },
+    {
+     "rule": 75,
+     "group": 1,
+     "index": 0,
+     "text_id": 122
+    },
+    {
+     "rule": 77,
+     "group": 0,
+     "index": 0,
+     "text_id": 123
+    },
+    {
+     "rule": 77,
+     "group": 1,
+     "index": 0,
+     "text_id": 124
+    },
+    {
+     "rule": 78,
+     "group": 0,
+     "index": 0,
+     "text_id": 125
+    },
+    {
+     "rule": 78,
+     "group": 1,
+     "index": 0,
+     "text_id": 126
+    },
+    {
+     "rule": 80,
+     "group": 0,
+     "index": 0,
+     "text_id": 127
+    },
+    {
+     "rule": 80,
+     "group": 1,
+     "index": 0,
+     "text_id": 128
+    },
+    {
+     "rule": 81,
+     "group": 0,
+     "index": 0,
+     "text_id": 129
+    },
+    {
+     "rule": 81,
+     "group": 1,
+     "index": 0,
+     "text_id": 130
+    },
+    {
+     "rule": 83,
+     "group": 0,
+     "index": 0,
+     "text_id": 131
+    },
+    {
+     "rule": 83,
+     "group": 1,
+     "index": 0,
+     "text_id": 132
+    },
+    {
+     "rule": 84,
+     "group": 0,
+     "index": 0,
+     "text_id": 133
+    },
+    {
+     "rule": 84,
+     "group": 1,
+     "index": 0,
+     "text_id": 134
+    },
+    {
+     "rule": 86,
+     "group": 0,
+     "index": 0,
+     "text_id": 135
+    },
+    {
+     "rule": 86,
+     "group": 1,
+     "index": 0,
+     "text_id": 136
+    },
+    {
+     "rule": 87,
+     "group": 0,
+     "index": 0,
+     "text_id": 137
+    },
+    {
+     "rule": 87,
+     "group": 1,
+     "index": 0,
+     "text_id": 138
+    },
+    {
+     "rule": 89,
+     "group": 0,
+     "index": 0,
+     "text_id": 139
+    },
+    {
+     "rule": 89,
+     "group": 1,
+     "index": 0,
+     "text_id": 140
+    },
+    {
+     "rule": 90,
+     "group": 0,
+     "index": 0,
+     "text_id": 141
+    },
+    {
+     "rule": 90,
+     "group": 1,
+     "index": 0,
+     "text_id": 142
+    },
+    {
+     "rule": 92,
+     "group": 0,
+     "index": 0,
+     "text_id": 143
+    },
+    {
+     "rule": 92,
+     "group": 1,
+     "index": 0,
+     "text_id": 144
+    },
+    {
+     "rule": 93,
+     "group": 0,
+     "index": 0,
+     "text_id": 145
+    },
+    {
+     "rule": 93,
+     "group": 1,
+     "index": 0,
+     "text_id": 146
+    },
+    {
+     "rule": 94,
+     "group": 0,
+     "index": 0,
+     "text_id": 147
+    },
+    {
+     "rule": 94,
+     "group": 0,
+     "index": 1,
+     "text_id": 148
+    },
+    {
+     "rule": 94,
+     "group": 0,
+     "index": 2,
+     "text_id": 149
+    },
+    {
+     "rule": 94,
+     "group": 1,
+     "index": 0,
+     "text_id": 150
+    },
+    {
+     "rule": 94,
+     "group": 1,
+     "index": 1,
+     "text_id": 151
+    },
+    {
+     "rule": 94,
+     "group": 1,
+     "index": 2,
+     "text_id": 152
+    },
+    {
+     "rule": 95,
+     "group": 0,
+     "index": 0,
+     "text_id": 153
+    },
+    {
+     "rule": 95,
+     "group": 1,
+     "index": 0,
+     "text_id": 154
+    },
+    {
+     "rule": 96,
+     "group": 0,
+     "index": 0,
+     "text_id": 155
+    },
+    {
+     "rule": 96,
+     "group": 0,
+     "index": 1,
+     "text_id": 156
+    },
+    {
+     "rule": 96,
+     "group": 0,
+     "index": 2,
+     "text_id": 157
+    },
+    {
+     "rule": 96,
+     "group": 1,
+     "index": 0,
+     "text_id": 158
+    },
+    {
+     "rule": 96,
+     "group": 1,
+     "index": 1,
+     "text_id": 159
+    },
+    {
+     "rule": 96,
+     "group": 1,
+     "index": 2,
+     "text_id": 160
+    },
+    {
+     "rule": 99,
+     "group": 0,
+     "index": 0,
+     "text_id": 161
+    },
+    {
+     "rule": 99,
+     "group": 0,
+     "index": 1,
+     "text_id": 162
+    },
+    {
+     "rule": 99,
+     "group": 0,
+     "index": 2,
+     "text_id": 163
+    },
+    {
+     "rule": 99,
+     "group": 1,
+     "index": 0,
+     "text_id": 164
+    },
+    {
+     "rule": 99,
+     "group": 1,
+     "index": 1,
+     "text_id": 165
+    },
+    {
+     "rule": 99,
+     "group": 1,
+     "index": 2,
+     "text_id": 166
+    },
+    {
+     "rule": 102,
+     "group": 0,
+     "index": 0,
+     "text_id": 167
+    },
+    {
+     "rule": 102,
+     "group": 0,
+     "index": 1,
+     "text_id": 168
+    },
+    {
+     "rule": 102,
+     "group": 0,
+     "index": 2,
+     "text_id": 169
+    },
+    {
+     "rule": 102,
+     "group": 1,
+     "index": 0,
+     "text_id": 170
+    },
+    {
+     "rule": 102,
+     "group": 1,
+     "index": 1,
+     "text_id": 171
+    },
+    {
+     "rule": 102,
+     "group": 1,
+     "index": 2,
+     "text_id": 172
+    },
+    {
+     "rule": 105,
+     "group": 0,
+     "index": 0,
+     "text_id": 173
+    },
+    {
+     "rule": 105,
+     "group": 0,
+     "index": 1,
+     "text_id": 174
+    },
+    {
+     "rule": 105,
+     "group": 0,
+     "index": 2,
+     "text_id": 175
+    },
+    {
+     "rule": 105,
+     "group": 1,
+     "index": 0,
+     "text_id": 176
+    },
+    {
+     "rule": 105,
+     "group": 1,
+     "index": 1,
+     "text_id": 177
+    },
+    {
+     "rule": 105,
+     "group": 1,
+     "index": 2,
+     "text_id": 178
+    },
+    {
+     "rule": 108,
+     "group": 0,
+     "index": 0,
+     "text_id": 179
+    },
+    {
+     "rule": 108,
+     "group": 0,
+     "index": 1,
+     "text_id": 180
+    },
+    {
+     "rule": 108,
+     "group": 0,
+     "index": 2,
+     "text_id": 181
+    },
+    {
+     "rule": 108,
+     "group": 1,
+     "index": 0,
+     "text_id": 182
+    },
+    {
+     "rule": 108,
+     "group": 1,
+     "index": 1,
+     "text_id": 183
+    },
+    {
+     "rule": 108,
+     "group": 1,
+     "index": 2,
+     "text_id": 184
+    },
+    {
+     "rule": 111,
+     "group": 0,
+     "index": 0,
+     "text_id": 185
+    },
+    {
+     "rule": 111,
+     "group": 0,
+     "index": 1,
+     "text_id": 186
+    },
+    {
+     "rule": 111,
+     "group": 0,
+     "index": 2,
+     "text_id": 187
+    },
+    {
+     "rule": 111,
+     "group": 1,
+     "index": 0,
+     "text_id": 188
+    },
+    {
+     "rule": 111,
+     "group": 1,
+     "index": 1,
+     "text_id": 189
+    },
+    {
+     "rule": 111,
+     "group": 1,
+     "index": 2,
+     "text_id": 190
+    },
+    {
+     "rule": 114,
+     "group": 0,
+     "index": 0,
+     "text_id": 191
+    },
+    {
+     "rule": 114,
+     "group": 0,
+     "index": 1,
+     "text_id": 192
+    },
+    {
+     "rule": 114,
+     "group": 0,
+     "index": 2,
+     "text_id": 193
+    },
+    {
+     "rule": 114,
+     "group": 0,
+     "index": 3,
+     "text_id": 194
+    },
+    {
+     "rule": 114,
+     "group": 1,
+     "index": 0,
+     "text_id": 195
+    },
+    {
+     "rule": 114,
+     "group": 1,
+     "index": 1,
+     "text_id": 196
+    },
+    {
+     "rule": 114,
+     "group": 1,
+     "index": 2,
+     "text_id": 197
+    },
+    {
+     "rule": 114,
+     "group": 1,
+     "index": 3,
+     "text_id": 198
+    },
+    {
+     "rule": 117,
+     "group": 0,
+     "index": 0,
+     "text_id": 199
+    },
+    {
+     "rule": 117,
+     "group": 1,
+     "index": 0,
+     "text_id": 200
+    },
+    {
+     "rule": 119,
+     "group": 0,
+     "index": 0,
+     "text_id": 201
+    },
+    {
+     "rule": 119,
+     "group": 1,
+     "index": 0,
+     "text_id": 202
+    },
+    {
+     "rule": 120,
+     "group": 0,
+     "index": 0,
+     "text_id": 203
+    },
+    {
+     "rule": 120,
+     "group": 1,
+     "index": 0,
+     "text_id": 204
+    },
+    {
+     "rule": 123,
+     "group": 0,
+     "index": 0,
+     "text_id": 205
+    },
+    {
+     "rule": 123,
+     "group": 1,
+     "index": 0,
+     "text_id": 206
+    },
+    {
+     "rule": 126,
+     "group": 0,
+     "index": 0,
+     "text_id": 207
+    },
+    {
+     "rule": 126,
+     "group": 1,
+     "index": 0,
+     "text_id": 208
+    },
+    {
+     "rule": 129,
+     "group": 0,
+     "index": 0,
+     "text_id": 209
+    },
+    {
+     "rule": 129,
+     "group": 1,
+     "index": 0,
+     "text_id": 210
+    },
+    {
+     "rule": 132,
+     "group": 0,
+     "index": 0,
+     "text_id": 211
+    },
+    {
+     "rule": 132,
+     "group": 1,
+     "index": 0,
+     "text_id": 212
+    },
+    {
+     "rule": 135,
+     "group": 0,
+     "index": 0,
+     "text_id": 213
+    },
+    {
+     "rule": 135,
+     "group": 1,
+     "index": 0,
+     "text_id": 214
+    },
+    {
+     "rule": 138,
+     "group": 0,
+     "index": 0,
+     "text_id": 215
+    },
+    {
+     "rule": 138,
+     "group": 1,
+     "index": 0,
+     "text_id": 216
+    },
+    {
+     "rule": 140,
+     "group": 0,
+     "index": 0,
+     "text_id": 217
+    },
+    {
+     "rule": 140,
+     "group": 1,
+     "index": 0,
+     "text_id": 218
+    }
+   ]
   }
  ],
  "scripts": [

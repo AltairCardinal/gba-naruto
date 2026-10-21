@@ -48,11 +48,12 @@ const out = document.getElementById('out');
 const lines = [];
 let failures = 0;
 function say(line) { lines.push(line); out.innerHTML = lines.join('\n'); }
+let lastReport = 0;
 function check(name, ok, detail = '') {
   if (!ok) failures++;
   say(`<span class="${ok ? 'pass' : 'fail'}">[${ok ? 'PASS' : 'FAIL'}]</span> ${name}${detail ? ' — ' + detail : ''}`);
-}
-function info(line) { say(`<span class="info">${line}</span>`); }
+  report();
+}function info(line) { say(`<span class="info">${line}</span>`); }
 
 async function fetchMaybeGzip(url) {
   const gz = url + '.gz';
@@ -217,6 +218,59 @@ const MODULES = [
       battleError ? String(battleError.message) : `${battleText.length} 字符`);
     for (const needle of ['战场布置', '角色出生点', '战斗目标', '战场物件', '战场事件']) {
       check(`战斗视图含「${needle}」`, battleText.includes(needle));
+    }
+
+    // --- 4b. 战斗目标的说明文字：指针要能解析成原文 ---------------------
+    {
+      const objectives = pack.textTable('battle_objectives');
+      check('内容包带战斗目标说明文字表', !!objectives,
+        objectives ? `${objectives.count} 条` : '没有这张表');
+      const rules = pack.structure('battle_rules');
+      const byPointer = new Map();
+      for (const r of (objectives ? objectives.records : [])) byPointer.set(r.pointer, r);
+      let pointers = 0;
+      let resolved = 0;
+      for (const rec of rules.records) {
+        for (let g = 0; g < 2; g++) {
+          for (let k = 0; k < 4; k++) {
+            const ptr = rec.values[`g${g}_${k}_text_ptr`];
+            if (!ptr) continue;
+            pointers++;
+            if (byPointer.has(ptr)) resolved++;
+          }
+        }
+      }
+      check('战斗目标的说明文字指针全部解析得到原文',
+        pointers > 0 && resolved === pointers,
+        `${resolved}/${pointers} 条解析成功`);
+
+      // 第 40 关的视图里必须能看到说明文字本身，而不只是指针
+      const { renderStage: renderStageForTest } = await import('../js/modules/battle.js');
+      stage.innerHTML = '';
+      renderStageForTest(stage, ctx, 40, 0);
+      const text = stage.textContent || '';
+      const rule = rules.records.find(
+        (r) => r.rom_offset === 0x594758 + 40 * 0xcc);
+      let sample = '';
+      if (rule) {
+        for (let g = 0; g < 2 && !sample; g++) {
+          for (let k = 0; k < 4 && !sample; k++) {
+            const ptr = rule.values[`g${g}_${k}_text_ptr`];
+            if (!ptr) continue;
+            const rec = byPointer.get(ptr);
+            if (rec && rec.text) sample = rec.text;
+          }
+        }
+      }
+      // 说明文字是可编辑输入框里的值，不在 textContent 里
+      const values = [...stage.querySelectorAll('input')].map((i) => i.value);
+      check('战斗视图显示说明文字原文', !!sample && values.includes(sample),
+        sample ? `「${sample}」` : '第 40 关没有说明文字');
+
+      // 条件类型的语义必须是原生行为（类型 2 = 回合用尽，不是「角色仍在场」）
+      check('战斗目标的类型语义与原生行为一致',
+        text.includes('回合用尽') && !text.includes('指定角色仍在场上'),
+        '类型 2 标注为「回合用尽」');
     }
 
     // --- 5. 逐域编辑落点 ----------------------------------------------
@@ -440,11 +494,35 @@ const MODULES = [
       ? '<span class="pass">全部通过</span>'
       : `<span class="fail">${failures} 项失败</span>`);
     document.title = failures === 0 ? 'SELFTEST PASS' : `SELFTEST FAIL ${failures}`;
+    report();
   } catch (err) {
     say(`<span class="fail">自检异常：${err && err.stack ? err.stack : err}</span>`);
     document.title = 'SELFTEST ERROR';
+    report();
   }
 })();
+
+/**
+ * 把当前结果上报给静态服务器（落到 build/selftest-report.jsonl）。
+ *
+ * 这一步是**可选**的：服务器没开这个接口时静默忽略。之所以要有它，
+ * 是因为这个环境的内置浏览器会不停刷新标签页，页面里的结果刚出来就被冲掉；
+ * 落盘之后，刷新也留得住证据。
+ */
+function report() {
+  const now = Date.now();
+  if (now - lastReport < 1) return;
+  lastReport = now;
+  try {
+    const url = new URL('../../__report', import.meta.url).href;
+    fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ failures, lines, title: document.title }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch (err) { /* 离线自检就算了 */ }
+}
 
 function bytesEqual(a, b) {
   if (a.length !== b.length) return false;

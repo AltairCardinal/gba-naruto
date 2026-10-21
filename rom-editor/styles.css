@@ -171,6 +171,11 @@ table.grid .text-cell { max-width: 560px; overflow: hidden; text-overflow: ellip
   border-radius: 5px; padding: 5px 8px; font-family: var(--mono); font-size: 12px;
 }
 .hex-input, .text-input { resize: vertical; }
+.text-input-inline {
+  width: 100%; min-width: 180px; background: var(--bg-3); border: 1px solid var(--line);
+  color: var(--fg); border-radius: 5px; padding: 4px 7px; font-family: var(--mono); font-size: 12px;
+}
+.text-input-inline:focus { outline: 1px solid var(--accent-2); border-color: var(--accent-2); }
 .num-input:focus, .hex-input:focus, .text-input:focus { outline: 1px solid var(--accent-2); border-color: var(--accent-2); }
 .text-counter { font-size: 10.5px; color: var(--fg-dim); margin-top: 4px; display: flex; gap: 10px; font-family: var(--mono); }
 .text-counter .bad { color: var(--bad); }

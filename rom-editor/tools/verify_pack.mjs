@@ -18,7 +18,7 @@ import { dirname, join } from 'node:path';
 
 import { ContentPack } from '../js/pack.js';
 import { buildRom } from '../js/rom.js';
-import { scanTokens } from '../js/textcodec.js';
+import { scanTokens, encodeTokens } from '../js/textcodec.js';
 import { base64ToBytes } from '../js/bytes.js';
 
 /** How many control codes (0x01 / 0x02) a byte run carries. */
@@ -331,6 +331,104 @@ console.log('\n7) 控制码：改写文本不得破坏排版');
     }
     check('导出内容包再导入，构建结果不变', same && out9b.report.errors.length === 0,
       out9b.report.errors.join('; ') || '一致');
+  }
+}
+
+console.log('\n8) 战斗目标说明文字：指针能解析成原文，且能就地改写');
+{
+  const p10 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  const objectives = p10.textTable('battle_objectives');
+  check('内容包带战斗目标说明文字表', !!objectives,
+    objectives ? `${objectives.count} 条` : '没有这张表');
+
+  let index = null;
+  try {
+    index = JSON.parse(gunzipSync(readFileSync(textIndexPath)).toString('utf8'));
+    p10.texts.push(index);
+  } catch (err) {
+    index = null;
+  }
+
+  if (!objectives || !index) {
+    check('全 ROM 文本索引可用', false, 'text-index.json.gz 缺失');
+  } else {
+    const byOffset = new Map();
+    for (const record of index.records) {
+      if (record.text_offset !== null && record.text_offset !== undefined) {
+        byOffset.set(record.text_offset, record);
+      }
+    }
+
+    // 8a. 战斗目标表里每条说明文字的指针都必须指向一条已知文本
+    const rules = p10.structure('battle_rules');
+    const pointers = [];
+    for (const record of rules.records) {
+      for (let g = 0; g < 2; g++) {
+        for (let k = 0; k < 4; k++) {
+          const ptr = record.values[`g${g}_${k}_text_ptr`];
+          if (ptr) pointers.push({ ptr, offset: ptr - 0x08000000 });
+        }
+      }
+    }
+    const byPointer = new Map();
+    for (const record of objectives.records) byPointer.set(record.pointer, record);
+    const resolved = pointers.filter((p) => byPointer.has(p.ptr));
+    check('战斗目标的说明文字指针全部解析得到原文',
+      pointers.length > 0 && resolved.length === pointers.length,
+      `${resolved.length}/${pointers.length} 条解析成功`);
+
+    // 8b. 每条说明文字都不能同时出现在全 ROM 文本索引里（一个字节一个归属）
+    const overlap = objectives.records.filter((r) => byOffset.has(r.text_offset));
+    check('说明文字不在全 ROM 文本索引里重复出现', overlap.length === 0,
+      overlap.length ? `${overlap.length} 条重复` : `${objectives.count} 条均唯一`);
+
+    // 8c. 全 ROM 文本索引里的每条文本都必须能 token→字节 逐字节还原
+    let broken = 0;
+    let firstBroken = null;
+    for (const record of index.records) {
+      const raw = base64ToBytes(record.raw || '');
+      const back = encodeTokens(scanTokens(raw));
+      if (back.length !== raw.length || back.some((b, i) => b !== raw[i])) {
+        broken += 1;
+        if (!firstBroken) firstBroken = record;
+      }
+    }
+    check('全 ROM 文本索引逐字节可还原', broken === 0,
+      broken ? `${broken} 条还原失败，第一条 0x${firstBroken.text_offset.toString(16)}` :
+        `${index.records.length} 条全部一致`);
+
+    // 8d. 改一条战斗目标说明文字，只允许动那一条
+    let target = null;
+    for (const candidate of objectives.records) {
+      const chars = [...(candidate.text || '')];
+      const at = chars.findIndex((ch) => ch !== '打');
+      if (at < 0) continue;
+      const changedText = chars.map((ch, i) => (i === at ? '打' : ch)).join('');
+      if (p10.font.encodedLength(changedText) !== p10.font.encodedLength(candidate.text || '')) continue;
+      target = candidate;
+      break;
+    }
+    if (target) {
+      const original = target.text;
+      const chars = [...original];
+      const at = chars.findIndex((ch) => ch !== '打');
+      const replacement = chars.map((ch, i) => (i === at ? '打' : ch)).join('');
+      const sameLength = p10.font.encodedLength(replacement) === p10.font.encodedLength(original);
+      p10.setText(objectives, target, replacement);
+      const out10 = buildRom(p10, rom);
+      const changed = [];
+      for (let i = 0; i < out10.bytes.length; i++) if (out10.bytes[i] !== rom[i]) changed.push(i);
+      const start = target.text_offset;
+      const end = start + base64ToBytes(target.raw || '').length;
+      const onlyThis = changed.every((i) => i >= start && i < end);
+      check('改写战斗目标说明文字只动那一条',
+        out10.report.errors.length === 0 && sameLength && changed.length > 0 && onlyThis,
+        out10.report.errors.join('; ') ||
+        `${JSON.stringify(original)} → ${JSON.stringify(replacement)}，` +
+        `改动 ${changed.length} 字节 @0x${start.toString(16)}–0x${end.toString(16)}`);
+    } else {
+      check('改写战斗目标说明文字只动那一条', false, '没有可改的说明文字');
+    }
   }
 }
 

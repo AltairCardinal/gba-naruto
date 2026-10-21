@@ -1063,7 +1063,88 @@ def build_text_tables(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any
              "两种读法描述的是同一片地址，按说话人名表呈现。",
     ))
 
-    return out
+    objectives, objective_offsets = build_battle_objectives(rom, mapping)
+    out.append(objectives)
+    return out, objective_offsets
+
+
+def build_battle_objectives(
+    rom: bytes, mapping: dict[int, str]
+) -> tuple[dict[str, Any], set[int]]:
+    """战斗目标说明文字（游戏内「条件」页显示的那句话）。
+
+    胜负条件表 `battle_rules` 的每条条件都带一个**绝对地址指针**，指向一句
+    说明文字。这张表把那些不重复的句子收进来，编辑器因此能显示与改写它们。
+
+    这些句子的地址会被从「全 ROM 文本索引」里剔除 —— 同一段字节只能有一个
+    归属，否则两个表都写同一处地址就会互相覆盖。
+    """
+    pointers: dict[int, dict[str, Any]] = {}
+    for s in range(BATTLE_RULE_COUNT):
+        for u in range(BATTLE_VARIANT_COUNT):
+            base = (BATTLE_RULES_BASE + s * BATTLE_RULE_STAGE_STRIDE
+                    + u * BATTLE_RULE_SUB_STRIDE)
+            rule_id = s * BATTLE_VARIANT_COUNT + u
+            for g in range(2):
+                for k in range(4):
+                    field = 0x04 + g * 0x20 + k * 8
+                    (ptr,) = struct.unpack_from("<I", rom, base + field + 4)
+                    if not ptr:
+                        continue
+                    offset = ptr - 0x08000000
+                    entry = pointers.setdefault(offset, {
+                        "pointer": ptr,
+                        "bindings": [],
+                    })
+                    entry["bindings"].append({
+                        "rule": rule_id, "stage": s, "variant": u,
+                        "group": g, "index": k,
+                    })
+
+    records = []
+    bindings = []
+    for record_id, offset in enumerate(sorted(pointers)):
+        entry = pointers[offset]
+        end = rom.find(b"\x00", offset)
+        if end < 0:
+            end = len(rom)
+        raw = rom[offset:end]
+        text = decode_text(raw, mapping)
+        records.append({
+            "id": record_id,
+            "label": f"0x{entry['pointer']:08X}",
+            "pointer_offset": None,
+            "pointer": entry["pointer"],
+            "text_offset": offset,
+            "capacity": len(raw) + 1,
+            "text": text,
+            "original_text": text,
+            "raw": b64(raw),
+        })
+        for binding in entry["bindings"]:
+            bindings.append({
+                "rule": binding["rule"],
+                "group": binding["group"],
+                "index": binding["index"],
+                "text_id": record_id,
+            })
+
+    table = {
+        "id": "battle_objectives",
+        "module": "battle",
+        "label": "战斗目标说明文字",
+        "pointer_table_offset": None,
+        "count": len(records),
+        "relocatable": False,
+        "nul_terminated": True,
+        "note": "胜负条件表里每条条件都带一个绝对地址指针，指向游戏内「条件」页"
+                "显示的那句话（例：「打败业头・冥头了」）。\n"
+                "**只能等长改写**：这些地址被 ROM 里的代码写死，改长了没有地方放。"
+                "\n这些句子不在「全 ROM 文本索引」里，以免同一段字节有两个归属。",
+        "records": records,
+        "bindings": bindings,
+    }
+    return table, set(pointers)
 
 
 def build_inline_text_table(
@@ -1225,11 +1306,17 @@ def build_scripts(rom: bytes) -> list[dict[str, Any]]:
 
 
 def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
-                               limit: int = 20000) -> dict[str, Any]:
+                               limit: int = 20000,
+                               exclude: set[int] | frozenset[int] = frozenset()
+                               ) -> dict[str, Any]:
     """Every font-coded string in the cartridge, found with the ROM's own font.
 
     This is the editor's safety net: whatever the named tables miss, the
     author can still find and edit it here.
+
+    `exclude` holds the ROM offsets of strings that already belong to a
+    dedicated table (the battle objectives) — a string must have exactly one
+    home, otherwise two tables would write the same address.
     """
     def is_text(seg: bytes) -> bool:
         j = 0
@@ -1247,6 +1334,12 @@ def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
                 if ((b << 8) | seg[j + 1]) not in mapping:
                     return False
                 j += 2
+                continue
+            if b == 0x0A:
+                # 换行是合法码位（码位 10），见 notes/font-encoding.md §2。
+                # 早先这里按 "b < 0x20 一律非法" 处理，把所有含换行的文本块
+                # 整块丢掉了 —— 其中就有 32 条战斗目标说明文字。
+                j += 1
                 continue
             if b < 0x20 or b > 0x7E:
                 return False
@@ -1266,6 +1359,8 @@ def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
         seg = rom[s:i]
         if len(seg) < 2 or not is_text(seg):
             continue
+        if s in exclude:
+            continue        # already owned by a dedicated table
         text = decode_text(seg, mapping)
         if len(text) < 1:
             continue
@@ -1301,9 +1396,10 @@ def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
     mapping, report = text_codec.load_mapping(rom_path)
 
     structures = build_structures(rom, mapping)
-    texts = build_text_tables(rom, mapping)
+    texts, objective_offsets = build_text_tables(rom, mapping)
     if with_text_index:
-        texts.append(build_dominant_text_index(rom, mapping))
+        texts.append(build_dominant_text_index(rom, mapping,
+                                               exclude=objective_offsets))
 
     # The encoder must emit the *canonical* code for a character: eight
     # characters are spelled by two codes and only the base-run spelling is
