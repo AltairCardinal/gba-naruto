@@ -838,5 +838,27 @@ console.log('\n12) 表说明可见 / 超长当场拦 / 搜索不被过滤与行�
   }
 }
 
+console.log('\n13) 对白按组呈现：305 组「一道题 + 三个选项」');
+{
+  const { TextTableEditor } = await import('../js/editors.js');
+  const slots = pack.textTable('dialogue_slots');
+  const host = new StubNode('div');
+  const editor = new TextTableEditor(pack, slots, { onChange: ctx.onChange });
+  editor.render(host);
+  check('对白表被切成组', editor.hasGroups,
+    `${editor.groups.length} 组（槽 ${slots.count} 条）`);
+  const rows = host.descendants().filter((n) => n.tagName === 'TR');
+  check('列表按组显示而不是按槽平铺', rows.length <= editor.groups.length + 1,
+    `${rows.length} 行（含表头），组数 ${editor.groups.length}`);
+  const text = host.textContent || '';
+  check('列表里没有「无位置」的空指针槽', !text.includes('⊘ 无位置'),
+    text.includes('⊘ 无位置') ? '还有空指针槽' : '空指针分隔槽不出现');
+  // 打开一组：题干 + 选项
+  editor.openGroup(editor.groups[0], 0);
+  const detail = editor.detail.textContent || '';
+  check('组详情给出题干与选项', detail.includes('题干') && detail.includes('选项 1'),
+    detail.includes('题干') ? '有题干/选项' : '没有');
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);

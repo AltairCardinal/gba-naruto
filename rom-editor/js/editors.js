@@ -575,6 +575,35 @@ export class TextTableEditor {
     this.selected = null;
     this.limit = 200;          // 大表默认只渲染前 200 行
     this.showOwned = false;     // 是否显示「已被其它表拥有」的条目
+    this.grouped = false;      // 是否按「空指针分隔」分组显示
+  }
+
+  /**
+   * The groups of this table, split by the NULL separator slots.
+   *
+   * The dialogue pointer table is 1,524 slots = 305 groups of
+   * 「one question + three options」, separated by a NULL pointer.  Showing the
+   * slots flat forces the author to compute `5g + 2` by hand.
+   */
+  get groups() {
+    const records = this.table.records || [];
+    const groups = [];
+    let current = [];
+    for (const record of records) {
+      if (record.text_offset === null || record.text_offset === undefined) {
+        if (current.length) groups.push(current);
+        current = [];
+        continue;
+      }
+      current.push(record);
+    }
+    if (current.length) groups.push(current);
+    return groups;
+  }
+
+  /** The table has separator slots → it is worth showing it as groups. */
+  get hasGroups() {
+    return this.groups.length > 1 && this.groups.length < (this.table.records || []).length;
   }
 
   get records() {
@@ -649,8 +678,117 @@ export class TextTableEditor {
     this.renderTable();
   }
 
+  /** The grouped view: one row per group of texts. */
+  renderGroups() {
+    clear(this.wrap);
+    const groups = this.groups;
+    const shown = groups.slice(0, this.limit);
+    const grid = el('table', { class: 'grid grid-text' });
+    grid.appendChild(el('thead', {}, [
+      el('tr', {}, [
+        el('th', { class: 'col-id', text: '组' }),
+        el('th', { text: '内容' }),
+        el('th', { class: 'col-num', text: '条数' }),
+        el('th', { class: 'col-num', text: '写回字节' }),
+        el('th', { text: '标记' }),
+      ]),
+    ]));
+    const body = el('tbody');
+    shown.forEach((group, index) => {
+      const preview = group.map((r) => (r.text || '').replace(/\n/g, '↵')).join(' / ');
+      const changed = group.some((r) => r.original_text !== undefined && r.original_text !== r.text);
+      const bytes = group.reduce((n, r) => n + this.writeBackBytes(r), 0);
+      const marks = group.flatMap((r) => this.marksFor(r));
+      body.appendChild(el('tr', {
+        class: changed ? 'changed' : '',
+        onclick: () => this.openGroup(group, index),
+      }, [
+        el('td', { class: 'col-id', text: String(index + 1) }),
+        el('td', { class: 'text-cell', text: preview || '（空）' }),
+        el('td', { class: 'col-num', text: String(group.length) }),
+        el('td', { class: 'col-num', text: String(bytes) }),
+        el('td', { class: 'mark-cell' }, marks.map((m) =>
+          el('span', { class: 'mark-chip ' + m.cls, title: m.title, text: m.text }))),
+      ]));
+    });
+    grid.appendChild(body);
+    this.wrap.appendChild(grid);
+    this.wrap.appendChild(el('div', { class: 'table-foot' }, [
+      el('span', { text: `显示 ${shown.length} / ${groups.length} 组（每组若干条，空指针分隔）` }),
+    ]));
+  }
+
+  /** Open a group: the detail shows each text of the group in order. */
+  openGroup(group, index) {
+    this.selected = group[0];
+    clear(this.detail);
+    this.detail.classList.remove('hidden');
+    this.detail.appendChild(el('div', { class: 'detail-head' }, [
+      el('h3', { text: `${this.table.label || this.table.id} · 第 ${index + 1} 组` }),
+      el('div', { class: 'detail-nav' }, [
+        el('button', {
+          class: 'btn btn-tiny', text: '← 上一组',
+          onclick: () => this.openGroup(this.groups[index - 1], index - 1),
+        }),
+        el('button', {
+          class: 'btn btn-tiny', text: '下一组 →',
+          onclick: () => this.openGroup(this.groups[index + 1], index + 1),
+        }),
+        el('button', {
+          class: 'btn btn-ghost', text: '✕',
+          onclick: () => {
+            this.detail.classList.add('hidden');
+            this.selected = null;
+            this.renderTable();
+          },
+        }),
+      ]),
+    ]));
+    this.detail.appendChild(el('div', { class: 'detail-sub' }, [
+      el('span', { text: `第 ${index + 1} / ${this.groups.length} 组` }),
+      el('span', { text: `槽 ${group[0].id}..${group[group.length - 1].id}` }),
+    ]));
+
+    const form = el('div', { class: 'field-list' });
+    group.forEach((record, i) => {
+      form.appendChild(this.renderGroupEntry(record, i, group.length));
+    });
+    this.detail.appendChild(form);
+  }
+
+  /** One text of a group: 题干 / 选项 1..3。 */
+  renderGroupEntry(record, index, total) {
+    const label = total === 4
+      ? (index === 0 ? '题干' : `选项 ${index}`)
+      : `第 ${index + 1} 条`;
+    const text = record.text ?? '';
+    const changed = record.original_text !== undefined && record.original_text !== text;
+    const counter = el('div', { class: 'text-counter' });
+    const area = el('textarea', {
+      class: 'text-input',
+      rows: total === 4 ? 3 : 6,
+      spellcheck: 'false',
+      value: text,
+      oninput: (e) => this.updateCount(record, counter, e.target.value),
+      onchange: (e) => this.commit(record, area, e.target.value, counter),
+    });
+    this.updateCount(record, counter);
+    return el('div', { class: 'field' + (changed ? ' field-changed' : '') }, [
+      el('label', { class: 'field-label' }, [
+        el('span', { text: label }),
+        changed ? el('span', { class: 'tag tag-warn', text: '已改' }) : null,
+        el('span', { class: 'field-offset', text: `槽 ${record.id}` }),
+      ]),
+      area,
+      counter,
+    ]);
+  }
+
   renderTable() {
     clear(this.wrap);
+    // 搜索时优先用平铺视图（作者在找某一条），没搜索且表本身有分隔槽时
+    // 按组显示 —— 「一道题 + 三个选项」才是作者心里的单位。
+    if (this.hasGroups && !this.query) return this.renderGroups();
     const all = this.records;
     // 搜索时把行数上限放宽（作者明确搜了词，就该看到全部命中）。
     const limit = this.query ? 2000 : this.limit;
