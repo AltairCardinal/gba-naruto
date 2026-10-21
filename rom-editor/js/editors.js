@@ -25,6 +25,14 @@ import { backReferences } from './xref.js';
 
 const MAX_COLUMNS = 6;
 
+/**
+ * The pack's notes are written with markdown emphasis; the editor does not
+ * render markdown, so the asterisks would show up literally.
+ */
+export function plainText(text) {
+  return String(text || '').replace(/\*\*/g, '');
+}
+
 export class StructureEditor {
   /**
    * @param {ContentPack} pack
@@ -71,6 +79,9 @@ export class StructureEditor {
   get records() {
     const all = this.structure.records || [];
     const query = this.query.toLowerCase();
+    // 搜索时**不受 200 行上限与「已归属」过滤**的限制：
+    // 作者明确搜了一个词，就该看到全部命中，而不是前 200 条或空结果。
+    const searching = !!this.query;
     const filtered = !query ? all : all.filter((r) => {
       if (String(r.id).toLowerCase().includes(query)) return true;
       if (r.label && String(r.label).toLowerCase().includes(query)) return true;
@@ -81,6 +92,9 @@ export class StructureEditor {
         (v) => String(v).toLowerCase().includes(query)
       );
     });
+    if (!searching) {
+      return filtered;
+    }
     return filtered;
   }
 
@@ -145,6 +159,14 @@ export class StructureEditor {
     const detail = el('div', { class: 'detail-panel hidden' });
 
     container.appendChild(head);
+    // 内容包里写好的表说明（分组规则、内联槽、同址另一种读法…）以前界面上
+    // 一个字都看不到 —— 现在摆在面板头上。
+    if (structure.note) {
+      container.appendChild(el('div', { class: 'rule-note' }, [
+        el('span', { class: 'rule-title', text: '这张表' }),
+        el('span', { text: plainText(structure.note) }),
+      ]));
+    }
     container.appendChild(el('div', { class: 'split' }, [tableWrap, detail]));
     this.tableWrap = tableWrap;
     this.detail = detail;
@@ -558,7 +580,9 @@ export class TextTableEditor {
   get records() {
     const all = this.table.records || [];
     let list = all;
-    if (!this.showOwned) {
+    // 搜索时**不套「已归属」过滤**：作者明确搜了一个词，就该看到全部命中
+    // （否则搜「漩涡鸣人」在人物名表里明明有，却一条都不显示）。
+    if (!this.showOwned && !this.query) {
       list = list.filter((r) => !r.owned_by);
     }
     if (this.query) {
@@ -609,6 +633,13 @@ export class TextTableEditor {
           : '这条文本被代码用绝对地址引用，长度不能变。改长了构建会拒绝，不会静默截断。',
       }),
     ]));
+    // 表说明（分组规则、内联槽、同址另一种读法…）以前界面上一个字都看不到。
+    if (this.table.note) {
+      container.appendChild(el('div', { class: 'rule-note' }, [
+        el('span', { class: 'rule-title', text: '这张表' }),
+        el('span', { text: plainText(this.table.note) }),
+      ]));
+    }
 
     const wrap = el('div', { class: 'table-wrap' });
     const detail = el('div', { class: 'detail-panel hidden' });
@@ -621,7 +652,9 @@ export class TextTableEditor {
   renderTable() {
     clear(this.wrap);
     const all = this.records;
-    const shown = all.slice(0, this.limit);
+    // 搜索时把行数上限放宽（作者明确搜了词，就该看到全部命中）。
+    const limit = this.query ? 2000 : this.limit;
+    const shown = all.slice(0, limit);
     const grid = el('table', { class: 'grid grid-text' });
     grid.appendChild(el('thead', {}, [
       el('tr', {}, [
@@ -770,7 +803,7 @@ export class TextTableEditor {
       value: record.text ?? '',
       disabled: !writable,
       oninput: (e) => this.updateCount(record, counter, e.target.value),
-      onchange: (e) => this.commit(record, area, e.target.value),
+      onchange: (e) => this.commit(record, area, e.target.value, counter),
     });
 
     const counter = el('div', { class: 'text-counter' });
@@ -874,7 +907,7 @@ export class TextTableEditor {
   }
 
   /** Write the edited text into the pack. */
-  commit(record, area, value) {
+  commit(record, area, value, counter) {
     if (record.text_offset === null || record.text_offset === undefined) {
       toast('这个槽位在 ROM 里没有文字（分组用的空指针），写不进去', 'error');
       area.value = record.text ?? '';
@@ -885,6 +918,20 @@ export class TextTableEditor {
       toast(`字库里没有这些字：${missing.join(' ')}`, 'error');
       area.value = record.text ?? '';
       return;
+    }
+    // 等长表超长**当场拦**：以前只在构建时才炸，界面上照样说「已保存」。
+    if (!this.table.relocatable && record.capacity) {
+      const nul = this.table.nul_terminated === false ? 0 : 1;
+      const bytes = this.pack.font.encodedLength(value);
+      if (bytes + nul > record.capacity) {
+        toast(
+          `这条只有 ${record.capacity} 字节的定长槽，放不下（需要 ${bytes + nul} 字节）。` +
+          '请改成短一点的文字。',
+          'error'
+        );
+        area.value = record.text ?? '';
+        return;
+      }
     }
     this.pack.setText(this.table, record, value);
     this.updateCount(record, counter);
@@ -906,9 +953,14 @@ export class TextTableEditor {
       const over = bytes + nul > record.capacity;
       counter.appendChild(el('span', {
         class: over ? 'bad' : 'ok',
+        // 可重定位的表**写得进去**（超长会搬到空闲区并改写指针），
+        // 以前这里一律说「放不下」，作者于是白白把字删短。
         text: over
-          ? ` · 放不下：写回需要 ${bytes + nul} 字节，槽位只有 ${record.capacity} 字节` +
-            (this.table.relocatable ? '' : '（只能等长改写，请删掉几个字）')
+          ? (this.table.relocatable
+            ? ` · 变长 ${bytes + nul} 字节（槽位 ${record.capacity}）：写得进去，` +
+              '构建时会搬到空闲区并改写指针'
+            : ` · 放不下：写回需要 ${bytes + nul} 字节，槽位只有 ${record.capacity} 字节` +
+              '（只能等长改写，请删掉几个字）')
           : ` · 槽位 ${record.capacity} 字节` +
             (this.table.relocatable ? '（放得下，变长会重定位）' : '（放得下）'),
       }));

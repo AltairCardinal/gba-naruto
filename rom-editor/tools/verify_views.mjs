@@ -774,5 +774,69 @@ console.log('\n11) 通用能力：记录名 / 按名字搜 / 反查引用');
     `${owners.size} 个下标，${shared.length} 个被多关共用`);
 }
 
+console.log('\n12) 表说明可见 / 超长当场拦 / 搜索不被过滤与行数上限挡住');
+{
+  const { TextTableEditor, StructureEditor, plainText } = await import('../js/editors.js');
+
+  // 12a. 内容包里的表说明以前界面上一个字都看不到
+  const names = pack.textTable('character_names');
+  const host = new StubNode('div');
+  const editor = new TextTableEditor(pack, names, { onChange: ctx.onChange });
+  editor.render(host);
+  const text = host.textContent || '';
+  check('文本表的说明显示在面板上', text.includes('指针表驱动') || text.includes('槽位'),
+    (text.match(/这张表.{0,40}/) || [''])[0].replace(/\n/g, ' '));
+  check('说明里的 markdown 星号不露出来', !text.includes('**'),
+    text.includes('**') ? '还有 ** 没去掉' : '已去掉');
+
+  const structure = pack.structure('battle_actors');
+  const host2 = new StubNode('div');
+  new StructureEditor(pack, structure, { onChange: ctx.onChange }).render(host2);
+  check('结构表的说明显示在面板上',
+    (host2.textContent || '').includes('47 关'),
+    (host2.textContent || '').includes('47 关') ? '已显示' : '没有');
+
+  // 12b. 等长表超长**当场拦**（以前只在构建时才炸）
+  const speakers = pack.textTable('speaker_names');
+  const host3 = new StubNode('div');
+  const editor3 = new TextTableEditor(pack, speakers, { onChange: ctx.onChange });
+  editor3.render(host3);
+  const record = speakers.records.find((r) => r.text);
+  editor3.openDetail(record);
+  const area = editor3.detail.descendants().find((n) => n.tagName === 'TEXTAREA');
+  const before = record.text;
+  check('找到说话人名的文本框', !!area, area ? '有' : '没有');
+  if (area) {
+    const counter = editor3.detail.descendants().find((n) => (n.className || '') === 'text-counter');
+    const toastTexts = () => globalThis.document.body.descendants()
+      .map((n) => n.textContent || '').join('\n');
+    const beforeToast = toastTexts();
+    area.listeners.change[0]({
+      target: { value: '一二三四五六' },   // 6 个字 = 12 字节 > 11 字节可用
+    });
+    check('等长表超长被当场拒绝（记录没变）',
+      record.text === before,
+      `原值「${before}」，现在「${record.text}」`);
+    check('超长时给出「放不下」的明确提示',
+      toastTexts() !== beforeToast && /放不下|定长槽/.test(toastTexts()),
+      (toastTexts().match(/[^。]{0,60}放不下[^。]{0,40}/) || ['没有提示'])[0]);
+  }
+
+  // 12c. 搜索不被「已归属」过滤与 200 行上限挡住
+  const index = pack.textTable('rom_text_index');
+  if (!index) {
+    check('全 ROM 文本索引可用', false, '未载入');
+  } else {
+    const host4 = new StubNode('div');
+    const editor4 = new TextTableEditor(pack, index, { onChange: ctx.onChange });
+    editor4.render(host4);
+    editor4.query = '漩涡鸣人';
+    const hits = editor4.records.length;
+    const owned = index.records.filter((r) => r.owned_by && (r.text || '').includes('漩涡鸣人')).length;
+    check('搜索能命中「已被其它表拥有」的条目', owned > 0 ? hits > 0 : true,
+      `搜「漩涡鸣人」命中 ${hits} 条（其中 ${owned} 条属其它表）`);
+  }
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);
