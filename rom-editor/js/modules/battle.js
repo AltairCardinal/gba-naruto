@@ -181,9 +181,14 @@ export function renderStage(container, ctx, stage, variant) {
       const v = record.values;
       const name = names && names.records[v.character_id] ? names.records[v.character_id].text : '';
       actorRows.body.push([
-        s, v.character_id, name || '（空）',
-        (v.unit_flags & 1) ? '敌方' : '我方',
-        v.x, v.y, v.facing, v.level,
+        s,
+        numCell(ctx, actors, record, 'character_id', v.character_id),
+        name || '（空）',
+        sideCell(ctx, actors, record, v),
+        numCell(ctx, actors, record, 'x', v.x),
+        numCell(ctx, actors, record, 'y', v.y),
+        numCell(ctx, actors, record, 'facing', v.facing),
+        numCell(ctx, actors, record, 'level', v.level),
         '0x' + (v.unit_flags >>> 0).toString(16).toUpperCase().padStart(8, '0'),
       ]);
     }
@@ -195,6 +200,8 @@ export function renderStage(container, ctx, stage, variant) {
       'X/Y 是格坐标，与战场的图块尺寸（' +
       (mapRecord ? `${mapRecord.values.raw_width >> 2} × ${mapRecord.values.raw_height >> 1}` : '—') +
       '）对应。',
+      '角色 id / 阵营 / X / Y / 朝向 / 等级都可以直接改（剧本里的 0x22「把角色加入战斗配置」' +
+      '就是从这里取角色与等级，所以改这里等于改战斗中谁出场、在哪出现、几级）。',
     ]),
     summaryTable(actorRows),
   ]));
@@ -210,7 +217,11 @@ export function renderStage(container, ctx, stage, variant) {
       const v = record.values;
       if (v.type === 0 && v.target === 0 && v.x === 0 && v.y === 0) continue;
       objectRows.body.push([
-        o, OBJECT_TYPES[v.type] || v.type, v.target, v.x, v.y,
+        o,
+        OBJECT_TYPES[v.type] || v.type,
+        numCell(ctx, objects, record, 'target', v.target),
+        numCell(ctx, objects, record, 'x', v.x),
+        numCell(ctx, objects, record, 'y', v.y),
       ]);
     }
   }
@@ -218,6 +229,7 @@ export function renderStage(container, ctx, stage, variant) {
     el('h3', { text: '战场物件（可拾取 / 可触发）' }),
     el('p', { class: 'section-note' }, [
       '物件由「类型」决定外观与音效，由「触发目标」决定触发的剧本（13 项效果表，target 9 是计数装置）。',
+      '触发目标与 X/Y 可以直接改。',
     ]),
     summaryTable(objectRows),
   ]));
@@ -336,6 +348,58 @@ function paramCell(value, meaning) {
     el('code', { text: String(value) }),
     el('div', { class: 'stat-hint', text: meaning }),
   ]);
+}
+
+/**
+ * One numeric field of a structure record, editable in place.
+ *
+ * The write-back follows the pack's model: only this field changes, every
+ * other byte of the record stays as it was.
+ */
+function numCell(ctx, structure, record, key, value) {
+  if (!structure || !record) return String(value);
+  return el('input', {
+    class: 'num-input',
+    type: 'text',
+    style: { width: '64px' },
+    value: String(value),
+    onchange: (e) => {
+      const next = Number(e.target.value);
+      if (!Number.isFinite(next) || next < 0 || next > 0xffff) {
+        toast('请输入 0–65535', 'error');
+        e.target.value = String(value);
+        return;
+      }
+      ctx.pack.setValue(structure, record, key, next);
+      ctx.onChange();
+      toast(`已改写 ${structure.label} · ${key}`);
+    },
+  });
+}
+
+/**
+ * The camp of one battle slot.
+ *
+ * The camp is bit 0 of `unit_flags` — the byte at +0x01 is *not* read by the
+ * formation path, so this control rewrites the flag instead.
+ */
+function sideCell(ctx, structure, record, values) {
+  if (!structure || !record) return String(values.unit_flags & 1);
+  const flags = values.unit_flags >>> 0;
+  const select = el('select', {
+    class: 'search',
+    style: { width: '76px' },
+    onchange: (e) => {
+      const bit = e.target.value === '敌方' ? 1 : 0;
+      ctx.pack.setValue(structure, record, 'unit_flags', (flags & ~1) | bit);
+      ctx.onChange();
+      toast(`已改写 ${structure.label} · 阵营`);
+    },
+  }, [
+    el('option', { value: '我方', text: '我方', selected: (flags & 1) === 0 }),
+    el('option', { value: '敌方', text: '敌方', selected: (flags & 1) === 1 }),
+  ]);
+  return select;
 }
 
 /**

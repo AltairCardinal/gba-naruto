@@ -467,7 +467,25 @@ a/b 含义写出来（type 3 = 指定角色**已离场**，a=阵营、b=角色 i
 **验证**：内容包 40 结构 / 6,676 记录，`values → bytes == raw == ROM` 全部成立
 （`build/content_pack_roundtrip.py`），重建 ROM 与原版逐字节相同。
 
-### 5.4.6 环境坑：页面加载后约 210 ms 自动重载
+### 5.4.6 角色出生点就地编辑（目标点名要的功能，原来得跳到结构编辑器）
+
+**试了什么**：战斗模块的「按关卡」视图里，「角色出生点」那张表是**只读**的 ——
+要看出生点在哪、谁出场可以，但改 X、改角色 id、改等级都得自己跳到结构列表里
+找「角色出生点（编成表）」。而出生点正是目标里点名的功能
+（*「战斗（战场的布置、角色的出生点、…）」*）。
+
+**学到了什么**：编成矩阵的字段本来就带着语义（`character_id` / `x` / `y` /
+`facing` / `level`，阵营是 `unit_flags` 的 bit 0），完全可以在视图里就地改。
+
+**怎么做的**：视图里每一格换成输入框（阵营换成一个下拉框，改的是 `unit_flags`
+的 bit 0 —— 因为编成路径**不读** +0x01 那个字节）。写回走
+`pack.setValue()`，与结构编辑器同一套模型：只动被改的字段，其余字节原样保留。
+
+**结果**：真实浏览器里 `#battle/stage/40/0` 的出生点表 12 行 × 5 个输入框 +
+1 个下拉框都在；无头自检里改一个出生点的 X（4 → 9）后，构建结果证明
+**只动了那一个字节**（`@0x588CAA`）。
+
+### 5.4.7 环境坑：页面加载后约 210 ms 自动重载
 
 **现象**：内置浏览器打开 `tools/selftest.html` 后，**约 210 ms 后页面被重新加载**，
 自检跑到一半就被冲掉（服务器日志里能看到 `GET /selftest.html` 反复出现）。
@@ -493,7 +511,7 @@ a/b 含义写出来（type 3 = 指定角色**已离场**，a=阵营、b=角色 i
 **结果**：本机浏览器内自检稳定跑到 **34 项全 PASS**（含新增的
 「战斗目标说明文字指针 230/230 解析成功」「战斗视图显示说明文字原文
 『得到宝箱了』」）后才被环境重载打断；剩余断言由
-`verify_pack.mjs`（30 项）与 `verify_views.mjs`（27 项）覆盖，两者在 Node 里**全绿**。
+`verify_pack.mjs`（30 项）与 `verify_views.mjs`（30 项）覆盖，两者在 Node 里**全绿**。
 
 ---
 
@@ -524,7 +542,7 @@ a/b 含义写出来（type 3 = 指定角色**已离场**，a=阵营、b=角色 i
 python tools\export_content_pack.py          # 重新导出内容包
 python tools\export_content_pack.py --check  # 校验内容包 == 当前 ROM
 node rom-editor\tools\verify_pack.mjs        # 命令行自检（30 项）
-node rom-editor\tools\verify_views.mjs       # 无头视图自检（27 项）
+node rom-editor\tools\verify_views.mjs       # 无头视图自检（30 项）
 node rom-editor\tools\serve.mjs 8765         # 起编辑器
 # 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（45 项）
 #   本机内置浏览器会在页面加载后约 210 ms 自动重载，跑不完是环境问题；

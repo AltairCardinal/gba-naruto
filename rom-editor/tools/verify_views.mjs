@@ -228,6 +228,34 @@ console.log('\n2) 战斗：第 40 关的视图');
 
   // 参数含义要写出来
   check('参数含义被标注', text.includes('角色 id') || text.includes('道具序号'));
+
+  // --- 就地编辑：改一个出生点的 X，落点必须正确 -------------------------
+  const actors = pack.structure('battle_actors');
+  const slot0 = actors.records.find(
+    (r) => r.rom_offset === 0x5461c4 + 40 * 0x1aac + 4);
+  const allInputs = host.descendants().filter((n) => n.tagName === 'INPUT');
+  // 每行 5 个输入框：角色 id / X / Y / 朝向 / 等级
+  const xInput = allInputs[1];
+  check('出生点表格里 X 是可编辑输入框', !!xInput && xInput.value === String(slot0.values.x),
+    `X=${xInput ? xInput.value : '没有输入框'}（原生 ${slot0.values.x}）`);
+  if (xInput) {
+    xInput.listeners.change[0]({ target: { value: '9' } });
+    const changed = slot0.values.x === 9;
+    check('改出生点的 X 立刻写回内容包', changed,
+      `x = ${slot0.values.x}`);
+    // 构建后必须只动那一个字节
+    const { buildRom } = await import('../js/rom.js');
+    const rom = new Uint8Array(0x600000);
+    rom.fill(0xff, 0x5dfbec);
+    const out = buildRom(pack, rom);
+    const offset = slot0.rom_offset + 0x02;   // x 在记录里的偏移
+    check('改出生点的 X 只动那一个字节',
+      out.report.errors.length === 0 && out.bytes[offset] === 9,
+      out.report.errors.join('; ') ||
+      `@0x${offset.toString(16)} = ${out.bytes[offset]}`);
+    // 复原，避免影响后面的断言
+    slot0.values.x = slot0.original_x ?? slot0.values.x;
+  }
 }
 
 console.log('\n3) 剧情路线：第 40 关的视图');
