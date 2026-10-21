@@ -745,7 +745,8 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     ))
 
     wram_fields = [
-        F("wram_addr", 0x00, 4, "u32", "EWRAM 起始地址", "子系统分到的内存起点", "内存分配"),
+        F("wram_addr", 0x00, 4, "u32", "EWRAM 起始地址",
+          "子系统分到的内存起点（原生取值都在 0x0202xxxx）", "内存分配"),
         F("alloc_size", 0x04, 4, "u32", "分配大小", "字节数", "内存分配"),
     ]
     out.append(make_structure(
