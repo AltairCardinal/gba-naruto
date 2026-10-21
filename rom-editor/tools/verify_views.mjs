@@ -229,6 +229,30 @@ console.log('\n2) 战斗：第 40 关的视图');
   // 参数含义要写出来
   check('参数含义被标注', text.includes('角色 id') || text.includes('道具序号'));
 
+  // 战斗目标的条件类型应当是**下拉**（语义取自内容包的 enum，只有这一处真相）
+  const battleSelects = host.descendants().filter((n) => n.tagName === 'SELECT');
+  const battleOptions = battleSelects.flatMap((s) => s.children.map((o) => o.textContent));
+  check('条件类型是下拉且带原生语义',
+    battleOptions.some((t) => t.includes('回合用尽')),
+    (battleOptions.find((t) => t.includes('回合用尽')) || '没有下拉').slice(0, 40));
+
+  // 「本关剧情脚本里可改的操作数」以前永远是空的（筛选排除了有操作数的剧本）
+  const hasOperands = (pack.scripts || []).some(
+    (s) => s.scene === 40 && (s.operands || []).length);
+  check('本关剧本的操作数小节不再是空的',
+    !hasOperands || text.includes('本关剧情脚本里可改的操作数'),
+    hasOperands ? '有操作数，必须显示出来' : '本关确实没有操作数');
+
+  // 每一行都能跳到通用表格的同一条记录
+  const jumpLinks = host.descendants().filter((n) => n.textContent === '↗');
+  check('关卡视图能跳到通用表格的同一条记录', jumpLinks.length > 0,
+    `${jumpLinks.length} 个跳转`);
+
+  // 本关改动数
+  check('显示本关已改几处',
+    text.includes('本关已改') || text.includes('本关还没有改动'),
+    (text.match(/本关[^，。]{0,8}/) || [''])[0]);
+
   // --- 就地编辑：改一个出生点的 X，落点必须正确 -------------------------
   const actors = pack.structure('battle_actors');
   const slot0 = actors.records.find(

@@ -1,6 +1,7 @@
 // 战斗：战场布置 / 角色出生点 / 战斗中的剧情与角色出生 / 战斗目标
 import { el, clear, formatOffset, toast } from '../ui.js';
 import { renderDomainIndex, renderPanel, summaryTable, operandInput } from './common.js';
+import { fieldControl } from '../fields.js';
 
 const STAGE_COUNT = 47;
 const VARIANT_COUNT = 3;
@@ -148,6 +149,13 @@ export function renderStage(container, ctx, stage, variant) {
         el('span', { text: `战场描述符 0x${(MAP_BASE + stage * 32).toString(16).toUpperCase()}` }),
         el('span', { text: `编成组 0x${(ACTORS_BASE + stage * GROUP_STRIDE).toString(16).toUpperCase()}` }),
         el('span', { text: `目标记录 0x${(RULES_BASE + stage * RULE_STAGE_STRIDE + variant * RULE_SUB_STRIDE).toString(16).toUpperCase()}` }),
+        // 本关改了几处 —— 与通用表格共用同一个包对象，两边看到的数一致。
+        el('span', {
+          class: 'stat-hint',
+          text: stageChangeCount(ctx, stage, variant)
+            ? `本关已改 ${stageChangeCount(ctx, stage, variant)} 处`
+            : '本关还没有改动',
+        }),
       ]),
     ]),
     el('div', { class: 'panel-tools' }, [stageSelect, variantSelect]),
@@ -160,22 +168,40 @@ export function renderStage(container, ctx, stage, variant) {
     const v = mapRecord.values;
     const tilesX = v.raw_width >> 2;
     const tilesY = v.raw_height >> 1;
-    container.appendChild(section('战场布置', 'map_table', [
-      ['图块尺寸', `${tilesX} × ${tilesY}`, `原始 ${v.raw_width} × ${v.raw_height}`],
-      ['图块图形', ptrText(v.tile_gfx_ptr), 'LZ77 4bpp'],
-      ['调色板', ptrText(v.palette_ptr), 'LZ77 384 字节'],
-      ['图层 0', ptrText(v.layer0_ptr), 'LZ77 tilemap'],
-      ['图层 1', ptrText(v.layer1_ptr), v.layer1_ptr ? 'LZ77 tilemap' : 'NULL —— 本关无第二层'],
-      ['组合图块表', ptrText(v.metatile_ptr), 'LZ77，8 字节/项'],
-      ['通行值表', ptrText(v.terrain_ptr), 'LZ77，每格 u16'],
-      ['剧情底图 id', v.background_id, '指向底图表 0x59903C'],
+    container.appendChild(el('div', { class: 'section' }, [
+      el('h3', { text: '战场布置' }),
+      el('div', { class: 'kv' }, [
+        el('dt', { text: '图块尺寸' }),
+        el('dd', { text: `${tilesX} × ${tilesY} 格（原始 ${v.raw_width} × ${v.raw_height}）` }),
+        el('dt', { text: '剧情底图 id' }),
+        el('dd', { text: `${v.background_id}（底图表 0x59903C）` }),
+        el('dt', { text: '图块图形' }),
+        el('dd', { text: `${ptrText(v.tile_gfx_ptr)} · LZ77 4bpp 图形` }),
+        el('dt', { text: '调色板' }),
+        el('dd', { text: `${ptrText(v.palette_ptr)} · LZ77 384 字节` }),
+        el('dt', { text: '图层 0' }),
+        el('dd', { text: `${ptrText(v.layer0_ptr)} · LZ77 tilemap` }),
+        el('dt', { text: '图层 1' }),
+        el('dd', { text: v.layer1_ptr ? `${ptrText(v.layer1_ptr)} · LZ77 tilemap` : 'NULL —— 本关无第二层' }),
+        el('dt', { text: '组合图块表' }),
+        el('dd', { text: `${ptrText(v.metatile_ptr)} · LZ77，8 字节/项` }),
+        el('dt', { text: '通行值表' }),
+        el('dd', { text: `${ptrText(v.terrain_ptr)} · LZ77，每格 u16` }),
+      ]),
+      el('p', { class: 'section-note' }, [
+        '这六个资源指针指向 **LZ77 压缩载荷**，编辑器里没有与原版逐字节一致的压缩器，' +
+        '所以载荷本身改不了；能改的是指针（把指针指向别的资源，等于手工接线）。',
+      ]),
+      el('div', { class: 'entry-actions' }, [
+        openInTable(ctx, 'map_table', stage, `在通用表格中打开战场布置（第 ${stage} 关）`),
+      ]),
     ]));
   }
 
   // --- 角色出生点 ------------------------------------------------------
   const actors = pack.structure('battle_actors');
   const names = pack.textTable('character_names');
-  const actorRows = { head: ['槽', '角色id', '姓名', '阵营', 'X', 'Y', '朝向', '等级', '标志'], body: [] };
+  const actorRows = { head: ['槽', '角色id', '姓名', '阵营', 'X', 'Y', '朝向', '等级', '标志', '↗'], body: [] };
   if (actors) {
     const base = ACTORS_BASE + stage * GROUP_STRIDE + variant * VARIANT_STRIDE + 4;
     for (let s = 0; s < 12; s++) {
@@ -193,6 +219,7 @@ export function renderStage(container, ctx, stage, variant) {
         numCell(ctx, actors, record, 'facing', v.facing),
         numCell(ctx, actors, record, 'level', v.level),
         '0x' + (v.unit_flags >>> 0).toString(16).toUpperCase().padStart(8, '0'),
+        openInTable(ctx, 'battle_actors', record.id, '↗'),
       ]);
     }
   }
@@ -205,6 +232,7 @@ export function renderStage(container, ctx, stage, variant) {
       '）对应。',
       '角色 id / 阵营 / X / Y / 朝向 / 等级都可以直接改（剧本里的 0x22「把角色加入战斗配置」' +
       '就是从这里取角色与等级，所以改这里等于改战斗中谁出场、在哪出现、几级）。',
+      '每行末尾的 ↗ 可以在通用表格里打开同一条记录。',
     ]),
     summaryTable(actorRows),
   ]));
@@ -218,10 +246,13 @@ export function renderStage(container, ctx, stage, variant) {
       const record = objects.records.find((r) => r.rom_offset === base + o * 4);
       if (!record) continue;
       const v = record.values;
-      if (v.type === 0 && v.target === 0 && v.x === 0 && v.y === 0) continue;
+      // 空槽也列出来：只显示用掉的那几个，作者就分不清
+      // 「这里本来就没有」和「我刚把它清空了」。
       objectRows.body.push([
         o,
-        OBJECT_TYPES[v.type] || v.type,
+        v.type === 0 && v.target === 0 && v.x === 0 && v.y === 0
+          ? el('span', { class: 'stat-hint', text: '（空）' })
+          : (OBJECT_TYPES[v.type] || v.type),
         numCell(ctx, objects, record, 'target', v.target),
         numCell(ctx, objects, record, 'x', v.x),
         numCell(ctx, objects, record, 'y', v.y),
@@ -253,11 +284,28 @@ export function renderStage(container, ctx, stage, variant) {
         const type = v[`g${g}_${k}_type`];
         if (type === 0 && v[`g${g}_${k}_a`] === 0 && v[`g${g}_${k}_b`] === 0) continue;
         const params = CONDITION_PARAMS[type] || { a: '未用', b: '未用' };
+        const typeField = (rules.fields || []).find((f) => f.key === `g${g}_${k}_type`);
+        const aField = (rules.fields || []).find((f) => f.key === `g${g}_${k}_a`);
+        const bField = (rules.fields || []).find((f) => f.key === `g${g}_${k}_b`);
         rows.body.push([
           label,
-          `${type} · ${CONDITION_TYPES[type] || '未知'}`,
-          paramCell(v[`g${g}_${k}_a`], params.a),
-          paramCell(v[`g${g}_${k}_b`], params.b),
+          // 类型用**内容包自带的取值域**渲染成下拉（语义只有一处真相），
+          // 而不是这里手写的一张表。
+          typeField
+            ? fieldControl({ pack, onChange: ctx.onChange }, rules, ruleRecord, typeField).node
+            : `${type} · ${CONDITION_TYPES[type] || '未知'}`,
+          aField
+            ? el('div', {}, [
+              numCell(ctx, rules, ruleRecord, aField.key, v[aField.key]),
+              el('div', { class: 'stat-hint', text: params.a }),
+            ])
+            : paramCell(v[`g${g}_${k}_a`], params.a),
+          bField
+            ? el('div', {}, [
+              numCell(ctx, rules, ruleRecord, bField.key, v[bField.key]),
+              el('div', { class: 'stat-hint', text: params.b }),
+            ])
+            : paramCell(v[`g${g}_${k}_b`], params.b),
           descriptionCell(ctx, objectiveTable, objectiveTexts.get(`${ruleRecord.id}:${g}:${k}`)),
         ]);
       }
@@ -266,7 +314,7 @@ export function renderStage(container, ctx, stage, variant) {
       el('h3', { text: '战斗目标' }),
       el('p', { class: 'section-note' }, [
         `回合上限：${v.turn_limit === 0 ? '无限制' : v.turn_limit}。`,
-        '每条记录 4 个胜利条件 + 4 个失败条件。',
+        '每条记录 4 个胜利条件 + 4 个失败条件；类型与参数都能直接改。',
         '类型 2 的数据写着「指定角色仍在场」，但原生代码根本不读这两个字节，',
         '它比较的是回合计数与回合上限 —— 这一版 ROM 的 type-2 实际表达的是「回合用尽」',
         '（notes/battle-tables.md §1.1.1；2026-10-21 用真实战斗读数证实 0x0202680C 就是回合计数）。',
@@ -308,12 +356,18 @@ export function renderStage(container, ctx, stage, variant) {
   ]));
 
   // 本关战斗剧本里可改的定宽操作数
-  const operandRows = { head: ['指令', '含义', '当前值'], body: [] };
+  //
+  // 这里曾经**永远是空的**：筛选只留 logic / events 两类剧本，而带操作数的
+  // 恰恰是 before / after 两类（logic / events 的 operands 是空数组）。
+  // 于是文案写着「0x1E / 0x1F / 0x23 / 0x22 可改」，实际一处也找不到。
+  const operandRows = { head: ['剧本', '指令', '含义', '当前值'], body: [] };
   for (const script of pack.scripts || []) {
     if (script.scene !== stage) continue;
-    if (script.root !== 'logic' && script.root !== 'events') continue;
     for (const operand of script.operands || []) {
       operandRows.body.push([
+        script.root === 'before' ? '战前剧情'
+          : script.root === 'after' ? '战后剧情'
+          : script.root === 'logic' ? '战场事件逻辑' : '战场事件表',
         '0x' + operand.opcode.toString(16).toUpperCase(),
         operand.label,
         operandInput(ctx, operand),
@@ -322,11 +376,13 @@ export function renderStage(container, ctx, stage, variant) {
   }
   if (operandRows.body.length) {
     container.appendChild(el('div', { class: 'section' }, [
-      el('h3', { text: '本关战斗剧本里可改的操作数' }),
+      el('h3', { text: '本关剧情脚本里可改的操作数' }),
       el('p', { class: 'section-note' }, [
         '0x1E 决定本关载入哪张地图，0x1F 决定用哪个子配置，0x23 决定队员，' +
         '0x22 是「把角色加入战斗配置」。这些操作数都是定宽的，改它们是原地写，' +
         '不会让脚本里的分支目标失效。',
+        '（带操作数的是战前/战后剧本；战场事件逻辑与事件表的指令表由原生代码消费，' +
+        '仓库没有证明其字段语义，所以不列为可改。）',
       ]),
       summaryTable(operandRows),
     ]));
@@ -341,6 +397,58 @@ function section(title, structureId, rows) {
       el('dd', { text: v === null || v === undefined ? '—' : String(v) + (hint ? `  (${hint})` : '') }),
     ])),
   ]);
+}
+
+/**
+ * How many records of this stage (and variant) have been changed.
+ *
+ * The count comes from the **byte** comparison, so "changed and changed back"
+ * does not count — and it is the same judgement the generic table editor
+ * makes, so the two views never disagree.
+ */
+function stageChangeCount(ctx, stage, variant) {
+  const pack = ctx.pack;
+  let n = 0;
+  const actorBase = ACTORS_BASE + stage * GROUP_STRIDE + variant * VARIANT_STRIDE + 4;
+  const objectBase = actorBase - 4 + OBJECT_OFFSET;
+  const ruleOffset = RULES_BASE + stage * RULE_STAGE_STRIDE + variant * RULE_SUB_STRIDE;
+  for (const [id, offsets] of [
+    ['battle_actors', Array.from({ length: 12 }, (_, s) => actorBase + s * SLOT_STRIDE)],
+    ['battle_map_objects', Array.from({ length: OBJECT_COUNT }, (_, o) => objectBase + o * 4)],
+    ['battle_rules', [ruleOffset]],
+  ]) {
+    const structure = pack.structure(id);
+    if (!structure) continue;
+    const changed = new Set(pack.changedStructureRecords(structure).map((r) => r.rom_offset));
+    for (const offset of offsets) {
+      if (changed.has(offset)) n += 1;
+    }
+  }
+  const objectives = pack.textTable('battle_objectives');
+  if (objectives) {
+    const changed = new Set(pack.changedTextRecords(objectives).map((r) => r.id));
+    for (const binding of objectives.bindings || []) {
+      if (binding.rule !== stage * VARIANT_COUNT + variant) continue;
+      if (changed.has(binding.text_id)) n += 1;
+    }
+  }
+  return n;
+}
+
+/**
+ * A link that opens the same item in the generic table editor.
+ *
+ * The stage view and the table view are two roads to the same data; the link
+ * makes that explicit, so the author can check the change in the table (or
+ * make a change the stage view does not offer) without hunting for the id.
+ */
+function openInTable(ctx, structureId, recordId, label) {
+  return el('button', {
+    class: 'btn btn-tiny',
+    text: label || '在通用表格中打开',
+    title: `打开 ${structureId} 的第 ${recordId} 条`,
+    onclick: () => ctx.openPanel('structure', structureId, { recordId }),
+  });
 }
 
 /**
