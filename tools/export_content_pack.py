@@ -225,7 +225,10 @@ def F(key: str, offset: int, size: int, ftype: str, label: str,
       array: str | None = None, index: int | None = None,
       item: str | None = None,
       enum: dict[int, str] | None = None,
-      relation: dict[str, str] | None = None) -> dict[str, Any]:
+      relation: dict[str, str] | None = None,
+      not_read: bool = False,
+      bits: list[dict[str, Any]] | None = None,
+      param_meanings: dict[str, dict[str, str]] | None = None) -> dict[str, Any]:
     field = {
         "key": key,
         "offset": offset,
@@ -249,7 +252,76 @@ def F(key: str, offset: int, size: int, ftype: str, label: str,
     if relation:
         # 该字段是一个 id，指向另一张表的同号槽位（界面据此显示名字并可跳转）。
         field["relation"] = relation
+    if not_read:
+        # 原生代码**不读**这个字节：界面把它降级为只读并说明，
+        # 否则作者会白改一个没人读的字段。
+        field["not_read"] = True
+    if bits:
+        # 位域里的若干位（其余位原样保留）。
+        field["bits"] = bits
+    if param_meanings:
+        # 这个字段的取值决定了同一条记录里其它字段的含义
+        # （例如条件类型 1/2/3 的 a/b 各自代表什么）。
+        field["param_meanings"] = param_meanings
     return field
+
+
+# 复合下标的分解方案：记录 id 按 parts **从外到内**分解（外层是高位）。
+# 界面据此把「第 12 关 · 变体 1 · 槽 3」渲染出来，作者不用自己手算 id。
+INDEX_SCHEMES = {
+    "battle_actors": {
+        "parts": [
+            {"key": "stage", "label": "关卡 id", "count": 47, "text": "第 {stage} 关"},
+            {"key": "variant", "label": "变体", "count": 3, "text": "变体 {variant}"},
+            {"key": "slot", "label": "槽位", "count": 12, "text": "槽 {slot}"},
+        ],
+    },
+    "battle_map_objects": {
+        "parts": [
+            {"key": "stage", "label": "关卡 id", "count": 47, "text": "第 {stage} 关"},
+            {"key": "variant", "label": "变体", "count": 3, "text": "变体 {variant}"},
+            {"key": "object", "label": "物件号", "count": 16, "text": "物件 {object}"},
+        ],
+    },
+    "battle_rules": {
+        "parts": [
+            {"key": "stage", "label": "关卡 id", "count": 47, "text": "第 {stage} 关"},
+            {"key": "variant", "label": "变体", "count": 3, "text": "变体 {variant}"},
+        ],
+    },
+    "sprite_action_table": {
+        "parts": [
+            {"key": "sprite", "label": "精灵 id", "count": 36, "text": "精灵 {sprite}"},
+            {"key": "action", "label": "动作", "count": 16, "text": "动作 {action}"},
+        ],
+    },
+}
+
+# 「一条记录代表什么」——域首页的表清单里给作者看的人话。
+IDENTITIES = {
+    "map_table": "关卡 id（47 条）",
+    "battle_actors": "关卡 × 变体 × 槽位（47×3×12）",
+    "battle_map_objects": "关卡 × 变体 × 物件号（47×3×16）",
+    "battle_rules": "关卡 × 变体（47×3）",
+    "battle_encounter_records": "记录下标（24 条）",
+    "unit_slot_remap": "记录下标（43 项）",
+    "unit_delta_table": "记录下标（16 项）",
+    "level_blocks": "记录下标（4 项）",
+    "object_descriptors": "记录下标（86 条）",
+    "sprite_action_table": "精灵 id × 动作（36×16）",
+    "story_logic_root": "关卡 id（47 条）",
+    "story_events_root": "关卡 id（47 条）",
+    "battle_handler_table": "记录下标（256 条）",
+    "sprite_frame_descriptors": "记录下标（15 条）",
+    "pickup_dispatch": "记录下标（7 条）",
+    "battle_objectives": "说明文字（219 条，被战斗目标按绝对地址引用）",
+}
+
+# 这些表的绝大多数记录是空的（全零），默认先把它们藏起来。
+HIDE_EMPTY = {
+    "battle_actors", "battle_map_objects", "battle_rules",
+    "battle_handler_table", "sprite_action_table",
+}
 
 
 def tile(entry_size: int, fields: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -445,6 +517,15 @@ def make_structure(
     if id_relation:
         # 记录下标本身就是一个 id，指向另一张表的同号槽位。
         structure["id_relation"] = id_relation
+    if structure_id in INDEX_SCHEMES:
+        # 复合下标的分解方案：界面据此把记录下标还原成
+        # 「第 12 关 · 变体 1 · 槽 3」，作者不用自己手算 id。
+        structure["index_scheme"] = INDEX_SCHEMES[structure_id]
+    if structure_id in IDENTITIES:
+        structure["identity"] = IDENTITIES[structure_id]
+    if structure_id in HIDE_EMPTY:
+        # 绝大多数记录是空的（全零），默认先藏起来。
+        structure["hide_empty"] = True
     return structure
 
 
@@ -711,12 +792,13 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
           relation={"table": "character_names", "kind": "text", "label": "角色名"}),
         F("side", 0x01, 1, "u8", "阵营（原生不读）",
           "0=我方 1=敌方。**编成消费者不读这一字节**，阵营走 unit_flags 的 bit0",
-          "角色", enum={0: "我方", 1: "敌方"}),
+          "角色", not_read=True, enum={0: "我方", 1: "敌方"}),
         F("x", 0x02, 1, "u8", "出生 X", "初始 X 坐标（格）", "出生点"),
         F("y", 0x03, 1, "u8", "出生 Y", "初始 Y 坐标（格）", "出生点"),
         F("facing", 0x04, 1, "u8", "朝向/参数", "写入 unit+0xC9", "出生点"),
         F("unit_flags", 0x08, 4, "u32", "单位标志",
-          "bit0 = 阵营（这个才是生效的）；unit+0xC0 = flags|side|0x10", "角色"),
+          "bit0 = 阵营（**这个才是生效的**）；unit+0xC0 = flags|side|0x10", "角色",
+          bits=[{"mask": 1, "label": "阵营", "enum": {"0": "我方", "1": "敌方"}}]),
         F("level", 0x0F, 1, "u8", "等级", "unit+0x0F", "角色"),
     ]
     actor_offsets = []
@@ -754,9 +836,13 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
                 object_offsets.append(base + o * BATTLE_OBJECT_STRIDE)
     out.append(make_structure(
         "battle_map_objects", "battle", "战场物件",
-        BATTLE_ACTORS_BASE, BATTLE_OBJECT_STRIDE, object_fields,
+        # 这张表的第一条记录**不在**编成矩阵的基址上，而在它之后 0x8A4 处
+        # （物件区紧跟在 12 个角色槽后面）。早先这里填的是 BATTLE_ACTORS_BASE，
+        # 于是面板头显示的 ROM 地址与表里第一条记录对不上，
+        # 连带「这个指针指向哪张表」也判错（两个区间重叠）。
+        BATTLE_ACTORS_BASE + BATTLE_OBJECT_OFFSET, BATTLE_OBJECT_STRIDE, object_fields,
         object_offsets, rom,
-        note="每关卡变体 16 个物件，位于编成组 +0x8A4。",
+        note="每关卡变体 16 个物件，位于编成组 +0x8A4（紧跟在 12 个角色槽后面）。",
         primary_columns=["type", "target", "x", "y"],
         verification="L1 结构已证明 / 尚无写回路径",
     ))

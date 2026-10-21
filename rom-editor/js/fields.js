@@ -202,6 +202,10 @@ export function fieldHint(pack, structure, record, field) {
     if (hit) hint.push(`${field.relation.label || '名称'}：${hit.name}`);
   }
   if (field.desc) hint.push(field.desc);
+  if (field.not_read) {
+    // 原生代码不读这一字节 —— 说清楚，免得作者白改。
+    hint.unshift('原生代码不读这一字节：改它没有任何效果');
+  }
   return hint;
 }
 
@@ -327,7 +331,45 @@ export function fieldControl(ctx, structure, record, field) {
     return true;
   };
 
-  if (field.enum) {
+  if (field.not_read) {
+    // 原生代码**不读**这个字节：给出只读显示 + 说明，
+    // 否则作者会白改一个没人读的字段（战场物件/阵营那一格就是这样）。
+    node = el('input', {
+      class: 'num-input not-read',
+      type: 'text',
+      disabled: true,
+      value: value === undefined ? '' : String(value),
+    });
+  } else if (field.bits && field.bits.length) {
+    // 位域：已知的位给下拉，其余位原样保留（只读显示）。
+    const bits = field.bits;
+    const wrap = el('div', { class: 'bit-field' });
+    for (const bit of bits) {
+      const current = (Number(value) & bit.mask) ? 1 : 0;
+      const select = el('select', {
+        class: 'num-input',
+        onchange: (e) => {
+          const next = Number(e.target.value) ? (Number(value) | bit.mask) : (Number(value) & ~bit.mask);
+          if (!commit(next)) e.target.value = String(current);
+        },
+      });
+      for (const [raw, label] of Object.entries(bit.enum || {})) {
+        select.appendChild(el('option', {
+          value: raw, text: label, selected: String(current) === raw,
+        }));
+      }
+      wrap.appendChild(el('div', { class: 'bit-row' }, [
+        el('span', { class: 'operand-label', text: bit.label }),
+        select,
+      ]));
+    }
+    const rest = Number(value) & ~bits.reduce((m, b) => m | b.mask, 0);
+    wrap.appendChild(el('div', { class: 'bit-row' }, [
+      el('span', { class: 'operand-label', text: '其余位' }),
+      el('code', { class: 'bit-rest', text: '0x' + (rest >>> 0).toString(16).toUpperCase() }),
+    ]));
+    node = wrap;
+  } else if (field.enum) {
     // 取值域已知 → 用下拉，标签直接是人话。
     const select = el('select', {
       class: 'num-input',
@@ -407,7 +449,6 @@ export function fieldControl(ctx, structure, record, field) {
     link: relationLink(ctx, structure, record, field),
   };
 }
-
 /**
  * A clickable link to the record this field points at.
  *

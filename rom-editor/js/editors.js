@@ -22,6 +22,7 @@ import {
 } from './fields.js';
 import { arraysIn, renderArrayTable, columnLabel, arrayFields } from './slots.js';
 import { backReferences } from './xref.js';
+import { indexKey, isEmptyRecord, visibleRecords } from './indexkey.js';
 
 const MAX_COLUMNS = 6;
 
@@ -51,6 +52,10 @@ export class StructureEditor {
     this.collapsed = new Set();
     this.groups = groupFields(structure.fields);
     this.refreshers = [];
+    this.limit = 200;          // 大表只渲染前 200 行（与文本表同一套规矩）
+    this.showEmpty = false;    // 默认把「全零记录」藏起来
+    this.onlyStage = null;     // 只看某一关（复合键的表）
+    this.visible = null;
     this.openDefaultGroups(structure);
     this.jumpTo = '';
   }
@@ -79,7 +84,7 @@ export class StructureEditor {
   get records() {
     const all = this.structure.records || [];
     const query = this.query.toLowerCase();
-    // 搜索时**不受 200 行上限与「已归属」过滤**的限制：
+    // 搜索时**不受行数上限与「空记录」隐藏**的限制：
     // 作者明确搜了一个词，就该看到全部命中，而不是前 200 条或空结果。
     const searching = !!this.query;
     const filtered = !query ? all : all.filter((r) => {
@@ -88,14 +93,28 @@ export class StructureEditor {
       // 记录名（id_relation）也要能搜到 —— 搜「分身术」应该找得到忍术 id 3。
       const name = idRelationName(this.pack, this.structure, r);
       if (name && name.toLowerCase().includes(query)) return true;
+      // 复合键也要能搜 —— 搜「第 12 关」应该找得到那 12 条。
+      const key = indexKey(this.structure, r);
+      if (key && key.text.includes(this.query)) return true;
       return (r.values ? Object.values(r.values) : []).some(
         (v) => String(v).toLowerCase().includes(query)
       );
     });
-    if (!searching) {
+    if (searching) {
+      this.visible = null;
       return filtered;
     }
-    return filtered;
+    // 没搜索：大表只渲染前 200 行，并把「空记录」藏起来
+    // （战场物件 2,256 条里只有 165 条有内容，其余全是零）。
+    const view = visibleRecords(this.structure, {
+      showEmpty: this.showEmpty,
+      onlyStage: this.onlyStage,
+      limit: this.limit,
+    });
+    this.visible = view;
+    // **渲染的是 shown，不是 list** —— 以前返回了整份 list，
+    // 表格里 476 行全画出来，行数上限形同虚设。
+    return view.shown;
   }
 
   /** 这条记录相对原版是否被改过。 */
@@ -192,14 +211,22 @@ export class StructureEditor {
     const body = el('tbody');
     const records = this.records;
     const named = !!this.structure.id_relation;
+    const keyed = !!this.structure.index_scheme;
     for (const record of records) {
       const dirty = this.isDirty(record);
       const name = idRelationName(this.pack, this.structure, record);
+      const key = keyed ? indexKey(this.structure, record) : null;
       const row = el('tr', {
         onclick: () => this.openDetail(record),
         class: (this.selected === record ? 'selected' : '') + (dirty ? ' changed' : ''),
       }, [
-        el('td', { class: 'col-id', text: String(record.label ?? record.id) }),
+        // 复合下标的表：首列给「第 12 关 · 变体 1 · 槽 3」，下一行给裸 id。
+        keyed
+          ? el('td', { class: 'key-cell' }, [
+            el('span', { class: 'key-text', text: key.text }),
+            el('span', { class: 'key-id', text: '#' + record.id }),
+          ])
+          : el('td', { class: 'col-id', text: String(record.label ?? record.id) }),
         // 有 id_relation 的表，第一列之后多一列**名字** —— 列表里不再只有数字。
         named ? el('td', { class: 'name-cell', text: name || '（无名字）' }) : null,
         ...fields.map((f) => el('td', { text: this.formatCell(record, f) })),
@@ -221,11 +248,38 @@ export class StructureEditor {
     if (!records.length) {
       this.tableWrap.appendChild(el('div', { class: 'empty', text: '没有匹配的记录' }));
     }
+    const view = this.visible;
+    const all = (structure.records || []).length;
+    const total = view ? view.total : all;
+    const shown = records.length;
+    // 被「空记录」规则藏起来的条数 —— 页脚要说清楚，别让人以为表就这么大。
+    const emptyHidden = view && structure.hide_empty && !this.showEmpty
+      ? all - view.total : 0;
     const dirtyCount = (structure.records || []).filter((r) => this.isDirty(r)).length;
     this.tableWrap.appendChild(
       el('div', { class: 'table-foot' }, [
-        el('span', { text: `显示 ${records.length} / ${(structure.records || []).length} 条` }),
+        el('span', {
+          text: `显示 ${shown} / ${total} 条` +
+            (view && view.hidden ? `（只渲染前 ${this.limit} 条）` : '') +
+            (emptyHidden ? `（另有 ${emptyHidden} 条全零记录已隐藏）` : ''),
+        }),
         dirtyCount ? el('span', { class: 'tag tag-warn', text: `已改 ${dirtyCount} 条` }) : null,
+        structure.hide_empty
+          ? el('label', { class: 'check' }, [
+            el('input', {
+              type: 'checkbox',
+              checked: this.showEmpty,
+              onchange: (e) => { this.showEmpty = e.target.checked; this.renderTable(); },
+            }),
+            el('span', { text: '显示全零记录' }),
+          ])
+          : null,
+        view && view.hidden
+          ? el('button', {
+            class: 'btn btn-tiny', text: '显示全部',
+            onclick: () => { this.limit = 100000; this.renderTable(); },
+          })
+          : null,
       ])
     );
   }
@@ -258,7 +312,12 @@ export class StructureEditor {
     const structure = this.structure;
 
     this.detail.appendChild(el('div', { class: 'detail-head' }, [
-      el('h3', { text: `${structure.label || structure.id} · ${record.label ?? record.id}` }),
+      el('h3', {
+        text: `${structure.label || structure.id} · ` +
+          (indexKey(this.structure, record)
+            ? indexKey(this.structure, record).text
+            : String(record.label ?? record.id)),
+      }),
       el('div', { class: 'detail-nav' }, [
         el('button', {
           class: 'btn btn-tiny', text: '← 上一条',

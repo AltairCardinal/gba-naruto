@@ -34464,7 +34464,8 @@
     "raw_height",
     "background_id"
    ],
-   "verification": "L1 结构已证明 / 写回路径 tools/import_battle_config.py"
+   "verification": "L1 结构已证明 / 写回路径 tools/import_battle_config.py",
+   "identity": "关卡 id（47 条）"
   },
   {
    "id": "battle_actors",
@@ -34499,7 +34500,8 @@
      "enum": {
       "0": "我方",
       "1": "敌方"
-     }
+     },
+     "not_read": true
     },
     {
      "key": "x",
@@ -34542,8 +34544,18 @@
      "size": 4,
      "type": "u32",
      "label": "单位标志",
-     "desc": "bit0 = 阵营（这个才是生效的）；unit+0xC0 = flags|side|0x10",
-     "group": "角色"
+     "desc": "bit0 = 阵营（**这个才是生效的**）；unit+0xC0 = flags|side|0x10",
+     "group": "角色",
+     "bits": [
+      {
+       "mask": 1,
+       "label": "阵营",
+       "enum": {
+        "0": "我方",
+        "1": "敌方"
+       }
+      }
+     ]
     },
     {
      "key": "raw_0c",
@@ -63344,13 +63356,37 @@
     "x",
     "y"
    ],
-   "verification": "L1 结构已证明 / 写回路径 tools/import_battle_config.py"
+   "verification": "L1 结构已证明 / 写回路径 tools/import_battle_config.py",
+   "index_scheme": {
+    "parts": [
+     {
+      "key": "stage",
+      "label": "关卡 id",
+      "count": 47,
+      "text": "第 {stage} 关"
+     },
+     {
+      "key": "variant",
+      "label": "变体",
+      "count": 3,
+      "text": "变体 {variant}"
+     },
+     {
+      "key": "slot",
+      "label": "槽位",
+      "count": 12,
+      "text": "槽 {slot}"
+     }
+    ]
+   },
+   "identity": "关卡 × 变体 × 槽位（47×3×12）",
+   "hide_empty": true
   },
   {
    "id": "battle_map_objects",
    "module": "battle",
    "label": "战场物件",
-   "rom_offset": 5530052,
+   "rom_offset": 5532264,
    "entry_size": 4,
    "entry_count": 2256,
    "fields": [
@@ -88217,14 +88253,38 @@
      }
     }
    ],
-   "note": "每关卡变体 16 个物件，位于编成组 +0x8A4。",
+   "note": "每关卡变体 16 个物件，位于编成组 +0x8A4（紧跟在 12 个角色槽后面）。",
    "primary_columns": [
     "type",
     "target",
     "x",
     "y"
    ],
-   "verification": "L1 结构已证明 / 尚无写回路径"
+   "verification": "L1 结构已证明 / 尚无写回路径",
+   "index_scheme": {
+    "parts": [
+     {
+      "key": "stage",
+      "label": "关卡 id",
+      "count": 47,
+      "text": "第 {stage} 关"
+     },
+     {
+      "key": "variant",
+      "label": "变体",
+      "count": 3,
+      "text": "变体 {variant}"
+     },
+     {
+      "key": "object",
+      "label": "物件号",
+      "count": 16,
+      "text": "物件 {object}"
+     }
+    ]
+   },
+   "identity": "关卡 × 变体 × 物件号（47×3×16）",
+   "hide_empty": true
   },
   {
    "id": "battle_rules",
@@ -95799,7 +95859,25 @@
    "primary_columns": [
     "turn_limit"
    ],
-   "verification": "L1 结构已证明 / 尚无写回路径"
+   "verification": "L1 结构已证明 / 尚无写回路径",
+   "index_scheme": {
+    "parts": [
+     {
+      "key": "stage",
+      "label": "关卡 id",
+      "count": 47,
+      "text": "第 {stage} 关"
+     },
+     {
+      "key": "variant",
+      "label": "变体",
+      "count": 3,
+      "text": "变体 {variant}"
+     }
+    ]
+   },
+   "identity": "关卡 × 变体（47×3）",
+   "hide_empty": true
   },
   {
    "id": "battle_encounter_records",
@@ -96117,7 +96195,8 @@
     "entry_id",
     "ptr_0"
    ],
-   "verification": "L1 结构已证明 / 尚无写回路径"
+   "verification": "L1 结构已证明 / 尚无写回路径",
+   "identity": "记录下标（24 条）"
   },
   {
    "id": "unit_slot_remap",
@@ -96487,7 +96566,8 @@
    "primary_columns": [
     "value"
    ],
-   "verification": "L1 结构已证明 / 写回仅允许复用原生取值"
+   "verification": "L1 结构已证明 / 写回仅允许复用原生取值",
+   "identity": "记录下标（43 项）"
   },
   {
    "id": "unit_delta_table",
@@ -96641,7 +96721,8 @@
    "primary_columns": [
     "delta"
    ],
-   "verification": "L1 结构已证明 / 尚无写回路径"
+   "verification": "L1 结构已证明 / 尚无写回路径",
+   "identity": "记录下标（16 项）"
   },
   {
    "id": "wram_allocation",
@@ -96839,7 +96920,8 @@
     "gfx_ptr",
     "palette_ptr"
    ],
-   "verification": "L1 结构已证明 / 写回路径 tools/import_battle_config.py"
+   "verification": "L1 结构已证明 / 写回路径 tools/import_battle_config.py",
+   "identity": "记录下标（4 项）"
   },
   {
    "id": "object_descriptors",
@@ -97553,7 +97635,8 @@
    "primary_columns": [
     "ptr"
    ],
-   "verification": "L1 结构已证明 / 写回路径 tools/import_battle_config.py"
+   "verification": "L1 结构已证明 / 写回路径 tools/import_battle_config.py",
+   "identity": "记录下标（86 条）"
   },
   {
    "id": "sprite_action_table",
@@ -103943,7 +104026,25 @@
     "frames_ptr",
     "gfx_ptr"
    ],
-   "verification": "L1 结构已证明 / 写回路径 tools/import_sprite_action.py"
+   "verification": "L1 结构已证明 / 写回路径 tools/import_sprite_action.py",
+   "index_scheme": {
+    "parts": [
+     {
+      "key": "sprite",
+      "label": "精灵 id",
+      "count": 36,
+      "text": "精灵 {sprite}"
+     },
+     {
+      "key": "action",
+      "label": "动作",
+      "count": 16,
+      "text": "动作 {action}"
+     }
+    ]
+   },
+   "identity": "精灵 id × 动作（36×16）",
+   "hide_empty": true
   },
   {
    "id": "background_table",
@@ -105744,7 +105845,8 @@
    "primary_columns": [
     "ptr"
    ],
-   "verification": "L1 结构已证明 / 写回路径 tools/import_story_script.py（仅定宽操作数）"
+   "verification": "L1 结构已证明 / 写回路径 tools/import_story_script.py（仅定宽操作数）",
+   "identity": "关卡 id（47 条）"
   },
   {
    "id": "story_events_root",
@@ -106146,7 +106248,8 @@
    "primary_columns": [
     "ptr"
    ],
-   "verification": "L1 结构已证明 / 写回路径 tools/import_story_script.py（仅定宽操作数）"
+   "verification": "L1 结构已证明 / 写回路径 tools/import_story_script.py（仅定宽操作数）",
+   "identity": "关卡 id（47 条）"
   },
   {
    "id": "mission_index",
@@ -113933,7 +114036,9 @@
     "handler_a",
     "handler_b"
    ],
-   "verification": "L1 结构已证明 / 尚无写回路径"
+   "verification": "L1 结构已证明 / 尚无写回路径",
+   "identity": "记录下标（256 条）",
+   "hide_empty": true
   },
   {
    "id": "sprite_frame_descriptors",
@@ -114177,7 +114282,8 @@
     "delta_2",
     "kind_6"
    ],
-   "verification": "L1 结构已证明 / 尚无写回路径"
+   "verification": "L1 结构已证明 / 尚无写回路径",
+   "identity": "记录下标（15 条）"
   },
   {
    "id": "pickup_dispatch",
@@ -114259,7 +114365,8 @@
    "primary_columns": [
     "handler"
    ],
-   "verification": "L1 结构已证明 / 尚无写回路径"
+   "verification": "L1 结构已证明 / 尚无写回路径",
+   "identity": "记录下标（7 条）"
   },
   {
    "id": "data_pointer_table_a",

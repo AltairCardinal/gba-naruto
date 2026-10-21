@@ -20,8 +20,11 @@ export function renderRaw(container, ctx) {
     return;
   }
 
-  let cursor = ctx.state.view.params && ctx.state.view.params.offset
-    ? ctx.state.view.params.offset : 0;
+  // 「按地址打开原始字节」用的是面板参数。以前这里读的是
+  // `ctx.state.view.params.offset`，而参数其实在 `ctx.state.view.panel.params` 里，
+  // 于是深链 #raw/offset/0x… 永远从 0x000000 开始。
+  const viewParams = (ctx.state.view.panel && ctx.state.view.panel.params) || {};
+  let cursor = viewParams.offset ? Number(viewParams.offset) : 0;
 
   const head = el('div', { class: 'panel-head' }, [
     el('div', {}, [

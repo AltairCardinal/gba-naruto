@@ -893,5 +893,55 @@ console.log('\n14) 剧情脚本查看器：反汇编 + 可改操作数');
   ctx.state.view = { panel: null };
 }
 
+console.log('\n15) 复合键 / 大表行数上限 / 空记录隐藏 / 原生不读字节');
+{
+  const { StructureEditor } = await import('../js/editors.js');
+  const { indexKey, isEmptyRecord } = await import('../js/indexkey.js');
+
+  // 15a. 复合键分解：第 447 条 = 关卡 12 / 变体 1 / 槽 3
+  const actors = pack.structure('battle_actors');
+  const key = indexKey(actors, actors.records[447]);
+  check('复合下标能分解成可读的键',
+    !!key && key.text.includes('第 12 关') && key.text.includes('变体 1') && key.text.includes('槽 3'),
+    key ? key.text : '没有分解');
+  check('复合键的 ROM 地址与内容包一致',
+    actors.records[447].rom_offset === 0x5461c4 + 12 * 0x1aac + 1 * 0x8e4 + 4 + 3 * 0xb8,
+    `0x${actors.records[447].rom_offset.toString(16).toUpperCase()}`);
+
+  // 15b. 大表：只渲染前 200 行，且空记录被藏起来
+  const host = new StubNode('div');
+  const editor = new StructureEditor(pack, actors, { onChange: ctx.onChange });
+  editor.render(host);
+  const rows = host.descendants().filter((n) => n.tagName === 'TR');
+  check('大表默认只渲染前 200 行', rows.length <= 201,
+    `${rows.length} 行（含表头），共 ${actors.entry_count} 条`);
+  const foot = (host.descendants().find((n) => (n.className || '') === 'table-foot') || {}).textContent || '';
+  check('页脚写明显示了多少条', /显示 \d+ \/ \d+ 条/.test(foot), foot.slice(0, 60));
+  const emptyCount = actors.records.filter((r) => isEmptyRecord(actors, r)).length;
+  check('空记录被识别出来', emptyCount > 0,
+    `${emptyCount} 条全零记录（默认隐藏）`);
+
+  // 15c. 原生不读的字节降级为只读
+  const sideField = actors.fields.find((f) => f.key === 'side');
+  check('原生不读的字节被标出来', sideField && sideField.not_read === true,
+    sideField ? sideField.label : '没有这个字段');
+  const record = actors.records.find((r) => r.rom_offset === 0x5461c4 + 4);
+  const { fieldControl } = await import('../js/fields.js');
+  const control = fieldControl(ctx, actors, record, sideField);
+  check('原生不读的字段给的是只读控件',
+    control.node.tagName === 'INPUT' && control.node.attributes.disabled === '',
+    control.node.attributes.disabled === '' ? '已禁用' : '可以改（不对）');
+  check('提示里说明「原生不读」',
+    control.hint.some((h) => h.includes('不读')),
+    (control.hint.find((h) => h.includes('不读')) || '没有')['slice'](0, 40));
+
+  // 15d. 战场物件表的基址更正
+  const objects = pack.structure('battle_map_objects');
+  check('战场物件表的基址指向它的第一条记录',
+    objects.rom_offset === objects.records[0].rom_offset,
+    `结构基址 0x${objects.rom_offset.toString(16).toUpperCase()}，` +
+    `第一条记录 0x${objects.records[0].rom_offset.toString(16).toUpperCase()}`);
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);

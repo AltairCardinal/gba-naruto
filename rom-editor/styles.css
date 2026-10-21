@@ -227,6 +227,15 @@ tr.changed td { background: rgba(217, 164, 65, .07); }
 .operand-label { font-size: 10.5px; color: var(--fg-dim); min-width: 68px; }
 .script-text { font-size: 11.5px; color: var(--fg); }
 
+/* ---------- 复合键 / 位域 / 原生不读 ---------- */
+.key-cell { white-space: nowrap; }
+.key-text { color: var(--fg); font-size: 11.5px; }
+.key-id { display: block; color: #5d6478; font-family: var(--mono); font-size: 10px; }
+.bit-field { display: flex; flex-direction: column; gap: 3px; }
+.bit-row { display: flex; align-items: center; gap: 6px; }
+.bit-rest { font-size: 10.5px; color: var(--fg-dim); }
+.not-read { opacity: .6; border-style: dashed; }
+
 /* ---------- 跨表引用跳转 ---------- */
 .field-link { margin-top: 3px; }
 .xref-link {
