@@ -941,6 +941,62 @@ console.log('\n15) 复合键 / 大表行数上限 / 空记录隐藏 / 原生不�
     objects.rom_offset === objects.records[0].rom_offset,
     `结构基址 0x${objects.rom_offset.toString(16).toUpperCase()}，` +
     `第一条记录 0x${objects.records[0].rom_offset.toString(16).toUpperCase()}`);
+
+  // 16. 指针：十六进制控件 / 载荷判定 / 反查 / 搜索吃十六进制
+  const pointerTable = pack.structure('data_pointer_table_a');
+  check('素材域的指针表在包里', !!pointerTable, pointerTable ? pointerTable.label : '没有这张表');
+  if (pointerTable) {
+    const ptrRecord = pointerTable.records[0];
+    const ptrField = pointerTable.fields.find((f) => f.key === 'ptr');
+    const ptrControl = fieldControl(ctx, pointerTable, ptrRecord, ptrField);
+    const shown = ptrControl.node.value || '';
+    check('指针字段给的是十六进制输入框',
+      ptrControl.node.tagName === 'INPUT' && /^0x[0-9A-F]{8}$/.test(String(shown)),
+      String(shown));
+    check('指针的十进制原值不再直接暴露给作者',
+      String(ptrRecord.values.ptr) !== String(shown),
+      `记录里是十进制 ${ptrRecord.values.ptr}，框里是 ${shown}`);
+
+    const target = pack.pointerTarget(ptrRecord.values.ptr);
+    check('指针指向什么被判定出来并进了内容包', !!target,
+      target ? target.label : '没有判定结果');
+
+    // 反查：这个地址被哪些记录指着
+    const { backReferencesByPointer } = await import('../js/xref.js');
+    const refs = backReferencesByPointer(pack, ptrRecord.values.ptr);
+    check('指针反查能找出指向它的记录', refs.length > 0, `${refs.length} 处`);
+
+    // 搜索吃十六进制写法
+    const { StructureEditor, valueMatches } = await import('../js/editors.js');
+    const hexText = '0x' + (ptrRecord.values.ptr >>> 0).toString(16).toUpperCase();
+    check('搜索同时吃十六进制与十进制',
+      valueMatches(ptrRecord.values.ptr, hexText.slice(2).toLowerCase()) &&
+      valueMatches(ptrRecord.values.ptr, String(ptrRecord.values.ptr)),
+      hexText);
+  }
+
+  // 16b. 说明里的 markdown 星号当子节点传时也不露出来
+  const proseHost = new StubNode('div');
+  const { el } = await import('../js/ui.js');
+  proseHost.appendChild(el('p', { class: 'section-note' }, [
+    '这句说明里有', el('b', { text: '**加粗**' }), '这种写法。',
+  ]));
+  check('说明里的 markdown 星号不露出来',
+    !(proseHost.textContent || '').includes('**'),
+    (proseHost.textContent || '').slice(0, 40));
+
+  // 16c. 路由：整条路线总览与第 0 关
+  const routing = await import('../js/routing.js');
+  check('第 0 关不会被解析成第 1 关',
+    routing.parseHash('#route/stage/0').panel.params.stage === 0,
+    String(routing.parseHash('#route/stage/0').panel.params.stage));
+  check('整条路线总览有可寻址的 URL',
+    routing.hashFor({ module: 'route', panel: { kind: 'graph', id: 'graph', params: {} } }) === '#route/graph',
+    routing.hashFor({ module: 'route', panel: { kind: 'graph', id: 'graph', params: {} } }));
+  check('原始字节按地址深链可寻址',
+    routing.hashFor({ module: 'raw', panel: { kind: 'raw-offset', id: 'raw', params: { offset: 0x5a15c0 } } })
+      === '#raw/offset/0x5A15C0',
+    routing.hashFor({ module: 'raw', panel: { kind: 'raw-offset', id: 'raw', params: { offset: 0x5a15c0 } } }));
 }
 
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);

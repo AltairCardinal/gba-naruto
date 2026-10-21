@@ -141,7 +141,7 @@ function domainTableRows(ctx, options) {
         class: 'pill ' + (structure.raw_only ? 'pill-raw' : 'pill-edit'),
         text: structure.raw_only ? '原始字节（语义未证）' : '直接改',
       })]),
-      el('td', { text: '—' }),
+      el('td', { text: structure.raw_only ? '字节可改（原始字节）' : '定宽写回' }),
       el('td', { class: 'col-num' }, [changed
         ? el('span', { class: 'pill pill-changed', text: `● ${changed}` })
         : el('span', { class: 'pill', text: '—' })]),
@@ -266,6 +266,41 @@ export function operandInput(ctx, operand) {
         return;
       }
       commit(value);
+    },
+  });
+}
+
+/**
+ * A link that opens the same item in the generic table editor.
+ *
+ * The stage view and the table view are two roads to the same data; the link
+ * makes that explicit, so the author can check the change in the table (or
+ * make a change the stage view does not offer) without hunting for the id.
+ */
+export function openInTable(ctx, structureId, recordId, label) {
+  return el('button', {
+    class: 'btn btn-tiny',
+    text: label || '在通用表格中打开',
+    title: `打开 ${structureId} 的第 ${recordId} 条`,
+    onclick: () => ctx.openPanel('structure', structureId, { recordId }),
+  });
+}
+
+/**
+ * A link that opens a record **in another domain**.
+ *
+ * The record is one object in the content pack, so the domain only decides
+ * where the author lands: the table editor shows the same bytes.
+ */
+export function openInModule(ctx, moduleId, kind, id, params, label) {
+  const recordId = params && params.recordId;
+  return el('button', {
+    class: 'btn btn-tiny',
+    text: label || '在通用表格中打开',
+    title: `打开 ${id} 的第 ${recordId} 条`,
+    onclick: () => {
+      if (moduleId && ctx.goModule) ctx.goModule(moduleId);
+      ctx.openPanel(kind, id, params);
     },
   });
 }

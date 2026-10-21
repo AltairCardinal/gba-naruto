@@ -235,6 +235,9 @@ tr.changed td { background: rgba(217, 164, 65, .07); }
 .bit-row { display: flex; align-items: center; gap: 6px; }
 .bit-rest { font-size: 10.5px; color: var(--fg-dim); }
 .not-read { opacity: .6; border-style: dashed; }
+/* 指针框：十六进制，等宽字体，比普通数字框宽一点 */
+.ptr-box { max-width: 170px; letter-spacing: .5px; text-transform: uppercase; }
+.ptr-box::placeholder { text-transform: none; }
 
 /* ---------- 跨表引用跳转 ---------- */
 .field-link { margin-top: 3px; }

@@ -1,0 +1,190 @@
+/* 剧情路线域专用样式（路线工作台 + 整条路线总览）。
+ *
+ * 其它域的通用类在 styles.css 里，这里只补剧情路线自己用到的几件：
+ * 关卡条、缩略路线点、任务文案格子、奖励格子与归属脚注。
+ */
+
+.route-workbench {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  outline: none;
+}
+
+/* ---------- 关卡条 ---------- */
+.stage-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 10px;
+  margin-bottom: 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.stage-bar .search {
+  width: 130px;
+}
+
+.stage-bar-count {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--fg-dim);
+  font-family: var(--mono);
+}
+
+/* ---------- 缩略路线点 ---------- */
+.route-map {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 2px 6px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.route-dot {
+  background: none;
+  border: none;
+  padding: 0 1px;
+  cursor: pointer;
+  color: var(--fg-dim);
+  font-size: 11px;
+  line-height: 1.2;
+}
+
+.route-dot:hover {
+  color: var(--fg);
+}
+
+.route-dot.current {
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.route-dot-gap {
+  color: var(--fg-dim);
+  font-size: 11px;
+  padding: 0 2px;
+}
+
+/* ---------- 分区小标题 ---------- */
+.route-sub {
+  margin: 14px 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+/* ---------- 路线边与操作数 ---------- */
+.route-operands {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.route-operand-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 6px 8px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.route-operand-name {
+  font-size: 11px;
+  color: var(--fg);
+}
+
+.route-all-edges {
+  margin-top: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: var(--bg-2);
+}
+
+.route-all-edges > summary {
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--fg-dim);
+}
+
+.route-all-edges > summary:hover {
+  color: var(--fg);
+}
+
+/* ---------- 任务文案 ---------- */
+.route-text-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 220px;
+}
+
+.route-text-preview {
+  font-size: 10.5px;
+  color: var(--fg-dim);
+  font-family: var(--mono);
+  word-break: break-all;
+}
+
+/* 归属脚注：这一格属于哪几关、这段字被几处共用。 */
+.shared-note {
+  font-size: 10.5px;
+  color: var(--warn);
+  font-family: var(--mono);
+  line-height: 1.45;
+}
+
+/* ---------- 本关奖励 ---------- */
+.route-reward {
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg-2);
+}
+
+.route-reward-numbers {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.route-reward-field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.route-reward-field .num-input {
+  width: 84px;
+}
+
+.route-reward-drops {
+  margin-top: 4px;
+}
+
+.route-reward-foot {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+/* 整条路线总览：每一关的出边/入边一览。 */
+.route-graph-table td:first-child {
+  white-space: nowrap;
+}

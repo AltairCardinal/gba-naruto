@@ -1,6 +1,6 @@
 // 战斗：战场布置 / 角色出生点 / 战斗中的剧情与角色出生 / 战斗目标
 import { el, clear, formatOffset, toast } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable, operandInput } from './common.js';
+import { renderDomainIndex, renderPanel, summaryTable, operandInput, openInTable } from './common.js';
 import { fieldControl } from '../fields.js';
 
 const STAGE_COUNT = 47;
@@ -433,22 +433,6 @@ function stageChangeCount(ctx, stage, variant) {
     }
   }
   return n;
-}
-
-/**
- * A link that opens the same item in the generic table editor.
- *
- * The stage view and the table view are two roads to the same data; the link
- * makes that explicit, so the author can check the change in the table (or
- * make a change the stage view does not offer) without hunting for the id.
- */
-function openInTable(ctx, structureId, recordId, label) {
-  return el('button', {
-    class: 'btn btn-tiny',
-    text: label || '在通用表格中打开',
-    title: `打开 ${structureId} 的第 ${recordId} 条`,
-    onclick: () => ctx.openPanel('structure', structureId, { recordId }),
-  });
 }
 
 /**

@@ -34,12 +34,47 @@ export function el(tag, props = {}, children = []) {
       node.appendChild(child);
     }
   }
+  if (prose) stripStarsDeep(node);
   return node;
 }
 
 /** Remove markdown's bold markers from prose text. */
 function stripStars(text) {
   return String(text === null || text === undefined ? '' : text).replace(/\*\*/g, '');
+}
+
+/**
+ * The same, but for text that lives inside a child element.
+ *
+ * `el('p', {class:'section-note'}, [el('b', {text:'**加粗**'})])` — the
+ * stars are in the child's own text, and the child does not know that its
+ * parent is prose.  So the prose container cleans its subtree.
+ */
+function stripStarsDeep(node) {
+  const kids = node.childNodes || node.children || [];
+  for (const kid of kids) {
+    if (!kid) continue;
+    if (kid.nodeType === 3) {
+      const text = kid.nodeValue !== undefined && kid.nodeValue !== null
+        ? kid.nodeValue : kid.textContent;
+      if (typeof text === 'string' && text.includes('**')) {
+        const clean = stripStars(text);
+        if (kid.nodeValue !== undefined) kid.nodeValue = clean;
+        else kid.textContent = clean;
+      }
+      continue;
+    }
+    stripStarsDeep(kid);
+    // 无头自检用的桩 DOM 把元素自己的文字直接放在属性里，没有子节点；
+    // 真的浏览器里这里由上面的文本节点分支处理。
+    const own = kid.childNodes || kid.children || [];
+    if (!own.length) {
+      const text = kid.textContent;
+      if (typeof text === 'string' && text.includes('**')) {
+        kid.textContent = stripStars(text);
+      }
+    }
+  }
 }
 
 /** Containers whose text is prose (not user data). */

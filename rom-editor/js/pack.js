@@ -66,7 +66,7 @@ export class ContentPack {
   pointerTarget(address) {
     if (!this.derived || !this.derived.pointer_targets) return null;
     if (!address) return null;
-    const key = '0x' + (address >>> 0).toString(16).toUpperCase();
+    const key = '0x' + (address >>> 0).toString(16).toUpperCase().padStart(8, '0');
     return this.derived.pointer_targets[key] || null;
   }
 
@@ -108,6 +108,18 @@ export class ContentPack {
       }
       delete entry.record.text_changed;
       this.dirty.add(`${entry.table.id}#${entry.record.id}`);
+    } else if (entry.kind === 'operand') {
+      // 剧情脚本里的定宽操作数：操作数本身与补丁的 after_hex 都要回去，
+      // 否则撤销之后 ROM 里还是新值。
+      entry.operand.value = entry.before;
+      if (entry.patch) {
+        if (entry.previousAfter === null) {
+          this.removePatch(entry.patch);
+        } else {
+          entry.patch.after_hex = entry.previousAfter;
+        }
+      }
+      this.dirty.delete(`operand.${entry.operand.rom_offset.toString(16)}`);
     }
     return true;
   }
@@ -329,9 +341,28 @@ export class ContentPack {
       after = hexToBytes(String(value));
     }
     const before = hexToBytes(operand.before_hex || '');
+    // 撤销要知道「改之前补丁长什么样」：改之前没有这条补丁，就把它删回去。
+    const existed = (this.patches || []).some((p) => p.offset === operand.rom_offset);
     const patch = this.ensurePatch(operand.rom_offset, before);
+    const previousAfter = existed ? (patch.after_hex || '') : null;
+    // 补丁清单里要看得懂这是什么改动 —— 以前一律写「手动修改 0x…」。
+    patch.label = operand.label
+      ? `${operand.label}（0x${operand.rom_offset.toString(16).toUpperCase()}）`
+      : `剧情脚本操作数 0x${operand.rom_offset.toString(16).toUpperCase()}`;
     patch.after_hex = bytesToHex(after);
     this.dirty.add(`operand.${operand.rom_offset.toString(16)}`);
+    // 撤销：操作数本身与补丁的 after_hex 都要回去，
+    // 否则按 Ctrl+Z 之后 ROM 里还是新值、改动计数也不回落。
+    if (operand.value !== undefined && Number(operand.value) !== Number(value)) {
+      this.pushUndo({
+        kind: 'operand',
+        operand,
+        before: operand.value,
+        patch,
+        previousAfter,
+      });
+    }
+    operand.value = value;
     return patch;
   }
 
