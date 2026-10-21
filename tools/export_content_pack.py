@@ -21,6 +21,7 @@ import argparse
 import base64
 import hashlib
 import json
+import pathlib
 import struct
 import sys
 from pathlib import Path
@@ -328,6 +329,106 @@ HIDE_EMPTY = {
     "battle_handler_table", "sprite_action_table",
 }
 
+# 表与表之间的**同键对应**：同一件事在两张表里各记一份。
+#
+# 战斗的「四件套」就是这样：战场布置 map_table 是按关卡编号的，
+# 角色出生点 / 战场物件 / 战斗目标按「关卡 × 变体 × 槽」编号，
+# 但它们讲的���是**同一关**。以前界面上这几张表互不相干，
+# 作者在「战场物件」里改一个值，看不出它属于哪一关的哪一关卡。
+#
+# by = "stage"：按 index_scheme 里的关卡号对应（没有 index_scheme 的按记录下标）。
+PEERS: dict[str, list[dict[str, Any]]] = {
+    "battle_actors": [
+        {"table": "map_table", "by": "stage", "label": "战场布置描述符"},
+    ],
+    "battle_map_objects": [
+        {"table": "map_table", "by": "stage", "label": "战场布置描述符"},
+    ],
+    "battle_rules": [
+        {"table": "map_table", "by": "stage", "label": "战场布置描述符"},
+    ],
+    "portrait_table": [
+        {"table": "character_template", "by": "id", "label": "角色定义表"},
+    ],
+}
+
+
+def load_consumer_readers() -> dict[int, list[str]]:
+    """结构表 → 原生读者地址。
+
+    证据来自：
+      * `notes/evidence/consumer-readers-20261022.json` —— 用
+        `tools/consumer_locate.py --all` 按**更正后的基址**重新扫全 ROM 得到的
+        （旧的那份里有一批表还挂在作废的旧基址上，对不上）；
+      * `notes/evidence/consumer-evidence.json` —— 早期那份，补漏。
+
+    **按文件偏移对上**，不按名字 —— 那两个文件里的表名有一批是旧名，
+    按名字对会认错表。
+    """
+    global _CONSUMER_READERS
+    if _CONSUMER_READERS is not None:
+        return _CONSUMER_READERS
+    _CONSUMER_READERS = {}
+    here = pathlib.Path(__file__).resolve().parent.parent
+    files = [
+        here / "notes" / "evidence" / "consumer-readers-20261022.json",
+        here / "notes" / "evidence" / "consumer-evidence.json",
+    ]
+    for path in files:
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        for info in _evidence_tables(data):
+            try:
+                offset = int(str(info.get("file_offset", "0x0")), 16)
+            except ValueError:
+                continue
+            readers = sorted({
+                c.get("reader") or c.get("reader_addr")
+                for c in info.get("consumers", [])
+                if isinstance(c, dict) and (c.get("reader") or c.get("reader_addr"))
+            })
+            readers = [r for r in readers if r]
+            if readers and offset not in _CONSUMER_READERS:
+                _CONSUMER_READERS[offset] = readers
+    return _CONSUMER_READERS
+
+
+def _evidence_tables(data: dict[str, Any]) -> list[dict[str, Any]]:
+    """两份证据文件的结构不一样：一份按偏移做键，一份是 targets 列表。"""
+    tables = data.get("tables")
+    if isinstance(tables, dict):
+        return list(tables.values())
+    targets = data.get("targets")
+    if isinstance(targets, list):
+        return targets
+    return []
+
+
+_CONSUMER_READERS: dict[int, list[str]] | None = None
+
+# `notes/evidence/consumer-evidence.json` 里有几张表没收录
+# （它们的基址是**指针**而不是字面量，扫字面量扫不到），
+# 但仓库的审计笔记里有确切的读者地址。按出处写在这里。
+DOCUMENTED_CONSUMERS: dict[str, list[str]] = {
+    # notes/completion-audit-20261020.md「头像表 + 拼块表」行：
+    # 拼块表的地址是指针，存放在静态描述符 0x0846443C 的首字，
+    # 而该描述符被这 7 处原生代码加载。
+    "portrait_pieces": ["0x08077D12", "0x08089B06", "0x0808B356", "0x08091036",
+                        "0x08091680", "0x08093846", "0x08096618"],
+    # notes/completion-audit-20261020.md「精灵帧描述符表」行：3 个原生读者。
+    "sprite_frame_descriptors": ["0x080806BA", "0x0808077E", "0x0808082E"],
+    # notes/units-unsafe-table-fix-20260711.md 与
+    # notes/evidence/units-offset-table-20261020.md：0x53F2EE 是独立的一张表，
+    # 独立读者 0x08080AE0。
+    "unit_delta_table": ["0x08080AE0"],
+    # notes/dialogue-format.md：打开对白的运行时路径 0x080968A0（调用者 0x08096633）。
+    "dialogue_slots": ["0x080968A0", "0x08096633"],
+}
+
 
 def tile(entry_size: int, fields: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Return a field list that covers [0, entry_size) exactly, no gaps."""
@@ -464,6 +565,11 @@ def build_text_table(
             "start": min(texts),
             "end": max(texts),
         }
+    # 原生读者：文本表也可能有（说话人名表就是被剧情 VM 读的）。
+    readers = (load_consumer_readers().get(texts[0] if texts else -1)
+                or DOCUMENTED_CONSUMERS.get(table_id))
+    if readers:
+        table["consumers"] = readers
     return table
 
 
@@ -528,6 +634,16 @@ def make_structure(
     if consumers:
         # 原生读者地址：改这张表会动到谁，界面直接写出来。
         structure["consumers"] = consumers
+    else:
+        # 没有显式给出就从证据文件里按文件偏移找。
+        readers = load_consumer_readers().get(rom_offset)
+        if not readers:
+            readers = DOCUMENTED_CONSUMERS.get(structure_id)
+        if readers:
+            structure["consumers"] = readers
+    if structure_id in PEERS:
+        # 同一件事在另一张表里的对应记录（按关卡号对应）。
+        structure["peers"] = PEERS[structure_id]
     if id_is_index:
         # 记录下标**本身就是 id**（音效 id、忍术 id…）。界面据此显示「id N」，
         # 而不是「第 N / M 条」那种 1 基计数 —— 音效 #0 就是音效 #0。
@@ -1290,7 +1406,17 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
 
     mission_index_fields = [
         F("value", 0, 1, "u8", "奖励下标起点",
-          "该关卡第 u 个奖励在奖励表 0x59EAE0 里的下标", "任务索引")
+          "该关卡第 u 个奖励在奖励表 0x59EAE0 里的下标", "任务索引",
+          relation={
+              # 这个字段是**一段连续行**的基址：每一关占 3 个子项，
+              # 同时落在奖励表与三张任务文本表里。
+              # 以前没声明，奖励表 / 任务文本表在界面上看不到任何来源。
+              "kind": "row_range",
+              "tables": ["reward_table", "mission_titles",
+                         "mission_descriptions", "mission_hints"],
+              "count": MISSION_SUBS,
+              "label": "本关的任务与奖励",
+          }),
     ]
     out.append(make_structure(
         "mission_index", "route", "任务索引表",
@@ -1714,7 +1840,7 @@ def build_inline_text_table(
             "original_text": text,
             "raw": b64(raw),
         })
-    return {
+    table = {
         "id": table_id,
         "module": module,
         "label": label,
@@ -1723,9 +1849,14 @@ def build_inline_text_table(
         "relocatable": False,
         "nul_terminated": True,
         "inline_records": True,
-        "note": note,
         "records": records,
     }
+    if note:
+        table["note"] = note
+    readers = load_consumer_readers().get(base)
+    if readers:
+        table["consumers"] = readers
+    return table
 
 
 def build_scripts(rom: bytes) -> list[dict[str, Any]]:
@@ -1788,8 +1919,18 @@ def build_scripts(rom: bytes) -> list[dict[str, Any]]:
 
             route: list[dict[str, Any]] = []
             operands: list[dict[str, Any]] = []
+            portraits: list[dict[str, Any]] = []
             for node in nodes:
                 op = node["op"]
+                if op == 0x08:
+                    # 设置头像 + 说话人名字（头像ID @ +1）。
+                    # 仓库的 opcode 表已证：名字取自 0x085A57C4 + id*12，
+                    # 头像部分取自头像指针表 0x085A4DEC + id*40。
+                    # 实测这个字节落在 1..61，全在头像表的 64 条之内。
+                    portraits.append({
+                        "rom_offset": node["offset"],
+                        "portrait_id": rom[node["offset"] + 1],
+                    })
                 if op in wanted:
                     for field, (delta, size) in wanted[op].items():
                         at = node["offset"] + delta
@@ -1833,6 +1974,7 @@ def build_scripts(rom: bytes) -> list[dict[str, Any]]:
                 "instruction_count": len(nodes),
                 "route": route,
                 "operands": operands,
+                "portraits": portraits,
             })
     return out
 

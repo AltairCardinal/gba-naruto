@@ -240,6 +240,8 @@ export function onJump(target) {
   }
   openPanel(target.kind, target.id, {
     recordId: target.recordId === null ? undefined : target.recordId,
+    // 有些跳转带别的参数（例如「跳到原始字节的某个地址」）。
+    ...(target.params || {}),
   });
   setStatus(`已跳到 ${target.label}` +
     (target.recordId === null || target.recordId === undefined ? '' : ` · 记录 ${target.recordId}`));

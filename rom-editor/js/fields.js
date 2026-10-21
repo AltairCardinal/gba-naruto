@@ -65,6 +65,21 @@ export function resolveRelation(pack, relation, value) {
     if (!record) return null;
     return { name: record.label ?? `#${record.id}`, table: tableId, record };
   }
+  if (relation.kind === 'row_range') {
+    // 连续段基址：值是一段行的起点（每一关占 3 个子项那种）。
+    const tables = relation.tables || [];
+    for (const id of tables) {
+      const structure = pack.structure(id);
+      const textTable = pack.textTable(id);
+      const list = structure ? structure.records : (textTable ? textTable.records : null);
+      if (!list) continue;
+      const record = list[value];
+      if (!record) continue;
+      const label = structure ? structure.label : textTable.label;
+      return { name: `${label} #${value} 起 ${relation.count || 1} 条`, table: id, record };
+    }
+    return null;
+  }
   return null;
 }
 

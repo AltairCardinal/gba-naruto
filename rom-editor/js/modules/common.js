@@ -204,6 +204,7 @@ export function renderPanel(container, ctx, kind, id, params) {
     }
     const editor = new TextTableEditor(ctx.pack, table, {
       onChange: ctx.onChange,
+      onJump: ctx.onJump,
     });
     editor.render(container);
     const recordId = params && params.recordId;

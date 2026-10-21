@@ -21,7 +21,7 @@ import {
   resolveRelation, resolveByCategory, enumLabel,
 } from './fields.js';
 import { arraysIn, renderArrayTable, columnLabel, arrayFields } from './slots.js';
-import { backReferences } from './xref.js';
+import { backReferences, recordSources } from './xref.js';
 import { indexKey, isEmptyRecord, visibleRecords } from './indexkey.js';
 
 const MAX_COLUMNS = 6;
@@ -41,8 +41,7 @@ export function plainText(text) {
  * decimal 140114312 — so an author who copies the address out of the list
  * and pastes it into the search box found nothing.  Match both spellings.
  */
-export function valueMatches(value, query) {
-  if (value === null || value === undefined) return false;
+export function valueMatches(value, query) {  if (value === null || value === undefined) return false;
   const q = String(query || '').toLowerCase();
   if (!q) return false;
   if (String(value).toLowerCase().includes(q)) return true;
@@ -54,6 +53,145 @@ export function valueMatches(value, query) {
     if (('0x' + padded).includes(q)) return true;
   }
   return false;
+}
+
+/**
+ * The 「来源 / 被谁引用」block.
+ *
+ * **Every** record gets one — even the ones nothing points at, because an
+ * empty panel looks broken.  Every source is clickable: jumping there opens
+ * that record, so the author can edit it right away.
+ *
+ * The sources come from three paths (see `xref.js`):
+ *   * a field that declares a relation (id / absolute address / run of rows)
+ *   * a pointer field whose value is that record's ROM address
+ *   * another text entry sharing the same bytes
+ *
+ * @param {?function} onJump   the app's jump handler
+ * @param {Array<object>} refs  from `xref.recordSources`
+ * @param {{structure?: object, table?: object}} options
+ */
+export function renderSourcesBlock(onJump, refs, options = {}) {
+  const structure = options.structure || null;
+  const table = options.table || null;
+  const consumers = (structure && structure.consumers) || (table && table.consumers) || [];
+  const block = el('div', { class: 'xref-block' });
+
+  if (!refs.length && !consumers.length) {
+    block.appendChild(el('div', { class: 'xref-title', text: '来源' }));
+    block.appendChild(el('div', {
+      class: 'xref-hint',
+      text: '没有别的字段指向这条记录 —— 改它只影响这张表自己。',
+    }));
+    return block;
+  }
+
+  block.appendChild(el('div', {
+    class: 'xref-title',
+    text: `来源 / 被谁引用（${refs.length} 处）`,
+  }));
+  block.appendChild(el('div', {
+    class: 'xref-hint',
+    text: '改这条会同时影响下面这些地方；点「跳过去」就能在那儿直接改。',
+  }));
+  const limit = 20;
+  for (const ref of refs.slice(0, limit)) {
+    block.appendChild(el('div', { class: 'xref-row' }, [
+      el('span', { text: ref.label }),
+      el('button', {
+        class: 'btn btn-tiny',
+        text: '跳过去',
+        onclick: () => jumpToSource(onJump, ref),
+      }),
+    ]));
+  }
+  if (refs.length > limit) {
+    block.appendChild(el('div', {
+      class: 'xref-hint',
+      text: `…还有 ${refs.length - limit} 处`,
+    }));
+  }
+
+  if (consumers.length) {
+    block.appendChild(el('div', { class: 'xref-title', text: '原生读者' }));
+    block.appendChild(el('div', {
+      class: 'xref-hint',
+      text: 'ROM 里的代码按固定下标取这张表的记录 —— 改它会改到游戏行为：',
+    }));
+    for (const address of consumers) {
+      block.appendChild(el('div', { class: 'xref-row' }, [
+        el('span', { text: address }),
+        el('button', {
+          class: 'btn btn-tiny',
+          text: '跳到原始字节',
+          onclick: () => jumpToRaw(onJump, address),
+        }),
+      ]));
+    }
+  }
+  return block;
+}
+
+/** Jump to the record that points at the current one. */
+function jumpToSource(onJump, ref) {
+  if (!onJump) return;
+  if (ref.kind === 'field' || ref.kind === 'pointer') {
+    if (!ref.structure || !ref.record) return;
+    onJump({
+      module: ref.structure.module,
+      kind: 'structure',
+      id: ref.structure.id,
+      recordId: ref.record.id,
+      label: ref.structure.label,
+    });
+    return;
+  }
+  if (ref.kind === 'shared') {
+    if (!ref.table || !ref.record) return;
+    onJump({
+      module: ref.table.module,
+      kind: 'text',
+      id: ref.table.id,
+      recordId: ref.record.id,
+      label: ref.table.label,
+    });
+    return;
+  }
+  if (ref.kind === 'owned') {
+    if (!ref.ownerTableId) return;
+    onJump({
+      module: (ref.table && ref.table.module) || null,
+      kind: 'text',
+      id: ref.ownerTableId,
+      recordId: ref.ownerRecordId,
+      label: ref.ownerTableId,
+    });
+    return;
+  }
+  if (ref.kind === 'script') {
+    if (!ref.script) return;
+    onJump({
+      module: 'story',
+      kind: 'script',
+      id: 'script',
+      params: { root: ref.script.root, scene: ref.script.scene },
+      label: ref.label,
+    });
+  }
+}
+
+/** Jump to the raw-byte editor at a native reader address. */
+function jumpToRaw(onJump, address) {
+  if (!onJump) return;
+  const offset = parseInt(String(address).replace(/^0x/i, ''), 16);
+  if (!Number.isFinite(offset)) return;
+  onJump({
+    module: 'raw',
+    kind: 'raw-offset',
+    id: 'raw',
+    params: { offset },
+    label: `原始字节 0x${offset.toString(16).toUpperCase()}`,
+  });
 }
 
 export class StructureEditor {
@@ -381,34 +519,15 @@ export class StructureEditor {
     ]));
 
     // 谁引用了这条记录 —— 改了它会动到谁。
-    const refs = backReferences(this.pack, {
-      kind: 'structure', id: structure.id, recordId: record.id,
-    });
-    if (refs.length) {
-      this.detail.appendChild(el('div', { class: 'xref-block' }, [
-        el('div', { class: 'xref-title', text: `被谁引用（${refs.length} 处）` }),
-        el('div', { class: 'xref-hint', text: '改这条会同时影响下面这些地方。' }),
-        ...refs.slice(0, 12).map((ref) => el('div', { class: 'xref-row' }, [
-          el('span', { text: ref.label }),
-          el('button', {
-            class: 'btn btn-tiny',
-            text: '跳过去',
-            onclick: () => this.options.onJump
-              ? this.options.onJump({
-                module: ref.structure.module,
-                kind: 'structure',
-                id: ref.structure.id,
-                recordId: ref.record.id,
-                label: ref.structure.label,
-              })
-              : null,
-          }),
-        ])),
-        refs.length > 12
-          ? el('div', { class: 'xref-hint', text: `…还有 ${refs.length - 12} 处` })
-          : null,
-      ]));
-    }
+    // 每条记录都显示这个块：没有来源也要说清楚「没有」，
+    // 空着会让作者以为功能坏了。
+    this.detail.appendChild(renderSourcesBlock(
+      this.options.onJump,
+      recordSources(this.pack, {
+        kind: 'structure', id: structure.id, recordId: record.id,
+      }),
+      { structure },
+    ));
 
     const form = el('div', { class: 'field-list' });
     if (isRawOnly(structure)) {
@@ -1024,6 +1143,15 @@ export class TextTableEditor {
         }),
       ]));
     }
+
+    // 谁在用这段文字 —— 文本表也必须有来源，不能只有结构表有。
+    this.detail.appendChild(renderSourcesBlock(
+      this.options.onJump,
+      recordSources(this.pack, {
+        kind: 'text', id: table.id, recordId: record.id,
+      }),
+      { table },
+    ));
 
     // 控制码分段条：文本框里看不见控制码，但它们决定新文字落在哪。
     this.detail.appendChild(this.renderSegments(record));
