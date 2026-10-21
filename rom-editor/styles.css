@@ -214,7 +214,55 @@ tr.changed td { background: rgba(217, 164, 65, .07); }
 .detail-sub { display: flex; align-items: center; gap: 10px; font-family: var(--mono); font-size: 10.5px; color: var(--fg-dim); }
 .field-raw .hex-input { font-size: 13px; letter-spacing: .5px; }
 
-/* ---------- 重复槽位渲染成表格 ---------- */
+/* ---------- 域首页：可编辑内容表 + 推荐入口 ---------- */
+table.domain-tables { width: 100%; }
+table.domain-tables th { font-size: 10.5px; }
+table.domain-tables td { font-size: 11.5px; }
+table.domain-tables .text-cell { max-width: 220px; }
+.pill {
+  display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 10.5px;
+  font-family: var(--mono); background: var(--bg-3); color: var(--fg-dim);
+  white-space: nowrap;
+}
+.pill-edit { background: rgba(79, 173, 124, .16); color: #7fc9a1; }
+.pill-text { background: rgba(111, 154, 216, .16); color: #8fb4e8; }
+.pill-raw { background: rgba(217, 164, 65, .16); color: #e0b45c; }
+.pill-changed { background: rgba(217, 164, 65, .2); color: #e8c274; }
+.entry-card { border-color: var(--accent-2); }
+.entry-card .stat-label { color: var(--accent-2); }
+.entry-actions { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+
+/* ---------- 文本表：写回规则 / 控制码分段 / 标记 ---------- */
+.rule-note {
+  display: flex; gap: 8px; align-items: baseline; margin: 0 0 10px;
+  padding: 7px 10px; border-left: 2px solid var(--accent-2);
+  background: var(--bg-2); border-radius: 0 6px 6px 0;
+  font-size: 11.5px; color: var(--fg-dim); line-height: 1.5;
+}
+.rule-title { color: var(--fg); font-weight: 600; white-space: nowrap; }
+.rule-warn { border-left-color: #d9a441; }
+.text-segments {
+  display: flex; flex-wrap: wrap; gap: 4px; align-items: center;
+  padding: 6px 8px; background: var(--bg-3); border: 1px solid var(--line);
+  border-radius: 6px; font-family: var(--mono); font-size: 11px;
+}
+.seg-text { color: var(--fg); }
+.seg-ctrl {
+  color: #e0b45c; background: rgba(217, 164, 65, .14);
+  border: 1px solid rgba(217, 164, 65, .35); border-radius: 4px; padding: 0 4px;
+  cursor: help; font-size: 10px;
+}
+.mark-cell { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.mark-chip {
+  display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px;
+  font-family: var(--mono); background: var(--bg-3); color: var(--fg-dim);
+  white-space: nowrap;
+}
+.mark-dirty { background: rgba(111, 154, 216, .18); color: #8fb4e8; }
+.mark-shared { background: rgba(217, 164, 65, .16); color: #e0b45c; }
+.mark-owned { background: rgba(224, 84, 84, .16); color: #e08a8a; }
+.mark-none { background: var(--bg-3); color: var(--fg-dim); }
+.mark-ctrl { background: rgba(217, 164, 65, .12); color: #d0b070; }
 .slot-block { margin-bottom: 10px; }
 .slot-caption { font-size: 10.5px; color: var(--fg-dim); margin-bottom: 4px; font-family: var(--mono); }
 table.grid-slots { width: 100%; }

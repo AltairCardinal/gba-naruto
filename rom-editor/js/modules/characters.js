@@ -1,6 +1,6 @@
 // 角色属性与技能
 import { el, clear, formatOffset } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable } from './common.js';
+import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
 
 export function renderCharacters(container, ctx) {
   const panel = ctx.state.view.panel;
@@ -25,7 +25,18 @@ export function renderCharacters(container, ctx) {
     summaryTable(characterRows(ctx)),
   ]);
 
+  const primary = entryCard(ctx, {
+    title: '按角色改',
+    headline: '62 个角色',
+    desc: '角色定义表：基础属性 + 15 个忍术槽 + 24 个技能槽 + 9 个道具槽。' +
+      '记录按分组折叠，重复槽位是表格而不是上百个输入框。',
+    panel: { kind: 'structure', id: 'character_template' },
+    actionLabel: '去改角色',
+  });
+
   renderDomainIndex(container, ctx, {
+    primary,
+    module: 'characters',
     title: '角色属性与技能',
     subtitle: [
       el('span', { text: '角色定义表 ROM 0x54241C' }),

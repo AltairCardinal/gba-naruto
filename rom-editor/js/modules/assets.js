@@ -4,7 +4,7 @@
 // 但它们指向的**资源本体**（LZ77 图形、调色板、图块）不在包里——
 // 仓库里没有与原版逐字节一致的 LZ77 压缩器，见 docs/rom-editor.md §7。
 import { el } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable } from './common.js';
+import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
 
 export function renderAssets(container, ctx) {
   const panel = ctx.state.view.panel;
@@ -39,7 +39,18 @@ export function renderAssets(container, ctx) {
     summaryTable(rows),
   ]);
 
+  const primary = entryCard(ctx, {
+    title: '按指针表改',
+    headline: '两张 u32 指针表',
+    desc: '指针表负责「指向哪份资源」；资源本体是 LZ77 压缩载荷，' +
+      '仓库里没有与原版逐字节一致的压缩器，所以只能改指针。',
+    panel: { kind: 'structure', id: 'data_pointer_table_a' },
+    actionLabel: '去改指针表',
+  });
+
   renderDomainIndex(container, ctx, {
+    primary,
+    module: 'assets',
     title: '素材与资源',
     subtitle: [
       el('span', { text: '数据指针表 A ROM 0x5A143C（46 项）' }),

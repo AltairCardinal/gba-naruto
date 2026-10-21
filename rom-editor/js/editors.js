@@ -496,17 +496,25 @@ export class TextTableEditor {
     this.options = options;
     this.query = '';
     this.selected = null;
+    this.limit = 200;          // 大表默认只渲染前 200 行
+    this.showOwned = false;     // 是否显示「已被其它表拥有」的条目
   }
 
   get records() {
     const all = this.table.records || [];
-    if (!this.query) return all;
-    const q = this.query.toLowerCase();
-    return all.filter((r) => {
-      if (String(r.id).toLowerCase().includes(q)) return true;
-      if (r.label && String(r.label).toLowerCase().includes(q)) return true;
-      return String(r.text ?? '').toLowerCase().includes(q);
-    });
+    let list = all;
+    if (!this.showOwned) {
+      list = list.filter((r) => !r.owned_by);
+    }
+    if (this.query) {
+      const q = this.query.toLowerCase();
+      list = list.filter((r) => {
+        if (String(r.id).toLowerCase().includes(q)) return true;
+        if (r.label && String(r.label).toLowerCase().includes(q)) return true;
+        return String(r.text ?? '').toLowerCase().includes(q);
+      });
+    }
+    return list;
   }
 
   render(container) {
@@ -517,8 +525,8 @@ export class TextTableEditor {
         el('h2', { text: table.label || table.id }),
         el('div', { class: 'panel-sub' }, [
           el('span', { text: `${(table.records || []).length} 条` }),
-          table.relocatable ? el('span', { text: '可重定位' }) : el('span', { text: '原地改写' }),
-          table.pointer_table_offset !== undefined
+          el('span', { text: table.relocatable ? '可重定位' : '原地改写' }),
+          table.pointer_table_offset !== undefined && table.pointer_table_offset !== null
             ? el('span', { text: `指针表 ${formatOffset(table.pointer_table_offset)}` })
             : null,
         ]),
@@ -537,6 +545,16 @@ export class TextTableEditor {
       ]),
     ]));
 
+    // 写回规则：这条文本改了会怎样，必须在动手前就说清楚。
+    container.appendChild(el('div', { class: 'rule-note' }, [
+      el('span', { class: 'rule-title', text: '写回规则' }),
+      el('span', {
+        text: this.table.relocatable
+          ? '这条文本被指针表指向，长度可变。改短原地不动（指针不变）；改长会搬到 ROM 空闲区，并只改写它自己的指针。'
+          : '这条文本被代码用绝对地址引用，长度不能变。改长了构建会拒绝，不会静默截断。',
+      }),
+    ]));
+
     const wrap = el('div', { class: 'table-wrap' });
     const detail = el('div', { class: 'detail-panel hidden' });
     container.appendChild(el('div', { class: 'split' }, [wrap, detail]));
@@ -547,52 +565,116 @@ export class TextTableEditor {
 
   renderTable() {
     clear(this.wrap);
+    const all = this.records;
+    const shown = all.slice(0, this.limit);
     const grid = el('table', { class: 'grid grid-text' });
     grid.appendChild(el('thead', {}, [
       el('tr', {}, [
         el('th', { class: 'col-id', text: '#' }),
         el('th', { text: '文本' }),
-        el('th', { class: 'col-num', text: '字节' }),
+        el('th', { class: 'col-num', text: '写回字节' }),
+        el('th', { text: '标记' }),
       ]),
     ]));
     const body = el('tbody');
-    for (const record of this.records) {
+    for (const record of shown) {
       const text = record.text ?? '';
       const changed = record.original_text !== undefined && record.original_text !== text;
+      const marks = this.marksFor(record);
       body.appendChild(el('tr', {
         class: changed ? 'changed' : '',
         onclick: () => this.openDetail(record),
       }, [
         el('td', { class: 'col-id', text: String(record.label ?? record.id) }),
         el('td', { class: 'text-cell', text: text.replace(/\n/g, '↵') || '（空）' }),
-        el('td', { class: 'col-num', text: String(this.pack.font.encodedLength(text)) }),
+        el('td', { class: 'col-num', text: this.writeBackBytes(record) }),
+        el('td', { class: 'mark-cell' }, marks.map((m) =>
+          el('span', { class: 'mark-chip ' + m.cls, title: m.title, text: m.text }))),
       ]));
     }
     grid.appendChild(body);
     this.wrap.appendChild(grid);
-    if (!this.records.length) {
+    if (!all.length) {
       this.wrap.appendChild(el('div', { class: 'empty', text: '没有匹配的记录' }));
     }
-    this.wrap.appendChild(
-      el('div', { class: 'table-foot', text: `显示 ${this.records.length} / ${(this.table.records || []).length} 条` })
-    );
+    const foot = el('div', { class: 'table-foot' }, [
+      el('span', { text: `显示 ${shown.length} / ${all.length} 条` }),
+      all.length > shown.length
+        ? el('button', {
+          class: 'btn btn-tiny', text: '显示全部',
+          onclick: () => { this.limit = all.length; this.renderTable(); },
+        })
+        : null,
+      el('span', { class: 'mark-cell' }, [
+        el('label', { class: 'check' }, [
+          el('input', {
+            type: 'checkbox',
+            checked: this.showOwned,
+            onchange: (e) => { this.showOwned = e.target.checked; this.renderTable(); },
+          }),
+          el('span', { text: '显示已被其它表拥有的条目' }),
+        ]),
+      ]),
+    ]);
+    this.wrap.appendChild(foot);
+  }
+
+  /** The markers that explain a record's state at a glance. */
+  marksFor(record) {
+    const marks = [];
+    if (record.text_offset === null || record.text_offset === undefined) {
+      marks.push({ cls: 'mark-none', text: '⊘ 无位置', title: '这个槽位在 ROM 里没有文字（分组用的空指针），写不进去。' });
+    }
+    if (record.owned_by) {
+      marks.push({
+        cls: 'mark-owned',
+        text: `已归属 ${record.owned_by}`,
+        title: '这段字节属于另一张表，在那里改才不会互相覆盖。',
+      });
+    }
+    if (record.shared_with && record.shared_with.length) {
+      marks.push({
+        cls: 'mark-shared',
+        text: `共享 ${record.shared_with.length + 1} 处`,
+        title: `这段字有 ${record.shared_with.length + 1} 个位置共用（同一个字符串），改一处会一起变。`,
+      });
+    }
+    const ctrl = this.controlCodeCount(record);
+    if (ctrl > 0) {
+      marks.push({ cls: 'mark-ctrl', text: `控制码 ×${ctrl}`, title: '控制码带着换行/分页的排版含义，写回时按原位保留。' });
+    }
+    if (record.original_text !== undefined && record.original_text !== record.text) {
+      marks.push({ cls: 'mark-dirty', text: '已改', title: '这条文本被改过。' });
+    }
+    return marks;
+  }
+
+  /** The bytes this record would be written as (same source as the builder). */
+  writeBackBytes(record) {
+    if (record.text_offset === null || record.text_offset === undefined) return '—';
+    return String(this.pack.textBytes(record).length);
   }
 
   openDetail(record) {
     this.selected = record;
     clear(this.detail);
     this.detail.classList.remove('hidden');
+    const table = this.table;
 
     this.detail.appendChild(el('div', { class: 'detail-head' }, [
-      el('h3', { text: `${this.table.label || this.table.id} · ${record.label ?? record.id}` }),
-      el('button', {
-        class: 'btn btn-ghost', text: '✕',
-        onclick: () => {
-          this.detail.classList.add('hidden');
-          this.selected = null;
-          this.renderTable();
-        },
-      }),
+      el('h3', { text: `${table.label || table.id} · ${record.label ?? record.id}` }),
+      el('div', { class: 'detail-nav' }, [
+        el('button', { class: 'btn btn-tiny', text: '← 上一条', onclick: () => this.step(-1) }),
+        el('button', { class: 'btn btn-tiny', text: '下一条 →', onclick: () => this.step(1) }),
+        el('button', {
+          class: 'btn btn-ghost', text: '✕',
+          onclick: () => {
+            this.detail.classList.add('hidden');
+            this.selected = null;
+            this.renderTable();
+          },
+        }),
+      ]),
     ]));
 
     const meta = el('div', { class: 'detail-sub' });
@@ -605,26 +687,47 @@ export class TextTableEditor {
     if (record.capacity) meta.appendChild(el('span', { text: `槽位 ${record.capacity} 字节` }));
     this.detail.appendChild(meta);
 
+    if (record.owned_by) {
+      this.detail.appendChild(el('div', { class: 'rule-note rule-warn' }, [
+        el('span', { class: 'rule-title', text: '归属' }),
+        el('span', { text: `这段字节属于 ${record.owned_by}。在那边改才不会互相覆盖。` }),
+      ]));
+    }
+    if (record.shared_with && record.shared_with.length) {
+      this.detail.appendChild(el('div', { class: 'rule-note rule-warn' }, [
+        el('span', { class: 'rule-title', text: '共用' }),
+        el('span', {
+          text: `这段字有 ${record.shared_with.length + 1} 个位置共用（同一个字符串）：` +
+            `本表 #${record.shared_with.slice(0, 8).join(' #')}` +
+            `${record.shared_with.length > 8 ? ' …' : ''}。改这里会一起变。`,
+        }),
+      ]));
+    }
+
+    // 控制码分段条：文本框里看不见控制码，但它们决定新文字落在哪。
+    this.detail.appendChild(this.renderSegments(record));
+
+    const writable = record.text_offset !== null && record.text_offset !== undefined;
     const area = el('textarea', {
       class: 'text-input',
       rows: 8,
       spellcheck: 'false',
       value: record.text ?? '',
-      oninput: (e) => {
-        this.pack.setText(this.table, record, e.target.value);
-        this.updateCount(record, area);
-        this.renderTable();
-        this.options.onChange && this.options.onChange();
-      },
+      disabled: !writable,
+      oninput: (e) => this.updateCount(record, counter, e.target.value),
+      onchange: (e) => this.commit(record, area, e.target.value),
     });
 
     const counter = el('div', { class: 'text-counter' });
     this.detail.appendChild(el('div', { class: 'field' }, [
-      el('label', { class: 'field-label' }, [el('span', { text: '文本' })]),
+      el('label', { class: 'field-label' }, [
+        el('span', { text: '文本' }),
+        el('span', { class: 'field-offset', text: '改完失焦即保存（Ctrl+Enter 也可以）' }),
+      ]),
       area,
       counter,
     ]));
-    this.updateCount(record, area);
+    this.updateCount(record, counter);
 
     if (record.original_text !== undefined) {
       this.detail.appendChild(el('div', { class: 'field' }, [
@@ -634,7 +737,7 @@ export class TextTableEditor {
     }
 
     this.detail.appendChild(el('div', { class: 'field-hint' }, [
-      '文本在 ROM 里是**字形码流**；控制码 0x01/0x02 带着换行/分页的排版含义，',
+      '文本在 ROM 里是字形码流；控制码 0x01/0x02 带着换行/分页的排版含义，',
       '文本框里看不到它们，但写回时会按原位置保留（走 token 流，不用纯字符串编码）。',
       '要改控制码本身，请用「原始字节」模块。',
     ]));
@@ -644,29 +747,118 @@ export class TextTableEditor {
         class: 'btn btn-ghost',
         text: '恢复原文',
         onclick: () => {
-          this.pack.setText(this.table, record, record.original_text ?? '');
+          // 字节级还原：从原始字节重新扫 token，而不是把原文字符串
+          // 合并回**已经被改过**的 token 流（那会把控制码挪到句中）。
+          this.pack.resetText(this.table, record);
           this.openDetail(record);
           this.renderTable();
           this.options.onChange && this.options.onChange();
+          toast('已恢复原文（逐字节一致）');
         },
       }),
     ]));
   }
 
-  updateCount(record, area) {
-    const counter = area.parentElement.querySelector('.text-counter');
+  /** Move to the previous / next record. */
+  step(delta) {
+    const records = this.records;
+    if (!this.selected) {
+      if (records.length) this.openDetail(records[0]);
+      return;
+    }
+    const at = records.indexOf(this.selected);
+    const next = records[at + delta];
+    if (!next) {
+      toast(delta > 0 ? '已经是最后一条了' : '已经是第一条了', 'error');
+      return;
+    }
+    this.openDetail(next);
+  }
+
+  /**
+   * The control-code segmentation bar.
+   *
+   * The text box cannot show the control codes, but they decide where a new
+   * character lands: the writer splits the new text across the original runs,
+   * so the segments are shown as chips between the text runs.
+   */
+  renderSegments(record) {
+    const tokens = this.pack.textTokens(record);
+    const bar = el('div', { class: 'text-segments' });
+    let run = [];
+    const flush = () => {
+      if (!run.length) return;
+      const text = run.map((t) => (t.c === 10 ? '⏎' : String.fromCharCode(t.c))).join('');
+      bar.appendChild(el('span', { class: 'seg-text', text }));
+      run = [];
+    };
+    for (const token of tokens) {
+      if (token.k === 'c') {
+        flush();
+        bar.appendChild(el('span', {
+          class: 'seg-ctrl',
+          title: '控制码 0x' + token.b.map((b) => b.toString(16).padStart(2, '0')).join(' ') +
+            '：原文就在这里，写回时按原位保留。要改它请用「原始字节」模块。',
+          text: '⟦控制码 ' + token.b.map((b) => b.toString(16).padStart(2, '0')).join(' ') + '⟧',
+        }));
+      } else {
+        run.push(token);
+      }
+    }
+    flush();
+    if (!bar.children.length) {
+      bar.appendChild(el('span', { class: 'seg-text', text: '（没有控制码）' }));
+    }
+    return el('div', { class: 'field' }, [
+      el('label', { class: 'field-label' }, [
+        el('span', { text: '控制码分段' }),
+        el('span', { class: 'field-offset', text: '新文字按原分段切分，控制码不动' }),
+      ]),
+      bar,
+    ]);
+  }
+
+  /** Write the edited text into the pack. */
+  commit(record, area, value) {
+    if (record.text_offset === null || record.text_offset === undefined) {
+      toast('这个槽位在 ROM 里没有文字（分组用的空指针），写不进去', 'error');
+      area.value = record.text ?? '';
+      return;
+    }
+    const missing = this.pack.font.missingCharacters(value);
+    if (missing.length) {
+      toast(`字库里没有这些字：${missing.join(' ')}`, 'error');
+      area.value = record.text ?? '';
+      return;
+    }
+    this.pack.setText(this.table, record, value);
+    this.updateCount(record, counter);
+    this.renderTable();
+    this.options.onChange && this.options.onChange();
+    toast('已保存');
+  }
+
+  updateCount(record, counter, draft) {
     if (!counter) return;
-    const bytes = this.pack.font.encodedLength(record.text ?? '');
-    const missing = this.pack.font.missingCharacters(record.text ?? '');
+    const value = draft === undefined ? (record.text ?? '') : draft;
+    // 字节数必须与**写回路径**同源：pack.textBytes（token 编码），
+    // 而不是字符串编码器 —— 两者对 ASCII 与控制码给出的数不一样。
+    const bytes = this.pack.font.encodedLength(value);
     clear(counter);
     counter.appendChild(el('span', { text: `编码后 ${bytes} 字节` }));
-    if (record.capacity) {
-      const over = bytes + (this.table.nul_terminated === false ? 0 : 1) > record.capacity;
+    if (record.capacity && record.text_offset !== null && record.text_offset !== undefined) {
+      const nul = this.table.nul_terminated === false ? 0 : 1;
+      const over = bytes + nul > record.capacity;
       counter.appendChild(el('span', {
         class: over ? 'bad' : 'ok',
-        text: over ? ` · 超出槽位 ${record.capacity} 字节` : ` · 槽位 ${record.capacity} 字节`,
+        text: over
+          ? ` · 放不下：写回需要 ${bytes + nul} 字节，槽位只有 ${record.capacity} 字节` +
+            (this.table.relocatable ? '' : '（只能等长改写，请删掉几个字）')
+          : ` · 槽位 ${record.capacity} 字节` +
+            (this.table.relocatable ? '（放得下，变长会重定位）' : '（放得下）'),
       }));
     }
+    const missing = this.pack.font.missingCharacters(value);
     if (missing.length) {
       counter.appendChild(el('span', {
         class: 'bad',

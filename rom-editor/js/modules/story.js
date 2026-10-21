@@ -1,6 +1,6 @@
 // 剧情与对白
 import { el, formatOffset } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable } from './common.js';
+import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
 
 export function renderStory(container, ctx) {
   if (ctx.state.view.panel) {
@@ -23,7 +23,18 @@ export function renderStory(container, ctx) {
     ]),
   ]);
 
+  const primary = entryCard(ctx, {
+    title: '按对白改',
+    headline: '1,524 个对白槽位',
+    desc: '对白指针表 0x461CE8：305 组，每组 4 条（1 道题 + 3 个选项）+ 1 个空指针分隔。' +
+      '这一组是可重定位的，改长会重定位并改写指针。',
+    panel: { kind: 'text', id: 'dialogue_slots' },
+    actionLabel: '去改对白',
+  });
+
   renderDomainIndex(container, ctx, {
+    primary,
+    module: 'story',
     title: '剧情与对白',
     subtitle: [
       el('span', { text: '对白槽位表 ROM 0x461CE8' }),

@@ -3,7 +3,7 @@
 // 这不是用户要求的六个域之一，但这些表在 ROM 里已被证实，
 // 编辑器把它们一并呈现，「所有内容可改」才不落空。
 import { el } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable } from './common.js';
+import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
 
 export function renderAudio(container, ctx) {
   const panel = ctx.state.view.panel;
@@ -37,7 +37,18 @@ export function renderAudio(container, ctx) {
     summaryTable(rows),
   ]);
 
+  const primary = entryCard(ctx, {
+    title: '按音效改',
+    headline: '159 条 sound-ID',
+    desc: 'sound-ID 表是音频的入口；五首 m4a 乐曲描述符在同一域。' +
+      '音频采样本体是压缩载荷，不在编辑器里改。',
+    panel: { kind: 'structure', id: 'sound_id_table' },
+    actionLabel: '去改音效',
+  });
+
   renderDomainIndex(container, ctx, {
+    primary,
+    module: 'audio',
     title: '音频',
     subtitle: [
       el('span', { text: 'sound-ID 表 ROM 0x465B70（159 条）' }),

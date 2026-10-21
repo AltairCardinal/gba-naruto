@@ -58,18 +58,21 @@ export function renderBattle(container, ctx) {
   }
 
   const pack = ctx.pack;
-  const extra = el('div', { class: 'section' }, [
-    el('h3', { text: '按关卡查看战斗' }),
-    el('p', { class: 'section-note' }, [
-      '原生链路：关卡 id N → 战场描述符 map_table[N] → 编成矩阵 battle_actors[N][变体] → ',
-      '战斗目标 battle_rules[N][变体] → 战场事件剧本 story_logic_root[N] / story_events_root[N]。',
-      '选一个关卡看完整的四件套。',
-    ]),
+  // 推荐入口：按关卡看一整关的四件套（这才是作者真正会走的路）。
+  const primary = el('div', { class: 'stat entry-card' }, [
+    el('div', { class: 'stat-label', text: '按关卡改' }),
+    el('div', { class: 'stat-value', style: { fontSize: '14px' }, text: '47 关 × 3 变体' }),
+    el('div', {
+      class: 'stat-hint',
+      text: '一屏看全：战场布置、角色出生点、战场物件、战斗目标、战斗中的剧情。' +
+        '出生点与战斗目标可以就地改。',
+    }),
     stagePicker(ctx),
   ]);
 
   renderDomainIndex(container, ctx, {
     title: '战斗',
+    module: 'battle',
     subtitle: [
       el('span', { text: '战场描述符 ROM 0x53D910（47 条）' }),
       el('span', { text: '编成矩阵 ROM 0x5461C4（47×3×12）' }),
@@ -80,7 +83,7 @@ export function renderBattle(container, ctx) {
       '角色出生点（编成矩阵，每槽 0xB8 字节，含角色 id / 阵营 / X / Y / 等级）、' +
       '战斗中的剧情与角色出生（战场事件逻辑与事件表两根根指针，剧本里的 0x22 指令从编成矩阵里拉人）、' +
       '战斗目标（回合上限 + 4 条胜利条件 + 4 条失败条件）。',
-    extra,
+    primary,
     structures: ['map_table', 'battle_actors', 'battle_map_objects', 'battle_rules',
       'battle_encounter_records', 'level_blocks', 'object_descriptors', 'sprite_action_table'],
     texts: ['battle_objectives'],

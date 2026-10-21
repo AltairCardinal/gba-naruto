@@ -1,6 +1,6 @@
 // 道具
 import { el } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable } from './common.js';
+import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
 
 export function renderItems(container, ctx) {
   if (ctx.state.view.panel) {
@@ -36,7 +36,18 @@ export function renderItems(container, ctx) {
     summaryTable(rows),
   ]);
 
+  const primary = entryCard(ctx, {
+    title: '按道具改',
+    headline: '94 条道具 / 忍具记录',
+    desc: '道具记录的 16 个字节**语义尚未证明**，所以只能按原始字节改；' +
+      '名字在忍具名表里。奖励（关卡掉落）在本域的奖励表里。',
+    panel: { kind: 'structure', id: 'item_record' },
+    actionLabel: '去改道具记录',
+  });
+
   renderDomainIndex(container, ctx, {
+    primary,
+    module: 'items',
     title: '道具',
     subtitle: [
       el('span', { text: '道具记录表 ROM 0x545BE4' }),

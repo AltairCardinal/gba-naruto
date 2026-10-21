@@ -474,5 +474,136 @@ console.log('\n6) 写回安全性：越界拒绝 / 有符号原值 / 指针解�
   }
 }
 
+console.log('\n7) 文本表编辑器：写回规则 / 控制码分段 / 标记 / 行数上限 / 无位置槽');
+{
+  const { TextTableEditor } = await import('../js/editors.js');
+  const host = new StubNode('div');
+
+  // 7a. 写回规则要说清楚：可重定位 vs 等长
+  const names = pack.textTable('character_names');
+  const reloc = new TextTableEditor(pack, names, { onChange: ctx.onChange });
+  reloc.render(host);
+  check('可重定位表说明写回规则',
+    (host.textContent || '').includes('长度可变'),
+    (host.textContent || '').slice(0, 40));
+  const objectives = pack.textTable('battle_objectives');
+  const fixed = new TextTableEditor(pack, objectives, { onChange: ctx.onChange });
+  const host2 = new StubNode('div');
+  fixed.render(host2);
+  check('等长表说明写回规则',
+    (host2.textContent || '').includes('长度不能变'),
+    (host2.textContent || '').includes('长度不能变') ? '已说明' : '没有说明');
+
+  // 7b. 控制码分段条
+  const desc = pack.textTable('mission_descriptions');
+  const withCtrl = desc.records.find((r) => r.text && r.raw && r.raw.includes('AQ'));
+  if (!withCtrl) {
+    check('控制码分段条', false, '没有找到带控制码的记录');
+  } else {
+    const host3 = new StubNode('div');
+    const editor = new TextTableEditor(pack, desc, { onChange: ctx.onChange });
+    editor.render(host3);
+    editor.openDetail(withCtrl);
+    const segs = host3.descendants().filter((n) => (n.className || '').includes('seg-ctrl'));
+    check('控制码分段条把控制码画出来', segs.length > 0,
+      `${segs.length} 个控制码段`);
+  }
+
+  // 7c. 共享 / 归属标记
+  const titles = pack.textTable('mission_titles');
+  const shared = titles.records.find((r) => (r.shared_with || []).length > 0);
+  const host4 = new StubNode('div');
+  const editor4 = new TextTableEditor(pack, titles, { onChange: ctx.onChange });
+  editor4.render(host4);
+  const chips = host4.descendants().filter((n) => (n.className || '').includes('mark-shared'));
+  check('共用同一段字节的条目被标出来', chips.length > 0,
+    shared ? `${shared.shared_with.length + 1} 处共用` : '没有共用条目');
+
+  // 7d. 大表默认只渲染前 200 行
+  const index = pack.textTable('rom_text_index');
+  if (!index) {
+    check('大表默认只渲染前 200 行', false, '文本索引未载入');
+  } else {
+    const host5 = new StubNode('div');
+    const editor5 = new TextTableEditor(pack, index, { onChange: ctx.onChange });
+    editor5.render(host5);
+    const rows = host5.descendants().filter((n) => n.tagName === 'TR').length;
+    check('大表默认只渲染前 200 行', rows <= 201, `渲染了 ${rows} 行（含表头）`);
+    check('被具名表拥有的条目默认不显示',
+      (host5.textContent || '').includes('显示已被其它表拥有的条目'),
+      '有开关');
+  }
+
+  // 7e. 没有 ROM 位置的槽位不可编辑
+  const slots = pack.textTable('dialogue_slots');
+  const nullSlot = slots.records.find((r) => r.text_offset === null);
+  if (!nullSlot) {
+    check('无位置的槽位不可编辑', false, '没有找到空指针槽');
+  } else {
+    const host6 = new StubNode('div');
+    const editor6 = new TextTableEditor(pack, slots, { onChange: ctx.onChange });
+    editor6.render(host6);
+    editor6.openDetail(nullSlot);
+    const areas = editor6.detail.descendants().filter((n) => n.tagName === 'TEXTAREA');
+    check('无位置的槽位不可编辑', areas.length > 0 && areas[0].attributes.disabled === '',
+      areas.length ? '文本框已禁用' : '没有文本框');
+  }
+}
+
+console.log('\n8) 域首页：每张表都够得着 + 带可编辑性信息');
+{
+  const DOMAINS = [
+    ['剧情与对白', renderStory, 'story'],
+    ['道具', renderItems, 'items'],
+    ['角色属性与技能', renderCharacters, 'characters'],
+    ['忍术', renderNinjutsu, 'ninjutsu'],
+    ['战斗', renderBattle, 'battle'],
+    ['剧情路线', renderRoute, 'route'],
+    ['音频', renderAudio, 'audio'],
+    ['素材与资源', renderAssets, 'assets'],
+  ];
+  for (const [label, render, module] of DOMAINS) {
+    const host = new StubNode('div');
+    ctx.state.view = { panel: null };
+    let error = null;
+    try {
+      render(host, ctx);
+    } catch (err) {
+      error = err;
+    }
+    const text = host.textContent || '';
+    const tables = host.descendants().filter((n) => n.tagName === 'TR');
+    const cards = host.descendants().filter((n) => (n.className || '') === 'stat');
+    const expected = pack.structures.filter((s) => s.module === module).length +
+      pack.texts.filter((t) => t.module === module).length;
+    check(`${label}：域首页渲染且列出本域全部表`,
+      !error && tables.length >= expected &&
+      (host.textContent || '').includes('本域可编辑内容'),
+      error ? String(error.message) : `${tables.length} 行（应 ≥ ${expected}）`);
+    check(`${label}：不再是纯卡片墙`, cards.length <= 5,
+      `${cards.length} 张卡片`);
+  }
+
+  // 战斗域的 7 张表以前在首页根本够不着
+  const battleHost = new StubNode('div');
+  ctx.state.view = { panel: null };
+  renderBattle(battleHost, ctx);
+  const battleText = battleHost.textContent || '';
+  const hidden = ['单位槽位重映射表', '八方向位移表', '战场事件逻辑根表', '战场事件根表',
+    '战斗/地图事件处理程序分派表', '精灵帧描述符表', '原生拾取分派表'];
+  const stillHidden = hidden.filter((name) => !battleText.includes(name));
+  check('战斗域 7 张原先够不着的表现在都在首页',
+    stillHidden.length === 0,
+    stillHidden.length ? `还缺：${stillHidden.join('、')}` : '全部可达');
+
+  // 剧情与对白域的字宽表以前任何域都够不着
+  const storyHost = new StubNode('div');
+  ctx.state.view = { panel: null };
+  renderStory(storyHost, ctx);
+  check('字宽表现在在剧情与对白域首页',
+    (storyHost.textContent || '').includes('字宽表'),
+    '可达');
+}
+
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);
 process.exit(failures === 0 ? 0 : 1);

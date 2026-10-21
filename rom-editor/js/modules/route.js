@@ -19,16 +19,19 @@ export function renderRoute(container, ctx) {
   }
 
   const pack = ctx.pack;
-  const extra = el('div', { class: 'section' }, [
-    el('h3', { text: '按关卡查看剧情路线' }),
-    el('p', { class: 'section-note' }, [
-      '一条路线 = 一串关卡。每关的「战前剧情 → 战场 → 战后剧情」由剧情脚本根表的三组指针串起，' +
-      '任务文本与关卡奖励由任务索引表指向奖励表。选一个关卡看完整的一环。',
-    ]),
+  const primary = el('div', { class: 'stat entry-card' }, [
+    el('div', { class: 'stat-label', text: '按关卡改' }),
+    el('div', { class: 'stat-value', style: { fontSize: '14px' }, text: '46 关的完整一环' }),
+    el('div', {
+      class: 'stat-hint',
+      text: '一屏看全：战前剧情 → 战场 → 战后剧情、任务文本、奖励。' +
+        '剧情脚本里「下一场景」的操作数可以就地改。',
+    }),
     stagePicker(ctx),
   ]);
 
   renderDomainIndex(container, ctx, {
+    module: 'route',
     title: '剧情路线',
     subtitle: [
       el('span', { text: '剧情脚本根表 ROM 0x060C74 / 0x060D54' }),
@@ -38,7 +41,7 @@ export function renderRoute(container, ctx) {
     intro:
       '剧情路线模块把散落在四张表里的「关卡」信息并成一条可读的路线：' +
       '战前/战后剧情脚本的指针、任务标题/说明/提示、以及该关卡的三个奖励条目。',
-    extra,
+    primary,
     structures: ['mission_index', 'story_before_root', 'story_after_root'],
     texts: ['mission_titles', 'mission_descriptions', 'mission_hints'],
   });

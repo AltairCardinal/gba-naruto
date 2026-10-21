@@ -267,6 +267,44 @@ export class ContentPack {
     }
     return n;
   }
+
+  /**
+   * The structure records that differ from the original bytes.
+   *
+   * The judgement is made by comparing the *bytes*, not by the `dirty` set:
+   * `dirty` only records "this record was touched", so a change that was
+   * later undone would still count as a change.
+   */
+  changedStructureRecords(structure) {
+    const out = [];
+    for (const record of (structure && structure.records) || []) {
+      const bytes = this.recordBytes(structure, record);
+      const raw = base64ToBytes(record.raw || '');
+      if (bytesToBase64(bytes) !== bytesToBase64(raw)) out.push(record);
+    }
+    return out;
+  }
+
+  /** The text records that differ from the original text. */
+  changedTextRecords(table) {
+    const out = [];
+    for (const record of (table && table.records) || []) {
+      if (record.text !== undefined && record.text !== record.original_text) {
+        out.push(record);
+      }
+    }
+    return out;
+  }
+
+  /** How many records of a structure were changed. */
+  changedCountIn(structure) {
+    return this.changedStructureRecords(structure).length;
+  }
+
+  /** How many records of a text table were changed. */
+  changedCountInTable(table) {
+    return this.changedTextRecords(table).length;
+  }
 }
 
 export function writeField(bytes, field, value) {

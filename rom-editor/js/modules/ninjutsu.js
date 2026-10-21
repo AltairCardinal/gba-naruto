@@ -1,6 +1,6 @@
 // 忍术
 import { el } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable } from './common.js';
+import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
 
 export function renderNinjutsu(container, ctx) {
   const panel = ctx.state.view.panel;
@@ -41,7 +41,18 @@ export function renderNinjutsu(container, ctx) {
     summaryTable(rows),
   ]);
 
+  const primary = entryCard(ctx, {
+    title: '按忍术改',
+    headline: '87 条忍术记录',
+    desc: '忍术记录表与忍术名表同号空间：下标就是忍术 id。' +
+      '角色定义表里的忍术槽引用的就是这张表的 id。',
+    panel: { kind: 'structure', id: 'jutsu_record' },
+    actionLabel: '去改忍术',
+  });
+
   renderDomainIndex(container, ctx, {
+    primary,
+    module: 'ninjutsu',
     title: '忍术',
     subtitle: [
       el('span', { text: '忍术记录表 ROM 0x545458（87 条）' }),
