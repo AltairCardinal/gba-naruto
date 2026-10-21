@@ -41,7 +41,7 @@ node rom-editor\tools\verify_pack.mjs
 #   → 30 项全 PASS，含「未改动的内容包重建 ROM 与原版逐字节相同」
 
 node rom-editor\tools\verify_views.mjs
-#   → 16 项全 PASS：九个模块的视图渲染 + 战斗视图的说明文字与条件语义
+#   → 27 项全 PASS：九个模块的视图渲染 + 战斗视图的说明文字与条件语义 + 剧情路线视图
 #     （无头跑，不需要浏览器，可进 CI）
 ```
 

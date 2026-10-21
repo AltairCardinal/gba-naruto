@@ -493,7 +493,7 @@ a/b 含义写出来（type 3 = 指定角色**已离场**，a=阵营、b=角色 i
 **结果**：本机浏览器内自检稳定跑到 **34 项全 PASS**（含新增的
 「战斗目标说明文字指针 230/230 解析成功」「战斗视图显示说明文字原文
 『得到宝箱了』」）后才被环境重载打断；剩余断言由
-`verify_pack.mjs`（30 项）与 `verify_views.mjs`（16 项）覆盖，两者在 Node 里**全绿**。
+`verify_pack.mjs`（30 项）与 `verify_views.mjs`（27 项）覆盖，两者在 Node 里**全绿**。
 
 ---
 
@@ -524,7 +524,7 @@ a/b 含义写出来（type 3 = 指定角色**已离场**，a=阵营、b=角色 i
 python tools\export_content_pack.py          # 重新导出内容包
 python tools\export_content_pack.py --check  # 校验内容包 == 当前 ROM
 node rom-editor\tools\verify_pack.mjs        # 命令行自检（30 项）
-node rom-editor\tools\verify_views.mjs       # 无头视图自检（16 项）
+node rom-editor\tools\verify_views.mjs       # 无头视图自检（27 项）
 node rom-editor\tools\serve.mjs 8765         # 起编辑器
 # 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（45 项）
 #   本机内置浏览器会在页面加载后约 210 ms 自动重载，跑不完是环境问题；

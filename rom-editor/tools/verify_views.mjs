@@ -113,7 +113,9 @@ const { renderItems } = await import('../js/modules/items.js');
 const { renderCharacters } = await import('../js/modules/characters.js');
 const { renderNinjutsu } = await import('../js/modules/ninjutsu.js');
 const { renderBattle, renderStage } = await import('../js/modules/battle.js');
-const { renderRoute } = await import('../js/modules/route.js');
+const routeModule = await import('../js/modules/route.js');
+const renderRoute = routeModule.renderRoute;
+const renderRouteStage = routeModule.renderStage;
 const { renderAudio } = await import('../js/modules/audio.js');
 const { renderAssets } = await import('../js/modules/assets.js');
 const { renderRaw } = await import('../js/modules/raw.js');
@@ -226,6 +228,42 @@ console.log('\n2) 战斗：第 40 关的视图');
 
   // 参数含义要写出来
   check('参数含义被标注', text.includes('角色 id') || text.includes('道具序号'));
+}
+
+console.log('\n3) 剧情路线：第 40 关的视图');
+{
+  const host = new StubNode('div');
+  let error = null;
+  let text = '';
+  try {
+    renderRouteStage(host, ctx, 40);
+    text = host.textContent;
+  } catch (err) {
+    error = err;
+  }
+  check('剧情路线视图渲染成功', !error && text.length > 200,
+    error ? String(error.message) : `${text.length} 字符`);
+  for (const needle of ['剧情脚本', '剧情路线', '任务文本', '奖励']) {
+    check(`剧情路线视图含「${needle}」`, text.includes(needle));
+  }
+  // 路线边必须真的列出来（脚本里的「下一场景」）
+  const edges = (pack.scripts || []).reduce((n, s) => n + ((s.route || []).length), 0);
+  check('剧情路线列出脚本里的路线边', edges > 0 && text.includes('0x16') || text.includes('0x1A'),
+    `内容包里有 ${edges} 条边`);
+  // 本关的任务文本必须显示出来（标题/说明/提示）
+  const titles = pack.textTable('mission_titles');
+  const descs = pack.textTable('mission_descriptions');
+  const hints = pack.textTable('mission_hints');
+  const index = pack.structure('mission_index');
+  const base = index.records[40] ? index.records[40].values.value : null;
+  const slot = base === null ? null : base;
+  const titleText = slot !== null && titles.records[slot] ? titles.records[slot].text : '';
+  const descText = slot !== null && descs.records[slot] ? descs.records[slot].text : '';
+  const hintText = slot !== null && hints.records[slot] ? hints.records[slot].text : '';
+  check('本关任务标题/说明/提示都显示出来',
+    !!titleText && !!descText && !!hintText &&
+    text.includes(titleText) && text.includes(descText) && text.includes(hintText),
+    `标题「${titleText}」说明「${(descText || '').slice(0, 12)}…」提示「${(hintText || '').slice(0, 12)}…」`);
 }
 
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);

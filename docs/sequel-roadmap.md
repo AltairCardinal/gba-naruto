@@ -167,7 +167,7 @@
   - 命令行 `node rom-editor/tools/verify_pack.mjs` → **30/30 PASS**
     （新增「说明文字指针 230/230 解析成功」「说明文字与全 ROM 索引零重叠」
     「改写只动那一条」）；
-  - **无头视图自检** `node rom-editor/tools/verify_views.mjs` → **16/16 PASS**
+  - **无头视图自检** `node rom-editor/tools/verify_views.mjs` → **27/27 PASS**
     （新写：用一个最小 DOM 桩在 Node 里渲染九个模块的视图并断言文字，可进 CI）；
   - 浏览器内 `rom-editor/tools/selftest.html` → 本机稳定跑到 **34 项全 PASS**
     （含新增三项战斗目标检查）后被环境打断，详见下一条。
