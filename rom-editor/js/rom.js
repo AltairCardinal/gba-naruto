@@ -6,7 +6,8 @@
 //   3. write every structure record back at its own ROM offset;
 //   4. rebuild every text table: encode the texts, lay the blob out either
 //      where the original text lived or in free space, and rewrite the
-//      pointers that reference it.
+//      pointers that reference it;
+//   5. relocate the story scripts whose dialogue no longer fits in place.
 //
 // With an untouched pack the output is byte-identical to the base ROM; that
 // property is the acceptance test for the whole editor (see
@@ -14,6 +15,36 @@
 
 import { bytesToHex, hexToBytes, base64ToBytes, offsetToPointer, isRomPointer } from './bytes.js';
 import { scanTokens, encodeTokens, countControlCodes } from './textcodec.js';
+import { scriptComponents, planRelocation, ROM_BASE } from './storyvm.js';
+import { patchOriginalExtent } from './pack.js';
+
+/**
+ * 空闲区的上界（**不含**）。
+ *
+ * `notes/free-space.md` 记的空闲区是 `0x5DFBEC..0x5FFFFF`，实测那段 0xFF
+ * 一直连到 ROM 末尾 `0x600000`（多 1KB）。这里按**笔记里的**边界收口 ——
+ * 免得编辑器与 `tools/import_dialogue_var.py` 那条老链路的边界不一致。
+ *
+ * ⚠️ **两条链路共用这一段空闲区**，谁先谁后都会踩到对方。详见
+ * `notes/free-space.md` 的「与编辑器的关系」一节。
+ */
+export const FREE_SPACE_END = 0x5fffff;
+
+/** 四张剧情根表（内容包里的结构 id）：槽号 = 场景号，值是剧本首地址。 */
+const ROOT_STRUCTURES = new Set([
+  'story_before_root',
+  'story_after_root',
+  'story_logic_root',
+  'story_events_root',
+]);
+
+/** 一组剧本的人话描述（错误信息里用）。 */
+function describeComponent(component) {
+  const list = component.roots
+    .map((r) => '0x' + r.toString(16).toUpperCase())
+    .join(' + ');
+  return component.roots.length > 1 ? `${list}（互相重叠的一组）` : list;
+}
 
 /** Do two byte runs match? */
 function bytesEqual(a, b) {
@@ -42,6 +73,7 @@ export class RomBuilder {
       patches: 0,
       freeRegionsUsed: [],
       movedTexts: [],
+      movedScripts: [],
       warnings: [],
       errors: [],
     };
@@ -64,17 +96,28 @@ export class RomBuilder {
     //   * 那个字节没被结构化编辑器改过 → 补丁生效（兜底通道真的兜得住）；
     //   * 那个字节被结构化编辑器改过 → 字节已变，补丁被跳过并报告
     //     （结构化改动优先，而且用户看得见）。
+    //
+    // **剧本搬迁**夹在文本与补丁之间：它要把剧本内部的补丁**折进**搬走的那份
+    // 字节里（补丁的 offset 是**原版**里的位置，搬完就失效了），
+    // 所以必须排在 `applyPatches` 前面。
     this.applyStructures();
     this.applyTextTables();
-    this.applyPatches();
+    const relocation = this.applyScriptRelocations();
+    this.applyPatches(relocation);
     if (this.report.errors.length) {
       throw new BuildError(this.report.errors.join('\n'));
     }
     return this;
   }
 
-  applyPatches() {
+  applyPatches(relocation) {
+    const consumed = (relocation && relocation.consumed) || new Set();
+    const failed = (relocation && relocation.failed) || new Set();
     for (const patch of this.pack.patches || []) {
+      // 已经被搬迁吃掉的补丁：它的内容已经折进搬走的那份字节里了。
+      if (consumed.has(patch.id)) continue;
+      // 搬迁失败的那条：已经报过错了，不要再报一遍。
+      if (failed.has(patch.id)) continue;
       const offset = patch.offset;
       const after = hexToBytes(patch.after_hex || '');
       if (offset + after.length > this.bytes.length) {
@@ -83,8 +126,18 @@ export class RomBuilder {
         );
         continue;
       }
+      const before = hexToBytes(patch.before_hex || '');
+      if (before.length && after.length !== before.length) {
+        // 变长的补丁只有在剧本搬迁里才安全（`applyScriptRelocations`）。
+        // 到这里还没被吃掉 ⇒ 它不在任何能搬迁的剧本里 ⇒ 后面没有东西能给它让位。
+        this.report.errors.push(
+          `补丁 ${patch.id} 把 ${before.length} 字节改成了 ${after.length} 字节，` +
+          '但它不在任何能搬迁的剧本里 —— 这么改会让后面的字节全部移位。' +
+          '（对白正文可以变长：构建时整个剧本会搬到空闲区并重基地址。）'
+        );
+        continue;
+      }
       if (patch.before_hex) {
-        const before = hexToBytes(patch.before_hex);
         const actual = this.bytes.subarray(offset, offset + before.length);
         if (bytesToHex(actual) !== bytesToHex(before)) {
           this.report.warnings.push(
@@ -97,6 +150,151 @@ export class RomBuilder {
       this.bytes.set(after, offset);
       this.report.patches += 1;
     }
+  }
+
+  /**
+   * 搬迁「因为对白变长 / 变短而不能原地改」的剧本。
+   *
+   * 剧情脚本的正文是**内联在字节流里**的，而脚本里的分支目标是**绝对地址** ——
+   * 改长改短都会让后面的指令移位、分支全部失效。
+   *
+   * 所以「变长」只有一条安全的路：
+   *
+   *   1. 把**整个剧本**搬到空闲区（它的字节可能不连续 —— `before` / `after`
+   *      是物理交错的 ⇒ 按段搬，段与段之间靠分支相连，终止符还在）；
+   *   2. 把剧本内部的绝对地址**全部重基**（`storyvm.js::planRelocation`，
+   *      按「操作码 + 槽偏移」白名单，一个都不许漏）；
+   *   3. 改根表里**指向它**的指针（`before` / `after` 可能指向同一个剧本，
+   *      那就两个槽都要改）。
+   *
+   * ⚠️ **互相重叠的剧本要整组一起搬**：有些剧本是另一个的**后缀**
+   * （`after.53` = `before.53` 去掉第一条指令），共享的那段里有几百段对白 ——
+   * 搬两份的话两个剧本各留一份同一段对白，改了其中一个另一个不变。
+   * 所以这里先按字节重叠把剧本**分组**（`storyvm.js::scriptComponents`），
+   * 每一组当作一个整体搬。
+   *
+   * 搬迁时，剧本内部的**所有补丁**（对白改动、操作数改动）都要**折进**搬走的那
+   * 份字节里 —— 补丁的 `offset` 说的是**原版**里的位置，搬完就失效了。
+   * 折进去的补丁由 `applyPatches` 跳过（不重复写）。
+   *
+   * 旧位置**不回收**（回收会把「未改动也能重建出同一个 ROM」这条不变量弄丢）；
+   * 回收是后面的事。
+   *
+   * @returns {{consumed:Set<string>, failed:Set<string>}}
+   */
+  applyScriptRelocations() {
+    const consumed = new Set();
+    const failed = new Set();
+
+    // 剧本表：按**起始地址**去重 —— `before` 与 `after` 可能指向同一个剧本。
+    const roots = [];
+    const seen = new Set();
+    for (const script of this.pack.scripts || []) {
+      const offset = script.script_offset;
+      if (offset === null || offset === undefined) continue;
+      if (seen.has(offset)) continue;
+      seen.add(offset);
+      roots.push(offset);
+    }
+    if (!roots.length) return { consumed, failed };
+
+    const components = scriptComponents(this.bytes, roots);
+    for (const component of components) {
+      const fragments = component.fragments;
+      if (!fragments.length) continue;
+
+      // 这一组里的补丁。
+      const inside = [];
+      for (const patch of this.pack.patches || []) {
+        if (consumed.has(patch.id) || failed.has(patch.id)) continue;
+        const extent = patchOriginalExtent(patch);
+        const hit = fragments.some(
+          (f) => extent.start < f.end && extent.end > f.start
+        );
+        if (hit) inside.push(patch);
+      }
+      if (!inside.length) continue;
+
+      // 改成「替换成什么字节」。
+      const edits = [];
+      let lengthChanged = false;
+      for (const patch of inside) {
+        const before = hexToBytes(patch.before_hex || '');
+        const after = hexToBytes(patch.after_hex || '');
+        const original = before.length || after.length;
+        edits.push({ offset: patch.offset, length: original, bytes: after });
+        if (after.length !== original) lengthChanged = true;
+      }
+      // 全是等长改动 → 原地写就够，不必搬。
+      if (!lengthChanged) continue;
+
+      // 搬迁后的大小：原来那些字节 + 每处改动的增减。
+      const originalSize = fragments.reduce((n, f) => n + (f.end - f.start), 0);
+      let size = originalSize;
+      for (const edit of edits) size += edit.bytes.length - edit.length;
+
+      const newStart = this.allocate(size);
+      if (newStart === null) {
+        for (const patch of inside) failed.add(patch.id);
+        this.report.errors.push(
+          `剧本 ${describeComponent(component)} 的对白变长了，`
+          + `需要 ${size} 字节空闲空间，但 ROM 里找不到足够大的空闲区。`
+        );
+        continue;
+      }
+
+      const plan = planRelocation(this.bytes, component.roots, newStart, edits);
+      if (!plan || plan.errors.length) {
+        for (const patch of inside) failed.add(patch.id);
+        this.report.errors.push(
+          `剧本 ${describeComponent(component)} 搬迁失败：`
+          + (plan && plan.errors.length ? plan.errors.join('；') : '规划不出新地址')
+        );
+        continue;
+      }
+
+      this.bytes.set(plan.bytes, newStart);
+
+      // 改根表里指向它们的指针 —— 这一组里**每一个**入口都要改。
+      let slots = 0;
+      for (const move of plan.roots) {
+        const pointer = offsetToPointer(move.new);
+        for (const structure of this.pack.structures || []) {
+          if (!ROOT_STRUCTURES.has(structure.id)) continue;
+          for (const record of structure.records || []) {
+            const value = record.values ? record.values.ptr : 0;
+            if ((value >>> 0) !== (ROM_BASE + move.old)) continue;
+            this.writeU32(record.rom_offset, pointer);
+            slots += 1;
+          }
+        }
+      }
+      if (!slots) {
+        for (const patch of inside) failed.add(patch.id);
+        this.report.errors.push(
+          `剧本 ${describeComponent(component)} 搬迁了，但根表里没有槽指向它 —— `
+          + '搬完就没有人能走到它了。'
+        );
+        continue;
+      }
+
+      for (const patch of inside) consumed.add(patch.id);
+      this.report.movedScripts.push({
+        id: describeComponent(component),
+        from: component.roots[0],
+        to: newStart,
+        bytes: plan.bytes.length,
+        segments: plan.fragments.length,
+        rebased: plan.rebase.length,
+        slots,
+        roots: plan.roots.map((move) => ({
+          from: move.old,
+          to: move.new,
+        })),
+        delta: plan.bytes.length - originalSize,
+      });
+    }
+    return { consumed, failed };
   }
 
   applyStructures() {
@@ -347,12 +545,15 @@ export class RomBuilder {
   allocate(size) {
     const claimed = this.claimedRanges().concat(this.allocated);
     const MIN_RUN = 0x1000;
+    // 只在**文档记的空闲区**里找：`notes/free-space.md` 的上界是 0x5FFFFF，
+    // 实测那段 0xFF 一直连到 ROM 末尾 —— 这里按笔记收口，两条链路边界一致。
+    const limit = Math.min(this.bytes.length, FREE_SPACE_END);
     const runs = [];
     let i = 0;
-    while (i < this.bytes.length) {
+    while (i < limit) {
       if (this.bytes[i] === 0xff) {
         let j = i;
-        while (j < this.bytes.length && this.bytes[j] === 0xff) j++;
+        while (j < limit && this.bytes[j] === 0xff) j++;
         if (j - i >= MIN_RUN) runs.push({ start: i, end: j });
         i = j;
       } else {

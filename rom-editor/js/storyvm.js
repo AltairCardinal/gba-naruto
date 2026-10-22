@@ -42,6 +42,299 @@ export const BRANCH = { 11: 2, 12: 2, 21: 4, 52: 4, 53: 5, 54: 4, 56: 3, 57: 2 }
 export const SINGLE_TARGET = [7, 13, 50];
 
 /**
+ * 哪些操作码的哪个字节偏移上是**剧本内的绝对地址** —— 搬迁剧本时必须重基。
+ *
+ * 取自 `BRANCH`（u32 在指令内的偏移）、`SINGLE_TARGET`（u32 恒在 +1）
+ * 与 `0x06` 的两个目标（+1 / +5）。共 13 个槽位。
+ *
+ * ⚠️ **不要**用「值落在 [A, A+L) 就 += Δ」这种看数值的判据 ——
+ * 本 ROM 实测那种判据会误伤 30 处（指令内部）与 1,119 处（原生代码里
+ * `12 xx xx xx` 这类操作数字节凑出来的 `0x08xxxxxx` 巧合值）。
+ * 正确的主规则是**这张白名单**；区间判据只能降级为断言
+ * （每个目标必须落在本剧本某条指令的起点上）。
+ *
+ * 依据：`notes/evidence/story-script-relocation-20261022.md`。
+ */
+export const ADDRESS_SLOTS = (() => {
+  const out = {};
+  for (const [op, delta] of Object.entries(BRANCH)) out[op] = [delta];
+  for (const op of SINGLE_TARGET) out[op] = [1];
+  out[6] = [1, 5];
+  return out;
+})();
+
+/**
+ * 一个剧本的**连续字节段**。
+ *
+ * 剧本在 ROM 里不一定是一段连续的字节：`before` 与 `after` 是**物理交错**的
+ * （`before.1` 的两段中间夹着 `after.1`）。每一段都以 `0x00`（结束脚本）收尾，
+ * 段与段之间靠**分支**相连 —— 所以搬迁时把各段搬到一起是安全的：
+ * 终止符还在，分支目标重基过。
+ *
+ * @param {Uint8Array} rom
+ * @param {number} root  剧本第一段的起点（**文件偏移**）
+ * @returns {Array<{start:number,end:number,instructions:Array}>}
+ */
+export function scriptFragments(rom, root) {
+  const instructions = scanScript(rom, root);
+  const fragments = [];
+  for (const instruction of instructions) {
+    const last = fragments[fragments.length - 1];
+    if (last && instruction.offset === last.end) {
+      last.end = instruction.offset + instruction.length;
+      last.instructions.push(instruction);
+    } else {
+      fragments.push({
+        start: instruction.offset,
+        end: instruction.offset + instruction.length,
+        instructions: [instruction],
+      });
+    }
+  }
+  return fragments;
+}
+
+/**
+ * 把若干组片段**合并**成一组互不重叠的区间。
+ *
+ * 为什么需要：有些剧本是**另一个剧本的后缀** —— `after.53` 就是 `before.53`
+ * 去掉第一条指令（`0x47f40` 的「载入地图」）。它们的字节**重叠**。
+ *
+ * 搬迁时这一组必须**当作一个整体**搬：共享的字节只能搬一份 ——
+ * 搬两份的话，两个剧本各留一份同一段对白，改了其中一个另一个不变。
+ *
+ * 指令按偏移去重（同一段字节在两个剧本里是**同一条**指令）。
+ *
+ * @param {Array<Array<{start:number,end:number,instructions:Array}>>} lists
+ * @returns {Array<{start:number,end:number,instructions:Array}>}
+ */
+export function mergeFragments(lists) {
+  const all = [];
+  for (const list of lists) {
+    for (const fragment of list) {
+      all.push({
+        start: fragment.start,
+        end: fragment.end,
+        instructions: fragment.instructions.slice(),
+      });
+    }
+  }
+  all.sort((a, b) => a.start - b.start);
+  const out = [];
+  for (const fragment of all) {
+    const last = out[out.length - 1];
+    if (last && fragment.start <= last.end) {
+      // 重叠（或正好接上）→ 并进上一段。
+      last.end = Math.max(last.end, fragment.end);
+      const seen = new Set(last.instructions.map((i) => i.offset));
+      for (const instruction of fragment.instructions) {
+        if (seen.has(instruction.offset)) continue;
+        seen.add(instruction.offset);
+        last.instructions.push(instruction);
+      }
+      last.instructions.sort((a, b) => a.offset - b.offset);
+    } else {
+      out.push(fragment);
+    }
+  }
+  return out;
+}
+
+/** 两组片段有没有交集。 */
+function fragmentsOverlap(a, b) {
+  for (const x of a) {
+    for (const y of b) {
+      if (x.start < y.end && y.start < x.end) return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * 把互相**重叠**的剧本分组。
+ *
+ * 实测：11 对剧本共享字节（`before.4`/`after.4`、`before.20`/`after.20`、
+ * `before.51`/`after.51`、`before.53`/`after.53`、
+ * `logic.32`..`logic.38` / `events.32`..`events.38`）。
+ * 每一对里，共享的那段里有**几百段对白**（`before.53`/`after.53` 共享 7,987 字节、
+ * 282 段正文）—— 所以这一组必须一起搬、一起改指针。
+ *
+ * @param {Uint8Array} rom
+ * @param {number[]} roots  剧本首地址（文件偏移）
+ * @returns {Array<{roots:number[], fragments:Array}>}
+ */
+export function scriptComponents(rom, roots) {
+  const unique = [...new Set(roots)];
+  const fragmentsOf = unique.map((root) => scriptFragments(rom, root));
+
+  // 并查集：片段有交集的两个剧本并成一组。
+  const parent = unique.map((_, i) => i);
+  const find = (i) => {
+    while (parent[i] !== i) {
+      parent[i] = parent[parent[i]];
+      i = parent[i];
+    }
+    return i;
+  };
+  const union = (a, b) => {
+    const ra = find(a);
+    const rb = find(b);
+    if (ra !== rb) parent[rb] = ra;
+  };
+  for (let i = 0; i < unique.length; i++) {
+    for (let j = i + 1; j < unique.length; j++) {
+      if (fragmentsOverlap(fragmentsOf[i], fragmentsOf[j])) union(i, j);
+    }
+  }
+
+  const groups = new Map();
+  for (let i = 0; i < unique.length; i++) {
+    const key = find(i);
+    if (!groups.has(key)) groups.set(key, { roots: [], fragments: [] });
+    const group = groups.get(key);
+    group.roots.push(unique[i]);
+    group.fragments = mergeFragments([group.fragments, fragmentsOf[i]]);
+  }
+  return [...groups.values()];
+}
+
+/**
+ * 规划一次**搬迁**：把剧本搬到新地址，并把它的内部绝对地址全部重基。
+ *
+ * **纯函数** —— 只算不写，所以可以对着**全部 202 个剧本**跑一遍当门禁。
+ *
+ * `roots` 可以是**一个**剧本，也可以是**一组互相重叠的剧本** ——
+ * 后一种必须一起搬（共享的字节只能有一份）。
+ *
+ * @param {Uint8Array} rom
+ * @param {number|number[]} roots  剧本首地址（**文件偏移**）
+ * @param {number} newStart  搬到哪里去（**文件偏移**）
+ * @param {Array<{offset:number,length:number,bytes:Uint8Array}>} edits
+ *        正文替换（offset/length 是原文件的字节区间，bytes 是新字节）
+ * @returns {{bytes:Uint8Array, fragments:Array, roots:Array, rebase:Array, errors:Array}|null}
+ */
+export function planRelocation(rom, root, newStart, edits = []) {
+  const roots = Array.isArray(root) ? root : [root];
+  const fragments = mergeFragments(roots.map((r) => scriptFragments(rom, r)));
+  if (!fragments.length) return null;
+  const errors = [];
+  const sorted = [...edits].sort((a, b) => a.offset - b.offset);
+
+  // --- 1. 每一段：把落在它里面的正文替换掉 --------------------------------
+  const newFragments = [];
+  let cursor = newStart;
+  for (const fragment of fragments) {
+    const inside = sorted.filter((e) => e.offset >= fragment.start && e.offset < fragment.end);
+    const chunks = [];
+    let at = fragment.start;
+    for (const edit of inside) {
+      if (edit.offset < at) {
+        errors.push(`正文 ${edit.offset} 落在上一段里，跳过`);
+        continue;
+      }
+      if (edit.offset + edit.length > fragment.end) {
+        errors.push(
+          `正文 ${edit.offset} 的替换范围跨出了这一段`
+          + `（${edit.offset + edit.length} > ${fragment.end}），无法安全搬迁`
+        );
+        continue;
+      }
+      chunks.push(rom.subarray(at, edit.offset));
+      chunks.push(edit.bytes);
+      at = edit.offset + edit.length;
+    }
+    chunks.push(rom.subarray(at, fragment.end));
+    let length = 0;
+    for (const chunk of chunks) length += chunk.length;
+    const bytes = new Uint8Array(length);
+    let write = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, write);
+      write += chunk.length;
+    }
+    newFragments.push({
+      oldStart: fragment.start,
+      oldEnd: fragment.end,
+      newStart: cursor,
+      newEnd: cursor + bytes.length,
+      bytes,
+    });
+    cursor += bytes.length;
+  }
+
+  // --- 2. 段内偏移映射 ----------------------------------------------------
+  /** 旧文件偏移 → 新文件偏移（在本剧本内；不在则返回 null）。 */
+  const mapOffset = (oldOffset) => {
+    for (const fragment of newFragments) {
+      if (oldOffset < fragment.oldStart || oldOffset >= fragment.oldEnd) continue;
+      let delta = 0;
+      for (const edit of sorted) {
+        if (edit.offset < fragment.oldStart || edit.offset >= fragment.oldEnd) continue;
+        if (edit.offset + edit.length <= oldOffset) {
+          delta += edit.bytes.length - edit.length;
+        }
+      }
+      return fragment.newStart + (oldOffset - fragment.oldStart) + delta;
+    }
+    return null;
+  };
+
+  // --- 3. 重基：把每个地址槽的 u32 改成新地址 ------------------------------
+  const scriptBytes = new Uint8Array(cursor - newStart);
+  let write = 0;
+  for (const fragment of newFragments) {
+    scriptBytes.set(fragment.bytes, write);
+    write += fragment.bytes.length;
+  }
+  const rebase = [];
+  for (const fragment of fragments) {
+    for (const instruction of fragment.instructions) {
+      const slots = ADDRESS_SLOTS[instruction.op];
+      if (!slots) continue;
+      for (const slot of slots) {
+        const at = instruction.offset + slot;
+        if (at + 4 > rom.length) continue;
+        const oldTarget = (rom[at] | (rom[at + 1] << 8)
+          | (rom[at + 2] << 16) | (rom[at + 3] << 24)) >>> 0;
+        const oldFile = oldTarget - ROM_BASE;
+        const newFile = mapOffset(oldFile);
+        if (newFile === null) {
+          errors.push(
+            `0x${instruction.op.toString(16).toUpperCase()} @0x${instruction.offset.toString(16).toUpperCase()}`
+            + ` 的目标 0x${oldTarget.toString(16).toUpperCase()} 不在本剧本内`
+          );
+          continue;
+        }
+        const newAt = mapOffset(at);
+        if (newAt === null) continue;
+        const value = (ROM_BASE + newFile) >>> 0;
+        // 索引要相对 `scriptBytes` 的起点 —— `newAt` 是绝对文件偏移。
+        const index = newAt - newStart;
+        if (index < 0 || index + 4 > scriptBytes.length) continue;
+        scriptBytes[index] = value & 0xff;
+        scriptBytes[index + 1] = (value >>> 8) & 0xff;
+        scriptBytes[index + 2] = (value >>> 16) & 0xff;
+        scriptBytes[index + 3] = (value >>> 24) & 0xff;
+        rebase.push({ oldOffset: at, newOffset: newAt, oldTarget, newTarget: value });
+      }
+    }
+  }
+
+  // --- 4. 每个入口的新地址 ------------------------------------------------
+  const rootMoves = [];
+  for (const oldRoot of roots) {
+    const newRoot = mapOffset(oldRoot);
+    if (newRoot === null) {
+      errors.push(`入口 0x${oldRoot.toString(16).toUpperCase()} 不在搬走的字节里`);
+      continue;
+    }
+    rootMoves.push({ old: oldRoot, new: newRoot });
+  }
+
+  return { bytes: scriptBytes, fragments: newFragments, roots: rootMoves, rebase, errors };
+}
+
+/**
  * Proved fixed-width operands that may be rewritten in place.
  * opcode → operand name → (offset inside the instruction, size in bytes).
  * Mirrors `tools/import_story_script.py::KNOWN_OPERANDS`; a rewrite here

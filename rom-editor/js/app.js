@@ -680,7 +680,7 @@ function renderOverview(container, ctx) {
       el('td', { text: t.pointer_table_offset
         ? '0x' + t.pointer_table_offset.toString(16).toUpperCase() : '—' }),
       el('td', { class: 'col-num', text: String(t.count) }),
-      el('td', { text: t.relocatable ? '可重定位（可变长）' : '等长改写' }),
+      el('td', { text: lengthStrategyLabel(t) }),
     ]));
   }
   textTable.appendChild(tbody);
@@ -700,6 +700,7 @@ function stat(label, value, hint) {
 
 // module views are injected by js/modules/*.js
 import { renderStory } from './modules/story.js';
+import { lengthStrategyLabel } from './modules/common.js';
 import { renderItems } from './modules/items.js';
 import { renderCharacters } from './modules/characters.js';
 import { renderNinjutsu } from './modules/ninjutsu.js';

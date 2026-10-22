@@ -3,9 +3,13 @@
 // 内容包里的 `pack.scripts` 只有剧本的**指针**与路线边；剧本正文（指令、文本、
 // 分支）此前在界面上完全看不到 —— 尽管 `js/storyvm.js` 已经能把它们反汇编出来。
 //
-// **对白可以就地改，但必须等长**：文本是内联在脚本字节流里的，而脚本里的分支
-// 目标是绝对 ROM 地址 —— 改长改短都会让后面的指令移位、分支全部失效。
-// 所以文本那一列是输入框，旁边写着还能改几个字节；长度对不上当场拒收并回滚。
+// **对白可以就地改，而且**长度不限**：文本是内联在脚本字节流里的，而脚本里的
+// 分支目标是绝对 ROM 地址 —— 改长改短都会让后面的指令移位、分支全部失效。
+// 所以：
+//   * **等长**改写 → 原地改（一条补丁）；
+//   * **变长 / 变短**改写 → 构建时把**整个剧本**搬到空闲区，把它内部的绝对
+//     地址全部重基，再改根表里指向它的指针（`js/rom.js::applyScriptRelocations`）。
+// 每个输入框旁边写着「现在多少字节 / 原来多少字节」，以及这一改会不会搬动剧本。
 // 仓库证明可原地改写的定宽操作数同样给成输入框。
 
 import { el, clear, toast } from '../ui.js';
@@ -83,10 +87,13 @@ export function renderScriptView(container, ctx) {
   container.appendChild(el('div', { class: 'rule-note' }, [
     el('span', { class: 'rule-title', text: '说明' }),
     el('span', {
-      text: '这是剧情 VM 的字节码。对白正文可以就地改，但必须等长：' +
-        '文本是内联在这段字节流里的，而脚本里的分支目标是绝对地址 —— ' +
-        '改长改短都会让后面的指令移位、分支全部失效。' +
-        '所以每个输入框旁边写着还能改几个字节，长度对不上当场拒收并回滚。' +
+      text: '这是剧情 VM 的字节码。对白正文**可以就地改，长度不限** —— ' +
+        '文本是内联在这段字节流里的，而脚本里的分支目标是绝对地址，' +
+        '所以等长改写直接原地落地；' +
+        '**变长 / 变短**的话，构建时会把整个剧本搬到 ROM 的空闲区，' +
+        '把它内部的绝对地址全部重基，再改根表里指向它的指针。' +
+        '每个输入框旁边写着「现在多少字节 / 原来多少字节」，' +
+        '以及这一改会不会搬动剧本。' +
         '控制码 0x01 / 0x02 带着换行 / 分页的排版含义，写回时按原位保留。' +
         '定宽操作数（0x16 / 0x1A 下一场景、0x1E 地图、0x1F 子配置、0x23 队员，' +
         '以及战场触发的 0x34–0x39 条件字段）' +
@@ -131,8 +138,9 @@ export function renderScriptView(container, ctx) {
 /**
  * The text runs of a text-carrying instruction, as editable cells.
  *
- * 文本是内联在脚本字节流里的，所以「可编辑」= **等长原地改写**：
- * 输入框旁边写着还能改几个字节，改长改短当场拒收并回滚。
+ * 文本是内联在脚本字节流里的，所以「可编辑」= **长度不限**：
+ * 等长的直接原地改写；变长 / 变短的靠「构建时搬迁整个剧本」落地。
+ * 输入框旁边写着现在多少字节、原来多少字节，以及会不会搬动剧本。
  *
  * 导出给战斗域的「剧情触发」列表复用（别复制粘贴一份）。
  */
@@ -145,15 +153,22 @@ export function textCell(ctx, rom, instruction) {
     segments.map((segment) => textSegmentCell(ctx, segment)));
 }
 
-/** One text run: an input, a byte budget and a link to the raw bytes. */
-export function textSegmentCell(ctx, segment) {
+/**
+ * One text run: an input, a byte budget and a link to the raw bytes.
+ *
+ * @param {object} ctx
+ * @param {object} segment   `textSegments` 给出的一段
+ * @param {(result:object)=>void} [onEdited]  改完之后回调（对白页要刷新舞台）
+ */
+export function textSegmentCell(ctx, segment, onEdited) {
   const pack = ctx.pack;
   const input = el('input', {
     class: 'text-input-inline script-text-input',
     type: 'text',
     spellcheck: 'false',
     value: segment.text,
-    title: '失焦即保存。只能等长改写：改长改短都会让后面的指令移位、分支失效。',
+    title: '失焦即保存。长度不限：等长直接原地改写；' +
+      '变长 / 变短的话，构建时会把整个剧本搬到空闲区并重基它内部的地址。',
     oninput: () => refresh(),
     onchange: () => commit(),
   });
@@ -183,7 +198,8 @@ export function textSegmentCell(ctx, segment) {
   meta.appendChild(el('button', {
     class: 'btn btn-tiny script-text-link',
     text: '跳到原始字节',
-    title: `打开原始字节 0x${segment.offset.toString(16).toUpperCase()}`,
+    title: `打开原始字节 0x${segment.offset.toString(16).toUpperCase()}`
+      + '（这是原版里的位置；构建时若剧本被搬到空闲区，ROM 里的新位置会不一样）',
     onclick: () => ctx.onJump({
       module: 'raw',
       kind: 'raw-offset',
@@ -215,24 +231,26 @@ export function textSegmentCell(ctx, segment) {
         class: 'bad',
         text: `· 字库缺字: ${budget.missing.join(' ')}`,
       }));
-    } else if (budget.over) {
+    } else if (budget.delta > 0) {
       counter.appendChild(el('span', {
-        class: 'bad',
-        title: '脚本里的分支目标是绝对地址，改长会让后面的指令移位、分支失效。',
-        text: `· 等长才能改：多了 ${budget.used - budget.capacity} 字节，后面的指令会移位`,
+        class: 'warn',
+        title: '正文变长了 —— 脚本里的分支目标是绝对地址，构建时会把整个剧本' +
+          '搬到 ROM 的空闲区，并把剧本内部的绝对地址全部重基。旧位置原样留着。',
+        text: `· 变长 ${budget.delta} 字节：构建时整个剧本会搬到空闲区`,
       }));
-    } else if (budget.under) {
+    } else if (budget.delta < 0) {
       counter.appendChild(el('span', {
-        class: 'bad',
-        title: '脚本里的分支目标是绝对地址，改短会让后面的指令移位、分支失效。',
-        text: `· 等长才能改：少了 ${budget.capacity - budget.used} 字节，后面的指令会移位`,
+        class: 'warn',
+        title: '正文变短了 —— 脚本里的分支目标是绝对地址，构建时会把整个剧本' +
+          '搬到 ROM 的空闲区，并把剧本内部的绝对地址全部重基。旧位置原样留着。',
+        text: `· 变短 ${-budget.delta} 字节：构建时整个剧本会搬到空闲区`,
       }));
     } else {
       counter.appendChild(el('span', { class: 'ok', text: '· 等长，失焦即保存' }));
     }
   }
 
-  /** Save on blur; refuse (and roll back) when the length does not match. */
+  /** Save on blur; refuse (and roll back) when the text cannot be written. */
   function commit() {
     const result = commitSegment(pack, segment, input.value);
     if (!result.ok) {
@@ -247,7 +265,13 @@ export function textSegmentCell(ctx, segment) {
     }
     ctx.onChange();
     refresh();
-    toast(`已改写对白 0x${segment.offset.toString(16).toUpperCase()}`);
+    if (result.relocated) {
+      toast(`已改写对白 0x${segment.offset.toString(16).toUpperCase()}`
+        + `（${result.bytes.length} 字节）—— 构建时整个剧本会搬到空闲区`);
+    } else {
+      toast(`已改写对白 0x${segment.offset.toString(16).toUpperCase()}`);
+    }
+    if (onEdited) onEdited(result);
   }
 
   refresh();

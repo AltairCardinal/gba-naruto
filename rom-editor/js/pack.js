@@ -432,11 +432,17 @@ export class ContentPack {
    *
    * 剧情脚本里的对白是**内联在脚本字节流里**的：改它就是改那一段字节。
    * 脚本里的分支目标是**绝对地址**，所以改长改短都会让后面的指令移位、
-   * 分支全部失效 —— 调用方必须保证新旧字节数**一样**（原地写）。
+   * 分支全部失效。
+   *
+   * **等长**的改动原地写就够（`afterHex` 与 `beforeHex` 一样长）。
+   * **变长 / 变短**的改动要靠「搬迁整个剧本」才安全 —— 那条路在
+   * `rom.js::applyScriptRelocations`：构建时把剧本搬到空闲区、重基它内部的
+   * 绝对地址、改根表指针。所以这里**允许**新旧字节数不同，
+   * 由构建器判断这条补丁到底能不能落地。
    *
    * @param {number} offset      文件偏移
-   * @param {string} beforeHex   改之前的字节（十六进制）
-   * @param {string} afterHex    改之后的字节（十六进制），长度必须与 before 相同
+   * @param {string} beforeHex   改之前的字节（十六进制）—— 必须是**原版**的字节
+   * @param {string} afterHex    改之后的字节（十六进制），长度可以与 before 不同
    * @param {string} label       补丁清单上显示的名字
    */
   setBytesAt(offset, beforeHex, afterHex, label) {
@@ -456,9 +462,10 @@ export class ContentPack {
   }
 
   /** Find or create the explicit patch covering `offset`. */
-  ensurePatch(offset, beforeBytes) {    for (const patch of this.patches) {
-      const after = hexToBytes(patch.after_hex || '');
-      if (offset >= patch.offset && offset < patch.offset + after.length) return patch;
+  ensurePatch(offset, beforeBytes) {
+    for (const patch of this.patches) {
+      const extent = patchOriginalExtent(patch);
+      if (offset >= extent.start && offset < extent.end) return patch;
     }
     const patch = {
       id: `raw.${offset.toString(16)}`,
@@ -544,6 +551,52 @@ export class ContentPack {
   changedCountInTable(table) {
     return this.changedTextRecords(table).length;
   }
+}
+
+/**
+ * 一条文本记录是**哪一种形态**。
+ *
+ * 三种（与 `tools/export_content_pack.py` 的三种建表方式一一对应）：
+ *
+ *   * `pointer` —— **指针表驱动**：正文在别处，靠一个指针指过去。
+ *     这种**可以变长**：构建时正文搬到空闲区、指针改掉（`rom.js::rebuildTextTable`）。
+ *   * `fixed` —— **定长内联槽**：正文写死在表里一个固定大小的槽中（说话人名表
+ *     12 字节一条）。**结构上就放不下更长的字** —— 没有指针可以改。
+ *   * `absolute` —— **绝对地址引用**：地址是**代码里写死的**（战斗目标说明文字）。
+ *     **搬不动** —— 改地址就得改代码。
+ *
+ * @param {object} table
+ * @param {object} record
+ * @returns {'pointer'|'fixed'|'absolute'}
+ */
+export function textSlotKind(table, record) {
+  if (record.pointer_offset !== null && record.pointer_offset !== undefined) {
+    return 'pointer';
+  }
+  const rawLength = record.raw ? base64ToBytes(record.raw).length : -1;
+  if (rawLength >= 0 && rawLength === record.capacity) return 'fixed';
+  return 'absolute';
+}
+
+/**
+ * 一条补丁在**原版 ROM** 里替换掉的那一段。
+ *
+ * 补丁的 `before_hex` 记的是原版字节、`after_hex` 记的是新字节 ——
+ * 两者的长度**可以不同**（对白变长就是这样），所以「这段补丁占多大地方」
+ * 必须按**原始范围**算，不能按新字节数算。
+ *
+ * 为什么要按原始范围：一条变长的对白补丁写回去之后，它后面的字节**全部右移**。
+ * 后面那条补丁的 `offset` 说的是**原版**里的位置 —— 它在搬迁后的剧本里
+ * 会跟着一起搬。所以判断「两条补丁是不是同一段」只能拿原始范围比。
+ *
+ * @param {{offset:number, before_hex?:string, after_hex?:string}} patch
+ * @returns {{start:number, end:number, length:number}}
+ */
+export function patchOriginalExtent(patch) {
+  const before = hexToBytes((patch && patch.before_hex) || '');
+  const after = hexToBytes((patch && patch.after_hex) || '');
+  const length = before.length || after.length;
+  return { start: patch.offset, end: patch.offset + length, length };
 }
 
 export function writeField(bytes, field, value) {

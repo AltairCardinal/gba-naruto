@@ -8,6 +8,24 @@
 
 import { el, clear, formatOffset, toast, clickableArea } from '../ui.js';
 import { StructureEditor, TextTableEditor } from '../editors.js';
+import { textSlotKind } from '../pack.js';
+
+/**
+ * 一张文本表的**长度策略**（人话）。
+ *
+ * 11 张表里 9 张是**指针表驱动**的 —— 可变长（构建时正文搬到空闲区、指针改掉）；
+ * `speaker_names` 是**定长内联槽**、`battle_objectives` 是**绝对地址引用** ——
+ * 这两张**结构上就变不了**，界面上要让人看得出区别。
+ */
+export function lengthStrategyLabel(table) {
+  if (table.relocatable) return '可重定位（可变长）';
+  const record = (table.records || [])[0];
+  if (!record) return '等长改写';
+  const kind = textSlotKind(table, record);
+  if (kind === 'fixed') return '定长内联槽（等长）';
+  if (kind === 'absolute') return '绝对地址引用（等长）';
+  return '等长改写';
+}
 
 export function backButton(ctx, label) {
   return el('button', {
@@ -260,7 +278,7 @@ function domainTableRows(ctx, options) {
       el('td', { class: 'col-num', text: String(table.count) }),
       el('td', { class: 'text-cell', text: `${table.count} 条文本` }),
       el('td', {}, [el('span', { class: 'pill pill-text', text: '文本' })]),
-      el('td', { text: table.relocatable ? '可重定位（可变长）' : '等长改写' }),
+      el('td', { text: lengthStrategyLabel(table) }),
       el('td', { class: 'col-num' }, [changed
         ? el('span', { class: 'pill pill-changed', text: `● ${changed}` })
         : el('span', { class: 'pill', text: '—' })]),

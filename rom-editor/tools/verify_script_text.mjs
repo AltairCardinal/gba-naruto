@@ -3,8 +3,11 @@
 // 对应需求：剧情脚本里带文本的指令（op 0x01 文本、0x05 菜单文字、
 // 0x20 带说话人的对白、0x13 取文本+下一段）的正文可以就地改写。
 //
-// 核心约束：**等长才能改**。文本是内联在脚本字节流里的，而脚本里的分支
-// 目标是绝对 ROM 地址 —— 改长改短都会让后面的指令移位、分支全部失效。
+// 核心约束（第十七轮起变了）：**长度不限**。
+// 文本是内联在脚本字节流里的，而脚本里的分支目标是绝对 ROM 地址 ——
+// 等长改写直接原地落地；变长 / 变短则由「构建时把整个剧本搬到空闲区、
+// 重基它内部的绝对地址、改根表指针」兜住（`js/rom.js::applyScriptRelocations`，
+// 端到端的验收在 `rom-editor/tools/verify_variable_text.mjs`）。
 //
 // 用法：node rom-editor/tools/verify_script_text.mjs
 import { readFileSync } from 'node:fs';
@@ -246,7 +249,7 @@ console.log('\n2) 等长改写：补丁计数 +1、after_hex 是新字节、撤�
     `${pack.changedPatchCount()} → ${after}`);
 }
 
-console.log('\n3) 不等长改写：当场拒绝、不产生补丁、计数不变');
+console.log('\n3) 不等长改写：被接受（会搬动剧本）、字库缺字仍拦下');
 {
   const pack = freshPack();
   const hit = firstTextInstruction();
@@ -257,23 +260,26 @@ console.log('\n3) 不等长改写：当场拒绝、不产生补丁、计数不�
   // 改长：用一个字库里有的字（否则先被「缺字」拦下，测不到长度规则）。
   const tooLong = segment.text + '　';
   const result = commitSegment(pack, segment, tooLong);
-  check('不等长改写被拒绝', result.ok === false, result.ok ? '居然通过了' : '');
-  check('拒绝理由写明「等长」', /等长/.test(result.message || ''),
-    (result.message || '').slice(0, 60));
-  check('拒绝理由写明「后面的指令会移位」', /后面的指令会移位/.test(result.message || ''),
-    (result.message || '').slice(0, 80));
-  check('不产生补丁', (pack.patches || []).length === patchesBefore,
+  check('变长改写被接受', result.ok === true, result.ok ? '' : result.message);
+  check('结果里标明「会搬动剧本」', result.relocated === true, String(result.relocated));
+  check('产生了一条补丁', (pack.patches || []).length === patchesBefore + 1,
     `${patchesBefore} → ${(pack.patches || []).length}`);
-  check('改动计数不变', pack.changedPatchCount() === before,
+  check('改动计数 +1', pack.changedPatchCount() === before + 1,
     `${before} → ${pack.changedPatchCount()}`);
+  const patch = (pack.patches || []).find((p) => p.offset === segment.offset);
+  check('补丁变长了', hexToBytes(patch.after_hex).length > segment.originalLength,
+    `${segment.originalLength} → ${hexToBytes(patch.after_hex).length} 字节`);
+  check('补丁的 before_hex 是**原版**正文（搬迁按原版布局算偏移）',
+    patch.before_hex === bytesToHex(segment.originalBytes),
+    `${patch.before_hex.length / 2} 字节`);
 
-  // 改短也一样不行（同样会移位）。
-  const tooShort = segment.text.slice(0, Math.max(0, segment.text.length - 1));
-  const short = commitSegment(pack, segment, tooShort);
-  check('改短同样被拒绝', short.ok === false && /等长/.test(short.message || ''),
-    (short.message || '').slice(0, 40));
-  check('改短也不产生补丁', (pack.patches || []).length === patchesBefore,
-    `${(pack.patches || []).length} 条补丁`);
+  // 改短也一样能写（靠搬迁腾地方）。
+  const pack2 = freshPack();
+  const segment2 = textSegments(rom, pack2, hit.instruction)[0];
+  const tooShort = segment2.text.slice(0, Math.max(0, segment2.text.length - 1));
+  const short = commitSegment(pack2, segment2, tooShort);
+  check('变短同样被接受', short.ok === true && short.relocated === true,
+    short.ok ? '' : short.message);
 
   // 字库缺字也要拦下（不能默默丢掉那个字）。
   // 找一个字库里真的没有的字（ASCII 不算 —— ROM 的字体有 ASCII）。
@@ -313,7 +319,7 @@ console.log('\n4) 写回真的进了 ROM（构建后逐字节相等）');
     '下一个字节没变');
 }
 
-console.log('\n5) 界面：输入框、失焦即保存、拒绝时回滚、跳到原始字节');
+console.log('\n5) 界面：输入框、失焦即保存、变长提示、跳到原始字节');
 {
   const pack = freshPack();
   const hit = firstTextInstruction();
@@ -341,31 +347,33 @@ console.log('\n5) 界面：输入框、失焦即保存、拒绝时回滚、跳�
   check('对白那一列给的是输入框', inputs.length > 0, `${inputs.length} 个对白输入框`);
 
   const text = host.textContent || '';
-  check('说明里写明「等长」', text.includes('等长'), '');
-  check('说明里写明「后面的指令」会移位', text.includes('后面的指令'), '');
+  check('说明里写明「长度不限」', text.includes('长度不限'), '');
+  check('说明里写明会「搬到空闲区」', text.includes('搬到'), '');
+  check('说明里不再说「必须等长」', !text.includes('必须等长'));
   check('有字节预算', /\d+ \/ \d+ 字节/.test(text),
     (text.match(/\d+ \/ \d+ 字节/) || [''])[0]);
 
-  // 找一条对白输入框，改太长 → 预算变红 + 当场回滚。
+  // 找一条对白输入框，改长 → 预算变黄并写明「会搬到空闲区」，失焦即保存。
   const target = inputs.find((input) => input.value.length > 3);
   check('找到可编辑的对白', !!target, target ? target.value.slice(0, 20) : '');
   const original = target.value;
   const patchesBefore = (pack.patches || []).length;
   target.value = original + '　';
   target.listeners.input[0]();               // 预算立刻重算
-  const redText = host.textContent || '';
-  check('改长后预算变红并写明「等长才能改」', redText.includes('等长才能改'),
-    (redText.match(/等长才能改[^，。]{0,28}/) || [''])[0]);
-  check('改长后写明「后面的指令会移位」', redText.includes('后面的指令会移位'),
-    (redText.match(/后面的指令会移位[^，。]{0,12}/) || [''])[0]);
+  const warnText = host.textContent || '';
+  check('改长后预算写明「变长」', warnText.includes('变长'),
+    (warnText.match(/变长[^，。]{0,30}/) || [''])[0]);
+  check('改长后写明「整个剧本会搬到空闲区」', warnText.includes('搬到空闲区'),
+    (warnText.match(/[^，。]{0,24}搬到空闲区/) || [''])[0]);
+  check('改长后不再说「等长才能改」', !warnText.includes('等长才能改'));
   target.listeners.change[0]();              // 失焦即保存
-  check('改长后当场回滚（输入框恢复原文）', target.value === original,
+  check('改长后被接受（输入框保留新文本）', target.value === original + '　',
     `${target.value.slice(0, 12)}…`);
-  check('改长不产生补丁', (pack.patches || []).length === patchesBefore,
-    `${(pack.patches || []).length} 条补丁`);
-  check('改长不触发改动计数', changes === 0, `${changes} 次 onChange`);
+  check('改长后产生了一条补丁', (pack.patches || []).length === patchesBefore + 1,
+    `${patchesBefore} → ${(pack.patches || []).length}`);
+  check('改长触发改动计数', changes === 1, `${changes} 次 onChange`);
 
-  // 等长改写 → 走 onChange（顶部「已改动 N」+1）。
+  // 等长改写 → 也走 onChange（顶部「已改动 N」+1）。
   const font = pack.font;
   const chars = [...original];
   const swapAt = [...original].findIndex((ch) => font.encode(ch).length === 2);
@@ -375,7 +383,7 @@ console.log('\n5) 界面：输入框、失焦即保存、拒绝时回滚、跳�
     target.listeners.change[0]();
     check('等长改写被接受', (pack.patches || []).length === patchesBefore + 1,
       `${(pack.patches || []).length} 条补丁（原来 ${patchesBefore}）`);
-    check('等长改写触发 onChange（顶部计数 +1）', changes === 1, `${changes} 次`);
+    check('等长改写触发 onChange（顶部计数 +1）', changes === 2, `${changes} 次`);
     check('顶部计数真的 +1', pack.changedCount() >= 1, `changedCount=${pack.changedCount()}`);
     check('等长改写后输入框保留新文本', target.value === chars.join(''),
       target.value.slice(0, 12));

@@ -399,12 +399,19 @@ head('\n6) V6 对白等长');
 
   const patchesBefore = JSON.stringify(pack.patches);
   const bytesBefore = Array.from(seg.bytes).join(',');
-  const bad = scripttext.commitSegment(pack, seg, longerText);
-  check('多 1 字节的改写被拒绝', bad.ok === false && bad.reason === 'length',
-    JSON.stringify(bad).slice(0, 120));
-  check('被拒绝时补丁没有变', JSON.stringify(pack.patches) === patchesBefore,
-    `补丁 ${pack.patches.length} 条`);
-  check('被拒绝时正文字节没有变', Array.from(seg.bytes).join(',') === bytesBefore);
+  const longer = scripttext.commitSegment(pack, seg, longerText);
+  check('多 1 字节的改写被接受（构建时会搬动整个剧本）',
+    longer.ok === true && longer.relocated === true,
+    JSON.stringify(longer).slice(0, 120));
+  check('变长后还是同一条补丁（同一段的改动覆盖前一次）',
+    pack.patches.length === 1, `${pack.patches.length} 条`);
+  const changed = pack.patches.find(
+    (p) => (p.before_hex || '').length !== (p.after_hex || '').length);
+  check('那条补丁的 after_hex 比 before_hex 长 1 字节',
+    !!changed
+    && changed.after_hex.length === changed.before_hex.length + 2,
+    changed ? `${changed.before_hex.length / 2} → ${changed.after_hex.length / 2} 字节` : '没有变长的补丁');
+  check('正文字节确实变了', Array.from(seg.bytes).join(',') !== bytesBefore);
 }
 
 head('\n7) V7 写回通路没有新开');

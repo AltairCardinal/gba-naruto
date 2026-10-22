@@ -13,7 +13,7 @@
 // 剧本的「可改操作数 / 路线边 / 头像引用」三样元信息。
 
 import { bytesToBase64, bytesToHex, base64ToBytes } from './bytes.js';
-import { readField } from './pack.js';
+import { readField, textSlotKind } from './pack.js';
 import { scanTokens } from './textcodec.js';
 import { scanScript, ROM_BASE } from './storyvm.js';
 
@@ -136,8 +136,10 @@ function parseTextTable(table, rom, font) {
   let records = 0;
   let changed = 0;
   for (const record of table.records || []) {
-    const templateRawLength = record.raw ? base64ToBytes(record.raw).length : -1;
-    const fixedSlot = templateRawLength >= 0 && templateRawLength === record.capacity;
+    // 形态判定与导出器同源（`pack.js::textSlotKind`）：
+    // 指针表驱动 / 定长内联槽 / 绝对地址引用。
+    const kind = textSlotKind(table, record);
+    const fixedSlot = kind === 'fixed';
     let bytes = null;
 
     if (record.pointer_offset !== null && record.pointer_offset !== undefined) {

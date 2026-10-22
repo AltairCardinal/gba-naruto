@@ -398,7 +398,7 @@ function triggerBody(ctx, stage, model, block, repaint) {
     if (!lines.length) {
       wrap.appendChild(el('div', { class: 'empty', text: '这一段没有文本指令。' }));
     } else {
-      const dialogue = { head: ['对白（可改，必须等长）'], body: [] };
+      const dialogue = { head: ['对白（可改，长度不限）'], body: [] };
       for (const line of lines) {
         dialogue.body.push([textCell(ctx, rom, line)]);
       }

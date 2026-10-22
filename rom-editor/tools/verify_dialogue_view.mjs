@@ -228,10 +228,14 @@ head('\n6) 实时播放：按脚本顺序一句一句推进');
   }
 }
 
-head('\n7) 就地改对白：等长才收');
+head('\n7) 就地改对白：长度不限（变长会搬动剧本）');
 {
   const host = new (globalThis.document.createElement('div').constructor)('div');
   renderDialogueView(host, ctx, { root: 'before', scene: 54 });
+  const pageText = host.textContent || '';
+  check('页面的说明条写明「长度不限」', pageText.includes('长度不限'), '');
+  check('页面的说明条写明会「搬到空闲区」', pageText.includes('空闲区'), '');
+  check('页面的说明条不再说「必须等长」', !pageText.includes('必须等长'));
   const rows = host.descendants().filter((n) => n.dataset && n.dataset.dlgLine !== undefined);
   const first = rows[0];
   const input = first.descendants().find((n) => n.tagName === 'INPUT'
@@ -243,14 +247,18 @@ head('\n7) 就地改对白：等长才收');
 
   const before = pack.changedCount();
   if (input) {
-    // 改长一个字 —— 必须被拒（脚本里的分支目标是绝对地址）。
+    // 改长一个字 —— 现在**不再被拒**：构建时会把整个剧本搬到空闲区并重基地址。
     input.value = segment.text + '啊';
     input.listeners.change[0]({ target: input });
-    check('改长一个字被拒（等长才能改）', pack.changedCount() === before,
+    check('改长一个字被接受（会搬动剧本）', pack.changedCount() === before + 1,
       `改动数 ${before} → ${pack.changedCount()}`);
     const toastText = documentStub.body.textContent;
-    check('拒绝时写明了「等长」', toastText.includes('等长'), toastText.slice(0, 60));
-    check('拒绝后输入框回滚成原文', input.value === segment.text, input.value.slice(0, 24));
+    check('提示里写明了「搬到空闲区」', toastText.includes('搬到空闲区'), toastText.slice(0, 80));
+    check('改长后输入框保留新文本', input.value === segment.text + '啊', input.value.slice(0, 24));
+    // 舞台上的正文也要跟着变（画布与 DOM 文字都是这一句的当前值）。
+    const m2 = model.buildDialogueModel(rom, pack, 'before', 54);
+    check('舞台那一句的正文也是新文本',
+      m2.lines[0].text === segment.text + '啊', m2.lines[0].text.slice(0, 24));
   }
 }
 

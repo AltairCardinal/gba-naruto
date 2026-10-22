@@ -14,7 +14,7 @@
 // (see js/fields.js for the metadata layer itself.)
 
 import { el, clear, formatHex32, formatOffset, toast } from './ui.js';
-import { readField } from './pack.js';
+import { readField, textSlotKind } from './pack.js';
 import { bytesToBase64, base64ToBytes, bytesToHex } from './bytes.js';
 import {
   fieldControl, fieldHint, groupFields, idRelationName, isRawOnly, originalValue,
@@ -875,12 +875,18 @@ export class TextTableEditor {
   render(container) {
     clear(container);
     const table = this.table;
+    // 这张表是**哪一种形态** —— 决定它能不能变长，以及为什么。
+    const kind = this.tableKind();
     container.appendChild(el('div', { class: 'panel-head' }, [
       el('div', {}, [
         el('h2', { text: table.label || table.id }),
         el('div', { class: 'panel-sub' }, [
           el('span', { text: `${(table.records || []).length} 条` }),
-          el('span', { text: table.relocatable ? '可重定位' : '原地改写' }),
+          el('span', {
+            text: kind === 'pointer' ? '可重定位（可变长）'
+              : kind === 'fixed' ? '定长内联槽（等长）'
+                : '绝对地址引用（等长）',
+          }),
           table.pointer_table_offset !== undefined && table.pointer_table_offset !== null
             ? el('span', { text: `指针表 ${formatOffset(table.pointer_table_offset)}` })
             : null,
@@ -904,9 +910,11 @@ export class TextTableEditor {
     container.appendChild(el('div', { class: 'rule-note' }, [
       el('span', { class: 'rule-title', text: '写回规则' }),
       el('span', {
-        text: this.table.relocatable
+        text: kind === 'pointer'
           ? '这条文本被指针表指向，长度可变。改短原地不动（指针不变）；改长会搬到 ROM 空闲区，并只改写它自己的指针。'
-          : '这条文本被代码用绝对地址引用，长度不能变。改长了构建会拒绝，不会静默截断。',
+          : kind === 'fixed'
+            ? '这条文本写在一个定长内联槽里（槽的大小写死在表里），长度不能变 —— 没有指针可以改。改长了构建会拒绝，不会静默截断。'
+            : '这条文本被代码用绝对地址引用，长度不能变。改长了构建会拒绝，不会静默截断。',
       }),
     ]));
     // 表说明（分组规则、内联槽、同址另一种读法…）以前界面上一个字都看不到。
@@ -1341,7 +1349,7 @@ export class TextTableEditor {
       if (bytes + nul > record.capacity) {
         toast(
           `这条只有 ${record.capacity} 字节的定长槽，放不下（需要 ${bytes + nul} 字节）。` +
-          '请改成短一点的文字。',
+          `（${this.slotReason(record)}）请改成短一点的文字。`,
           'error'
         );
         area.value = record.text ?? '';
@@ -1370,12 +1378,14 @@ export class TextTableEditor {
         class: over ? 'bad' : 'ok',
         // 可重定位的表**写得进去**（超长会搬到空闲区并改写指针），
         // 以前这里一律说「放不下」，作者于是白白把字删短。
+        // 放不下的那两张表（定长内联槽 / 绝对地址引用）**结构上就放不下** ——
+        // 说清楚原因，作者才知道这不是编辑器偷懒。
         text: over
           ? (this.table.relocatable
             ? ` · 变长 ${bytes + nul} 字节（槽位 ${record.capacity}）：写得进去，` +
               '构建时会搬到空闲区并改写指针'
             : ` · 放不下：写回需要 ${bytes + nul} 字节，槽位只有 ${record.capacity} 字节` +
-              '（只能等长改写，请删掉几个字）')
+              `（${this.slotReason(record)}）`)
           : ` · 槽位 ${record.capacity} 字节` +
             (this.table.relocatable ? '（放得下，变长会重定位）' : '（放得下）'),
       }));
@@ -1405,6 +1415,40 @@ export class TextTableEditor {
     let n = 0;
     for (const token of tokens) if (token.k === 'c') n += 1;
     return n;
+  }
+
+  /**
+   * 这张表是**哪一种形态** —— 决定它能不能变长，以及为什么。
+   *
+   * 三种（`pack.js::textSlotKind`）：
+   *   * `pointer` —— 指针表驱动，**可变长**（构建时搬到空闲区并改指针）；
+   *   * `fixed` —— 定长内联槽，**结构上放不下更长的字**；
+   *   * `absolute` —— 绝对地址引用，**搬不动**。
+   */
+  tableKind() {
+    if (this.table.relocatable) return 'pointer';
+    const record = (this.table.records || [])[0];
+    if (!record) return 'absolute';
+    return textSlotKind(this.table, record);
+  }
+
+  /**
+   * 这条为什么**只能等长** —— 一句人话。
+   *
+   * 11 张文本表里 9 张是**指针表驱动**的：正文在别处，靠指针指过去，
+   * 变长了就搬到空闲区、把指针改掉 ⇒ **可变长**。
+   *
+   * 剩下两张**结构上就变不了**：
+   *   * `speaker_names` —— **定长内联槽**（12 字节一条，写死在表里）；
+   *   * `battle_objectives` —— **绝对地址引用**（地址在代码里写死）。
+   *
+   * 这不是编辑器偷懒，是 ROM 的结构决定的 —— 说清楚，作者才知道该怎么办。
+   */
+  slotReason(record) {
+    const kind = this.table.relocatable ? 'pointer' : textSlotKind(this.table, record);
+    if (kind === 'fixed') return '这条是定长内联槽，槽的大小写死在表里';
+    if (kind === 'absolute') return '这条的地址在代码里写死，搬不动';
+    return '这条只能等长改写';
   }
 }
 

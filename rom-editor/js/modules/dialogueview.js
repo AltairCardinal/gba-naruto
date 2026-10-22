@@ -5,9 +5,10 @@
 //   * 右边是**对白列表** —— 这一场的每一句，点一下就跳到那一句；
 //   * 下面是**播放条** —— 按脚本顺序一句一句推进，可以暂停、可以单步。
 //
-// 文字**可以就地改**，但必须**等长**（正文内联在字节流里，而脚本里的分支目标是
-// 绝对 ROM 地址 —— 改长改短都会让后面的指令移位、分支全部失效）。
-// 这条约束与写回通路都在 `js/scripttext.js` 里，界面上复用同一套。
+// 文字**可以就地改，长度不限**：正文内联在字节流里，而脚本里的分支目标是
+// 绝对 ROM 地址 —— 等长的直接原地改写；变长 / 变短的话，构建时会把**整个剧本**
+// 搬到 ROM 的空闲区，把它内部的绝对地址全部重基，再改根表里指向它的指针。
+// 这条约束与写回通路都在 `js/scripttext.js` 与 `js/rom.js` 里，界面上复用同一套。
 //
 // 依据：
 //   * `notes/story-vm-opcodes-20261020.md` §3（操作码语义，权威）
@@ -119,9 +120,12 @@ export function renderDialogueView(container, ctx, params) {
     el('span', {
       text: '左边是这一场戏的画面：背景、立绘、对白框、正文，按游戏里的比例画。' +
         '右边是这一场的每一句对白，点一下就跳到那一句。' +
-        '正文**可以就地改，但必须等长** —— 正文内联在脚本字节流里，' +
-        '而脚本里的分支目标是绝对地址，改长改短都会让后面的指令移位、分支全部失效。' +
-        '每个输入框旁边写着还能改几个字节，长度对不上当场拒收并回滚。',
+        '正文**可以就地改，长度不限** —— 正文内联在脚本字节流里，' +
+        '而脚本里的分支目标是绝对地址，所以等长的直接原地改写；' +
+        '**变长 / 变短**的话，构建时会把**整个剧本**搬到 ROM 的空闲区，' +
+        '把它内部的绝对地址全部重基，再改根表里指向它的指针。' +
+        '每个输入框旁边写着「现在多少字节 / 原来多少字节」，' +
+        '以及这一改会不会搬动剧本。',
     }),
   ]));
 
@@ -362,7 +366,12 @@ function listPanel(ctx, model, state, stage) {
     ]);
     const body = el('div', { class: 'dlg-row-body' });
     for (const segment of line.segments) {
-      body.appendChild(textSegmentCell(ctx, segment));
+      body.appendChild(textSegmentCell(ctx, segment, () => {
+        // 改完正文：这一句的文本变了，舞台与计数都要跟上。
+        line.text = line.segments.map((s) => s.text).join('');
+        line.characters = line.text.length;
+        stage.paint();
+      }));
     }
     row.appendChild(head);
     row.appendChild(body);
