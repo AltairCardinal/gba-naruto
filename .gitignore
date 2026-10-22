@@ -34,6 +34,9 @@ build/tiles/
 .ralph/
 .pi/
 
+# 仓库内的工作树（git worktree 检出目录，本地并发验证用，不入库）
+.worktrees/
+
 # 本地工具链与外部参考素材（非本仓库产物）
 .venv/
 references/
