@@ -16,10 +16,10 @@
 //   左边列表 = 角色定义表的每一条（一行 = 一个角色）
 //   右边详情 = 这个角色的各个侧面，每一段都能直接改
 //
-// 右边是**页签**：头部（角色名 / 来自哪张表 / 已改几处 / 跳转条）留在页签外面，
-// 内容按类分页 —— 属性 / 成长 / 特性 / 忍术槽 / 技能槽 / 道具槽 / 头像。
-// 以前这七段竖着堆在一起，是一条看不到头的长滚动：改「头像」得先滚过「忍术槽」。
-// 每个页签有角标：这一类改了几处（按字节判定，改了又改回去不算）。
+// 右边是**卡片**：头部（角色名 / 来自哪张表 / 已改几处 / 跳转条）留在卡片外面，
+// 内容按类分成卡片竖着排 —— 属性 / 成长 / 特性 / 忍术槽 / 技能槽 / 道具槽 / 头像。
+// 卡片全都同时可见（不是页签）：往下滚就是这个角色的全部侧面，不用来回切。
+// 每张卡片有角标：这一类改了几处（按字节判定，改了又改回去不算）。
 //
 // 写回仍然只走内容包已有的通路（pack.setValue），
 // 语义只从内容包取：id 关系来自 structure.id_relation，
@@ -29,7 +29,7 @@ import { el, clear, toast } from '../ui.js';
 import { fieldControl, fieldHint, originalValue, idRelationName } from '../fields.js';
 import { arraysIn, arrayFields, renderArrayTable } from '../slots.js';
 import { splitPane } from '../split.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 import { backButton } from './common.js';
 
 /** 一个角色由哪几张表构成（表 id 都在内容包里）。 */
@@ -100,9 +100,12 @@ class CharacterView {
     this.portrait = this.pack.structure(CHARACTER_TABLES.portrait);
     this.pieces = this.pack.structure(CHARACTER_TABLES.pieces);
     this.arrays = this.template ? arraysIn(this.template.fields) : [];
-    this.refreshers = [];
+    // 「刷新器」按卡片分桶：卡片全都同时在页面上，每张卡片重建时
+    // 只清自己那一桶（见 cardContent）。
+    this.refreshers = new Map();
+    this.currentCard = null;
     this.changedCache = null;
-    this.tabs = null;
+    this.cards = null;
     this.pick = this.pickCharacter(params);
   }
 
@@ -149,12 +152,12 @@ class CharacterView {
 
     this.listWrap = el('div', { class: 'table-wrap' });
     this.detailWrap = el('div', { class: 'detail-panel' });
-    // 页签面板要活过 renderDetail() 的 clear()：头部与页签分装在两个容器里，
+    // 卡片堆要活过 renderDetail() 的 clear()：头部与卡片分装在两个容器里，
     // clear 只清头部那一个。
     this.detailTop = el('div', { class: 'detail-top' });
-    this.detailTabs = el('div', { class: 'detail-tabs' });
+    this.detailCards = el('div', { class: 'detail-cards' });
     this.detailWrap.appendChild(this.detailTop);
-    this.detailWrap.appendChild(this.detailTabs);
+    this.detailWrap.appendChild(this.detailCards);
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.character',
       wide: true,
@@ -264,17 +267,17 @@ class CharacterView {
     }
     this.renderHead(record);
 
-    // 内容进页签。页签面板只装一次：换角色只 refresh，
-    // 这样「停在哪一页」与记住的页签都还在。
-    if (!this.tabs) {
-      this.tabs = new TabPanel(this.tabSpecs(), { key: 'editor.character', pack: this.pack });
-      this.detailTabs.appendChild(this.tabs.element);
+    // 内容进卡片。卡片堆只装一次：换角色只 refresh，
+    // 卡片还是那几张（不再有「当前在哪一页」这回事）。
+    if (!this.cards) {
+      this.cards = new CardStack(this.cardSpecs(), { pack: this.pack });
+      this.detailCards.appendChild(this.cards.element);
     } else {
-      this.refreshTabs();
+      this.refreshCards();
     }
   }
 
-  /** 头部：角色名 / 来自哪张表 / 改了几处 / 跳转条（留在页签外面）。 */
+  /** 头部：角色名 / 来自哪张表 / 改了几处 / 跳转条（留在卡片外面）。 */
   renderHead(record) {
     const top = this.detailTop;
     clear(top);
@@ -295,40 +298,41 @@ class CharacterView {
   }
 
   /**
-   * 右侧面板的页签。
+   * 右侧面板的卡片。
    *
    * 内容按类分 —— 属性 / 成长 / 特性 / 忍术槽 / 技能槽 / 道具槽 / 头像。
-   * 页签 id 用英文，label 用中文；key 记住上次停在哪一页。
+   * 卡片 id 用英文，label 用中文（卡片头的标题），hint 是卡片头下的一行说明。
+   * 卡片全都同时在页面上：往下滚就是全部，不互斥、不隐藏。
    */
-  tabSpecs() {
+  cardSpecs() {
     return [
       {
         id: 'attributes',
         label: '属性',
         hint: '角色定义表的头 12 字节：六项属性、副属性与体力基础',
         badge: () => this.badgeAttributes(),
-        render: () => this.tabContent(() => this.renderAttributes(this.pickRecord())),
+        render: () => this.cardContent('attributes', () => this.renderAttributes(this.pickRecord())),
       },
       {
         id: 'growth',
         label: '成长',
         hint: '逐角色成长表里同号的那一条：每一级涨多少',
         badge: () => this.badgeGrowth(),
-        render: () => this.tabContent(() => this.renderGrowth(this.pickRecord())),
+        render: () => this.cardContent('growth', () => this.renderGrowth(this.pickRecord())),
       },
       {
         id: 'perks',
         label: '特性',
         hint: '这个角色用到的每个技能，在角色特性表里的参数',
         badge: () => this.badgePerks(),
-        render: () => this.tabContent(() => this.renderPerks(this.pickRecord())),
+        render: () => this.cardContent('perks', () => this.renderPerks(this.pickRecord())),
       },
       {
         id: 'jutsu',
         label: '忍术槽',
         hint: '角色定义表里的忍术槽：忍术 id / 等级值 / 解锁等级',
         badge: () => this.badgeSlots('jutsu'),
-        render: () => this.tabContent(() => this.renderSlots(this.pickRecord(), 'jutsu', '忍术列表',
+        render: () => this.cardContent('jutsu', () => this.renderSlots(this.pickRecord(), 'jutsu', '忍术列表',
           '角色定义表里的忍术槽：忍术 id / 等级值 / 解锁等级。忍术 id 就是忍术名表的下标。')),
       },
       {
@@ -336,7 +340,7 @@ class CharacterView {
         label: '技能槽',
         hint: '角色定义表里的技能槽：技能 id / 等级值 / 解锁等级',
         badge: () => this.badgeSlots('training'),
-        render: () => this.tabContent(() => this.renderSlots(this.pickRecord(), 'training', '技能列表',
+        render: () => this.cardContent('training', () => this.renderSlots(this.pickRecord(), 'training', '技能列表',
           '角色定义表里的技能槽：技能 id / 等级值 / 解锁等级。技能 id 就是技能名表与角色特性表的下标。')),
       },
       {
@@ -344,7 +348,7 @@ class CharacterView {
         label: '道具槽',
         hint: '角色定义表里的忍具槽：每一格是一个忍具 id',
         badge: () => this.badgeSlots('items'),
-        render: () => this.tabContent(() => this.renderSlots(this.pickRecord(), 'items', '道具槽',
+        render: () => this.cardContent('items', () => this.renderSlots(this.pickRecord(), 'items', '道具槽',
           '角色定义表里的忍具槽：每一格是一个忍具 id（0 是空槽）。')),
       },
       {
@@ -352,42 +356,63 @@ class CharacterView {
         label: '头像',
         hint: '头像指针表里同号的那一条 + 头像拼块表',
         badge: () => this.badgePortrait(),
-        render: () => this.tabContent(() => this.renderPortrait(this.pickRecord())),
+        render: () => this.cardContent('portrait', () => this.renderPortrait(this.pickRecord())),
       },
     ];
   }
 
-  /** 页签内容：重建时把「刷新器」清一遍（上一页的已经不在 DOM 里了）。 */
-  tabContent(build) {
-    this.refreshers = [];
+  /**
+   * 一张卡片的内容。
+   *
+   * 卡片全都同时在页面上，所以「刷新器」（改完一格要重画说明行的回调）
+   * 是所有卡片合起来的一份 —— 但每张卡片各管各的一桶：
+   * 这张卡片重建时只清它自己那一桶。
+   */
+  cardContent(id, build) {
+    this.currentCard = id;
+    this.refreshers.set(id, []);
     return build();
   }
 
-  /** 刷新当前页签（内容 + 角标）—— 换角色 / 恢复原值后调。 */
-  refreshTabs() {
-    if (!this.tabs) return;
+  /** 登记一个「改完要重画」的回调（归到当前这张卡片名下）。 */
+  addRefresher(fn) {
+    const id = this.currentCard;
+    if (!id) return;
+    const bucket = this.refreshers.get(id) || [];
+    bucket.push(fn);
+    this.refreshers.set(id, bucket);
+  }
+
+  /** 跑一遍所有卡片的刷新器（改完一格，说明行与「已改」标记要跟上）。 */
+  runRefreshers() {
+    for (const bucket of this.refreshers.values()) {
+      for (const fn of bucket) fn();
+    }
+  }
+
+  /** 刷新全部卡片（内容 + 角标）—— 换角色 / 恢复原值后调。 */
+  refreshCards() {
+    if (!this.cards) return;
     const host = this.detailWrap;
     const top = host && Number.isFinite(host.scrollTop) ? host.scrollTop : 0;
-    this.tabs.refresh();
+    this.cards.refresh();
     // 内容是重建的，滚动位置放回去 —— 改一格不用从头滚。
     if (host && Number.isFinite(host.scrollTop)) host.scrollTop = top;
   }
 
   /**
-   * 只重算角标，不重建内容。
+   * 重算角标。
    *
-   * 内容重建会把作者正在编辑的输入框换掉（焦点就没了）——
-   * 所以改完一格只重画页签条：setBadge(id, null) 清掉角标覆盖，
-   * 角标于是按当前数据重算。
+   * setBadge(id, null) 清掉角标覆盖，角标于是按当前数据重算。
+   * 角标从「没有」变成「有几处」时卡片堆会重建一次内容
+   * （角标节点是那时候才有的）—— 之后角标只改数字，不再重建。
    */
   refreshBadges() {
-    if (!this.tabs) return;
-    for (const tab of this.tabs.tabs) this.tabs.setBadge(tab.id, null);
-    // 页签条重画了，高亮要标回去（同一个 id，不重建内容）。
-    this.tabs.setActive(this.tabs.active);
+    if (!this.cards) return;
+    for (const card of this.cards.cards) this.cards.setBadge(card.id, null);
   }
 
-  // --- 页签角标：这一类改了几处 -------------------------------------------
+  // --- 卡片角标：这一类改了几处 -------------------------------------------
 
   /**
    * 角标：这一类改了几处。
@@ -398,7 +423,7 @@ class CharacterView {
    *
    * 属性 / 忍术槽 / 技能槽 / 道具槽 都在角色定义表的**同一条记录**里
    * （rom_offset 相同），所以再按字段细一次 ——
-   * 否则改一项属性会让四个页签一起亮。
+   * 否则改一项属性会让四张卡片一起亮。
    */
 
   /** 属性那一类。 */
@@ -734,7 +759,7 @@ class CharacterView {
       if (changed) lines.push(`原值 ${original}`);
       hintLine.textContent = lines.join(' · ');
     };
-    this.refreshers.push(refresh);
+    this.addRefresher(refresh);
     refresh();
 
     wrapper.appendChild(label);
@@ -758,7 +783,7 @@ class CharacterView {
       hintLine.textContent = fieldHint(this.pack, structure, record, field).join(' · ');
     };
     refresh();
-    this.refreshers.push(refresh);
+    this.addRefresher(refresh);
     cell.appendChild(hintLine);
     if (link) {
       cell.appendChild(el('div', { class: 'field-link' },
@@ -780,20 +805,22 @@ class CharacterView {
     return this.arrays.find((a) => a.name === name) || null;
   }
 
-  /** 字段控件的上下文：改完要刷新说明行、左边的已改计数与页签角标。 */
+  /** 字段控件的上下文：改完要刷新说明行、左边的已改计数与卡片角标。 */
   fieldCtx() {
     return {
       pack: this.pack,
       onChange: this.ctx.onChange,
       onJump: this.ctx.onJump,
-      registerRefresh: (fn) => this.refreshers.push(fn),
+      registerRefresh: (fn) => this.addRefresher(fn),
       onCommit: () => {
         this.changedCache = null;
-        // 头部（「已改 N 处」）与页签角标都要跟上这次改动 ——
-        // 但**不重建页签内容**：重建会把作者正在编辑的输入框换掉，焦点就没了。
+        // 头部（「已改 N 处」）与卡片角标都要跟上这次改动。
+        // 说明行与「已改」标记由刷新器就地更新，不必重建整摞卡片 ——
+        // 只有角标从「没有」变成「有几处」时卡片堆会自己重建一次
+        // （角标节点是那时候才有的）。
         this.renderHead(this.pickRecord());
         this.refreshBadges();
-        for (const fn of this.refreshers) fn();
+        this.runRefreshers();
         this.renderList();
       },
     };

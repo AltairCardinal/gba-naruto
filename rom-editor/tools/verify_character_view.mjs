@@ -4,18 +4,19 @@
 // 应当按统一的任务编辑来呈现，然后按索引表列出，将其他表的内容都作为字段呈现。」
 // 角色域照同样的思路做：左边按角色列出，右边是这个角色的各个侧面。
 //
-// 右边是**页签**（见 notes/specs/tabbed-side-panels.md）：头部留在页签外面，
-// 内容按类分页 —— 属性 / 成长 / 特性 / 忍术槽 / 技能槽 / 道具槽 / 头像。
+// 右边是**卡片**（见 notes/specs/human-readable-cards-20261022.md）：头部留在卡片外面，
+// 内容按类分成卡片竖着排 —— 属性 / 成长 / 特性 / 忍术槽 / 技能槽 / 道具槽 / 头像。
+// 卡片**不互斥**：所有卡片的内容同时在 DOM 里（这是与页签最大的不同）。
 //
 // 六条断言：
 //   1. 角色视图能渲染，左边列表的行数 = 角色定义表的条数；
-//   2. 详情里能看到属性 / 成长 / 特性 / 忍术槽 / 技能槽 / 道具槽 / 头像这几段
-//      （页签是懒渲染的：一页一类，切过去才在 DOM 里）；
+//   2. 详情里能看到属性 / 成长 / 特性 / 忍术槽 / 技能槽 / 道具槽 / 头像这几张卡片
+//      （卡片不懒渲染：每一张的内容都在 DOM 里）；
 //   3. 改一个字段后 pack.changedCount() +1，改回原值后回落；
 //   4. 域首页的「本域可编辑内容」里，角色那几张表合成了一行；
 //   5. 路由：#characters/character 能寻址；
-//   6. 右侧面板确实有页签条：标签是预期的那几个、切过去那一页在 DOM 里、
-//      切走之后不在；角标只在真正改了的那一页上亮。
+//   6. 右侧面板确实是卡片：卡片堆、卡片头标题（七张，依次是预期的那几个）、
+//      所有卡片的内容同时在 DOM 里；角标只在真正改了的那一张上亮。
 //
 // 用法：node rom-editor/tools/verify_character_view.mjs
 import { readFileSync } from 'node:fs';
@@ -161,9 +162,7 @@ const ctx = {
 
 /** 渲染角色域的某个面板。 */
 function renderPanel(panel) {
-  // 每次渲染都从第一页开始 —— 页签记住的是「上次停在哪」，
-  // 不该让上一条断言的残留影响这一条。
-  storage.delete('editor.tabs.editor.character');
+  // 卡片没有「当前页」，也就没什么要清的残留状态。
   const host = new StubNode('div');
   ctx.state.view = { panel };
   renderCharacters(host, ctx);
@@ -175,37 +174,44 @@ function byClass(host, name) {
   return host.descendants().filter((n) => String(n.className || '').split(/\s+/).includes(name));
 }
 
-/** 页签条上的按钮（按顺序）。 */
-function tabButtons(host) {
-  return byClass(host, 'tab-btn');
+/** 卡片堆（.card-stack）—— 右侧面板装卡片的那一摞。 */
+function cardStacks(host) {
+  return byClass(host, 'card-stack');
 }
 
-/** 页签按钮上的文字（label + 角标）。 */
-function tabLabels(host) {
-  return tabButtons(host).map((n) => String(n.textContent || ''));
+/** 卡片（.editor-card）—— 每一类配置一张。 */
+function cardsOf(host) {
+  return byClass(host, 'editor-card');
 }
 
-/** 切到某个页签（内容是懒渲染的：切过去才在 DOM 里）。 */
-function switchTab(host, label) {
-  const btn = tabButtons(host).find((n) => String(n.textContent || '').includes(label));
-  if (!btn) return false;
-  const click = btn.listeners && btn.listeners.click && btn.listeners.click[0];
-  if (!click) return false;
-  click();
-  return true;
+/** 卡片头的标题。 */
+function cardTitle(card) {
+  const node = byClass(card, 'editor-card-title')[0];
+  return node ? String(node.textContent || '').trim() : '';
 }
 
-/** 某个页签上的角标文字（没有角标就是空串）。 */
-function tabBadge(host, label) {
-  const btn = tabButtons(host).find((n) => String(n.textContent || '').includes(label));
-  if (!btn) return '';
-  const badge = byClass(btn, 'tab-badge')[0];
+/** 卡片体（装内容的那一格）。 */
+function cardBody(card) {
+  return byClass(card, 'editor-card-body')[0] || null;
+}
+
+/** 按标题找一张卡片。 */
+function cardByTitle(host, title) {
+  return cardsOf(host).find((c) => cardTitle(c) === title) || null;
+}
+
+/** 某张卡片上的角标文字（没有角标就是空串）。 */
+function cardBadge(host, title) {
+  const card = cardByTitle(host, title);
+  if (!card) return '';
+  const badge = byClass(card, 'card-badge')[0];
   return badge ? String(badge.textContent || '') : '';
 }
 
-/** 页签正文（只有当前页签的内容在里面）。 */
-function tabBodyText(host) {
-  return byClass(host, 'tab-body').map((n) => n.textContent).join('');
+/** 某张卡片里的文字。 */
+function cardText(host, title) {
+  const card = cardByTitle(host, title);
+  return card ? String(card.textContent || '') : '';
 }
 
 /** 表格里的正文行（跳过表头行）。 */
@@ -231,12 +237,12 @@ console.log('1) 角色视图能渲染，左边列表的行数 = 角色定义表�
     (text.match(/漩涡[^·]{0,4}/) || ['没有'])[0]);
 }
 
-console.log('2) 详情里能看到角色的各个侧面（右侧是页签，一页一类）');
+console.log('2) 详情里能看到角色的各个侧面（右侧是卡片，每一张都在 DOM 里）');
 {
   const host = renderPanel({ kind: 'character', id: '角色', params: {} });
   const detail = byClass(host, 'detail-panel')[0];
   check('有详情面板', !!detail, detail ? '' : '没有');
-  // 页签是懒渲染的：要看哪一类，就切到哪一页去。
+  // 卡片不互斥：每一类都在自己那张卡片里，不用切。
   const pages = [
     { label: '属性', needles: ['属性', '攻击力', '防御力', '敏捷度', '移动力', '忍具数', '查克拉', '副属性', '体力'] },
     { label: '成长', needles: ['成长', '每级成长'] },
@@ -247,22 +253,22 @@ console.log('2) 详情里能看到角色的各个侧面（右侧是页签，一�
     { label: '头像', needles: ['头像', '表情'] },
   ];
   let allText = '';
-  let slotTables = 0;
-  let controls = 0;
-  const jumpTexts = [];
   for (const page of pages) {
-    check(`切到「${page.label}」那一页`, switchTab(host, page.label));
-    const text = detail ? detail.textContent : '';
+    const card = cardByTitle(host, page.label);
+    check(`有「${page.label}」这张卡片`, !!card);
+    const body = card ? cardBody(card) : null;
+    const text = body ? body.textContent : '';
     if (process.env.CHAR_DEBUG) console.log(`--- ${page.label} ---\n${text.slice(0, 400)}`);
     allText += text;
     for (const needle of page.needles) {
-      check(`「${page.label}」那页含「${needle}」`, text.includes(needle));
+      check(`「${page.label}」那张卡片含「${needle}」`, text.includes(needle));
     }
-    slotTables += byClass(detail, 'grid-slots').length;
-    controls += detail.descendants().filter(
-      (n) => ['INPUT', 'SELECT', 'TEXTAREA'].includes(n.tagName)).length;
-    jumpTexts.push(...byClass(detail, 'xref-link').map((n) => n.textContent));
   }
+  // 全部卡片的控件与表一次数（卡片都在 DOM 里，不用一页一页数）
+  const slotTables = byClass(detail, 'grid-slots').length;
+  const controls = detail.descendants().filter(
+    (n) => ['INPUT', 'SELECT', 'TEXTAREA'].includes(n.tagName)).length;
+  const jumpTexts = byClass(detail, 'xref-link').map((n) => n.textContent);
   check('重复槽位渲染成表（忍术 / 技能 / 道具 / 表情 / 特性）', slotTables >= 5,
     `${slotTables} 张`);
   check('每一项都能直接改（控件数 > 50）', controls > 50, `${controls} 个控件`);
@@ -333,68 +339,68 @@ console.log('\n5) 路由：角色视图可以被地址寻址');
     hashFor({ module: 'characters', panel: { kind: 'character', id: '角色' } }));
 }
 
-console.log('\n6) 右侧面板是页签：标签、切页签、角标');
+console.log('\n6) 右侧面板是卡片：卡片堆、卡片头、内容同时在 DOM 里、角标');
 {
   const host = renderPanel({ kind: 'character', id: '角色', params: {} });
   const detail = byClass(host, 'detail-panel')[0];
 
-  // 6a. 页签条在，标签就是预期的那几个
-  check('详情面板里有页签条', byClass(host, 'tab-bar').length === 1,
-    `${byClass(host, 'tab-bar').length} 条`);
+  // 6a. 卡片堆在，里头是预期的那七张卡片
+  check('详情面板里有卡片堆', cardStacks(host).length === 1,
+    `${cardStacks(host).length} 个`);
   const expected = ['属性', '成长', '特性', '忍术槽', '技能槽', '道具槽', '头像'];
-  const labels = tabLabels(host);
-  check('页签标签就是预期的那七个', JSON.stringify(labels) === JSON.stringify(expected),
-    labels.join(' / '));
+  const cards = cardsOf(host);
+  check('卡片头标题就是预期的那七个（依次）',
+    JSON.stringify(cards.map(cardTitle)) === JSON.stringify(expected),
+    cards.map(cardTitle).join(' / '));
 
-  // 6b. 头部留在页签外面
-  check('页签正文只有一个', byClass(host, 'tab-body').length === 1);
-  const bodyText = tabBodyText(host);
-  check('「角色定义表 #N」留在页签外面',
-    detail.textContent.includes('角色定义表 #1') && !bodyText.includes('角色定义表 #1'));
-  check('跳转条留在页签外面',
+  // 6b. 头部留在卡片外面
+  const allCardText = cards.map((c) => String(c.textContent || '')).join('');
+  check('头部留在卡片外面',
+    detail.textContent.includes('角色定义表 #1') && !allCardText.includes('角色定义表 #1'));
+  check('跳转条留在卡片外面',
     detail.textContent.includes('人物名表（改名字）') &&
-    !bodyText.includes('人物名表（改名字）'));
+    !allCardText.includes('人物名表（改名字）'));
 
-  // 6c. 切过去那一页在 DOM 里，切走之后不在
-  check('默认停在「属性」那一页', tabBodyText(host).includes('副属性'));
-  check('切到「成长」', switchTab(host, '成长'));
-  const growth = tabBodyText(host);
-  check('成长那一页的内容在 DOM 里', growth.includes('体力每级成长'));
-  check('切走后属性那一页不在 DOM 里了', !growth.includes('副属性'));
-  check('切到「特性」', switchTab(host, '特性'));
-  const perks = tabBodyText(host);
-  check('特性那一页的内容在 DOM 里', perks.includes('特性（技能）'));
-  check('切走后成长那一页不在 DOM 里了', !perks.includes('体力每级成长'));
-  check('切回「属性」', switchTab(host, '属性'));
-  check('属性那一页又回来了', tabBodyText(host).includes('副属性'));
-  check('切回来之后成长那一页仍然不在', !tabBodyText(host).includes('体力每级成长'));
+  // 6c. 所有卡片的内容**同时**在 DOM 里（卡片不互斥 —— 与页签最大的不同）
+  check('「属性」那张卡片的内容在 DOM 里', cardText(host, '属性').includes('副属性'));
+  check('「成长」那张卡片的内容同时在 DOM 里', cardText(host, '成长').includes('体力每级成长'));
+  check('「特性」那张卡片的内容同时在 DOM 里', cardText(host, '特性').includes('特性（技能）'));
+  check('「忍术槽」那张卡片的内容同时在 DOM 里', cardText(host, '忍术槽').includes('忍术列表'));
+  check('「技能槽」那张卡片的内容同时在 DOM 里', cardText(host, '技能槽').includes('技能列表'));
+  check('「道具槽」那张卡片的内容同时在 DOM 里', cardText(host, '道具槽').includes('道具槽'));
+  check('「头像」那张卡片的内容同时在 DOM 里', cardText(host, '头像').includes('表情'));
+  check('属性与成长两张卡片的内容**都在**（不再互斥）',
+    cardText(host, '属性').includes('副属性') && cardText(host, '成长').includes('体力每级成长'));
 
-  // 6d. 角标：改了哪一类，哪一页才亮
+  // 6d. 角标：改了哪一类，哪张卡片才亮
   const attack = byClass(detail, 'field').find((f) => f.textContent.includes('攻击力'));
   const input = attack ? attack.descendants().find((n) => n.tagName === 'INPUT') : null;
-  check('属性那一页里「攻击力」有输入框', !!input,
+  check('「属性」那张卡片里「攻击力」有输入框', !!input,
     input ? `当前值 ${input.value}` : '没有输入框');
   if (input) {
     const original = Number(input.value);
     input.listeners.change[0]({ target: { value: String(original + 1) } });
-    check('改了属性，「属性」那一页亮角标', tabBadge(host, '属性') === '1',
-      `角标「${tabBadge(host, '属性')}」`);
+    check('改了属性，「属性」那张卡片亮角标', cardBadge(host, '属性') === '1',
+      `角标「${cardBadge(host, '属性')}」`);
     for (const other of ['成长', '特性', '忍术槽', '技能槽', '道具槽', '头像']) {
-      check(`改属性不会让「${other}」那一页亮角标`, tabBadge(host, other) === '',
-        `角标「${tabBadge(host, other)}」`);
+      check(`改属性不会让「${other}」那张卡片亮角标`, cardBadge(host, other) === '',
+        `角标「${cardBadge(host, other)}」`);
     }
     // 头部（「已改 N 处」）也要跟上
     check('头部的「已改 N 处」跟上了', detail.textContent.includes('已改 1 处'),
       (detail.textContent.match(/已改\s*\d+\s*处/) || ['没有'])[0]);
-    // 页签内容不重建：重建会把作者正在编辑的输入框换掉（焦点就没了）
-    const sameInput = byClass(detail, 'field')
+    // 改完一格：这一格的新值还在，别的卡片的内容也不能丢
+    const after = byClass(detail, 'field')
       .find((f) => f.textContent.includes('攻击力'))
       .descendants().find((n) => n.tagName === 'INPUT');
-    check('改完一格不重建页签内容（输入框不丢焦点）', sameInput === input);
+    check('改完一格，「攻击力」的新值还在卡片里',
+      !!after && Number(after.value) === original + 1,
+      after ? `当前值 ${after.value}` : '输入框没了');
+    check('改完一格，别的卡片内容没丢', cardText(host, '成长').includes('体力每级成长'));
     // 改回去：角标也要跟着灭（按字节判定 —— 改了又改回去不算改）
     input.listeners.change[0]({ target: { value: String(original) } });
-    check('改回原值后角标灭掉', tabBadge(host, '属性') === '',
-      `角标「${tabBadge(host, '属性')}」`);
+    check('改回原值后角标灭掉', cardBadge(host, '属性') === '',
+      `角标「${cardBadge(host, '属性')}」`);
     check('改回原值后头部也回到「已改 0 处」', detail.textContent.includes('已改 0 处'),
       (detail.textContent.match(/已改\s*\d+\s*处/) || ['没有'])[0]);
   }

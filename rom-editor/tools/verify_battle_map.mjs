@@ -204,19 +204,31 @@ const byClass = (host, name) =>
 const tables = (host) => host.descendants().filter((n) => n.tagName === 'TABLE');
 
 /**
- * 切到右侧面板的某个页签。
+ * 右侧面板的某张卡片（按卡片头的标题找）。
  *
- * 右侧面板现在是分页签的（内容按需渲染），所以要拿某一页的表格得先切过去。
+ * 右侧是**一摞纵排的卡片**，全都同时在 DOM 里 ——
+ * 所以不用「切页签」，直接按标题找那张卡片。
  */
-function switchTab(host, label) {
-  const btn = byClass(host, 'tab-btn')
-    .find((n) => String(n.textContent || '').includes(label));
-  if (!btn) return false;
-  const click = btn.listeners && btn.listeners.click && btn.listeners.click[0];
-  if (!click) return false;
-  click();
-  return true;
+function cardOf(host, title) {
+  return byClass(host, 'editor-card').find((card) => {
+    const head = card.children.find((c) => String(c.className || '').includes('editor-card-head'));
+    const name = head ? head.children.find((c) => String(c.className || '').includes('editor-card-title')) : null;
+    return name && String(name.textContent || '').includes(title);
+  });
 }
+
+/** 某张卡片里的表格。 */
+function cardTables(host, title) {
+  const card = cardOf(host, title);
+  return card ? card.descendants().filter((n) => n.tagName === 'TABLE') : [];
+}
+
+/** 某张卡片的文字。 */
+function cardText(host, title) {
+  const card = cardOf(host, title);
+  return card ? card.textContent : '';
+}
+
 function rowsOf(table) {
   const body = (table.children || []).find((n) => n.tagName === 'TBODY');
   return body ? body.children.filter((n) => n.tagName === 'TR') : [];
@@ -365,8 +377,7 @@ console.log('\n5) V5 写回只动该动的字节');
   const before = { ...record.values };
 
   // 从视图里改 X（走的是真正的那条路：数字框 → 越界检查 → pack.setValue）
-  switchTab(host, '战场物件');
-  const objectTable = tables(host)[0];
+  const objectTable = cardTables(host, '战场物件')[0];
   const row = rowsOf(objectTable)[0];
   const xInput = cellsOf(row)[3].descendants().find((n) => n.tagName === 'INPUT');
   check('物件第 1 槽的 X 是可编辑输入框', !!xInput, xInput ? `X=${xInput.value}` : '没有输入框');
@@ -483,8 +494,7 @@ console.log('\n8) V8 越界被拦');
   const before = record.values.x;
   clearToasts();
 
-  switchTab(host, '战场物件');
-  const objectTable = tables(host)[0];
+  const objectTable = cardTables(host, '战场物件')[0];
   const xInput = cellsOf(rowsOf(objectTable)[0])[3].descendants().find((n) => n.tagName === 'INPUT');
   // 第 40 关的地图是 9 列 → 9 已经越界
   xInput.listeners.change[0]({ target: { value: '9' } });
@@ -504,8 +514,7 @@ console.log('\n9) V9 阵营写的是 unit_flags bit0');
   const sideBefore = record.values.side;
   const flagsBefore = record.values.unit_flags;
 
-  switchTab(host, '角色出生点');
-  const actorTable = tables(host)[0];
+  const actorTable = cardTables(host, '角色出生点')[0];
   const row = rowsOf(actorTable)[0];
   const sideSelect = cellsOf(row)[2].descendants().find((n) => n.tagName === 'SELECT');
   check('阵营是一个下拉', !!sideSelect);
@@ -532,10 +541,8 @@ console.log('\n10) V10 素材缺失时降级但不瘫');
   const fallback = byClass(host, 'map-grid-fallback')[0];
   check('有 .map-grid-fallback 元素', !!fallback);
   check('格线底图是显示着的', !!fallback && fallback.classList.contains('on'));
-  switchTab(host, '战场物件');
-  const objectRows = rowsOf(tables(host)[0]);
-  switchTab(host, '角色出生点');
-  const actorRows = rowsOf(tables(host)[0]);
+  const objectRows = rowsOf(cardTables(host, '战场物件')[0]);
+  const actorRows = rowsOf(cardTables(host, '角色出生点')[0]);
   check('「战场物件」表仍有 16 行', objectRows.length === 16, `${objectRows.length} 行`);
   check('「角色出生点」表仍有 12 行', actorRows.length === 12, `${actorRows.length} 行`);
 
@@ -552,24 +559,24 @@ console.log('\n11) V11 胜负条件与剧情触发在页签里（不再有「去
 {
   const pack = freshPack();
   const { host } = await renderMapView(pack, 40, 0);
-  // 默认页签是「战场布置」—— 条件不糊在地图上，但**在这个视图里**。
+  // 右侧是**一摞纵排的卡片** —— 胜负条件就在同一页里，不用切。
   const text = host.textContent;
   for (const word of ['胜利', '失败', '回合上限']) {
-    check(`默认页签的文本里不出现「${word}」`, !text.includes(word),
+    check(`同一页里能看到「${word}」`, text.includes(word),
       text.includes(word) ? '出现了' : '没有');
   }
   // 旧设计里这里有一个「战斗目标在关卡视图里 →」的链接；
-  // 现在条件就在右侧页签上，那个链接不该再存在。
+  // 现在条件就在右侧的卡片里，那个链接不该再存在。
   const links = host.descendants().filter((n) => n.tagName === 'BUTTON')
     .filter((n) => n.textContent.includes('关卡视图'));
   check('没有「去关卡视图改战斗目标」的链接了', links.length === 0, `${links.length} 个`);
 
-  // 切到「胜负条件」页签，条件就在这儿，且能改。
-  switchTab(host, '胜负条件');
-  const tabText = byClass(host, 'tab-body')[0].textContent;
-  check('切到页签后能看到胜负条件', tabText.includes('胜利') && tabText.includes('失败'),
-    (tabText.match(/胜利|失败/g) || []).join(' '));
-  check('切到页签后能看到回合上限', tabText.includes('回合上限'));
+  // 条件在「胜负条件」那张卡片里，且能改。
+  const rulesText = cardText(host, '胜负条件');
+  check('「胜负条件」那张卡片里有胜利与失败',
+    rulesText.includes('胜利') && rulesText.includes('失败'),
+    (rulesText.match(/胜利|失败/g) || []).join(' '));
+  check('「胜负条件」那张卡片里有回合上限', rulesText.includes('回合上限'));
 }
 
 console.log('\n12) V12 底图 id 可改');
@@ -612,50 +619,56 @@ console.log('\n13) 右侧页签收纳了这一关的全部配置');
   const pack = freshPack();
   const { host } = await renderMapView(pack, 40, 0);
 
-  const tabButtons = byClass(host, 'tab-btn');
-  const labels = tabButtons.map((n) => n.textContent);
-  check('右侧面板有页签条', tabButtons.length >= 5, `${tabButtons.length} 个页签：${labels.join(' / ')}`);
+  const cards = byClass(host, 'editor-card');
+  const labels = cards.map((card) => {
+    const head = card.children.find((c) => String(c.className || '').includes('editor-card-head'));
+    const name = head ? head.children.find((c) => String(c.className || '').includes('editor-card-title')) : null;
+    return name ? name.textContent : '';
+  });
+  check('右侧面板是一摞卡片', cards.length >= 5, `${cards.length} 张卡片：${labels.join(' / ')}`);
   for (const want of ['战场布置', '战场物件', '角色出生点', '胜负条件', '剧情触发']) {
-    check(`页签里有「${want}」`, labels.some((t) => t.includes(want)), labels.join(' / '));
+    check(`卡片里有「${want}」`, labels.some((t) => t.includes(want)), labels.join(' / '));
   }
 
-  // 胜负条件那一页：回合上限 + 4 胜 + 4 负 + 说明文字
-  switchTab(host, '胜负条件');
-  const rulesTable = tables(host)[0];
+  // 胜负条件那张卡片：回合上限 + 4 胜 + 4 负 + 说明文字
+  const rulesTable = cardTables(host, '胜负条件')[0];
   const rulesRows = rowsOf(rulesTable);
-  check('胜负条件那一页有条件表', !!rulesTable, rulesTable ? `${rulesRows.length} 行` : '没有表');
+  check('「胜负条件」卡片里有条件表', !!rulesTable, rulesTable ? `${rulesRows.length} 行` : '没有表');
   check('条件表里带「说明文字」列',
     !!rulesTable && String(rulesTable.children[0].textContent).includes('说明文字'));
   check('胜利条件与失败条件都在',
     rulesRows.length > 0 && rulesRows.some((r) => r.textContent.includes('胜利'))
     && rulesRows.some((r) => r.textContent.includes('失败')),
     rulesRows.map((r) => r.textContent).join(' | ').slice(0, 160));
-  check('胜负条件那一页能改类型（原生取值域下拉）',
+  check('「胜负条件」卡片能改类型（原生取值域下拉）',
     rulesRows.length > 0
     && cellsOf(rulesRows[0]).some((c) => c.descendants().some((n) => n.tagName === 'SELECT')));
 
-  // 剧情触发那一页：四个剧本根指针
-  switchTab(host, '剧情触发');
-  const scriptTable = tables(host)[0];
+  // 剧情触发那张卡片：四个剧本根指针
+  const scriptTable = cardTables(host, '剧情触发')[0];
   const scriptRows = rowsOf(scriptTable);
-  check('剧情触发那一页有剧本表', !!scriptTable, scriptTable ? `${scriptRows.length} 行` : '没有表');
+  check('「剧情触发」卡片里有剧本表', !!scriptTable, scriptTable ? `${scriptRows.length} 行` : '没有表');
   check('四个剧本入口都在',
     scriptRows.length >= 4
     && ['战前剧情', '战后剧情', '战场事件逻辑', '战场事件表']
       .every((name) => scriptRows.some((r) => r.textContent.includes(name))),
     scriptRows.map((r) => r.textContent).join(' | ').slice(0, 200));
 
-  // 战场布置那一页：地图尺寸 + 剧情底图 + 六个指针
-  switchTab(host, '战场布置');
-  const setupText = byClass(host, 'tab-body')[0].textContent;
-  check('战场布置那一页写着地图尺寸', setupText.includes('格') && setupText.includes('像素'));
-  check('战场布置那一页列了剧情底图', setupText.includes('剧情底图'));
-  check('战场布置那一页说了地形改不了', setupText.includes('通行值'));
+  // 战场布置那张卡片：地图尺寸 + 剧情底图 + 六个指针
+  const setupText = cardText(host, '战场布置');
+  check('「战场布置」卡片写着地图尺寸', setupText.includes('格') && setupText.includes('像素'));
+  check('「战场布置」卡片列了剧情底图', setupText.includes('剧情底图'));
+  check('「战场布置」卡片说了地形改不了', setupText.includes('通行值'));
 
-  // 页签是懒渲染的：只建当前这一页
-  check('页签是懒渲染的（切走的那一页不留在 DOM 里）',
-    byClass(host, 'tab-body').length === 1 && tables(host).length === 0,
-    `${byClass(host, 'tab-body').length} 个内容区 / ${tables(host).length} 张表`);
+  // 卡片**全都同时在 DOM 里** —— 不藏内容，往下滚就是全部。
+  check('所有卡片的内容同时在 DOM 里（不藏内容）',
+    cards.length >= 5 && byClass(host, 'card-stack').length === 1,
+    `${cards.length} 张卡片 / ${byClass(host, 'card-stack').length} 个卡片堆`);
+  check('每一张卡片的标题旁边都能挂改动数角标',
+    cards.every((card) => {
+      const head = card.children.find((c) => String(c.className || '').includes('editor-card-head'));
+      return !!head;
+    }));
 }
 
 console.log('\n14) 入口与页面文字');

@@ -14,7 +14,7 @@ import { el, clear, toast } from '../ui.js';
 import { base64ToBytes, bytesToBase64 } from '../bytes.js';
 import { fieldControl } from '../fields.js';
 import { splitPane } from '../split.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 import { backButton } from './common.js';
 import { ROOTS } from './scriptview.js';
 
@@ -96,7 +96,7 @@ class SceneView {
     ]));
     container.appendChild(el('p', { class: 'section-note', text:
       '左边按场景号列出（槽号就是场景号）；右边是这一场的四个剧本入口 —— ' +
-      '战前 / 战后 / 战场事件逻辑 / 战场事件，各占一页签，四个指针都能直接改，' +
+      '战前 / 战后 / 战场事件逻辑 / 战场事件，各占一张卡片，四个指针都能直接改，' +
       '点「看剧本」就跳到这一场的反汇编。' +
       '四张根表在 ROM 里是分开存的，但它们说的是同一场戏。' }));
 
@@ -105,12 +105,12 @@ class SceneView {
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.story.scene', wide: true,
     }));
-    // 右侧面板：头部（场景号 / 槽号 / 改动数）留在页签外面，
-    // 四张根表 —— 也就是这一场的四个剧本入口 —— 各占一页签。
+    // 右侧面板：头部（场景号 / 槽号 / 改动数）留在卡片外面，
+    // 四张根表 —— 也就是这一场的四个剧本入口 —— 各占一张卡片，全都同时可见。
     this.headHost = el('div', { class: 'scene-detail-head' });
     this.detailWrap.appendChild(this.headHost);
-    this.tabs = new TabPanel(this.sceneTabs(), { key: 'editor.story.scene', pack: this.pack });
-    this.detailWrap.appendChild(this.tabs.element);
+    this.cards = new CardStack(this.sceneCards(), { pack: this.pack });
+    this.detailWrap.appendChild(this.cards.element);
     this.renderList();
     this.renderDetail();
   }
@@ -177,18 +177,18 @@ class SceneView {
   }
 
   /**
-   * 右侧的四个页签：四张根表各一页。
+   * 右侧的四张卡片：四张根表各一张。
    *
    * 它们本来就是同一场戏的四个剧本入口 —— 战前 / 战后 / 战场事件逻辑 / 战场事件，
-   * 所以一页一路：作者改哪一路就切到哪一路，不用在一条长面板里上下找。
+   * 所以一张一路：四张卡片竖着排在一起，作者改哪一路就往下滚到哪一路。
    */
-  sceneTabs() {
+  sceneCards() {
     return this.roots.map((root) => ({
       id: root.id,
       label: ROOT_SHORT[root.id] || root.label,
       hint: `${root.label} —— 这一场的剧本入口指针`,
       badge: () => this.rootChanged(root),
-      render: () => this.renderRootTab(root),
+      render: () => this.renderRootCard(root),
     }));
   }
 
@@ -196,7 +196,7 @@ class SceneView {
    * 这一路的剧本指针改过没有（按字节判定，与通用表格同一套）。
    *
    * 只看当前这一场：左边列表的「已改」是这一场的总数，
-   * 角标说的是「这一页显示的那一条改没改」。
+   * 角标说的是「这张卡片显示的那一条改没改」。
    */
   rootChanged(root) {
     const record = (root.table.records || [])[this.scene];
@@ -206,8 +206,8 @@ class SceneView {
     return changed.has(record.rom_offset) ? '1' : null;
   }
 
-  /** 一个页签 = 一张根表里这一场的剧本入口。 */
-  renderRootTab(root) {
+  /** 一张卡片 = 一张根表里这一场的剧本入口。 */
+  renderRootCard(root) {
     const record = (root.table.records || [])[this.scene];
     if (!record) {
       return el('div', { class: 'empty', text: '这张根表里没有这一场。' });
@@ -235,7 +235,7 @@ class SceneView {
     ]);
   }
 
-  /** 右边：头部（场景号 / 槽号 / 改动数）留在页签外面，内容在页签里。 */
+  /** 右边：头部（场景号 / 槽号 / 改动数）留在卡片外面，内容在下面四张卡片里。 */
   renderDetail() {
     const host = this.headHost;
     clear(host);
@@ -252,7 +252,7 @@ class SceneView {
       el('span', { text: state.changed ? `已改 ${state.changed} 处` : '还没有改动' }),
     ]));
 
-    this.tabs.refresh();
+    this.cards.refresh();
   }
 
   /** 「看这个场景的剧本」—— 跳到剧本查看器。 */
@@ -343,7 +343,7 @@ class FontView {
     ]));
     container.appendChild(el('p', { class: 'section-note', text:
       '左边是字形段表（一行 = 一段字形：起始码、字数、字形在 ROM 里的位置）；' +
-      '右边分两页签：字形段是这一段的字段，字宽是字宽表 —— 字宽表按字符码索引，' +
+      '右边分两张卡片：字形段是这一段的字段，字宽是字宽表 —— 字宽表按字符码索引，' +
       '字形段表只覆盖其中一部分码位，所以这里还能按字符码单独查、单独改。' }));
 
     this.listWrap = el('div', { class: 'table-wrap font-list' });
@@ -351,27 +351,27 @@ class FontView {
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.story.font', wide: true,
     }));
-    // 右侧面板：头部（段号 / 起始码 / 字数）留在页签外面，
-    // 字形段与字宽各占一页签 —— 两张表说的本来就是同一批字形。
+    // 右侧面板：头部（段号 / 起始码 / 字数）留在卡片外面，
+    // 字形段与字宽各占一张卡片 —— 两张表说的本来就是同一批字形，全都同时可见。
     this.headHost = el('div', { class: 'font-detail-head' });
     this.detailWrap.appendChild(this.headHost);
-    this.tabs = new TabPanel([
+    this.cards = new CardStack([
       {
         id: 'segments',
         label: '字形段',
         hint: '这一段的字段：起始码、字数与字形在 ROM 里的位置',
         badge: () => this.segmentChanged(),
-        render: () => this.renderSegmentTab(),
+        render: () => this.renderSegmentCard(),
       },
       {
         id: 'widths',
         label: '字宽',
         hint: '字宽表：按字符码索引，每个字符的字宽',
         badge: () => this.widthChanged(),
-        render: () => this.renderWidthTab(),
+        render: () => this.renderWidthCard(),
       },
-    ], { key: 'editor.story.font', pack: this.pack });
-    this.detailWrap.appendChild(this.tabs.element);
+    ], { pack: this.pack });
+    this.detailWrap.appendChild(this.cards.element);
     this.renderList();
     this.renderDetail();
   }
@@ -433,7 +433,7 @@ class FontView {
     return bytesToBase64(bytes) !== bytesToBase64(raw);
   }
 
-  /** 右边：头部（段号 / 起始码 / 字数）留在页签外面，内容在页签里。 */
+  /** 右边：头部（段号 / 起始码 / 字数）留在卡片外面，内容在下面两张卡片里。 */
   renderDetail() {
     const host = this.headHost;
     clear(host);
@@ -450,11 +450,11 @@ class FontView {
       el('span', { text: `字形 ${this.segmentPosition(values)}` }),
     ]));
 
-    this.tabs.refresh();
+    this.cards.refresh();
   }
 
-  /** 字形段这一页：这一段的字段。 */
-  renderSegmentTab() {
+  /** 字形段那一张：这一段的字段。 */
+  renderSegmentCard() {
     const record = this.currentSegment();
     if (!record) {
       return el('div', { class: 'empty', text: '内容包里没有字形段表。' });
@@ -477,8 +477,8 @@ class FontView {
     ]);
   }
 
-  /** 字宽这一页：按字符码查 + 整张字宽表。 */
-  renderWidthTab() {
+  /** 字宽那一张：按字符码查 + 整张字宽表。 */
+  renderWidthCard() {
     const codes = this.segmentCodes();
     const wrap = el('div', {}, [
       el('div', { class: 'font-sub', text: '字宽表（按字符码索引）' }),

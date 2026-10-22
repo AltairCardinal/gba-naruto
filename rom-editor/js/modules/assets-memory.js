@@ -9,7 +9,7 @@ import { base64ToBytes, bytesToBase64 } from '../bytes.js';
 import { originalValue } from '../fields.js';
 import { backButton } from './common.js';
 import { splitPane } from '../split.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 import { WRAM_ALLOCATION, hex32 } from './assets-wiring.js';
 
 /** EWRAM 的合法范围（GBA 的 EWRAM 是 0x02000000–0x0203FFFF）。 */
@@ -164,19 +164,18 @@ class MemoryView {
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.assets.memory', wide: true,
     }));
-    // 右侧面板：头部（哪一行 / 改没改）留在页签外面，内容按类分两页签。
-    // 页签面板要活过 renderDetail() 的 clear()：头部与页签分装在两个容器里，
-    // clear 只清头部那一个。页签面板**只建一次** —— 换一行只 refresh，
-    // 页签选择与记住的页签都还在。
+    // 右侧面板：头部（哪一行 / 改没改）留在卡片外面，内容按类分两张卡片。
+    // 卡片堆要活过 renderDetail() 的 clear()：头部与卡片分装在两个容器里，
+    // clear 只清头部那一个。卡片堆**只建一次** —— 换一行只 refresh，
+    // 两张卡片始终都在页面上，作者一眼看得到「这一行有哪两面可看」。
     this.detailTop = el('div', { class: 'detail-top' });
-    this.detailTabs = el('div', { class: 'detail-tabs' });
+    this.detailCards = el('div', { class: 'detail-cards' });
     this.detailWrap.appendChild(this.detailTop);
-    this.detailWrap.appendChild(this.detailTabs);
-    this.tabs = new TabPanel(this.tabSpecs(), {
-      key: 'editor.assets.memory',
+    this.detailWrap.appendChild(this.detailCards);
+    this.cards = new CardStack(this.cardSpecs(), {
       pack: this.pack,
     });
-    this.detailTabs.appendChild(this.tabs.element);
+    this.detailCards.appendChild(this.cards.element);
     this.renderList();
     this.renderDetail();
   }
@@ -318,17 +317,17 @@ class MemoryView {
   // --- 右详情 ------------------------------------------------------------
 
   /**
-   * 右边：头部（哪一行 / 改没改）留在页签外面，内容在页签里。
+   * 右边：头部（哪一行 / 改没改）留在卡片外面，内容在卡片里。
    *
-   * clear() 只清头部那一个容器 —— 页签面板在另一个容器里，不会被清掉。
+   * clear() 只清头部那一个容器 —— 卡片堆在另一个容器里，不会被清掉。
    */
   renderDetail() {
     const host = this.detailTop;
     clear(host);
     const record = this.selected;
     if (!record) {
-      // 没选中：提示放在页签内容里（tabContent 认得这个情况）。
-      this.tabs.refresh();
+      // 没选中：提示放在卡片内容里（cardContent 认得这个情况）。
+      this.cards.refresh();
       return;
     }
     const records = this.table.records || [];
@@ -364,37 +363,38 @@ class MemoryView {
         : null,
     ]));
 
-    // 内容在页签里：换一行只重建当前那一页，
-    // 页签选择与记住的页签都还在。
-    this.tabs.refresh();
+    // 内容在卡片里：换一行只重建卡片里的内容，
+    // 两张卡片还是那两张，滚动位置也不会丢。
+    this.cards.refresh();
   }
 
   /**
-   * 右侧面板的两个页签。
+   * 右侧面板的两张卡片。
    *
    * 这一行内存的两个侧面：它占哪一段（地址 + 大小）/ 它与前后两段挨不挨着。
-   * 页签 id 用英文，label 用中文；key 记住上次停在哪一页。
+   * 卡片 id 用英文，label 用中文（卡片头的标题）；
+   * hint 是卡片头下给作者看的一行说明。
    */
-  tabSpecs() {
+  cardSpecs() {
     return [
       {
         id: 'allocation',
         label: '内存分配',
         hint: '这一行的起始地址与分配大小，以及原值',
         badge: () => this.rowChanged(),
-        render: () => this.tabContent(() => this.renderAllocationTab()),
+        render: () => this.cardContent(() => this.renderAllocationCard()),
       },
       {
         id: 'neighbors',
         label: '邻接关系',
         hint: '这一段与下一段挨不挨着、会不会压到、是不是同一块',
-        render: () => this.tabContent(() => this.renderNeighborsTab()),
+        render: () => this.cardContent(() => this.renderNeighborsCard()),
       },
     ];
   }
 
-  /** 页签内容：没选中记录时给一句提示，选中了才建那一页。 */
-  tabContent(build) {
+  /** 卡片内容：没选中记录时给一句提示，选中了才建那一张卡。 */
+  cardContent(build) {
     if (!this.selected) {
       return el('div', { class: 'empty', text: '在左边点一行，或点条带上的一段' });
     }
@@ -415,8 +415,8 @@ class MemoryView {
     return changed.has(record.rom_offset) ? '1' : null;
   }
 
-  /** 「内存分配」那一页：起始地址 + 分配大小 + 结束地址 + 原值。 */
-  renderAllocationTab() {
+  /** 「内存分配」那张卡片：起始地址 + 分配大小 + 结束地址 + 原值。 */
+  renderAllocationCard() {
     const record = this.selected;
     const addr = record.values[ADDR_FIELD];
     const size = record.values[SIZE_FIELD];
@@ -504,8 +504,8 @@ class MemoryView {
     return group;
   }
 
-  /** 「邻接关系」那一页：这一段与下一段挨不挨着、会不会压到。 */
-  renderNeighborsTab() {
+  /** 「邻接关系」那张卡片：这一段与下一段挨不挨着、会不会压到。 */
+  renderNeighborsCard() {
     const record = this.selected;
     this.warnBox = el('div', { class: 'consequence' });
     const group = el('div', { class: 'group' }, [
@@ -598,6 +598,7 @@ class MemoryView {
     this.renderBand();
     this.renderList();
     this.updateWarnings(size);
+    this.focusInput(this.sizeInput);
     toast(`已改：${this.table.label} #${record.id} 的大小 ${record.values[SIZE_FIELD]} → ${size} 字节`);
   }
 
@@ -610,7 +611,21 @@ class MemoryView {
     this.renderBand();
     this.renderList();
     this.renderDetail();
+    this.focusInput(this.addrInput);
     toast(`已改：${this.table.label} #${record.id} 的起始地址 → ${hex32(addr)}`);
+  }
+
+  /**
+   * 把焦点还给输入框。
+   *
+   * 写回会让「这一类改了几处」的角标冒出来，角标一变整摞卡片会重建，
+   * 输入框也跟着重建 —— 焦点会丢。页签版本里输入框不重建（焦点不丢），
+   * 这里补回来，免得改一个数就得重新点一次框。
+   *
+   * @param {?Node} input
+   */
+  focusInput(input) {
+    if (input && input.focus) input.focus();
   }
 
   restore() {

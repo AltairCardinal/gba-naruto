@@ -3,6 +3,11 @@
 // 对应用户反馈：「应当按统一的任务编辑来呈现，然后按索引表列出，
 // 将其他表的内容都作为字段呈现」—— 道具域照着做了一遍，这里验一遍。
 //
+// 右侧面板是**卡片**（见 notes/specs/human-readable-cards-20261022.md）：
+//   忍具 = 名字 / 记录字段 / 掉落位置
+//   奖励 = 金币 / 强化点 / 等级门槛 / 掉落位
+// 卡片**不互斥**：所有卡片的内容同时在 DOM 里（这是与页签最大的不同）。
+//
 // 用法：node rom-editor/tools/verify_item_view.mjs
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -175,29 +180,45 @@ function byClass(node, name) {
 }
 
 /**
- * 切到右侧面板的某个页签。
- *
- * 右侧面板现在是分页签的（内容懒渲染），所以要拿某一页得先切过去。
+ * 卡片堆（.card-stack）—— 右侧面板装卡片的那一摞。
  */
-function switchTab(node, label) {
-  const btn = byClass(node, 'tab-btn')
-    .find((n) => String(n.textContent || '').includes(label));
-  if (!btn) return false;
-  const click = btn.listeners && btn.listeners.click && btn.listeners.click[0];
-  if (!click) return false;
-  click();
-  return true;
+function cardStacks(node) {
+  return byClass(node, 'card-stack');
 }
 
-/** 当前页签的内容区（懒渲染：DOM 里永远只有一个）。 */
-function tabBody(node) {
-  const bodies = byClass(node, 'tab-body');
-  return bodies.length ? bodies[0] : null;
+/** 卡片（.editor-card）—— 每一类配置一张。 */
+function cardsOf(node) {
+  return byClass(node, 'editor-card');
 }
 
-/** 页签条上的标签。 */
-function tabLabels(node) {
-  return byClass(node, 'tab-btn').map((n) => n.textContent);
+/** 卡片头的标题。 */
+function cardTitle(card) {
+  const node = byClass(card, 'editor-card-title')[0];
+  return node ? String(node.textContent || '').trim() : '';
+}
+
+/** 卡片体（装内容的那一格）。 */
+function cardBody(card) {
+  return byClass(card, 'editor-card-body')[0] || null;
+}
+
+/** 按标题找一张卡片。 */
+function cardByTitle(node, title) {
+  return cardsOf(node).find((c) => cardTitle(c) === title) || null;
+}
+
+/** 某张卡片上的角标文字（没有角标就是 null）。 */
+function cardBadge(node, title) {
+  const card = cardByTitle(node, title);
+  if (!card) return null;
+  const badge = byClass(card, 'card-badge')[0];
+  return badge ? String(badge.textContent || '') : null;
+}
+
+/** 某张卡片里的文字。 */
+function cardText(node, title) {
+  const card = cardByTitle(node, title);
+  return card ? String(card.textContent || '') : '';
 }
 
 const items = pack.structure('item_record');
@@ -218,10 +239,10 @@ console.log('1) 忍具视图：左边按记录表列出');
   check('详情写明这 16 个字节各自有多少格有据、几格保留',
     /有原生代码依据/.test(text) && /格保留/.test(text),
     (text.match(/[^·]{0,30}有原生代码依据[^·]{0,20}/) || [''])[0]);
-  // 「记录字段」那一页在页签里 —— 切过去才在 DOM 里。
-  switchTab(panesOf.detail, '记录字段');
-  const bytesText = tabBody(panesOf.detail) ? tabBody(panesOf.detail).textContent : '';
-  check('记录字段页给出的是**字段名**而不是「未解字节」',
+  // 「记录字段」那张卡片：每一格都有名字与依据。
+  const bytesCard = cardByTitle(panesOf.detail, '记录字段');
+  const bytesText = bytesCard && cardBody(bytesCard) ? cardBody(bytesCard).textContent : '';
+  check('记录字段卡片给出的是**字段名**而不是「未解字节」',
     !/未解字节/.test(bytesText) && /效果数值/.test(bytesText),
     (bytesText.match(/[^·]{0,20}效果数值[^·]{0,14}/) || [''])[0]);
   check('原生代码不读的三格标「保留」',
@@ -250,9 +271,9 @@ console.log('\n3) 奖励详情：金币 / 强化点 / 等级门槛 + 8 个掉落
   check('详情里有金币 / 强化点 / 等级门槛',
     numbers.length === 3 && numbers.every((f) => text.includes(f.label)),
     numbers.map((f) => f.label).join('、'));
-  // 掉落位在「掉落位」那一页 —— 切过去才在 DOM 里。
-  switchTab(detail, '掉落位');
-  const slotTables = byClass(detail, 'grid-slots');
+  // 掉落位在「掉落位」那张卡片里。
+  const slotsCard = cardByTitle(detail, '掉落位');
+  const slotTables = slotsCard ? byClass(slotsCard, 'grid-slots') : [];
   const slotRows = slotTables.length ? bodyRows(slotTables[0]) : [];
   check('详情里有 8 个掉落位',
     slotRows.length === 8,
@@ -271,7 +292,8 @@ console.log('\n4) 改一个字段 → 改动计数 +1，改回原值 → 回落'
   const freshCtx = makeCtx(fresh);
   const host = renderPanel({ kind: 'reward', id: '奖励', params: {} }, freshCtx);
   const detail = panes(host).detail;
-  const cells = byClass(detail, 'item-number');
+  const goldCard = cardByTitle(detail, '金币');
+  const cells = goldCard ? byClass(goldCard, 'item-number') : [];
   const goldInput = cells.length
     ? cells[0].descendants().find((n) => n.tagName === 'INPUT')
     : null;
@@ -312,9 +334,9 @@ console.log('\n6) 忍具详情：它在哪几关掉落，且能跳过去');
 {
   const host = renderPanel({ kind: 'item', id: '忍具', params: {} });
   const detail = panes(host).detail;
-  // 掉落位置在「掉落位置」那一页 —— 切过去才在 DOM 里。
-  switchTab(detail, '掉落位置');
-  const text = detail.textContent;
+  // 掉落位置在「掉落位置」那张卡片里。
+  const dropsCard = cardByTitle(detail, '掉落位置');
+  const text = dropsCard ? dropsCard.textContent : '';
   check('详情里有「它在哪几关掉落」', text.includes('它在哪几关掉落'), '');
   // 默认落在真的掉在某一关的那个忍具上。
   let picked = null;
@@ -324,8 +346,9 @@ console.log('\n6) 忍具详情：它在哪几关掉落，且能跳过去');
   const drops = rewardRowsForItem(pack, picked.id);
   check('默认选中的忍具真的被某条奖励引用', drops.length > 0,
     `#${picked.id} · ${drops.length} 处`);
-  const jumpLinks = byClass(detail, 'xref-link')
-    .filter((n) => n.textContent.includes('跳到这条奖励'));
+  const jumpLinks = dropsCard
+    ? byClass(dropsCard, 'xref-link').filter((n) => n.textContent.includes('跳到这条奖励'))
+    : [];
   check('掉落那一行能跳到奖励', jumpLinks.length > 0,
     `${jumpLinks.length} 个跳转`);
   opened.length = 0;
@@ -350,10 +373,11 @@ console.log('\n7) 奖励 → 忍具 的反向跳转');
 {
   const host = renderPanel({ kind: 'reward', id: '奖励', params: {} });
   const detail = panes(host).detail;
-  // 反向跳转在「掉落位」那一页 —— 切过去才在 DOM 里。
-  switchTab(detail, '掉落位');
-  const links = byClass(detail, 'xref-link')
-    .filter((n) => n.textContent.includes('跳到忍具'));
+  // 反向跳转在「掉落位」那张卡片里。
+  const slotsCard = cardByTitle(detail, '掉落位');
+  const links = slotsCard
+    ? byClass(slotsCard, 'xref-link').filter((n) => n.textContent.includes('跳到忍具'))
+    : [];
   check('奖励详情里有跳到忍具的链接', links.length > 0, `${links.length} 个`);
   opened.length = 0;
   links[0].listeners.click[0]({ target: {} });
@@ -384,99 +408,85 @@ console.log('\n9) 页面文本里没有字面星号（两个视图）');
   }
 }
 
-console.log('\n10) 右侧面板页签化：页签条、页签标签、切页签');
+console.log('\n10) 右侧面板卡片化：卡片堆、卡片头、所有卡片同时在 DOM 里');
 {
   // --- 忍具视图 ---
   const host = renderPanel({ kind: 'item', id: '忍具', params: {} });
   const detail = panes(host).detail;
-  const labels = tabLabels(detail);
-  check('忍具视图右侧有页签条', labels.length >= 3, `${labels.length} 个页签：${labels.join(' / ')}`);
-  for (const want of ['名字', '记录字段', '掉落位置']) {
-    check(`忍具视图的页签里有「${want}」`, labels.some((t) => t.includes(want)), labels.join(' / '));
-  }
-  check('页签内容是懒渲染的（DOM 里只有当前这一页）',
-    byClass(detail, 'tab-body').length === 1,
-    `${byClass(detail, 'tab-body').length} 个内容区`);
+  check('忍具视图右侧有卡片堆', cardStacks(detail).length === 1,
+    `${cardStacks(detail).length} 个`);
+  const labels = cardsOf(detail).map(cardTitle);
+  check('忍具视图的卡片就是那三张（依次）',
+    JSON.stringify(labels) === JSON.stringify(['名字', '记录字段', '掉落位置']),
+    labels.join(' / '));
 
-  check('切到「掉落位置」页签', switchTab(detail, '掉落位置'), '');
-  let body = tabBody(detail);
-  let bodyText = body ? body.textContent : '';
-  check('切到「掉落位置」后那一页的内容在 DOM 里',
-    bodyText.includes('它在哪几关掉落'), bodyText.slice(0, 60));
-  check('切走后「记录字段」那一页不在 DOM 里',
-    !bodyText.includes('逐字节看'), '不该出现');
-  check('切走后 DOM 里仍然只有一个内容区',
-    byClass(detail, 'tab-body').length === 1, `${byClass(detail, 'tab-body').length} 个`);
-
-  check('切到「名字」页签', switchTab(detail, '名字'), '');
-  body = tabBody(detail);
-  bodyText = body ? body.textContent : '';
-  check('切到「名字」后名字那一页的内容在 DOM 里',
-    bodyText.includes('名字（忍具名表）'), bodyText.slice(0, 60));
-  check('切走后「掉落位置」那一页不在 DOM 里',
-    !bodyText.includes('它在哪几关掉落'), '不该出现');
+  // 卡片不互斥：三张卡片的内容**同时**在 DOM 里。
+  check('「名字」那张卡片的内容在 DOM 里',
+    cardText(detail, '名字').includes('名字（忍具名表）'));
+  check('「记录字段」那张卡片的内容同时在 DOM 里',
+    cardText(detail, '记录字段').includes('逐字节看'));
+  check('「掉落位置」那张卡片的内容同时在 DOM 里',
+    cardText(detail, '掉落位置').includes('它在哪几关掉落'));
+  check('三张卡片的内容都在（不再互斥）',
+    cardText(detail, '名字').includes('名字（忍具名表）')
+    && cardText(detail, '记录字段').includes('逐字节看')
+    && cardText(detail, '掉落位置').includes('它在哪几关掉落'));
 
   // --- 奖励视图 ---
   const host2 = renderPanel({ kind: 'reward', id: '奖励', params: {} });
   const detail2 = panes(host2).detail;
-  const labels2 = tabLabels(detail2);
-  check('奖励视图右侧有页签条', labels2.length >= 4, `${labels2.length} 个页签：${labels2.join(' / ')}`);
+  check('奖励视图右侧有卡片堆', cardStacks(detail2).length === 1,
+    `${cardStacks(detail2).length} 个`);
+  const labels2 = cardsOf(detail2).map(cardTitle);
+  check('奖励视图的卡片就是那四张（依次）',
+    JSON.stringify(labels2) === JSON.stringify(['金币', '强化点', '等级门槛', '掉落位']),
+    labels2.join(' / '));
   for (const want of ['金币', '强化点', '等级门槛', '掉落位']) {
-    check(`奖励视图的页签里有「${want}」`, labels2.some((t) => t.includes(want)), labels2.join(' / '));
+    check(`奖励视图有「${want}」这张卡片`, labels2.includes(want), labels2.join(' / '));
   }
 
-  check('切到「掉落位」页签', switchTab(detail2, '掉落位'), '');
-  check('切到「掉落位」后 8 个掉落位在 DOM 里',
-    byClass(detail2, 'grid-slots').length === 1,
-    `${byClass(detail2, 'grid-slots').length} 张掉落位表`);
-  check('切走后「金币」那一页不在 DOM 里',
-    byClass(detail2, 'item-number').length === 0,
-    `${byClass(detail2, 'item-number').length} 个数字格`);
-
-  check('切到「金币」页签', switchTab(detail2, '金币'), '');
-  check('切到「金币」后金币那一页在 DOM 里',
-    byClass(detail2, 'item-number').length === 1,
-    `${byClass(detail2, 'item-number').length} 个数字格`);
-  check('切走后「掉落位」那一页不在 DOM 里',
-    byClass(detail2, 'grid-slots').length === 0,
-    `${byClass(detail2, 'grid-slots').length} 张掉落位表`);
+  // 四张卡片的内容同时在 DOM 里
+  check('「金币」那张卡片的内容在 DOM 里', byClass(cardByTitle(detail2, '金币') || detail2, 'item-number').length === 1);
+  check('「掉落位」那张卡片的内容同时在 DOM 里',
+    byClass(cardByTitle(detail2, '掉落位') || detail2, 'grid-slots').length === 1);
+  check('「金币」与「掉落位」两张卡片的内容**都在**（不再互斥）',
+    byClass(cardByTitle(detail2, '金币') || detail2, 'item-number').length === 1
+    && byClass(cardByTitle(detail2, '掉落位') || detail2, 'grid-slots').length === 1);
 }
 
-console.log('\n11) 页签角标：改了哪一类，哪一页就亮');
+console.log('\n11) 卡片角标：改了哪一类，哪张卡片就亮');
 {
   const fresh = ContentPack.fromJSON(packData);
   const freshCtx = makeCtx(fresh);
   const host = renderPanel({ kind: 'reward', id: '奖励', params: {} }, freshCtx);
   const detail = panes(host).detail;
-  const badgesOf = (label) => {
-    const btn = byClass(detail, 'tab-btn')
-      .find((n) => String(n.textContent || '').includes(label));
-    if (!btn) return null;
-    const badge = btn.children.find(
-      (c) => String(c.className || '').split(/\s+/).includes('tab-badge'));
-    return badge ? badge.textContent : null;
-  };
-  check('没改过的时候没有角标', badgesOf('金币') === null, `角标 = ${badgesOf('金币')}`);
-  const cell = byClass(detail, 'item-number')[0];
+  check('没改过的时候没有角标', cardBadge(detail, '金币') === null,
+    `角标 = ${cardBadge(detail, '金币')}`);
+  const goldCard = cardByTitle(detail, '金币');
+  const cell = goldCard ? byClass(goldCard, 'item-number')[0] : null;
   const input = cell ? cell.descendants().find((n) => n.tagName === 'INPUT') : null;
-  check('金币那一页有输入框', !!input, input ? `当前值 ${input.value}` : '没有输入框');
+  check('金币那张卡片有输入框', !!input, input ? `当前值 ${input.value}` : '没有输入框');
   if (input) {
     input.listeners.change[0]({ target: { value: String(Number(input.value) + 1) } });
-    check('改了金币以后「金币」那一页亮角标', badgesOf('金币') !== null, `角标 = ${badgesOf('金币')}`);
-    check('没动过的「强化点」那一页没有角标', badgesOf('强化点') === null, `角标 = ${badgesOf('强化点')}`);
-    check('没动过的「掉落位」那一页没有角标', badgesOf('掉落位') === null, `角标 = ${badgesOf('掉落位')}`);
+    check('改了金币以后「金币」那张卡片亮角标', cardBadge(detail, '金币') !== null,
+      `角标 = ${cardBadge(detail, '金币')}`);
+    check('没动过的「强化点」那张卡片没有角标', cardBadge(detail, '强化点') === null,
+      `角标 = ${cardBadge(detail, '强化点')}`);
+    check('没动过的「掉落位」那张卡片没有角标', cardBadge(detail, '掉落位') === null,
+      `角标 = ${cardBadge(detail, '掉落位')}`);
   }
 }
 
-console.log('\n12) 改掉落位的类别 → 那一页里的物品下拉跟着换');
+console.log('\n12) 改掉落位的类别 → 那张卡片里的物品下拉跟着换');
 {
   const fresh = ContentPack.fromJSON(packData);
   const freshCtx = makeCtx(fresh);
   const host = renderPanel({ kind: 'reward', id: '奖励', params: {} }, freshCtx);
   const detail = panes(host).detail;
-  switchTab(detail, '掉落位');
+  // 卡片会重建（类别变了要整个重画），所以每次都重新找那张卡片。
   const selectsOf = () => {
-    const table = byClass(detail, 'grid-slots')[0];
+    const card = cardByTitle(detail, '掉落位');
+    const table = card ? byClass(card, 'grid-slots')[0] : null;
     return table ? table.descendants().filter((n) => n.tagName === 'SELECT') : [];
   };
   const list = selectsOf();
@@ -493,6 +503,39 @@ console.log('\n12) 改掉落位的类别 → 那一页里的物品下拉跟着�
       !!after && after.children.length === materialTable.records.length
       && after.children.length !== before,
       `${before} → ${after ? after.children.length : '?'} 个候选（强化素材名表 ${materialTable.records.length} 条）`);
+  }
+}
+
+console.log('\n13) 忍具记录字段：改一格能走完整条写回通路（不报错）');
+{
+  // 这一条断的是「改完一格不炸」：记录字段的写回通路要一路走到卡片重建。
+  const fresh = ContentPack.fromJSON(packData);
+  const freshCtx = makeCtx(fresh);
+  const host = renderPanel({ kind: 'item', id: '忍具', params: {} }, freshCtx);
+  const detail = panes(host).detail;
+  const bytesCard = cardByTitle(detail, '记录字段');
+  const inputs = bytesCard ? bytesCard.descendants().filter((n) => n.tagName === 'INPUT') : [];
+  // 「保留」那几格是只读的（disabled），挑一个能改的。
+  const input = inputs.find((n) => n.getAttribute('disabled') === null
+    && /^\d+$/.test(String(n.value)) && Number(n.value) < 200);
+  check('「记录字段」那张卡片里有一个能改的输入框', !!input,
+    input ? `当前值 ${input.value}` : `只有 ${inputs.length} 个输入框`);
+  if (input) {
+    const before = fresh.changedCount();
+    let error = null;
+    try {
+      input.listeners.change[0]({ target: { value: String(Number(input.value) + 1) } });
+    } catch (err) {
+      error = err;
+    }
+    check('改这一格不报错（写回通路是完整的）', !error,
+      error ? String(error.message) : '');
+    check('改这一格后改动计数 +1', fresh.changedCount() === before + 1,
+      `${before} → ${fresh.changedCount()}`);
+    check('改完之后三张卡片的内容还在 DOM 里',
+      cardsOf(detail).length === 3
+      && cardText(detail, '记录字段').includes('逐字节看')
+      && cardText(detail, '掉落位置').includes('它在哪几关掉落'));
   }
 }
 

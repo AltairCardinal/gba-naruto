@@ -166,19 +166,31 @@ function byClass(host, name) {
   return host.descendants().filter((n) => String(n.className || '').split(/\s+/).includes(name));
 }
 
-/** 页签按钮（按顺序）。 */
-function tabButtons(host) {
-  return byClass(host, 'tab-btn');
+/** 卡片堆（右侧面板纵排的那一摞卡片）。 */
+function cardStack(host) {
+  return byClass(host, 'card-stack')[0] || null;
 }
 
-/** 切到某个页签（内容按需渲染，要拿某一页得先切过去）。 */
-function switchTab(host, label) {
-  const btn = tabButtons(host).find((n) => String(n.textContent || '').includes(label));
-  if (!btn) return false;
-  const click = btn.listeners && btn.listeners.click && btn.listeners.click[0];
-  if (!click) return false;
-  click();
-  return true;
+/** 卡片堆里的卡片（按上下顺序）。 */
+function cardList(host) {
+  const stack = cardStack(host);
+  return stack ? byClass(stack, 'editor-card') : [];
+}
+
+/** 一张卡片的标题（卡片头上的那行字）。 */
+function cardTitle(card) {
+  const node = byClass(card, 'editor-card-title')[0];
+  return node ? String(node.textContent || '') : '';
+}
+
+/** 按标题找一张卡片。 */
+function cardByTitle(host, title) {
+  return cardList(host).find((c) => cardTitle(c) === title) || null;
+}
+
+/** 一张卡片上的角标文字。 */
+function cardBadges(card) {
+  return byClass(card, 'card-badge').map((n) => String(n.textContent || '').trim());
 }
 
 console.log('1) 音效分派表：第一列是 0 基的音效 id');
@@ -231,10 +243,9 @@ console.log('\n3) 指针反查：谁指向这个描述符');
   const host = renderPanel({ kind: 'structure', id: 'sound_id_table' });
   bodyRows(host)[19].listeners.click[0]({ target: {} });
   const detail = byClass(host, 'detail-panel')[0];
-  // 反查块在「谁指向它」这一页 —— 先切过去再看。
-  switchTab(detail, '谁指向它');
+  // 反查块在「谁指向它」那张卡片里 —— 卡片全都同时在 DOM 里，不用切。
   const block = byClass(detail, 'xref-block')[0];
-  check('详情里有「被谁引用」块（在「谁指向它」这一页）', !!block,
+  check('详情里有「被谁引用」块（在「谁指向它」那张卡片里）', !!block,
     block ? (block.children[0] ? block.children[0].textContent : '') : '没有');
 }
 
@@ -340,48 +351,53 @@ console.log('\n8) 函数指针表：1..11 槽标成播放入口（推定）');
   check('写明这是静态推定', text.includes('静态推定'));
 }
 
-console.log('\n9) 详情面板页签化：描述符 / 谁指向它 / 播放入口');
+console.log('\n9) 详情面板卡片化：描述符 / 谁指向它 / 播放入口');
 {
   const host = renderPanel({ kind: 'structure', id: 'sound_id_table' });
   bodyRows(host)[1].listeners.click[0]({ target: {} });
   const detail = byClass(host, 'detail-panel')[0];
-  const tabs = byClass(detail, 'tab-panel')[0];
-  check('右侧面板有页签条', !!tabs && byClass(tabs, 'tab-bar').length === 1,
-    tabs ? `${tabButtons(tabs).length} 个页签` : '没有页签面板');
-  const labels = byClass(tabs, 'tab-btn-label').map((n) => n.textContent);
-  check('页签标签是预期的三个',
-    JSON.stringify(labels) === JSON.stringify(['描述符', '谁指向它', '播放入口']),
-    labels.join(' / '));
-  check('页签内容区只有一个（懒渲染）', byClass(tabs, 'tab-body').length === 1,
-    `${byClass(tabs, 'tab-body').length} 个内容区`);
+  const stack = cardStack(detail);
+  check('右侧面板有卡片堆', !!stack,
+    stack ? `${byClass(stack, 'editor-card').length} 张卡片` : '没有卡片堆');
 
-  const body = () => byClass(tabs, 'tab-body')[0];
-  const first = body();
-  const firstSelects = first.descendants().filter((n) => n.tagName === 'SELECT');
-  check('默认停在「描述符」：描述符下拉与自定义地址都在',
-    firstSelects.length === 1 && first.textContent.includes('自定义地址'),
-    `${firstSelects.length} 个下拉`);
-  check('没切过去时，「谁指向它」的内容不在 DOM 里',
-    byClass(first, 'xref-block').length === 0);
+  const list = cardList(detail);
+  check('卡片堆里每张卡片都是 .editor-card', list.length === 3, `${list.length} 张`);
+  const titles = list.map(cardTitle);
+  check('卡片头的标题是预期的三个',
+    JSON.stringify(titles) === JSON.stringify(['描述符', '谁指向它', '播放入口']),
+    titles.join(' / '));
+  check('每张卡片都有内容区',
+    list.every((c) => byClass(c, 'editor-card-body').length === 1),
+    `${list.filter((c) => byClass(c, 'editor-card-body').length === 1).length} 张有内容`);
 
-  check('能切到「谁指向它」', switchTab(tabs, '谁指向它'));
-  const second = body();
-  const refBlocks = byClass(second, 'xref-block')
+  // 卡片全都同时在 DOM 里 —— 与页签最大的不同：不再互斥、不藏内容。
+  const all = detail.textContent;
+  check('三张卡片的内容同时在 DOM 里',
+    all.includes('自定义地址') && all.includes('被谁引用') && all.includes('播放通道'),
+    (all.match(/被谁引用[^）]{0,8}/) || [''])[0]);
+
+  const descriptorCard = cardByTitle(detail, '描述符');
+  const descriptorBody = byClass(descriptorCard, 'editor-card-body')[0];
+  const descriptorSelects = descriptorBody
+    .descendants().filter((n) => n.tagName === 'SELECT');
+  check('「描述符」卡片里描述符下拉与自定义地址都在',
+    descriptorSelects.length === 1 && descriptorCard.textContent.includes('自定义地址'),
+    `${descriptorSelects.length} 个下拉`);
+  const options = descriptorSelects[0].children.filter((o) => o.tagName === 'OPTION');
+  check('描述符下拉里还是 81 个选项（口径没放松）', options.length === 81,
+    `${options.length} 个选项`);
+
+  const refsCard = cardByTitle(detail, '谁指向它');
+  const refBlocks = byClass(refsCard, 'xref-block')
     .filter((n) => !String(n.className || '').includes('audio-play-entry'));
-  check('切过去后反查块在 DOM 里', refBlocks.length === 1,
+  check('「谁指向它」卡片里有反查块', refBlocks.length === 1,
     `${refBlocks.length} 个反查块`);
-  check('切走后「描述符」页的内容不在 DOM 里',
-    second.descendants().filter((n) => n.tagName === 'SELECT').length === 0
-    && !second.textContent.includes('自定义地址'));
 
-  check('能切到「播放入口」', switchTab(tabs, '播放入口'));
-  const third = body();
-  check('播放入口页有播放通道与推定的入口',
-    third.textContent.includes('播放通道') && third.textContent.includes('静态推定'),
-    (third.textContent.match(/槽 \d+ · 音效 #\d+/) || [''])[0]);
-  check('切走后「谁指向它」的内容不在 DOM 里',
-    byClass(third, 'xref-block')
-      .filter((n) => !String(n.className || '').includes('audio-play-entry')).length === 0);
+  const playbackCard = cardByTitle(detail, '播放入口');
+  check('「播放入口」卡片里有播放通道与推定的入口',
+    playbackCard.textContent.includes('播放通道')
+      && playbackCard.textContent.includes('静态推定'),
+    (playbackCard.textContent.match(/槽 \d+ · 音效 #\d+/) || [''])[0]);
 }
 
 console.log('\n10) 角标：这一类改了几处（按字节判定，写回后自动跟上）');
@@ -391,40 +407,64 @@ console.log('\n10) 角标：这一类改了几处（按字节判定，写回后�
   const host = renderPanel({ kind: 'structure', id: 'sound_id_table' }, fresh);
   bodyRows(host)[1].listeners.click[0]({ target: {} });
   const detail = byClass(host, 'detail-panel')[0];
-  const tabs = byClass(detail, 'tab-panel')[0];
-  check('没改过就没有角标', byClass(tabs, 'tab-badge').length === 0,
-    `${byClass(tabs, 'tab-badge').length} 个角标`);
+  const stack = cardStack(detail);
+  check('没改过就没有角标', byClass(stack, 'card-badge').length === 0,
+    `${byClass(stack, 'card-badge').length} 个角标`);
 
   const table = fresh.structure('sound_id_table');
   const record = table.records.find((r) => r.id === 1);
   fresh.setValue(table, record, 'descriptor_ptr', 0x08466068);
-  const badges = byClass(tabs, 'tab-badge');
-  check('写回之后「描述符」页签自动亮出角标 1',
+  const badges = byClass(stack, 'card-badge');
+  check('写回之后「描述符」卡片自动亮出角标 1',
     badges.length === 1 && badges[0].textContent === '1',
     badges.map((b) => b.textContent).join('、'));
 
+  // 角标挂在**改动的那一类**卡片上，别的卡片没有。
+  const descriptorBadges = cardBadges(cardByTitle(detail, '描述符'));
+  const refsBadges = cardBadges(cardByTitle(detail, '谁指向它'));
+  const playbackBadges = cardBadges(cardByTitle(detail, '播放入口'));
+  check('角标挂在「描述符」卡片上',
+    descriptorBadges.join(',') === '1',
+    descriptorBadges.join('、') || '没有角标');
+  check('别的卡片上没有角标',
+    refsBadges.length === 0 && playbackBadges.length === 0,
+    `谁指向它 ${refsBadges.length} 个 / 播放入口 ${playbackBadges.length} 个`);
+
   // 改了又改回去 = 不算改（按字节判定）。
   fresh.setValue(table, record, 'descriptor_ptr', 0x08536368);
-  const after = byClass(tabs, 'tab-badge');
+  const after = byClass(stack, 'card-badge');
   check('改回去之后角标消失', after.length === 0, `${after.length} 个角标`);
 }
 
-console.log('\n11) 乐曲描述符也页签化（跨域门禁 verify_tabs 看的就是它）');
+console.log('\n11) 乐曲描述符也卡片化（跨域门禁 verify_cards 看的就是它）');
 {
   const host = renderPanel({ kind: 'structure', id: 'audio_song_1' });
-  const tabs = byClass(host, 'tab-panel')[0];
-  const labels = byClass(tabs, 'tab-btn-label').map((n) => n.textContent);
-  check('乐曲描述符有页签条，标签也是三个',
-    JSON.stringify(labels) === JSON.stringify(['描述符', '谁指向它', '播放入口']),
-    labels.join(' / '));
-  check('默认页是「描述符」：歌曲头与轨道表都在',
-    byClass(host, 'slot-table').length === 1
-    && host.textContent.includes('歌曲头'),
-    `${byClass(host, 'slot-table').length} 张轨道表`);
-  check('能切到「谁指向它」', switchTab(tabs, '谁指向它'));
-  check('切过去后有反查块', byClass(host, 'xref-block').length >= 1);
-  check('能切到「播放入口」', switchTab(tabs, '播放入口'));
-  check('播放入口页标明了「推定」', host.textContent.includes('静态推定'));
+  const stack = cardStack(host);
+  check('乐曲描述符有卡片堆', !!stack,
+    stack ? `${byClass(stack, 'editor-card').length} 张卡片` : '没有卡片堆');
+  const titles = cardList(host).map(cardTitle);
+  check('乐曲描述符的卡片标题也是三个',
+    JSON.stringify(titles) === JSON.stringify(['描述符', '谁指向它', '播放入口']),
+    titles.join(' / '));
+
+  const descriptorCard = cardByTitle(host, '描述符');
+  check('「描述符」卡片：歌曲头与轨道表都在',
+    byClass(descriptorCard, 'slot-table').length === 1
+      && descriptorCard.textContent.includes('歌曲头'),
+    `${byClass(descriptorCard, 'slot-table').length} 张轨道表`);
+
+  const refsCard = cardByTitle(host, '谁指向它');
+  check('「谁指向它」卡片里有反查块', byClass(refsCard, 'xref-block').length >= 1,
+    `${byClass(refsCard, 'xref-block').length} 个反查块`);
+
+  const playbackCard = cardByTitle(host, '播放入口');
+  check('「播放入口」卡片标明了「推定」', playbackCard.textContent.includes('静态推定'));
+
+  // 卡片全都同时在 DOM 里。
+  check('三张卡片的内容同时在 DOM 里',
+    host.textContent.includes('歌曲头')
+      && host.textContent.includes('被谁引用')
+      && host.textContent.includes('静态推定'));
 }
 
 console.log(failures ? `\n${failures} 项未通过` : '\n全部通过');

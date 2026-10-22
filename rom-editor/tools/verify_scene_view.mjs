@@ -7,8 +7,8 @@
 //   4. 改一个字段后 pack.changedCount() +1，改回原值后回落；
 //   5. 域首页的「本域可编辑内容」里，四张根表合成了一行、字形段表与字宽表合成了一行。
 //
-// 第 8 组是页签化的验收：右侧面板有页签条、页签标签是预期的那些、
-// 切到某一页后那一页的内容在 DOM 里、切走后不在，角标只出现在改过的那一页上。
+// 第 8 组是卡片化的验收：右侧面板有卡片堆、卡片标题是预期的那些、
+// **所有卡片的内容同时在 DOM 里**（不再互斥）、角标只出现在改过的那张卡片上。
 //
 // 用法：node rom-editor/tools/verify_scene_view.mjs
 import { readFileSync } from 'node:fs';
@@ -171,41 +171,35 @@ function tableByClass(host, name) {
 }
 
 /**
- * 切到右侧面板的某个页签（内容按需渲染，要拿某一页得先切过去）。
+ * 右侧面板的卡片堆里的卡片（按顺序）。
  */
-function switchTab(host, label) {
-  const btn = host.descendants()
-    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-btn'))
-    .find((n) => String(n.textContent || '').includes(label));
-  if (!btn) return false;
-  const click = btn.listeners && btn.listeners.click && btn.listeners.click[0];
-  if (!click) return false;
-  click();
-  return true;
+function cardList(host) {
+  return byClass(host, 'editor-card');
 }
 
-/** 页签条上的标签（按顺序）。 */
-function tabLabels(host) {
-  const bar = byClass(host, 'tab-bar')[0];
-  if (!bar) return [];
-  return bar.children.map((btn) => {
-    const label = btn.descendants()
-      .find((n) => String(n.className || '').split(/\s+/).includes('tab-btn-label'));
-    return label ? label.textContent : btn.textContent;
-  });
+/** 卡片头的标题（按顺序）。 */
+function cardTitles(host) {
+  return byClass(host, 'editor-card-title').map((n) => String(n.textContent || ''));
 }
 
-/** 页签角标：标签 → 角标文字（没有角标就是空串）。 */
-function tabBadges(host) {
+/** 按标题找一张卡片。 */
+function cardByTitle(host, title) {
+  return cardList(host).find((card) => {
+    const head = card.descendants()
+      .find((n) => String(n.className || '').split(/\s+/).includes('editor-card-title'));
+    return head && String(head.textContent || '') === title;
+  }) || null;
+}
+
+/** 卡片角标：标题 → 角标文字（没有角标就是空串）。 */
+function cardBadges(host) {
   const out = {};
-  const bar = byClass(host, 'tab-bar')[0];
-  if (!bar) return out;
-  for (const btn of bar.children) {
-    const label = btn.descendants()
-      .find((n) => String(n.className || '').split(/\s+/).includes('tab-btn-label'));
-    const badge = btn.descendants()
-      .find((n) => String(n.className || '').split(/\s+/).includes('tab-badge'));
-    if (label) out[label.textContent] = badge ? badge.textContent : '';
+  for (const card of cardList(host)) {
+    const head = card.descendants()
+      .find((n) => String(n.className || '').split(/\s+/).includes('editor-card-title'));
+    const badge = card.descendants()
+      .find((n) => String(n.className || '').split(/\s+/).includes('card-badge'));
+    if (head) out[String(head.textContent || '')] = badge ? String(badge.textContent || '') : '';
   }
   return out;
 }
@@ -242,62 +236,78 @@ console.log('\n1) 场景视图：左边列表的行数 = 场景数');
   check('页面文本里没有字面星号', !host.textContent.includes('**'));
 }
 
-console.log('\n2) 场景视图：四个剧本入口各占一页签，每页一个指针字段');
+console.log('\n2) 场景视图：四个剧本入口各占一张卡片，每张卡片一个指针字段');
 {
   const host = render(renderScene);
   const detail = byClass(host, 'scene-detail')[0];
-  const labels = tabLabels(detail);
-  check('场景视图右侧有页签条', byClass(detail, 'tab-bar').length === 1);
-  check('页签是 战前 / 战后 / 逻辑 / 事件',
-    labels.join(',') === '战前,战后,逻辑,事件', labels.join('、'));
+  check('场景视图右侧有卡片堆', byClass(detail, 'card-stack').length === 1);
+  const titles = cardTitles(detail);
+  check('卡片是 战前 / 战后 / 逻辑 / 事件',
+    titles.join(',') === '战前,战后,逻辑,事件', titles.join('、'));
 
   const ptrs = [];
-  for (const label of labels) {
-    switchTab(host, label);
-    const one = byClass(detail, 'scene-ptr');
-    check(`「${label}」页里有一个剧本指针`, one.length === 1, `${one.length} 个`);
+  for (const title of titles) {
+    const card = cardByTitle(detail, title);
+    const one = card ? byClass(card, 'scene-ptr') : [];
+    check(`「${title}」卡片里有一个剧本指针`, one.length === 1, `${one.length} 个`);
     if (one.length === 1) ptrs.push(one[0]);
   }
-  check('四个剧本指针字段（四页合起来）', ptrs.length === 4, `${ptrs.length} 个`);
+  check('四个剧本指针字段（四张卡片合起来）', ptrs.length === 4, `${ptrs.length} 个`);
+  // 卡片全都同时在 DOM 里 —— 这是与页签最大的不同（页签一次只留一页）。
+  check('四张卡片的内容同时在 DOM 里（不用切）',
+    byClass(detail, 'scene-ptr').length === 4,
+    `${byClass(detail, 'scene-ptr').length} 个`);
   const inputs = ptrs.flatMap((p) => p.descendants().filter((n) => n.tagName === 'INPUT'));
   check('四个指针都是可编辑的十六进制框', inputs.length === 4 && inputs.every((n) => n.value.startsWith('0x')),
     inputs.map((n) => n.value).join('、'));
 
-  // 每一页都有「看这个场景的剧本」的链接，而且分别跳到四张根表。
+  // 每一张卡片都有「看这个场景的剧本」的链接，而且分别跳到四张根表。
   const roots = [];
-  for (const label of labels) {
-    switchTab(host, label);
-    const page = byClass(detail, 'scene-ptr')[0];
-    const link = page && page.descendants()
+  for (const title of titles) {
+    const card = cardByTitle(detail, title);
+    const link = card && card.descendants()
       .find((n) => n.textContent.includes('的剧本 →') && n.listeners.click && n.listeners.click.length);
-    check(`「${label}」页有「看这个场景的剧本」的链接`, !!link);
+    check(`「${title}」卡片有「看这个场景的剧本」的链接`, !!link);
     if (!link) continue;
     link.listeners.click[0]({ target: {} });
     const jump = jumps[jumps.length - 1];
-    check(`「${label}」的链接跳到剧本查看器（#story/script/<root>/<scene>）`,
+    check(`「${title}」的链接跳到剧本查看器（#story/script/<root>/<scene>）`,
       !!jump && jump.module === 'story' && jump.kind === 'script' &&
       ['before', 'after', 'logic', 'events'].includes(jump.params.root) &&
       typeof jump.params.scene === 'number',
       jump ? `${jump.params.root}/${jump.params.scene}` : '没有跳转');
     if (jump) roots.push(jump.params.root);
   }
-  check('四页分别跳到四张根表', new Set(roots).size === 4, roots.join('、'));
+  check('四张卡片分别跳到四张根表', new Set(roots).size === 4, roots.join('、'));
 }
 
-console.log('\n3) 字库视图：字宽表在「字宽」页里（256 行）');
+console.log('\n3) 字库视图：字宽表在「字宽」卡片里（256 行）');
 {
   const host = render(renderFont);
   const list = byClass(host, 'font-list')[0];
   const listRows = bodyRows(list && list.children.find((n) => n.tagName === 'TABLE'));
   check('字库视图渲染出来了', host.textContent.length > 100, `${host.textContent.length} 字符`);
   check(`左边列表 ${segmentCount} 行（字形段表）`, listRows.length === segmentCount, `${listRows.length} 行`);
-  switchTab(host, '字宽');
-  const widthTable = tableByClass(host, 'font-width-table');
+
+  const detail = byClass(host, 'font-detail')[0];
+  check('字库视图右侧有卡片堆', byClass(detail, 'card-stack').length === 1);
+  const titles = cardTitles(detail);
+  check('卡片是 字形段 / 字宽', titles.join(',') === '字形段,字宽', titles.join('、'));
+
+  const widthCard = cardByTitle(detail, '字宽');
+  const widthTable = widthCard ? tableByClass(widthCard, 'font-width-table') : null;
+  check('「字宽」卡片里有字宽表', !!widthTable);
   const widthRows = bodyRows(widthTable);
   check(`字宽表 ${widthCount} 行`, widthRows.length === widthCount, `${widthRows.length} 行`);
   check('每行都有可改的字宽输入框',
     widthRows.every((tr) => tr.descendants().some((n) => n.tagName === 'INPUT')),
     `${widthRows.filter((tr) => tr.descendants().some((n) => n.tagName === 'INPUT')).length} 行有输入框`);
+
+  // 卡片全都同时在 DOM 里：字形段的字段与字宽表不用切就能同时看到。
+  const segCard = cardByTitle(detail, '字形段');
+  const segFields = segCard ? byClass(segCard, 'font-seg-field') : [];
+  check('「字形段」卡片里的字段也同时在 DOM 里', segFields.length >= 3,
+    `${segFields.length} 个字段`);
   check('页面文本里没有字面星号', !host.textContent.includes('**'));
 }
 
@@ -310,8 +320,8 @@ console.log('\n4) 改一个字段：写回 +1，改回原值后回落');
   const base = pack.changedCount();
 
   const host = render(renderFont);
-  switchTab(host, '字宽');
-  const widthTable = tableByClass(host, 'font-width-table');
+  const widthCard = cardByTitle(byClass(host, 'font-detail')[0], '字宽');
+  const widthTable = tableByClass(widthCard, 'font-width-table');
   const firstRow = bodyRows(widthTable)[0];
   const input = firstRow.descendants().find((n) => n.tagName === 'INPUT');
   const next = (Number(before) + 1) % 256;
@@ -394,16 +404,11 @@ console.log('\n7) 交互：点场景行换详情 / 点字形段换段 / 按字�
   const detail = byClass(host, 'scene-detail')[0];
   check('点第 3 行后详情是「场景 3」', detail.textContent.includes('场景 3'),
     (detail.textContent.match(/场景 \d+/) || [''])[0]);
-  const labels = tabLabels(detail);
-  check('换场景后页签还在', labels.join(',') === '战前,战后,逻辑,事件', labels.join('、'));
-  let ptrCount = 0;
-  for (const label of labels) {
-    switchTab(host, label);
-    ptrCount += byClass(detail, 'scene-ptr').length;
-  }
+  const titles = cardTitles(detail);
+  check('换场景后卡片还在', titles.join(',') === '战前,战后,逻辑,事件', titles.join('、'));
   check('详情里仍然是四个剧本指针',
-    ptrCount === 4,
-    `${ptrCount} 个`);
+    byClass(detail, 'scene-ptr').length === 4,
+    `${byClass(detail, 'scene-ptr').length} 个`);
 
   // 7b. 字库：点第 2 段 → 详情换成那一段的字段
   const fontHost = render(renderFont);
@@ -413,16 +418,17 @@ console.log('\n7) 交互：点场景行换详情 / 点字形段换段 / 按字�
   const fontDetail = byClass(fontHost, 'font-detail')[0];
   check('点第 2 段后详情是「第 1 段」', fontDetail.textContent.includes('第 1 段'),
     (fontDetail.textContent.match(/第 \d+ 段/) || [''])[0]);
-  const segFields = byClass(fontDetail, 'font-seg-field');
+  const segCard = cardByTitle(fontDetail, '字形段');
+  const segFields = segCard ? byClass(segCard, 'font-seg-field') : [];
   check('这一段的字段都是可改的控件', segFields.length >= 3 &&
     segFields.every((f) => f.descendants().some((n) => n.tagName === 'INPUT')),
     `${segFields.length} 个字段`);
-  switchTab(fontHost, '字宽');
   check('字宽表仍然在详情里', !!tableByClass(fontHost, 'font-width-table'));
 
   // 7c. 「按字符码查字宽」：填一个码位 → 详情里出现那一码的字宽
-  const lookup = byClass(fontHost, 'font-lookup')[0];
-  check('「字宽」页里有「按字符码查字宽」的入口', !!lookup);
+  const widthCard = cardByTitle(fontDetail, '字宽');
+  const lookup = widthCard ? byClass(widthCard, 'font-lookup')[0] : null;
+  check('「字宽」卡片里有「按字符码查字宽」的入口', !!lookup);
   const lookupInput = lookup && lookup.descendants().find((n) => n.tagName === 'INPUT');
   const lookupBtn = lookup && lookup.descendants().find((n) => n.tagName === 'BUTTON');
   check('有「按字符码查字宽」的入口', !!lookupInput && !!lookupBtn);
@@ -439,79 +445,82 @@ console.log('\n7) 交互：点场景行换详情 / 点字形段换段 / 按字�
   }
 }
 
-console.log('\n8) 页签化：右侧有页签条 / 标签对 / 内容进页签 / 切走后不在 / 角标只挂在改过的那一页');
+console.log('\n8) 卡片化：右侧有卡片堆 / 标题对 / 所有卡片内容同时在 DOM 里 / 角标只挂在改过的那张卡片上');
 {
   // 8a. 场景视图
   const host = render(renderScene);
   const detail = byClass(host, 'scene-detail')[0];
-  check('场景视图右侧有页签条', byClass(detail, 'tab-bar').length === 1);
-  const labels = tabLabels(detail);
-  check('场景视图的页签是 战前 / 战后 / 逻辑 / 事件',
-    labels.join(',') === '战前,战后,逻辑,事件', labels.join('、'));
-  check('默认页（战前）里只有那一个剧本指针',
-    byClass(detail, 'scene-ptr').length === 1 &&
-    ptrLabel(byClass(detail, 'scene-ptr')[0]) === '战前剧情',
-    ptrLabel(byClass(detail, 'scene-ptr')[0]));
-  switchTab(host, '战后');
-  const after = byClass(detail, 'scene-ptr');
-  check('切到「战后」后那一页的内容在 DOM 里',
-    after.length === 1 && ptrLabel(after[0]) === '战后剧情',
-    after.length ? ptrLabel(after[0]) : '没有');
-  switchTab(host, '战前');
-  const back = byClass(detail, 'scene-ptr');
-  check('切走后那一页的内容不在 DOM 里',
-    back.length === 1 && ptrLabel(back[0]) === '战前剧情',
-    back.length ? ptrLabel(back[0]) : '没有');
+  check('场景视图右侧有卡片堆', byClass(detail, 'card-stack').length === 1);
+  const titles = cardTitles(detail);
+  check('场景视图的卡片是 战前 / 战后 / 逻辑 / 事件',
+    titles.join(',') === '战前,战后,逻辑,事件', titles.join('、'));
+  const ptrs = byClass(detail, 'scene-ptr');
+  // 卡片标题 → 它那张卡片上的根表名（战前 → 战前剧情 …）。
+  const expectLabel = {
+    战前: '战前剧情', 战后: '战后剧情', 逻辑: '战场事件逻辑', 事件: '战场事件表',
+  };
+  check('每个剧本入口各占一张卡片',
+    titles.length === 4 && titles.every((t) => {
+      const card = cardByTitle(detail, t);
+      if (!card) return false;
+      const one = byClass(card, 'scene-ptr');
+      return one.length === 1 && ptrLabel(one[0]) === expectLabel[t];
+    }),
+    titles.map((t) => {
+      const card = cardByTitle(detail, t);
+      if (!card) return `${t}=没有卡片`;
+      const one = byClass(card, 'scene-ptr');
+      return `${t}=${one.length} 个指针（${one.length ? ptrLabel(one[0]) : '没有'}）`;
+    }).join('、'));
+  // 与页签最大的不同：四张卡片的内容**同时**在 DOM 里，不用切。
+  check('四张卡片的内容同时在 DOM 里（不用切）', ptrs.length === 4, `${ptrs.length} 个`);
 
-  // 8b. 场景视图的角标：改了哪一路，哪一页签上出现角标
+  // 8b. 场景视图的角标：改了哪一路，哪一张卡片上有角标
   const base = pack.changedCount();
   const ptrInput = byClass(detail, 'scene-ptr')[0].descendants().find((n) => n.tagName === 'INPUT');
   const original = ptrInput.value;
   ptrInput.listeners.change[0]({ target: { value: '0x08001234' } });
-  const badges = tabBadges(detail);
-  check('改过的那一路页签上有角标', badges['战前'] === '1', JSON.stringify(badges));
-  check('没改过的页签没有角标', !badges['战后'], JSON.stringify(badges));
+  const badges = cardBadges(detail);
+  check('改过的那一路卡片上有角标', badges['战前'] === '1', JSON.stringify(badges));
+  check('没改过的卡片没有角标',
+    !badges['战后'] && !badges['逻辑'] && !badges['事件'], JSON.stringify(badges));
   check('写回后改动数 +1', pack.changedCount() === base + 1,
     `${base} → ${pack.changedCount()}`);
   ptrInput.listeners.change[0]({ target: { value: original } });
-  check('改回原值后角标消失', !tabBadges(detail)['战前'], JSON.stringify(tabBadges(detail)));
+  check('改回原值后角标消失', !cardBadges(detail)['战前'], JSON.stringify(cardBadges(detail)));
   check('改回原值后改动数回到基线', pack.changedCount() === base,
     `${pack.changedCount()}（基线 ${base}）`);
 
   // 8c. 字库视图
   const fontHost = render(renderFont);
   const fontDetail = byClass(fontHost, 'font-detail')[0];
-  check('字库视图右侧有页签条', byClass(fontDetail, 'tab-bar').length === 1);
-  const fontLabels = tabLabels(fontDetail);
-  check('字库视图的页签是 字形段 / 字宽',
-    fontLabels.join(',') === '字形段,字宽', fontLabels.join('、'));
-  check('默认页（字形段）里有这一段的字段',
-    byClass(fontDetail, 'font-seg-field').length >= 3,
-    `${byClass(fontDetail, 'font-seg-field').length} 个字段`);
-  check('默认页里没有字宽表', !tableByClass(fontDetail, 'font-width-table'));
-  switchTab(fontHost, '字宽');
-  check('切到「字宽」后字宽表在 DOM 里', !!tableByClass(fontDetail, 'font-width-table'));
-  check('切到「字宽」后字形段的字段不在 DOM 里',
-    byClass(fontDetail, 'font-seg-field').length === 0,
-    `${byClass(fontDetail, 'font-seg-field').length} 个字段`);
-  switchTab(fontHost, '字形段');
-  check('切走后字宽表不在 DOM 里', !tableByClass(fontDetail, 'font-width-table'));
-  check('切回来后字形段的字段又在了',
-    byClass(fontDetail, 'font-seg-field').length >= 3,
-    `${byClass(fontDetail, 'font-seg-field').length} 个字段`);
+  check('字库视图右侧有卡片堆', byClass(fontDetail, 'card-stack').length === 1);
+  const fontTitles = cardTitles(fontDetail);
+  check('字库视图的卡片是 字形段 / 字宽',
+    fontTitles.join(',') === '字形段,字宽', fontTitles.join('、'));
+  const segCard = cardByTitle(fontDetail, '字形段');
+  const widthCard = cardByTitle(fontDetail, '字宽');
+  check('「字形段」卡片里有这一段的字段',
+    !!segCard && byClass(segCard, 'font-seg-field').length >= 3,
+    segCard ? `${byClass(segCard, 'font-seg-field').length} 个字段` : '没有卡片');
+  check('「字宽」卡片里有字宽表', !!tableByClass(widthCard, 'font-width-table'));
+  // 两张卡片的内容同时在 DOM 里。
+  check('两张卡片的内容同时在 DOM 里（不用切）',
+    byClass(fontDetail, 'font-seg-field').length >= 3 &&
+    !!tableByClass(fontDetail, 'font-width-table'),
+    `${byClass(fontDetail, 'font-seg-field').length} 个字段 + 字宽表`);
 
-  // 8d. 字库视图的角标：改了字宽，字宽页签上有角标
+  // 8d. 字库视图的角标：改了字宽，字宽卡片上有角标
   const fontBase = pack.changedCount();
-  switchTab(fontHost, '字宽');
   const widthInput = bodyRows(tableByClass(fontHost, 'font-width-table'))[0]
     .descendants().find((n) => n.tagName === 'INPUT');
   const widthValue = Number(widthInput.value);
   widthInput.listeners.change[0]({ target: { value: String((widthValue + 1) % 256) } });
-  const fontBadges = tabBadges(fontDetail);
-  check('改过字宽后「字宽」页签上有角标', fontBadges['字宽'] === '1', JSON.stringify(fontBadges));
-  check('没改过的「字形段」页签没有角标', !fontBadges['字形段'], JSON.stringify(fontBadges));
+  const fontBadges = cardBadges(fontDetail);
+  check('改过字宽后「字宽」卡片上有角标', fontBadges['字宽'] === '1', JSON.stringify(fontBadges));
+  check('没改过的「字形段」卡片没有角标', !fontBadges['字形段'], JSON.stringify(fontBadges));
   widthInput.listeners.change[0]({ target: { value: String(widthValue) } });
-  check('改回原值后角标消失', !tabBadges(fontDetail)['字宽'], JSON.stringify(tabBadges(fontDetail)));
+  check('改回原值后角标消失', !cardBadges(fontDetail)['字宽'], JSON.stringify(cardBadges(fontDetail)));
   check('改回原值后改动数回到基线', pack.changedCount() === fontBase,
     `${pack.changedCount()}（基线 ${fontBase}）`);
 }

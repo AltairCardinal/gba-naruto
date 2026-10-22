@@ -10,11 +10,12 @@
 //
 // 所以：
 //   左边列表 = 任务索引表的每一条（一行 = 一关，含它的标题摘要）
-//   右边详情 = 头部（第几关 / 基址）留在页签外面，
-//              内容按类分五页签：基址 / 标题 / 说明 / 提示 / 奖励
+//   右边详情 = 头部（第几关 / 基址）留在卡片外面，
+//              内容按类分五张卡片：基址 / 标题 / 说明 / 提示 / 奖励
 //
 // 以前右边是一条长面板：基址 → 三个子任务（标题 / 说明 / 提示 + 奖励），
-// 改「说明」得先滚过基址与三张标题。现在一类一页，页签上的角标是
+// 改「说明」得先滚过基址与三张标题。现在五张卡片竖着排在同一个滚动页面里 ——
+// 往下滚就是全部，不用在一堆页签里来回切；卡片头的角标是
 // 「这一类改了几处」（按字节判定，与通用表格编辑器同一套口径）。
 //
 // 写回仍然只走内容包已有的通路（pack.setText / pack.setValue），
@@ -25,7 +26,7 @@ import { fieldControl } from '../fields.js';
 import { arraysIn, renderArrayTable } from '../slots.js';
 import { missionIndexOwners } from '../xref.js';
 import { splitPane } from '../split.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 import { backButton } from './common.js';
 
 /** 任务文本表：标题 / 说明 / 提示。 */
@@ -184,8 +185,8 @@ class MissionView {
       ]),
     ]));
     container.appendChild(el('p', { class: 'section-note', text: [
-      '左边按**任务索引表**列出（一行 = 一关）；右边是这一关的头部，',
-      '内容按类分五页签：基址 / 标题 / 说明 / 提示 / 奖励。',
+      '左边按任务索引表列出（一行 = 一关）；右边是这一关的头部，',
+      '下面五张卡片依次是：基址 / 标题 / 说明 / 提示 / 奖励 —— 全都同时可见，往下滚就是全部。',
       'ROM 里它们确实是四张表（索引表给基址，三张文本表各存一段话），',
       '但改的时候它们是一个东西。',
     ] }));
@@ -195,13 +196,13 @@ class MissionView {
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.mission',
     }));
-    // 右侧面板：头部（第几关 / 基址）留在页签外面，
-    // 内容按类分五页签 —— 一类一页，不用在一条长面板里上下找。
-    // 页签面板**只建一次**：换关卡时只 refresh，页签选择与记住的页签都还在。
+    // 右侧面板：头部（第几关 / 基址）留在卡片外面，
+    // 内容按类分五张卡片 —— 全部同时可见，不用在一条长面板里上下找。
+    // 卡片堆**只建一次**：换关卡时只 refresh。
     this.headHost = el('div', { class: 'mission-detail-head' });
     this.detailWrap.appendChild(this.headHost);
-    this.tabs = new TabPanel(this.missionTabs(), { key: 'editor.mission', pack: this.pack });
-    this.detailWrap.appendChild(this.tabs.element);
+    this.cards = new CardStack(this.missionCards(), { pack: this.pack });
+    this.detailWrap.appendChild(this.cards.element);
     this.renderList();
     this.renderDetail();
   }
@@ -253,7 +254,7 @@ class MissionView {
   /**
    * 这一关改了几处（文本 + 奖励）。
    *
-   * 与页签角标用的是同一套判定 —— 左边列表的总数 = 三个文本页签 + 奖励页签之和。
+   * 与卡片角标用的是同一套判定 —— 左边列表的总数 = 三张文本卡片 + 奖励卡片之和。
    */
   stageChanged(stage) {
     let n = 0;
@@ -279,14 +280,14 @@ class MissionView {
     return out;
   }
 
-  /** 基址那一页改了几处（索引表里这一关的那一格）。 */
+  /** 基址那一张卡片改了几处（索引表里这一关的那一格）。 */
   baseChanged(stage = this.stage) {
     const record = this.index ? (this.index.records || [])[stage] : null;
     if (!record) return null;
     return this.changedOffsets(this.index).has(record.rom_offset) ? '1' : null;
   }
 
-  /** 文本表这一页改了几处（这一关的三个槽）。 */
+  /** 文本表那一张卡片改了几处（这一关的三个槽）。 */
   textChanged(tableId, stage = this.stage) {
     const base = missionBase(this.pack, stage);
     if (base === null) return null;
@@ -300,7 +301,7 @@ class MissionView {
     return n || null;
   }
 
-  /** 奖励这一页改了几处（这一关的三份奖励）。 */
+  /** 奖励那一张卡片改了几处（这一关的三份奖励）。 */
   rewardChanged(stage = this.stage) {
     const base = missionBase(this.pack, stage);
     if (base === null || !this.rewards) return null;
@@ -315,57 +316,57 @@ class MissionView {
   }
 
   /**
-   * 右侧的五个页签：基址 / 标题 / 说明 / 提示 / 奖励。
+   * 右侧的五张卡片：基址 / 标题 / 说明 / 提示 / 奖励。
    *
    * 一关 = 基址 + 三张文本表 + 三份奖励。以前这些全堆在一条长面板里，
-   * 改「说明」得先滚过基址与三张标题 —— 现在一类一页，
-   * 页签上的角标是「这一类改了几处」。
+   * 改「说明」得先滚过基址与三张标题 —— 现在一类一张卡片，
+   * 卡片头的角标是「这一类改了几处」。
    */
-  missionTabs() {
+  missionCards() {
     return [
       {
         id: 'base',
         label: '基址',
         hint: '本关的基址（任务索引表那一格）—— 改它会换掉整关的任务与奖励',
         badge: () => this.baseChanged(),
-        render: () => this.renderBaseTab(),
+        render: () => this.renderBaseCard(),
       },
       {
         id: 'titles',
         label: '标题',
         hint: '任务标题表：三个子任务的标题',
         badge: () => this.textChanged('mission_titles'),
-        render: () => this.renderTextTab('标题', 'mission_titles'),
+        render: () => this.renderTextCard('标题', 'mission_titles'),
       },
       {
         id: 'descriptions',
         label: '说明',
         hint: '任务说明表：三个子任务的说明',
         badge: () => this.textChanged('mission_descriptions'),
-        render: () => this.renderTextTab('说明', 'mission_descriptions'),
+        render: () => this.renderTextCard('说明', 'mission_descriptions'),
       },
       {
         id: 'hints',
         label: '提示',
         hint: '任务提示表：三个子任务的提示',
         badge: () => this.textChanged('mission_hints'),
-        render: () => this.renderTextTab('提示', 'mission_hints'),
+        render: () => this.renderTextCard('提示', 'mission_hints'),
       },
       {
         id: 'rewards',
         label: '奖励',
         hint: '本关的三份奖励：金币 / 强化点 / 等级门槛 + 8 个掉落位',
         badge: () => this.rewardChanged(),
-        render: () => this.renderRewardTab(),
+        render: () => this.renderRewardCard(),
       },
     ];
   }
 
-  /** 右边：头部（第几关 / 基址）留在页签外面，内容在页签里。 */
+  /** 右边：头部（第几关 / 基址）留在卡片外面，内容在下面五张卡片里。 */
   renderDetail() {
     const host = this.headHost;
     clear(host);
-    // 页签内容是懒渲染的：每次重画都从零开始收（刷新器与标题输入框）。
+    // 卡片内容每次重画都从零开始收（刷新器与标题输入框）。
     this.refreshers = [];
     this.titleInputs = [];
     const stage = this.stage;
@@ -379,14 +380,11 @@ class MissionView {
       el('span', { text: base === null ? '没有基址' : `基址 #${base}` }),
     ]));
 
-    this.tabs.refresh();
-    // refresh() 重建页签条时不会把「当前页」标回去（tabs.js 那边的小口子），
-    // 补一次 setActive：同一个 id 不会重建内容，只把高亮标回来。
-    this.tabs.setActive(this.tabs.active);
+    this.cards.refresh();
   }
 
-  /** 基址那一页：索引表里这一关的那一格。 */
-  renderBaseTab() {
+  /** 基址那一张：索引表里这一关的那一格。 */
+  renderBaseCard() {
     const indexRecord = this.index ? (this.index.records || [])[this.stage] : null;
     if (!indexRecord) {
       return el('div', { class: 'empty', text: '内容包里没有任务索引表。' });
@@ -409,9 +407,9 @@ class MissionView {
   }
 
   /**
-   * 三张任务文本表各一页：这一页装三个子任务的这张表的文案。
+   * 三张任务文本表各一张卡片：这张卡片装三个子任务的这张表的文案。
    */
-  renderTextTab(label, tableId) {
+  renderTextCard(label, tableId) {
     const stage = this.stage;
     const base = missionBase(this.pack, stage);
     if (base === null) {
@@ -440,8 +438,8 @@ class MissionView {
     return wrap;
   }
 
-  /** 奖励那一页：三个子任务各一份奖励。 */
-  renderRewardTab() {
+  /** 奖励那一张：三个子任务各一份奖励。 */
+  renderRewardCard() {
     const stage = this.stage;
     const base = missionBase(this.pack, stage);
     if (base === null) {
@@ -499,16 +497,14 @@ class MissionView {
   }
 
   /**
-   * 只重画页签条上的角标，不重建页签内容。
+   * 重算卡片头上的角标。
    *
-   * 文本改完不能整页重建 —— 重建会把作者正在编辑的输入框换掉（焦点就没了）。
-   * setBadge(id, null) 清掉角标覆盖并重画页签条，角标于是按当前数据重算。
+   * 角标是按当前数据算的（card.badge）—— setBadge(id, null) 清掉覆盖后，
+   * 角标就回到「这一类改了几处」的真实值。
    */
   refreshBadges() {
-    if (!this.tabs) return;
-    for (const tab of this.tabs.tabs) this.tabs.setBadge(tab.id, null);
-    // setBadge 重画了页签条，高亮要重新标回去（同一个 id 不重建内容）。
-    this.tabs.setActive(this.tabs.active);
+    if (!this.cards) return;
+    for (const card of this.cards.cards) this.cards.setBadge(card.id, null);
   }
 
   /** 字段控件的上下文：改完类别要把物品下拉重画一次。 */

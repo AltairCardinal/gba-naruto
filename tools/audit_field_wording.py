@@ -72,10 +72,31 @@ def flags_for(field):
         out.append("说明里塞了 ROM 地址")
     if len(desc) > TOO_LONG:
         out.append(f"说明过长（{len(desc)} 字）")
-    # label 本身带内部编号：「成长目标1」「成长目标2」这类
-    # （数组项的「道具槽0」是正常命名，不算）
-    if not is_array_item and re.search(r"[0-9]$", label) and not re.search(r"\+0x", label):
-        out.append("label 带裸编号")
+    # label 带编号本身不算问题（「属性加成 1..6」「图层0」都清楚）；
+    # 有问题的是**两个不同的东西共用一个词** —— 那个由 ambiguous_labels() 判。
+    return out
+
+
+def ambiguous_labels(structure):
+    """同一张表里，「带编号的那几个」与「点名它们的那一个」用了同一个词。
+
+    这是「成长目标1..6」与「成长目标」那种撞车：
+    作者看到「成长目标=4」不知道说的是第 4 个槽还是那一格。
+    编号本身没问题（属性加成 1..6、图层0/1 都不歧义），
+    有歧义的是**两个不同的东西共用一个词**。
+    """
+    labels = [str(f.get("label") or "") for f in structure.get("fields", [])]
+    out = []
+    for field in structure.get("fields", []):
+        label = str(field.get("label") or "")
+        if not re.search(r"[0-9]$", label):
+            continue
+        stem = re.sub(r"[0-9]+$", "", label).strip()
+        if not stem:
+            continue
+        # 同一张表里另有一个字段的标签正好是这个词干
+        if any(other != label and other.strip() == stem for other in labels):
+            out.append(field)
     return out
 
 
@@ -84,8 +105,11 @@ def collect(pack, only=None):
     for structure in pack.get("structures", []):
         if only and only not in structure.get("id", ""):
             continue
+        ambiguous = {f.get("key") for f in ambiguous_labels(structure)}
         for field in structure.get("fields", []):
             flags = flags_for(field)
+            if field.get("key") in ambiguous:
+                flags.append("label 与另一个字段撞词")
             if not flags:
                 continue
             rows.append({

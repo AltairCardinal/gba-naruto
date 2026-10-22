@@ -16,7 +16,7 @@ import { backReferencesByPointer } from '../xref.js';
 import { valueMatches } from '../editors.js';
 import { backButton } from './common.js';
 import { splitPane } from '../split.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 
 export const PTR_TABLE_A = 'data_pointer_table_a';
 export const PTR_TABLE_B = 'data_pointer_table_b';
@@ -193,19 +193,18 @@ class WiringView {
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.assets.wiring', wide: true,
     }));
-    // 右侧面板：头部（哪一格 / 改没改）留在页签外面，内容按类分三页签。
-    // 页签面板要活过 renderDetail() 的 clear()：头部与页签分装在两个容器里，
-    // clear 只清头部那一个。页签面板**只建一次** —— 换一条记录只 refresh，
-    // 页签选择与记住的页签都还在。
+    // 右侧面板：头部（哪一格 / 改没改）留在卡片外面，内容按类分三张卡片。
+    // 卡片堆要活过 renderDetail() 的 clear()：头部与卡片分装在两个容器里，
+    // clear 只清头部那一个。卡片堆**只建一次** —— 换一条记录只 refresh，
+    // 三张卡片始终都在页面上，作者一眼看得到「这一格有哪几面可看」。
     this.detailTop = el('div', { class: 'detail-top' });
-    this.detailTabs = el('div', { class: 'detail-tabs' });
+    this.detailCards = el('div', { class: 'detail-cards' });
     this.detailWrap.appendChild(this.detailTop);
-    this.detailWrap.appendChild(this.detailTabs);
-    this.tabs = new TabPanel(this.tabSpecs(), {
-      key: 'editor.assets.wiring',
+    this.detailWrap.appendChild(this.detailCards);
+    this.cards = new CardStack(this.cardSpecs(), {
       pack: this.pack,
     });
-    this.detailTabs.appendChild(this.tabs.element);
+    this.detailCards.appendChild(this.cards.element);
     this.renderList();
     this.renderDetail();
   }
@@ -285,17 +284,17 @@ class WiringView {
   }
 
   /**
-   * 右边：头部（哪一格 / 改没改）留在页签外面，内容在页签里。
+   * 右边：头部（哪一格 / 改没改）留在卡片外面，内容在卡片里。
    *
-   * clear() 只清头部那一个容器 —— 页签面板在另一个容器里，不会被清掉。
+   * clear() 只清头部那一个容器 —— 卡片堆在另一个容器里，不会被清掉。
    */
   renderDetail() {
     const host = this.detailTop;
     clear(host);
     const sel = this.selected;
     if (!sel) {
-      // 没选中：提示放在页签内容里（tabContent 认得这个情况）。
-      this.tabs.refresh();
+      // 没选中：提示放在卡片内容里（cardContent 认得这个情况）。
+      this.cards.refresh();
       return;
     }
     const table = sel.table;
@@ -333,44 +332,45 @@ class WiringView {
         : null,
     ]));
 
-    // 内容在页签里：换一条记录只重建当前那一页，
-    // 页签选择与记住的页签都还在。
-    this.tabs.refresh();
+    // 内容在卡片里：换一条记录只重建卡片里的内容，
+    // 三张卡片还是那几张，滚动位置也不会丢。
+    this.cards.refresh();
   }
 
   /**
-   * 右侧面板的三个页签。
+   * 右侧面板的三张卡片。
    *
    * 这一格指针的三个侧面：它指向哪 / 怎么换成另一份 / 改了会动到谁。
-   * 页签 id 用英文，label 用中文；key 记住上次停在哪一页。
+   * 卡片 id 用英文，label 用中文（卡片头的标题）；
+   * hint 是卡片头下给作者看的一行说明。
    */
-  tabSpecs() {
+  cardSpecs() {
     return [
       {
         id: 'target',
         label: '指向哪',
         hint: '这一格的指针值、它指向的资源、原值与恢复',
         badge: () => this.pointerChanged(),
-        render: () => this.tabContent(() => this.renderTargetTab()),
+        render: () => this.cardContent(() => this.renderTargetCard()),
       },
       {
         id: 'replace',
         label: '换成哪一份',
         hint: '从本表 / 另一张指针表复制一个地址过来，或手动填',
         badge: () => this.pointerChanged(),
-        render: () => this.tabContent(() => this.renderReplaceTab()),
+        render: () => this.cardContent(() => this.renderReplaceCard()),
       },
       {
         id: 'impact',
         label: '改动后果',
         hint: '改这一格会动到谁：全包里指向同一个地址的指针有几处',
-        render: () => this.tabContent(() => this.renderImpactTab()),
+        render: () => this.cardContent(() => this.renderImpactCard()),
       },
     ];
   }
 
-  /** 页签内容：没选中记录时给一句提示，选中了才建那一页。 */
-  tabContent(build) {
+  /** 卡片内容：没选中记录时给一句提示，选中了才建那一张卡。 */
+  cardContent(build) {
     if (!this.selected) {
       return el('div', { class: 'empty', text: '在左边点一行：这一格指向哪、改它会动到谁' });
     }
@@ -391,8 +391,8 @@ class WiringView {
     return changed.has(sel.record.rom_offset) ? '1' : null;
   }
 
-  /** 「指向哪」那一页：指针框 + 目标摘要 + 原值 + 恢复 / 跳原始字节。 */
-  renderTargetTab() {
+  /** 「指向哪」那张卡片：指针框 + 目标摘要 + 原值 + 恢复 / 跳原始字节。 */
+  renderTargetCard() {
     const sel = this.selected;
     const table = sel.table;
     const record = sel.record;
@@ -432,8 +432,8 @@ class WiringView {
     return group;
   }
 
-  /** 「换成哪一份」那一页：从本表 / 另一张指针表复制，或手动填地址。 */
-  renderReplaceTab() {
+  /** 「换成哪一份」那张卡片：从本表 / 另一张指针表复制，或手动填地址。 */
+  renderReplaceCard() {
     return el('div', { class: 'group' }, [
       el('div', { class: 'group-head' }, [
         el('span', { class: 'group-name', text: '改成' }),
@@ -444,9 +444,9 @@ class WiringView {
           this.copySelect('other'),
           el('button', {
             class: 'btn btn-tiny', text: '手动填地址',
-            // 指针框在「指向哪」那一页：先切过去再聚焦。
+            // 指针框在上一张卡片（「指向哪」）里：卡片全都同时在页面上，
+            // 直接聚焦那个输入框就行，不用切页签。
             onclick: () => {
-              this.tabs.setActive('target');
               if (this.input && this.input.focus) this.input.focus();
             },
           }),
@@ -459,8 +459,8 @@ class WiringView {
     ]);
   }
 
-  /** 「改动后果」那一页：改这一格会动到谁。 */
-  renderImpactTab() {
+  /** 「改动后果」那张卡片：改这一格会动到谁。 */
+  renderImpactCard() {
     const sel = this.selected;
     const record = sel.record;
     const field = pointerField(sel.table);
@@ -524,6 +524,9 @@ class WiringView {
         clearPointerCache();
         this.renderList();
         this.refreshTargetLines();
+        // 写回会让「这一类改了几处」的角标冒出来，角标一变整摞卡片会重建，
+        // 输入框也跟着重建 —— 焦点会丢，这里还回去（页签版本里它是不丢的）。
+        if (this.input && this.input.focus) this.input.focus();
       },
       registerRefresh: (fn) => { this.refreshers.push(fn); },
     };

@@ -28,7 +28,7 @@ import { arraysIn, renderArrayTable } from '../slots.js';
 import { missionIndexOwners, ownerLabel } from '../xref.js';
 import { idSpace } from '../idspace.js';
 import { splitPane } from '../split.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 import { backButton, summaryTable } from './common.js';
 
 // ---------------------------------------------------------------------------
@@ -232,9 +232,12 @@ class ItemView {
     this.records = this.pack.structure('item_record');
     this.names = itemNameTable(this.pack);
     this.id = this.pickId(params);
-    this.refreshers = [];
-    this.tabs = null;
-    this.tabsMounted = false;
+    // 「刷新器」按卡片分桶：卡片全都同时在页面上，每张卡片重建时
+    // 只清自己那一桶（见 cardContent）。
+    this.refreshers = new Map();
+    this.currentCard = null;
+    this.cards = null;
+    this.cardsMounted = false;
   }
 
   pickId(params) {
@@ -270,18 +273,18 @@ class ItemView {
     return ((this.records && this.records.fields) || []).filter((f) => f.type !== 'hex');
   }
 
-  /** 字段控件的上下文：改完一个字段要重画列表（改动角标）并刷新页签角标。 */
+  /** 字段控件的上下文：改完一个字段要重画列表（改动角标）并刷新卡片角标。 */
   fieldCtx() {
     const ctx = this.ctx;
     return {
       pack: ctx.pack,
       onChange: ctx.onChange,
       onJump: ctx.onJump,
-      registerRefresh: (fn) => this.refreshers.push(fn),
+      registerRefresh: (fn) => this.addRefresher(fn),
       onCommit: () => {
-        for (const fn of this.refreshers) fn();
+        this.runRefreshers();
         this.renderList();
-        this.refreshTabs();
+        this.refreshCards();
       },
     };
   }
@@ -303,28 +306,29 @@ class ItemView {
     ]));
     container.appendChild(el('p', { class: 'section-note', text:
       '左边按道具/忍具记录表列出（一行 = 一个忍具）；' +
-      '右边分三个页签：名字（忍具名表）、记录字段（记录表那 16 个字节，每格都有原生代码依据）、' +
-      '掉落位置（奖励表里引用它的那些行，点一下就跳过去 —— 掉落关系改在奖励那一侧）。' }));
+      '右边是三张卡片：名字（忍具名表）、记录字段（记录表那 16 个字节，每格都有原生代码依据）、' +
+      '掉落位置（奖励表里引用它的那些行，点一下就跳过去 —— 掉落关系改在奖励那一侧）。' +
+      '三张卡片都在页面上，往下滚就是全部。' }));
 
     this.listWrap = el('div', { class: 'table-wrap' });
     this.detailWrap = el('div', { class: 'detail-panel' });
-    // 头部每次重画；页签面板常驻在另一个容器里 —— clear() 不到它，
-    // 所以切页签、换忍具时页签选择都还在。
+    // 头部每次重画；卡片堆常驻在另一个容器里 —— clear() 不到它，
+    // 所以换忍具时卡片还是那几张。
     this.detailHead = el('div', { class: 'detail-head-area' });
-    this.detailTabs = el('div', { class: 'detail-tab-area' });
+    this.detailCards = el('div', { class: 'detail-cards' });
     this.detailWrap.appendChild(this.detailHead);
-    this.detailWrap.appendChild(this.detailTabs);
+    this.detailWrap.appendChild(this.detailCards);
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.item',
       wide: true,
     }));
-    this.tabs = new TabPanel([
+    this.cards = new CardStack([
       {
         id: 'name',
         label: '名字',
         hint: '忍具名表里的那一条文本',
         badge: () => this.nameBadge(),
-        render: () => this.renderName(this.currentRecord()),
+        render: () => this.cardContent('name', () => this.renderName(this.currentRecord())),
       },
       {
         id: 'bytes',
@@ -332,16 +336,16 @@ class ItemView {
         hint: '记录表那 16 个字节：每一格都标了它在 ROM 里的作用'
           + '（原生代码不读的标「保留」，只到取值分布的标「（推定）」）',
         badge: () => this.bytesBadge(),
-        render: () => this.renderRecord(this.currentRecord()),
+        render: () => this.cardContent('bytes', () => this.renderRecord(this.currentRecord())),
       },
       {
         id: 'drops',
         label: '掉落位置',
         hint: '奖励表里引用它的那些行（掉落关系改在奖励那一侧）',
         badge: () => this.dropsBadge(),
-        render: () => this.renderDrops(this.currentRecord()),
+        render: () => this.cardContent('drops', () => this.renderDrops(this.currentRecord())),
       },
-    ], { key: 'editor.item', pack: this.pack });
+    ], { pack: this.pack });
     this.renderList();
     this.renderDetail();
   }
@@ -394,27 +398,27 @@ class ItemView {
       .find((r) => r.id === this.id) || null;
   }
 
-  /** 页签面板常驻在 detailTabs 里 —— 它自己管内容，这里只管挂不挂。 */
-  mountTabs() {
-    if (this.tabsMounted) return;
-    this.detailTabs.appendChild(this.tabs.element);
-    this.tabsMounted = true;
+  /** 卡片堆常驻在 detailCards 里 —— 它自己管内容，这里只管挂不挂。 */
+  mountCards() {
+    if (this.cardsMounted) return;
+    this.detailCards.appendChild(this.cards.element);
+    this.cardsMounted = true;
   }
 
-  /** 找不到记录时把页签收起来（下次有记录了再挂回去）。 */
-  unmountTabs() {
-    if (!this.tabsMounted) return;
-    clear(this.detailTabs);
-    this.tabsMounted = false;
+  /** 找不到记录时把卡片收起来（下次有记录了再挂回去）。 */
+  unmountCards() {
+    if (!this.cardsMounted) return;
+    clear(this.detailCards);
+    this.cardsMounted = false;
   }
 
-  /** 右边：这个忍具。头部在外面，内容按类分页签。 */
+  /** 右边：这个忍具。头部在外面，内容按类分成卡片。 */
   renderDetail() {
     const record = this.currentRecord();
     clear(this.detailHead);
     if (!record) {
       this.detailHead.appendChild(el('div', { class: 'empty', text: '找不到这个忍具。' }));
-      this.unmountTabs();
+      this.unmountCards();
       return;
     }
     const name = itemName(this.names, record.id);
@@ -431,8 +435,42 @@ class ItemView {
       el('span', { text: `${bytes} 字节 · ${bytes - reserved} 格有原生代码依据，${reserved} 格保留` }),
     ]));
 
-    this.mountTabs();
-    this.tabs.refresh();
+    this.mountCards();
+    this.cards.refresh();
+  }
+
+  /**
+   * 一张卡片的内容。
+   *
+   * 卡片全都同时在页面上，所以「刷新器」（改完一格要重画说明行的回调）
+   * 是所有卡片合起来的一份 —— 但每张卡片各管各的一桶：
+   * 这张卡片重建时只清它自己那一桶。
+   */
+  cardContent(id, build) {
+    this.currentCard = id;
+    this.refreshers.set(id, []);
+    return build();
+  }
+
+  /** 登记一个「改完要重画」的回调（归到当前这张卡片名下）。 */
+  addRefresher(fn) {
+    const id = this.currentCard;
+    if (!id) return;
+    const bucket = this.refreshers.get(id) || [];
+    bucket.push(fn);
+    this.refreshers.set(id, bucket);
+  }
+
+  /** 跑一遍所有卡片的刷新器（改完一格，说明行与「已改」标记要跟上）。 */
+  runRefreshers() {
+    for (const bucket of this.refreshers.values()) {
+      for (const fn of bucket) fn();
+    }
+  }
+
+  /** 重建全部卡片的内容与角标。 */
+  refreshCards() {
+    if (this.cards) this.cards.refresh();
   }
 
   /** 名字这一类改了几处（按字节判定：文本与原文不同）。 */
@@ -688,9 +726,12 @@ class RewardView {
     this.numbers = rewardNumberFields(this.rewards);
     this.goldField = this.numbers[0] || null;
     this.id = this.pickId(params);
-    this.refreshers = [];
-    this.tabs = null;
-    this.tabsMounted = false;
+    // 「刷新器」按卡片分桶：卡片全都同时在页面上，每张卡片重建时
+    // 只清自己那一桶（见 cardContent）。
+    this.refreshers = new Map();
+    this.currentCard = null;
+    this.cards = null;
+    this.cardsMounted = false;
   }
 
   pickId(params) {
@@ -727,40 +768,40 @@ class RewardView {
     ]));
     container.appendChild(el('p', { class: 'section-note', text:
       '左边按奖励表列出（一行 = 一条奖励）；' +
-      '右边分几个页签：金币 / 强化点 / 等级门槛各一页，掉落位（类别 + 物品）一页，' +
-      '全部就地改。' }));
+      '右边是四张卡片：金币 / 强化点 / 等级门槛各一张，掉落位（类别 + 物品）一张，' +
+      '全部就地改。四张卡片都在页面上，往下滚就是全部。' }));
 
     this.listWrap = el('div', { class: 'table-wrap' });
     this.detailWrap = el('div', { class: 'detail-panel' });
-    // 头部与脚注每次重画；页签面板常驻在另一个容器里 —— clear() 不到它，
-    // 所以切页签、换奖励时页签选择都还在。
+    // 头部与脚注每次重画；卡片堆常驻在另一个容器里 —— clear() 不到它，
+    // 所以换奖励时卡片还是那几张。
     this.detailHead = el('div', { class: 'detail-head-area' });
-    this.detailTabs = el('div', { class: 'detail-tab-area' });
+    this.detailCards = el('div', { class: 'detail-cards' });
     this.detailFoot = el('div', { class: 'detail-foot-area' });
     this.detailWrap.appendChild(this.detailHead);
-    this.detailWrap.appendChild(this.detailTabs);
+    this.detailWrap.appendChild(this.detailCards);
     this.detailWrap.appendChild(this.detailFoot);
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.reward',
       wide: true,
     }));
-    this.tabs = new TabPanel([
-      // 三个数字字段各占一页：它们是这张表里唯一不是重复槽的定宽数字字段。
+    this.cards = new CardStack([
+      // 三个数字字段各占一张卡：它们是这张表里唯一不是重复槽的定宽数字字段。
       ...this.numbers.map((field) => ({
         id: field.key,
         label: field.label || field.key,
         hint: field.desc || (field.label || field.key),
         badge: () => this.numberBadge(field),
-        render: () => this.tabContent(() => this.renderNumberField(field)),
+        render: () => this.cardContent(field.key, () => this.renderNumberField(field)),
       })),
       {
         id: 'slots',
         label: '掉落位',
         hint: '8 个掉落位：类别 + 物品（物品 id 写成 0 表示列表结束）',
         badge: () => this.slotsBadge(),
-        render: () => this.tabContent(() => this.renderSlots()),
+        render: () => this.cardContent('slots', () => this.renderSlots()),
       },
-    ], { key: 'editor.reward', pack: this.pack });
+    ], { pack: this.pack });
     this.renderList();
     this.renderDetail();
   }
@@ -815,34 +856,57 @@ class RewardView {
       .find((r) => r.id === this.id) || null;
   }
 
-  /** 页签面板常驻在 detailTabs 里 —— 它自己管内容，这里只管挂不挂。 */
-  mountTabs() {
-    if (this.tabsMounted) return;
-    this.detailTabs.appendChild(this.tabs.element);
-    this.tabsMounted = true;
+  /** 卡片堆常驻在 detailCards 里 —— 它自己管内容，这里只管挂不挂。 */
+  mountCards() {
+    if (this.cardsMounted) return;
+    this.detailCards.appendChild(this.cards.element);
+    this.cardsMounted = true;
   }
 
-  /** 找不到记录时把页签收起来（下次有记录了再挂回去）。 */
-  unmountTabs() {
-    if (!this.tabsMounted) return;
-    clear(this.detailTabs);
-    this.tabsMounted = false;
+  /** 找不到记录时把卡片收起来（下次有记录了再挂回去）。 */
+  unmountCards() {
+    if (!this.cardsMounted) return;
+    clear(this.detailCards);
+    this.cardsMounted = false;
   }
 
-  /** 页签内容：每次渲染前把「改完要重画」的回调清空。 */
-  tabContent(fn) {
-    this.refreshers = [];
-    return fn();
+  /**
+   * 一张卡片的内容。
+   *
+   * 卡片全都同时在页面上，所以「刷新器」（改完一格要重画说明行的回调）
+   * 是所有卡片合起来的一份 —— 但每张卡片各管各的一桶：
+   * 这张卡片重建时只清它自己那一桶。
+   */
+  cardContent(id, build) {
+    this.currentCard = id;
+    this.refreshers.set(id, []);
+    return build();
   }
 
-  /** 右边：这一条奖励。头部在外面，内容按类分页签。 */
+  /** 登记一个「改完要重画」的回调（归到当前这张卡片名下）。 */
+  addRefresher(fn) {
+    const id = this.currentCard;
+    if (!id) return;
+    const bucket = this.refreshers.get(id) || [];
+    bucket.push(fn);
+    this.refreshers.set(id, bucket);
+  }
+
+  /** 跑一遍所有卡片的刷新器（改完一格，说明行与「已改」标记要跟上）。 */
+  runRefreshers() {
+    for (const bucket of this.refreshers.values()) {
+      for (const fn of bucket) fn();
+    }
+  }
+
+  /** 右边：这一条奖励。头部在外面，内容按类分成卡片。 */
   renderDetail() {
     const record = this.currentRecord();
     clear(this.detailHead);
     clear(this.detailFoot);
     if (!record) {
       this.detailHead.appendChild(el('div', { class: 'empty', text: '找不到这条奖励。' }));
-      this.unmountTabs();
+      this.unmountCards();
       return;
     }
     const owners = this.owners.get(record.id) || [];
@@ -855,8 +919,8 @@ class RewardView {
       el('span', { text: `奖励表第 ${record.id} 条` }),
     ]));
 
-    this.mountTabs();
-    this.tabs.refresh();
+    this.mountCards();
+    this.cards.refresh();
     this.detailFoot.appendChild(this.renderFoot(record, owners));
   }
 
@@ -976,22 +1040,22 @@ class RewardView {
       pack: ctx.pack,
       onChange: ctx.onChange,
       onJump: ctx.onJump,
-      registerRefresh: (fn) => this.refreshers.push(fn),
+      registerRefresh: (fn) => this.addRefresher(fn),
       onCommit: (structure, record, field) => {
-        for (const fn of this.refreshers) fn();
+        this.runRefreshers();
         if (field && typeof field.key === 'string' && field.key.endsWith('_category')) {
-          // 类别变了：掉落位那一页要整个重画（物品下拉的候选换了）。
+          // 类别变了：掉落位那一张卡片要整个重画（物品下拉的候选换了）。
           this.renderDetail();
         } else {
-          this.refreshTabs();
+          this.refreshCards();
         }
         this.renderList();
       },
     };
   }
 
-  /** 重建当前这一页的内容与角标。 */
-  refreshTabs() {
-    if (this.tabs) this.tabs.refresh();
+  /** 重建全部卡片的内容与角标。 */
+  refreshCards() {
+    if (this.cards) this.cards.refresh();
   }
 }

@@ -4,7 +4,7 @@
 // 现在合成一个统一视图：左边按忍术 id 列出，右边分页签改同一件事的几个侧面。
 import { el, clear, toast } from '../ui.js';
 import { splitPane } from '../split.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 import { bytesToHex, base64ToBytes } from '../bytes.js';
 import { backButton } from './common.js';
 import { fieldControl } from '../fields.js';
@@ -107,18 +107,18 @@ class JutsuView {
       wide: true,
     }));
 
-    this.tabs = new TabPanel([
+    this.cards = new CardStack([
       {
         id: 'name',
         label: '名字',
-        hint: '忍术名表里的那一条文本',
+        hint: '这个忍术在游戏里叫什么（名字表由指针表驱动，可以改长）',
         badge: () => this.nameBadge(),
         render: () => this.renderName(),
       },
       {
         id: 'growth',
-        label: '成长',
-        hint: '成长目标、每级成长量与六个成长字节',
+        label: '随等级成长的属性',
+        hint: '这个忍术在角色身上加的几项属性；其中一项会跟着角色等级一起长',
         badge: () => this.growthBadge(),
         render: () => this.renderFields('成长'),
       },
@@ -129,10 +129,10 @@ class JutsuView {
         badge: () => this.recordBadge(),
         render: () => this.renderFields('记录'),
       },
-    ], { key: 'editor.jutsu', pack: this.pack });
+    ], { pack: this.pack });
 
-    // 页签面板只挂一次（clear() 不到它 —— 它在 detailTabs 容器里）。
-    this.detailTabs.appendChild(this.tabs.element);
+    // 卡片堆只挂一次（clear() 不到它 —— 它在 detailTabs 容器里）。
+    this.detailTabs.appendChild(this.cards.element);
 
     this.renderList();
     this.renderDetail();
@@ -213,7 +213,7 @@ class JutsuView {
       el('span', { text: `忍术记录表 #${record.id}` }),
       el('span', { text: `已改 ${this.changedCount()} 处` }),
     ]));
-    this.tabs.refresh();
+    this.cards.refresh();
   }
 
   // --- 页签内容 -------------------------------------------------------------
@@ -334,9 +334,9 @@ class JutsuView {
     }
     if (group === '成长') {
       section.appendChild(el('p', { class: 'section-note' }, [
-        '「成长目标」选中的是下面六个字节里的哪一个（1..6）；' +
-        '「每级成长量」是每升一级加多少。',
-        '类型 0 与 7 都表示「不成长」。',
+        '这六项分别对应角色的哪项能力（攻击力 / 防御力 / …），仓库还没证明 —— ' +
+        '已证明的是：六项各是一个初值，且其中一项会被「会成长的属性」挑出来随等级长。',
+        '「每级成长量」是每升一级加多少；「不成长」（0 与 7）表示六项都不长。',
       ]));
     } else {
       section.appendChild(el('p', { class: 'section-note' }, [
