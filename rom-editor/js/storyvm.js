@@ -192,6 +192,55 @@ export function editableOperands(rom, instruction) {
 }
 
 /**
+ * The text runs of one instruction.
+ *
+ * A text-carrying instruction may hold more than one run: 0x13 ("双段文本")
+ * holds two of them, and the second one starts one byte **after** the first
+ * run's NUL — that gap byte belongs to neither run (see
+ * notes/story-vm-opcodes-20261020.md §1.6; `instructionLength` above walks
+ * the same way, so the two never disagree).
+ *
+ * Each run carries the file offset of its body and the body's length.  The
+ * NUL terminator is **not** part of it, so rewriting the body cannot move
+ * the terminator — and with it the following instruction.
+ *
+ * @param {Uint8Array} rom
+ * @param {{offset:number, op:number}} instruction
+ * @returns {Array<{offset:number, length:number, kind:string, speaker:?number}>}
+ */
+export function instructionTextRuns(rom, instruction) {
+  const op = instruction.op;
+  const runs = [];
+  if (op === 0x01) {
+    runs.push({ offset: instruction.offset + 1, kind: 'text' });
+  } else if (op === 0x05) {
+    runs.push({ offset: instruction.offset + 2, kind: 'menu' });
+  } else if (op === 0x20) {
+    // 0x20 的第 2 字节是这条指令自带的字段。**handler（0x08097A66）并不读它**：
+    // 游戏显示的名牌取自对话框状态（由 0x08 写入），本 ROM 里该字节恒为 1。
+    runs.push({
+      offset: instruction.offset + 2,
+      kind: 'dialogue',
+      speaker: rom[instruction.offset + 1],
+    });
+  } else if (op === 0x13) {
+    const first = instruction.offset + 4;
+    runs.push({ offset: first, kind: 'text' });
+    if (rom[instruction.offset + 2]) {
+      runs.push({ offset: textEnd(rom, first) + 1, kind: 'text' });
+    }
+  } else {
+    return [];
+  }
+  for (const run of runs) {
+    const end = textEnd(rom, run.offset);
+    run.length = Math.max(0, end - 1 - run.offset);
+    run.end = end;
+  }
+  return runs;
+}
+
+/**
  * The route edges of one script: the "next scene" instructions.
  * 0x16 (22) jumps to the after-script of a scene and remembers the next
  * scene id; 0x1A (26) sets the route cursor itself.

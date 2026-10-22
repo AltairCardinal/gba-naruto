@@ -3,15 +3,18 @@
 // 内容包里的 `pack.scripts` 只有剧本的**指针**与路线边；剧本正文（指令、文本、
 // 分支）此前在界面上完全看不到 —— 尽管 `js/storyvm.js` 已经能把它们反汇编出来。
 //
-// 指令与文本**不可改**（改文本会移动后续指令、让全部分支失效）；
-// 仓库证明可原地改写的定宽操作数在这里给成输入框。
+// **对白可以就地改，但必须等长**：文本是内联在脚本字节流里的，而脚本里的分支
+// 目标是绝对 ROM 地址 —— 改长改短都会让后面的指令移位、分支全部失效。
+// 所以文本那一列是输入框，旁边写着还能改几个字节；长度对不上当场拒收并回滚。
+// 仓库证明可原地改写的定宽操作数同样给成输入框。
 
-import { el, clear } from '../ui.js';
+import { el, clear, toast } from '../ui.js';
 import { summaryTable } from './common.js';
 import {
   OPCODE_NAMES, KNOWN_OPERANDS, OPERAND_LABELS, ROM_BASE,
-  branchTargets, editableOperands, instructionLength, scanScript, textEnd,
+  branchTargets, editableOperands, instructionLength, scanScript,
 } from '../storyvm.js';
+import { textSegments, segmentBudget, commitSegment } from '../scripttext.js';
 
 const ROOTS = [
   { id: 'before', label: '战前剧情', structure: 'story_before_root' },
@@ -80,10 +83,13 @@ export function renderScriptView(container, ctx) {
   container.appendChild(el('div', { class: 'rule-note' }, [
     el('span', { class: 'rule-title', text: '说明' }),
     el('span', {
-      text: '这是剧情 VM 的字节码。指令与文本**不可改**：改文本会移动后续指令、' +
-        '让脚本里的分支目标全部失效。仓库证明可原地改写的只有定宽操作数' +
-        '（0x16 / 0x1A 下一场景、0x1E 地图、0x1F 子配置、0x23 队员），' +
-        '它们在这里给成输入框。',
+      text: '这是剧情 VM 的字节码。对白正文**可以就地改**，但必须**等长**：' +
+        '文本是内联在这段字节流里的，而脚本里的分支目标是绝对地址 —— ' +
+        '改长改短都会让后面的指令移位、分支全部失效。' +
+        '所以每个输入框旁边写着还能改几个字节，长度对不上当场拒收并回滚。' +
+        '控制码 0x01 / 0x02 带着换行 / 分页的排版含义，写回时按原位保留。' +
+        '定宽操作数（0x16 / 0x1A 下一场景、0x1E 地图、0x1F 子配置、0x23 队员）' +
+        '同样可以改。',
     }),
   ]));
 
@@ -108,7 +114,7 @@ export function renderScriptView(container, ctx) {
           operandInput(ctx, operand),
         ])))
         : el('span', { class: 'stat-hint', text: '—' }),
-      textCell(pack, rom, instruction),
+      textCell(ctx, rom, instruction),
       targets.length
         ? targets.map((t) => '0x' + (t + ROM_BASE).toString(16).toUpperCase()).join('、')
         : '—',
@@ -121,25 +127,136 @@ export function renderScriptView(container, ctx) {
   ]));
 }
 
-/** The text run of a text-carrying instruction, decoded with the ROM's font. */
-function textCell(pack, rom, instruction) {
-  const op = instruction.op;
-  if (op !== 0x01 && op !== 0x05 && op !== 0x13 && op !== 0x20) {
+/**
+ * The text runs of a text-carrying instruction, as editable cells.
+ *
+ * 文本是内联在脚本字节流里的，所以「可编辑」= **等长原地改写**：
+ * 输入框旁边写着还能改几个字节，改长改短当场拒收并回滚。
+ */
+function textCell(ctx, rom, instruction) {
+  const segments = textSegments(rom, ctx.pack, instruction);
+  if (!segments.length) {
     return el('span', { class: 'stat-hint', text: '—' });
   }
-  const start = instruction.offset + (op === 0x01 ? 1 : op === 0x13 ? 4 : 2);
-  const end = textEnd(rom, start);
-  const raw = rom.subarray(start, Math.max(start, end - 1));
-  let text;
-  try {
-    text = pack.font.decode(raw);
-  } catch (err) {
-    text = `（解码失败：${err.message}）`;
-  }
-  return el('span', {
-    class: 'script-text',
-    text: (text || '').replace(/\n/g, '↵') || '（空）',
+  return el('div', { class: 'script-text-cell' },
+    segments.map((segment) => textSegmentCell(ctx, segment)));
+}
+
+/** One text run: an input, a byte budget and a link to the raw bytes. */
+function textSegmentCell(ctx, segment) {
+  const pack = ctx.pack;
+  const input = el('input', {
+    class: 'text-input-inline script-text-input',
+    type: 'text',
+    spellcheck: 'false',
+    value: segment.text,
+    title: '失焦即保存。只能等长改写：改长改短都会让后面的指令移位、分支失效。',
+    oninput: () => refresh(),
+    onchange: () => commit(),
   });
+  const counter = el('div', { class: 'text-counter script-text-counter' });
+  const meta = el('div', { class: 'script-text-meta' });
+
+  if (segment.speaker !== null && segment.speaker !== undefined) {
+    const name = speakerName(pack, segment.speaker);
+    meta.appendChild(el('span', {
+      class: 'script-text-speaker',
+      title: '0x20 的第 2 字节是这条指令自带的说话人/头像 id' +
+        '（说话人名表 0x5A57C4，步长 12 字节）。本 ROM 里它恒为 1；' +
+        '游戏显示的名牌取自对话框状态（由 0x08 指令设置），' +
+        '所以这类对白的说话人通常写在正文里。',
+      text: `说话人 #${segment.speaker}${name ? `（${name}）` : ''}`,
+    }));
+  }
+  for (const token of segment.controls) {
+    const hex = token.b.map((b) => b.toString(16).toUpperCase().padStart(2, '0')).join(' ');
+    meta.appendChild(el('span', {
+      class: 'seg-ctrl',
+      title: `控制码 0x${hex}：换行 / 分页的排版含义。` +
+        '文本框里看不到它，但写回时按原位保留。',
+      text: `⟦控制码 ${hex}⟧`,
+    }));
+  }
+  meta.appendChild(el('button', {
+    class: 'btn btn-tiny script-text-link',
+    text: '跳到原始字节',
+    title: `打开原始字节 0x${segment.offset.toString(16).toUpperCase()}`,
+    onclick: () => ctx.onJump({
+      module: 'raw',
+      kind: 'raw-offset',
+      id: 'raw',
+      params: { offset: segment.offset },
+      label: `原始字节 0x${segment.offset.toString(16).toUpperCase()}`,
+    }),
+  }));
+
+  const cell = el('div', { class: 'script-text-run' }, [input, counter, meta]);
+
+  if (segment.problem) {
+    input.disabled = true;
+  }
+
+  /** The byte budget next to the input: how many bytes are left. */
+  function refresh() {
+    clear(counter);
+    if (segment.problem) {
+      counter.appendChild(el('span', { class: 'bad', text: segment.problem }));
+      return;
+    }
+    const budget = segmentBudget(segment, input.value, pack.font);
+    counter.appendChild(el('span', {
+      text: `${budget.used} / ${budget.capacity} 字节`,
+    }));
+    if (budget.missing.length) {
+      counter.appendChild(el('span', {
+        class: 'bad',
+        text: `· 字库缺字: ${budget.missing.join(' ')}`,
+      }));
+    } else if (budget.over) {
+      counter.appendChild(el('span', {
+        class: 'bad',
+        title: '脚本里的分支目标是绝对地址，改长会让后面的指令移位、分支失效。',
+        text: `· 等长才能改：多了 ${budget.used - budget.capacity} 字节，后面的指令会移位`,
+      }));
+    } else if (budget.under) {
+      counter.appendChild(el('span', {
+        class: 'bad',
+        title: '脚本里的分支目标是绝对地址，改短会让后面的指令移位、分支失效。',
+        text: `· 等长才能改：少了 ${budget.capacity - budget.used} 字节，后面的指令会移位`,
+      }));
+    } else {
+      counter.appendChild(el('span', { class: 'ok', text: '· 等长，失焦即保存' }));
+    }
+  }
+
+  /** Save on blur; refuse (and roll back) when the length does not match. */
+  function commit() {
+    const result = commitSegment(pack, segment, input.value);
+    if (!result.ok) {
+      toast(result.message, 'error');
+      input.value = segment.text;   // 回滚：不能默默截断，也不能静默不保存
+      refresh();
+      return;
+    }
+    if (result.unchanged) {
+      refresh();
+      return;
+    }
+    ctx.onChange();
+    refresh();
+    toast(`已改写对白 0x${segment.offset.toString(16).toUpperCase()}`);
+  }
+
+  refresh();
+  return cell;
+}
+
+/** The name of a speaker id (the inline 12-byte table at 0x5A57C4). */
+function speakerName(pack, id) {
+  const table = pack.textTable('speaker_names');
+  if (!table) return null;
+  const record = (table.records || []).find((r) => r.id === id);
+  return record ? record.text : null;
 }
 
 /** An editable operand: a proved fixed-width field inside the instruction. */

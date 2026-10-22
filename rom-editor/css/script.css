@@ -1,0 +1,62 @@
+/* 剧情脚本域专用样式（剧本查看器的可改对白）。
+ *
+ * 通用类在 styles.css 里，这里只补剧情脚本自己用到的几件：
+ * 对白输入框、字节预算行、控制码分段条与说话人标记。
+ *
+ * 硬约束：**对白只能等长改写**（脚本里的分支目标是绝对地址，改长改短都会
+ * 让后面的指令移位、分支失效）。所以字节预算行永远在输入框旁边，
+ * 长度对不上时整行变红。
+ */
+
+.script-text-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 260px;
+  /* 表格默认 nowrap，正文要能折行。 */
+  white-space: normal;
+}
+
+.script-text-run {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.script-text-input {
+  min-width: 240px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.script-text-input:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.script-text-counter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 0;
+}
+
+.script-text-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  font-size: 10.5px;
+  color: var(--fg-dim);
+}
+
+.script-text-speaker {
+  font-family: var(--mono);
+  color: var(--fg-dim);
+  cursor: help;
+}
+
+.script-text-link {
+  padding: 1px 6px;
+  font-size: 10.5px;
+}
