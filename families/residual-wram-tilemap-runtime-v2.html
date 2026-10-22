@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>residual-wram-tilemap-runtime-v2 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">residual-wram-tilemap-runtime-v2</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">git-artifact-promotion-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">10 个顶层分区 · 15 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="residual-wram-tilemap-runtime-v2.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-schema">artifact_schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-scope">scope</a><a class="sec-jump" href="#sec-implementation">implementation</a><a class="sec-jump" href="#sec-files">files</a><a class="sec-jump" href="#sec-artifact-id">artifact_id</a><a class="sec-jump" href="#sec-payload-file">payload_file</a><a class="sec-jump" href="#sec-payload-sha256">payload_sha256</a><a class="sec-jump" href="#sec-verifier">verifier</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">git-artifact-promotion-v1</span></section>
+<section class="fam-sec" id="sec-artifact-schema"><h2 class="fam-sec-title">artifact_schema</h2><span class="fml-text">residual-wram-tilemap-runtime-evidence-v2</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-scope"><h2 class="fam-sec-title">scope</h2><div class="fml-row"><div class="fml-key">all_direct_queue_sources_runtime_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">exact_natural_language_identity_verified</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">exclusive_writer_causality_verified</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">final_vram_rows_equal_rom_tilemaps</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">modified_rom_pixel_equivalence_verified</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">natural_base_rom_reachability_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">queue_status_transition_3_to_2_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">single_input_bridge_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">zero_input_checkpoint_continuation_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div></section>
+<section class="fam-sec" id="sec-implementation"><h2 class="fam-sec-title">implementation</h2><div class="fml-row"><div class="fml-key">tests/test_mgba_wram_tilemap_probe_script.py</div><div class="fml-val"><span class="fml-text">b99973e5c13c4f7ae0dbc7df7f79f24da714d5b4de3c4c5efed4433c73090a20</span></div></div><div class="fml-row"><div class="fml-key">tests/test_mgba_wram_tilemap_single_input_probe_script.py</div><div class="fml-val"><span class="fml-text">bbd6a0d6629dd456c1cc54294554383daa9ee982e126cf9712bab8a9d8ac3b78</span></div></div><div class="fml-row"><div class="fml-key">tests/test_residual_wram_tilemap_runtime_v2.py</div><div class="fml-val"><span class="fml-text">d37cc7a0c91cbedcdeb321f6db59954d3a12dffe97374e7c654792efa3f490fa</span></div></div><div class="fml-row"><div class="fml-key">tools/export_residual_wram_tilemap_runtime_v2.py</div><div class="fml-val"><span class="fml-text">a36a87c5c5d9d40e47aedb11722cf9efab4a0bbf04bec6c2ef9e87b900b412a7</span></div></div><div class="fml-row"><div class="fml-key">tools/extract_tileset.py</div><div class="fml-val"><span class="fml-text">c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33</span></div></div><div class="fml-row"><div class="fml-key">tools/mgba_wram_tilemap_probe.lua</div><div class="fml-val"><span class="fml-text">d466c3a2127e5c124b713ae4ea05149cf29fc4535c90b552d773f482ddaa58ea</span></div></div><div class="fml-row"><div class="fml-key">tools/mgba_wram_tilemap_single_input_probe.lua</div><div class="fml-val"><span class="fml-text">ee65e33398a8b8d3016eea8112f4b31ab67b9c9c4bd1d5287184d43a1f1e53b3</span></div></div><div class="fml-row"><div class="fml-key">tools/verify_residual_wram_tilemap_runtime_v2.py</div><div class="fml-val"><span class="fml-text">1df22dfb7b2522d2d0105ae0409cf152f19d84bb5503187b77005fd592c9a1ca</span></div></div></section>
+<section class="fam-sec" id="sec-files"><h2 class="fam-sec-title">files</h2><div class="fml-row"><div class="fml-key">bridge-audit.json</div><div class="fml-val"><span class="fml-text">1d8b8a1b2c4396967d841015fd09603857b86ed7ea495a3a6d7fba9abbd63c04</span></div></div><div class="fml-row"><div class="fml-key">bridge-done.json</div><div class="fml-val"><span class="fml-text">1d8b8a1b2c4396967d841015fd09603857b86ed7ea495a3a6d7fba9abbd63c04</span></div></div><div class="fml-row"><div class="fml-key">bridge-guard.json</div><div class="fml-val"><span class="fml-text">b7b152d6c8302b642093380ddcc68745e4584864e53c0b61d2cf2ef30b35d7f3</span></div></div><div class="fml-row"><div class="fml-key">final-queue.bin</div><div class="fml-val"><span class="fml-text">2299b783127b333297a56823ad651b93c6b986acdf355f2f8555a722f69bac77</span></div></div><div class="fml-row"><div class="fml-key">final.png</div><div class="fml-val"><span class="fml-text">47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e</span></div></div><div class="fml-row"><div class="fml-key">final.ss9</div><div class="fml-val"><span class="fml-text">2edda36267e671e7ed07d2d58d6e974381d7dea2cd9df2ae2b538c56a356edcc</span></div></div><div class="fml-row"><div class="fml-key">queue-at-consumer.bin</div><div class="fml-val"><span class="fml-text">5c885f8b7eed3cf80e9d6873a6f1464bc979f1afc59d457897a41d7d758c6ffb</span></div></div><div class="fml-row"><div class="fml-key">runtime-evidence.json</div><div class="fml-val"><span class="fml-text">38698c15b03141659fe83359106454bc2157befce2bdcfd3cd4881f6f1cec617</span></div></div><div class="fml-row"><div class="fml-key">scene-panel-setup.ss9</div><div class="fml-val"><span class="fml-text">6fed9fe8db43646a5a5a53901a5f0edf1c743ba5e682fd842d3fd19b12776000</span></div></div><div class="fml-row"><div class="fml-key">vram-at-consumer.bin</div><div class="fml-val"><span class="fml-text">15f7bfb95822aa550520bc9c5945ff41b0d54c496d5f253f00aa8a02f79691eb</span></div></div><div class="fml-row"><div class="fml-key">vram-final.bin</div><div class="fml-val"><span class="fml-text">599f71c8d40cbcb3308eae97a1a5ea72aee682d83e52eca6627a1d1cbc831b4a</span></div></div><div class="fml-row"><div class="fml-key">zero-audit.json</div><div class="fml-val"><span class="fml-text">340de74d5d2f151cdc1086ab07e1caf2c35c689d544a05a4e2b420857e16c2fd</span></div></div><div class="fml-row"><div class="fml-key">zero-done.json</div><div class="fml-val"><span class="fml-text">340de74d5d2f151cdc1086ab07e1caf2c35c689d544a05a4e2b420857e16c2fd</span></div></div><div class="fml-row"><div class="fml-key">zero-guard.json</div><div class="fml-val"><span class="fml-text">0f7fe5e642ad8fb5667bef6f86b077651679716ca940d12ad0ad9c26f4f5197c</span></div></div></section>
+<section class="fam-sec" id="sec-artifact-id"><h2 class="fam-sec-title">artifact_id</h2><span class="fml-text">residual-wram-tilemap-runtime-v2</span></section>
+<section class="fam-sec" id="sec-payload-file"><h2 class="fam-sec-title">payload_file</h2><span class="fml-text">runtime-evidence.json</span></section>
+<section class="fam-sec" id="sec-payload-sha256"><h2 class="fam-sec-title">payload_sha256</h2><span class="fml-text">38698c15b03141659fe83359106454bc2157befce2bdcfd3cd4881f6f1cec617</span></section>
+<section class="fam-sec" id="sec-verifier"><h2 class="fam-sec-title">verifier</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/verify_residual_wram_tilemap_runtime_v2.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--artifact</span></span><span><span class="fml-text">artifacts/residual-wram-tilemap-runtime-v2</span></span></div></div></div><div class="fml-row"><div class="fml-key">exit_code</div><div class="fml-val"><span class="fml-num">0</span></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/residual-wram-tilemap-runtime-v2/bridge-audit.json">bridge-audit.json</a><span class="fml-meta"> 6,754 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/bridge-done.json">bridge-done.json</a><span class="fml-meta"> 6,754 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/bridge-guard.json">bridge-guard.json</a><span class="fml-meta"> 763 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/final-queue.bin">final-queue.bin</a><span class="fml-meta"> 256 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/final.png">final.png</a><span class="fml-meta"> 192 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/final.ss9">final.ss9</a><span class="fml-meta"> 23,422 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/manifest.json">manifest.json</a><span class="fml-meta"> 3,332 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/queue-at-consumer.bin">queue-at-consumer.bin</a><span class="fml-meta"> 256 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/runtime-evidence.json">runtime-evidence.json</a><span class="fml-meta"> 6,150 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/scene-panel-setup.ss9">scene-panel-setup.ss9</a><span class="fml-meta"> 22,773 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/vram-at-consumer.bin">vram-at-consumer.bin</a><span class="fml-meta"> 98,304 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/vram-final.bin">vram-final.bin</a><span class="fml-meta"> 98,304 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/zero-audit.json">zero-audit.json</a><span class="fml-meta"> 1,937 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/zero-done.json">zero-done.json</a><span class="fml-meta"> 1,937 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v2/zero-guard.json">zero-guard.json</a><span class="fml-meta"> 760 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

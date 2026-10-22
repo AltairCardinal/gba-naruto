@@ -1,0 +1,48 @@
+{
+  "artifact_id": "residual-wram-tilemap-abi-v1",
+  "artifact_schema": "residual-wram-tilemap-abi-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "residual-wram-tilemap-abi.json": "07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc",
+    "tilemaps.bin": "add4a6bfbf3bce1fe800a9e6954e862e939f1d70bcb85f95b652c799e5f17f24"
+  },
+  "implementation": {
+    "tools/export_residual_wram_tilemap_abi.py": "ad074e83890053169502a966bdcf88e52e228203e6d0fc810e33a04669028132",
+    "tools/export_rom_pointer_lz77_inventory.py": "291164c8b517b02a3f36999a838c2a925038b03d755114d40ba4164430c808c0",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/verify_residual_wram_tilemap_abi.py": "0c93e0dadb122170a87b9d03042f5dd7cecc75d84cb88b6b2210ae3beedde8cd",
+    "tools/verify_rom_pointer_lz77_inventory.py": "7226faf073dd2495392fba3792d52239c223709581846ed1e8e5a8419a736e6b"
+  },
+  "payload_file": "residual-wram-tilemap-abi.json",
+  "payload_sha256": "07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_pointer_reachable_wram_visual_metadata_enumerated": true,
+    "direct_local_lz77_to_strided_queue_routes_complete": true,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "generic_wram_visual_metadata_writeback_complete": false,
+    "natural_language_screen_identity_complete": false,
+    "remaining_four_wram_payload_abis_complete": false,
+    "runtime_reachability_complete": false,
+    "three_tilemap_payload_shapes_and_gpu_destinations_proved": true
+  },
+  "summary": {
+    "direct_tilemap_queue_abi_count": 3,
+    "remaining_unresolved_count": 4,
+    "tilemap_entry_count": 657,
+    "tilemap_payload_bytes": 1314,
+    "wram_visual_metadata_denominator": 7
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_tilemap_abi.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-tilemap-abi-v1"
+    ],
+    "exit_code": 0
+  }
+}

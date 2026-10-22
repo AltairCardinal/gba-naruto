@@ -1,0 +1,65 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "residual-text-bg-tilemap-relocation-v1",
+  "artifact_schema": "residual-text-bg-tilemap-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "f73b301b1daf9221a326d9b9c1c1def68861161a195606316c3f9694797a25dd",
+  "files": {
+    "full-relocation-spec.json": "3667bacc93a0d87cfdb03a516fd78ccab1b2ef15550305d861971e6e34a35954",
+    "relocation-audit.json": "f73b301b1daf9221a326d9b9c1c1def68861161a195606316c3f9694797a25dd",
+    "tilemap.bin": "0876b9165e63106e30681dd9ca5831d629ba8903a9f0d05fd5cbf8f1088e920c"
+  },
+  "implementation": {
+    "tools/export_rom_pointer_lz77_inventory.py": "291164c8b517b02a3f36999a838c2a925038b03d755114d40ba4164430c808c0",
+    "tools/verify_rom_pointer_lz77_inventory.py": "7226faf073dd2495392fba3792d52239c223709581846ed1e8e5a8419a736e6b",
+    "tools/export_residual_text_bg_tilemap_resource_ownership.py": "3b2ea866e603298c96d1289f78b02835e726f9d0f6cbd273359ec48d54a1daa7",
+    "tools/verify_residual_text_bg_tilemap_resource_ownership.py": "48e5695382da41c31bae37cea9478a5528efd3af424fbc871e6cc94c61f06af5",
+    "tools/import_residual_text_bg_tilemap_relocations.py": "c65ae3e204d96e1d1f6d687040fcf53056cb5ddb37c91ca2f2f248c3adcc76b9",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_residual_text_bg_tilemap_relocation_audit.py": "85ca0413fc8ee46e9a677e3de31589559438e021835f43541fb2da28e972e767",
+    "tools/verify_residual_text_bg_tilemap_relocation_audit.py": "4afe2c95978184a969e064ea3e72fc8be8276225ea92c29fb4829e0d49e46e05"
+  },
+  "scope": {
+    "proved": "The single pointer-reachable residual text-BG tilemap at 0x08349368 and its only aligned source-pointer root relocate into a 16 MiB ROM, with BG2, graphics and palette ownership bound to a separately verified artifact.",
+    "editable": "All 640 32x20 screen entries may select tile 0..5, palette bank 1, and standard horizontal or vertical flip bits.",
+    "not_proved": "Changing the screenblock destination, coordinated semantic authoring across its separately relocatable graphics/palette resources, the runtime ordering against another stream that may reuse 0x06001000, assigning a natural-language screen identity, and final screen-composited runtime equivalence."
+  },
+  "summary": {
+    "source_count": 1,
+    "source_pointer_reference_count": 1,
+    "unexpected_source_pointer_count": 0,
+    "compressed_source_size": 178,
+    "decoded_size": 1280,
+    "entry_count": 640,
+    "tile_index_min": 0,
+    "tile_index_max": 5,
+    "palette_banks": [
+      1
+    ],
+    "allocation_count": 1,
+    "pointer_patch_count": 1,
+    "allocation_start": 12321792,
+    "allocation_end": 12321970,
+    "region_end": 12323840,
+    "stored_payload_bytes": 178,
+    "allocation_span": 178,
+    "remaining_bytes": 1870,
+    "applied_patch_count": 2
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_text_bg_tilemap_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-text-bg-tilemap-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "story-visual-resource-relocation-v1",
+  "artifact_schema": "story-visual-resource-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "ab308b8244d86c1ce8e336b84f2132205b8f3f12363a2fa0edf5e551256bc414",
+  "files": {
+    "relocation-audit.json": "ab308b8244d86c1ce8e336b84f2132205b8f3f12363a2fa0edf5e551256bc414",
+    "full-relocation-spec.json": "db7993714aa96e481542620d1de2e4c12a5e095415442344bcf5d64e3eb85b94"
+  },
+  "scope": {
+    "proved": "All 49 story-layer content resources, representing 72 physical LZ77 payloads and all 72 exact descriptor pointer fields across 24 rows, relocate into the registered story-visual-layers image region.",
+    "editable": "Each layer may replace its 4bpp graphics and 32x32 tilemap together, including changing the graphics tile count from 1 through 192; the palette remains 16 colors, tile IDs remain the exact contiguous 0x140-based range and every descriptor alias may split safely, subject to the aggregate registered-region capacity.",
+    "not_proved": "A different BG3 tilemap geometry, more than 192 tiles, another palette bank, changes to linked tile-assets config descriptors, scroll/window/blend timing, final screen equivalence or physical cartridge behavior."
+  },
+  "summary": {
+    "layer_count": 24,
+    "content_resource_count": 49,
+    "physical_payload_count": 72,
+    "logical_pointer_count": 72,
+    "unexpected_pointer_count": 0,
+    "allocation_count": 49,
+    "pointer_patch_count": 72,
+    "allocation_start": 11862016,
+    "allocation_end": 11918661,
+    "region_end": 11997184,
+    "stored_payload_bytes": 56585,
+    "allocation_span": 56645,
+    "remaining_bytes": 78523,
+    "applied_patch_count": 121
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_story_visual_resource_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/story-visual-resource-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "audit": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group18-natural-route/20260802-tool67-right2-01/audit.json",
+  "automatic_inputs": [],
+  "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+  "capture_frame": 420,
+  "child_pgid": 963,
+  "evidence_mode": "input-sequence",
+  "finalization_marker": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group18-natural-route/20260802-tool67-right2-01/audit.json.finalized.json",
+  "frame": 420,
+  "guard_summary_sha256": "7c221e976dbb914e4d22e2752bc984d52157c0b31bea864dc682dd6d33b91155",
+  "input_state": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/battlefield-object-effect-natural-route/s49-tool67-submit-a-20260802-01/after.ss9",
+  "input_state_sha256": "6fb61cfd7fd4a1b0a7e1679aaae5064bf109af89051303e4d2dfe9a1430f9be4",
+  "inputs": [
+    {
+      "down_frame": 18,
+      "hold_frames": 2,
+      "key": "Right",
+      "up_frame": 20
+    },
+    {
+      "down_frame": 70,
+      "hold_frames": 2,
+      "key": "Right",
+      "up_frame": 72
+    },
+    {
+      "down_frame": 122,
+      "hold_frames": 2,
+      "key": "A",
+      "up_frame": 124
+    }
+  ],
+  "output_png": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group18-natural-route/20260802-tool67-right2-01/after.png",
+  "output_png_sha256": "1dceba1430b6c623def6651f3dcd9312fbb4664ca7c47f87bf9bbe2d66594cb3",
+  "output_state": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group18-natural-route/20260802-tool67-right2-01/after.ss9",
+  "output_state_sha256": "a4d255809ff1ea19b8cee8a7d11521cffef972f8c76a0f37ddf9add43682c35b",
+  "peak_tree_rss_mib": 65.35546875,
+  "pgid_clean": true,
+  "recovery_inputs": [],
+  "replay_script": "/Users/altair/github/gba-naruto-reverse/tools/mgba_input_sequence_replay.lua",
+  "replay_script_sha256": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "run_id": "beb368a4d5bb806540589302fd8bc088",
+  "runtime_residue": {
+    "checked_at": "2026-08-02T08:01:21.388923Z",
+    "checked_pgid": 963,
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ]
+  },
+  "sentinel": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group18-natural-route/20260802-tool67-right2-01/sentinel.json",
+  "staged_rom": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group18-natural-route/20260802-tool67-right2-01/staged.gba",
+  "staged_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "staged_save_sidecar": {
+    "created": true,
+    "path": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group18-natural-route/20260802-tool67-right2-01/staged.sav",
+    "removed": true,
+    "sha256": "2d864c0b789a43214eee8524d3182075125e5ca2cd527f3582ec87ffd94076bc",
+    "size": 32768
+  },
+  "status": "capture-complete",
+  "success": true,
+  "toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "patch_sha256": null,
+    "path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "zero_input_verified": false
+}

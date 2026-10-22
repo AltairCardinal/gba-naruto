@@ -1,0 +1,86 @@
+{
+  "artifact_schema": "battle-effect-runtime-oam-task-bindings-v1",
+  "artifact_status": "accepted",
+  "description": "Live battle-effect sprite tasks independently bound to the existing content-addressed OAM parent with dispatcher, runtime-offset and submission-phase evidence.",
+  "files": {
+    "bindings.json": "bd88a29d7ac96d0f32644cbcf19a5267bbd2e70ec0b5dedc5c7e7e76a4eeb74c"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_battle_effect_runtime_oam_task_bindings.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json"
+    ],
+    "exporter_sha256": "8ad9ec9e5e8c257cb5a032ffac6f1b287e446de925f94706f97db7ecb4953037",
+    "exporter_test_sha256": "8fa414e94913deb7e8ab863b09a85a51102c9a9bc04c1a220ba49e491bc05a96",
+    "verifier_sha256": "092a5846b1af59cdf0d4a075787005b0d0a86c1d27c693cc11b78cf0659f8475",
+    "verifier_test_sha256": "48391366c272d5a0a9c62e469e92bb98b02acf4b7c3b1c4f63c305ae5a11525a"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "source": {
+    "parent_artifact": "artifacts/battle-effect-runtime-oam-bindings-v1",
+    "parent_manifest_sha256": "6e8b7a06038cc06ed39f78d3ea05beb102ae32cea53ddbcd78110364c154825b",
+    "parent_payload_sha256": "853571d06d0303ed0164bcc7717a0b640a34bd1965108a41052cc3eb7cec8240",
+    "run_id": "tracked-93-plus-supplemental-task-bindings-20260801-01",
+    "source_artifact": "artifacts/battle-effect-sprite-animations-v1",
+    "source_artifact_manifest_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "supplemental_state_count": 5,
+    "tracked_checkpoint_count": 93
+  },
+  "summary": {
+    "accepted_binding_count": 3,
+    "all_persisted_observed_group_ids": [
+      1,
+      2,
+      5,
+      11,
+      14
+    ],
+    "parse_error_count": 0,
+    "recognized_effect_task_count": 12,
+    "code_proven_pending_difference_count": 16,
+    "exact_dispatch_reconstruction_count": 98,
+    "shadow_hardware_full_match_count": 82,
+    "supplemental_recognized_effect_task_count": 9,
+    "tracked_recognized_effect_task_count": 3,
+    "unexplained_submission_difference_count": 0
+  },
+  "verification_layers": [
+    "task group identity uses the unique definition/animation pointer pair and explicitly excludes task +0x24 dynamic tile source",
+    "all 93 tracked checkpoints and five separately counted supplemental states reconstruct the active dispatcher exactly",
+    "runtime offset table 0x03000054 and shadow/hardware OAM submission phase are recorded per state",
+    "three tracked group-1 tasks select frame 6 and independently reproduce complete attr0/attr1/attr2 for OAM entries 17/18/19",
+    "dispatcher ordinal is recorded separately from and never treated as the OAM index",
+    "affine, multi-component dynamic-copy, cross-frame timing and all-group coverage remain explicit incomplete scope",
+    "independent reconstruction rejects runtime-offset, task-group, parent promotion and source-provenance tampering"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_runtime_oam_task_bindings.py",
+      "--root",
+      ".",
+      "--bindings",
+      "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json"
+    ],
+    "exit_code": 0,
+    "result": {
+      "accepted_bindings": 3,
+      "errors": [],
+      "observed_group_ids": [
+        1,
+        2,
+        5,
+        11,
+        14
+      ],
+      "recognized_effect_tasks": 12,
+      "supplemental_states": 5,
+      "tracked_checkpoints": 93,
+      "verified": true
+    }
+  }
+}

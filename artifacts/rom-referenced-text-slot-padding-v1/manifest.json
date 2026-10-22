@@ -1,0 +1,84 @@
+{
+  "artifact_schema": "rom-referenced-text-slot-padding-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "referenced-text-slot-padding.bin": "920b0cbd31dee627e4e6f4cd4d7805da10ec58ec47d4be3cb4a2dfc98a3b442b",
+    "referenced-text-slot-padding.json": "c410b947cac7bdec55b027de98ee4c7dfe1a23fd0dfb076c96bf88cadc613dfa"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_referenced_text_slot_padding.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-referenced-text-slot-padding-v1"
+    ],
+    "exporter": {
+      "path": "tools/export_rom_referenced_text_slot_padding.py",
+      "sha256": "62ccb5426867ec0f389086732172bdbae3cf9f20d11a8b0d165e964b14fcfe58"
+    },
+    "test": {
+      "path": "tests/test_export_rom_referenced_text_slot_padding.py",
+      "sha256": "409e6b4b184d98ebe4fd766a75d21310df943047c223c2172821dee0b172d90d"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_referenced_text_slot_padding.py",
+      "sha256": "0f206e51b0fc151de7d6c875fe24ca338aa36dc77c963d50b4b59bdb62b40d5b"
+    }
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_suffix_bytes_zero": true,
+    "editing_safety_proven": false,
+    "natural_gameplay_all_records_proven": false,
+    "nul_or_prefix_bytes_classified_here": false,
+    "referenced_record_denominators_complete": true,
+    "unreferenced_slots_classified": false,
+    "zero_padding_safe_allocatable": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_referenced_text_slot_padding.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-referenced-text-slot-padding-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-referenced-text-slot-padding-v1",
+      "bundle_sha256": "920b0cbd31dee627e4e6f4cd4d7805da10ec58ec47d4be3cb4a2dfc98a3b442b",
+      "errors": [],
+      "group_summaries": {
+        "chapter_speaker": {
+          "packed_sha256": "3ad337042948f15072caf3da89730e6cc6d42657af2b2291806c4fd45ee1aae6",
+          "padding_bytes": 337,
+          "range_count": 49,
+          "range_denominator_sha256": "c2bdff7dad49f5446929b17b0a7fe6d5cd5a2a696c2ab091c5cebcd546912f16"
+        },
+        "selector_configured": {
+          "packed_sha256": "71818ecc26433c32172dd9a3544657971c7078daa2257da7c3c303e08693cb23",
+          "padding_bytes": 368,
+          "range_count": 38,
+          "range_denominator_sha256": "326f4c14065664e689b9c8245a931beb0a647241874a78953dfbc7dfcc2dddf3"
+        },
+        "selector_direct": {
+          "packed_sha256": "25778f162c4243167f8eaa876f1b0619e67afc158de7805600471a563ec5e8b7",
+          "padding_bytes": 550,
+          "range_count": 46,
+          "range_denominator_sha256": "647695b786a07f4c226bbad80246b0101d503eeb11912d71da500593812bb023"
+        }
+      },
+      "packed_bytes": 1255,
+      "padding_bytes": 1255,
+      "padding_range_count": 133,
+      "range_overlap_bytes": 0,
+      "schema": "rom-referenced-text-slot-padding-verification-v1",
+      "verified": true,
+      "zero_byte_count": 1255
+    },
+    "verifier_sha256": "0f206e51b0fc151de7d6c875fe24ca338aa36dc77c963d50b4b59bdb62b40d5b"
+  }
+}

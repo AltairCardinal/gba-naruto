@@ -1,0 +1,344 @@
+{
+  "consumer": {
+    "block_ranges": [
+      [
+        633240,
+        633254
+      ],
+      [
+        633254,
+        633260
+      ],
+      [
+        633260,
+        633316
+      ],
+      [
+        633316,
+        633326
+      ],
+      [
+        633326,
+        633332
+      ]
+    ],
+    "code_range": [
+      633240,
+      633332
+    ],
+    "code_sha256": "d04cce3da22f96b569d80a5fea059633e43b5daec754ffa268bf95ecbbddff40",
+    "decoded_basic_block_count": 5,
+    "decoded_instruction_count": 44,
+    "external_call_edges": [
+      {
+        "source_file_offset": 633312,
+        "target_file_offset": 630140
+      },
+      {
+        "source_file_offset": 633322,
+        "target_file_offset": 630140
+      }
+    ],
+    "frontier_count": 0,
+    "return_proof": {
+      "epilogue_range": [
+        633326,
+        633332
+      ],
+      "epilogue_raw_hex": "f0bc02bc0847",
+      "restored_lr_register": "r1",
+      "return_instruction": "bx r1",
+      "saved_lr_at_entry": true,
+      "stack_adjustment_between_entry_and_epilogue": 0
+    },
+    "root_file_offset": 633240
+  },
+  "coverage_baseline": {
+    "all_promotion_bytes_unknown": true,
+    "claim_count": 14466,
+    "classified_bytes": 6121280,
+    "path": "sequel/rom-byte-coverage.json",
+    "primary_overlap_bytes": 0,
+    "promotion_bytes": 344,
+    "schema": "rom-byte-coverage-v1",
+    "segment_count": 16577,
+    "sha256": "5c3c9bcaa90a4d55a2de5ef37effbd9947502aff75f01b73738b90aa704b0d9f",
+    "unknown_bytes": 170176,
+    "unknown_promotion_bytes": 344
+  },
+  "formula": {
+    "base_pitch": "freq[descriptor&15]>>(descriptor>>4)",
+    "interpolation": "u32(p0+high32(u32(p1-p0),fine<<24))",
+    "step": "high32(load_u32(input_r0+4),interpolated)"
+  },
+  "high32_helper": {
+    "arm_range": [
+      630144,
+      630156
+    ],
+    "decoded_basic_block_count": 2,
+    "decoded_instruction_count": 5,
+    "frontier_count": 0,
+    "operation": "unsigned_multiply_high32",
+    "range": [
+      630140,
+      630156
+    ],
+    "sha256": "1addb8be644cbaa9421a91f6cd6d91407907e9c92320f56ae49804b98fc29a81",
+    "state_switch": "thumb_adr_bx_to_arm",
+    "thumb_range": [
+      630140,
+      630144
+    ]
+  },
+  "input_domain": {
+    "clamped_fine": 255,
+    "clamped_raw_keys": [
+      179,
+      255
+    ],
+    "effective_key": [
+      0,
+      178
+    ],
+    "fine_u8": [
+      0,
+      255
+    ],
+    "frequency_access_union": [
+      0,
+      11
+    ],
+    "raw_key_u8": [
+      0,
+      255
+    ],
+    "scale_access_union": [
+      0,
+      179
+    ]
+  },
+  "literal_bindings": [
+    {
+      "literal_range": [
+        633332,
+        633336
+      ],
+      "load_file_offset": 633260,
+      "load_raw_hex": "114b",
+      "pointer": 138823108,
+      "target_range": [
+        4605380,
+        4605560
+      ]
+    },
+    {
+      "literal_range": [
+        633336,
+        633340
+      ],
+      "load_file_offset": 633266,
+      "load_raw_hex": "114c",
+      "pointer": 138823288,
+      "target_range": [
+        4605560,
+        4605608
+      ]
+    }
+  ],
+  "producer_denominator": {
+    "producer_bytes_promoted": false,
+    "producer_source_instruction_membership_proven": false,
+    "producers": [
+      {
+        "bytes_sha256": "3bafe4212ed9d14d56bccd395ff9c325fbe5a4a6f14f0d34b081b0cb74a6ff74",
+        "file_offset": 632404,
+        "raw_hex": "00f0a0f9",
+        "target_file_offset": 633240
+      },
+      {
+        "bytes_sha256": "5fc2d693651559bb36bd2b8ea97a263e5b7546576569baeab382e37a6a924eb7",
+        "file_offset": 633052,
+        "raw_hex": "00f05cf8",
+        "target_file_offset": 633240
+      }
+    ],
+    "scan": {
+      "alignment_bytes": 2,
+      "matching_producer_count": 2,
+      "mode": "thumb",
+      "range": [
+        0,
+        6291456
+      ],
+      "target_file_offset": 633240
+    },
+    "thumb_pointer_occurrences": []
+  },
+  "promotion": {
+    "byte_count": 344,
+    "packed_bytes_sha256": "cdf62999570f66a283667ed85f535da4e04f8cbf5ea8a33ef66d1bee8ab0e850",
+    "range_count": 5,
+    "range_vector_sha256": "ac877e8eec80edbdab3d1b6f3991fc8a93dfc497a66c298dc9ee0c29034431bd",
+    "ranges": [
+      [
+        630140,
+        630156
+      ],
+      [
+        633240,
+        633332
+      ],
+      [
+        633332,
+        633340
+      ],
+      [
+        4605380,
+        4605560
+      ],
+      [
+        4605560,
+        4605608
+      ]
+    ],
+    "semantic_ranges": [
+      {
+        "kind": "directsound_pitch_high32_interwork_code",
+        "range": [
+          630140,
+          630156
+        ],
+        "sha256": "1addb8be644cbaa9421a91f6cd6d91407907e9c92320f56ae49804b98fc29a81"
+      },
+      {
+        "kind": "directsound_pitch_consumer_code",
+        "range": [
+          633240,
+          633332
+        ],
+        "sha256": "d04cce3da22f96b569d80a5fea059633e43b5daec754ffa268bf95ecbbddff40"
+      },
+      {
+        "kind": "directsound_pitch_table_literals",
+        "range": [
+          633332,
+          633340
+        ],
+        "sha256": "c46d5afc346f36454cfdedf489cfeafc148e4f952887b63f8738339ea6fe1deb"
+      },
+      {
+        "kind": "directsound_pitch_scale_table",
+        "range": [
+          4605380,
+          4605560
+        ],
+        "sha256": "52e19ba195ffad7aa82ac71bf26543d912f3e3a763e40c755ce0e71b674ef9e7"
+      },
+      {
+        "kind": "directsound_pitch_frequency_table",
+        "range": [
+          4605560,
+          4605608
+        ],
+        "sha256": "6b73747d3fb29635eeda13481d08a06e5371958ee746967aa892fa5390509404"
+      }
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-directsound-pitch-lookup-v1",
+  "scope": {
+    "allocatable_free_space_proven": false,
+    "consumer_cfg_closed": true,
+    "editing_relocation_writeback_safe": false,
+    "global_caller_denominator_complete": false,
+    "global_code_denominator_complete": false,
+    "global_indirect_target_denominator_complete": false,
+    "helper_interwork_closed": true,
+    "natural_runtime_reachability_complete": false,
+    "producer_bytes_promoted": false,
+    "producer_source_instruction_membership_complete": false,
+    "table_index_domain_complete_for_all_u8_inputs": true,
+    "target_limited_raw_bl_denominator_complete": true
+  },
+  "tables": {
+    "frequency": {
+      "entry_count": 12,
+      "entry_size": 4,
+      "range": [
+        4605560,
+        4605608
+      ],
+      "sha256": "6b73747d3fb29635eeda13481d08a06e5371958ee746967aa892fa5390509404",
+      "values_u32": [
+        2147483648,
+        2275179671,
+        2410468894,
+        2553802834,
+        2705659852,
+        2866546760,
+        3037000500,
+        3217589947,
+        3408917802,
+        3611622603,
+        3826380858,
+        4053909305
+      ]
+    },
+    "scale": {
+      "descriptor_count": 180,
+      "frequency_index_counts": {
+        "0": 15,
+        "1": 15,
+        "10": 15,
+        "11": 15,
+        "2": 15,
+        "3": 15,
+        "4": 15,
+        "5": 15,
+        "6": 15,
+        "7": 15,
+        "8": 15,
+        "9": 15
+      },
+      "frequency_index_domain": [
+        0,
+        11
+      ],
+      "key_index_domain": [
+        0,
+        179
+      ],
+      "range": [
+        4605380,
+        4605560
+      ],
+      "sha256": "52e19ba195ffad7aa82ac71bf26543d912f3e3a763e40c755ce0e71b674ef9e7",
+      "shift_counts": {
+        "0": 12,
+        "1": 12,
+        "10": 12,
+        "11": 12,
+        "12": 12,
+        "13": 12,
+        "14": 12,
+        "2": 12,
+        "3": 12,
+        "4": 12,
+        "5": 12,
+        "6": 12,
+        "7": 12,
+        "8": 12,
+        "9": 12
+      },
+      "shift_domain": [
+        0,
+        14
+      ]
+    }
+  }
+}

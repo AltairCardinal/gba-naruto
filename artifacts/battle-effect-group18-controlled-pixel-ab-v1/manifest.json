@@ -1,0 +1,46 @@
+{
+  "artifact_schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "boundary": "Production relocation composed with a zero-input controlled direct selector/spawn probe. This proves controlled final-pixel writeback only; it is not a natural gameplay route and does not increase the production-natural 5/18 denominator.",
+  "files": {
+    "baseline.png": "1a0c0880facfae2d1312c50127d08d85a18a6d1601121ab1853adfad1d044153",
+    "candidate.png": "8b342ce11205c380f9cb32737188d873b5fb400f6dca0d7a45092c5acfffe5ad",
+    "evidence.json": "e1776d3c5c3e365199a8d279235cbf94ce459b834bb7f57000c71215a1d7d94c",
+    "raw.tar": "ed9488024626840ebcc8f0a39d066748036bd88c45cec66c8b917bfdfa75e5af"
+  },
+  "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-18-sequence-07-direct-spawn.json",
+  "profile_sha256": "3851628d96fe71033db4646e0d13bf1968795826414d32867254751b5dc0c3f2",
+  "repository_files": {
+    "tests/test_build_controlled_battle_effect_pixel_ab.py": "ab299b5abb3040f931fc8b1801eedbdf2d8955090f61e568fa4bff1bda095e36",
+    "tests/test_export_controlled_battle_effect_pixel_ab.py": "f3c7a18c9457554b1c478fa3d569a6a7ef4c351350c1d61be8bdc7d88e85da7f",
+    "tests/test_run_controlled_battle_effect_pixel_ab.py": "a495a5a2cd13b07610bc4240e543246bae84afa04abbdea491ad6f4c06622904",
+    "tests/test_verify_controlled_battle_effect_pixel_ab.py": "4f720f984292c84938af3b2aa87c6b0fb3770725936cf8f781b89452f73fa652",
+    "tools/build_controlled_battle_effect_direct_spawn_probe.py": "decc1a5bdfb02b39649003b46c2a8b39cabb1a906401d4a3b0874950c660673a",
+    "tools/build_controlled_battle_effect_pixel_ab.py": "cc91da550ed1cb2ffbd06dc2221243671587991e9e4ba69f0d05198a9bce4983",
+    "tools/export_controlled_battle_effect_pixel_ab.py": "1dbb247256f75b231091a6340a24d7e56df49bb8c9014d07cc35f322a30d7c56",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/import_battle_effect_resource_relocations.py": "81761d619b05c5386db99d12b5a844ab10c28ee04ce7e28cd260ac3773c9428d",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_battle_effect_phase_capture.lua": "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/render_mode0_checkpoint.py": "dbd6e5e179c43218e7f97f3e496ac808908422ed6d08f472b3e0d0968eda53e0",
+    "tools/run_controlled_battle_effect_pixel_ab.py": "d97aebf2dcb1126623f9f3c5b70458a2cca0190441baed6f6bb9a8c3839c964f",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "614140701fb5bb1f1641d91439d04c625679b9082d54aaf83c84d485a1cde946",
+    "tools/verify_battle_effect_direct_spawn_runtime.py": "2560388bffe826d2dec576f7895a9e9a958da32b7565fef7f9b903710aca5127",
+    "tools/verify_controlled_battle_effect_pixel_ab.py": "9a4e0d3102d1e9f44cd0e2275e42bfff670fbcd2245edfc0b5a0b408c93593c3",
+    "tools/verify_menu_portrait_writeback_audit.py": "6df2c2b1c9b2495d882a01111da9894da9adab894161b3126f28d0cb97324734"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_controlled_battle_effect_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group18-controlled-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "alias_split": {
+    "all_header_pointer_offsets": [
+      5496316,
+      5496348,
+      5496380,
+      5496412,
+      5496444,
+      5496476,
+      5496508
+    ],
+    "preserved_header_pointer_offsets": [
+      5496316,
+      5496348,
+      5496412,
+      5496444,
+      5496476,
+      5496508
+    ],
+    "preserved_map_ids": [
+      39,
+      40,
+      42,
+      43,
+      44,
+      45
+    ],
+    "redirected_header_pointer_offsets": [
+      5496380
+    ]
+  },
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "edit": {
+    "after_word": "0x00220035",
+    "before_word": "0x00350022",
+    "coarse_x": 1,
+    "coarse_y": 6,
+    "decoded_byte_offset": 220,
+    "decoded_differing_byte_offsets": [
+      220,
+      222
+    ],
+    "expected_runtime_ewram_word_address": "0x0201BF08",
+    "map41_source_pointer": "0x0811DCC0",
+    "map_id": 41,
+    "resource_sha256": "950f9555a8b12c73b3c3fdabb50209917b849972ff1ee6c3e5b80ead5d472f6f",
+    "resource_type": "primary_layout",
+    "target_header_pointer_offset": "0x0053DE3C"
+  },
+  "isolation": {
+    "decoded_source_diff_count": 2,
+    "only_map41_header_redirected": true,
+    "same_pointer_redirect": true,
+    "same_runtime_source_pointer": true
+  },
+  "patch_ledgers": {
+    "baseline": [
+      {
+        "after_hex": "1018030000000001000200030000040005000600070010080009600b0a000b00100c000d20030e000f0000100011001200130014140015600b164023170000180019001a001b00451ce0031d001e201f1f001f0120002100220023000344240003250026200b270000280029002a002b00112c002d401f2e002f00174430600331003200033300503420233000233500360005370038003900173a0003402200033b003c003d00043e003f0040000f35006341003b10494200432007104b1e4400452047f023f023906b46230047206b480049f06b40471f4a004bf047f0b3f0b3004730fb0436004c004d00074e00004f00500051005200065300540055012f1023560200570058005900035a00005b005c005d005e00005f006000610062802003630064006500660200670068006920036a02006b006c006d600f6e00006f00700071007200007300740075007600007700780079007a00007b007c007d007e00007f008000810082e8f08ff08f20fb3000ed830084000085008600870088000089008a008b008c38008d00ff10fb10b38e008f8a20eb220090000391200b300a0092009300179400b395000096009700980099e0000f102b70039a009b009c00009d009e009f00a00200a100a200a3000f9780a003a400a500a600a70b00a800a94001a1000fb0031caa00ab601df001d001",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "map41-primary-layout-pixel-ab-allocation",
+        "kind": "allocation",
+        "new_pointer": "0x08980000",
+        "offset": 9961472,
+        "replacement_sha256": "950f9555a8b12c73b3c3fdabb50209917b849972ff1ee6c3e5b80ead5d472f6f",
+        "resource_type": "primary_layout",
+        "source_sha256": "950f9555a8b12c73b3c3fdabb50209917b849972ff1ee6c3e5b80ead5d472f6f",
+        "target_header_pointer_offsets": [
+          5496380
+        ]
+      },
+      {
+        "after_hex": "00009808",
+        "before_hex": "c0dc1108",
+        "id": "map41-primary-layout-pixel-ab-pointer-53de3c",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08980000",
+        "offset": 5496380,
+        "replacement_sha256": "950f9555a8b12c73b3c3fdabb50209917b849972ff1ee6c3e5b80ead5d472f6f",
+        "resource_type": "primary_layout",
+        "source_sha256": "950f9555a8b12c73b3c3fdabb50209917b849972ff1ee6c3e5b80ead5d472f6f",
+        "target_header_pointer_offsets": [
+          5496380
+        ]
+      }
+    ],
+    "candidate": [
+      {
+        "after_hex": "1018030000000001000200030000040005000600070010080009600b0a000b00100c000d20030e000f0000100011001200130014140015600b164023170000180019001a001b00451ce0031d001e201f1f001f0120002100220023000344240003250026200b270000280029002a002b00112c002d401f2e002f00174430600331003200033300503420233000233500360005370038003900173a0003402200033b003c003d00043e003f0040001f22006341003b10494200432007104b1b44004520471023220025f023c47023906b460047206b48006349e06b50474a004bf047f0b3e0f0b3004730fb36004c004d8000074e004f00500051000052005300540055c0012f1023560057005800405900035a005b005c00005d005e005f00600010610062200363006400006500660067006800406920036a006b006c00406d600f6e006f0070000071007200730074000075007600770078000079007a007b007c00007d007e007f0080001d810082f08ff08f20fb3000ed008300840085008600008700880089008a00078b008c008d00ff10fb10b3118e008f20eb22009000034191200b30009200930017409400b39500960097001c980099000f102b70039a00009b009c009d009e00009f00a000a100a20050a3000f97a003a400a50001a600a700a800a9400163a1000fb003aa00ab601df00180d001",
+        "before_hex": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "id": "map41-primary-layout-pixel-ab-allocation",
+        "kind": "allocation",
+        "new_pointer": "0x08980000",
+        "offset": 9961472,
+        "replacement_sha256": "cb79b40f285dfcb2bd33e4f5227cef4f347a0bbc48e451826e2f91b6dc798396",
+        "resource_type": "primary_layout",
+        "source_sha256": "950f9555a8b12c73b3c3fdabb50209917b849972ff1ee6c3e5b80ead5d472f6f",
+        "target_header_pointer_offsets": [
+          5496380
+        ]
+      },
+      {
+        "after_hex": "00009808",
+        "before_hex": "c0dc1108",
+        "id": "map41-primary-layout-pixel-ab-pointer-53de3c",
+        "kind": "pointer_redirect",
+        "new_pointer": "0x08980000",
+        "offset": 5496380,
+        "replacement_sha256": "cb79b40f285dfcb2bd33e4f5227cef4f347a0bbc48e451826e2f91b6dc798396",
+        "resource_type": "primary_layout",
+        "source_sha256": "950f9555a8b12c73b3c3fdabb50209917b849972ff1ee6c3e5b80ead5d472f6f",
+        "target_header_pointer_offsets": [
+          5496380
+        ]
+      }
+    ]
+  },
+  "roms": {
+    "baseline": {
+      "decoded_sha256": "950f9555a8b12c73b3c3fdabb50209917b849972ff1ee6c3e5b80ead5d472f6f",
+      "path": "baseline.gba",
+      "sha256": "938d99d2a83729b3c582ebc6be7e710f86f605195581e48695eb56779f277a64",
+      "size": 16777216,
+      "spec": "baseline-spec.json"
+    },
+    "candidate": {
+      "decoded_sha256": "cb79b40f285dfcb2bd33e4f5227cef4f347a0bbc48e451826e2f91b6dc798396",
+      "path": "candidate.gba",
+      "sha256": "9c164ea8aaaae99c13490743fd7673c57401adcb199c9799505fb30e10bc61a6",
+      "size": 16777216,
+      "spec": "candidate-spec.json"
+    }
+  },
+  "runtime_source_pointer": "0x08980000",
+  "schema": "map41-primary-layout-pixel-ab-build-v1"
+}

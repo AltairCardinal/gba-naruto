@@ -1,0 +1,971 @@
+{
+  "code_evidence": {
+    "allocator": {
+      "end_exclusive": "0x08062768",
+      "sha256": "bed7ee16174877d036a3999979b69651fabd7ba619d8bbeaef2f41602b6e44eb",
+      "size": 180,
+      "start": "0x080626B4"
+    },
+    "caller_mode_toggle": {
+      "end_exclusive": "0x0808F872",
+      "sha256": "44c3b8bcbbfbca19b6775555a967860bb740d37b3aa7cee6d11d1056310bbb1f",
+      "size": 12,
+      "start": "0x0808F866"
+    },
+    "controller": {
+      "end_exclusive": "0x0808C4CC",
+      "sha256": "68d80d0b04278938b03702b2d65795d7be94dac3881be06c80884c98912cf8fc",
+      "size": 696,
+      "start": "0x0808C214"
+    },
+    "exit_motion": {
+      "end_exclusive": "0x0808C0B4",
+      "sha256": "682d82fc8dcd4cdd78862f4892476dedcc38b192dbe6b44a5eaf5e9e0fd56459",
+      "size": 56,
+      "start": "0x0808C07C"
+    },
+    "interpolation": {
+      "end_exclusive": "0x08090AE6",
+      "sha256": "41eb27f42cf8891465ac7911a4de72eeeb87e7bc6495041b186a83b698d41af2",
+      "size": 62,
+      "start": "0x08090AA8"
+    },
+    "main_motion": {
+      "end_exclusive": "0x0808C078",
+      "sha256": "ee6f94b5978f5824f37d73b77344cbec1f474c1f6535b8469f90e8e910a95515",
+      "size": 72,
+      "start": "0x0808C030"
+    },
+    "obj_attr2_writer": {
+      "end_exclusive": "0x08063120",
+      "sha256": "3a8ba305e8ed98f95bda2f6e81361571db10e20f0c2158d99930573e4d24ba83",
+      "size": 24,
+      "start": "0x08063108"
+    },
+    "row_loader": {
+      "end_exclusive": "0x0808BF62",
+      "sha256": "804b19345db90905040aeb7c71e9e5d2464d9ee0fcf821bc6f3fc4ceead08f2a",
+      "size": 126,
+      "start": "0x0808BEE4"
+    },
+    "setup_bg_priority": {
+      "end_exclusive": "0x0808BAFC",
+      "sha256": "86d9bf38b840eb876dcceee0f40ff838df1f308737cd65330ddf059120d75f9f",
+      "size": 8,
+      "start": "0x0808BAF4"
+    },
+    "spawner": {
+      "end_exclusive": "0x0808C164",
+      "sha256": "3fd57f3a23dd6e1a1c1030f272b0213c596b7c3679069d47c0e7b4b82b5b05d3",
+      "size": 176,
+      "start": "0x0808C0B4"
+    }
+  },
+  "controller_modes": [
+    {
+      "exit_background_pack_id": null,
+      "exit_obj_pack_id": null,
+      "exit_reachable": false,
+      "main_pack_ids": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "main_task_initial_x": [
+        192,
+        160
+      ],
+      "main_task_initial_y": [
+        -160,
+        240
+      ],
+      "main_task_target_y": [
+        16,
+        64
+      ],
+      "mode": 0
+    },
+    {
+      "exit_background_pack_id": 8,
+      "exit_obj_pack_id": 8,
+      "exit_reachable": true,
+      "main_pack_ids": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "main_task_initial_x": [
+        48,
+        16
+      ],
+      "main_task_initial_y": [
+        -160,
+        240
+      ],
+      "main_task_target_y": [
+        16,
+        64
+      ],
+      "mode": 1
+    }
+  ],
+  "exit_composites": [
+    {
+      "background_pack_id": 8,
+      "background_priority": 2,
+      "background_screen_origin": [
+        40,
+        0
+      ],
+      "background_scroll_pixels": [
+        -40,
+        0
+      ],
+      "background_width_pixels": 160,
+      "file": "exit/mode-1-obj-pack-08-over-pack-08.png",
+      "height": 160,
+      "mode": 1,
+      "obj_pack_id": 8,
+      "obj_placements": [
+        {
+          "frame_id": 0,
+          "image_origin": [
+            85,
+            128
+          ],
+          "local_bounds": {
+            "max_x": 80,
+            "max_y": 32,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 1515,
+          "palette_bank": 0,
+          "source_nontransparent_pixel_count": 1515,
+          "task_index": 0,
+          "task_position": [
+            85,
+            128
+          ]
+        }
+      ],
+      "obj_priority": 3,
+      "pixel_sha256": "769dedb7eb558bbad839e0b12185543847c17ade810dca0d85313c402d9d06de",
+      "png_mode": "RGBA",
+      "sha256": "004eaa617196423d62bf73142cf7f53e8e14abbc9e0508ed769d8aebe2c1ec85",
+      "task_initial_positions": [
+        [
+          240,
+          128
+        ]
+      ],
+      "task_positions": [
+        [
+          85,
+          128
+        ]
+      ],
+      "task_target_positions": [
+        [
+          80,
+          128
+        ]
+      ],
+      "width": 240
+    }
+  ],
+  "implementation": {
+    "tests/test_export_scene_visual_composites.py": "86417eb458437cb3754e2989b29ed965ba657c5cb465fae64b1a382abc83a849",
+    "tools/export_scene_visual_composites.py": "364a997f54ce5b22f94b087fa75a882caf6b8decc72ada82634930fe2645f74f",
+    "tools/verify_scene_visual_composites.py": "6ed97d66e3efd5a23ffcf4847060eec37d42af0cd908772e4df470dc2f5dcd71"
+  },
+  "layering": {
+    "background_priority": 2,
+    "bg0cnt": "0x4086",
+    "equal_priority_rule": "obj_over_bg",
+    "exit_obj_flags": "0xE0",
+    "exit_obj_priority": 3,
+    "main_obj_flags": "0xA0",
+    "main_obj_priority": 2,
+    "obj_tie_rule": "lower_oam_index_in_front"
+  },
+  "main_composites": [
+    {
+      "background_priority": 2,
+      "background_screen_origin": [
+        0,
+        0
+      ],
+      "background_scroll_pixels": [
+        0,
+        0
+      ],
+      "background_width_pixels": 152,
+      "file": "main/mode-0-pack-00.png",
+      "height": 160,
+      "mode": 0,
+      "obj_placements": [
+        {
+          "frame_id": 0,
+          "image_origin": [
+            192,
+            10
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 96,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 0,
+          "source_nontransparent_pixel_count": 1134,
+          "task_index": 0,
+          "task_position": [
+            192,
+            10
+          ]
+        },
+        {
+          "frame_id": 1,
+          "image_origin": [
+            160,
+            70
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 80,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 1,
+          "source_nontransparent_pixel_count": 891,
+          "task_index": 1,
+          "task_position": [
+            160,
+            70
+          ]
+        }
+      ],
+      "obj_priority": 2,
+      "pack_id": 0,
+      "pixel_sha256": "07ada663d134803b3345ba240b7f006ea70f3bd2d016f36037b57df707a5289e",
+      "png_mode": "RGBA",
+      "sha256": "59575379baf4a833a05323861ebbf5eb8c295b72a0e1fe60a70b1d5afe5d9496",
+      "task_initial_positions": [
+        [
+          192,
+          -160
+        ],
+        [
+          160,
+          240
+        ]
+      ],
+      "task_positions": [
+        [
+          192,
+          10
+        ],
+        [
+          160,
+          70
+        ]
+      ],
+      "task_target_positions": [
+        [
+          192,
+          16
+        ],
+        [
+          160,
+          64
+        ]
+      ],
+      "width": 240
+    },
+    {
+      "background_priority": 2,
+      "background_screen_origin": [
+        0,
+        0
+      ],
+      "background_scroll_pixels": [
+        0,
+        0
+      ],
+      "background_width_pixels": 168,
+      "file": "main/mode-0-pack-01.png",
+      "height": 160,
+      "mode": 0,
+      "obj_placements": [
+        {
+          "frame_id": 0,
+          "image_origin": [
+            192,
+            10
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 72,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 0,
+          "source_nontransparent_pixel_count": 1591,
+          "task_index": 0,
+          "task_position": [
+            192,
+            10
+          ]
+        },
+        {
+          "frame_id": 1,
+          "image_origin": [
+            160,
+            70
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 80,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 1,
+          "source_nontransparent_pixel_count": 1116,
+          "task_index": 1,
+          "task_position": [
+            160,
+            70
+          ]
+        }
+      ],
+      "obj_priority": 2,
+      "pack_id": 1,
+      "pixel_sha256": "102e9b458ef808bee2a50b7afc88e595b70e784dad37fd92896190295d552928",
+      "png_mode": "RGBA",
+      "sha256": "e5eef725a5d0048f33b9b088f1bea83829d7543db86d17cbd082d82252e8e262",
+      "task_initial_positions": [
+        [
+          192,
+          -160
+        ],
+        [
+          160,
+          240
+        ]
+      ],
+      "task_positions": [
+        [
+          192,
+          10
+        ],
+        [
+          160,
+          70
+        ]
+      ],
+      "task_target_positions": [
+        [
+          192,
+          16
+        ],
+        [
+          160,
+          64
+        ]
+      ],
+      "width": 240
+    },
+    {
+      "background_priority": 2,
+      "background_screen_origin": [
+        0,
+        0
+      ],
+      "background_scroll_pixels": [
+        0,
+        0
+      ],
+      "background_width_pixels": 160,
+      "file": "main/mode-0-pack-02.png",
+      "height": 160,
+      "mode": 0,
+      "obj_placements": [
+        {
+          "frame_id": 0,
+          "image_origin": [
+            192,
+            13
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 67,
+            "min_x": 0,
+            "min_y": 3
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 0,
+          "source_nontransparent_pixel_count": 1161,
+          "task_index": 0,
+          "task_position": [
+            192,
+            10
+          ]
+        },
+        {
+          "frame_id": 1,
+          "image_origin": [
+            160,
+            70
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 80,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 1,
+          "source_nontransparent_pixel_count": 594,
+          "task_index": 1,
+          "task_position": [
+            160,
+            70
+          ]
+        }
+      ],
+      "obj_priority": 2,
+      "pack_id": 2,
+      "pixel_sha256": "dc4d2dd8540d38745868ca4627a3ba9bf9df321e6a29fb3e6b3cb264798c5df8",
+      "png_mode": "RGBA",
+      "sha256": "3b346a8c435ff3565dcfffb0754d3ca32b092c278457ca510cfdb20e765ffdd2",
+      "task_initial_positions": [
+        [
+          192,
+          -160
+        ],
+        [
+          160,
+          240
+        ]
+      ],
+      "task_positions": [
+        [
+          192,
+          10
+        ],
+        [
+          160,
+          70
+        ]
+      ],
+      "task_target_positions": [
+        [
+          192,
+          16
+        ],
+        [
+          160,
+          64
+        ]
+      ],
+      "width": 240
+    },
+    {
+      "background_priority": 2,
+      "background_screen_origin": [
+        0,
+        0
+      ],
+      "background_scroll_pixels": [
+        0,
+        0
+      ],
+      "background_width_pixels": 184,
+      "file": "main/mode-0-pack-03.png",
+      "height": 160,
+      "mode": 0,
+      "obj_placements": [
+        {
+          "frame_id": 0,
+          "image_origin": [
+            192,
+            10
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 80,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 0,
+          "source_nontransparent_pixel_count": 1074,
+          "task_index": 0,
+          "task_position": [
+            192,
+            10
+          ]
+        },
+        {
+          "frame_id": 1,
+          "image_origin": [
+            160,
+            70
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 80,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 1,
+          "source_nontransparent_pixel_count": 1381,
+          "task_index": 1,
+          "task_position": [
+            160,
+            70
+          ]
+        }
+      ],
+      "obj_priority": 2,
+      "pack_id": 3,
+      "pixel_sha256": "d30bf9bcc681c3c36bb7ae11f73e482a8beb2d45f0da7d38ab49c2ff6ac92553",
+      "png_mode": "RGBA",
+      "sha256": "0d8fbf70faded2560c4787382dc32023bc4f28dcea7b25eb0fb8a73ad227d501",
+      "task_initial_positions": [
+        [
+          192,
+          -160
+        ],
+        [
+          160,
+          240
+        ]
+      ],
+      "task_positions": [
+        [
+          192,
+          10
+        ],
+        [
+          160,
+          70
+        ]
+      ],
+      "task_target_positions": [
+        [
+          192,
+          16
+        ],
+        [
+          160,
+          64
+        ]
+      ],
+      "width": 240
+    },
+    {
+      "background_priority": 2,
+      "background_screen_origin": [
+        64,
+        0
+      ],
+      "background_scroll_pixels": [
+        -64,
+        0
+      ],
+      "background_width_pixels": 176,
+      "file": "main/mode-1-pack-04.png",
+      "height": 160,
+      "mode": 1,
+      "obj_placements": [
+        {
+          "frame_id": 0,
+          "image_origin": [
+            48,
+            18
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 56,
+            "min_x": 0,
+            "min_y": 8
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 0,
+          "source_nontransparent_pixel_count": 1107,
+          "task_index": 0,
+          "task_position": [
+            48,
+            10
+          ]
+        },
+        {
+          "frame_id": 1,
+          "image_origin": [
+            16,
+            70
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 80,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 1,
+          "source_nontransparent_pixel_count": 1533,
+          "task_index": 1,
+          "task_position": [
+            16,
+            70
+          ]
+        }
+      ],
+      "obj_priority": 2,
+      "pack_id": 4,
+      "pixel_sha256": "607fa978ebd57a42ba81af868a6c1d1dd1f0d02a3ba76e3edc7b2cbc3bb974e1",
+      "png_mode": "RGBA",
+      "sha256": "38ef95256c445b89aa799c238fe4c072c7e6b44d784f960eb76cf30331658219",
+      "task_initial_positions": [
+        [
+          48,
+          -160
+        ],
+        [
+          16,
+          240
+        ]
+      ],
+      "task_positions": [
+        [
+          48,
+          10
+        ],
+        [
+          16,
+          70
+        ]
+      ],
+      "task_target_positions": [
+        [
+          48,
+          16
+        ],
+        [
+          16,
+          64
+        ]
+      ],
+      "width": 240
+    },
+    {
+      "background_priority": 2,
+      "background_screen_origin": [
+        96,
+        0
+      ],
+      "background_scroll_pixels": [
+        -96,
+        0
+      ],
+      "background_width_pixels": 144,
+      "file": "main/mode-1-pack-05.png",
+      "height": 160,
+      "mode": 1,
+      "obj_placements": [
+        {
+          "frame_id": 0,
+          "image_origin": [
+            48,
+            10
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 96,
+            "min_x": 0,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 0,
+          "source_nontransparent_pixel_count": 1109,
+          "task_index": 0,
+          "task_position": [
+            48,
+            10
+          ]
+        },
+        {
+          "frame_id": 1,
+          "image_origin": [
+            16,
+            82
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 60,
+            "min_x": 0,
+            "min_y": 12
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 1,
+          "source_nontransparent_pixel_count": 532,
+          "task_index": 1,
+          "task_position": [
+            16,
+            70
+          ]
+        }
+      ],
+      "obj_priority": 2,
+      "pack_id": 5,
+      "pixel_sha256": "8c52f2a537617e1fa93219d865a31b7f8a1e516998e08775571e5dd26c8bfa78",
+      "png_mode": "RGBA",
+      "sha256": "458fef8ead44f979031949f95734c3f2440cd52c38efe8fcb71937b76eb50e0e",
+      "task_initial_positions": [
+        [
+          48,
+          -160
+        ],
+        [
+          16,
+          240
+        ]
+      ],
+      "task_positions": [
+        [
+          48,
+          10
+        ],
+        [
+          16,
+          70
+        ]
+      ],
+      "task_target_positions": [
+        [
+          48,
+          16
+        ],
+        [
+          16,
+          64
+        ]
+      ],
+      "width": 240
+    },
+    {
+      "background_priority": 2,
+      "background_screen_origin": [
+        72,
+        0
+      ],
+      "background_scroll_pixels": [
+        -72,
+        0
+      ],
+      "background_width_pixels": 168,
+      "file": "main/mode-1-pack-06.png",
+      "height": 160,
+      "mode": 1,
+      "obj_placements": [
+        {
+          "frame_id": 0,
+          "image_origin": [
+            32,
+            10
+          ],
+          "local_bounds": {
+            "max_x": 16,
+            "max_y": 80,
+            "min_x": -16,
+            "min_y": 0
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 0,
+          "source_nontransparent_pixel_count": 1679,
+          "task_index": 0,
+          "task_position": [
+            48,
+            10
+          ]
+        }
+      ],
+      "obj_priority": 2,
+      "pack_id": 6,
+      "pixel_sha256": "6950d46451f0bf2365f33261a04738a2b8491f2aee22614b78bd556083ba6dad",
+      "png_mode": "RGBA",
+      "sha256": "0a94740f2fd71077f6c63c897f91f9bc8de034d0d12ba0eeb6a9209f08137095",
+      "task_initial_positions": [
+        [
+          48,
+          -160
+        ]
+      ],
+      "task_positions": [
+        [
+          48,
+          10
+        ]
+      ],
+      "task_target_positions": [
+        [
+          48,
+          16
+        ]
+      ],
+      "width": 240
+    },
+    {
+      "background_priority": 2,
+      "background_screen_origin": [
+        56,
+        0
+      ],
+      "background_scroll_pixels": [
+        -56,
+        0
+      ],
+      "background_width_pixels": 184,
+      "file": "main/mode-1-pack-07.png",
+      "height": 160,
+      "mode": 1,
+      "obj_placements": [
+        {
+          "frame_id": 0,
+          "image_origin": [
+            48,
+            18
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 72,
+            "min_x": 0,
+            "min_y": 8
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 0,
+          "source_nontransparent_pixel_count": 1015,
+          "task_index": 0,
+          "task_position": [
+            48,
+            10
+          ]
+        },
+        {
+          "frame_id": 1,
+          "image_origin": [
+            16,
+            78
+          ],
+          "local_bounds": {
+            "max_x": 32,
+            "max_y": 72,
+            "min_x": 0,
+            "min_y": 8
+          },
+          "occluded_by_background_pixel_count": 0,
+          "palette_bank": 1,
+          "source_nontransparent_pixel_count": 1070,
+          "task_index": 1,
+          "task_position": [
+            16,
+            70
+          ]
+        }
+      ],
+      "obj_priority": 2,
+      "pack_id": 7,
+      "pixel_sha256": "76c0964fb79f51e2398ccaa936dbf4482bcca64491b38cca70772ffed458ad5c",
+      "png_mode": "RGBA",
+      "sha256": "91120d20c9edecdc0fdbe3bb95484d014fcb82fd51dd1e0e55159ac5e2008afe",
+      "task_initial_positions": [
+        [
+          48,
+          -160
+        ],
+        [
+          16,
+          240
+        ]
+      ],
+      "task_positions": [
+        [
+          48,
+          10
+        ],
+        [
+          16,
+          70
+        ]
+      ],
+      "task_target_positions": [
+        [
+          48,
+          16
+        ],
+        [
+          16,
+          64
+        ]
+      ],
+      "width": 240
+    }
+  ],
+  "motion_model": {
+    "counter_initial_by_task_index": [
+      0,
+      1
+    ],
+    "counter_step_q12": 128,
+    "division": "signed_truncate_toward_zero",
+    "fraction_bits": 12,
+    "last_updated_counter": 31
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "schema": "scene-visual-composites-v1",
+  "scope": {
+    "all_nine_source_packs_represented": true,
+    "bg_obj_priority_order_complete": true,
+    "controller_direct_call_modes_complete": true,
+    "controller_mode_pack_routes_complete": true,
+    "natural_language_identity_complete": false,
+    "presentation_overlay_composition_complete": false,
+    "runtime_pixel_equivalence": false,
+    "stable_pack_row_bg_obj_layouts_complete": true,
+    "transition_intermediate_frames_complete": false,
+    "window_blend_mosaic_runtime_complete": false
+  },
+  "summary": {
+    "composite_count": 9,
+    "exit_composite_count": 1,
+    "main_composite_count": 8,
+    "source_pack_count": 9,
+    "source_packs_represented": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ]
+  },
+  "upstream": {
+    "manifest_sha256": "4bb40dff9ac2e5641b5e13f46b1dc90bdaa28b9b5615deab7e2a914ae002d5f4",
+    "path": "artifacts/scene-visual-packs-v1"
+  }
+}

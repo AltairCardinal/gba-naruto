@@ -1,0 +1,1562 @@
+{
+  "dispatcher_denominator": [
+    {
+      "dispatcher_id": "byte-index-minus-one-0-to-6",
+      "entry_count": 7,
+      "index_max": 6,
+      "index_min": 0,
+      "index_source": "ldrb; subs #1; cmp #6; unsigned bls",
+      "literal_offset": 452708,
+      "literal_sha256": "e4fe803292766caeeed6856a18dafdeb481e3fb798997e76370e5fdb2b562ad5",
+      "proof_range": [
+        452666,
+        452688
+      ],
+      "proof_sha256": "c74238ef0b90b5f251a3bf71e9cf471a187efaa32836f8e83dc292a45f142e1d",
+      "table_range": [
+        452712,
+        452740
+      ],
+      "table_sha256": "2e7c3a263cf6d6410dd741d4e2439fabbc106ccca78c781bab8cd95ad998cd5d",
+      "target_vector": [
+        452740,
+        452740,
+        452760,
+        452808,
+        452836,
+        452856,
+        452876
+      ],
+      "terminal_file_offset": 452686
+    },
+    {
+      "dispatcher_id": "masked-halfword-minus-one-0-to-37",
+      "entry_count": 38,
+      "index_max": 37,
+      "index_min": 0,
+      "index_source": "ldrh; ands #0x3f; subs #1; cmp #0x25; unsigned bls",
+      "literal_offset": 600160,
+      "literal_sha256": "f7d1e641798891c3426b45d8cc074b1e2dcf24fe9c2dd48e3b48f891b5f19abc",
+      "proof_range": [
+        600122,
+        600146
+      ],
+      "proof_sha256": "e06cfe149e1bba492025792d33bf40a809e9f33d7a87ed724f6369004a5e2493",
+      "table_range": [
+        600164,
+        600316
+      ],
+      "table_sha256": "c13ef2eee340bcd853e38930a8b9037439efdcc2eff9b471f75cbdeb2fa5785f",
+      "target_vector": [
+        600316,
+        600814,
+        600814,
+        600814,
+        600814,
+        600388,
+        600814,
+        600420,
+        600316,
+        600316,
+        600814,
+        600814,
+        600814,
+        600814,
+        600814,
+        600814,
+        600468,
+        600512,
+        600814,
+        600316,
+        600316,
+        600814,
+        600814,
+        600316,
+        600316,
+        600388,
+        600814,
+        600468,
+        600500,
+        600512,
+        600544,
+        600556,
+        600588,
+        600600,
+        600632,
+        600692,
+        600724,
+        600768
+      ],
+      "terminal_file_offset": 600144
+    }
+  ],
+  "extension": {
+    "baseline_cross_edges": [
+      {
+        "source": {
+          "block_id": "block-thumb-06e884",
+          "edge_kind": "call_target",
+          "instruction_offset": 452754
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-081024",
+          "instruction_offset": 528420,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e89e",
+          "edge_kind": "branch_target",
+          "instruction_offset": 452770
+        },
+        "target": {
+          "baseline_artifact": "proven_roots_v6",
+          "block_id": "block-thumb-06e946",
+          "instruction_offset": 452934,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e8c2",
+          "edge_kind": "branch_target",
+          "instruction_offset": 452802
+        },
+        "target": {
+          "baseline_artifact": "proven_roots_v6",
+          "block_id": "block-thumb-06e946",
+          "instruction_offset": 452934,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e8c8",
+          "edge_kind": "call_target",
+          "instruction_offset": 452810
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-068ea4",
+          "instruction_offset": 429732,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e8ce",
+          "edge_kind": "branch_target",
+          "instruction_offset": 452820
+        },
+        "target": {
+          "baseline_artifact": "proven_roots_v6",
+          "block_id": "block-thumb-06e946",
+          "instruction_offset": 452934,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e8e4",
+          "edge_kind": "call_target",
+          "instruction_offset": 452850
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-081024",
+          "instruction_offset": 528420,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e8f8",
+          "edge_kind": "call_target",
+          "instruction_offset": 452870
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-081024",
+          "instruction_offset": 528420,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e916",
+          "edge_kind": "call_target",
+          "instruction_offset": 452894
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-081024",
+          "instruction_offset": 528420,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e930",
+          "edge_kind": "call_target",
+          "instruction_offset": 452914
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-081024",
+          "instruction_offset": 528420,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e936",
+          "edge_kind": "branch_target",
+          "instruction_offset": 452918
+        },
+        "target": {
+          "baseline_artifact": "proven_roots_v6",
+          "block_id": "block-thumb-06e946",
+          "instruction_offset": 452934,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e938",
+          "edge_kind": "call_target",
+          "instruction_offset": 452928
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-081024",
+          "instruction_offset": 528420,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06e944",
+          "edge_kind": "fallthrough",
+          "instruction_offset": 452932
+        },
+        "target": {
+          "baseline_artifact": "proven_roots_v6",
+          "block_id": "block-thumb-06e946",
+          "instruction_offset": 452934,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-092a94",
+          "edge_kind": "fallthrough",
+          "instruction_offset": 600728
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-092a9a",
+          "instruction_offset": 600730,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-092ac0",
+          "edge_kind": "call_target",
+          "instruction_offset": 600786
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-066758",
+          "instruction_offset": 419672,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-092ad6",
+          "edge_kind": "call_target",
+          "instruction_offset": 600800
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-066aa8",
+          "instruction_offset": 420520,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-092ae4",
+          "edge_kind": "call_target",
+          "instruction_offset": 600810
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-0667a0",
+          "instruction_offset": 419744,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-092ae4",
+          "edge_kind": "fallthrough",
+          "instruction_offset": 600810
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-092aee",
+          "instruction_offset": 600814,
+          "mode": "thumb"
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "bytes_sha256": "738f552fa579a3c56ebc58205754b229d55df09e110cc028d475ef3450e8df06",
+        "id": "block-thumb-06d658",
+        "instruction_count": 6,
+        "mode": "thumb",
+        "range": [
+          448088,
+          448100
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d664",
+            "file_offset": 448100,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 448098,
+          "flow_kind": "linear",
+          "mnemonic": "movs",
+          "op_str": "r4, #0xbc",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "2a0037f91b032d230549eafbad807ef9fa34e16bc957406b215740f3cbc12d51",
+        "id": "block-thumb-06d664",
+        "instruction_count": 6,
+        "mode": "thumb",
+        "range": [
+          448100,
+          448112
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d6a4",
+            "file_offset": 448164,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06d670",
+            "file_offset": 448112,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 448110,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x806d6a4",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "ef2914286203f04c8d3af150f2f956822a127d100cd1ccaa7b3183ad48de2216",
+        "id": "block-thumb-06d670",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          448112,
+          448118
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d676",
+            "file_offset": 448118,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 448116,
+          "flow_kind": "linear",
+          "mnemonic": "adds",
+          "op_str": "r3, r1, #0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "93ad8c4c0778d212b04a699421f1c3550c663dcde932d30ede0758a49fca0d4c",
+        "id": "block-thumb-06d676",
+        "instruction_count": 8,
+        "mode": "thumb",
+        "range": [
+          448118,
+          448134
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d698",
+            "file_offset": 448152,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06d686",
+            "file_offset": 448134,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 448132,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x806d698",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "04bafe874aca9895bec39a6e114077bf54091fd9d8f15f037e108c1c697bf268",
+        "id": "block-thumb-06d686",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          448134,
+          448144
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d6ae",
+            "file_offset": 448174,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06d690",
+            "file_offset": 448144,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 448142,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x806d6ae",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "2849ca753c07d8b4149647f3d30bd814915b362344f0543e4905193f7f01001f",
+        "id": "block-thumb-06d690",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          448144,
+          448148
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d6b0",
+            "file_offset": 448176,
+            "kind": "branch_target",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 448146,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x806d6b0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "8108f74948ed37de5299622965a06555f76096716eb45a9f6df0836fa54225c6",
+        "id": "block-thumb-06d698",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          448152,
+          448162
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d676",
+            "file_offset": 448118,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06d6a2",
+            "file_offset": 448162,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 448160,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x806d676",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "c1c6f68ccc8a80eff061a6cfe8d68bd8f51dfccee9a07348af726fab3e862a47",
+        "id": "block-thumb-06d6a2",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          448162,
+          448164
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d6ae",
+            "file_offset": 448174,
+            "kind": "branch_target",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 448162,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x806d6ae",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "cd39007e89360d71cac0548559f6f02dfd1bb74dde075d3f23e2401e44acb11e",
+        "id": "block-thumb-06d6a4",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          448164,
+          448174
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d664",
+            "file_offset": 448100,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06d6ae",
+            "file_offset": 448174,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 448172,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x806d664",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "474f2af47544e9c7ce4338cabd43c5ca1c26432b7300ce387406157ea433891f",
+        "id": "block-thumb-06d6ae",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          448174,
+          448176
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d6b0",
+            "file_offset": 448176,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 448174,
+          "flow_kind": "linear",
+          "mnemonic": "movs",
+          "op_str": "r0, #0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "c3f950f51893fbc480f46610c65ae17f3e8d35fcbd48c20ddb373a2b6bb9338d",
+        "id": "block-thumb-06d6b0",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          448176,
+          448182
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 448180,
+          "flow_kind": "indirect_branch",
+          "mnemonic": "bx",
+          "op_str": "r1",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "03a674bcfdd5cc32d44592895f396d3475e0a1d69cae14dd5aae9b1ceb14ab27",
+        "id": "block-thumb-06e884",
+        "instruction_count": 8,
+        "mode": "thumb",
+        "range": [
+          452740,
+          452758
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e896",
+            "file_offset": 452758,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452754,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8081024",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "260ae93138f032badbecf41e40bcc2bb0620ebe0812a11cc8786bd0c58a9c9b1",
+        "id": "block-thumb-06e896",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          452758,
+          452760
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e944",
+            "file_offset": 452932,
+            "kind": "branch_target",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452758,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x806e944",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "8b372f4dc58e5ee2a9d2b3c71ea971b22a6598f4e80c58c29320ce1f129e31d1",
+        "id": "block-thumb-06e898",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          452760,
+          452766
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d658",
+            "file_offset": 448088,
+            "kind": "call_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06e89e",
+            "file_offset": 452766,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452762,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806d658",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "6950ffecb560776e482a849234c6f88f7ef58300df142901114df78e4656d5ea",
+        "id": "block-thumb-06e89e",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          452766,
+          452772
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e8a4",
+            "file_offset": 452772,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 452770,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x806e946",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "508086453424313616ec4e801e052e04dcb5fe419a4635839b9ea5fd190b33f1",
+        "id": "block-thumb-06e8a4",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          452772,
+          452780
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e8ac",
+            "file_offset": 452780,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452778,
+          "flow_kind": "linear",
+          "mnemonic": "ldrb",
+          "op_str": "r2, [r4, #1]",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "84a8345da20e3ea95084f1c93edb064b711942d9dd026024287dec5f98a1b008",
+        "id": "block-thumb-06e8ac",
+        "instruction_count": 6,
+        "mode": "thumb",
+        "range": [
+          452780,
+          452792
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e924",
+            "file_offset": 452900,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06e8b8",
+            "file_offset": 452792,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 452790,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x806e924",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "4336de13ab800c59dba94e9a2fecf47e960e59afade36ffaaf2ac2ee71a4ea7b",
+        "id": "block-thumb-06e8b8",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          452792,
+          452802
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e8ac",
+            "file_offset": 452780,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06e8c2",
+            "file_offset": 452802,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 452800,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x806e8ac",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "7f568485521d6aa4e1e46df30705afcf122b83d450923a1dd75607ce2a432035",
+        "id": "block-thumb-06e8c2",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          452802,
+          452804
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452802,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x806e946",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "8bd6bb4e38b4dc38cdf0a567bbfb28dc6c33799961c35ad715427a02ece6964b",
+        "id": "block-thumb-06e8c8",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          452808,
+          452814
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e8ce",
+            "file_offset": 452814,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452810,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8068ea4",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "3575df32a5d07fd59a40a4b366684d4916a8064dcee5c791faa1884a7342ff59",
+        "id": "block-thumb-06e8ce",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          452814,
+          452822
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e8d6",
+            "file_offset": 452822,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 452820,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x806e946",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "f9ebd9449e7538d956858360cf2f03e04fdf80eec22a7f52507ce6cf6dbc4e03",
+        "id": "block-thumb-06e8d6",
+        "instruction_count": 7,
+        "mode": "thumb",
+        "range": [
+          452822,
+          452836
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e930",
+            "file_offset": 452912,
+            "kind": "branch_target",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452834,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x806e930",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "ee6f0b7e84e7c9df465a781dfb1fa627f2e1ad624850964161388cdfe42cf21d",
+        "id": "block-thumb-06e8e4",
+        "instruction_count": 8,
+        "mode": "thumb",
+        "range": [
+          452836,
+          452854
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e8f6",
+            "file_offset": 452854,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452850,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8081024",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "f6d7f8f4e6dc7689662e78e6fa9d9ec7bf1a483e2c8df1239f1198368b724ac2",
+        "id": "block-thumb-06e8f6",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          452854,
+          452856
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e944",
+            "file_offset": 452932,
+            "kind": "branch_target",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452854,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x806e944",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "7ca1fb095d094b17ef023aafc084d5d875ce3fc45dac04730e372c954cb8af6a",
+        "id": "block-thumb-06e8f8",
+        "instruction_count": 8,
+        "mode": "thumb",
+        "range": [
+          452856,
+          452874
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e90a",
+            "file_offset": 452874,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452870,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8081024",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "c4c81db281f1407d103770016fbc125544b2dcc247c5b73825f16839f31a3318",
+        "id": "block-thumb-06e90a",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          452874,
+          452876
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e944",
+            "file_offset": 452932,
+            "kind": "branch_target",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452874,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x806e944",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "9e6218ff5443b73745c152e71abba51579d151b33ffe5e52e94ed31f3d832159",
+        "id": "block-thumb-06e90c",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          452876,
+          452886
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e938",
+            "file_offset": 452920,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06e916",
+            "file_offset": 452886,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 452884,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x806e938",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "5c78dada2fe0dcac55c38806aebddac35362f24e635c71857111e72094331fde",
+        "id": "block-thumb-06e916",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          452886,
+          452898
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e922",
+            "file_offset": 452898,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452894,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8081024",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "5122e72ebe47c5e97e029659dd80fdcb98e284503976293de8ddd66a92592597",
+        "id": "block-thumb-06e922",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          452898,
+          452900
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e944",
+            "file_offset": 452932,
+            "kind": "branch_target",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452898,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x806e944",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "344bfd352e8d55c1c88a6918ed3f3cb27e19ae650c9a9aecf1405437128faea7",
+        "id": "block-thumb-06e924",
+        "instruction_count": 6,
+        "mode": "thumb",
+        "range": [
+          452900,
+          452912
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e930",
+            "file_offset": 452912,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452910,
+          "flow_kind": "linear",
+          "mnemonic": "movs",
+          "op_str": "r0, #4",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "366d2bff09b1dadda7215bee9c784487cd0937f22b341f208dfa1f037eb438bb",
+        "id": "block-thumb-06e930",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          452912,
+          452918
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e936",
+            "file_offset": 452918,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452914,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8081024",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "23edb5b5af45e9490920bc4d068ce5836ebe10c64d6134b01ce11a831e358b87",
+        "id": "block-thumb-06e936",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          452918,
+          452920
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452918,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x806e946",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "4a5977e0abba22ac5654a00cee5dd7f59865026b9511fc390f643fbee8693dd1",
+        "id": "block-thumb-06e938",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          452920,
+          452932
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06e944",
+            "file_offset": 452932,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452928,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8081024",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "5f019e1ac2f2317815db4cfaf94dd4e218a47189b9e1f2a2b75bcf2bb57fea4e",
+        "id": "block-thumb-06e944",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          452932,
+          452934
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 452932,
+          "flow_kind": "linear",
+          "mnemonic": "adds",
+          "op_str": "r5, r6, #1",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "8260e8bebd31a5a3cf9848393b2d5e9eb175cee69fe3bd98ad7224d7f08c9f79",
+        "id": "block-thumb-092a94",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          600724,
+          600730
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 600728,
+          "flow_kind": "linear",
+          "mnemonic": "lsls",
+          "op_str": "r4, r1, #0x18",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "3a9a1aea9c9b1ff181fa4eeb06c85214f50fa0ffe994b91a321347f9019b0198",
+        "id": "block-thumb-092ac0",
+        "instruction_count": 10,
+        "mode": "thumb",
+        "range": [
+          600768,
+          600790
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-092ad6",
+            "file_offset": 600790,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 600786,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8066758",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "38a65a5e67c4b599154ba4a1932bf007b76ebdc81d69050679ce8ca74e9afd3f",
+        "id": "block-thumb-092ad6",
+        "instruction_count": 6,
+        "mode": "thumb",
+        "range": [
+          600790,
+          600804
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-092ae4",
+            "file_offset": 600804,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 600800,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8066aa8",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "4a5cc58f9a5bbc7fdc52d53d00cf06be3354e18fd828973fb1f736a0e51e0154",
+        "id": "block-thumb-092ae4",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          600804,
+          600814
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 600810,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x80667a0",
+          "size": 4
+        }
+      }
+    ],
+    "cross_edge_denominator_sha256": "790685c8f32b89a2d2b46653bf4314b66ca11a683eedbda036890d3f080e98a7",
+    "frontiers": [
+      {
+        "id": "frontier-000000",
+        "reason": "indirect_pc_target",
+        "source": {
+          "block_id": "block-thumb-06d6b0",
+          "instruction_offset": 448180,
+          "kind": "block"
+        }
+      }
+    ],
+    "summary": {
+      "decoded_basic_block_count": 38,
+      "decoded_instruction_count": 155,
+      "frontier_count": 1,
+      "frontier_reasons": {
+        "indirect_pc_target": 1
+      },
+      "reachable_instruction_bytes": 332
+    }
+  },
+  "frozen_baseline": {
+    "battle_controller": {
+      "payload_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+      "schema": "rom-battle-controller-cfg-v1"
+    },
+    "proven_roots_v1": {
+      "schema": "rom-cfg-proven-roots-v1"
+    },
+    "proven_roots_v2": {
+      "payload_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+      "schema": "rom-cfg-proven-roots-v2"
+    },
+    "proven_roots_v3": {
+      "payload_sha256": "f2de5ca57685e3542d5e483e5a171a30eb32bb6dc6ce9794cc683371579af9a2",
+      "schema": "rom-cfg-proven-roots-v3"
+    },
+    "proven_roots_v4": {
+      "payload_sha256": "d14c9f4198d9209d03d8511351b5dc997ade409a3218e9f05993c8c7f11456eb",
+      "schema": "rom-cfg-proven-roots-v4"
+    },
+    "proven_roots_v5": {
+      "payload_sha256": "680b03dffb5c3dbbca41d9a5d0872db560a1a05850d7928ce75243397a54f040",
+      "schema": "rom-cfg-proven-roots-v5"
+    },
+    "proven_roots_v6": {
+      "payload_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+      "schema": "rom-cfg-proven-roots-v6"
+    },
+    "v2": {
+      "schema": "rom-cfg-inventory-v2"
+    },
+    "v3": {
+      "schema": "rom-cfg-inventory-v3"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "roots": [
+    {
+      "entry_block_id": "block-thumb-06e884",
+      "entry_sha256": "21381df085d63c784de52afe8dc541c4b0edd4646a24ceb44d441eae4c1f5315",
+      "entry_size": 4,
+      "file_offset": 452740,
+      "frontier_count": 0,
+      "gba_address": "0x0806E884",
+      "mode": "thumb",
+      "reachable_block_count": 3,
+      "reachable_instruction_bytes": 22,
+      "reachable_instruction_count": 10,
+      "root_id": "root-thumb-06e884",
+      "seed_index": 0,
+      "seed_provenance": [
+        {
+          "dispatcher_id": "byte-index-minus-one-0-to-6",
+          "table_index": 0
+        },
+        {
+          "dispatcher_id": "byte-index-minus-one-0-to-6",
+          "table_index": 1
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-06e898",
+      "entry_sha256": "3ebafc3dd9af7c16d0625b47759c2b582960b4952fe5ab4f96749bea14a08745",
+      "entry_size": 4,
+      "file_offset": 452760,
+      "frontier_count": 1,
+      "gba_address": "0x0806E898",
+      "mode": "thumb",
+      "reachable_block_count": 20,
+      "reachable_instruction_bytes": 154,
+      "reachable_instruction_count": 75,
+      "root_id": "root-thumb-06e898",
+      "seed_index": 1,
+      "seed_provenance": [
+        {
+          "dispatcher_id": "byte-index-minus-one-0-to-6",
+          "table_index": 2
+        }
+      ],
+      "traversal_status": "frontier_open"
+    },
+    {
+      "entry_block_id": "block-thumb-06e8c8",
+      "entry_sha256": "a8aa250e285b665668f35d8411dbdf3d38fdd0ffc27f063e6d9c7319cd07c67c",
+      "entry_size": 4,
+      "file_offset": 452808,
+      "frontier_count": 0,
+      "gba_address": "0x0806E8C8",
+      "mode": "thumb",
+      "reachable_block_count": 5,
+      "reachable_instruction_bytes": 36,
+      "reachable_instruction_count": 16,
+      "root_id": "root-thumb-06e8c8",
+      "seed_index": 2,
+      "seed_provenance": [
+        {
+          "dispatcher_id": "byte-index-minus-one-0-to-6",
+          "table_index": 3
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-06e8e4",
+      "entry_sha256": "21381df085d63c784de52afe8dc541c4b0edd4646a24ceb44d441eae4c1f5315",
+      "entry_size": 4,
+      "file_offset": 452836,
+      "frontier_count": 0,
+      "gba_address": "0x0806E8E4",
+      "mode": "thumb",
+      "reachable_block_count": 3,
+      "reachable_instruction_bytes": 22,
+      "reachable_instruction_count": 10,
+      "root_id": "root-thumb-06e8e4",
+      "seed_index": 3,
+      "seed_provenance": [
+        {
+          "dispatcher_id": "byte-index-minus-one-0-to-6",
+          "table_index": 4
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-06e8f8",
+      "entry_sha256": "21381df085d63c784de52afe8dc541c4b0edd4646a24ceb44d441eae4c1f5315",
+      "entry_size": 4,
+      "file_offset": 452856,
+      "frontier_count": 0,
+      "gba_address": "0x0806E8F8",
+      "mode": "thumb",
+      "reachable_block_count": 3,
+      "reachable_instruction_bytes": 22,
+      "reachable_instruction_count": 10,
+      "root_id": "root-thumb-06e8f8",
+      "seed_index": 4,
+      "seed_provenance": [
+        {
+          "dispatcher_id": "byte-index-minus-one-0-to-6",
+          "table_index": 5
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-06e90c",
+      "entry_sha256": "21381df085d63c784de52afe8dc541c4b0edd4646a24ceb44d441eae4c1f5315",
+      "entry_size": 4,
+      "file_offset": 452876,
+      "frontier_count": 0,
+      "gba_address": "0x0806E90C",
+      "mode": "thumb",
+      "reachable_block_count": 5,
+      "reachable_instruction_bytes": 38,
+      "reachable_instruction_count": 17,
+      "root_id": "root-thumb-06e90c",
+      "seed_index": 5,
+      "seed_provenance": [
+        {
+          "dispatcher_id": "byte-index-minus-one-0-to-6",
+          "table_index": 6
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-092a94",
+      "entry_sha256": "a15544a8ab29cd07aa4ea3c0982c0a27f18bd989619ba2709e31e8441319b08c",
+      "entry_size": 4,
+      "file_offset": 600724,
+      "frontier_count": 0,
+      "gba_address": "0x08092A94",
+      "mode": "thumb",
+      "reachable_block_count": 1,
+      "reachable_instruction_bytes": 6,
+      "reachable_instruction_count": 3,
+      "root_id": "root-thumb-092a94",
+      "seed_index": 6,
+      "seed_provenance": [
+        {
+          "dispatcher_id": "masked-halfword-minus-one-0-to-37",
+          "table_index": 36
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-092ac0",
+      "entry_sha256": "15d745099b5c40e1f900e49ecfd277473465400277087ce2dc6edfba2130cce0",
+      "entry_size": 4,
+      "file_offset": 600768,
+      "frontier_count": 0,
+      "gba_address": "0x08092AC0",
+      "mode": "thumb",
+      "reachable_block_count": 3,
+      "reachable_instruction_bytes": 46,
+      "reachable_instruction_count": 20,
+      "root_id": "root-thumb-092ac0",
+      "seed_index": 7,
+      "seed_provenance": [
+        {
+          "dispatcher_id": "masked-halfword-minus-one-0-to-37",
+          "table_index": 37
+        }
+      ],
+      "traversal_status": "closed"
+    }
+  ],
+  "schema": "rom-cfg-proven-roots-v7",
+  "scope": {
+    "baseline_entries_treated_as_opaque": true,
+    "fixed_dispatcher_denominator_complete": true,
+    "global_indirect_target_denominator_complete": false,
+    "runtime_reachability_complete": false
+  }
+}

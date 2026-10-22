@@ -1,0 +1,379 @@
+{
+  "extension": {
+    "baseline_cross_edges": [
+      {
+        "source": {
+          "block_id": "block-thumb-070e3e",
+          "edge_kind": "call_target",
+          "instruction_offset": 462398
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06fda4",
+          "instruction_offset": 458148,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-070e42",
+          "edge_kind": "branch_target",
+          "instruction_offset": 462422
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-070ea4",
+          "instruction_offset": 462504,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-070e58",
+          "edge_kind": "call_target",
+          "instruction_offset": 462426
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-067158",
+          "instruction_offset": 422232,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-070e5e",
+          "edge_kind": "call_target",
+          "instruction_offset": 462432
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-072294",
+          "instruction_offset": 467606,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-070e64",
+          "edge_kind": "fallthrough",
+          "instruction_offset": 462446
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-070e70",
+          "instruction_offset": 462448,
+          "mode": "thumb"
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "bytes_sha256": "b7ef3d9b196ca61123c729f55e5c922743e7cc9d92270ee2532fa454c1e6acfb",
+        "id": "block-thumb-070df8",
+        "instruction_count": 11,
+        "mode": "thumb",
+        "range": [
+          462328,
+          462350
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-070e2c",
+            "file_offset": 462380,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-070e0e",
+            "file_offset": 462350,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 462348,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x8070e2c",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "ba5ae39ed9581770e169b60b38d4210430ee78b94d92452cab0e0e1ac89eda26",
+        "id": "block-thumb-070e0e",
+        "instruction_count": 10,
+        "mode": "thumb",
+        "range": [
+          462350,
+          462370
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-070e3e",
+            "file_offset": 462398,
+            "kind": "branch_target",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 462368,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x8070e3e",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "d621559457ab73769220163e2bba258bdfd345a9df2c888607ad0250abe614bf",
+        "id": "block-thumb-070e2c",
+        "instruction_count": 9,
+        "mode": "thumb",
+        "range": [
+          462380,
+          462398
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-070e3e",
+            "file_offset": 462398,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 462396,
+          "flow_kind": "linear",
+          "mnemonic": "movs",
+          "op_str": "r1, #2",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "647db0c625cd56e55651973ab2df2c697877282af407c5c53a3efd86e7139e2e",
+        "id": "block-thumb-070e3e",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          462398,
+          462402
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-070e42",
+            "file_offset": 462402,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 462398,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806fda4",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "35838b56d7032267baf9c0f6896434f7f70b466f609f1ed376faffb319f1f3b2",
+        "id": "block-thumb-070e42",
+        "instruction_count": 11,
+        "mode": "thumb",
+        "range": [
+          462402,
+          462424
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-070e58",
+            "file_offset": 462424,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 462422,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x8070ea8",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "c1e12833471030a838f869de00e270cf32d199020bb773212973e35b72d95be6",
+        "id": "block-thumb-070e58",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          462424,
+          462430
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-070e5e",
+            "file_offset": 462430,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 462426,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8067158",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "3d234fccb70df5f2498ffe7967f78e58843eded4f2361d7d37d640a81c892c70",
+        "id": "block-thumb-070e5e",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          462430,
+          462436
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-070e64",
+            "file_offset": 462436,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 462432,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8072296",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "c630dc4c6a60e2b83657886a6d9d3f1e476fb6f246a6bd9d503d265b917c13d8",
+        "id": "block-thumb-070e64",
+        "instruction_count": 6,
+        "mode": "thumb",
+        "range": [
+          462436,
+          462448
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 462446,
+          "flow_kind": "linear",
+          "mnemonic": "lsrs",
+          "op_str": "r0, r0, #0x20",
+          "size": 2
+        }
+      }
+    ],
+    "cross_edge_denominator_sha256": "7d527b879890901c551095e8ea0e656426105dd9079442c6b9f5502f76cd4ec1",
+    "frontiers": [],
+    "summary": {
+      "decoded_basic_block_count": 8,
+      "decoded_instruction_count": 52,
+      "frontier_count": 0,
+      "frontier_reasons": {},
+      "reachable_instruction_bytes": 110
+    }
+  },
+  "frozen_baseline": {
+    "battle_controller": {
+      "payload_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+      "schema": "rom-battle-controller-cfg-v1"
+    },
+    "proven_roots_v1": {
+      "schema": "rom-cfg-proven-roots-v1"
+    },
+    "proven_roots_v2": {
+      "payload_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+      "schema": "rom-cfg-proven-roots-v2"
+    },
+    "v2": {
+      "schema": "rom-cfg-inventory-v2"
+    },
+    "v3": {
+      "schema": "rom-cfg-inventory-v3"
+    }
+  },
+  "producer_denominator": {
+    "producers": [
+      {
+        "bytes_sha256": "4fbf43b9ecefd5d5b2716fd51cf7cc4228f9fbcb4da14591b24d4d5205f60ffb",
+        "file_offset": 475538,
+        "gba_address": "0x08074192",
+        "producer_id": "target_confirmation",
+        "raw_hex": "fcf731fe",
+        "target_file_offset": 462328,
+        "target_gba_address": "0x08070DF8"
+      },
+      {
+        "bytes_sha256": "0b0580cb61c11e4c3481cef46a931018d0a41dff62568aa7465a62aa75e6d6c0",
+        "file_offset": 477238,
+        "gba_address": "0x08074836",
+        "producer_id": "technique_menu",
+        "raw_hex": "fcf7dffa",
+        "target_file_offset": 462328,
+        "target_gba_address": "0x08070DF8"
+      }
+    ],
+    "scan": {
+      "alignment_bytes": 2,
+      "matching_producer_count": 2,
+      "mode": "thumb",
+      "range": [
+        0,
+        6291456
+      ],
+      "targets": [
+        462328
+      ]
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "roots": [
+    {
+      "entry_block_id": "block-thumb-070df8",
+      "entry_sha256": "715bb484d98123291dbfc7b03e6b6d0b85d3f836d828d1f9e196c59d842415fb",
+      "entry_size": 4,
+      "file_offset": 462328,
+      "frontier_count": 0,
+      "gba_address": "0x08070DF8",
+      "mode": "thumb",
+      "reachable_block_count": 8,
+      "reachable_instruction_bytes": 110,
+      "reachable_instruction_count": 52,
+      "root_id": "root-thumb-070df8",
+      "seed_index": 0,
+      "seed_provenance": [
+        {
+          "producer_id": "target_confirmation"
+        },
+        {
+          "producer_id": "technique_menu"
+        }
+      ],
+      "traversal_status": "closed"
+    }
+  ],
+  "schema": "rom-cfg-proven-roots-v3",
+  "scope": {
+    "baseline_entries_treated_as_opaque": true,
+    "fixed_direct_producer_denominator_complete": true,
+    "global_function_entry_denominator_complete": false,
+    "runtime_reachability_complete": false
+  }
+}

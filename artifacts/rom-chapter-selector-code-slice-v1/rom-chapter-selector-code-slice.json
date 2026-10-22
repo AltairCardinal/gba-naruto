@@ -1,0 +1,149 @@
+{
+  "artifact_status": "accepted",
+  "coverage": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_chapter_selector_code_slice.py",
+      "sha256": "5fa47f9504aa6b8efc38f9262f01d06be24c7625093c03eb2b482b0f68621421"
+    },
+    "test": {
+      "path": "tests/test_export_rom_chapter_selector_code_slice.py",
+      "sha256": "17d32775947b33dc7a4706e0c1d2d1551974abdb897185b6eaa9ec7d49e96a77"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_chapter_selector_code_slice.py",
+      "sha256": "c76e40b765ff5e466639a08dad74abb216b1f0941a8177e9848055cb660bf7a5"
+    }
+  },
+  "limitations": [
+    "Only the exact 0x08F594..0x08F5D4 primary/alternate chapter-root table selector range is classified.",
+    "This is a hash-bound consumer code slice, not a complete CFG or an instruction-only claim.",
+    "Natural gameplay reachability, chapter-script gaps, business fields, adjacent bytes, and parser semantics are not claimed.",
+    "Padding/free/allocatable status, editing, write-back, and relocation safety are not claimed."
+  ],
+  "packed_bytes": "074f3e1c07488146074a9046317e00290cd020048013484400680ce04c000003d4110302540d0608740c06082004801340440068717600253576002108f0f2f8",
+  "packed_bytes_sha256": "0c586c11a8c452e4096d4cf444bb5c75628d099020ff8e5642f99634ea022efd",
+  "range": {
+    "allocatable": false,
+    "baseline_unknown_only": true,
+    "bytes_hex": "074f3e1c07488146074a9046317e00290cd020048013484400680ce04c000003d4110302540d0608740c06082004801340440068717600253576002108f0f2f8",
+    "bytes_sha256": "0c586c11a8c452e4096d4cf444bb5c75628d099020ff8e5642f99634ea022efd",
+    "claim_kind": "consumer_code_slice",
+    "coverage_state": {
+      "primary_claim_ids": [],
+      "primary_class": "unknown",
+      "range": [
+        587156,
+        587220
+      ],
+      "secondary_claim_ids": []
+    },
+    "gba_range": [
+      "0x0808F594",
+      "0x0808F5D4"
+    ],
+    "id": "chapter-root-table-selector",
+    "instruction_only_claimed": false,
+    "packed_range": [
+      0,
+      64
+    ],
+    "packed_sha256": "0c586c11a8c452e4096d4cf444bb5c75628d099020ff8e5642f99634ea022efd",
+    "primary_class": "consumer_code_slice",
+    "promoted_from_primary_class": "unknown",
+    "promotion_batch": "rom-chapter-selector-code-slice-v1",
+    "range": [
+      587156,
+      587220
+    ],
+    "role": "primary_alternate_chapter_root_table_selector",
+    "runtime_reachability_claimed": false,
+    "safe_editing": false,
+    "size": 64,
+    "source_evidence": {
+      "artifact_schema": "rom-chapter-script-inventory-v1",
+      "evidence_range": [
+        587156,
+        587220
+      ],
+      "evidence_sha256": "0c586c11a8c452e4096d4cf444bb5c75628d099020ff8e5642f99634ea022efd",
+      "json_pointer": "/consumer_evidence/table_selector",
+      "payload_path": "artifacts/rom-chapter-script-inventory-v1/chapter-script-inventory.json",
+      "payload_sha256": "813cd10394e5fac239aefd6043437796b1a63f95d8d068d714871b8dd3edcabc"
+    }
+  },
+  "range_denominator_sha256": "714e8b0bbcbd13193d8f07186ff237d633e367e652868203693a77d5317d2de6",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-chapter-selector-code-slice-v1",
+  "scope": {
+    "adjacent_bytes_claimed": false,
+    "allocatable_claimed": false,
+    "baseline_unknown_only": true,
+    "business_fields_claimed": false,
+    "chapter_script_gap_claimed": false,
+    "claim_kind": "consumer_code_slice",
+    "complete_cfg_claimed": false,
+    "editing_writeback_relocation_claimed": false,
+    "natural_gameplay_reachability_claimed": false,
+    "padding_or_free_space_claimed": false,
+    "primary_class": "consumer_code_slice",
+    "raw_rom_exact_slice": true,
+    "safe_editing": false,
+    "semantic_label": "primary/alternate chapter root table selector",
+    "source_consumer_provenance_bound": true
+  },
+  "source": {
+    "artifact_schema": "rom-chapter-script-inventory-v1",
+    "bundle": {
+      "path": "artifacts/rom-chapter-script-inventory-v1/chapter-script-bytes.bin",
+      "sha256": "eba1393714485ab78d0dbde6cb1b9cf407e031ce8c2a86068038a3920d5f0699"
+    },
+    "consumer_evidence": {
+      "json_pointer": "/consumer_evidence/table_selector",
+      "range": [
+        587156,
+        587220
+      ],
+      "sha256": "0c586c11a8c452e4096d4cf444bb5c75628d099020ff8e5642f99634ea022efd"
+    },
+    "exporter": {
+      "path": "tools/export_rom_chapter_script_inventory.py",
+      "sha256": "707a00b57c6dbbfb3da22f5ef385a0243c600ef1b30f8b70527446c290ddba42"
+    },
+    "manifest": {
+      "path": "artifacts/rom-chapter-script-inventory-v1/manifest.json",
+      "sha256": "ad77f775f927b89e4a499ddff82e077c38b2767cd86348b65053cb8ca4136f0e"
+    },
+    "payload": {
+      "path": "artifacts/rom-chapter-script-inventory-v1/chapter-script-inventory.json",
+      "sha256": "813cd10394e5fac239aefd6043437796b1a63f95d8d068d714871b8dd3edcabc"
+    },
+    "test": {
+      "path": "tests/test_export_rom_chapter_script_inventory.py",
+      "sha256": "95f7d1eb1aa22efc6f6cb4e183af3564ef644831b6468dde0d00e0cad368e941"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_chapter_script_inventory.py",
+      "sha256": "b9bf0203bddd8ca85981bd7957d95171c11187a117447bc5a0e92e384777911c"
+    },
+    "verifier_report": {
+      "schema": "rom-chapter-script-inventory-verification-v1",
+      "sha256": "c3decb8c05249571c458faee06713f21258b8445304b5dd3eeab370853a2717e"
+    }
+  },
+  "summary": {
+    "bytes": 64,
+    "current_unknown_bytes": 64,
+    "packed_bytes": 64,
+    "primary_overlap_bytes": 0,
+    "range_count": 1,
+    "secondary_overlap_bytes": 0
+  }
+}

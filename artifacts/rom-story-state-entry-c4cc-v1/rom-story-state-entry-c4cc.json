@@ -1,0 +1,246 @@
+{
+  "coverage_baseline": {
+    "classified_bytes": 6176433,
+    "historical_reference": {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "b71a91d1e3c469a884f6d434a82ce23e751e201e83728e6ffc040a6226bfed52"
+    },
+    "live_coverage_verified_on_replay": false,
+    "observed_during_artifact_build": true,
+    "replay_mode": "historical_build_receipt_replay",
+    "state": "baseline_unknown",
+    "unknown_bytes": 115023
+  },
+  "coverage_projection": {
+    "gate": "projection_deferred_to_coverage_auditor",
+    "post_promotion_owner": "exact_packet_owner_required"
+  },
+  "producer_denominator": {
+    "direct": [
+      [
+        588326,
+        574668,
+        "bl"
+      ]
+    ],
+    "even_u32_occurrences": [],
+    "thumb_pointer_occurrences": []
+  },
+  "promotion": {
+    "claim_kind": "story_state_entry_c4cc_exact_bytes",
+    "claims": [
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "aae49eae5303ed5f3e7563e22c6d1fe3a6151d81e1c30c8e8947f6fe1c13e63f",
+        "id": "story-state-entry-c4cc-reachable_thumb_code-08c4cc",
+        "kind": "reachable_thumb_code",
+        "range": [
+          574668,
+          574852
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "76cd41f2ad9de7a04b303a57d0c7fb2f5c7b077b96a43cfcd0a9752efa7acb8c",
+        "id": "story-state-entry-c4cc-consumed_literal_words-08c584",
+        "kind": "consumed_literal_words",
+        "range": [
+          574852,
+          574888
+        ]
+      }
+    ],
+    "code_bytes": 184,
+    "code_ranges": [
+      [
+        574668,
+        574852
+      ]
+    ],
+    "literal_bytes": 36,
+    "literal_ranges": [
+      [
+        574852,
+        574888
+      ]
+    ],
+    "primary_class": "armv4t_story_state_entry_cfg",
+    "promotion_bytes": 220,
+    "remaining_unknown_bytes": 1548,
+    "remaining_unknown_range": [
+      574888,
+      576436
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-story-state-entry-c4cc-v1",
+  "scope": {
+    "business_semantics": false,
+    "editing_relocation_padding_or_free_space": false,
+    "external_callee_classification": false,
+    "natural_runtime_reachability": false,
+    "remaining_cluster_code_classification": false
+  },
+  "target_local_cfg": {
+    "basic_block_count": 15,
+    "code_range": [
+      574668,
+      574852
+    ],
+    "code_sha256": "aae49eae5303ed5f3e7563e22c6d1fe3a6151d81e1c30c8e8947f6fe1c13e63f",
+    "frontier_count": 0,
+    "hole_count": 0,
+    "instruction_bytes": 184,
+    "instruction_count": 78,
+    "instruction_vector_sha256": "b2bd61d6f63071a87ae1aeae1689f332de4ccfbbdaf09dc0f154e16ca99c9c84",
+    "literal_bindings": [
+      [
+        574678,
+        574852,
+        "0x0300004C"
+      ],
+      [
+        574734,
+        574856,
+        "0x08405EA4"
+      ],
+      [
+        574736,
+        574860,
+        "0x06006800"
+      ],
+      [
+        574742,
+        574864,
+        "0x08405F10"
+      ],
+      [
+        574752,
+        574868,
+        "0x08405FF0"
+      ],
+      [
+        574754,
+        574872,
+        "0x05000100"
+      ],
+      [
+        574762,
+        574876,
+        "0x04000008"
+      ],
+      [
+        574768,
+        574880,
+        "0x03000054"
+      ],
+      [
+        574792,
+        574884,
+        "0x08408BC4"
+      ]
+    ],
+    "literal_range": [
+      574852,
+      574888
+    ],
+    "literal_sha256": "76cd41f2ad9de7a04b303a57d0c7fb2f5c7b077b96a43cfcd0a9752efa7acb8c",
+    "local_branch_count": 0,
+    "local_edges": [],
+    "next_entry_excluded": [
+      574888,
+      "10b5"
+    ],
+    "opaque_external_call_count": 14,
+    "opaque_external_calls": [
+      [
+        574674,
+        400988
+      ],
+      [
+        574726,
+        414724
+      ],
+      [
+        574730,
+        402784
+      ],
+      [
+        574738,
+        639208
+      ],
+      [
+        574748,
+        639208
+      ],
+      [
+        574758,
+        639200
+      ],
+      [
+        574788,
+        420584
+      ],
+      [
+        574802,
+        419672
+      ],
+      [
+        574806,
+        415516
+      ],
+      [
+        574812,
+        576500
+      ],
+      [
+        574822,
+        582036
+      ],
+      [
+        574828,
+        576536
+      ],
+      [
+        574834,
+        421300
+      ],
+      [
+        574840,
+        401032
+      ]
+    ],
+    "root": 574668,
+    "strict_return": {
+      "instruction_offsets": [
+        574844,
+        574846,
+        574848,
+        574850
+      ],
+      "proof": "pop_r0_then_bx_r0",
+      "raw_hex": "06b010bc01bc0047"
+    }
+  },
+  "upstream_dependency": {
+    "artifact": "artifacts/rom-story-state-callback-cfg-v1",
+    "artifact_schema": "rom-story-state-callback-cfg-v1",
+    "covering_claim_ids": [
+      "story-callback-reachable_thumb_code-08-08fa08"
+    ],
+    "manifest_sha256": "8384dee3207e426361545a94be1b0c1052381a177e159ef85f452f636db5380a",
+    "payload_sha256": "f82f2472f49d9b6b620aee162a65ca372ead47ae5aa73c4f5e25888482d57ab5",
+    "required_primary_class": "armv4t_story_state_callback_cfg",
+    "required_source_range": [
+      588326,
+      588330
+    ],
+    "verified": true,
+    "verifier": "tools/verify_rom_story_state_callback_cfg.py",
+    "verifier_report_schema": "rom-story-state-callback-cfg-verifier-report-v1"
+  }
+}

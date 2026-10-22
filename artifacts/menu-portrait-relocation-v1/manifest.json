@@ -1,0 +1,46 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "menu-portrait-relocation-v1",
+  "artifact_schema": "menu-portrait-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "162ba0b9b6cf6c8f20c116bcdb14cb55a1dd0877e4c52cb00de3b61ce45a120b",
+  "files": {
+    "relocation-audit.json": "162ba0b9b6cf6c8f20c116bcdb14cb55a1dd0877e4c52cb00de3b61ce45a120b",
+    "full-relocation-spec.json": "f262c204f1dadcf48295cd038d2e91e4d76ed821b949d2f4743ab2bd3197f7df"
+  },
+  "scope": {
+    "proved": "All 70 graphics and 70 palette payloads, representing 74 logical portrait pairs and 311 portraits, relocate through all 622 exact pair-table pointer fields into the registered menu-portraits region.",
+    "editable": "Indexed 80x80 portraits may replace their compressed 6400-byte OBJ stream and 128-byte BGR555 palette, including explicit pair-alias splits, without the original compressed-slot capacity limit.",
+    "not_proved": "Arbitrary portrait dimensions, modified-resource runtime pixel equivalence, menu color transforms, transitions or final composition."
+  },
+  "summary": {
+    "logical_portrait_count": 311,
+    "logical_pair_count": 74,
+    "physical_payload_count": 140,
+    "graphics_payload_count": 70,
+    "palette_payload_count": 70,
+    "logical_pointer_count": 622,
+    "unexpected_pointer_count": 0,
+    "allocation_count": 140,
+    "pointer_patch_count": 622,
+    "allocation_start": 11010048,
+    "allocation_end": 11241420,
+    "region_end": 11534336,
+    "stored_payload_bytes": 231262,
+    "allocation_span": 231372,
+    "remaining_bytes": 292916,
+    "applied_patch_count": 762
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_menu_portrait_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/menu-portrait-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《火影忍者：木叶战记》逆向工程结果查看器 · 4. 内存数据与音频架构</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+</head>
+<body data-page="reverse-engineering-data.html">
+
+  <div id="toast">已复制</div>
+  <div id="searchPanel"></div>
+
+<header class="top-bar">
+    <div class="top-bar-left">
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="折叠/展开侧边栏">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <div class="top-bar-brand">
+        <span class="brand-badge">GBA</span>
+        <span class="brand-title">《火影忍者：木叶战记》逆向工程结果查看器</span>
+      </div>
+      <div class="rom-status-tag">
+        <span class="pulse-dot"></span>
+        <span>ROM v1.3 (简)(JP) 48Mb · 校验通过</span>
+      </div>
+    </div>
+
+    <div class="top-bar-right">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="本页检索地址/角色/技能/道具/函数 (Ctrl+K)..." oninput="handleSearch()">
+        <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()" style="display:none;" title="清空检索">✕</button>
+      </div>
+      <div class="top-actions">
+        <a class="top-action-btn badge-cyan" href="reverse-engineering-results.html#sec-image-downloads" title="按板块打包下载全部图像">
+          📧 图像打包下载
+        </a>
+
+        <a class="top-action-btn badge-green" href="reverse-engineering-results.html#sec-progress-tests" title="查看 17 项自动化回归测试详情">
+          ✓ 17/17 测试通过
+        </a>
+        <button class="top-action-btn" onclick="copyCurrentUrl()" title="复制本页面分享链接">
+          🔗 分享
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+<aside class="left-sidebar" id="leftSidebar">
+    <nav class="sidebar-nav">
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="progress" href="reverse-engineering-results.html"><span class="link-text">研发全景</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-image-downloads" href="reverse-engineering-results.html#sec-image-downloads"><span class="link-text">图像资源打包下载 (Image Download Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-kpi" href="reverse-engineering-results.html#sec-progress-kpi"><span class="link-text">逆向工程核心量化成果总览 (Executive Technical Metrics)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-phases" href="reverse-engineering-results.html#sec-progress-phases"><span class="link-text">续作研发工程全阶段进展 (Roadmap Phase Progress)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-milestones" href="reverse-engineering-results.html#sec-progress-milestones"><span class="link-text">P0 逆向工程 7 大里程碑攻坚矩阵 (P0 Reverse Engineering Milestones Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-memory" href="reverse-engineering-results.html#sec-progress-memory"><span class="link-text">ROM 存储拓扑全景与 128 KB 自由空间分配规划 (Memory Topology &amp; Free Space)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-tests" href="reverse-engineering-results.html#sec-progress-tests"><span class="link-text">CI 自动化测试防回归体系 (Test Suites)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-next" href="reverse-engineering-results.html#sec-progress-next"><span class="link-text">下阶段续作研发推进清单 (Immediate Next Steps)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-artifact-coverage" href="reverse-engineering-results.html#sec-artifact-coverage"><span class="link-text">逆向成果收录覆盖总表 (Artifact Family Coverage)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-rom-catalog" href="reverse-engineering-results.html#sec-rom-catalog"><span class="link-text">ROM 逆向成果族全量目录 (ROM Family Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-reverse-ledger" href="reverse-engineering-results.html#sec-reverse-ledger"><span class="link-text">逆向成果台账 (Reverse Results Ledger)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="visuals" href="reverse-engineering-visuals.html"><span class="link-text">1. 视觉与动画资产库</span><span class="link-badge">12</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-studio" href="reverse-engineering-visuals.html#sec-studio"><span class="link-text">⚡ 角色动作交互工作室 (Character Action &amp; Sprite Studio)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-action-matrix" href="reverse-engineering-visuals.html#sec-action-matrix"><span class="link-text">木叶战记 35 位全员动作状态与动画帧数全览表</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-portraits-poster" href="reverse-engineering-visuals.html#sec-portraits-poster"><span class="link-text">菜单 / 剧情立绘矩阵总集海报 (Menu &amp; Story Portrait Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-roster-poster" href="reverse-engineering-visuals.html#sec-roster-poster"><span class="link-text">全 35 位登场角色全家福精灵海报 (Master Roster Poster)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tilesets" href="reverse-engineering-visuals.html#sec-tilesets"><span class="link-text">战场地图 Tileset 图集 (47 行全量 PNG Export)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-map-canvases" href="reverse-engineering-visuals.html#sec-map-canvases"><span class="link-text">成品战场地图画布 (Assembled Battle Map Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tile-assets-bg" href="reverse-engineering-visuals.html#sec-tile-assets-bg"><span class="link-text">图块资产 BG 图层 (Tile Asset BG Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-character-battle-visuals" href="reverse-engineering-visuals.html#sec-character-battle-visuals"><span class="link-text">角色战斗视觉资源 (Character Battle Visuals)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-canvases" href="reverse-engineering-visuals.html#sec-bg-canvases"><span class="link-text">BG 资源画布 (BG Resource Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-scene-selection" href="reverse-engineering-visuals.html#sec-bg-scene-selection"><span class="link-text">章节选择 opcode 0x1E 记录 (Chapter Scene Selection)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-scene-visual-packs" href="reverse-engineering-visuals.html#sec-scene-visual-packs"><span class="link-text">场景视觉包 (Scene Visual Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-world-map-bg" href="reverse-engineering-visuals.html#sec-world-map-bg"><span class="link-text">世界地图背景 (World Map Backgrounds)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="battle" href="reverse-engineering-battle.html"><span class="link-text">2. 战斗系统与时序引擎</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-vm" href="reverse-engineering-battle.html#sec-battle-vm"><span class="link-text">忍术战斗时序虚拟机 (Jutsu Execution VM) 字节码指令集规范</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-scripts" href="reverse-engineering-battle.html#sec-battle-scripts"><span class="link-text">木叶战记 36 张忍术技能脚本表全量逆向解析库</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-scenario-fsm" href="reverse-engineering-battle.html#sec-scenario-fsm"><span class="link-text">战斗场景配置总表 (Battle Scenario Config Table - ROM 0x0853D910)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-fsm-funcs" href="reverse-engineering-battle.html#sec-battle-fsm-funcs"><span class="link-text">战斗状态机函数指针表 (Battle State Machine Functions)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-sequences" href="reverse-engineering-battle.html#sec-battle-effect-sequences"><span class="link-text">战斗特效时序绑定 (Battle Effect Sequence Bindings)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-catalog" href="reverse-engineering-battle.html#sec-battle-visual-catalog"><span class="link-text">79 项战斗视觉表现目录 (Battle Visual Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-timelines" href="reverse-engineering-battle.html#sec-battle-visual-timelines"><span class="link-text">战斗视觉运行时时间线 (Battle Visual Runtime Timelines)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-affine-runtime" href="reverse-engineering-battle.html#sec-affine-runtime"><span class="link-text">战斗特效仿射运行时 (Affine Runtime Evidence)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-pairs" href="reverse-engineering-battle.html#sec-battle-effect-pairs"><span class="link-text">战斗特效资源对 (Battle Effect Resource Pairs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-anims" href="reverse-engineering-battle.html#sec-battle-effect-anims"><span class="link-text">战斗特效精灵动画 (Battle Effect Sprite Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="story" href="reverse-engineering-story.html"><span class="link-text">3. 剧情调度与文本系统</span><span class="link-badge">9</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-pipeline" href="reverse-engineering-story.html#sec-dialogue-pipeline"><span class="link-text">GBA 对话渲染硬件链路与数据通路 (Screen Render Pipeline)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-asm" href="reverse-engineering-story.html#sec-dialogue-asm"><span class="link-text">关键文本与渲染函数清单 (Thumb ASM)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-chapter-fsm" href="reverse-engineering-story.html#sec-chapter-fsm"><span class="link-text">章节状态结构体与关卡加载劫持 (Chapter State Struct)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-font" href="reverse-engineering-story.html#sec-dialogue-font"><span class="link-text">对话字体图集 (Dialogue Font Atlases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-cutscene-obj" href="reverse-engineering-story.html#sec-cutscene-obj"><span class="link-text">过场 OBJ 静态资源 (Cutscene OBJ Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-free-space-pipe" href="reverse-engineering-story.html#sec-free-space-pipe"><span class="link-text">可变长对白扩容系统与 128 KB 空闲区域 (Pointer Redirect Engine)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-battle-glyphs" href="reverse-engineering-story.html#sec-battle-glyphs"><span class="link-text">战斗演出字形与消息表 (Battle Presentation Glyphs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-visual-layers" href="reverse-engineering-story.html#sec-story-visual-layers"><span class="link-text">剧情视觉图层 (Story Visual Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-scene-timelines" href="reverse-engineering-story.html#sec-story-scene-timelines"><span class="link-text">剧情场景时间线 (Story Scene Timelines)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub active" data-hub="data" href="reverse-engineering-data.html"><span class="link-text">4. 内存数据与音频架构</span><span class="link-badge">5</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-unit-struct" href="reverse-engineering-data.html#sec-unit-struct"><span class="link-text">单位 ID 映射表 (ROM 0x0853F298) 与 WRAM 战斗阵列</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-item-matrix" href="reverse-engineering-data.html#sec-item-matrix"><span class="link-text">忍具 / 药品 / 卷轴 / 材料内存表 (WRAM 0x02023FD4 - 0x02024044)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-audio-pcm" href="reverse-engineering-data.html#sec-audio-pcm"><span class="link-text">DirectSound PCM 音频样本提取 (10 个 WAV 样本，共 ~3 MB)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-definitions" href="reverse-engineering-data.html#sec-sprite-definitions"><span class="link-text">精灵定义静态资源与运行时链 (Sprite Definition Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-def-anims" href="reverse-engineering-data.html#sec-sprite-def-anims"><span class="link-text">精灵定义动画 (Sprite Definition Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="engineering" href="reverse-engineering-engineering.html"><span class="link-text">5. 逆向基建与工程流水线</span><span class="link-badge">4</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-mod-builder" href="reverse-engineering-engineering.html#sec-mod-builder"><span class="link-text">ROM 补丁流水线 (tools/build_mod.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-auto-tests" href="reverse-engineering-engineering.html#sec-auto-tests"><span class="link-text">全覆盖自动化测试套件 (tools/automated_test.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-full" href="reverse-engineering-engineering.html#sec-toolbox-full"><span class="link-text">工具全量清单 (Complete Tool Inventory)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-index" href="reverse-engineering-engineering.html#sec-toolbox-index"><span class="link-text">自研逆向工具箱清单 (Tools Inventory)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="formulas" href="reverse-engineering-formulas.html"><span class="link-text">6. 逆向公式与运行时模型</span><span class="link-badge">2</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-formula-index" href="reverse-engineering-formulas.html#sec-formula-index"><span class="link-text">逆向公式与运行时模型总览 (Reverse Engineering Formulas)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-heavy-index" href="reverse-engineering-formulas.html#sec-heavy-index"><span class="link-text">公式与运行时模型索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="conclusions" href="reverse-engineering-conclusions.html"><span class="link-text">7. 逆向结论索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="conclusions" data-anchor="sec-conclusions" href="reverse-engineering-conclusions.html#sec-conclusions"><span class="link-text">结论分主题索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="dataindex" href="reverse-engineering-data-index.html"><span class="link-text">8. ROM 数据产物索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="dataindex" data-anchor="sec-data-index" href="reverse-engineering-data-index.html#sec-data-index"><span class="link-text">ROM 数据产物索引 (ROM Data Artifacts)</span></a>
+        </div>
+    </nav>
+</aside>
+
+    <main class="main-workspace" id="mainWorkspace">
+
+<section class="category-section" id="hub-data" data-category="data">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">🧠</span> 4. 内存数据与音频架构 (RAM Layout &amp; Audio Assets)
+        </div>
+        <span class="section-tag">ROM 0x53F298 / WRAM 0x02021E2C / DirectSound PCM | 80+ 忍具道具 | 10 音轨</span>
+      </div>
+
+      <div class="card-grid">
+        <!-- 单位 ID 映射与 WRAM 单位阵列 -->
+        <div class="card full-width" id="sec-unit-struct">
+          <div class="card-head">
+            <div class="card-title">单位 ID 映射表 (ROM 0x0853F298) 与 WRAM 战斗阵列</div>
+            <span class="tag tag-cyan">64 单元 u16 映射</span>
+          </div>
+          <p class="card-desc">
+            由战场初始化函数 <code>0x0806E654-0x0806E672</code> 查表加载。以下单位 ID 区间互不重叠；更早版本把 8 方向位移偏移量混入本表、且与 <code>0x19~0x2E</code> 区间重叠，已拆分并更正。
+          </p>
+
+          <div class="table-container">
+            <table>
+              <thead><tr><th>索引范围</th><th>值</th><th>对应角色/含义</th></tr></thead>
+              <tbody>
+                <tr><td><code>0x00 ~ 0x02</code></td><td>0x00, 0x01, 0x02</td><td>漩涡鸣人、宇智波佐助、春野樱</td></tr>
+                <tr><td><code>0x03 ~ 0x05</code></td><td>0x03, 0x04, 0x05</td><td>山中井野、奈良鹿丸、秋道丁次</td></tr>
+                <tr><td><code>0x06 ~ 0x09</code></td><td>0x06 ~ 0x09</td><td>旗木卡卡西、木叶丸、伊鲁卡、手打大叔</td></tr>
+                <tr><td><code>0x0A ~ 0x0B</code></td><td>0x0A, 0x0B</td><td>桃地再不斩、白 (核心 Boss)</td></tr>
+                <tr><td><code>0x19 ~ 0x2A</code></td><td>0x19 ~ 0x2A</td><td>雨忍、鬼兄弟 (业头/冥头)、叛忍浪人、上忍头目等敌方战斗单位</td></tr>
+                <tr><td><code>0x2B ~ 0x37</code></td><td>signed i16</td><td><strong>非单位 ID</strong>：8 方向移动位移偏移量 <code>(-4, 0), (-6, 4), (-7, 7), (-8, 9)...</code>，为同表相邻字段，语义独立</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 忍具道具内存表（19 项样本） -->
+        <div class="card full-width" id="sec-item-matrix">
+          <div class="card-head">
+            <div class="card-title">忍具 / 药品 / 卷轴 / 材料内存表 (WRAM 0x02023FD4 - 0x02024044)</div>
+            <span class="tag tag-amber">已逐项列出 19 项 · 4 个类别样本</span>
+          </div>
+          <p class="card-desc">
+            游戏背包与装备系统在 WRAM 中以线性定长记录存储。下方为<strong>本页面实际已逐项列出的 19 项、4 个类别</strong>；
+            更早版本标题写作“80+ 种道具 / 9 大类别”，但页面并未展开这些条目，属于夸大口径，现已按实际展示量更正。
+            完整道具表尚未随本页一起导出。
+          </p>
+          <div class="item-category-grid">
+            <div class="item-cat-box">
+              <div class="item-cat-title">🗡️ 基础投掷暗器</div>
+              <div class="item-tags">
+                <span class="item-pill">手里剑 (0x01)</span>
+                <span class="item-pill">苦无 (0x02)</span>
+                <span class="item-pill">千本 (0x03)</span>
+                <span class="item-pill">风魔手里剑 (0x04)</span>
+                <span class="item-pill">爆炸苦无 (0x05)</span>
+              </div>
+            </div>
+            <div class="item-cat-box">
+              <div class="item-cat-title">💊 伤药与恢复秘药</div>
+              <div class="item-tags">
+                <span class="item-pill">兵粮丸·小 (0x08)</span>
+                <span class="item-pill">兵粮丸·中 (0x09)</span>
+                <span class="item-pill">特制兵粮丸 (0x0A)</span>
+                <span class="item-pill">清毒丹 (0x0B)</span>
+                <span class="item-pill">查克拉水 (0x0C)</span>
+              </div>
+            </div>
+            <div class="item-cat-box">
+              <div class="item-cat-title">📜 战术忍术卷轴</div>
+              <div class="item-tags">
+                <span class="item-pill">火遁卷轴 (0x10)</span>
+                <span class="item-pill">水遁卷轴 (0x11)</span>
+                <span class="item-pill">土遁卷轴 (0x12)</span>
+                <span class="item-pill">风遁卷轴 (0x13)</span>
+                <span class="item-pill">雷遁卷轴 (0x14)</span>
+              </div>
+            </div>
+            <div class="item-cat-box">
+              <div class="item-cat-title">🛡️ 护具与防具</div>
+              <div class="item-tags">
+                <span class="item-pill">木叶护额 (0x20)</span>
+                <span class="item-pill">下忍锁甲 (0x21)</span>
+                <span class="item-pill">中忍战甲 (0x22)</span>
+                <span class="item-pill">暗部面具 (0x23)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- DirectSound PCM 音频样本系统 -->
+        <div class="card full-width" id="sec-audio-pcm">
+          <div class="card-head">
+            <div class="card-title">DirectSound PCM 音频样本提取 (10 个 WAV 样本，共 ~3 MB)</div>
+            <span class="tag tag-green">tools/extract_audio.py 导出</span>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr><th>#</th><th>ROM 地址</th><th>自然采样率</th><th>样本数 (字节)</th><th>循环标志</th><th>内容属性</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>0</code></td><td><code>0x09E208</code></td><td>12,284 Hz</td><td>12,284</td><td>无</td><td>战斗判定短音效 / 打击声</td></tr>
+                <tr><td><code>1</code></td><td><code>0x0A1F5C</code></td><td>16,383 Hz</td><td>16,383</td><td>无</td><td>菜单选择与确认 SFX</td></tr>
+                <tr><td><code>2</code></td><td><code>0x0ED268</code></td><td>8,202 Hz</td><td>129,040</td><td><span class="tag tag-amber">YES (pos 15)</span></td><td>BGM 循环铺底打击乐层</td></tr>
+                <tr><td><code>3</code></td><td><code>0x177560</code></td><td>8,944 Hz</td><td>65,520</td><td>无</td><td>忍术施放轰鸣中型音效</td></tr>
+                <tr><td><code>4</code></td><td><code>0x1AA5A4</code></td><td>8,176 Hz</td><td>983,040</td><td>无</td><td><strong>大型剧情 BGM 主题曲 (~2 分钟)</strong></td></tr>
+                <tr><td><code>5</code></td><td><code>0x2DA7F8</code></td><td>26,495 Hz</td><td>4,081</td><td>无</td><td>暗器破空高频音效</td></tr>
+                <tr><td><code>6</code></td><td><code>0x2DDBD8</code></td><td>3,840 Hz</td><td>61,815</td><td>无</td><td>重型爆炸破裂音效</td></tr>
+                <tr><td><code>7</code></td><td><code>0x2ED2FC</code></td><td>21,573 Hz</td><td>1,911</td><td>无</td><td>按键短提示音</td></tr>
+                <tr><td><code>8</code></td><td><code>0x2F333C</code></td><td>4,671 Hz</td><td>999,713</td><td>无</td><td><strong>大型热血战斗 BGM (~3.5 分钟)</strong></td></tr>
+                <tr><td><code>9</code></td><td><code>0x3ED624</code></td><td>4,120 Hz</td><td>850,944</td><td>无</td><td><strong>波之国悲伤主题 BGM (~3.4 分钟)</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+        <div class="card full-width" id="sec-sprite-definitions">
+          <div class="card-head">
+            <div class="card-title">精灵定义静态资源与运行时链 (Sprite Definition Assets)</div>
+            <span class="tag tag-green">artifacts/sprite-definition-assets-v2 · 43 条定义 · 45 个组件</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-sprite-definitions.zip" download title="下载本板块全部 43 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">43 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_sprite_definition_animations.py</code> 与 <code>tools/export_sprite_definition_runtime_chain.py</code>
+            导出 43 条精灵定义，并闭合运行时加载链
+            （static_resource_loader、graphics_loader_call、palette_loader_call、lz77_vram_wrapper 等 25 个环节）。
+            <code>tools/verify_sprite_definition_runtime_chain.py</code> 复核 43 资产 / 49 瓦片零错误。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-00</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-00.png" alt="sprite-id-00" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-01</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-01.png" alt="sprite-id-01" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-02</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-02.png" alt="sprite-id-02" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-03</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-03.png" alt="sprite-id-03" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-04</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-04.png" alt="sprite-id-04" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-05</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-05.png" alt="sprite-id-05" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-06</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-06.png" alt="sprite-id-06" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-07</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-07.png" alt="sprite-id-07" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-08</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-08.png" alt="sprite-id-08" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-09</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-09.png" alt="sprite-id-09" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-10</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-10.png" alt="sprite-id-10" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-11</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-11.png" alt="sprite-id-11" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-12</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-12.png" alt="sprite-id-12" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-13</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-13.png" alt="sprite-id-13" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-14</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-14.png" alt="sprite-id-14" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-15</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-15.png" alt="sprite-id-15" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-16</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-16.png" alt="sprite-id-16" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-17</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-17.png" alt="sprite-id-17" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-18</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-18.png" alt="sprite-id-18" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-19</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-19.png" alt="sprite-id-19" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-20</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-20.png" alt="sprite-id-20" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-21</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-21.png" alt="sprite-id-21" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-22</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-22.png" alt="sprite-id-22" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-23</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-23.png" alt="sprite-id-23" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-24</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-24.png" alt="sprite-id-24" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-25</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-25.png" alt="sprite-id-25" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-26</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-26.png" alt="sprite-id-26" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-27</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-27.png" alt="sprite-id-27" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-28</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-28.png" alt="sprite-id-28" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-29</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-29.png" alt="sprite-id-29" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-30</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-30.png" alt="sprite-id-30" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-31</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-31.png" alt="sprite-id-31" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-32</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-32.png" alt="sprite-id-32" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-33</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-33.png" alt="sprite-id-33" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-34</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-34.png" alt="sprite-id-34" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-35</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-35.png" alt="sprite-id-35" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-36</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-36.png" alt="sprite-id-36" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-37</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-37.png" alt="sprite-id-37" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-38</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-38.png" alt="sprite-id-38" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-39</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-39.png" alt="sprite-id-39" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-40</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-40.png" alt="sprite-id-40" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-41</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-41.png" alt="sprite-id-41" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>sprite-id-42</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-assets-v2/sprite-id-42.png" alt="sprite-id-42" loading="lazy"></div>
+            </div>
+          </div>
+        </div>
+        <div class="card full-width" id="sec-sprite-def-anims">
+          <div class="card-head">
+            <div class="card-title">精灵定义动画 (Sprite Definition Animations)</div>
+            <span class="tag tag-cyan">artifacts/sprite-definition-animations-v1 · 精灵动画 43</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-sprite-def-anims.zip" download title="下载本板块全部 43 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">43 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_sprite_definition_animations.py</code> 导出，独立校验器 <code>tools/verify_sprite_definition_animations.py</code> 复核零错误。
+            清单 schema：<code>sprite-definition-animations-v1</code>，完整字段见
+            <code>artifacts/sprite-definition-animations-v1/manifest.json</code>。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-00-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-00-contact.png" alt="sprite-id-00-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-01-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-01-contact.png" alt="sprite-id-01-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-02-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-02-contact.png" alt="sprite-id-02-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-03-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-03-contact.png" alt="sprite-id-03-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-04-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-04-contact.png" alt="sprite-id-04-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-05-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-05-contact.png" alt="sprite-id-05-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-06-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-06-contact.png" alt="sprite-id-06-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-07-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-07-contact.png" alt="sprite-id-07-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-08-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-08-contact.png" alt="sprite-id-08-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-09-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-09-contact.png" alt="sprite-id-09-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-10-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-10-contact.png" alt="sprite-id-10-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-11-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-11-contact.png" alt="sprite-id-11-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-12-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-12-contact.png" alt="sprite-id-12-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-13-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-13-contact.png" alt="sprite-id-13-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-14-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-14-contact.png" alt="sprite-id-14-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-15-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-15-contact.png" alt="sprite-id-15-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-16-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-16-contact.png" alt="sprite-id-16-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-17-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-17-contact.png" alt="sprite-id-17-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-18-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-18-contact.png" alt="sprite-id-18-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-19-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-19-contact.png" alt="sprite-id-19-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-20-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-20-contact.png" alt="sprite-id-20-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-21-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-21-contact.png" alt="sprite-id-21-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-22-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-22-contact.png" alt="sprite-id-22-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-23-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-23-contact.png" alt="sprite-id-23-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-24-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-24-contact.png" alt="sprite-id-24-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-25-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-25-contact.png" alt="sprite-id-25-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-26-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-26-contact.png" alt="sprite-id-26-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-27-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-27-contact.png" alt="sprite-id-27-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-28-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-28-contact.png" alt="sprite-id-28-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-29-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-29-contact.png" alt="sprite-id-29-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-30-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-30-contact.png" alt="sprite-id-30-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-31-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-31-contact.png" alt="sprite-id-31-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-32-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-32-contact.png" alt="sprite-id-32-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-33-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-33-contact.png" alt="sprite-id-33-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-34-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-34-contact.png" alt="sprite-id-34-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-35-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-35-contact.png" alt="sprite-id-35-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-36-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-36-contact.png" alt="sprite-id-36-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-37-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-37-contact.png" alt="sprite-id-37-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-38-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-38-contact.png" alt="sprite-id-38-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-39-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-39-contact.png" alt="sprite-id-39-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-40-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-40-contact.png" alt="sprite-id-40-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-41-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-41-contact.png" alt="sprite-id-41-contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sprite-id-42-contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/sprite-definition-animations-v1/sprite-id-42-contact.png" alt="sprite-id-42-contact" loading="lazy"></div>
+            </div>
+          </div>
+
+        </div>
+    </section>
+    
+      
+    <!-- HUB 5: 逆向基建与工程流水线 (Pipeline & Tools) -->
+
+    </main>
+  </div>
+
+  <script src="assets/viewer.js" defer></script>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+{
+  "artifact_schema": "legacy-artifact-acceptance-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "catalog.json": {
+      "sha256": "e687009c79e4ee3b6e584f61e710bbfaea1fd2bb75a5f52758ee79df237b342c",
+      "size": 434402
+    },
+    "snapshot.json.gz": {
+      "sha256": "184f34a1871e7d451b429ecab0c6e1b9502080665e96db5290ac108d25fa0b93",
+      "size": 25180160
+    }
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/rebuild_legacy_artifact_acceptance.py",
+      "--root",
+      ".",
+      "--catalog",
+      "build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/final/catalog.json",
+      "--output",
+      "build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/rebuilt-snapshot-v4.json.gz"
+    ],
+    "python_version": "3.14.3 (main, Feb  3 2026, 15:32:20) [Clang 16.0.0 (clang-1600.0.26.6)]",
+    "script_path": "tools/rebuild_legacy_artifact_acceptance.py",
+    "script_sha256": "0021fdb16157be9455ca0a2dd58910ea715941a52cdc9fc6047ac891b6ab6973",
+    "source_tree": "f7cac66c107a9ec129608188235117f5379a3c70",
+    "zlib_runtime_version": "1.2.12"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "can_authorize_its_own_commit": false,
+    "external_trust_anchor_verified": false,
+    "fixed_historical_identities": true,
+    "new_semantic_classification": false,
+    "semantic_verifiers_reexecuted": false
+  },
+  "summary": {
+    "bridge_counts": {
+      "aggregate_coverage_verifier": 21,
+      "direct_proof_verifier": 32,
+      "immutable_precoverage_binding": 11
+    },
+    "classified_bytes": 6203707,
+    "external_trust_anchor_verified": false,
+    "formal_contracts": 106,
+    "global_blockers": 175,
+    "global_complete": false,
+    "member_count": 160,
+    "newly_classified_bytes": 0,
+    "rom_contracts": 96,
+    "root_count": 64,
+    "semantic_verifiers_reexecuted": false,
+    "unknown_bytes": 87749
+  },
+  "verifier": {
+    "candidate_report_sha256": "28ca06b633ad0e472133f03c9ad4f9c565bffea30649b22d519848c1d33a46a9",
+    "command": [
+      "python3",
+      "tools/verify_legacy_artifact_acceptance.py",
+      "--artifact",
+      "build/experiments/active/legacy-artifact-acceptance/post-story-v1-20260905/final"
+    ],
+    "exit_code": 0,
+    "script_sha256": "6d04c962fd00885cd80c1a6da4ea39d5004d91a90056052a0a0829a83b000d15"
+  }
+}

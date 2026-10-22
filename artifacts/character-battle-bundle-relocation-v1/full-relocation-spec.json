@@ -1,0 +1,3853 @@
+{
+  "schema": "character-battle-bundle-import-v1",
+  "description": "Capacity/fidelity audit: relocate every existing resource while preserving graphics, palette, frame records, timelines and aliases.",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "catalog": "artifacts/character-battle-visuals-v1/manifest.json",
+  "catalog_sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c",
+  "partition": "character-battle-visual-bundles",
+  "owner": "character_battle_visuals",
+  "edits": [
+    {
+      "id": "resource-000-relocation",
+      "resource_id": 0,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08142A70",
+        "animation_pointer_table": "0x08142BA0",
+        "graphics": "0x0813E090",
+        "palette": "0x0813E070"
+      },
+      "expected_slot_rows": [
+        0
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-000/graphics-4bpp.bin",
+      "graphics_sha256": "00604b6d454b23f73413ec7d65cebead033c7a6177f3e8da9861fb32f44db3ec"
+    },
+    {
+      "id": "resource-001-relocation",
+      "resource_id": 1,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08144048",
+        "animation_pointer_table": "0x08144074",
+        "graphics": "0x08142BD0",
+        "palette": "0x0813E070"
+      },
+      "expected_slot_rows": [
+        1
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-001/graphics-4bpp.bin",
+      "graphics_sha256": "8b73c973fbf65d4ccccd756ae1203b0172aef2c09008c717e841f6d70313313d"
+    },
+    {
+      "id": "resource-002-relocation",
+      "resource_id": 2,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08145D08",
+        "animation_pointer_table": "0x08145D40",
+        "graphics": "0x08144078",
+        "palette": "0x0813E070"
+      },
+      "expected_slot_rows": [
+        2
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-002/graphics-4bpp.bin",
+      "graphics_sha256": "eca6531596d93273a3ae4ed224222bddcb56bd7bf2c161cf0de67a4d59d417da"
+    },
+    {
+      "id": "resource-003-relocation",
+      "resource_id": 3,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081479BC",
+        "animation_pointer_table": "0x081479E8",
+        "graphics": "0x08145D44",
+        "palette": "0x0813E070"
+      },
+      "expected_slot_rows": [
+        3
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-003/graphics-4bpp.bin",
+      "graphics_sha256": "d69e7d8e018651b73b296d86a815d93699fa735a65489a7683f8b7e6a952f80d"
+    },
+    {
+      "id": "resource-004-relocation",
+      "resource_id": 4,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08149264",
+        "animation_pointer_table": "0x0814929C",
+        "graphics": "0x081479EC",
+        "palette": "0x0813E070"
+      },
+      "expected_slot_rows": [
+        4
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-004/graphics-4bpp.bin",
+      "graphics_sha256": "18231695ca80177f5bc370b4bed51c6d01a19c9deae1564ec5ad8d49470864d8"
+    },
+    {
+      "id": "resource-005-relocation",
+      "resource_id": 5,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0814A71C",
+        "animation_pointer_table": "0x0814A748",
+        "graphics": "0x081492A4",
+        "palette": "0x0813E070"
+      },
+      "expected_slot_rows": [
+        5
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-005/graphics-4bpp.bin",
+      "graphics_sha256": "4fd2970aba4e17a78f496dd48f909d3458f76bf5074ae8b46842052f3e7eface"
+    },
+    {
+      "id": "resource-006-relocation",
+      "resource_id": 6,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0814C3DC",
+        "animation_pointer_table": "0x0814C414",
+        "graphics": "0x0814A74C",
+        "palette": "0x0813E070"
+      },
+      "expected_slot_rows": [
+        6
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-006/graphics-4bpp.bin",
+      "graphics_sha256": "f32b1ec8f727d4fe3313171b8a887fd87dd8b5783cdf59606cd069ee59b47a55"
+    },
+    {
+      "id": "resource-007-relocation",
+      "resource_id": 7,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0814E490",
+        "animation_pointer_table": "0x0814E4BC",
+        "graphics": "0x0814C418",
+        "palette": "0x0813E070"
+      },
+      "expected_slot_rows": [
+        7
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-007/graphics-4bpp.bin",
+      "graphics_sha256": "d6c7b96ceb93043561e652ebc1662432cc1762687ce11241af57f75c538a858a"
+    },
+    {
+      "id": "resource-008-relocation",
+      "resource_id": 8,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0814FD38",
+        "animation_pointer_table": "0x0814FD70",
+        "graphics": "0x0814E4C0",
+        "palette": "0x0813E070"
+      },
+      "expected_slot_rows": [
+        8
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-008/graphics-4bpp.bin",
+      "graphics_sha256": "f7a44c7cd6fd8d75fe2975541d438b9c3e9e45bfece8b71c57277e83576f54da"
+    },
+    {
+      "id": "resource-009-relocation",
+      "resource_id": 9,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08154778",
+        "animation_pointer_table": "0x081548A8",
+        "graphics": "0x0814FD98",
+        "palette": "0x0814FD78"
+      },
+      "expected_slot_rows": [
+        9
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-009/graphics-4bpp.bin",
+      "graphics_sha256": "f8835df7b41fa652d71a4ed18b6f6d271e8c2a7a4ee43361bfe41b3fa52454a1"
+    },
+    {
+      "id": "resource-010-relocation",
+      "resource_id": 10,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08155D50",
+        "animation_pointer_table": "0x08155D7C",
+        "graphics": "0x081548D8",
+        "palette": "0x0814FD78"
+      },
+      "expected_slot_rows": [
+        10
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-010/graphics-4bpp.bin",
+      "graphics_sha256": "294c72b80f59c2a58fae6aea5ee0b2e1c544cda68e328dac7b994cbcf6e90fe1"
+    },
+    {
+      "id": "resource-011-relocation",
+      "resource_id": 11,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08157610",
+        "animation_pointer_table": "0x08157648",
+        "graphics": "0x08155D80",
+        "palette": "0x0814FD78"
+      },
+      "expected_slot_rows": [
+        11
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-011/graphics-4bpp.bin",
+      "graphics_sha256": "bd443627d19a1beb4d4e16060af78b8a432736f64a9af8a1f8741a3f748029ba"
+    },
+    {
+      "id": "resource-012-relocation",
+      "resource_id": 12,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081592C4",
+        "animation_pointer_table": "0x081592F0",
+        "graphics": "0x0815764C",
+        "palette": "0x0814FD78"
+      },
+      "expected_slot_rows": [
+        12
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-012/graphics-4bpp.bin",
+      "graphics_sha256": "fd8d06bb51f246d2a3aa88e6ecd1e0656affdc126e78c57f690137da136f658a"
+    },
+    {
+      "id": "resource-013-relocation",
+      "resource_id": 13,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0815A76C",
+        "animation_pointer_table": "0x0815A7A4",
+        "graphics": "0x081592F4",
+        "palette": "0x0814FD78"
+      },
+      "expected_slot_rows": [
+        13
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-013/graphics-4bpp.bin",
+      "graphics_sha256": "506e4a6547d31c3f89ea49d1d2d44c1202305d148e389032bd41a0b32c05742a"
+    },
+    {
+      "id": "resource-014-relocation",
+      "resource_id": 14,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0815BC24",
+        "animation_pointer_table": "0x0815BC50",
+        "graphics": "0x0815A7AC",
+        "palette": "0x0814FD78"
+      },
+      "expected_slot_rows": [
+        14
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-014/graphics-4bpp.bin",
+      "graphics_sha256": "bbb12ac7594c37d133c234e23a5e92f59faa8d9bc2071333243f58dd0f01a723"
+    },
+    {
+      "id": "resource-015-relocation",
+      "resource_id": 15,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0815D4E4",
+        "animation_pointer_table": "0x0815D51C",
+        "graphics": "0x0815BC54",
+        "palette": "0x0814FD78"
+      },
+      "expected_slot_rows": [
+        15
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-015/graphics-4bpp.bin",
+      "graphics_sha256": "4c3c8b55356bfc0d23b4e76edb4052afa14cea1014898f95a30c3da6cdccdd2a"
+    },
+    {
+      "id": "resource-016-relocation",
+      "resource_id": 16,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0815F198",
+        "animation_pointer_table": "0x0815F1C4",
+        "graphics": "0x0815D520",
+        "palette": "0x0814FD78"
+      },
+      "expected_slot_rows": [
+        16
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-016/graphics-4bpp.bin",
+      "graphics_sha256": "b10f2a6419cd6660e9f0951729c5ea08acb751dcdc90abe458b08a3a1db9ad95"
+    },
+    {
+      "id": "resource-017-relocation",
+      "resource_id": 17,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08160640",
+        "animation_pointer_table": "0x08160678",
+        "graphics": "0x0815F1C8",
+        "palette": "0x0814FD78"
+      },
+      "expected_slot_rows": [
+        17
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-017/graphics-4bpp.bin",
+      "graphics_sha256": "510dff4fd80e3cdfa9e3376eaf4d0f630e709677bad54f02bb6d42479d357b8a"
+    },
+    {
+      "id": "resource-018-relocation",
+      "resource_id": 18,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08165080",
+        "animation_pointer_table": "0x081651B0",
+        "graphics": "0x081606A0",
+        "palette": "0x08160680"
+      },
+      "expected_slot_rows": [
+        18
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-018/graphics-4bpp.bin",
+      "graphics_sha256": "522e29053c97f09c691b1a7d862aceb9d12df7d2ef4308e1af02bdd72f7e0508"
+    },
+    {
+      "id": "resource-019-relocation",
+      "resource_id": 19,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08166658",
+        "animation_pointer_table": "0x08166684",
+        "graphics": "0x081651E0",
+        "palette": "0x08160680"
+      },
+      "expected_slot_rows": [
+        19
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-019/graphics-4bpp.bin",
+      "graphics_sha256": "09e560086d311e7d27b8a3c6ab59ec4f9d847419fac8a7ec984bedfbfae7308f"
+    },
+    {
+      "id": "resource-020-relocation",
+      "resource_id": 20,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08167F18",
+        "animation_pointer_table": "0x08167F54",
+        "graphics": "0x08166688",
+        "palette": "0x08160680"
+      },
+      "expected_slot_rows": [
+        20
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-020/graphics-4bpp.bin",
+      "graphics_sha256": "d1f7b9da8225bd9c070977874e5f6c7143fc9014f1493bae2f52071da0904885"
+    },
+    {
+      "id": "resource-021-relocation",
+      "resource_id": 21,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081697D0",
+        "animation_pointer_table": "0x081697FC",
+        "graphics": "0x08167F58",
+        "palette": "0x08160680"
+      },
+      "expected_slot_rows": [
+        21
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-021/graphics-4bpp.bin",
+      "graphics_sha256": "51abc0279c7c7b382ca8ca85104b14b73e3b72ba11f6cb4dbb7d45291c293351"
+    },
+    {
+      "id": "resource-022-relocation",
+      "resource_id": 22,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0816B078",
+        "animation_pointer_table": "0x0816B0B0",
+        "graphics": "0x08169800",
+        "palette": "0x08160680"
+      },
+      "expected_slot_rows": [
+        22
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-022/graphics-4bpp.bin",
+      "graphics_sha256": "bf411d334e605ed7308708175e7ec0c68f9dbad4fe3432a1d4c46b08dca0ecac"
+    },
+    {
+      "id": "resource-023-relocation",
+      "resource_id": 23,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0816C530",
+        "animation_pointer_table": "0x0816C55C",
+        "graphics": "0x0816B0B8",
+        "palette": "0x08160680"
+      },
+      "expected_slot_rows": [
+        23
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-023/graphics-4bpp.bin",
+      "graphics_sha256": "c43c1744a6b539d8a0de2d048e17525348be1eb3f72effc0480cc58bca2ad13f"
+    },
+    {
+      "id": "resource-024-relocation",
+      "resource_id": 24,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0816DDF0",
+        "animation_pointer_table": "0x0816DE2C",
+        "graphics": "0x0816C560",
+        "palette": "0x08160680"
+      },
+      "expected_slot_rows": [
+        24
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-024/graphics-4bpp.bin",
+      "graphics_sha256": "aca8f189814cb2315f11845c383fce8b4e3973d3210a76ae4724f649cd98297b"
+    },
+    {
+      "id": "resource-025-relocation",
+      "resource_id": 25,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0816F6A8",
+        "animation_pointer_table": "0x0816F6D4",
+        "graphics": "0x0816DE30",
+        "palette": "0x08160680"
+      },
+      "expected_slot_rows": [
+        25
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-025/graphics-4bpp.bin",
+      "graphics_sha256": "fb9e723aa6bd543e01291d0aacaae595c25a634cf320611c0c4adddee122392f"
+    },
+    {
+      "id": "resource-026-relocation",
+      "resource_id": 26,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08170F50",
+        "animation_pointer_table": "0x08170F88",
+        "graphics": "0x0816F6D8",
+        "palette": "0x08160680"
+      },
+      "expected_slot_rows": [
+        26
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-026/graphics-4bpp.bin",
+      "graphics_sha256": "796828af47edfedbfa304abfc4366c56362fe8ebcb74b5db7c2467fdd7c2ed42"
+    },
+    {
+      "id": "resource-027-relocation",
+      "resource_id": 27,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08174590",
+        "animation_pointer_table": "0x081746C0",
+        "graphics": "0x08170FB0",
+        "palette": "0x08170F90"
+      },
+      "expected_slot_rows": [
+        27
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-027/graphics-4bpp.bin",
+      "graphics_sha256": "38489166ab1c2d56a6957745ba1da87bcb94fa6b12dad870652da7405eca58df"
+    },
+    {
+      "id": "resource-028-relocation",
+      "resource_id": 28,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08175B68",
+        "animation_pointer_table": "0x08175B94",
+        "graphics": "0x081746F0",
+        "palette": "0x08170F90"
+      },
+      "expected_slot_rows": [
+        28
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-028/graphics-4bpp.bin",
+      "graphics_sha256": "93f55807d3894d0395b7c69c4d2820d5d5f77e09dd02a37502dfea8a7d802686"
+    },
+    {
+      "id": "resource-029-relocation",
+      "resource_id": 29,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08177010",
+        "animation_pointer_table": "0x08177040",
+        "graphics": "0x08175B98",
+        "palette": "0x08170F90"
+      },
+      "expected_slot_rows": [
+        29
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-029/graphics-4bpp.bin",
+      "graphics_sha256": "43c9fe8426bd9721653fc8111343efc199e0474ed0682499aacfc7641c231114"
+    },
+    {
+      "id": "resource-030-relocation",
+      "resource_id": 30,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08178CBC",
+        "animation_pointer_table": "0x08178CE8",
+        "graphics": "0x08177044",
+        "palette": "0x08170F90"
+      },
+      "expected_slot_rows": [
+        30
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-030/graphics-4bpp.bin",
+      "graphics_sha256": "1b88ecd0520dad830931071b0ec0692500f6a29ad144a3086619c5fa867f2376"
+    },
+    {
+      "id": "resource-031-relocation",
+      "resource_id": 31,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0817A164",
+        "animation_pointer_table": "0x0817A19C",
+        "graphics": "0x08178CEC",
+        "palette": "0x08170F90"
+      },
+      "expected_slot_rows": [
+        31
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-031/graphics-4bpp.bin",
+      "graphics_sha256": "f387fd3d57a9b71fad8a215c155f593c498f9c06bb7a898102107d25f8547cdd"
+    },
+    {
+      "id": "resource-032-relocation",
+      "resource_id": 32,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0817D7A4",
+        "animation_pointer_table": "0x0817D8D4",
+        "graphics": "0x0817A1C4",
+        "palette": "0x0817A1A4"
+      },
+      "expected_slot_rows": [
+        36,
+        378,
+        387,
+        396,
+        405,
+        414,
+        423,
+        432,
+        441,
+        450,
+        459,
+        468,
+        477,
+        495,
+        540
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-032/graphics-4bpp.bin",
+      "graphics_sha256": "db0975fbb8bf0a61f5e7cf00b5560923dedbbae93ad150816a762ad04f412171"
+    },
+    {
+      "id": "resource-033-relocation",
+      "resource_id": 33,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0817ED7C",
+        "animation_pointer_table": "0x0817EDA8",
+        "graphics": "0x0817D904",
+        "palette": "0x0817A1A4"
+      },
+      "expected_slot_rows": [
+        37,
+        271,
+        316,
+        325,
+        334,
+        343,
+        352,
+        361,
+        370,
+        379,
+        388,
+        397,
+        406,
+        415,
+        424,
+        433,
+        442,
+        451,
+        460,
+        469,
+        478,
+        487,
+        496,
+        541
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-033/graphics-4bpp.bin",
+      "graphics_sha256": "9b2fedc741407c3ec2fe9adc3a11bc9932cfb79ef3e16c5d94b82d212d51c35c"
+    },
+    {
+      "id": "resource-034-relocation",
+      "resource_id": 34,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08180224",
+        "animation_pointer_table": "0x08180254",
+        "graphics": "0x0817EDAC",
+        "palette": "0x0817A1A4"
+      },
+      "expected_slot_rows": [
+        38,
+        272,
+        317,
+        326,
+        335,
+        344,
+        353,
+        362,
+        371,
+        380,
+        389,
+        398,
+        407,
+        416,
+        425,
+        434,
+        443,
+        452,
+        461,
+        470,
+        479,
+        488,
+        497,
+        542
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-034/graphics-4bpp.bin",
+      "graphics_sha256": "851d59e0f500a2239210275e83214f747bedc04a2bb3027749ef063d675807cd"
+    },
+    {
+      "id": "resource-035-relocation",
+      "resource_id": 35,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081822D0",
+        "animation_pointer_table": "0x081822FC",
+        "graphics": "0x08180258",
+        "palette": "0x0817A1A4"
+      },
+      "expected_slot_rows": [
+        39,
+        273,
+        363,
+        372,
+        381,
+        390,
+        399,
+        408,
+        417,
+        426,
+        435,
+        444,
+        453,
+        462,
+        471,
+        480,
+        498,
+        543
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-035/graphics-4bpp.bin",
+      "graphics_sha256": "981ca03f16a49d7eac9ba4c1a9e12a0149890ac83fc017b1e40b5e40c702638f"
+    },
+    {
+      "id": "resource-036-relocation",
+      "resource_id": 36,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08183F78",
+        "animation_pointer_table": "0x08183FB0",
+        "graphics": "0x08182300",
+        "palette": "0x0817A1A4"
+      },
+      "expected_slot_rows": [
+        40,
+        373,
+        382,
+        391,
+        400,
+        409,
+        418,
+        427,
+        436,
+        445,
+        454,
+        463,
+        472,
+        481,
+        499,
+        544
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-036/graphics-4bpp.bin",
+      "graphics_sha256": "2bbb8ac124826a85e56bfcb61c582dcd26d166201b258e99834bd6796b89f4c3"
+    },
+    {
+      "id": "resource-037-relocation",
+      "resource_id": 37,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081875B8",
+        "animation_pointer_table": "0x081876E8",
+        "graphics": "0x08183FD8",
+        "palette": "0x08183FB8"
+      },
+      "expected_slot_rows": [
+        45
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-037/graphics-4bpp.bin",
+      "graphics_sha256": "a65fdde41a0a8623c1638925f38ae4e16e9fd4d55fa27e216d10bc9b0281918d"
+    },
+    {
+      "id": "resource-038-relocation",
+      "resource_id": 38,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08188B90",
+        "animation_pointer_table": "0x08188BBC",
+        "graphics": "0x08187718",
+        "palette": "0x08183FB8"
+      },
+      "expected_slot_rows": [
+        46
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-038/graphics-4bpp.bin",
+      "graphics_sha256": "a6e08f95471a62fc378f01a69461982dd96f1e6a63a4ff1e835b53de19da695d"
+    },
+    {
+      "id": "resource-039-relocation",
+      "resource_id": 39,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0818A038",
+        "animation_pointer_table": "0x0818A068",
+        "graphics": "0x08188BC0",
+        "palette": "0x08183FB8"
+      },
+      "expected_slot_rows": [
+        47
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-039/graphics-4bpp.bin",
+      "graphics_sha256": "732efef4559b986825be519ff2ac35026cfaf0137205554573c7420a7da3e521"
+    },
+    {
+      "id": "resource-040-relocation",
+      "resource_id": 40,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0818BCE4",
+        "animation_pointer_table": "0x0818BD10",
+        "graphics": "0x0818A06C",
+        "palette": "0x08183FB8"
+      },
+      "expected_slot_rows": [
+        48
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-040/graphics-4bpp.bin",
+      "graphics_sha256": "356736c2d6817cecb46e6a02e3365d09af4b69dc2c436fbc406eb410710dd303"
+    },
+    {
+      "id": "resource-041-relocation",
+      "resource_id": 41,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0818D18C",
+        "animation_pointer_table": "0x0818D1C4",
+        "graphics": "0x0818BD14",
+        "palette": "0x08183FB8"
+      },
+      "expected_slot_rows": [
+        49
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-041/graphics-4bpp.bin",
+      "graphics_sha256": "ef1b07fe10306a1cf0d5f89b03caf7f5c9bbcbc7aae877dd8c68a00beaa3c184"
+    },
+    {
+      "id": "resource-042-relocation",
+      "resource_id": 42,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08191BCC",
+        "animation_pointer_table": "0x08191CFC",
+        "graphics": "0x0818D1EC",
+        "palette": "0x0818D1CC"
+      },
+      "expected_slot_rows": [
+        54
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-042/graphics-4bpp.bin",
+      "graphics_sha256": "4d8741275d4d641c0c628474746af8d9aa44df603f50cf0e964657ee19d17f2a"
+    },
+    {
+      "id": "resource-043-relocation",
+      "resource_id": 43,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081931A4",
+        "animation_pointer_table": "0x081931D0",
+        "graphics": "0x08191D2C",
+        "palette": "0x0818D1CC"
+      },
+      "expected_slot_rows": [
+        55
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-043/graphics-4bpp.bin",
+      "graphics_sha256": "66ab7fbffa810a1d94f00e939cc0a615899683b4f2edd6db1529929785afaf7c"
+    },
+    {
+      "id": "resource-044-relocation",
+      "resource_id": 44,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08194E4C",
+        "animation_pointer_table": "0x08194E7C",
+        "graphics": "0x081931D4",
+        "palette": "0x0818D1CC"
+      },
+      "expected_slot_rows": [
+        56
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-044/graphics-4bpp.bin",
+      "graphics_sha256": "93eca81d0fed9a3643358207e9ea069559375737b742a5436e6fa5b0b741154c"
+    },
+    {
+      "id": "resource-045-relocation",
+      "resource_id": 45,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08197710",
+        "animation_pointer_table": "0x08197744",
+        "graphics": "0x08194E80",
+        "palette": "0x0818D1CC"
+      },
+      "expected_slot_rows": [
+        57
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-045/graphics-4bpp.bin",
+      "graphics_sha256": "2560f092856598faa66c4e11261d0c53be12c0c31329c0f84e9243ffa52349e7"
+    },
+    {
+      "id": "resource-046-relocation",
+      "resource_id": 46,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08198BC0",
+        "animation_pointer_table": "0x08198BF8",
+        "graphics": "0x08197748",
+        "palette": "0x0818D1CC"
+      },
+      "expected_slot_rows": [
+        58
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-046/graphics-4bpp.bin",
+      "graphics_sha256": "ca22f69c1d47e66b21603706b725a4c6827f0bc691dcb637f59c7163c6d154e1"
+    },
+    {
+      "id": "resource-047-relocation",
+      "resource_id": 47,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0819A078",
+        "animation_pointer_table": "0x0819A0A4",
+        "graphics": "0x08198C00",
+        "palette": "0x0818D1CC"
+      },
+      "expected_slot_rows": [
+        59
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-047/graphics-4bpp.bin",
+      "graphics_sha256": "0254927a1cde362d3806effbceb106dece362b923080e23e7a968c9ab679cf13"
+    },
+    {
+      "id": "resource-048-relocation",
+      "resource_id": 48,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0819B920",
+        "animation_pointer_table": "0x0819B950",
+        "graphics": "0x0819A0A8",
+        "palette": "0x0818D1CC"
+      },
+      "expected_slot_rows": [
+        60
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-048/graphics-4bpp.bin",
+      "graphics_sha256": "03203e385db31f2552f0c5a69ce2f0e56b89894c12a81d7eceef92b2dad76adc"
+    },
+    {
+      "id": "resource-049-relocation",
+      "resource_id": 49,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0819E1E4",
+        "animation_pointer_table": "0x0819E218",
+        "graphics": "0x0819B954",
+        "palette": "0x0818D1CC"
+      },
+      "expected_slot_rows": [
+        61
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-049/graphics-4bpp.bin",
+      "graphics_sha256": "fcd61a4032cb90dcac95ef0d6239e0440a557fd6a6b1b94034c704a80dddc406"
+    },
+    {
+      "id": "resource-050-relocation",
+      "resource_id": 50,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0819F694",
+        "animation_pointer_table": "0x0819F6CC",
+        "graphics": "0x0819E21C",
+        "palette": "0x0818D1CC"
+      },
+      "expected_slot_rows": [
+        62
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-050/graphics-4bpp.bin",
+      "graphics_sha256": "aaf7fecc60b598531348a1a2ef19ce3044b07b720ff1134d650a03a1052d00a5"
+    },
+    {
+      "id": "resource-051-relocation",
+      "resource_id": 51,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081A2CD4",
+        "animation_pointer_table": "0x081A2E04",
+        "graphics": "0x0819F6F4",
+        "palette": "0x0819F6D4"
+      },
+      "expected_slot_rows": [
+        63
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-051/graphics-4bpp.bin",
+      "graphics_sha256": "b80ee9329f5efdcc9d22cb49960a11efe5b3056a1143b0032c31fb5738eab3db"
+    },
+    {
+      "id": "resource-052-relocation",
+      "resource_id": 52,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081A42AC",
+        "animation_pointer_table": "0x081A42D8",
+        "graphics": "0x081A2E34",
+        "palette": "0x0819F6D4"
+      },
+      "expected_slot_rows": [
+        64
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-052/graphics-4bpp.bin",
+      "graphics_sha256": "ad29456d7425bd68f8473ee415cae7876d23a7ce96852e23e47e7ee96d7ef06e"
+    },
+    {
+      "id": "resource-053-relocation",
+      "resource_id": 53,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081A5754",
+        "animation_pointer_table": "0x081A5784",
+        "graphics": "0x081A42DC",
+        "palette": "0x0819F6D4"
+      },
+      "expected_slot_rows": [
+        65
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-053/graphics-4bpp.bin",
+      "graphics_sha256": "f10d68bd0f24a685fdc77e5308b9a62a858ee30e6b26b6d87db3a14f7c1349f5"
+    },
+    {
+      "id": "resource-054-relocation",
+      "resource_id": 54,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081A7400",
+        "animation_pointer_table": "0x081A742C",
+        "graphics": "0x081A5788",
+        "palette": "0x0819F6D4"
+      },
+      "expected_slot_rows": [
+        66
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-054/graphics-4bpp.bin",
+      "graphics_sha256": "6f724a033982f281df4edbdee776ac495f8c7bc033bb379191c9e90a94d2349e"
+    },
+    {
+      "id": "resource-055-relocation",
+      "resource_id": 55,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081A88A8",
+        "animation_pointer_table": "0x081A88E0",
+        "graphics": "0x081A7430",
+        "palette": "0x0819F6D4"
+      },
+      "expected_slot_rows": [
+        67
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-055/graphics-4bpp.bin",
+      "graphics_sha256": "6b46713ca7ebaf7d13140824d67d81df207fdc899953714fc7c56c84906308a0"
+    },
+    {
+      "id": "resource-056-relocation",
+      "resource_id": 56,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081ABEE8",
+        "animation_pointer_table": "0x081AC018",
+        "graphics": "0x081A8908",
+        "palette": "0x081A88E8"
+      },
+      "expected_slot_rows": [
+        72
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-056/graphics-4bpp.bin",
+      "graphics_sha256": "adec3d60a22f4c1186cb0ad3bb59623625a53fc40788e7626d1a3b9dc7fa3e1d"
+    },
+    {
+      "id": "resource-057-relocation",
+      "resource_id": 57,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081AD4C0",
+        "animation_pointer_table": "0x081AD4EC",
+        "graphics": "0x081AC048",
+        "palette": "0x081A88E8"
+      },
+      "expected_slot_rows": [
+        73
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-057/graphics-4bpp.bin",
+      "graphics_sha256": "2225a8bccb0280198fbf63e96cd402360f5ae4d4daa10ab6310313276ded4fa7"
+    },
+    {
+      "id": "resource-058-relocation",
+      "resource_id": 58,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081AE968",
+        "animation_pointer_table": "0x081AE998",
+        "graphics": "0x081AD4F0",
+        "palette": "0x081A88E8"
+      },
+      "expected_slot_rows": [
+        74
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-058/graphics-4bpp.bin",
+      "graphics_sha256": "fc5a3af4112c008aff6874625c971db20fa37aeda99f8adeec6d6a00f7699da8"
+    },
+    {
+      "id": "resource-059-relocation",
+      "resource_id": 59,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081B0614",
+        "animation_pointer_table": "0x081B0640",
+        "graphics": "0x081AE99C",
+        "palette": "0x081A88E8"
+      },
+      "expected_slot_rows": [
+        75
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-059/graphics-4bpp.bin",
+      "graphics_sha256": "80ec80f6b264b1f7334080078775c64b9a7b996f3c79decaa0fe42ca15cb65e0"
+    },
+    {
+      "id": "resource-060-relocation",
+      "resource_id": 60,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081B1EBC",
+        "animation_pointer_table": "0x081B1EF4",
+        "graphics": "0x081B0644",
+        "palette": "0x081A88E8"
+      },
+      "expected_slot_rows": [
+        76
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-060/graphics-4bpp.bin",
+      "graphics_sha256": "a5748c567460bcc4dfc58942ebab9ab046a44e57a0f365ee367983fae79de9dd"
+    },
+    {
+      "id": "resource-061-relocation",
+      "resource_id": 61,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081B54FC",
+        "animation_pointer_table": "0x081B562C",
+        "graphics": "0x081B1F1C",
+        "palette": "0x081B1EFC"
+      },
+      "expected_slot_rows": [
+        81
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-061/graphics-4bpp.bin",
+      "graphics_sha256": "9ec3ac7e9323f0015d81f176338975a376e1a54a958a147da8907c2dc17bd1be"
+    },
+    {
+      "id": "resource-062-relocation",
+      "resource_id": 62,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081B6AD4",
+        "animation_pointer_table": "0x081B6B00",
+        "graphics": "0x081B565C",
+        "palette": "0x081B1EFC"
+      },
+      "expected_slot_rows": [
+        82
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-062/graphics-4bpp.bin",
+      "graphics_sha256": "18a7e0effc4e668aa9aafd1229bc550c9ee01946a8e3dd2ab302201e3f7e5ee3"
+    },
+    {
+      "id": "resource-063-relocation",
+      "resource_id": 63,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081B7F7C",
+        "animation_pointer_table": "0x081B7FAC",
+        "graphics": "0x081B6B04",
+        "palette": "0x081B1EFC"
+      },
+      "expected_slot_rows": [
+        83
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-063/graphics-4bpp.bin",
+      "graphics_sha256": "b0859917023a0abd1cde769f1d09804b597a0e5fa9d0269072333ec2dd2db291"
+    },
+    {
+      "id": "resource-064-relocation",
+      "resource_id": 64,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081B9C28",
+        "animation_pointer_table": "0x081B9C54",
+        "graphics": "0x081B7FB0",
+        "palette": "0x081B1EFC"
+      },
+      "expected_slot_rows": [
+        84
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-064/graphics-4bpp.bin",
+      "graphics_sha256": "d0f96c69fcd8d30a94de444aeb18b68ca1e431df5052838a4a1fa5796c3e0d47"
+    },
+    {
+      "id": "resource-065-relocation",
+      "resource_id": 65,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081BB0D0",
+        "animation_pointer_table": "0x081BB108",
+        "graphics": "0x081B9C58",
+        "palette": "0x081B1EFC"
+      },
+      "expected_slot_rows": [
+        85
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-065/graphics-4bpp.bin",
+      "graphics_sha256": "40ebfe79f2e8a63334025d8eaefeaec6bde960682aaafc3d9b937c15e4cbb54e"
+    },
+    {
+      "id": "resource-066-relocation",
+      "resource_id": 66,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081BE710",
+        "animation_pointer_table": "0x081BE840",
+        "graphics": "0x081BB130",
+        "palette": "0x081BB110"
+      },
+      "expected_slot_rows": [
+        90
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-066/graphics-4bpp.bin",
+      "graphics_sha256": "4cd10f4528822bec20e3abb28580b08608e03ce9131dfb9eba32ba6db24366d3"
+    },
+    {
+      "id": "resource-067-relocation",
+      "resource_id": 67,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081BFCE8",
+        "animation_pointer_table": "0x081BFD14",
+        "graphics": "0x081BE870",
+        "palette": "0x081BB110"
+      },
+      "expected_slot_rows": [
+        91
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-067/graphics-4bpp.bin",
+      "graphics_sha256": "12e49a4d8ab4d6286440856a230ba3a827404de6dcaf5fab9111a4e43a473043"
+    },
+    {
+      "id": "resource-068-relocation",
+      "resource_id": 68,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081C1190",
+        "animation_pointer_table": "0x081C11C0",
+        "graphics": "0x081BFD18",
+        "palette": "0x081BB110"
+      },
+      "expected_slot_rows": [
+        92
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-068/graphics-4bpp.bin",
+      "graphics_sha256": "48265479871b59b3cdda25f34d9e9dde65e8db3da196509d69cff36db9f7607d"
+    },
+    {
+      "id": "resource-069-relocation",
+      "resource_id": 69,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081C323C",
+        "animation_pointer_table": "0x081C3268",
+        "graphics": "0x081C11C4",
+        "palette": "0x081BB110"
+      },
+      "expected_slot_rows": [
+        93
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-069/graphics-4bpp.bin",
+      "graphics_sha256": "4382a0e0fb366bfa0cf9e946402b42e3d6c0c98acb7adf9f77ecf3b50cd0eb96"
+    },
+    {
+      "id": "resource-070-relocation",
+      "resource_id": 70,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081C46E4",
+        "animation_pointer_table": "0x081C471C",
+        "graphics": "0x081C326C",
+        "palette": "0x081BB110"
+      },
+      "expected_slot_rows": [
+        94
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-070/graphics-4bpp.bin",
+      "graphics_sha256": "ff2670af85b7d3a642ffa4b0bb8cdd95b01ecaa004262c2f24184aa9c2ff0648"
+    },
+    {
+      "id": "resource-071-relocation",
+      "resource_id": 71,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081C7D24",
+        "animation_pointer_table": "0x081C7E54",
+        "graphics": "0x081C4744",
+        "palette": "0x081C4724"
+      },
+      "expected_slot_rows": [
+        99
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-071/graphics-4bpp.bin",
+      "graphics_sha256": "0d6384ef526baee62c16102a3df78bb7d626efc0497bc22f3a2b5fd358fe855d"
+    },
+    {
+      "id": "resource-072-relocation",
+      "resource_id": 72,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081C92FC",
+        "animation_pointer_table": "0x081C9328",
+        "graphics": "0x081C7E84",
+        "palette": "0x081C4724"
+      },
+      "expected_slot_rows": [
+        100
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-072/graphics-4bpp.bin",
+      "graphics_sha256": "c4c4b9e700b60b6ad1e67fd8d0399536ae9f29e51bbbb18a16a804fcf8aa4142"
+    },
+    {
+      "id": "resource-073-relocation",
+      "resource_id": 73,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081CABBC",
+        "animation_pointer_table": "0x081CABF4",
+        "graphics": "0x081C932C",
+        "palette": "0x081C4724"
+      },
+      "expected_slot_rows": [
+        101
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-073/graphics-4bpp.bin",
+      "graphics_sha256": "7552f6b99be444e883f802b6aa6e8812512318908cac5c095032c39f2008ac62"
+    },
+    {
+      "id": "resource-074-relocation",
+      "resource_id": 74,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081CCC70",
+        "animation_pointer_table": "0x081CCC9C",
+        "graphics": "0x081CABF8",
+        "palette": "0x081C4724"
+      },
+      "expected_slot_rows": [
+        102
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-074/graphics-4bpp.bin",
+      "graphics_sha256": "78d19d5b02a5a824f3258875b88f340b980127cb27ee1fd7ef27ba6d5af47964"
+    },
+    {
+      "id": "resource-075-relocation",
+      "resource_id": 75,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081CE118",
+        "animation_pointer_table": "0x081CE150",
+        "graphics": "0x081CCCA0",
+        "palette": "0x081C4724"
+      },
+      "expected_slot_rows": [
+        103
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-075/graphics-4bpp.bin",
+      "graphics_sha256": "cdafa1edf44531fc56ff93bce12cf01ffaf5cfb0f438e88e67e803eb238491c3"
+    },
+    {
+      "id": "resource-076-relocation",
+      "resource_id": 76,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081D1758",
+        "animation_pointer_table": "0x081D1888",
+        "graphics": "0x081CE178",
+        "palette": "0x081CE158"
+      },
+      "expected_slot_rows": [
+        108
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-076/graphics-4bpp.bin",
+      "graphics_sha256": "9294edf8b29b923a185fb6b4b2c755c891346b21a39812049672e21e64fc83df"
+    },
+    {
+      "id": "resource-077-relocation",
+      "resource_id": 77,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081D2D30",
+        "animation_pointer_table": "0x081D2D5C",
+        "graphics": "0x081D18B8",
+        "palette": "0x081CE158"
+      },
+      "expected_slot_rows": [
+        109
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-077/graphics-4bpp.bin",
+      "graphics_sha256": "9e117de916b5235869fa3150712d059b9b66ac7c0ad4295d858770f8888709c3"
+    },
+    {
+      "id": "resource-078-relocation",
+      "resource_id": 78,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081D41D8",
+        "animation_pointer_table": "0x081D4208",
+        "graphics": "0x081D2D60",
+        "palette": "0x081CE158"
+      },
+      "expected_slot_rows": [
+        110
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-078/graphics-4bpp.bin",
+      "graphics_sha256": "962fc40fcee43f3e724a5c5f2ae36948938257a9e7e78c97c1aebf0cb895d86f"
+    },
+    {
+      "id": "resource-079-relocation",
+      "resource_id": 79,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081D5A84",
+        "animation_pointer_table": "0x081D5AB4",
+        "graphics": "0x081D420C",
+        "palette": "0x081CE158"
+      },
+      "expected_slot_rows": [
+        111
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-079/graphics-4bpp.bin",
+      "graphics_sha256": "ffc7ac345122e215351b5887756d4e5d9fb23de91d65f2fbcb0b4de088be1467"
+    },
+    {
+      "id": "resource-080-relocation",
+      "resource_id": 80,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081D6F30",
+        "animation_pointer_table": "0x081D6F68",
+        "graphics": "0x081D5AB8",
+        "palette": "0x081CE158"
+      },
+      "expected_slot_rows": [
+        112
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-080/graphics-4bpp.bin",
+      "graphics_sha256": "7b7d0ef91c31f705bc58ab4a09f539f2d9765ad2dc6aeb75d3223f0363f4d833"
+    },
+    {
+      "id": "resource-081-relocation",
+      "resource_id": 81,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081DA570",
+        "animation_pointer_table": "0x081DA6A0",
+        "graphics": "0x081D6F90",
+        "palette": "0x081D6F70"
+      },
+      "expected_slot_rows": [
+        117
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-081/graphics-4bpp.bin",
+      "graphics_sha256": "c824e1b66d00c1e2dc2874d0cc711fbbd69456c319d673aa13c47ad5197f7ef6"
+    },
+    {
+      "id": "resource-082-relocation",
+      "resource_id": 82,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081DBB48",
+        "animation_pointer_table": "0x081DBB74",
+        "graphics": "0x081DA6D0",
+        "palette": "0x081D6F70"
+      },
+      "expected_slot_rows": [
+        118
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-082/graphics-4bpp.bin",
+      "graphics_sha256": "046a6503cd5ef2b1917c5c527fda877bfb3aafb553d947b45286d0133fb99313"
+    },
+    {
+      "id": "resource-083-relocation",
+      "resource_id": 83,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081DCFF0",
+        "animation_pointer_table": "0x081DD020",
+        "graphics": "0x081DBB78",
+        "palette": "0x081D6F70"
+      },
+      "expected_slot_rows": [
+        119
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-083/graphics-4bpp.bin",
+      "graphics_sha256": "4cda5382884e03ffc21a613f45bd6726ab59a9875fb35c25e53ea4a240411afa"
+    },
+    {
+      "id": "resource-084-relocation",
+      "resource_id": 84,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081DF09C",
+        "animation_pointer_table": "0x081DF0C8",
+        "graphics": "0x081DD024",
+        "palette": "0x081D6F70"
+      },
+      "expected_slot_rows": [
+        120
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-084/graphics-4bpp.bin",
+      "graphics_sha256": "15503a44427bd588564a78c251bad5d196431db47785767292588adccbefc35a"
+    },
+    {
+      "id": "resource-085-relocation",
+      "resource_id": 85,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081E0BE4",
+        "animation_pointer_table": "0x081E0C1C",
+        "graphics": "0x081DF0CC",
+        "palette": "0x081D6F70"
+      },
+      "expected_slot_rows": [
+        121
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-085/graphics-4bpp.bin",
+      "graphics_sha256": "c6159894265c6a2289ae3bd198a6a5106ffd308bb773f86c346c054ca5625425"
+    },
+    {
+      "id": "resource-086-relocation",
+      "resource_id": 86,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081E4224",
+        "animation_pointer_table": "0x081E4354",
+        "graphics": "0x081E0C44",
+        "palette": "0x081E0C24"
+      },
+      "expected_slot_rows": [
+        126
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-086/graphics-4bpp.bin",
+      "graphics_sha256": "6cf36b06c5cb56d7b2a600456ca24b89e4e5611d31c8f8d043815d7f7536de3d"
+    },
+    {
+      "id": "resource-087-relocation",
+      "resource_id": 87,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081E57FC",
+        "animation_pointer_table": "0x081E5828",
+        "graphics": "0x081E4384",
+        "palette": "0x081E0C24"
+      },
+      "expected_slot_rows": [
+        127
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-087/graphics-4bpp.bin",
+      "graphics_sha256": "bf0f391a89407941bf173e0239448a8c23e4b8d61592e7a95ac7547ebcc7246c"
+    },
+    {
+      "id": "resource-088-relocation",
+      "resource_id": 88,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081E6CA4",
+        "animation_pointer_table": "0x081E6CD4",
+        "graphics": "0x081E582C",
+        "palette": "0x081E0C24"
+      },
+      "expected_slot_rows": [
+        128
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-088/graphics-4bpp.bin",
+      "graphics_sha256": "52ac33c8811a8844eb5a507790294c91913b9dadd409b647abd531e62fedb393"
+    },
+    {
+      "id": "resource-089-relocation",
+      "resource_id": 89,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081E8D50",
+        "animation_pointer_table": "0x081E8D7C",
+        "graphics": "0x081E6CD8",
+        "palette": "0x081E0C24"
+      },
+      "expected_slot_rows": [
+        129
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-089/graphics-4bpp.bin",
+      "graphics_sha256": "96cfec265284d9fd0d638d1b4488c2d62220ddf72f11faf1a1d0d54b36147c95"
+    },
+    {
+      "id": "resource-090-relocation",
+      "resource_id": 90,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081EA9F8",
+        "animation_pointer_table": "0x081EAA30",
+        "graphics": "0x081E8D80",
+        "palette": "0x081E0C24"
+      },
+      "expected_slot_rows": [
+        130
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-090/graphics-4bpp.bin",
+      "graphics_sha256": "409e5917183a4ce646b451eb7fe9c48fb674dac7b653bf0682c8c87d1d733b97"
+    },
+    {
+      "id": "resource-091-relocation",
+      "resource_id": 91,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081EE038",
+        "animation_pointer_table": "0x081EE168",
+        "graphics": "0x081EAA58",
+        "palette": "0x081EAA38"
+      },
+      "expected_slot_rows": [
+        135
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-091/graphics-4bpp.bin",
+      "graphics_sha256": "96bde873597e201360d19c76bbb9b556f8f2be809c4b00fa1aa8217e8953b96b"
+    },
+    {
+      "id": "resource-092-relocation",
+      "resource_id": 92,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081EF610",
+        "animation_pointer_table": "0x081EF63C",
+        "graphics": "0x081EE198",
+        "palette": "0x081EAA38"
+      },
+      "expected_slot_rows": [
+        136
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-092/graphics-4bpp.bin",
+      "graphics_sha256": "d3c8eb0760f1a5f6c500778fab7fd14597bb981762c6718ae794aab9c624a940"
+    },
+    {
+      "id": "resource-093-relocation",
+      "resource_id": 93,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081F0AB8",
+        "animation_pointer_table": "0x081F0AE8",
+        "graphics": "0x081EF640",
+        "palette": "0x081EAA38"
+      },
+      "expected_slot_rows": [
+        137
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-093/graphics-4bpp.bin",
+      "graphics_sha256": "c3560d40cb22c4d90f96e962f7ca499d31b8484755d28cc79cd2db2e0697df1b"
+    },
+    {
+      "id": "resource-094-relocation",
+      "resource_id": 94,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081F2B64",
+        "animation_pointer_table": "0x081F2B90",
+        "graphics": "0x081F0AEC",
+        "palette": "0x081EAA38"
+      },
+      "expected_slot_rows": [
+        138
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-094/graphics-4bpp.bin",
+      "graphics_sha256": "5396a6dab16963de43fb22074557f313d63a673dd660784e8ce5c0b91f65a4ea"
+    },
+    {
+      "id": "resource-095-relocation",
+      "resource_id": 95,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081F400C",
+        "animation_pointer_table": "0x081F4044",
+        "graphics": "0x081F2B94",
+        "palette": "0x081EAA38"
+      },
+      "expected_slot_rows": [
+        139
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-095/graphics-4bpp.bin",
+      "graphics_sha256": "468f2b7212b250a4b8e5f9278d69b95e1f87eab09b3a5db7e0cb4b9e105cbbec"
+    },
+    {
+      "id": "resource-096-relocation",
+      "resource_id": 96,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081F764C",
+        "animation_pointer_table": "0x081F777C",
+        "graphics": "0x081F406C",
+        "palette": "0x081F404C"
+      },
+      "expected_slot_rows": [
+        144
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-096/graphics-4bpp.bin",
+      "graphics_sha256": "3b806e364ab5f6bfbcc4ff868515e99e7105436d0a4799ddb13e285023ccdf95"
+    },
+    {
+      "id": "resource-097-relocation",
+      "resource_id": 97,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081F8C24",
+        "animation_pointer_table": "0x081F8C50",
+        "graphics": "0x081F77AC",
+        "palette": "0x081F404C"
+      },
+      "expected_slot_rows": [
+        145
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-097/graphics-4bpp.bin",
+      "graphics_sha256": "227133320d9e395765e813b1eb1333290da2cd76f34d54915d4b0656983ce037"
+    },
+    {
+      "id": "resource-098-relocation",
+      "resource_id": 98,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081FA0CC",
+        "animation_pointer_table": "0x081FA0FC",
+        "graphics": "0x081F8C54",
+        "palette": "0x081F404C"
+      },
+      "expected_slot_rows": [
+        146
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-098/graphics-4bpp.bin",
+      "graphics_sha256": "09ba1e5ad070f00fe7b1a9c15755cc0f3bd0aae9e7d5994984c9ddc1f302a894"
+    },
+    {
+      "id": "resource-099-relocation",
+      "resource_id": 99,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081FC178",
+        "animation_pointer_table": "0x081FC1A4",
+        "graphics": "0x081FA100",
+        "palette": "0x081F404C"
+      },
+      "expected_slot_rows": [
+        147
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-099/graphics-4bpp.bin",
+      "graphics_sha256": "9f02d9ed4cef54e7edb553103fabe04e51ccad3df64d2c5f2df98b8c0591ad79"
+    },
+    {
+      "id": "resource-100-relocation",
+      "resource_id": 100,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x081FD620",
+        "animation_pointer_table": "0x081FD658",
+        "graphics": "0x081FC1A8",
+        "palette": "0x081F404C"
+      },
+      "expected_slot_rows": [
+        148
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-100/graphics-4bpp.bin",
+      "graphics_sha256": "f42d9f4f72185ab1f2c1e9bc12de2eec40657289d781d31cb330ee9bdfdbf4e5"
+    },
+    {
+      "id": "resource-101-relocation",
+      "resource_id": 101,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08200C60",
+        "animation_pointer_table": "0x08200D90",
+        "graphics": "0x081FD680",
+        "palette": "0x081FD660"
+      },
+      "expected_slot_rows": [
+        153
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-101/graphics-4bpp.bin",
+      "graphics_sha256": "0a7788c5fd2ea89922f56bbea1b98628b485faa3b9efd8b402ee7304e5972c1e"
+    },
+    {
+      "id": "resource-102-relocation",
+      "resource_id": 102,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08203078",
+        "animation_pointer_table": "0x082030AC",
+        "graphics": "0x08200DC0",
+        "palette": "0x081FD660"
+      },
+      "expected_slot_rows": [
+        154
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-102/graphics-4bpp.bin",
+      "graphics_sha256": "7d46af635db4f2ee48555405164098d984f5f14d2a523f72153c118e3ffb1be5"
+    },
+    {
+      "id": "resource-103-relocation",
+      "resource_id": 103,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08204D28",
+        "animation_pointer_table": "0x08204D58",
+        "graphics": "0x082030B0",
+        "palette": "0x081FD660"
+      },
+      "expected_slot_rows": [
+        155
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-103/graphics-4bpp.bin",
+      "graphics_sha256": "3bf9fe4ef6d3057d2f5d736e9ba69e4d5303d0f7103161d9a275041e0508f4c0"
+    },
+    {
+      "id": "resource-104-relocation",
+      "resource_id": 104,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082075EC",
+        "animation_pointer_table": "0x08207620",
+        "graphics": "0x08204D5C",
+        "palette": "0x081FD660"
+      },
+      "expected_slot_rows": [
+        156
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-104/graphics-4bpp.bin",
+      "graphics_sha256": "c9d1ae695b0caa864a180bd41f3b37486b47f7437cc8e05761857128376516c8"
+    },
+    {
+      "id": "resource-105-relocation",
+      "resource_id": 105,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08208E9C",
+        "animation_pointer_table": "0x08208ED4",
+        "graphics": "0x08207624",
+        "palette": "0x081FD660"
+      },
+      "expected_slot_rows": [
+        157
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-105/graphics-4bpp.bin",
+      "graphics_sha256": "6c47d53ad5d8036d2a3767abfecbb6520d3a89981c9f50c9dc5ba9e3997724b6"
+    },
+    {
+      "id": "resource-106-relocation",
+      "resource_id": 106,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0820C4DC",
+        "animation_pointer_table": "0x0820C60C",
+        "graphics": "0x08208EFC",
+        "palette": "0x08208EDC"
+      },
+      "expected_slot_rows": [
+        162
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-106/graphics-4bpp.bin",
+      "graphics_sha256": "fa4464cc9e0a355e81b79c0fc09376aeedbc7a9f6dcd95a47ea404ebc2a1b093"
+    },
+    {
+      "id": "resource-107-relocation",
+      "resource_id": 107,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0820DAB4",
+        "animation_pointer_table": "0x0820DAE0",
+        "graphics": "0x0820C63C",
+        "palette": "0x08208EDC"
+      },
+      "expected_slot_rows": [
+        163
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-107/graphics-4bpp.bin",
+      "graphics_sha256": "2c800c768a66d492f0e5ec13ce28b86f94fe4293f68ad669d8a283f5ff977121"
+    },
+    {
+      "id": "resource-108-relocation",
+      "resource_id": 108,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0820F75C",
+        "animation_pointer_table": "0x0820F78C",
+        "graphics": "0x0820DAE4",
+        "palette": "0x08208EDC"
+      },
+      "expected_slot_rows": [
+        164
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-108/graphics-4bpp.bin",
+      "graphics_sha256": "7f4ddc7115dde40ce7ab8753dda8a1faadce73b95f6575c47b0308a0e6c1b7ed"
+    },
+    {
+      "id": "resource-109-relocation",
+      "resource_id": 109,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08211808",
+        "animation_pointer_table": "0x08211834",
+        "graphics": "0x0820F790",
+        "palette": "0x08208EDC"
+      },
+      "expected_slot_rows": [
+        165
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-109/graphics-4bpp.bin",
+      "graphics_sha256": "1b85e6e3c29a836cbff3fc37cdc3aaebef142ad7e0a8be2776c6ccc181a11f20"
+    },
+    {
+      "id": "resource-110-relocation",
+      "resource_id": 110,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08212CB0",
+        "animation_pointer_table": "0x08212CE8",
+        "graphics": "0x08211838",
+        "palette": "0x08208EDC"
+      },
+      "expected_slot_rows": [
+        166
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-110/graphics-4bpp.bin",
+      "graphics_sha256": "4ac9839a1dc5faea1ce1db49b6a72e540d91526cb4769881d4aef12dda638dea"
+    },
+    {
+      "id": "resource-111-relocation",
+      "resource_id": 111,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082162F0",
+        "animation_pointer_table": "0x08216420",
+        "graphics": "0x08212D10",
+        "palette": "0x08212CF0"
+      },
+      "expected_slot_rows": [
+        171
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-111/graphics-4bpp.bin",
+      "graphics_sha256": "e10e7812819a21a69c1e37fdf3395ef52956db359abff9e460072cd5b8404174"
+    },
+    {
+      "id": "resource-112-relocation",
+      "resource_id": 112,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082178C8",
+        "animation_pointer_table": "0x082178F4",
+        "graphics": "0x08216450",
+        "palette": "0x08212CF0"
+      },
+      "expected_slot_rows": [
+        172
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-112/graphics-4bpp.bin",
+      "graphics_sha256": "81a6ccfa8ce4c5a1f29d4a56b3cc34f6bc89ecf1f5527fd21d9c92cc4545b5a8"
+    },
+    {
+      "id": "resource-113-relocation",
+      "resource_id": 113,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08219588",
+        "animation_pointer_table": "0x082195BC",
+        "graphics": "0x082178F8",
+        "palette": "0x08212CF0"
+      },
+      "expected_slot_rows": [
+        173
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-113/graphics-4bpp.bin",
+      "graphics_sha256": "d4272779641fc74380325e3861a5eed29dacd3cb99fd81b2bf804761fc43aa48"
+    },
+    {
+      "id": "resource-114-relocation",
+      "resource_id": 114,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0821BA38",
+        "animation_pointer_table": "0x0821BA64",
+        "graphics": "0x082195C0",
+        "palette": "0x08212CF0"
+      },
+      "expected_slot_rows": [
+        174
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-114/graphics-4bpp.bin",
+      "graphics_sha256": "00c330a3f6dee86a17d103c5029188b8e1727cf729bafbdf644f52fe8b5a4a02"
+    },
+    {
+      "id": "resource-115-relocation",
+      "resource_id": 115,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0821D6E0",
+        "animation_pointer_table": "0x0821D718",
+        "graphics": "0x0821BA68",
+        "palette": "0x08212CF0"
+      },
+      "expected_slot_rows": [
+        175
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-115/graphics-4bpp.bin",
+      "graphics_sha256": "3179d1e2ac205b8140f98cc4d2958df7e8cec6dae019c3c1f4da83042a38459b"
+    },
+    {
+      "id": "resource-116-relocation",
+      "resource_id": 116,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08220D20",
+        "animation_pointer_table": "0x08220E50",
+        "graphics": "0x0821D740",
+        "palette": "0x0821D720"
+      },
+      "expected_slot_rows": [
+        180
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-116/graphics-4bpp.bin",
+      "graphics_sha256": "c8de1caddc43a7e7702065c62c387ffafb0c82c91e2ccaad7e281e0a9fbc6e25"
+    },
+    {
+      "id": "resource-117-relocation",
+      "resource_id": 117,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082222F8",
+        "animation_pointer_table": "0x08222324",
+        "graphics": "0x08220E80",
+        "palette": "0x0821D720"
+      },
+      "expected_slot_rows": [
+        181
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-117/graphics-4bpp.bin",
+      "graphics_sha256": "3a2fe2e2b6509b38a7764dd5f47e51c902316c64a94be901ac20f42d482213cc"
+    },
+    {
+      "id": "resource-118-relocation",
+      "resource_id": 118,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082237A0",
+        "animation_pointer_table": "0x082237D0",
+        "graphics": "0x08222328",
+        "palette": "0x0821D720"
+      },
+      "expected_slot_rows": [
+        182
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-118/graphics-4bpp.bin",
+      "graphics_sha256": "34b9bc14f706b03751b5f9ad5ff5c5b2368b99769a96a4a79f0a0bdb2c60bb9e"
+    },
+    {
+      "id": "resource-119-relocation",
+      "resource_id": 119,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0822544C",
+        "animation_pointer_table": "0x08225478",
+        "graphics": "0x082237D4",
+        "palette": "0x0821D720"
+      },
+      "expected_slot_rows": [
+        183
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-119/graphics-4bpp.bin",
+      "graphics_sha256": "f9b905ccfda828a255abc660034dc2c691949dd00334aea6e3d23d5e61d5495e"
+    },
+    {
+      "id": "resource-120-relocation",
+      "resource_id": 120,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082268F4",
+        "animation_pointer_table": "0x0822692C",
+        "graphics": "0x0822547C",
+        "palette": "0x0821D720"
+      },
+      "expected_slot_rows": [
+        184
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-120/graphics-4bpp.bin",
+      "graphics_sha256": "61a5f275862f53fada85856a7c3e5fd9dd1b1a91ff0826b6b53f77391bcdabf2"
+    },
+    {
+      "id": "resource-121-relocation",
+      "resource_id": 121,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08229F34",
+        "animation_pointer_table": "0x0822A064",
+        "graphics": "0x08226954",
+        "palette": "0x08226934"
+      },
+      "expected_slot_rows": [
+        189
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-121/graphics-4bpp.bin",
+      "graphics_sha256": "d2f9738627167fb2ca5606614547d99e9c144cd844739c40ea145e2bf7841586"
+    },
+    {
+      "id": "resource-122-relocation",
+      "resource_id": 122,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0822B50C",
+        "animation_pointer_table": "0x0822B538",
+        "graphics": "0x0822A094",
+        "palette": "0x08226934"
+      },
+      "expected_slot_rows": [
+        190
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-122/graphics-4bpp.bin",
+      "graphics_sha256": "e0a1a94e5de81fde05b1d0151d6d43b82a56bbeaf28690873c32a6df772e04d0"
+    },
+    {
+      "id": "resource-123-relocation",
+      "resource_id": 123,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0822C9B4",
+        "animation_pointer_table": "0x0822C9E4",
+        "graphics": "0x0822B53C",
+        "palette": "0x08226934"
+      },
+      "expected_slot_rows": [
+        191
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-123/graphics-4bpp.bin",
+      "graphics_sha256": "8cb9fa2df004d1a5840d5ee819f0cc6c9576b522aed70cd5d6084617340f3a37"
+    },
+    {
+      "id": "resource-124-relocation",
+      "resource_id": 124,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0822EA78",
+        "animation_pointer_table": "0x0822EAAC",
+        "graphics": "0x0822C9E8",
+        "palette": "0x08226934"
+      },
+      "expected_slot_rows": [
+        192
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-124/graphics-4bpp.bin",
+      "graphics_sha256": "fd3db0ad94bab1713a89dbada0c3e2e4362b66f898973056831da66cbe93cd5f"
+    },
+    {
+      "id": "resource-125-relocation",
+      "resource_id": 125,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0822FF28",
+        "animation_pointer_table": "0x0822FF60",
+        "graphics": "0x0822EAB0",
+        "palette": "0x08226934"
+      },
+      "expected_slot_rows": [
+        193
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-125/graphics-4bpp.bin",
+      "graphics_sha256": "a11902fb43d36c0ceea68ac10353be69e19ebda84bd66cd7686e54ad70da381b"
+    },
+    {
+      "id": "resource-126-relocation",
+      "resource_id": 126,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08233568",
+        "animation_pointer_table": "0x08233698",
+        "graphics": "0x0822FF88",
+        "palette": "0x0822FF68"
+      },
+      "expected_slot_rows": [
+        198
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-126/graphics-4bpp.bin",
+      "graphics_sha256": "96023845eb0de65f61e7c5d83c2fc4aef7e99b19fd74def3285a3bbe7db9803e"
+    },
+    {
+      "id": "resource-127-relocation",
+      "resource_id": 127,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08234B40",
+        "animation_pointer_table": "0x08234B6C",
+        "graphics": "0x082336C8",
+        "palette": "0x0822FF68"
+      },
+      "expected_slot_rows": [
+        199
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-127/graphics-4bpp.bin",
+      "graphics_sha256": "743bd8fff698a33bf609eacd33197a5e079b17df4d0a46cfa422fbcb48775563"
+    },
+    {
+      "id": "resource-128-relocation",
+      "resource_id": 128,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08235FE8",
+        "animation_pointer_table": "0x08236018",
+        "graphics": "0x08234B70",
+        "palette": "0x0822FF68"
+      },
+      "expected_slot_rows": [
+        200
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-128/graphics-4bpp.bin",
+      "graphics_sha256": "d3044bf1e4b5083b20d5146ba30dcf140a6c7de37cc60ba5a18e11adfe9d9c33"
+    },
+    {
+      "id": "resource-129-relocation",
+      "resource_id": 129,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082380AC",
+        "animation_pointer_table": "0x082380E0",
+        "graphics": "0x0823601C",
+        "palette": "0x0822FF68"
+      },
+      "expected_slot_rows": [
+        201
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-129/graphics-4bpp.bin",
+      "graphics_sha256": "c83307ad090280fb893855bc7e4ad8a251b15eb1f79d7cc65105a49cd8edfa93"
+    },
+    {
+      "id": "resource-130-relocation",
+      "resource_id": 130,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0823955C",
+        "animation_pointer_table": "0x08239594",
+        "graphics": "0x082380E4",
+        "palette": "0x0822FF68"
+      },
+      "expected_slot_rows": [
+        202
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-130/graphics-4bpp.bin",
+      "graphics_sha256": "6f005c8b42a561a3116b90779403a9194e11162e6d791d251b72a992cdec2354"
+    },
+    {
+      "id": "resource-131-relocation",
+      "resource_id": 131,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0823CB9C",
+        "animation_pointer_table": "0x0823CCCC",
+        "graphics": "0x082395BC",
+        "palette": "0x0823959C"
+      },
+      "expected_slot_rows": [
+        207
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-131/graphics-4bpp.bin",
+      "graphics_sha256": "a17b9ae5e83f07d20365f61d1b87c968d5a739ccebe460268eb3b8ade85841d3"
+    },
+    {
+      "id": "resource-132-relocation",
+      "resource_id": 132,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0823E174",
+        "animation_pointer_table": "0x0823E1A0",
+        "graphics": "0x0823CCFC",
+        "palette": "0x0823959C"
+      },
+      "expected_slot_rows": [
+        208
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-132/graphics-4bpp.bin",
+      "graphics_sha256": "7d548df8cd3a116d58e0a8eecdab17bcb0ba5bb6c2397cad810f9a506181e9de"
+    },
+    {
+      "id": "resource-133-relocation",
+      "resource_id": 133,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0823F61C",
+        "animation_pointer_table": "0x0823F64C",
+        "graphics": "0x0823E1A4",
+        "palette": "0x0823959C"
+      },
+      "expected_slot_rows": [
+        209
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-133/graphics-4bpp.bin",
+      "graphics_sha256": "bc14bec5fc0772aa091519fcba120453e993d4f0b75fe2d2bc8970fe1ee2e5b8"
+    },
+    {
+      "id": "resource-134-relocation",
+      "resource_id": 134,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082416E0",
+        "animation_pointer_table": "0x08241714",
+        "graphics": "0x0823F650",
+        "palette": "0x0823959C"
+      },
+      "expected_slot_rows": [
+        210
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-134/graphics-4bpp.bin",
+      "graphics_sha256": "cbde62285fa1dd12a8da71f1479044dd51ca5d29300c306e5e854f67e35d34c4"
+    },
+    {
+      "id": "resource-135-relocation",
+      "resource_id": 135,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08242B90",
+        "animation_pointer_table": "0x08242BC8",
+        "graphics": "0x08241718",
+        "palette": "0x0823959C"
+      },
+      "expected_slot_rows": [
+        211
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-135/graphics-4bpp.bin",
+      "graphics_sha256": "b12cf7874d65c2dcb4549d45ae623d1111731759d80523b50f09e5efe9962f34"
+    },
+    {
+      "id": "resource-136-relocation",
+      "resource_id": 136,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082475D0",
+        "animation_pointer_table": "0x08247700",
+        "graphics": "0x08242BF0",
+        "palette": "0x08242BD0"
+      },
+      "expected_slot_rows": [
+        216
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-136/graphics-4bpp.bin",
+      "graphics_sha256": "cc4e11d56c591e39d6b55b48850ec923629decd0227f69afba16cc4fc742f4ba"
+    },
+    {
+      "id": "resource-137-relocation",
+      "resource_id": 137,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08248BA8",
+        "animation_pointer_table": "0x08248BD4",
+        "graphics": "0x08247730",
+        "palette": "0x08242BD0"
+      },
+      "expected_slot_rows": [
+        217
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-137/graphics-4bpp.bin",
+      "graphics_sha256": "e71b4d21e6f6f4c91d58d599c3b4480737765b18425bbb09298226614839c57a"
+    },
+    {
+      "id": "resource-138-relocation",
+      "resource_id": 138,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0824A050",
+        "animation_pointer_table": "0x0824A080",
+        "graphics": "0x08248BD8",
+        "palette": "0x08242BD0"
+      },
+      "expected_slot_rows": [
+        218
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-138/graphics-4bpp.bin",
+      "graphics_sha256": "987041402b9aa6038bba940067b75552df62553d2e49abb892a27fbe951235fb"
+    },
+    {
+      "id": "resource-139-relocation",
+      "resource_id": 139,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0824BCFC",
+        "animation_pointer_table": "0x0824BD28",
+        "graphics": "0x0824A084",
+        "palette": "0x08242BD0"
+      },
+      "expected_slot_rows": [
+        219
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-139/graphics-4bpp.bin",
+      "graphics_sha256": "38f23c712ee927758f9de8999369366c90a36f35446fb4283389d7f997a6bf21"
+    },
+    {
+      "id": "resource-140-relocation",
+      "resource_id": 140,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0824D1A4",
+        "animation_pointer_table": "0x0824D1DC",
+        "graphics": "0x0824BD2C",
+        "palette": "0x08242BD0"
+      },
+      "expected_slot_rows": [
+        220
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-140/graphics-4bpp.bin",
+      "graphics_sha256": "825cf1baacc99263aad61a24c822822f5f28970c6f68d6b8f694f27f1e4b3caa"
+    },
+    {
+      "id": "resource-141-relocation",
+      "resource_id": 141,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0824E65C",
+        "animation_pointer_table": "0x0824E688",
+        "graphics": "0x0824D1E4",
+        "palette": "0x08242BD0"
+      },
+      "expected_slot_rows": [
+        221
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-141/graphics-4bpp.bin",
+      "graphics_sha256": "abe781d9b67031c9896cc8c13a295638d54fdae93468b18ae430658470ad31b6"
+    },
+    {
+      "id": "resource-142-relocation",
+      "resource_id": 142,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0824FB04",
+        "animation_pointer_table": "0x0824FB34",
+        "graphics": "0x0824E68C",
+        "palette": "0x08242BD0"
+      },
+      "expected_slot_rows": [
+        222
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-142/graphics-4bpp.bin",
+      "graphics_sha256": "30a7a071527dcfd9eac8a47434da5baf9222b50488b5f5640cae220295d9ecba"
+    },
+    {
+      "id": "resource-143-relocation",
+      "resource_id": 143,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082517B0",
+        "animation_pointer_table": "0x082517DC",
+        "graphics": "0x0824FB38",
+        "palette": "0x08242BD0"
+      },
+      "expected_slot_rows": [
+        223
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-143/graphics-4bpp.bin",
+      "graphics_sha256": "6cc79b55f4d9f31503eea6689710cbe168fb1f7b7c3bba87d0d833f7c9ee3805"
+    },
+    {
+      "id": "resource-144-relocation",
+      "resource_id": 144,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08252C58",
+        "animation_pointer_table": "0x08252C90",
+        "graphics": "0x082517E0",
+        "palette": "0x08242BD0"
+      },
+      "expected_slot_rows": [
+        224
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-144/graphics-4bpp.bin",
+      "graphics_sha256": "1dc3aa0647d49db890397e2a8def6e4ae4fcbd67e4e684d4eaac3351ec6f5744"
+    },
+    {
+      "id": "resource-145-relocation",
+      "resource_id": 145,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08257698",
+        "animation_pointer_table": "0x082577C8",
+        "graphics": "0x08252CB8",
+        "palette": "0x08252C98"
+      },
+      "expected_slot_rows": [
+        225
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-145/graphics-4bpp.bin",
+      "graphics_sha256": "c5f0e545cd5f68bafab78992df9db5b3ea6b02df3cb36c71d521d38e957424fa"
+    },
+    {
+      "id": "resource-146-relocation",
+      "resource_id": 146,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08258C70",
+        "animation_pointer_table": "0x08258C9C",
+        "graphics": "0x082577F8",
+        "palette": "0x08252C98"
+      },
+      "expected_slot_rows": [
+        226
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-146/graphics-4bpp.bin",
+      "graphics_sha256": "11e2c21f7fd60c9a6495cf324ad58b65635605ec9767b80de13a882c25a254ac"
+    },
+    {
+      "id": "resource-147-relocation",
+      "resource_id": 147,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0825A918",
+        "animation_pointer_table": "0x0825A948",
+        "graphics": "0x08258CA0",
+        "palette": "0x08252C98"
+      },
+      "expected_slot_rows": [
+        227
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-147/graphics-4bpp.bin",
+      "graphics_sha256": "2ac0db639437d2c04b9699471c34ae00e8378fec475752cf37541a8e0665e083"
+    },
+    {
+      "id": "resource-148-relocation",
+      "resource_id": 148,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0825C9C4",
+        "animation_pointer_table": "0x0825C9F0",
+        "graphics": "0x0825A94C",
+        "palette": "0x08252C98"
+      },
+      "expected_slot_rows": [
+        228
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-148/graphics-4bpp.bin",
+      "graphics_sha256": "5fb471f8e3e2ac862f0096b8fc0a36ab3a1ecded1a7c8e095b41bc78c65973f4"
+    },
+    {
+      "id": "resource-149-relocation",
+      "resource_id": 149,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0825DE6C",
+        "animation_pointer_table": "0x0825DEA4",
+        "graphics": "0x0825C9F4",
+        "palette": "0x08252C98"
+      },
+      "expected_slot_rows": [
+        229
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-149/graphics-4bpp.bin",
+      "graphics_sha256": "9e73665c15615a7dc8b7243608528585a5d8e463f9c06853b94404642d56d021"
+    },
+    {
+      "id": "resource-150-relocation",
+      "resource_id": 150,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0825F324",
+        "animation_pointer_table": "0x0825F350",
+        "graphics": "0x0825DEAC",
+        "palette": "0x08252C98"
+      },
+      "expected_slot_rows": [
+        230
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-150/graphics-4bpp.bin",
+      "graphics_sha256": "13ffc6e78ac73360e82291ef9d2f385b5b3ce9d5605a9eb7d9ea2a6bdb0b25d1"
+    },
+    {
+      "id": "resource-151-relocation",
+      "resource_id": 151,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08260BCC",
+        "animation_pointer_table": "0x08260BFC",
+        "graphics": "0x0825F354",
+        "palette": "0x08252C98"
+      },
+      "expected_slot_rows": [
+        231
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-151/graphics-4bpp.bin",
+      "graphics_sha256": "17298298695347ea56d039ab84ac5d61dd9ffe741b16f157bc4da6193faed614"
+    },
+    {
+      "id": "resource-152-relocation",
+      "resource_id": 152,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08262878",
+        "animation_pointer_table": "0x082628A4",
+        "graphics": "0x08260C00",
+        "palette": "0x08252C98"
+      },
+      "expected_slot_rows": [
+        232
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-152/graphics-4bpp.bin",
+      "graphics_sha256": "15b81b0b3d93d01c62839a9aa1e15ab5089fc81ebf980bdd6005d19a13a25218"
+    },
+    {
+      "id": "resource-153-relocation",
+      "resource_id": 153,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08263D20",
+        "animation_pointer_table": "0x08263D58",
+        "graphics": "0x082628A8",
+        "palette": "0x08252C98"
+      },
+      "expected_slot_rows": [
+        233
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-153/graphics-4bpp.bin",
+      "graphics_sha256": "d0b2e0baa3ca20e3925257fc2e22960a67da87ce633cba1f27e65a84745b347e"
+    },
+    {
+      "id": "resource-154-relocation",
+      "resource_id": 154,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08268760",
+        "animation_pointer_table": "0x08268890",
+        "graphics": "0x08263D80",
+        "palette": "0x08263D60"
+      },
+      "expected_slot_rows": [
+        234
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-154/graphics-4bpp.bin",
+      "graphics_sha256": "6c0df827a44b572460e0d6249dfc726d619d0acad10a249bbb06770f4198a457"
+    },
+    {
+      "id": "resource-155-relocation",
+      "resource_id": 155,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08269D38",
+        "animation_pointer_table": "0x08269D64",
+        "graphics": "0x082688C0",
+        "palette": "0x08263D60"
+      },
+      "expected_slot_rows": [
+        235
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-155/graphics-4bpp.bin",
+      "graphics_sha256": "fde236e738957474217ed6715f8de58af3e9eb245068f73aac1a15dc798847a3"
+    },
+    {
+      "id": "resource-156-relocation",
+      "resource_id": 156,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0826B1E0",
+        "animation_pointer_table": "0x0826B210",
+        "graphics": "0x08269D68",
+        "palette": "0x08263D60"
+      },
+      "expected_slot_rows": [
+        236
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-156/graphics-4bpp.bin",
+      "graphics_sha256": "77c0904c5b8982b3e80e674fb14abfdead10ee13401fa028fff2d38f7e1f2ecd"
+    },
+    {
+      "id": "resource-157-relocation",
+      "resource_id": 157,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0826CE8C",
+        "animation_pointer_table": "0x0826CEB8",
+        "graphics": "0x0826B214",
+        "palette": "0x08263D60"
+      },
+      "expected_slot_rows": [
+        237
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-157/graphics-4bpp.bin",
+      "graphics_sha256": "5983529d4bce23edd09bd6e8a5da052546fc1e9ee59119f2fefb4f3572195816"
+    },
+    {
+      "id": "resource-158-relocation",
+      "resource_id": 158,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0826E334",
+        "animation_pointer_table": "0x0826E36C",
+        "graphics": "0x0826CEBC",
+        "palette": "0x08263D60"
+      },
+      "expected_slot_rows": [
+        238
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-158/graphics-4bpp.bin",
+      "graphics_sha256": "a25cc037d913e422809a4760d53ca4e77d34e1595ba32649fe05a5b8d0b480ee"
+    },
+    {
+      "id": "resource-159-relocation",
+      "resource_id": 159,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0826F7EC",
+        "animation_pointer_table": "0x0826F818",
+        "graphics": "0x0826E374",
+        "palette": "0x08263D60"
+      },
+      "expected_slot_rows": [
+        239
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-159/graphics-4bpp.bin",
+      "graphics_sha256": "e8dec127939e2e3ddad0ab54ed71d0e11dcf326645378c8a4027a7b5e16e7397"
+    },
+    {
+      "id": "resource-160-relocation",
+      "resource_id": 160,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08270C94",
+        "animation_pointer_table": "0x08270CC4",
+        "graphics": "0x0826F81C",
+        "palette": "0x08263D60"
+      },
+      "expected_slot_rows": [
+        240
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-160/graphics-4bpp.bin",
+      "graphics_sha256": "3b79561fd0a96ea774425a1e6ec6925223d8a4647a137665e47feb643aa3ddb0"
+    },
+    {
+      "id": "resource-161-relocation",
+      "resource_id": 161,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08272940",
+        "animation_pointer_table": "0x0827296C",
+        "graphics": "0x08270CC8",
+        "palette": "0x08263D60"
+      },
+      "expected_slot_rows": [
+        241
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-161/graphics-4bpp.bin",
+      "graphics_sha256": "75d9423a4dcefd2bdd512bf3b2fc1df64fa8348c58ddff5f974b12d776ca9dbd"
+    },
+    {
+      "id": "resource-162-relocation",
+      "resource_id": 162,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08273DE8",
+        "animation_pointer_table": "0x08273E20",
+        "graphics": "0x08272970",
+        "palette": "0x08263D60"
+      },
+      "expected_slot_rows": [
+        242
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-162/graphics-4bpp.bin",
+      "graphics_sha256": "13d4efb2c0858541c3010bbf0a4d86b9462b9adbeabcd2aa5fbbcbafd78a2332"
+    },
+    {
+      "id": "resource-163-relocation",
+      "resource_id": 163,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08278828",
+        "animation_pointer_table": "0x08278958",
+        "graphics": "0x08273E48",
+        "palette": "0x08273E28"
+      },
+      "expected_slot_rows": [
+        243
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-163/graphics-4bpp.bin",
+      "graphics_sha256": "426f384ad5a3d678f168eda19d690dc1ce2354403d2b6b019459664f98afa642"
+    },
+    {
+      "id": "resource-164-relocation",
+      "resource_id": 164,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08279E00",
+        "animation_pointer_table": "0x08279E2C",
+        "graphics": "0x08278988",
+        "palette": "0x08273E28"
+      },
+      "expected_slot_rows": [
+        244
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-164/graphics-4bpp.bin",
+      "graphics_sha256": "7ec9f2371066668e927bdebd05f3e7715b7bcd7f675b5f8f9202bd1ad79246d0"
+    },
+    {
+      "id": "resource-165-relocation",
+      "resource_id": 165,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0827B2A8",
+        "animation_pointer_table": "0x0827B2D8",
+        "graphics": "0x08279E30",
+        "palette": "0x08273E28"
+      },
+      "expected_slot_rows": [
+        245
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-165/graphics-4bpp.bin",
+      "graphics_sha256": "b23ac7dddd2ae928be5ab95b082407fc72bdbd31a6b598a9b50a73f50a5d4118"
+    },
+    {
+      "id": "resource-166-relocation",
+      "resource_id": 166,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0827CF54",
+        "animation_pointer_table": "0x0827CF80",
+        "graphics": "0x0827B2DC",
+        "palette": "0x08273E28"
+      },
+      "expected_slot_rows": [
+        246
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-166/graphics-4bpp.bin",
+      "graphics_sha256": "15c07d6f23b894ada286c157457eddec8dbffb3b71dbe0b66c031d5a5516f0c1"
+    },
+    {
+      "id": "resource-167-relocation",
+      "resource_id": 167,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0827E3FC",
+        "animation_pointer_table": "0x0827E434",
+        "graphics": "0x0827CF84",
+        "palette": "0x08273E28"
+      },
+      "expected_slot_rows": [
+        247
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-167/graphics-4bpp.bin",
+      "graphics_sha256": "bdeea7448237211d43239d0000af9a84b348cc9113c0233931716e74bb1f7f7e"
+    },
+    {
+      "id": "resource-168-relocation",
+      "resource_id": 168,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0827F8B4",
+        "animation_pointer_table": "0x0827F8E0",
+        "graphics": "0x0827E43C",
+        "palette": "0x08273E28"
+      },
+      "expected_slot_rows": [
+        248
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-168/graphics-4bpp.bin",
+      "graphics_sha256": "96fe6c8cbeab60e6f274e7ed193feb587248ea00206e04814361f59b816ca3d5"
+    },
+    {
+      "id": "resource-169-relocation",
+      "resource_id": 169,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08280D5C",
+        "animation_pointer_table": "0x08280D8C",
+        "graphics": "0x0827F8E4",
+        "palette": "0x08273E28"
+      },
+      "expected_slot_rows": [
+        249
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-169/graphics-4bpp.bin",
+      "graphics_sha256": "f20dec1bbc6d3b898bba2349693c4de78681b2625d1fa33b516f4870f6af88dc"
+    },
+    {
+      "id": "resource-170-relocation",
+      "resource_id": 170,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08282A08",
+        "animation_pointer_table": "0x08282A34",
+        "graphics": "0x08280D90",
+        "palette": "0x08273E28"
+      },
+      "expected_slot_rows": [
+        250
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-170/graphics-4bpp.bin",
+      "graphics_sha256": "bdbf8619dce0477d3b35b83684094011c04a10b4cb3a1cd84209f717552da74c"
+    },
+    {
+      "id": "resource-171-relocation",
+      "resource_id": 171,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08283EB0",
+        "animation_pointer_table": "0x08283EE8",
+        "graphics": "0x08282A38",
+        "palette": "0x08273E28"
+      },
+      "expected_slot_rows": [
+        251
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-171/graphics-4bpp.bin",
+      "graphics_sha256": "594f0089bf20d0188a347740604a15ece2cdf3c19bab55f5d192e150ed3b7996"
+    },
+    {
+      "id": "resource-172-relocation",
+      "resource_id": 172,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082874F0",
+        "animation_pointer_table": "0x08287620",
+        "graphics": "0x08283F10",
+        "palette": "0x08283EF0"
+      },
+      "expected_slot_rows": [
+        252
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-172/graphics-4bpp.bin",
+      "graphics_sha256": "33155f3ab28e6df0f60ecff7b4f8d01049d28e3506f6c96bfc1ae2afd78fa23d"
+    },
+    {
+      "id": "resource-173-relocation",
+      "resource_id": 173,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08288AC8",
+        "animation_pointer_table": "0x08288AF4",
+        "graphics": "0x08287650",
+        "palette": "0x08283EF0"
+      },
+      "expected_slot_rows": [
+        253
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-173/graphics-4bpp.bin",
+      "graphics_sha256": "3641d73256bf837185912b0f40475abbea9906271d824487996fb09273bfa396"
+    },
+    {
+      "id": "resource-174-relocation",
+      "resource_id": 174,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08289F70",
+        "animation_pointer_table": "0x08289FA0",
+        "graphics": "0x08288AF8",
+        "palette": "0x08283EF0"
+      },
+      "expected_slot_rows": [
+        254
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-174/graphics-4bpp.bin",
+      "graphics_sha256": "55aa19588bddded4a6db30ad06bf1fdc5c06eb7a9649260b27501a54e175b874"
+    },
+    {
+      "id": "resource-175-relocation",
+      "resource_id": 175,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0828C01C",
+        "animation_pointer_table": "0x0828C048",
+        "graphics": "0x08289FA4",
+        "palette": "0x08283EF0"
+      },
+      "expected_slot_rows": [
+        255
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-175/graphics-4bpp.bin",
+      "graphics_sha256": "8b8461da67a8e2e28ef7d50df76f0cc4230adf64359b7f390b26b262a8bdd448"
+    },
+    {
+      "id": "resource-176-relocation",
+      "resource_id": 176,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0828DCC4",
+        "animation_pointer_table": "0x0828DCFC",
+        "graphics": "0x0828C04C",
+        "palette": "0x08283EF0"
+      },
+      "expected_slot_rows": [
+        256
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-176/graphics-4bpp.bin",
+      "graphics_sha256": "fbd01910f9164db4b5de97de4448c914f4da71ed9763ad86cc58c00127fa5a6b"
+    },
+    {
+      "id": "resource-177-relocation",
+      "resource_id": 177,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08291304",
+        "animation_pointer_table": "0x08291434",
+        "graphics": "0x0828DD24",
+        "palette": "0x0828DD04"
+      },
+      "expected_slot_rows": [
+        261
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-177/graphics-4bpp.bin",
+      "graphics_sha256": "f35d8d41f518cbe3334a6713b86c26289504a897d51ac13d7ba6c7f1bc19973b"
+    },
+    {
+      "id": "resource-178-relocation",
+      "resource_id": 178,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082928DC",
+        "animation_pointer_table": "0x08292908",
+        "graphics": "0x08291464",
+        "palette": "0x0828DD04"
+      },
+      "expected_slot_rows": [
+        262
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-178/graphics-4bpp.bin",
+      "graphics_sha256": "58b19ff3ac44486de0291e4258c65667a82e9e33377b00e8e57f9e726289b305"
+    },
+    {
+      "id": "resource-179-relocation",
+      "resource_id": 179,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08293D84",
+        "animation_pointer_table": "0x08293DB4",
+        "graphics": "0x0829290C",
+        "palette": "0x0828DD04"
+      },
+      "expected_slot_rows": [
+        263
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-179/graphics-4bpp.bin",
+      "graphics_sha256": "b90a71214fff464570d00fa67aaf9f531f1128f4c0b65191992c6302d583d9f7"
+    },
+    {
+      "id": "resource-180-relocation",
+      "resource_id": 180,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08294E30",
+        "animation_pointer_table": "0x08294E5C",
+        "graphics": "0x08293DB8",
+        "palette": "0x0828DD04"
+      },
+      "expected_slot_rows": [
+        264
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-180/graphics-4bpp.bin",
+      "graphics_sha256": "0897c9444e73e135f681521133eb26624202efd2a59f0745efd0a5dcb3e807cc"
+    },
+    {
+      "id": "resource-181-relocation",
+      "resource_id": 181,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082966D8",
+        "animation_pointer_table": "0x08296710",
+        "graphics": "0x08294E60",
+        "palette": "0x0828DD04"
+      },
+      "expected_slot_rows": [
+        265
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-181/graphics-4bpp.bin",
+      "graphics_sha256": "ac4435d3ad357ea79ebd79028f71787bf6465175e5c3a4e8be1a64711303ba5c"
+    },
+    {
+      "id": "resource-182-relocation",
+      "resource_id": 182,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0829B178",
+        "animation_pointer_table": "0x0829B278",
+        "graphics": "0x08296738",
+        "palette": "0x08296718"
+      },
+      "expected_slot_rows": [
+        270
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-182/graphics-4bpp.bin",
+      "graphics_sha256": "f417a84794a6628b86ce2bd5f13d0b1e5e5906f779ab3f92b1f7a845e993aac3"
+    },
+    {
+      "id": "resource-183-relocation",
+      "resource_id": 183,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0829CF10",
+        "animation_pointer_table": "0x0829CF48",
+        "graphics": "0x0829B298",
+        "palette": "0x08296718"
+      },
+      "expected_slot_rows": [
+        274
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-183/graphics-4bpp.bin",
+      "graphics_sha256": "74beb615bed745a6f6f74fae3a5c7cf2a3ea8d12e79ce728e2e6cfbb26fe25dc"
+    },
+    {
+      "id": "resource-184-relocation",
+      "resource_id": 184,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082A0550",
+        "animation_pointer_table": "0x082A0680",
+        "graphics": "0x0829CF70",
+        "palette": "0x0829CF50"
+      },
+      "expected_slot_rows": [
+        279
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-184/graphics-4bpp.bin",
+      "graphics_sha256": "419a4b1dcc61563337d5cb53796019b44fab508d0a91768bef7ed4b610271844"
+    },
+    {
+      "id": "resource-185-relocation",
+      "resource_id": 185,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082A1B28",
+        "animation_pointer_table": "0x082A1B54",
+        "graphics": "0x082A06B0",
+        "palette": "0x0829CF50"
+      },
+      "expected_slot_rows": [
+        280
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-185/graphics-4bpp.bin",
+      "graphics_sha256": "a9d376fb91ce79f002b041200e96403c64ead60952f23c81200b32805506ce45"
+    },
+    {
+      "id": "resource-186-relocation",
+      "resource_id": 186,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082A2FD0",
+        "animation_pointer_table": "0x082A3000",
+        "graphics": "0x082A1B58",
+        "palette": "0x0829CF50"
+      },
+      "expected_slot_rows": [
+        281
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-186/graphics-4bpp.bin",
+      "graphics_sha256": "94969dc85ecd248c212705130eb222997aab9737620b47782c371174bbf61266"
+    },
+    {
+      "id": "resource-187-relocation",
+      "resource_id": 187,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082A4C7C",
+        "animation_pointer_table": "0x082A4CA8",
+        "graphics": "0x082A3004",
+        "palette": "0x0829CF50"
+      },
+      "expected_slot_rows": [
+        282
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-187/graphics-4bpp.bin",
+      "graphics_sha256": "745ff8d49595aa5358e35284a4c12894203df1443f6681261fc28d599aea32bd"
+    },
+    {
+      "id": "resource-188-relocation",
+      "resource_id": 188,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082A6124",
+        "animation_pointer_table": "0x082A615C",
+        "graphics": "0x082A4CAC",
+        "palette": "0x0829CF50"
+      },
+      "expected_slot_rows": [
+        283
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-188/graphics-4bpp.bin",
+      "graphics_sha256": "6f1194884764b6c5b5c8110fdb9157176f86b25bc050be85f18c807565cdace6"
+    },
+    {
+      "id": "resource-189-relocation",
+      "resource_id": 189,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082A9764",
+        "animation_pointer_table": "0x082A9894",
+        "graphics": "0x082A6184",
+        "palette": "0x082A6164"
+      },
+      "expected_slot_rows": [
+        288
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-189/graphics-4bpp.bin",
+      "graphics_sha256": "d5cec0461bec42469f9ad31bb5e3b5e254aaccde870d1b7d175df84c7ae32030"
+    },
+    {
+      "id": "resource-190-relocation",
+      "resource_id": 190,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082AAD3C",
+        "animation_pointer_table": "0x082AAD68",
+        "graphics": "0x082A98C4",
+        "palette": "0x082A6164"
+      },
+      "expected_slot_rows": [
+        289
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-190/graphics-4bpp.bin",
+      "graphics_sha256": "9f7cd021e5c611224753dd29518de1d7ec77e588fcbf3b16911c097e16156bd1"
+    },
+    {
+      "id": "resource-191-relocation",
+      "resource_id": 191,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082AC1E4",
+        "animation_pointer_table": "0x082AC214",
+        "graphics": "0x082AAD6C",
+        "palette": "0x082A6164"
+      },
+      "expected_slot_rows": [
+        290
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-191/graphics-4bpp.bin",
+      "graphics_sha256": "01866b29165009f674100c0f0f530f18d17298fa6f209617366a7c8390c3e140"
+    },
+    {
+      "id": "resource-192-relocation",
+      "resource_id": 192,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082ADE90",
+        "animation_pointer_table": "0x082ADEBC",
+        "graphics": "0x082AC218",
+        "palette": "0x082A6164"
+      },
+      "expected_slot_rows": [
+        291
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-192/graphics-4bpp.bin",
+      "graphics_sha256": "8378fe5f4fcf231f85e422484996d7cac327037071cb5ee053f1571f20ce301f"
+    },
+    {
+      "id": "resource-193-relocation",
+      "resource_id": 193,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082AF338",
+        "animation_pointer_table": "0x082AF370",
+        "graphics": "0x082ADEC0",
+        "palette": "0x082A6164"
+      },
+      "expected_slot_rows": [
+        292
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-193/graphics-4bpp.bin",
+      "graphics_sha256": "8f0c31e22e05832d4a2919f72589644e5fb81ba8c3f15ef4d3e08216f858c88d"
+    },
+    {
+      "id": "resource-194-relocation",
+      "resource_id": 194,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082B2978",
+        "animation_pointer_table": "0x082B2AA8",
+        "graphics": "0x082AF398",
+        "palette": "0x082AF378"
+      },
+      "expected_slot_rows": [
+        297
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-194/graphics-4bpp.bin",
+      "graphics_sha256": "5c78fbc916c6190b6e53e55a57405dfd7b862b65c6a35ba56c5e0c36f112a505"
+    },
+    {
+      "id": "resource-195-relocation",
+      "resource_id": 195,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082B3F50",
+        "animation_pointer_table": "0x082B3F7C",
+        "graphics": "0x082B2AD8",
+        "palette": "0x082AF378"
+      },
+      "expected_slot_rows": [
+        298
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-195/graphics-4bpp.bin",
+      "graphics_sha256": "f287bc5942563f5ce609d1ce6cc82cf4c85dbf3ed546e9c68406a4307f4b1f95"
+    },
+    {
+      "id": "resource-196-relocation",
+      "resource_id": 196,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082B53F8",
+        "animation_pointer_table": "0x082B5428",
+        "graphics": "0x082B3F80",
+        "palette": "0x082AF378"
+      },
+      "expected_slot_rows": [
+        299
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-196/graphics-4bpp.bin",
+      "graphics_sha256": "ca4a6b03f70648518a45dacaf6aa11c0d53dfe9f769a7783ac5ebdf1d0902145"
+    },
+    {
+      "id": "resource-197-relocation",
+      "resource_id": 197,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082B70A4",
+        "animation_pointer_table": "0x082B70D0",
+        "graphics": "0x082B542C",
+        "palette": "0x082AF378"
+      },
+      "expected_slot_rows": [
+        300
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-197/graphics-4bpp.bin",
+      "graphics_sha256": "3319c42130c1770b3bcdec496d7e15eff50ecc6547fae9f0c68b2708a5a790df"
+    },
+    {
+      "id": "resource-198-relocation",
+      "resource_id": 198,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082B854C",
+        "animation_pointer_table": "0x082B8584",
+        "graphics": "0x082B70D4",
+        "palette": "0x082AF378"
+      },
+      "expected_slot_rows": [
+        301
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-198/graphics-4bpp.bin",
+      "graphics_sha256": "862e319b43a1ee2f1cc5714dde539a3e16deb4e221d0037ed3511e38b2f2ff27"
+    },
+    {
+      "id": "resource-199-relocation",
+      "resource_id": 199,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082BBB8C",
+        "animation_pointer_table": "0x082BBCBC",
+        "graphics": "0x082B85AC",
+        "palette": "0x082B858C"
+      },
+      "expected_slot_rows": [
+        306
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-199/graphics-4bpp.bin",
+      "graphics_sha256": "73a65a6bc2f30b0f8f012dcf3147496949b40b9b97ead7266e95d8017ea1cf4e"
+    },
+    {
+      "id": "resource-200-relocation",
+      "resource_id": 200,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082BD164",
+        "animation_pointer_table": "0x082BD190",
+        "graphics": "0x082BBCEC",
+        "palette": "0x082B858C"
+      },
+      "expected_slot_rows": [
+        307
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-200/graphics-4bpp.bin",
+      "graphics_sha256": "aba159b6b64ca8ec5a04641aafe3867521e08e8339c77936aaed421d1242bf57"
+    },
+    {
+      "id": "resource-201-relocation",
+      "resource_id": 201,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082BEA0C",
+        "animation_pointer_table": "0x082BEA3C",
+        "graphics": "0x082BD194",
+        "palette": "0x082B858C"
+      },
+      "expected_slot_rows": [
+        308
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-201/graphics-4bpp.bin",
+      "graphics_sha256": "fdf5d05e0a54f4c81908229fdcb8e9a8f28ec4423a7ff162b37466459afaa3c4"
+    },
+    {
+      "id": "resource-202-relocation",
+      "resource_id": 202,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082C02B8",
+        "animation_pointer_table": "0x082C02E4",
+        "graphics": "0x082BEA40",
+        "palette": "0x082B858C"
+      },
+      "expected_slot_rows": [
+        309
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-202/graphics-4bpp.bin",
+      "graphics_sha256": "52fe5513947b153a25bf066760e4d16bb535e629cbf4d38b0cb683a8e39d95de"
+    },
+    {
+      "id": "resource-203-relocation",
+      "resource_id": 203,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082C1B60",
+        "animation_pointer_table": "0x082C1B90",
+        "graphics": "0x082C02E8",
+        "palette": "0x082B858C"
+      },
+      "expected_slot_rows": [
+        310
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-203/graphics-4bpp.bin",
+      "graphics_sha256": "d153f8c70c137bfa7fbf2467d5fea01e19d3081c9708d07df430845f9b86cb4d"
+    },
+    {
+      "id": "resource-204-relocation",
+      "resource_id": 204,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082C6598",
+        "animation_pointer_table": "0x082C6688",
+        "graphics": "0x082C1BB8",
+        "palette": "0x082C1B98"
+      },
+      "expected_slot_rows": [
+        315
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-204/graphics-4bpp.bin",
+      "graphics_sha256": "537548e82b220740b88c2bea97283cab924f055542712c8211a4476ab2bb459b"
+    },
+    {
+      "id": "resource-205-relocation",
+      "resource_id": 205,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082C8F20",
+        "animation_pointer_table": "0x082C8F50",
+        "graphics": "0x082C66A8",
+        "palette": "0x082C1B98"
+      },
+      "expected_slot_rows": [
+        318
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-205/graphics-4bpp.bin",
+      "graphics_sha256": "577fcc81a4c0660fbdbb15895a7e6ab1a368e293923653b0c7cf9f4374619086"
+    },
+    {
+      "id": "resource-206-relocation",
+      "resource_id": 206,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082CB7CC",
+        "animation_pointer_table": "0x082CB804",
+        "graphics": "0x082C8F54",
+        "palette": "0x082C1B98"
+      },
+      "expected_slot_rows": [
+        319
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-206/graphics-4bpp.bin",
+      "graphics_sha256": "7c81892eaecbfcfa64a66a9aacaf8f5f729927f46de4e469776e34c3b4b4e77c"
+    },
+    {
+      "id": "resource-207-relocation",
+      "resource_id": 207,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082D0A0C",
+        "animation_pointer_table": "0x082D0AFC",
+        "graphics": "0x082CB82C",
+        "palette": "0x082CB80C"
+      },
+      "expected_slot_rows": [
+        324
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-207/graphics-4bpp.bin",
+      "graphics_sha256": "aaa7670024583fd53d0023dc960850447c69be3bc3bacc69926ae1e1e4126487"
+    },
+    {
+      "id": "resource-208-relocation",
+      "resource_id": 208,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082D3BF4",
+        "animation_pointer_table": "0x082D3C44",
+        "graphics": "0x082D0B1C",
+        "palette": "0x082CB80C"
+      },
+      "expected_slot_rows": [
+        327
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-208/graphics-4bpp.bin",
+      "graphics_sha256": "597458571d86efdba49ad1b5e80188b7db9fbde3054a12e4d760e587427e45f4"
+    },
+    {
+      "id": "resource-209-relocation",
+      "resource_id": 209,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082D6CD8",
+        "animation_pointer_table": "0x082D6D14",
+        "graphics": "0x082D3C48",
+        "palette": "0x082CB80C"
+      },
+      "expected_slot_rows": [
+        328
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-209/graphics-4bpp.bin",
+      "graphics_sha256": "06af1772d62fea985f1cfc973db5c2dff02f3fbe03a2f2ff6a3422fe346e3662"
+    },
+    {
+      "id": "resource-210-relocation",
+      "resource_id": 210,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082DD83C",
+        "animation_pointer_table": "0x082DD97C",
+        "graphics": "0x082D6D3C",
+        "palette": "0x082D6D1C"
+      },
+      "expected_slot_rows": [
+        333
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-210/graphics-4bpp.bin",
+      "graphics_sha256": "b213363c4deae0ac45706edb940917c3cf324af24431c1331a7e8e4518dd795a"
+    },
+    {
+      "id": "resource-211-relocation",
+      "resource_id": 211,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082E0A2C",
+        "animation_pointer_table": "0x082E0A60",
+        "graphics": "0x082DD99C",
+        "palette": "0x082D6D1C"
+      },
+      "expected_slot_rows": [
+        336
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-211/graphics-4bpp.bin",
+      "graphics_sha256": "e3fb95b939cc916dd7a58960fda71739b774c34d07dfed044adbe25d6bae57b8"
+    },
+    {
+      "id": "resource-212-relocation",
+      "resource_id": 212,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082E32DC",
+        "animation_pointer_table": "0x082E3314",
+        "graphics": "0x082E0A64",
+        "palette": "0x082D6D1C"
+      },
+      "expected_slot_rows": [
+        337
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-212/graphics-4bpp.bin",
+      "graphics_sha256": "c9dad1db89c342776ad1a2986cd53de0e612d601c077526996a1cd3447a2aea9"
+    },
+    {
+      "id": "resource-213-relocation",
+      "resource_id": 213,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082E611C",
+        "animation_pointer_table": "0x082E621C",
+        "graphics": "0x082E333C",
+        "palette": "0x082E331C"
+      },
+      "expected_slot_rows": [
+        342
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-213/graphics-4bpp.bin",
+      "graphics_sha256": "54afa461dcae2b41da10ab48762b170407260c2d0fca65a50d7aa85d60774814"
+    },
+    {
+      "id": "resource-214-relocation",
+      "resource_id": 214,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082E7A54",
+        "animation_pointer_table": "0x082E7A78",
+        "graphics": "0x082E623C",
+        "palette": "0x082E331C"
+      },
+      "expected_slot_rows": [
+        345
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-214/graphics-4bpp.bin",
+      "graphics_sha256": "73467a8bbe5df583b1e0311fefc9ae6fbb5e1f6c2e7363e19e8b5c29008f9300"
+    },
+    {
+      "id": "resource-215-relocation",
+      "resource_id": 215,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082E9294",
+        "animation_pointer_table": "0x082E92BC",
+        "graphics": "0x082E7A7C",
+        "palette": "0x082E331C"
+      },
+      "expected_slot_rows": [
+        346
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-215/graphics-4bpp.bin",
+      "graphics_sha256": "a8575374244d14ade28707265482ae3517d20ef21e9d371ea51fea10817c6731"
+    },
+    {
+      "id": "resource-216-relocation",
+      "resource_id": 216,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082EBDF4",
+        "animation_pointer_table": "0x082EBEF4",
+        "graphics": "0x082E92E4",
+        "palette": "0x082E92C4"
+      },
+      "expected_slot_rows": [
+        351
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-216/graphics-4bpp.bin",
+      "graphics_sha256": "3137a55bfc53a2cfc9269a7d80bce3948af220a5226eca6fc9a038fe807b2eca"
+    },
+    {
+      "id": "resource-217-relocation",
+      "resource_id": 217,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082EDFB4",
+        "animation_pointer_table": "0x082EDFE4",
+        "graphics": "0x082EBF14",
+        "palette": "0x082E92C4"
+      },
+      "expected_slot_rows": [
+        354
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-217/graphics-4bpp.bin",
+      "graphics_sha256": "303b1a8f0aa7fa46df751a9ef7f0ecca9cf4498d523b90331bcceafbd594c0f3"
+    },
+    {
+      "id": "resource-218-relocation",
+      "resource_id": 218,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082EF830",
+        "animation_pointer_table": "0x082EF858",
+        "graphics": "0x082EDFE8",
+        "palette": "0x082E92C4"
+      },
+      "expected_slot_rows": [
+        355
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-218/graphics-4bpp.bin",
+      "graphics_sha256": "2763958838e92bfbd458d7008d0c4470edb523bc582381800f54aaec9df2705c"
+    },
+    {
+      "id": "resource-219-relocation",
+      "resource_id": 219,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082F3AC0",
+        "animation_pointer_table": "0x082F3BF0",
+        "graphics": "0x082EF880",
+        "palette": "0x082EF860"
+      },
+      "expected_slot_rows": [
+        360
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-219/graphics-4bpp.bin",
+      "graphics_sha256": "cac534b2c64ae33330add88d908e36bd032df7b3d32f568e02dadff0107791d7"
+    },
+    {
+      "id": "resource-220-relocation",
+      "resource_id": 220,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082F4C80",
+        "animation_pointer_table": "0x082F4CB0",
+        "graphics": "0x082F3C20",
+        "palette": "0x082EF860"
+      },
+      "expected_slot_rows": [
+        364
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-220/graphics-4bpp.bin",
+      "graphics_sha256": "97d9796ccf9256744155776f94792b9fa7194d820ffb5059aaada0b92bbc9610"
+    },
+    {
+      "id": "resource-221-relocation",
+      "resource_id": 221,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082F54F0",
+        "animation_pointer_table": "0x082F54FC",
+        "graphics": "0x082F4CD8",
+        "palette": "0x082F4CB8"
+      },
+      "expected_slot_rows": [
+        369
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-221/graphics-4bpp.bin",
+      "graphics_sha256": "c1411cc95d644473a14f40aca1426dc44a8423b3217495183721a68169d17b4e"
+    },
+    {
+      "id": "resource-222-relocation",
+      "resource_id": 222,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082F81A0",
+        "animation_pointer_table": "0x082F83C0",
+        "graphics": "0x082F5520",
+        "palette": "0x082F5500"
+      },
+      "expected_slot_rows": [
+        486
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-222/graphics-4bpp.bin",
+      "graphics_sha256": "8af308aceab57cc67720449d72a911f9e06e5b12eeff0b3785521a785bdb28c9"
+    },
+    {
+      "id": "resource-223-relocation",
+      "resource_id": 223,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082F8D54",
+        "animation_pointer_table": "0x082F8DA0",
+        "graphics": "0x082F83E0",
+        "palette": "0x082F5500"
+      },
+      "expected_slot_rows": [
+        489
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-223/graphics-4bpp.bin",
+      "graphics_sha256": "22cb09c27e5683aea58ea2fc2d885865162ab480a3fd068cfa1acceb2c0d4055"
+    },
+    {
+      "id": "resource-224-relocation",
+      "resource_id": 224,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082F9468",
+        "animation_pointer_table": "0x082F9490",
+        "graphics": "0x082F8DA4",
+        "palette": "0x082F5500"
+      },
+      "expected_slot_rows": [
+        490
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-224/graphics-4bpp.bin",
+      "graphics_sha256": "21fc9cd068ea6b6117cf39c5534bcbe5322339a19d3fa935857645eafbb9fcf4"
+    },
+    {
+      "id": "resource-225-relocation",
+      "resource_id": 225,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082FCA98",
+        "animation_pointer_table": "0x082FCBC8",
+        "graphics": "0x082F94B8",
+        "palette": "0x082F9498"
+      },
+      "expected_slot_rows": [
+        504
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-225/graphics-4bpp.bin",
+      "graphics_sha256": "7ae2b121e2a2a24349962eb33fa275d921a007676a97d6c790fcb0b1b56b32fd"
+    },
+    {
+      "id": "resource-226-relocation",
+      "resource_id": 226,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082FE070",
+        "animation_pointer_table": "0x082FE09C",
+        "graphics": "0x082FCBF8",
+        "palette": "0x082F9498"
+      },
+      "expected_slot_rows": [
+        505
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-226/graphics-4bpp.bin",
+      "graphics_sha256": "1989b72e7ef4d952fb914519d42ee4f185c938b9575111e8f9a946a6253d0762"
+    },
+    {
+      "id": "resource-227-relocation",
+      "resource_id": 227,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x082FF518",
+        "animation_pointer_table": "0x082FF548",
+        "graphics": "0x082FE0A0",
+        "palette": "0x082F9498"
+      },
+      "expected_slot_rows": [
+        506
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-227/graphics-4bpp.bin",
+      "graphics_sha256": "52321ec8b03b4b2db0b67c788f80f9f7778b8d31055b7762899619345874763b"
+    },
+    {
+      "id": "resource-228-relocation",
+      "resource_id": 228,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x083011C4",
+        "animation_pointer_table": "0x083011F0",
+        "graphics": "0x082FF54C",
+        "palette": "0x082F9498"
+      },
+      "expected_slot_rows": [
+        507
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-228/graphics-4bpp.bin",
+      "graphics_sha256": "86d34ceeae1dddc11804df06ac3d7d3b5f6d6f6659d0b48c55759d402bd2ed16"
+    },
+    {
+      "id": "resource-229-relocation",
+      "resource_id": 229,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0830266C",
+        "animation_pointer_table": "0x083026A4",
+        "graphics": "0x083011F4",
+        "palette": "0x082F9498"
+      },
+      "expected_slot_rows": [
+        508
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-229/graphics-4bpp.bin",
+      "graphics_sha256": "264a8a00115ecbb14c9ef248159c79d97996d3d9ff6a4a50d5cba1d4930801b7"
+    },
+    {
+      "id": "resource-230-relocation",
+      "resource_id": 230,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08305CAC",
+        "animation_pointer_table": "0x08305DDC",
+        "graphics": "0x083026CC",
+        "palette": "0x083026AC"
+      },
+      "expected_slot_rows": [
+        513
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-230/graphics-4bpp.bin",
+      "graphics_sha256": "e5383626a598b49bde29be13325fd106f81386a2e8e49a8f552e0a93f4a20c4d"
+    },
+    {
+      "id": "resource-231-relocation",
+      "resource_id": 231,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08307284",
+        "animation_pointer_table": "0x083072B0",
+        "graphics": "0x08305E0C",
+        "palette": "0x083026AC"
+      },
+      "expected_slot_rows": [
+        514
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-231/graphics-4bpp.bin",
+      "graphics_sha256": "1a9b3ee24062b75295badd415f2c65f1b39bf04a1982a1ad2bb242a2bb38088c"
+    },
+    {
+      "id": "resource-232-relocation",
+      "resource_id": 232,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0830872C",
+        "animation_pointer_table": "0x0830875C",
+        "graphics": "0x083072B4",
+        "palette": "0x083026AC"
+      },
+      "expected_slot_rows": [
+        515
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-232/graphics-4bpp.bin",
+      "graphics_sha256": "e82b86e7ac025a3efa966a0a3846c2d0bb8e9dd0601f8040bb2e0c5bea63aee0"
+    },
+    {
+      "id": "resource-233-relocation",
+      "resource_id": 233,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0830A7D8",
+        "animation_pointer_table": "0x0830A804",
+        "graphics": "0x08308760",
+        "palette": "0x083026AC"
+      },
+      "expected_slot_rows": [
+        516
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-233/graphics-4bpp.bin",
+      "graphics_sha256": "e094182d980dac25988c7cf04e6012788cec4ac9940bee0981736de779c48c0b"
+    },
+    {
+      "id": "resource-234-relocation",
+      "resource_id": 234,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0830BC80",
+        "animation_pointer_table": "0x0830BCB8",
+        "graphics": "0x0830A808",
+        "palette": "0x083026AC"
+      },
+      "expected_slot_rows": [
+        517
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-234/graphics-4bpp.bin",
+      "graphics_sha256": "39cc56aa23ab46803170a87c6405abe38d120d067a403bfb01736011f154c0df"
+    },
+    {
+      "id": "resource-235-relocation",
+      "resource_id": 235,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0830DD58",
+        "animation_pointer_table": "0x0830DD90",
+        "graphics": "0x0830BCE0",
+        "palette": "0x0830BCC0"
+      },
+      "expected_slot_rows": [
+        522
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-235/graphics-4bpp.bin",
+      "graphics_sha256": "4a703584931b2236142e2bc5d8aa4450410103828c61eaf43a9bdd0fa606a4a1"
+    },
+    {
+      "id": "resource-236-relocation",
+      "resource_id": 236,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0830F5E0",
+        "animation_pointer_table": "0x0830F5FC",
+        "graphics": "0x0830DD98",
+        "palette": "0x0830BCC0"
+      },
+      "expected_slot_rows": [
+        523
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-236/graphics-4bpp.bin",
+      "graphics_sha256": "f14ab09551ed8cd70b01d9aa5f2b41a48ed42ca15f6c1d434cdc1260f7aa70e6"
+    },
+    {
+      "id": "resource-237-relocation",
+      "resource_id": 237,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08311E78",
+        "animation_pointer_table": "0x08311EA8",
+        "graphics": "0x0830F600",
+        "palette": "0x0830BCC0"
+      },
+      "expected_slot_rows": [
+        524
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-237/graphics-4bpp.bin",
+      "graphics_sha256": "bcef72b0859ff53949dd84d2daeb94f06650fcb0afb66ca358626872628779ca"
+    },
+    {
+      "id": "resource-238-relocation",
+      "resource_id": 238,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08314724",
+        "animation_pointer_table": "0x08314750",
+        "graphics": "0x08311EAC",
+        "palette": "0x0830BCC0"
+      },
+      "expected_slot_rows": [
+        525
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-238/graphics-4bpp.bin",
+      "graphics_sha256": "3c0d0c9057bb657137ab7f21b76eedf52199adaa6ca8c568ee6cf29555fc29ea"
+    },
+    {
+      "id": "resource-239-relocation",
+      "resource_id": 239,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08315F9C",
+        "animation_pointer_table": "0x08315FC4",
+        "graphics": "0x08314754",
+        "palette": "0x0830BCC0"
+      },
+      "expected_slot_rows": [
+        526
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-239/graphics-4bpp.bin",
+      "graphics_sha256": "b6edf8b6224205494a03cd41ba93e863c46e08f0f3276cf692b8a9d3351e4bfb"
+    },
+    {
+      "id": "resource-240-relocation",
+      "resource_id": 240,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x083195CC",
+        "animation_pointer_table": "0x083196FC",
+        "graphics": "0x08315FEC",
+        "palette": "0x08315FCC"
+      },
+      "expected_slot_rows": [
+        531
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-240/graphics-4bpp.bin",
+      "graphics_sha256": "d38a6de85194a0b7fa2b1f4763ffc0dd3989d5e6f1b195fe28ad1ca313038b13"
+    },
+    {
+      "id": "resource-241-relocation",
+      "resource_id": 241,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0831ABA4",
+        "animation_pointer_table": "0x0831ABD0",
+        "graphics": "0x0831972C",
+        "palette": "0x08315FCC"
+      },
+      "expected_slot_rows": [
+        532
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-241/graphics-4bpp.bin",
+      "graphics_sha256": "1e182ab32568a5dee4ef811551169006a7d62a0f8f15f94d47e00fe70fc3e7aa"
+    },
+    {
+      "id": "resource-242-relocation",
+      "resource_id": 242,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0831C464",
+        "animation_pointer_table": "0x0831C49C",
+        "graphics": "0x0831ABD4",
+        "palette": "0x08315FCC"
+      },
+      "expected_slot_rows": [
+        533
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-242/graphics-4bpp.bin",
+      "graphics_sha256": "ebae3e341486fa18b0c009e7acd613f0942d4630c306c359d28abf2cf1fa9ea8"
+    },
+    {
+      "id": "resource-243-relocation",
+      "resource_id": 243,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0831E518",
+        "animation_pointer_table": "0x0831E544",
+        "graphics": "0x0831C4A0",
+        "palette": "0x08315FCC"
+      },
+      "expected_slot_rows": [
+        534
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-243/graphics-4bpp.bin",
+      "graphics_sha256": "338711e5eff2ee38915c365da40bae258c7647cc5f199a356cc6e1ff21b47628"
+    },
+    {
+      "id": "resource-244-relocation",
+      "resource_id": 244,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x0831F9C0",
+        "animation_pointer_table": "0x0831F9F8",
+        "graphics": "0x0831E548",
+        "palette": "0x08315FCC"
+      },
+      "expected_slot_rows": [
+        535
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-244/graphics-4bpp.bin",
+      "graphics_sha256": "6841f08c9b13a2d3c1ce479947216dec3d1437c40681bd9d7579d369250a4291"
+    },
+    {
+      "id": "resource-245-relocation",
+      "resource_id": 245,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08323000",
+        "animation_pointer_table": "0x08323130",
+        "graphics": "0x0831FA20",
+        "palette": "0x0831FA00"
+      },
+      "expected_slot_rows": [
+        549
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-245/graphics-4bpp.bin",
+      "graphics_sha256": "c2a42093695e458c8f42eff6c069c32ab4fe8d65db7df20e64c213183af24c8d"
+    },
+    {
+      "id": "resource-246-relocation",
+      "resource_id": 246,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x083245D8",
+        "animation_pointer_table": "0x08324604",
+        "graphics": "0x08323160",
+        "palette": "0x0831FA00"
+      },
+      "expected_slot_rows": [
+        550
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-246/graphics-4bpp.bin",
+      "graphics_sha256": "6c203ae229ca68dcb9eb4e05ccb1271f1518393bec91b290c4370e519f3a3f86"
+    },
+    {
+      "id": "resource-247-relocation",
+      "resource_id": 247,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08325E80",
+        "animation_pointer_table": "0x08325EB0",
+        "graphics": "0x08324608",
+        "palette": "0x0831FA00"
+      },
+      "expected_slot_rows": [
+        551
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-247/graphics-4bpp.bin",
+      "graphics_sha256": "313111f142901ce852d29bea2144a3271f228ef6008daaa997c475e7cd816a53"
+    },
+    {
+      "id": "resource-248-relocation",
+      "resource_id": 248,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08328744",
+        "animation_pointer_table": "0x08328778",
+        "graphics": "0x08325EB4",
+        "palette": "0x0831FA00"
+      },
+      "expected_slot_rows": [
+        552
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-248/graphics-4bpp.bin",
+      "graphics_sha256": "66ce152bf8de2d661d26f963721b7107be4240044542c196a48007e51c733d71"
+    },
+    {
+      "id": "resource-249-relocation",
+      "resource_id": 249,
+      "expected_descriptor": {
+        "frame_pointer_table": "0x08329BF4",
+        "animation_pointer_table": "0x08329C2C",
+        "graphics": "0x0832877C",
+        "palette": "0x0831FA00"
+      },
+      "expected_slot_rows": [
+        553
+      ],
+      "graphics_file": "artifacts/character-battle-visuals-v1/resource-249/graphics-4bpp.bin",
+      "graphics_sha256": "4eefcdd0a063442cfe9603a6df496c4a5c3067ab931e1a2773d654bcbe65f9de"
+    }
+  ]
+}

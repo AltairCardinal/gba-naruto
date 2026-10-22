@@ -1,0 +1,81 @@
+{
+  "bank": {
+    "end_offset_exclusive": 5528548,
+    "record_count": 45,
+    "record_size": 12,
+    "rom_offset": 5528008
+  },
+  "controlled_materialization": {
+    "level": 17,
+    "natural_call_site": "0x08069DD0",
+    "query": "0x0806DDA4",
+    "record_id": 21,
+    "requested_type": 26,
+    "slot_restored_after_query": true,
+    "temporary_live_slot": "0x020242E4"
+  },
+  "edit": {
+    "baseline": 1,
+    "candidate": 0,
+    "changed_rom_offsets": [
+      5528266
+    ],
+    "field": "per_level_a",
+    "record_id": 21,
+    "rom_offset": 5528266
+  },
+  "emulator": {
+    "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+    "script_path": "tools/mgba_input_sequence_replay.lua",
+    "script_sha256": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8"
+  },
+  "input_checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-action-menu-0.ss9",
+    "sha256": "863737740529a3fbd74931acdbc6eca822e4d01c09772e11a5800ab0097537ab"
+  },
+  "runs": {
+    "baseline": {
+      "audit_sha256": "3c19f8553551147b8ecbc3b23400cb0706af6c626150ba960e4ac4fa674814c7",
+      "done_sha256": "76290db6f1c0cf0b4154514b88708b5459d730bb6184e5aeb42adcbb640d3766",
+      "guard_sha256": "6ce0c36e8b0b20137b9946777ca8abda953744f66ee91e287444aee593749062",
+      "peak_tree_rss_mib": 107.5234375,
+      "png_sha256": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+      "rgb_sha256": "a6eaa4d761b163eeff96991c0b255b890e77d70e27264b53d604a186ec7d726a",
+      "rom_sha256": "bdd93194d701b4ca0c4f44c522984c0535bf7dbc5267f2bb8340504b4ce8b01c",
+      "sentinel_sha256": "3c19f8553551147b8ecbc3b23400cb0706af6c626150ba960e4ac4fa674814c7",
+      "state_sha256": "4aa45fc705ae757fd0753c24a523f802a0583a42104d2ac971053519d2329fd0"
+    },
+    "candidate": {
+      "audit_sha256": "07282497ecb9a2c746b9e47ccc6af27ed0e56e140d47fb663c27e6d1f125e177",
+      "done_sha256": "4e66d6a28039cf66ade5285e294336dce8c87a5e0056059a6c0ee63d9d660916",
+      "guard_sha256": "408f0a9f1d0f35dd338469a28a521829b2b14bb813e0425da556f46fd9f6ec53",
+      "peak_tree_rss_mib": 107.47265625,
+      "png_sha256": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+      "rgb_sha256": "a6eaa4d761b163eeff96991c0b255b890e77d70e27264b53d604a186ec7d726a",
+      "rom_sha256": "401f1d090d8c79b6beab500dc3f3b84386f93ba19c2c752d660326052635f1d2",
+      "sentinel_sha256": "07282497ecb9a2c746b9e47ccc6af27ed0e56e140d47fb663c27e6d1f125e177",
+      "state_sha256": "f0f0dd97c2ec184c376de7a02197633fa31cc4b215d45f85b3b35c67a473d9b0"
+    }
+  },
+  "runtime_effect": {
+    "base_a": 2,
+    "baseline_output_a": 18,
+    "candidate_output_a": 2,
+    "final_screen_equal": true,
+    "formula": "base_a + per_level_a * (level - 1)",
+    "output_b": 0,
+    "query_hit_count_each": 1
+  },
+  "schema": "levels-status-per-level-ab-evidence-v1",
+  "scope": {
+    "controlled_record_materialization_verified": true,
+    "external_cryptographic_attestation_claimed": false,
+    "natural_unlock_or_training_ui_claimed": false,
+    "per_level_a_runtime_formula_verified": true,
+    "physical_gba_verified": false,
+    "real_natural_type_call_site_verified": true,
+    "visible_pixel_difference_claimed": false
+  },
+  "verified": true
+}

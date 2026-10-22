@@ -1,0 +1,5223 @@
+{
+  "coverage_baseline": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "66a5e95bd2927f9db13435f6862a052ad60634cfbd3a8b5dfad07459a4a12329",
+    "source_primary_class": "armv4t_cfg_v3_reachable_thumb_code",
+    "summary": {
+      "claim_count": 15666,
+      "classified_bytes": 6138856,
+      "segment_count": 17182,
+      "unknown_bytes": 152600
+    }
+  },
+  "coverage_projection": {
+    "claim_count": 15761,
+    "classified_bytes": 6140076,
+    "delta": {
+      "claim_count": 95,
+      "classified_bytes": 1220,
+      "segment_count": 50,
+      "unknown_bytes": -1220
+    },
+    "segment_count": 17232,
+    "unknown_bytes": 151380
+  },
+  "literal_denominator": {
+    "merged_target_range_count": 95,
+    "packed_target_bytes_sha256": "f8a6b0a0447986edeaaceb53ae5fc3321c0b66068e107a4989f511a8ef8bd476",
+    "range_vector_sha256": "07dcb285d961e1bf29a1649230cc66c2b72a0858922ca81589a4c73a039c2c85",
+    "source_instruction_count": 321,
+    "source_offset_vector_sha256": "1a2d85199097f15b9296d0a026260c8ceabef0b8a8448ef4b11c09ceb188a37e",
+    "source_vector_sha256": "56f32d388c3a3143a9fb8175a4a56fdf28296924f68a931bb86fb29a486eddb1",
+    "target_bytes": 1220,
+    "target_offset_vector_sha256": "8e2e15cf823c1a2bbc8c4d3128d536b6c9b447706686e638e4e61d37f8e30d43",
+    "target_vector_sha256": "54dbac6a3f0b57c8d2d783e7781b3736b6d15f217e223a7df861af625815ce62",
+    "unique_target_word_count": 305
+  },
+  "non_claims": [
+    "No v2, v1, proven-roots, consumer_code_slice, ARM literal-load, or non-PC-relative load source is included.",
+    "No traversal is expanded beyond the already accepted v3 extension block membership and none of the 16 frontiers is resolved.",
+    "No adjacent unknown byte or whole unknown segment is promoted unless it is one of the 305 exact target words.",
+    "The loaded word value has no pointer, constant, table, resource, or business meaning beyond consumed literal data.",
+    "Natural runtime reachability, global denominators, editing, writeback, relocation, padding, and free space remain unproven."
+  ],
+  "promotion": {
+    "claim_kind": "armv4t_cfg_v3_consumed_literal_word_bytes",
+    "primary_class": "armv4t_cfg_v3_consumed_literal_word",
+    "promotion_batch": "rom-cfg-v3-consumed-literals-v1",
+    "range_records": [
+      {
+        "bytes_sha256": "42f6008973c8942a00df38f2a1e57d0772b3809013461ea129c561136d793751",
+        "range": [
+          400060,
+          400064
+        ]
+      },
+      {
+        "bytes_sha256": "6c775db283335b03d79ce5e6435fc9c61f0f0cded41a6396275f82e8e54af08c",
+        "range": [
+          412440,
+          412448
+        ]
+      },
+      {
+        "bytes_sha256": "6c775db283335b03d79ce5e6435fc9c61f0f0cded41a6396275f82e8e54af08c",
+        "range": [
+          412768,
+          412776
+        ]
+      },
+      {
+        "bytes_sha256": "e4465e26a61ba8c1113302115f69e412b0434061e9eb0b79cb6336b664ca6d8a",
+        "range": [
+          413572,
+          413592
+        ]
+      },
+      {
+        "bytes_sha256": "644dafe2fc78d95665a7f1950e2790729609537e256d9630043fdc60d778b99c",
+        "range": [
+          413616,
+          413624
+        ]
+      },
+      {
+        "bytes_sha256": "c1f36280a886738a9dc9d2d5cb61833a9c6f8b84d783d6e3cd4e2e335867f16c",
+        "range": [
+          413676,
+          413692
+        ]
+      },
+      {
+        "bytes_sha256": "4c07d23f3b3e9bc9927b617f5f8561662cc6e75fe33a18dd1165ed0551d02a21",
+        "range": [
+          413756,
+          413776
+        ]
+      },
+      {
+        "bytes_sha256": "8eb0e741b37bb013d5a5121f7f2682b3d7240f545e2e06de3421267239ac62ab",
+        "range": [
+          413872,
+          413888
+        ]
+      },
+      {
+        "bytes_sha256": "6e016d0a9cfc305bcd8c664b11ce746561e242a14cae4d23dc215da84a4724f3",
+        "range": [
+          413932,
+          413952
+        ]
+      },
+      {
+        "bytes_sha256": "df1f75ed1f511b0f9c70bea35ab0e2ba2dde6267cb4e429fa639baabca60fd9e",
+        "range": [
+          414016,
+          414032
+        ]
+      },
+      {
+        "bytes_sha256": "dd0fa76e021823f9d713db96345ef4446fab91a64a15d94bfb85e18a7c38409c",
+        "range": [
+          414092,
+          414112
+        ]
+      },
+      {
+        "bytes_sha256": "85c255730faa7fdf835be1562522f10a05dc002f9755de022e44d1921b5ba206",
+        "range": [
+          414160,
+          414168
+        ]
+      },
+      {
+        "bytes_sha256": "9780a9227f767335303a99cad5047f92df7c2ba7dbe7bd47ef55a8c18fde3c61",
+        "range": [
+          422468,
+          422472
+        ]
+      },
+      {
+        "bytes_sha256": "e3e982085792f370ec2354b86a83a0a8aab8ef1b915d2e710dbf9971cd31e81d",
+        "range": [
+          422512,
+          422516
+        ]
+      },
+      {
+        "bytes_sha256": "89d79738f6dff3a09c4d5da799ac24a3adb9384a635ca442bc8c8d8db7084238",
+        "range": [
+          422588,
+          422596
+        ]
+      },
+      {
+        "bytes_sha256": "89d79738f6dff3a09c4d5da799ac24a3adb9384a635ca442bc8c8d8db7084238",
+        "range": [
+          422696,
+          422704
+        ]
+      },
+      {
+        "bytes_sha256": "89d79738f6dff3a09c4d5da799ac24a3adb9384a635ca442bc8c8d8db7084238",
+        "range": [
+          422740,
+          422748
+        ]
+      },
+      {
+        "bytes_sha256": "89d79738f6dff3a09c4d5da799ac24a3adb9384a635ca442bc8c8d8db7084238",
+        "range": [
+          422808,
+          422816
+        ]
+      },
+      {
+        "bytes_sha256": "eb991f12ad453b0004d89a11e8fcf67a5b95af255b53a8e093b8baad85cdb555",
+        "range": [
+          423060,
+          423096
+        ]
+      },
+      {
+        "bytes_sha256": "3dd330cd528c9ac86623ffd209f52791881429e2af8faa97b471c30f02641c95",
+        "range": [
+          423260,
+          423280
+        ]
+      },
+      {
+        "bytes_sha256": "829663af0c0ebd4f300b360c6b5374a55a8fca684a83acb03061985a6548ece9",
+        "range": [
+          423384,
+          423396
+        ]
+      },
+      {
+        "bytes_sha256": "fca5ba46e80e8023de7f5041595acb3153a08d62d4ab623b2cc115476d6e6bd2",
+        "range": [
+          423812,
+          423888
+        ]
+      },
+      {
+        "bytes_sha256": "40281884a0e9f2886dd041baa5207917cf4d4d85047091c7f5393d715943387c",
+        "range": [
+          424148,
+          424168
+        ]
+      },
+      {
+        "bytes_sha256": "af4cbde0db56d2b533dda73ce9078a5498a3e9b7960f6601cc4d88f2bb18577e",
+        "range": [
+          424296,
+          424308
+        ]
+      },
+      {
+        "bytes_sha256": "bad5fe94e6272569c96031c0440f2e673050b3e8d6f08b69955726e4863ae86e",
+        "range": [
+          424560,
+          424580
+        ]
+      },
+      {
+        "bytes_sha256": "af4cbde0db56d2b533dda73ce9078a5498a3e9b7960f6601cc4d88f2bb18577e",
+        "range": [
+          424704,
+          424716
+        ]
+      },
+      {
+        "bytes_sha256": "0acdb45bfffe482cda12efc7729add26055bcb6686f910379a96bffe7dfc0e05",
+        "range": [
+          425012,
+          425048
+        ]
+      },
+      {
+        "bytes_sha256": "f75e22367c197ca4fc5746a0b468f5dd15ab595dd5411fa0acf295e4c7503360",
+        "range": [
+          425100,
+          425112
+        ]
+      },
+      {
+        "bytes_sha256": "a1346ac820ab23b88199fa83fdf291b1da35759d6138899533af1fe1d5cd3043",
+        "range": [
+          425140,
+          425144
+        ]
+      },
+      {
+        "bytes_sha256": "209ed32bc4227bc8288e405326b6bfabf94507462b0551d5f1c650ae44c5f9e2",
+        "range": [
+          425192,
+          425200
+        ]
+      },
+      {
+        "bytes_sha256": "a6ffc603f2261b6ef491ce1cb12b50434dfb66091324a46ab73a10b3273ccc3e",
+        "range": [
+          425280,
+          425292
+        ]
+      },
+      {
+        "bytes_sha256": "bfe22757eb8bc1dd0eaf2c284ca08ce9b9f0c2d1af66a1e9d499d6a3222bb880",
+        "range": [
+          425300,
+          425304
+        ]
+      },
+      {
+        "bytes_sha256": "dd831a8157c7c839f9b5678a7c1109946f9c12041a353a4729c9a43ef2e72400",
+        "range": [
+          425376,
+          425384
+        ]
+      },
+      {
+        "bytes_sha256": "a022c8f2f13c5df65a28845a6f29668c9c6a5dce364bd4f2ffd66a60e16c2774",
+        "range": [
+          425436,
+          425444
+        ]
+      },
+      {
+        "bytes_sha256": "e3e982085792f370ec2354b86a83a0a8aab8ef1b915d2e710dbf9971cd31e81d",
+        "range": [
+          425516,
+          425520
+        ]
+      },
+      {
+        "bytes_sha256": "bfe22757eb8bc1dd0eaf2c284ca08ce9b9f0c2d1af66a1e9d499d6a3222bb880",
+        "range": [
+          425556,
+          425560
+        ]
+      },
+      {
+        "bytes_sha256": "bfe22757eb8bc1dd0eaf2c284ca08ce9b9f0c2d1af66a1e9d499d6a3222bb880",
+        "range": [
+          425644,
+          425648
+        ]
+      },
+      {
+        "bytes_sha256": "e3e982085792f370ec2354b86a83a0a8aab8ef1b915d2e710dbf9971cd31e81d",
+        "range": [
+          425724,
+          425728
+        ]
+      },
+      {
+        "bytes_sha256": "bfe22757eb8bc1dd0eaf2c284ca08ce9b9f0c2d1af66a1e9d499d6a3222bb880",
+        "range": [
+          425768,
+          425772
+        ]
+      },
+      {
+        "bytes_sha256": "5b86b6899a2cd7190f8917c1b2a767f2851f213661ff99ae0d1d96c3a7a1fee7",
+        "range": [
+          425820,
+          425828
+        ]
+      },
+      {
+        "bytes_sha256": "b20e328ea08de1bb075bfeefec341cd027e6f5e5af531e63276d968f347b669b",
+        "range": [
+          425880,
+          425892
+        ]
+      },
+      {
+        "bytes_sha256": "7569f7f2f7461d85d74e39596ff3a5314dccd6e58873f8403f91c0df3eea6b93",
+        "range": [
+          426044,
+          426060
+        ]
+      },
+      {
+        "bytes_sha256": "89bdc5a6ffc99aca6f78441f69fa4361d94e815d8e7bb16a2e40dd0769d7701a",
+        "range": [
+          426116,
+          426128
+        ]
+      },
+      {
+        "bytes_sha256": "6146567085708e433f24b27d9f2eedc90aebcd04433a8278d0b3891a33347810",
+        "range": [
+          426276,
+          426308
+        ]
+      },
+      {
+        "bytes_sha256": "408b0bb556489a1147089068a5b5c3f7ff814e4673bbaa9b5c9e2045f523eccb",
+        "range": [
+          426368,
+          426372
+        ]
+      },
+      {
+        "bytes_sha256": "ff245e68339e6c90d62bb0fd530573f20fd0bee9b4c7572ebaab1c369a3de16f",
+        "range": [
+          426412,
+          426416
+        ]
+      },
+      {
+        "bytes_sha256": "fd187a5dabda08fce9e479f82f9a6a8f7e85cb56928cc497337c14a1790209a5",
+        "range": [
+          426536,
+          426540
+        ]
+      },
+      {
+        "bytes_sha256": "d07c9c7ad50a33e0f23075c223d53427ef2cbc28850a67379a973b41f6ad87fb",
+        "range": [
+          426672,
+          426688
+        ]
+      },
+      {
+        "bytes_sha256": "4a07e6f5481a11b292a1cf7656bcfda0a577212987e2d6df32f9fdfb443cc897",
+        "range": [
+          448048,
+          448052
+        ]
+      },
+      {
+        "bytes_sha256": "a0454a24dd4bc418448ca19320519ea3fe544fa1a910868b62ca210614f119f8",
+        "range": [
+          448504,
+          448508
+        ]
+      },
+      {
+        "bytes_sha256": "91eb93d1d22fcaa0f504a52c0cd8595e4430642d25d0a85405d9f98cc5bc26fa",
+        "range": [
+          448540,
+          448544
+        ]
+      },
+      {
+        "bytes_sha256": "d8c85b9b0590a3ea8618fca78dd2451ac34658cdbb9bf2bb065564e92260df9d",
+        "range": [
+          448600,
+          448604
+        ]
+      },
+      {
+        "bytes_sha256": "d8c85b9b0590a3ea8618fca78dd2451ac34658cdbb9bf2bb065564e92260df9d",
+        "range": [
+          449732,
+          449736
+        ]
+      },
+      {
+        "bytes_sha256": "b8c1d75e4befe0e736e243f671edbc27dd9e5532349119d65caaec57f254e400",
+        "range": [
+          454336,
+          454340
+        ]
+      },
+      {
+        "bytes_sha256": "093a2497084a7d4b82f800549528de044aa3dabd261c4a01771aa5aaa79e3ab9",
+        "range": [
+          454344,
+          454348
+        ]
+      },
+      {
+        "bytes_sha256": "1a6355983a85283c1e9b935ece380ff49243e3cfce03abce1c5d3bfac81695b0",
+        "range": [
+          454664,
+          454668
+        ]
+      },
+      {
+        "bytes_sha256": "133045324a175c771696904afc984689ef102c65dd78895b87976ec589db3744",
+        "range": [
+          454684,
+          454688
+        ]
+      },
+      {
+        "bytes_sha256": "32ba82811ca29d534c5c35d80152dbf29ed06111bc00ed944966c1a980496486",
+        "range": [
+          455972,
+          455976
+        ]
+      },
+      {
+        "bytes_sha256": "dfabed4ef20c919200c5faad33afd6b38f353e60824e24347a21ea5da3f1d57e",
+        "range": [
+          455980,
+          455984
+        ]
+      },
+      {
+        "bytes_sha256": "ae0f5d64dc86f6cd7c3bfaeee6b40ea74b8f7d5700a3288520f90df125018599",
+        "range": [
+          456000,
+          456004
+        ]
+      },
+      {
+        "bytes_sha256": "99eb8920c1bb45fd7ae1c4a0a5e80363ddaaf4f8ff8704c637499e3553150e65",
+        "range": [
+          456108,
+          456112
+        ]
+      },
+      {
+        "bytes_sha256": "128ec588571b232519d6e9b2c59a423209682552b93ba9233d575af0b9a4c8d4",
+        "range": [
+          461812,
+          461820
+        ]
+      },
+      {
+        "bytes_sha256": "6834093b252e92fde45fce77944813297211ec908883f15a4c4b4b5239379e63",
+        "range": [
+          461864,
+          461868
+        ]
+      },
+      {
+        "bytes_sha256": "c49f6fcfe766e5f98d8d76f28bf42f147bf2fb5524f178defc4192c9627224c7",
+        "range": [
+          462164,
+          462168
+        ]
+      },
+      {
+        "bytes_sha256": "68735887679a5a1520e68f346276e05e612b855d2dd6f67fb217769f242c4fc4",
+        "range": [
+          466856,
+          466860
+        ]
+      },
+      {
+        "bytes_sha256": "075f8212ab155bdc9f69368652e065a4618dcb94f0464701437b118d99e0cb6b",
+        "range": [
+          466884,
+          466888
+        ]
+      },
+      {
+        "bytes_sha256": "6b5f75d1c99ed78d861ba50c47a222e2448ea1b94261172684eb3aeaabf353dc",
+        "range": [
+          466912,
+          466916
+        ]
+      },
+      {
+        "bytes_sha256": "0bdb92deeddc43ddc08424e256dbe4c4fcb9f3c48f6b84f8528619465abc50d2",
+        "range": [
+          466940,
+          466944
+        ]
+      },
+      {
+        "bytes_sha256": "33b8f9a01247bb2762fbd88daf6053baf20c68fd16bee095d540a409f9d63eaa",
+        "range": [
+          466968,
+          466972
+        ]
+      },
+      {
+        "bytes_sha256": "56b8e61e43ebb7c5a8bc5a3fbd3a311a71e147bd858e1af2933fb88cf44e626a",
+        "range": [
+          467016,
+          467020
+        ]
+      },
+      {
+        "bytes_sha256": "664cc6f59b929789571f8ee99afff9f1753fab2b06fd2b454b1afe2a254ebe8f",
+        "range": [
+          467060,
+          467064
+        ]
+      },
+      {
+        "bytes_sha256": "293414c28fe287059a941864d4f9af41310a0efc0007fd8f38afd9ff3224bee7",
+        "range": [
+          467184,
+          467188
+        ]
+      },
+      {
+        "bytes_sha256": "d999c537cbf007c303abd5dd6f43c36728ba35a90c1c3f57c532bd1193650301",
+        "range": [
+          507840,
+          507872
+        ]
+      },
+      {
+        "bytes_sha256": "7abf1a7c9bde437bdf7b871ec0e1edbf6af52b5d186449d7ece95c8b6b577653",
+        "range": [
+          508008,
+          508032
+        ]
+      },
+      {
+        "bytes_sha256": "4d7fb4053c1983eda2b72a177bc463b4be23608922c1551486232bda2274f7d8",
+        "range": [
+          528408,
+          528420
+        ]
+      },
+      {
+        "bytes_sha256": "093127bb8ca9bd577167a35cee4a7c237b222345a460028e16c71fc24e381ae9",
+        "range": [
+          528556,
+          528560
+        ]
+      },
+      {
+        "bytes_sha256": "2725cb2d6fa26908e983e1c95f91f3dad72ee5afde1ad804f65818bf26020d84",
+        "range": [
+          528704,
+          528732
+        ]
+      },
+      {
+        "bytes_sha256": "813c6fbf70b555618479ab924e46870161f6096c44e4bcaf8d195bd4758c1a66",
+        "range": [
+          528916,
+          528944
+        ]
+      },
+      {
+        "bytes_sha256": "4eb72ff0f1af4c08ba8fe523844683a7759feaefd986ef1ff9a942246f71dd6f",
+        "range": [
+          528980,
+          528988
+        ]
+      },
+      {
+        "bytes_sha256": "35e34194c160e0dd20dcf50b2e3bcbb9dddca394b3c64d7232eec0f657a5bf59",
+        "range": [
+          529068,
+          529088
+        ]
+      },
+      {
+        "bytes_sha256": "ef3c40b151b00d63ea96afc6a0a4f29f19e1876870640c498db6c6589eab1241",
+        "range": [
+          529112,
+          529116
+        ]
+      },
+      {
+        "bytes_sha256": "69d145e49ec6167f4de9813c0272eba5a797d460eea7deecf7552c64bdcf6432",
+        "range": [
+          529240,
+          529260
+        ]
+      },
+      {
+        "bytes_sha256": "a99c31da101480db605ea6201a323f5e415af2b5ca0080f0934c723af5022420",
+        "range": [
+          530088,
+          530128
+        ]
+      },
+      {
+        "bytes_sha256": "c7d104e756fc5785aa6053eb2921a00e77fa5366a802cab23eb9798681138066",
+        "range": [
+          530224,
+          530236
+        ]
+      },
+      {
+        "bytes_sha256": "1c8f3e5a8f4d711e769af3a71a80c36d40a28b6468da8091dab9d2777e3b17c4",
+        "range": [
+          530412,
+          530444
+        ]
+      },
+      {
+        "bytes_sha256": "91b5826bff86c58a46132c2b46cd3942de2bf5657a6528c28729d5c5f626df9c",
+        "range": [
+          530628,
+          530660
+        ]
+      },
+      {
+        "bytes_sha256": "77493ab5c2f78ba01a94a78551bb4d2628e24e8002de8fa4e566e3f0c3e55e0d",
+        "range": [
+          530792,
+          530820
+        ]
+      },
+      {
+        "bytes_sha256": "f220c5f90e8ff1b1399b122efadfc97cb0fedefc7e2e8f5bb0baa46300f15543",
+        "range": [
+          530964,
+          530996
+        ]
+      },
+      {
+        "bytes_sha256": "1ea30131b8e3b73d80fe5e378115c36b13402292c2b4841446ab5253fb1333b9",
+        "range": [
+          531052,
+          531084
+        ]
+      },
+      {
+        "bytes_sha256": "6c5ecaa72e5f6c9e2939386697876ea59310b173c5623c80287f1ac258a980d9",
+        "range": [
+          531260,
+          531280
+        ]
+      },
+      {
+        "bytes_sha256": "c96e6066c80a207f825c3612d35d1b653e8b86504db98a70b6b29b5759d90b48",
+        "range": [
+          558904,
+          558912
+        ]
+      },
+      {
+        "bytes_sha256": "b761e244e4098f2b948220e9861e7c70435a6f5056c5fbe4f0e4ec526ab826a8",
+        "range": [
+          560708,
+          560740
+        ]
+      },
+      {
+        "bytes_sha256": "3cc9f528a6dacfcfb6b7b569b9e3515a6ac00cbcc6ba2fe247a9e9ddceefaebd",
+        "range": [
+          578452,
+          578464
+        ]
+      },
+      {
+        "bytes_sha256": "3524efb02e7054a3319e53f185ff43a1445f9e5f6fbe74ff28517e6a00adca95",
+        "range": [
+          617160,
+          617180
+        ]
+      },
+      {
+        "bytes_sha256": "161f232a663856006b554b94380fbc58a4da4efbebee90dcf59002a71648a3c0",
+        "range": [
+          617260,
+          617268
+        ]
+      }
+    ],
+    "ranges": [
+      [
+        400060,
+        400064
+      ],
+      [
+        412440,
+        412448
+      ],
+      [
+        412768,
+        412776
+      ],
+      [
+        413572,
+        413592
+      ],
+      [
+        413616,
+        413624
+      ],
+      [
+        413676,
+        413692
+      ],
+      [
+        413756,
+        413776
+      ],
+      [
+        413872,
+        413888
+      ],
+      [
+        413932,
+        413952
+      ],
+      [
+        414016,
+        414032
+      ],
+      [
+        414092,
+        414112
+      ],
+      [
+        414160,
+        414168
+      ],
+      [
+        422468,
+        422472
+      ],
+      [
+        422512,
+        422516
+      ],
+      [
+        422588,
+        422596
+      ],
+      [
+        422696,
+        422704
+      ],
+      [
+        422740,
+        422748
+      ],
+      [
+        422808,
+        422816
+      ],
+      [
+        423060,
+        423096
+      ],
+      [
+        423260,
+        423280
+      ],
+      [
+        423384,
+        423396
+      ],
+      [
+        423812,
+        423888
+      ],
+      [
+        424148,
+        424168
+      ],
+      [
+        424296,
+        424308
+      ],
+      [
+        424560,
+        424580
+      ],
+      [
+        424704,
+        424716
+      ],
+      [
+        425012,
+        425048
+      ],
+      [
+        425100,
+        425112
+      ],
+      [
+        425140,
+        425144
+      ],
+      [
+        425192,
+        425200
+      ],
+      [
+        425280,
+        425292
+      ],
+      [
+        425300,
+        425304
+      ],
+      [
+        425376,
+        425384
+      ],
+      [
+        425436,
+        425444
+      ],
+      [
+        425516,
+        425520
+      ],
+      [
+        425556,
+        425560
+      ],
+      [
+        425644,
+        425648
+      ],
+      [
+        425724,
+        425728
+      ],
+      [
+        425768,
+        425772
+      ],
+      [
+        425820,
+        425828
+      ],
+      [
+        425880,
+        425892
+      ],
+      [
+        426044,
+        426060
+      ],
+      [
+        426116,
+        426128
+      ],
+      [
+        426276,
+        426308
+      ],
+      [
+        426368,
+        426372
+      ],
+      [
+        426412,
+        426416
+      ],
+      [
+        426536,
+        426540
+      ],
+      [
+        426672,
+        426688
+      ],
+      [
+        448048,
+        448052
+      ],
+      [
+        448504,
+        448508
+      ],
+      [
+        448540,
+        448544
+      ],
+      [
+        448600,
+        448604
+      ],
+      [
+        449732,
+        449736
+      ],
+      [
+        454336,
+        454340
+      ],
+      [
+        454344,
+        454348
+      ],
+      [
+        454664,
+        454668
+      ],
+      [
+        454684,
+        454688
+      ],
+      [
+        455972,
+        455976
+      ],
+      [
+        455980,
+        455984
+      ],
+      [
+        456000,
+        456004
+      ],
+      [
+        456108,
+        456112
+      ],
+      [
+        461812,
+        461820
+      ],
+      [
+        461864,
+        461868
+      ],
+      [
+        462164,
+        462168
+      ],
+      [
+        466856,
+        466860
+      ],
+      [
+        466884,
+        466888
+      ],
+      [
+        466912,
+        466916
+      ],
+      [
+        466940,
+        466944
+      ],
+      [
+        466968,
+        466972
+      ],
+      [
+        467016,
+        467020
+      ],
+      [
+        467060,
+        467064
+      ],
+      [
+        467184,
+        467188
+      ],
+      [
+        507840,
+        507872
+      ],
+      [
+        508008,
+        508032
+      ],
+      [
+        528408,
+        528420
+      ],
+      [
+        528556,
+        528560
+      ],
+      [
+        528704,
+        528732
+      ],
+      [
+        528916,
+        528944
+      ],
+      [
+        528980,
+        528988
+      ],
+      [
+        529068,
+        529088
+      ],
+      [
+        529112,
+        529116
+      ],
+      [
+        529240,
+        529260
+      ],
+      [
+        530088,
+        530128
+      ],
+      [
+        530224,
+        530236
+      ],
+      [
+        530412,
+        530444
+      ],
+      [
+        530628,
+        530660
+      ],
+      [
+        530792,
+        530820
+      ],
+      [
+        530964,
+        530996
+      ],
+      [
+        531052,
+        531084
+      ],
+      [
+        531260,
+        531280
+      ],
+      [
+        558904,
+        558912
+      ],
+      [
+        560708,
+        560740
+      ],
+      [
+        578452,
+        578464
+      ],
+      [
+        617160,
+        617180
+      ],
+      [
+        617260,
+        617268
+      ]
+    ]
+  },
+  "public_contract_sha256": "3d0bdadd8b69b566ab409fcba896a78f63191914959095a74b3398976fc4a540",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-cfg-v3-consumed-literals-v1",
+  "scope": {
+    "cfg_traversal_expanded": false,
+    "frontiers_resolved": false,
+    "frozen_v3_extension_membership_reused": true,
+    "loaded_value_semantics_proven": false,
+    "source_owner_restricted_to_v3_cfg": true,
+    "target_words_complete_current_unknown": true
+  },
+  "source_artifact": {
+    "manifest_sha256": "6aa788611f73856e621f5c74aab544d47b034307a9dc1180f6fd8f81cb1f423b",
+    "path": "artifacts/rom-cfg-inventory-v3",
+    "payload_sha256": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+    "source_exporter_sha256": "d7eb2d6767dfd96ccce5c888d6dd8b77624841f774a173436ea45b5d035a5a5a",
+    "source_test_sha256": "0748bbc8be6e7e8c173193c2ecccb4479b449104973ffd7ea6c1a957b8f2ffdc",
+    "source_verifier_sha256": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a"
+  },
+  "source_denominator": {
+    "selection_funnel": {
+      "excluded_non_unknown_target_source_count": 5,
+      "excluded_non_v3_owner_source_count": 17,
+      "raw_source_instruction_count": 343,
+      "raw_unique_target_word_count": 327,
+      "source_owner_eligible_instruction_count": 326
+    },
+    "summary": {
+      "block_count": 891,
+      "instruction_bytes": 9902,
+      "instruction_count": 4698
+    },
+    "thumb_block_denominator_sha256": "3e7679748880eb7cdea05a1d16fb66dd16f128e37333a817da7a56666d7a45ea"
+  },
+  "source_to_target": [
+    {
+      "source_file_offset": 400040,
+      "source_raw_hex": "0449",
+      "target_file_offset": 400060,
+      "target_raw_hex": "7cc50908"
+    },
+    {
+      "source_file_offset": 412280,
+      "source_raw_hex": "274d",
+      "target_file_offset": 412440,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 412320,
+      "source_raw_hex": "1e4c",
+      "target_file_offset": 412444,
+      "target_raw_hex": "f45d0003"
+    },
+    {
+      "source_file_offset": 412466,
+      "source_raw_hex": "4b4d",
+      "target_file_offset": 412768,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 412528,
+      "source_raw_hex": "3c4b",
+      "target_file_offset": 412772,
+      "target_raw_hex": "f45d0003"
+    },
+    {
+      "source_file_offset": 413524,
+      "source_raw_hex": "0b49",
+      "target_file_offset": 413572,
+      "target_raw_hex": "c65c0003"
+    },
+    {
+      "source_file_offset": 413526,
+      "source_raw_hex": "0c4a",
+      "target_file_offset": 413576,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 413534,
+      "source_raw_hex": "0b49",
+      "target_file_offset": 413580,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offset": 413558,
+      "source_raw_hex": "0649",
+      "target_file_offset": 413584,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offset": 413564,
+      "source_raw_hex": "0549",
+      "target_file_offset": 413588,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offset": 413592,
+      "source_raw_hex": "054c",
+      "target_file_offset": 413616,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 413608,
+      "source_raw_hex": "0249",
+      "target_file_offset": 413620,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offset": 413624,
+      "source_raw_hex": "0c4c",
+      "target_file_offset": 413676,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 413642,
+      "source_raw_hex": "0949",
+      "target_file_offset": 413680,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offset": 413654,
+      "source_raw_hex": "0749",
+      "target_file_offset": 413684,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offset": 413666,
+      "source_raw_hex": "0549",
+      "target_file_offset": 413688,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offset": 413692,
+      "source_raw_hex": "0f4e",
+      "target_file_offset": 413756,
+      "target_raw_hex": "c85c0003"
+    },
+    {
+      "source_file_offset": 413694,
+      "source_raw_hex": "104d",
+      "target_file_offset": 413760,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 413704,
+      "source_raw_hex": "0e4c",
+      "target_file_offset": 413764,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offset": 413740,
+      "source_raw_hex": "0649",
+      "target_file_offset": 413768,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offset": 413746,
+      "source_raw_hex": "0649",
+      "target_file_offset": 413772,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offset": 413776,
+      "source_raw_hex": "1748",
+      "target_file_offset": 413872,
+      "target_raw_hex": "485d0003"
+    },
+    {
+      "source_file_offset": 413784,
+      "source_raw_hex": "164d",
+      "target_file_offset": 413876,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 413810,
+      "source_raw_hex": "1148",
+      "target_file_offset": 413880,
+      "target_raw_hex": "4a5d0003"
+    },
+    {
+      "source_file_offset": 413854,
+      "source_raw_hex": "0749",
+      "target_file_offset": 413884,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offset": 413888,
+      "source_raw_hex": "0a49",
+      "target_file_offset": 413932,
+      "target_raw_hex": "ca5c0003"
+    },
+    {
+      "source_file_offset": 413890,
+      "source_raw_hex": "0b4a",
+      "target_file_offset": 413936,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 413898,
+      "source_raw_hex": "0a49",
+      "target_file_offset": 413940,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offset": 413920,
+      "source_raw_hex": "0548",
+      "target_file_offset": 413944,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offset": 413924,
+      "source_raw_hex": "0549",
+      "target_file_offset": 413948,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offset": 413952,
+      "source_raw_hex": "0f48",
+      "target_file_offset": 414016,
+      "target_raw_hex": "4e5d0003"
+    },
+    {
+      "source_file_offset": 413966,
+      "source_raw_hex": "0d48",
+      "target_file_offset": 414020,
+      "target_raw_hex": "40270002"
+    },
+    {
+      "source_file_offset": 413972,
+      "source_raw_hex": "0c4a",
+      "target_file_offset": 414024,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 413976,
+      "source_raw_hex": "0c4f",
+      "target_file_offset": 414028,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offset": 414058,
+      "source_raw_hex": "0848",
+      "target_file_offset": 414092,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offset": 414060,
+      "source_raw_hex": "084a",
+      "target_file_offset": 414096,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offset": 414072,
+      "source_raw_hex": "0649",
+      "target_file_offset": 414100,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offset": 414078,
+      "source_raw_hex": "0649",
+      "target_file_offset": 414104,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offset": 414084,
+      "source_raw_hex": "0549",
+      "target_file_offset": 414108,
+      "target_raw_hex": "4f5d0003"
+    },
+    {
+      "source_file_offset": 414112,
+      "source_raw_hex": "0b48",
+      "target_file_offset": 414160,
+      "target_raw_hex": "4e5d0003"
+    },
+    {
+      "source_file_offset": 414126,
+      "source_raw_hex": "0948",
+      "target_file_offset": 414164,
+      "target_raw_hex": "40270002"
+    },
+    {
+      "source_file_offset": 422442,
+      "source_raw_hex": "0648",
+      "target_file_offset": 422468,
+      "target_raw_hex": "88a80002"
+    },
+    {
+      "source_file_offset": 422484,
+      "source_raw_hex": "0648",
+      "target_file_offset": 422512,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 422544,
+      "source_raw_hex": "0a4c",
+      "target_file_offset": 422588,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offset": 422552,
+      "source_raw_hex": "094d",
+      "target_file_offset": 422592,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 422614,
+      "source_raw_hex": "144d",
+      "target_file_offset": 422696,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offset": 422622,
+      "source_raw_hex": "1349",
+      "target_file_offset": 422700,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 422652,
+      "source_raw_hex": "0b4a",
+      "target_file_offset": 422700,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 422684,
+      "source_raw_hex": "034b",
+      "target_file_offset": 422700,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 422722,
+      "source_raw_hex": "044d",
+      "target_file_offset": 422740,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offset": 422730,
+      "source_raw_hex": "0349",
+      "target_file_offset": 422744,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 422766,
+      "source_raw_hex": "0a4c",
+      "target_file_offset": 422808,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offset": 422774,
+      "source_raw_hex": "094d",
+      "target_file_offset": 422812,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 422816,
+      "source_raw_hex": "3c49",
+      "target_file_offset": 423060,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 422820,
+      "source_raw_hex": "3c4d",
+      "target_file_offset": 423064,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 422838,
+      "source_raw_hex": "394c",
+      "target_file_offset": 423068,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offset": 422936,
+      "source_raw_hex": "2148",
+      "target_file_offset": 423072,
+      "target_raw_hex": "04cc0908"
+    },
+    {
+      "source_file_offset": 422938,
+      "source_raw_hex": "2249",
+      "target_file_offset": 423076,
+      "target_raw_hex": "10cc0908"
+    },
+    {
+      "source_file_offset": 422966,
+      "source_raw_hex": "1c4a",
+      "target_file_offset": 423080,
+      "target_raw_hex": "5ebd0102"
+    },
+    {
+      "source_file_offset": 422978,
+      "source_raw_hex": "1a4a",
+      "target_file_offset": 423084,
+      "target_raw_hex": "60bd0102"
+    },
+    {
+      "source_file_offset": 422994,
+      "source_raw_hex": "1749",
+      "target_file_offset": 423088,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offset": 423002,
+      "source_raw_hex": "164c",
+      "target_file_offset": 423092,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 423022,
+      "source_raw_hex": "1048",
+      "target_file_offset": 423088,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offset": 423136,
+      "source_raw_hex": "1e4a",
+      "target_file_offset": 423260,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offset": 423154,
+      "source_raw_hex": "1b48",
+      "target_file_offset": 423264,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offset": 423172,
+      "source_raw_hex": "1749",
+      "target_file_offset": 423268,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offset": 423206,
+      "source_raw_hex": "1048",
+      "target_file_offset": 423272,
+      "target_raw_hex": "ffff0000"
+    },
+    {
+      "source_file_offset": 423212,
+      "source_raw_hex": "0f49",
+      "target_file_offset": 423276,
+      "target_raw_hex": "50cd0908"
+    },
+    {
+      "source_file_offset": 423314,
+      "source_raw_hex": "114a",
+      "target_file_offset": 423384,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offset": 423332,
+      "source_raw_hex": "0d48",
+      "target_file_offset": 423388,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offset": 423350,
+      "source_raw_hex": "0a49",
+      "target_file_offset": 423392,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offset": 423404,
+      "source_raw_hex": "654f",
+      "target_file_offset": 423812,
+      "target_raw_hex": "a4a80002"
+    },
+    {
+      "source_file_offset": 423428,
+      "source_raw_hex": "6048",
+      "target_file_offset": 423816,
+      "target_raw_hex": "74cc0908"
+    },
+    {
+      "source_file_offset": 423430,
+      "source_raw_hex": "6149",
+      "target_file_offset": 423820,
+      "target_raw_hex": "98cc0908"
+    },
+    {
+      "source_file_offset": 423460,
+      "source_raw_hex": "5a4d",
+      "target_file_offset": 423824,
+      "target_raw_hex": "5ebd0102"
+    },
+    {
+      "source_file_offset": 423474,
+      "source_raw_hex": "584e",
+      "target_file_offset": 423828,
+      "target_raw_hex": "60bd0102"
+    },
+    {
+      "source_file_offset": 423496,
+      "source_raw_hex": "5349",
+      "target_file_offset": 423832,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offset": 423500,
+      "source_raw_hex": "5348",
+      "target_file_offset": 423836,
+      "target_raw_hex": "b4cc0908"
+    },
+    {
+      "source_file_offset": 423502,
+      "source_raw_hex": "5449",
+      "target_file_offset": 423840,
+      "target_raw_hex": "c0cc0908"
+    },
+    {
+      "source_file_offset": 423540,
+      "source_raw_hex": "4b4c",
+      "target_file_offset": 423844,
+      "target_raw_hex": "30000200"
+    },
+    {
+      "source_file_offset": 423554,
+      "source_raw_hex": "494d",
+      "target_file_offset": 423848,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offset": 423558,
+      "source_raw_hex": "4948",
+      "target_file_offset": 423852,
+      "target_raw_hex": "dccc0908"
+    },
+    {
+      "source_file_offset": 423560,
+      "source_raw_hex": "4949",
+      "target_file_offset": 423856,
+      "target_raw_hex": "e8cc0908"
+    },
+    {
+      "source_file_offset": 423606,
+      "source_raw_hex": "3b4e",
+      "target_file_offset": 423844,
+      "target_raw_hex": "30000200"
+    },
+    {
+      "source_file_offset": 423622,
+      "source_raw_hex": "3b48",
+      "target_file_offset": 423860,
+      "target_raw_hex": "04cd0908"
+    },
+    {
+      "source_file_offset": 423624,
+      "source_raw_hex": "3b49",
+      "target_file_offset": 423864,
+      "target_raw_hex": "10cd0908"
+    },
+    {
+      "source_file_offset": 423666,
+      "source_raw_hex": "2c4a",
+      "target_file_offset": 423844,
+      "target_raw_hex": "30000200"
+    },
+    {
+      "source_file_offset": 423682,
+      "source_raw_hex": "2e48",
+      "target_file_offset": 423868,
+      "target_raw_hex": "2ccd0908"
+    },
+    {
+      "source_file_offset": 423684,
+      "source_raw_hex": "2e49",
+      "target_file_offset": 423872,
+      "target_raw_hex": "38cd0908"
+    },
+    {
+      "source_file_offset": 423730,
+      "source_raw_hex": "1c4e",
+      "target_file_offset": 423844,
+      "target_raw_hex": "30000200"
+    },
+    {
+      "source_file_offset": 423746,
+      "source_raw_hex": "2049",
+      "target_file_offset": 423876,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offset": 423752,
+      "source_raw_hex": "1f49",
+      "target_file_offset": 423880,
+      "target_raw_hex": "81a80002"
+    },
+    {
+      "source_file_offset": 423758,
+      "source_raw_hex": "1f48",
+      "target_file_offset": 423884,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 423948,
+      "source_raw_hex": "3148",
+      "target_file_offset": 424148,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offset": 423974,
+      "source_raw_hex": "2c48",
+      "target_file_offset": 424152,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offset": 424048,
+      "source_raw_hex": "1a49",
+      "target_file_offset": 424156,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 424066,
+      "source_raw_hex": "1748",
+      "target_file_offset": 424160,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offset": 424082,
+      "source_raw_hex": "144a",
+      "target_file_offset": 424164,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 424130,
+      "source_raw_hex": "0649",
+      "target_file_offset": 424156,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 424230,
+      "source_raw_hex": "104e",
+      "target_file_offset": 424296,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offset": 424236,
+      "source_raw_hex": "0f48",
+      "target_file_offset": 424300,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offset": 424250,
+      "source_raw_hex": "0d48",
+      "target_file_offset": 424304,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offset": 424434,
+      "source_raw_hex": "1f48",
+      "target_file_offset": 424560,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offset": 424438,
+      "source_raw_hex": "1f4a",
+      "target_file_offset": 424564,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offset": 424512,
+      "source_raw_hex": "0d4d",
+      "target_file_offset": 424568,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 424522,
+      "source_raw_hex": "0c48",
+      "target_file_offset": 424572,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offset": 424534,
+      "source_raw_hex": "0a4a",
+      "target_file_offset": 424576,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 424630,
+      "source_raw_hex": "124b",
+      "target_file_offset": 424704,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offset": 424636,
+      "source_raw_hex": "1148",
+      "target_file_offset": 424708,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offset": 424650,
+      "source_raw_hex": "0f48",
+      "target_file_offset": 424712,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offset": 424840,
+      "source_raw_hex": "2a4a",
+      "target_file_offset": 425012,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offset": 424844,
+      "source_raw_hex": "2a4c",
+      "target_file_offset": 425016,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offset": 424918,
+      "source_raw_hex": "194d",
+      "target_file_offset": 425020,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 424928,
+      "source_raw_hex": "1748",
+      "target_file_offset": 425024,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offset": 424940,
+      "source_raw_hex": "154a",
+      "target_file_offset": 425028,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offset": 424960,
+      "source_raw_hex": "1149",
+      "target_file_offset": 425032,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offset": 424966,
+      "source_raw_hex": "1149",
+      "target_file_offset": 425036,
+      "target_raw_hex": "81a80002"
+    },
+    {
+      "source_file_offset": 424998,
+      "source_raw_hex": "0a4b",
+      "target_file_offset": 425040,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offset": 425004,
+      "source_raw_hex": "0949",
+      "target_file_offset": 425044,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offset": 425048,
+      "source_raw_hex": "0c4b",
+      "target_file_offset": 425100,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offset": 425066,
+      "source_raw_hex": "094b",
+      "target_file_offset": 425104,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 425094,
+      "source_raw_hex": "034a",
+      "target_file_offset": 425108,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offset": 425134,
+      "source_raw_hex": "014a",
+      "target_file_offset": 425140,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offset": 425160,
+      "source_raw_hex": "0749",
+      "target_file_offset": 425192,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 425186,
+      "source_raw_hex": "024a",
+      "target_file_offset": 425196,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offset": 425236,
+      "source_raw_hex": "0a4a",
+      "target_file_offset": 425280,
+      "target_raw_hex": "0c000003"
+    },
+    {
+      "source_file_offset": 425246,
+      "source_raw_hex": "0948",
+      "target_file_offset": 425284,
+      "target_raw_hex": "75000003"
+    },
+    {
+      "source_file_offset": 425268,
+      "source_raw_hex": "044d",
+      "target_file_offset": 425288,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 425292,
+      "source_raw_hex": "014e",
+      "target_file_offset": 425300,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 425308,
+      "source_raw_hex": "1049",
+      "target_file_offset": 425376,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 425312,
+      "source_raw_hex": "104a",
+      "target_file_offset": 425380,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 425396,
+      "source_raw_hex": "0949",
+      "target_file_offset": 425436,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 425422,
+      "source_raw_hex": "044c",
+      "target_file_offset": 425440,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 425456,
+      "source_raw_hex": "0e48",
+      "target_file_offset": 425516,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 425548,
+      "source_raw_hex": "014e",
+      "target_file_offset": 425556,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 425630,
+      "source_raw_hex": "0348",
+      "target_file_offset": 425644,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 425638,
+      "source_raw_hex": "0149",
+      "target_file_offset": 425644,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 425658,
+      "source_raw_hex": "1048",
+      "target_file_offset": 425724,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offset": 425754,
+      "source_raw_hex": "034a",
+      "target_file_offset": 425768,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 425786,
+      "source_raw_hex": "0848",
+      "target_file_offset": 425820,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 425802,
+      "source_raw_hex": "0548",
+      "target_file_offset": 425824,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offset": 425836,
+      "source_raw_hex": "0a48",
+      "target_file_offset": 425880,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 425852,
+      "source_raw_hex": "0748",
+      "target_file_offset": 425884,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offset": 425868,
+      "source_raw_hex": "044e",
+      "target_file_offset": 425888,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 425904,
+      "source_raw_hex": "2248",
+      "target_file_offset": 426044,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 425930,
+      "source_raw_hex": "1c48",
+      "target_file_offset": 426044,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 425954,
+      "source_raw_hex": "1648",
+      "target_file_offset": 426044,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 425974,
+      "source_raw_hex": "1148",
+      "target_file_offset": 426044,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 425986,
+      "source_raw_hex": "0f48",
+      "target_file_offset": 426048,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offset": 425994,
+      "source_raw_hex": "0e4c",
+      "target_file_offset": 426052,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offset": 426024,
+      "source_raw_hex": "0749",
+      "target_file_offset": 426056,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 426036,
+      "source_raw_hex": "044b",
+      "target_file_offset": 426056,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offset": 426064,
+      "source_raw_hex": "0c48",
+      "target_file_offset": 426116,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offset": 426076,
+      "source_raw_hex": "0a48",
+      "target_file_offset": 426120,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offset": 426084,
+      "source_raw_hex": "094c",
+      "target_file_offset": 426124,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offset": 426136,
+      "source_raw_hex": "224f",
+      "target_file_offset": 426276,
+      "target_raw_hex": "a4a80002"
+    },
+    {
+      "source_file_offset": 426138,
+      "source_raw_hex": "2348",
+      "target_file_offset": 426280,
+      "target_raw_hex": "74cc0908"
+    },
+    {
+      "source_file_offset": 426140,
+      "source_raw_hex": "2349",
+      "target_file_offset": 426284,
+      "target_raw_hex": "98cc0908"
+    },
+    {
+      "source_file_offset": 426178,
+      "source_raw_hex": "1b4a",
+      "target_file_offset": 426288,
+      "target_raw_hex": "5ebd0102"
+    },
+    {
+      "source_file_offset": 426190,
+      "source_raw_hex": "194a",
+      "target_file_offset": 426292,
+      "target_raw_hex": "60bd0102"
+    },
+    {
+      "source_file_offset": 426210,
+      "source_raw_hex": "1549",
+      "target_file_offset": 426296,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offset": 426218,
+      "source_raw_hex": "1448",
+      "target_file_offset": 426300,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offset": 426224,
+      "source_raw_hex": "1148",
+      "target_file_offset": 426296,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offset": 426252,
+      "source_raw_hex": "0c48",
+      "target_file_offset": 426304,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 426346,
+      "source_raw_hex": "0549",
+      "target_file_offset": 426368,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offset": 426402,
+      "source_raw_hex": "0248",
+      "target_file_offset": 426412,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offset": 426500,
+      "source_raw_hex": "084c",
+      "target_file_offset": 426536,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 426560,
+      "source_raw_hex": "1b4e",
+      "target_file_offset": 426672,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offset": 426562,
+      "source_raw_hex": "1c48",
+      "target_file_offset": 426676,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offset": 426600,
+      "source_raw_hex": "1349",
+      "target_file_offset": 426680,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offset": 426634,
+      "source_raw_hex": "0c48",
+      "target_file_offset": 426684,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offset": 448000,
+      "source_raw_hex": "0b4b",
+      "target_file_offset": 448048,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offset": 448500,
+      "source_raw_hex": "0048",
+      "target_file_offset": 448504,
+      "target_raw_hex": "01010000"
+    },
+    {
+      "source_file_offset": 448510,
+      "source_raw_hex": "0748",
+      "target_file_offset": 448540,
+      "target_raw_hex": "05010000"
+    },
+    {
+      "source_file_offset": 448566,
+      "source_raw_hex": "084b",
+      "target_file_offset": 448600,
+      "target_raw_hex": "e7030000"
+    },
+    {
+      "source_file_offset": 449704,
+      "source_raw_hex": "064b",
+      "target_file_offset": 449732,
+      "target_raw_hex": "e7030000"
+    },
+    {
+      "source_file_offset": 454332,
+      "source_raw_hex": "0048",
+      "target_file_offset": 454336,
+      "target_raw_hex": "90ee1208"
+    },
+    {
+      "source_file_offset": 454340,
+      "source_raw_hex": "0048",
+      "target_file_offset": 454344,
+      "target_raw_hex": "98ee1208"
+    },
+    {
+      "source_file_offset": 454648,
+      "source_raw_hex": "0348",
+      "target_file_offset": 454664,
+      "target_raw_hex": "c8ee1208"
+    },
+    {
+      "source_file_offset": 454668,
+      "source_raw_hex": "0348",
+      "target_file_offset": 454684,
+      "target_raw_hex": "d0ee1208"
+    },
+    {
+      "source_file_offset": 455940,
+      "source_raw_hex": "074a",
+      "target_file_offset": 455972,
+      "target_raw_hex": "34965908"
+    },
+    {
+      "source_file_offset": 455976,
+      "source_raw_hex": "0048",
+      "target_file_offset": 455980,
+      "target_raw_hex": "24ef1208"
+    },
+    {
+      "source_file_offset": 455984,
+      "source_raw_hex": "0348",
+      "target_file_offset": 456000,
+      "target_raw_hex": "2cef1208"
+    },
+    {
+      "source_file_offset": 456004,
+      "source_raw_hex": "1948",
+      "target_file_offset": 456108,
+      "target_raw_hex": "34ef1208"
+    },
+    {
+      "source_file_offset": 461784,
+      "source_raw_hex": "0648",
+      "target_file_offset": 461812,
+      "target_raw_hex": "c4ef1208"
+    },
+    {
+      "source_file_offset": 461800,
+      "source_raw_hex": "0348",
+      "target_file_offset": 461816,
+      "target_raw_hex": "0c680202"
+    },
+    {
+      "source_file_offset": 461820,
+      "source_raw_hex": "0a48",
+      "target_file_offset": 461864,
+      "target_raw_hex": "c4ef1208"
+    },
+    {
+      "source_file_offset": 461872,
+      "source_raw_hex": "4848",
+      "target_file_offset": 462164,
+      "target_raw_hex": "d4ef1208"
+    },
+    {
+      "source_file_offset": 466816,
+      "source_raw_hex": "0948",
+      "target_file_offset": 466856,
+      "target_raw_hex": "34f01208"
+    },
+    {
+      "source_file_offset": 466860,
+      "source_raw_hex": "0548",
+      "target_file_offset": 466884,
+      "target_raw_hex": "40f01208"
+    },
+    {
+      "source_file_offset": 466888,
+      "source_raw_hex": "0548",
+      "target_file_offset": 466912,
+      "target_raw_hex": "54f01208"
+    },
+    {
+      "source_file_offset": 466916,
+      "source_raw_hex": "0548",
+      "target_file_offset": 466940,
+      "target_raw_hex": "60f01208"
+    },
+    {
+      "source_file_offset": 466944,
+      "source_raw_hex": "0548",
+      "target_file_offset": 466968,
+      "target_raw_hex": "74f01208"
+    },
+    {
+      "source_file_offset": 466972,
+      "source_raw_hex": "0a48",
+      "target_file_offset": 467016,
+      "target_raw_hex": "88f01208"
+    },
+    {
+      "source_file_offset": 467020,
+      "source_raw_hex": "0948",
+      "target_file_offset": 467060,
+      "target_raw_hex": "9cf01208"
+    },
+    {
+      "source_file_offset": 467064,
+      "source_raw_hex": "1d48",
+      "target_file_offset": 467184,
+      "target_raw_hex": "a8f01208"
+    },
+    {
+      "source_file_offset": 507646,
+      "source_raw_hex": "3049",
+      "target_file_offset": 507840,
+      "target_raw_hex": "e06b0202"
+    },
+    {
+      "source_file_offset": 507650,
+      "source_raw_hex": "3048",
+      "target_file_offset": 507844,
+      "target_raw_hex": "6f5a0000"
+    },
+    {
+      "source_file_offset": 507676,
+      "source_raw_hex": "2a4f",
+      "target_file_offset": 507848,
+      "target_raw_hex": "14e05308"
+    },
+    {
+      "source_file_offset": 507678,
+      "source_raw_hex": "2b48",
+      "target_file_offset": 507852,
+      "target_raw_hex": "665a0000"
+    },
+    {
+      "source_file_offset": 507736,
+      "source_raw_hex": "1d4d",
+      "target_file_offset": 507856,
+      "target_raw_hex": "705a0000"
+    },
+    {
+      "source_file_offset": 507776,
+      "source_raw_hex": "144c",
+      "target_file_offset": 507860,
+      "target_raw_hex": "14050000"
+    },
+    {
+      "source_file_offset": 507788,
+      "source_raw_hex": "1249",
+      "target_file_offset": 507864,
+      "target_raw_hex": "d05a0000"
+    },
+    {
+      "source_file_offset": 507824,
+      "source_raw_hex": "0a49",
+      "target_file_offset": 507868,
+      "target_raw_hex": "d15a0000"
+    },
+    {
+      "source_file_offset": 507882,
+      "source_raw_hex": "1f4a",
+      "target_file_offset": 508008,
+      "target_raw_hex": "e06b0202"
+    },
+    {
+      "source_file_offset": 507886,
+      "source_raw_hex": "1f48",
+      "target_file_offset": 508012,
+      "target_raw_hex": "6f5a0000"
+    },
+    {
+      "source_file_offset": 507914,
+      "source_raw_hex": "194f",
+      "target_file_offset": 508016,
+      "target_raw_hex": "14e05308"
+    },
+    {
+      "source_file_offset": 507916,
+      "source_raw_hex": "1948",
+      "target_file_offset": 508020,
+      "target_raw_hex": "665a0000"
+    },
+    {
+      "source_file_offset": 507974,
+      "source_raw_hex": "0c49",
+      "target_file_offset": 508024,
+      "target_raw_hex": "96e45308"
+    },
+    {
+      "source_file_offset": 507976,
+      "source_raw_hex": "0c48",
+      "target_file_offset": 508028,
+      "target_raw_hex": "705a0000"
+    },
+    {
+      "source_file_offset": 528384,
+      "source_raw_hex": "054b",
+      "target_file_offset": 528408,
+      "target_raw_hex": "2c1e0202"
+    },
+    {
+      "source_file_offset": 528386,
+      "source_raw_hex": "064a",
+      "target_file_offset": 528412,
+      "target_raw_hex": "2abe0102"
+    },
+    {
+      "source_file_offset": 528400,
+      "source_raw_hex": "0349",
+      "target_file_offset": 528416,
+      "target_raw_hex": "3ff80000"
+    },
+    {
+      "source_file_offset": 528524,
+      "source_raw_hex": "0748",
+      "target_file_offset": 528556,
+      "target_raw_hex": "04660202"
+    },
+    {
+      "source_file_offset": 528564,
+      "source_raw_hex": "224e",
+      "target_file_offset": 528704,
+      "target_raw_hex": "80280002"
+    },
+    {
+      "source_file_offset": 528572,
+      "source_raw_hex": "2148",
+      "target_file_offset": 528708,
+      "target_raw_hex": "cc9a0008"
+    },
+    {
+      "source_file_offset": 528608,
+      "source_raw_hex": "1948",
+      "target_file_offset": 528712,
+      "target_raw_hex": "d59a0008"
+    },
+    {
+      "source_file_offset": 528614,
+      "source_raw_hex": "1948",
+      "target_file_offset": 528716,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offset": 528652,
+      "source_raw_hex": "1048",
+      "target_file_offset": 528720,
+      "target_raw_hex": "78fc1208"
+    },
+    {
+      "source_file_offset": 528662,
+      "source_raw_hex": "0f48",
+      "target_file_offset": 528724,
+      "target_raw_hex": "84fc1208"
+    },
+    {
+      "source_file_offset": 528676,
+      "source_raw_hex": "0c4c",
+      "target_file_offset": 528728,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 528742,
+      "source_raw_hex": "2b4b",
+      "target_file_offset": 528916,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offset": 528744,
+      "source_raw_hex": "2b48",
+      "target_file_offset": 528920,
+      "target_raw_hex": "15120000"
+    },
+    {
+      "source_file_offset": 528768,
+      "source_raw_hex": "2648",
+      "target_file_offset": 528924,
+      "target_raw_hex": "16120000"
+    },
+    {
+      "source_file_offset": 528792,
+      "source_raw_hex": "2148",
+      "target_file_offset": 528928,
+      "target_raw_hex": "17120000"
+    },
+    {
+      "source_file_offset": 528850,
+      "source_raw_hex": "1449",
+      "target_file_offset": 528932,
+      "target_raw_hex": "c4575a08"
+    },
+    {
+      "source_file_offset": 528862,
+      "source_raw_hex": "1248",
+      "target_file_offset": 528936,
+      "target_raw_hex": "a4fc1208"
+    },
+    {
+      "source_file_offset": 528876,
+      "source_raw_hex": "0f4c",
+      "target_file_offset": 528940,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offset": 528958,
+      "source_raw_hex": "0548",
+      "target_file_offset": 528980,
+      "target_raw_hex": "c4575a08"
+    },
+    {
+      "source_file_offset": 528970,
+      "source_raw_hex": "0349",
+      "target_file_offset": 528984,
+      "target_raw_hex": "e4fc1208"
+    },
+    {
+      "source_file_offset": 528990,
+      "source_raw_hex": "1349",
+      "target_file_offset": 529068,
+      "target_raw_hex": "00fd1208"
+    },
+    {
+      "source_file_offset": 528998,
+      "source_raw_hex": "1248",
+      "target_file_offset": 529072,
+      "target_raw_hex": "dd9a0008"
+    },
+    {
+      "source_file_offset": 529012,
+      "source_raw_hex": "0f48",
+      "target_file_offset": 529076,
+      "target_raw_hex": "e69a0008"
+    },
+    {
+      "source_file_offset": 529018,
+      "source_raw_hex": "0f48",
+      "target_file_offset": 529080,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offset": 529028,
+      "source_raw_hex": "0d48",
+      "target_file_offset": 529084,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offset": 529094,
+      "source_raw_hex": "0448",
+      "target_file_offset": 529112,
+      "target_raw_hex": "d99a0008"
+    },
+    {
+      "source_file_offset": 529200,
+      "source_raw_hex": "094b",
+      "target_file_offset": 529240,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offset": 529202,
+      "source_raw_hex": "0a4a",
+      "target_file_offset": 529244,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offset": 529206,
+      "source_raw_hex": "0a48",
+      "target_file_offset": 529248,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offset": 529212,
+      "source_raw_hex": "0949",
+      "target_file_offset": 529252,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offset": 529232,
+      "source_raw_hex": "0549",
+      "target_file_offset": 529256,
+      "target_raw_hex": "6c130808"
+    },
+    {
+      "source_file_offset": 529936,
+      "source_raw_hex": "254b",
+      "target_file_offset": 530088,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offset": 529938,
+      "source_raw_hex": "264a",
+      "target_file_offset": 530092,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offset": 529942,
+      "source_raw_hex": "2648",
+      "target_file_offset": 530096,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offset": 529948,
+      "source_raw_hex": "2549",
+      "target_file_offset": 530100,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offset": 529980,
+      "source_raw_hex": "1e48",
+      "target_file_offset": 530104,
+      "target_raw_hex": "31160008"
+    },
+    {
+      "source_file_offset": 529986,
+      "source_raw_hex": "1e49",
+      "target_file_offset": 530108,
+      "target_raw_hex": "34965908"
+    },
+    {
+      "source_file_offset": 530008,
+      "source_raw_hex": "1948",
+      "target_file_offset": 530112,
+      "target_raw_hex": "25170008"
+    },
+    {
+      "source_file_offset": 530056,
+      "source_raw_hex": "0e48",
+      "target_file_offset": 530116,
+      "target_raw_hex": "14fd1208"
+    },
+    {
+      "source_file_offset": 530064,
+      "source_raw_hex": "0d48",
+      "target_file_offset": 530120,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offset": 530072,
+      "source_raw_hex": "0c48",
+      "target_file_offset": 530124,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offset": 530142,
+      "source_raw_hex": "1449",
+      "target_file_offset": 530224,
+      "target_raw_hex": "40fd1208"
+    },
+    {
+      "source_file_offset": 530174,
+      "source_raw_hex": "0d48",
+      "target_file_offset": 530228,
+      "target_raw_hex": "34965908"
+    },
+    {
+      "source_file_offset": 530188,
+      "source_raw_hex": "0a49",
+      "target_file_offset": 530232,
+      "target_raw_hex": "60fd1208"
+    },
+    {
+      "source_file_offset": 530252,
+      "source_raw_hex": "274d",
+      "target_file_offset": 530412,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offset": 530256,
+      "source_raw_hex": "2749",
+      "target_file_offset": 530416,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offset": 530262,
+      "source_raw_hex": "274a",
+      "target_file_offset": 530420,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offset": 530274,
+      "source_raw_hex": "2549",
+      "target_file_offset": 530424,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offset": 530302,
+      "source_raw_hex": "1f48",
+      "target_file_offset": 530428,
+      "target_raw_hex": "4f160008"
+    },
+    {
+      "source_file_offset": 530308,
+      "source_raw_hex": "1e4a",
+      "target_file_offset": 530432,
+      "target_raw_hex": "8c7e5a08"
+    },
+    {
+      "source_file_offset": 530332,
+      "source_raw_hex": "194e",
+      "target_file_offset": 530436,
+      "target_raw_hex": "25170008"
+    },
+    {
+      "source_file_offset": 530352,
+      "source_raw_hex": "1548",
+      "target_file_offset": 530440,
+      "target_raw_hex": "2b170008"
+    },
+    {
+      "source_file_offset": 530392,
+      "source_raw_hex": "054b",
+      "target_file_offset": 530416,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offset": 530406,
+      "source_raw_hex": "044b",
+      "target_file_offset": 530424,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offset": 530460,
+      "source_raw_hex": "294b",
+      "target_file_offset": 530628,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offset": 530462,
+      "source_raw_hex": "2a4a",
+      "target_file_offset": 530632,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offset": 530466,
+      "source_raw_hex": "2a48",
+      "target_file_offset": 530636,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offset": 530472,
+      "source_raw_hex": "2949",
+      "target_file_offset": 530640,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offset": 530506,
+      "source_raw_hex": "2249",
+      "target_file_offset": 530644,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offset": 530560,
+      "source_raw_hex": "1548",
+      "target_file_offset": 530648,
+      "target_raw_hex": "71160008"
+    },
+    {
+      "source_file_offset": 530566,
+      "source_raw_hex": "1549",
+      "target_file_offset": 530652,
+      "target_raw_hex": "80925908"
+    },
+    {
+      "source_file_offset": 530590,
+      "source_raw_hex": "104a",
+      "target_file_offset": 530656,
+      "target_raw_hex": "60705a08"
+    },
+    {
+      "source_file_offset": 530592,
+      "source_raw_hex": "0c49",
+      "target_file_offset": 530644,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offset": 530676,
+      "source_raw_hex": "1c48",
+      "target_file_offset": 530792,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offset": 530680,
+      "source_raw_hex": "1c4c",
+      "target_file_offset": 530796,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offset": 530684,
+      "source_raw_hex": "1c4e",
+      "target_file_offset": 530800,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offset": 530690,
+      "source_raw_hex": "1c4a",
+      "target_file_offset": 530804,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offset": 530728,
+      "source_raw_hex": "1348",
+      "target_file_offset": 530808,
+      "target_raw_hex": "a1160008"
+    },
+    {
+      "source_file_offset": 530734,
+      "source_raw_hex": "1349",
+      "target_file_offset": 530812,
+      "target_raw_hex": "80925908"
+    },
+    {
+      "source_file_offset": 530756,
+      "source_raw_hex": "0e48",
+      "target_file_offset": 530816,
+      "target_raw_hex": "25170008"
+    },
+    {
+      "source_file_offset": 530828,
+      "source_raw_hex": "214b",
+      "target_file_offset": 530964,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offset": 530830,
+      "source_raw_hex": "224e",
+      "target_file_offset": 530968,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offset": 530834,
+      "source_raw_hex": "2248",
+      "target_file_offset": 530972,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offset": 530840,
+      "source_raw_hex": "2149",
+      "target_file_offset": 530976,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offset": 530872,
+      "source_raw_hex": "1a4f",
+      "target_file_offset": 530980,
+      "target_raw_hex": "0c680202"
+    },
+    {
+      "source_file_offset": 530906,
+      "source_raw_hex": "1349",
+      "target_file_offset": 530984,
+      "target_raw_hex": "8ca80002"
+    },
+    {
+      "source_file_offset": 530912,
+      "source_raw_hex": "1248",
+      "target_file_offset": 530988,
+      "target_raw_hex": "c3160008"
+    },
+    {
+      "source_file_offset": 530924,
+      "source_raw_hex": "104a",
+      "target_file_offset": 530992,
+      "target_raw_hex": "d4110302"
+    },
+    {
+      "source_file_offset": 530996,
+      "source_raw_hex": "0d49",
+      "target_file_offset": 531052,
+      "target_raw_hex": "8ca80002"
+    },
+    {
+      "source_file_offset": 530998,
+      "source_raw_hex": "0e4a",
+      "target_file_offset": 531056,
+      "target_raw_hex": "b5030000"
+    },
+    {
+      "source_file_offset": 531006,
+      "source_raw_hex": "0d48",
+      "target_file_offset": 531060,
+      "target_raw_hex": "ee160008"
+    },
+    {
+      "source_file_offset": 531012,
+      "source_raw_hex": "0c48",
+      "target_file_offset": 531064,
+      "target_raw_hex": "25170008"
+    },
+    {
+      "source_file_offset": 531024,
+      "source_raw_hex": "0a4b",
+      "target_file_offset": 531068,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offset": 531026,
+      "source_raw_hex": "0b4a",
+      "target_file_offset": 531072,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offset": 531030,
+      "source_raw_hex": "0b48",
+      "target_file_offset": 531076,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offset": 531036,
+      "source_raw_hex": "0a49",
+      "target_file_offset": 531080,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offset": 531098,
+      "source_raw_hex": "284b",
+      "target_file_offset": 531260,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offset": 531102,
+      "source_raw_hex": "284c",
+      "target_file_offset": 531264,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offset": 531106,
+      "source_raw_hex": "284e",
+      "target_file_offset": 531268,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offset": 531112,
+      "source_raw_hex": "274a",
+      "target_file_offset": 531272,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offset": 531194,
+      "source_raw_hex": "1448",
+      "target_file_offset": 531276,
+      "target_raw_hex": "c0400202"
+    },
+    {
+      "source_file_offset": 558878,
+      "source_raw_hex": "064a",
+      "target_file_offset": 558904,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offset": 558880,
+      "source_raw_hex": "064b",
+      "target_file_offset": 558908,
+      "target_raw_hex": "15120000"
+    },
+    {
+      "source_file_offset": 560548,
+      "source_raw_hex": "274c",
+      "target_file_offset": 560708,
+      "target_raw_hex": "70120302"
+    },
+    {
+      "source_file_offset": 560550,
+      "source_raw_hex": "2848",
+      "target_file_offset": 560712,
+      "target_raw_hex": "d4110302"
+    },
+    {
+      "source_file_offset": 560562,
+      "source_raw_hex": "2648",
+      "target_file_offset": 560716,
+      "target_raw_hex": "c4575a08"
+    },
+    {
+      "source_file_offset": 560572,
+      "source_raw_hex": "2449",
+      "target_file_offset": 560720,
+      "target_raw_hex": "788e3408"
+    },
+    {
+      "source_file_offset": 560606,
+      "source_raw_hex": "1d48",
+      "target_file_offset": 560724,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offset": 560614,
+      "source_raw_hex": "1c48",
+      "target_file_offset": 560728,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offset": 560662,
+      "source_raw_hex": "1148",
+      "target_file_offset": 560732,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offset": 560664,
+      "source_raw_hex": "114a",
+      "target_file_offset": 560736,
+      "target_raw_hex": "15120000"
+    },
+    {
+      "source_file_offset": 578374,
+      "source_raw_hex": "134e",
+      "target_file_offset": 578452,
+      "target_raw_hex": "80280002"
+    },
+    {
+      "source_file_offset": 578394,
+      "source_raw_hex": "0f49",
+      "target_file_offset": 578456,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offset": 578398,
+      "source_raw_hex": "0f4f",
+      "target_file_offset": 578460,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offset": 617042,
+      "source_raw_hex": "1d48",
+      "target_file_offset": 617160,
+      "target_raw_hex": "505e0003"
+    },
+    {
+      "source_file_offset": 617078,
+      "source_raw_hex": "1548",
+      "target_file_offset": 617164,
+      "target_raw_hex": "3f3f0000"
+    },
+    {
+      "source_file_offset": 617094,
+      "source_raw_hex": "1249",
+      "target_file_offset": 617168,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offset": 617112,
+      "source_raw_hex": "0e49",
+      "target_file_offset": 617172,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offset": 617128,
+      "source_raw_hex": "0b4e",
+      "target_file_offset": 617176,
+      "target_raw_hex": "50000003"
+    },
+    {
+      "source_file_offset": 617216,
+      "source_raw_hex": "0a49",
+      "target_file_offset": 617260,
+      "target_raw_hex": "505e0003"
+    },
+    {
+      "source_file_offset": 617240,
+      "source_raw_hex": "0549",
+      "target_file_offset": 617264,
+      "target_raw_hex": "4e000003"
+    }
+  ],
+  "summary": {
+    "merged_target_range_count": 95,
+    "source_instruction_count": 321,
+    "target_bytes": 1220,
+    "unique_target_word_count": 305
+  },
+  "target_words": [
+    {
+      "source_file_offsets": [
+        400040
+      ],
+      "target_file_offset": 400060,
+      "target_raw_hex": "7cc50908"
+    },
+    {
+      "source_file_offsets": [
+        412280
+      ],
+      "target_file_offset": 412440,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        412320
+      ],
+      "target_file_offset": 412444,
+      "target_raw_hex": "f45d0003"
+    },
+    {
+      "source_file_offsets": [
+        412466
+      ],
+      "target_file_offset": 412768,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        412528
+      ],
+      "target_file_offset": 412772,
+      "target_raw_hex": "f45d0003"
+    },
+    {
+      "source_file_offsets": [
+        413524
+      ],
+      "target_file_offset": 413572,
+      "target_raw_hex": "c65c0003"
+    },
+    {
+      "source_file_offsets": [
+        413526
+      ],
+      "target_file_offset": 413576,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        413534
+      ],
+      "target_file_offset": 413580,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offsets": [
+        413558
+      ],
+      "target_file_offset": 413584,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offsets": [
+        413564
+      ],
+      "target_file_offset": 413588,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offsets": [
+        413592
+      ],
+      "target_file_offset": 413616,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        413608
+      ],
+      "target_file_offset": 413620,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offsets": [
+        413624
+      ],
+      "target_file_offset": 413676,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        413642
+      ],
+      "target_file_offset": 413680,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offsets": [
+        413654
+      ],
+      "target_file_offset": 413684,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offsets": [
+        413666
+      ],
+      "target_file_offset": 413688,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offsets": [
+        413692
+      ],
+      "target_file_offset": 413756,
+      "target_raw_hex": "c85c0003"
+    },
+    {
+      "source_file_offsets": [
+        413694
+      ],
+      "target_file_offset": 413760,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        413704
+      ],
+      "target_file_offset": 413764,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offsets": [
+        413740
+      ],
+      "target_file_offset": 413768,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offsets": [
+        413746
+      ],
+      "target_file_offset": 413772,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offsets": [
+        413776
+      ],
+      "target_file_offset": 413872,
+      "target_raw_hex": "485d0003"
+    },
+    {
+      "source_file_offsets": [
+        413784
+      ],
+      "target_file_offset": 413876,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        413810
+      ],
+      "target_file_offset": 413880,
+      "target_raw_hex": "4a5d0003"
+    },
+    {
+      "source_file_offsets": [
+        413854
+      ],
+      "target_file_offset": 413884,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offsets": [
+        413888
+      ],
+      "target_file_offset": 413932,
+      "target_raw_hex": "ca5c0003"
+    },
+    {
+      "source_file_offsets": [
+        413890
+      ],
+      "target_file_offset": 413936,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        413898
+      ],
+      "target_file_offset": 413940,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offsets": [
+        413920
+      ],
+      "target_file_offset": 413944,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offsets": [
+        413924
+      ],
+      "target_file_offset": 413948,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offsets": [
+        413952
+      ],
+      "target_file_offset": 414016,
+      "target_raw_hex": "4e5d0003"
+    },
+    {
+      "source_file_offsets": [
+        413966
+      ],
+      "target_file_offset": 414020,
+      "target_raw_hex": "40270002"
+    },
+    {
+      "source_file_offsets": [
+        413972
+      ],
+      "target_file_offset": 414024,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        413976
+      ],
+      "target_file_offset": 414028,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offsets": [
+        414058
+      ],
+      "target_file_offset": 414092,
+      "target_raw_hex": "465d0003"
+    },
+    {
+      "source_file_offsets": [
+        414060
+      ],
+      "target_file_offset": 414096,
+      "target_raw_hex": "455d0003"
+    },
+    {
+      "source_file_offsets": [
+        414072
+      ],
+      "target_file_offset": 414100,
+      "target_raw_hex": "52000003"
+    },
+    {
+      "source_file_offsets": [
+        414078
+      ],
+      "target_file_offset": 414104,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offsets": [
+        414084
+      ],
+      "target_file_offset": 414108,
+      "target_raw_hex": "4f5d0003"
+    },
+    {
+      "source_file_offsets": [
+        414112
+      ],
+      "target_file_offset": 414160,
+      "target_raw_hex": "4e5d0003"
+    },
+    {
+      "source_file_offsets": [
+        414126
+      ],
+      "target_file_offset": 414164,
+      "target_raw_hex": "40270002"
+    },
+    {
+      "source_file_offsets": [
+        422442
+      ],
+      "target_file_offset": 422468,
+      "target_raw_hex": "88a80002"
+    },
+    {
+      "source_file_offsets": [
+        422484
+      ],
+      "target_file_offset": 422512,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        422544
+      ],
+      "target_file_offset": 422588,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offsets": [
+        422552
+      ],
+      "target_file_offset": 422592,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offsets": [
+        422614
+      ],
+      "target_file_offset": 422696,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offsets": [
+        422622,
+        422652,
+        422684
+      ],
+      "target_file_offset": 422700,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offsets": [
+        422722
+      ],
+      "target_file_offset": 422740,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offsets": [
+        422730
+      ],
+      "target_file_offset": 422744,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offsets": [
+        422766
+      ],
+      "target_file_offset": 422808,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offsets": [
+        422774
+      ],
+      "target_file_offset": 422812,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offsets": [
+        422816
+      ],
+      "target_file_offset": 423060,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offsets": [
+        422820
+      ],
+      "target_file_offset": 423064,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        422838
+      ],
+      "target_file_offset": 423068,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offsets": [
+        422936
+      ],
+      "target_file_offset": 423072,
+      "target_raw_hex": "04cc0908"
+    },
+    {
+      "source_file_offsets": [
+        422938
+      ],
+      "target_file_offset": 423076,
+      "target_raw_hex": "10cc0908"
+    },
+    {
+      "source_file_offsets": [
+        422966
+      ],
+      "target_file_offset": 423080,
+      "target_raw_hex": "5ebd0102"
+    },
+    {
+      "source_file_offsets": [
+        422978
+      ],
+      "target_file_offset": 423084,
+      "target_raw_hex": "60bd0102"
+    },
+    {
+      "source_file_offsets": [
+        422994,
+        423022
+      ],
+      "target_file_offset": 423088,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offsets": [
+        423002
+      ],
+      "target_file_offset": 423092,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offsets": [
+        423136
+      ],
+      "target_file_offset": 423260,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offsets": [
+        423154
+      ],
+      "target_file_offset": 423264,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offsets": [
+        423172
+      ],
+      "target_file_offset": 423268,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offsets": [
+        423206
+      ],
+      "target_file_offset": 423272,
+      "target_raw_hex": "ffff0000"
+    },
+    {
+      "source_file_offsets": [
+        423212
+      ],
+      "target_file_offset": 423276,
+      "target_raw_hex": "50cd0908"
+    },
+    {
+      "source_file_offsets": [
+        423314
+      ],
+      "target_file_offset": 423384,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offsets": [
+        423332
+      ],
+      "target_file_offset": 423388,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offsets": [
+        423350
+      ],
+      "target_file_offset": 423392,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offsets": [
+        423404
+      ],
+      "target_file_offset": 423812,
+      "target_raw_hex": "a4a80002"
+    },
+    {
+      "source_file_offsets": [
+        423428
+      ],
+      "target_file_offset": 423816,
+      "target_raw_hex": "74cc0908"
+    },
+    {
+      "source_file_offsets": [
+        423430
+      ],
+      "target_file_offset": 423820,
+      "target_raw_hex": "98cc0908"
+    },
+    {
+      "source_file_offsets": [
+        423460
+      ],
+      "target_file_offset": 423824,
+      "target_raw_hex": "5ebd0102"
+    },
+    {
+      "source_file_offsets": [
+        423474
+      ],
+      "target_file_offset": 423828,
+      "target_raw_hex": "60bd0102"
+    },
+    {
+      "source_file_offsets": [
+        423496
+      ],
+      "target_file_offset": 423832,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offsets": [
+        423500
+      ],
+      "target_file_offset": 423836,
+      "target_raw_hex": "b4cc0908"
+    },
+    {
+      "source_file_offsets": [
+        423502
+      ],
+      "target_file_offset": 423840,
+      "target_raw_hex": "c0cc0908"
+    },
+    {
+      "source_file_offsets": [
+        423540,
+        423606,
+        423666,
+        423730
+      ],
+      "target_file_offset": 423844,
+      "target_raw_hex": "30000200"
+    },
+    {
+      "source_file_offsets": [
+        423554
+      ],
+      "target_file_offset": 423848,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offsets": [
+        423558
+      ],
+      "target_file_offset": 423852,
+      "target_raw_hex": "dccc0908"
+    },
+    {
+      "source_file_offsets": [
+        423560
+      ],
+      "target_file_offset": 423856,
+      "target_raw_hex": "e8cc0908"
+    },
+    {
+      "source_file_offsets": [
+        423622
+      ],
+      "target_file_offset": 423860,
+      "target_raw_hex": "04cd0908"
+    },
+    {
+      "source_file_offsets": [
+        423624
+      ],
+      "target_file_offset": 423864,
+      "target_raw_hex": "10cd0908"
+    },
+    {
+      "source_file_offsets": [
+        423682
+      ],
+      "target_file_offset": 423868,
+      "target_raw_hex": "2ccd0908"
+    },
+    {
+      "source_file_offsets": [
+        423684
+      ],
+      "target_file_offset": 423872,
+      "target_raw_hex": "38cd0908"
+    },
+    {
+      "source_file_offsets": [
+        423746
+      ],
+      "target_file_offset": 423876,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offsets": [
+        423752
+      ],
+      "target_file_offset": 423880,
+      "target_raw_hex": "81a80002"
+    },
+    {
+      "source_file_offsets": [
+        423758
+      ],
+      "target_file_offset": 423884,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        423948
+      ],
+      "target_file_offset": 424148,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offsets": [
+        423974
+      ],
+      "target_file_offset": 424152,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offsets": [
+        424048,
+        424130
+      ],
+      "target_file_offset": 424156,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        424066
+      ],
+      "target_file_offset": 424160,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offsets": [
+        424082
+      ],
+      "target_file_offset": 424164,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offsets": [
+        424230
+      ],
+      "target_file_offset": 424296,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offsets": [
+        424236
+      ],
+      "target_file_offset": 424300,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offsets": [
+        424250
+      ],
+      "target_file_offset": 424304,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offsets": [
+        424434
+      ],
+      "target_file_offset": 424560,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offsets": [
+        424438
+      ],
+      "target_file_offset": 424564,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offsets": [
+        424512
+      ],
+      "target_file_offset": 424568,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        424522
+      ],
+      "target_file_offset": 424572,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offsets": [
+        424534
+      ],
+      "target_file_offset": 424576,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offsets": [
+        424630
+      ],
+      "target_file_offset": 424704,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offsets": [
+        424636
+      ],
+      "target_file_offset": 424708,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offsets": [
+        424650
+      ],
+      "target_file_offset": 424712,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offsets": [
+        424840
+      ],
+      "target_file_offset": 425012,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offsets": [
+        424844
+      ],
+      "target_file_offset": 425016,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offsets": [
+        424918
+      ],
+      "target_file_offset": 425020,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        424928
+      ],
+      "target_file_offset": 425024,
+      "target_raw_hex": "44160000"
+    },
+    {
+      "source_file_offsets": [
+        424940
+      ],
+      "target_file_offset": 425028,
+      "target_raw_hex": "9ede0002"
+    },
+    {
+      "source_file_offsets": [
+        424960
+      ],
+      "target_file_offset": 425032,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offsets": [
+        424966
+      ],
+      "target_file_offset": 425036,
+      "target_raw_hex": "81a80002"
+    },
+    {
+      "source_file_offsets": [
+        424998
+      ],
+      "target_file_offset": 425040,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offsets": [
+        425004
+      ],
+      "target_file_offset": 425044,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offsets": [
+        425048
+      ],
+      "target_file_offset": 425100,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offsets": [
+        425066
+      ],
+      "target_file_offset": 425104,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        425094
+      ],
+      "target_file_offset": 425108,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offsets": [
+        425134
+      ],
+      "target_file_offset": 425140,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offsets": [
+        425160
+      ],
+      "target_file_offset": 425192,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        425186
+      ],
+      "target_file_offset": 425196,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offsets": [
+        425236
+      ],
+      "target_file_offset": 425280,
+      "target_raw_hex": "0c000003"
+    },
+    {
+      "source_file_offsets": [
+        425246
+      ],
+      "target_file_offset": 425284,
+      "target_raw_hex": "75000003"
+    },
+    {
+      "source_file_offsets": [
+        425268
+      ],
+      "target_file_offset": 425288,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offsets": [
+        425292
+      ],
+      "target_file_offset": 425300,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offsets": [
+        425308
+      ],
+      "target_file_offset": 425376,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offsets": [
+        425312
+      ],
+      "target_file_offset": 425380,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offsets": [
+        425396
+      ],
+      "target_file_offset": 425436,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        425422
+      ],
+      "target_file_offset": 425440,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offsets": [
+        425456
+      ],
+      "target_file_offset": 425516,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        425548
+      ],
+      "target_file_offset": 425556,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offsets": [
+        425630,
+        425638
+      ],
+      "target_file_offset": 425644,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offsets": [
+        425658
+      ],
+      "target_file_offset": 425724,
+      "target_raw_hex": "94de0002"
+    },
+    {
+      "source_file_offsets": [
+        425754
+      ],
+      "target_file_offset": 425768,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offsets": [
+        425786
+      ],
+      "target_file_offset": 425820,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offsets": [
+        425802
+      ],
+      "target_file_offset": 425824,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offsets": [
+        425836
+      ],
+      "target_file_offset": 425880,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offsets": [
+        425852
+      ],
+      "target_file_offset": 425884,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offsets": [
+        425868
+      ],
+      "target_file_offset": 425888,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offsets": [
+        425904,
+        425930,
+        425954,
+        425974
+      ],
+      "target_file_offset": 426044,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offsets": [
+        425986
+      ],
+      "target_file_offset": 426048,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offsets": [
+        425994
+      ],
+      "target_file_offset": 426052,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offsets": [
+        426024,
+        426036
+      ],
+      "target_file_offset": 426056,
+      "target_raw_hex": "84a80002"
+    },
+    {
+      "source_file_offsets": [
+        426064
+      ],
+      "target_file_offset": 426116,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offsets": [
+        426076
+      ],
+      "target_file_offset": 426120,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offsets": [
+        426084
+      ],
+      "target_file_offset": 426124,
+      "target_raw_hex": "94a80002"
+    },
+    {
+      "source_file_offsets": [
+        426136
+      ],
+      "target_file_offset": 426276,
+      "target_raw_hex": "a4a80002"
+    },
+    {
+      "source_file_offsets": [
+        426138
+      ],
+      "target_file_offset": 426280,
+      "target_raw_hex": "74cc0908"
+    },
+    {
+      "source_file_offsets": [
+        426140
+      ],
+      "target_file_offset": 426284,
+      "target_raw_hex": "98cc0908"
+    },
+    {
+      "source_file_offsets": [
+        426178
+      ],
+      "target_file_offset": 426288,
+      "target_raw_hex": "5ebd0102"
+    },
+    {
+      "source_file_offsets": [
+        426190
+      ],
+      "target_file_offset": 426292,
+      "target_raw_hex": "60bd0102"
+    },
+    {
+      "source_file_offsets": [
+        426210,
+        426224
+      ],
+      "target_file_offset": 426296,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offsets": [
+        426218
+      ],
+      "target_file_offset": 426300,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offsets": [
+        426252
+      ],
+      "target_file_offset": 426304,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offsets": [
+        426346
+      ],
+      "target_file_offset": 426368,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offsets": [
+        426402
+      ],
+      "target_file_offset": 426412,
+      "target_raw_hex": "90a80002"
+    },
+    {
+      "source_file_offsets": [
+        426500
+      ],
+      "target_file_offset": 426536,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offsets": [
+        426560
+      ],
+      "target_file_offset": 426672,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offsets": [
+        426562
+      ],
+      "target_file_offset": 426676,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offsets": [
+        426600
+      ],
+      "target_file_offset": 426680,
+      "target_raw_hex": "ff030000"
+    },
+    {
+      "source_file_offsets": [
+        426634
+      ],
+      "target_file_offset": 426684,
+      "target_raw_hex": "64bd0102"
+    },
+    {
+      "source_file_offsets": [
+        448000
+      ],
+      "target_file_offset": 448048,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offsets": [
+        448500
+      ],
+      "target_file_offset": 448504,
+      "target_raw_hex": "01010000"
+    },
+    {
+      "source_file_offsets": [
+        448510
+      ],
+      "target_file_offset": 448540,
+      "target_raw_hex": "05010000"
+    },
+    {
+      "source_file_offsets": [
+        448566
+      ],
+      "target_file_offset": 448600,
+      "target_raw_hex": "e7030000"
+    },
+    {
+      "source_file_offsets": [
+        449704
+      ],
+      "target_file_offset": 449732,
+      "target_raw_hex": "e7030000"
+    },
+    {
+      "source_file_offsets": [
+        454332
+      ],
+      "target_file_offset": 454336,
+      "target_raw_hex": "90ee1208"
+    },
+    {
+      "source_file_offsets": [
+        454340
+      ],
+      "target_file_offset": 454344,
+      "target_raw_hex": "98ee1208"
+    },
+    {
+      "source_file_offsets": [
+        454648
+      ],
+      "target_file_offset": 454664,
+      "target_raw_hex": "c8ee1208"
+    },
+    {
+      "source_file_offsets": [
+        454668
+      ],
+      "target_file_offset": 454684,
+      "target_raw_hex": "d0ee1208"
+    },
+    {
+      "source_file_offsets": [
+        455940
+      ],
+      "target_file_offset": 455972,
+      "target_raw_hex": "34965908"
+    },
+    {
+      "source_file_offsets": [
+        455976
+      ],
+      "target_file_offset": 455980,
+      "target_raw_hex": "24ef1208"
+    },
+    {
+      "source_file_offsets": [
+        455984
+      ],
+      "target_file_offset": 456000,
+      "target_raw_hex": "2cef1208"
+    },
+    {
+      "source_file_offsets": [
+        456004
+      ],
+      "target_file_offset": 456108,
+      "target_raw_hex": "34ef1208"
+    },
+    {
+      "source_file_offsets": [
+        461784
+      ],
+      "target_file_offset": 461812,
+      "target_raw_hex": "c4ef1208"
+    },
+    {
+      "source_file_offsets": [
+        461800
+      ],
+      "target_file_offset": 461816,
+      "target_raw_hex": "0c680202"
+    },
+    {
+      "source_file_offsets": [
+        461820
+      ],
+      "target_file_offset": 461864,
+      "target_raw_hex": "c4ef1208"
+    },
+    {
+      "source_file_offsets": [
+        461872
+      ],
+      "target_file_offset": 462164,
+      "target_raw_hex": "d4ef1208"
+    },
+    {
+      "source_file_offsets": [
+        466816
+      ],
+      "target_file_offset": 466856,
+      "target_raw_hex": "34f01208"
+    },
+    {
+      "source_file_offsets": [
+        466860
+      ],
+      "target_file_offset": 466884,
+      "target_raw_hex": "40f01208"
+    },
+    {
+      "source_file_offsets": [
+        466888
+      ],
+      "target_file_offset": 466912,
+      "target_raw_hex": "54f01208"
+    },
+    {
+      "source_file_offsets": [
+        466916
+      ],
+      "target_file_offset": 466940,
+      "target_raw_hex": "60f01208"
+    },
+    {
+      "source_file_offsets": [
+        466944
+      ],
+      "target_file_offset": 466968,
+      "target_raw_hex": "74f01208"
+    },
+    {
+      "source_file_offsets": [
+        466972
+      ],
+      "target_file_offset": 467016,
+      "target_raw_hex": "88f01208"
+    },
+    {
+      "source_file_offsets": [
+        467020
+      ],
+      "target_file_offset": 467060,
+      "target_raw_hex": "9cf01208"
+    },
+    {
+      "source_file_offsets": [
+        467064
+      ],
+      "target_file_offset": 467184,
+      "target_raw_hex": "a8f01208"
+    },
+    {
+      "source_file_offsets": [
+        507646
+      ],
+      "target_file_offset": 507840,
+      "target_raw_hex": "e06b0202"
+    },
+    {
+      "source_file_offsets": [
+        507650
+      ],
+      "target_file_offset": 507844,
+      "target_raw_hex": "6f5a0000"
+    },
+    {
+      "source_file_offsets": [
+        507676
+      ],
+      "target_file_offset": 507848,
+      "target_raw_hex": "14e05308"
+    },
+    {
+      "source_file_offsets": [
+        507678
+      ],
+      "target_file_offset": 507852,
+      "target_raw_hex": "665a0000"
+    },
+    {
+      "source_file_offsets": [
+        507736
+      ],
+      "target_file_offset": 507856,
+      "target_raw_hex": "705a0000"
+    },
+    {
+      "source_file_offsets": [
+        507776
+      ],
+      "target_file_offset": 507860,
+      "target_raw_hex": "14050000"
+    },
+    {
+      "source_file_offsets": [
+        507788
+      ],
+      "target_file_offset": 507864,
+      "target_raw_hex": "d05a0000"
+    },
+    {
+      "source_file_offsets": [
+        507824
+      ],
+      "target_file_offset": 507868,
+      "target_raw_hex": "d15a0000"
+    },
+    {
+      "source_file_offsets": [
+        507882
+      ],
+      "target_file_offset": 508008,
+      "target_raw_hex": "e06b0202"
+    },
+    {
+      "source_file_offsets": [
+        507886
+      ],
+      "target_file_offset": 508012,
+      "target_raw_hex": "6f5a0000"
+    },
+    {
+      "source_file_offsets": [
+        507914
+      ],
+      "target_file_offset": 508016,
+      "target_raw_hex": "14e05308"
+    },
+    {
+      "source_file_offsets": [
+        507916
+      ],
+      "target_file_offset": 508020,
+      "target_raw_hex": "665a0000"
+    },
+    {
+      "source_file_offsets": [
+        507974
+      ],
+      "target_file_offset": 508024,
+      "target_raw_hex": "96e45308"
+    },
+    {
+      "source_file_offsets": [
+        507976
+      ],
+      "target_file_offset": 508028,
+      "target_raw_hex": "705a0000"
+    },
+    {
+      "source_file_offsets": [
+        528384
+      ],
+      "target_file_offset": 528408,
+      "target_raw_hex": "2c1e0202"
+    },
+    {
+      "source_file_offsets": [
+        528386
+      ],
+      "target_file_offset": 528412,
+      "target_raw_hex": "2abe0102"
+    },
+    {
+      "source_file_offsets": [
+        528400
+      ],
+      "target_file_offset": 528416,
+      "target_raw_hex": "3ff80000"
+    },
+    {
+      "source_file_offsets": [
+        528524
+      ],
+      "target_file_offset": 528556,
+      "target_raw_hex": "04660202"
+    },
+    {
+      "source_file_offsets": [
+        528564
+      ],
+      "target_file_offset": 528704,
+      "target_raw_hex": "80280002"
+    },
+    {
+      "source_file_offsets": [
+        528572
+      ],
+      "target_file_offset": 528708,
+      "target_raw_hex": "cc9a0008"
+    },
+    {
+      "source_file_offsets": [
+        528608
+      ],
+      "target_file_offset": 528712,
+      "target_raw_hex": "d59a0008"
+    },
+    {
+      "source_file_offsets": [
+        528614
+      ],
+      "target_file_offset": 528716,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offsets": [
+        528652
+      ],
+      "target_file_offset": 528720,
+      "target_raw_hex": "78fc1208"
+    },
+    {
+      "source_file_offsets": [
+        528662
+      ],
+      "target_file_offset": 528724,
+      "target_raw_hex": "84fc1208"
+    },
+    {
+      "source_file_offsets": [
+        528676
+      ],
+      "target_file_offset": 528728,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offsets": [
+        528742
+      ],
+      "target_file_offset": 528916,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offsets": [
+        528744
+      ],
+      "target_file_offset": 528920,
+      "target_raw_hex": "15120000"
+    },
+    {
+      "source_file_offsets": [
+        528768
+      ],
+      "target_file_offset": 528924,
+      "target_raw_hex": "16120000"
+    },
+    {
+      "source_file_offsets": [
+        528792
+      ],
+      "target_file_offset": 528928,
+      "target_raw_hex": "17120000"
+    },
+    {
+      "source_file_offsets": [
+        528850
+      ],
+      "target_file_offset": 528932,
+      "target_raw_hex": "c4575a08"
+    },
+    {
+      "source_file_offsets": [
+        528862
+      ],
+      "target_file_offset": 528936,
+      "target_raw_hex": "a4fc1208"
+    },
+    {
+      "source_file_offsets": [
+        528876
+      ],
+      "target_file_offset": 528940,
+      "target_raw_hex": "0e000003"
+    },
+    {
+      "source_file_offsets": [
+        528958
+      ],
+      "target_file_offset": 528980,
+      "target_raw_hex": "c4575a08"
+    },
+    {
+      "source_file_offsets": [
+        528970
+      ],
+      "target_file_offset": 528984,
+      "target_raw_hex": "e4fc1208"
+    },
+    {
+      "source_file_offsets": [
+        528990
+      ],
+      "target_file_offset": 529068,
+      "target_raw_hex": "00fd1208"
+    },
+    {
+      "source_file_offsets": [
+        528998
+      ],
+      "target_file_offset": 529072,
+      "target_raw_hex": "dd9a0008"
+    },
+    {
+      "source_file_offsets": [
+        529012
+      ],
+      "target_file_offset": 529076,
+      "target_raw_hex": "e69a0008"
+    },
+    {
+      "source_file_offsets": [
+        529018
+      ],
+      "target_file_offset": 529080,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offsets": [
+        529028
+      ],
+      "target_file_offset": 529084,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offsets": [
+        529094
+      ],
+      "target_file_offset": 529112,
+      "target_raw_hex": "d99a0008"
+    },
+    {
+      "source_file_offsets": [
+        529200
+      ],
+      "target_file_offset": 529240,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offsets": [
+        529202
+      ],
+      "target_file_offset": 529244,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offsets": [
+        529206
+      ],
+      "target_file_offset": 529248,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offsets": [
+        529212
+      ],
+      "target_file_offset": 529252,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offsets": [
+        529232
+      ],
+      "target_file_offset": 529256,
+      "target_raw_hex": "6c130808"
+    },
+    {
+      "source_file_offsets": [
+        529936
+      ],
+      "target_file_offset": 530088,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offsets": [
+        529938
+      ],
+      "target_file_offset": 530092,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offsets": [
+        529942
+      ],
+      "target_file_offset": 530096,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offsets": [
+        529948
+      ],
+      "target_file_offset": 530100,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offsets": [
+        529980
+      ],
+      "target_file_offset": 530104,
+      "target_raw_hex": "31160008"
+    },
+    {
+      "source_file_offsets": [
+        529986
+      ],
+      "target_file_offset": 530108,
+      "target_raw_hex": "34965908"
+    },
+    {
+      "source_file_offsets": [
+        530008
+      ],
+      "target_file_offset": 530112,
+      "target_raw_hex": "25170008"
+    },
+    {
+      "source_file_offsets": [
+        530056
+      ],
+      "target_file_offset": 530116,
+      "target_raw_hex": "14fd1208"
+    },
+    {
+      "source_file_offsets": [
+        530064
+      ],
+      "target_file_offset": 530120,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offsets": [
+        530072
+      ],
+      "target_file_offset": 530124,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offsets": [
+        530142
+      ],
+      "target_file_offset": 530224,
+      "target_raw_hex": "40fd1208"
+    },
+    {
+      "source_file_offsets": [
+        530174
+      ],
+      "target_file_offset": 530228,
+      "target_raw_hex": "34965908"
+    },
+    {
+      "source_file_offsets": [
+        530188
+      ],
+      "target_file_offset": 530232,
+      "target_raw_hex": "60fd1208"
+    },
+    {
+      "source_file_offsets": [
+        530252
+      ],
+      "target_file_offset": 530412,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offsets": [
+        530256,
+        530392
+      ],
+      "target_file_offset": 530416,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offsets": [
+        530262
+      ],
+      "target_file_offset": 530420,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offsets": [
+        530274,
+        530406
+      ],
+      "target_file_offset": 530424,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offsets": [
+        530302
+      ],
+      "target_file_offset": 530428,
+      "target_raw_hex": "4f160008"
+    },
+    {
+      "source_file_offsets": [
+        530308
+      ],
+      "target_file_offset": 530432,
+      "target_raw_hex": "8c7e5a08"
+    },
+    {
+      "source_file_offsets": [
+        530332
+      ],
+      "target_file_offset": 530436,
+      "target_raw_hex": "25170008"
+    },
+    {
+      "source_file_offsets": [
+        530352
+      ],
+      "target_file_offset": 530440,
+      "target_raw_hex": "2b170008"
+    },
+    {
+      "source_file_offsets": [
+        530460
+      ],
+      "target_file_offset": 530628,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offsets": [
+        530462
+      ],
+      "target_file_offset": 530632,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offsets": [
+        530466
+      ],
+      "target_file_offset": 530636,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offsets": [
+        530472
+      ],
+      "target_file_offset": 530640,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offsets": [
+        530506,
+        530592
+      ],
+      "target_file_offset": 530644,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offsets": [
+        530560
+      ],
+      "target_file_offset": 530648,
+      "target_raw_hex": "71160008"
+    },
+    {
+      "source_file_offsets": [
+        530566
+      ],
+      "target_file_offset": 530652,
+      "target_raw_hex": "80925908"
+    },
+    {
+      "source_file_offsets": [
+        530590
+      ],
+      "target_file_offset": 530656,
+      "target_raw_hex": "60705a08"
+    },
+    {
+      "source_file_offsets": [
+        530676
+      ],
+      "target_file_offset": 530792,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offsets": [
+        530680
+      ],
+      "target_file_offset": 530796,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offsets": [
+        530684
+      ],
+      "target_file_offset": 530800,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offsets": [
+        530690
+      ],
+      "target_file_offset": 530804,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offsets": [
+        530728
+      ],
+      "target_file_offset": 530808,
+      "target_raw_hex": "a1160008"
+    },
+    {
+      "source_file_offsets": [
+        530734
+      ],
+      "target_file_offset": 530812,
+      "target_raw_hex": "80925908"
+    },
+    {
+      "source_file_offsets": [
+        530756
+      ],
+      "target_file_offset": 530816,
+      "target_raw_hex": "25170008"
+    },
+    {
+      "source_file_offsets": [
+        530828
+      ],
+      "target_file_offset": 530964,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offsets": [
+        530830
+      ],
+      "target_file_offset": 530968,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offsets": [
+        530834
+      ],
+      "target_file_offset": 530972,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offsets": [
+        530840
+      ],
+      "target_file_offset": 530976,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offsets": [
+        530872
+      ],
+      "target_file_offset": 530980,
+      "target_raw_hex": "0c680202"
+    },
+    {
+      "source_file_offsets": [
+        530906
+      ],
+      "target_file_offset": 530984,
+      "target_raw_hex": "8ca80002"
+    },
+    {
+      "source_file_offsets": [
+        530912
+      ],
+      "target_file_offset": 530988,
+      "target_raw_hex": "c3160008"
+    },
+    {
+      "source_file_offsets": [
+        530924
+      ],
+      "target_file_offset": 530992,
+      "target_raw_hex": "d4110302"
+    },
+    {
+      "source_file_offsets": [
+        530996
+      ],
+      "target_file_offset": 531052,
+      "target_raw_hex": "8ca80002"
+    },
+    {
+      "source_file_offsets": [
+        530998
+      ],
+      "target_file_offset": 531056,
+      "target_raw_hex": "b5030000"
+    },
+    {
+      "source_file_offsets": [
+        531006
+      ],
+      "target_file_offset": 531060,
+      "target_raw_hex": "ee160008"
+    },
+    {
+      "source_file_offsets": [
+        531012
+      ],
+      "target_file_offset": 531064,
+      "target_raw_hex": "25170008"
+    },
+    {
+      "source_file_offsets": [
+        531024
+      ],
+      "target_file_offset": 531068,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offsets": [
+        531026
+      ],
+      "target_file_offset": 531072,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offsets": [
+        531030
+      ],
+      "target_file_offset": 531076,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offsets": [
+        531036
+      ],
+      "target_file_offset": 531080,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offsets": [
+        531098
+      ],
+      "target_file_offset": 531260,
+      "target_raw_hex": "c4615408"
+    },
+    {
+      "source_file_offsets": [
+        531102
+      ],
+      "target_file_offset": 531264,
+      "target_raw_hex": "04680202"
+    },
+    {
+      "source_file_offsets": [
+        531106
+      ],
+      "target_file_offset": 531268,
+      "target_raw_hex": "e4080000"
+    },
+    {
+      "source_file_offsets": [
+        531112
+      ],
+      "target_file_offset": 531272,
+      "target_raw_hex": "ac1a0000"
+    },
+    {
+      "source_file_offsets": [
+        531194
+      ],
+      "target_file_offset": 531276,
+      "target_raw_hex": "c0400202"
+    },
+    {
+      "source_file_offsets": [
+        558878
+      ],
+      "target_file_offset": 558904,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offsets": [
+        558880
+      ],
+      "target_file_offset": 558908,
+      "target_raw_hex": "15120000"
+    },
+    {
+      "source_file_offsets": [
+        560548
+      ],
+      "target_file_offset": 560708,
+      "target_raw_hex": "70120302"
+    },
+    {
+      "source_file_offsets": [
+        560550
+      ],
+      "target_file_offset": 560712,
+      "target_raw_hex": "d4110302"
+    },
+    {
+      "source_file_offsets": [
+        560562
+      ],
+      "target_file_offset": 560716,
+      "target_raw_hex": "c4575a08"
+    },
+    {
+      "source_file_offsets": [
+        560572
+      ],
+      "target_file_offset": 560720,
+      "target_raw_hex": "788e3408"
+    },
+    {
+      "source_file_offsets": [
+        560606
+      ],
+      "target_file_offset": 560724,
+      "target_raw_hex": "80a80002"
+    },
+    {
+      "source_file_offsets": [
+        560614
+      ],
+      "target_file_offset": 560728,
+      "target_raw_hex": "82a80002"
+    },
+    {
+      "source_file_offsets": [
+        560662
+      ],
+      "target_file_offset": 560732,
+      "target_raw_hex": "302e0202"
+    },
+    {
+      "source_file_offsets": [
+        560664
+      ],
+      "target_file_offset": 560736,
+      "target_raw_hex": "15120000"
+    },
+    {
+      "source_file_offsets": [
+        578374
+      ],
+      "target_file_offset": 578452,
+      "target_raw_hex": "80280002"
+    },
+    {
+      "source_file_offsets": [
+        578394
+      ],
+      "target_file_offset": 578456,
+      "target_raw_hex": "58bd0102"
+    },
+    {
+      "source_file_offsets": [
+        578398
+      ],
+      "target_file_offset": 578460,
+      "target_raw_hex": "5cbd0102"
+    },
+    {
+      "source_file_offsets": [
+        617042
+      ],
+      "target_file_offset": 617160,
+      "target_raw_hex": "505e0003"
+    },
+    {
+      "source_file_offsets": [
+        617078
+      ],
+      "target_file_offset": 617164,
+      "target_raw_hex": "3f3f0000"
+    },
+    {
+      "source_file_offsets": [
+        617094
+      ],
+      "target_file_offset": 617168,
+      "target_raw_hex": "4e000003"
+    },
+    {
+      "source_file_offsets": [
+        617112
+      ],
+      "target_file_offset": 617172,
+      "target_raw_hex": "fffffdff"
+    },
+    {
+      "source_file_offsets": [
+        617128
+      ],
+      "target_file_offset": 617176,
+      "target_raw_hex": "50000003"
+    },
+    {
+      "source_file_offsets": [
+        617216
+      ],
+      "target_file_offset": 617260,
+      "target_raw_hex": "505e0003"
+    },
+    {
+      "source_file_offsets": [
+        617240
+      ],
+      "target_file_offset": 617264,
+      "target_raw_hex": "4e000003"
+    }
+  ]
+}

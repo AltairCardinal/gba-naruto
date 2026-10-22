@@ -1,0 +1,1553 @@
+{
+  "already_bound_operations": [
+    {
+      "already_bound": true,
+      "callsite": "0x080706E2",
+      "code_sha256": "7c18f379bc4275c4ba482dfd02ceadbffb9e57f877b3e136ee9c3541e12bf3b9",
+      "code_size": 10,
+      "control": "0x00000008",
+      "copy_size": 32,
+      "destination": "0x050003A0",
+      "destination_domain": "PRAM",
+      "loader": "CpuFastSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08463FFC",
+      "source_load": "0x080706DC",
+      "unit_count": 8
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08078B6C",
+      "code_sha256": "7243fea91696fd2c6aca195f2bb349ca99151a99ca1cd3d0347beb43103b6e3e",
+      "code_size": 16,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000380",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08463FFC",
+      "source_load": "0x08078B60",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08079556",
+      "code_sha256": "c51a386364b310b615969f5de11fe948cc4caee460319404dc948b999c4dec97",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x050003C0",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08457EA8",
+      "source_load": "0x08079550",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08086228",
+      "code_sha256": "d6133855fa7bf6d58afe0e9bfc777f273e2fc4634a2b900d364fda67c0537e60",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000300",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x0845830C",
+      "source_load": "0x08086222",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08087046",
+      "code_sha256": "03dfffce1ea5040ff845cb165ffdad41b770996414eac664b395a9ecef7dc606",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000100",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08405FF0",
+      "source_load": "0x08087040",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808894C",
+      "code_sha256": "e56c4b966bb46c827751744bacff12a94da56ddf34c6ac63616d2d73ba7ccd60",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000300",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x0845830C",
+      "source_load": "0x08088946",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808932A",
+      "code_sha256": "884e2802cb07dae66fb6b2d92582b8ecb3538ec07dfb821ad30eb2b169443a54",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000300",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08348BE4",
+      "source_load": "0x08089324",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808B5D0",
+      "code_sha256": "85e372bb9f8faad581c068c67363fcdfd55d8fcee8d147f86dfadd9ca6a692de",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x050003C0",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083496B0",
+      "source_load": "0x0808B5CA",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808B5E2",
+      "code_sha256": "6ca141535de5a216caabf767fef361bddb25505837cf900a254c2a738e0c7bc7",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000020",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x0834941C",
+      "source_load": "0x0808B5DC",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808BBE2",
+      "code_sha256": "38fb045210385b72fc922c47b34369229f868d0d325b9b3a84dcedb641ac9acc",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000100",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083F0AF0",
+      "source_load": "0x0808BBDC",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808BCC4",
+      "code_sha256": "a2d9409ea4d43c1eda01b69d231a3ac70a375d4d09233976836516d2b9112345",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000200",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083F2794",
+      "source_load": "0x0808BCBE",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808BCD6",
+      "code_sha256": "bda1b5f26bde1e0a7ea81ea69a898b36d5b0ef2ae0471dd9abf10b5e4d02933d",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000220",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083F2CB0",
+      "source_load": "0x0808BCD0",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808BFF4",
+      "code_sha256": "ba784035febc81186fa5c419369566a2b2750096f2afb1b09610fb6567b67802",
+      "code_size": 10,
+      "control": "0x00000080",
+      "copy_size": 256,
+      "destination": "0x05000100",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [
+        {
+          "compressed_end_address": "0x08406550",
+          "source_address": "0x084060A8"
+        }
+      ],
+      "source_address": "0x08405FF0",
+      "source_load": "0x0808BFEE",
+      "unit_count": 128
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808C526",
+      "code_sha256": "7ee97bd30c7e6869db0e0806993d73fd02816ace64e154f2f94c8182e1092e2c",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000100",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08405FF0",
+      "source_load": "0x0808C520",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808DD0E",
+      "code_sha256": "f297a160aebc87329870c06594a252b486617adb4f5a37cded72cf6bc134982e",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000300",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x0845830C",
+      "source_load": "0x0808DD08",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808ECFC",
+      "code_sha256": "efd33a5f45cbb8630850607b16a26be6ea5acea791130131d119b7c1566d173f",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000380",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08463FFC",
+      "source_load": "0x0808ECF6",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808F1B8",
+      "code_sha256": "c62909950eac28cba189f2aa491793165c12edaba0dc48b1c9b73bc306ef440d",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x050003C0",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08457EA8",
+      "source_load": "0x0808F1B2",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08091668",
+      "code_sha256": "434448d33c6974a7da4048cf8ab93993b6b19edaec40a02c5ae03e447d47ac31",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000180",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x084638D4",
+      "source_load": "0x08091662",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08091672",
+      "code_sha256": "52f56ccfffb9a7bcb64d97263dd165446eec2274d7144adca9f5b4417755bb81",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x050001A0",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x084638F4",
+      "source_load": "0x0809166C",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0809571E",
+      "code_sha256": "9b7748f059940604e8e77ecaf603fe4852d0fbb10621b5d84d9b841faab9a068",
+      "code_size": 16,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000380",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08463FFC",
+      "source_load": "0x08095712",
+      "unit_count": 16
+    }
+  ],
+  "bundle": {
+    "file": "new-raw-sources.bin",
+    "sha256": "1d8631857bc9c71f880773e8628ec45feda6a0b8b685f39b5ac6ce3b442578de",
+    "size": 96
+  },
+  "constant_rom_gpu_operations": [
+    {
+      "already_bound": true,
+      "callsite": "0x080706E2",
+      "code_sha256": "7c18f379bc4275c4ba482dfd02ceadbffb9e57f877b3e136ee9c3541e12bf3b9",
+      "code_size": 10,
+      "control": "0x00000008",
+      "copy_size": 32,
+      "destination": "0x050003A0",
+      "destination_domain": "PRAM",
+      "loader": "CpuFastSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08463FFC",
+      "source_load": "0x080706DC",
+      "unit_count": 8
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08078B6C",
+      "code_sha256": "7243fea91696fd2c6aca195f2bb349ca99151a99ca1cd3d0347beb43103b6e3e",
+      "code_size": 16,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000380",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08463FFC",
+      "source_load": "0x08078B60",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08079556",
+      "code_sha256": "c51a386364b310b615969f5de11fe948cc4caee460319404dc948b999c4dec97",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x050003C0",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08457EA8",
+      "source_load": "0x08079550",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08086228",
+      "code_sha256": "d6133855fa7bf6d58afe0e9bfc777f273e2fc4634a2b900d364fda67c0537e60",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000300",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x0845830C",
+      "source_load": "0x08086222",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08087046",
+      "code_sha256": "03dfffce1ea5040ff845cb165ffdad41b770996414eac664b395a9ecef7dc606",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000100",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08405FF0",
+      "source_load": "0x08087040",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808894C",
+      "code_sha256": "e56c4b966bb46c827751744bacff12a94da56ddf34c6ac63616d2d73ba7ccd60",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000300",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x0845830C",
+      "source_load": "0x08088946",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808932A",
+      "code_sha256": "884e2802cb07dae66fb6b2d92582b8ecb3538ec07dfb821ad30eb2b169443a54",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000300",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08348BE4",
+      "source_load": "0x08089324",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808B5D0",
+      "code_sha256": "85e372bb9f8faad581c068c67363fcdfd55d8fcee8d147f86dfadd9ca6a692de",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x050003C0",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083496B0",
+      "source_load": "0x0808B5CA",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808B5E2",
+      "code_sha256": "6ca141535de5a216caabf767fef361bddb25505837cf900a254c2a738e0c7bc7",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000020",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x0834941C",
+      "source_load": "0x0808B5DC",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808BBE2",
+      "code_sha256": "38fb045210385b72fc922c47b34369229f868d0d325b9b3a84dcedb641ac9acc",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000100",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083F0AF0",
+      "source_load": "0x0808BBDC",
+      "unit_count": 16
+    },
+    {
+      "already_bound": false,
+      "callsite": "0x0808BC06",
+      "code_sha256": "88b238c29851b832bab246b1c821da3859da12499978b3360cac581285fee726",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000120",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083F1E60",
+      "source_load": "0x0808BC00",
+      "unit_count": 16
+    },
+    {
+      "already_bound": false,
+      "callsite": "0x0808BC26",
+      "code_sha256": "25f83eaefb03fe55362a5926d238ebc44eee67401d0654b73003f6b5936e243c",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000140",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083F1F08",
+      "source_load": "0x0808BC20",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808BCC4",
+      "code_sha256": "a2d9409ea4d43c1eda01b69d231a3ac70a375d4d09233976836516d2b9112345",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000200",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083F2794",
+      "source_load": "0x0808BCBE",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808BCD6",
+      "code_sha256": "bda1b5f26bde1e0a7ea81ea69a898b36d5b0ef2ae0471dd9abf10b5e4d02933d",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000220",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x083F2CB0",
+      "source_load": "0x0808BCD0",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808BFF4",
+      "code_sha256": "ba784035febc81186fa5c419369566a2b2750096f2afb1b09610fb6567b67802",
+      "code_size": 10,
+      "control": "0x00000080",
+      "copy_size": 256,
+      "destination": "0x05000100",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [
+        {
+          "compressed_end_address": "0x08406550",
+          "source_address": "0x084060A8"
+        }
+      ],
+      "source_address": "0x08405FF0",
+      "source_load": "0x0808BFEE",
+      "unit_count": 128
+    },
+    {
+      "already_bound": false,
+      "callsite": "0x0808C260",
+      "code_sha256": "a2746facb68e48624788fba5f74a3cba02b0a633014467b7fb2e95cdb9ab5656",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000200",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08406010",
+      "source_load": "0x0808C25A",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808C526",
+      "code_sha256": "7ee97bd30c7e6869db0e0806993d73fd02816ace64e154f2f94c8182e1092e2c",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000100",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08405FF0",
+      "source_load": "0x0808C520",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808DD0E",
+      "code_sha256": "f297a160aebc87329870c06594a252b486617adb4f5a37cded72cf6bc134982e",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000300",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x0845830C",
+      "source_load": "0x0808DD08",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808ECFC",
+      "code_sha256": "efd33a5f45cbb8630850607b16a26be6ea5acea791130131d119b7c1566d173f",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000380",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08463FFC",
+      "source_load": "0x0808ECF6",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0808F1B8",
+      "code_sha256": "c62909950eac28cba189f2aa491793165c12edaba0dc48b1c9b73bc306ef440d",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x050003C0",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08457EA8",
+      "source_load": "0x0808F1B2",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08091668",
+      "code_sha256": "434448d33c6974a7da4048cf8ab93993b6b19edaec40a02c5ae03e447d47ac31",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000180",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x084638D4",
+      "source_load": "0x08091662",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x08091672",
+      "code_sha256": "52f56ccfffb9a7bcb64d97263dd165446eec2274d7144adca9f5b4417755bb81",
+      "code_size": 10,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x050001A0",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x084638F4",
+      "source_load": "0x0809166C",
+      "unit_count": 16
+    },
+    {
+      "already_bound": true,
+      "callsite": "0x0809571E",
+      "code_sha256": "9b7748f059940604e8e77ecaf603fe4852d0fbb10621b5d84d9b841faab9a068",
+      "code_size": 16,
+      "control": "0x00000010",
+      "copy_size": 32,
+      "destination": "0x05000380",
+      "destination_domain": "PRAM",
+      "loader": "CpuSet",
+      "lz77_overlaps": [],
+      "source_address": "0x08463FFC",
+      "source_load": "0x08095712",
+      "unit_count": 16
+    }
+  ],
+  "direct_calls": [
+    {
+      "callsite": "0x08061190",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08061346",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0806194A",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08061972",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08061B5C",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08061BD8",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0806202C",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08062036",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08062040",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08062250",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080622E0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080622F8",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08062696",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08063692",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080636B0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08063C84",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0806459E",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080646DE",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08065344",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0806550A",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08065518",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08065524",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080683B8",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080685C8",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0806888A",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0806890A",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080689E2",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08068BA0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08068D42",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08068E0C",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0806A840",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080706E2",
+      "loader": "CpuFastSet",
+      "operation_sha256": "71248181b969f391d81bf4afc10f2493adead9cff26b1905c0e5e4e168760ffc",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x080782EE",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08078A36",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08078B6C",
+      "loader": "CpuSet",
+      "operation_sha256": "52626ee2cd8b53569b760b2dbf310c528cd170161f8f83f64825e04ec95c137e",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x08079172",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0807928E",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08079556",
+      "loader": "CpuSet",
+      "operation_sha256": "f61fe86d66a5471336cca51a6906926323037d43d12d1819e1761315c06955ad",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0807B29E",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080833C8",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08085246",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08085254",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080855DA",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080855EA",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08086210",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08086228",
+      "loader": "CpuSet",
+      "operation_sha256": "9058b9405bd166ccf9df9ad631e4646e69d47987a60e3fa52b2fc0c3135c56cd",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x08087046",
+      "loader": "CpuSet",
+      "operation_sha256": "1f6b670392538765bb6b75d6335e0d61545814799fbbf350a1534178e9709832",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x08087D3E",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08087D4C",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08088086",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808833C",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080883BA",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080883D8",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08088934",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808894C",
+      "loader": "CpuSet",
+      "operation_sha256": "1172f75eeb446771bfd912886664c5b922ce462e0025e35725f1d3f24e8504b2",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808932A",
+      "loader": "CpuSet",
+      "operation_sha256": "a01a1b3a95bc09ef8cec99e1dfc25fc72b7c93f4fd055d00d7c46560460aff61",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x08089338",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080893E0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808A90E",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808A928",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808AAA4",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808AD14",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808AD2C",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808B5D0",
+      "loader": "CpuSet",
+      "operation_sha256": "69384507c3495a9fd7335ddb641f814cf324e359f0e7beeab6ee4b972b51f755",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808B5E2",
+      "loader": "CpuSet",
+      "operation_sha256": "de0353ba42587e564ba2dd4290f701bc39b8519eb3466654847fa67fd39828f4",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808B5F8",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808BB60",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808BB80",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808BBC8",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808BBE2",
+      "loader": "CpuSet",
+      "operation_sha256": "07f12058d5b3b914449d8c86546ecd32b4af8b642fc27516e2f81f1024262b98",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808BC06",
+      "loader": "CpuSet",
+      "operation_sha256": "d44dc81bc3be9105d72a7052db2493cf719adbc16b40cb1b709340df4d716d2f",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808BC26",
+      "loader": "CpuSet",
+      "operation_sha256": "c894a5e5572f5ceba58839d641c1e4893d2ad2b041e97249d96aefa4f9cd02ff",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808BC70",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808BCC4",
+      "loader": "CpuSet",
+      "operation_sha256": "7a3c81f4bb9ceeffea94b0596d86ddf7092c9eee58c8c5470765b35bb5e3d3e8",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808BCD6",
+      "loader": "CpuSet",
+      "operation_sha256": "6c34c81a2784f850817e00f93c2b2c55e67a38fb52ac7bee72abf3f8c1559c2f",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808BF06",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808BF38",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808BFB6",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808BFF4",
+      "loader": "CpuSet",
+      "operation_sha256": "f11040dd38afebe0eb76d41799433c8a2f2076b21b592cc7a0cb570ab65a8b7e",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808C260",
+      "loader": "CpuSet",
+      "operation_sha256": "34e559407ed635b062849bfc17244b23d198d787bc4396136ae384654837ac69",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808C276",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808C526",
+      "loader": "CpuSet",
+      "operation_sha256": "4b01d09fc331052e18dd182d01d0134c11c965b724d9952646896a058ebf31d5",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808C5CC",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808D5A0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808D5AE",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808D962",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808D9A0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808DA22",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808DA44",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808DA60",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808DB60",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808DCF6",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808DD0E",
+      "loader": "CpuSet",
+      "operation_sha256": "8eda2267a8ec3bae029406d40dd8bd1653f76bf76d77e0cbb4bc511b275890d3",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808E202",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808E716",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808E972",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808ECFC",
+      "loader": "CpuSet",
+      "operation_sha256": "276810718979e886c0afa9d841c99e8cabb71b1fbcb8c17a282ed1d740770613",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808EDEA",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808F1B8",
+      "loader": "CpuSet",
+      "operation_sha256": "997940fa77f33596ecce26b8717287d06288ca27780b50bd3febcd9188e1d4e2",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x0808F4EA",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808F6B4",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808F6C0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0808F6CE",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080909DA",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08090B54",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08090D4E",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080915AC",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08091656",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08091668",
+      "loader": "CpuSet",
+      "operation_sha256": "574edc9a8e1e20037d48175eb55ade2f894b2414f6d93bfbb6f96403cf5147d6",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x08091672",
+      "loader": "CpuSet",
+      "operation_sha256": "e75a7758649a509cca92770a780727a25d9ef74c574e2dcfe6d3bda671e66d81",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x08091706",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08091750",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809176A",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809177E",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080920A8",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080920FA",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08092112",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08092122",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08092130",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08093D96",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809449A",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080944A4",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080944AE",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08094EB8",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08095004",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080955F6",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809571E",
+      "loader": "CpuSet",
+      "operation_sha256": "f613bd938d217533cf04bafcdae33218d6ae452fee471a5c1196eda272ed268f",
+      "status": "constant_rom_gpu"
+    },
+    {
+      "callsite": "0x08095AA4",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08096202",
+      "loader": "CpuFastSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08096212",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08096BE0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080984B0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080984FE",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080985B0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08098D20",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08099022",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08099090",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080991D4",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x080991E0",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809928A",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809955E",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x08099858",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809AA4A",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809AD86",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809AEBC",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    },
+    {
+      "callsite": "0x0809B118",
+      "loader": "CpuSet",
+      "status": "not_proven_in_window"
+    }
+  ],
+  "implementation": {
+    "exporter_sha256": "305d2896e83d484cf6d5dc14116e91ff5784c8e9378ddc4838c451759b5acbbe",
+    "test_sha256": "875cf482a71dd670359236611352aa368cc07e9103528d0c159e148d845409f0",
+    "verifier_sha256": "4e8f394803873a96db2dfb2d7b5b7ec6750a2ead33cdc1bb8e08676c203f678b"
+  },
+  "new_sources": [
+    {
+      "bundle_offset": 0,
+      "file_offset": 4136544,
+      "operations": [
+        {
+          "already_bound": false,
+          "callsite": "0x0808BC06",
+          "code_sha256": "88b238c29851b832bab246b1c821da3859da12499978b3360cac581285fee726",
+          "code_size": 10,
+          "control": "0x00000010",
+          "copy_size": 32,
+          "destination": "0x05000120",
+          "destination_domain": "PRAM",
+          "loader": "CpuSet",
+          "lz77_overlaps": [],
+          "source_address": "0x083F1E60",
+          "source_load": "0x0808BC00",
+          "unit_count": 16
+        }
+      ],
+      "sha256": "19567cb1079d1340c6f018d9f3019069126f53f2e2577cc3a15765d96fe39de3",
+      "size": 32,
+      "source_address": "0x083F1E60"
+    },
+    {
+      "bundle_offset": 32,
+      "file_offset": 4136712,
+      "operations": [
+        {
+          "already_bound": false,
+          "callsite": "0x0808BC26",
+          "code_sha256": "25f83eaefb03fe55362a5926d238ebc44eee67401d0654b73003f6b5936e243c",
+          "code_size": 10,
+          "control": "0x00000010",
+          "copy_size": 32,
+          "destination": "0x05000140",
+          "destination_domain": "PRAM",
+          "loader": "CpuSet",
+          "lz77_overlaps": [],
+          "source_address": "0x083F1F08",
+          "source_load": "0x0808BC20",
+          "unit_count": 16
+        }
+      ],
+      "sha256": "48847c38fed3966e5ccea283d1e0d90e464cb6acad11e5788e62a8eeaf8d7c74",
+      "size": 32,
+      "source_address": "0x083F1F08"
+    },
+    {
+      "bundle_offset": 64,
+      "file_offset": 4218896,
+      "operations": [
+        {
+          "already_bound": false,
+          "callsite": "0x0808C260",
+          "code_sha256": "a2746facb68e48624788fba5f74a3cba02b0a633014467b7fb2e95cdb9ab5656",
+          "code_size": 10,
+          "control": "0x00000010",
+          "copy_size": 32,
+          "destination": "0x05000200",
+          "destination_domain": "PRAM",
+          "loader": "CpuSet",
+          "lz77_overlaps": [],
+          "source_address": "0x08406010",
+          "source_load": "0x0808C25A",
+          "unit_count": 16
+        }
+      ],
+      "sha256": "31629052a5384238c3044fe8ac6de793aadd5fc2855b95da248a4a7a4a52871d",
+      "size": 32,
+      "source_address": "0x08406010"
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-direct-cpuset-gpu-inventory-v1",
+  "scope": {
+    "all_static_direct_bl_encodings_audited": true,
+    "cross_function_dataflow_complete": false,
+    "custom_copy_loops_complete": false,
+    "dma_transfers_complete": false,
+    "generic_image_writeback_complete": false,
+    "indirect_calls_complete": false,
+    "literal_seeded_32_byte_rule_applied_to_full_rom": true,
+    "new_raw_sources_losslessly_exported": true,
+    "raw_palettes_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false
+  },
+  "selection_rule": {
+    "call_policy": "inspect actual r0-r2 at BL, then invalidate r0-r3",
+    "control": "constant nonzero non-fill copy count",
+    "destination": "constant PRAM or VRAM address",
+    "direct_targets": {
+      "CpuFastSet": "0x0809C0DC",
+      "CpuSet": "0x0809C0E0"
+    },
+    "source": "mapped ROM constant loaded by Thumb PC-relative literal",
+    "unknown_instruction_policy": "invalidate r0-r3 (fail closed)",
+    "window_bytes": 32
+  },
+  "source_catalog": {
+    "manifest_path": "artifacts/rom-pointer-lz77-graphics-v1/manifest.json",
+    "manifest_sha256": "17a93ff1f8779a0da50d8e7022adf9c9a7656811884b32db3db3e54f13fd495d",
+    "path": "artifacts/rom-pointer-lz77-graphics-v1/graphics-catalog.json",
+    "sha256": "9c3088165fb65004dbeaa124a800d65795395e37b2dcfb90f2d2eedfdd6cf37d"
+  },
+  "summary": {
+    "already_bound_operation_count": 20,
+    "already_bound_source_count": 12,
+    "constant_rom_gpu_operation_count": 23,
+    "cpufastset_call_count": 20,
+    "cpuset_call_count": 126,
+    "direct_call_count": 146,
+    "lz77_overlap_operation_count": 1,
+    "new_bundle_size": 96,
+    "new_operation_count": 3,
+    "new_source_count": 3,
+    "not_proven_in_window_call_count": 123,
+    "pram_operation_count": 23,
+    "unique_source_count": 15,
+    "vram_operation_count": 0
+  }
+}

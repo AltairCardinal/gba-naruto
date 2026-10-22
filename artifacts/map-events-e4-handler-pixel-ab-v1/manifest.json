@@ -1,0 +1,44 @@
+{
+  "artifact_id": "map-events-e4-handler-pixel-ab-v1",
+  "artifact_schema": "map-events-e4-handler-pixel-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline.png": "329a4291fd0754628ab40c020dbbeb45b69e9ee4373d49e11b534d388b223e82",
+    "candidate.png": "8049027b2a7c8cf3153839d5d3578ffc03cf88cea9a157e80be2af89f46749b7",
+    "evidence.json": "0bcbccb4c47fe2b3a90622e1acffe5108460b65cbdf9780d3205c2e67929be17",
+    "raw.tar": "affb3ca3d01eae1b100caaa091d4ee95d690a7993c4d6ce75a309cb9de7d3766"
+  },
+  "implementation": {
+    "artifacts/battle-effect-frame-phase-group3-natural-v1/manifest.json": "b4a0ace388f1af08e9699df4c6ff593c711ee923ead56197a85c09e313c17f5a",
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json": "526bc1b45d89a0ba690c4f9895ac691ad2904e35e294c4ae9d86182bb9f532e8",
+    "notes/battlefield-object-effect-chain-bindings-20260802.json": "2340c141505e17d843f9cfc18eac46cec30aca5ae4829654958abf24dbdee1b1",
+    "sequel/content/map-events/bank.json": "aaf2c3244502fbf062d8d43721f7e1f6ef83b244aa32cbf3aff4d5e709a99365",
+    "sequel/content/map-events/entry-e4-primary-pixel-ab.json": "6ab5882648a7b1865c50d2560c063f3975a0f78ab94b03e4811d8a367c5f158b",
+    "tests/test_build_map_events_e4_handler_pixel_ab.py": "dd2a701901f6ae56790fb06aed2fe50b83ce8a4b7142036cc58032d36fc0281c",
+    "tests/test_map_events_e4_handler_pixel_ab_artifact.py": "5c577c56c5cbb4985477236defe600e4dc5ffc9af327ec3ea42e3dd68cf041af",
+    "tests/test_mgba_map_events_e4_trace_script.py": "f9cf4518042e8dc56066ec13411e8ccd943d722a33b6ecd1b42f16d7618b4124",
+    "tests/test_render_mode0_checkpoint.py": "e3a6e7fa73a9267525f7902f2a114b5f0dd32c566d99d0c57bc21fd47b95a809",
+    "tools/build_map_events_e4_handler_pixel_ab.py": "4ad33ee0bc69a83e94cf6585b83e2b0596294fbe81ec4a818461bcf477215be7",
+    "tools/export_map_events_e4_handler_pixel_ab.py": "03725d42d61a63ef53a261023f055172e0fdbd91d5548f842015fe2cce81ca82",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_map_events_e4_trace.lua": "8f9ff359a486455787deb9260100c871b7c436b9b614f92367b7cd012a80b912",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/verify_map_events_e4_handler_pixel_ab.py": "03c3db5db5cb10c2c3c5fe4970648e2990ab6e777dc9f1b53da1bdf91fdbc12f"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "not_proved": "This run resumes after the C3-to-E4 event was queued and does not re-hit 0x08081D74; source checkpoint and static-chain artifacts bind that upstream route. It does not prove secondary handlers, all 256 entries, full animation semantics, or physical-GBA output.",
+    "proved": "Natural zero-input recovery reaches E4 primary_handler_ptr through 0x0807FD36 and 0x0809C114; the baseline enters 0x0807F208 and renders group 3, while the isolated bx-lr candidate does neither and changes 37,436 final pixels."
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_map_events_e4_handler_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/map-events-e4-handler-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

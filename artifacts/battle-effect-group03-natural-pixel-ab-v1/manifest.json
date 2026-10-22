@@ -1,0 +1,53 @@
+{
+  "artifact_schema": "natural-delayed-battle-effect-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "boundary": "The production relocation splits only the group-3 alias from the group-2 shared graphics, then waits without input for the accepted tool-67 C3 object to expire naturally. Baseline and candidate must reach the same renderer/submit/ack transaction and differ only at the authored graphics byte, its OBJ-VRAM byte, and the mapped final Mode 0 pixel.",
+  "files": {
+    "baseline.png": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+    "candidate.png": "996658218a1b1de40ee1fc0aa5d7887040e9411bd13105685cfd2394f3d9a7f2",
+    "evidence.json": "a24bdd9fff829c43967923d5da8bb7778de605431ecfb2f65cee3601ec1eb752",
+    "raw.tar": "c55e5b7514bf32cc32474edf35ab0996b775db60f5f6a76205adaacece1d741f"
+  },
+  "profile": "sequel/content/battle-effect-natural-pixel-ab/group-03-tool67-expiry.json",
+  "profile_sha256": "1cf2f5116d30fc178cee7659f7d433fcf4e1b3d2c6f052158e62edb7c1086fab",
+  "repository_files": {
+    "tests/test_build_natural_delayed_battle_effect_pixel_ab.py": "d41cb3c6a8ece53e9ec836f005b912b110d17642549e2a04a1d1046be5a73362",
+    "tests/test_export_natural_delayed_battle_effect_pixel_ab.py": "743f77af09d3e28537c63277c3ebb2c46bf80df76d8fbcdba24597842b793eb0",
+    "tests/test_run_natural_delayed_battle_effect_pixel_ab.py": "c378b5018b2c3ced57f1f76d971e762fca461cb872594aaa6e6328298bb087ea",
+    "tests/test_verify_battle_effect_natural_checkpoint.py": "f68650ef49c9858ab7d02c51e98fff2eeb9bdd3d92ed84b6d58f0e0dbbc98bf7",
+    "tests/test_verify_battlefield_object_producers.py": "b5a1c03b36d8dd487e942eaad415791028b1f48fba4ae8b7f9e9c343ad5673a7",
+    "tests/test_verify_natural_delayed_battle_effect_pixel_ab.py": "956d16672f6336870502f793c36da5cbfbbf7503b2d7e0906758f3d493096f1e",
+    "tools/build_natural_delayed_battle_effect_pixel_ab.py": "83b0d16193e5878f2d40cc432646d09bd4f2d79ff8983f7e9e518950eb629ff3",
+    "tools/export_natural_delayed_battle_effect_pixel_ab.py": "6dd312330ad91b059e1f48d55cf215605649320301017da8c7f9a53572fd3755",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_battle_effect_resource_relocations.py": "81761d619b05c5386db99d12b5a844ab10c28ee04ce7e28cd260ac3773c9428d",
+    "tools/import_battle_effect_resources.py": "7b2abea86a5a460cffd300230829f63dfb889eb529b668253599ee12f9420a81",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_battle_effect_phase_capture.lua": "cff58c5fc9ca089fbc8db919f56041a9d999ec48f4241d203fb9e468f8e482ef",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "05f26a7e71d14687609b86ca41ea12d66db1a8590b93c9f14f8cb6b77c9e3d0e",
+    "tools/run_natural_delayed_battle_effect_pixel_ab.py": "35f759c88a1b5fa4421d4119aa255b6db72d5ce45f864802d456a45a20861222",
+    "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+    "tools/verify_battle_effect_direct_spawn_runtime.py": "2560388bffe826d2dec576f7895a9e9a958da32b7565fef7f9b903710aca5127",
+    "tools/verify_battle_effect_frame_phase.py": "b57c3f3f5c946bc512b9ef06932316f15439e580f346b8d4b16cc8994be8a9f7",
+    "tools/verify_battle_effect_natural_checkpoint.py": "332f553b0e487506f0013ba1f56a1f79c243e7652e2ded1ede1286cc3cf97ce7",
+    "tools/verify_battlefield_object_producers.py": "58db857ed958b94e4c4c64dc4dfd2256b15dbad7031ad32152381dc109ace360",
+    "tools/verify_natural_delayed_battle_effect_pixel_ab.py": "90d6e1661a7a09830d324093314bdbac69b5b8f34f4321738a367088755e12f6"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_natural_delayed_battle_effect_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group03-natural-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

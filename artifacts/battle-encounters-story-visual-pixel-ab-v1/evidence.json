@@ -1,0 +1,156 @@
+{
+  "actual_identity": "24 story visual descriptors",
+  "boundary": {
+    "all_24_records_runtime_covered": false,
+    "natural_scenario_53_navigation": false,
+    "physical_gba_verified": false,
+    "runtime_consumer_and_pixel_causality": true
+  },
+  "controlled_entry": {
+    "canonical_checkpoint": "artifacts/runtime-checkpoints/scenario-53-story-slideshow-command-controlled.ss9",
+    "canonical_checkpoint_sha256": "65cd8b010f9c21a6d5bc93fe8ed1b84fada025136936f6a42f0d540d0f7ab0a9",
+    "cursor_address": "0x030011F0",
+    "fixture_cursor": "0x08049E63",
+    "fixture_edit_kind": "script-cursor-only",
+    "parent_checkpoint": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-8.ss9",
+    "parent_checkpoint_sha256": "62adcd52b577f73ca1ffd6d2d4ec3b9fafa2a2b130ac644a6834e2a56a50d4d8",
+    "parent_cursor": "0x08031F31",
+    "scenario_command": {
+      "address": "0x08049E63",
+      "opcode": "0x14",
+      "raw_hex": "146801",
+      "roots": [
+        {
+          "scenario_id": 53,
+          "table": "alternate"
+        },
+        {
+          "scenario_id": 53,
+          "table": "primary"
+        }
+      ],
+      "state_value": "0x0168"
+    }
+  },
+  "edit": {
+    "after_bytes": "e8031308",
+    "after_pointer": "0x081303E8",
+    "before_bytes": "50ff1208",
+    "before_pointer": "0x0812FF50",
+    "changed_rom_offsets": [
+      5513884,
+      5513885,
+      5513886
+    ],
+    "field": "gfx_lz_ptr",
+    "record_id": 0,
+    "rom_address": "0x0854229C",
+    "rom_offset": 5513884
+  },
+  "emulator": {
+    "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+    "launch_identity": "raw.tar:launch-identity.json",
+    "script_path": "tools/mgba_battle_encounters_story_visual_trace.lua",
+    "script_sha256": "078c19552036a1fea0fe33ec173ec823ba81995b05f8a4398378eb90580e49e0",
+    "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8"
+  },
+  "historical_slug": "battle-encounters",
+  "input_state": {
+    "canonical_path": "artifacts/runtime-checkpoints/scenario-53-story-slideshow-command-controlled.ss9",
+    "parent_path": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-8.ss9",
+    "parent_sha256": "62adcd52b577f73ca1ffd6d2d4ec3b9fafa2a2b130ac644a6834e2a56a50d4d8",
+    "path": "raw.tar:input/controlled-story-opcode.ss9",
+    "sha256": "65cd8b010f9c21a6d5bc93fe8ed1b84fada025136936f6a42f0d540d0f7ab0a9",
+    "state_difference_offsets": [
+      106992,
+      106993,
+      106994
+    ]
+  },
+  "memory_differences": {
+    "EWRAM": {
+      "baseline_sha256": "75c12071d842f55e8ae96b811cf6bed241fca8279113d53b9763a2e7244afe71",
+      "candidate_sha256": "75c12071d842f55e8ae96b811cf6bed241fca8279113d53b9763a2e7244afe71",
+      "count": 0,
+      "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "IO": {
+      "baseline_sha256": "e0f287b97d27486e6c7e4ba5aba72b3dd71395199ffbd1660e45449920eaa2c6",
+      "candidate_sha256": "e0f287b97d27486e6c7e4ba5aba72b3dd71395199ffbd1660e45449920eaa2c6",
+      "count": 0,
+      "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "IWRAM": {
+      "baseline_sha256": "9645dd5ebdf587bb924c59ff442af5007d20b945db8a50e87981e3c2dbf9ee1f",
+      "candidate_sha256": "377dffd9048a62246e7058934612bdf5b75e87b49c74fff8c3f5c05c9a6e2ae8",
+      "count": 1,
+      "first_offset": 32668,
+      "index_sha256": "df07d516b299fe1db9db5f6c94a2e36735d5ce4027aeb9f7c648878b8882cc1c",
+      "last_offset": 32668
+    },
+    "OAM": {
+      "baseline_sha256": "2a25f06c35b6c2bb7327a651cc845e3fafc093881f3c13358a3cce44b66ba13d",
+      "candidate_sha256": "2a25f06c35b6c2bb7327a651cc845e3fafc093881f3c13358a3cce44b66ba13d",
+      "count": 0,
+      "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "PRAM": {
+      "baseline_sha256": "76b4e174e0730e8902fee39c1f720b2449055d745c721dbcd35d8804aa0e3f32",
+      "candidate_sha256": "76b4e174e0730e8902fee39c1f720b2449055d745c721dbcd35d8804aa0e3f32",
+      "count": 0,
+      "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "VRAM": {
+      "baseline_sha256": "0e151558329d8483c1424966fc77fedc8b8dcb9ee50ba7991faae162fdf577d9",
+      "candidate_sha256": "bc22c6e21af8cf4fbe8138cc6a82a4da2531974a8bebf22a10a269fd55700de2",
+      "count": 2348,
+      "first_offset": 59454,
+      "index_sha256": "0a2034d58c9f7ebb9556ee5fdbd77cf28d4468c99408ecae333d494775ec56e8",
+      "last_offset": 62914
+    }
+  },
+  "pixels": {
+    "baseline_rgb_sha256": "3551e69b1b3eef6e7acfc179ba2556622608544f322e3999b25c66f9fd90a2ce",
+    "bbox_inclusive": [
+      88,
+      48,
+      159,
+      108
+    ],
+    "candidate_rgb_sha256": "6b87ae09aadf58d8ccca94f78efa5dd9260c04b29f6f20a2a4fc29cd56bb444a",
+    "changed_pixel_count": 1603,
+    "height": 160,
+    "width": 240
+  },
+  "runs": {
+    "baseline": {
+      "audit_sha256": "1a2f8476451c3822f9959514812dd1919e209ad86c8f50fa568981d9b897e618",
+      "guard_sha256": "e0341d672fc0345c561bcbe06394022456c648425ccbcbd44e1a944d0b1bcc45",
+      "peak_tree_rss_mib": 108.765625,
+      "pgid_clean": true,
+      "png_sha256": "c1fbfc4b1050e8b60e83ad65bc050cf5a201157f8de64de9136f776d6794c180",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "state_sha256": "5d33d128f68e223586ae00ab7933d7393ab699548652df342925bc90ac66d35a"
+    },
+    "candidate": {
+      "audit_sha256": "58e1a0530af644383461079695126711032f817d828089e6eff8d52ff05a5b54",
+      "guard_sha256": "97c8b3054d37bdf6d4bdd4d6c8bd5be4bafb6a9c55f84b12f10a9f7d9366f066",
+      "peak_tree_rss_mib": 108.8984375,
+      "pgid_clean": true,
+      "png_sha256": "ec594790cbb0ab7173ec375af1632ba319680ba95a33930199d24f077628693f",
+      "rom_sha256": "53a5e74e0ccb2f5bbce13f026d69904c17fae62f9cf38977be816bf3d7539400",
+      "state_sha256": "0784d03cdf9cf221c63a20d1d005d22d0bbfcfa098b28bc089b566c0fd7a5772"
+    }
+  },
+  "runtime_chain": [
+    "0x08049E63: opcode 0x14 state 0x0168",
+    "0x0808FA2C story-state dispatch",
+    "0x0808A69C story wrapper",
+    "0x08087C9C story loader",
+    "0x0854229C descriptor 0",
+    "0x0809C0E8 three LZ77 streams",
+    "BG3 visible frame"
+  ],
+  "schema": "battle-encounters-story-visual-pixel-ab-evidence-v1",
+  "verified": true
+}

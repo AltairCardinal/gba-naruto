@@ -1,0 +1,840 @@
+{
+  "boundary": "Production relocation composed with the verified controlled sequence-14 binder path. It proves deterministic final-pixel writeback for Group 12, not natural gameplay reachability or physical-GBA execution.",
+  "build": {
+    "allocation_offset": 11796480,
+    "encoded_graphics_size": 1106,
+    "manifest_sha256": "ee76a20ab254c4a9d3c01db466badae38e62816328635c40a8a5a5816af67917",
+    "pointer_offsets": [
+      5869948
+    ],
+    "same_encoded_size": true,
+    "same_patch_topology": true,
+    "same_probe_bytes": true,
+    "source_pointer_offsets": [
+      5869948
+    ]
+  },
+  "case_id": "group-12-sequence-14",
+  "edit": {
+    "after_byte": 15,
+    "after_index": 15,
+    "after_rgb": [
+      0,
+      0,
+      0
+    ],
+    "before_byte": 1,
+    "before_index": 1,
+    "before_rgb": [
+      255,
+      255,
+      255
+    ],
+    "component_index": 0,
+    "component_pixel_xy": [
+      14,
+      14
+    ],
+    "frame_id": 0,
+    "graphics_byte_offset": 123,
+    "screen_pixels": [
+      [
+        177,
+        46
+      ]
+    ],
+    "screen_xy": [
+      177,
+      46
+    ]
+  },
+  "group_id": 12,
+  "parent_controlled_runtime_verifier": {
+    "all_entry_paths_complete": false,
+    "case_count": 13,
+    "errors": [],
+    "natural_pixel_ab_unchanged": true,
+    "negative_group_ids": [
+      3,
+      15,
+      18
+    ],
+    "observed_frame_phase_unchanged": true,
+    "positive_group_ids": [
+      4,
+      6,
+      7,
+      8,
+      9,
+      10,
+      12,
+      13,
+      16,
+      17
+    ],
+    "task_oam_binding_count": 25,
+    "task_oam_bound_group_ids": [
+      4,
+      6,
+      7,
+      8,
+      9,
+      10,
+      12,
+      13,
+      16,
+      17
+    ],
+    "verified": true
+  },
+  "profile": "sequel/content/battle-effect-controlled-pixel-ab/group-12-sequence-14-controlled.json",
+  "profile_sha256": "e731229ee7534351483105b7b85e9842fa1c8c0ec097c1241df541db4b8be5ea",
+  "raw_inventory": [
+    {
+      "path": "batch-audit.json",
+      "sha256": "f6fdbab162a1660286882691fa334702e8db036e3fe9cfe65800de078c858f58",
+      "size": 1466
+    },
+    {
+      "path": "build/baseline/group-12-graphics-4bpp.bin",
+      "sha256": "e1da042b138c01ac462f756407cf05c73fc003da9952c7de059946e347141b03",
+      "size": 2176
+    },
+    {
+      "path": "build/baseline/spec.json",
+      "sha256": "ba37086d729b0701054fb814d7087a133584c8d25826dce2705cca5502b51c58",
+      "size": 1277
+    },
+    {
+      "path": "build/build-manifest.json",
+      "sha256": "ee76a20ab254c4a9d3c01db466badae38e62816328635c40a8a5a5816af67917",
+      "size": 8597
+    },
+    {
+      "path": "build/candidate/group-12-graphics-4bpp.bin",
+      "sha256": "98cfd5ed6e17aab2295d3d45bf18c674a9321711c11c260ed642cf8b2d046867",
+      "size": 2176
+    },
+    {
+      "path": "build/candidate/spec.json",
+      "sha256": "47fd04f4b7d67cefe181bbcf7633725f453c63b96b9e1d8dae444bd2fa881ac9",
+      "size": 1279
+    },
+    {
+      "path": "runs/baseline/guard-summary.json",
+      "sha256": "c1bf5707002e57f5cb39602aa3a3785c367e1236eef997d5f1bfdf8f06a07532",
+      "size": 729
+    },
+    {
+      "path": "runs/baseline/guard-summary.json.done.json",
+      "sha256": "ea6af1857c466cc6d8ceb2c1c84e8803697d45bcde769d3561159d88e99d3ea4",
+      "size": 105
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-active-count.bin",
+      "sha256": "ab897fbdedfa502b2d839b6a56100887dccdc507555c282e59589e06300a62e2",
+      "size": 1
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-active-pointers.bin",
+      "sha256": "e607e7814be63034443962a504441869f506432e789a1b8f3cd717e62e11c00f",
+      "size": 512
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-hardware-oam.bin",
+      "sha256": "0dc5fdd1d74b6c6d331ae8c253970c96a1131be22f4dcd4409c32fed9f81530b",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-io.bin",
+      "sha256": "dc44ccf49b7437c77a03bbcb6d42fb66ad879e18eb0c540b4fe7da1b30ac5d71",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-phase.json",
+      "sha256": "f01f3671fbf2c0fd62b67aab3177811b9587fe66d95a3b06b53f36cbcff8a9e1",
+      "size": 179
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-pram.bin",
+      "sha256": "1928294c521fe57b1af93ad69422a864d9289d1340addb18a5be2e48c78158a7",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-runtime-offsets.bin",
+      "sha256": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+      "size": 32
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-shadow-oam.bin",
+      "sha256": "0dc5fdd1d74b6c6d331ae8c253970c96a1131be22f4dcd4409c32fed9f81530b",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-submission.bin",
+      "sha256": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+      "size": 2
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-task-pool.bin",
+      "sha256": "244e8806d376982877a3cc1bb27e52bd58aa960fc37ca04688edf4de71082c6a",
+      "size": 7680
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture-vram.bin",
+      "sha256": "23af365b567f5ac1ddca7e5cade7d38ac36dba1c988704d65b4c8e80309db767",
+      "size": 98304
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture.png",
+      "sha256": "8751ca28290514f0fa7c2d1ea9dedb6f31dbe91f2e891a4a9a59a4175c03be70",
+      "size": 34570
+    },
+    {
+      "path": "runs/baseline/output/ack-post/capture.ss9",
+      "sha256": "cae71a556c13dee06f037cace4c07ca34ebd2b26b1b8d0969baf48b91407d44c",
+      "size": 95433
+    },
+    {
+      "path": "runs/baseline/output/audit.json",
+      "sha256": "3633846f9127688307bc26fee00aa8760d2f9819ba3b4ef7ec022a38f759828b",
+      "size": 9518
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-active-count.bin",
+      "sha256": "f299791cddd3d6664f6670842812ef6053eb6501bd6282a476bbbf3ee91e750c",
+      "size": 1
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-active-pointers.bin",
+      "sha256": "4a978f77ce7a9c923b04ac00255d2f36d9ba58d0b222a7ca81afd794dfb13682",
+      "size": 512
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-hardware-oam.bin",
+      "sha256": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-io.bin",
+      "sha256": "9af90d3173ff582c586fcc6481c82c6ce6f74e30dbf43727d01941eb18696f12",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-phase.json",
+      "sha256": "bedd0d725f595af3166ab931765c71841e52e49e0926189bbf310835c72154d2",
+      "size": 170
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-pram.bin",
+      "sha256": "6e00505fc7dc2d0aacdba8654c29cbf02417e8879ed629ffda721b3e059dc159",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-runtime-offsets.bin",
+      "sha256": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+      "size": 32
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-shadow-oam.bin",
+      "sha256": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-submission.bin",
+      "sha256": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+      "size": 2
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-task-pool.bin",
+      "sha256": "d4cd8a83475e01258bb571470129d5f0fcbd397628e97c22025de01eac20d507",
+      "size": 7680
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture-vram.bin",
+      "sha256": "76dbd29e638cd9768d56f2947f1f5bfb950a14c922fd5b366342ccbe95261174",
+      "size": 98304
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture.png",
+      "sha256": "e98bfa9b87db95cf6cfbbaae6bfa78fbf1433f2465edc57539101ce3437f9dc6",
+      "size": 34695
+    },
+    {
+      "path": "runs/baseline/output/binder-return/capture.ss9",
+      "sha256": "296b862f12d8f26bc2dfe8e0a73f2592de846819e43084e0bd244cd92cd65131",
+      "size": 96031
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-active-count.bin",
+      "sha256": "ab897fbdedfa502b2d839b6a56100887dccdc507555c282e59589e06300a62e2",
+      "size": 1
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-active-pointers.bin",
+      "sha256": "e607e7814be63034443962a504441869f506432e789a1b8f3cd717e62e11c00f",
+      "size": 512
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-hardware-oam.bin",
+      "sha256": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-io.bin",
+      "sha256": "6b9b8e28d97915f2a4a3ddcfd20b64e150324ca1d7d025beedb5f34b8c466718",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-phase.json",
+      "sha256": "ff2bc1b6fa2e9918c0882dbbdb2631e84956beee44d87acc7094f6b993d16e1a",
+      "size": 184
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-pram.bin",
+      "sha256": "1928294c521fe57b1af93ad69422a864d9289d1340addb18a5be2e48c78158a7",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-runtime-offsets.bin",
+      "sha256": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+      "size": 32
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-shadow-oam.bin",
+      "sha256": "0dc5fdd1d74b6c6d331ae8c253970c96a1131be22f4dcd4409c32fed9f81530b",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-submission.bin",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-task-pool.bin",
+      "sha256": "244e8806d376982877a3cc1bb27e52bd58aa960fc37ca04688edf4de71082c6a",
+      "size": 7680
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture-vram.bin",
+      "sha256": "76dbd29e638cd9768d56f2947f1f5bfb950a14c922fd5b366342ccbe95261174",
+      "size": 98304
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture.png",
+      "sha256": "98abf30a5b490797b2af8e284b16c09323a3e2b822dc62ea40397c7ee0763e39",
+      "size": 34945
+    },
+    {
+      "path": "runs/baseline/output/renderer-post/capture.ss9",
+      "sha256": "9428eab6f8dc08f7b9c5fc9bf5d41f13f64e307193107f1c9c2289af4c5cf85f",
+      "size": 96311
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-active-count.bin",
+      "sha256": "ab897fbdedfa502b2d839b6a56100887dccdc507555c282e59589e06300a62e2",
+      "size": 1
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-active-pointers.bin",
+      "sha256": "e607e7814be63034443962a504441869f506432e789a1b8f3cd717e62e11c00f",
+      "size": 512
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-hardware-oam.bin",
+      "sha256": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-io.bin",
+      "sha256": "142137ecf7c7b679f4233bc92fb3472e30f8c4d34e67869da5875122d8bc646c",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-phase.json",
+      "sha256": "03ae543265edf5b20db21cc927914de921273c30e280a616db68a0973b9c2313",
+      "size": 182
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-pram.bin",
+      "sha256": "1928294c521fe57b1af93ad69422a864d9289d1340addb18a5be2e48c78158a7",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-runtime-offsets.bin",
+      "sha256": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+      "size": 32
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-shadow-oam.bin",
+      "sha256": "0dc5fdd1d74b6c6d331ae8c253970c96a1131be22f4dcd4409c32fed9f81530b",
+      "size": 1024
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-submission.bin",
+      "sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+      "size": 2
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-task-pool.bin",
+      "sha256": "244e8806d376982877a3cc1bb27e52bd58aa960fc37ca04688edf4de71082c6a",
+      "size": 7680
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture-vram.bin",
+      "sha256": "76dbd29e638cd9768d56f2947f1f5bfb950a14c922fd5b366342ccbe95261174",
+      "size": 98304
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture.png",
+      "sha256": "98abf30a5b490797b2af8e284b16c09323a3e2b822dc62ea40397c7ee0763e39",
+      "size": 34945
+    },
+    {
+      "path": "runs/baseline/output/submit-post/capture.ss9",
+      "sha256": "305d9f98b119e35f14de773ac20f5c317096e0deb2f4b64ae2d6d50aa1642498",
+      "size": 96309
+    },
+    {
+      "path": "runs/baseline/profile.json",
+      "sha256": "fc13801f19530d3bbe294ec5191bf56ebf476f156d31a78a26943697a930c9a6",
+      "size": 1638
+    },
+    {
+      "path": "runs/candidate/guard-summary.json",
+      "sha256": "aa8e28d7016ab8195e2b82f2e2028ce8419ff14c56e944676e1c66d8b2794f9f",
+      "size": 730
+    },
+    {
+      "path": "runs/candidate/guard-summary.json.done.json",
+      "sha256": "311134a043780ab3cd9fcc02a71613a20c7afa6a03cdcaeb67c001209234ce51",
+      "size": 105
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-active-count.bin",
+      "sha256": "ab897fbdedfa502b2d839b6a56100887dccdc507555c282e59589e06300a62e2",
+      "size": 1
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-active-pointers.bin",
+      "sha256": "e607e7814be63034443962a504441869f506432e789a1b8f3cd717e62e11c00f",
+      "size": 512
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-hardware-oam.bin",
+      "sha256": "0dc5fdd1d74b6c6d331ae8c253970c96a1131be22f4dcd4409c32fed9f81530b",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-io.bin",
+      "sha256": "dc44ccf49b7437c77a03bbcb6d42fb66ad879e18eb0c540b4fe7da1b30ac5d71",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-phase.json",
+      "sha256": "f01f3671fbf2c0fd62b67aab3177811b9587fe66d95a3b06b53f36cbcff8a9e1",
+      "size": 179
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-pram.bin",
+      "sha256": "1928294c521fe57b1af93ad69422a864d9289d1340addb18a5be2e48c78158a7",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-runtime-offsets.bin",
+      "sha256": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+      "size": 32
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-shadow-oam.bin",
+      "sha256": "0dc5fdd1d74b6c6d331ae8c253970c96a1131be22f4dcd4409c32fed9f81530b",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-submission.bin",
+      "sha256": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+      "size": 2
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-task-pool.bin",
+      "sha256": "244e8806d376982877a3cc1bb27e52bd58aa960fc37ca04688edf4de71082c6a",
+      "size": 7680
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture-vram.bin",
+      "sha256": "df9c2356cf1e18d9a2d962a5c55e02d9922ea29e0ef63f4a2ce5d82c5ba4b502",
+      "size": 98304
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture.png",
+      "sha256": "8751ca28290514f0fa7c2d1ea9dedb6f31dbe91f2e891a4a9a59a4175c03be70",
+      "size": 34570
+    },
+    {
+      "path": "runs/candidate/output/ack-post/capture.ss9",
+      "sha256": "83eb3a4de1a76fafff9472763bf913e7e18c2a98888b0ea0e71ba45b4c2d6c7f",
+      "size": 95435
+    },
+    {
+      "path": "runs/candidate/output/audit.json",
+      "sha256": "bd26d1c5475d58fa4887c2caca020407f815fd0438047a442c1a5d23506a4a89",
+      "size": 9520
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-active-count.bin",
+      "sha256": "f299791cddd3d6664f6670842812ef6053eb6501bd6282a476bbbf3ee91e750c",
+      "size": 1
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-active-pointers.bin",
+      "sha256": "4a978f77ce7a9c923b04ac00255d2f36d9ba58d0b222a7ca81afd794dfb13682",
+      "size": 512
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-hardware-oam.bin",
+      "sha256": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-io.bin",
+      "sha256": "9af90d3173ff582c586fcc6481c82c6ce6f74e30dbf43727d01941eb18696f12",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-phase.json",
+      "sha256": "bedd0d725f595af3166ab931765c71841e52e49e0926189bbf310835c72154d2",
+      "size": 170
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-pram.bin",
+      "sha256": "6e00505fc7dc2d0aacdba8654c29cbf02417e8879ed629ffda721b3e059dc159",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-runtime-offsets.bin",
+      "sha256": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+      "size": 32
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-shadow-oam.bin",
+      "sha256": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-submission.bin",
+      "sha256": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+      "size": 2
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-task-pool.bin",
+      "sha256": "d4cd8a83475e01258bb571470129d5f0fcbd397628e97c22025de01eac20d507",
+      "size": 7680
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture-vram.bin",
+      "sha256": "d0839ea63adc24df683bd6e8ac58b65bf0a2735ffaae3cc3fc8ba77689ecfd4e",
+      "size": 98304
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture.png",
+      "sha256": "e98bfa9b87db95cf6cfbbaae6bfa78fbf1433f2465edc57539101ce3437f9dc6",
+      "size": 34695
+    },
+    {
+      "path": "runs/candidate/output/binder-return/capture.ss9",
+      "sha256": "4a4d942104d1bced88ace0ddc6e693e7c987f5966a58999159880d3fdc68a7be",
+      "size": 96031
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-active-count.bin",
+      "sha256": "ab897fbdedfa502b2d839b6a56100887dccdc507555c282e59589e06300a62e2",
+      "size": 1
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-active-pointers.bin",
+      "sha256": "e607e7814be63034443962a504441869f506432e789a1b8f3cd717e62e11c00f",
+      "size": 512
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-hardware-oam.bin",
+      "sha256": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-io.bin",
+      "sha256": "6b9b8e28d97915f2a4a3ddcfd20b64e150324ca1d7d025beedb5f34b8c466718",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-phase.json",
+      "sha256": "ff2bc1b6fa2e9918c0882dbbdb2631e84956beee44d87acc7094f6b993d16e1a",
+      "size": 184
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-pram.bin",
+      "sha256": "1928294c521fe57b1af93ad69422a864d9289d1340addb18a5be2e48c78158a7",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-runtime-offsets.bin",
+      "sha256": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+      "size": 32
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-shadow-oam.bin",
+      "sha256": "0dc5fdd1d74b6c6d331ae8c253970c96a1131be22f4dcd4409c32fed9f81530b",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-submission.bin",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "size": 2
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-task-pool.bin",
+      "sha256": "244e8806d376982877a3cc1bb27e52bd58aa960fc37ca04688edf4de71082c6a",
+      "size": 7680
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture-vram.bin",
+      "sha256": "d0839ea63adc24df683bd6e8ac58b65bf0a2735ffaae3cc3fc8ba77689ecfd4e",
+      "size": 98304
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture.png",
+      "sha256": "98abf30a5b490797b2af8e284b16c09323a3e2b822dc62ea40397c7ee0763e39",
+      "size": 34945
+    },
+    {
+      "path": "runs/candidate/output/renderer-post/capture.ss9",
+      "sha256": "428694552cd591ca47c4f6e3293e23b720182acf42ee7b0a8b7e56fcc44b209e",
+      "size": 96310
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-active-count.bin",
+      "sha256": "ab897fbdedfa502b2d839b6a56100887dccdc507555c282e59589e06300a62e2",
+      "size": 1
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-active-pointers.bin",
+      "sha256": "e607e7814be63034443962a504441869f506432e789a1b8f3cd717e62e11c00f",
+      "size": 512
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-hardware-oam.bin",
+      "sha256": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-io.bin",
+      "sha256": "142137ecf7c7b679f4233bc92fb3472e30f8c4d34e67869da5875122d8bc646c",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-phase.json",
+      "sha256": "03ae543265edf5b20db21cc927914de921273c30e280a616db68a0973b9c2313",
+      "size": 182
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-pram.bin",
+      "sha256": "1928294c521fe57b1af93ad69422a864d9289d1340addb18a5be2e48c78158a7",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-runtime-offsets.bin",
+      "sha256": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+      "size": 32
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-shadow-oam.bin",
+      "sha256": "0dc5fdd1d74b6c6d331ae8c253970c96a1131be22f4dcd4409c32fed9f81530b",
+      "size": 1024
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-submission.bin",
+      "sha256": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+      "size": 2
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-task-pool.bin",
+      "sha256": "244e8806d376982877a3cc1bb27e52bd58aa960fc37ca04688edf4de71082c6a",
+      "size": 7680
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture-vram.bin",
+      "sha256": "d0839ea63adc24df683bd6e8ac58b65bf0a2735ffaae3cc3fc8ba77689ecfd4e",
+      "size": 98304
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture.png",
+      "sha256": "98abf30a5b490797b2af8e284b16c09323a3e2b822dc62ea40397c7ee0763e39",
+      "size": 34945
+    },
+    {
+      "path": "runs/candidate/output/submit-post/capture.ss9",
+      "sha256": "669f86aeffb55f039ac495a42b9cc07689bb07b8f4dff1b15eddb582c4010088",
+      "size": 96309
+    },
+    {
+      "path": "runs/candidate/profile.json",
+      "sha256": "bdc8d608d2fea7ee2a6314cf8079e1847fb2db2a23a197b241f8e2037d511ad2",
+      "size": 1640
+    }
+  ],
+  "runs": [
+    {
+      "ack_state_sha256": "cae71a556c13dee06f037cace4c07ca34ebd2b26b1b8d0969baf48b91407d44c",
+      "audit_sha256": "3633846f9127688307bc26fee00aa8760d2f9819ba3b4ef7ec022a38f759828b",
+      "guard_summary_sha256": "c1bf5707002e57f5cb39602aa3a3785c367e1236eef997d5f1bfdf8f06a07532",
+      "peak_tree_rss_mib_sample": 77.76953125,
+      "pgid_clean": true,
+      "phase_transaction": {
+        "ack_hardware_equals_renderer_shadow": true,
+        "addresses": [
+          "0x08063328",
+          "0x08061126",
+          "0x080612AA"
+        ],
+        "cycles": [
+          "295075518134",
+          "295075518497",
+          "295075644950"
+        ],
+        "pending": [
+          0,
+          1,
+          0
+        ],
+        "renderer_shadow_differs_from_old_hardware": true,
+        "savestate_sha256": [
+          "9428eab6f8dc08f7b9c5fc9bf5d41f13f64e307193107f1c9c2289af4c5cf85f",
+          "305d9f98b119e35f14de773ac20f5c317096e0deb2f4b64ae2d6d50aa1642498",
+          "cae71a556c13dee06f037cace4c07ca34ebd2b26b1b8d0969baf48b91407d44c"
+        ],
+        "submit_hardware_unchanged": true
+      },
+      "profile_sha256": "fc13801f19530d3bbe294ec5191bf56ebf476f156d31a78a26943697a930c9a6",
+      "rom_sha256": "e2e28a54b4ae82c2c8226d6f3627a915f6be0c34b0bde6d67c81bf0d134565c2",
+      "rss_sample_valid_for_statistics": true,
+      "target_task": {
+        "anchor_x": 184,
+        "anchor_y": 64,
+        "animation_pointer": "0x08345AC4",
+        "definition_pointer": "0x08345A90",
+        "flags": "0x610090C1",
+        "palette_bank": 13,
+        "slot": 108,
+        "tile_base": 800
+      },
+      "variant": "baseline"
+    },
+    {
+      "ack_state_sha256": "83eb3a4de1a76fafff9472763bf913e7e18c2a98888b0ea0e71ba45b4c2d6c7f",
+      "audit_sha256": "bd26d1c5475d58fa4887c2caca020407f815fd0438047a442c1a5d23506a4a89",
+      "guard_summary_sha256": "aa8e28d7016ab8195e2b82f2e2028ce8419ff14c56e944676e1c66d8b2794f9f",
+      "peak_tree_rss_mib_sample": 77.54296875,
+      "pgid_clean": true,
+      "phase_transaction": {
+        "ack_hardware_equals_renderer_shadow": true,
+        "addresses": [
+          "0x08063328",
+          "0x08061126",
+          "0x080612AA"
+        ],
+        "cycles": [
+          "295075518134",
+          "295075518497",
+          "295075644950"
+        ],
+        "pending": [
+          0,
+          1,
+          0
+        ],
+        "renderer_shadow_differs_from_old_hardware": true,
+        "savestate_sha256": [
+          "428694552cd591ca47c4f6e3293e23b720182acf42ee7b0a8b7e56fcc44b209e",
+          "669f86aeffb55f039ac495a42b9cc07689bb07b8f4dff1b15eddb582c4010088",
+          "83eb3a4de1a76fafff9472763bf913e7e18c2a98888b0ea0e71ba45b4c2d6c7f"
+        ],
+        "submit_hardware_unchanged": true
+      },
+      "profile_sha256": "bdc8d608d2fea7ee2a6314cf8079e1847fb2db2a23a197b241f8e2037d511ad2",
+      "rom_sha256": "e716a758ace257a9520aaf9357dbbf6d2ebb754d7a620354c2bdb51ce880a583",
+      "rss_sample_valid_for_statistics": true,
+      "target_task": {
+        "anchor_x": 184,
+        "anchor_y": 64,
+        "animation_pointer": "0x08345AC4",
+        "definition_pointer": "0x08345A90",
+        "flags": "0x610090C1",
+        "palette_bank": 13,
+        "slot": 108,
+        "tile_base": 800
+      },
+      "variant": "candidate"
+    }
+  ],
+  "runtime": {
+    "full_source_palette_equal": true,
+    "graphics_difference_offsets": [
+      123
+    ],
+    "memory_absolute_difference": "0x0601647B",
+    "memory_differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [],
+      "OAM": [],
+      "PRAM": [],
+      "VRAM": [
+        91259
+      ]
+    },
+    "mgba_capture_pngs": {
+      "baseline_sha256": "8751ca28290514f0fa7c2d1ea9dedb6f31dbe91f2e891a4a9a59a4175c03be70",
+      "byte_equal": true,
+      "candidate_sha256": "8751ca28290514f0fa7c2d1ea9dedb6f31dbe91f2e891a4a9a59a4175c03be70",
+      "used_for_pixel_ab": false
+    },
+    "oam_attributes": [
+      "0x0020",
+      "0x50B0",
+      "0xDF20"
+    ],
+    "oam_index": 26,
+    "palette_equal": true,
+    "pixel_changes": [
+      {
+        "after_rgb": [
+          0,
+          0,
+          0
+        ],
+        "before_rgb": [
+          255,
+          255,
+          255
+        ],
+        "x": 177,
+        "y": 46
+      }
+    ],
+    "pixel_render_source": "offline-mode0-from-ack-savestate",
+    "source_palette_matched_prefix_bytes": 32,
+    "source_palette_mismatch_offsets": []
+  },
+  "schema": "controlled-battle-effect-pixel-ab-runtime-v1",
+  "scope": {
+    "controlled_final_pixel_writeback": true,
+    "execution_mode": "controlled-sequence-injection",
+    "mgba_capture_pixel_ab": false,
+    "natural_gameplay_route": false,
+    "physical_gba_verified": false,
+    "production_modified_rom_pixel_ab_after": "18/18",
+    "production_modified_rom_pixel_ab_before": "17/18",
+    "production_resource_relocation": true
+  },
+  "sequence_id": 14,
+  "verified": true
+}

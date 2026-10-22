@@ -1,0 +1,89 @@
+{
+  "artifact_schema": "rom-dialogue-padding-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "dialogue-padding-inventory.json": {
+      "sha256": "c8fcf481f228026e6210e4fc52d4cfe33fc3c85293ebd41c5d2ddaf71542fe04",
+      "size": 787943
+    },
+    "dialogue-padding-zero.bin": {
+      "sha256": "d82e1a0b72a65f08b6e5a627ce306b6e06a9e7cb0a4e28f3122de057e32d7102",
+      "size": 16814
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "6e260591adf98e79f15b0379d4339fe88d80c39dffbecc2cddb3eb942725e97d",
+    "test_sha256": "1821be18a67e80a68f3ef46436712378baa276aed3e8434a3d4708e9b10986f8",
+    "verifier_sha256": "4728d3273c668db4e70ce55b069ca8fd82442d55666432bd3b55b1d760ef8866"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "adjacent_gap_denominator_complete": true,
+    "all_gap_bytes_zero": true,
+    "fixed_target_denominator_complete": true,
+    "runtime_reachability_claimed": false,
+    "safe_allocatable_space_claimed": false,
+    "source_dialogue_inventory_verified": true,
+    "text_semantics_claimed": false
+  },
+  "source_artifact": {
+    "manifest_sha256": "0e8f3276ff5eac20c089299174abeac36b930fd71e368b16cc97e0cce22e4d7d",
+    "path": "artifacts/rom-dialogue-text-inventory-v1",
+    "payload_file": "dialogue-text-inventory.json",
+    "payload_sha256": "b25734be4eaed46aa199792d98e7e998389942cba914d38e2790533a558b3952",
+    "target_count": 1220,
+    "verifier_path": "tools/verify_rom_dialogue_text_inventory.py",
+    "verifier_report": {
+      "direct_pointer_slot_count": 1220,
+      "direct_target_bytes": 18207,
+      "direct_target_count": 1220,
+      "duplicate_target_count": 0,
+      "errors": [],
+      "newline_count": 203,
+      "newline_target_count": 170,
+      "overlapping_target_range_count": 0,
+      "schema": "rom-dialogue-text-inventory-verification-v1",
+      "sentinel_count": 305,
+      "table_byte_count": 6100,
+      "table_row_count": 305,
+      "target_payload_bytes": 16987,
+      "unique_target_count": 1220,
+      "verified": true
+    },
+    "verifier_sha256": "ac74891c2fc7807d727aa9de7b4fcb11a2e6dc622dc769bf3cd166b8c5481377"
+  },
+  "summary": {
+    "gap_count": 1219,
+    "nonzero_gap_count": 0,
+    "padding_bytes": 16814,
+    "source_target_count": 1220,
+    "zero_byte_count": 16814
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_dialogue_padding_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-dialogue-padding-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "gap_count": 1219,
+      "nonzero_gap_count": 0,
+      "padding_bytes": 16814,
+      "schema": "rom-dialogue-padding-inventory-verification-v1",
+      "source_target_count": 1220,
+      "verified": true,
+      "zero_byte_count": 16814
+    },
+    "verifier_sha256": "4728d3273c668db4e70ce55b069ca8fd82442d55666432bd3b55b1d760ef8866"
+  }
+}

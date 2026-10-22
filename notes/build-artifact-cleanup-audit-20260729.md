@@ -1,0 +1,452 @@
+# `build/` 产物清理审计（2026-07-29）
+
+## 结论
+
+- 审计时顶层 `build/` 实占约 `1.7 GiB`，apparent size 约 `1.6 GiB`；当前目录本身并非
+  `24 GiB`。旧数字不能作为本次删除依据。
+- `build/` 中的大部分空间是 ROM、`.ss9`、SAV、GPU/OAM/VRAM dump、录像和运行守卫，
+  不是普通编译缓存。
+- 本轮只删除了能够由源码和测试命令完全重建、且没有仓库引用的宿主测试二进制：
+  - `build/host-tests/`
+  - `build/test_battle_ai-current.dSYM/`
+- 删除前两项共占 `9,812 KiB`；删除后 `build/` 为 `1,736,948 KiB`，共有
+  `20,371` 个文件。
+
+## 判定标准
+
+只有同时满足以下条件的内容才能直接清理：
+
+1. 不被 `notes/`、`docs/`、`tools/`、`tests/` 或 `artifacts/` 引用；
+2. 不含唯一 ROM、快照、输入日志、运行时 dump、录像或 guard 证据；
+3. 能由仓库内已有命令确定性重建；
+4. 不属于当天仍在进行的 Butano 工作；
+5. 清理时没有进程持有相关文件。
+
+“没有直接文本引用”不能单独证明可删除；未引用的实验原件可能只是尚未完成成果转化。
+
+## 当前必须保留
+
+- `build/resource-guard/`：被大量文档直接引用，并在本次审计当天仍有 Butano 任务写入。
+- `build/audio-v2/`、`build/audio/`：现有音频测试和工具直接读取。
+- `build/signed-tooling/`：构建和验证链路直接依赖。
+- `build/original-fire-presentation-trace-20260726-{98,99}/`：现有生成器和测试直接读取。
+- 被笔记直接引用的视频、快照、运行目录：在关键帧、manifest 和复现入口迁入
+  `artifacts/` 且对应笔记提交前，仍是证据链的一部分。
+- `build/mgba-upstream-patch/`：是异常/未完成的嵌套 Git 工作树，不能按缓存删除。
+
+## 后续可清理候选
+
+以下目录体积较大，但目前仍包含尚未固化到 `artifacts/` 的原始证据，不能直接删除：
+
+- `build/butano-battle-video-analysis-20260725-ai-defense/`
+- `build/battle-presentation-original-probes-20260727-01/`
+- `build/battle-reaction-family-runtime-20260725-02/`
+- `build/butano-combat-presentation-runtime-*`
+- `build/butano-action05-*-runtime-*`
+
+处理顺序应为：提取最终关键帧/manifest/输入与哈希 → 写入并验证 `artifacts/` →
+更新持久笔记中的证据路径 → 提交成果 → 再删除原始临时目录。
+
+## 成果转化复核
+
+第二轮按“现有成果能否独立复核结论”逐项检查了最大的非活动目录。仅有笔记、哈希或
+生成命令，不等于原始输入已经转化完成：如果媒体、trace、输出快照或内存 dump 仍只存在
+于 `build/`，删除后就无法独立复核视觉或运行时结论。
+
+| 分类 | 体积 | 当前状态 | 清理结论 |
+|---|---:|---|---|
+| 已删宿主测试缓存 | `9,812 KiB` | 源码和测试命令可确定性重建，无仓库引用 | 已清理 |
+| 录像、联系表、ROM trace 与输出快照 | `619,680 KiB` | 已有笔记或结构化 JSON，但原始输入/输出仍仅在 `build/` | 先迁入持久 artifact 并验证，再清理 |
+| `battle-presentation-original-probes-20260727-01/` | `128,436 KiB` | 4,868 个 GPU/OAM/PRAM/VRAM dump、PNG 与快照尚无领域成果映射 | 必须保留 |
+| `audio-v2/` 与 `audio/` | 约 `33 MiB` | 测试、工具及编辑器规格直接读取 | 必须保留 |
+
+因此第二轮没有追加删除项，立即可安全回收量为 `0`。约 `605.2 MiB` 的候选不是缓存；
+只有在原始媒体/trace 或足够独立复核的派生工件、manifest、输入哈希和验证命令迁入
+`artifacts/`，相关笔记改为持久路径并提交后，才达到删除条件。不能为了回收空间而让
+现有证据路径断链。
+
+## 复核命令
+
+```sh
+du -sh build
+du -shA build
+find build -type f | wc -l
+rg -l --glob '!build/**' 'build/' notes docs tools tests artifacts
+```
+
+## 第三轮清理：按成果转化状态复核
+
+本轮重新按“是否已经形成持久成果”核对：
+
+- 已提交的六组静态图形成果均已进入 `artifacts/`，具备 ROM 哈希、导出器和测试；
+  这些任务没有在 `build/` 留下显著重复副本。
+- 最大的约 `605.2 MiB` 仍是外部录像、原 ROM trace、快照、GPU/OAM/PRAM/VRAM
+  dump。相关笔记仍直接引用其中的原始输入，且尚无等价的持久 artifact，因此继续保留。
+- `build/tiles/` 与 `build/tiles-v2/` 只是 tileset atlas；47 张完整地图层/画布尚未完成
+  解码，不能把它们误判为已经转化完成。
+- `build/audio-v2/`、`build/audio/`、`build/resource-guard/`、`build/signed-tooling/`
+  仍被工具、测试或当前流程直接读取，继续保留。
+
+确认没有进程持有文件、没有仓库引用后，清理了八个可由源码和测试命令重建的旧宿主
+构建目录、十七个宿主测试可执行文件和一个对象文件，共 `48,856,483` 字节
+（`46.59 MiB`）。清理后：
+
+- `build/` 为 `1,688,692 KiB`；
+- 文件数为 `20,054`；
+- 所有目标路径均已确认不存在。
+
+这些内容只是已经由源码、测试和后续验收结果取代的构建缓存，不承担 ROM 原始证据、
+可复用快照或运行时 dump 的职责。本轮未删除任何录像、音频、ROM、savestate、trace、
+guard、持久 artifact 或并行 Butano 任务的当日产物。
+
+## 第四轮清理：完整地图成果落库后
+
+完整地图成果 `artifacts/map-canvases-v1/` 已提交，包含 47 张地图的 61 张主/备选
+索引画布、展开后的 tilemap、去重原始资源、ROM/表哈希及独立 verifier。复核时：
+
+- `tests/test_extract_tileset.py` 的 6 项测试通过；
+- `tools/verify_map_canvases.py` 独立验证 `47/47` 地图、`61/61` 画布；
+- 逐地图对比旧 manifest 与新 manifest，47 组 tile graphics 的 ROM offset、解压大小和
+  SHA-256 全部一致；
+- `build/tiles/` 与 `build/tiles-v2/` 没有进程占用，只含可由已提交脚本重建的旧
+  tileset atlas，已被完整地图成果取代；
+- 全量哈希对比发现 `build/` 内另有 1,012 个文件、约 `31.03 MiB` 与已跟踪
+  artifacts 内容相同，但它们只覆盖所属 trace 的一小部分。为避免破坏原始帧序列和
+  实验上下文，本轮不做碎片式删除。
+
+因此仅删除 `build/tiles/` 与 `build/tiles-v2/`，回收 `776 KiB`。录像、音频、
+ROM、快照、trace、GPU/OAM/PRAM/VRAM dump、guard、工具链及并行 Butano 当日产物
+继续保留；它们尚未被完整、可独立复核的持久成果覆盖。清理完成时 `build/` 为
+`1,688,000 KiB`；并行任务仍可能继续向其中写入新结果。
+
+## 第五轮清理：全仓库嵌套构建目录复核
+
+本轮同时检查顶层和嵌套 `build/`，确认先前所称的 `24 GiB` 已不在当前工作树中：
+
+- 顶层 `build/` 清理前为 `1,688,108 KiB`；
+- `butano-sequel/build/` 为 `61,660 KiB`，属于当天仍在运行的并行 Butano 工作；
+- `third_party/butano/examples/{audio,sprites}/build/` 合计 `34,556 KiB`，只含
+  497 个可由各自 Makefile 重建的 `.o/.d/.s/.h` 等示例编译中间文件；
+- 其余嵌套构建目录均不足 `18 MiB`。
+
+两个 Butano 示例构建目录未被 Git 跟踪、被子模块 `.gitignore` 明确忽略、没有仓库
+引用且没有进程占用，因此已删除。另从 `build/test-results/` 删除 4 个无仓库引用、
+可由宿主测试源码重建的旧调试可执行文件；其文本日志继续保留。两类合计回收
+`35,976 KiB`（约 `35.13 MiB`），其中顶层 `build/` 回收 `1,420 KiB`。
+
+清理期间并行 Butano 任务正通过资源守卫运行 mGBA；本轮没有删除或修改
+`butano-sequel/build/`、`build/resource-guard/`、`build/signed-tooling/` 或该任务的
+任何 artifact。此前列出的录像、原始 ROM trace、快照和内存 dump 仍未被完整持久成果
+覆盖，继续保留。
+
+## 第六轮清理：按成果转化状态终检
+
+本轮再次以“是否已有可独立复核的持久成果”为唯一清理依据：
+
+- 顶层 `build/` 清理前为 `1,686,712 KiB`，已不含先前所称的 `24 GiB` 临时产物；
+- 近期完成的角色战斗视觉和场景背景资源已提交到 `artifacts/`，但没有在 `build/`
+  留下可整目录删除的大体积重复副本；
+- 当前最大的录像、ROM trace、快照、GPU/OAM/PRAM/VRAM dump 仍被笔记引用，或其
+  原始输入与实验上下文尚未完整迁入持久 artifact，不能因已有局部结论而删除；
+- `build/audio-v2/`、`build/audio/`、`build/resource-guard/`、
+  `build/signed-tooling/` 和 `build/mgba-upstream-patch/` 仍分别承担工具输入、
+  运行守卫、签名工具链或未完成工作树职责；
+- 当日新增的 `build/butano-battle-ui-flow-depth-host-20260729-01/` 及
+  `butano-sequel/build/` 属于并行 Butano 工作，本轮未触碰。
+
+确认没有仓库引用和进程占用后，删除了 `build/test-results/` 中 4 个遗留 `.dSYM`
+调试符号包。它们对应的调试可执行文件已在前轮清理，符号包可由现有源码和测试重新
+生成，不承担 ROM、快照或运行时证据职责。本轮实际回收 `2,260 KiB`；清理后顶层
+`build/` 为 `1,684,452 KiB`，且其中不再存在 `.dSYM`。
+
+## 第七轮清理：全量哈希成果核对
+
+本轮对 `build/` 与已跟踪 `artifacts/` 做全量 SHA-256 对照，并按顶层目录统计完整
+覆盖率。核对结果：
+
+- `build/battle-continuation-source-20260725-01/` 仅含一个 `base.gba`，SHA-256 为
+  `1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`；该内容已由
+  `artifacts/type2-original-probe-20260726-04/staged.gba` 等多个已跟踪工件完整承接，
+  `build/` 之外的仓库文件没有引用，因此删除整个目录。
+- 删除一个无引用的 0 字节日志和三个无引用空目录；它们不承载结果或证据。
+- `build/naruto-sequel-dev.sav` 虽与持久 artifact 内容相同，但仍被两份笔记直接引用，
+  仅占 32 KiB，因此保留，避免制造文档断链。
+- 大体积目录只有部分文件与 artifact 重复。例如
+  `battle-presentation-original-probes-20260727-01/` 的 4,868 个文件中仅 640 个重复；
+  原始帧序列、dump 和实验上下文没有被完整覆盖，因此不做碎片式删除。
+
+本轮从 `1,684,484 KiB` 清理至 `1,678,344 KiB`，回收 `6,140 KiB`，文件数降至
+`20,039`。清理后检测到并行 Butano 任务正在通过 `run_guarded.py` 驱动 mGBA；本轮
+没有触碰其 `artifacts/butano-battle-s49-fidelity-20260729-19/`、
+`build/resource-guard/`、`build/signed-tooling/` 或 `butano-sequel/build/`。
+
+## 第八轮清理：成果承接与可重建性终审
+
+本轮再次核对 Goal、Git 状态、仓库引用、目录内容和活跃进程，只清理满足“结论已经进入
+持久代码/测试/笔记，原目录不再承载唯一证据，且可从既有来源重建”的项目：
+
+- 删除 `build/maxmod-upstream-20260727-01/`。它是约 `1.2 MiB` 的临时 partial clone，
+  工作树源码已经全部缺失，只剩可从公开上游 commit
+  `97c4e3267afc08f6f8a2da1ef7238d5b0bfdef0d` 重新取得的 Git 对象缓存；仓库没有引用
+  该路径。
+- 删除 `build/maxmod-header-diagnostic-20260727-01/`。其中只有旧的
+  `soundbank.bin`/`soundbank.h` 诊断输出，约 `4.4 MiB`；Maxmod 接线、故障根因和
+  音频边界已经进入 `butano-sequel/`、对应测试及持久笔记，这两个文件可由现有音频
+  资产和构建链重新生成，仓库没有引用该路径。
+- 删除三个无文件的空运行目录：
+  `battle-substitution-position-watch-20260725-{01,02}/` 和
+  `butano-ai-runtime-20260724-01/`。既有笔记引用这些名称只是为了明确记录保护失败或
+  checkpoint 不适用，且已明确说明输出为空；保留空目录不会增加可复核证据。
+
+删除后上述五个路径均不存在，顶层 `build/` 有 `19,871` 个文件。由于同仓库的并行
+Butano 工作仍可能写入 `build/resource-guard/` 等目录，清理前后的顶层总量不能单独
+用作本轮回收量；本轮目标目录本身约回收 `5.6 MiB`。
+
+其余约 `1.6 GiB` 未继续删除：大体积录像、ROM trace、快照、GPU/OAM/PRAM/VRAM dump
+仍未被完整、可独立验证的 `artifacts/` 承接；`audio-v2/`、`audio/`、
+`resource-guard/`、`signed-tooling/` 仍被测试或工具直接使用；
+`mgba-upstream-patch/` 仍是未完成的异常工作树；`butano-sequel/build/` 和当日产物
+属于并行 Butano 工作。删除它们会造成证据断链、测试输入缺失或干扰并行任务。
+
+## 第九轮清理：新增成果差量复核
+
+本轮以第八轮之后新增并提交的成果为差量边界再次核对：
+
+- 首次核对时顶层 `build/` 为 `1,678,868 KiB`，共有 `19,878` 个文件；并行任务随后
+  继续写入守卫结果，因此该数字只作为审计起点。此前所称的 `24 GiB` 仍不在当前工作树中。
+- 新增的 `tile-assets-bg-v2` 与 `story-scene-layer-bindings-v1` 直接生成到
+  `artifacts/`，没有在 `build/` 留下可整目录删除的重复副本。
+- 最大的录像、ROM trace、快照及 GPU/OAM/PRAM/VRAM dump 仍只有部分文件与持久
+  artifact 重复；其余原始帧序列和实验上下文尚未被完整承接，继续保留。
+- 零字节 trap 日志记录对应实验没有命中陷阱，属于阴性结果，不按普通空文件删除。
+- 复核期间并行 Butano 任务正通过 `tools/run_guarded.py` 使用
+  `build/signed-tooling/mGBA.app`，因此未触碰它的工具链、守卫、构建目录或运行产物。
+
+本轮没有满足全部删除条件的新项目，实际删除量为 `0`。这不是清理遗漏：强行删除剩余
+内容会造成证据链断裂、测试输入缺失，或干扰并行任务。后续应先把原始媒体/trace 的
+关键输入、完整 manifest、哈希和独立验证入口迁入 `artifacts/`，再按顶层目录完整删除，
+不做破坏实验上下文的碎片式去重。
+
+## 第十轮清理：角色场景视觉成果后的差量核对
+
+本轮在 `scene-visual-packs-v1` 提交后重新核对成果承接、仓库引用、目录时间和活跃进程：
+
+- 顶层 `build/` 实占 `1,679,248 KiB`、共有 `19,892` 个文件；全仓库只有它和约
+  `62 MiB` 的 `butano-sequel/build/` 两个有显著体积的构建目录，当前工作树中不存在
+  `24 GiB` 的临时 `build/` 产物。
+- `scene-visual-packs-v1` 由 ROM 直接导出到已跟踪 `artifacts/`，没有在 `build/`
+  留下重复目录，因此该成果没有对应的新增清理对象。
+- 第九轮之后新增的内容只有 `resource-guard/` 记录、场景 49 GPU dump 和三张对比图；
+  它们属于当天并行 Butano 验证，尚未形成等价的已提交 artifact，不能删除。
+- 其余约 `1.6 GiB` 的录像、trace、快照和内存转储仍未被完整成果承接；音频输入、
+  签名 mGBA 工具链和守卫目录仍被测试或运行流程直接使用。
+
+因此本轮实际删除量仍为 `0`。这是按成果转化状态得出的安全结果；此时继续删除只能
+回收尚未固化的原始证据或影响并行任务。下一批应在相应录像/trace 建立完整 manifest、
+输入哈希、关键输出和独立 verifier 并提交后，再按实验目录整批清理。
+
+## 第十一轮清理：世界地图运行时成果承接
+
+世界地图首页运行时证据提交为 `artifacts/world-map-gpu-captures/s42-page0/` 和
+`artifacts/world-map-runtime-v1/` 后，复核对应临时目录
+`build/world-map-gpu-s42-20260729-01/`：
+
+- 临时目录的 `audit.json`、`frame.png`、`io.bin`、`oam.bin`、`pram.bin` 和
+  `vram.bin` 与已跟踪 artifact 逐文件 SHA-256 相同；
+- 临时 `done.json` 与已跟踪 `audit.json` 内容及 SHA-256 相同；
+- `python3 tools/verify_world_map_runtime.py` 在不读取临时目录的情况下验证通过；
+- 临时目录没有进程占用，仓库外部引用仅存在于已提交 guard 对原始执行命令的历史记录
+  中，不构成运行依赖。
+
+因此删除该目录的 7 个重复文件和空目录，回收 `176 KiB`。删除后再次运行独立 verifier
+仍通过，证明世界地图运行时结论、原始 GPU 状态、截图、运行守卫和复核入口均已由持久
+成果承接。
+
+本轮没有清理并行 Butano 工作的 `butano-sequel/build/`、`build/resource-guard/`、
+场景 49 运行目录或其 artifact。其余大体积录像、trace、快照和内存转储仍未被完整、
+可独立验证的持久成果覆盖，继续保留。
+
+## 第十二轮清理：字体纠错成果后的全量哈希差量核对
+
+本轮在对话字体纵向布局纠错成果提交后，再次按“是否已由持久成果完整承接”核对：
+
+- 核对起点的顶层 `build/` 为 `1,679,904 KiB`，共有 `19,908` 个文件；此前所称的
+  `24 GiB` 临时产物仍不在当前工作树中。
+- 对非 Butano 顶层目录逐文件计算 SHA-256，并与 Git 已跟踪的 `artifacts/` 全量
+  对照，没有任何一个目录达到 `100%` 文件和字节覆盖。
+- 对话字体纠错成果直接更新 `artifacts/dialogue-font-v2/`，没有在 `build/` 生成
+  重复副本；世界地图对应的完整重复目录已在第十一轮删除。
+- 现存重复文件都只是较大 trace 的局部。例如
+  `battle-presentation-original-probes-20260727-01/` 仍有数千个未被持久 artifact
+  承接的 GPU/OAM/PRAM/VRAM dump、截图和实验上下文，不能按局部哈希命中率删除整批。
+- 核对时并行 Butano 任务正通过 `tools/run_guarded.py` 执行 ARM 构建并持有 heavy
+  lock；本轮没有触碰 `butano-sequel/build/`、`build/resource-guard/`、
+  `build/signed-tooling/` 或任何 `build/butano-*` 目录。
+
+因此本轮新增可安全删除量为 `0`。当前约 `1.6 GiB` 不是已完成成果的完整重复缓存；
+继续删除会丢失尚未成果化的原始证据、破坏现有测试输入，或干扰并行 Butano 工作。
+后续只有在某个实验目录的原始输入、完整 manifest、关键输出、哈希和独立 verifier
+全部迁入并提交到 `artifacts/` 后，才按目录整体删除。
+
+## 第十三轮清理：残缺 mGBA 上游缓存成果核对
+
+本轮重新检查此前因“异常/未完成嵌套工作树”而保留的
+`build/mgba-upstream-patch/`：
+
+- 该目录只剩 `.git/` 对象缓存，Git 索引中的整个 mGBA 工作树均处于删除状态，没有
+  未跟踪文件或实际源码改动；
+- 上游来源可由 `https://github.com/mgba-emu/mgba.git` 重新取得；
+- 续作工程真正依赖的回移植成果已经版本化为
+  `tools/patches/mgba-0.10.5-qt-script-cli.patch`；
+- `tools/build_macos_mgba.py` 与 `tools/run_macos_mgba_replay.py` 已固定原始提交
+  `26b7884bc25a5933960f3cdcd98bac1ae14d42e2` 和回移植提交
+  `7cacae126207de5499857439b9c7919bf8e882c2`；
+- 仓库中没有运行代码、测试或文档把该缓存路径作为输入，清理时也没有进程占用。
+
+因此该残缺 clone 已被“版本化补丁 + 固定提交 + 可重建脚本”完整取代，删除整个目录，
+回收 `8,852 KiB`。顶层 `build/` 从 `1,679,912 KiB` 降至 `1,671,060 KiB`，
+文件数为 `19,881`。
+
+其余内容继续按用途保留：`build/audio-v2/` 本身有 Git 跟踪文件且被测试读取；
+原 ROM GPU trace 被现有生成器和测试直接读取；三组外部录像及联系表仍服务于尚未提交
+的 Butano 表现证据；`resource-guard/`、`signed-tooling/` 和当前 `butano-*`
+目录仍被并行任务使用。本轮没有触碰这些路径，也没有清理零字节 trap 日志，因为它们
+记录“未命中陷阱”的阴性运行证据。
+
+## 第十四轮清理：旧测试日志成果化核对
+
+本轮按“是否已经转化为仓库成果”重新审计 `build/test-results/`：
+
+- 清理前共有 305 个文件、占用 `6,736 KiB`，修改时间均在 2026-07-24 至
+  2026-07-26；它们是早期 Butano 开发产生的宿主测试、ARM 构建、符号检查和
+  TDD 红绿日志，相关实现、测试及调查结论已经进入仓库。
+- 全仓库排除 `build/` 后逐项反查路径，确认只有 7 个文件仍被内容库、提取脚本、
+  计划或调查笔记直接引用；这 7 个文件继续保留。
+- 其余 298 个文件没有仓库引用、没有进程占用，也不是 ROM、快照、GPU dump 或
+  运行时原始输入；它们可由现有测试与构建链重建，因此删除。
+
+清理后 `build/test-results/` 只剩 7 个被引用文件、占用 `256 KiB`，本轮回收约
+`6,480 KiB`。顶层 `build/` 从 `1,671,084 KiB` 降至 `1,664,608 KiB`。近期
+`scenario49-*`、`butano-*`、`resource-guard/` 和 `butano-sequel/build/` 均属于
+并行 Butano 工作或尚未被持久 artifact 完整承接的运行证据，本轮没有触碰。
+
+当前工作树仍不存在先前所称的 24 GiB 临时目录；余下约 1.6 GiB 主要是尚未完整
+成果化的录像、trace、快照和内存转储，以及测试/工具直接依赖的音频与签名工具链。
+在对应原始输入、manifest、哈希、关键输出和独立 verifier 进入 `artifacts/` 前，
+不应继续按“普通构建缓存”删除。
+
+## 第十五轮清理：旧迭代运行由最终成果承接
+
+本轮逐项反查 `docs/`、`notes/`、`tools/`、`tests/` 和 `artifacts/`，并核对后续最终
+运行、持久实现与测试，只删除不再承担唯一证据职责的旧迭代：
+
+- 删除 69 个无仓库引用、无进程占用的旧 Butano 运行目录，涵盖战斗表现早期迭代、
+  action 05 中间运行、action 16 中间构建/运行、已被最终音频证据取代的回归录音，以及
+  一个可由现有源码和测试重建的宿主测试二进制目录。
+- 对应最终成果继续保留，包括
+  `build/butano-action05-effect-runtime-20260726-41/`、
+  `build/butano-action05-choreography-runtime-20260726-51/`、
+  `build/butano-action16-layer-fade-runtime-20260726-04/`、
+  `build/butano-opponent-control-audio-regression-20260727-02/`，以及已经进入
+  `artifacts/` 的战斗视觉和音频成果。
+- 删除 48 个无引用的旧构建、宿主测试和 TDD 汇总日志；其结论已进入代码、测试和持久
+  笔记，日志可由现有链路重建。
+
+本轮共回收 `321,212 KiB`（约 `313.68 MiB`），顶层 `build/` 降至
+`1,343,416 KiB`，剩余 `18,461` 个文件。删除后逐路径确认目标均不存在。
+
+原 ROM trace、外部录像、快照、GPU/OAM/PRAM/VRAM dump、`audio-v2/`、
+`resource-guard/`、`signed-tooling/`、各系列最终运行目录和并行任务的
+`butano-sequel/build/` 均未删除；它们仍是唯一证据、工具输入或当前工程产物。
+
+## 第十六轮清理：按最终成果逐组核对旧运行
+
+本轮不是按文件类型或年龄清理，而是逐组确认旧运行已经有明确的最终成果承接：
+
+- 火遁自然路线保留最终入口快照
+  `build/original-fire-route-probe-20260726-97/`、最终原作 trace
+  `build/original-fire-presentation-trace-20260726-{98,99}/`、结构化证据和持久笔记；
+  删除 34 个无引用的旧导航运行和 6 个旧目标确认 trace。
+- 动作表现组件保留被笔记直接引用的
+  `build/original-action-presentation-trace-20260726-05/`、被生成器和测试读取的
+  `build/original-action-presentation-trace-20260726-08/`，以及最终扬尘 trace
+  `build/original-action-presentation-trace-20260726-42-dust/`；删除 5 个已被这些
+  schema/帧级最终运行取代的早期 trace。
+- continuation 实验保留持久观察 JSON、输入快照、accepted baseline 和
+  `melee100-run` 输出；删除两侧各自的 `resolved`、`stable`、`dismiss` 中间副本。
+- 对具有明确后继编号或 `final` 版本的 Butano 验证，只删除旧的 action-components、
+  command-blockers、effect7、AI、secondary 和符号输出；对应 `02`、`03`、`04` 或
+  `final` 版本均逐项确认仍存在。
+
+删除前逐路径排除本审计笔记后反查 `notes/`、`docs/`、`tools/`、`tests/`、
+`artifacts/` 和 `butano-sequel/`，59 个目标均无引用；同时确认没有进程持有目标文件。
+本轮删除 59 个路径、804 个文件，共 `66,580 KiB`（约 `65.02 MiB`）。删除后顶层
+`build/` 为 `1,276,848 KiB`、剩余 `17,660` 个文件，13 个代表性最终输出全部仍在。
+
+继续保留尚未成果化的外部录像、早期原作探索 dump、场景 49 当日产物，以及被工具、
+测试或笔记直接读取的音频、最终 trace、快照、运行守卫和签名工具链。尤其
+`battle-presentation-original-probes-20260727-01/` 等目录虽然没有直接路径引用，
+仍含未被最终 artifact 完整覆盖的独有 GPU/OAM/PRAM/VRAM 帧，不能仅凭“无引用”
+判定为缓存。
+
+## 第十七轮清理：UI 深度宿主测试成果承接
+
+本轮在最新逆向成果之后重新核对 Goal、Git 状态、活跃代理、进程占用、仓库引用和
+`artifacts/` 承接状态：
+
+- 当前顶层 `build/` 清理前为 `1,276,876 KiB`，不是此前所称的 `24 GiB`；
+- `build/butano-battle-ui-flow-depth-host-20260729-01/` 只含 8 个 x86_64 宿主测试
+  可执行文件，不含 ROM、快照、运行时 dump 或人工输入；
+- 对应测试源码仍在 `butano-sequel/game/tests/`，完整编译、执行命令和成功守卫结果
+  已提交到 `artifacts/butano-battle-ui-flow-depth-20260729-01/`；
+- 删除前确认没有进程占用该目录，因此删除整个宿主二进制目录，回收 `6,148 KiB`；
+  清理后顶层 `build/` 为 `1,270,728 KiB`。
+
+场景 49 的 GPU 和战后回放临时目录没有一并删除：前者仍有只存在于临时目录的派生背景
+图并被参考 manifest 指向，后者仍含未迁入持久 artifact 的原始 SAV/ROM 输入。其余约
+`1.21 GiB` 也继续按既有分类保留，主要是尚未完整成果化的录像、trace、快照、内存
+转储，以及测试或工具直接读取的音频、签名工具链和运行守卫。
+
+## 第十八轮清理：镜像 affine 运行成果承接
+
+镜像 affine 运行时 golden 已提交到 `artifacts/battle-effect-affine-runtime-v1/` 后，
+逐文件核对临时成功运行 `build/affine-mirror-runtime-20260729-02/`：
+
+- IO、OAM、PRAM、VRAM、输入/输出快照、截图、audit 和 guard 的 SHA-256 均与已提交
+  `mirror-raw/` 文件相同；临时 `done.json` 与持久 `audit.json` 相同；
+- `build/affine-runtime-export.json` 与已提交 `manifest.json` 的 JSON 语义完全相同；
+- 独立 verifier 不读取 `build/`，清理前后均报告 `errors=[]`、两个对象和运行时帧
+  `154` 验证通过；
+- 清理时没有进程占用成功运行目录。
+
+因此删除成功运行目录和临时 manifest，共回收 `312 KiB`；顶层 `build/` 从
+`1,271,656 KiB` 降至 `1,271,344 KiB`。失败对照
+`build/affine-mirror-runtime-20260729-01/` 仍只存在于临时目录，笔记明确用它记录
+“首个 callback 尚未推进到镜像 OAM”的阴性结果，尚未被持久 artifact 完整承接，
+所以继续保留。
+
+本轮没有清理并行场景 49 工作的未提交 artifact、临时 GPU/回放目录或
+`butano-sequel/build/`。其余内容继续沿用既有判定：只有原始输入、实验上下文、关键
+输出、manifest、哈希和独立验证入口均已持久化后，才按完整实验目录删除。
+
+## 第十九轮清理：可重建宿主二进制成果核对
+
+本轮在最新角色、场景与 affine 视觉成果提交后，再次按“是否已经转化为持久成果”核对
+顶层 `build/`：
+
+- 当前目录实占约 `1.2 GiB`，此前所称的 `24 GiB` 已不在工作树中；
+- 三组大体积外部录像、原 ROM trace、快照及 GPU/OAM/PRAM/VRAM dump 仍未被完整、
+  可独立复核的 `artifacts/` 承接，因此继续保留；
+- `audio-v2/`、`audio/`、`resource-guard/` 与 `signed-tooling/` 仍被测试、工具或
+  运行守卫直接使用，不能清理；
+- 角色、场景与 affine 新成果均直接写入 `artifacts/`，没有留下可整目录删除的大体积
+  重复副本。
+
+逐文件反查仓库引用、文件类型和进程占用后，删除 6 个无引用的 x86_64 宿主可执行文件：
+两个自身型忍术宿主测试程序、两个 mGBA 音频录音器构建结果，以及两个场景 49 宿主跟踪
+程序。对应源码、测试、运行日志和后续成果仍在仓库，这些程序均可重新编译，不承担
+ROM、快照、输入或运行时 dump 的唯一证据职责。
+
+本轮删除文件逻辑大小共 `2,226,888` 字节（约 `2.12 MiB`）。清理后逐路径确认 6 个
+目标均不存在，顶层 `build/` 为 `1,269,740 KiB`、共有 `17,679` 个文件。并行 Butano
+工作区、其构建目录、场景 49 原始回放输入和所有持久 artifact 均未触碰。

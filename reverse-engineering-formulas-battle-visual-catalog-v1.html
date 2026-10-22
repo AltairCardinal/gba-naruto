@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运行时模型 · battle-visual-catalog-v1 · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-formulas.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<div class="card full-width" id="fml-battle-visual-catalog-v1">
+          <div class="card-head">
+            <div class="card-title">战斗视觉目录 · 索引与合成公式</div>
+            <span class="tag tag-purple">2. 战斗系统与时序引擎 · artifacts/battle-visual-catalog-v1</span>
+          </div>
+          <p class="card-desc">
+            下列模型由 <code>artifacts/battle-visual-catalog-v1/manifest.json</code> 直接导出，共 <strong>202</strong> 个字段；字段值即 ROM 中签发的表达式原文，未经改写。
+          </p>
+            <details class="fml-model">
+              <summary><code>selection_chain</code><span class="fml-meta">17 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">formula</div><div class="fml-val"><code class="fml-expr">state.message_id = u8(input_id - 1); descriptor = 0x085A320C + state.message_id * 0x44; message = u32[0x085A2B08 + state.message_id * 4]</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">code_slices</div><div class="fml-val"><div class="fml-list"><div><span class="fml-text">{'name': 'presentation_initializer_indexer', 'file_offset': 623674, 'gba_start': '0x0809843A', 'gba_end': '0x08098462', 'sha256': '25964b70683af389de5e045168dd4b4fda986b5d3db2ce36ec9e7cbfd59d2494'}</span></div><div><span class="fml-text">{'name': 'message_selector', 'file_offset': 628068, 'gba_start': '0x08099564', 'gba_end': '0x08099582', 'sha256': '835b54df161608218062de4ad9743101456988d29af8fd5c0de165d0b7ebaa47'}</span></div><div><span class="fml-text">{'name': 'glyph_preloader_indexer', 'file_offset': 622904, 'gba_start': '0x08098138', 'gba_end': '0x0809816C', 'sha256': 'b724f3a6fb432bf77e0b7ef29dd3d78110baaf1b9e78de457faa6422c7aca898'}</span></div></div></div></div><div class="fml-row" style="--d:0"><div class="fml-key">same_zero_based_index_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[0].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[0].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[1].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[1].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[2].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[2].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[3].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[3].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[4].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[4].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[5].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[5].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[6].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[6].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[7].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[7].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[8].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[8].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[9].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[9].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[10].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[10].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[11].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[11].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[12].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[12].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[14].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[14].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[15].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[15].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[16].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[16].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[17].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[17].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[18].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[18].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[19].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[19].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[20].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[20].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[21].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[21].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[22].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[22].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[23].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[23].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[24].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[24].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[25].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[25].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[26].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[26].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[27].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[27].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[28].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[28].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[29].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[29].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[30].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[30].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[33].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[33].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[34].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[34].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[35].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[35].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[36].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[36].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[37].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[37].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[38].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[38].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[39].descriptor.layers[2].tile_base</code><span class="fml-meta">2 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>entries[39].descriptor.layers[3].tile_base</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">runtime_state</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div></div>
+            </details>
+        </div>
+
+        
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

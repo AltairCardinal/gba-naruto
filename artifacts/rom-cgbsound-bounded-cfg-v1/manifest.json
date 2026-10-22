@@ -1,0 +1,38 @@
+{
+  "acceptance": {
+    "kind": "independent-candidate-acceptance",
+    "output_artifact": "artifacts/rom-cgbsound-bounded-cfg-v1",
+    "source_candidate_artifact": "build/experiments/active/cgbsound-bounded-cfg-20260829/candidate",
+    "source_candidate_identity": {
+      "artifact_status": "candidate",
+      "bundle_sha256": "edebdbe6e5cf5f9cf04fdb93839846f7e37e6516914b77a7517413c88ee9a151",
+      "manifest_sha256": "15e52e11fd9be4fa5ae7f485c65e8775b8e9c2bf01c05cfbef178e28e0ea65d4",
+      "payload_sha256": "362a3dc1b5819a57310482b7fbdd94bb2f79e9d439ea44713798140d1d79b18d"
+    }
+  },
+  "artifact_schema": "rom-cgbsound-bounded-cfg-v1",
+  "artifact_status": "accepted",
+  "contract_sha256": "12171aa29cd29d14f26dc491e4b0a5bb8ddd3fe6d6daac9f73e732786194561a",
+  "files": {
+    "rom-cgbsound-bounded-cfg.bin": {
+      "sha256": "edebdbe6e5cf5f9cf04fdb93839846f7e37e6516914b77a7517413c88ee9a151",
+      "size": 1084
+    },
+    "rom-cgbsound-bounded-cfg.json": {
+      "sha256": "362a3dc1b5819a57310482b7fbdd94bb2f79e9d439ea44713798140d1d79b18d",
+      "size": 178551
+    }
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verification": {
+    "bundle_sha256": "edebdbe6e5cf5f9cf04fdb93839846f7e37e6516914b77a7517413c88ee9a151",
+    "contract_ok": true,
+    "payload_sha256": "362a3dc1b5819a57310482b7fbdd94bb2f79e9d439ea44713798140d1d79b18d",
+    "schema": "rom-cgbsound-bounded-cfg-verification-v1",
+    "status": "verified"
+  },
+  "verifier": {
+    "path": "tools/verify_rom_cgbsound_bounded_cfg.py",
+    "sha256": "6af3510f319c58cdb9cf70c115f6a1b2b3ffc0b4fb331f247604dbdb8e637961"
+  }
+}

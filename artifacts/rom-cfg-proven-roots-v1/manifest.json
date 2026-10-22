@@ -1,0 +1,135 @@
+{
+  "artifact_schema": "rom-cfg-proven-roots-v1",
+  "cross_edge_summary": {
+    "by_baseline": {
+      "v2": 256,
+      "v3": 3
+    },
+    "by_kind": {
+      "branch_target": 3,
+      "call_target": 256
+    },
+    "count": 259
+  },
+  "decoder": {
+    "architecture": "ARM7TDMI / ARMv4T",
+    "backend": "vendored-capstone",
+    "decode_granularity": "one instruction, at most four input bytes",
+    "detail": true,
+    "files": {
+      "tools/_vendor/capstone/__init__.py": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+      "tools/_vendor/capstone/arm.py": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+      "tools/_vendor/capstone/arm_const.py": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+      "tools/_vendor/capstone/lib/libcapstone.dylib": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f"
+    },
+    "skipdata": false,
+    "version": "5.0.7"
+  },
+  "extension_summary": {
+    "decoded_basic_block_count": 1203,
+    "decoded_instruction_count": 6166,
+    "frontier_count": 28,
+    "frontier_reasons": {
+      "decode_failure": 1,
+      "indirect_pc_target": 27
+    },
+    "reachable_instruction_bytes": 12966
+  },
+  "files": {
+    "rom-cfg-proven-roots.json": {
+      "sha256": "7fdee7d0d62d3a8c82bfe7b03804e9cb0e3d213ebdf63acce6b0533045aecf54",
+      "size": 1024474
+    }
+  },
+  "frozen_baseline": {
+    "v2": {
+      "graph_denominator_sha256": "e3f6c04ea459dbec397a9d71d6f32591ec03ed076ff8aad227277cb2b3534ba3",
+      "manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+      "path": "artifacts/rom-cfg-inventory-v2",
+      "payload_file": "rom-cfg-inventory.json",
+      "payload_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+      "payload_size": 5936694,
+      "schema": "rom-cfg-inventory-v2",
+      "summary": {
+        "arm_instruction_bytes": 948,
+        "arm_instruction_count": 237,
+        "arm_root_count": 2,
+        "budget_exhausted": false,
+        "closed_root_count": 4,
+        "cross_mode_overlap_bytes": 0,
+        "decoded_basic_block_count": 7725,
+        "decoded_instruction_count": 40872,
+        "frontier_count": 366,
+        "frontier_open_root_count": 259,
+        "frontier_reasons": {
+          "bios_swi_external": 7,
+          "indirect_pc_target": 357,
+          "unsupported_armv4t_instruction": 2
+        },
+        "reachable_instruction_bytes": 86184,
+        "root_count": 263,
+        "thumb_instruction_bytes": 85236,
+        "thumb_instruction_count": 40635,
+        "thumb_root_count": 261
+      },
+      "verifier_path": "tools/verify_rom_cfg_inventory.py",
+      "verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93"
+    },
+    "v3": {
+      "graph_denominator_sha256": "456545dddd3c43a5e9c19be6483871dbd333e3af3ecd1da8a9a83f762bced482",
+      "manifest_sha256": "6aa788611f73856e621f5c74aab544d47b034307a9dc1180f6fd8f81cb1f423b",
+      "path": "artifacts/rom-cfg-inventory-v3",
+      "payload_file": "rom-cfg-inventory-v3.json",
+      "payload_sha256": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+      "payload_size": 1322391,
+      "schema": "rom-cfg-inventory-v3",
+      "summary": {
+        "decoded_basic_block_count": 8616,
+        "decoded_instruction_count": 45570,
+        "frontier_count": 353,
+        "frontier_reasons": {
+          "bios_swi_external": 7,
+          "indirect_pc_target": 343,
+          "unsupported_armv4t_instruction": 3
+        },
+        "reachable_instruction_bytes": 96086
+      },
+      "verifier_path": "tools/verify_rom_cfg_inventory_v3.py",
+      "verifier_sha256": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a"
+    }
+  },
+  "graph_denominator_sha256": "19898402cc7c168863a61114fa6e28bef12497724b631373f75cf364d370c024",
+  "implementation": {
+    "exporter_sha256": "89b91383f4cd2aa8d078042c2f7f64678f9ece15c2ac3288b3edefacf1ccb2e9",
+    "test_sha256": "4a50d9a883d51eb2e292fd320ab1c8f9ae06540f225b08f22bd7915d19abbfa3",
+    "verifier_sha256": "693d9381f429346376a6400bea20025ca0c56e1e68d0bf3164b070ea722aa4d7"
+  },
+  "limits": {
+    "decode_window_bytes": 4,
+    "max_basic_block_instruction_count": 256,
+    "max_instruction_count": 1000000
+  },
+  "producer_summary": {
+    "count": 3,
+    "denominator_sha256": "22e76a4dc425aaf8bdf13eef2f018508093f1c2f9a0ff28b31abdf22275fa5e7"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "root_count": 2,
+  "root_denominator_sha256": "523f8662596de2a8d42df3849906a5c93841ba8575a09e94d67bcee4ece914c0",
+  "scope": {
+    "baseline_bytes_duplicated": false,
+    "baseline_entries_treated_as_opaque": true,
+    "direct_call_target_roots_only": true,
+    "fixed_direct_producer_denominator_complete": true,
+    "frozen_v2_v3_baseline_verified": true,
+    "global_direct_call_root_denominator_complete": false,
+    "global_function_entry_denominator_complete": false,
+    "indirect_target_resolution_complete": false,
+    "new_root_direct_cfg_traversal_performed": true,
+    "runtime_reachability_complete": false
+  }
+}

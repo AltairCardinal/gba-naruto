@@ -1,0 +1,447 @@
+{
+  "dispatcher_contract": {
+    "index_load_site": 539452,
+    "instruction_range": [
+      539452,
+      539470
+    ],
+    "instruction_sha256": "7ea90d4beeeb4a31cbe17cb0b69c1a0097180f13c5a3b21e6f4bff464e952ad2",
+    "literal_range": [
+      539472,
+      539484
+    ],
+    "literal_sha256": "1c310bbbd162171998503b80ac7d20291572c071aec0aec321cb7514328f7142",
+    "out_of_range_target": 540650,
+    "root_pointers": [
+      134757240,
+      134757292,
+      134757514,
+      134757664,
+      134757806,
+      134757944,
+      134758158
+    ],
+    "roots": [
+      539512,
+      539564,
+      539786,
+      539936,
+      540078,
+      540216,
+      540430
+    ],
+    "slot_count": 7,
+    "table_base_load_site": 539462,
+    "table_range": [
+      539484,
+      539512
+    ],
+    "table_sha256": "0186fb9894e0c12d8d8b2b9e0c5191f47dbe16041427105fde3edfbb04a0cfde",
+    "unsigned_max_index": 6
+  },
+  "promotion": {
+    "claim_count": 14,
+    "claims": [
+      {
+        "bytes_sha256": "0186fb9894e0c12d8d8b2b9e0c5191f47dbe16041427105fde3edfbb04a0cfde",
+        "claim_kind": "bounded_thumb_dispatch_table",
+        "id": "battle-distance-dispatch-table-083b5c",
+        "range": [
+          539484,
+          539512
+        ]
+      },
+      {
+        "bytes_sha256": "0290186a70a5ac75e5012ba02dade930352612f2cc2924ecbfc0d70f5a5afbe2",
+        "claim_kind": "reachable_thumb_code",
+        "id": "battle-distance-reachable_thumb_code-01-083b78",
+        "range": [
+          539512,
+          540156
+        ]
+      },
+      {
+        "bytes_sha256": "dc5ab115eb7832c7ce580d29870d3c31dc52669e0ae1dbc2071ee963470acb74",
+        "claim_kind": "reachable_thumb_code",
+        "id": "battle-distance-reachable_thumb_code-02-083e00",
+        "range": [
+          540160,
+          540420
+        ]
+      },
+      {
+        "bytes_sha256": "18e0f77138f8346617e0511f1c8367a1ccfb11f6bd3ef04636f477893762bba0",
+        "claim_kind": "reachable_thumb_code",
+        "id": "battle-distance-reachable_thumb_code-03-083f08",
+        "range": [
+          540424,
+          540498
+        ]
+      },
+      {
+        "bytes_sha256": "beb6f4d87d5e71cc9e7ea9f29f85d7e0d5f64a2eba54c7c4b858491953c07c64",
+        "claim_kind": "reachable_thumb_code",
+        "id": "battle-distance-reachable_thumb_code-04-083f58",
+        "range": [
+          540504,
+          540516
+        ]
+      },
+      {
+        "bytes_sha256": "0aa46accb95566b59170e34da1b7cd09eaa057a9b765c4d76b6e0b6a5524fd1f",
+        "claim_kind": "reachable_thumb_code",
+        "id": "battle-distance-reachable_thumb_code-05-083f68",
+        "range": [
+          540520,
+          540606
+        ]
+      },
+      {
+        "bytes_sha256": "043f1ec280412a8a9cc0dc9da2f6bf645171758bf3392003b096fd52fd9c75e1",
+        "claim_kind": "reachable_thumb_code",
+        "id": "battle-distance-reachable_thumb_code-06-083fc4",
+        "range": [
+          540612,
+          540632
+        ]
+      },
+      {
+        "bytes_sha256": "fac61d3dc5d2d591d3c6b6775a5dc542f8f7c0c59caa39826f4729cded4c849d",
+        "claim_kind": "reachable_thumb_code",
+        "id": "battle-distance-reachable_thumb_code-07-083fdc",
+        "range": [
+          540636,
+          540650
+        ]
+      },
+      {
+        "bytes_sha256": "35fc1a68ccd7c8ffc63afa15806206937b731734c6e6191dc8d896c11baa9a8c",
+        "claim_kind": "consumed_literal_words",
+        "id": "battle-distance-consumed_literal_words-01-083dfc",
+        "range": [
+          540156,
+          540160
+        ]
+      },
+      {
+        "bytes_sha256": "edd84c1f3a9344b65c851add8846bea0fb7f24ee32095c152eaf914d2e61ef0f",
+        "claim_kind": "consumed_literal_words",
+        "id": "battle-distance-consumed_literal_words-02-083f04",
+        "range": [
+          540420,
+          540424
+        ]
+      },
+      {
+        "bytes_sha256": "a6b1137037599c2e8050148dee9751a0f9d6b852f0dd6b442b8ffb7236f3e764",
+        "claim_kind": "consumed_literal_words",
+        "id": "battle-distance-consumed_literal_words-03-083f54",
+        "range": [
+          540500,
+          540504
+        ]
+      },
+      {
+        "bytes_sha256": "a6b1137037599c2e8050148dee9751a0f9d6b852f0dd6b442b8ffb7236f3e764",
+        "claim_kind": "consumed_literal_words",
+        "id": "battle-distance-consumed_literal_words-04-083f64",
+        "range": [
+          540516,
+          540520
+        ]
+      },
+      {
+        "bytes_sha256": "a6b1137037599c2e8050148dee9751a0f9d6b852f0dd6b442b8ffb7236f3e764",
+        "claim_kind": "consumed_literal_words",
+        "id": "battle-distance-consumed_literal_words-05-083fc0",
+        "range": [
+          540608,
+          540612
+        ]
+      },
+      {
+        "bytes_sha256": "a6b1137037599c2e8050148dee9751a0f9d6b852f0dd6b442b8ffb7236f3e764",
+        "claim_kind": "consumed_literal_words",
+        "id": "battle-distance-consumed_literal_words-06-083fd8",
+        "range": [
+          540632,
+          540636
+        ]
+      }
+    ],
+    "dispatcher_table_bytes": 28,
+    "promoted_from_primary_class": "unknown",
+    "promotion_batch": "rom-battle-distance-dispatcher-cfg-v1",
+    "promotion_bytes": 1162,
+    "target_code_bytes": 1110,
+    "target_literal_bytes": 24
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-battle-distance-dispatcher-cfg-v1",
+  "scope": {
+    "distance_metric_semantics": false,
+    "editing_or_relocation_safety": false,
+    "natural_runtime_reachability": false,
+    "opaque_baseline_target_semantics": false,
+    "padding_or_free_space": false
+  },
+  "target_closure": {
+    "basic_block_count": 126,
+    "bound": [
+      539512,
+      540650
+    ],
+    "code_bytes": 1110,
+    "code_ranges": [
+      [
+        539512,
+        540156
+      ],
+      [
+        540160,
+        540420
+      ],
+      [
+        540424,
+        540498
+      ],
+      [
+        540504,
+        540516
+      ],
+      [
+        540520,
+        540606
+      ],
+      [
+        540612,
+        540632
+      ],
+      [
+        540636,
+        540650
+      ]
+    ],
+    "code_sha256": "6bf6a49a0d362d5bae7a5c836a776015c24f79a61913d1f6345771b7a3b31950",
+    "frontier_count": 0,
+    "instruction_count": 555,
+    "literal_bytes": 24,
+    "literal_ranges": [
+      [
+        540156,
+        540160
+      ],
+      [
+        540420,
+        540424
+      ],
+      [
+        540500,
+        540504
+      ],
+      [
+        540516,
+        540520
+      ],
+      [
+        540608,
+        540612
+      ],
+      [
+        540632,
+        540636
+      ]
+    ],
+    "literal_reference_count": 6,
+    "literal_sha256": "aed4c39effd0707dc652c1e000599d4bdd2e2da298e8aebe1b2f14339ea1a8de",
+    "opaque_baseline_exit_count": 25,
+    "opaque_baseline_exits": [
+      [
+        539516,
+        "branch_target",
+        540666
+      ],
+      [
+        539556,
+        "branch_target",
+        540666
+      ],
+      [
+        539934,
+        "branch_target",
+        540650
+      ],
+      [
+        539992,
+        "branch_target",
+        540650
+      ],
+      [
+        540012,
+        "branch_target",
+        540650
+      ],
+      [
+        540020,
+        "branch_target",
+        540650
+      ],
+      [
+        540028,
+        "branch_target",
+        540650
+      ],
+      [
+        540064,
+        "branch_target",
+        540650
+      ],
+      [
+        540076,
+        "branch_target",
+        540650
+      ],
+      [
+        540142,
+        "branch_target",
+        540650
+      ],
+      [
+        540220,
+        "branch_target",
+        540650
+      ],
+      [
+        540294,
+        "branch_target",
+        540650
+      ],
+      [
+        540310,
+        "branch_target",
+        540650
+      ],
+      [
+        540318,
+        "branch_target",
+        540650
+      ],
+      [
+        540324,
+        "branch_target",
+        540650
+      ],
+      [
+        540432,
+        "branch_target",
+        540650
+      ],
+      [
+        540456,
+        "branch_target",
+        540650
+      ],
+      [
+        540462,
+        "branch_target",
+        540650
+      ],
+      [
+        540546,
+        "branch_target",
+        540650
+      ],
+      [
+        540556,
+        "branch_target",
+        540650
+      ],
+      [
+        540560,
+        "branch_target",
+        540650
+      ],
+      [
+        540566,
+        "branch_target",
+        540650
+      ],
+      [
+        540572,
+        "branch_target",
+        540650
+      ],
+      [
+        540630,
+        "branch_target",
+        540650
+      ],
+      [
+        540648,
+        "fallthrough",
+        540650
+      ]
+    ],
+    "opaque_baseline_targets": [
+      540650,
+      540666
+    ],
+    "opaque_exit_target_counts": {
+      "540650": 23,
+      "540666": 2
+    },
+    "preserved_unknown_bytes": 4,
+    "preserved_unknown_holes": [
+      [
+        540498,
+        540500
+      ],
+      [
+        540606,
+        540608
+      ]
+    ],
+    "root_count": 7,
+    "roots": [
+      539512,
+      539564,
+      539786,
+      539936,
+      540078,
+      540216,
+      540430
+    ],
+    "unique_literal_word_count": 6
+  },
+  "upstream_dispatcher_owner": {
+    "artifact_schema": "rom-cfg-proven-roots-v2",
+    "code_owner_block_ids": [
+      "block-thumb-083b2a",
+      "block-thumb-083b42",
+      "block-thumb-083b44"
+    ],
+    "files": {
+      "artifacts/rom-cfg-proven-roots-batch-consumed-literals-v1/manifest.json": "8688e87bdec227322a7b27f2d2feb84428f3ff82e4c782348db2c33b125e2d5f",
+      "artifacts/rom-cfg-proven-roots-batch-consumed-literals-v1/rom-cfg-proven-roots-batch-consumed-literals.json": "35efe834638717ce963af95343bcccfc70311b0a124718c2e732263880fbc4d0",
+      "artifacts/rom-cfg-proven-roots-v2/manifest.json": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+      "artifacts/rom-cfg-proven-roots-v2/rom-cfg-proven-roots-v2.json": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+      "tools/verify_rom_cfg_proven_roots_batch_consumed_literals.py": "36dceec30462bd3b55910d577d5eea277ef5f0da362915d1ab11237ce7d591ca",
+      "tools/verify_rom_cfg_proven_roots_v2.py": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55"
+    },
+    "literal_artifact_schema": "rom-cfg-proven-roots-batch-consumed-literals-v1",
+    "literal_owner_word_offsets": [
+      539472,
+      539476,
+      539480
+    ],
+    "opaque_exit_owner_block_ids": [
+      "block-thumb-083fea",
+      "block-thumb-083ffa"
+    ],
+    "status": "identity_bound_verified_upstream"
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "artifact_schema": "battle-status-bars-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "battle-status-bars.json": "c8ff2c231c5a0ac111f10c7ca545d285cde0e23c4fca706815ee40277086d4eb",
+    "battle-status-bars.png": "03533e8d5d6305f1f09a9722bef453f198f2d17079e18df2cf7eb18e66b8b2dc",
+    "generated-family.4bpp.bin": "f85290faaf0a17266405d1d3f7d2d723296093a753b4f3cc05af477deb4c862c",
+    "runtime-palette-bank13.bgr555.bin": "82f1c93a86b077a17e05e44c28d7f6522ff69542a6356487ce25a45b61a8a9d2",
+    "source-templates.4bpp.bin": "6c00fd92b8abda7133be37a8305b36e6613ed542c765e7981d3a6b8aea527bbc"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_battle_status_bars.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/battle-status-bars-v1"
+    ],
+    "exporter_sha256": "1118ff63553ee1e31606a96b0d6564609beada3a42a37e8118a4e16103b55102",
+    "test_sha256": "4a84c9eb211874b0d216bf061f18f213b2bfa3893e10307d76c3e9bc6fb7007e",
+    "verifier_sha256": "53202cb452c25c762ff6fbface0705c31bb01392177d66f168628919c8b77d32"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "source": {
+    "checkpoint_count": 30,
+    "generator_gba_address": "0x08068370",
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_status_bars.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/battle-status-bars-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "exact_generated_unknown_cell_count": 181,
+      "schema": "battle-status-bars-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "53202cb452c25c762ff6fbface0705c31bb01392177d66f168628919c8b77d32"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "artifact_status": "candidate",
+  "files": {
+    "chapter-script-consumer-roots.bin": {
+      "sha256": "7e506f02abfe85c21a01066ce010b40d0a43b8d528fb53b77cc3be7cb1b22907",
+      "size": 16175
+    },
+    "rom-chapter-script-consumer-roots.json": {
+      "sha256": "c0118f0ad71dcabd4e10a057950437528d85aa1abee4b829d92aa6e340d6cb9c",
+      "size": 351386
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_chapter_script_consumer_roots.py",
+      "sha256": "7ec40eb7cd97d875ebbdcdb5359d94c2e55a99bd224c2ad001e9fb9598a503d0"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_chapter_script_consumer_roots.py",
+      "sha256": "cfbe787cb884499ee062e56073f33995ad331519a3d31f6cde47bf0efedf8582"
+    }
+  },
+  "promotion": {
+    "claim_count": 2,
+    "promotion_bytes": 16175
+  },
+  "schema": "rom-chapter-script-consumer-roots-manifest-v1"
+}

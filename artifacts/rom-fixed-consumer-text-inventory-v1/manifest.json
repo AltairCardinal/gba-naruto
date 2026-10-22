@@ -1,0 +1,46 @@
+{
+  "artifact_schema": "rom-fixed-consumer-text-inventory-v1",
+  "files": {
+    "fixed-consumer-text-bytes.bin": "e71eefd9ee1d98333fdd0cd72c6b67ce6335a6874bf5f92c072177807ca1168a",
+    "fixed-consumer-text-inventory.json": "fd73b9dedf34aee5a4537c451f30d8479dd43f849dfb3ab81c18360a0883e461"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_fixed_consumer_text_inventory.py",
+      "sha256": "8c9dbb6232a7d148334ca6438508078f5492d2841b4ce4a090591d3a6732705d"
+    },
+    "test": {
+      "path": "tests/test_export_rom_fixed_consumer_text_inventory.py",
+      "sha256": "8ec8848bf5a81e8423c3a1ba95c15627253d9210b2c663dbf8f9441be3ceed90"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_fixed_consumer_text_inventory.py",
+      "sha256": "3642d029654c7fadaaf34e354ed350e89d40d1085858aded689ad70cdcae2e44"
+    }
+  },
+  "schema": "rom-fixed-consumer-text-inventory-v1-artifact-manifest-v1",
+  "scope": {
+    "consumer_typed_target_set_complete": true,
+    "fixed_pointer_slot_denominator_complete": true,
+    "inter_record_padding_classified": false,
+    "natural_gameplay_index_coverage_complete": false,
+    "nine_fixed_pointer_table_ranges_complete": true,
+    "null_pointer_slots_explicit": true,
+    "pointer_table_byte_union_complete": true,
+    "renderer_consumed_byte_union_complete": true,
+    "runtime_index_bounds_proven": false,
+    "unicode_decoding_complete": false
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_fixed_consumer_text_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-fixed-consumer-text-inventory-v1"
+    ],
+    "schema": "rom-fixed-consumer-text-inventory-verification-v1",
+    "verifier_sha256": "3642d029654c7fadaaf34e354ed350e89d40d1085858aded689ad70cdcae2e44"
+  }
+}

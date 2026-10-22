@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运行时模型 · dialogue-font-v2 · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-formulas.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<div class="card full-width" id="fml-dialogue-font-v2">
+          <div class="card-head">
+            <div class="card-title">dialogue-font-v2</div>
+            <span class="tag tag-purple"> · artifacts/dialogue-font-v2</span>
+          </div>
+          <p class="card-desc">
+            下列模型由 <code>artifacts/dialogue-font-v2/manifest.json</code> 直接导出，共 <strong>21</strong> 个字段；字段值即 ROM 中签发的表达式原文，未经改写。
+          </p>
+            <details class="fml-model" open>
+              <summary><code>runtime_expansion</code><span class="fml-meta">21 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">formula</div><div class="fml-val"><code class="fml-expr">output_index = source_2bpp + (((arg1 &amp; 1) + 2) &lt;&lt; 2)</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">sjis_expander</div><div class="fml-val"><span class="fml-text">0x08065EB8</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">byte_expander</div><div class="fml-val"><span class="fml-text">0x080660A4</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">sjis_cache_arg1</div><div class="fml-val"><span class="fml-num">1</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">sjis_cache_indices</div><div class="fml-val"><div class="fml-list"><div><span class="fml-num">12</span></div><div><span class="fml-num">13</span></div><div><span class="fml-num">14</span></div><div><span class="fml-num">15</span></div></div></div></div><div class="fml-row" style="--d:0"><div class="fml-key">byte_cache_arg1</div><div class="fml-val"><span class="fml-num">0</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">byte_cache_indices</div><div class="fml-val"><div class="fml-list"><div><span class="fml-num">8</span></div><div><span class="fml-num">9</span></div><div><span class="fml-num">10</span></div><div><span class="fml-num">11</span></div></div></div></div><div class="fml-row" style="--d:0"><div class="fml-key">cache_enclosing_function</div><div class="fml-val"><span class="fml-text">0x08089310</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">cache_path_anchor</div><div class="fml-val"><span class="fml-text">0x0808942C</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">byte_cache_callsite</div><div class="fml-val"><span class="fml-text">0x080894A8</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">sjis_cache_callsite</div><div class="fml-val"><span class="fml-text">0x080894DE</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">cache_path_final_layout</div><div class="fml-val"><span class="fml-text">undetermined</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">sjis_output</div><div class="fml-val"><span class="fml-text">two ordered 8x8 4bpp tiles; final layout is consumer-defined</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">byte_output</div><div class="fml-val"><span class="fml-text">one 8x8 4bpp tile</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">runtime_rgb_palette_verified</div><div class="fml-val"><span class="fml-bool">false</span></div></div></div>
+            </details>
+        </div>
+
+        
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

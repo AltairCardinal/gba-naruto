@@ -1,0 +1,152 @@
+{
+  "binding": {
+    "encoded_action_id": 129,
+    "group_id": 4,
+    "ninja_tool_id": 1,
+    "sequence_id": 4,
+    "trigger_sequence_id": 13
+  },
+  "edit": {
+    "after_byte": 20,
+    "after_index": 4,
+    "after_rgb": [
+      189,
+      123,
+      115
+    ],
+    "before_byte": 19,
+    "before_index": 3,
+    "before_rgb": [
+      206,
+      148,
+      123
+    ],
+    "component_index": 0,
+    "component_pixel_xy": [
+      2,
+      14
+    ],
+    "frame_id": 0,
+    "graphics_byte_offset": 153,
+    "screen_xy": [
+      83,
+      72
+    ]
+  },
+  "input": {
+    "capture_frame": 96,
+    "event": {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    },
+    "path": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
+    "resource_absent_before_input": true,
+    "sha256": "57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139"
+  },
+  "profile": "sequel/content/battle-effect-pixel-ab/group-04-tool1-projectile.json",
+  "profile_sha256": "59d75838f2c65ebf6bda829442ceb2df0aae42177747500c6cae1e98e1da903f",
+  "runs": {
+    "baseline": {
+      "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+      "child_pgid": 14312,
+      "guard_sha256": "7ed52cbe4b0cb8e6d8dbd293b21a965c4269b9718c0081f8a1abdd9951866e40",
+      "peak_tree_rss_mib": 70.03515625,
+      "pgid_clean": true,
+      "png_sha256": "b19e098947b1ba3ff0b58fffaaee17e4372bc1d5acf423580763632ae4e317f1",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "2f97e49ba719655de266c0d512dc86522de497b5823e8f5b1e75fd19fc167eba",
+      "run_id": "94e562056f8edfb22d1139171166371e",
+      "state_sha256": "758358c79945b8496471607419440ceb10b80beaa44c28a59c66371a997ba8fe",
+      "toolchain": {
+        "kind": "current-desktop-runtime-profile",
+        "patch_sha256": null,
+        "path": "toolchain/mgba-runtime-profile.json",
+        "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+        "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+      }
+    },
+    "candidate": {
+      "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+      "child_pgid": 14767,
+      "guard_sha256": "772e22e8bbc613edc6d2befb7a6f1eb33ced6203254b57b5cc0ab15d146eb763",
+      "peak_tree_rss_mib": 70.09375,
+      "pgid_clean": true,
+      "png_sha256": "d1eb89fe8f82cc29d4dc7b8e588af2a2a21af4b359cb242170dfb8bf3757dafd",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "956aa50ac2b516a0280f1391aa567df66c8bd44adf0126d0eb1bccf5d4210909",
+      "run_id": "a1fcb79ad1e36aa4da358dfccb94e4de",
+      "state_sha256": "3de5bd5658f8732c42c6f7f7a0b55e22791cf73ab49cafc0bbef2488e1fe9794",
+      "toolchain": {
+        "kind": "current-desktop-runtime-profile",
+        "patch_sha256": null,
+        "path": "toolchain/mgba-runtime-profile.json",
+        "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+        "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+      }
+    }
+  },
+  "runtime": {
+    "baseline_vram_byte": 19,
+    "candidate_vram_byte": 20,
+    "changed_vram_address": "0x06012099",
+    "graphics_vram_address": "0x06012000",
+    "memory_differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [],
+      "OAM": [],
+      "PRAM": [],
+      "VRAM": [
+        73881
+      ]
+    },
+    "oam_attributes": [
+      "0x003A",
+      "0x8051",
+      "0x4900"
+    ],
+    "oam_entry": 0,
+    "palette_bank": 4,
+    "pixels": {
+      "baseline_rgb_sha256": "9cf7e1dd489c0fea1271f1e2faca5bb524f0b2c4522a294df3a68d0769cb7470",
+      "bbox": [
+        83,
+        72,
+        83,
+        72
+      ],
+      "candidate_rgb_sha256": "3f3e3c109be9d4708546b98a173ec0ef5b062aa93341cc2cd9be1283fb8e0fb3",
+      "changes": [
+        {
+          "after_rgb": [
+            189,
+            123,
+            115
+          ],
+          "before_rgb": [
+            206,
+            148,
+            123
+          ],
+          "x": 83,
+          "y": 72
+        }
+      ],
+      "count": 1
+    },
+    "renderer_exact": true
+  },
+  "schema": "battle-effect-pixel-ab-runtime-v1",
+  "scope": {
+    "all_18_effect_groups_runtime_verified": false,
+    "all_group_frames_runtime_verified": false,
+    "full_affine_blend_timing_audio_equivalence": false,
+    "natural_ninja_tool_route": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "single_group_single_frame_single_pixel": true
+  },
+  "verified": true
+}

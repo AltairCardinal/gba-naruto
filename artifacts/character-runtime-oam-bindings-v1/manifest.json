@@ -1,0 +1,45 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_status": "accepted",
+  "artifact_schema": "character-runtime-oam-bindings-v1",
+  "description": "Natural character source-component bindings reconstructed from every tracked runtime checkpoint using exact OAM dimensions, OBJ VRAM bytes and BGR555 palette ranking.",
+  "source": {
+    "run_id": "checkpoints-20260730-01",
+    "checkpoint_count": 91,
+    "source_artifact": "artifacts/character-battle-visuals-v1",
+    "source_artifact_manifest_sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+  },
+  "summary": {
+    "active_oam_object_count": 1211,
+    "matched_oam_object_count": 222,
+    "unique_best_source_count": 133,
+    "ambiguous_best_source_count": 89,
+    "checkpoints_with_matches": 57
+  },
+  "verification_layers": [
+    "preexisting GPU decoder cross-check over 91 checkpoints and 1211 active OAM objects",
+    "manual Naruto OBJ VRAM versus source graphics byte golden",
+    "manual little-endian BGR555 OBJ PRAM versus source palette golden",
+    "independent full bindings reconstruction and tamper rejection"
+  ],
+  "files": {
+    "bindings.json": "d13782ef403d49c32668c6692c67f826df518dee3619e9cebdae21d94bd86ddf"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_runtime_oam_bindings.py",
+      "--root",
+      ".",
+      "--bindings",
+      "artifacts/character-runtime-oam-bindings-v1/bindings.json"
+    ],
+    "exit_code": 0,
+    "result": {
+      "verified": true,
+      "errors": [],
+      "checkpoints": 91,
+      "matches": 222
+    }
+  }
+}

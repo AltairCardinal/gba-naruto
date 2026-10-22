@@ -1,0 +1,481 @@
+{
+  "queue_contract": {
+    "code_window": {
+      "end_exclusive": "0x080636C0",
+      "sha256": "844be072d9572bd9a657357e745977ed9435c647d0ec0e811f66c953c84a1bd6",
+      "start": "0x08063604"
+    },
+    "consumer": "0x0806365C",
+    "destination_row_stride_bytes": 64,
+    "enqueue": "0x08063604",
+    "status": 3
+  },
+  "remaining_unresolved": [],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "schema": "residual-wram-visual-metadata-abi-v2",
+  "scope": {
+    "all_pointer_reachable_wram_visual_metadata_enumerated": true,
+    "all_seven_source_abis_complete": true,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "generic_wram_visual_metadata_writeback_complete": false,
+    "graphics_and_palette_ownership_complete": false,
+    "natural_language_screen_identity_complete": false,
+    "queue_slot_and_natural_flush_complete": false,
+    "remaining_unresolved_source_abis": false,
+    "runtime_reachability_complete": false
+  },
+  "source_inventory": {
+    "path": "artifacts/rom-pointer-lz77-inventory-v1/rom-pointer-lz77-inventory.json",
+    "sha256": "0c4aed52328b0506e8e41afebe5e5c0ef3dccb830cf8af6c092eb1d0566581c5"
+  },
+  "summary": {
+    "direct_cpu_crop_count": 1,
+    "direct_strided_queue_count": 3,
+    "remaining_unresolved_count": 0,
+    "tilemap_entry_count": 1489,
+    "tilemap_payload_bytes": 2978,
+    "tilemap_source_count": 7,
+    "transformed_strided_queue_count": 3,
+    "wram_visual_metadata_denominator": 7
+  },
+  "supersedes": "residual-wram-tilemap-abi-v1",
+  "tilemap_sources": [
+    {
+      "aligned_pointer_roots": [
+        "0x0808AEE0"
+      ],
+      "bundle_offset": 0,
+      "classification": "direct_strided_queue_tilemap",
+      "compressed_sha256": "cb1292f414680f00ebab4509e0d1eaab0db80c4faf5e9c79da1b694a862e7146",
+      "compressed_size": 217,
+      "decompressed_sha256": "4396144ffc41de6ee3d0da6383f825695bd37aefde1cb2100bd5672200d9140d",
+      "decompressed_size": 600,
+      "load_call": "0x0808AD3A",
+      "load_route": "LZ77UnCompWram_wrapper",
+      "route_code": {
+        "end_exclusive": "0x0808AD4A",
+        "sha256": "68c39e771d5f2b706e8889786ae89552a2d395d75802fb7ca3395300b4661f9a",
+        "start": "0x0808AD30"
+      },
+      "screenblock": {
+        "column": 15,
+        "index": 0,
+        "row": 0
+      },
+      "source_load": "0x0808AD30",
+      "source_pointer": "0x0834928C",
+      "submit_call": "0x0808AD46",
+      "submit_consumer": "0x0806365C",
+      "submit_route": "strided_gpu_copy_queue",
+      "tilemap": {
+        "entry_count": 300,
+        "entry_size": 2,
+        "height_entries": 20,
+        "horizontal_flip_count": 20,
+        "palette_banks": [
+          1
+        ],
+        "tile_index_range": [
+          6,
+          67
+        ],
+        "vertical_flip_count": 15,
+        "width_entries": 15
+      },
+      "transfer_geometry": {
+        "destination_row_stride_bytes": 64,
+        "source_height_entries": 20,
+        "source_row_stride_bytes": 30,
+        "source_width_entries": 15,
+        "submitted_height_entries": 20,
+        "submitted_width_entries": 15
+      },
+      "vram_destination": "0x0600001E",
+      "wram_buffer": "task_base+0x2C8"
+    },
+    {
+      "aligned_pointer_roots": [
+        "0x0808BD38"
+      ],
+      "bundle_offset": 600,
+      "classification": "direct_strided_queue_tilemap",
+      "compressed_sha256": "39e185414978bea615798e9db6d669053467063c98acf41754622c20630c3b4d",
+      "compressed_size": 454,
+      "decompressed_sha256": "8661e87accb82f8d07b4102c70203fe19093710d794b0cdde0f1d8ae96db2790",
+      "decompressed_size": 576,
+      "load_call": "0x0808BBD8",
+      "load_route": "LZ77UnCompWram_wrapper",
+      "route_code": {
+        "end_exclusive": "0x0808BBF2",
+        "sha256": "82a4cb13a693742e83c7684e1cde8cfe69ec331bd24a73875eabc0d3d801531e",
+        "start": "0x0808BBD4"
+      },
+      "screenblock": {
+        "column": 8,
+        "index": 31,
+        "row": 0
+      },
+      "source_load": "0x0808BBD4",
+      "source_pointer": "0x083F1C98",
+      "submit_call": "0x0808BBEE",
+      "submit_consumer": "0x0806365C",
+      "submit_route": "strided_gpu_copy_queue",
+      "tilemap": {
+        "entry_count": 288,
+        "entry_size": 2,
+        "height_entries": 12,
+        "horizontal_flip_count": 0,
+        "palette_banks": [
+          8
+        ],
+        "tile_index_range": [
+          0,
+          267
+        ],
+        "vertical_flip_count": 0,
+        "width_entries": 24
+      },
+      "transfer_geometry": {
+        "destination_row_stride_bytes": 64,
+        "source_height_entries": 12,
+        "source_row_stride_bytes": 48,
+        "source_width_entries": 24,
+        "submitted_height_entries": 12,
+        "submitted_width_entries": 24
+      },
+      "vram_destination": "0x0600F810",
+      "wram_buffer": "scene_work_buffer"
+    },
+    {
+      "aligned_pointer_roots": [
+        "0x0808BD48"
+      ],
+      "bundle_offset": 1176,
+      "classification": "direct_strided_queue_tilemap",
+      "compressed_sha256": "c257690932ef3f9f181c8408ff1a4f02f03e4dd6f9312261317dd61c7f427846",
+      "compressed_size": 150,
+      "decompressed_sha256": "2c841501108a1892a34aa8d877eee414fe2eed9f0bb0dce1e8700332a7726675",
+      "decompressed_size": 138,
+      "load_call": "0x0808BBFC",
+      "load_route": "LZ77UnCompWram_wrapper",
+      "route_code": {
+        "end_exclusive": "0x0808BC16",
+        "sha256": "5474c996f3d743429ecfa77da743f6d84271bfa6d43c9b2c943e404de3ba4ee0",
+        "start": "0x0808BBF8"
+      },
+      "screenblock": {
+        "column": 7,
+        "index": 31,
+        "row": 17
+      },
+      "source_load": "0x0808BBF8",
+      "source_pointer": "0x085B67E0",
+      "submit_call": "0x0808BC12",
+      "submit_consumer": "0x0806365C",
+      "submit_route": "strided_gpu_copy_queue",
+      "tilemap": {
+        "entry_count": 69,
+        "entry_size": 2,
+        "height_entries": 3,
+        "horizontal_flip_count": 0,
+        "palette_banks": [
+          9
+        ],
+        "tile_index_range": [
+          0,
+          86
+        ],
+        "vertical_flip_count": 0,
+        "width_entries": 23
+      },
+      "transfer_geometry": {
+        "destination_row_stride_bytes": 64,
+        "source_height_entries": 3,
+        "source_row_stride_bytes": 46,
+        "source_width_entries": 23,
+        "submitted_height_entries": 3,
+        "submitted_width_entries": 23
+      },
+      "vram_destination": "0x0600FC4E",
+      "wram_buffer": "scene_work_buffer+0x240"
+    },
+    {
+      "aligned_pointer_roots": [
+        "0x0808BD60"
+      ],
+      "bundle_offset": 1314,
+      "classification": "direct_cpu_crop_tilemap",
+      "compressed_sha256": "be925c87a99654108d5cf2fd2d480b10a1ac468650c607772b1f3b223993ac1a",
+      "compressed_size": 140,
+      "consumer_code": {
+        "end_exclusive": "0x0808B834",
+        "sha256": "09f7ab1f2b47b1e2f80d2c4175fb0c7e74afb1817f4a2375488f07a8b60fefab",
+        "start": "0x0808B79C"
+      },
+      "decompressed_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+      "decompressed_size": 800,
+      "load_call": "0x0808BC2E",
+      "load_route": "LZ77UnCompWram_wrapper",
+      "load_route_code": {
+        "end_exclusive": "0x0808BC3A",
+        "sha256": "1a5332253ac2b0ccf8eead861567be8c9b8243109f8375a22007a6e238bf0dad",
+        "start": "0x0808BC2A"
+      },
+      "screenblock": {
+        "column": 0,
+        "index": 2,
+        "row": 4
+      },
+      "source_load": "0x0808BC2A",
+      "source_pointer": "0x083F2108",
+      "submit_call": "0x0808BC36",
+      "submit_consumer": "0x0808B79C",
+      "submit_route": "direct_cpu_halfword_crop",
+      "tilemap": {
+        "entry_count": 400,
+        "entry_size": 2,
+        "height_entries": 10,
+        "horizontal_flip_count": 0,
+        "palette_banks": [
+          10
+        ],
+        "tile_index_range": [
+          1,
+          16
+        ],
+        "vertical_flip_count": 0,
+        "width_entries": 40
+      },
+      "transfer_geometry": {
+        "destination_row_stride_bytes": 64,
+        "discarded_right_entries_per_row": 8,
+        "source_height_entries": 10,
+        "source_row_stride_bytes": 80,
+        "source_width_entries": 40,
+        "submitted_height_entries": 10,
+        "submitted_width_entries": 32
+      },
+      "vram_destination": "0x06001100",
+      "wram_buffer": "0x02002880"
+    },
+    {
+      "aligned_pointer_roots": [
+        "0x08090BDC"
+      ],
+      "bundle_offset": 2114,
+      "classification": "transformed_strided_queue_tilemap",
+      "compressed_sha256": "b0ee9cb86524e286a9d6d52a0e5348255f7c114d4bbe4471ac0366ad1eda7e26",
+      "compressed_size": 177,
+      "consumer_code": {
+        "end_exclusive": "0x08090CC4",
+        "sha256": "553ca1f9ea0141844c5134f28749c240bb91e39650ebc607b8f0a7e944954d7d",
+        "start": "0x08090AEC"
+      },
+      "decompressed_sha256": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+      "decompressed_size": 288,
+      "load_call": "0x08090B5C",
+      "load_route": "LZ77UnCompWram_wrapper",
+      "load_route_code": {
+        "end_exclusive": "0x08090B60",
+        "sha256": "e9522d47a95e15ee2674174dd80480b53ef3075dc6c9e56b357d65688f746578",
+        "start": "0x08090B58"
+      },
+      "output_buffer": "0x0200A760",
+      "output_write": "0x08090C6C",
+      "phase": "single_phase",
+      "screenblock": {
+        "column": 3,
+        "index": 1,
+        "row": 0
+      },
+      "source_load": "0x08090B58",
+      "source_pointer": "0x084634B8",
+      "source_read": "0x08090C68",
+      "submit_call": "0x08090CB0",
+      "submit_consumer": "0x0806365C",
+      "submit_route": "coordinate_clipped_tile_bias_then_strided_queue",
+      "tilemap": {
+        "entry_count": 144,
+        "entry_size": 2,
+        "height_entries": 12,
+        "horizontal_flip_count": 4,
+        "palette_banks": [
+          12
+        ],
+        "tile_index_range": [
+          0,
+          54
+        ],
+        "vertical_flip_count": 4,
+        "width_entries": 12
+      },
+      "transfer_geometry": {
+        "destination_row_stride_bytes": 64,
+        "source_height_entries": 12,
+        "source_row_stride_bytes": 24,
+        "source_width_entries": 12,
+        "submitted_height_entries": 12,
+        "submitted_width_entries": 12
+      },
+      "transform": {
+        "coordinate_bounds": [
+          12,
+          12
+        ],
+        "coordinate_keyframes_pointer": "0x085A8A7F",
+        "default_entry": "0x02BC",
+        "out_of_bounds_behavior": "retain_default_entry",
+        "tile_index_add": 700
+      },
+      "vram_destination": "0x06000806",
+      "wram_buffer": "0x0200A640"
+    },
+    {
+      "aligned_pointer_roots": [
+        "0x08090DDC"
+      ],
+      "bundle_offset": 2402,
+      "classification": "transformed_strided_queue_tilemap",
+      "compressed_sha256": "b0d0a49ac1d30c88dffa715308e910d81f9cadd8829330c5a2f3db40f2fe065a",
+      "compressed_size": 105,
+      "consumer_code": {
+        "end_exclusive": "0x08090F50",
+        "sha256": "dc2e4d819841744681ad8cc9ff9cc42e82a80890db666ded41f3fbc17cacb31f",
+        "start": "0x08090CC8"
+      },
+      "decompressed_sha256": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+      "decompressed_size": 288,
+      "load_call": "0x08090D56",
+      "load_route": "LZ77UnCompWram_wrapper",
+      "load_route_code": {
+        "end_exclusive": "0x08090D62",
+        "sha256": "e656aa94cf38596f0858d4b4a04fcca621f511c88f11561dfcf697de083cb7bc",
+        "start": "0x08090D52"
+      },
+      "output_buffer": "0x0200A760",
+      "output_write": "0x08090EF8",
+      "phase": "initial_phase",
+      "screenblock": {
+        "column": 3,
+        "index": 1,
+        "row": 0
+      },
+      "source_load": "0x08090D52",
+      "source_pointer": "0x0846356C",
+      "source_read": "0x08090EF4",
+      "submit_call": "0x08090F3C",
+      "submit_consumer": "0x0806365C",
+      "submit_route": "coordinate_clipped_tile_bias_then_strided_queue",
+      "tilemap": {
+        "entry_count": 144,
+        "entry_size": 2,
+        "height_entries": 12,
+        "horizontal_flip_count": 6,
+        "palette_banks": [
+          13
+        ],
+        "tile_index_range": [
+          0,
+          75
+        ],
+        "vertical_flip_count": 7,
+        "width_entries": 12
+      },
+      "transfer_geometry": {
+        "destination_row_stride_bytes": 64,
+        "source_height_entries": 12,
+        "source_row_stride_bytes": 24,
+        "source_width_entries": 12,
+        "submitted_height_entries": 12,
+        "submitted_width_entries": 12
+      },
+      "transform": {
+        "coordinate_bounds": [
+          12,
+          12
+        ],
+        "coordinate_keyframes_pointer": "0x085A8A8F",
+        "default_entry": "0x02BC",
+        "out_of_bounds_behavior": "retain_default_entry",
+        "tile_index_add": 700
+      },
+      "vram_destination": "0x06000806",
+      "wram_buffer": "0x0200A640"
+    },
+    {
+      "aligned_pointer_roots": [
+        "0x08090DE8"
+      ],
+      "bundle_offset": 2690,
+      "classification": "transformed_strided_queue_tilemap",
+      "compressed_sha256": "8362ef30992001077204e7dcced82f9ef3a170411fa0cdc2bda1f7573a4b77a9",
+      "compressed_size": 175,
+      "consumer_code": {
+        "end_exclusive": "0x08090F50",
+        "sha256": "dc2e4d819841744681ad8cc9ff9cc42e82a80890db666ded41f3fbc17cacb31f",
+        "start": "0x08090CC8"
+      },
+      "decompressed_sha256": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640",
+      "decompressed_size": 288,
+      "load_call": "0x08090DC4",
+      "load_route": "LZ77UnCompWram_wrapper",
+      "load_route_code": {
+        "end_exclusive": "0x08090DD0",
+        "sha256": "dd0af6d7de652fe55a124371cf91a8cd64eaeec5953734e8feb0cd71d7b1e1fb",
+        "start": "0x08090DC0"
+      },
+      "output_buffer": "0x0200A760",
+      "output_write": "0x08090EF8",
+      "phase": "second_phase",
+      "screenblock": {
+        "column": 3,
+        "index": 1,
+        "row": 0
+      },
+      "source_load": "0x08090DC0",
+      "source_pointer": "0x084635D8",
+      "source_read": "0x08090EF4",
+      "submit_call": "0x08090F3C",
+      "submit_consumer": "0x0806365C",
+      "submit_route": "coordinate_clipped_tile_bias_then_strided_queue",
+      "tilemap": {
+        "entry_count": 144,
+        "entry_size": 2,
+        "height_entries": 12,
+        "horizontal_flip_count": 14,
+        "palette_banks": [
+          13
+        ],
+        "tile_index_range": [
+          0,
+          95
+        ],
+        "vertical_flip_count": 12,
+        "width_entries": 12
+      },
+      "transfer_geometry": {
+        "destination_row_stride_bytes": 64,
+        "source_height_entries": 12,
+        "source_row_stride_bytes": 24,
+        "source_width_entries": 12,
+        "submitted_height_entries": 12,
+        "submitted_width_entries": 12
+      },
+      "transform": {
+        "coordinate_bounds": [
+          12,
+          12
+        ],
+        "coordinate_keyframes_pointer": "0x085A8A8F",
+        "default_entry": "0x02BC",
+        "out_of_bounds_behavior": "retain_default_entry",
+        "tile_index_add": 700
+      },
+      "vram_destination": "0x06000806",
+      "wram_buffer": "0x0200A640"
+    }
+  ]
+}

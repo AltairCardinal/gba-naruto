@@ -1,0 +1,69 @@
+{
+  "artifact_id": "map41-visual-resource-matrix-v1",
+  "artifact_schema": "map41-visual-resource-matrix-evidence-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline/audit.json": "ab5d07bbe72ecefe0a5e31124dd776888f205f35c85d910ddbd2207a5f89a973",
+    "baseline/frame80.png": "b01457740fae63310e60b2bd14099dd4e8e5e1a20b051c8f69937fdf751707de",
+    "baseline/frame80.ss9": "87b7a7fcdff1c3650a2b2e9d41a0d422c8a6f88bf15778543ed89692569f6f4b",
+    "baseline/guard.json": "d04ee6736b195b7fa9462b2af846550238fcd798472a1022b2e6594f9672d6b4",
+    "baseline/sentinel.json": "ab5d07bbe72ecefe0a5e31124dd776888f205f35c85d910ddbd2207a5f89a973",
+    "bg_palette/audit.json": "932189a6163e99ec9f53ad6707f41e67690dc3f6aead53d788f880691ed283b1",
+    "bg_palette/frame80.png": "ae3ac3726d89070deb8f1076cd4ad6968306c7bb2463a27679c11b1a06336999",
+    "bg_palette/frame80.ss9": "3f49ef09670e9eee74502a8e93a9da8410a5d0feb2b8545470d70063dcceae07",
+    "bg_palette/guard.json": "25300f5596b3c70400a87860a67ef5da3ef9863b241b556ede7a05841fceb7b7",
+    "bg_palette/sentinel.json": "932189a6163e99ec9f53ad6707f41e67690dc3f6aead53d788f880691ed283b1",
+    "build-manifest.json": "eacb05f101962b1e2082e06282657c3060b5fb5c6d588c5c78cadee7bd493bab",
+    "metatile_definitions/audit.json": "1812a42627e696026594210739dcb942aecba1f9bd8f585d14fec064beabe731",
+    "metatile_definitions/frame80.png": "1726b29b39de32fef97567f9e76a72f4c43208ef4d8ac5e06a41789cf14a5134",
+    "metatile_definitions/frame80.ss9": "4cbe170d04a0f45143d82648ff0a79eb96cade0d8313baed0e402c54e6350e22",
+    "metatile_definitions/guard.json": "632cff2ce7a44ef5fa65565e6cbd5a295872ebd73520848ec2a97ddc9ccedac0",
+    "metatile_definitions/sentinel.json": "1812a42627e696026594210739dcb942aecba1f9bd8f585d14fec064beabe731",
+    "runtime-evidence.json": "30305ea29d9b1caf26c0ac92eaf53603d537b9f4ca55dfd602d7486e5b460a26",
+    "tile_graphics/audit.json": "0d8ec3f7539286e80abdc764e98c517153682cf7735fe77c9f1f20155869a0c6",
+    "tile_graphics/frame80.png": "c0bf9c1ac65fa3c701d3e11cae599f21d95a36a8afc6b0aeed7cae16e5297378",
+    "tile_graphics/frame80.ss9": "8946e574d4494919aae7bbb17d071d84b54319d00225ba561377df7fe0ddc9ff",
+    "tile_graphics/guard.json": "a0f9030d77af27066dde203c36639101729b630b9d157ed86f11368c1630040e",
+    "tile_graphics/sentinel.json": "0d8ec3f7539286e80abdc764e98c517153682cf7735fe77c9f1f20155869a0c6"
+  },
+  "implementation_sha256": {
+    "tests/test_build_map41_visual_resource_matrix.py": "c55f803b529894ae7fc083f64e23c538cc942bfe12c6bf5267d505d31add0b1d",
+    "tests/test_map41_visual_resource_matrix_evidence.py": "89c271c9adc83595c134f6308ea29742f4f99d585181702a13aca553f45c21ec",
+    "tools/build_map41_visual_resource_matrix.py": "752522de3209f7ed8a4e2bdfdc75035d65027ad7f16e82ddaadead7142f6f573",
+    "tools/export_map41_visual_resource_matrix_evidence.py": "8034eb43b44c32a3bf05d07413d71b60750fce13dd8674ea0c5bb30382a8e0c5",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/verify_map41_visual_resource_matrix_evidence.py": "44631f7a2a2421d2f10e8c7b3956573e7b2b563091c4a1bd7195b27047d01c29"
+  },
+  "parent": {
+    "loader_state": "pre-map-load-zero-runtime",
+    "path": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
+    "sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81"
+  },
+  "payload_file": "runtime-evidence.json",
+  "payload_sha256": "30305ea29d9b1caf26c0ac92eaf53603d537b9f4ca55dfd602d7486e5b460a26",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_maps_all_resources": false,
+    "collision_gameplay": false,
+    "map41_bg_palette_pixel_ab": true,
+    "map41_metatile_definitions_pixel_ab": true,
+    "map41_tile_graphics_pixel_ab": true,
+    "natural_entry": true,
+    "physical_gba_verified": false,
+    "preserved_aliases": true,
+    "shared_patch_topology": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_map41_visual_resource_matrix_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/map41-visual-resource-matrix-v1"
+    ],
+    "exit_code": 0
+  }
+}

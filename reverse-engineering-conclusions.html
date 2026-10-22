@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《火影忍者：木叶战记》逆向工程结果查看器 · 7. 逆向结论索引</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+</head>
+<body data-page="reverse-engineering-conclusions.html">
+
+  <div id="toast">已复制</div>
+  <div id="searchPanel"></div>
+
+<header class="top-bar">
+    <div class="top-bar-left">
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="折叠/展开侧边栏">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <div class="top-bar-brand">
+        <span class="brand-badge">GBA</span>
+        <span class="brand-title">《火影忍者：木叶战记》逆向工程结果查看器</span>
+      </div>
+      <div class="rom-status-tag">
+        <span class="pulse-dot"></span>
+        <span>ROM v1.3 (简)(JP) 48Mb · 校验通过</span>
+      </div>
+    </div>
+
+    <div class="top-bar-right">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="本页检索地址/角色/技能/道具/函数 (Ctrl+K)..." oninput="handleSearch()">
+        <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()" style="display:none;" title="清空检索">✕</button>
+      </div>
+      <div class="top-actions">
+        <a class="top-action-btn badge-cyan" href="reverse-engineering-results.html#sec-image-downloads" title="按板块打包下载全部图像">
+          📧 图像打包下载
+        </a>
+
+        <a class="top-action-btn badge-green" href="reverse-engineering-results.html#sec-progress-tests" title="查看 17 项自动化回归测试详情">
+          ✓ 17/17 测试通过
+        </a>
+        <button class="top-action-btn" onclick="copyCurrentUrl()" title="复制本页面分享链接">
+          🔗 分享
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+<aside class="left-sidebar" id="leftSidebar">
+    <nav class="sidebar-nav">
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="progress" href="reverse-engineering-results.html"><span class="link-text">研发全景</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-image-downloads" href="reverse-engineering-results.html#sec-image-downloads"><span class="link-text">图像资源打包下载 (Image Download Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-kpi" href="reverse-engineering-results.html#sec-progress-kpi"><span class="link-text">逆向工程核心量化成果总览 (Executive Technical Metrics)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-phases" href="reverse-engineering-results.html#sec-progress-phases"><span class="link-text">续作研发工程全阶段进展 (Roadmap Phase Progress)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-milestones" href="reverse-engineering-results.html#sec-progress-milestones"><span class="link-text">P0 逆向工程 7 大里程碑攻坚矩阵 (P0 Reverse Engineering Milestones Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-memory" href="reverse-engineering-results.html#sec-progress-memory"><span class="link-text">ROM 存储拓扑全景与 128 KB 自由空间分配规划 (Memory Topology &amp; Free Space)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-tests" href="reverse-engineering-results.html#sec-progress-tests"><span class="link-text">CI 自动化测试防回归体系 (Test Suites)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-next" href="reverse-engineering-results.html#sec-progress-next"><span class="link-text">下阶段续作研发推进清单 (Immediate Next Steps)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-artifact-coverage" href="reverse-engineering-results.html#sec-artifact-coverage"><span class="link-text">逆向成果收录覆盖总表 (Artifact Family Coverage)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-rom-catalog" href="reverse-engineering-results.html#sec-rom-catalog"><span class="link-text">ROM 逆向成果族全量目录 (ROM Family Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-reverse-ledger" href="reverse-engineering-results.html#sec-reverse-ledger"><span class="link-text">逆向成果台账 (Reverse Results Ledger)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="visuals" href="reverse-engineering-visuals.html"><span class="link-text">1. 视觉与动画资产库</span><span class="link-badge">12</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-studio" href="reverse-engineering-visuals.html#sec-studio"><span class="link-text">⚡ 角色动作交互工作室 (Character Action &amp; Sprite Studio)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-action-matrix" href="reverse-engineering-visuals.html#sec-action-matrix"><span class="link-text">木叶战记 35 位全员动作状态与动画帧数全览表</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-portraits-poster" href="reverse-engineering-visuals.html#sec-portraits-poster"><span class="link-text">菜单 / 剧情立绘矩阵总集海报 (Menu &amp; Story Portrait Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-roster-poster" href="reverse-engineering-visuals.html#sec-roster-poster"><span class="link-text">全 35 位登场角色全家福精灵海报 (Master Roster Poster)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tilesets" href="reverse-engineering-visuals.html#sec-tilesets"><span class="link-text">战场地图 Tileset 图集 (47 行全量 PNG Export)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-map-canvases" href="reverse-engineering-visuals.html#sec-map-canvases"><span class="link-text">成品战场地图画布 (Assembled Battle Map Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tile-assets-bg" href="reverse-engineering-visuals.html#sec-tile-assets-bg"><span class="link-text">图块资产 BG 图层 (Tile Asset BG Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-character-battle-visuals" href="reverse-engineering-visuals.html#sec-character-battle-visuals"><span class="link-text">角色战斗视觉资源 (Character Battle Visuals)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-canvases" href="reverse-engineering-visuals.html#sec-bg-canvases"><span class="link-text">BG 资源画布 (BG Resource Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-scene-selection" href="reverse-engineering-visuals.html#sec-bg-scene-selection"><span class="link-text">章节选择 opcode 0x1E 记录 (Chapter Scene Selection)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-scene-visual-packs" href="reverse-engineering-visuals.html#sec-scene-visual-packs"><span class="link-text">场景视觉包 (Scene Visual Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-world-map-bg" href="reverse-engineering-visuals.html#sec-world-map-bg"><span class="link-text">世界地图背景 (World Map Backgrounds)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="battle" href="reverse-engineering-battle.html"><span class="link-text">2. 战斗系统与时序引擎</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-vm" href="reverse-engineering-battle.html#sec-battle-vm"><span class="link-text">忍术战斗时序虚拟机 (Jutsu Execution VM) 字节码指令集规范</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-scripts" href="reverse-engineering-battle.html#sec-battle-scripts"><span class="link-text">木叶战记 36 张忍术技能脚本表全量逆向解析库</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-scenario-fsm" href="reverse-engineering-battle.html#sec-scenario-fsm"><span class="link-text">战斗场景配置总表 (Battle Scenario Config Table - ROM 0x0853D910)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-fsm-funcs" href="reverse-engineering-battle.html#sec-battle-fsm-funcs"><span class="link-text">战斗状态机函数指针表 (Battle State Machine Functions)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-sequences" href="reverse-engineering-battle.html#sec-battle-effect-sequences"><span class="link-text">战斗特效时序绑定 (Battle Effect Sequence Bindings)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-catalog" href="reverse-engineering-battle.html#sec-battle-visual-catalog"><span class="link-text">79 项战斗视觉表现目录 (Battle Visual Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-timelines" href="reverse-engineering-battle.html#sec-battle-visual-timelines"><span class="link-text">战斗视觉运行时时间线 (Battle Visual Runtime Timelines)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-affine-runtime" href="reverse-engineering-battle.html#sec-affine-runtime"><span class="link-text">战斗特效仿射运行时 (Affine Runtime Evidence)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-pairs" href="reverse-engineering-battle.html#sec-battle-effect-pairs"><span class="link-text">战斗特效资源对 (Battle Effect Resource Pairs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-anims" href="reverse-engineering-battle.html#sec-battle-effect-anims"><span class="link-text">战斗特效精灵动画 (Battle Effect Sprite Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="story" href="reverse-engineering-story.html"><span class="link-text">3. 剧情调度与文本系统</span><span class="link-badge">9</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-pipeline" href="reverse-engineering-story.html#sec-dialogue-pipeline"><span class="link-text">GBA 对话渲染硬件链路与数据通路 (Screen Render Pipeline)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-asm" href="reverse-engineering-story.html#sec-dialogue-asm"><span class="link-text">关键文本与渲染函数清单 (Thumb ASM)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-chapter-fsm" href="reverse-engineering-story.html#sec-chapter-fsm"><span class="link-text">章节状态结构体与关卡加载劫持 (Chapter State Struct)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-font" href="reverse-engineering-story.html#sec-dialogue-font"><span class="link-text">对话字体图集 (Dialogue Font Atlases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-cutscene-obj" href="reverse-engineering-story.html#sec-cutscene-obj"><span class="link-text">过场 OBJ 静态资源 (Cutscene OBJ Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-free-space-pipe" href="reverse-engineering-story.html#sec-free-space-pipe"><span class="link-text">可变长对白扩容系统与 128 KB 空闲区域 (Pointer Redirect Engine)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-battle-glyphs" href="reverse-engineering-story.html#sec-battle-glyphs"><span class="link-text">战斗演出字形与消息表 (Battle Presentation Glyphs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-visual-layers" href="reverse-engineering-story.html#sec-story-visual-layers"><span class="link-text">剧情视觉图层 (Story Visual Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-scene-timelines" href="reverse-engineering-story.html#sec-story-scene-timelines"><span class="link-text">剧情场景时间线 (Story Scene Timelines)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="data" href="reverse-engineering-data.html"><span class="link-text">4. 内存数据与音频架构</span><span class="link-badge">5</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-unit-struct" href="reverse-engineering-data.html#sec-unit-struct"><span class="link-text">单位 ID 映射表 (ROM 0x0853F298) 与 WRAM 战斗阵列</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-item-matrix" href="reverse-engineering-data.html#sec-item-matrix"><span class="link-text">忍具 / 药品 / 卷轴 / 材料内存表 (WRAM 0x02023FD4 - 0x02024044)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-audio-pcm" href="reverse-engineering-data.html#sec-audio-pcm"><span class="link-text">DirectSound PCM 音频样本提取 (10 个 WAV 样本，共 ~3 MB)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-definitions" href="reverse-engineering-data.html#sec-sprite-definitions"><span class="link-text">精灵定义静态资源与运行时链 (Sprite Definition Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-def-anims" href="reverse-engineering-data.html#sec-sprite-def-anims"><span class="link-text">精灵定义动画 (Sprite Definition Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="engineering" href="reverse-engineering-engineering.html"><span class="link-text">5. 逆向基建与工程流水线</span><span class="link-badge">4</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-mod-builder" href="reverse-engineering-engineering.html#sec-mod-builder"><span class="link-text">ROM 补丁流水线 (tools/build_mod.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-auto-tests" href="reverse-engineering-engineering.html#sec-auto-tests"><span class="link-text">全覆盖自动化测试套件 (tools/automated_test.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-full" href="reverse-engineering-engineering.html#sec-toolbox-full"><span class="link-text">工具全量清单 (Complete Tool Inventory)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-index" href="reverse-engineering-engineering.html#sec-toolbox-index"><span class="link-text">自研逆向工具箱清单 (Tools Inventory)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="formulas" href="reverse-engineering-formulas.html"><span class="link-text">6. 逆向公式与运行时模型</span><span class="link-badge">2</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-formula-index" href="reverse-engineering-formulas.html#sec-formula-index"><span class="link-text">逆向公式与运行时模型总览 (Reverse Engineering Formulas)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-heavy-index" href="reverse-engineering-formulas.html#sec-heavy-index"><span class="link-text">公式与运行时模型索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub active" data-hub="conclusions" href="reverse-engineering-conclusions.html"><span class="link-text">7. 逆向结论索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="conclusions" data-anchor="sec-conclusions" href="reverse-engineering-conclusions.html#sec-conclusions"><span class="link-text">结论分主题索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="dataindex" href="reverse-engineering-data-index.html"><span class="link-text">8. ROM 数据产物索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="dataindex" data-anchor="sec-data-index" href="reverse-engineering-data-index.html#sec-data-index"><span class="link-text">ROM 数据产物索引 (ROM Data Artifacts)</span></a>
+        </div>
+    </nav>
+</aside>
+
+    <main class="main-workspace" id="mainWorkspace">
+
+<section class="category-section" id="hub-conclusions" data-category="conclusions">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">📖</span> 7. 逆向结论索引 (Reverse Engineering Conclusions)
+        </div>
+        <span class="section-tag">notes/ 全部笔记的结论原文，按主题分页</span>
+      </div>
+      <div class="card-grid">
+        <div class="card full-width" id="sec-conclusions">
+          <div class="card-head">
+            <div class="card-title">结论分主题索引</div>
+            <span class="tag tag-cyan">5 个子页</span>
+          </div>
+          <p class="card-desc">结论原文按主题拆成子页，避免一次加载全部 515 篇正文。</p>
+          <div class="table-container">
+            <table>
+              <thead><tr><th>子页</th><th>内容</th></tr></thead>
+              <tbody>
+                <tr><td><a class="tag tag-cyan" style="text-decoration:none;" href="reverse-engineering-conclusions-battle.html">battle</a></td><td>「battle」主题下的结论全文</td></tr>
+                <tr><td><a class="tag tag-cyan" style="text-decoration:none;" href="reverse-engineering-conclusions-data.html">data</a></td><td>「data」主题下的结论全文</td></tr>
+                <tr><td><a class="tag tag-cyan" style="text-decoration:none;" href="reverse-engineering-conclusions-engineering.html">engineering</a></td><td>「engineering」主题下的结论全文</td></tr>
+                <tr><td><a class="tag tag-cyan" style="text-decoration:none;" href="reverse-engineering-conclusions-story.html">story</a></td><td>「story」主题下的结论全文</td></tr>
+                <tr><td><a class="tag tag-cyan" style="text-decoration:none;" href="reverse-engineering-conclusions-visuals.html">visuals</a></td><td>「visuals」主题下的结论全文</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    </main>
+  </div>
+
+  <script src="assets/viewer.js" defer></script>
+  <script src="assets/viewer-runtime.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var buttons = document.querySelectorAll('.cc-filter');
+      var notes = document.querySelectorAll('.cc-note');
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var want = btn.getAttribute('data-hub');
+          buttons.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          notes.forEach(function (note) {
+            note.style.display = (want === 'all' || note.getAttribute('data-hub') === want) ? '' : 'none';
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>

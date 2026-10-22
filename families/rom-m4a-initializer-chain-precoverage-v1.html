@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rom-m4a-initializer-chain-precoverage-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">rom-m4a-initializer-chain-precoverage-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">rom-byte-coverage-prepromotion-baseline-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">5 个顶层分区 · 2 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="rom-m4a-initializer-chain-precoverage-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-coverage">coverage</a><a class="sec-jump" href="#sec-limitations">limitations</a><a class="sec-jump" href="#sec-recovery">recovery</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">rom-byte-coverage-prepromotion-baseline-v1</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-coverage"><h2 class="fam-sec-title">coverage</h2><div class="fml-row"><div class="fml-key">archive</div><div class="fml-val"><div class="fml-row"><div class="fml-key">compression</div><div class="fml-val"><span class="fml-text">gzip</span></div></div><div class="fml-row"><div class="fml-key">file</div><div class="fml-val"><span class="fml-text">rom-byte-coverage.json.gz</span></div></div><div class="fml-row"><div class="fml-key">sha256</div><div class="fml-val"><span class="fml-text">9249601f241fd767ca9aa6ce583061c88686f9040ef93d6f9dab335e3cddbbac</span></div></div><div class="fml-row"><div class="fml-key">size</div><div class="fml-val"><span class="fml-num">1,297,017</span></div></div></div></div><div class="fml-row"><div class="fml-key">raw</div><div class="fml-val"><div class="fml-row"><div class="fml-key">canonical_json</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">schema</div><div class="fml-val"><span class="fml-text">rom-byte-coverage-v1</span></div></div><div class="fml-row"><div class="fml-key">sha256</div><div class="fml-val"><span class="fml-text">31cf4a9c14666345482cad325433814e7fe26d458327c3bc5d9a13e680616563</span></div></div><div class="fml-row"><div class="fml-key">size</div><div class="fml-val"><span class="fml-num">23,097,532</span></div></div><div class="fml-row"><div class="fml-key">summary</div><div class="fml-val"><div class="fml-row"><div class="fml-key">claim_count</div><div class="fml-val"><span class="fml-num">14,493</span></div></div><div class="fml-row"><div class="fml-key">classified_bytes</div><div class="fml-val"><span class="fml-num">6,123,419</span></div></div><div class="fml-row"><div class="fml-key">segment_count</div><div class="fml-val"><span class="fml-num">16,600</span></div></div><div class="fml-row"><div class="fml-key">unknown_bytes</div><div class="fml-val"><span class="fml-num">168,037</span></div></div></div></div></div></div></section>
+<section class="fam-sec" id="sec-limitations"><h2 class="fam-sec-title">limitations</h2><div class="fml-list"><span><span class="fml-text">This is a byte-identical recovery of the historical pre-promotion coverage JSON, not a surviving copy of the overwritten filesystem inode.</span></span><span><span class="fml-text">Identity is limited to the canonical raw JSON bytes whose previously frozen SHA-256 is 31cf4a9c14666345482cad325433814e7fe26d458327c3bc5d9a13e680616563.</span></span><span><span class="fml-text">The recovery proves only the M4A initializer-chain pre-promotion coverage state; it does not roll back or invalidate the live post-promotion coverage file.</span></span></div></section>
+<section class="fam-sec" id="sec-recovery"><h2 class="fam-sec-title">recovery</h2><div class="fml-row"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">byte-identical-inverse-promotion-projection</span></div></div><div class="fml-row"><div class="fml-key">removed_claim_ids</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">m4a-sound-init-code-09aa3c</span></span><span><span class="fml-text">m4a-sound-init-literals-09aa90</span></span><span><span class="fml-text">psg-initializer-code-09acf8</span></span><span><span class="fml-text">psg-initializer-literals-09adc0</span></span><span><span class="fml-text">mplay-open-code-09b17c</span></span><span><span class="fml-text">mplay-open-literals-09b1e8</span></span></div></div></div><div class="fml-row"><div class="fml-key">removed_limitation_prefix</div><div class="fml-val"><span class="fml-text">The M4A initializer-chain artifact</span></div></div><div class="fml-row"><div class="fml-key">removed_promotion_batch</div><div class="fml-val"><span class="fml-text">rom-m4a-initializer-chain-v1</span></div></div><div class="fml-row"><div class="fml-key">removed_summary_key_prefix</div><div class="fml-val"><span class="fml-text">m4a_initializer_chain_</span></div></div><div class="fml-row"><div class="fml-key">segment_rebuild</div><div class="fml-val"><span class="fml-text">atomize retained claims over the fixed 6291456-byte ROM domain</span></div></div><div class="fml-row"><div class="fml-key">serialization</div><div class="fml-val"><code class="fml-expr">UTF-8 JSON with ensure_ascii=false, indent=2, sort_keys=true, and one trailing newline</code></div></div><div class="fml-row"><div class="fml-key">source_post_coverage</div><div class="fml-val"><div class="fml-row"><div class="fml-key">path</div><div class="fml-val"><span class="fml-text">sequel/rom-byte-coverage.json</span></div></div><div class="fml-row"><div class="fml-key">sha256</div><div class="fml-val"><span class="fml-text">0b99f9cb188c147275883b78e97016b2def54b2b0867a7bcae7112dbdf47dc63</span></div></div><div class="fml-row"><div class="fml-key">size</div><div class="fml-val"><span class="fml-num">23,120,179</span></div></div><div class="fml-row"><div class="fml-key">summary</div><div class="fml-val"><div class="fml-row"><div class="fml-key">claim_count</div><div class="fml-val"><span class="fml-num">14,499</span></div></div><div class="fml-row"><div class="fml-key">classified_bytes</div><div class="fml-val"><span class="fml-num">6,123,937</span></div></div><div class="fml-row"><div class="fml-key">segment_count</div><div class="fml-val"><span class="fml-num">16,608</span></div></div><div class="fml-row"><div class="fml-key">unknown_bytes</div><div class="fml-val"><span class="fml-num">167,519</span></div></div></div></div></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/rom-m4a-initializer-chain-precoverage-v1/manifest.json">manifest.json</a><span class="fml-meta"> 2,242 B</span></li><li><a href="../artifacts/rom-m4a-initializer-chain-precoverage-v1/rom-byte-coverage.json.gz">rom-byte-coverage.json.gz</a><span class="fml-meta"> 1,297,017 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

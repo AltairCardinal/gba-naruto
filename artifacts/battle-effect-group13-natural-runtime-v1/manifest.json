@@ -1,0 +1,23 @@
+{
+  "artifact_schema": "battle-effect-active-action-runtime-v1",
+  "artifact_status": "accepted",
+  "description": "Diagnostic battle-3 natural AI action 61 post-store selection evidence.",
+  "files": {
+    "evidence.json": "cb78d4c554a26c18c36541118627dd896af0e9147a6401b264d141f6d6c4c4f4",
+    "raw/observer-audit.json": "68c1771207b5c84bafd1a1fa0319d76e2bcaff38c538958ef0d9ad660e5a769d",
+    "raw/observer-done.json": "d3a2307732f6586748a96704726dc57309b58b5f6a5fda6414890500538b61db",
+    "raw/observer-guard.json": "e0d0ae679c537f42b8292e97f0b8acd25d30ff9566b0ea6ab14d4abc0518db31",
+    "raw/observer-selection.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+    "raw/observer-selection.ss9": "d006183f1781d8d18209e993dfc76789820c34a1d57ec7e5b69ac7ece71b387f"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_pixel_ab_evidence.py",
+      "--artifact",
+      "artifacts/battle-effect-group13-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

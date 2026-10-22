@@ -1,0 +1,42 @@
+{
+  "artifact_schema": "motion-effect-parameter-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "boundary": "A probe-free production-ROM A/B starts from the accepted battle-14 delayed-object checkpoint and injects no input. It changes only record 0 y_offset in the historical palettes-slug motion/effect table, then waits for the natural group-3 renderer/submit/ack transaction. This proves one player-visible field path, not every record or every consumer route.",
+  "files": {
+    "baseline.png": "4a6dca77fcead90b9dab800d189bc23435d8325c9e26d595fe13ba8131eaa348",
+    "candidate.png": "6c220f7e5596c992a18741c0e031f55556965ddc06ae1f1b502cbfeba27017b7",
+    "evidence.json": "ad645e7ff264cbf175a7567eb77f5e4f2e0b37db1858bfeb862c3c3d3284cd51",
+    "raw.tar": "9b1d020dcf6dd1b9355e041971a1a77047d9b5b507906cb552462a007d64bd67"
+  },
+  "profile": "sequel/content/motion-effect-parameter-pixel-ab/group-03-record-00-y-offset.json",
+  "profile_sha256": "ef785fb7ca9b9bc00027e65ee45ae31dbf82f7fc5f2daf79b594f58370126152",
+  "repository_files": {
+    "sequel/content/motion-effect-parameter-pixel-ab/group-03-record-00-y-offset.json": "ef785fb7ca9b9bc00027e65ee45ae31dbf82f7fc5f2daf79b594f58370126152",
+    "sequel/content/palettes/bank.json": "c4f8ea7de0e5e09c88c4be8897514160a4269627801195b125887213b397066f",
+    "tests/test_build_motion_effect_parameter_pixel_ab.py": "989418df03da8da108b67d8c2d6170c92984a146cb77e8aa586b89263bfbc492",
+    "tests/test_export_motion_effect_parameter_pixel_ab.py": "9aeda7f13826a48e4a66e8ddda152248d3e23605990917a6f1433e5bc6e58a9a",
+    "tests/test_overlapping_visual_table_identity.py": "5dd52def59e93c9f52d365b42ee452f295fa2d2c997a778d69c927e202b0029c",
+    "tests/test_run_motion_effect_parameter_pixel_ab.py": "e2e477e9ecbcdd36e03025e7c02645c0825b3dde8ec8bcd05b0f3f1e61c563ce",
+    "tests/test_verify_motion_effect_parameter_pixel_ab.py": "5674cf18af16482881aa89096131be2b722028fbbe745d27b85c2040df50f30c",
+    "tools/build_motion_effect_parameter_pixel_ab.py": "4cfb9f523790dbc013cd63a8b2cbbcb259dabbf9d2f19fedda7c27e2d4d254d4",
+    "tools/export_motion_effect_parameter_pixel_ab.py": "ed3b831cc96914c2f9af8cdd40510bb9b7f3ed4fd8c90ce3b9548b2a1be92c51",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_battle_effect_phase_capture.lua": "cff58c5fc9ca089fbc8db919f56041a9d999ec48f4241d203fb9e468f8e482ef",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "05f26a7e71d14687609b86ca41ea12d66db1a8590b93c9f14f8cb6b77c9e3d0e",
+    "tools/run_motion_effect_parameter_pixel_ab.py": "688bd68150662077be829cacd5728edfda31a671d4c79c4e59d61abfb5942033",
+    "tools/verify_motion_effect_parameter_pixel_ab.py": "40ad0ac394a88266be517ba27447172efe8284f694a86e02a6be4fd1043cfcca"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_motion_effect_parameter_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/motion-effect-parameter-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

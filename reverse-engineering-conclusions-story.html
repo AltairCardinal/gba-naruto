@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>逆向结论 · story · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-conclusions.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">chapter-entry-points</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Chapter Entry Points</div>
+          <div class="cc-body"><div class="cc-note-line cc-muted">本篇为过程记录，未能提取到结论段落。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/chapter-entry-points.md" download>notes/chapter-entry-points.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">chapter-flow-format</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Chapter Flow Format</div>
+          <div class="cc-body"><div class="cc-note-line"><strong>RESOLVED</strong> via static analysis (2026-03-31). Runtime trace used to confirm call chain.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/chapter-flow-format.md" download>notes/chapter-flow-format.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-caller-runtime</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue Caller Runtime Trace</div>
+          <div class="cc-body"><div class="cc-note-line">During the sampled opening new-game route, the only traced caller that actually hit was:</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- <code class="cc-code">0x080968A0</code></div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">Observed hits:</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- hit 1:</div>
+<div class="cc-note-line">- <code class="cc-code">pc=0x080968A0</code></div>
+<div class="cc-note-line">- <code class="cc-code">lr=0x08096633</code></div>
+<div class="cc-note-line">- <code class="cc-code">r0=0x00000000</code></div>
+<div class="cc-note-line">- <code class="cc-code">r1=0x00000001</code></div>
+<div class="cc-note-line">- <code class="cc-code">r2=0x00000001</code></div>
+<div class="cc-note-line">- <code class="cc-code">r3=0x00000000</code></div>
+<div class="cc-note-line">- hit 2:</div>
+<div class="cc-note-line">- <code class="cc-code">pc=0x080968A0</code></div>
+<div class="cc-note-line">- <code class="cc-code">lr=0x08096633</code></div>
+<div class="cc-note-line">- <code class="cc-code">r0=0x00000001</code></div>
+<div class="cc-note-line">- <code class="cc-code">r1=0x0000002C</code></div>
+<div class="cc-note-line">- <code class="cc-code">r2=0x00000000</code></div>
+<div class="cc-note-line">- <code class="cc-code">r3=0x00000000</code></div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">No runtime hits were captured for:</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- <code class="cc-code">0x08077D0E</code></div>
+<div class="cc-note-line">- <code class="cc-code">0x08089B36</code></div>
+<div class="cc-note-line">- <code class="cc-code">0x0809159C</code></div>
+<div class="cc-note-line">- <code class="cc-code">0x08093842</code></div>
+<div class="cc-note-line">- <code class="cc-code">0x0809678A</code></div>
+<div class="cc-note-line">- <code class="cc-code">0x0809698E</code></div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-caller-runtime.md" download>notes/dialogue-caller-runtime.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-format</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue Format</div>
+          <div class="cc-body"><div class="cc-note-line">The game stores dialogue text in a contiguous SJIS-encoded block with a separate pointer table for random access.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-format.md" download>notes/dialogue-format.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-function-analysis</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue Function Analysis</div>
+          <div class="cc-body"><div class="cc-note-line">This note summarizes the first useful disassembly and caller analysis around the confirmed dialogue write paths.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-function-analysis.md" download>notes/dialogue-function-analysis.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-memory-analysis</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue Memory Analysis</div>
+          <div class="cc-body"><div class="cc-note-line">This note captures the first useful result from the headless dialogue snapshot pipeline:</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-memory-analysis.md" download>notes/dialogue-memory-analysis.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-ram-structures</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue RAM Structures</div>
+          <div class="cc-body"><div class="cc-note-line">This note records the first direct inspection of two RAM regions that showed up in the Phase 2 dialogue renderer analysis:</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-ram-structures.md" download>notes/dialogue-ram-structures.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-render-analysis</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue Render Analysis</div>
+          <div class="cc-body"><div class="cc-note-line cc-muted">本篇为过程记录，未能提取到结论段落。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-render-analysis.md" download>notes/dialogue-render-analysis.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-watch-record-bank</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue Record Bank Watch Summary</div>
+          <div class="cc-body"><div class="cc-note-line">- source log: <code class="cc-code">dialogue-watch-record-bank.log</code></div>
+<div class="cc-note-line">- total hits: <code class="cc-code">96</code></div>
+<div class="cc-note-line">- first hit: frame <code class="cc-code">1590</code>, pc <code class="cc-code">0x0809C0F0</code>, addr <code class="cc-code">0x02002E30</code></div>
+<div class="cc-note-line">- last hit: frame <code class="cc-code">1590</code>, pc <code class="cc-code">0x0809C0F0</code>, addr <code class="cc-code">0x02002E8F</code></div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-watch-record-bank.md" download>notes/dialogue-watch-record-bank.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-watch-sb-struct</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue SB Struct Watch Summary</div>
+          <div class="cc-body"><div class="cc-note-line">- source log: <code class="cc-code">dialogue-watch-sb-struct.log</code></div>
+<div class="cc-note-line">- total hits: <code class="cc-code">96</code></div>
+<div class="cc-note-line">- first hit: frame <code class="cc-code">1590</code>, pc <code class="cc-code">0x0809C0F0</code>, addr <code class="cc-code">0x02002880</code></div>
+<div class="cc-note-line">- last hit: frame <code class="cc-code">1590</code>, pc <code class="cc-code">0x0809C0F0</code>, addr <code class="cc-code">0x02002904</code></div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-watch-sb-struct.md" download>notes/dialogue-watch-sb-struct.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-watch-vram-glyph</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue VRAM Glyph Watch Summary</div>
+          <div class="cc-body"><div class="cc-note-line">- source log: <code class="cc-code">dialogue-watch-vram-glyph.log</code></div>
+<div class="cc-note-line">- total hits: <code class="cc-code">64</code></div>
+<div class="cc-note-line">- first hit: frame <code class="cc-code">1605</code>, pc <code class="cc-code">0x08065F50</code>, addr <code class="cc-code">0x06002600</code></div>
+<div class="cc-note-line">- last hit: frame <code class="cc-code">1605</code>, pc <code class="cc-code">0x08065F50</code>, addr <code class="cc-code">0x0600267E</code></div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-watch-vram-glyph.md" download>notes/dialogue-watch-vram-glyph.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-watch-vram-tilemap</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue VRAM Tilemap Watch Summary</div>
+          <div class="cc-body"><div class="cc-note-line">- source log: <code class="cc-code">dialogue-watch-vram-tilemap.log</code></div>
+<div class="cc-note-line">- total hits: <code class="cc-code">64</code></div>
+<div class="cc-note-line">- first hit: frame <code class="cc-code">1607</code>, pc <code class="cc-code">0x000002A0</code>, addr <code class="cc-code">0x06001B00</code></div>
+<div class="cc-note-line">- last hit: frame <code class="cc-code">1607</code>, pc <code class="cc-code">0x000002A0</code>, addr <code class="cc-code">0x06001B86</code></div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-watch-vram-tilemap.md" download>notes/dialogue-watch-vram-tilemap.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-watch-wram</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue WRAM Watch Summary</div>
+          <div class="cc-body"><div class="cc-note-line">- source log: <code class="cc-code">dialogue-watch-wram.log</code></div>
+<div class="cc-note-line">- total hits: <code class="cc-code">64</code></div>
+<div class="cc-note-line">- first hit: frame <code class="cc-code">1605</code>, pc <code class="cc-code">0x08066D74</code>, addr <code class="cc-code">0x0200A900</code></div>
+<div class="cc-note-line">- last hit: frame <code class="cc-code">1605</code>, pc <code class="cc-code">0x08066D74</code>, addr <code class="cc-code">0x0200A986</code></div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-watch-wram.md" download>notes/dialogue-watch-wram.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-write-path</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue Write Path</div>
+          <div class="cc-body"><div class="cc-note-line">The dialogue renderer now has three separately observed write paths:</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">1. <code class="cc-code">WRAM 0x0200A900-0x0200AA4A</code></div>
+<div class="cc-note-line">2. <code class="cc-code">VRAM 0x06001800-0x06002000</code></div>
+<div class="cc-note-line">3. <code class="cc-code">VRAM 0x06002000-0x06002800</code></div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">These do <strong>not</strong> behave like a single writer.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-write-path.md" download>notes/dialogue-write-path.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-writer-addresses</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Dialogue Writer Addresses</div>
+          <div class="cc-body"><div class="cc-note-line">- watch range: <code class="cc-code">0x0200A900-0x0200AA4A</code></div>
+<div class="cc-note-line">- stable writer PC: <code class="cc-code">0x08066D74</code></div>
+<div class="cc-note-line">- observed caller LRs:</div>
+<div class="cc-note-line">- <code class="cc-code">0x08066D67</code></div>
+<div class="cc-note-line">- <code class="cc-code">0x08066D23</code></div>
+<div class="cc-note-line">- first observed frame: <code class="cc-code">1605</code></div>
+<div class="cc-note-line">- evidence:</div>
+<div class="cc-note-line">- <code class="cc-code">notes/dialogue-watch-wram.log</code></div>
+<div class="cc-note-line">- <code class="cc-code">notes/dialogue-watch-wram.md</code></div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-writer-addresses.md" download>notes/dialogue-writer-addresses.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">text-regions</code><span class="cc-meta">剧情与文本 </span></summary>
+          <div class="cc-title">Text Region Notes</div>
+          <div class="cc-body"><div class="cc-note-line cc-muted">本篇为过程记录，未能提取到结论段落。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/text-regions.md" download>notes/text-regions.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-mapping-blocker-20260702</code><span class="cc-meta">剧情与文本 · 20260702 </span></summary>
+          <div class="cc-title">Dialogue Byte-Pair Mapping - 关键障碍（2026-07-02 15:32）</div>
+          <div class="cc-body"><div class="cc-note-line">BREAKTHROUGH commit (<code class="cc-code">473a737</code>) 声称："IWRAM 0x03000078 = 当前 dialogue ROM 偏移"。</div>
+<div class="cc-note-line">基于此，捕获了 chapter 1 intro 30 个 dialogue 状态，期望能从 30 个 (ROM bytes, OCR text) 对</div>
+<div class="cc-note-line">中构建 byte→char 映射表，扩展 <code class="cc-code">sjis-to-tile-mapping.json</code>（目前只有 20 条映射，来自 group0）。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-mapping-blocker-20260702.md" download>notes/dialogue-mapping-blocker-20260702.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-mapping-decoder-20260702</code><span class="cc-meta">剧情与文本 · 20260702 </span></summary>
+          <div class="cc-title">Dialogue Mapping - Decoder Discovery (2026-07-02)</div>
+          <div class="cc-body"><div class="cc-note-line">&gt; <strong>已被 2026-07-29 证据部分取代。</strong> 字库表与全量源字形现已导出到</div>
+<div class="cc-note-line">&gt; <code class="cc-code">artifacts/dialogue-font-v2/</code>。原文把 <code class="cc-code">0x8B62</code> 误标成换行；原始流实际</div>
+<div class="cc-note-line">&gt; 为 <code class="cc-code">... 8B62 0A ...</code>，<code class="cc-code">0x8B62</code> 是非空但字符语义未确认的字形，独立</div>
+<div class="cc-note-line">&gt; <code class="cc-code">0x0A</code> 才是换行控制。以下历史过程保留用于审计，过期结论不得继续引用。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-mapping-decoder-20260702.md" download>notes/dialogue-mapping-decoder-20260702.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-mapping-progress-20260702</code><span class="cc-meta">剧情与文本 · 20260702 <span class="tag tag-amber">含纠错/证伪</span></span></summary>
+          <div class="cc-title">Dialogue Mapping - Deep Progress (2026-07-02)</div>
+          <div class="cc-body"><div class="cc-note-line">&gt; <strong>2026-07-29 边界纠正：</strong> 下方第 3 项把 <code class="cc-code">0x0808942C</code> 误报为函数入口。</div>
+<div class="cc-note-line">&gt; enclosing Thumb function 实际从 <code class="cc-code">0x08089310</code> 的 <code class="cc-code">push</code> 开始；</div>
+<div class="cc-note-line">&gt; <code class="cc-code">0x0808942C</code> 只是内部 cache/expansion basic block，精确展开调用点为</div>
+<div class="cc-note-line">&gt; <code class="cc-code">0x080894A8→0x080660A4</code> 和 <code class="cc-code">0x080894DE→0x08065EB8</code>。旧表述已被取代。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-mapping-progress-20260702.md" download>notes/dialogue-mapping-progress-20260702.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-font-table-discovery-20260703</code><span class="cc-meta">剧情与文本 · 20260703 <span class="tag tag-amber">含纠错/证伪</span></span></summary>
+          <div class="cc-title">Dialogue Font Table Discovery (2026-07-03; corrected 2026-07-29)</div>
+          <div class="cc-body"><div class="cc-note-line">&gt; <strong>Correction:</strong> visual QA and the Thumb consumers at <code class="cc-code">0x08065EB8</code> and</div>
+<div class="cc-note-line">&gt; <code class="cc-code">0x080660A4</code> disproved the original “8×8 4bpp tile” interpretation. The</div>
+<div class="cc-note-line">&gt; pointers below address packed 2bpp source records. The SJIS branch expands a</div>
+<div class="cc-note-line">&gt; 32-byte record into two ordered 8×8 4bpp tiles; the source record itself is</div>
+<div class="cc-note-line">&gt; layout-neutral. All three enumerated tilemap consumers stack those tiles</div>
+<div class="cc-note-line">&gt; vertically as an 8×16 glyph. The byte branch expands a 16-byte, 8×8 source</div>
+<div class="cc-note-line">&gt; into one 8×8 4bpp tile. The address formula remains valid.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-font-table-discovery-20260703.md" download>notes/dialogue-font-table-discovery-20260703.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">chapter-flow-runtime-chain-20260712</code><span class="cc-meta">剧情与文本 · 20260712 </span></summary>
+          <div class="cc-title">Chapter-flow runtime consumer chain (2026-07-12)</div>
+          <div class="cc-body"><div class="cc-note-line">The real scenario/chapter flow tables are 56-entry script-pointer tables at</div>
+<div class="cc-note-line">file <code class="cc-code">0x60C74</code> (primary) and <code class="cc-code">0x60D54</code> (alternate), not the five late-ROM</div>
+<div class="cc-note-line">resource-descriptor slices formerly labeled <code class="cc-code">story*</code>.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/chapter-flow-runtime-chain-20260712.md" download>notes/chapter-flow-runtime-chain-20260712.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">story-bank-identity-correction-20260712</code><span class="cc-meta">剧情与文本 · 20260712 </span></summary>
+          <div class="cc-title">Story bank identity correction (2026-07-12)</div>
+          <div class="cc-body"><div class="cc-note-line">The five catalogs at <code class="cc-code">0x53636C</code>, <code class="cc-code">0x536BC8</code>, <code class="cc-code">0x538FF0</code>, <code class="cc-code">0x53AB78</code>, and</div>
+<div class="cc-note-line"><code class="cc-code">0x53C3C0</code> are not story/chapter pointer tables. Their pointer counts and</div>
+<div class="cc-note-line">similar byte prefixes were insufficient semantic evidence.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/story-bank-identity-correction-20260712.md" download>notes/story-bank-identity-correction-20260712.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">story-visual-descriptor-consumer-20260712</code><span class="cc-meta">剧情与文本 · 20260712 </span></summary>
+          <div class="cc-title"><code class="cc-code">0x54229C</code> story visual descriptor consumer (2026-07-12)</div>
+          <div class="cc-body"><div class="cc-note-line">The historical <code class="cc-code">battle-encounters@0x542384</code> catalog was misaligned. The real</div>
+<div class="cc-note-line">object is 24 records of 16 bytes at <code class="cc-code">0x54229C..0x54241B</code>:</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/story-visual-descriptor-consumer-20260712.md" download>notes/story-visual-descriptor-consumer-20260712.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">chapter-script-observed-subset-20260713</code><span class="cc-meta">剧情与文本 · 20260713 </span></summary>
+          <div class="cc-title">Alternate scenario 39 command 边界（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">tools/chapter_script_analyzer.py</code> 现可结构化解析 alternate scenario 39 的完整脚本</div>
+<div class="cc-note-line"><code class="cc-code">0x08031281..0x0803142E</code>，得到与运行 trace 完全一致的 25 条 command：</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/chapter-script-observed-subset-20260713.md" download>notes/chapter-script-observed-subset-20260713.md</a></div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">chapter-script-production-writeback-20260713</code><span class="cc-meta">剧情与文本 · 20260713 </span></summary>
+          <div class="cc-title">Chapter script production writeback（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line">章节脚本已接入正式 <code class="cc-code">tools/build_mod.py</code>，不再依赖诊断 probe 的固定零区。</div>
+<div class="cc-note-line"><code class="cc-code">tools/import_chapter_scripts.py</code> 支持直接语义 commands，或对 immutable-base 范围先</div>
+<div class="cc-note-line">严格 decode 再 byte-exact encode。所有 entry 会先完成以下验证，之后才返回构建计划：</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/chapter-script-production-writeback-20260713.md" download>notes/chapter-script-production-writeback-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">profile-text-runtime-probe-20260713</code><span class="cc-meta">剧情与文本 · 20260713 </span></summary>
+          <div class="cc-title">Profile text runtime probe（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">tools/build_profile_text_runtime_probe.py</code> 在已验证 relocated chapter probe 上增加</div>
+<div class="cc-note-line"><code class="cc-code">0x0808B1A4</code> hook。该点原指令为 <code class="cc-code">adds r0,r0,r1; ldr r0,[r0]</code>，正好位于人物</div>
+<div class="cc-note-line">资料页按 <code class="cc-code">character_id*4 + 0x085A143C</code> 选择文本指针的位置。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/profile-text-runtime-probe-20260713.md" download>notes/profile-text-runtime-probe-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">text-and-battle-visual-consumers-20260713</code><span class="cc-meta">剧情与文本 · 20260713 </span></summary>
+          <div class="cc-title">Text and battle visual consumer corrections (2026-07-13)</div>
+          <div class="cc-body"><div class="cc-note-line">The historical <code class="cc-code">data-table-a@0x5A14A4</code> was physical entries 26..45 of the</div>
+<div class="cc-note-line">complete 46-pointer table at <code class="cc-code">0x5A143C..0x5A14F3</code>. All targets are</div>
+<div class="cc-note-line">NUL-terminated game-encoded long text. Literals at <code class="cc-code">0x0808A704</code> and</div>
+<div class="cc-note-line"><code class="cc-code">0x0808B214</code> load the canonical base; <code class="cc-code">0x0808A6D4</code> indexes ID×4 and the bound</div>
+<div class="cc-note-line">at <code class="cc-code">0x0808A6F6</code> is 45.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/text-and-battle-visual-consumers-20260713.md" download>notes/text-and-battle-visual-consumers-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">dialogue-font-atlas-export-20260729</code><span class="cc-meta">剧情与文本 · 20260729 </span></summary>
+          <div class="cc-title">对话字体全量图集导出（2026-07-29）</div>
+          <div class="cc-body"><div class="cc-note-line">熊组汉化版 base ROM 的两条对话字形查找链已静态全量导出并由独立验证器</div>
+<div class="cc-note-line">逐字节复核：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- SJIS 表：<code class="cc-code">0x0853D644</code>，26×8 字节，4410 个逻辑字形。</div>
+<div class="cc-note-line">- 单字节表：<code class="cc-code">0x0853D73C</code>，2×8 字节，192 个逻辑字形。</div>
+<div class="cc-note-line">- 合计：4602 个逻辑字形、4602 个唯一源记录、9012 个物理 8×8 半字形，</div>
+<div class="cc-note-line">无地址别名。</div>
+<div class="cc-note-line">- 章节开场已有的 517 条 SJIS 映射全部重新按 ROM 表公式核对通过。</div>
+<div class="cc-note-line">- group0 的 20 个双字节码全部落在同一 SJIS 表中，并已绑定源地址与源记录</div>
+<div class="cc-note-line">哈希；其中 19 个保留历史截图 OCR 字符标签，<code class="cc-code">0x8B62</code> 的字符语义仍未确认。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">成果位于 <code class="cc-code">artifacts/dialogue-font-v2/</code>，包含四张诊断图集、原始 2bpp</div>
+<div class="cc-note-line">二进制、按 <code class="cc-code">0x080894A8/0x080894DE</code> cache 调用参数展开的 4bpp 诊断二进制以及完整 manifest。</div>
+<div class="cc-note-line">该展开不是所有 consumer 的唯一 palette group；例如世界地图使用 <code class="cc-code">arg1=0</code>。</div>
+<div class="cc-note-line">导出器为</div>
+<div class="cc-note-line"><code class="cc-code">tools/export_dialogue_font_atlases.py</code>，独立验证器为</div>
+<div class="cc-note-line"><code class="cc-code">tools/verify_dialogue_font_atlases.py</code>。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/dialogue-font-atlas-export-20260729.md" download>notes/dialogue-font-atlas-export-20260729.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">story-scene-layer-bindings-20260729</code><span class="cc-meta">剧情与文本 · 20260729 </span></summary>
+          <div class="cc-title">剧情视觉场景图层绑定（2026-07-29）</div>
+          <div class="cc-body"><div class="cc-note-line">剧情 opcode handler <code class="cc-code">0x0808FA2C</code> 经 <code class="cc-code">0x0808A69C</code> 进入 <code class="cc-code">0x08087C9C</code>，后者按</div>
+<div class="cc-note-line">0..23 顺序播放 <code class="cc-code">0x0854229C</code> 的全部 24 条 story descriptor。每条 <code class="cc-code">+0x0C</code></div>
+<div class="cc-note-line"><code class="cc-code">config_id</code> 在 <code class="cc-code">0x08087DE8</code> 被截为 <code class="cc-code">u8</code>，随后直接按</div>
+<div class="cc-note-line"><code class="cc-code">0x085A320C + config_id × 0x44</code> 索引：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- 这是零基 direct ID，不使用公共入口 <code class="cc-code">0x08098442</code> 的 <code class="cc-code">input_id - 1</code> 规则；</div>
+<div class="cc-note-line">- 24 个 config 依次为</div>
+<div class="cc-note-line"><code class="cc-code">4,10,14,24,17,18,21,25,29,28,34,76,30,47,48,49,51,52,58,61,74,16,77,5</code>；</div>
+<div class="cc-note-line">- 全部落在 0..78，且没有命中 sentinel <code class="cc-code">13/31/32/46</code>；</div>
+<div class="cc-note-line">- 人类可见的一基 consumer ID 是 <code class="cc-code">config_id + 1</code>。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">持久成果 <code class="cc-code">artifacts/story-scene-layer-bindings-v1/manifest.json</code> 将 24 条映射逐项</div>
+<div class="cc-note-line">绑定到已验证的 <code class="cc-code">story-visual-layers-v1</code> 与修正后的 <code class="cc-code">tile-assets-bg-v2</code>，同时记录</div>
+<div class="cc-note-line">ROM、上游 manifest 和三段消费者代码哈希。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/story-scene-layer-bindings-20260729.md" download>notes/story-scene-layer-bindings-20260729.md</a> · 关联产物 2 族</div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">story-scene-timelines-export-20260729</code><span class="cc-meta">剧情与文本 · 20260729 </span></summary>
+          <div class="cc-title">剧情场景时间线与离线合成（2026-07-29）</div>
+          <div class="cc-body"><div class="cc-note-line cc-muted">本篇为过程记录，未能提取到结论段落。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/story-scene-timelines-export-20260729.md" download>notes/story-scene-timelines-export-20260729.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">story-visual-layer-export-20260729</code><span class="cc-meta">剧情与文本 · 20260729 </span></summary>
+          <div class="cc-title">Story visual 透明层全量导出证据（2026-07-29）</div>
+          <div class="cc-body"><div class="cc-note-line">历史名为 <code class="cc-code">battle-encounters</code> 的 <code class="cc-code">0x0854229C</code> 表已经从“24 条三指针</div>
+<div class="cc-note-line">descriptor 可识别”推进为全量、可重复的图像成果：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- 24/24 条 descriptor 均导出为 256×256 indexed PNG；</div>
+<div class="cc-note-line">- 共有 24 份唯一 4bpp gfx、1 份共享 16 色 palette、24 份唯一 tilemap；</div>
+<div class="cc-note-line">- 每份 tilemap 都精确引用 gfx 的连续 tile 范围，没有越界或未引用 tile；</div>
+<div class="cc-note-line">- 水平翻转和垂直翻转均按 GBA text-BG entry 的 bit 10/11 还原；</div>
+<div class="cc-note-line">- palette index 0 保留为透明色，其他 15 个 BGR555 颜色逐项保留；</div>
+<div class="cc-note-line">- 每条记录的 ROM 指针、压缩流、解压资源、PNG 和关联 descriptor ID</div>
+<div class="cc-note-line">均写入 manifest。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">这些输出是 story slideshow 使用的透明 BG3 文本/标题层，不是完整合成截图。</div>
+<div class="cc-note-line"><code class="cc-code">config_id</code> 还会索引 <code class="cc-code">0x085A320C</code> 的另一组视觉 descriptor；在那组资源的</div>
+<div class="cc-note-line">图形与布局语义闭合前，不把两层冒充为完整画面。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/story-visual-layer-export-20260729.md" download>notes/story-visual-layer-export-20260729.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="story">
+          <summary><code class="cc-code">story-visual-resource-relocation-20260731</code><span class="cc-meta">剧情与文本 · 20260731 <span class="tag tag-cyan">逆向树</span></span></summary>
+          <div class="cc-title">剧情透明 BG3 图层可变长迁移（2026-07-31）</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">0x0854229C</code> 的24条剧情透明 BG3 descriptor 已从静态 PNG 导出推进到可变长</div>
+<div class="cc-note-line">资源迁移和统一构建闭环：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- 24 graphics、24 tilemap和24个物理palette流共72个LZ77载荷；</div>
+<div class="cc-note-line">- 按<code class="cc-code">(类型, 解压SHA-256)</code>去重后为49份内容：24 graphics、1 palette、</div>
+<div class="cc-note-line">24 tilemap；</div>
+<div class="cc-note-line">- 72个源指针在全 ROM 四字节对齐扫描中各只有descriptor内一条精确引用，</div>
+<div class="cc-note-line">未知额外引用为0；</div>
+<div class="cc-note-line">- 49份原始二进制由批量脚本固化在</div>
+<div class="cc-note-line"><code class="cc-code">artifacts/story-visual-resource-sources-v1/</code>；</div>
+<div class="cc-note-line">- 全量原样迁移生成49个分配补丁和72个指针补丁，合计121项。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">专属区域为<code class="cc-code">0xB50000..0xB71000</code>。原样重编码存储56,551 bytes，包含四字节</div>
+<div class="cc-note-line">对齐后的占用末端为<code class="cc-code">0xB5DD2D</code>，剩余78,547 bytes。后续图像区域从</div>
+<div class="cc-note-line"><code class="cc-code">0xB71000</code>开始，迁移器不得越界借用。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/reverse/story-visual-resource-relocation-20260731.md" download>notes/reverse/story-visual-resource-relocation-20260731.md</a> · 关联产物 2 族</div>
+        </details>
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

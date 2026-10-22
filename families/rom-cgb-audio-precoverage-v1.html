@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rom-cgb-audio-precoverage-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">rom-cgb-audio-precoverage-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">rom-byte-coverage-prepromotion-baseline-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">5 个顶层分区 · 2 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="rom-cgb-audio-precoverage-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-coverage">coverage</a><a class="sec-jump" href="#sec-limitations">limitations</a><a class="sec-jump" href="#sec-recovery">recovery</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">rom-byte-coverage-prepromotion-baseline-v1</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-coverage"><h2 class="fam-sec-title">coverage</h2><div class="fml-row"><div class="fml-key">archive</div><div class="fml-val"><div class="fml-row"><div class="fml-key">compression</div><div class="fml-val"><span class="fml-text">gzip</span></div></div><div class="fml-row"><div class="fml-key">file</div><div class="fml-val"><span class="fml-text">rom-byte-coverage.json.gz</span></div></div><div class="fml-row"><div class="fml-key">sha256</div><div class="fml-val"><span class="fml-text">e345bf5a605d796c1e38a4243b4aefbcb7b8229f70bea13ce40ca044d4edf04b</span></div></div><div class="fml-row"><div class="fml-key">size</div><div class="fml-val"><span class="fml-num">1,302,906</span></div></div></div></div><div class="fml-row"><div class="fml-key">raw</div><div class="fml-val"><div class="fml-row"><div class="fml-key">canonical_json</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">schema</div><div class="fml-val"><span class="fml-text">rom-byte-coverage-v1</span></div></div><div class="fml-row"><div class="fml-key">sha256</div><div class="fml-val"><span class="fml-text">22f8f88ca0929468289b749cb94b4aaa4c47d7a53fa68fe10cb93c9a01816839</span></div></div><div class="fml-row"><div class="fml-key">size</div><div class="fml-val"><span class="fml-num">23,152,713</span></div></div><div class="fml-row"><div class="fml-key">summary</div><div class="fml-val"><div class="fml-row"><div class="fml-key">claim_count</div><div class="fml-val"><span class="fml-num">14,507</span></div></div><div class="fml-row"><div class="fml-key">classified_bytes</div><div class="fml-val"><span class="fml-num">6,124,601</span></div></div><div class="fml-row"><div class="fml-key">segment_count</div><div class="fml-val"><span class="fml-num">16,617</span></div></div><div class="fml-row"><div class="fml-key">unknown_bytes</div><div class="fml-val"><span class="fml-num">166,855</span></div></div></div></div></div></div></section>
+<section class="fam-sec" id="sec-limitations"><h2 class="fam-sec-title">limitations</h2><div class="fml-list"><span><span class="fml-text">This is a byte-identical immutable archive of the live canonical coverage immediately before the combined CGB helper and CgbSound promotion batch.</span></span><span><span class="fml-text">The snapshot proves only the frozen pre-promotion coverage identity; it does not classify any additional ROM bytes by itself.</span></span><span><span class="fml-text">Both independent artifacts in this batch must replay this same archive; after either promotion is accepted, this archive remains the baseline and does not replace the live post-promotion coverage file.</span></span></div></section>
+<section class="fam-sec" id="sec-recovery"><h2 class="fam-sec-title">recovery</h2><div class="fml-row"><div class="fml-key">captured_from</div><div class="fml-val"><div class="fml-row"><div class="fml-key">path</div><div class="fml-val"><span class="fml-text">sequel/rom-byte-coverage.json</span></div></div><div class="fml-row"><div class="fml-key">sha256</div><div class="fml-val"><span class="fml-text">22f8f88ca0929468289b749cb94b4aaa4c47d7a53fa68fe10cb93c9a01816839</span></div></div><div class="fml-row"><div class="fml-key">size</div><div class="fml-val"><span class="fml-num">23,152,713</span></div></div><div class="fml-row"><div class="fml-key">summary</div><div class="fml-val"><div class="fml-row"><div class="fml-key">claim_count</div><div class="fml-val"><span class="fml-num">14,507</span></div></div><div class="fml-row"><div class="fml-key">classified_bytes</div><div class="fml-val"><span class="fml-num">6,124,601</span></div></div><div class="fml-row"><div class="fml-key">segment_count</div><div class="fml-val"><span class="fml-num">16,617</span></div></div><div class="fml-row"><div class="fml-key">unknown_bytes</div><div class="fml-val"><span class="fml-num">166,855</span></div></div></div></div></div></div><div class="fml-row"><div class="fml-key">kind</div><div class="fml-val"><span class="fml-text">direct-frozen-prepromotion-snapshot</span></div></div><div class="fml-row"><div class="fml-key">serialization</div><div class="fml-val"><span class="fml-text">Canonical source bytes compressed with gzip -n -9; decompression is byte-identical to the source.</span></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/rom-cgb-audio-precoverage-v1/manifest.json">manifest.json</a><span class="fml-meta"> 1,727 B</span></li><li><a href="../artifacts/rom-cgb-audio-precoverage-v1/rom-byte-coverage.json.gz">rom-byte-coverage.json.gz</a><span class="fml-meta"> 1,302,906 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

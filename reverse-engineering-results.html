@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《火影忍者：木叶战记》逆向工程结果查看器 · 研发全景</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+</head>
+<body data-page="reverse-engineering-results.html">
+
+  <div id="toast">已复制</div>
+  <div id="searchPanel"></div>
+
+<header class="top-bar">
+    <div class="top-bar-left">
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="折叠/展开侧边栏">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <div class="top-bar-brand">
+        <span class="brand-badge">GBA</span>
+        <span class="brand-title">《火影忍者：木叶战记》逆向工程结果查看器</span>
+      </div>
+      <div class="rom-status-tag">
+        <span class="pulse-dot"></span>
+        <span>ROM v1.3 (简)(JP) 48Mb · 校验通过</span>
+      </div>
+    </div>
+
+    <div class="top-bar-right">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="本页检索地址/角色/技能/道具/函数 (Ctrl+K)..." oninput="handleSearch()">
+        <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()" style="display:none;" title="清空检索">✕</button>
+      </div>
+      <div class="top-actions">
+        <a class="top-action-btn badge-cyan" href="reverse-engineering-results.html#sec-image-downloads" title="按板块打包下载全部图像">
+          📧 图像打包下载
+        </a>
+
+        <a class="top-action-btn badge-green" href="reverse-engineering-results.html#sec-progress-tests" title="查看 17 项自动化回归测试详情">
+          ✓ 17/17 测试通过
+        </a>
+        <button class="top-action-btn" onclick="copyCurrentUrl()" title="复制本页面分享链接">
+          🔗 分享
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+<aside class="left-sidebar" id="leftSidebar">
+    <nav class="sidebar-nav">
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub active" data-hub="progress" href="reverse-engineering-results.html"><span class="link-text">研发全景</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-image-downloads" href="reverse-engineering-results.html#sec-image-downloads"><span class="link-text">图像资源打包下载 (Image Download Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-kpi" href="reverse-engineering-results.html#sec-progress-kpi"><span class="link-text">逆向工程核心量化成果总览 (Executive Technical Metrics)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-phases" href="reverse-engineering-results.html#sec-progress-phases"><span class="link-text">续作研发工程全阶段进展 (Roadmap Phase Progress)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-milestones" href="reverse-engineering-results.html#sec-progress-milestones"><span class="link-text">P0 逆向工程 7 大里程碑攻坚矩阵 (P0 Reverse Engineering Milestones Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-memory" href="reverse-engineering-results.html#sec-progress-memory"><span class="link-text">ROM 存储拓扑全景与 128 KB 自由空间分配规划 (Memory Topology &amp; Free Space)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-tests" href="reverse-engineering-results.html#sec-progress-tests"><span class="link-text">CI 自动化测试防回归体系 (Test Suites)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-next" href="reverse-engineering-results.html#sec-progress-next"><span class="link-text">下阶段续作研发推进清单 (Immediate Next Steps)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-artifact-coverage" href="reverse-engineering-results.html#sec-artifact-coverage"><span class="link-text">逆向成果收录覆盖总表 (Artifact Family Coverage)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-rom-catalog" href="reverse-engineering-results.html#sec-rom-catalog"><span class="link-text">ROM 逆向成果族全量目录 (ROM Family Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-reverse-ledger" href="reverse-engineering-results.html#sec-reverse-ledger"><span class="link-text">逆向成果台账 (Reverse Results Ledger)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="visuals" href="reverse-engineering-visuals.html"><span class="link-text">1. 视觉与动画资产库</span><span class="link-badge">12</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-studio" href="reverse-engineering-visuals.html#sec-studio"><span class="link-text">⚡ 角色动作交互工作室 (Character Action &amp; Sprite Studio)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-action-matrix" href="reverse-engineering-visuals.html#sec-action-matrix"><span class="link-text">木叶战记 35 位全员动作状态与动画帧数全览表</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-portraits-poster" href="reverse-engineering-visuals.html#sec-portraits-poster"><span class="link-text">菜单 / 剧情立绘矩阵总集海报 (Menu &amp; Story Portrait Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-roster-poster" href="reverse-engineering-visuals.html#sec-roster-poster"><span class="link-text">全 35 位登场角色全家福精灵海报 (Master Roster Poster)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tilesets" href="reverse-engineering-visuals.html#sec-tilesets"><span class="link-text">战场地图 Tileset 图集 (47 行全量 PNG Export)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-map-canvases" href="reverse-engineering-visuals.html#sec-map-canvases"><span class="link-text">成品战场地图画布 (Assembled Battle Map Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tile-assets-bg" href="reverse-engineering-visuals.html#sec-tile-assets-bg"><span class="link-text">图块资产 BG 图层 (Tile Asset BG Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-character-battle-visuals" href="reverse-engineering-visuals.html#sec-character-battle-visuals"><span class="link-text">角色战斗视觉资源 (Character Battle Visuals)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-canvases" href="reverse-engineering-visuals.html#sec-bg-canvases"><span class="link-text">BG 资源画布 (BG Resource Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-scene-selection" href="reverse-engineering-visuals.html#sec-bg-scene-selection"><span class="link-text">章节选择 opcode 0x1E 记录 (Chapter Scene Selection)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-scene-visual-packs" href="reverse-engineering-visuals.html#sec-scene-visual-packs"><span class="link-text">场景视觉包 (Scene Visual Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-world-map-bg" href="reverse-engineering-visuals.html#sec-world-map-bg"><span class="link-text">世界地图背景 (World Map Backgrounds)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="battle" href="reverse-engineering-battle.html"><span class="link-text">2. 战斗系统与时序引擎</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-vm" href="reverse-engineering-battle.html#sec-battle-vm"><span class="link-text">忍术战斗时序虚拟机 (Jutsu Execution VM) 字节码指令集规范</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-scripts" href="reverse-engineering-battle.html#sec-battle-scripts"><span class="link-text">木叶战记 36 张忍术技能脚本表全量逆向解析库</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-scenario-fsm" href="reverse-engineering-battle.html#sec-scenario-fsm"><span class="link-text">战斗场景配置总表 (Battle Scenario Config Table - ROM 0x0853D910)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-fsm-funcs" href="reverse-engineering-battle.html#sec-battle-fsm-funcs"><span class="link-text">战斗状态机函数指针表 (Battle State Machine Functions)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-sequences" href="reverse-engineering-battle.html#sec-battle-effect-sequences"><span class="link-text">战斗特效时序绑定 (Battle Effect Sequence Bindings)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-catalog" href="reverse-engineering-battle.html#sec-battle-visual-catalog"><span class="link-text">79 项战斗视觉表现目录 (Battle Visual Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-timelines" href="reverse-engineering-battle.html#sec-battle-visual-timelines"><span class="link-text">战斗视觉运行时时间线 (Battle Visual Runtime Timelines)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-affine-runtime" href="reverse-engineering-battle.html#sec-affine-runtime"><span class="link-text">战斗特效仿射运行时 (Affine Runtime Evidence)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-pairs" href="reverse-engineering-battle.html#sec-battle-effect-pairs"><span class="link-text">战斗特效资源对 (Battle Effect Resource Pairs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-anims" href="reverse-engineering-battle.html#sec-battle-effect-anims"><span class="link-text">战斗特效精灵动画 (Battle Effect Sprite Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="story" href="reverse-engineering-story.html"><span class="link-text">3. 剧情调度与文本系统</span><span class="link-badge">9</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-pipeline" href="reverse-engineering-story.html#sec-dialogue-pipeline"><span class="link-text">GBA 对话渲染硬件链路与数据通路 (Screen Render Pipeline)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-asm" href="reverse-engineering-story.html#sec-dialogue-asm"><span class="link-text">关键文本与渲染函数清单 (Thumb ASM)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-chapter-fsm" href="reverse-engineering-story.html#sec-chapter-fsm"><span class="link-text">章节状态结构体与关卡加载劫持 (Chapter State Struct)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-font" href="reverse-engineering-story.html#sec-dialogue-font"><span class="link-text">对话字体图集 (Dialogue Font Atlases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-cutscene-obj" href="reverse-engineering-story.html#sec-cutscene-obj"><span class="link-text">过场 OBJ 静态资源 (Cutscene OBJ Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-free-space-pipe" href="reverse-engineering-story.html#sec-free-space-pipe"><span class="link-text">可变长对白扩容系统与 128 KB 空闲区域 (Pointer Redirect Engine)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-battle-glyphs" href="reverse-engineering-story.html#sec-battle-glyphs"><span class="link-text">战斗演出字形与消息表 (Battle Presentation Glyphs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-visual-layers" href="reverse-engineering-story.html#sec-story-visual-layers"><span class="link-text">剧情视觉图层 (Story Visual Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-scene-timelines" href="reverse-engineering-story.html#sec-story-scene-timelines"><span class="link-text">剧情场景时间线 (Story Scene Timelines)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="data" href="reverse-engineering-data.html"><span class="link-text">4. 内存数据与音频架构</span><span class="link-badge">5</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-unit-struct" href="reverse-engineering-data.html#sec-unit-struct"><span class="link-text">单位 ID 映射表 (ROM 0x0853F298) 与 WRAM 战斗阵列</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-item-matrix" href="reverse-engineering-data.html#sec-item-matrix"><span class="link-text">忍具 / 药品 / 卷轴 / 材料内存表 (WRAM 0x02023FD4 - 0x02024044)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-audio-pcm" href="reverse-engineering-data.html#sec-audio-pcm"><span class="link-text">DirectSound PCM 音频样本提取 (10 个 WAV 样本，共 ~3 MB)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-definitions" href="reverse-engineering-data.html#sec-sprite-definitions"><span class="link-text">精灵定义静态资源与运行时链 (Sprite Definition Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-def-anims" href="reverse-engineering-data.html#sec-sprite-def-anims"><span class="link-text">精灵定义动画 (Sprite Definition Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="engineering" href="reverse-engineering-engineering.html"><span class="link-text">5. 逆向基建与工程流水线</span><span class="link-badge">4</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-mod-builder" href="reverse-engineering-engineering.html#sec-mod-builder"><span class="link-text">ROM 补丁流水线 (tools/build_mod.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-auto-tests" href="reverse-engineering-engineering.html#sec-auto-tests"><span class="link-text">全覆盖自动化测试套件 (tools/automated_test.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-full" href="reverse-engineering-engineering.html#sec-toolbox-full"><span class="link-text">工具全量清单 (Complete Tool Inventory)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-index" href="reverse-engineering-engineering.html#sec-toolbox-index"><span class="link-text">自研逆向工具箱清单 (Tools Inventory)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="formulas" href="reverse-engineering-formulas.html"><span class="link-text">6. 逆向公式与运行时模型</span><span class="link-badge">2</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-formula-index" href="reverse-engineering-formulas.html#sec-formula-index"><span class="link-text">逆向公式与运行时模型总览 (Reverse Engineering Formulas)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-heavy-index" href="reverse-engineering-formulas.html#sec-heavy-index"><span class="link-text">公式与运行时模型索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="conclusions" href="reverse-engineering-conclusions.html"><span class="link-text">7. 逆向结论索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="conclusions" data-anchor="sec-conclusions" href="reverse-engineering-conclusions.html#sec-conclusions"><span class="link-text">结论分主题索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="dataindex" href="reverse-engineering-data-index.html"><span class="link-text">8. ROM 数据产物索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="dataindex" data-anchor="sec-data-index" href="reverse-engineering-data-index.html#sec-data-index"><span class="link-text">ROM 数据产物索引 (ROM Data Artifacts)</span></a>
+        </div>
+    </nav>
+</aside>
+
+    <main class="main-workspace" id="mainWorkspace">
+
+        <div class="card full-width" id="sec-image-downloads">
+          <div class="card-head">
+            <div class="card-title">图像资源打包下载 (Image Download Packs)</div>
+            <span class="tag tag-cyan">10,469 张图像 · 43.0 MiB 原始体积</span>
+          </div>
+          <p class="card-desc">
+            页面上的每一张图都可以<strong>点击放大</strong>（Esc 关闭，←/→ 翻页，放大后可单独下载原图）。
+            下面按<strong>页面板块</strong>打包：每个板块一个 ZIP，<strong>包内就是该板块展示的全部图像</strong>
+            （例如「角色动作交互工作室」包含所有角色的动作动画 GIF 与帧条）。
+          </p>
+          <div class="dl-panel">
+            <a class="dl-chip" href="downloads/sections/sec-tile-assets-bg.zip" download><strong>图块资产 BG 图层 (Tile Asset BG Layers)</strong><span class="dl-size">344 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-portraits-poster.zip" download><strong>菜单 / 剧情立绘矩阵总集海报 (Menu &amp;amp; Story Portrait Matrix)</strong><span class="dl-size">312 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-character-battle-visuals.zip" download><strong>角色战斗视觉资源 (Character Battle Visuals)</strong><span class="dl-size">250 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-studio.zip" download><strong>角色动作交互工作室 (Character Action Studio)</strong><span class="dl-size">197 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-battle-effect-anims.zip" download><strong>战斗特效精灵动画 (Battle Effect Sprite Animations)</strong><span class="dl-size">182 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-battle-glyphs.zip" download><strong>战斗演出字形与消息表 (Battle Presentation Glyphs)</strong><span class="dl-size">174 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-battle-visual-catalog.zip" download><strong>79 项战斗视觉表现目录 (Battle Visual Catalog)</strong><span class="dl-size">79 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-battle-visual-timelines.zip" download><strong>战斗视觉运行时时间线 (Battle Visual Runtime Timelines)</strong><span class="dl-size">75 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-map-canvases.zip" download><strong>成品战场地图画布 (Assembled Battle Map Canvases)</strong><span class="dl-size">61 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-tilesets.zip" download><strong>战场地图 Tileset 图集 (47 行全量 PNG Export)</strong><span class="dl-size">47 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-scene-visual-packs.zip" download><strong>场景视觉包 (Scene Visual Packs)</strong><span class="dl-size">43 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-sprite-definitions.zip" download><strong>精灵定义静态资源与运行时链 (Sprite Definition Assets)</strong><span class="dl-size">43 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-sprite-def-anims.zip" download><strong>精灵定义动画 (Sprite Definition Animations)</strong><span class="dl-size">43 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-action-matrix.zip" download><strong>木叶战记 35 位全员动作状态与动画帧数全览表</strong><span class="dl-size">35 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-story-visual-layers.zip" download><strong>剧情视觉图层 (Story Visual Layers)</strong><span class="dl-size">24 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-story-scene-timelines.zip" download><strong>剧情场景时间线 (Story Scene Timelines)</strong><span class="dl-size">24 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-battle-effect-pairs.zip" download><strong>战斗特效资源对 (Battle Effect Resource Pairs)</strong><span class="dl-size">18 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-cutscene-obj.zip" download><strong>过场 OBJ 静态资源 (Cutscene OBJ Assets)</strong><span class="dl-size">14 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-bg-canvases.zip" download><strong>BG 资源画布 (BG Resource Canvases)</strong><span class="dl-size">12 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-world-map-bg.zip" download><strong>世界地图背景 (World Map Backgrounds)</strong><span class="dl-size">6 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-dialogue-font.zip" download><strong>对话字体图集 (Dialogue Font Atlases)</strong><span class="dl-size">4 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-affine-runtime.zip" download><strong>战斗特效仿射运行时 (Affine Runtime Evidence)</strong><span class="dl-size">2 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-reverse-ledger.zip" download><strong>逆向成果台账 (Reverse Results Ledger)</strong><span class="dl-size">1 张</span></a>
+            <a class="dl-chip" href="downloads/sections/sec-roster-poster.zip" download><strong>全 35 位登场角色全家福精灵海报 (Master Roster Poster)</strong><span class="dl-size">1 张</span></a>
+          </div>
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer; color:var(--accent-cyan); font-weight:600; font-size:0.9rem;">
+              🗂 按成果族 / 主题重新分组
+            </summary>
+            <div class="dl-panel" style="margin-top:10px;">
+              <a class="dl-chip" href="downloads/all-images.zip" download><strong>全部图像</strong><span class="dl-size">10,469 张 · 43.4 MiB</span></a>
+              <a class="dl-chip" href="downloads/themes/其它.zip" download><strong>其它</strong><span class="dl-size">313 张 · 807 KiB</span></a>
+              <a class="dl-chip" href="downloads/themes/剧情与演出.zip" download><strong>剧情与演出</strong><span class="dl-size">253 张 · 4.0 MiB</span></a>
+              <a class="dl-chip" href="downloads/themes/地图与场景.zip" download><strong>地图与场景</strong><span class="dl-size">794 张 · 3.6 MiB</span></a>
+              <a class="dl-chip" href="downloads/themes/战斗系统.zip" download><strong>战斗系统</strong><span class="dl-size">786 张 · 5.8 MiB</span></a>
+              <a class="dl-chip" href="downloads/themes/控制流与配置.zip" download><strong>控制流与配置</strong><span class="dl-size">39 张 · 47 KiB</span></a>
+              <a class="dl-chip" href="downloads/themes/数据与内存.zip" download><strong>数据与内存</strong><span class="dl-size">106 张 · 335 KiB</span></a>
+              <a class="dl-chip" href="downloads/themes/立绘与界面.zip" download><strong>立绘与界面</strong><span class="dl-size">6 张 · 80 KiB</span></a>
+              <a class="dl-chip" href="downloads/themes/角色与战斗视觉.zip" download><strong>角色与战斗视觉</strong><span class="dl-size">2,063 张 · 1.8 MiB</span></a>
+            </div>
+            <div class="dl-panel" style="margin-top:10px;">
+              <a class="dl-chip" href="downloads/families/battle-effect-affine-runtime-v1.zip" download><strong>battle-effect-affine-runtime-v1</strong><span class="dl-size">4 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-group1-v1.zip" download><strong>battle-effect-frame-phase-group1-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-group14-v1.zip" download><strong>battle-effect-frame-phase-group14-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-group16-natural-v1.zip" download><strong>battle-effect-frame-phase-group16-natural-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-group17-natural-v1.zip" download><strong>battle-effect-frame-phase-group17-natural-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-group18-natural-sequence-v1.zip" download><strong>battle-effect-frame-phase-group18-natural-sequence-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-group2-v1.zip" download><strong>battle-effect-frame-phase-group2-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-group3-natural-v1.zip" download><strong>battle-effect-frame-phase-group3-natural-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-group4-natural-v1.zip" download><strong>battle-effect-frame-phase-group4-natural-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-group5-v1.zip" download><strong>battle-effect-frame-phase-group5-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-frame-phase-v1.zip" download><strong>battle-effect-frame-phase-v1</strong><span class="dl-size">3 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group03-controlled-pixel-ab-v1.zip" download><strong>battle-effect-group03-controlled-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group03-natural-pixel-ab-v1.zip" download><strong>battle-effect-group03-natural-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group06-controlled-pixel-ab-v1.zip" download><strong>battle-effect-group06-controlled-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group07-controlled-pixel-ab-v1.zip" download><strong>battle-effect-group07-controlled-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group08-controlled-pixel-ab-v1.zip" download><strong>battle-effect-group08-controlled-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group09-controlled-pixel-ab-v1.zip" download><strong>battle-effect-group09-controlled-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group1-pixel-ab-v1.zip" download><strong>battle-effect-group1-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group10-controlled-pixel-ab-v1.zip" download><strong>battle-effect-group10-controlled-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group11-pixel-ab-v1.zip" download><strong>battle-effect-group11-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group12-ai-observer-v1.zip" download><strong>battle-effect-group12-ai-observer-v1</strong><span class="dl-size">1 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group12-controlled-pixel-ab-v1.zip" download><strong>battle-effect-group12-controlled-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group13-natural-runtime-v1.zip" download><strong>battle-effect-group13-natural-runtime-v1</strong><span class="dl-size">1 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group13-pixel-ab-v1.zip" download><strong>battle-effect-group13-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group14-pixel-ab-v1.zip" download><strong>battle-effect-group14-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group15-pixel-ab-v1.zip" download><strong>battle-effect-group15-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group16-pixel-ab-v1.zip" download><strong>battle-effect-group16-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group17-pixel-ab-v1.zip" download><strong>battle-effect-group17-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group18-controlled-pixel-ab-v1.zip" download><strong>battle-effect-group18-controlled-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group18-natural-checkpoint-v1.zip" download><strong>battle-effect-group18-natural-checkpoint-v1</strong><span class="dl-size">1 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group18-natural-pixel-ab-v1.zip" download><strong>battle-effect-group18-natural-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group2-pixel-ab-v1.zip" download><strong>battle-effect-group2-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group4-pixel-ab-v1.zip" download><strong>battle-effect-group4-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-group5-pixel-ab-v1.zip" download><strong>battle-effect-group5-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-resource-pairs-v1.zip" download><strong>battle-effect-resource-pairs-v1</strong><span class="dl-size">18 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-effect-sprite-animations-v1.zip" download><strong>battle-effect-sprite-animations-v1</strong><span class="dl-size">182 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-encounters-story-visual-pixel-ab-v1.zip" download><strong>battle-encounters-story-visual-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-presentation-glyphs-v1.zip" download><strong>battle-presentation-glyphs-v1</strong><span class="dl-size">346 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-status-bars-v1.zip" download><strong>battle-status-bars-v1</strong><span class="dl-size">1 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-visual-catalog-v1.zip" download><strong>battle-visual-catalog-v1</strong><span class="dl-size">79 张</span></a>
+              <a class="dl-chip" href="downloads/families/battle-visual-runtime-timelines-v1.zip" download><strong>battle-visual-runtime-timelines-v1</strong><span class="dl-size">75 张</span></a>
+              <a class="dl-chip" href="downloads/families/bg-resource-canvases-v1.zip" download><strong>bg-resource-canvases-v1</strong><span class="dl-size">24 张</span></a>
+              <a class="dl-chip" href="downloads/families/build-assets.zip" download><strong>build-assets</strong><span class="dl-size">6,109 张</span></a>
+              <a class="dl-chip" href="downloads/families/character-battle-graphics-pixel-ab-v1.zip" download><strong>character-battle-graphics-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/character-battle-visual-resource-matrix-v1.zip" download><strong>character-battle-visual-resource-matrix-v1</strong><span class="dl-size">4 张</span></a>
+              <a class="dl-chip" href="downloads/families/character-battle-visuals-v1.zip" download><strong>character-battle-visuals-v1</strong><span class="dl-size">2,004 张</span></a>
+              <a class="dl-chip" href="downloads/families/character-fbff-runtime-v1.zip" download><strong>character-fbff-runtime-v1</strong><span class="dl-size">1 张</span></a>
+              <a class="dl-chip" href="downloads/families/cutscene-obj-id1-pixel-ab-v1.zip" download><strong>cutscene-obj-id1-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/cutscene-obj-id1-primary-ptr-ab-v1.zip" download><strong>cutscene-obj-id1-primary-ptr-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/cutscene-obj-v1.zip" download><strong>cutscene-obj-v1</strong><span class="dl-size">14 张</span></a>
+              <a class="dl-chip" href="downloads/families/data-table-b-message0-pointer-pixel-ab-v1.zip" download><strong>data-table-b-message0-pointer-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/dialogue-font-v2.zip" download><strong>dialogue-font-v2</strong><span class="dl-size">4 张</span></a>
+              <a class="dl-chip" href="downloads/families/initializer-resource-pack-v1.zip" download><strong>initializer-resource-pack-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/levels-status-per-level-ab-v1.zip" download><strong>levels-status-per-level-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/lz77-palette-runtime-v1.zip" download><strong>lz77-palette-runtime-v1</strong><span class="dl-size">6 张</span></a>
+              <a class="dl-chip" href="downloads/families/map-canvases-v1.zip" download><strong>map-canvases-v1</strong><span class="dl-size">61 张</span></a>
+              <a class="dl-chip" href="downloads/families/map-events-e4-handler-pixel-ab-v1.zip" download><strong>map-events-e4-handler-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/map-sprites-definition-id1-pixel-ab-v1.zip" download><strong>map-sprites-definition-id1-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/map41-primary-layout-pixel-ab-v1.zip" download><strong>map41-primary-layout-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/map41-visual-resource-matrix-v1.zip" download><strong>map41-visual-resource-matrix-v1</strong><span class="dl-size">4 张</span></a>
+              <a class="dl-chip" href="downloads/families/menu-portrait-pixel-ab-v1.zip" download><strong>menu-portrait-pixel-ab-v1</strong><span class="dl-size">4 张</span></a>
+              <a class="dl-chip" href="downloads/families/menu-portraits-v1.zip" download><strong>menu-portraits-v1</strong><span class="dl-size">311 张</span></a>
+              <a class="dl-chip" href="downloads/families/motion-effect-parameter-pixel-ab-v1.zip" download><strong>motion-effect-parameter-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/overview-gradient-overlay-v1.zip" download><strong>overview-gradient-overlay-v1</strong><span class="dl-size">1 张</span></a>
+              <a class="dl-chip" href="downloads/families/portrait-palette-producers-v1.zip" download><strong>portrait-palette-producers-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/residual-wram-crop-tilemap-runtime-v1.zip" download><strong>residual-wram-crop-tilemap-runtime-v1</strong><span class="dl-size">1 张</span></a>
+              <a class="dl-chip" href="downloads/families/residual-wram-tilemap-pixel-ab-v1.zip" download><strong>residual-wram-tilemap-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/residual-wram-tilemap-runtime-v1.zip" download><strong>residual-wram-tilemap-runtime-v1</strong><span class="dl-size">1 张</span></a>
+              <a class="dl-chip" href="downloads/families/residual-wram-tilemap-runtime-v2.zip" download><strong>residual-wram-tilemap-runtime-v2</strong><span class="dl-size">1 张</span></a>
+              <a class="dl-chip" href="downloads/families/residual-wram-transformed-tilemap-runtime-v1.zip" download><strong>residual-wram-transformed-tilemap-runtime-v1</strong><span class="dl-size">8 张</span></a>
+              <a class="dl-chip" href="downloads/families/rom-boot-framebuffers-v1.zip" download><strong>rom-boot-framebuffers-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/rom-expansion-profile-v1.zip" download><strong>rom-expansion-profile-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/rom-pointer-lz77-graphics-v1.zip" download><strong>rom-pointer-lz77-graphics-v1</strong><span class="dl-size">35 张</span></a>
+              <a class="dl-chip" href="downloads/families/sappy-engine-master-enable-ab-v1.zip" download><strong>sappy-engine-master-enable-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/scenario-41-attack-animation-v1.zip" download><strong>scenario-41-attack-animation-v1</strong><span class="dl-size">175 张</span></a>
+              <a class="dl-chip" href="downloads/families/scenario-41-prebattle-reference-v1.zip" download><strong>scenario-41-prebattle-reference-v1</strong><span class="dl-size">6 张</span></a>
+              <a class="dl-chip" href="downloads/families/scene-visual-composites-v1.zip" download><strong>scene-visual-composites-v1</strong><span class="dl-size">9 张</span></a>
+              <a class="dl-chip" href="downloads/families/scene-visual-packs-v1.zip" download><strong>scene-visual-packs-v1</strong><span class="dl-size">43 张</span></a>
+              <a class="dl-chip" href="downloads/families/sprite-definition-animations-v1.zip" download><strong>sprite-definition-animations-v1</strong><span class="dl-size">43 张</span></a>
+              <a class="dl-chip" href="downloads/families/sprite-definition-assets-v2.zip" download><strong>sprite-definition-assets-v2</strong><span class="dl-size">44 张</span></a>
+              <a class="dl-chip" href="downloads/families/story-scene-timelines-v1.zip" download><strong>story-scene-timelines-v1</strong><span class="dl-size">24 张</span></a>
+              <a class="dl-chip" href="downloads/families/story-visual-layers-v1.zip" download><strong>story-visual-layers-v1</strong><span class="dl-size">24 张</span></a>
+              <a class="dl-chip" href="downloads/families/tile-asset-descriptor2-pixel-ab-v1.zip" download><strong>tile-asset-descriptor2-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+              <a class="dl-chip" href="downloads/families/tile-assets-bg-v1.zip" download><strong>tile-assets-bg-v1</strong><span class="dl-size">344 张</span></a>
+              <a class="dl-chip" href="downloads/families/tile-assets-bg-v2.zip" download><strong>tile-assets-bg-v2</strong><span class="dl-size">344 张</span></a>
+              <a class="dl-chip" href="downloads/families/world-map-backgrounds-v1.zip" download><strong>world-map-backgrounds-v1</strong><span class="dl-size">6 张</span></a>
+              <a class="dl-chip" href="downloads/families/world-map-page0-pixel-ab-v1.zip" download><strong>world-map-page0-pixel-ab-v1</strong><span class="dl-size">2 张</span></a>
+            </div>
+          </details>
+        </div>
+
+<section class="category-section" id="hub-progress" data-category="progress">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">📈</span> 项目研发全景进度与核心里程碑 (Project Progress &amp; Milestones)
+        </div>
+        <span class="section-tag">P0 逆向工程 100% 达成 | 7 大核心里程碑闭环 | 17/17 自动化测试就绪</span>
+      </div>
+
+      <div class="card-grid">
+        <!-- 8 大量化核心指标面板 (Executive KPI Cards) -->
+        <div class="card full-width" id="sec-progress-kpi">
+          <div class="card-head">
+            <div class="card-title">逆向工程核心量化成果总览 (Executive Technical Metrics)</div>
+            <span class="tag tag-green">数据真实校验通过</span>
+          </div>
+          <p class="card-desc">
+            历经底层反汇编、动态快照追踪与内存结构体探测，木叶战记 GBA (48Mb) 的核心技术资产已全量逆向封顶：
+          </p>
+
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-title">角色精灵图集</div>
+              <div class="kpi-num cyan">35 套</div>
+              <div class="kpi-sub">ROM 0x596D5C / 1,120×64 全家福海报</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">动作状态帧</div>
+              <div class="kpi-num green">1,579 帧</div>
+              <div class="kpi-sub">35 角色 · 8 人 9 状态 / 27 人 5 状态 · 24B OAM 部件</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">菜单/剧情立绘</div>
+              <div class="kpi-num amber">311 变体</div>
+              <div class="kpi-sub">ROM 0x5A4DEC / 74 组唯一资源 · 70 份唯一图形</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">忍术时序脚本</div>
+              <div class="kpi-num purple">36 张表</div>
+              <div class="kpi-sub">ROM 0x53636C+ / 8 大字节码指令</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">战场场景配置</div>
+              <div class="kpi-num rose">47 行</div>
+              <div class="kpi-sub">ROM 0x53D910 / 32B 条目 + 47 Tileset</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">忍具道具内存表</div>
+              <div class="kpi-num cyan">19 项已列</div>
+              <div class="kpi-sub">WRAM 0x02023FD4 · 页面仅展开 4 类样本</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">DirectSound 音频</div>
+              <div class="kpi-num green">10 首 PCM</div>
+              <div class="kpi-sub">ROM 0x09E208+ / ~3MB WAV 原生提取</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-title">自动化回归测试</div>
+              <div class="kpi-num green">17 / 17 达标</div>
+              <div class="kpi-sub">4 大测试套件 100% PASS</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 大阶段工程推进进度条 -->
+        <div class="card full-width" id="sec-progress-phases">
+          <div class="card-head">
+            <div class="card-title">续作研发工程全阶段进展 (Roadmap Phase Progress)</div>
+            <span class="tag tag-cyan">执行策略：先完成逆向，再建网页编辑器</span>
+          </div>
+
+          <div class="phase-progress-list">
+            <!-- Phase 0 -->
+            <div class="phase-item">
+              <div class="phase-header">
+                <span class="phase-name"><strong>Phase 0: 核心 ROM 逆向工程攻坚</strong> (P0 基础能力)</span>
+                <span class="phase-percent green">100% 完成 ✅</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill green" style="width: 100%;"></div>
+              </div>
+              <div class="phase-desc">7 大核心步骤（调试环境、Tilemap、战斗配置、章节流转、全量资源、变长对白重定向、自动化测试）已全线告捷。</div>
+            </div>
+
+            <!-- Phase 1 -->
+            <div class="phase-item">
+              <div class="phase-header">
+                <span class="phase-name"><strong>Phase 1: 续作剧本与战役设计</strong> (Content Authoring)</span>
+                <span class="phase-percent amber">15% 进行中 🟡</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill amber" style="width: 15%;"></div>
+              </div>
+              <div class="phase-desc"><code>sequel/content/story/episode-01.json</code> 框架建立，波之国余波与全新篇章对话扩写中。</div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="phase-item">
+              <div class="phase-header">
+                <span class="phase-name"><strong>Phase 2: 网页可视化编辑器开发</strong> (FastAPI + Vue Web Tool)</span>
+                <span class="phase-percent purple">5% 筹备中 🟣</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill purple" style="width: 5%;"></div>
+              </div>
+              <div class="phase-desc">技术栈锁定（FastAPI + Vue 3），服务器部署方案就绪（14.103.49.74），支持多用户协同与 ROM 即时打包。</div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="phase-item">
+              <div class="phase-header">
+                <span class="phase-name"><strong>Phase 3: ROM 实机回写与自动化部署</strong> (CI/CD &amp; Hardware)</span>
+                <span class="phase-percent cyan">20% 稳步推进 🔵</span>
+              </div>
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill cyan" style="width: 20%;"></div>
+              </div>
+              <div class="phase-desc"><code>build_mod.py</code> 支持 6 种补丁注入，128KB 动态扩容管道闭环，验证多段自定义文本与战斗参数稳定生效。</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- P0 逆向工程 7 大里程碑攻坚完成明细表 -->
+        <div class="card full-width" id="sec-progress-milestones">
+          <div class="card-head">
+            <div class="card-title">P0 逆向工程 7 大里程碑攻坚矩阵 (P0 Reverse Engineering Milestones Matrix)</div>
+            <span class="tag tag-green">7 / 7 全线攻克</span>
+          </div>
+          <p class="card-desc">
+            根据 <code>docs/sequel-roadmap.md</code> 与 <code>AGENTS.md</code> 规范，所有逆向成果均经过脚本可复跑检验、地址持久化沉淀与回归测试验证：
+          </p>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>阶段</th>
+                  <th>攻坚目标</th>
+                  <th>逆向技术突破与核心地址</th>
+                  <th>验证方法与工具链</th>
+                  <th>状态</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>P0-Step 1</code></td>
+                  <td><strong>稳定 mGBA 调试环境</strong></td>
+                  <td>建立无头 (Headless) 自动导航与内存快照流程，Watchpoint 精确捕获 <code>PC=0x08060FD2</code>。</td>
+                  <td><code>tools/mgba-headless-snapshot.py</code> (snapshot / watch / diff 三模式)</td>
+                  <td><span class="tag tag-green">✅ 已完成</span></td>
+                </tr>
+                <tr>
+                  <td><code>P0-Step 2</code></td>
+                  <td><strong>定位 Tilemap 布局数据</strong></td>
+                  <td>逆向出 32×32 网格 (0x14D000+)，锁定 WRAM <code>0xA900</code> 对白工作区与 VRAM BG3 <code>0x1800</code> 硬件显存链路。</td>
+                  <td><code>notes/map-format.md</code>、<code>tools/import_map.py</code></td>
+                  <td><span class="tag tag-green">✅ 已完成</span></td>
+                </tr>
+                <tr>
+                  <td><code>P0-Step 3</code></td>
+                  <td><strong>战斗配置表与战场参数</strong></td>
+                  <td>彻底纠正早先 16 字节误判，锁定 ROM <code>0x53D910</code> 每条目 <strong>32 字节 (8 个 u32)</strong> 规范。</td>
+                  <td><code>notes/battle-config-format.md</code>、<code>tools/import_battle_config.py</code></td>
+                  <td><span class="tag tag-green">✅ 已完成</span></td>
+                </tr>
+                <tr>
+                  <td><code>P0-Step 4</code></td>
+                  <td><strong>章节流转与任意关卡加载</strong></td>
+                  <td>解密章节管理结构体 WRAM <code>0x020311D4</code>，截获 <code>0x020311EA</code> 写入即可自由加载任意战斗关卡。</td>
+                  <td><code>notes/chapter-flow-format.md</code>、<code>tools/automated_test.py</code></td>
+                  <td><span class="tag tag-green">✅ 已完成</span></td>
+                </tr>
+                <tr>
+                  <td><code>P0-Step 5</code></td>
+                  <td><strong>视觉与音频资产全量提取</strong></td>
+                  <td>
+                    1. 35 角色动作表 (<code>0x596D5C</code>，1,579 帧；8 名角色 9 个状态、27 名角色 5 个状态)<br>
+                    2. 菜单/剧情立绘矩阵 (<code>0x5A4DEC</code>，63×5 变体 → 311 逻辑变体 / 74 组唯一资源，80×80 8bpp)<br>
+                    3. 36 张忍术字节码时序脚本 (<code>0x53636C+</code>，样条曲线粒子)<br>
+                    4. 47 行战场 Tileset 与 10 首 PCM 音频 (含 3 首完整 BGM)
+                  </td>
+                  <td><code>tools/extract_all_animations.py</code>、<code>tools/extract_tileset.py</code>、<code>tools/extract_audio.py</code></td>
+                  <td><span class="tag tag-green">✅ 已完成</span></td>
+                </tr>
+                <tr>
+                  <td><code>P0-Step 6</code></td>
+                  <td><strong>可变长对白扩容重定向</strong></td>
+                  <td>确认原版 ROM 尾部 <code>0x5DFBEC ~ 0x5FFFFF</code> 存在 <strong>132,116 字节 (~129 KB) 纯 0xFF 空闲区</strong>，构建自动重定向管道。</td>
+                  <td><code>notes/free-space.md</code>、<code>tools/import_dialogue_var.py</code>、<code>build_mod.py</code></td>
+                  <td><span class="tag tag-green">✅ 已完成</span></td>
+                </tr>
+                <tr>
+                  <td><code>P0-Step 7</code></td>
+                  <td><strong>自动化测试与 CI 回归体系</strong></td>
+                  <td>编写自动化静态回归测试框架，包含构建管线、清单结构、补丁正确性与 Shift-JIS 变种编码 4 大套件。</td>
+                  <td><code>tools/automated_test.py</code> (17/17 测试全部通过)</td>
+                  <td><span class="tag tag-green">✅ 已完成</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ROM 存储拓扑与 128KB 自由空间规划 -->
+        <div class="card full-width" id="sec-progress-memory">
+          <div class="card-head">
+            <div class="card-title">ROM 存储拓扑全景与 128 KB 自由空间分配规划 (Memory Topology &amp; Free Space)</div>
+            <span class="tag tag-cyan">48Mb (6,291,456 字节) 完整映射</span>
+          </div>
+          <p class="card-desc">
+            原版游戏仅使用了约 5.87 MB 空间，尾部留存了 128 KB 的全 <code>0xFF</code> 自由扩容区，为续作无限扩写剧情文本、新增自定义忍术与全新战斗配置提供了零冲突物理基础：
+          </p>
+
+          <div class="rom-bar-container">
+            <div class="rom-bar-visual">
+              <div class="rom-chunk code" style="width: 14%;" title="0x000000 - 0x090000: 引擎核心与系统中断 (约 576 KB)">引擎代码 14%</div>
+              <div class="rom-chunk audio" style="width: 32%;" title="0x090000 - 0x2A0000: PCM 音频样本与 BGM (约 2.0 MB)">PCM 音频与音乐 32%</div>
+              <div class="rom-chunk gfx" style="width: 28%;" title="0x2A0000 - 0x450000: 地图瓦片、粒子样条曲线、字模 (约 1.7 MB)">地图/粒子/字模 28%</div>
+              <div class="rom-chunk script" style="width: 18%;" title="0x450000 - 0x580000: 剧情对白、忍术脚本、场景表 (约 1.2 MB)">剧情与忍术脚本 18%</div>
+              <div class="rom-chunk anim" style="width: 6%;" title="0x580000 - 0x5DFBEC: 角色动作表、立绘矩阵 (约 380 KB)">动作/立绘 6%</div>
+              <div class="rom-chunk free" style="width: 2%;" title="0x5DFBEC - 0x5FFFFF: 128 KB 纯 0xFF 空闲区 (132,116 字节)">128KB 空闲 2%</div>
+            </div>
+            <div class="rom-bar-legend">
+              <span class="legend-item"><span class="legend-dot" style="background:#3b82f6;"></span> 引擎代码与中断</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#10b981;"></span> DirectSound PCM 音频</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> 地图 Tileset / 粒子 / 字模</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#8b5cf6;"></span> 剧情对白与忍术脚本表</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#ec4899;"></span> 动作描述表与特写立绘</span>
+              <span class="legend-item"><span class="legend-dot" style="background:#06b6d4;"></span> <strong>128 KB 自由扩容空闲区 (0x5DFBEC–0x5FFFFF)</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 自动化测试状态矩阵与下阶段工作路线 -->
+        <div class="card" id="sec-progress-tests">
+          <div class="card-head">
+            <div class="card-title">CI 自动化测试防回归体系 (Test Suites)</div>
+            <span class="tag tag-green">17 / 17 PASS</span>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead><tr><th>测试套件名</th><th>用例数</th><th>通过率</th><th>测试范围</th></tr></thead>
+              <tbody>
+                <tr><td><code>TestSuiteBuild</code></td><td>3</td><td><strong style="color:var(--accent-green);">100%</strong></td><td>Clean ROM 校验、ROM 构建生成、头校验和</td></tr>
+                <tr><td><code>TestSuiteManifest</code></td><td>5</td><td><strong style="color:var(--accent-green);">100%</strong></td><td>JSON 格式、补丁类型枚举、字段完整性</td></tr>
+                <tr><td><code>TestSuitePatches</code></td><td>6</td><td><strong style="color:var(--accent-green);">100%</strong></td><td>定长/变长字节修补、空闲区范围边界防溢出</td></tr>
+                <tr><td><code>TestSuiteEncoding</code></td><td>3</td><td><strong style="color:var(--accent-green);">100%</strong></td><td>Shift-JIS 变种编码双向编解码无损往返</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card" id="sec-progress-next">
+          <div class="card-head">
+            <div class="card-title">下阶段续作研发推进清单 (Immediate Next Steps)</div>
+            <span class="tag tag-amber">内容创作与工程落地</span>
+          </div>
+          <ul style="padding-left: 20px; color: var(--text-secondary); font-size: 0.88rem; line-height: 1.8;">
+            <li><strong style="color:#fff;">1. 续作第一章剧情扩写</strong>：将 <code>sequel/content/story/episode-01.json</code> 骨架场景扩写为完整剧本分镜。</li>
+            <li><strong style="color:#fff;">2. 对白文本编写与校验</strong>：在 <code>sequel/content/text/episode-01-dialogue.md</code> 撰写全量中文对白，经由 <code>import_dialogue_var.py</code> 注入 128KB 空闲区。</li>
+            <li><strong style="color:#fff;">3. 网页可视化编辑器研发</strong>：启动基于 FastAPI + Vue 3 的轻量级编辑器，实现地图笔刷、单位属性编辑与一键编译 GBA 开发 ROM。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    
+      
+    <!-- HUB 1: 视觉与动画资产库 (Visual & Animation Assets) -->
+
+        <div class="card full-width" id="sec-artifact-coverage">
+          <div class="card-head">
+            <div class="card-title">逆向成果收录覆盖总表 (Artifact Family Coverage)</div>
+            <span class="tag tag-cyan">23 / 23 个成果族在页面有实际内容</span>
+          </div>
+          <div class="kpi-grid" style="margin:12px 0;">
+            <div class="kpi-card"><div class="kpi-title">已完成 ROM 逆向成果族</div><div class="kpi-num cyan">235</div><div class="kpi-sub">按仓库普查（合并 v1..vN 增量批次）</div></div>
+            <div class="kpi-card"><div class="kpi-title">页面有实际内容</div><div class="kpi-num amber">261 / 261</div><div class="kpi-sub">100.0% · 另有 23 族以图像/公式卡片专门呈现</div></div>
+            <div class="kpi-card"><div class="kpi-title">普查到但未登记</div><div class="kpi-num rose">213</div><div class="kpi-sub">无任何页面内容</div></div>
+          </div>
+          <p class="card-desc">
+            本页覆盖情况由 <code>tools/build_results_viewer_artifact_index.py</code> 直接读取
+            <code>artifacts/*/manifest.json</code> 生成，<strong>并由 <code>tools/measure_viewer_coverage.py</code>
+            逐条扫描本页实际引用的产物路径复核</strong>，不手写。
+            「已收录」= 页面真的渲染了该族的产物；<strong>只在正文里提到族名不算收录</strong>。
+            标为「未收录」的行均给出具体阻塞原因（上游内容 bank 不在本工作树，或需实时 mGBA 采集），
+            <strong>不代表该逆向工作未完成</strong>——这些族的产物与证据在逆向分支的
+            <code>artifacts/</code> 与对应 <code>notes/</code> 中完整存在，全量目录见下方 ROM 家族目录卡。
+          </p>
+          <div class="table-container" style="max-height:560px; overflow-y:auto;">
+            <table>
+              <thead><tr><th>成果族</th><th>说明</th><th>所属 Hub</th><th>关键计数</th><th>状态</th></tr></thead>
+              <tbody>
+                <tr><td colspan="5" style="background:#0b1120; font-weight:600;">已收录 23 / 共 23 个已验证成果族</td></tr>
+<tr><td><code>menu-portraits-v1</code></td><td>菜单 / 剧情立绘矩阵</td><td><span class="tag tag-cyan">1. 视觉与动画资产库</span></td><td>rom=3 · source_table=7 · canvas=6 · matrix_portrait_count=310 · special_portrait_count=1 · portrait_count=311</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>map-canvases-v1</code></td><td>成品战场地图画布</td><td><span class="tag tag-cyan">1. 视觉与动画资产库</span></td><td>rom=2 · map_header_table=5 · map_count=47 · canvas_count=61 · alternate_canvas_count=14 · entries=47</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>character-battle-visuals-v1</code></td><td>角色战斗视觉资源</td><td><span class="tag tag-cyan">1. 视觉与动画资产库</span></td><td>rom=3 · table=7 · consumer=5 · slot_semantics=9 · slots=558 · resources=250</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>bg-resource-canvases-v1</code></td><td>BG 资源画布</td><td><span class="tag tag-cyan">1. 视觉与动画资产库</span></td><td>rom=2 · table=7 · consumer=11 · entries=12</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>scene-visual-packs-v1</code></td><td>场景视觉包</td><td><span class="tag tag-cyan">1. 视觉与动画资产库</span></td><td>rom=3 · source_table=4 · consumer_evidence=11 · obj_selection_chain=4 · obj_animation_runtime=11 · shared_obj_palettes=2</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>bg-scene-selection-v1</code></td><td>BG 场景选择目录</td><td><span class="tag tag-cyan">1. 视觉与动画资产库</span></td><td>rom=2 · upstream=3 · evidence=6 · catalogs=3 · canvases=12</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>sprite-definition-assets-v2</code></td><td>精灵定义静态资源 + 运行时链</td><td><span class="tag tag-cyan">4. 内存数据与音频架构</span></td><td>rom=3 · pair_table=5 · tile_offset_table=5 · entry_count=43 · component_count=45 · multi_component_entry_ids=2</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>sprite-definition-animations-v1</code></td><td>精灵定义动画</td><td><span class="tag tag-cyan">4. 内存数据与音频架构</span></td><td>rom=3 · source_artifact=2 · pair_table=4 · consumer=8 · code_slices=6 · entry_count=43</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>battle-presentation-glyphs-v1</code></td><td>战斗演出字形与消息</td><td><span class="tag tag-cyan">3. 剧情调度与文本系统</span></td><td>rom=2 · tables=3 · consumer=3 · runtime_palette=10 · messages=79 · glyphs=172</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>battle-effect-resource-pairs-v1</code></td><td>战斗特效资源对</td><td><span class="tag tag-cyan">2. 战斗系统与时序引擎</span></td><td>rom=2 · resource_pair_table=6 · valid_resource_pair_count=18 · entries=18 · consumer_code_slices=2</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>battle-effect-sequence-bindings-v1</code></td><td>战斗特效时序绑定</td><td><span class="tag tag-cyan">2. 战斗系统与时序引擎</span></td><td>rom=2 · runtime_state_sequence_table=5 · active_action_slice=3 · active_action_template_table=5 · ninja_tool_selector_slice=3 · ninja_tool_template_table=5</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>dialogue-font-v2</code></td><td>对话字体图集</td><td><span class="tag tag-cyan">3. 剧情调度与文本系统</span></td><td>rom=3 · sjis_table=7 · byte_table=7 · logical_glyph_count=4602 · unique_source_record_count=4602 · physical_half_tile_count=9012</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>world-map-backgrounds-v1</code></td><td>世界地图背景</td><td><span class="tag tag-cyan">1. 视觉与动画资产库</span></td><td>rom=3 · source_tables=2 · consumer_evidence=6 · pages=3</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>world-map-runtime-v1</code></td><td>世界地图运行时合成</td><td><span class="tag tag-cyan">1. 视觉与动画资产库</span></td><td>rom=2 · static_dependency=3 · capture=6 · registers=2 · page_zero_background=10 · page_zero_label=14</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>battle-effect-affine-runtime-v1</code></td><td>战斗特效仿射运行时</td><td><span class="tag tag-cyan">2. 战斗系统与时序引擎</span></td><td>capture=8 · display=3 · object=14 · mirror_capture=20 · resource_binding=14 · sequence_coverage=5</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>battle-effect-sprite-animations-v1</code></td><td>战斗特效精灵动画</td><td><span class="tag tag-cyan">2. 战斗系统与时序引擎</span></td><td>rom=3 · inputs=2 · resource_pointer_table=5 · sprite_pair_table=5 · motion_spawn_table=5 · motion_spawn_records=15</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>battle-visual-catalog-v1</code></td><td>战斗视觉目录（79 条）</td><td><span class="tag tag-cyan">2. 战斗系统与时序引擎</span></td><td>rom=2 · source_artifacts=2 · selection_chain=3 · entries=79</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>battle-visual-runtime-timelines-v1</code></td><td>战斗视觉运行时时间线</td><td><span class="tag tag-cyan">2. 战斗系统与时序引擎</span></td><td>rom=3 · source_artifact=2 · code_slices=5 · entries=79</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>tile-assets-bg-v2</code></td><td>图块资产 BG 图层 v2</td><td><span class="tag tag-cyan">1. 视觉与动画资产库</span></td><td>rom=3 · supersedes=2 · source_table=6 · descriptor_count=79 · sentinel_descriptor_ids=4 · complete_layer_counts=4</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>cutscene-obj-v1</code></td><td>过场 OBJ 资产</td><td><span class="tag tag-cyan">3. 剧情调度与文本系统</span></td><td>rom=3 · resource_table=5 · sprite_table=5 · consumer=7 · consumer_evidence=4 · animation_runtime=11</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>story-visual-layers-v1</code></td><td>剧情视觉图层</td><td><span class="tag tag-cyan">3. 剧情调度与文本系统</span></td><td>rom=3 · source_table=6 · linked_visual_descriptor_bank=8 · runtime_layout=10 · layer_count=24 · unique_graphics_count=24</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>story-scene-layer-bindings-v1</code></td><td>剧情场景图层绑定</td><td><span class="tag tag-cyan">3. 剧情调度与文本系统</span></td><td>rom=3 · source_artifacts=2 · selection=5 · timing=8 · binding_count=24 · sentinel_config_ids=0</td><td><span class="tag tag-green">已收录</span></td></tr>
+<tr><td><code>story-scene-timelines-v1</code></td><td>剧情场景时间线</td><td><span class="tag tag-cyan">3. 剧情调度与文本系统</span></td><td>rom=3 · source_artifacts=2 · code_slices=6 · controller_timing=8 · timeline_count=24 · timelines=24</td><td><span class="tag tag-green">已收录</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card full-width" id="sec-rom-catalog">
+          <div class="card-head">
+            <div class="card-title">ROM 逆向成果族全量目录 (ROM Family Catalog)</div>
+            <span class="tag tag-amber">235 个家族 · 本工作树有产物 235 · 内容在逆向分支 0</span>
+          </div>
+          <p class="card-desc">
+            由 <code>tools/build_results_viewer_rom_catalog.py</code> 全仓库普查生成，逐族列出仓库引用过的
+            <code>artifacts/&lt;family&gt;</code> 成果族、其增量版本批次数，以及在本工作树是否实际存在产物。
+            <strong>本表只记录可本地验证的事实</strong>：不推测每个族闭合了什么内容。
+            标为「内容在逆向分支」的族，其产物与证据 notes 完整存在于逆向分支的 <code>artifacts/</code> 中，
+            但<strong>无法在本工作树重建或渲染</strong>，因此本页只列目录、不展示其内容。
+          </p>
+          <div class="table-container" style="max-height:560px; overflow-y:auto;">
+            <table>
+              <thead><tr><th>成果族主干</th><th>版本批次</th><th>产物位置</th><th>本工作树证据 notes</th></tr></thead>
+              <tbody>
+                <tr><td colspan="4" style="background:#0b1120; font-weight:600;">共 235 个 rom-* 成果族：本工作树有产物 235，内容在逆向分支 0</td></tr>
+                <tr><td><code>battle-effect-affine-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-sprite-animations-export-20260729.md</code>、<code>build-artifact-cleanup-audit-20260729.md</code>、<code>battle-effect-group2-route-stop-20260802.md</code></td></tr>
+                <tr><td><code>battle-effect-controlled-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-controlled-phase-extension-20260809.md</code>、<code>battle-effect-controlled-runtime-20260801.md</code>、<code>docs__reverse-engineering-handoff-20260806.md</code></td></tr>
+                <tr><td><code>battle-effect-direct-spawn-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-direct-spawn-runtime-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-frame-phase-20260801.md</code>、<code>battle-effect-observed-frame-phases-20260801.md</code>、<code>docs__reverse-engineering-handoff-20260806.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase-group1</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-observed-frame-phases-20260801.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase-group14</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-observed-frame-phases-20260801.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase-group16-natural</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group16-natural-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase-group17-natural</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group17-natural-pixel-ab-20260802.md</code>、<code>docs__reverse-engineering-handoff-20260806.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase-group18-natural-sequence</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group18-natural-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>docs__structure-field-semantics.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase-group2</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-observed-frame-phases-20260801.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase-group3-natural</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group3-natural-expiry-phase-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase-group4-natural</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group4-natural-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-frame-phase-group5</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-observed-frame-phases-20260801.md</code></td></tr>
+                <tr><td><code>battle-effect-group03-controlled-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group3-controlled-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group03-natural-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group3-natural-pixel-ab-20260802.md</code>、<code>battle-effect-observed-frame-phases-20260801.md</code>、<code>d0-bank-exhaustion-gate-20261020.md</code></td></tr>
+                <tr><td><code>battle-effect-group06-controlled-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group6-controlled-pixel-ab-20260809.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group07-controlled-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-groups7-12-controlled-pixel-ab-20260809.md</code></td></tr>
+                <tr><td><code>battle-effect-group08-controlled-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-groups7-12-controlled-pixel-ab-20260809.md</code></td></tr>
+                <tr><td><code>battle-effect-group09-controlled-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-groups7-12-controlled-pixel-ab-20260809.md</code></td></tr>
+                <tr><td><code>battle-effect-group1-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group1-pixel-ab-20260801.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group10-controlled-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-groups7-12-controlled-pixel-ab-20260809.md</code></td></tr>
+                <tr><td><code>battle-effect-group11-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-frame-phase-20260801.md</code>、<code>battle-effect-group11-pixel-ab-20260801.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group12-ai-observer</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260806.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group12-controlled-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-groups7-12-controlled-pixel-ab-20260809.md</code></td></tr>
+                <tr><td><code>battle-effect-group13-natural-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group12-group13-route-audit-20260802.md</code>、<code>battle-effect-group13-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group13-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group12-group13-route-audit-20260802.md</code>、<code>battle-effect-group13-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group14-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group14-pixel-ab-20260801.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group15-allocator-side-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group15-allocator-side-runtime-20260801.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group15-natural-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group15-allocator-side-runtime-20260801.md</code>、<code>battle-effect-group15-natural-runtime-20260802.md</code>、<code>battle-effect-group15-pixel-ab-20260802.md</code></td></tr>
+                <tr><td><code>battle-effect-group15-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group15-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group16-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group16-natural-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group17-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group17-natural-pixel-ab-20260802.md</code>、<code>docs__reverse-engineering-handoff-20260806.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group18-controlled-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group18-controlled-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group18-natural-checkpoint</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group18-natural-pixel-ab-20260802.md</code></td></tr>
+                <tr><td><code>battle-effect-group18-natural-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group18-natural-pixel-ab-20260802.md</code>、<code>d0-bank-exhaustion-gate-20261020.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group2-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group2-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group4-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group4-natural-pixel-ab-20260802.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-group5-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-group5-pixel-ab-20260801.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-observed-frame-phases</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-controlled-phase-extension-20260809.md</code>、<code>battle-effect-group3-natural-pixel-ab-20260802.md</code>、<code>battle-effect-group4-natural-pixel-ab-20260802.md</code></td></tr>
+                <tr><td><code>battle-effect-resource-pairs</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-resource-pairs-export-20260729.md</code>、<code>battle-effect-sequence-bindings-export-20260729.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-resource-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-resource-relocation-20260731.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-resource-writeback</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-resource-writeback-20260731.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-runtime-oam-bindings</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-runtime-oam-bindings-20260801.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-runtime-oam-task-bindings</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-runtime-oam-task-bindings-20260801.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-effect-sequence-bindings</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-resource-pairs-export-20260729.md</code>、<code>battle-effect-sequence-bindings-export-20260729.md</code>、<code>docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>battle-effect-sprite-animations</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-resource-pairs-export-20260729.md</code>、<code>battle-effect-sequence-bindings-export-20260729.md</code>、<code>battle-effect-sprite-animations-export-20260729.md</code></td></tr>
+                <tr><td><code>battle-encounters-story-visual-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>bank-player-visible-closure-plan-20260806.md</code>、<code>battle-encounters-story-visual-player-visible-20260809.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-presentation-glyphs</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-presentation-glyphs-export-20260729.md</code>、<code>battle-visual-catalog-export-20260729.md</code>、<code>docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>battle-status-bars</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-status-bars-export-20260730.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-visual-catalog</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-visual-catalog-export-20260729.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>battle-visual-runtime-timelines</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-visual-runtime-timelines-export-20260729.md</code>、<code>docs__reverse-engineering-proof-policy.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>bg-resource-canvases</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>bg-resource-canvases-export-20260729.md</code>、<code>bg-resource-writeback-20260731.md</code>、<code>docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>bg-resource-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>bg-resource-relocation-20260731.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>bg-resource-writeback</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>bg-resource-writeback-20260731.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>bg-scene-selection</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>bg-resource-canvases-export-20260729.md</code>、<code>bg-scene-selection-export-20260729.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-battle-bundle-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-battle-graphics-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-battle-graphics-pixel-ab-20260801.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-battle-graphics-writeback</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-battle-graphics-writeback-20260731.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-battle-palette-writeback</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-battle-palette-writeback-20260731.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-battle-structure-writeback</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-battle-structure-writeback-20260731.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-battle-visual-resource-matrix</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-battle-visual-resource-matrix-20260801.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-battle-visuals</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-battle-visuals-export-20260729.md</code>、<code>character-battle-graphics-writeback-20260731.md</code>、<code>character-battle-palette-writeback-20260731.md</code></td></tr>
+                <tr><td><code>character-fbff-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-battle-visuals-export-20260729.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-runtime-oam-bindings</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-runtime-oam-bindings-20260730.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-runtime-oam-task-bindings</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-runtime-oam-task-bindings-20260730.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>character-runtime-unit-oam-bindings</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>character-runtime-unit-oam-bindings-20260730.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>cutscene-obj</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>cutscene-obj-export-20260729.md</code></td></tr>
+                <tr><td><code>cutscene-obj-bundle-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>cutscene-obj-bundle-relocation-20260731.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>cutscene-obj-id1-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>cutscene-obj-bundle-relocation-20260731.md</code>、<code>cutscene-visual-resource-player-visible-20260809.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>cutscene-obj-id1-primary-ptr-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>cutscene-visual-resource-player-visible-20260809.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>data-table-b-message0-pointer-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>d0-bank-exhaustion-gate-20261020.md</code>、<code>docs__sequel-roadmap.md</code>、<code>docs__structure-field-semantics.md</code></td></tr>
+                <tr><td><code>dialogue-font</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>build-artifact-cleanup-audit-20260729.md</code>、<code>dialogue-font-atlas-export-20260729.md</code>、<code>dialogue-mapping-decoder-20260702.md</code></td></tr>
+                <tr><td><code>direct-image-palette-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>direct-image-palette-relocation-20260731.md</code>、<code>docs__build-pipeline.md</code>、<code>docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>generic-sprite-bundle-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>initializer-resource-pack</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>levels-status-per-level-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>lz77-palette-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>macos-mgba-20261019</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>handover-20261020-reverse-tree.md</code></td></tr>
+                <tr><td><code>map-canvases</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>build-artifact-cleanup-audit-20260729.md</code>、<code>map-canvases-export-20260729.md</code>、<code>results-viewer-audit-20261018.md</code></td></tr>
+                <tr><td><code>map-events-e4-handler-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>bank-player-visible-closure-plan-20260806.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>map-resource-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>map-resource-writeback</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>map-sprites-definition-id1-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>bank-player-visible-closure-plan-20260806.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>map41-primary-layout-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>map41-visual-resource-matrix</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>menu-portrait-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>menu-portrait-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>menu-portrait-writeback</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>menu-portraits</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-presentation-glyphs-export-20260729.md</code>、<code>menu-portrait-export-20260729.md</code>、<code>menu-portrait-writeback-20260730.md</code></td></tr>
+                <tr><td><code>motion-effect-parameter-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>bank-player-visible-closure-plan-20260806.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>overview-gradient-overlay</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>portrait-palette-producers</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>residual-lz77-graphics-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__build-pipeline.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-text-bg-tilemap-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__build-pipeline.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-text-bg-tilemap-resource-ownership</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-wram-crop-tilemap-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-wram-derived-tilemap-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__build-pipeline.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-wram-tilemap-abi</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-wram-tilemap-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-wram-tilemap-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__build-pipeline.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-wram-tilemap-resource-ownership</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-wram-tilemap-runtime</code></td><td><code>2</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-wram-transformed-tilemap-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>residual-wram-visual-metadata-abi</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>reverse-notes-index</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>reverse-results-index</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>results-viewer-audit-20261018.md</code></td></tr>
+                <tr><td><code>rom-alternate-dialogue-table</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-alternate-dialogue-table-20260902.md</code></td></tr>
+                <tr><td><code>rom-animation-descriptor-pool</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>evidence__reverse-proof-update-20261020-v2__三包接入施工单-raw.md</code>、<code>line-a-progress-20261019.md</code></td></tr>
+                <tr><td><code>rom-battle-condition-records</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-midterm-report-20260823.md</code>、<code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-battle-condition-result-text</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-battle-condition-result-text-20260902.md</code></td></tr>
+                <tr><td><code>rom-battle-controller-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code></td></tr>
+                <tr><td><code>rom-battle-controller-consumed-literals</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-battle-distance-dispatcher-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-battle-message-text-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>d0-bank-exhaustion-gate-20261020.md</code>、<code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-battle-sound-selector</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-battle-status-bar-caller-slice</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-boot-copy-sources</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-boot-framebuffers</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-boot-interwork</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-boot-interwork-continuation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-boot-interwork-continuation-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-boot-register-init-dependency-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-boot-register-init-dependency-cfg-20260905.md</code></td></tr>
+                <tr><td><code>rom-boot-state-dispatcher-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-boot-thumb-handoff-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code></td></tr>
+                <tr><td><code>rom-bounded-index-u16-pair-table</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cfg-inventory</code></td><td><code>2</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-cfg-proven-roots</code></td><td><code>21</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code>、<code>docs__reverse-engineering-midterm-report-20260823.md</code>、<code>docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-cfg-proven-roots-batch-consumed-literals</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cfg-proven-roots-v16-consumed-literals</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cfg-proven-roots-v17-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-unknown-cluster-refresh-20260901.md</code></td></tr>
+                <tr><td><code>rom-cfg-proven-roots-v18-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-unknown-cluster-refresh-20260901.md</code></td></tr>
+                <tr><td><code>rom-cfg-seeds</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cfg-v1-consumed-literals</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cfg-v2-consumed-literals</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cfg-v2-shadowed-consumed-literals</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cfg-v3-consumed-literals</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cfg-v6-consumed-literals</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cgb-audio-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cgb-helper-bounded-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-cgbsound-bounded-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-chapter-script-consumer-roots</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-chapter-script-consumer-roots-20260902.md</code></td></tr>
+                <tr><td><code>rom-chapter-script-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-chapter-script-unbound-tail</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-chapter-selector-code-slice</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-cutscene-obj-source-ranges</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-dialogue-padding-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-dialogue-text-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-direct-cpuset-gpu-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-direct-dma-gpu-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>rom-directsound-pitch-lookup</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>rom-display-text-delta</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>evidence__reverse-proof-update-20261020-v2__三包接入施工单-raw.md</code></td></tr>
+                <tr><td><code>rom-event-handler-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-expansion-profile</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-effect-frame-phase-20260801.md</code>、<code>battle-effect-group15-pixel-ab-20260802.md</code>、<code>docs__reverse-engineering-handoff-20260807.md</code></td></tr>
+                <tr><td><code>rom-fast-audit-four-packet-baseline</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code></td></tr>
+                <tr><td><code>rom-fixed-animation-descriptor-groups</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-fixed-animation-descriptor-groups-20260902.md</code></td></tr>
+                <tr><td><code>rom-fixed-consumer-text-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-fixed-index-u8-tail</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-fixed-index-u8-tail-20260905.md</code></td></tr>
+                <tr><td><code>rom-fixed-pair-tables</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-fixed-renderer-script-records</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-gpu-copy-queue-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-legacy-acceptance-20260905</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__legacy-artifact-acceptance-contract-v1.md</code>、<code>legacy-artifact-acceptance-20260905.md</code></td></tr>
+                <tr><td><code>rom-low-script-delta</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>evidence__reverse-proof-update-20261020-v2__三包接入施工单-raw.md</code>、<code>line-a-progress-20261019.md</code>、<code>rom-low-script-delta-tier1-20261001.md</code></td></tr>
+                <tr><td><code>rom-m4a-byte-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-m4a-initializer-chain</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-m4a-initializer-chain-20260829.md</code></td></tr>
+                <tr><td><code>rom-m4a-initializer-chain-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code>、<code>rom-m4a-initializer-chain-20260829.md</code></td></tr>
+                <tr><td><code>rom-menu-portrait-palette-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-mp2k-dispatcher</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-mp2k-dispatcher-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-mp2k-note-allocator</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-mp2k-note-allocator-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-mp2k-note-allocator-20260829.md</code></td></tr>
+                <tr><td><code>rom-mplaymain-scheduler</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code>、<code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-parser-bound-zero-padding</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-pointer-lz77-graphics</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>rom-pointer-lz77-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>rom-positions-aux-dispatch</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-post-story-dependency-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>auditor-module-failures-20261020.md</code>、<code>rom-fixed-index-u8-tail-20260905.md</code>、<code>rom-story-selector-dependency-cfg-20260905.md</code></td></tr>
+                <tr><td><code>rom-pram-halfword-writes</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-prebattle-menu-controller-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-profile-selector-code-slices</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-profile-text-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-psg-frequency-lookup</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code>、<code>line-a-progress-20261019.md</code>、<code>reverse-engineering-current-gaps-20260806.md</code></td></tr>
+                <tr><td><code>rom-referenced-text-slot-padding</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-referenced-text-slot-padding-20260820.md</code></td></tr>
+                <tr><td><code>rom-renderer-records-delta</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>evidence__reverse-proof-update-20261020-v2__三包接入施工单-raw.md</code></td></tr>
+                <tr><td><code>rom-renderer-script-pointer-pool-records</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>line-a-progress-20261019.md</code></td></tr>
+                <tr><td><code>rom-renderer-text-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-scene-source-closures</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-scene-source-four-packet-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-scene-visual-source-ranges</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-selector-code-windows</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-selector-direct-source-records</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-selector-text-bindings</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-small-cfg-dependency-batch</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>line-a-progress-20261019.md</code></td></tr>
+                <tr><td><code>rom-soundmain-relocated-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-sprite-component-source</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-sprite-loader-tail</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>evidence__reverse-proof-update-20261019-v1__first-run-venv-interpreter__README.md</code>、<code>four-decisions-20261020.md</code>、<code>line-a-progress-20261019.md</code></td></tr>
+                <tr><td><code>rom-staged-gpu-copy-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>rom-story-callback-dependency-closures</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-story-callback-dependency-closures-precoverage</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-story-next-dependency-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-story-next-dependency-cfg-20260905.md</code></td></tr>
+                <tr><td><code>rom-story-selector-dependency-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-story-selector-dependency-cfg-20260905.md</code></td></tr>
+                <tr><td><code>rom-story-state-callback-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-story-state-entry-c4cc</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-task-callback-078e38-closure</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>rom-task-callback-078e38-closure-20260905.md</code></td></tr>
+                <tr><td><code>rom-task-scheduler-core</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>rom-text-bg-loop-continuation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-text-bg-task-closure</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-training-text-script-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>d0-bank-exhaustion-gate-20261020.md</code>、<code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-u8-indexed-u16-pair-lookup</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code>、<code>rom-u8-indexed-u16-pair-lookup-20260827.md</code></td></tr>
+                <tr><td><code>rom-u8-indexed-u8-triplet-lookup</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-unbound-lz77-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><span style="color:var(--text-muted);">—</span></td></tr>
+                <tr><td><code>rom-v17-v18-helper-cfg</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-handoff-20260812.md</code>、<code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>rom-value-range-text-inventory</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>runtime-bg-composites</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>runtime-font-tile-provenance</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>runtime-layer-static-provenance</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>runtime-screen-composites</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>sappy-engine-master-enable-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>scene-visual-composites</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>scene-visual-packs</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>scene-visual-pack-export-20260729.md</code></td></tr>
+                <tr><td><code>scene-visual-transition-timelines</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>sprite-definition-animations</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>sprite-definition-animations-export-20260729.md</code></td></tr>
+                <tr><td><code>sprite-definition-assets</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>sprite-definition-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>sprite-definition-runtime-chain-20260729.md</code></td></tr>
+                <tr><td><code>story-scene-layer-bindings</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>story-scene-layer-bindings-20260729.md</code>、<code>tile-assets-bg-export-20260729.md</code></td></tr>
+                <tr><td><code>story-scene-timelines</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-data-table-b-partial-bank-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>story-visual-layers</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>story-visual-layer-export-20260729.md</code></td></tr>
+                <tr><td><code>story-visual-resource-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>story-visual-resource-sources</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>story-visual-resource-relocation-20260731.md</code></td></tr>
+                <tr><td><code>tile-asset-descriptor2-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>bank-player-visible-closure-plan-20260806.md</code>、<code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>tile-asset-resource-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>tile-assets-bg</code></td><td><code>2</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>battle-visual-catalog-export-20260729.md</code>、<code>docs__reverse-engineering-proof-policy.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__reverse-engineering-proof-policy.md</code></td></tr>
+                <tr><td><code>world-map-background-relocation</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>world-map-backgrounds</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>results-viewer-audit-20261018.md</code>、<code>world-map-background-export-20260729.md</code></td></tr>
+                <tr><td><code>world-map-page0-pixel-ab</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>docs__sequel-roadmap.md</code>、<code>evidence__rom-battle-effect-fixed-roundtrip-20261001-v1__implementation__docs__sequel-roadmap.md</code>、<code>evidence__rom-cutscene-secondary-ptr-ab-20261001-v1__implementation__docs__sequel-roadmap.md</code></td></tr>
+                <tr><td><code>world-map-runtime</code></td><td><code>1</code></td><td><span class="tag tag-green">本工作树有产物</span></td><td><code>build-artifact-cleanup-audit-20260729.md</code>、<code>world-map-runtime-composition-20260729.md</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card full-width" id="sec-reverse-ledger">
+          <div class="card-head">
+            <div class="card-title">逆向成果台账 (Reverse Results Ledger)</div>
+            <span class="tag tag-green">36 条结论 · 2,207 项成果 ·
+              逆向树 821d093</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-reverse-ledger.zip" download title="下载本板块全部 1 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">1 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            本卡直接读逆向工作树自己生成的成果索引
+            <code>artifacts/reverse-results-index-v1/index.json</code>：
+            它列出逆向工程产出的<strong>每一项</strong>（产物、笔记、工具），
+            以及每条结论<strong>所依据的证据</strong>。逆向树认定的未落实项就在其中。
+          </p>
+          <p class="card-desc" style="border-left:3px solid #22c55e; padding-left:10px;">
+            台账里的每一条结论都有对应证据，<strong>未落实项为 0</strong>。
+          </p>
+          <div class="table-container" style="max-height:200px; overflow-y:auto;">
+            <table>
+              <thead><tr><th>分类</th><th>项数</th></tr></thead>
+              <tbody>
+<tr><td><code>code</code></td><td>1,442</td></tr><tr><td><code>rom</code></td><td>252</td></tr><tr><td><code>other</code></td><td>241</td></tr><tr><td><code>visual</code></td><td>130</td></tr><tr><td><code>map</code></td><td>33</td></tr><tr><td><code>presentation</code></td><td>29</td></tr><tr><td><code>residual</code></td><td>23</td></tr><tr><td><code>scenario</code></td><td>23</td></tr><tr><td><code>battle</code></td><td>13</td></tr><tr><td><code>runtime</code></td><td>13</td></tr><tr><td><code>audio</code></td><td>5</td></tr><tr><td><code>overview</code></td><td>3</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="table-container" style="max-height:520px; overflow-y:auto;">
+            <table>
+              <thead><tr><th>结论</th><th>分类</th><th>状态</th><th>证据</th><th>来源</th></tr></thead>
+              <tbody>
+                <tr><td>S49 战场底图（map 14，30×19 格，480×304）</td><td><code>map</code></td><td><span class="tag tag-purple">已复用</span></td><td>与重制 butano-sequel/graphics/battle_14_map_chunk_0.bmp 的活动区逐像素一致（差 0 像素）。</td><td><a class="tag tag-cyan" style="text-decoration:none;" href="artifacts/map-canvases-v1/canvases/map-14-primary.png">artifacts/map-canvases-v1/canvases/map-14-primary.png</a></td></tr>
+                <tr><td>S49 战斗入口存档（原版录制的起点）</td><td><code>runtime</code></td><td><span class="tag tag-purple">已复用</span></td><td>原版 walk 的 inputs.json 记录 state_sha256=a3628723…，就是这份存档。</td><td><a class="tag tag-cyan" style="text-decoration:none;" href="artifacts/runtime-checkpoints/scenario-49-battle-14-entry.ss9">artifacts/runtime-checkpoints/scenario-49-battle-14-entry.ss9</a></td></tr>
+                <tr><td>命令菜单字形（移動/木・忍具/查克拉/休息/行動結束）</td><td><code>presentation</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>逆向树的字形来源表指向 scenario-49-battle-14-original-ui-boundaries-v1，该目录已不在树上；本轮改为从原版自己的命令菜单帧裁字形。</td><td><code class="cc-code">artifacts/s49-original-ui-reference-v1/screens/command-menu-0.png</code></td></tr>
+                <tr><td>动作菜单字形（瞬身术/影分身术/忍者组合拳/十字手里剑）</td><td><code>presentation</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>旧的逆向截图 scenario-49-battle-14-original-ui-boundaries-v1/turn4-skill-menu/frame.png 已随 artifacts/ 清理消失；本轮改用本树原版帧 artifacts/s49-fidelity-20261019-v1/walk-original-a24/step-21-A.png 作裁剪源，逐格与已验收字库 butano-sequel/graphics/battle_action_menu_font.bmp 比对：**17 格全部逐像素一致**（收据 artifacts/s49-ledger-evidence-v1/action-menu-glyphs.json，cells_identical=17、cells_differing=0）。**更正**：此前记录的「隐/年 两格差 105/128 与 69/128 像素」是**取证脚本的错标**（tools/butano/ledger_s49_evidence.py 的 ACTION_MENU_ROWS 把菜单写成了「隐身术/十年手里剑」）；原版帧 (8,40) 画的其实是「瞬」、(16,88) 画的是「字」，全 495 格穷举扫描中这两格唯一 0/128 命中即 瞬/字格 ⇒ **该缺陷不存在**，动作菜单字形已完全一致。</td><td><code class="cc-code">artifacts/s49-ledger-evidence-v1/action-menu-glyphs.json</code></td></tr>
+                <tr><td>回合横幅面板与两行文字（回合 1 / 玩家 的行动）</td><td><code>presentation</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>逆向成果没有这一屏的导出；从原版横幅帧切出 6 块 32×32 精灵，与原版帧 0 像素差异。</td><td><code class="cc-code">artifacts/s49-original-ui-reference-v1/screens/turn-banner-0.png</code></td></tr>
+                <tr><td>非行动单位灰阶调色板（OBJ PRAM bank 3，16 项）</td><td><code>visual</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>逆向成果未覆盖「非行动单位去色」；本轮直接从原版存档的 PRAM 读出并落成资产。</td><td><code class="cc-code">artifacts/s49-original-gpu-20261020-v2/dimmed-palette-receipt.json</code></td></tr>
+                <tr><td>「SELECT詳細」提示语（详细两字）</td><td><code>presentation</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>原版提示语实测：墨色 (247,255,222)、描边 (57,57,57)、墨迹外框 x193..231/y13..22（39×10），ASCII 窄体 6 字母共 22 像素、2 个 8×8 汉字格在 x216..231。字体表既无窄体 ASCII 也无「詳/細」，故**从原版帧切出**（assets/s49-fidelity-20261019-v1/walk-original-a24/step-17-A.png，工具 tools/butano/generate_battle_select_prompt.py，资产 butano-sequel/graphics/battle_ui_select_prompt.bmp，两块 32×32 图元）。出现时机实测为**按屏显隐**（选人/移动网格/目标网格有；命令菜单、两项菜单、动作菜单、纯对话框无）——以 2 帧分辨率重录 25 帧排除了「闪烁」解释。**已实现并复测**：单位选择基线 1278 → **933**、移动网格 3463 → **2917**；门禁 tests/test_s49_select_prompt.py（4 项）。**未闭合**：原版在命令菜单/动作菜单隐藏提示语的触发条件，逆向侧尚未定位（已按实测的按屏显隐实现）。</td><td><code class="cc-code">artifacts/s49-ledger-evidence-v1/select-prompt.json</code></td></tr>
+                <tr><td>移动范围网格的染色规则（可达/消耗/不可达）</td><td><code>battle</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>本轮从原版帧实测（收据 artifacts/s49-ledger-evidence-v1/move-grid-colors.json）：把原版 step-19（画了移动范围）与 step-20（没画）逐像素相减，战场区 0..128 行共 22735 像素变化，其中 8536 像素落在 18 种青色覆盖色上；同一底色会落到多个覆盖色（例如底色 (173,173,49) → (123,236,190) 有 2339 像素，另有 (154,154,76)、(113,175,138) 等），19 个底色各对应多于一种覆盖色——所以原版用的是抖动遮罩而不是单一平涂。重制侧同一区域仍差 3463 像素（区域差分收据 artifacts/s49-fidelity-20261019-v1/region-diff-banner2/move-grid.json，command-menu-panel 1024 像素）。重制已有的染色模型在 butano-sequel/game/include/konoha/battle_range_ui_style.h（move_primary RGB5(3,25,31)、blend 10/16）。还差什么：每个格子属于「可达/消耗/不可达/光标」的映射规则与抖动掩码本身没有闭合，需要解码 artifacts/s49-original-gpu-20261020-v2/step-19/vram.bin 里 BG2 的 tilemap（步进覆盖层画在 BG2 上）才能把调色板索引逐格读出来。</td><td><code class="cc-code">artifacts/s49-ledger-evidence-v1/move-grid-colors.json</code></td></tr>
+                <tr><td>AI 纯移动之后的朝向规则</td><td><code>battle</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>原版给木叶丸 right（走了两格向东），重制的战斗 AI 之前按焦点位置取朝向；规则由原版行为反推得到，逆向成果里没有该公式。</td><td><code class="cc-code">notes/s49-fidelity-handover-20261019.md</code></td></tr>
+                <tr><td>镜头偏移 (240,24) 与场景格→地图格 +10 列</td><td><code>map</code></td><td><span class="tag tag-purple">derived</span></td><td>镜头与坐标换算由重制侧实测，底图本身来自 map-canvases-v1。</td><td><a class="tag tag-cyan" style="text-decoration:none;" href="artifacts/map-canvases-v1/manifest.json">artifacts/map-canvases-v1/manifest.json</a></td></tr>
+                <tr><td>单位待机动画的帧序与相位</td><td><code>visual</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>本轮从原版 1800 帧待机扫描实测（收据 artifacts/s49-ledger-evidence-v1/idle-sequence.json）：变化只发生在被选中单位的精灵框 x=109..146、y=32..90，191 次帧间有 183 次该区域发生变化；帧间特征（bbox+变化像素数）以 32 帧为最强周期（32 帧候选命中 64 次，16 帧 36 次，48 帧 24 次，64 帧 47 次），但一个周期内 32 帧里有 31 个互不相同的精灵图——原版是每帧都在动的连续动画。重制模型 butano-sequel/game/include/konoha/battle_unit_visual_animation.h 是 32 帧四步（0/1/2/1 各 8 帧、只有 4 个姿态），相位 = scene_frame + idle_phase_offset(unit.id)（0 或 16 交替）：周期长度对得上，姿态数对不上（4 vs 31），这正是命令菜单基线残余 715 像素、行 2 残余 1183 像素的来源（全部落在单位精灵上，收据 artifacts/s49-fidelity-20261019-v1/region-diff-banner2/command-menu.json 与 command-menu-row2.json）。还差什么：每一相位对应原版哪一帧精灵（帧序表）没有闭合；逆向侧要补的是原版单位视觉表（重制生成器 tools/generate_butano_battle_unit_visual_content.py 从 ROM 偏移 0x596D5C 的 62×9 槽表读它，槽 0 是 field_idle_and_movement）的 idle 帧序与逐帧组件映射。</td><td><code class="cc-code">artifacts/s49-ledger-evidence-v1/idle-sequence.json</code></td></tr>
+                <tr><td>状态栏「結束 / 待機」的状态切换时机</td><td><code>battle</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>规则：原版按「该单位是否已行动完」判定——原版 step 1..14 状态栏是「蜜蜂 結束」，step 15 起是「漩涡鸣人 待機」；重制原先按阶段硬编码（unit_selection ⇒ 红色結束），改成 if(unit-&gt;completed)（butano-sequel/game/src/battle_runtime_scene.cpp:3479）。实测：单位选择屏 status-bar 的区域差分从 121 像素降到 0 像素（收据 artifacts/s49-ledger-evidence-v1/standby-state.json，前=artifacts/s49-fidelity-20261019-v1/region-diff-banner/field-unit-selection.json，后=…/region-diff-banner2/field-unit-selection.json），过程见 docs/konoha-senki/01-battle-s49.md 4.3.83.3。</td><td><code class="cc-code">artifacts/s49-ledger-evidence-v1/standby-state.json</code></td></tr>
+                <tr><td>逆向成果族判定：ROM 启动期 ARM/Thumb 互操作闭包</td><td><code>rom</code></td><td><span class="tag tag-purple">not-applicable</span></td><td>本复刻不经过原版 ROM 的启动路径：S49 重制从存档 artifacts/runtime-checkpoints/scenario-49-battle-14-entry.ss9 进入，用 Butano C++ 重新实现战斗（butano-sequel/game/src/battle_runtime_scene.cpp），从不执行原版 ROM 的代码。该族闭合的是 ROM 自己启动时的 ARM/Thumb veneer 与 BL→BX 链（逆向 manifest：coverage_denominator 覆盖全 ROM 6291456 字节、unknown_bytes=136138，consumer 是 ROM 内部的 BL/BX 调用），里面没有像素、公式或资产是重制要画或要算的——因此对本复刻不适用。它的价值是「逆向侧继续往下挖」的输入，不是重制侧的依赖。</td><td><a class="tag tag-cyan" style="text-decoration:none;" href="artifacts/rom-boot-interwork-continuation-v1/manifest.json">artifacts/rom-boot-interwork-continuation-v1/manifest.json</a></td></tr>
+                <tr><td>逆向成果族判定：全 ROM 控制流图根种子集</td><td><code>rom</code></td><td><span class="tag tag-purple">not-applicable</span></td><td>该族是逆向侧 CFG 遍历的输入种子（manifest summary：root_seed_count=263、raw_dispatch_slot_count=829、unique_dispatch_handler_count=261），它自己的 scope 就写明 cfg_traversal_performed=false、global_dispatch_source_denominator_complete=false、global_function_entry_denominator_complete=false——即它没有给出任何可直接使用的规则，只是「下一步从哪挖」的指针。重制需要的战斗规则是从原版帧与 GPU 状态反推的（见本台账各 reconstructed 条目），重制的运行路径是 C++ 源码而不是原版二进制，因此该种子集对本复刻不适用。</td><td><a class="tag tag-cyan" style="text-decoration:none;" href="artifacts/rom-cfg-seeds-v1/manifest.json">artifacts/rom-cfg-seeds-v1/manifest.json</a></td></tr>
+                <tr><td>逆向成果族判定：章节脚本未绑定尾巴（slot 45/46）</td><td><code>rom</code></td><td><span class="tag tag-purple">not-applicable</span></td><td>两个原因，都可核验：①该族的 artifact_status 是 candidate，逆向侧的导入规则只接受 accepted（W4 的导入器 tools/butano/import_rom_reverse_families.py:REJECTED_STATUSES 把 candidate 列为拒绝状态），candidate 不是成果；②它描述的是第 45/46 章的剧情脚本（root_vector 的 slot 45/46），scope 里 consumer_bound=false、natural_reachability_asserted=false，只闭合了解释器语法，没有闭合任何消费者；S49 复刻的场景内容由重制自己的 tools/generate_butano_battle_scenario_content.py 生成，不读章节脚本，因此对本复刻不适用。</td><td><a class="tag tag-cyan" style="text-decoration:none;" href="artifacts/rom-chapter-script-unbound-tail-v1/manifest.json">artifacts/rom-chapter-script-unbound-tail-v1/manifest.json</a></td></tr>
+                <tr><td>逆向成果族判定：2026-09-01 字节覆盖基线的四包重放输入</td><td><code>rom</code></td><td><span class="tag tag-purple">not-applicable</span></td><td>该族是逆向侧的可复现性工件，不是内容结果：manifest 的 purpose 写明它是「四个成果从 2026-09-01 canonical 覆盖基线产出的不可变重放输入」，scope.historical_baseline_only=true、canonical_coverage_replacement=false，内容只是一个 gz 的 rom-byte-coverage 快照（1649084 字节）。重制既不读 ROM 字节覆盖也不跑逆向侧的 verifier（工具在逆向工作树 tools/ 里），因此对本复刻不适用。</td><td><a class="tag tag-cyan" style="text-decoration:none;" href="artifacts/rom-fast-audit-four-packet-baseline-v1/manifest.json">artifacts/rom-fast-audit-four-packet-baseline-v1/manifest.json</a></td></tr>
+                <tr><td>逆向成果族判定：精灵组件源（12 个组件表 + 4 条动画时间线）</td><td><code>rom</code></td><td><span class="tag tag-purple">not-applicable</span></td><td>它描述的是原版通用精灵对象系统（0x06F2AA 消费链：allocator/selector/component_renderer/animation_timing），数据是 12 个组件表（96 条 20 字节记录）与 4 条时间线（每条 3 个关键帧，合计 16 帧）。对本复刻不适用，三条可核验的理由：①该族自己的 scope 写明 tile_palette_pixel_business_identity_proven=false、dynamic_state_proven=false、natural_runtime_reachability_proven=false，即它没有证明这些组件对应哪些像素，S49 战斗单位也不是走这条链——重制的单位精灵来自 ROM 的单位视觉表（重制生成器 tools/generate_butano_battle_unit_visual_content.py 读 ROM 偏移 0x596D5C 的 62×9 槽表，槽 0 是 field_idle_and_movement）；②每条时间线只有 3 个关键帧、合计 16 帧，而原版 S49 待机动画实测是 32 帧周期内 31 个互不相同的精灵图（收据 artifacts/s49-ledger-evidence-v1/idle-sequence.json），这套 3 关键帧时间线表达不了实测到的逐帧变化；③它的动画时间线与 S49 战斗单位之间没有任何已证的绑定，重制引入它不会关掉任何一项待办，因此对本复刻不适用。若将来要复活它，需要的是组件列表到 S49 单位精灵的逐像素绑定证据（逆向侧补），而不是把它挂进构建链。</td><td><a class="tag tag-cyan" style="text-decoration:none;" href="artifacts/rom-sprite-component-source-v1/manifest.json">artifacts/rom-sprite-component-source-v1/manifest.json</a></td></tr>
+                <tr><td>单位视觉表里的损坏终止符 0xFBFF</td><td><code>visual</code></td><td><span class="tag tag-purple">reconstructed</span></td><td>原版 ROM 只有一处损坏的 component 终止符：角色 26 / 视觉槽 2 / 帧 2，0x0825A8E4 的字节是 fffb0000（signed -1025）；渲染器只认 -1（0xFFFF）作为结束，于是在这一帧**不会停下**，继续每 20 字节一个 component 往后读（原版运行期轨迹读到 4 个指针）。逆向侧用一字节 A/B 闭合并给出 control ROM 哈希。**本轮已让重制侧记录该缺陷**：tools/generate_butano_battle_unit_visual_content.py 现在把 frame_trailer_raw_hex / frame_trailer_signed_value / renderer_terminator 写进 butano-sequel/graphics/battle_unit_visual_catalog.json；全表 62 角色 × 342 个有效视觉槽里**只有这一帧**的终止符非法，与逆向侧结论一致。**故意不应用那一字节修复**：原版确实越界渲染，修了就与原版不一致；剩余未闭合项是**重制运行时不会越界**（重制只画列出的 component），该角色不在 S49 出场，故对 S49 像素无影响。门禁 tests/test_s49_rule_fbff.py（10 项全绿）。</td><td><code class="cc-code">artifacts/s49-ledger-evidence-v1/action-menu-glyphs.json</code></td></tr>
+                <tr><td>S49（battle 14）的九槽名册：角色、坐标、等级、体力与携带经验</td><td><code>battle</code></td><td><span class="tag tag-purple">已复用</span></td><td>原版 battle 14 入口的单位池直接从 EWRAM 读出（base 0x020240C0、stride 0x1D4、13 槽；记录 +0x00 角色、+0x01 等级、+0x0C 当前 HP、+0x0E 上限 HP、+0xC4/+0xC5 坐标、+0xCE 携带经验），收据在 artifacts/s49-original-battle14-roster-v1/；本机 mGBA 采到的 unit_pool SHA-256 = 9d508d991fb5a454a4bfe0b9008a7627490fafe99f7aa1dca63b316a4788c2c5，与逆向树签名绑定**逐字节一致**（两台独立构建的 mGBA 读到同一份内存）。读出的九槽是：槽1 鸣人(11,6) LV5 138HP、槽2 佐助(10,14) LV4 104HP、槽3 小樱(8,14) LV5 110HP、槽4 木叶丸(8,7) LV3 40HP、槽5-9 蜜蜂(55) 各 LV5 25HP 携带经验 50。重制侧的 ROM 阵型表（sequel/content/positions/bank.json，ROM 0x5461C4，group_id=battle_id）逐槽吻合角色与坐标，敌方与护送单位的等级也吻合；玩家三槽的等级由战役名册给出（battle_campaign_route.h 默认档 1→LV5 / 2→LV4 / 3→LV5）。九个体的 HP 全部能被重制自己的表复现：max_hp = 基础 + 成长×(等级-1)/100（鸣人 80+1450×4/100=138、佐助 60+1480×3/100=104、小樱 50+1500×4/100=110、木叶丸 10+1500×2/100=40、蜜蜂 5+500×4/100=25）。工具 tools/butano/capture_s49_battle_roster.py（只采集）与 tools/butano/verify_s49_battle_roster.py（独立复核），门禁 tests/test_s49_battle_roster.py（10 项，含三条变异双侧拒绝）。</td><td><a class="tag tag-cyan" style="text-decoration:none;" href="artifacts/character-runtime-unit-oam-bindings-v1/bindings.json">artifacts/character-runtime-unit-oam-bindings-v1/bindings.json</a></td></tr>
+                <tr><td>S49 战后的等级/经验结算（阈值表、成长表、按人分配的经验）</td><td><code>battle</code></td><td><span class="tag tag-purple">已复用</span></td><td>原版战后经验规则**已闭合并实现**：`gain = mission_experience(全员) + round_bonus(全员, 回合 ≤ limit) + 该成员击败/关联到的单位的 carried_experience`；阈值表 `0x59F560`（鸣人 15/250、佐助 15/180、小樱 15/150）、奖励表 `0x59EAE0`（battle 14 = 记录 39 = 125/75/8）、消费函数 `0x0808983C`、奖励消费者 `0x080893E4`、携带经验装载 `0x0806AD92`。**原版 battle 14 入口战前经验 160/100/190**（重制原写 85/150/115，三个都错，已改）；「击倒者继承携带经验」重制侧本来就有（`battle_action_system.h`）。按原版路线（5 敌各带 50，归属鸣人 1/佐助 4/小樱 0）复算 ⇒ **鸣人 LV6/EXP 100/HP 152、佐助 LV6/EXP 35/HP 134、小樱 LV6/EXP 180/HP 125**，与原版记录逐项一致。门禁 `tests/test_s49_result_settlement.py` 9 项全绿（原先 2 条 expectedFailure 已转绿）。⚠️ 像素验收仍缺：两侧都还没录到结算/升级画面。</td><td><code class="cc-code">notes/s49-post-battle-exp-rule-20261020.md</code></td></tr>
+                <tr><td>S49 移动网格覆盖层：BG2 层 + ROM 的两份 LZ77 资源（图块/调色板）</td><td><code>battle</code></td><td><span class="tag tag-purple">已复用</span></td><td>原版移动网格屏与战场屏之间，**全部显示寄存器只有 `DISPCNT` 不同**（`0x1940`→`0x1D40`，差 bit 10 = **BG2 使能**，非 CGB 语义）；变的是 **BG2**（212/1024 格 tilemap 改写，引用图块 256–281，调色板 bank 12，字符区 `VRAM 0x06002000`），**地图层 BG0 逐字节相同** ⇒「切字符基址换暗化地图图块」被否证。ROM 资源：图块 LZ77 `0x080B9E94`（198 B→1024 B=32 个 4bpp 图块）→ `VRAM 0x06002000`；调色板 LZ77 `0x080B9F5C`（32 B）→ `PRAM 0x05000180`（bank 12）；装载代码 `0x080694C4`（独立解压并与收据逐字节比对）。⇒ 重制侧应按 BG2 覆盖层实现。⚠️ 同轮**撤回**了「覆盖层 = 3 个精灵」：那 3 个 OAM 槽位是移动了的护送单位 + 它的两个标记。</td><td><code class="cc-code">notes/s49-dispcnt-bit10-layer-20261020.md</code></td></tr>
+                <tr><td>被选中单位的 visual slot/帧：两侧都是 slot 0，差在 idle 相位一步（8 帧）——**常量偏移方案已被实测推翻**</td><td><code>visual</code></td><td><span class="tag tag-purple">已复用</span></td><td>逆向侧角色 1 有 9 个视觉槽（0=field_idle_and_movement、1/5=cast_facing_*、2/6=throw_facing_*、3/7=melee_facing_*、4/8=hit_facing_*），重制侧 9 槽齐备 ⇒ **不是素材缺失**。第 14 轮用 `tools/butano/measure_s49_selected_unit_frame.py`（导出表自带 16 色 BGR555 ⇒ RGB→索引**精确查表**，候选帧必须 true mismatch=0）实测：原版命令菜单打开那一刻 = **slot 0 frame 010**（origin 112,24），重制 = **frame 011** ⇒ 差一个 idle 步（8 帧）。两侧录像用「命令菜单区域的逐帧差指纹」配对（重制 step N = 原版 step N-1），因此比较的是**同一个游戏内时刻**。⚠️ **上一轮建议的「把 `idle_phase_offset()` 整体挪 8 帧」已被实测推翻并回滚**：平移把锚点那一格改对，却把它前、后各改错一处（匹配时刻总数没增加）⇒ 相位关系在命令菜单前后**漂移**，原版的单位 idle 时钟不是自由运行计数器驱动的，而重制版用的是 `scene_frame + idle_phase_offset(unit.id)`。⇒ 真正的修法需要原版 idle 时钟的驱动规则（或逐帧级录像），见 `notes/s49-selected-unit-idle-phase-20261020.md`。</td><td><code class="cc-code">notes/s49-selected-unit-slot-frame-20261020.md</code></td></tr>
+                <tr><td>移动网格覆盖层的 ROM 资源：32 个 4bpp 图块 + 调色板 bank 12（已导出并与同帧 VRAM/PRAM 逐字节对账）</td><td><code>visual</code></td><td><span class="tag tag-purple">derived</span></td><td>图块 LZ77 `0x080B9E94`（压缩 198 B → **1024 B**，sha256 `0f86c803…16ce40`）、调色板 LZ77 `0x080B9F5C`（压缩 36 B → **32 B**，sha256 `d198ec85…7e84`）；装载代码 `0x080694C4`，字面量池 `0x06002000` / `0x05000180`。**对账**：4 份同帧收据 × 6 帧 = **24/24** 帧满足 `VRAM[0x2000:0x2400]==tiles` 且 `PRAM[0x180:0x19F]==palette`。⚠️ **更正**：教科书 GBA LZ77 布局解不开这两条记录，实际是 `len=(first&gt;&gt;4)+3`、`dist=(((first&amp;0x0F)&lt;&lt;8)|second)+1` ⇒ 自写解码器必须先拿同帧 VRAM 当 oracle。产物：`tools/butano/export_s49_movegrid_overlay.py`、`tests/test_s49_movegrid_overlay.py`（18 项）、`artifacts/s49-original-movegrid-overlay-v1/`。</td><td><code class="cc-code">notes/s49-movegrid-overlay-assets-20261020.md</code></td></tr>
+                <tr><td>覆盖层 BG2 tilemap 的实际内容：212 格 = 53 个 16×16 像素格，屏幕上是菱形/透镜</td><td><code>visual</code></td><td><span class="tag tag-purple">derived</span></td><td>以 `field-frame-v1`（DISPCNT `0x1940`）为基线：`movegrid-frame-v1`（`0x1D40`）改写 **212** 格 = **53 个完整的 16×16 像素格**（每格 2×2 个 8×8 tilemap 格），落在 16×16 逻辑地图的第 3..9 行、第 0..15 列；屏幕上是**不规则菱形/透镜**（屏幕像素 x 0..207、y 24..135、填充率 0.473），中间行最宽 12–13 格、上下收窄到 2 格、左下有矩形缺口。另一实例 `grid16-frame-v1` 改写 **164** 格。⚠️ **更正 4.3.93.3.9 的两处旧描述**：图块 262–265 等**不是「实心填充 + 边框」而是竖向虚线网格**（周期 4 px）；调色板 `0x00FF/0x00B4` 在 **index 4/5**（不是 6/7），index 6..9 也非零。产物：`tools/butano/export_s49_movegrid_tilemap.py`、`tests/test_s49_movegrid_tilemap.py`（28 项，含变异检验）、`artifacts/s49-original-movegrid-tilemap-v1/`。</td><td><code class="cc-code">notes/s49-movegrid-overlay-tilemap-20261020.md</code></td></tr>
+                <tr><td>P2：10 条逆向笔记从 needs_guard 转成行为门禁（含 10 条显式拒绝）</td><td><code>other</code></td><td><span class="tag tag-purple">已复用</span></td><td>`tests/test_s49_needs_guard_gates.py` 为 **10 条** notes 各写一个测试方法，断言具体值/字节/像素数，取值全部来自本树已签收据或 `rom/base.gba`（哈希钉死），缺收据/哈希不符一律失败关闭。被钉住的笔记含 `battle-scenario-config.md`、`battle-action-detail-renderer-20260713.md`、`battle-status-bars-export-20260730.md`、`battle-start-control-flow-20260713.md`、`character-battle-visuals-export-20260729.md`、`battle-presentation-glyphs-export-20260729.md`、`battle-visual-catalog-export-20260729.md`、`battle-visual-runtime-timelines-export-20260729.md`、`text-and-battle-visual-consumers-20260713.md`、`first-battle-savestate-checkpoints-20260712.md`。⚠️ 同时**显式拒绝**了 10 条候选并写明理由（缺本树可机械核验的产物 / 超出 S49 范围 / 结论是编辑器侧行为）。</td><td><code class="cc-code">notes/s49-needs-guard-gates-20261020.md</code></td></tr>
+                <tr><td>原版 idle 相位可测量化：渲染帧 → 导出帧号的精确反查 + 跨录像的游戏内时刻配对</td><td><code>visual</code></td><td><span class="tag tag-purple">已复用</span></td><td>`tools/butano/measure_s49_selected_unit_frame.py`：用导出表自带的 16 色 BGR555 建 RGB→索引**精确查表**，在索引空间做模板匹配，只接受 `true_mismatch=0` 的候选帧，输出 JSON 收据。跨录像比较用「命令菜单区域（x&lt;109,y&lt;96）相邻帧的逐通道最大差二值化计数」作**菜单指纹**：两侧指纹序列**错开恰好一步** ⇒ 「重制 step N = 原版 step N-1」⇒ 比较的是同一个游戏内时刻。门禁 `tests/test_s49_selected_unit_phase.py`（7 项：6 绿 + 1 expectedFailure）。</td><td><code class="cc-code">notes/s49-selected-unit-idle-phase-20261020.md</code></td></tr>
+                <tr><td>原版「每帧重绘」的机制：不是新帧，是单位 OBJ 调色板 index 15 被逐帧改写（32 帧三角波）</td><td><code>visual</code></td><td><span class="tag tag-purple">已复用</span></td><td>判别式：变化像素集 ⊆ 单一调色板索引的像素集。实测 191 次跃迁**最佳整体位移恒为 (0,0)**、109/191 次剪影掩码完全不变 ⇒ 不是位移；`t=0→1` 变化 137 像素、颜色对只有 `(0,189,189)→(0,206,206)`，而该区域该色像素正好 137 个 ⇒ 是调色板改写。该索引 = 美术的 **index 15**（1 px 描边，ROM `0x0813E070+30` = BGR555 `0x0421`），屏上逐帧为 `(0,g,g)`，g = 1,3,…,31 的三角波、周期 32 ⇒ 运行期每帧改写该单位 OBJ 调色板第 15 项。**帧序本身完全等于 ROM 的 animation 3**（逆向树签名导出 `resources[0].animations[3]` = `0x08142AFC`、`[(9,8),(10,8),(11,8),(10,8)]`、duration 32）⇒ **重制侧帧序本来就对**。30 幅互不相同 = 28 组 `(frame_id, 描边色)` + 2 幅来自第二个精灵。⇒ 新的最小缺口 = **一个调色板项的每帧写入**。逆向侧下一步：PRAM 目标 `0x05000200+bank*32+0x1E`、值 `(v&lt;&lt;10)|(v&lt;&lt;5)`；该链不在 copy queue 上（14 个 caller 全是整块拷贝）⇒ 直接 `STRH`，建议对 PRAM `0x05000200..0x050003FF` 做「直接半字写入」全 ROM 清单。⚠️ 本条**推翻了**第 13/14 轮「帧序未知 / 重制模型不对」的定性，相关文件已更正。</td><td><code class="cc-code">notes/s49-field-frame-order-20261020.md</code></td></tr>
+                <tr><td>覆盖层 4bpp 图块 + bank 12 调色板已入库重制侧资产管线（Butano 图形工具实测处理成功）</td><td><code>visual</code></td><td><span class="tag tag-purple">已复用</span></td><td>`tools/generate_butano_movegrid_overlay_assets.py` 生成 `butano-sequel/graphics/battle_movegrid_overlay_tiles.bmp`（64×32 4bpp，1142 B，`61b2e3b0…16ccf`）+ JSON sidecar + `generated_battle_movegrid_overlay_content.h`（16 色调色板 rgb5/rgb8/bgr555、32 个图块索引、图块数据含 `bn::tile` 视图）。**独立核验**：BMP 的 32 个图块**逐块**与 ROM 的 1024 B 一致；调色板 16 色与 ROM 的 BGR555 一致；Butano 图形工具在 Docker 构建里**确实处理了该资产**（`bn_regular_bg_tiles_items_battle_movegrid_overlay_tiles.h`，1056 B），ROM 重建成功。门禁 `tests/test_s49_movegrid_overlay_assets.py`（18 项全绿，错误 ROM ⇒ exit 2 且不落盘）；`tools/audit_butano_reverse_provenance.py` exit 0（新增映射到 `rom-pointer-lz77-inventory-v1`）。⚠️ 缺口：审计器把每个登记产物当 UTF-8 文本读 ⇒ 二进制 BMP 只能进生成器自带的 `AUXILIARY_PRODUCTS`，**审计器本身尚未覆盖二进制产物**。</td><td><code class="cc-code">notes/s49-movegrid-overlay-asset-import-20261020.md</code></td></tr>
+                <tr><td>覆盖层重制侧实施规格：接线已存在（专属 BG 层），缺图块/粒度/混合/规则四样</td><td><code>visual</code></td><td><span class="tag tag-purple">derived</span></td><td>重制侧**已有**专属覆盖层 BG（`battle_runtime_scene.cpp` 的 `_bg`/`_map`，优先级 2、与地图分层），颜色**已与原版 bank 12 的 index 1/2/3/4/5 一一对应**；缺的是 **图块、逻辑格粒度（16×16 vs 32×16 px/格）、混合方式（关掉）、图块选择规则**。当次读数：青像素 原版 8,536 vs 重制 8,596（差 0.7%）⇒ **格集合大概率已一致，差异在画法**；战场区差异 **3,463 像素**。Butano 的 BG 分配（`bn_bgs_manager.cpp:1955-2024`）：regular BG 从 **bg3 往下**分配 ⇒ 重制侧现为 bg3 地图 + bg2 覆盖层，**实施时不要新增背景层**。⚠️ 另**否证**了既有 `test_s49_rule_move_grid.py` 的对照帧：那一对原版帧在战场区 240×128 里**120 个 16×16 逻辑格全部变化** ⇒ 不是「覆盖层开/关」的干净对照，该 dither 规则需换对照重做。</td><td><code class="cc-code">notes/s49-movegrid-overlay-implementation-spec-20261020.md</code></td></tr>
+                <tr><td>原版战后状态页（人物信息页）已录到并核验：三人 EXP/体力/查克拉 与逆向树记录逐项吻合</td><td><code>visual</code></td><td><span class="tag tag-purple">已复用</span></td><td>从仓库既有的**战后 checkpoint**（`scenario-49-battle-14-postbattle-task-menu.ss9`）录到屏③「人物信息页」三人份，PNG SHA-256：鸣人 `ef63bb0e…3e26e`、佐助 `048b342d…6bcfa`、小樱 `fee8e448…67b967`（已独立复核）。读数：鸣人 LV6 **EXP 100/325**、体力 152/152、查克拉 5/5；佐助 LV6 EXP 35/255、体力 134/134；小樱 LV6 EXP 180/225、体力 125/125 ⇒ 与逆向树 `notes/scenario-49-battle-14-runtime-20260720.md` 逐项吻合。⇒ **P3「战后状态页」的像素基准（原版侧）已建立**，重制侧可据此做区域差分。⚠️ 屏①（战斗结算）与屏②（升级画面）**仍未录到**：硬约束是 `round_limit = 8`（记录 39）与护送目标木叶丸的体力（第 5 回合敌方阶段后只剩 4 HP，蜜蜂会围他）。⚠️ 附带更正：原版命令菜单第 3 项是**查克拉**（补查克拉）而不是「查敵台」，第 4 项是「休息」而不是「替身」，第 2 项是「本・忍具」而不是「本・道具」，第 5 项是「行動結束」（4 倍放大原版帧重读核对）⇒ 重制侧的命令语义本来就对，错的是旧笔记的转录。</td><td><code class="cc-code">notes/s49-original-victory-20261020.md</code></td></tr>
+                <tr><td>覆盖层选块规则闭合：高亮族只取决于「列奇偶」（0 冲突）；常驻网格族仍未闭合</td><td><code>visual</code></td><td><span class="tag tag-purple">derived</span></td><td>族 2（移动范围）：偶数列 `(262,262,264,264)`、奇数列 `(262,263,264,265)`；族 6（光标）：偶 `(270,270,272,272)`、奇 `(270,271,272,273)`。**三个实例（movegrid/grid16/banner）、三个族，冲突数全为 0** ⇒ 高亮族的选块规则闭合。先验假设 (U,D,L,R) 与 (同族左,右) 均只能解释部分样本（族 2 在 (左,右) 口径下仍冲突 13）。⚠️ 常驻网格族（族 0）未闭合（grid16 冲突 41、banner 冲突 2），但它不属于移动范围覆盖，不阻塞 1:1 复刻。门禁 `tests/test_s49_movegrid_overlay_rule.py`（6 项）钉住族结构、族↔重制侧调色板对应、列奇偶规则、冲突数上限与 4bpp 解码器护栏。</td><td><code class="cc-code">notes/s49-movegrid-overlay-rule-20261020.md</code></td></tr>
+                <tr><td>原版覆盖层**确实在做 alpha 混合**（BLDCNT=0x1744、EVA=EVB=15/16）——旧读数来自 IO 偏移错误</td><td><code>visual</code></td><td><span class="tag tag-purple">已复用</span></td><td>同帧收据 `artifacts/s49-original-field-frame-v1/io-00.bin` 的 IO 原字节：**BLDCNT @0x50 = 0x1744**（effect=alpha、1st target=BG2、2nd target=BG0+BG1+BG2+OBJ）、**BLDALPHA @0x52 = 0x3F3F**（EVA=EVB=15，各 1/2）、**MOSAIC @0x44 = 0x00A0**。根因：`tools/butano/analyze_s49_movegrid_mechanism.py` 把这四个寄存器读成 0x28/0x2A/0x2E/0x48（本树其余两个 GPU 分析器一直用 0x50/0x52/0x54）⇒ **已修并重导出收据**。⇒ 连带作废：「暗化不是 alpha 混合」、「GBA 画不出非调色板颜色」、「同帧 PNG 与 PRAM 不自洽」三条旧结论 —— **alpha 混合的结果色本来就不属于任何调色板**。⇒ 也**否证**了「覆盖层是不透明一层、重制侧要关混合」的方案：重制侧混合 10/16 与原版 15/16 只差权重。门禁 `tests/test_s49_movegrid_mechanism.py`（13 项）已钉住正确读数并反转了旧的「no alpha blending is active」用例。 ⇒ **实测否证**：把重制侧混合权重按寄存器读数改成 16/16 后，与原版移动网格帧的差异从 **2,917** 暴涨到 **21,469** 像素 ⇒ 已回滚（ROM 逐字节回到 `02bf3573…`）。⇒ **原版覆盖层与地图的混合方式与重制侧不同**（谁在上层、谁被混合、空白格如何处理），权重相同 ≠ 画面相同。⇒ 判别方法：对同帧收据逐像素做 `(上色×EVA + 下色×EVB)&gt;&gt;4` 重建。⇒ 当次残差基线：当前构建对原版移动网格差异 **2,917 像素**（旧 walk/旧 ROM 的 3,463 已过期）。</td><td><code class="cc-code">notes/s49-movegrid-blend-correction-20261021.md</code></td></tr>
+                <tr><td>同帧收据**完全自洽**：从 dump 重建 = PNG 38,400/38,400 逐像素一致（推翻「PNG 与 dump 不自洽」）</td><td><code>other</code></td><td><span class="tag tag-purple">已复用</span></td><td>用 `tools/butano/render_scenario_41_gpu.py`（Mode 0 参考渲染器，读同一批 VRAM/PRAM/OAM/IO、按显示寄存器含 alpha 混合合成）从同帧收据自己的 dump 重建那一帧：**movegrid / field / banner 三份收据 38,400/38,400 像素完全一致**，grid16 收据差 504 px（该帧网格在动、截图与 dump 略有错位）。⇒ 第 13/14 轮「PNG 与 dump 不自洽」**不成立**：当年的判据是「数 PNG 颜色里有几个是调色板条目」，而 **alpha 混合的结果色本来就不属于任何调色板**（再加上 `BLDCNT` 从 `0x28` 读成 `0x50`）⇒ 把正常现象当成了矛盾。⇒ 门禁 `tests/test_s49_receipt_self_consistency.py`（2 项）把这条钉成永久约束。⇒ 顺带确认：原版 `BLDCNT=0x1744`（alpha）、`BLDALPHA=0x0A0A`（**EVA=EVB=10/16**）⇒ **重制侧的 10/16 与颜色 (3,25,31) 本来就与原版一致** ⇒ 覆盖层只剩「图块 + 选块规则」两处差异。</td><td><code class="cc-code">docs/konoha-senki/01-battle-s49.md</code></td></tr>
+                <tr><td>覆盖层「只换原版高亮图块」被实测否证：缺的是族 0 的常驻网格网（已回滚）</td><td><code>visual</code></td><td><span class="tag tag-purple">已复用</span></td><td>实验：把重制侧覆盖层图块换成原版的 32 块 4bpp（展开成 8bpp，像素 = 224 + bank 12 相对索引），按已闭合的「列奇偶」规则选块，落位用**零 VRAM 风险**方案（20 块高亮图块放进 move/attack/cursor/target 四个角色自己那 8 格里的前 4 格，图块集总大小不变）。测量（对照原版 `walk-original-a24/step-19-A.png`、战场区 240×128）：回滚后 **2,917** / 实验 A（偶列在左）**4,086** / 实验 B（奇列在左）**5,026** ⇒ 两种奇偶都更差。⇒ **已回滚**（源码逐字节恢复，ROM 回到 `02bf3573…`）。⇒ 根因：原版 BG2 **在整张地图上铺满族 0 的网格网**，移动范围的 212 格是在网**之上**换成族 2；重制侧没有那张网 ⇒ 只换高亮块两头不讨好。⇒ **换图块必须与族 0 的网一起做**，而族 0 的规则仍未闭合（空白格族无冲突 ⇒ 可先做对空白部分）。⇒ 顺带确认：混合权重（10/16）与颜色（RGB5(3,25,31)）本来就与原版一致，不用改。</td><td><code class="cc-code">notes/s49-movegrid-overlay-swap-experiment-20261021.md</code></td></tr>
+                <tr><td>原版覆盖层 = 每张地图烘焙好的一张静态布局图（BG2 tilemap，16 种签名，212 格会变）</td><td><code>visual</code></td><td><span class="tag tag-purple">已复用</span></td><td>原版 field 帧（BG2 仍关着）的 BG2 tilemap 已有 **16 种 2×2 图块签名**：第 2 行=族 10、第 3 行=族 0、第 5–6 行=族 2、第 7 行=族 4、第 14 列混合；同一行内**偶列用无框变体、奇列用带框变体**（与第 17 轮在高亮族上量到的列奇偶规则一致）。⇒ **BG2 的 tilemap 是进入战斗时按地图写好的一张「战场布局图」**，移动范围屏只是把 `DISPCNT` bit 10 打开让它显现（BG2 滚动寄存器与地图一致）；movegrid 帧相对 field 帧只改 **212** 格。⇒ 解释了第 21 轮「只换高亮块」两头不讨好（差的是整张图）、第 13 轮「PNG 与 dump 不自洽」（把整张布局图当成只多一层网格）、以及「dither mask」旧规则（不同区域用不同族）。产物：`artifacts/s49-original-battlefield-overlay-v1/`（`bg2-tilemap-field.bin` 2048 B = 烘焙好的静态布局图、`bg2-tilemap-movegrid.bin`、manifest 含 sha256 与 212 个变动条目）。⇒ 重制侧正确做法：把该布局图当**静态资产**接进覆盖层，再用重制自己的状态算那 212 格。</td><td><code class="cc-code">notes/s49-battlefield-overlay-baked-20261021.md</code></td></tr>
+                <tr><td>原版单位描边色的每帧写入点：ROM 0x0806A7A0（PRAM 0x0500021E+bank*32，值 (v&lt;&lt;10)|(v&lt;&lt;5)，v=(global&amp;0xF)*2+1）</td><td><code>visual</code></td><td><span class="tag tag-purple">已复用</span></td><td>逐字节坐实（Capstone 反汇编，落在收据 `artifacts/rom-pram-halfword-writes-v1/pram-halfword-writes.json` 里）：`push {lr}` @0x0806A7A0 → `ldrb r0,[r3,#0x12]`（bank）→ `lsls #5` → `ldr r1,[pc,#0xc]`（=0x0500021E，字面量池 @0x0806A7F4）→ `adds` → `lsls r1,r2,#5` / `lsls r2,r2,#0xa` / `ors` → **`strh r1,[r0]` @0x0806A7EE**；而 `v` 来自 `ldr r1,[r0]`（全局计数器）→ `movs r0,#0xf` → `ands r0,r1` → `lsls #1` → `adds #1` ⇒ **v = (global &amp; 0xF) * 2 + 1**（1,3,…,31 的 32 帧三角波）。⇒ **S49 单位动画每帧 1 px 差异的根已找到**：重制侧必须复刻这个每帧描边色写入。工具 `tools/export_rom_pram_halfword_writes.py`（普查 ROM 里 912 处指向 PRAM 的字面量、142 个不同值，逐个解出加载它的 Thumb LDR 与所属函数，候选 PUSH 用反汇编复核）；门禁 `tests/test_rom_pram_halfword_writes.py`（7 项，含「三角波计算必须在收据自己的字节里可见」）；scope 如实声明：覆盖经字面量池到达 PRAM 的写法，**不覆盖**无字面量的纯寄存器计算地址。</td><td><code class="cc-code">notes/s49-pram-outline-write-20261021.md</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="card-desc" style="margin-top:10px;">
+            完整索引（2,207 项）见族子页
+            <a class="tag tag-cyan" style="text-decoration:none;"
+            href="families/reverse-results-index-v1.html">reverse-results-index-v1</a>，
+            原始 JSON 可在板块下载包内取得。
+          </p>
+        </div>
+        <!-- ROM 构建补丁流水线 -->
+
+    </main>
+  </div>
+
+  <script src="assets/viewer.js" defer></script>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

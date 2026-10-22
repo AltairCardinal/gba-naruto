@@ -1,0 +1,37 @@
+{
+  "artifact_schema": "rom-cfg-seeds-v1",
+  "files": {
+    "rom-cfg-seeds.json": {
+      "sha256": "53960ae8e460b862bbc52d447290d988ed8a496417ccf08a810041384df1b05c",
+      "size": 277537
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "0883ab41a86bce3058ff881e93368136423cad676636007e4d201bef320e4ec4",
+    "test_sha256": "991d8b417b5f80b180d54d01c58fca5eca05063a15d832a6ca4a03b1193ecbb7",
+    "verifier_sha256": "9d566d020087e07821ca08867572ac9137997fdba6b903e8f2c7a9eba162c52b"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "scope": {
+    "cfg_traversal_performed": false,
+    "enumerated_proven_dispatch_root_denominator_complete": true,
+    "global_dispatch_source_denominator_complete": false,
+    "global_function_entry_denominator_complete": false,
+    "independent_source_discovery_performed": false,
+    "unbound_pointer_pools_excluded": true
+  },
+  "summary": {
+    "arm_root_seed_count": 2,
+    "canonical_dispatch_source_count": 5,
+    "dispatch_source_count": 23,
+    "inline_dispatch_source_count": 18,
+    "raw_dispatch_slot_count": 829,
+    "root_seed_count": 263,
+    "thumb_root_seed_count": 261,
+    "unique_dispatch_handler_count": 261
+  }
+}

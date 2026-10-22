@@ -1,0 +1,88 @@
+{
+  "artifact_id": "cutscene-obj-id1-pixel-ab-v1",
+  "artifact_schema": "cutscene-obj-id1-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "files": {
+    "raw/baseline/audit.json": "c7629215309ed75d656189fc8a5c22d84eaaa51aab778fdbf1a3e8b415963e8f",
+    "raw/baseline/frame512.png": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+    "raw/baseline/frame512.ss9": "7c0379d448d3c81c7b6734117873df06beceeb53609880cde466b15f4c15ceb5",
+    "raw/baseline/guard.json": "28e998a552969e1931f899afcd9c6d2c2fcaa423eaa9e05995bb688338475e4d",
+    "raw/baseline/resource_1.4bpp.bin": "1494d4db49423aaf026f3a1d45df4a63c70db9a0c6c7bae72621f7f7688bae0d",
+    "raw/baseline/sentinel.json": "c7629215309ed75d656189fc8a5c22d84eaaa51aab778fdbf1a3e8b415963e8f",
+    "raw/baseline/spec.json": "2005c8fe3dd03b4d2a92c5c2a1aef240162e49fccda497b7c6c4e3cfc56c2ced",
+    "raw/build-manifest.json": "34e8cf88ed9d57ff6a6e5c4148d3a3af8f055c50923b7e62f0e369e3dc356e3f",
+    "raw/candidate/audit.json": "98c6e580b02357312d1f8f783f61ba6cd9716a4ff4c0efb218e5958f645eaec9",
+    "raw/candidate/frame512.png": "40d436fd93242a31ad422130a56069a55761a602e7f91c41e79a74dadb0201bf",
+    "raw/candidate/frame512.ss9": "c20afcd85fe7197d91b5a4b4e8f2e11a184ec85b7c3403f2cb79d1b14397924f",
+    "raw/candidate/guard.json": "bb0c9d22c6238ad144a7631f1a31b59e19769e3d538771a52cbcd25a96fc0999",
+    "raw/candidate/resource_1.4bpp.bin": "a3d3b365ada377ca525d5b5d1aa2a6e1ab367dfad8928dcadace54a257b2bf05",
+    "raw/candidate/sentinel.json": "98c6e580b02357312d1f8f783f61ba6cd9716a4ff4c0efb218e5958f645eaec9",
+    "raw/candidate/spec.json": "5848470df8b0ce9946ccf747775cf26421032d8507f3a7aecdf6414e646fa355",
+    "runtime-evidence.json": "b934ad6f3bc89109a7bd58bb144988e74e49a02fbdaac6b89b99eee9402cc966"
+  },
+  "implementation_sha256": {
+    "tools/build_cutscene_obj_id1_pixel_ab.py": "63fda8dcde4f97f0593d657d5e3bb13b5f16d537fe21c2e321c1da5c47be9ee2",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_cutscene_obj_id1_pixel_ab_evidence.py": "3c28014aaf322077e38770411cb4e5df38bb969f6d0c1c9333de18860154a565",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_cutscene_obj_bundle_relocations.py": "81b5b11c79331146c967471624a778f277dcc07ba0d991e5cd12c26e77b140ac",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/verify_cutscene_obj_id1_pixel_ab_evidence.py": "65cb4314c89023083c1114652e667cca1d988f9f3f56b29a1cd87d4cd80ba444"
+  },
+  "parent": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9",
+    "sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a"
+  },
+  "payload_file": "runtime-evidence.json",
+  "payload_sha256": "b934ad6f3bc89109a7bd58bb144988e74e49a02fbdaac6b89b99eee9402cc966",
+  "raw_files": {
+    "baseline/audit.json": "c7629215309ed75d656189fc8a5c22d84eaaa51aab778fdbf1a3e8b415963e8f",
+    "baseline/frame512.png": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+    "baseline/frame512.ss9": "7c0379d448d3c81c7b6734117873df06beceeb53609880cde466b15f4c15ceb5",
+    "baseline/guard.json": "28e998a552969e1931f899afcd9c6d2c2fcaa423eaa9e05995bb688338475e4d",
+    "baseline/resource_1.4bpp.bin": "1494d4db49423aaf026f3a1d45df4a63c70db9a0c6c7bae72621f7f7688bae0d",
+    "baseline/sentinel.json": "c7629215309ed75d656189fc8a5c22d84eaaa51aab778fdbf1a3e8b415963e8f",
+    "baseline/spec.json": "2005c8fe3dd03b4d2a92c5c2a1aef240162e49fccda497b7c6c4e3cfc56c2ced",
+    "build-manifest.json": "34e8cf88ed9d57ff6a6e5c4148d3a3af8f055c50923b7e62f0e369e3dc356e3f",
+    "candidate/audit.json": "98c6e580b02357312d1f8f783f61ba6cd9716a4ff4c0efb218e5958f645eaec9",
+    "candidate/frame512.png": "40d436fd93242a31ad422130a56069a55761a602e7f91c41e79a74dadb0201bf",
+    "candidate/frame512.ss9": "c20afcd85fe7197d91b5a4b4e8f2e11a184ec85b7c3403f2cb79d1b14397924f",
+    "candidate/guard.json": "bb0c9d22c6238ad144a7631f1a31b59e19769e3d538771a52cbcd25a96fc0999",
+    "candidate/resource_1.4bpp.bin": "a3d3b365ada377ca525d5b5d1aa2a6e1ab367dfad8928dcadace54a257b2bf05",
+    "candidate/sentinel.json": "98c6e580b02357312d1f8f783f61ba6cd9716a4ff4c0efb218e5958f645eaec9",
+    "candidate/spec.json": "5848470df8b0ce9946ccf747775cf26421032d8507f3a7aecdf6414e646fa355"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_animations_runtime_verified": false,
+    "natural_victory_load": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "resource_1_frame_0_graphics_single_pixel": true,
+    "resources_0_2_3_runtime_verified": false
+  },
+  "source_catalog": "artifacts/cutscene-obj-v1/manifest.json",
+  "source_catalog_sha256": "b8e1341172decef9f07080879cd8369bc5308274d84383d5c706de72a0b781e7",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_cutscene_obj_id1_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/cutscene-obj-id1-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "verified": true
+    }
+  }
+}

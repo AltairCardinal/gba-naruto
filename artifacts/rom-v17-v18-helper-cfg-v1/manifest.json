@@ -1,0 +1,49 @@
+{
+  "artifact_portability": "content_verified_independent_of_copy_path",
+  "artifact_schema": "rom-v17-v18-helper-cfg-v1",
+  "artifact_status": "accepted",
+  "canonical_destination": "artifacts/rom-v17-v18-helper-cfg-v1",
+  "files": {
+    "rom-v17-v18-helper-cfg.json": {
+      "sha256": "add16ebfc58ad853ad1edd72b43dc05737e8d3e6139b6c4477e8a7744f67d183",
+      "size": 31523
+    }
+  },
+  "implementation": {
+    "contract_sha256": "773ca0e37fd97a4b6e406792ba1494964f1ee89da8bcc8d4e1baa4bb31418e6a",
+    "exporter_sha256": "c0ddf629544f20ee102f605aab2ff100df943d5516ac26539b3695a7c6f9409d",
+    "test_sha256": "f7ef81f2e04c8567838dd26901d994ac83fd37d0a81a870781d3a6ed8b2b8b6a",
+    "verifier_sha256": "8e544183b84c54b0b5aef09493ec0e2fabb4d8e758afb540ae3e49bc1b3a603a"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_v17_v18_helper_cfg.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-v17-v18-helper-cfg-v1"
+    ],
+    "command_role": "canonical_reproduction_recipe"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "accepted_root_producer_count": 33,
+    "frontier_count": 0,
+    "promotion_bytes": 1254,
+    "rejected_unbound_root_producer_count": 1,
+    "root_count": 11
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_v17_v18_helper_cfg.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-v17-v18-helper-cfg-v1"
+    ],
+    "command_role": "canonical_reproduction_recipe",
+    "exit_code": 0
+  }
+}

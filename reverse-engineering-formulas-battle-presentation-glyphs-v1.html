@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运行时模型 · battle-presentation-glyphs-v1 · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-formulas.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<div class="card full-width" id="fml-battle-presentation-glyphs-v1">
+          <div class="card-head">
+            <div class="card-title">战斗演出字形 · 消息选择公式</div>
+            <span class="tag tag-purple">3. 剧情调度与文本系统 · artifacts/battle-presentation-glyphs-v1</span>
+          </div>
+          <p class="card-desc">
+            下列模型由 <code>artifacts/battle-presentation-glyphs-v1/manifest.json</code> 直接导出，共 <strong>17</strong> 个字段；字段值即 ROM 中签发的表达式原文，未经改写。
+          </p>
+            <details class="fml-model" open>
+              <summary><code>consumer.selection</code><span class="fml-meta">11 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">message_selector_literal</div><div class="fml-val"><span class="fml-text">0x080995E0</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">message_selector_formula</div><div class="fml-val"><code class="fml-expr">message_ptr = u32[0x085A2B08 + u8(message_id) * 4]</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">glyph_table_literal</div><div class="fml-val"><span class="fml-text">0x080981A8</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">binding_table_literals</div><div class="fml-val"><div class="fml-list"><div><span class="fml-text">0x080981A4</span></div><div><span class="fml-text">0x08098FC4</span></div></div></div></div><div class="fml-row" style="--d:0"><div class="fml-key">binding_formula</div><div class="fml-val"><code class="fml-expr">binding = 0x085A2EF4 + u8(message_id) * 10</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">glyph_formula</div><div class="fml-val"><code class="fml-expr">glyph_stream = u32[0x085A2C44 + glyph_id * 4]</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">display_formula</div><div class="fml-val"><code class="fml-expr">glyph_id = binding[1 + display_slot]</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">glyph_destination_stride</div><div class="fml-val"><span class="fml-num">512</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">skip_glyph_id</div><div class="fml-val"><span class="fml-num">255</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">bounds_check</div><div class="fml-val"><span class="fml-bool">false</span></div></div></div>
+            </details>
+            <details class="fml-model" open>
+              <summary><code>consumer.palette_selection</code><span class="fml-meta">6 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">palette_source_literal</div><div class="fml-val"><span class="fml-text">0x0809861C</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">obj_palette_base_literal</div><div class="fml-val"><span class="fml-text">0x08098620</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">palette_bank_assignment</div><div class="fml-val"><code class="fml-expr">state[0x0F] = 13</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">copy_formula</div><div class="fml-val"><span class="fml-text">CpuSet(0x083E4AF0, 0x05000200 + 13 * 32, 16 colors)</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">display_palette_formula</div><div class="fml-val"><code class="fml-expr">sprite_palette_bank = state[0x0F]</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">attr2_palette_formula</div><div class="fml-val"><code class="fml-expr">OAM.attr2[12:15] = sprite_task[0x12] &lt;&lt; 12</code></div></div></div>
+            </details>
+        </div>
+
+        
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

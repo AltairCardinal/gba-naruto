@@ -1,0 +1,678 @@
+{
+  "bundles": {
+    "compressed": {
+      "file": "streams.lz77.bin",
+      "sha256": "2db24f2804ad3d6c11d2cee7cde9a0205e86ae06eab4a02339c7ade130e41505",
+      "size": 14725
+    },
+    "decompressed": {
+      "file": "payloads.bin",
+      "sha256": "7027b4c7ca61cf2b5f92dd3851cefe24bf5b244c7354756504432901055cdd65",
+      "size": 30772
+    }
+  },
+  "coverage": {
+    "allowed_primary_classes": [
+      "lz77_syntax_unbound",
+      "unknown"
+    ],
+    "hash_pin_omission_reason": "coverage incorporates these claims, so a coverage hash would create a dependency cycle; the verifier reconstructs its gap-free state and allowed classes instead",
+    "hash_pinned": false,
+    "path": "sequel/rom-byte-coverage.json"
+  },
+  "implementation": {
+    "exporter_sha256": "5dc2aec1b645e8cbb558d4d51f527c728b3477470228d55f1ec18c2994f1a54d",
+    "test_sha256": "eb5dfc7303d29e88e93f8363e2cda025158ce360c0ba1b009c8dc9f3916cf598",
+    "verifier_sha256": "0a309854c9262947feb127188a6a13984b8a8643489af386bf2397c3715c9091"
+  },
+  "records": [
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 0,
+      "compressed_sha256": "f6f982333619f0fa7895ab141a1ec4e5db41b5e4513ef0d044393b2e3216ebc4",
+      "compressed_size": 752,
+      "decompressed_bundle_offset": 0,
+      "decompressed_sha256": "232fcfa8d9682c32ba72f99e2a03f4bd700df143d5b1093c30b3718d1987b6d4",
+      "decompressed_size": 1536,
+      "range": [
+        641236,
+        641988
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 752,
+      "compressed_sha256": "b9273d7dff0c4afe836cce4f8623e0ad21b22a3fd439af1f2809026ca3eeaf8c",
+      "compressed_size": 248,
+      "decompressed_bundle_offset": 1536,
+      "decompressed_sha256": "06edecc1eb41d7e3d3c4f89e8bffd91c0a1c3a6b7c82c852350ed2d4d8eac176",
+      "decompressed_size": 544,
+      "range": [
+        3442776,
+        3443024
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 1000,
+      "compressed_sha256": "c507c44e8614f1c008c6949743b48b0cfbbd0c940e482f87eb7f40b3973bb944",
+      "compressed_size": 40,
+      "decompressed_bundle_offset": 2080,
+      "decompressed_sha256": "af23dfeab99821b9739841357825f2ec31b1a64d920f3202d26b8e00415ea130",
+      "decompressed_size": 32,
+      "range": [
+        3443024,
+        3443064
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 1040,
+      "compressed_sha256": "768ef17e9f13ecef83ab75f3e1f9876048be640fd89f02ca5b1902a0266ed4e2",
+      "compressed_size": 193,
+      "decompressed_bundle_offset": 2112,
+      "decompressed_sha256": "1b50235d8831293a08a44174cd2e8acd4eac02539d011f338538560388ca0da2",
+      "decompressed_size": 1280,
+      "range": [
+        3443064,
+        3443257
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 1233,
+      "compressed_sha256": "7f976f6289bcec2a2c7c1478181a0d4eaf058b3e8e0bb48da7eec206a3b19d58",
+      "compressed_size": 245,
+      "decompressed_bundle_offset": 3392,
+      "decompressed_sha256": "828fe461ec742db5ea7a8d81da2e8852c4e4c2c9591b0503a603c1183ae4d50f",
+      "decompressed_size": 512,
+      "range": [
+        4082448,
+        4082693
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 1478,
+      "compressed_sha256": "319ae645e9f1f618826301c9a34afec1bb31ac178c85e6b6c241641fd4c98f3f",
+      "compressed_size": 244,
+      "decompressed_bundle_offset": 3904,
+      "decompressed_sha256": "c1073fa83f77b9e6335b88d72660f63f49025d08d48ca00cbce36b5af22668c2",
+      "decompressed_size": 512,
+      "range": [
+        4082972,
+        4083216
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 1722,
+      "compressed_sha256": "2739c814349223b484fcfcb7dd49c08ab811b951468021c27c739eeeae2cf465",
+      "compressed_size": 215,
+      "decompressed_bundle_offset": 4416,
+      "decompressed_sha256": "ada61dab5a43ce09038f787d656c9d53a24e6692f02c4d07d710886fb02e7dd1",
+      "decompressed_size": 512,
+      "range": [
+        4083216,
+        4083431
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 1937,
+      "compressed_sha256": "49570caed100419f763903ae0c93103f1a22e0d15e0e8fd132c75eda24833559",
+      "compressed_size": 219,
+      "decompressed_bundle_offset": 4928,
+      "decompressed_sha256": "0799774b0d7ac444491a6ff70723cd80c5bd451ebd44779d1af8bd9e4133f545",
+      "decompressed_size": 512,
+      "range": [
+        4083456,
+        4083675
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 2156,
+      "compressed_sha256": "c06d56801905979967c2617334091c6b93e0412b126ac02631b4eed73ae0b58d",
+      "compressed_size": 235,
+      "decompressed_bundle_offset": 5440,
+      "decompressed_sha256": "ff484a6a1b7f4ef4556f40a07bdbb94c826db8f59c32bc9a240840ac873c95fa",
+      "decompressed_size": 512,
+      "range": [
+        4083712,
+        4083947
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 2391,
+      "compressed_sha256": "1e205576ff917c54d990b811733e80223c03d6cc70ced3a330c796e2bd0436e0",
+      "compressed_size": 196,
+      "decompressed_bundle_offset": 5952,
+      "decompressed_sha256": "a4fadbb27128623997bd3babbd2788621eae5b5836bf1d0bc458b29fe67ed130",
+      "decompressed_size": 512,
+      "range": [
+        4083964,
+        4084160
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 2587,
+      "compressed_sha256": "f06fb4b6831318ca7b3989e6fe0d0d58e92d611cebefa60a1d7645f4b99fc3df",
+      "compressed_size": 221,
+      "decompressed_bundle_offset": 6464,
+      "decompressed_sha256": "6602869abe287af36dbf8e3c939a603313f22d28949bcfae563a15ccd9669f9a",
+      "decompressed_size": 512,
+      "range": [
+        4084200,
+        4084421
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 2808,
+      "compressed_sha256": "1220e6bbda6e60e5675187424bf44b64bbf40b851fa32736b3f50150384d818d",
+      "compressed_size": 228,
+      "decompressed_bundle_offset": 6976,
+      "decompressed_sha256": "406ab6456f25effa504a62d0a181862d954ed635cb680f2a27e20259b2ccc817",
+      "decompressed_size": 512,
+      "range": [
+        4084448,
+        4084676
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 3036,
+      "compressed_sha256": "2b39ba59f8f036e64d4ba5858fd94e9f811ac05e9d47c2dd7fcf40ca8a0b0720",
+      "compressed_size": 115,
+      "decompressed_bundle_offset": 7488,
+      "decompressed_sha256": "cb8b0a17b1560d20d5caf2caeb8904d996367393d61aa0250d86b91afb32552d",
+      "decompressed_size": 512,
+      "range": [
+        4084676,
+        4084791
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 3151,
+      "compressed_sha256": "de79855ab026a8bee429ef277c95834f78168c35f90c3ca71e0c00030be1dfb8",
+      "compressed_size": 231,
+      "decompressed_bundle_offset": 8000,
+      "decompressed_sha256": "c5721c1a77f504874e7bbbe1e9fde507343fa2b07a3c8f570a338724992c5df8",
+      "decompressed_size": 512,
+      "range": [
+        4084792,
+        4085023
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 3382,
+      "compressed_sha256": "cc74f86163710da9778d226ff9ae9d0e51f0d8233287c07afb992867c69b7d37",
+      "compressed_size": 240,
+      "decompressed_bundle_offset": 8512,
+      "decompressed_sha256": "5438a277ef673f8252ca5b46e0866e312a391a80f3a91c5e5e04dbb0de9ed533",
+      "decompressed_size": 512,
+      "range": [
+        4085024,
+        4085264
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 3622,
+      "compressed_sha256": "3882d37bc65828d4be654162b8c2e52db168deaa3b438c69412a6d4f51b222e9",
+      "compressed_size": 185,
+      "decompressed_bundle_offset": 9024,
+      "decompressed_sha256": "2c8a43b456a97acd372c5ef84a2b5f71973418c519abe563bfa818c7bec8e808",
+      "decompressed_size": 512,
+      "range": [
+        4085264,
+        4085449
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 3807,
+      "compressed_sha256": "6ff0879247dfdcb16fb61cd8e31ea13306c43e78fbb571c840023ab14309e84d",
+      "compressed_size": 255,
+      "decompressed_bundle_offset": 9536,
+      "decompressed_sha256": "62aa02ae9d52423099ef1d9b75087896e039522d82db9602245dd4d1d1d8d55c",
+      "decompressed_size": 512,
+      "range": [
+        4085452,
+        4085707
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 4062,
+      "compressed_sha256": "2df46e08914387510149a785b8a6c89027d44c24bfe261e49c195e2deb8e4507",
+      "compressed_size": 184,
+      "decompressed_bundle_offset": 10048,
+      "decompressed_sha256": "8134667301ba0b5c95d1677ac1fe244c121ef88acc53fea857a2c6286cc82454",
+      "decompressed_size": 512,
+      "range": [
+        4085724,
+        4085908
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 4246,
+      "compressed_sha256": "0cda63f3c0fb7d9bb3c8cf44db228db8301bd97a8a72cc4378ce657759587d69",
+      "compressed_size": 203,
+      "decompressed_bundle_offset": 10560,
+      "decompressed_sha256": "b32feb976210df500ec49725282f759a18ef868b6c3ea1c2cc659dcd16a1886a",
+      "decompressed_size": 512,
+      "range": [
+        4085908,
+        4086111
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 4449,
+      "compressed_sha256": "bb66193a354276cfee34a2c705b02d117152a80e15d4945301efeae1e7d3600f",
+      "compressed_size": 233,
+      "decompressed_bundle_offset": 11072,
+      "decompressed_sha256": "e91428ab5e8f016a119b1912ce13f3a32e96366f5198da430e48c77aabb14965",
+      "decompressed_size": 512,
+      "range": [
+        4088448,
+        4088681
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 4682,
+      "compressed_sha256": "abbf70a73616aff070eb5bbdffa30b3ef4384f17c4ade63a197403d2b2292c2d",
+      "compressed_size": 243,
+      "decompressed_bundle_offset": 11584,
+      "decompressed_sha256": "59af294bec4b425b0fe25fdcd5ded0259ba7acfd9fcb1aa9cf3c8d81ee4c1781",
+      "decompressed_size": 512,
+      "range": [
+        4097004,
+        4097247
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 4925,
+      "compressed_sha256": "b3ca30cdb516b5f4e99680c83e39cd962ef15f924ef8989219834b30025c0cb7",
+      "compressed_size": 257,
+      "decompressed_bundle_offset": 12096,
+      "decompressed_sha256": "b0aa7ac6a126921b6bd9fa246824b6575008f6421b0d3e233dfdd8f1c8620f52",
+      "decompressed_size": 512,
+      "range": [
+        4100796,
+        4101053
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 5182,
+      "compressed_sha256": "d0d5e5541343c45c10ea1b1fdc120b8535ab162298dc10545afaa0c6707ee16f",
+      "compressed_size": 227,
+      "decompressed_bundle_offset": 12608,
+      "decompressed_sha256": "029688e16e5bf86903d7d428091f69b71f1d4422e7cf26e8cce5cc71b401b232",
+      "decompressed_size": 512,
+      "range": [
+        4104324,
+        4104551
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 5409,
+      "compressed_sha256": "a9e623e56d5f6eef6f5df0312235c0f3f9cc8db5fce4723585ae173ac5b68c9d",
+      "compressed_size": 267,
+      "decompressed_bundle_offset": 13120,
+      "decompressed_sha256": "ee56e7636e6d3aeeedb8fd2f66dedc940d517088ea61b7bacfc1339a5e4e0bf5",
+      "decompressed_size": 512,
+      "range": [
+        4104560,
+        4104827
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 5676,
+      "compressed_sha256": "c1ecabadd525332569d4022b81eeee7104d4bbd861235740cc15925298eead51",
+      "compressed_size": 272,
+      "decompressed_bundle_offset": 13632,
+      "decompressed_sha256": "fda8d49b39cd286b2cfab0e6996a22a223a16206520c3ed998dc1d0e894cb68c",
+      "decompressed_size": 512,
+      "range": [
+        4104828,
+        4105100
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 5948,
+      "compressed_sha256": "d4f768a5cc464cd39535a1be2e0e67c2d85c535a5f3f44c8124c1d6f1bb3dad9",
+      "compressed_size": 230,
+      "decompressed_bundle_offset": 14144,
+      "decompressed_sha256": "a3d1aaee8542bca1afbc76e90ef354366d78d5011415acc7a3528f272186e466",
+      "decompressed_size": 512,
+      "range": [
+        4105100,
+        4105330
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 6178,
+      "compressed_sha256": "bb75f0170f2bb069503cc5c5f5106248103903d133cb14219faaaa58689491ae",
+      "compressed_size": 253,
+      "decompressed_bundle_offset": 14656,
+      "decompressed_sha256": "faa022dcf7474575d77595335b34f919a7e1cc1ea65568d55aa4afdc8789a6c3",
+      "decompressed_size": 512,
+      "range": [
+        4105332,
+        4105585
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 6431,
+      "compressed_sha256": "ffa34b7b49ddc190e2b4b09a78bf04bbfa10b3d2af60241ddc87b608488eb08e",
+      "compressed_size": 242,
+      "decompressed_bundle_offset": 15168,
+      "decompressed_sha256": "2f626fadf8968c3b4c0bcc2f90cb6909d3eeacc74b82aa17d6950418ff54ee3f",
+      "decompressed_size": 512,
+      "range": [
+        4109832,
+        4110074
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 6673,
+      "compressed_sha256": "de0e6fac0fc82d1730fb58f258f7bde48ba65791e4bc3058a51627102a2c965b",
+      "compressed_size": 233,
+      "decompressed_bundle_offset": 15680,
+      "decompressed_sha256": "b84ea3edae51f4af3ecf817ad2badc2055be218035262305d0142b9e3d9a73e8",
+      "decompressed_size": 512,
+      "range": [
+        4110108,
+        4110341
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 6906,
+      "compressed_sha256": "4aa72459ab66954466339f329295a18986b9177d5655753a330c7cd6ff8c4dcc",
+      "compressed_size": 208,
+      "decompressed_bundle_offset": 16192,
+      "decompressed_sha256": "a452ed26d59c74acb20a44fa8154d9de50a8cdf3309c9caf1d7bfbb1361e19de",
+      "decompressed_size": 512,
+      "range": [
+        4116912,
+        4117120
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 7114,
+      "compressed_sha256": "d9ba976e3c0cd91a54d7667fa018eb12a27f0d4a9a01afbdcfae7fddfbf75baf",
+      "compressed_size": 215,
+      "decompressed_bundle_offset": 16704,
+      "decompressed_sha256": "b22a6691364d337eb29cbb08c79ad98c2d97692af7c9de4929f8289fa92da593",
+      "decompressed_size": 512,
+      "range": [
+        4117436,
+        4117651
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 7329,
+      "compressed_sha256": "979b9d1513017473e8722b628f671d9eab34b6a2b936a0ec5f751db9b823e7f4",
+      "compressed_size": 226,
+      "decompressed_bundle_offset": 17216,
+      "decompressed_sha256": "123a282fd7742bf85400ad9c7c2948312d4cc2a35a297be4a1a245f7bc7c8831",
+      "decompressed_size": 512,
+      "range": [
+        4120356,
+        4120582
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 7555,
+      "compressed_sha256": "dcadf5bf6d3191420761e8c36b654e198f898edfb5b631e3201fdd06ea270cef",
+      "compressed_size": 241,
+      "decompressed_bundle_offset": 17728,
+      "decompressed_sha256": "9ebddd455dd0b8e8ecb894f05a4d9fb9527d66616efd12963672c15501304272",
+      "decompressed_size": 512,
+      "range": [
+        4126484,
+        4126725
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 7796,
+      "compressed_sha256": "f042d670499e9330e79c53dfd1c3cf66f793f50f89a7a697bd5ceb2518d7c7e9",
+      "compressed_size": 4488,
+      "decompressed_bundle_offset": 18240,
+      "decompressed_sha256": "b47b1963f4c1dc57991a2df2e7229e620bfb35a221c76353fd9d56ced8bd356b",
+      "decompressed_size": 8608,
+      "range": [
+        4131600,
+        4136088
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 12284,
+      "compressed_sha256": "d2867f58da03a25bb9ab739daeeace1520a65c7960e1fe8bd881f026d9938a30",
+      "compressed_size": 134,
+      "decompressed_bundle_offset": 26848,
+      "decompressed_sha256": "978d86ba066f01554bc1dbd05d42cc79878ab0022e08c3b6bd92f0e2d7e77fe0",
+      "decompressed_size": 138,
+      "range": [
+        4136576,
+        4136710
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 12418,
+      "compressed_sha256": "afa0e91353ac2fae00d2b0610640207f1cdd6a1d0e1c4057a0f45407841b722a",
+      "compressed_size": 35,
+      "decompressed_bundle_offset": 26986,
+      "decompressed_sha256": "96b6ebb2e111927c655cc3efe38156365bcd39af2386a98f326e1023d9f29322",
+      "decompressed_size": 27,
+      "range": [
+        4226028,
+        4226063
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 12453,
+      "compressed_sha256": "61e2e746dddf58f893d0db1f9bbe95f4aca0b8d742957b3c7eaa540df2562231",
+      "compressed_size": 989,
+      "decompressed_bundle_offset": 27013,
+      "decompressed_sha256": "fa86483a9d92103210dd71d3f97c278770c4e6b6f614555f30aec2d63b525d95",
+      "decompressed_size": 2048,
+      "range": [
+        4227204,
+        4228193
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 13442,
+      "compressed_sha256": "7d0369d289508d0705c194cabda8921b469c31598b6639b23723ca08dad2891b",
+      "compressed_size": 1217,
+      "decompressed_bundle_offset": 29061,
+      "decompressed_sha256": "e9f80fcba26dde8af6bbfe3b50f1e2aaaa295a67af21ed07c8cb299e7657ed04",
+      "decompressed_size": 1664,
+      "range": [
+        4602680,
+        4603897
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 14659,
+      "compressed_sha256": "a0260fdd0de7a5ebc31581e6edf83d33efb1159801cbf5a43c6309b61cd2c210",
+      "compressed_size": 11,
+      "decompressed_bundle_offset": 30725,
+      "decompressed_sha256": "1e4f69ae41148ec0d7b5cca9bde9db8b850660e759c75f32154bb60357145ed3",
+      "decompressed_size": 6,
+      "range": [
+        5498280,
+        5498291
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 14670,
+      "compressed_sha256": "5145c01fe224f6cea01c636fd48ed664e7e6c11cfd28b28d9454fdef64a4097f",
+      "compressed_size": 48,
+      "decompressed_bundle_offset": 30731,
+      "decompressed_sha256": "94c11ed3c3c73016adb92416352678e169cbe47bb48bc27e5e9d466115b06252",
+      "decompressed_size": 39,
+      "range": [
+        5503084,
+        5503132
+      ],
+      "runtime_reachability_claimed": false
+    },
+    {
+      "aligned_pointer_reference_count": 0,
+      "classification": "lz77_syntax_unbound",
+      "compressed_bundle_offset": 14718,
+      "compressed_sha256": "3377bd08440693f5d5fdb36ea755b2a7fcf295391fbd8817c1a88358a0eab679",
+      "compressed_size": 7,
+      "decompressed_bundle_offset": 30770,
+      "decompressed_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+      "decompressed_size": 2,
+      "range": [
+        5509992,
+        5509999
+      ],
+      "runtime_reachability_claimed": false
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-unbound-lz77-inventory-v1",
+  "scope": {
+    "aligned_u32_rom_pointer_scan_complete": true,
+    "all_records_are_graphics": false,
+    "all_records_are_resources": false,
+    "consumer_identity_complete": false,
+    "indirect_or_computed_references_excluded": true,
+    "runtime_reachability_complete": false,
+    "selected_nonoverlapping_inventory_complete": true,
+    "strict_type_0x10_syntax_scan_complete": true
+  },
+  "selection_rule": {
+    "aligned_pointer_reference_count": 0,
+    "coverage": "the complete half-open stream range has primary class unknown or lz77_syntax_unbound",
+    "overlap": "sort by (start,end), then greedily retain a candidate only when start >= the previous selected end",
+    "pointer_scan": "all 4-byte-aligned u32 values mapped into this ROM",
+    "runtime_reachability_claimed": false,
+    "syntax": "scan every byte for a valid GBA type-0x10 stream with exact declared-size termination, in-range back-references, no output overrun, and no ROM truncation"
+  },
+  "summary": {
+    "raw_unknown_unreferenced_candidate_count": 43,
+    "raw_unknown_unreferenced_compressed_bytes": 14737,
+    "raw_unknown_unreferenced_decompressed_bytes": 30774,
+    "selected_compressed_bytes": 14725,
+    "selected_decompressed_bytes": 30772,
+    "selected_record_count": 41,
+    "strict_candidate_count": 1099
+  }
+}

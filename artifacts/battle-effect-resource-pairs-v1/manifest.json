@@ -1,0 +1,691 @@
+{
+  "schema": "battle-effect-resource-pairs-v1",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "resource_pair_table": {
+    "file_offset": 5869852,
+    "gba_address": "0x0859911C",
+    "entry_count": 19,
+    "entry_size": 8,
+    "valid_group_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "sha256": "7d9f94e05b975940bd2e17f55681120782cb7b6f07d0ab6245adef7260d24130"
+  },
+  "valid_resource_pair_count": 18,
+  "entries": [
+    {
+      "group_id": 1,
+      "table_entry_file_offset": 5869860,
+      "table_entry_gba_address": "0x08599124",
+      "pair_raw_hex": "f0063408d0093408",
+      "graphics": {
+        "gba_address": "0x083406F0",
+        "file_offset": 3409648,
+        "compressed_size": 735,
+        "compressed_sha256": "d27493ed7b1eaba88211d65e66ad5ef3b2478963ee67b4e8e47c4f1d83e69a83",
+        "decompressed_size": 1024,
+        "decompressed_sha256": "d2bdbe77b17e8ab4031f0a100851dffbbe5a8acf3a8b245ce1b6349d758221d3",
+        "tile_count": 32,
+        "output_bin": "group-01-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x083409D0",
+        "file_offset": 3410384,
+        "compressed_size": 29,
+        "compressed_sha256": "64ca9f081dd7fa32aaf02832eeefda5a36c25024fcf3a990626237253a5db945",
+        "decompressed_size": 32,
+        "decompressed_sha256": "baf6d16005215ced81fbddd5597f08cbc12441e468e737be9a3fb9a89ac04b67",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-01-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-01-atlas.png",
+        "width": 128,
+        "height": 16,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "e0a22eb8b7b3eb9306e42bafe2e8292bf3528a055989e18ef13937d8db6b976d"
+      }
+    },
+    {
+      "group_id": 2,
+      "table_entry_file_offset": 5869868,
+      "table_entry_gba_address": "0x0859912C",
+      "pair_raw_hex": "f80a3408a81f3408",
+      "graphics": {
+        "gba_address": "0x08340AF8",
+        "file_offset": 3410680,
+        "compressed_size": 5294,
+        "compressed_sha256": "93e130c77a3e564400928f8d34af4b85cc4bf05bf45dc4d20996fa94e6d6e132",
+        "decompressed_size": 9728,
+        "decompressed_sha256": "eb9589427babaaa4d746b365cf1ea3083a5accd5cc408d53ac9c83131fb82475",
+        "tile_count": 304,
+        "output_bin": "group-02-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x08341FA8",
+        "file_offset": 3415976,
+        "compressed_size": 40,
+        "compressed_sha256": "984579adbbce5adef32970c44577f21469547cdbd3dde06ace4fe08854031ad9",
+        "decompressed_size": 32,
+        "decompressed_sha256": "70c511e326da6ce384f358d0dfe798d71dd44f181f6bcaa693e77aa456f5422e",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-02-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-02-atlas.png",
+        "width": 128,
+        "height": 152,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "d519ed1ad7e21c60a1a00ea8847352f2aa223df7cb63d30c276b45057f8adb65"
+      }
+    },
+    {
+      "group_id": 3,
+      "table_entry_file_offset": 5869876,
+      "table_entry_gba_address": "0x08599134",
+      "pair_raw_hex": "f80a340840233408",
+      "graphics": {
+        "gba_address": "0x08340AF8",
+        "file_offset": 3410680,
+        "compressed_size": 5294,
+        "compressed_sha256": "93e130c77a3e564400928f8d34af4b85cc4bf05bf45dc4d20996fa94e6d6e132",
+        "decompressed_size": 9728,
+        "decompressed_sha256": "eb9589427babaaa4d746b365cf1ea3083a5accd5cc408d53ac9c83131fb82475",
+        "tile_count": 304,
+        "output_bin": "group-03-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x08342340",
+        "file_offset": 3416896,
+        "compressed_size": 40,
+        "compressed_sha256": "a1ce0346eecc12c1266902af1a097156ef47bbbf450d8fe89770c98973c113c1",
+        "decompressed_size": 32,
+        "decompressed_sha256": "c0e21753834c2ca38588891ecf78596fa7234012bb0c1a3f69ceb2ccc7619f95",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-03-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-03-atlas.png",
+        "width": 128,
+        "height": 152,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "a82926bacb7edeb0ca3b8042f40c394297a873c53a85b7ba0898ea7fd15d720c"
+      }
+    },
+    {
+      "group_id": 4,
+      "table_entry_file_offset": 5869884,
+      "table_entry_gba_address": "0x0859913C",
+      "pair_raw_hex": "d826340898283408",
+      "graphics": {
+        "gba_address": "0x083426D8",
+        "file_offset": 3417816,
+        "compressed_size": 447,
+        "compressed_sha256": "034f9601bb5df7698164696d20e34e29b9c578b2a80604c39721c05b2274b3d6",
+        "decompressed_size": 2048,
+        "decompressed_sha256": "20ba57e9b2eead364b30e256ec03aa1ec28b068849c47bba98972f44e68a0617",
+        "tile_count": 64,
+        "output_bin": "group-04-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x08342898",
+        "file_offset": 3418264,
+        "compressed_size": 22,
+        "compressed_sha256": "c0332d8891d304e2d5904194ab063e41e2a39ce36e04a32807f0f018acbb86f3",
+        "decompressed_size": 32,
+        "decompressed_sha256": "4d7cc7492e047b370eff00378883b6b7f818c6961aa277495381b81d2a56daff",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-04-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-04-atlas.png",
+        "width": 128,
+        "height": 32,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "849d3c6994cc35b6ac3ec317a3e7f6fa1121725a74c81654f1107eb6d3d11ec5"
+      }
+    },
+    {
+      "group_id": 5,
+      "table_entry_file_offset": 5869892,
+      "table_entry_gba_address": "0x08599144",
+      "pair_raw_hex": "38293408c82d3408",
+      "graphics": {
+        "gba_address": "0x08342938",
+        "file_offset": 3418424,
+        "compressed_size": 1165,
+        "compressed_sha256": "3b31a8dfb6d8687f85bb406a021a8fb5654495005fa6a74f29bac8b038cfa771",
+        "decompressed_size": 3840,
+        "decompressed_sha256": "6628fdc3365f8d6f16b134797be5f9a1c7cb48662ffeeea634ace058c659bb32",
+        "tile_count": 120,
+        "output_bin": "group-05-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x08342DC8",
+        "file_offset": 3419592,
+        "compressed_size": 27,
+        "compressed_sha256": "b7049120fa6357ffb814c3a5e48966ea13a45abd5e9939dac5b6aa0f335dd9bd",
+        "decompressed_size": 32,
+        "decompressed_sha256": "c00b7ea1d6748f60c387c12d2083da584a65a7e654e61a95bdfe25d1a803dc61",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-05-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-05-atlas.png",
+        "width": 128,
+        "height": 64,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "0cb99e3b5e197753e37e526452e59de52b397de851937e8ce5a2cfcdbea99591"
+      }
+    },
+    {
+      "group_id": 6,
+      "table_entry_file_offset": 5869900,
+      "table_entry_gba_address": "0x0859914C",
+      "pair_raw_hex": "1c3134080c333408",
+      "graphics": {
+        "gba_address": "0x0834311C",
+        "file_offset": 3420444,
+        "compressed_size": 494,
+        "compressed_sha256": "89762a6f93322583e215f7839447dd560b433cd15e24682ccefa2b0ef256b201",
+        "decompressed_size": 960,
+        "decompressed_sha256": "483d47b29f6fbdde039ccf91e3141025896269f2b0a329a2864c6c06bf898036",
+        "tile_count": 30,
+        "output_bin": "group-06-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x0834330C",
+        "file_offset": 3420940,
+        "compressed_size": 27,
+        "compressed_sha256": "83c24862170cbff0433f83bdb3312142080287be3fb35ab7c6533215f4546fba",
+        "decompressed_size": 32,
+        "decompressed_sha256": "6393b73a92bf5e950fdf7640a26ba76ea995c53aa8b984bc376559f0004d1aa5",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-06-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-06-atlas.png",
+        "width": 128,
+        "height": 16,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "8217900eff45fa8e7471738ceab24fd20f6901f441e5c099c13eed2307e472b6"
+      }
+    },
+    {
+      "group_id": 7,
+      "table_entry_file_offset": 5869908,
+      "table_entry_gba_address": "0x08599154",
+      "pair_raw_hex": "603734085c3a3408",
+      "graphics": {
+        "gba_address": "0x08343760",
+        "file_offset": 3422048,
+        "compressed_size": 764,
+        "compressed_sha256": "f53081df895b5747308f332c3543f1224bb1c124a142c0929c54455a73460fa7",
+        "decompressed_size": 1024,
+        "decompressed_sha256": "4839e96e137469eb2a4ddc02c14e9c2f3b197a77b62467f9a19f70fea5ff2188",
+        "tile_count": 32,
+        "output_bin": "group-07-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x08343A5C",
+        "file_offset": 3422812,
+        "compressed_size": 29,
+        "compressed_sha256": "2beede550b0d4f3fc11491bc86e6fe1d1e565d0f3958c1f29d0679dd1a4552b0",
+        "decompressed_size": 32,
+        "decompressed_sha256": "ade17055c76ef587fea1acb9a01737ee10c199754b961c3dfc4d2a874fac85a4",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-07-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-07-atlas.png",
+        "width": 128,
+        "height": 16,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "6aa1420d999f2df5d2e5bc0946247f9a6c33f51b4d897ed7339b8894a4aca98c"
+      }
+    },
+    {
+      "group_id": 8,
+      "table_entry_file_offset": 5869916,
+      "table_entry_gba_address": "0x0859915C",
+      "pair_raw_hex": "883d3408a0423408",
+      "graphics": {
+        "gba_address": "0x08343D88",
+        "file_offset": 3423624,
+        "compressed_size": 1304,
+        "compressed_sha256": "48c81d61682f9f2b9f5721f336127de5a75fd82585bcd7e52dc07487a5f171d2",
+        "decompressed_size": 2304,
+        "decompressed_sha256": "42f39b22b077c6e33349f89436b07aa7d4e83527023b43e5d3347f7d4eb76749",
+        "tile_count": 72,
+        "output_bin": "group-08-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x083442A0",
+        "file_offset": 3424928,
+        "compressed_size": 34,
+        "compressed_sha256": "246e9ed79461714c36c5ab165b19c843aa5bec8aaf6d00dc99e7a324301f9e60",
+        "decompressed_size": 32,
+        "decompressed_sha256": "609fd93993e4e4222154a44932ba1d634c070864d5e2ac3de7e186216cd8a9d0",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-08-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-08-atlas.png",
+        "width": 128,
+        "height": 40,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "09391b33cf6b4145baed2c423683a83d2a47d641a23bd2a100be78dd4a65c2ad"
+      }
+    },
+    {
+      "group_id": 9,
+      "table_entry_file_offset": 5869924,
+      "table_entry_gba_address": "0x08599164",
+      "pair_raw_hex": "80453408ac473408",
+      "graphics": {
+        "gba_address": "0x08344580",
+        "file_offset": 3425664,
+        "compressed_size": 554,
+        "compressed_sha256": "0f70689c50035dd34fe64a7d8c6daae57cf17d7476f108efbf2b3f9ee6f2bc2f",
+        "decompressed_size": 1024,
+        "decompressed_sha256": "d0474020d782fc88a6eeaa25768b09d367f3d9566354d713246b51d2179ede05",
+        "tile_count": 32,
+        "output_bin": "group-09-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x083447AC",
+        "file_offset": 3426220,
+        "compressed_size": 40,
+        "compressed_sha256": "00368bc50adede2b2897fc82ece7b59bd5f0e1b442506dbfca5e3c60a4531dd7",
+        "decompressed_size": 32,
+        "decompressed_sha256": "04cfd54690521de6ca3649fe20c743c0c439273a66860671bb3614a00db6c413",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-09-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-09-atlas.png",
+        "width": 128,
+        "height": 16,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "829a7a03ad471c2a04f1c09c5a403aad3f084155e7dcdc4323c3da7b6616fae5"
+      }
+    },
+    {
+      "group_id": 10,
+      "table_entry_file_offset": 5869932,
+      "table_entry_gba_address": "0x0859916C",
+      "pair_raw_hex": "184e3408044f3408",
+      "graphics": {
+        "gba_address": "0x08344E18",
+        "file_offset": 3427864,
+        "compressed_size": 235,
+        "compressed_sha256": "ad33e0a566e101569639bdcd20cbf7ac46483e1c1d7cd9c566700ccd5d1e1753",
+        "decompressed_size": 768,
+        "decompressed_sha256": "942c4ee118b7c21375ee8386fc253f0820dc0297105b5b0a4edb574188ef0906",
+        "tile_count": 24,
+        "output_bin": "group-10-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x08344F04",
+        "file_offset": 3428100,
+        "compressed_size": 27,
+        "compressed_sha256": "94a2294abd0bc905e2249604db7c6c03aed4f0be289309bb12272a9b01f7d839",
+        "decompressed_size": 32,
+        "decompressed_sha256": "5c973ed0591a365d58cf976cb8bd6b5cf176bd620c79416475f3c4f98782cd0c",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-10-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-10-atlas.png",
+        "width": 128,
+        "height": 16,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "fbf7bdc95d27aef50a15ccbc9b752e6a82f562424b19231edc8878b29df307cf"
+      }
+    },
+    {
+      "group_id": 11,
+      "table_entry_file_offset": 5869940,
+      "table_entry_gba_address": "0x08599174",
+      "pair_raw_hex": "9c52340884543408",
+      "graphics": {
+        "gba_address": "0x0834529C",
+        "file_offset": 3429020,
+        "compressed_size": 488,
+        "compressed_sha256": "4e17f52dbf3145bf3f050802332baed8982a1926269cce5af730ac9e081ef521",
+        "decompressed_size": 1664,
+        "decompressed_sha256": "0b5d70562a4c656a0d11ab0e59b89479a7237be924d8a0765578dd132459e54a",
+        "tile_count": 52,
+        "output_bin": "group-11-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x08345484",
+        "file_offset": 3429508,
+        "compressed_size": 27,
+        "compressed_sha256": "c8cbb486345df14adedfc8f929630b7a8362dd702781fac150373797ece2a955",
+        "decompressed_size": 32,
+        "decompressed_sha256": "29df643a21db41dd57a89be093d1fd7415717856dc018da65bc40926d5109b0c",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-11-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-11-atlas.png",
+        "width": 128,
+        "height": 32,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "0c93360383e086aa93127d5af4170bfb808bf216d64568a1e8ac04f075ed4233"
+      }
+    },
+    {
+      "group_id": 12,
+      "table_entry_file_offset": 5869948,
+      "table_entry_gba_address": "0x0859917C",
+      "pair_raw_hex": "68553408bc593408",
+      "graphics": {
+        "gba_address": "0x08345568",
+        "file_offset": 3429736,
+        "compressed_size": 1106,
+        "compressed_sha256": "4ee371638b6dbe598a720cbd62cbdb5e1455559cf8a146a8ebfabd88b3cd1986",
+        "decompressed_size": 2176,
+        "decompressed_sha256": "e1da042b138c01ac462f756407cf05c73fc003da9952c7de059946e347141b03",
+        "tile_count": 68,
+        "output_bin": "group-12-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x083459BC",
+        "file_offset": 3430844,
+        "compressed_size": 27,
+        "compressed_sha256": "738212674806cdcbee9d8bd1a201e9fd3649f98dcff8bc8f1107e5a71c057a67",
+        "decompressed_size": 32,
+        "decompressed_sha256": "79c80aa69e19aa0034f6b9828a5d9b7b6d9499b67b93c72f04d3ffcd0c7a8e43",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-12-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-12-atlas.png",
+        "width": 128,
+        "height": 40,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "b710efbbab8d88e4ef1aa3742cf282ebb0ee3ee8bde5b393c57615dce2d017d2"
+      }
+    },
+    {
+      "group_id": 13,
+      "table_entry_file_offset": 5869956,
+      "table_entry_gba_address": "0x08599184",
+      "pair_raw_hex": "c85a3408f45c3408",
+      "graphics": {
+        "gba_address": "0x08345AC8",
+        "file_offset": 3431112,
+        "compressed_size": 555,
+        "compressed_sha256": "bd8ee08b2903850d002ffd1d019556c1c9b3c3e15672ca3d624a92c387e5d879",
+        "decompressed_size": 1952,
+        "decompressed_sha256": "64033fc15513e33c63e1d9cdb9a7e5cd4f3d90f84e305463dd652a64f7a38d8a",
+        "tile_count": 61,
+        "output_bin": "group-13-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x08345CF4",
+        "file_offset": 3431668,
+        "compressed_size": 27,
+        "compressed_sha256": "195f92cabd0e7160e18bda503856b9b085c4a8a59820db527fc1cce161bc318c",
+        "decompressed_size": 32,
+        "decompressed_sha256": "afb5d06c793a020bbc7d21d56aceaf842e2c994c36d3adae2e458875baa1a4db",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-13-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-13-atlas.png",
+        "width": 128,
+        "height": 32,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "7603941a2f1ae62cdc7c9e550db958cbc0af4cc760fca652f0243b6c251cc129"
+      }
+    },
+    {
+      "group_id": 14,
+      "table_entry_file_offset": 5869964,
+      "table_entry_gba_address": "0x0859918C",
+      "pair_raw_hex": "645e3408c0663408",
+      "graphics": {
+        "gba_address": "0x08345E64",
+        "file_offset": 3432036,
+        "compressed_size": 2138,
+        "compressed_sha256": "af2f0647ba71e1bcd65da8d0b4ab3cb6de0cf764ef8b6d5ec8ee1c6d2c455bd8",
+        "decompressed_size": 5120,
+        "decompressed_sha256": "878505bd0d11d88fb0c72d9feeee8c4604625985cf9e496a3becb21a5165e867",
+        "tile_count": 160,
+        "output_bin": "group-14-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x083466C0",
+        "file_offset": 3434176,
+        "compressed_size": 34,
+        "compressed_sha256": "63b66efe1f8966349836c76e41c5ad63746e52adc5427072b5578725cd552625",
+        "decompressed_size": 32,
+        "decompressed_sha256": "2a4e16536349b52f028284eacbaa3e6047b02047b6e77af7d26914320b514d29",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-14-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-14-atlas.png",
+        "width": 128,
+        "height": 80,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "3ed5c1000960e3a40548c723e52492b8a8152cfb9996c23d3c95b7ac88d97124"
+      }
+    },
+    {
+      "group_id": 15,
+      "table_entry_file_offset": 5869972,
+      "table_entry_gba_address": "0x08599194",
+      "pair_raw_hex": "18693408306f3408",
+      "graphics": {
+        "gba_address": "0x08346918",
+        "file_offset": 3434776,
+        "compressed_size": 1560,
+        "compressed_sha256": "48fa623217fa34f3d0122d44bf67d86add3dfc0942fb0efdee8546653a95455f",
+        "decompressed_size": 3584,
+        "decompressed_sha256": "caf034cec9cf78cf35763eb7416d25ef431f76f06252221390ef05ab21c0407a",
+        "tile_count": 112,
+        "output_bin": "group-15-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x08346F30",
+        "file_offset": 3436336,
+        "compressed_size": 34,
+        "compressed_sha256": "a6bbf289c28d500f4cc6f51c427781d974f3a3a6484fad2d6c6615a439ac517b",
+        "decompressed_size": 32,
+        "decompressed_sha256": "cb86625b5c5d976d388d055aeeb9cbae97effd7efb021bce01e252030b54d1e1",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-15-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-15-atlas.png",
+        "width": 128,
+        "height": 56,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "8c30f39fd310a97561989b4e08c5f6c5fba90e99387cdc659cfd8b2782c1195f"
+      }
+    },
+    {
+      "group_id": 16,
+      "table_entry_file_offset": 5869980,
+      "table_entry_gba_address": "0x0859919C",
+      "pair_raw_hex": "6c7134087c743408",
+      "graphics": {
+        "gba_address": "0x0834716C",
+        "file_offset": 3436908,
+        "compressed_size": 781,
+        "compressed_sha256": "9c51168a5c3e00fd331fcac1d457169f5b2f3bd75ee337bc573254afaddb2091",
+        "decompressed_size": 2560,
+        "decompressed_sha256": "1ba47dbc5ca54b40027b00c9baae52b3ce966b239b89e70c6eea483a8bcd0aad",
+        "tile_count": 80,
+        "output_bin": "group-16-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x0834747C",
+        "file_offset": 3437692,
+        "compressed_size": 40,
+        "compressed_sha256": "00389842638360144130df6bd7479e301662c956174f498c6f68d78fb4ff5d7a",
+        "decompressed_size": 32,
+        "decompressed_sha256": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-16-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-16-atlas.png",
+        "width": 128,
+        "height": 40,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "aeb298df4ab960f205b56016c140c7b598036c3126756d185f10b8830189ad0c"
+      }
+    },
+    {
+      "group_id": 17,
+      "table_entry_file_offset": 5869988,
+      "table_entry_gba_address": "0x085991A4",
+      "pair_raw_hex": "4c753408b4753408",
+      "graphics": {
+        "gba_address": "0x0834754C",
+        "file_offset": 3437900,
+        "compressed_size": 103,
+        "compressed_sha256": "086b702e3592b777a929a1fb451b111f069434cebab5474eec9d8dbe43aa0d9b",
+        "decompressed_size": 256,
+        "decompressed_sha256": "842b8ef56a357e93a0f88ca5cdf2839d360663463809a129560a6e98d6e2c37e",
+        "tile_count": 8,
+        "output_bin": "group-17-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x083475B4",
+        "file_offset": 3438004,
+        "compressed_size": 40,
+        "compressed_sha256": "00389842638360144130df6bd7479e301662c956174f498c6f68d78fb4ff5d7a",
+        "decompressed_size": 32,
+        "decompressed_sha256": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-17-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-17-atlas.png",
+        "width": 64,
+        "height": 8,
+        "tiles_per_row": 8,
+        "tile_order": "GBA 4bpp tiles, row-major, 8 tiles per row",
+        "sha256": "80e1fcab248baab2b68a6fb07fd422701fbec898f8dd258c23e5fa833dedb823"
+      }
+    },
+    {
+      "group_id": 18,
+      "table_entry_file_offset": 5869996,
+      "table_entry_gba_address": "0x085991AC",
+      "pair_raw_hex": "f4783408c8803408",
+      "graphics": {
+        "gba_address": "0x083478F4",
+        "file_offset": 3438836,
+        "compressed_size": 2002,
+        "compressed_sha256": "d16b663e0ce5fe455af17a2bacdbe50720790be369798718769583c0f18b8cd3",
+        "decompressed_size": 3584,
+        "decompressed_sha256": "9162bda2e90536bbe5982e94b4d4de9b18111538b548137ca057701d36b7bc55",
+        "tile_count": 112,
+        "output_bin": "group-18-graphics-4bpp.bin"
+      },
+      "palette": {
+        "gba_address": "0x083480C8",
+        "file_offset": 3440840,
+        "compressed_size": 40,
+        "compressed_sha256": "f6ea3eb4ac1206b25fd6ca145b237826dd118262dffb2f587899891ba8952e4e",
+        "decompressed_size": 32,
+        "decompressed_sha256": "d53a7a56bded0b6727002a3fb4ad69454dccee15e8f849ad3a16c3b5639244c1",
+        "color_count": 16,
+        "transparent_index": 0,
+        "output_bin": "group-18-palette-bgr555.bin"
+      },
+      "atlas": {
+        "png": "group-18-atlas.png",
+        "width": 128,
+        "height": 56,
+        "tiles_per_row": 16,
+        "tile_order": "GBA 4bpp tiles, row-major, 16 tiles per row",
+        "sha256": "45d80eb643710719745f2b149add7bde3a045143e448113c58a9cef6a8d21e17"
+      }
+    }
+  ],
+  "consumer_code_slices": [
+    {
+      "name": "effect_resource_builder",
+      "file_offset": 523724,
+      "gba_start": "0x0807FDCC",
+      "gba_end": "0x0807FE2C",
+      "sha256": "2715bad870d8d7ea84bd03c537f08200be80b178c0dd570aea30155bb9431a84"
+    },
+    {
+      "name": "effect_sequence_selector",
+      "file_offset": 523820,
+      "gba_start": "0x0807FE2C",
+      "gba_end": "0x080800A4",
+      "sha256": "690232cbbed4b7f9d19602e91feca3299191cccb8369a10d3235b2d415751c94"
+    }
+  ],
+  "scope": {
+    "canonical_static_graphics_exported": true,
+    "canonical_static_palettes_exported": true,
+    "resource_group_to_sequence_mapping_complete": false,
+    "oam_composition_complete": false,
+    "frame_hold_timing_complete": false,
+    "audio_binding_complete": false
+  }
+}

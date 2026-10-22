@@ -1,0 +1,43 @@
+{
+  "artifact_schema": "rom-text-bg-task-closure-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-text-bg-task-closure.json": {
+      "sha256": "014c4b8c4fd098e8049511df55f248505e4d680be5b394592cab92e26c512a0c",
+      "size": 20175
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "629e7bb09fade4b76cb5e1e6a5e5135f08bb40867c90e25296f5df4b0a70d9e3",
+    "test_sha256": "48a4a4b8c62daca0ec42c7334ae2606d5407481a3fafa51aca897bf0d46069e0",
+    "verifier_sha256": "9e29205f8e32dc37cb0d50843ae86e96abee6270d0294ed9fc9c24c494859a50"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_text_bg_task_closure.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-text-bg-task-closure-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "code_bytes": 2692,
+    "instruction_count": 1330,
+    "literal_bytes": 248,
+    "promotion_bytes": 2940,
+    "root_count": 10
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_text_bg_task_closure.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-text-bg-task-closure-v1"
+    ]
+  }
+}

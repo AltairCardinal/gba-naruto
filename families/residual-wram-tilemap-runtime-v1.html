@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>residual-wram-tilemap-runtime-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">residual-wram-tilemap-runtime-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">git-artifact-promotion-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">10 个顶层分区 · 11 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="residual-wram-tilemap-runtime-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-schema">artifact_schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-scope">scope</a><a class="sec-jump" href="#sec-implementation">implementation</a><a class="sec-jump" href="#sec-files">files</a><a class="sec-jump" href="#sec-artifact-id">artifact_id</a><a class="sec-jump" href="#sec-payload-file">payload_file</a><a class="sec-jump" href="#sec-payload-sha256">payload_sha256</a><a class="sec-jump" href="#sec-verifier">verifier</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">git-artifact-promotion-v1</span></section>
+<section class="fam-sec" id="sec-artifact-schema"><h2 class="fam-sec-title">artifact_schema</h2><span class="fml-text">residual-wram-tilemap-runtime-evidence-v1</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-scope"><h2 class="fam-sec-title">scope</h2><div class="fml-row"><div class="fml-key">exact_natural_language_identity_verified</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">exclusive_writer_causality_verified</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">final_vram_rows_equal_rom_tilemap</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">modified_rom_pixel_equivalence_verified</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">natural_base_rom_reachability_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">natural_queue_consumer_flush_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">other_two_direct_queue_sources_runtime_verified</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">post_consumer_queue_retirement_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">queue_slot_status3_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">zero_input_checkpoint_continuation_verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div></section>
+<section class="fam-sec" id="sec-implementation"><h2 class="fam-sec-title">implementation</h2><div class="fml-row"><div class="fml-key">tests/test_mgba_wram_tilemap_probe_script.py</div><div class="fml-val"><span class="fml-text">b99973e5c13c4f7ae0dbc7df7f79f24da714d5b4de3c4c5efed4433c73090a20</span></div></div><div class="fml-row"><div class="fml-key">tests/test_residual_wram_tilemap_runtime_evidence.py</div><div class="fml-val"><span class="fml-text">5e2e5e7e6545134f6e7558d29a47d8f07631b4822019f8d93c757e2a39b2d7aa</span></div></div><div class="fml-row"><div class="fml-key">tools/export_residual_wram_tilemap_runtime_evidence.py</div><div class="fml-val"><span class="fml-text">9b9906946d04c305b2f55a3622fe57ea130fbd625104ec140f2475c32b53b9a8</span></div></div><div class="fml-row"><div class="fml-key">tools/extract_tileset.py</div><div class="fml-val"><span class="fml-text">c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33</span></div></div><div class="fml-row"><div class="fml-key">tools/mgba_wram_tilemap_probe.lua</div><div class="fml-val"><span class="fml-text">d466c3a2127e5c124b713ae4ea05149cf29fc4535c90b552d773f482ddaa58ea</span></div></div><div class="fml-row"><div class="fml-key">tools/verify_residual_wram_tilemap_runtime_evidence.py</div><div class="fml-val"><span class="fml-text">263b045af98ae5d5465b309d3cdca927c30778a7b4656b2856dc992b31708378</span></div></div></section>
+<section class="fam-sec" id="sec-files"><h2 class="fam-sec-title">files</h2><div class="fml-row"><div class="fml-key">audit.json</div><div class="fml-val"><span class="fml-text">4d01d7eb4734265bca12fed4c89750733fb2a3359f8a80e22eb3c1dcbd959ddc</span></div></div><div class="fml-row"><div class="fml-key">final-queue.bin</div><div class="fml-val"><span class="fml-text">b68e066491517dfceaa3dd27cdde79b5e0c69e9af3aef9054a48551ccb1e7398</span></div></div><div class="fml-row"><div class="fml-key">final.png</div><div class="fml-val"><span class="fml-text">47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e</span></div></div><div class="fml-row"><div class="fml-key">final.ss9</div><div class="fml-val"><span class="fml-text">fbfd4b5aa0ceda8e239ae0d965c05429e1edc64e9bd7dfba9567f968460348ff</span></div></div><div class="fml-row"><div class="fml-key">guard.json</div><div class="fml-val"><span class="fml-text">54f4085ff2ed6b3307d7125c8ef97b5e5f09edd689ce548dee86e3e5cd17a5b7</span></div></div><div class="fml-row"><div class="fml-key">hit.ss9</div><div class="fml-val"><span class="fml-text">b946057c5de600c5d856031ea93119718e6bb14aaffdf086ac61a4b68b18a768</span></div></div><div class="fml-row"><div class="fml-key">queue-at-consumer.bin</div><div class="fml-val"><span class="fml-text">409038a84b409a60554f83cf8d244e0bccfd7eb199b27b450ec24da83602f687</span></div></div><div class="fml-row"><div class="fml-key">runtime-evidence.json</div><div class="fml-val"><span class="fml-text">cf2ccff3159ac28a4300f94fcf40498c805de8351ba0b180a840648025470e62</span></div></div><div class="fml-row"><div class="fml-key">vram-at-consumer.bin</div><div class="fml-val"><span class="fml-text">62ed48913082503bc7caf73f2a881e2fc036fe6d6d1fabd7e6c8533781fe9935</span></div></div><div class="fml-row"><div class="fml-key">vram-final.bin</div><div class="fml-val"><span class="fml-text">d4aafaeae376abea0a3726fd8f02c77d3e62fca6ec26d5750f4fe7ec93161105</span></div></div></section>
+<section class="fam-sec" id="sec-artifact-id"><h2 class="fam-sec-title">artifact_id</h2><span class="fml-text">residual-wram-tilemap-runtime-v1</span></section>
+<section class="fam-sec" id="sec-payload-file"><h2 class="fam-sec-title">payload_file</h2><span class="fml-text">runtime-evidence.json</span></section>
+<section class="fam-sec" id="sec-payload-sha256"><h2 class="fam-sec-title">payload_sha256</h2><span class="fml-text">cf2ccff3159ac28a4300f94fcf40498c805de8351ba0b180a840648025470e62</span></section>
+<section class="fam-sec" id="sec-verifier"><h2 class="fam-sec-title">verifier</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/verify_residual_wram_tilemap_runtime_evidence.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--artifact</span></span><span><span class="fml-text">artifacts/residual-wram-tilemap-runtime-v1</span></span></div></div></div><div class="fml-row"><div class="fml-key">exit_code</div><div class="fml-val"><span class="fml-num">0</span></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/residual-wram-tilemap-runtime-v1/audit.json">audit.json</a><span class="fml-meta"> 1,271 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/final-queue.bin">final-queue.bin</a><span class="fml-meta"> 256 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/final.png">final.png</a><span class="fml-meta"> 192 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/final.ss9">final.ss9</a><span class="fml-meta"> 23,572 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/guard.json">guard.json</a><span class="fml-meta"> 745 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/hit.ss9">hit.ss9</a><span class="fml-meta"> 24,672 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/manifest.json">manifest.json</a><span class="fml-meta"> 2,765 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/queue-at-consumer.bin">queue-at-consumer.bin</a><span class="fml-meta"> 256 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/runtime-evidence.json">runtime-evidence.json</a><span class="fml-meta"> 5,436 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/vram-at-consumer.bin">vram-at-consumer.bin</a><span class="fml-meta"> 98,304 B</span></li><li><a href="../artifacts/residual-wram-tilemap-runtime-v1/vram-final.bin">vram-final.bin</a><span class="fml-meta"> 98,304 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

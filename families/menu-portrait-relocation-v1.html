@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>menu-portrait-relocation-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">menu-portrait-relocation-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">git-artifact-promotion-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">10 个顶层分区 · 3 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="menu-portrait-relocation-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-schema">artifact_schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-scope">scope</a><a class="sec-jump" href="#sec-summary">summary</a><a class="sec-jump" href="#sec-files">files</a><a class="sec-jump" href="#sec-artifact-id">artifact_id</a><a class="sec-jump" href="#sec-payload-file">payload_file</a><a class="sec-jump" href="#sec-payload-sha256">payload_sha256</a><a class="sec-jump" href="#sec-verifier">verifier</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">git-artifact-promotion-v1</span></section>
+<section class="fam-sec" id="sec-artifact-schema"><h2 class="fam-sec-title">artifact_schema</h2><span class="fml-text">menu-portrait-relocation-audit-v1</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-scope"><h2 class="fam-sec-title">scope</h2><div class="fml-row"><div class="fml-key">proved</div><div class="fml-val"><span class="fml-text">All 70 graphics and 70 palette payloads, representing 74 logical portrait pairs and 311 portraits, relocate through all 622 exact pair-table pointer fields into the registered menu-portraits region.</span></div></div><div class="fml-row"><div class="fml-key">editable</div><div class="fml-val"><span class="fml-text">Indexed 80x80 portraits may replace their compressed 6400-byte OBJ stream and 128-byte BGR555 palette, including explicit pair-alias splits, without the original compressed-slot capacity limit.</span></div></div><div class="fml-row"><div class="fml-key">not_proved</div><div class="fml-val"><span class="fml-text">Arbitrary portrait dimensions, modified-resource runtime pixel equivalence, menu color transforms, transitions or final composition.</span></div></div></section>
+<section class="fam-sec" id="sec-summary"><h2 class="fam-sec-title">summary</h2><div class="fml-row"><div class="fml-key">logical_portrait_count</div><div class="fml-val"><span class="fml-num">311</span></div></div><div class="fml-row"><div class="fml-key">logical_pair_count</div><div class="fml-val"><span class="fml-num">74</span></div></div><div class="fml-row"><div class="fml-key">physical_payload_count</div><div class="fml-val"><span class="fml-num">140</span></div></div><div class="fml-row"><div class="fml-key">graphics_payload_count</div><div class="fml-val"><span class="fml-num">70</span></div></div><div class="fml-row"><div class="fml-key">palette_payload_count</div><div class="fml-val"><span class="fml-num">70</span></div></div><div class="fml-row"><div class="fml-key">logical_pointer_count</div><div class="fml-val"><span class="fml-num">622</span></div></div><div class="fml-row"><div class="fml-key">unexpected_pointer_count</div><div class="fml-val"><span class="fml-num">0</span></div></div><div class="fml-row"><div class="fml-key">allocation_count</div><div class="fml-val"><span class="fml-num">140</span></div></div><div class="fml-row"><div class="fml-key">pointer_patch_count</div><div class="fml-val"><span class="fml-num">622</span></div></div><div class="fml-row"><div class="fml-key">allocation_start</div><div class="fml-val"><span class="fml-num">11,010,048</span></div></div><div class="fml-row"><div class="fml-key">allocation_end</div><div class="fml-val"><span class="fml-num">11,241,420</span></div></div><div class="fml-row"><div class="fml-key">region_end</div><div class="fml-val"><span class="fml-num">11,534,336</span></div></div><div class="fml-row"><div class="fml-key">stored_payload_bytes</div><div class="fml-val"><span class="fml-num">231,262</span></div></div><div class="fml-row"><div class="fml-key">allocation_span</div><div class="fml-val"><span class="fml-num">231,372</span></div></div><div class="fml-row"><div class="fml-key">remaining_bytes</div><div class="fml-val"><span class="fml-num">292,916</span></div></div><div class="fml-row"><div class="fml-key">applied_patch_count</div><div class="fml-val"><span class="fml-num">762</span></div></div></section>
+<section class="fam-sec" id="sec-files"><h2 class="fam-sec-title">files</h2><div class="fml-row"><div class="fml-key">relocation-audit.json</div><div class="fml-val"><span class="fml-text">162ba0b9b6cf6c8f20c116bcdb14cb55a1dd0877e4c52cb00de3b61ce45a120b</span></div></div><div class="fml-row"><div class="fml-key">full-relocation-spec.json</div><div class="fml-val"><span class="fml-text">f262c204f1dadcf48295cd038d2e91e4d76ed821b949d2f4743ab2bd3197f7df</span></div></div></section>
+<section class="fam-sec" id="sec-artifact-id"><h2 class="fam-sec-title">artifact_id</h2><span class="fml-text">menu-portrait-relocation-v1</span></section>
+<section class="fam-sec" id="sec-payload-file"><h2 class="fam-sec-title">payload_file</h2><span class="fml-text">relocation-audit.json</span></section>
+<section class="fam-sec" id="sec-payload-sha256"><h2 class="fam-sec-title">payload_sha256</h2><span class="fml-text">162ba0b9b6cf6c8f20c116bcdb14cb55a1dd0877e4c52cb00de3b61ce45a120b</span></section>
+<section class="fam-sec" id="sec-verifier"><h2 class="fam-sec-title">verifier</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/verify_menu_portrait_relocation_audit.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--artifact</span></span><span><span class="fml-text">artifacts/menu-portrait-relocation-v1</span></span></div></div></div><div class="fml-row"><div class="fml-key">exit_code</div><div class="fml-val"><span class="fml-num">0</span></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/menu-portrait-relocation-v1/full-relocation-spec.json">full-relocation-spec.json</a><span class="fml-meta"> 41,733 B</span></li><li><a href="../artifacts/menu-portrait-relocation-v1/manifest.json">manifest.json</a><span class="fml-meta"> 1,899 B</span></li><li><a href="../artifacts/menu-portrait-relocation-v1/relocation-audit.json">relocation-audit.json</a><span class="fml-meta"> 238,032 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

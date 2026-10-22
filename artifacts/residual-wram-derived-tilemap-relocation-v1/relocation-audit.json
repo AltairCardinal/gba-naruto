@@ -1,0 +1,179 @@
+{
+  "abi": {
+    "path": "artifacts/residual-wram-visual-metadata-abi-v2/residual-wram-visual-metadata-abi.json",
+    "sha256": "4cee47ab097986d50ed0d3b3017fc4fd429037405ee247876022dfd08beac260"
+  },
+  "allocations": [
+    {
+      "encoded_size": 140,
+      "new_pointer": "0x08BC1400",
+      "offset": 12325888,
+      "replacement_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+      "source_pointer": "0x083F2108"
+    },
+    {
+      "encoded_size": 177,
+      "new_pointer": "0x08BC148C",
+      "offset": 12326028,
+      "replacement_sha256": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+      "source_pointer": "0x084634B8"
+    },
+    {
+      "encoded_size": 105,
+      "new_pointer": "0x08BC1540",
+      "offset": 12326208,
+      "replacement_sha256": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+      "source_pointer": "0x0846356C"
+    },
+    {
+      "encoded_size": 175,
+      "new_pointer": "0x08BC15AC",
+      "offset": 12326316,
+      "replacement_sha256": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640",
+      "source_pointer": "0x084635D8"
+    }
+  ],
+  "authoring_spec": {
+    "file": "full-relocation-spec.json",
+    "sha256": "d62548d1a7042de8e2d0b018b96b91c50d24da68aed3d0a0c7455349b40ccb05"
+  },
+  "base_rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "capability_fixture": {
+    "changed_entries": 4,
+    "mutation": "toggle H-flip on entry 0 of every tilemap source",
+    "output_rom_sha256": "2bb485c2a1fb6d227ef34186c63604673f8ac6bd5024b938da89650c692e43be"
+  },
+  "implementation": {
+    "tools/automated_test.py": "1dade122a7723a00032ab0817a4b6c9d64a41be5c9fd79c0c11555891b5dfd3c",
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/export_residual_wram_derived_tilemap_relocation_audit.py": "d62f0cd143c46de06bc2722c725e75498c08a21797bd3d472eb78dcfde817892",
+    "tools/export_residual_wram_tilemap_resource_ownership.py": "b1bed7cd5a38efe439c18fdb9e82338bf5e8bc99c14ad640ca5cb74cd28feea2",
+    "tools/export_residual_wram_visual_metadata_abi.py": "12c26f67c7b66c9a9b099411285f311c15b51ab66e7fe2f9571ed6d040f7f63c",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_residual_wram_derived_tilemap_relocations.py": "7473d3d5e7129cbbb6569d2f7dac4f0109c479e5fc2b4868deb1109419f55810",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/verify_residual_wram_derived_tilemap_relocation_audit.py": "8317603d8ddc3bf4ad190992091c0d8ae2f95fd8551cd1c2016abd2af42ce9d6",
+    "tools/verify_residual_wram_tilemap_resource_ownership.py": "0382308f7e5581f95368ddfd0375075d5d32a69f0b437206d79ca678a21689f1",
+    "tools/verify_residual_wram_visual_metadata_abi.py": "2457715f79efa4c8f4e0327c2a8e91d48a46890274cfd87fdd3beb1963b7507b"
+  },
+  "layout": {
+    "path": "sequel/rom-layout.json",
+    "sha256": "544ce98b8ebe33356255e34120c830b997edec0504cbf3cc58b9a89f607eb0c1",
+    "target_rom_size": 16777216
+  },
+  "output_rom_sha256": "bcf83aba98abd840b422a57eecb1144f9c63fcdec9d6aab17a01729539bbe061",
+  "redirects": [
+    {
+      "new_pointer": "0x08BC1400",
+      "offset": 572768,
+      "source_pointer": "0x083F2108"
+    },
+    {
+      "new_pointer": "0x08BC148C",
+      "offset": 592860,
+      "source_pointer": "0x084634B8"
+    },
+    {
+      "new_pointer": "0x08BC1540",
+      "offset": 593372,
+      "source_pointer": "0x0846356C"
+    },
+    {
+      "new_pointer": "0x08BC15AC",
+      "offset": 593384,
+      "source_pointer": "0x084635D8"
+    }
+  ],
+  "region_registry": {
+    "end": 12327936,
+    "owner": "residual_wram_derived_tilemaps",
+    "path": "sequel/image-resource-regions.json",
+    "region": "residual-wram-derived-tilemaps",
+    "sha256": "a7781118b2395f9b34399a96d7f2bc69bc410c1c75e994777f94b2c7c905914f",
+    "start": 12325888
+  },
+  "resource_ownership": {
+    "path": "artifacts/residual-wram-tilemap-resource-ownership-v1/resource-ownership.json",
+    "sha256": "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7",
+    "verified_source_count": 4
+  },
+  "schema": "residual-wram-derived-tilemap-relocation-audit-v1",
+  "scope": {
+    "editable": "All 832 u16 entries keep source geometry and palette bank while selecting tiles inside each source's observed range and using H/V flip bits.",
+    "not_proved": "Natural runtime reachability, queue-slot success and flush, exact natural-language screen identity, and final screen pixel or timing equivalence.",
+    "proved": "All four remaining pointer-reachable WRAM tilemap sources and their four exact aligned roots relocate into an owned 16 MiB ROM region, with their BG controls, graphics and palettes bound to a separately verified seven-source ownership catalog."
+  },
+  "sources": [
+    {
+      "classification": "direct_cpu_crop_tilemap",
+      "decoded_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+      "decoded_size": 800,
+      "entry_count": 400,
+      "pointer_offsets": [
+        572768
+      ],
+      "source_pointer": "0x083F2108",
+      "tilemap_file": "tilemap-083f2108.bin",
+      "tilemap_file_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc"
+    },
+    {
+      "classification": "transformed_strided_queue_tilemap",
+      "decoded_sha256": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+      "decoded_size": 288,
+      "entry_count": 144,
+      "pointer_offsets": [
+        592860
+      ],
+      "source_pointer": "0x084634B8",
+      "tilemap_file": "tilemap-084634b8.bin",
+      "tilemap_file_sha256": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef"
+    },
+    {
+      "classification": "transformed_strided_queue_tilemap",
+      "decoded_sha256": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+      "decoded_size": 288,
+      "entry_count": 144,
+      "pointer_offsets": [
+        593372
+      ],
+      "source_pointer": "0x0846356C",
+      "tilemap_file": "tilemap-0846356c.bin",
+      "tilemap_file_sha256": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32"
+    },
+    {
+      "classification": "transformed_strided_queue_tilemap",
+      "decoded_sha256": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640",
+      "decoded_size": 288,
+      "entry_count": 144,
+      "pointer_offsets": [
+        593384
+      ],
+      "source_pointer": "0x084635D8",
+      "tilemap_file": "tilemap-084635d8.bin",
+      "tilemap_file_sha256": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640"
+    }
+  ],
+  "summary": {
+    "allocation_count": 4,
+    "allocation_end": 12326491,
+    "allocation_span": 603,
+    "allocation_start": 12325888,
+    "applied_patch_count": 8,
+    "decoded_size": 1664,
+    "entry_count": 832,
+    "literal_lz77_worst_case_bytes_with_alignment": 1888,
+    "pointer_patch_count": 4,
+    "region_end": 12327936,
+    "remaining_bytes": 1445,
+    "source_count": 4,
+    "source_pointer_reference_count": 4,
+    "stored_payload_bytes": 597
+  }
+}

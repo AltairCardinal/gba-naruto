@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运行时模型 · rom-cfg-v2-shadowed-consumed-literals-v1 · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-formulas.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<div class="card full-width" id="fml-rom-cfg-v2-shadowed-consumed-literals-v1">
+          <div class="card-head">
+            <div class="card-title">rom-cfg-v2-shadowed-consumed-literals-v1</div>
+            <span class="tag tag-purple"> · artifacts/rom-cfg-v2-shadowed-consumed-literals-v1</span>
+          </div>
+          <p class="card-desc">
+            下列模型由 <code>artifacts/rom-cfg-v2-shadowed-consumed-literals-v1/manifest.json</code> 直接导出，共 <strong>17</strong> 个字段；字段值即 ROM 中签发的表达式原文，未经改写。
+          </p>
+            <details class="fml-model" open>
+              <summary><code>literal_denominator</code><span class="fml-meta">12 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">encoding</div><div class="fml-val"><code class="fml-expr">Thumb-1 LDR Rd,[PC,#imm8*4] where raw_halfword &amp; 0xF800 == 0x4800</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">merged_target_range_count</div><div class="fml-val"><span class="fml-num">17</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">source_instruction_count</div><div class="fml-val"><span class="fml-num">82</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">target_bytes</div><div class="fml-val"><span class="fml-num">308</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">target_formula</div><div class="fml-val"><span class="fml-text">align4(source_file_offset + 4) + imm8 * 4</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">unique_target_word_count</div><div class="fml-val"><span class="fml-num">77</span></div></div></div>
+            </details>
+            <details class="fml-model" open>
+              <summary><code>source_denominator.selection_funnel</code><span class="fml-meta">5 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">excluded_non_consumer_code_slice_source_count</div><div class="fml-val"><span class="fml-num">1990</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">excluded_non_unknown_target_source_count</div><div class="fml-val"><span class="fml-num">182</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">raw_source_instruction_count</div><div class="fml-val"><span class="fml-num">2254</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">raw_unique_target_word_count</div><div class="fml-val"><span class="fml-num">2070</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">source_owner_eligible_instruction_count</div><div class="fml-val"><span class="fml-num">264</span></div></div></div>
+            </details>
+        </div>
+
+        
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

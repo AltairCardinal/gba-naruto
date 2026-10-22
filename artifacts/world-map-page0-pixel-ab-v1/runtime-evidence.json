@@ -1,0 +1,114 @@
+{
+  "edit": {
+    "after_index": 137,
+    "before_index": 112,
+    "canvas_xy": [
+      116,
+      76
+    ],
+    "graphics_byte_offset": 15588,
+    "page_id": 0,
+    "resource_type": "graphics",
+    "table_pointer_offset": 5931028,
+    "tile_id": 243
+  },
+  "input": {
+    "capture_frame": 80,
+    "event": {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    },
+    "page0_absent_before_input": true,
+    "path": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-11.ss9",
+    "script_cursor": "0x08031FE7",
+    "sha256": "bf821ecdd9945c123576ff7f26717c4d2018f07e623c36cb83dc2bb0fa569555"
+  },
+  "runs": {
+    "baseline": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 83110,
+      "guard_sha256": "455efb375d5290161f703c577cdf01ca94c89a8829c2ef598a51e850f8818700",
+      "peak_tree_rss_mib": 56.09765625,
+      "pgid_clean": true,
+      "png_sha256": "989a9c9b60f3ea352758eb08f74402eefa524959565dbf00491e23563da51046",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "f0493edf59196524786fa234a7fdb64dc524e6d89c509e234ea00361fb92ca85",
+      "run_id": "b23b5fd06752acf86eaa5bb35cf77aba",
+      "state_sha256": "5d49b2cbe4c770d88122a98db9893a3288e68e14edc4c6bd074c238fe7a4ef29"
+    },
+    "candidate": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 83149,
+      "guard_sha256": "7c1a57189fc26e4fe0e6abf5ba5f01a1e4f0d4969249b0311200ddbd298dfc4e",
+      "peak_tree_rss_mib": 55.890625,
+      "pgid_clean": true,
+      "png_sha256": "8ad24b4e6dea41c7067b84e1ea0c7f3d8fa917a4609d15943e5a481e284ff622",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "b0202dace931eae32e91a270636578e0fb0d8d59ef1edc521693909f7f0987aa",
+      "run_id": "decd6d92efcb5fe0b28e6f2c4e82c653",
+      "state_sha256": "9b03c62bbd5ab1f4d552a3b605389f297569f77eccc6a16fe5c4aeb231a10387"
+    }
+  },
+  "runtime": {
+    "baseline_vram_byte": 112,
+    "candidate_vram_byte": 137,
+    "changed_vram_address": "0x06007CE4",
+    "common_overwrite_count": 0,
+    "common_overwrite_offsets_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "graphics_vram_address": "0x06004000",
+    "memory_differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [],
+      "OAM": [],
+      "PRAM": [],
+      "VRAM": [
+        31972
+      ]
+    },
+    "palette_pram_address": "0x05000000",
+    "pixels": {
+      "baseline_rgb_sha256": "80f987fd20333739f3710ba0b0f59ce83f2ae9ab66fdfa3c34314c49cea6cb69",
+      "bbox": [
+        116,
+        76,
+        116,
+        76
+      ],
+      "candidate_rgb_sha256": "9d56680df8d7bb5792ce6db42e5441160ce436b3f3433f67c9fd923d3f11d636",
+      "changes": [
+        {
+          "after_rgb": [
+            66,
+            33,
+            0
+          ],
+          "before_rgb": [
+            189,
+            165,
+            107
+          ],
+          "x": 116,
+          "y": 76
+        }
+      ],
+      "count": 1
+    },
+    "renderer_exact": true,
+    "tilemap_vram_address": "0x06000000"
+  },
+  "schema": "world-map-page0-pixel-ab-runtime-v1",
+  "scope": {
+    "labels_cursor_transition_verified": false,
+    "natural_page0_load": true,
+    "page0_graphics_single_pixel": true,
+    "page1_and_page2_runtime_verified": false,
+    "physical_gba_verified": false,
+    "production_relocation_route": true
+  },
+  "verified": true
+}

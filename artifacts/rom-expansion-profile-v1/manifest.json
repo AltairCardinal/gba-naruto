@@ -1,0 +1,39 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "rom-expansion-profile-v1",
+  "artifact_schema": "rom-expansion-profile-v1",
+  "artifact_status": "accepted",
+  "payload_file": "profile.json",
+  "payload_sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+  "files": {
+    "boot-frame-60.png": "018f0c0bfbe41fe3db7307363376fa5244bd66a75240cd6887233f4d85aff6b6",
+    "boot-frame-60.ss9": "7ea3e16d1dce80253353f42f783ba791d9158e49aceb37afae768b507e410cbe",
+    "build-manifest.json": "843566597af9251f4450dcda22d69aaa644f3fa9832e8f1d9506a22c32719563",
+    "guard-summary.json": "c3097006796dc2b3fc892958221735a9f023a20e20bd765c7c72c530e69ce740",
+    "profile.json": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "restore-evidence.json": "b0337ae2bc62e78067bad34ec25c69c1c8fffac0b14b14194d6ba79dabb9ff8e",
+    "restore-frame-30.png": "018f0c0bfbe41fe3db7307363376fa5244bd66a75240cd6887233f4d85aff6b6",
+    "restore-guard-summary.json": "dbe2073167fc139dcaff49fdcd178903f95a6621be94e41098c10aacf085b4b9",
+    "runtime-evidence.json": "462cb89341336771ff3b5d508254cbc6e2fadf833e882136b3adc1f7dee07b08"
+  },
+  "scope": {
+    "boundary": "This proves standard GBA addressability, mGBA CPU execution/data reads in the first expanded partition, and continued original-game boot. It does not by itself prove every address through 16 MiB, a specific flash cartridge implementation, or any relocated game resource."
+  },
+  "summary": {
+    "target_rom_size": 16777216,
+    "expanded_instruction_address": "0x08600000",
+    "expanded_marker_address": "0x08600100",
+    "snapshot_restore_verified": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_expansion_profile.py",
+      "--root",
+      ".",
+      "--manifest",
+      "artifacts/rom-expansion-profile-v1/manifest.json"
+    ],
+    "exit_code": 0
+  }
+}

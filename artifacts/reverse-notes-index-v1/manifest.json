@@ -1,0 +1,121 @@
+{
+ "schema": "konoha.reverse-notes-index-manifest.v1",
+ "generated_at": "2026-10-22T02:56:47.614661+00:00",
+ "source": {
+  "reverse_root": "/Users/altair/github/gba-naruto-reverse",
+  "reverse_notes_dir": "/Users/altair/github/gba-naruto-reverse/notes",
+  "reverse_commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375",
+  "note_files": 436,
+  "unique_note_ids": 398
+ },
+ "measurement": {
+  "unit": "reverse note file",
+  "scanned_files": 4774,
+  "scan_roots": [
+   "butano-sequel",
+   "tools",
+   "artifacts",
+   "tests",
+   "docs",
+   "notes",
+   "sequel"
+  ],
+  "excluded_prefixes": [
+   "artifacts/reverse-results-index-v1/",
+   "tools/build_reverse_results_index.py",
+   "artifacts/butano-reverse-gap-v1/",
+   "artifacts/reverse-notes-index-v1/",
+   "artifacts/butano-reverse-m3-import-v1/",
+   "docs/butano-reverse-gap-roadmap.md",
+   "notes/full-customization-and-fidelity-theory-20261020.md",
+   "docs/reverse-results-index/notes-index.md",
+   "artifacts/s49-original-battle14-roster-v1/",
+   "artifacts/s49-result-settlement-v1/",
+   "artifacts/s49-original-movegrid-frame-v1/",
+   "artifacts/s49-original-banner-frame-v1/",
+   "artifacts/s49-original-movegrid-mechanism-v1/",
+   "artifacts/butano-usable-backlog-v1/",
+   "artifacts/butano-wiring-coverage-v1/",
+   "artifacts/butano-local-derivations-v1/",
+   "artifacts/reverse-notes-index-v1/",
+   "docs/reverse-results-index/notes-index.md",
+   "tools/build_reverse_notes_index.py"
+  ],
+  "min_bare_identifier": 8
+ },
+ "summary": {
+  "total": 436,
+  "by_bucket": {
+   "implemented_in_code": 29,
+   "not_applicable": 43,
+   "missing_evidence": 19,
+   "needs_guard": 332,
+   "needs_human_review": 13
+  },
+  "by_pre_index_status": {
+   "build": 29,
+   "local_artifact": 3,
+   "test": 26,
+   "doc": 168,
+   "none": 210
+  },
+  "needs_guard_already_referenced_from_tests": 19,
+  "needs_guard_without_any_test_reference": 313,
+  "by_category": {
+   "audio": {
+    "needs_guard": 4
+   },
+   "battle": {
+    "implemented_in_code": 3,
+    "needs_guard": 7
+   },
+   "map": {
+    "needs_guard": 18
+   },
+   "other": {
+    "implemented_in_code": 18,
+    "missing_evidence": 4,
+    "needs_guard": 106,
+    "needs_human_review": 13,
+    "not_applicable": 29
+   },
+   "overview": {
+    "needs_guard": 1
+   },
+   "presentation": {
+    "needs_guard": 15
+   },
+   "residual": {
+    "needs_guard": 10
+   },
+   "rom": {
+    "implemented_in_code": 1,
+    "missing_evidence": 15,
+    "needs_guard": 93,
+    "not_applicable": 14
+   },
+   "runtime": {
+    "implemented_in_code": 1,
+    "needs_guard": 7
+   },
+   "scenario": {
+    "implemented_in_code": 3,
+    "needs_guard": 14
+   },
+   "visual": {
+    "implemented_in_code": 3,
+    "needs_guard": 57
+   }
+  }
+ },
+ "outputs": {
+  "index": {
+   "path": "artifacts/reverse-notes-index-v1/notes-index.json",
+   "sha256": "b0fea84285d6c58d427a229f53c02147186fc106dbda547863329171a225ecb2"
+  },
+  "doc": {
+   "path": "docs/reverse-results-index/notes-index.md",
+   "sha256": "fec72c180f4c9e8cc3780660e541c6e5ac26389a95faf410f7b4899e23278d7e"
+  }
+ }
+}

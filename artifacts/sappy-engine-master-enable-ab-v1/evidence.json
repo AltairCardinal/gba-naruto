@@ -1,0 +1,71 @@
+{
+  "actual_identity": "0x0809AE3C..0x0809AEF3 FIFO/DMA audio initializer code",
+  "downstream_audio_evidence": {
+    "matched_chunks": 79,
+    "path": "artifacts/audio/mgba-sound101-full-differential.json",
+    "sha256": "700ca17c620b26bc010fd85a3bae5d1a1a4524714d2c8777aeb47aa470a84452"
+  },
+  "edit": {
+    "after_halfword": "0x200F",
+    "before_halfword": "0x208F",
+    "changed_rom_offsets": [
+      634486
+    ],
+    "instruction_address": "0x0809AE76",
+    "rom_offset": 634486
+  },
+  "emulator": {
+    "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+    "script_path": "tools/mgba_sappy_engine_master_enable_trace.lua",
+    "script_sha256": "a678f24bbe6aa78918b5eeadf842e4974a5a7e9e71fdd7a1d15205d22d198d6c",
+    "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8"
+  },
+  "function": {
+    "entry_address": "0x0809AE3C",
+    "return_address": "0x0809AEF2",
+    "rom_offset": 634428,
+    "size": 184
+  },
+  "input_checkpoint": {
+    "archive_path": "input-disclaimer.ss9",
+    "restored_for_both_variants": true,
+    "sha256": "02bc502ad31ba1cd781dba8a3f212dbf5d7b88e83132e4913e9f19b04afa2c36"
+  },
+  "runs": {
+    "baseline": {
+      "audit_sha256": "47b61e8d807d251675ea6d74e3e9c6ce75be38242e049ac987ddd70bc2859b25",
+      "done_sha256": "f9935028f376c12cdbbe0b30ae59d5ad568bb7cbd6dbbed0810d3cfae4b2a06a",
+      "guard_sha256": "6a0f624b30f0067b6de09d52e281cadae1536ecc75f91ac85ba8ed6d34134873",
+      "peak_tree_rss_mib": 108.046875,
+      "png_sha256": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+      "rom_sha256": "baf818df828b28948999dd3fb421038c6d896186b76f60f2ccc655ffbe51a60d",
+      "state_sha256": "93814b9f62eb558f61c7f0c2582f231dc413e87b5b959dc52b72665a641ae32c"
+    },
+    "candidate": {
+      "audit_sha256": "f5bade00158eb10e95d0acc84e49c3fe4a1f9c753c884050b3132d057cc308b9",
+      "done_sha256": "c19b456bb8eff6cfc1f327b777a37598b66399c8dd24b40aaec875440ed90286",
+      "guard_sha256": "4610c83d4802cbd229561835b92ac39f919a0050a626a7b431472a68eb37055b",
+      "peak_tree_rss_mib": 107.328125,
+      "png_sha256": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+      "rom_sha256": "d2aacd25aa69fd1a1597bb005e4d1daf5157b81f21b5838a87d60ff23acf8fee",
+      "state_sha256": "0ffffeb5b4583410f12cae772ec37077f11c1cdade36ce1d7ec1edb8e1878ac5"
+    }
+  },
+  "runtime_effect": {
+    "baseline_exit_soundcnt_x": "0x0080",
+    "baseline_first_soundmain_soundcnt_x": "0x008B",
+    "candidate_exit_soundcnt_x": "0x0000",
+    "candidate_first_soundmain_soundcnt_x": "0x008B",
+    "control_flow_and_fifo_equal": true,
+    "first_fifo_pcm_sha256": "8889eb3cdd3d0ac94711b47ce78b430d8e23a7b31ecc994c56d0c3310c87674a"
+  },
+  "schema": "sappy-engine-master-enable-ab-evidence-v1",
+  "scope": {
+    "audible_wav_difference_claimed": false,
+    "initializer_runtime_identity_verified": true,
+    "master_enable_instruction_effect_verified": true,
+    "persistent_mute_claimed": false,
+    "physical_gba_verified": false
+  },
+  "verified": true
+}

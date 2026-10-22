@@ -1,0 +1,64 @@
+{
+  "audit": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/map41-visual-resource-matrix/map41-visual-matrix-20260801-r1/bg_palette/audit.json",
+  "automatic_inputs": [],
+  "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+  "build_manifest": "/Users/altair/.cache/codex-tools/mgba/0.10.5-script-backport-manifest-fix1-20260715.json",
+  "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+  "capture_frame": 80,
+  "child_pgid": 57729,
+  "evidence_mode": "single-input",
+  "frame": 80,
+  "guard_summary_sha256": "25300f5596b3c70400a87860a67ef5da3ef9863b241b556ede7a05841fceb7b7",
+  "input_state": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-checkpoints/scenario-41-start-row.ss9",
+  "input_state_sha256": "e5039f21675dde00f3bc78e7dad08bf7cbd4ce8bff2944ea108a92bbf25b9e81",
+  "inputs": [
+    {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    }
+  ],
+  "output_png": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/map41-visual-resource-matrix/map41-visual-matrix-20260801-r1/bg_palette/frame80.png",
+  "output_png_sha256": "ae3ac3726d89070deb8f1076cd4ad6968306c7bb2463a27679c11b1a06336999",
+  "output_state": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/map41-visual-resource-matrix/map41-visual-matrix-20260801-r1/bg_palette/frame80.ss9",
+  "output_state_sha256": "3f49ef09670e9eee74502a8e93a9da8410a5d0feb2b8545470d70063dcceae07",
+  "patch_sha256": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
+  "peak_tree_rss_mib": 55.9609375,
+  "pgid_clean": true,
+  "recovery_inputs": [],
+  "replay_script": "/Users/altair/github/gba-naruto-reverse/tools/mgba_single_input_replay.lua",
+  "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+  "rom_sha256": "ea2d1e17e98f89e7b0db8658386d18474b480ccffde9b79fe96c9b8d6cbf76f1",
+  "run_id": "d05f1d31e7c52559e3c51decf157d915",
+  "runtime_residue": {
+    "checked_at": "2026-07-31T20:41:28.630655Z",
+    "checked_pgid": 57729,
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ]
+  },
+  "sentinel": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/map41-visual-resource-matrix/map41-visual-matrix-20260801-r1/bg_palette/sentinel.json",
+  "staged_rom": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/map41-visual-resource-matrix/map41-visual-matrix-20260801-r1/bg_palette/staged.gba",
+  "staged_rom_sha256": "ea2d1e17e98f89e7b0db8658386d18474b480ccffde9b79fe96c9b8d6cbf76f1",
+  "status": "capture-complete",
+  "success": true,
+  "zero_input_verified": false
+}

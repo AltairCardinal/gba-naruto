@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运行时模型 · bg-resource-canvases-v1 · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-formulas.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<div class="card full-width" id="fml-bg-resource-canvases-v1">
+          <div class="card-head">
+            <div class="card-title">BG 资源画布 · 描述符索引公式</div>
+            <span class="tag tag-purple">1. 视觉与动画资产库 · artifacts/bg-resource-canvases-v1</span>
+          </div>
+          <p class="card-desc">
+            下列模型由 <code>artifacts/bg-resource-canvases-v1/manifest.json</code> 直接导出，共 <strong>25</strong> 个字段；字段值即 ROM 中签发的表达式原文，未经改写。
+          </p>
+            <details class="fml-model" open>
+              <summary><code>consumer</code><span class="fml-meta">25 个字段 · 代码区间 0x08088348</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">gba_start</div><div class="fml-val"><span class="fml-text">0x08088348</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">gba_end</div><div class="fml-val"><span class="fml-text">0x0808842A</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">direct_callers</div><div class="fml-val"><div class="fml-list"><div><span class="fml-num">134720166</span></div><div><span class="fml-num">134804770</span></div><div><span class="fml-num">134813462</span></div><div><span class="fml-num">134820054</span></div></div></div></div><div class="fml-row" style="--d:0"><div class="fml-key">descriptor_formula</div><div class="fml-val"><code class="fml-expr">0x0859903C + entry_id * 0x10</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><code class="fml-expr">0x06000000 + char_base_block * 0x4000</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">palette_destination</div><div class="fml-val"><span class="fml-text">0x05000000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tilemap_destination</div><div class="fml-val"><code class="fml-expr">0x06000000 + screen_base_block * 0x0800</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">mode_flag_effect</div><div class="fml-val"><span class="fml-text">nonzero sets BG control bit 7 (8bpp)</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">post_decompression_fill</div><div class="fml-val"><span class="fml-text">rows 10..31: 4bpp entry 0x0000, 8bpp entry 0x001E</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">entry_selection</div><div class="fml-val"><div class="fml-row" style="--d:1"><div class="fml-key">battle_header_formula</div><div class="fml-val"><code class="fml-expr">u8[0x0853D910 + battle_id * 0x20 + 0x1C]</code></div></div><div class="fml-row" style="--d:1"><div class="fml-key">battle_header_entry_distribution</div><div class="fml-val"><div class="fml-row" style="--d:2"><div class="fml-key">1</div><div class="fml-val"><span class="fml-num">23</span></div></div><div class="fml-row" style="--d:2"><div class="fml-key">2</div><div class="fml-val"><span class="fml-num">3</span></div></div><div class="fml-row" style="--d:2"><div class="fml-key">3</div><div class="fml-val"><span class="fml-num">5</span></div></div><div class="fml-row" style="--d:2"><div class="fml-key">4</div><div class="fml-val"><span class="fml-num">4</span></div></div><div class="fml-row" style="--d:2"><div class="fml-key">5</div><div class="fml-val"><span class="fml-num">1</span></div></div><div class="fml-row" style="--d:2"><div class="fml-key">6</div><div class="fml-val"><span class="fml-num">1</span></div></div><div class="fml-row" style="--d:2"><div class="fml-key">7</div><div class="fml-val"><span class="fml-num">10</span></div></div></div></div><div class="fml-row" style="--d:1"><div class="fml-key">special_input_formula</div><div class="fml-val"><code class="fml-expr">input_id &gt; 49: entry_id = input_id - 41</code></div></div><div class="fml-row" style="--d:1"><div class="fml-key">fixed_entry_calls</div><div class="fml-val"><div class="fml-row" style="--d:2"><div class="fml-key">0x08091716</div><div class="fml-val"><span class="fml-num">9</span></div></div><div class="fml-row" style="--d:2"><div class="fml-key">0x080930D6</div><div class="fml-val"><span class="fml-num">1</span></div></div></div></div><div class="fml-row" style="--d:1"><div class="fml-key">loader_bounds_check</div><div class="fml-val"><span class="fml-bool">false</span></div></div></div></div></div>
+            </details>
+        </div>
+
+        
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

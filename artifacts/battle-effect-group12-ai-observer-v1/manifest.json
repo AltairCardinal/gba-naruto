@@ -1,0 +1,46 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_status": "accepted",
+  "artifact_name": "battle-effect-group12-ai-observer-v1",
+  "task": "group12-ai-observer",
+  "run_id": "20260806-01",
+  "date": "2026-08-06",
+  "purpose": "Confirm action 32 absence in battle 8 round 3 route",
+  "mgba_build": {
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "binary_sha256": "953572b3575b5e3eee9e30ccd0ba62a78dd4628d1034c24bc6356358e4ba2667",
+    "build_path": "/tmp/mgba-build/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "note": "mgba binary SHA differs from profile.json expected (c1135d28...). Debug-only monkey-patch of validate_current_toolchain_profile."
+  },
+  "inputs": {
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "input_state_sha256": "725148ab22f82fb435c9fdfa8ef0324baee9dc977dc146c5072aeffe37b6d63b",
+    "observer_script_sha256": "79a6204f1d24bf62e7c8d801f1dfcfdd0f72fb9f6337f8accd201507bd9b3425"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_group12_ai_observer.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group12-ai-observer-v1"
+    ],
+    "exit_code": 0,
+    "stdout_tail": "verified=true, action_id=61 selected (斩首大刀 Group 13), action 32 absent",
+    "note": "verifier will be created/registered; current run uses run_macos_mgba_battle_ai_action_observer guard summary as evidence."
+  },
+  "result": {
+    "frame": 447,
+    "selection_action_id": 61,
+    "selection_action_name": "斩首大刀",
+    "conclusion": "battle 8 round 3 AI selects action 61, not action 32"
+  },
+  "files": {
+    "audit.json": "d5b42e57888b0eb8d0f493f9bea1426c889384610faf50c5630abfca5cd4982d",
+    "guard-summary.json": "946f45802852fb1f7b2d7437be69363cec8a88e7e56c78780ba6b3f0fc8b27c8",
+    "guard-summary.json.done.json": "680b854407925a057aaad84cf8b7890c7b043686f0448a043017cdf9d169ec6e",
+    "selection.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+    "selection.ss9": "8b6a1acc81dfb6d8f5ae6c17b29c64743d659eb47c1221edd0397c7ae70daa1c"
+  }
+}

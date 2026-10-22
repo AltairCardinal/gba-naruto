@@ -1,0 +1,1054 @@
+{
+  "coverage_baseline": {
+    "classified_bytes": 6176433,
+    "identity": {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "b71a91d1e3c469a884f6d434a82ce23e751e201e83728e6ffc040a6226bfed52"
+    },
+    "replay_mode": "historical_build_receipt_replay",
+    "state": "baseline_unknown",
+    "unknown_bytes": 115023
+  },
+  "coverage_projection": {
+    "post_promotion_gate": "exact_owner_required"
+  },
+  "producer_denominator": {
+    "callback_root_direct_branches": [],
+    "consumer_direct_bl": [
+      [
+        588326,
+        574668,
+        "bl"
+      ]
+    ],
+    "internal_handler_direct_branches": [
+      [
+        587764,
+        588326,
+        "b"
+      ],
+      [
+        587786,
+        588332,
+        "b"
+      ]
+    ],
+    "target_even_u32_occurrences": {
+      "0x0808C4CC": [],
+      "0x0808FA26": [],
+      "0x0808FA2C": []
+    },
+    "target_pointer_occurrences": {
+      "0x0808C4CC": [],
+      "0x0808FA26": [],
+      "0x0808FA2C": []
+    }
+  },
+  "promotion": {
+    "claim_kind": "story_state_callback_cfg_exact_bytes",
+    "claims": [
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "86435b352607392db9477901720cad53f7ca91545ad5ce56c8be98c622032503",
+        "id": "story-callback-reachable_thumb_code-01-08f73c",
+        "kind": "reachable_thumb_code",
+        "range": [
+          587580,
+          587642
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "3a71d0deb2b079e55cd50f389ea5706905a6058391fb5fcf33997063f8b2b90d",
+        "id": "story-callback-reachable_thumb_code-02-08f784",
+        "kind": "reachable_thumb_code",
+        "range": [
+          587652,
+          587844
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "105c5d51ffcbe58ce61b6a900fc2f92b61e9b07770328f3b2b13847b59e6c0b4",
+        "id": "story-callback-reachable_thumb_code-03-08f848",
+        "kind": "reachable_thumb_code",
+        "range": [
+          587848,
+          587878
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "e6fad7438b65c96f937c5599389b4bee0fac098c52634e2eaa04e463d7b87908",
+        "id": "story-callback-reachable_thumb_code-04-08f872",
+        "kind": "reachable_thumb_code",
+        "range": [
+          587890,
+          588014
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "e9fa2a401b32e90ebe9942eed03cdeb2714196db51fdda034f1e3009e1d0da24",
+        "id": "story-callback-reachable_thumb_code-05-08f8f4",
+        "kind": "reachable_thumb_code",
+        "range": [
+          588020,
+          588148
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "0ff6fc066702d217ac3fc7a41e3e500ea48117660284345e3e9f16f116cd64c6",
+        "id": "story-callback-reachable_thumb_code-06-08f978",
+        "kind": "reachable_thumb_code",
+        "range": [
+          588152,
+          588186
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "2a75cb3c51df78eee218e4f48f45e6fa596fe7a728e543cd32e2497c3ada1e93",
+        "id": "story-callback-reachable_thumb_code-07-08f9a0",
+        "kind": "reachable_thumb_code",
+        "range": [
+          588192,
+          588258
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "0baf2d3a0ab607d4ba6ef72e890bfce9d24d478d6a2cac99d820b4f140490431",
+        "id": "story-callback-reachable_thumb_code-08-08fa08",
+        "kind": "reachable_thumb_code",
+        "range": [
+          588296,
+          588338
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "b624c0d5356b31e6ad7ed18f1061bba294f8e679ea23fdf64fd340140b817ea0",
+        "id": "story-callback-consumed_literal_words-01-08f77c",
+        "kind": "consumed_literal_words",
+        "range": [
+          587644,
+          587652
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "d8c85b9b0590a3ea8618fca78dd2451ac34658cdbb9bf2bb065564e92260df9d",
+        "id": "story-callback-consumed_literal_words-02-08f8f0",
+        "kind": "consumed_literal_words",
+        "range": [
+          588016,
+          588020
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "ac6dc850275292bbc40dc3bc7b8dfbbef0f6a21b4fe49882d6b306efbe897e3c",
+        "id": "story-callback-consumed_literal_words-03-08f974",
+        "kind": "consumed_literal_words",
+        "range": [
+          588148,
+          588152
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "d0a9e3d2a81b3cd991e3ed8536d80cda468cb41141cfde80efbb2b1c53deedc0",
+        "id": "story-callback-consumed_literal_words-04-08f99c",
+        "kind": "consumed_literal_words",
+        "range": [
+          588188,
+          588192
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "9c12922426a02e7cdb7f002da1c11cba31cbce53ee8b5c1e7c3f8026cc5315b1",
+        "id": "story-callback-consumed_literal_words-05-08fa00",
+        "kind": "consumed_literal_words",
+        "range": [
+          588288,
+          588292
+        ]
+      }
+    ],
+    "code_bytes": 678,
+    "code_ranges": [
+      [
+        587580,
+        587642
+      ],
+      [
+        587652,
+        587844
+      ],
+      [
+        587848,
+        587878
+      ],
+      [
+        587890,
+        588014
+      ],
+      [
+        588020,
+        588148
+      ],
+      [
+        588152,
+        588186
+      ],
+      [
+        588192,
+        588258
+      ],
+      [
+        588296,
+        588338
+      ]
+    ],
+    "literal_bytes": 24,
+    "literal_ranges": [
+      [
+        587644,
+        587652
+      ],
+      [
+        588016,
+        588020
+      ],
+      [
+        588148,
+        588152
+      ],
+      [
+        588188,
+        588192
+      ],
+      [
+        588288,
+        588292
+      ]
+    ],
+    "preserved_unknown_bytes": 8,
+    "preserved_unknown_gaps": [
+      [
+        587642,
+        587644
+      ],
+      [
+        588014,
+        588016
+      ],
+      [
+        588186,
+        588188
+      ],
+      [
+        588338,
+        588340
+      ]
+    ],
+    "primary_class": "armv4t_story_state_callback_cfg",
+    "promotion_bytes": 702
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "root": {
+    "file_offset": 587580,
+    "gba_address": "0x0808F73C",
+    "pointer_occurrences": [
+      397436,
+      547252
+    ],
+    "scheduler_lifecycle_status": "registration_dispatch_return_closed",
+    "thumb_pointer": 134805309
+  },
+  "schema": "rom-story-state-callback-cfg-v1",
+  "scope": {
+    "alignment_zero_classification": false,
+    "business_semantics": false,
+    "editing_relocation_or_free_space": false,
+    "external_callee_classification": false,
+    "natural_runtime_reachability": false,
+    "post_promotion_owner_verification_supported": true
+  },
+  "target_local_denominator": {
+    "code_bytes": 728,
+    "code_range_count": 6,
+    "code_ranges": [
+      [
+        587580,
+        587642
+      ],
+      [
+        587652,
+        588014
+      ],
+      [
+        588020,
+        588148
+      ],
+      [
+        588152,
+        588186
+      ],
+      [
+        588192,
+        588288
+      ],
+      [
+        588292,
+        588338
+      ]
+    ],
+    "frontier_count": 0,
+    "instruction_count": 336,
+    "instruction_vector_sha256": "6055082ce93a238846f8fbdc56f0d111d48db17bd96b3daebb35fa0d3ef9829c",
+    "literal_bindings": [
+      [
+        587590,
+        587644,
+        "0x03000075"
+      ],
+      [
+        587598,
+        587648,
+        "0x020311D4"
+      ],
+      [
+        588004,
+        588016,
+        "0x000003E7"
+      ],
+      [
+        588090,
+        588148,
+        "0x02026804"
+      ],
+      [
+        588130,
+        588148,
+        "0x02026804"
+      ],
+      [
+        588170,
+        588188,
+        "0x020311D4"
+      ],
+      [
+        588280,
+        588288,
+        "0x020240AC"
+      ]
+    ],
+    "literal_ranges": [
+      [
+        587644,
+        587652
+      ],
+      [
+        588016,
+        588020
+      ],
+      [
+        588148,
+        588152
+      ],
+      [
+        588188,
+        588192
+      ],
+      [
+        588288,
+        588292
+      ]
+    ],
+    "local_edges": [
+      [
+        587610,
+        587614,
+        "bcond"
+      ],
+      [
+        587612,
+        588106,
+        "b"
+      ],
+      [
+        587616,
+        587692,
+        "bcond"
+      ],
+      [
+        587620,
+        587624,
+        "bcond"
+      ],
+      [
+        587622,
+        587922,
+        "b"
+      ],
+      [
+        587626,
+        587658,
+        "bcond"
+      ],
+      [
+        587630,
+        587796,
+        "bcond"
+      ],
+      [
+        587634,
+        587652,
+        "bcond"
+      ],
+      [
+        587638,
+        587790,
+        "bcond"
+      ],
+      [
+        587640,
+        587602,
+        "b"
+      ],
+      [
+        587654,
+        587890,
+        "bcond"
+      ],
+      [
+        587656,
+        587602,
+        "b"
+      ],
+      [
+        587664,
+        587668,
+        "bcond"
+      ],
+      [
+        587666,
+        588072,
+        "b"
+      ],
+      [
+        587670,
+        587680,
+        "bcond"
+      ],
+      [
+        587674,
+        587678,
+        "bcond"
+      ],
+      [
+        587676,
+        587996,
+        "b"
+      ],
+      [
+        587678,
+        587602,
+        "b"
+      ],
+      [
+        587686,
+        587690,
+        "bcond"
+      ],
+      [
+        587688,
+        588078,
+        "b"
+      ],
+      [
+        587690,
+        587602,
+        "b"
+      ],
+      [
+        587698,
+        587702,
+        "bcond"
+      ],
+      [
+        587700,
+        588292,
+        "b"
+      ],
+      [
+        587704,
+        587742,
+        "bcond"
+      ],
+      [
+        587712,
+        587716,
+        "bcond"
+      ],
+      [
+        587714,
+        588258,
+        "b"
+      ],
+      [
+        587718,
+        587730,
+        "bcond"
+      ],
+      [
+        587724,
+        587728,
+        "bcond"
+      ],
+      [
+        587726,
+        588224,
+        "b"
+      ],
+      [
+        587728,
+        587602,
+        "b"
+      ],
+      [
+        587736,
+        587740,
+        "bcond"
+      ],
+      [
+        587738,
+        588268,
+        "b"
+      ],
+      [
+        587740,
+        587602,
+        "b"
+      ],
+      [
+        587748,
+        587752,
+        "bcond"
+      ],
+      [
+        587750,
+        588298,
+        "b"
+      ],
+      [
+        587754,
+        587768,
+        "bcond"
+      ],
+      [
+        587762,
+        587766,
+        "bcond"
+      ],
+      [
+        587764,
+        588326,
+        "b"
+      ],
+      [
+        587766,
+        587602,
+        "b"
+      ],
+      [
+        587774,
+        587778,
+        "bcond"
+      ],
+      [
+        587776,
+        588316,
+        "b"
+      ],
+      [
+        587784,
+        587788,
+        "bcond"
+      ],
+      [
+        587786,
+        588332,
+        "b"
+      ],
+      [
+        587788,
+        587602,
+        "b"
+      ],
+      [
+        587806,
+        587850,
+        "bcond"
+      ],
+      [
+        587810,
+        587822,
+        "bcond"
+      ],
+      [
+        587814,
+        587836,
+        "bcond"
+      ],
+      [
+        587818,
+        587844,
+        "bcond"
+      ],
+      [
+        587820,
+        587602,
+        "b"
+      ],
+      [
+        587824,
+        587872,
+        "bcond"
+      ],
+      [
+        587828,
+        587860,
+        "bcond"
+      ],
+      [
+        587832,
+        587878,
+        "bcond"
+      ],
+      [
+        587834,
+        587602,
+        "b"
+      ],
+      [
+        587842,
+        587602,
+        "b"
+      ],
+      [
+        587848,
+        587602,
+        "b"
+      ],
+      [
+        587858,
+        587602,
+        "b"
+      ],
+      [
+        587870,
+        587602,
+        "b"
+      ],
+      [
+        587876,
+        587602,
+        "b"
+      ],
+      [
+        587888,
+        587602,
+        "b"
+      ],
+      [
+        587900,
+        587904,
+        "bcond"
+      ],
+      [
+        587902,
+        588320,
+        "b"
+      ],
+      [
+        587906,
+        587914,
+        "bcond"
+      ],
+      [
+        587910,
+        588010,
+        "bcond"
+      ],
+      [
+        587912,
+        587602,
+        "b"
+      ],
+      [
+        587916,
+        587920,
+        "bcond"
+      ],
+      [
+        587918,
+        587602,
+        "b"
+      ],
+      [
+        587920,
+        588216,
+        "b"
+      ],
+      [
+        587934,
+        587962,
+        "bcond"
+      ],
+      [
+        587942,
+        587952,
+        "bcond"
+      ],
+      [
+        587950,
+        587954,
+        "b"
+      ],
+      [
+        587960,
+        587602,
+        "b"
+      ],
+      [
+        587964,
+        587978,
+        "bcond"
+      ],
+      [
+        587976,
+        587602,
+        "b"
+      ],
+      [
+        587980,
+        587984,
+        "bcond"
+      ],
+      [
+        587982,
+        587602,
+        "b"
+      ],
+      [
+        587994,
+        587602,
+        "b"
+      ],
+      [
+        588008,
+        588020,
+        "bcond"
+      ],
+      [
+        588012,
+        587602,
+        "b"
+      ],
+      [
+        588026,
+        588036,
+        "bcond"
+      ],
+      [
+        588034,
+        587602,
+        "b"
+      ],
+      [
+        588040,
+        588044,
+        "bcond"
+      ],
+      [
+        588042,
+        588320,
+        "b"
+      ],
+      [
+        588046,
+        588066,
+        "bcond"
+      ],
+      [
+        588052,
+        588062,
+        "bcond"
+      ],
+      [
+        588060,
+        587602,
+        "b"
+      ],
+      [
+        588064,
+        587602,
+        "b"
+      ],
+      [
+        588070,
+        587602,
+        "b"
+      ],
+      [
+        588076,
+        588304,
+        "b"
+      ],
+      [
+        588136,
+        588162,
+        "bcond"
+      ],
+      [
+        588140,
+        588152,
+        "bcond"
+      ],
+      [
+        588144,
+        588200,
+        "bcond"
+      ],
+      [
+        588146,
+        587602,
+        "b"
+      ],
+      [
+        588154,
+        588216,
+        "bcond"
+      ],
+      [
+        588158,
+        588010,
+        "bcond"
+      ],
+      [
+        588160,
+        587602,
+        "b"
+      ],
+      [
+        588176,
+        588192,
+        "bcond"
+      ],
+      [
+        588184,
+        587602,
+        "b"
+      ],
+      [
+        588198,
+        587602,
+        "b"
+      ],
+      [
+        588214,
+        587602,
+        "b"
+      ],
+      [
+        588222,
+        587602,
+        "b"
+      ],
+      [
+        588238,
+        588248,
+        "bcond"
+      ],
+      [
+        588246,
+        588252,
+        "bcond"
+      ],
+      [
+        588250,
+        588254,
+        "b"
+      ],
+      [
+        588256,
+        587602,
+        "b"
+      ],
+      [
+        588266,
+        588010,
+        "b"
+      ],
+      [
+        588286,
+        587602,
+        "b"
+      ],
+      [
+        588296,
+        588010,
+        "b"
+      ],
+      [
+        588306,
+        588320,
+        "bcond"
+      ],
+      [
+        588314,
+        587602,
+        "b"
+      ],
+      [
+        588324,
+        587602,
+        "b"
+      ],
+      [
+        588330,
+        588010,
+        "b"
+      ],
+      [
+        588336,
+        588010,
+        "b"
+      ]
+    ],
+    "opaque_external_call_count": 28,
+    "opaque_external_calls": [
+      [
+        587790,
+        570972
+      ],
+      [
+        587796,
+        572080
+      ],
+      [
+        587844,
+        570764
+      ],
+      [
+        587850,
+        429564
+      ],
+      [
+        587860,
+        479952
+      ],
+      [
+        587880,
+        573972
+      ],
+      [
+        587890,
+        555328
+      ],
+      [
+        587924,
+        586128
+      ],
+      [
+        587936,
+        618800
+      ],
+      [
+        587998,
+        587076
+      ],
+      [
+        588072,
+        560912
+      ],
+      [
+        588102,
+        479620
+      ],
+      [
+        588110,
+        566416
+      ],
+      [
+        588114,
+        471732
+      ],
+      [
+        588118,
+        402784
+      ],
+      [
+        588126,
+        566416
+      ],
+      [
+        588166,
+        618576
+      ],
+      [
+        588204,
+        618576
+      ],
+      [
+        588224,
+        565488
+      ],
+      [
+        588230,
+        587536
+      ],
+      [
+        588240,
+        618800
+      ],
+      [
+        588262,
+        595160
+      ],
+      [
+        588272,
+        595160
+      ],
+      [
+        588292,
+        570764
+      ],
+      [
+        588298,
+        551508
+      ],
+      [
+        588316,
+        552940
+      ],
+      [
+        588326,
+        574668
+      ],
+      [
+        588332,
+        566940
+      ]
+    ]
+  }
+}

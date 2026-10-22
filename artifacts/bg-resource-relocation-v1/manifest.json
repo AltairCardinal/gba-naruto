@@ -1,0 +1,44 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "bg-resource-relocation-v1",
+  "artifact_schema": "bg-resource-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "84d7e0575234094a41889a70aaae38f1ca99f2ab65bfdc0ab59ccb52a5f7d29c",
+  "files": {
+    "relocation-audit.json": "84d7e0575234094a41889a70aaae38f1ca99f2ab65bfdc0ab59ccb52a5f7d29c",
+    "full-relocation-spec.json": "e2acaf1eab6f6d79c0b55a8fd8da57ff149e59922cd3f20f23b3c91e5c5f9b4c"
+  },
+  "scope": {
+    "proved": "All 31 regular-BG content resources, representing 36 physical LZ77 payloads and all 36 exact descriptor pointer fields, relocate into the registered regular-bg image region.",
+    "editable": "Fixed-geometry graphics, 384-byte palettes and 640-byte tilemaps may change without original compressed-slot limits; catalog-approved descriptor aliases may split while the full 12-entry linked view continues to satisfy 4bpp/8bpp tile and palette constraints.",
+    "not_proved": "Different canvas geometry, bottom runtime-filled rows, modified resource runtime selection, scrolling, OBJ/window/blend composition or final pixel equivalence."
+  },
+  "summary": {
+    "entry_count": 12,
+    "content_resource_count": 31,
+    "physical_payload_count": 36,
+    "logical_pointer_count": 36,
+    "unexpected_pointer_count": 0,
+    "allocation_count": 31,
+    "pointer_patch_count": 36,
+    "allocation_start": 11534336,
+    "allocation_end": 11621745,
+    "region_end": 11796480,
+    "stored_payload_bytes": 87366,
+    "allocation_span": 87409,
+    "remaining_bytes": 174735,
+    "applied_patch_count": 67
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_bg_resource_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/bg-resource-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

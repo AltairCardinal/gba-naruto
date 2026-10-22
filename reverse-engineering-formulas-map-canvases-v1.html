@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运行时模型 · map-canvases-v1 · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-formulas.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<div class="card full-width" id="fml-map-canvases-v1">
+          <div class="card-head">
+            <div class="card-title">map-canvases-v1</div>
+            <span class="tag tag-purple"> · artifacts/map-canvases-v1</span>
+          </div>
+          <p class="card-desc">
+            下列模型由 <code>artifacts/map-canvases-v1/manifest.json</code> 直接导出，共 <strong>11</strong> 个字段；字段值即 ROM 中签发的表达式原文，未经改写。
+          </p>
+            <details class="fml-model" open>
+              <summary><code>consumer_contract</code><span class="fml-meta">11 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">header_selector</div><div class="fml-val"><span class="fml-text">0x08068FB4</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">resource_loader</div><div class="fml-val"><span class="fml-text">0x08068FF0</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">collision_loader</div><div class="fml-val"><span class="fml-text">0x08069264</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">coarse_cell_size_tiles</div><div class="fml-val"><div class="fml-list"><div><span class="fml-num">4</span></div><div><span class="fml-num">2</span></div></div></div></div><div class="fml-row" style="--d:0"><div class="fml-key">layout_u32_halves</div><div class="fml-val"><code class="fml-expr">low_u16=left_2x2_metatile, high_u16=right_2x2_metatile</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">metatile_record</div><div class="fml-val"><span class="fml-text">4 little-endian GBA BG u16 entries</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">bg_entry_bits</div><div class="fml-val"><div class="fml-row" style="--d:1"><div class="fml-key">tile_index</div><div class="fml-val"><span class="fml-text">0..9</span></div></div><div class="fml-row" style="--d:1"><div class="fml-key">horizontal_flip</div><div class="fml-val"><span class="fml-num">10</span></div></div><div class="fml-row" style="--d:1"><div class="fml-key">vertical_flip</div><div class="fml-val"><span class="fml-num">11</span></div></div><div class="fml-row" style="--d:1"><div class="fml-key">palette_bank</div><div class="fml-val"><span class="fml-text">12..15</span></div></div></div></div></div>
+            </details>
+        </div>
+
+        
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{
+  "artifact_portability": "content_verified_independent_of_copy_path",
+  "artifact_schema": "rom-scene-source-closures-v1",
+  "artifact_status": "accepted",
+  "canonical_destination": "artifacts/rom-scene-source-closures-v1",
+  "files": {
+    "rom-scene-source-closures.json": {
+      "sha256": "0013db71a7e83af7e7eb86b784e01f07a80931bebdd8d790c7e055d2545f4929",
+      "size": 104695
+    }
+  },
+  "implementation": {
+    "contract": {
+      "path": "tools/rom_scene_source_closures_contract.py",
+      "sha256": "e361c5b04240fd084ad9ad97295a15cb973b8b09c0b19903927f03a9f67b86da"
+    },
+    "exporter": {
+      "path": "tools/export_rom_scene_source_closures.py",
+      "sha256": "48e29fa68288a3d34dbed3ec7dceb16a4a0bd26eff9351dc5a6ceee1a2ef1b73"
+    },
+    "test": {
+      "path": "tests/test_export_rom_scene_source_closures.py",
+      "sha256": "c1ef86e3674fee6309b7a3e5fbbbd337b8ad5ee91de63312fd4b37f9160c90cd"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_scene_source_closures.py",
+      "sha256": "8a5ed29f61f20d5ef8f027a7509f58aad59310cf903bb38aab84bb77e672393a"
+    }
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_scene_source_closures.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-scene-source-closures-v1"
+    ],
+    "command_role": "canonical_reproduction_recipe"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "alignment_gap_bytes": 90,
+    "promotion_bytes": 1015,
+    "promotion_claim_count": 73,
+    "unknown_hole_bytes": 199
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_scene_source_closures.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-scene-source-closures-v1"
+    ],
+    "command_role": "canonical_reproduction_recipe",
+    "exit_code": 0
+  }
+}

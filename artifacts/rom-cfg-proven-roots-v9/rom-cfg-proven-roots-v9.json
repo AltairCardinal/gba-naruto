@@ -1,0 +1,3346 @@
+{
+  "coverage_baseline": {
+    "current_known_overlap_bytes": 0,
+    "current_unknown_bytes": 628,
+    "path": "sequel/rom-byte-coverage.json",
+    "promotion_block_count": 62,
+    "promotion_block_range_denominator_sha256": "058f90da96cf556a2b406fbea2952435bbd64c302654657c4981841587fd7aeb",
+    "promotion_block_ranges": [
+      [
+        442384,
+        442416
+      ],
+      [
+        442416,
+        442434
+      ],
+      [
+        442434,
+        442452
+      ],
+      [
+        442452,
+        442482
+      ],
+      [
+        442482,
+        442514
+      ],
+      [
+        442514,
+        442526
+      ],
+      [
+        443144,
+        443148
+      ],
+      [
+        443148,
+        443168
+      ],
+      [
+        443168,
+        443170
+      ],
+      [
+        443170,
+        443184
+      ],
+      [
+        443184,
+        443192
+      ],
+      [
+        443192,
+        443202
+      ],
+      [
+        443202,
+        443212
+      ],
+      [
+        443212,
+        443222
+      ],
+      [
+        443222,
+        443230
+      ],
+      [
+        443230,
+        443236
+      ],
+      [
+        443404,
+        443416
+      ],
+      [
+        447596,
+        447606
+      ],
+      [
+        447606,
+        447618
+      ],
+      [
+        447618,
+        447626
+      ],
+      [
+        447626,
+        447636
+      ],
+      [
+        447636,
+        447642
+      ],
+      [
+        462296,
+        462310
+      ],
+      [
+        462310,
+        462314
+      ],
+      [
+        462314,
+        462318
+      ],
+      [
+        471040,
+        471046
+      ],
+      [
+        471046,
+        471056
+      ],
+      [
+        471056,
+        471060
+      ],
+      [
+        471060,
+        471070
+      ],
+      [
+        471070,
+        471076
+      ],
+      [
+        471076,
+        471084
+      ],
+      [
+        471084,
+        471098
+      ],
+      [
+        471098,
+        471106
+      ],
+      [
+        471106,
+        471112
+      ],
+      [
+        480080,
+        480088
+      ],
+      [
+        480088,
+        480106
+      ],
+      [
+        480106,
+        480114
+      ],
+      [
+        480114,
+        480122
+      ],
+      [
+        480122,
+        480130
+      ],
+      [
+        480130,
+        480138
+      ],
+      [
+        480138,
+        480146
+      ],
+      [
+        480146,
+        480154
+      ],
+      [
+        480154,
+        480162
+      ],
+      [
+        480162,
+        480170
+      ],
+      [
+        480170,
+        480178
+      ],
+      [
+        480178,
+        480186
+      ],
+      [
+        480186,
+        480194
+      ],
+      [
+        480194,
+        480202
+      ],
+      [
+        480202,
+        480212
+      ],
+      [
+        480212,
+        480220
+      ],
+      [
+        480220,
+        480226
+      ],
+      [
+        480226,
+        480236
+      ],
+      [
+        480236,
+        480242
+      ],
+      [
+        480248,
+        480258
+      ],
+      [
+        480258,
+        480272
+      ],
+      [
+        480272,
+        480282
+      ],
+      [
+        480282,
+        480296
+      ],
+      [
+        480296,
+        480306
+      ],
+      [
+        480306,
+        480310
+      ],
+      [
+        480316,
+        480326
+      ],
+      [
+        480326,
+        480328
+      ],
+      [
+        480328,
+        480334
+      ]
+    ],
+    "promotion_instruction_bytes": 628,
+    "sha256": "2ff9bc857e182c4bfeeaa572929569801549765ef1d3566cf10c17334125b9d1",
+    "summary": {
+      "claim_count": 13929,
+      "classified_bytes": 6105778,
+      "segment_count": 16171,
+      "unknown_bytes": 185678
+    }
+  },
+  "extension": {
+    "baseline_cross_edges": [
+      {
+        "source": {
+          "block_id": "block-thumb-06c030",
+          "edge_kind": "call_target",
+          "instruction_offset": 442430
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06aa38",
+          "instruction_offset": 436792,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06c042",
+          "edge_kind": "call_target",
+          "instruction_offset": 442448
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06a9ec",
+          "instruction_offset": 436716,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06c072",
+          "edge_kind": "call_target",
+          "instruction_offset": 442510
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-062798",
+          "instruction_offset": 403352,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06c342",
+          "edge_kind": "call_target",
+          "instruction_offset": 443208
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06c1a4",
+          "instruction_offset": 442788,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-06c40c",
+          "edge_kind": "fallthrough",
+          "instruction_offset": 443414
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06c418",
+          "instruction_offset": 443416,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-073010",
+          "edge_kind": "call_target",
+          "instruction_offset": 471056
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-062788",
+          "instruction_offset": 403336,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-07301e",
+          "edge_kind": "call_target",
+          "instruction_offset": 471072
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-09c574",
+          "instruction_offset": 640372,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-073024",
+          "edge_kind": "call_target",
+          "instruction_offset": 471080
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-09c0e8",
+          "instruction_offset": 639208,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-07536a",
+          "edge_kind": "call_target",
+          "instruction_offset": 480110
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06c160",
+          "instruction_offset": 442720,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-07537a",
+          "edge_kind": "call_target",
+          "instruction_offset": 480126
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06c160",
+          "instruction_offset": 442720,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-07538a",
+          "edge_kind": "call_target",
+          "instruction_offset": 480142
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06c160",
+          "instruction_offset": 442720,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-07539a",
+          "edge_kind": "call_target",
+          "instruction_offset": 480158
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06c160",
+          "instruction_offset": 442720,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-0753aa",
+          "edge_kind": "call_target",
+          "instruction_offset": 480174
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06c160",
+          "instruction_offset": 442720,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-0753ba",
+          "edge_kind": "call_target",
+          "instruction_offset": 480190
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06c160",
+          "instruction_offset": 442720,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-0753d4",
+          "edge_kind": "call_target",
+          "instruction_offset": 480216
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06a790",
+          "instruction_offset": 436112,
+          "mode": "thumb"
+        }
+      },
+      {
+        "source": {
+          "block_id": "block-thumb-0753dc",
+          "edge_kind": "call_target",
+          "instruction_offset": 480222
+        },
+        "target": {
+          "baseline_artifact": "v2",
+          "block_id": "block-thumb-06a80c",
+          "instruction_offset": 436236,
+          "mode": "thumb"
+        }
+      }
+    ],
+    "blocks": [
+      {
+        "bytes_sha256": "0b471de67163c7353484543d29df950d1d0ce705f289f02fc235fd1766e3aeb2",
+        "id": "block-thumb-06c010",
+        "instruction_count": 16,
+        "mode": "thumb",
+        "range": [
+          442384,
+          442416
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c092",
+            "file_offset": 442514,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06c030",
+            "file_offset": 442416,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 442414,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x806c092",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "00383d9fba20e548ff5f68d89dddb935b27abc2e4f4ae47b56a56a97211075a2",
+        "id": "block-thumb-06c030",
+        "instruction_count": 8,
+        "mode": "thumb",
+        "range": [
+          442416,
+          442434
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c042",
+            "file_offset": 442434,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 442430,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806aa38",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "13b11e0a03951a97457a8a918611f523e1c47b20c0aed21f171dfaadda98a0ab",
+        "id": "block-thumb-06c042",
+        "instruction_count": 8,
+        "mode": "thumb",
+        "range": [
+          442434,
+          442452
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c054",
+            "file_offset": 442452,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 442448,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806a9ec",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "d84ba95a1673265655572a8ad45f9634456ebf3dae4e1bc06e394f40f5473bff",
+        "id": "block-thumb-06c054",
+        "instruction_count": 15,
+        "mode": "thumb",
+        "range": [
+          442452,
+          442482
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c092",
+            "file_offset": 442514,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06c072",
+            "file_offset": 442482,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 442480,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x806c092",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "a3c3fc641648efa183440b60b7dc70a50874bff1f739f7d1be27f0d91aa688e2",
+        "id": "block-thumb-06c072",
+        "instruction_count": 15,
+        "mode": "thumb",
+        "range": [
+          442482,
+          442514
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c092",
+            "file_offset": 442514,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 442510,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8062798",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "a324fee237190eec685fad51291603505fd9bc493aae5d0c77405b9359f98c65",
+        "id": "block-thumb-06c092",
+        "instruction_count": 6,
+        "mode": "thumb",
+        "range": [
+          442514,
+          442526
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 442524,
+          "flow_kind": "indirect_branch",
+          "mnemonic": "bx",
+          "op_str": "r0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "38d84a618b60c05122c81bcf237705255315d62ff514f1101c1c381f7b1bf84f",
+        "id": "block-thumb-06c308",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          443144,
+          443148
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c30c",
+            "file_offset": 443148,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 443146,
+          "flow_kind": "linear",
+          "mnemonic": "movs",
+          "op_str": "r5, #1",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "7d61824b496db2cd3ab7a48914ade528275508cd910cfbd6c67dd362ccb171fc",
+        "id": "block-thumb-06c30c",
+        "instruction_count": 10,
+        "mode": "thumb",
+        "range": [
+          443148,
+          443168
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c356",
+            "file_offset": 443222,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06c320",
+            "file_offset": 443168,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 443166,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x806c356",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "b8a7fa77eb1a802d69cd0c68721cb9fe2cd8470cde5d595a4b48eb14cfee429e",
+        "id": "block-thumb-06c320",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          443168,
+          443170
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c322",
+            "file_offset": 443170,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 443168,
+          "flow_kind": "linear",
+          "mnemonic": "movs",
+          "op_str": "r4, #0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "2a4856ebff1121001ef16e5c5be71edd004d09dca7f4bdbb650e537796cc76b3",
+        "id": "block-thumb-06c322",
+        "instruction_count": 7,
+        "mode": "thumb",
+        "range": [
+          443170,
+          443184
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c34c",
+            "file_offset": 443212,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06c330",
+            "file_offset": 443184,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 443182,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x806c34c",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "6a3d70d339125fea5fa2264520bdfbe08910f9080219745bc8b98eb457cc06de",
+        "id": "block-thumb-06c330",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          443184,
+          443192
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c34c",
+            "file_offset": 443212,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06c338",
+            "file_offset": 443192,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 443190,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x806c34c",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "659000fad4dc986d953c270164c7d3a717b773c204884eefcb2c77ec00d78092",
+        "id": "block-thumb-06c338",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          443192,
+          443202
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c34c",
+            "file_offset": 443212,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06c342",
+            "file_offset": 443202,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 443200,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x806c34c",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "22e9fb477bcbc9c940b6f156c4d18cd77cc34447ddd57681ef244ce1bc7c5e3d",
+        "id": "block-thumb-06c342",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          443202,
+          443212
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c34c",
+            "file_offset": 443212,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 443208,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806c1a4",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "e87948d2a8ad0078e1489234b28a886b166d7bd65d062ebcc0e8e2d579de9c7a",
+        "id": "block-thumb-06c34c",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          443212,
+          443222
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c322",
+            "file_offset": 443170,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06c356",
+            "file_offset": 443222,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 443220,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x806c322",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "e6f8e85ab38d3f8415904331f4b7f82179894e8bd9a6f1e88bd07f8bc10e2228",
+        "id": "block-thumb-06c356",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          443222,
+          443230
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06c30c",
+            "file_offset": 443148,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06c35e",
+            "file_offset": 443230,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 443228,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x806c30c",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "ebc02c8e67d5771aeff83213a8671b868ca7241140f9ff867d4a22c44a4990c3",
+        "id": "block-thumb-06c35e",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          443230,
+          443236
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 443234,
+          "flow_kind": "indirect_branch",
+          "mnemonic": "bx",
+          "op_str": "r0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "7e96718813ea7738ff7566d4c9e7036b35db129196269236174f581fe037af10",
+        "id": "block-thumb-06c40c",
+        "instruction_count": 6,
+        "mode": "thumb",
+        "range": [
+          443404,
+          443416
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 443414,
+          "flow_kind": "linear",
+          "mnemonic": "sub",
+          "op_str": "sp, #0x28",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "57b523f060a2a24e78675e7741c535424f2f79529c2df437f1f62a0ea9f9dd6d",
+        "id": "block-thumb-06d46c",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          447596,
+          447606
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d476",
+            "file_offset": 447606,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 447604,
+          "flow_kind": "linear",
+          "mnemonic": "ldr",
+          "op_str": "r3, [pc, #0x24]",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "55e286b128f9a55b62a4140691c7193c6781d6ee3fb10f1f908720d69e2f5043",
+        "id": "block-thumb-06d476",
+        "instruction_count": 6,
+        "mode": "thumb",
+        "range": [
+          447606,
+          447618
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d48a",
+            "file_offset": 447626,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06d482",
+            "file_offset": 447618,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 447616,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x806d48a",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "5f23e7fb1a042d6c6f93237f05b1123aa3e1b91e2d43ee9886e25fb1dba422a2",
+        "id": "block-thumb-06d482",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          447618,
+          447626
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d48a",
+            "file_offset": 447626,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 447624,
+          "flow_kind": "linear",
+          "mnemonic": "strb",
+          "op_str": "r0, [r1]",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "16ec64e413bdc05b00e4ff19b5f792259b89f56a0cb64d62cc2926999fbf5abc",
+        "id": "block-thumb-06d48a",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          447626,
+          447636
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-06d476",
+            "file_offset": 447606,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-06d494",
+            "file_offset": 447636,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 447634,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x806d476",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "f23ec6dc1953697e0780ddeb0ae6bc10f99f39a5abea91e44c64381eb75c50fe",
+        "id": "block-thumb-06d494",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          447636,
+          447642
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 447640,
+          "flow_kind": "indirect_branch",
+          "mnemonic": "bx",
+          "op_str": "r0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "e765f848284f500ef6c02e3998a19056a9a710fd0a2ca293889a50dd7603cc9d",
+        "id": "block-thumb-070dd8",
+        "instruction_count": 7,
+        "mode": "thumb",
+        "range": [
+          462296,
+          462310
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-070dea",
+            "file_offset": 462314,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-070de6",
+            "file_offset": 462310,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 462308,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x8070dea",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "844b9e74aa02077a2af0538bffb309405ec4e370dc8d275d2bc04f2704789040",
+        "id": "block-thumb-070de6",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          462310,
+          462314
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-070dea",
+            "file_offset": 462314,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 462312,
+          "flow_kind": "linear",
+          "mnemonic": "strb",
+          "op_str": "r0, [r1]",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "15a0c45072c4f43ac42d0c62cb597469cb73ae8294c056a31dc8415af2bc0d3c",
+        "id": "block-thumb-070dea",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          462314,
+          462318
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 462316,
+          "flow_kind": "indirect_branch",
+          "mnemonic": "bx",
+          "op_str": "r0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "798195551ec25f9dd6e2ce11cac2d4c1a61864d51cf8c80d8875024b7fd56259",
+        "id": "block-thumb-073000",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          471040,
+          471046
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-073006",
+            "file_offset": 471046,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 471044,
+          "flow_kind": "linear",
+          "mnemonic": "ldr",
+          "op_str": "r5, [pc, #0x40]",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "77514bfe2129508e57dfec69ad9a0ab80d9a2cbbc9427ca9b378f4150840fd49",
+        "id": "block-thumb-073006",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          471046,
+          471056
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-073014",
+            "file_offset": 471060,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-073010",
+            "file_offset": 471056,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 471054,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x8073014",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "7e3f86d2581c4aff8af69efdf27b38be30fd6dd7e7aa2df6613d1c9e41c1c32b",
+        "id": "block-thumb-073010",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          471056,
+          471060
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-073014",
+            "file_offset": 471060,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 471056,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x8062788",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "d389d3074cdc9fddf250b74f8392b73aa74119729abd8c9c34b3317a33af5b63",
+        "id": "block-thumb-073014",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          471060,
+          471070
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-073006",
+            "file_offset": 471046,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-07301e",
+            "file_offset": 471070,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 471068,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x8073006",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "a1e44e2337b903e39b26a9544bf9a7f5e7857f7a8c907bd65ddd4ef3d693c151",
+        "id": "block-thumb-07301e",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          471070,
+          471076
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-073024",
+            "file_offset": 471076,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 471072,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x809c574",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "8212d6add9a2bbbe54b1693347b0bc76a452f9fcc8d645d81fdc54c72aba5cb1",
+        "id": "block-thumb-073024",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          471076,
+          471084
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-07302c",
+            "file_offset": 471084,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 471080,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x809c0e8",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "132db4027ee13abb5fae0aadd9dd605c3bf2b3a9c195c03d7e0fd371709c1f7a",
+        "id": "block-thumb-07302c",
+        "instruction_count": 7,
+        "mode": "thumb",
+        "range": [
+          471084,
+          471098
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-073042",
+            "file_offset": 471106,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-07303a",
+            "file_offset": 471098,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 471096,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x8073042",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "e048e87e3b1ea3ca7e8c3a06b3b5720e3ebc1e2185b9aeb2b02f06a08ce498e9",
+        "id": "block-thumb-07303a",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          471098,
+          471106
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-073042",
+            "file_offset": 471106,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 471104,
+          "flow_kind": "linear",
+          "mnemonic": "str",
+          "op_str": "r0, [r2]",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "e397d92bafbbbd5b363257118eec4a840c47ccb7f3cc35160ed8ecf06cd82c19",
+        "id": "block-thumb-073042",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          471106,
+          471112
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 471110,
+          "flow_kind": "indirect_branch",
+          "mnemonic": "bx",
+          "op_str": "r0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "e0c9655bb7694726da6f026d0f5410cf16f9d28f034355961836d1d280368a53",
+        "id": "block-thumb-075350",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          480080,
+          480088
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-075358",
+            "file_offset": 480088,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480086,
+          "flow_kind": "linear",
+          "mnemonic": "movs",
+          "op_str": "r4, #1",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "a7e720c11b2abd2ea4c9a487bd65a25c515e981d354489af30ef4fccd42f8c80",
+        "id": "block-thumb-075358",
+        "instruction_count": 9,
+        "mode": "thumb",
+        "range": [
+          480088,
+          480106
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753e2",
+            "file_offset": 480226,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-07536a",
+            "file_offset": 480106,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480104,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x80753e2",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "21f72159ba9bdf3db2257a42d5c36ca7211510022079d3558fd04e80f17ea1f3",
+        "id": "block-thumb-07536a",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          480106,
+          480114
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-075372",
+            "file_offset": 480114,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480110,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806c160",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "16b7b62f18dadae1dacf7180a3641950dff5a0ac7a8ebef47665bcdd8d66f447",
+        "id": "block-thumb-075372",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          480114,
+          480122
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753e2",
+            "file_offset": 480226,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-07537a",
+            "file_offset": 480122,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480120,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x80753e2",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "f0443678a1ff0174c045c35f942e1c9c9ad89dc221b26e7778fcc8a8732ee3c9",
+        "id": "block-thumb-07537a",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          480122,
+          480130
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-075382",
+            "file_offset": 480130,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480126,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806c160",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "3b5fd5be4ff9741b6f6975f529afb03a49ac88511db95b031bc5c897b56ef4af",
+        "id": "block-thumb-075382",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          480130,
+          480138
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753e2",
+            "file_offset": 480226,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-07538a",
+            "file_offset": 480138,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480136,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x80753e2",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "b158a9e52d117c6bbec3fc05cb8679e6419ee11230e12069a4a54187514d0e18",
+        "id": "block-thumb-07538a",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          480138,
+          480146
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-075392",
+            "file_offset": 480146,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480142,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806c160",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "e4e2f48fd790d3d92a69aa322790dcd5df7a3e170ddf051cd0b907d178b44f9a",
+        "id": "block-thumb-075392",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          480146,
+          480154
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753e2",
+            "file_offset": 480226,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-07539a",
+            "file_offset": 480154,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480152,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x80753e2",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "b898888f1ec880f9bbe9e4928b3e755bf2a7489278b0760826fa6acb8efb108a",
+        "id": "block-thumb-07539a",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          480154,
+          480162
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753a2",
+            "file_offset": 480162,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480158,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806c160",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "f4c4caeba58b5ce365ceb3021f222fd1fc9b0efb700948e8d7f464de75f5a3b4",
+        "id": "block-thumb-0753a2",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          480162,
+          480170
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753e2",
+            "file_offset": 480226,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-0753aa",
+            "file_offset": 480170,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480168,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x80753e2",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "f5e443828617ebad66ab7564e53e4e18bc9aae12cddd83dfb0ebfbf409c2b637",
+        "id": "block-thumb-0753aa",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          480170,
+          480178
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753b2",
+            "file_offset": 480178,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480174,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806c160",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "23ad11d9dcebaffbe40b1aaf5308d2ae76ec3d74737519d90f15cac90e7673fa",
+        "id": "block-thumb-0753b2",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          480178,
+          480186
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753e2",
+            "file_offset": 480226,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-0753ba",
+            "file_offset": 480186,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480184,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x80753e2",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "de6e8652605bdd3d4ec6277e841b9eded7bedbd434cced2861ece5deb9fde309",
+        "id": "block-thumb-0753ba",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          480186,
+          480194
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753c2",
+            "file_offset": 480194,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480190,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806c160",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "bcb03baa9714a2366712676c5d18abcb2163c1d35cedd22b8dbbf0eb9005ac86",
+        "id": "block-thumb-0753c2",
+        "instruction_count": 4,
+        "mode": "thumb",
+        "range": [
+          480194,
+          480202
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753e2",
+            "file_offset": 480226,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-0753ca",
+            "file_offset": 480202,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480200,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x80753e2",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "4e6fc2b7b5718bbaacbbd51de077f037efad54037745a2c38d2328f7ef12fb78",
+        "id": "block-thumb-0753ca",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          480202,
+          480212
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753dc",
+            "file_offset": 480220,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-0753d4",
+            "file_offset": 480212,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480210,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x80753dc",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "50c1ad26fbf32debb1fb6f0052c71719c5156e079c3a8637786072263ef89e8f",
+        "id": "block-thumb-0753d4",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          480212,
+          480220
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753dc",
+            "file_offset": 480220,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480216,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806a790",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "451c451b9aa89f940217943d2a173d6f8b317fe2688870614ddfc67c1b6444f4",
+        "id": "block-thumb-0753dc",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          480220,
+          480226
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-0753e2",
+            "file_offset": 480226,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480222,
+          "flow_kind": "call",
+          "mnemonic": "bl",
+          "op_str": "#0x806a80c",
+          "size": 4
+        }
+      },
+      {
+        "bytes_sha256": "ac626f133902eddf989499fecbce0db507457ce91a030850f195d07f8e64e8e2",
+        "id": "block-thumb-0753e2",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          480226,
+          480236
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-075358",
+            "file_offset": 480088,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-0753ec",
+            "file_offset": 480236,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480234,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x8075358",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "514f6aa802bdc4d077005cde997c6ee1f921c1ce496ca6cc35e22b9a405f8a71",
+        "id": "block-thumb-0753ec",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          480236,
+          480242
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480240,
+          "flow_kind": "indirect_branch",
+          "mnemonic": "bx",
+          "op_str": "r0",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "cca23c548e3a81d0db4208a2dda9c22ee0943e1355cc3e6e5817fc605e23cb37",
+        "id": "block-thumb-0753f8",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          480248,
+          480258
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-075402",
+            "file_offset": 480258,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480256,
+          "flow_kind": "linear",
+          "mnemonic": "ldr",
+          "op_str": "r5, [pc, #0x34]",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "04ccd2bc30b499206a005dd52808460bd4943b177f944bd202acae996193332d",
+        "id": "block-thumb-075402",
+        "instruction_count": 7,
+        "mode": "thumb",
+        "range": [
+          480258,
+          480272
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-07543c",
+            "file_offset": 480316,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-075410",
+            "file_offset": 480272,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480270,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x807543c",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "490492e29c9e490f2d63c272289b331ac4197d42a8265d08a35ea516fae34eef",
+        "id": "block-thumb-075410",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          480272,
+          480282
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-07543c",
+            "file_offset": 480316,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-07541a",
+            "file_offset": 480282,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480280,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x807543c",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "a224c942da62f2606cef89e3256b1182351574cdd429ad5ae901b5944260cbfc",
+        "id": "block-thumb-07541a",
+        "instruction_count": 7,
+        "mode": "thumb",
+        "range": [
+          480282,
+          480296
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-07543c",
+            "file_offset": 480316,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-075428",
+            "file_offset": 480296,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480294,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bne",
+          "op_str": "#0x807543c",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "664fb5fc71d47cbe441137ca577c768961f6cff55626789b174856125ecd1e1b",
+        "id": "block-thumb-075428",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          480296,
+          480306
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-07543c",
+            "file_offset": 480316,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-075432",
+            "file_offset": 480306,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480304,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "beq",
+          "op_str": "#0x807543c",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "a5e6e103be66d3d082dce027521b89bcd62fda706bf3e1273913466af6b62ea2",
+        "id": "block-thumb-075432",
+        "instruction_count": 2,
+        "mode": "thumb",
+        "range": [
+          480306,
+          480310
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-075448",
+            "file_offset": 480328,
+            "kind": "branch_target",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480308,
+          "flow_kind": "unconditional_branch",
+          "mnemonic": "b",
+          "op_str": "#0x8075448",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "ec0898a86d97d4ffb2a7d8986fb077b13ffd8edf60c80f6c5b59856427fd064c",
+        "id": "block-thumb-07543c",
+        "instruction_count": 5,
+        "mode": "thumb",
+        "range": [
+          480316,
+          480326
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-075402",
+            "file_offset": 480258,
+            "kind": "branch_target",
+            "mode": "thumb"
+          },
+          {
+            "block_id": "block-thumb-075446",
+            "file_offset": 480326,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": true,
+          "file_offset": 480324,
+          "flow_kind": "conditional_branch",
+          "mnemonic": "bls",
+          "op_str": "#0x8075402",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "3145e7a95720a1db303f2198e796ea848f52b6079b5bf4f47d32fad69c2bce77",
+        "id": "block-thumb-075446",
+        "instruction_count": 1,
+        "mode": "thumb",
+        "range": [
+          480326,
+          480328
+        ],
+        "successors": [
+          {
+            "block_id": "block-thumb-075448",
+            "file_offset": 480328,
+            "kind": "fallthrough",
+            "mode": "thumb"
+          }
+        ],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480326,
+          "flow_kind": "linear",
+          "mnemonic": "movs",
+          "op_str": "r0, #1",
+          "size": 2
+        }
+      },
+      {
+        "bytes_sha256": "c3f950f51893fbc480f46610c65ae17f3e8d35fcbd48c20ddb373a2b6bb9338d",
+        "id": "block-thumb-075448",
+        "instruction_count": 3,
+        "mode": "thumb",
+        "range": [
+          480328,
+          480334
+        ],
+        "successors": [],
+        "terminator": {
+          "conditional": false,
+          "file_offset": 480332,
+          "flow_kind": "indirect_branch",
+          "mnemonic": "bx",
+          "op_str": "r1",
+          "size": 2
+        }
+      }
+    ],
+    "cross_edge_denominator_sha256": "a2a75f2aa14da225f62474a336cb573896528209887ac71a46b5c06a503f1140",
+    "frontiers": [],
+    "opaque_return_exits": [
+      {
+        "bx_register": "r0",
+        "file_offset": 442524,
+        "mode": "thumb",
+        "pop_register": "r0",
+        "prefix_raw_hex": "01bc0047",
+        "prefix_sha256": "15a0c45072c4f43ac42d0c62cb597469cb73ae8294c056a31dc8415af2bc0d3c",
+        "register": "r0"
+      },
+      {
+        "bx_register": "r0",
+        "file_offset": 443234,
+        "mode": "thumb",
+        "pop_register": "r0",
+        "prefix_raw_hex": "01bc0047",
+        "prefix_sha256": "15a0c45072c4f43ac42d0c62cb597469cb73ae8294c056a31dc8415af2bc0d3c",
+        "register": "r0"
+      },
+      {
+        "bx_register": "r0",
+        "file_offset": 447640,
+        "mode": "thumb",
+        "pop_register": "r0",
+        "prefix_raw_hex": "01bc0047",
+        "prefix_sha256": "15a0c45072c4f43ac42d0c62cb597469cb73ae8294c056a31dc8415af2bc0d3c",
+        "register": "r0"
+      },
+      {
+        "bx_register": "r0",
+        "file_offset": 462316,
+        "mode": "thumb",
+        "pop_register": "r0",
+        "prefix_raw_hex": "01bc0047",
+        "prefix_sha256": "15a0c45072c4f43ac42d0c62cb597469cb73ae8294c056a31dc8415af2bc0d3c",
+        "register": "r0"
+      },
+      {
+        "bx_register": "r0",
+        "file_offset": 471110,
+        "mode": "thumb",
+        "pop_register": "r0",
+        "prefix_raw_hex": "01bc0047",
+        "prefix_sha256": "15a0c45072c4f43ac42d0c62cb597469cb73ae8294c056a31dc8415af2bc0d3c",
+        "register": "r0"
+      },
+      {
+        "bx_register": "r0",
+        "file_offset": 480240,
+        "mode": "thumb",
+        "pop_register": "r0",
+        "prefix_raw_hex": "01bc0047",
+        "prefix_sha256": "15a0c45072c4f43ac42d0c62cb597469cb73ae8294c056a31dc8415af2bc0d3c",
+        "register": "r0"
+      },
+      {
+        "bx_register": "r1",
+        "file_offset": 480332,
+        "mode": "thumb",
+        "pop_register": "r1",
+        "prefix_raw_hex": "02bc0847",
+        "prefix_sha256": "b12afda4706c7738a894db2c0847e464d662c484c5c6c16536615bb05deeba77",
+        "register": "r1"
+      }
+    ],
+    "summary": {
+      "decoded_basic_block_count": 62,
+      "decoded_instruction_count": 299,
+      "frontier_count": 0,
+      "frontier_reasons": {},
+      "reachable_instruction_bytes": 628
+    }
+  },
+  "frozen_baseline": {
+    "battle_controller": {
+      "manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+      "path": "artifacts/rom-battle-controller-cfg-v1",
+      "payload_file": "rom-battle-controller-cfg.json",
+      "payload_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+      "schema": "rom-battle-controller-cfg-v1",
+      "summary": {
+        "decoded_basic_block_count": 739,
+        "decoded_instruction_count": 2756,
+        "frontier_count": 5,
+        "frontier_reasons": {
+          "decode_failure": 1,
+          "indirect_pc_target": 2,
+          "unsupported_armv4t_instruction": 2
+        },
+        "opaque_baseline_edge_count": 9,
+        "opaque_external_edge_count": 227,
+        "reachable_instruction_bytes": 6172,
+        "skipped_root_count": 1
+      },
+      "verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+      "verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87"
+    },
+    "proven_roots_v1": {
+      "manifest_sha256": "ea1230fe24cf111a91044c059468a1467e46c471363780b23c2a0311bab8644a",
+      "path": "artifacts/rom-cfg-proven-roots-v1",
+      "payload_file": "rom-cfg-proven-roots.json",
+      "payload_sha256": "7fdee7d0d62d3a8c82bfe7b03804e9cb0e3d213ebdf63acce6b0533045aecf54",
+      "schema": "rom-cfg-proven-roots-v1",
+      "summary": {
+        "decoded_basic_block_count": 1203,
+        "decoded_instruction_count": 6166,
+        "frontier_count": 28,
+        "frontier_reasons": {
+          "decode_failure": 1,
+          "indirect_pc_target": 27
+        },
+        "reachable_instruction_bytes": 12966
+      },
+      "verifier_path": "tools/verify_rom_cfg_proven_roots.py",
+      "verifier_sha256": "693d9381f429346376a6400bea20025ca0c56e1e68d0bf3164b070ea722aa4d7"
+    },
+    "proven_roots_v2": {
+      "manifest_sha256": "a3683f3d21ec5a162b4cdb97c70b639ff261d9ff5e0f3bb4941848205bb4d9ca",
+      "path": "artifacts/rom-cfg-proven-roots-v2",
+      "payload_file": "rom-cfg-proven-roots-v2.json",
+      "payload_sha256": "a58e0652da0b7825e6cb62d31ad172f681b6e99be2e6142f57471a3b7b5f7cba",
+      "schema": "rom-cfg-proven-roots-v2",
+      "summary": {
+        "decoded_basic_block_count": 835,
+        "decoded_instruction_count": 4809,
+        "frontier_count": 28,
+        "frontier_reasons": {
+          "indirect_pc_target": 27,
+          "unsupported_armv4t_instruction": 1
+        },
+        "reachable_instruction_bytes": 9876
+      },
+      "verifier_path": "tools/verify_rom_cfg_proven_roots_v2.py",
+      "verifier_sha256": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55"
+    },
+    "proven_roots_v3": {
+      "manifest_sha256": "4aa979aa65408163e577f7d728ba32a99a13bd6c9615c40f28a570036e5ba275",
+      "path": "artifacts/rom-cfg-proven-roots-v3",
+      "payload_file": "rom-cfg-proven-roots-v3.json",
+      "payload_sha256": "f2de5ca57685e3542d5e483e5a171a30eb32bb6dc6ce9794cc683371579af9a2",
+      "schema": "rom-cfg-proven-roots-v3",
+      "summary": {
+        "decoded_basic_block_count": 8,
+        "decoded_instruction_count": 52,
+        "frontier_count": 0,
+        "frontier_reasons": {},
+        "reachable_instruction_bytes": 110
+      },
+      "verifier_path": "tools/verify_rom_cfg_proven_roots_v3.py",
+      "verifier_sha256": "15b06ae23285d397244ce49d153e3c4b93305af8d5a0b2dd81abe3b3655f5250"
+    },
+    "proven_roots_v4": {
+      "manifest_sha256": "e306ac59b4b9a815702fda8aef54058908fb9113a5afad4be938c69d42d67404",
+      "path": "artifacts/rom-cfg-proven-roots-v4",
+      "payload_file": "rom-cfg-proven-roots-v4.json",
+      "payload_sha256": "d14c9f4198d9209d03d8511351b5dc997ade409a3218e9f05993c8c7f11456eb",
+      "schema": "rom-cfg-proven-roots-v4",
+      "summary": {
+        "decoded_basic_block_count": 118,
+        "decoded_instruction_count": 486,
+        "frontier_count": 6,
+        "frontier_reasons": {
+          "indirect_pc_target": 6
+        },
+        "reachable_instruction_bytes": 1044
+      },
+      "verifier_path": "tools/verify_rom_cfg_proven_roots_v4.py",
+      "verifier_sha256": "2520457a4862c628f86a236529d0d29fa227212b8b526e42f301b8f89a9606ba"
+    },
+    "proven_roots_v5": {
+      "manifest_sha256": "f6deb37d40ae4ea83e220adc8303c64646a9280d34d6c325d8ea0492963dcd8d",
+      "path": "artifacts/rom-cfg-proven-roots-v5",
+      "payload_file": "rom-cfg-proven-roots-v5.json",
+      "payload_sha256": "680b03dffb5c3dbbca41d9a5d0872db560a1a05850d7928ce75243397a54f040",
+      "schema": "rom-cfg-proven-roots-v5",
+      "summary": {
+        "decoded_basic_block_count": 124,
+        "decoded_instruction_count": 576,
+        "frontier_count": 8,
+        "frontier_reasons": {
+          "indirect_pc_target": 8
+        },
+        "reachable_instruction_bytes": 1252
+      },
+      "verifier_path": "tools/verify_rom_cfg_proven_roots_v5.py",
+      "verifier_sha256": "ec188e5e674b87a1cdda4fa6848d6fe5a2d9fb0617ea6d818be43237d05997f9"
+    },
+    "proven_roots_v6": {
+      "manifest_sha256": "e00d8a1b7b08305a44f7ac3d36a5e294d1f69b5f05ceab151e14749cf92802f4",
+      "path": "artifacts/rom-cfg-proven-roots-v6",
+      "payload_file": "rom-cfg-proven-roots-v6.json",
+      "payload_sha256": "e5b27a55c77cd1df4ac5ec39f2dd05735b0b53c01b7cbbcf1620db1681a3c3ec",
+      "schema": "rom-cfg-proven-roots-v6",
+      "summary": {
+        "decoded_basic_block_count": 2305,
+        "decoded_instruction_count": 12564,
+        "frontier_count": 85,
+        "frontier_reasons": {
+          "indirect_pc_target": 85
+        },
+        "reachable_instruction_bytes": 27224
+      },
+      "verifier_path": "tools/verify_rom_cfg_proven_roots_v6.py",
+      "verifier_sha256": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4"
+    },
+    "proven_roots_v7": {
+      "manifest_sha256": "da9a1b5fe7ce8e7889fbba9fe8251c907ed18f6b273cbcc3be145101ece99114",
+      "path": "artifacts/rom-cfg-proven-roots-v7",
+      "payload_file": "rom-cfg-proven-roots-v7.json",
+      "payload_sha256": "184e9b84df829fb1ad41f272aabe931c1a1f86111eebd60629ad2d2a23d89a06",
+      "schema": "rom-cfg-proven-roots-v7",
+      "summary": {
+        "decoded_basic_block_count": 38,
+        "decoded_instruction_count": 155,
+        "frontier_count": 1,
+        "frontier_reasons": {
+          "indirect_pc_target": 1
+        },
+        "reachable_instruction_bytes": 332
+      },
+      "verifier_path": "tools/verify_rom_cfg_proven_roots_v7.py",
+      "verifier_sha256": "30e67f172e8a34c85e93838bd7863f1d1417823c83b1cf2a74fa8cd61aae01a5"
+    },
+    "proven_roots_v8": {
+      "manifest_sha256": "0c9194507c50b7f2c00c6ee09b517211f64b7b344475952fe3c908b1e54e0002",
+      "path": "artifacts/rom-cfg-proven-roots-v8",
+      "payload_file": "rom-cfg-proven-roots-v8.json",
+      "payload_sha256": "5fa1150d2ed9f785d50132a9eae316af192d70838fbee3061d7d3010c35fb1d6",
+      "schema": "rom-cfg-proven-roots-v8",
+      "summary": {
+        "decoded_basic_block_count": 20,
+        "decoded_instruction_count": 113,
+        "frontier_count": 1,
+        "frontier_reasons": {
+          "indirect_pc_target": 1
+        },
+        "reachable_instruction_bytes": 246
+      },
+      "verifier_path": "tools/verify_rom_cfg_proven_roots_v8.py",
+      "verifier_sha256": "88d2726fbe2657105759d23ae04f95ae2685ad2ad416640a8a5bbd2bb826b254"
+    },
+    "v2": {
+      "manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+      "path": "artifacts/rom-cfg-inventory-v2",
+      "payload_file": "rom-cfg-inventory.json",
+      "payload_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+      "schema": "rom-cfg-inventory-v2",
+      "summary": {
+        "arm_instruction_bytes": 948,
+        "arm_instruction_count": 237,
+        "arm_root_count": 2,
+        "budget_exhausted": false,
+        "closed_root_count": 4,
+        "cross_mode_overlap_bytes": 0,
+        "decoded_basic_block_count": 7725,
+        "decoded_instruction_count": 40872,
+        "frontier_count": 366,
+        "frontier_open_root_count": 259,
+        "frontier_reasons": {
+          "bios_swi_external": 7,
+          "indirect_pc_target": 357,
+          "unsupported_armv4t_instruction": 2
+        },
+        "reachable_instruction_bytes": 86184,
+        "root_count": 263,
+        "thumb_instruction_bytes": 85236,
+        "thumb_instruction_count": 40635,
+        "thumb_root_count": 261
+      },
+      "verifier_path": "tools/verify_rom_cfg_inventory.py",
+      "verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93"
+    },
+    "v3": {
+      "manifest_sha256": "6aa788611f73856e621f5c74aab544d47b034307a9dc1180f6fd8f81cb1f423b",
+      "path": "artifacts/rom-cfg-inventory-v3",
+      "payload_file": "rom-cfg-inventory-v3.json",
+      "payload_sha256": "596c4d8cffa57f3899858a0a59351894b1398006ee0405ce799ed9f32a81bf9d",
+      "schema": "rom-cfg-inventory-v3",
+      "summary": {
+        "decoded_basic_block_count": 891,
+        "decoded_instruction_count": 4698,
+        "frontier_count": 16,
+        "frontier_reasons": {
+          "indirect_pc_target": 15,
+          "unsupported_armv4t_instruction": 1
+        },
+        "reachable_instruction_bytes": 9902
+      },
+      "verifier_path": "tools/verify_rom_cfg_inventory_v3.py",
+      "verifier_sha256": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a"
+    },
+    "verification_chain": {
+      "report_count": 11,
+      "reports": {
+        "battle_controller": {
+          "controller_range": [
+            471732,
+            479388
+          ],
+          "controller_sha256": "c9bdc220590a851fa331960bcb32be90eb9ac7248a5cd3dabb9f8afa0b674bc1",
+          "dispatcher_default_state_count": 65498,
+          "dispatcher_nondefault_state_count": 38,
+          "errors": [],
+          "root_count": 38,
+          "schema": "rom-battle-controller-cfg-verification-v1",
+          "summary": {
+            "decoded_basic_block_count": 739,
+            "decoded_instruction_count": 2756,
+            "frontier_count": 5,
+            "frontier_reasons": {
+              "decode_failure": 1,
+              "indirect_pc_target": 2,
+              "unsupported_armv4t_instruction": 2
+            },
+            "opaque_baseline_edge_count": 9,
+            "opaque_external_edge_count": 227,
+            "reachable_instruction_bytes": 6172,
+            "skipped_root_count": 1
+          },
+          "verified": true
+        },
+        "proven_roots_v1": {
+          "baseline_cross_edge_count": 259,
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 1203,
+          "decoded_instruction_count": 6166,
+          "errors": [],
+          "frontier_count": 28,
+          "independently_rebuilt_instruction_count": 6166,
+          "reachable_instruction_bytes": 12966,
+          "root_count": 2,
+          "schema": "rom-cfg-proven-roots-verification-v1",
+          "verified": true
+        },
+        "proven_roots_v2": {
+          "baseline_cross_edge_count": 82,
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 835,
+          "decoded_instruction_count": 4809,
+          "errors": [],
+          "frontier_count": 28,
+          "independently_rebuilt_instruction_count": 4809,
+          "reachable_instruction_bytes": 9876,
+          "root_count": 3,
+          "schema": "rom-cfg-proven-roots-verification-v2",
+          "verified": true
+        },
+        "proven_roots_v3": {
+          "baseline_cross_edge_count": 5,
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 8,
+          "decoded_instruction_count": 52,
+          "errors": [],
+          "frontier_count": 0,
+          "independently_rebuilt_instruction_count": 52,
+          "reachable_instruction_bytes": 110,
+          "root_count": 1,
+          "schema": "rom-cfg-proven-roots-verification-v3",
+          "verified": true
+        },
+        "proven_roots_v4": {
+          "baseline_cross_edge_count": 29,
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 118,
+          "decoded_instruction_count": 486,
+          "errors": [],
+          "frontier_count": 6,
+          "independently_rebuilt_instruction_count": 486,
+          "reachable_instruction_bytes": 1044,
+          "root_count": 1,
+          "schema": "rom-cfg-proven-roots-verification-v4",
+          "verified": true
+        },
+        "proven_roots_v5": {
+          "baseline_cross_edge_count": 40,
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 124,
+          "decoded_instruction_count": 576,
+          "errors": [],
+          "frontier_count": 8,
+          "independently_rebuilt_instruction_count": 576,
+          "reachable_instruction_bytes": 1252,
+          "root_count": 3,
+          "schema": "rom-cfg-proven-roots-verification-v5",
+          "verified": true
+        },
+        "proven_roots_v6": {
+          "baseline_cross_edge_count": 916,
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 2305,
+          "decoded_instruction_count": 12564,
+          "errors": [],
+          "frontier_count": 85,
+          "independently_rebuilt_instruction_count": 12564,
+          "reachable_instruction_bytes": 27224,
+          "root_count": 5,
+          "schema": "rom-cfg-proven-roots-verification-v6",
+          "verified": true
+        },
+        "proven_roots_v7": {
+          "baseline_cross_edge_count": 17,
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 38,
+          "decoded_instruction_count": 155,
+          "errors": [],
+          "frontier_count": 1,
+          "independently_rebuilt_instruction_count": 155,
+          "reachable_instruction_bytes": 332,
+          "root_count": 8,
+          "schema": "rom-cfg-proven-roots-verification-v7",
+          "verified": true
+        },
+        "proven_roots_v8": {
+          "baseline_cross_edge_count": 10,
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 20,
+          "decoded_instruction_count": 113,
+          "errors": [],
+          "frontier_count": 1,
+          "independently_rebuilt_instruction_count": 113,
+          "reachable_instruction_bytes": 246,
+          "root_count": 1,
+          "schema": "rom-cfg-proven-roots-verification-v8",
+          "verified": true
+        },
+        "v2": {
+          "budget_exhausted": false,
+          "closed_root_count": 4,
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 7725,
+          "decoded_instruction_count": 40872,
+          "errors": [],
+          "frontier_count": 366,
+          "frontier_open_root_count": 259,
+          "independently_rebuilt_instruction_count": 40872,
+          "reachable_instruction_bytes": 86184,
+          "root_count": 263,
+          "schema": "rom-cfg-inventory-verification-v2",
+          "verified": true
+        },
+        "v3": {
+          "control_flow_oracle": "armv4t-raw-encoding",
+          "decoded_basic_block_count": 891,
+          "errors": [],
+          "frontier_count": 16,
+          "independently_rebuilt_instruction_count": 4698,
+          "new_entry_seed_count": 101,
+          "reachable_instruction_bytes": 9902,
+          "resolved_frontier_count": 29,
+          "schema": "rom-cfg-inventory-verification-v3",
+          "verified": true
+        }
+      }
+    }
+  },
+  "implementation": {
+    "binding": "passed-root-equals-loaded-runtime-dependency-denominator-with-isolated-cli",
+    "execution_isolation": {
+      "preimport_checks": [
+        "isolated-runtime",
+        "no-site",
+        "capstone-not-preloaded",
+        "libcapstone-path-empty"
+      ],
+      "python_flags": [
+        "-I",
+        "-S"
+      ],
+      "verifier_command": [
+        "python3",
+        "-I",
+        "-S",
+        "tools/verify_rom_cfg_proven_roots_v9.py"
+      ]
+    },
+    "exporter_sha256": "51aef64e7cec4d95cf565ad852155dc50f45c127c50bebf0f8968b4d009a9d00",
+    "loaded_runtime": {
+      "dynamic_library": "tools/_vendor/capstone/lib/libcapstone.dylib",
+      "libcapstone_path_environment": null,
+      "python_modules": {
+        "capstone": "tools/_vendor/capstone/__init__.py",
+        "capstone.arm": "tools/_vendor/capstone/arm.py",
+        "capstone.arm64": "tools/_vendor/capstone/arm64.py",
+        "capstone.arm64_const": "tools/_vendor/capstone/arm64_const.py",
+        "capstone.arm_const": "tools/_vendor/capstone/arm_const.py",
+        "capstone.bpf": "tools/_vendor/capstone/bpf.py",
+        "capstone.bpf_const": "tools/_vendor/capstone/bpf_const.py",
+        "capstone.evm": "tools/_vendor/capstone/evm.py",
+        "capstone.evm_const": "tools/_vendor/capstone/evm_const.py",
+        "capstone.m680x": "tools/_vendor/capstone/m680x.py",
+        "capstone.m680x_const": "tools/_vendor/capstone/m680x_const.py",
+        "capstone.m68k": "tools/_vendor/capstone/m68k.py",
+        "capstone.m68k_const": "tools/_vendor/capstone/m68k_const.py",
+        "capstone.mips": "tools/_vendor/capstone/mips.py",
+        "capstone.mips_const": "tools/_vendor/capstone/mips_const.py",
+        "capstone.mos65xx": "tools/_vendor/capstone/mos65xx.py",
+        "capstone.mos65xx_const": "tools/_vendor/capstone/mos65xx_const.py",
+        "capstone.ppc": "tools/_vendor/capstone/ppc.py",
+        "capstone.ppc_const": "tools/_vendor/capstone/ppc_const.py",
+        "capstone.riscv": "tools/_vendor/capstone/riscv.py",
+        "capstone.riscv_const": "tools/_vendor/capstone/riscv_const.py",
+        "capstone.sh": "tools/_vendor/capstone/sh.py",
+        "capstone.sh_const": "tools/_vendor/capstone/sh_const.py",
+        "capstone.sparc": "tools/_vendor/capstone/sparc.py",
+        "capstone.sparc_const": "tools/_vendor/capstone/sparc_const.py",
+        "capstone.systemz": "tools/_vendor/capstone/systemz.py",
+        "capstone.sysz_const": "tools/_vendor/capstone/sysz_const.py",
+        "capstone.tms320c64x": "tools/_vendor/capstone/tms320c64x.py",
+        "capstone.tms320c64x_const": "tools/_vendor/capstone/tms320c64x_const.py",
+        "capstone.tricore": "tools/_vendor/capstone/tricore.py",
+        "capstone.tricore_const": "tools/_vendor/capstone/tricore_const.py",
+        "capstone.wasm": "tools/_vendor/capstone/wasm.py",
+        "capstone.wasm_const": "tools/_vendor/capstone/wasm_const.py",
+        "capstone.x86": "tools/_vendor/capstone/x86.py",
+        "capstone.x86_const": "tools/_vendor/capstone/x86_const.py",
+        "capstone.xcore": "tools/_vendor/capstone/xcore.py",
+        "capstone.xcore_const": "tools/_vendor/capstone/xcore_const.py"
+      }
+    },
+    "paths": {
+      "exporter": "tools/export_rom_cfg_proven_roots_v9.py",
+      "test": "tests/test_export_rom_cfg_proven_roots_v9.py",
+      "verifier": "tools/verify_rom_cfg_proven_roots_v9.py"
+    },
+    "runtime_dependency_sha256": {
+      "tools/_vendor/capstone/__init__.py": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+      "tools/_vendor/capstone/arm.py": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+      "tools/_vendor/capstone/arm64.py": "5078573d8c76dcb05b738bf4d4a004413e66e54eea68dd2e61708006e43d27fe",
+      "tools/_vendor/capstone/arm64_const.py": "d12dcb9f315570670f8d5881d021e1455b71eddd8fbafa59bf8178246f120824",
+      "tools/_vendor/capstone/arm_const.py": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+      "tools/_vendor/capstone/bpf.py": "a5fea739d724bd3321d53372e3d248786a37e03e5b5f20bcaf126c84f5a48d1d",
+      "tools/_vendor/capstone/bpf_const.py": "2cd16a302ecdc7055a13b83e9775f0b75ae7fd0ab0f264960a4407c68b599d95",
+      "tools/_vendor/capstone/evm.py": "dd23482c185b6b61c2d131439962172e50ed1ef1280fa9b99b30d29eeab6cae9",
+      "tools/_vendor/capstone/evm_const.py": "d998e60703a2590bdfbf5f16f181bdec79ab3d14b7446d5f71138694fbdc2fe5",
+      "tools/_vendor/capstone/lib/libcapstone.dylib": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f",
+      "tools/_vendor/capstone/m680x.py": "77aca05b1000466c061d07eb03dce5521e18e573668fb7dd83632ee6f7132de3",
+      "tools/_vendor/capstone/m680x_const.py": "8cb28e7303d7e2f875c1212e2931f4372033a4da954750605d160a0612181427",
+      "tools/_vendor/capstone/m68k.py": "92ea89537b96bdecbdbd15ede2a2e08e85be40abfe6f1b722b8ae0c5d80e056c",
+      "tools/_vendor/capstone/m68k_const.py": "71f82746c167a083eea4e149adfd3bb5c2eeedf0ac2d20c3a11e5a11ce2d4164",
+      "tools/_vendor/capstone/mips.py": "eddc0b5ec3655cf8531254493fe97b8d1e49f0614df52a36c62e1cf6a39c4b27",
+      "tools/_vendor/capstone/mips_const.py": "296e731a2509ef32a90e00d38cdec2c8749d1e760a65c9d5488e640024be6275",
+      "tools/_vendor/capstone/mos65xx.py": "281ea3b82c93d65897add3246e6c0740813aa6c8d292d007e4d73c61555e2d1c",
+      "tools/_vendor/capstone/mos65xx_const.py": "b1aa7c27bdcf0365635e26f5260a138a7edb64fd0f64bb7fb62d097474c38699",
+      "tools/_vendor/capstone/ppc.py": "ac17126dd565129194743cd7c635746c0443dfd8b7cfeb4ed7ff3094e4036039",
+      "tools/_vendor/capstone/ppc_const.py": "d42812aa9ec495588b5498203ec2f85216a06819b091759be340021b6e74357b",
+      "tools/_vendor/capstone/riscv.py": "3e7a76a038479eba99fab0f57b1460efc3cdcd21b97889cc8ba84cb619dc1bc6",
+      "tools/_vendor/capstone/riscv_const.py": "1d30a1ff64f10d42485aff13b89ba560d70005a8ea791ca1e10aca8ccfd1259b",
+      "tools/_vendor/capstone/sh.py": "a6b0cb7d965a32f0691810570b6bdda9ee16ed8adcfe33c526aec494f98e80aa",
+      "tools/_vendor/capstone/sh_const.py": "f892d3aa615a8efa69c0bc9b95cfd1238f68a4d547013530a9005cd4cd0a4a76",
+      "tools/_vendor/capstone/sparc.py": "41bc1b0aab480f3c8ceef66a94857c217d096a0a43bed7d5f5de4e135974a6ab",
+      "tools/_vendor/capstone/sparc_const.py": "1bea49a96791e7273288a7c316e58fba91ef13672032ae350e1086be1712fcfb",
+      "tools/_vendor/capstone/systemz.py": "1d8cd94be958fb2d45e27893a5157ed5f5db99efddd1abc3371f3c6fef3df0f5",
+      "tools/_vendor/capstone/sysz_const.py": "b824830eeb309ff227c3fd16638ebf4a5d4f797a2b84489b8d975c69e830f0f2",
+      "tools/_vendor/capstone/tms320c64x.py": "ab6ff75b5d8d5a135b913b0598580834e058a2e1399974c6a56aff8dd06b81c3",
+      "tools/_vendor/capstone/tms320c64x_const.py": "47a6d21bd795bbdb0d7d8dd97cca8cd2c1f486b30ed908f4967cb3be69a35f6f",
+      "tools/_vendor/capstone/tricore.py": "d51c354aed52f9fa551660902dc26e83b4f99aa1022c7aa721f78b983fba477e",
+      "tools/_vendor/capstone/tricore_const.py": "2dec869a7c24e4573601b0457d03d8d599ec9ef8d298afeb1510e8f697709260",
+      "tools/_vendor/capstone/wasm.py": "b3fb5fd0fbcda3625c5a30b2d51f3edb0123283d420415d57b93c40794bdb090",
+      "tools/_vendor/capstone/wasm_const.py": "4816da07ed540812e481d8b845e97af9bc40f6c28dd18cdf3a0adbdecf39e51c",
+      "tools/_vendor/capstone/x86.py": "7c3a2f434e20df6f69ced3bed07217c996379d647aeb62de9bf5d6e8b195f525",
+      "tools/_vendor/capstone/x86_const.py": "00dcf65aad410f95a61dacd1dadacfe11b0f19b2afbeb07d19a484d35c692c38",
+      "tools/_vendor/capstone/xcore.py": "27f28ca2c2bae2753a6ebb97d01a17d38405209dae0fe00f2450fc4a87d58719",
+      "tools/_vendor/capstone/xcore_const.py": "c84283e286db265f87a8c8d133815e5990a250a8e0e310a4f6afa899fa9c6e2f",
+      "tools/export_rom_cfg_inventory.py": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+      "tools/export_rom_cfg_proven_roots.py": "89b91383f4cd2aa8d078042c2f7f64678f9ece15c2ac3288b3edefacf1ccb2e9",
+      "tools/export_rom_cfg_proven_roots_v2.py": "e40028e04b2225c904105bd40959b8413f8dc4bcb1fa7cb99d1e9d3d28755c03",
+      "tools/verify_rom_battle_controller_cfg.py": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87",
+      "tools/verify_rom_cfg_inventory.py": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+      "tools/verify_rom_cfg_inventory_v3.py": "46400e44866a93b571745f30779296cc5686889ac5d465891c648296d2dbe00a",
+      "tools/verify_rom_cfg_proven_roots.py": "693d9381f429346376a6400bea20025ca0c56e1e68d0bf3164b070ea722aa4d7",
+      "tools/verify_rom_cfg_proven_roots_v2.py": "3d834e1e92c1ea1c7cf4146ac6f23b940ea864c69783c341af64ba462545fe55",
+      "tools/verify_rom_cfg_proven_roots_v3.py": "15b06ae23285d397244ce49d153e3c4b93305af8d5a0b2dd81abe3b3655f5250",
+      "tools/verify_rom_cfg_proven_roots_v4.py": "2520457a4862c628f86a236529d0d29fa227212b8b526e42f301b8f89a9606ba",
+      "tools/verify_rom_cfg_proven_roots_v5.py": "ec188e5e674b87a1cdda4fa6848d6fe5a2d9fb0617ea6d818be43237d05997f9",
+      "tools/verify_rom_cfg_proven_roots_v6.py": "4fc2ad61b98ce3655f1528e773566f63f84f1184209086bd96d3e23c51a8ceb4",
+      "tools/verify_rom_cfg_proven_roots_v7.py": "30e67f172e8a34c85e93838bd7863f1d1417823c83b1cf2a74fa8cd61aae01a5",
+      "tools/verify_rom_cfg_proven_roots_v8.py": "88d2726fbe2657105759d23ae04f95ae2685ad2ad416640a8a5bbd2bb826b254",
+      "tools/verify_rom_cfg_seeds.py": "9d566d020087e07821ca08867572ac9137997fdba6b903e8f2c7a9eba162c52b",
+      "tools/verify_similar_table_candidates.py": "04b9bc0b0a2d0ce22e817f590c04851fa70f712136e9c362a12dcd3aea75d86b"
+    },
+    "test_sha256": "1842489062ba30d0e2aace37b34ef7c843b8969c766992bd831990ae954b8581",
+    "verifier_sha256": "b75ed5bad517fb08ebf2ae08d336c1dcee6ab334c4927559f41a2fcfad399935"
+  },
+  "producer_denominator": {
+    "denominator_sha256": "ce51b3b3b4bef7a47f226ba70259526c5d01243d9a3250294ffeff2c0114cbf8",
+    "producers": [
+      {
+        "bytes_sha256": "1c089fb695d1060f948e8ba877cfece69f65166a4b9badc3fab7a20e2703b5a0",
+        "controller_source": {
+          "instruction_sha256": "1c089fb695d1060f948e8ba877cfece69f65166a4b9badc3fab7a20e2703b5a0",
+          "opaque_edge": {
+            "edge_kind": "call_target",
+            "reason": "outside_controller_range",
+            "source": {
+              "file_offset": 472638,
+              "mode": "thumb"
+            },
+            "target_file_offset": 471040,
+            "target_mode": "thumb"
+          }
+        },
+        "file_offset": 472638,
+        "gba_address": "0x0807363E",
+        "producer_id": "producer_07363e",
+        "provenance": "controller",
+        "raw_hex": "fff7dffc",
+        "target_file_offset": 471040,
+        "target_gba_address": "0x08073000"
+      },
+      {
+        "bytes_sha256": "b6f835b147e47546adefd6c7ff34dc02cefb5aefb7c00eacb1dffb159edd48b1",
+        "controller_source": {
+          "instruction_sha256": "b6f835b147e47546adefd6c7ff34dc02cefb5aefb7c00eacb1dffb159edd48b1",
+          "opaque_edge": {
+            "edge_kind": "call_target",
+            "reason": "outside_controller_range",
+            "source": {
+              "file_offset": 472666,
+              "mode": "thumb"
+            },
+            "target_file_offset": 480248,
+            "target_mode": "thumb"
+          }
+        },
+        "file_offset": 472666,
+        "gba_address": "0x0807365A",
+        "producer_id": "producer_07365a",
+        "provenance": "controller",
+        "raw_hex": "01f0cdfe",
+        "target_file_offset": 480248,
+        "target_gba_address": "0x080753F8"
+      },
+      {
+        "bytes_sha256": "dae5c8f0aee4436b61b01d472df78215f2a58ef7c5bc3a0e922f5157a1d0c339",
+        "controller_source": {
+          "instruction_sha256": "dae5c8f0aee4436b61b01d472df78215f2a58ef7c5bc3a0e922f5157a1d0c339",
+          "opaque_edge": {
+            "edge_kind": "call_target",
+            "reason": "outside_controller_range",
+            "source": {
+              "file_offset": 472700,
+              "mode": "thumb"
+            },
+            "target_file_offset": 443144,
+            "target_mode": "thumb"
+          }
+        },
+        "file_offset": 472700,
+        "gba_address": "0x0807367C",
+        "producer_id": "producer_07367c",
+        "provenance": "controller",
+        "raw_hex": "f8f744fe",
+        "target_file_offset": 443144,
+        "target_gba_address": "0x0806C308"
+      },
+      {
+        "bytes_sha256": "094d93ee8022c7361763cf96ce75e1f9bba7dbaf660cd57f91db2f8f4b781547",
+        "controller_source": {
+          "instruction_sha256": "094d93ee8022c7361763cf96ce75e1f9bba7dbaf660cd57f91db2f8f4b781547",
+          "opaque_edge": {
+            "edge_kind": "call_target",
+            "reason": "outside_controller_range",
+            "source": {
+              "file_offset": 472704,
+              "mode": "thumb"
+            },
+            "target_file_offset": 443404,
+            "target_mode": "thumb"
+          }
+        },
+        "file_offset": 472704,
+        "gba_address": "0x08073680",
+        "producer_id": "producer_073680",
+        "provenance": "controller",
+        "raw_hex": "f8f7c4fe",
+        "target_file_offset": 443404,
+        "target_gba_address": "0x0806C40C"
+      },
+      {
+        "bytes_sha256": "5987e0c3245a1752ec49b6703226854b8f2aabc0ee683b4fec900e1d5735096a",
+        "file_offset": 472740,
+        "gba_address": "0x080736A4",
+        "producer_id": "producer_0736a4",
+        "provenance": "provenance_excluded",
+        "provenance_reason": "not_a_source_instruction_in_frozen_controller_cfg",
+        "raw_hex": "f8f7b2fe",
+        "target_file_offset": 443404,
+        "target_gba_address": "0x0806C40C"
+      },
+      {
+        "bytes_sha256": "34b5b9d65861365a1fb5208418fc9501100757583c4d708b32702255efbdd83a",
+        "controller_source": {
+          "instruction_sha256": "34b5b9d65861365a1fb5208418fc9501100757583c4d708b32702255efbdd83a",
+          "opaque_edge": {
+            "edge_kind": "call_target",
+            "reason": "outside_controller_range",
+            "source": {
+              "file_offset": 472804,
+              "mode": "thumb"
+            },
+            "target_file_offset": 480080,
+            "target_mode": "thumb"
+          }
+        },
+        "file_offset": 472804,
+        "gba_address": "0x080736E4",
+        "producer_id": "producer_0736e4",
+        "provenance": "controller",
+        "raw_hex": "01f034fe",
+        "target_file_offset": 480080,
+        "target_gba_address": "0x08075350"
+      },
+      {
+        "bytes_sha256": "348fd24e3193d9e48d3c74f963f74dfd74c18b7d9441b4bfb31ca1b9fc42f7e7",
+        "controller_source": {
+          "instruction_sha256": "348fd24e3193d9e48d3c74f963f74dfd74c18b7d9441b4bfb31ca1b9fc42f7e7",
+          "opaque_edge": {
+            "edge_kind": "call_target",
+            "reason": "outside_controller_range",
+            "source": {
+              "file_offset": 474514,
+              "mode": "thumb"
+            },
+            "target_file_offset": 442384,
+            "target_mode": "thumb"
+          }
+        },
+        "file_offset": 474514,
+        "gba_address": "0x08073D92",
+        "producer_id": "producer_073d92",
+        "provenance": "controller",
+        "raw_hex": "f8f73df9",
+        "target_file_offset": 442384,
+        "target_gba_address": "0x0806C010"
+      },
+      {
+        "bytes_sha256": "4890a93105385eb97e91f79071787b2c2b3469ac51b7a15ee95d21307c1478ae",
+        "controller_source": {
+          "instruction_sha256": "4890a93105385eb97e91f79071787b2c2b3469ac51b7a15ee95d21307c1478ae",
+          "opaque_edge": {
+            "edge_kind": "call_target",
+            "reason": "outside_controller_range",
+            "source": {
+              "file_offset": 475500,
+              "mode": "thumb"
+            },
+            "target_file_offset": 442384,
+            "target_mode": "thumb"
+          }
+        },
+        "file_offset": 475500,
+        "gba_address": "0x0807416C",
+        "producer_id": "producer_07416c",
+        "provenance": "controller",
+        "raw_hex": "f7f750ff",
+        "target_file_offset": 442384,
+        "target_gba_address": "0x0806C010"
+      },
+      {
+        "bytes_sha256": "412874a8ef805772f7a4b26f44e70eff74b5945ea2b16c7628dd761884c0ae7a",
+        "controller_source": {
+          "instruction_sha256": "412874a8ef805772f7a4b26f44e70eff74b5945ea2b16c7628dd761884c0ae7a",
+          "opaque_edge": {
+            "edge_kind": "call_target",
+            "reason": "outside_controller_range",
+            "source": {
+              "file_offset": 475524,
+              "mode": "thumb"
+            },
+            "target_file_offset": 462296,
+            "target_mode": "thumb"
+          }
+        },
+        "file_offset": 475524,
+        "gba_address": "0x08074184",
+        "producer_id": "producer_074184",
+        "provenance": "controller",
+        "raw_hex": "fcf728fe",
+        "target_file_offset": 462296,
+        "target_gba_address": "0x08070DD8"
+      },
+      {
+        "bytes_sha256": "70850957feb2530845de8025a4dabf91cef7b0a5faa06b1f0cf7e519651f74c3",
+        "file_offset": 476252,
+        "gba_address": "0x0807445C",
+        "producer_id": "producer_07445c",
+        "provenance": "provenance_excluded",
+        "provenance_reason": "not_a_source_instruction_in_frozen_controller_cfg",
+        "raw_hex": "f7f7d6ff",
+        "target_file_offset": 443404,
+        "target_gba_address": "0x0806C40C"
+      },
+      {
+        "bytes_sha256": "d47055c2d5971691a56a5463693024247c3b2f996b53044a762e97aec01c86a1",
+        "controller_source": {
+          "instruction_sha256": "d47055c2d5971691a56a5463693024247c3b2f996b53044a762e97aec01c86a1",
+          "opaque_edge": {
+            "edge_kind": "call_target",
+            "reason": "outside_controller_range",
+            "source": {
+              "file_offset": 479320,
+              "mode": "thumb"
+            },
+            "target_file_offset": 447596,
+            "target_mode": "thumb"
+          }
+        },
+        "file_offset": 479320,
+        "gba_address": "0x08075058",
+        "producer_id": "producer_075058",
+        "provenance": "controller",
+        "raw_hex": "f8f708fa",
+        "target_file_offset": 447596,
+        "target_gba_address": "0x0806D46C"
+      }
+    ],
+    "scan": {
+      "alignment_bytes": 2,
+      "matching_producer_count": 11,
+      "mode": "thumb",
+      "range": [
+        0,
+        6291456
+      ],
+      "target_file_offsets": [
+        442384,
+        443144,
+        443404,
+        447596,
+        462296,
+        471040,
+        480080,
+        480248
+      ]
+    }
+  },
+  "promotion": {
+    "current_known_overlap_bytes": 0,
+    "ranges": [
+      [
+        442384,
+        442526
+      ],
+      [
+        443144,
+        443236
+      ],
+      [
+        443404,
+        443416
+      ],
+      [
+        447596,
+        447642
+      ],
+      [
+        462296,
+        462318
+      ],
+      [
+        471040,
+        471112
+      ],
+      [
+        480080,
+        480242
+      ],
+      [
+        480248,
+        480310
+      ],
+      [
+        480316,
+        480334
+      ]
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "roots": [
+    {
+      "entry_block_id": "block-thumb-06c010",
+      "entry_sha256": "8a1d56a49bd75817476a967ee4e23ecef2beeffa6748599c19bc8e7ed7620257",
+      "entry_size": 4,
+      "file_offset": 442384,
+      "frontier_count": 0,
+      "gba_address": "0x0806C010",
+      "mode": "thumb",
+      "reachable_block_count": 6,
+      "reachable_instruction_bytes": 142,
+      "reachable_instruction_count": 68,
+      "root_id": "root-thumb-06c010",
+      "seed_index": 0,
+      "seed_provenance": [
+        {
+          "producer_id": "producer_073d92"
+        },
+        {
+          "producer_id": "producer_07416c"
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-06c308",
+      "entry_sha256": "38d84a618b60c05122c81bcf237705255315d62ff514f1101c1c381f7b1bf84f",
+      "entry_size": 4,
+      "file_offset": 443144,
+      "frontier_count": 0,
+      "gba_address": "0x0806C308",
+      "mode": "thumb",
+      "reachable_block_count": 10,
+      "reachable_instruction_bytes": 92,
+      "reachable_instruction_count": 45,
+      "root_id": "root-thumb-06c308",
+      "seed_index": 1,
+      "seed_provenance": [
+        {
+          "producer_id": "producer_07367c"
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-06c40c",
+      "entry_sha256": "715bb484d98123291dbfc7b03e6b6d0b85d3f836d828d1f9e196c59d842415fb",
+      "entry_size": 4,
+      "file_offset": 443404,
+      "frontier_count": 0,
+      "gba_address": "0x0806C40C",
+      "mode": "thumb",
+      "reachable_block_count": 1,
+      "reachable_instruction_bytes": 12,
+      "reachable_instruction_count": 6,
+      "root_id": "root-thumb-06c40c",
+      "seed_index": 2,
+      "seed_provenance": [
+        {
+          "producer_id": "producer_073680"
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-06d46c",
+      "entry_sha256": "f9285d0356648cafa73cb3c5165eec1c9543674d71a73bf0f56b53ab64b3d2c4",
+      "entry_size": 4,
+      "file_offset": 447596,
+      "frontier_count": 0,
+      "gba_address": "0x0806D46C",
+      "mode": "thumb",
+      "reachable_block_count": 5,
+      "reachable_instruction_bytes": 46,
+      "reachable_instruction_count": 23,
+      "root_id": "root-thumb-06d46c",
+      "seed_index": 3,
+      "seed_provenance": [
+        {
+          "producer_id": "producer_075058"
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-070dd8",
+      "entry_sha256": "10fbec2abe0b764143f9439fc967f2168d34042c4a7a9580898fe107353a53a2",
+      "entry_size": 4,
+      "file_offset": 462296,
+      "frontier_count": 0,
+      "gba_address": "0x08070DD8",
+      "mode": "thumb",
+      "reachable_block_count": 3,
+      "reachable_instruction_bytes": 22,
+      "reachable_instruction_count": 11,
+      "root_id": "root-thumb-070dd8",
+      "seed_index": 4,
+      "seed_provenance": [
+        {
+          "producer_id": "producer_074184"
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-073000",
+      "entry_sha256": "084b652a396ba0b09104d77ed2eb65a9bbe477ee1620d3c0cf5e861944bfd405",
+      "entry_size": 4,
+      "file_offset": 471040,
+      "frontier_count": 0,
+      "gba_address": "0x08073000",
+      "mode": "thumb",
+      "reachable_block_count": 9,
+      "reachable_instruction_bytes": 72,
+      "reachable_instruction_count": 33,
+      "root_id": "root-thumb-073000",
+      "seed_index": 5,
+      "seed_provenance": [
+        {
+          "producer_id": "producer_07363e"
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-075350",
+      "entry_sha256": "d883b6a8cd5ef418c7a77a5dcf2ecd057c71851d6d22fe691dd930084317f453",
+      "entry_size": 4,
+      "file_offset": 480080,
+      "frontier_count": 0,
+      "gba_address": "0x08075350",
+      "mode": "thumb",
+      "reachable_block_count": 19,
+      "reachable_instruction_bytes": 162,
+      "reachable_instruction_count": 73,
+      "root_id": "root-thumb-075350",
+      "seed_index": 6,
+      "seed_provenance": [
+        {
+          "producer_id": "producer_0736e4"
+        }
+      ],
+      "traversal_status": "closed"
+    },
+    {
+      "entry_block_id": "block-thumb-0753f8",
+      "entry_sha256": "cede13811d1cad27a7d27f09911219f8c9e6560ebdc98269cf4044456f763502",
+      "entry_size": 4,
+      "file_offset": 480248,
+      "frontier_count": 0,
+      "gba_address": "0x080753F8",
+      "mode": "thumb",
+      "reachable_block_count": 9,
+      "reachable_instruction_bytes": 80,
+      "reachable_instruction_count": 40,
+      "root_id": "root-thumb-0753f8",
+      "seed_index": 7,
+      "seed_provenance": [
+        {
+          "producer_id": "producer_07365a"
+        }
+      ],
+      "traversal_status": "closed"
+    }
+  ],
+  "schema": "rom-cfg-proven-roots-v9",
+  "scope": {
+    "baseline_entries_treated_as_opaque": true,
+    "baseline_identity_complete": true,
+    "controller_provenance_denominator_complete": true,
+    "current_known_overlap_bytes": 0,
+    "fixed_direct_producer_denominator_complete": true,
+    "global_function_entry_denominator_complete": false,
+    "global_indirect_target_denominator_complete": false,
+    "opaque_return_exit_count": 7,
+    "promotion_ranges": [
+      [
+        442384,
+        442526
+      ],
+      [
+        443144,
+        443236
+      ],
+      [
+        443404,
+        443416
+      ],
+      [
+        447596,
+        447642
+      ],
+      [
+        462296,
+        462318
+      ],
+      [
+        471040,
+        471112
+      ],
+      [
+        480080,
+        480242
+      ],
+      [
+        480248,
+        480310
+      ],
+      [
+        480316,
+        480334
+      ]
+    ],
+    "promotion_ranges_complete": true,
+    "runtime_reachability_complete": false
+  },
+  "source": {
+    "controller_cfg": {
+      "manifest_sha256": "282b4323bf965676a68b5326f2edbbdee35606b987412d351de137b82d50fe63",
+      "path": "artifacts/rom-battle-controller-cfg-v1",
+      "payload_sha256": "c8b1d1c2068d85912ede1fd35be31f0cf9cb43943beb10f1058d43c65c00449a",
+      "verifier_path": "tools/verify_rom_battle_controller_cfg.py",
+      "verifier_sha256": "fc3c33d37b9fb2af885324915f82e3c0da74b3efd25967b8289b49d8b9169a87"
+    },
+    "provenance_summary": {
+      "controller_source_count": 9,
+      "excluded_reason": "not_a_source_instruction_in_frozen_controller_cfg",
+      "excluded_source_count": 2,
+      "full_producer_count": 11
+    },
+    "verification": {
+      "controller_range": [
+        471732,
+        479388
+      ],
+      "controller_sha256": "c9bdc220590a851fa331960bcb32be90eb9ac7248a5cd3dabb9f8afa0b674bc1",
+      "dispatcher_default_state_count": 65498,
+      "dispatcher_nondefault_state_count": 38,
+      "errors": [],
+      "root_count": 38,
+      "schema": "rom-battle-controller-cfg-verification-v1",
+      "summary": {
+        "decoded_basic_block_count": 739,
+        "decoded_instruction_count": 2756,
+        "frontier_count": 5,
+        "frontier_reasons": {
+          "decode_failure": 1,
+          "indirect_pc_target": 2,
+          "unsupported_armv4t_instruction": 2
+        },
+        "opaque_baseline_edge_count": 9,
+        "opaque_external_edge_count": 227,
+        "reachable_instruction_bytes": 6172,
+        "skipped_root_count": 1
+      },
+      "verified": true
+    }
+  }
+}

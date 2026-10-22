@@ -1,0 +1,528 @@
+{
+  "constant_rom_gpu_transfers": [],
+  "implementation": {
+    "exporter_sha256": "9157f8add8c7d67bb391aaa99135dcdc9b1498f355fc279308eb4643ff301da3",
+    "test_sha256": "74f1c8a984242b111c3c2e859d6765b119d9d13dd10dc0da1c663889222c5b63",
+    "verifier_sha256": "ae2362e6f0e39ea359b39b2cca60065f2c8c879f99b4832b66fe7e05b2ddea84"
+  },
+  "literal_users": [
+    {
+      "accepted_transfers": [],
+      "destination_register": 0,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x08060FBC",
+      "instruction_halfword": "0x481B",
+      "literal_address": "0x0806102C",
+      "literal_value": "0x040000D4",
+      "observed_control_writes": [],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "3770d939bbfce61c6728e95e978ac9daad321a89276099b62ed5a7d0a8807093",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 1,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x080611CA",
+      "instruction_halfword": "0x4907",
+      "literal_address": "0x080611E8",
+      "literal_value": "0x040000D4",
+      "observed_control_writes": [
+        {
+          "control": "0x84000100",
+          "control_write": "0x080611D8",
+          "destination": "0x07000000",
+          "dma_channel": "DMA3",
+          "source": "0x0300027C"
+        }
+      ],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "ebbf4356704ba274b03a0fec8754a5fc6521d4ff9fcfb77b25b11358a812827f",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 1,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x08061386",
+      "instruction_halfword": "0x495B",
+      "literal_address": "0x080614F4",
+      "literal_value": "0x040000D4",
+      "observed_control_writes": [
+        {
+          "control": "0x84000100",
+          "control_write": "0x08061394",
+          "destination": "0x07000000",
+          "dma_channel": "DMA3",
+          "source": "0x0300027C"
+        }
+      ],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "071009071f21e30d8baee16eef737bca40d04a254ffb3e449b3164e86ef1ab79",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 0,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x08061628",
+      "instruction_halfword": "0x4839",
+      "literal_address": "0x08061710",
+      "literal_value": "0x040000D4",
+      "observed_control_writes": [
+        {
+          "control": "0x84000080",
+          "control_write": "0x08061634",
+          "destination": "0x0300007C",
+          "dma_channel": "DMA3",
+          "source": "0x08000104"
+        }
+      ],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "destination_not_gpu"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "9cc7809a2141cdc355e2b2ef9d541e291762256faf06a73d30c069c88579f038",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 1,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x080617AC",
+      "instruction_halfword": "0x490F",
+      "literal_address": "0x080617EC",
+      "literal_value": "0x040000D4",
+      "observed_control_writes": [
+        {
+          "control": "0x81000008",
+          "control_write": "0x080617B6",
+          "destination": "0x03000998",
+          "dma_channel": "DMA3",
+          "source": null
+        }
+      ],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "destination_not_gpu",
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "17f40dc0d97fb9f850bbdb22bab7afc94b4a3583e4df4a37839f33fbdcbc15c1",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 2,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x0806197C",
+      "instruction_halfword": "0x4A07",
+      "literal_address": "0x0806199C",
+      "literal_value": "0x040000D4",
+      "observed_control_writes": [],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "f2ded6a1dffd340fe4a4fb92c2e185a7570a5776152b9f9ea07f9f07fea0aba8",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 1,
+      "dma_channel": "DMA0",
+      "instruction_address": "0x080644AC",
+      "instruction_halfword": "0x4907",
+      "literal_address": "0x080644CC",
+      "literal_value": "0x040000B0",
+      "observed_control_writes": [],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "c84582a3357691dad84d635c7a88420582436be4ca0e860c628066c19c960a8c",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 2,
+      "dma_channel": "DMA0",
+      "instruction_address": "0x080645C2",
+      "instruction_halfword": "0x4A20",
+      "literal_address": "0x08064644",
+      "literal_value": "0x040000B0",
+      "observed_control_writes": [],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "5a060efa2ae7ca8e1a59d86c34d405016c0398b39a681df34a22fc0c123658c5",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 2,
+      "dma_channel": "DMA1",
+      "instruction_address": "0x0809A3FA",
+      "instruction_halfword": "0x4A0A",
+      "literal_address": "0x0809A424",
+      "literal_value": "0x040000BC",
+      "observed_control_writes": [],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "4ed6f3cea994e27eb337ffe0a2d069cfed9ed8ddd97ec9c03f7269774b80fbad",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 1,
+      "dma_channel": "DMA1",
+      "instruction_address": "0x0809AE46",
+      "instruction_halfword": "0x492B",
+      "literal_address": "0x0809AEF4",
+      "literal_value": "0x040000C4",
+      "observed_control_writes": [
+        {
+          "control": null,
+          "control_write": "0x0809AE6E",
+          "destination": null,
+          "dma_channel": "DMA1",
+          "source": null
+        }
+      ],
+      "register_offset": 8,
+      "rejection_reasons": [
+        "control_not_proven",
+        "destination_not_gpu",
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "35c8dd0c3551780a1f74df9bb03ff4843f07ca441ba993bb317523a8d5a5934e",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 1,
+      "dma_channel": "DMA2",
+      "instruction_address": "0x0809AE58",
+      "instruction_halfword": "0x4928",
+      "literal_address": "0x0809AEFC",
+      "literal_value": "0x040000D0",
+      "observed_control_writes": [
+        {
+          "control": null,
+          "control_write": "0x0809AE6E",
+          "destination": null,
+          "dma_channel": "DMA1",
+          "source": null
+        }
+      ],
+      "register_offset": 8,
+      "rejection_reasons": [
+        "control_not_proven",
+        "destination_not_gpu",
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "503b6fac66b4fec3cc2d6feae87243c98df7cc7f925a0a4f47f668c8ed4430dc",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 0,
+      "dma_channel": "DMA1",
+      "instruction_address": "0x0809AE66",
+      "instruction_halfword": "0x4826",
+      "literal_address": "0x0809AF00",
+      "literal_value": "0x040000C6",
+      "observed_control_writes": [
+        {
+          "control": null,
+          "control_write": "0x0809AE6E",
+          "destination": null,
+          "dma_channel": "DMA1",
+          "source": null
+        }
+      ],
+      "register_offset": 10,
+      "rejection_reasons": [
+        "control_not_proven",
+        "destination_not_gpu",
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "1756fa03d453980b36f3aadcd35b8a04ff94b014f509043390fba5566595ad38",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 1,
+      "dma_channel": "DMA1",
+      "instruction_address": "0x0809AE90",
+      "instruction_halfword": "0x491F",
+      "literal_address": "0x0809AF10",
+      "literal_value": "0x040000BC",
+      "observed_control_writes": [],
+      "register_offset": 0,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "284b573bb930b14c2f83e0996553285ec3aecd97ff1b59bf1e07ceb438dda999",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 1,
+      "dma_channel": "DMA1",
+      "instruction_address": "0x0809B0DC",
+      "instruction_halfword": "0x4913",
+      "literal_address": "0x0809B12C",
+      "literal_value": "0x040000C4",
+      "observed_control_writes": [
+        {
+          "control": null,
+          "control_write": "0x0809B104",
+          "destination": null,
+          "dma_channel": "DMA1",
+          "source": null
+        }
+      ],
+      "register_offset": 8,
+      "rejection_reasons": [
+        "control_not_proven",
+        "destination_not_gpu",
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "b00ffdfee83e9b5e55bcb66bfab60fb23297cbfb04893218eb6db0eb253785e9",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 1,
+      "dma_channel": "DMA2",
+      "instruction_address": "0x0809B0EE",
+      "instruction_halfword": "0x4911",
+      "literal_address": "0x0809B134",
+      "literal_value": "0x040000D0",
+      "observed_control_writes": [
+        {
+          "control": null,
+          "control_write": "0x0809B104",
+          "destination": null,
+          "dma_channel": "DMA1",
+          "source": null
+        }
+      ],
+      "register_offset": 8,
+      "rejection_reasons": [
+        "control_not_proven",
+        "destination_not_gpu",
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "60e9709ab99bf2e55f9fbe06f37c65ac65eea84691344776759885a5952d137b",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 0,
+      "dma_channel": "DMA1",
+      "instruction_address": "0x0809B0FC",
+      "instruction_halfword": "0x480E",
+      "literal_address": "0x0809B138",
+      "literal_value": "0x040000C6",
+      "observed_control_writes": [
+        {
+          "control": null,
+          "control_write": "0x0809B104",
+          "destination": null,
+          "dma_channel": "DMA1",
+          "source": null
+        },
+        {
+          "control": null,
+          "control_write": "0x0809B156",
+          "destination": null,
+          "dma_channel": "DMA1",
+          "source": null
+        }
+      ],
+      "register_offset": 10,
+      "rejection_reasons": [
+        "control_not_proven",
+        "destination_not_gpu",
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "a9397b82532400c20f1bafdc306aa3ae42d87378651066e309c9beaf3255de34",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 0,
+      "dma_channel": "DMA1",
+      "instruction_address": "0x0809B14E",
+      "instruction_halfword": "0x480A",
+      "literal_address": "0x0809B178",
+      "literal_value": "0x040000C6",
+      "observed_control_writes": [
+        {
+          "control": null,
+          "control_write": "0x0809B156",
+          "destination": null,
+          "dma_channel": "DMA1",
+          "source": null
+        }
+      ],
+      "register_offset": 10,
+      "rejection_reasons": [
+        "control_not_proven",
+        "destination_not_gpu",
+        "source_not_rom"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "06a0379789d10f0ae104f2e060c9cc75637e935d6c76299c2af31df2559240a0",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 3,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x085CCD50",
+      "instruction_halfword": "0x4B00",
+      "literal_address": "0x085CCD54",
+      "literal_value": "0x040000DC",
+      "observed_control_writes": [],
+      "register_offset": 8,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "29b7dd53d45e810a822c23a1bc208b6be1eb5482ebcff4dc9e4889472418b612",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 3,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x085CCDA4",
+      "instruction_halfword": "0x4B00",
+      "literal_address": "0x085CCDA8",
+      "literal_value": "0x040000DC",
+      "observed_control_writes": [],
+      "register_offset": 8,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "6757f96cecc0f4d197303489aef05a1001b27ccb029364cc295da3beb930b94d",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 3,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x085DFB50",
+      "instruction_halfword": "0x4B00",
+      "literal_address": "0x085DFB54",
+      "literal_value": "0x040000DC",
+      "observed_control_writes": [],
+      "register_offset": 8,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "3961886d7f14660692cac2808ec5085d9c056adb6b4c267213ccfe962c614cc5",
+      "window_size": 96
+    },
+    {
+      "accepted_transfers": [],
+      "destination_register": 3,
+      "dma_channel": "DMA3",
+      "instruction_address": "0x085DFBA4",
+      "instruction_halfword": "0x4B00",
+      "literal_address": "0x085DFBA8",
+      "literal_value": "0x040000DC",
+      "observed_control_writes": [],
+      "register_offset": 8,
+      "rejection_reasons": [
+        "control_not_proven",
+        "no_complete_transfer"
+      ],
+      "status": "not_proven_in_window",
+      "window_sha256": "de6bae0ceaf70cd57f228478430b3ceb5a435fca559c85cb8dd4541613e9ed86",
+      "window_size": 96
+    }
+  ],
+  "rejection_reason_counts": {
+    "control_not_proven": 17,
+    "destination_not_gpu": 9,
+    "no_complete_transfer": 10,
+    "source_not_rom": 10
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-direct-dma-gpu-inventory-v1",
+  "scope": {
+    "all_thumb_shaped_dma_register_literal_users_audited": true,
+    "cross_function_dataflow_complete": false,
+    "custom_copy_loops_complete": false,
+    "generic_image_writeback_complete": false,
+    "indirect_dma_wrappers_complete": false,
+    "literal_seeded_96_byte_rule_applied_to_full_rom": true,
+    "non_literal_dma_base_derivations_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false,
+    "two_stage_copies_complete": false
+  },
+  "selection_rule": {
+    "accepted_transfer": "one channel has statically fixed source, destination and control at the control write; source is mapped ROM; destination is PRAM, VRAM or OAM; enable and nonzero count are proven",
+    "denominator": "every halfword-aligned Thumb-shaped PC-relative literal load whose 32-bit value lies in 0x040000B0..0x040000DF",
+    "thumb_shaped_encoding_is_runtime_reachable_code": false,
+    "unknown_instruction_policy": "invalidate r0-r7 and pending channel values",
+    "window_bytes": 96
+  },
+  "summary": {
+    "constant_rom_gpu_transfer_count": 0,
+    "dma0_literal_user_count": 2,
+    "dma1_literal_user_count": 7,
+    "dma2_literal_user_count": 2,
+    "dma3_literal_user_count": 10,
+    "dma_register_literal_user_count": 21,
+    "new_source_count": 0,
+    "not_proven_in_window_count": 21
+  }
+}

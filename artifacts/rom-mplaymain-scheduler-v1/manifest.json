@@ -1,0 +1,321 @@
+{
+  "artifact_schema": "rom-mplaymain-scheduler-v1",
+  "artifact_status": "accepted",
+  "coverage_baseline": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "17aa05ec2919606ac4728106daf08b3d06a033ccd3c723dc17fd7ad1bdec9ad0",
+    "summary": {
+      "claim_count": 14482,
+      "classified_bytes": 6121877,
+      "segment_count": 16591,
+      "unknown_bytes": 169579
+    },
+    "target_segments": [
+      {
+        "primary_class": "unknown",
+        "range": [
+          631772,
+          632452
+        ]
+      },
+      {
+        "claim_id": "cfg-thumb-0752-09a684",
+        "range": [
+          632452,
+          632454
+        ]
+      },
+      {
+        "primary_class": "unknown",
+        "range": [
+          632454,
+          632468
+        ]
+      }
+    ]
+  },
+  "entry_proof": {
+    "callback_consumer": {
+      "boot_provenance_receipts": {
+        "manifest": {
+          "path": "artifacts/rom-boot-thumb-handoff-cfg-v1/manifest.json",
+          "sha256": "d5af12930ed8e7539396f81deda19ae938eee3f029b95c959f6fa5d57c676d74"
+        },
+        "payload": {
+          "path": "artifacts/rom-boot-thumb-handoff-cfg-v1/rom-boot-thumb-handoff-cfg.json",
+          "sha256": "a35b581e44b276399874a2fc393f22f3c548c6b99e053f504587bdd92fbad295"
+        },
+        "verifier": {
+          "path": "tools/verify_rom_boot_thumb_handoff_cfg.py",
+          "sha256": "2592e4f48f1a197e30cb4d360201228fc2bbeef5fad12879b1bbf77b29815b39"
+        }
+      },
+      "callback_window": [
+        630208,
+        630220
+      ],
+      "callback_window_sha256": "1c6108a582e55ab5ccb0c254ecbb10b90413862ebdad4abcaf1890e93461a737",
+      "indirect_thunk_operation": "bx r3",
+      "indirect_thunk_range": [
+        631214,
+        631216
+      ],
+      "owner_claim_id": "boot-thumb-handoff-code-22-09a1ae",
+      "soundmain_owner_claim_id": "boot-thumb-handoff-code-21-099d8c",
+      "soundmain_relocation_source_excluded": true
+    },
+    "callback_writer": {
+      "argument_slot_expression": "(*u32[0x03007FF0])+0x24",
+      "callback_slot_expression": "(*u32[0x03007FF0])+0x20",
+      "callee_saved_r5_abi_dependency": true,
+      "inherited_argument_slot_expression": "player+0x3C",
+      "inherited_callback_slot_expression": "player+0x38",
+      "runtime_value_proven": false,
+      "sound_info_global_cell": "0x03007FF0",
+      "sound_info_literal_range": [
+        635368,
+        635372
+      ],
+      "writer_window": [
+        635332,
+        635354
+      ],
+      "writer_window_sha256": "d836e4a81c0f9269f141fc0fef260b2617023d6db6a4b478a9bda8ae40b81806"
+    },
+    "pointer_denominator": {
+      "aligned_thumb_bl_producers": [],
+      "bytewise_u32_occurrences": [
+        635376
+      ],
+      "global_ram_or_computed_producer_denominator_complete": false,
+      "literal_range": [
+        635376,
+        635380
+      ],
+      "literal_sha256": "502bedc7ad613f6c30c62152c8a7623b060d81f8c4b8b7d379088747138ff7d6",
+      "pointer_raw_hex": "2da40908",
+      "pointer_value": "0x0809A42D",
+      "producer_bytes_promoted": false,
+      "producer_source_instruction_membership_proven": false
+    },
+    "recursive_chain": {
+      "dynamic_r3_targets_resolved": false,
+      "incoming_sites": [
+        [
+          631876,
+          "call_target"
+        ],
+        [
+          632078,
+          "call_target"
+        ],
+        [
+          632106,
+          "call_target"
+        ],
+        [
+          632382,
+          "call_target"
+        ],
+        [
+          632450,
+          "fallthrough"
+        ]
+      ],
+      "owned_veneer_operation": "bx r3",
+      "owned_veneer_range": [
+        632452,
+        632454
+      ],
+      "owner_claim_id": "cfg-thumb-0752-09a684",
+      "window": [
+        631868,
+        631880
+      ],
+      "window_sha256": "b586e96a1940656f60d304400a84e6297b59bd516dc37c09a8a06d84b166bf88"
+    },
+    "root": {
+      "file_offset": 631852,
+      "first_instruction_raw_hex": "984a",
+      "gba_address": "0x0809A42C",
+      "mode": "thumb",
+      "thumb_pointer": "0x0809A42D"
+    }
+  },
+  "files": {
+    "rom-mplaymain-scheduler.bin": {
+      "sha256": "8ca6a2f02cd27d46b9d0e9dbae2491672f23702ee2230eb73fc460759ef14955",
+      "size": 612
+    },
+    "rom-mplaymain-scheduler.json": {
+      "sha256": "31bc026a8c83b3bf4af06746de2990a658bb86954a5aae31c45d63d68cf44f78",
+      "size": 336129
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_mplaymain_scheduler.py",
+      "sha256": "366c4e41db80c797bd01f36477a67243ac08f4d20d71e596c1332f273deed18d"
+    },
+    "test": {
+      "path": "tests/test_export_rom_mplaymain_scheduler.py",
+      "sha256": "e3804e5833b0d4249b286da8e1428397c02e8b04bd205e20c96e8ab1920b540c"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_mplaymain_scheduler.py",
+      "sha256": "c064fc6a576a518cbd825630babc40d1c2dab2d369846078c3950b68748a2c2a"
+    }
+  },
+  "limitations": [
+    "This packet classifies exactly 600 bounded Thumb instruction bytes and 12 consumed literal bytes; two already-owned veneer bytes remain provenance and two bytes remain unknown.",
+    "The unique exact 0x0809A42D ROM pointer literal, fixed SoundInfo slot writer, fixed slot consumer, and two existing BX r3 thunks are static provenance only.",
+    "Dynamic callback targets and RAM values, callback lifecycle, natural runtime reachability, and global caller/code/indirect or computed-producer denominators remain unproven.",
+    "Scheduler semantics, editing, relocation, writeback, and allocatable-space safety are outside scope."
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_mplaymain_scheduler.py",
+      "--output",
+      "artifacts/rom-mplaymain-scheduler-v1"
+    ]
+  },
+  "promotion": {
+    "code_bytes": 600,
+    "code_range_count": 1,
+    "current_known_overlap_bytes": 0,
+    "future_coverage_claim_projection": {
+      "code_claim_count": 1,
+      "literal_claim_count": 1,
+      "owned_claim_count": 0,
+      "unclassified_claim_count": 0
+    },
+    "literal_bytes": 12,
+    "literal_range_count": 1,
+    "owned_provenance_bytes": 2,
+    "owned_provenance_ranges": [
+      [
+        632452,
+        632454
+      ]
+    ],
+    "projected_totals": {
+      "claim_count": 14484,
+      "classified_bytes": 6122489,
+      "segment_count": 16593,
+      "unknown_bytes": 168967
+    },
+    "unclassified_unknown_bytes": 2,
+    "unclassified_unknown_ranges": [
+      [
+        632454,
+        632456
+      ]
+    ],
+    "union_bytes": 612,
+    "union_bytes_sha256": "8ca6a2f02cd27d46b9d0e9dbae2491672f23702ee2230eb73fc460759ef14955",
+    "union_range_count": 2,
+    "union_range_vector_sha256": "a8e11002ba5439c3d758e03faa1850a686e749cbe3230496f871329283300b4d",
+    "union_ranges": [
+      [
+        631852,
+        632452
+      ],
+      [
+        632456,
+        632468
+      ]
+    ]
+  },
+  "provenance_inputs": {
+    "boot_manifest": {
+      "path": "artifacts/rom-boot-thumb-handoff-cfg-v1/manifest.json",
+      "sha256": "d5af12930ed8e7539396f81deda19ae938eee3f029b95c959f6fa5d57c676d74"
+    },
+    "boot_payload": {
+      "path": "artifacts/rom-boot-thumb-handoff-cfg-v1/rom-boot-thumb-handoff-cfg.json",
+      "sha256": "a35b581e44b276399874a2fc393f22f3c548c6b99e053f504587bdd92fbad295"
+    },
+    "boot_verifier": {
+      "path": "tools/verify_rom_boot_thumb_handoff_cfg.py",
+      "sha256": "2592e4f48f1a197e30cb4d360201228fc2bbeef5fad12879b1bbf77b29815b39"
+    },
+    "owned_veneer_claim_id": "cfg-thumb-0752-09a684"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "additive_target_limited_cfg": true,
+    "allocatable_free_space_proven": false,
+    "callback_lifecycle_closed": false,
+    "direct_targets_opaque": true,
+    "dynamic_callback_targets_resolved": false,
+    "editing_relocation_writeback_safe": false,
+    "existing_owned_provenance_not_reclaimed": true,
+    "global_caller_denominator_complete": false,
+    "global_code_denominator_complete": false,
+    "global_indirect_target_denominator_complete": false,
+    "global_ram_or_computed_producer_denominator_complete": false,
+    "natural_runtime_reachable": false,
+    "scheduler_semantics_proven": false
+  },
+  "summary": {
+    "block_count": 81,
+    "budget_exhausted": false,
+    "code_bytes": 600,
+    "external_edge_count": 12,
+    "external_target_count": 7,
+    "frontier_count": 1,
+    "instruction_bytes": 600,
+    "instruction_count": 289,
+    "internal_edge_count": 117,
+    "literal_bytes": 12,
+    "literal_ref_count": 4,
+    "literal_word_count": 3,
+    "owned_indirect_veneer_count": 1,
+    "owned_provenance_bytes": 2,
+    "promoted_bytes": 612,
+    "raw_indirect_pc_count": 0,
+    "return_count": 1,
+    "unclassified_unknown_bytes": 2
+  },
+  "verification": {
+    "contract_ok": true,
+    "schema": "rom-mplaymain-scheduler-verification-v1",
+    "status": "verified",
+    "summary": {
+      "block_count": 81,
+      "budget_exhausted": false,
+      "code_bytes": 600,
+      "external_edge_count": 12,
+      "external_target_count": 7,
+      "frontier_count": 1,
+      "instruction_bytes": 600,
+      "instruction_count": 289,
+      "internal_edge_count": 117,
+      "literal_bytes": 12,
+      "literal_ref_count": 4,
+      "literal_word_count": 3,
+      "owned_indirect_veneer_count": 1,
+      "owned_provenance_bytes": 2,
+      "promoted_bytes": 612,
+      "raw_indirect_pc_count": 0,
+      "return_count": 1,
+      "unclassified_unknown_bytes": 2
+    }
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_mplaymain_scheduler.py",
+      "--artifact",
+      "artifacts/rom-mplaymain-scheduler-v1"
+    ],
+    "path": "tools/verify_rom_mplaymain_scheduler.py",
+    "sha256": "c064fc6a576a518cbd825630babc40d1c2dab2d369846078c3950b68748a2c2a"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "artifact_schema": "battle-effect-direct-spawn-runtime-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "evidence.json": "6d85bd71077fdd258648822a8fce60bf7ab0e6b1d39ba5d2c199f9e5d8080b5c",
+    "raw-batch.tar": "2195686e129d99841a1f8cb58592276222632750aa9878f46c43f3bc8e026732"
+  },
+  "repository_files": {
+    "tests/test_build_controlled_battle_effect_direct_spawn_probe.py": "b16b1104d1ed1e1b8759fa1f2ca6b15204a1e28d1f68b203b9a1823ed9fc39f4",
+    "tests/test_export_battle_effect_direct_spawn_runtime.py": "f8f057a675b11ceaba4652ab95652829d06b5d44712c0b4c98d581ba4e9d4af7",
+    "tests/test_run_battle_effect_direct_spawn_batch.py": "2489186f0f52c975882494881c25bf94dfc7a5bc3b84af1413664472d78de2ac",
+    "tests/test_verify_battle_effect_direct_spawn_runtime.py": "115314c042df778f31c79865998a95ec27dd10e17d5074eb789ddff9dcd4d735",
+    "tools/build_controlled_battle_effect_direct_spawn_probe.py": "decc1a5bdfb02b39649003b46c2a8b39cabb1a906401d4a3b0874950c660673a",
+    "tools/build_save_state_runtime_probe.py": "f11ad18cdca695f317866a209ba14b6f12aa25ad507e409674ae1c11006e6c7c",
+    "tools/export_battle_effect_direct_spawn_runtime.py": "d6a00a146c7a79d7c47ca25168bbb07db6dc9b2f255c49cb94ba484558cda0cc",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/macos_mgba_runtime_residue.py": "92cedb0e5878434e12cb448643b1af06232a057c7af245f269a82bf4d0488c68",
+    "tools/mgba_battle_effect_phase_capture.lua": "013b5eda11c067401873e39c068269462ed132cbd968c337c062ef45a00422e5",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/project_resource_guard.py": "3731a3394a271538e8660f6ada182b1a930f5c56e23bc6e17c80354809a2716a",
+    "tools/run_battle_effect_direct_spawn_batch.py": "385d2faeaeccc779e0e1c6a9c7d0652bbdfcd4ae8f54ca1b7f4c7c2d982e2dbd",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/run_macos_mgba_battle_effect_phase_capture.py": "614140701fb5bb1f1641d91439d04c625679b9082d54aaf83c84d485a1cde946",
+    "tools/run_macos_mgba_input_sequence.py": "ffb442db9397e34585f501169e3a0d15a640577967c45b79bdf18e7c80db1907",
+    "tools/run_macos_mgba_replay.py": "44a117c53d272cbac8a62beb749d331927e4f3f043c20f3eb78681ceb7591bbc",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/thumb_branch.py": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+    "tools/verify_battle_effect_controlled_runtime.py": "63169e14e8e796ee7266e6c8429806d3186a65dbe53a136ac830be73aeff576b",
+    "tools/verify_battle_effect_direct_spawn_runtime.py": "2560388bffe826d2dec576f7895a9e9a958da32b7565fef7f9b903710aca5127",
+    "tools/verify_battle_effect_group15_allocator_side_runtime.py": "d69fc451128a3fc230a9d76602d407021ecb476fe6514294267d6bcf0d92e696"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_direct_spawn_runtime.py",
+      "artifacts/battle-effect-direct-spawn-runtime-v1"
+    ],
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "edit": {
+    "after_byte": 4,
+    "after_index": 4,
+    "before_byte": 2,
+    "before_index": 2,
+    "frame_id": 1,
+    "frame_pixel_xy": [
+      0,
+      0
+    ],
+    "graphics_byte_offset": 512,
+    "group_id": 5,
+    "screen_xy": [
+      160,
+      48
+    ],
+    "sequence_id": 6,
+    "tile_id": 16,
+    "tile_pixel_xy": [
+      0,
+      0
+    ]
+  },
+  "input": {
+    "capture_frame": 150,
+    "event": {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    },
+    "path": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+    "resource_absent_before_input": true,
+    "sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f"
+  },
+  "runs": {
+    "baseline": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 86058,
+      "guard_sha256": "8f77e3864fa341d2dfdcba9d201d9fa3cd2995c1912704e14dae6be31a35efbb",
+      "peak_tree_rss_mib": 56.23828125,
+      "pgid_clean": true,
+      "png_sha256": "80d13b88e1f3f8ad324faf780f8f14fc9329f894035f9a8c8518d9c937d1b22a",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "699674cc9316e3c9d307ac093dc8145273097bd393ae67630dd31631a9b18179",
+      "run_id": "94bacac50ef974a04816bac70ea3e971",
+      "state_sha256": "a91c8cf865a1ac78c82dae7c9578815c469c7c0c1e2c68977d94aa3288125950"
+    },
+    "candidate": {
+      "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+      "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+      "child_pgid": 86090,
+      "guard_sha256": "19adeeac38c1f26cad942c91384b6bebcaf166b0549984d68ba2a65f08cea351",
+      "peak_tree_rss_mib": 56.109375,
+      "pgid_clean": true,
+      "png_sha256": "b9a643ccd68722aaa2929ed65bd03253548297c44080e5182fa9309af41e500d",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "981f7cfcbee103ed7ff5ea78b6467c6dddf4ae0830382e7af4f0cd3221636aae",
+      "run_id": "15c3d42855eefcce18653488876bbfe8",
+      "state_sha256": "b86d40e60b1a8f2ed147f26a0eb1b1aea1fb6c80ceecb8375dfbda598f66b533"
+    }
+  },
+  "runtime": {
+    "baseline_vram_byte": 2,
+    "candidate_vram_byte": 4,
+    "changed_vram_address": "0x06012600",
+    "graphics_vram_address": "0x06012400",
+    "memory_differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [],
+      "OAM": [],
+      "PRAM": [],
+      "VRAM": [
+        75264
+      ]
+    },
+    "oam_entry": 1,
+    "oam_tile": 304,
+    "oam_xy": [
+      160,
+      48
+    ],
+    "palette_bank": 5,
+    "pixels": {
+      "baseline_rgb_sha256": "f79234f8ad45ef93064d9c5e6685e7ea4d5d6b4e5c8c7dafa0225865c2a64581",
+      "bbox": [
+        160,
+        48,
+        160,
+        48
+      ],
+      "candidate_rgb_sha256": "7215dae544256cbbc207e08821668810971c571ae4fbd9145c261ec30cb328f5",
+      "changes": [
+        {
+          "after_rgb": [
+            189,
+            123,
+            115
+          ],
+          "before_rgb": [
+            255,
+            222,
+            198
+          ],
+          "x": 160,
+          "y": 48
+        }
+      ],
+      "count": 1
+    },
+    "renderer_exact": true
+  },
+  "schema": "battle-effect-group5-pixel-ab-runtime-v1",
+  "scope": {
+    "affine_blend_timing_audio_equivalence": false,
+    "all_18_effect_groups_runtime_verified": false,
+    "all_group_5_frames_runtime_verified": false,
+    "natural_action_5_attack": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "sequence_6_group_5_frame_1_graphics_single_pixel": true
+  },
+  "verified": true
+}

@@ -1,0 +1,1341 @@
+{
+  "acceptance": {
+    "candidate_artifact": "artifacts/rom-mp2k-dispatcher-v1/candidate",
+    "candidate_identity": {
+      "artifact_status": "candidate",
+      "bundle_sha256": "83f220623fff3f5effb8bf6cd21b7e7ce8d543ab660d7fa721b8632bd26b3bd5",
+      "manifest_sha256": "af469f61a2e7f701fd34d1291c6c18962572f8bc62a3a3f130d6d757409f0c2e",
+      "payload_sha256": "3ddac8d6c690af4850d74f7aeeee2a424f32c4108a7ebebd26c51f280672b23c"
+    },
+    "kind": "independent-self-contained-candidate-acceptance",
+    "output_artifact": "artifacts/rom-mp2k-dispatcher-v1"
+  },
+  "artifact_schema": "rom-mp2k-dispatcher-v1",
+  "artifact_status": "accepted",
+  "coverage_baseline": {
+    "all_promotion_bytes_unknown": true,
+    "existing_primary_ranges": [
+      {
+        "claim_id": "similar-table-candidate-027-range-050",
+        "range": [
+          638180,
+          638184
+        ]
+      },
+      {
+        "claim_id": "similar-table-candidate-027-range-051",
+        "range": [
+          638184,
+          638244
+        ]
+      },
+      {
+        "claim_id": "cfg-thumb-0770-09bd30",
+        "range": [
+          638256,
+          638404
+        ]
+      },
+      {
+        "claim_id": "cfg-thumb-0771-09bdec",
+        "range": [
+          638444,
+          638458
+        ]
+      },
+      {
+        "claim_id": "cfg-thumb-0772-09be00",
+        "range": [
+          638464,
+          638476
+        ]
+      }
+    ],
+    "initializer_pointer_owner_claim_id": "psg-initializer-literals-09adc0",
+    "path": "sequel/rom-byte-coverage.json",
+    "primary_overlap_bytes": 0,
+    "promotion_bytes": 102,
+    "schema": "rom-byte-coverage-v1",
+    "sha256": "3926d1cd6e09c8b45b85cb33d0b2f77d83578ec71c17d61fa1282d863f220735",
+    "size": 23135080,
+    "summary": {
+      "claim_count": 14503,
+      "classified_bytes": 6124499,
+      "segment_count": 16614,
+      "unknown_bytes": 166957
+    },
+    "target_segments": [
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          636220,
+          638180
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          638244,
+          638256
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          638404,
+          638444
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          638458,
+          638464
+        ]
+      }
+    ],
+    "unknown_promotion_bytes": 102
+  },
+  "coverage_baseline_source": {
+    "archive_file": "rom-byte-coverage.json.gz",
+    "archive_sha256": "06d70fc86be7ec6fe38e80409f7a33fbfcbdf05d84e537a7a2364cc111d49517",
+    "archive_size": 1301149,
+    "artifact": "artifacts/rom-mp2k-dispatcher-precoverage-v1",
+    "kind": "immutable-gzip-artifact",
+    "manifest_sha256": "8c913eeb6ccf1761f7eeb0f126b5b6dbbfe14f8cbec36941c1e15eba3b9a2602",
+    "raw_sha256": "3926d1cd6e09c8b45b85cb33d0b2f77d83578ec71c17d61fa1282d863f220735",
+    "raw_size": 23135080,
+    "recovery_kind": "direct-frozen-prepromotion-snapshot"
+  },
+  "coverage_projection": {
+    "claim_delta": 4,
+    "classified_delta": 102,
+    "post": {
+      "claim_count": 14507,
+      "classified_bytes": 6124601,
+      "segment_count": 16617,
+      "unknown_bytes": 166855
+    },
+    "pre": {
+      "claim_count": 14503,
+      "classified_bytes": 6124499,
+      "segment_count": 16614,
+      "unknown_bytes": 166957
+    },
+    "segment_delta": 3,
+    "unknown_delta": -102
+  },
+  "dispatcher": {
+    "accepted_index_domain": [
+      0,
+      17
+    ],
+    "accepted_value_count": 18,
+    "base_literal": {
+      "consumer_offset": 638170,
+      "range": [
+        638180,
+        638184
+      ],
+      "sha256": "8c44065055357bd89ab6ee75a2a65d71b8d1846fb0786e25314c7eefad47be68",
+      "value": 134855912
+    },
+    "cmp": {
+      "immediate": 17,
+      "offset": 638162,
+      "raw_hex": "112d"
+    },
+    "default_branch": {
+      "offset": 638166,
+      "raw_hex": "96e0",
+      "target_offset": 638470
+    },
+    "domain_branch": {
+      "kind": "unsigned_bls",
+      "offset": 638164,
+      "raw_hex": "00d9",
+      "target_offset": 638168
+    },
+    "root_offset": 638132,
+    "table": {
+      "base_literal": {
+        "consumer_offset": 638170,
+        "range": [
+          638180,
+          638184
+        ],
+        "sha256": "8c44065055357bd89ab6ee75a2a65d71b8d1846fb0786e25314c7eefad47be68",
+        "value": 134855912
+      },
+      "entry_count": 18,
+      "range": [
+        638184,
+        638256
+      ],
+      "raw_hex": "30bd090834bd09083cbd090844bd09084ebd09085cbd09086abd090872bd09087abd090882bd09088abd090892bd09089abd0908a8bd0908b6bd0908c4bd0908d2bd0908e0bd0908",
+      "sha256": "38127546630d56bd867a46b250c397775b52721bdc84b6daecf0326d38ab141d",
+      "targets": [
+        638256,
+        638260,
+        638268,
+        638276,
+        638286,
+        638300,
+        638314,
+        638322,
+        638330,
+        638338,
+        638346,
+        638354,
+        638362,
+        638376,
+        638390,
+        638404,
+        638418,
+        638432
+      ]
+    },
+    "terminal": {
+      "kind": "resolved_mov_pc_r0",
+      "offset": 638176,
+      "raw_hex": "8746"
+    }
+  },
+  "excluded_ranges": [
+    {
+      "bytes": 2,
+      "promoted": false,
+      "promotion_excluded": true,
+      "range": [
+        638178,
+        638180
+      ],
+      "semantic_class": "unknown",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+    },
+    {
+      "bytes": 2,
+      "promoted": false,
+      "promotion_excluded": true,
+      "range": [
+        638458,
+        638460
+      ],
+      "semantic_class": "unknown",
+      "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+    }
+  ],
+  "files": {
+    "rom-mp2k-dispatcher.bin": {
+      "sha256": "83f220623fff3f5effb8bf6cd21b7e7ce8d543ab660d7fa721b8632bd26b3bd5",
+      "size": 102
+    },
+    "rom-mp2k-dispatcher.json": {
+      "sha256": "3ddac8d6c690af4850d74f7aeeee2a424f32c4108a7ebebd26c51f280672b23c",
+      "size": 205414
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_mp2k_dispatcher.py",
+      "sha256": "3834b7c2f196d2c37a4289e6224d549619865fac3c9e4b3c0dec49c71f3b3136"
+    },
+    "exporter_test": {
+      "path": "tests/test_export_rom_mp2k_dispatcher.py",
+      "sha256": "f2586def43ec83f1ce9e8ee356b4f94be186d69977f9ac6c826f42a13fca4588"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_mp2k_dispatcher.py",
+      "sha256": "3b342efd7ec63cc38b3eb862a881ca7c562873375a9264fdb58fe5b752bd7397"
+    },
+    "verifier_test": {
+      "path": "tests/test_verify_rom_mp2k_dispatcher.py",
+      "sha256": "253d65f869f8da5faa3040fec872a7c0267bbf00ce9a3d7e4f56f193cee5c008"
+    }
+  },
+  "initializer_binding": {
+    "destination_address": 50361664,
+    "entry_pointer": 134855861,
+    "entry_pointer_occurrences": [
+      634328
+    ],
+    "entry_pointer_root_offset": 638132,
+    "field_offset": 32,
+    "load_instruction": {
+      "offset": 634176,
+      "raw_hex": "2548"
+    },
+    "pointer_literal": {
+      "range": [
+        634328,
+        634332
+      ],
+      "raw_hex": "b5bc0908"
+    },
+    "store_instruction": {
+      "offset": 634178,
+      "raw_hex": "0862"
+    },
+    "structure_base_literal": {
+      "consumer_offset": 634174,
+      "range": [
+        634324,
+        634328
+      ],
+      "value": 50361632
+    }
+  },
+  "limitations": [
+    "This candidate classifies exactly four frozen ranges totaling 102 bytes; existing owners are provenance only and are not promoted again.",
+    "The target-limited raw producer denominator covers the dispatcher, its 18 table entries, and the initializer pointer only; it is not a global caller/code/indirect/computed producer proof.",
+    "Natural runtime reachability, global RAM-writer completeness, and global producer completeness remain unproven.",
+    "Literal target business semantics, audio behavior, editing, writeback, relocation, and allocatable/free-space safety remain outside scope.",
+    "The two explicitly excluded 0000 gaps remain unknown and are not padding, NOP, reserved, free, or allocatable space."
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_mp2k_dispatcher.py",
+      "--coverage-baseline-artifact",
+      "artifacts/rom-mp2k-dispatcher-precoverage-v1",
+      "--output",
+      "artifacts/rom-mp2k-dispatcher-v1/candidate"
+    ],
+    "kind": "artifact-candidate-construction",
+    "output_artifact": "artifacts/rom-mp2k-dispatcher-v1/candidate"
+  },
+  "producer_denominator": {
+    "all_producer_bytes_promoted": false,
+    "all_producer_source_membership_proven": true,
+    "computed_or_indirect_producer_denominator_complete": false,
+    "global_producer_denominator_complete": false,
+    "producer_form_vector": [
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [],
+          "bytewise_u32_thumb_pointer": [
+            634328
+          ],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638132
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638184
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638256
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638188
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638260
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638192
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638268
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638196
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638276
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638200
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638286
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638204
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638300
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638208
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638314
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638212
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638322
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638216
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638330
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638220
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638338
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638224
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638346
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638228
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638354
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638232
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638362
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638236
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638376
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638240
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638390
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638244
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638404
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638248
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638418
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [
+            638252
+          ],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": []
+        },
+        "target_file_offset": 638432
+      }
+    ],
+    "producer_form_vector_sha256": "ed31137a1e9b7c539050d0e252f36d5812907c52a192188d275ff43aaa05b107",
+    "producer_roles": [
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638184,
+        "target_offset": 638256
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638188,
+        "target_offset": 638260
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638192,
+        "target_offset": 638268
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638196,
+        "target_offset": 638276
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638200,
+        "target_offset": 638286
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638204,
+        "target_offset": 638300
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638208,
+        "target_offset": 638314
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638212,
+        "target_offset": 638322
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638216,
+        "target_offset": 638330
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638220,
+        "target_offset": 638338
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638224,
+        "target_offset": 638346
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638228,
+        "target_offset": 638354
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638232,
+        "target_offset": 638362
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638236,
+        "target_offset": 638376
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": "similar-table-candidate-027-range-051",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 638240,
+        "target_offset": 638390
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": null,
+        "promoted": true,
+        "role": "promoted_table_tail",
+        "source_offset": 638244,
+        "target_offset": 638404
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": null,
+        "promoted": true,
+        "role": "promoted_table_tail",
+        "source_offset": 638248,
+        "target_offset": 638418
+      },
+      {
+        "form": "bytewise_u32_entry",
+        "owner_claim_id": null,
+        "promoted": true,
+        "role": "promoted_table_tail",
+        "source_offset": 638252,
+        "target_offset": 638432
+      },
+      {
+        "form": "bytewise_u32_thumb_pointer",
+        "owner_claim_id": "psg-initializer-literals-09adc0",
+        "promoted": false,
+        "role": "preowned_provenance",
+        "source_offset": 634328,
+        "target_offset": 638132
+      }
+    ],
+    "producer_source_membership_by_role": {
+      "preowned_provenance": true,
+      "promoted_table_tail": true
+    },
+    "root_forms": {
+      "0x09BCB4": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [],
+        "bytewise_u32_thumb_pointer": [
+          634328
+        ],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD30": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638184
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD34": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638188
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD3C": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638192
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD44": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638196
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD4E": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638200
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD5C": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638204
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD6A": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638208
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD72": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638212
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD7A": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638216
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD82": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638220
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD8A": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638224
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD92": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638228
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BD9A": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638232
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BDA8": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638236
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BDB6": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638240
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BDC4": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638244
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BDD2": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638248
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      },
+      "0x09BDE0": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [
+          638252
+        ],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": []
+      }
+    },
+    "scan": {
+      "alignment_bytes": 1,
+      "alignment_bytes_by_form": {
+        "arm_b": 4,
+        "arm_bl": 4,
+        "bytewise_u32_entry": 1,
+        "bytewise_u32_thumb_pointer": 1,
+        "thumb_b": 2,
+        "thumb_b_conditional": 2,
+        "thumb_bl": 2
+      },
+      "forms": [
+        "thumb_bl",
+        "thumb_b",
+        "thumb_b_conditional",
+        "arm_b",
+        "arm_bl",
+        "bytewise_u32_entry",
+        "bytewise_u32_thumb_pointer"
+      ],
+      "mode": "raw-rom",
+      "range": [
+        0,
+        6291456
+      ]
+    },
+    "target_limited_raw_producer_denominator_complete": true
+  },
+  "promotion": {
+    "byte_count": 102,
+    "claim_count": 4,
+    "code_bytes": 86,
+    "literal_bytes": 4,
+    "packed_bytes_sha256": "83f220623fff3f5effb8bf6cd21b7e7ce8d543ab660d7fa721b8632bd26b3bd5",
+    "pointer_bytes": 0,
+    "range_count": 4,
+    "range_sha256": [
+      "d3a8d0298a139e1b02c709d08116eb3c55a835ccf69f6fc9a3957791632cc59b",
+      "7d71c074f708e1abd395793f711907297dc09527cf3a9e050ce645540ba76911",
+      "45103e5203193bee6f39a1533b917175c16d361b9e72bdbcdb04ec83b93eec4c",
+      "48f5b6c8f55b1a8bac36a2ce2871ffc9e6e1068d808aade8c70a9afc40e2a4b0"
+    ],
+    "range_vector_sha256": "f7621079a8d84ce92aeebf1855856f30c0d8e551aed692531139bd6dccb39171",
+    "ranges": [
+      [
+        638132,
+        638178
+      ],
+      [
+        638244,
+        638256
+      ],
+      [
+        638404,
+        638444
+      ],
+      [
+        638460,
+        638464
+      ]
+    ],
+    "table_bytes": 12,
+    "total_bytes": 102,
+    "union_bytes": 102,
+    "union_range_count": 4,
+    "union_ranges": [
+      [
+        638132,
+        638178
+      ],
+      [
+        638244,
+        638256
+      ],
+      [
+        638404,
+        638444
+      ],
+      [
+        638460,
+        638464
+      ]
+    ]
+  },
+  "promotion_ranges": [
+    {
+      "bytes": 46,
+      "kind": "mp2k_dispatcher_bounded_thumb_code",
+      "promoted": true,
+      "range": [
+        638132,
+        638178
+      ],
+      "semantic_class": "mp2k_dispatcher_bounded_thumb_code",
+      "sha256": "d3a8d0298a139e1b02c709d08116eb3c55a835ccf69f6fc9a3957791632cc59b"
+    },
+    {
+      "bytes": 12,
+      "kind": "mp2k_dispatcher_table_tail_u32_entries",
+      "promoted": true,
+      "range": [
+        638244,
+        638256
+      ],
+      "semantic_class": "mp2k_dispatcher_table_tail_u32_entries",
+      "sha256": "7d71c074f708e1abd395793f711907297dc09527cf3a9e050ce645540ba76911"
+    },
+    {
+      "bytes": 40,
+      "kind": "mp2k_dispatcher_bounded_thumb_code",
+      "promoted": true,
+      "range": [
+        638404,
+        638444
+      ],
+      "semantic_class": "mp2k_dispatcher_bounded_thumb_code",
+      "sha256": "45103e5203193bee6f39a1533b917175c16d361b9e72bdbcdb04ec83b93eec4c"
+    },
+    {
+      "bytes": 4,
+      "kind": "mp2k_dispatcher_consumed_literal_bytes",
+      "promoted": true,
+      "range": [
+        638460,
+        638464
+      ],
+      "semantic_class": "mp2k_dispatcher_consumed_literal_bytes",
+      "sha256": "48f5b6c8f55b1a8bac36a2ce2871ffc9e6e1068d808aade8c70a9afc40e2a4b0"
+    }
+  ],
+  "provenance": {
+    "candidate_027": {
+      "candidate_range": [
+        638180,
+        638244
+      ],
+      "partitions": [
+        [
+          638180,
+          638184
+        ],
+        [
+          638184,
+          638244
+        ]
+      ],
+      "relation": "crosses_canonical_table_boundary",
+      "status": "rejected"
+    },
+    "existing_primary_ranges": [
+      {
+        "claim_id": "similar-table-candidate-027-range-050",
+        "range": [
+          638180,
+          638184
+        ]
+      },
+      {
+        "claim_id": "similar-table-candidate-027-range-051",
+        "range": [
+          638184,
+          638244
+        ]
+      },
+      {
+        "claim_id": "cfg-thumb-0770-09bd30",
+        "range": [
+          638256,
+          638404
+        ]
+      },
+      {
+        "claim_id": "cfg-thumb-0771-09bdec",
+        "range": [
+          638444,
+          638458
+        ]
+      },
+      {
+        "claim_id": "cfg-thumb-0772-09be00",
+        "range": [
+          638464,
+          638476
+        ]
+      }
+    ],
+    "target_limited_producer_forms": {
+      "638132": {
+        "bytewise_u32_thumb_pointer": [
+          634328
+        ]
+      },
+      "638256": {
+        "bytewise_u32_entry": [
+          638184
+        ]
+      },
+      "638260": {
+        "bytewise_u32_entry": [
+          638188
+        ]
+      },
+      "638268": {
+        "bytewise_u32_entry": [
+          638192
+        ]
+      },
+      "638276": {
+        "bytewise_u32_entry": [
+          638196
+        ]
+      },
+      "638286": {
+        "bytewise_u32_entry": [
+          638200
+        ]
+      },
+      "638300": {
+        "bytewise_u32_entry": [
+          638204
+        ]
+      },
+      "638314": {
+        "bytewise_u32_entry": [
+          638208
+        ]
+      },
+      "638322": {
+        "bytewise_u32_entry": [
+          638212
+        ]
+      },
+      "638330": {
+        "bytewise_u32_entry": [
+          638216
+        ]
+      },
+      "638338": {
+        "bytewise_u32_entry": [
+          638220
+        ]
+      },
+      "638346": {
+        "bytewise_u32_entry": [
+          638224
+        ]
+      },
+      "638354": {
+        "bytewise_u32_entry": [
+          638228
+        ]
+      },
+      "638362": {
+        "bytewise_u32_entry": [
+          638232
+        ]
+      },
+      "638376": {
+        "bytewise_u32_entry": [
+          638236
+        ]
+      },
+      "638390": {
+        "bytewise_u32_entry": [
+          638240
+        ]
+      },
+      "638404": {
+        "bytewise_u32_entry": [
+          638244
+        ]
+      },
+      "638418": {
+        "bytewise_u32_entry": [
+          638248
+        ]
+      },
+      "638432": {
+        "bytewise_u32_entry": [
+          638252
+        ]
+      }
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "allocatable_free_space_proven": false,
+    "audio_behavior_proven": false,
+    "computed_or_indirect_producer_denominator_complete": false,
+    "editing_relocation_writeback_safe": false,
+    "global_caller_or_code_denominator_complete": false,
+    "global_ram_writer_denominator_complete": false,
+    "literal_target_semantics_claimed": false,
+    "natural_runtime_reachability": false,
+    "target_limited_raw_producer_denominator_complete": true
+  },
+  "semantic_contract": {
+    "edge_vector_sha256": "c4c0598ffae7f1ae75224fed044ed5db7719ec42a0fbbca7c23e2d6b127c0ca8",
+    "literal_binding_vector_sha256": "3e7ab392a8232d03f8a73c8d9b952a334613a07b4e95c7d76244fe99dfcf6a61",
+    "packed_bytes_sha256": "83f220623fff3f5effb8bf6cd21b7e7ce8d543ab660d7fa721b8632bd26b3bd5",
+    "producer_form_vector_sha256": "ed31137a1e9b7c539050d0e252f36d5812907c52a192188d275ff43aaa05b107",
+    "range_vector_sha256": "f7621079a8d84ce92aeebf1855856f30c0d8e551aed692531139bd6dccb39171",
+    "semantic_instruction_vector_sha256": "fd155819d91a09ea0449f5aba038495da511db3aa66f2dab28350ce52e6153a7"
+  },
+  "summary": {
+    "block_count": 36,
+    "budget_exhausted": false,
+    "code_bytes": 260,
+    "external_edge_count": 1,
+    "frontier_count": 0,
+    "gap_exclusion_bytes": 4,
+    "instruction_bytes": 260,
+    "instruction_count": 129,
+    "internal_edge_count": 65,
+    "literal_bytes": 8,
+    "literal_ref_count": 1,
+    "literal_word_count": 1,
+    "pointer_bytes": 0,
+    "producer_count": 19,
+    "promoted_bytes": 102,
+    "promotion_claim_count": 4,
+    "promotion_range_count": 4,
+    "resolved_dispatch_edge_count": 18,
+    "structured_return_count": 1,
+    "total_graph_edge_count": 66,
+    "unresolved_frontier_count": 0
+  },
+  "upstream_receipts": {
+    "cfg_inventory_v2": {
+      "manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+      "payload_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd"
+    },
+    "m4a_initializer_chain": {
+      "manifest_sha256": "9b9b9f2f49a1ee8224703ca47b73dc608d75ba83d2be44564e24873c44237c9c",
+      "payload_sha256": "7f019b01e800a3dd769463cbea907049429b1cad416dc17ed8719a561837babd"
+    },
+    "similar_table_adjudications": {
+      "path": "sequel/similar-table-adjudications-v1.json",
+      "sha256": "c19ab7ee1e7b79eb6e3bc2888114336237e86a4c976bd8ee812fc251d70357d0"
+    },
+    "similar_table_verifier": {
+      "path": "tools/verify_similar_table_candidates.py",
+      "sha256": "04b9bc0b0a2d0ce22e817f590c04851fa70f712136e9c362a12dcd3aea75d86b"
+    }
+  },
+  "verification": {
+    "contract_ok": true,
+    "schema": "rom-mp2k-dispatcher-verification-v1",
+    "status": "verified",
+    "summary": {
+      "block_count": 36,
+      "budget_exhausted": false,
+      "code_bytes": 260,
+      "external_edge_count": 1,
+      "frontier_count": 0,
+      "gap_exclusion_bytes": 4,
+      "instruction_bytes": 260,
+      "instruction_count": 129,
+      "internal_edge_count": 65,
+      "literal_bytes": 8,
+      "literal_ref_count": 1,
+      "literal_word_count": 1,
+      "pointer_bytes": 0,
+      "producer_count": 19,
+      "promoted_bytes": 102,
+      "promotion_claim_count": 4,
+      "promotion_range_count": 4,
+      "resolved_dispatch_edge_count": 18,
+      "structured_return_count": 1,
+      "total_graph_edge_count": 66,
+      "unresolved_frontier_count": 0
+    }
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_mp2k_dispatcher.py",
+      "artifacts/rom-mp2k-dispatcher-v1"
+    ],
+    "path": "tools/verify_rom_mp2k_dispatcher.py",
+    "sha256": "3b342efd7ec63cc38b3eb862a881ca7c562873375a9264fdb58fe5b752bd7397"
+  }
+}

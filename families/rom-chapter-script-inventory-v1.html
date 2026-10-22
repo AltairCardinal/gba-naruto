@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rom-chapter-script-inventory-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">rom-chapter-script-inventory-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">git-artifact-promotion-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">7 个顶层分区 · 3 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="rom-chapter-script-inventory-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-schema">artifact_schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-scope">scope</a><a class="sec-jump" href="#sec-files">files</a><a class="sec-jump" href="#sec-producer">producer</a><a class="sec-jump" href="#sec-verifier">verifier</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">git-artifact-promotion-v1</span></section>
+<section class="fam-sec" id="sec-artifact-schema"><h2 class="fam-sec-title">artifact_schema</h2><span class="fml-text">rom-chapter-script-inventory-v1</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-scope"><h2 class="fam-sec-title">scope</h2><div class="fml-row"><div class="fml-key">fixed_pointer_table_denominator_complete</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">interpreter_consumed_byte_union_complete</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">natural_gameplay_root_reachability_complete</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">natural_language_decoding_complete</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">static_control_flow_closure_complete</div><div class="fml-val"><span class="fml-bool">true</span></div></div></section>
+<section class="fam-sec" id="sec-files"><h2 class="fam-sec-title">files</h2><div class="fml-row"><div class="fml-key">chapter-script-bytes.bin</div><div class="fml-val"><span class="fml-text">eba1393714485ab78d0dbde6cb1b9cf407e031ce8c2a86068038a3920d5f0699</span></div></div><div class="fml-row"><div class="fml-key">chapter-script-inventory.json</div><div class="fml-val"><span class="fml-text">813cd10394e5fac239aefd6043437796b1a63f95d8d068d714871b8dd3edcabc</span></div></div></section>
+<section class="fam-sec" id="sec-producer"><h2 class="fam-sec-title">producer</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/export_rom_chapter_script_inventory.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--output-dir</span></span><span><span class="fml-text">artifacts/rom-chapter-script-inventory-v1</span></span></div></div></div><div class="fml-row"><div class="fml-key">exporter_sha256</div><div class="fml-val"><span class="fml-text">707a00b57c6dbbfb3da22f5ef385a0243c600ef1b30f8b70527446c290ddba42</span></div></div><div class="fml-row"><div class="fml-key">test_sha256</div><div class="fml-val"><span class="fml-text">95f7d1eb1aa22efc6f6cb4e183af3564ef644831b6468dde0d00e0cad368e941</span></div></div><div class="fml-row"><div class="fml-key">verifier_sha256</div><div class="fml-val"><span class="fml-text">b9bf0203bddd8ca85981bd7957d95171c11187a117447bc5a0e92e384777911c</span></div></div></section>
+<section class="fam-sec" id="sec-verifier"><h2 class="fam-sec-title">verifier</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/verify_rom_chapter_script_inventory.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--artifact-dir</span></span><span><span class="fml-text">artifacts/rom-chapter-script-inventory-v1</span></span></div></div></div><div class="fml-row"><div class="fml-key">exit_code</div><div class="fml-val"><span class="fml-num">0</span></div></div><div class="fml-row"><div class="fml-key">report</div><div class="fml-val"><div class="fml-row"><div class="fml-key">dynamic_opcode_06_nodes</div><div class="fml-val"><span class="fml-num">42</span></div></div><div class="fml-row"><div class="fml-key">errors</div><div class="fml-val"><span class="fml-text">[]</span></div></div><div class="fml-row"><div class="fml-key">internal_gap_bytes</div><div class="fml-val"><span class="fml-num">3,769</span></div></div><div class="fml-row"><div class="fml-key">internal_gap_count</div><div class="fml-val"><span class="fml-num">91</span></div></div><div class="fml-row"><div class="fml-key">merged_range_bytes</div><div class="fml-val"><span class="fml-num">334,060</span></div></div><div class="fml-row"><div class="fml-key">merged_range_count</div><div class="fml-val"><span class="fml-num">92</span></div></div><div class="fml-row"><div class="fml-key">node_overlap_bytes</div><div class="fml-val"><span class="fml-num">0</span></div></div><div class="fml-row"><div class="fml-key">non_null_script_slots</div><div class="fml-val"><span class="fml-num">200</span></div></div><div class="fml-row"><div class="fml-key">observed_opcode_count</div><div class="fml-val"><span class="fml-num">43</span></div></div><div class="fml-row"><div class="fml-key">packed_script_bytes</div><div class="fml-val"><span class="fml-num">334,060</span></div></div><div class="fml-row"><div class="fml-key">parse_failure_count</div><div class="fml-val"><span class="fml-num">0</span></div></div><div class="fml-row"><div class="fml-key">pointer_table_slot_count</div><div class="fml-val"><span class="fml-num">204</span></div></div><div class="fml-row"><div class="fml-key">raw_node_bytes</div><div class="fml-val"><span class="fml-num">334,060</span></div></div><div class="fml-row"><div class="fml-key">schema</div><div class="fml-val"><span class="fml-text">rom-chapter-script-inventory-verification-v1</span></div></div><div class="fml-row"><div class="fml-key">terminal_node_count</div><div class="fml-val"><span class="fml-num">590</span></div></div><div class="fml-row"><div class="fml-key">unique_instruction_nodes</div><div class="fml-val"><span class="fml-num">18,994</span></div></div><div class="fml-row"><div class="fml-key">unique_script_roots</div><div class="fml-val"><span class="fml-num">188</span></div></div><div class="fml-row"><div class="fml-key">verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div></div></div><div class="fml-row"><div class="fml-key">verifier_sha256</div><div class="fml-val"><span class="fml-text">b9bf0203bddd8ca85981bd7957d95171c11187a117447bc5a0e92e384777911c</span></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/rom-chapter-script-inventory-v1/chapter-script-bytes.bin">chapter-script-bytes.bin</a><span class="fml-meta"> 334,060 B</span></li><li><a href="../artifacts/rom-chapter-script-inventory-v1/chapter-script-inventory.json">chapter-script-inventory.json</a><span class="fml-meta"> 65,313 B</span></li><li><a href="../artifacts/rom-chapter-script-inventory-v1/manifest.json">manifest.json</a><span class="fml-meta"> 2,099 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

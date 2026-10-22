@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>residual-wram-tilemap-abi-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">residual-wram-tilemap-abi-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">git-artifact-promotion-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">11 个顶层分区 · 3 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="residual-wram-tilemap-abi-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-schema">artifact_schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-scope">scope</a><a class="sec-jump" href="#sec-summary">summary</a><a class="sec-jump" href="#sec-implementation">implementation</a><a class="sec-jump" href="#sec-files">files</a><a class="sec-jump" href="#sec-artifact-id">artifact_id</a><a class="sec-jump" href="#sec-payload-file">payload_file</a><a class="sec-jump" href="#sec-payload-sha256">payload_sha256</a><a class="sec-jump" href="#sec-verifier">verifier</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">git-artifact-promotion-v1</span></section>
+<section class="fam-sec" id="sec-artifact-schema"><h2 class="fam-sec-title">artifact_schema</h2><span class="fml-text">residual-wram-tilemap-abi-v1</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-scope"><h2 class="fam-sec-title">scope</h2><div class="fml-row"><div class="fml-key">all_pointer_reachable_wram_visual_metadata_enumerated</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">direct_local_lz77_to_strided_queue_routes_complete</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">final_screen_pixel_and_timing_equivalence_complete</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">generic_wram_visual_metadata_writeback_complete</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">natural_language_screen_identity_complete</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">remaining_four_wram_payload_abis_complete</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">runtime_reachability_complete</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">three_tilemap_payload_shapes_and_gpu_destinations_proved</div><div class="fml-val"><span class="fml-bool">true</span></div></div></section>
+<section class="fam-sec" id="sec-summary"><h2 class="fam-sec-title">summary</h2><div class="fml-row"><div class="fml-key">direct_tilemap_queue_abi_count</div><div class="fml-val"><span class="fml-num">3</span></div></div><div class="fml-row"><div class="fml-key">remaining_unresolved_count</div><div class="fml-val"><span class="fml-num">4</span></div></div><div class="fml-row"><div class="fml-key">tilemap_entry_count</div><div class="fml-val"><span class="fml-num">657</span></div></div><div class="fml-row"><div class="fml-key">tilemap_payload_bytes</div><div class="fml-val"><span class="fml-num">1,314</span></div></div><div class="fml-row"><div class="fml-key">wram_visual_metadata_denominator</div><div class="fml-val"><span class="fml-num">7</span></div></div></section>
+<section class="fam-sec" id="sec-implementation"><h2 class="fam-sec-title">implementation</h2><div class="fml-row"><div class="fml-key">tools/export_residual_wram_tilemap_abi.py</div><div class="fml-val"><span class="fml-text">ad074e83890053169502a966bdcf88e52e228203e6d0fc810e33a04669028132</span></div></div><div class="fml-row"><div class="fml-key">tools/export_rom_pointer_lz77_inventory.py</div><div class="fml-val"><span class="fml-text">291164c8b517b02a3f36999a838c2a925038b03d755114d40ba4164430c808c0</span></div></div><div class="fml-row"><div class="fml-key">tools/extract_tileset.py</div><div class="fml-val"><span class="fml-text">c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33</span></div></div><div class="fml-row"><div class="fml-key">tools/gba_image_export.py</div><div class="fml-val"><span class="fml-text">fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416</span></div></div><div class="fml-row"><div class="fml-key">tools/verify_residual_wram_tilemap_abi.py</div><div class="fml-val"><span class="fml-text">0c93e0dadb122170a87b9d03042f5dd7cecc75d84cb88b6b2210ae3beedde8cd</span></div></div><div class="fml-row"><div class="fml-key">tools/verify_rom_pointer_lz77_inventory.py</div><div class="fml-val"><span class="fml-text">7226faf073dd2495392fba3792d52239c223709581846ed1e8e5a8419a736e6b</span></div></div></section>
+<section class="fam-sec" id="sec-files"><h2 class="fam-sec-title">files</h2><div class="fml-row"><div class="fml-key">residual-wram-tilemap-abi.json</div><div class="fml-val"><span class="fml-text">07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc</span></div></div><div class="fml-row"><div class="fml-key">tilemaps.bin</div><div class="fml-val"><span class="fml-text">add4a6bfbf3bce1fe800a9e6954e862e939f1d70bcb85f95b652c799e5f17f24</span></div></div></section>
+<section class="fam-sec" id="sec-artifact-id"><h2 class="fam-sec-title">artifact_id</h2><span class="fml-text">residual-wram-tilemap-abi-v1</span></section>
+<section class="fam-sec" id="sec-payload-file"><h2 class="fam-sec-title">payload_file</h2><span class="fml-text">residual-wram-tilemap-abi.json</span></section>
+<section class="fam-sec" id="sec-payload-sha256"><h2 class="fam-sec-title">payload_sha256</h2><span class="fml-text">07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc</span></section>
+<section class="fam-sec" id="sec-verifier"><h2 class="fam-sec-title">verifier</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/verify_residual_wram_tilemap_abi.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--artifact</span></span><span><span class="fml-text">artifacts/residual-wram-tilemap-abi-v1</span></span></div></div></div><div class="fml-row"><div class="fml-key">exit_code</div><div class="fml-val"><span class="fml-num">0</span></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/residual-wram-tilemap-abi-v1/manifest.json">manifest.json</a><span class="fml-meta"> 2,161 B</span></li><li><a href="../artifacts/residual-wram-tilemap-abi-v1/residual-wram-tilemap-abi.json">residual-wram-tilemap-abi.json</a><span class="fml-meta"> 5,704 B</span></li><li><a href="../artifacts/residual-wram-tilemap-abi-v1/tilemaps.bin">tilemaps.bin</a><span class="fml-meta"> 1,314 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

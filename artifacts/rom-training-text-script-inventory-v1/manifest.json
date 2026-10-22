@@ -1,0 +1,45 @@
+{
+  "artifact_schema": "rom-training-text-script-inventory-v1",
+  "files": {
+    "training-text-script-bytes.bin": "fa9991353e99ecd63d8e0617fb078198b62527d548c8c5eb5fbac173d0302da0",
+    "training-text-script-inventory.json": "bc5d636d2dd6076892fbac7ba88879c964df9e819407c72d644cd10c5d9dadcb"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_training_text_script_inventory.py",
+      "sha256": "97f8c8c6c6b18f52dd099939dd2342a610a62af663f582558d6c341eb55b4d10"
+    },
+    "test": {
+      "path": "tests/test_export_rom_training_text_script_inventory.py",
+      "sha256": "5c0eb4cf6308b3f46ca04fd4b810730499571bf37a5c8359b0d89ca91bd2976e"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_training_text_script_inventory.py",
+      "sha256": "8058c27cb313c6d32d613feb9946444932c3d9dc64fe27929489fb1af72e5305"
+    }
+  },
+  "schema": "rom-training-text-script-inventory-v1-artifact-manifest-v1",
+  "scope": {
+    "all_45_slots_classified": true,
+    "all_non_null_records_parsed": true,
+    "editing_safety_proven": false,
+    "fixed_45_slot_denominator_complete": true,
+    "interpreter_used_opcode_contract_bound": true,
+    "natural_gameplay_all_ids_proven": false,
+    "nested_renderer_consumed_bytes_complete": true,
+    "pointer_table_already_classified_by_candidate_overlay": true,
+    "unicode_decoding_complete": false
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_training_text_script_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-training-text-script-inventory-v1"
+    ],
+    "schema": "rom-training-text-script-inventory-verification-v1",
+    "verifier_sha256": "8058c27cb313c6d32d613feb9946444932c3d9dc64fe27929489fb1af72e5305"
+  }
+}

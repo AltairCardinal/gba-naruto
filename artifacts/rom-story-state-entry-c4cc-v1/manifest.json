@@ -1,0 +1,66 @@
+{
+  "artifact_schema": "rom-story-state-entry-c4cc-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-story-state-entry-c4cc.json": {
+      "sha256": "65af0d22baf876b6df52bc0ca301879ec0e120c47ecf1816595842ba0d62976f",
+      "size": 5351
+    }
+  },
+  "promotion": {
+    "claim_kind": "story_state_entry_c4cc_exact_bytes",
+    "claims": [
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "aae49eae5303ed5f3e7563e22c6d1fe3a6151d81e1c30c8e8947f6fe1c13e63f",
+        "id": "story-state-entry-c4cc-reachable_thumb_code-08c4cc",
+        "kind": "reachable_thumb_code",
+        "range": [
+          574668,
+          574852
+        ]
+      },
+      {
+        "baseline_unknown_only": true,
+        "bytes_sha256": "76cd41f2ad9de7a04b303a57d0c7fb2f5c7b077b96a43cfcd0a9752efa7acb8c",
+        "id": "story-state-entry-c4cc-consumed_literal_words-08c584",
+        "kind": "consumed_literal_words",
+        "range": [
+          574852,
+          574888
+        ]
+      }
+    ],
+    "code_bytes": 184,
+    "code_ranges": [
+      [
+        574668,
+        574852
+      ]
+    ],
+    "literal_bytes": 36,
+    "literal_ranges": [
+      [
+        574852,
+        574888
+      ]
+    ],
+    "primary_class": "armv4t_story_state_entry_cfg",
+    "promotion_bytes": 220,
+    "remaining_unknown_bytes": 1548,
+    "remaining_unknown_range": [
+      574888,
+      576436
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier_report": {
+    "artifact": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-story-state-entry-c4cc-v1",
+    "contract_ok": true,
+    "errors": [],
+    "live_coverage_verified": false,
+    "promotion_bytes": 220,
+    "schema": "rom-story-state-entry-c4cc-verifier-report-v1",
+    "verified": true
+  }
+}

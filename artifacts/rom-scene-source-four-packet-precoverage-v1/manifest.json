@@ -1,0 +1,62 @@
+{
+  "artifact_status": "accepted",
+  "files": {
+    "rom-byte-coverage.json.gz": {
+      "compression": "gzip",
+      "file": "rom-byte-coverage.json.gz",
+      "sha256": "9b1d55e79921dcac25718368cf80419be39f84b8db4c615f429091e7b6e625ff",
+      "size": 1722453,
+      "uncompressed_sha256": "ae7c69330285bd3d668612b057a793f1b98edda5e0df421a8bda6f5e90290024",
+      "uncompressed_size": 30889492
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_scene_source_four_packet_precoverage.py",
+      "sha256": "66abd14cf45ca79802958c37e0187b80fd3bdd92574c1775288aa8458dd6a6fb"
+    },
+    "test": {
+      "path": "tests/test_export_rom_scene_source_four_packet_precoverage.py",
+      "sha256": "8b0cbe40081dd4cc006ccaaec1e905d22874fc91930e18e9195a1d951b5abb6d"
+    }
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_scene_source_four_packet_precoverage.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-scene-source-four-packet-precoverage-v1"
+    ]
+  },
+  "recovery": {
+    "kind": "reverse-exact-four-packet-projection",
+    "source": {
+      "path": "sequel/rom-byte-coverage.json",
+      "removed_batches": {
+        "rom-fixed-pair-tables-v1": {
+          "bytes": 42,
+          "claim_count": 2
+        },
+        "rom-prebattle-menu-controller-cfg-v1": {
+          "bytes": 1920,
+          "claim_count": 52
+        },
+        "rom-scene-source-closures-v1": {
+          "bytes": 1015,
+          "claim_count": 73
+        },
+        "rom-v17-v18-helper-cfg-v1": {
+          "bytes": 1254,
+          "claim_count": 14
+        }
+      },
+      "removed_bytes": 4231,
+      "removed_claim_count": 141,
+      "sha256": "9bab52d3d4b34490bf0699a2994294c73770bdcdfea1775cbd1d12dc48893fb4",
+      "size": 31201261
+    }
+  },
+  "schema": "rom-byte-coverage-prepromotion-baseline-v1"
+}

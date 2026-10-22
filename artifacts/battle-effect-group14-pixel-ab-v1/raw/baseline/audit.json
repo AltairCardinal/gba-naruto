@@ -1,0 +1,64 @@
+{
+  "audit": "raw/baseline/audit.json",
+  "automatic_inputs": [],
+  "binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+  "build_manifest": "toolchain/mgba-build-manifest.json",
+  "build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+  "capture_frame": 516,
+  "child_pgid": 1184,
+  "evidence_mode": "single-input",
+  "frame": 516,
+  "guard_summary_sha256": "1abf01b161c5859eb560e1ab643fb0bdf4eb1f07b89073c30e75639fae4655fd",
+  "input_state": "artifacts/runtime-checkpoints/scenario-47-fire-action16-confirmation.ss9",
+  "input_state_sha256": "50330328232cb626fa6888bce0cc67f5bb6386317d76cf9dfdb1945a8ed6d1dd",
+  "inputs": [
+    {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    }
+  ],
+  "output_png": "raw/baseline/frame516.png",
+  "output_png_sha256": "c1c765a92b96ba832225434084f91ccce0f7e432f1825f7ec220872cf7728325",
+  "output_state": "raw/baseline/frame516.ss9",
+  "output_state_sha256": "0ec02a2eda478e3afbd571962ef90c54ca8703242e67390a28eda619584ad9a0",
+  "patch_sha256": "e76c8fc4f5451bdffe28b7f3595cd441bbb90fb1aa88a926cfbe4f1254d3d2a6",
+  "peak_tree_rss_mib": 55.95703125,
+  "pgid_clean": true,
+  "recovery_inputs": [],
+  "replay_script": "tools/mgba_single_input_replay.lua",
+  "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+  "rom_sha256": "97d318c7e9279d96f8bf1fb07d2af8cf9040a67afc77120eee9994f439f1ffb0",
+  "run_id": "fc7a426059b5e13c4f49a05ea16ecc21",
+  "runtime_residue": {
+    "checked_at": "2026-08-01T08:28:25.849883Z",
+    "checked_pgid": 1184,
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ]
+  },
+  "sentinel": "raw/baseline/sentinel.json",
+  "staged_rom": "runtime-only/baseline/staged.gba",
+  "staged_rom_sha256": "97d318c7e9279d96f8bf1fb07d2af8cf9040a67afc77120eee9994f439f1ffb0",
+  "status": "capture-complete",
+  "success": true,
+  "zero_input_verified": false
+}

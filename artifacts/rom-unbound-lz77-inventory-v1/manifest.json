@@ -1,0 +1,60 @@
+{
+  "artifact_id": "rom-unbound-lz77-inventory-v1",
+  "artifact_schema": "rom-unbound-lz77-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "inventory.json": "52674bcbe44ffe0b1e620602f630c332420b35bcb05676aa2447e9ea2de2b3f1",
+    "payloads.bin": "7027b4c7ca61cf2b5f92dd3851cefe24bf5b244c7354756504432901055cdd65",
+    "streams.lz77.bin": "2db24f2804ad3d6c11d2cee7cde9a0205e86ae06eab4a02339c7ade130e41505"
+  },
+  "payload_file": "inventory.json",
+  "payload_schema": "rom-unbound-lz77-inventory-v1",
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_unbound_lz77_inventory.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-unbound-lz77-inventory-v1"
+    ],
+    "exporter_sha256": "5dc2aec1b645e8cbb558d4d51f527c728b3477470228d55f1ec18c2994f1a54d",
+    "test_sha256": "eb5dfc7303d29e88e93f8363e2cda025158ce360c0ba1b009c8dc9f3916cf598",
+    "verifier_sha256": "0a309854c9262947feb127188a6a13984b8a8643489af386bf2397c3715c9091"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "aligned_u32_rom_pointer_scan_complete": true,
+    "all_records_are_graphics": false,
+    "all_records_are_resources": false,
+    "consumer_identity_complete": false,
+    "indirect_or_computed_references_excluded": true,
+    "runtime_reachability_complete": false,
+    "selected_nonoverlapping_inventory_complete": true,
+    "strict_type_0x10_syntax_scan_complete": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_unbound_lz77_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-unbound-lz77-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "raw_unknown_unreferenced_candidate_count": 43,
+      "raw_unknown_unreferenced_compressed_bytes": 14737,
+      "raw_unknown_unreferenced_decompressed_bytes": 30774,
+      "schema": "rom-unbound-lz77-inventory-verification-v1",
+      "selected_compressed_bytes": 14725,
+      "selected_decompressed_bytes": 30772,
+      "selected_record_count": 41,
+      "strict_candidate_count": 1099,
+      "verified": true
+    },
+    "verifier_sha256": "0a309854c9262947feb127188a6a13984b8a8643489af386bf2397c3715c9091"
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "artifact_schema": "rom-task-callback-078e38-closure-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-task-callback-078e38-closure-v1.json": {
+      "sha256": "ac163dad2bf1120ba1b5dc15936502d7b3a6efab59cd0b6b0e8db2e4ad48e1aa",
+      "size": 19489
+    }
+  },
+  "implementation": {
+    "contract": {
+      "path": "tools/rom_task_callback_078e38_contract.py",
+      "sha256": "0d889c48ea66ad632eb6d41f891aba12c8133373924bf11844b23234ddd73e72"
+    },
+    "exporter": {
+      "path": "tools/export_rom_task_callback_078e38_closure.py",
+      "sha256": "6140d405af38f2e3d7d63dbb6d284765b14c40e2d319e6703247ae302dae5155"
+    },
+    "test": {
+      "path": "tests/test_export_rom_task_callback_078e38_closure.py",
+      "sha256": "83928722a585740886f6d0244c133d84bd82fbcc0abd7cf533551150fb6f935a"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_task_callback_078e38_closure.py",
+      "sha256": "46ad2406bf153106d4fe523109e8ff2ab3e888fbb5f66e8739ef6aff360a6f14"
+    }
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_task_callback_078e38_closure.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-task-callback-078e38-closure-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "basic_block_count": 61,
+    "claim_count": 16,
+    "code_bytes": 718,
+    "frontier_count": 1,
+    "instruction_count": 342,
+    "literal_bytes": 60,
+    "literal_reference_count": 15,
+    "opaque_call_count": 17,
+    "opaque_unique_target_count": 7,
+    "promotion_bytes": 778,
+    "structured_return_count": 0,
+    "unique_literal_word_count": 15,
+    "unknown_hole_bytes": 10
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_task_callback_078e38_closure.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-task-callback-078e38-closure-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_status": "candidate",
+      "contract_ok": true,
+      "errors": [],
+      "frontier_count": 1,
+      "instruction_count": 342,
+      "promotion_bytes": 778,
+      "schema": "rom-task-callback-078e38-closure-v1-verification-v1",
+      "verified": true
+    }
+  }
+}

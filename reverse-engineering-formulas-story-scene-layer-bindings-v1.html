@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运行时模型 · story-scene-layer-bindings-v1 · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-formulas.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<div class="card full-width" id="fml-story-scene-layer-bindings-v1">
+          <div class="card-head">
+            <div class="card-title">剧情场景图层绑定 · tile_base 推导</div>
+            <span class="tag tag-purple">3. 剧情调度与文本系统 · artifacts/story-scene-layer-bindings-v1</span>
+          </div>
+          <p class="card-desc">
+            下列模型由 <code>artifacts/story-scene-layer-bindings-v1/manifest.json</code> 直接导出，共 <strong>172</strong> 个字段；字段值即 ROM 中签发的表达式原文，未经改写。
+          </p>
+            <details class="fml-model">
+              <summary><code>selection</code><span class="fml-meta">20 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">indexing</div><div class="fml-val"><span class="fml-text">direct_zero_based_config_id_times_0x44</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">consumer_slices</div><div class="fml-val"><div class="fml-list"><div><span class="fml-text">{'name': 'background_initializer', 'start_gba_address': '0x08065404', 'end_gba_address_exclusive': '0x08065554', 'sha256': '213423e70948ef3dbd91ed7854efb5c52fd7543f4b73b4a4a2219ffd89ce66f7'}</span></div><div><span class="fml-text">{'name': 'story_sequence_and_overlay_resources', 'start_gba_address': '0x08087C9C', 'end_gba_address_exclusive': '0x08087F00', 'sha256': 'ade7e68ff00a726105c1df0af91315599c1dbb42402051a107e95e838adb262d'}</span></div><div><span class="fml-text">{'name': 'linked_scene_install', 'start_gba_address': '0x080990BC', 'end_gba_address_exclusive': '0x080995E8', 'sha256': 'bf3db89f9e209f43a0dfe9987ff9e5c75681701317f8face799dc06523ae34ab'}</span></div><div><span class="fml-text">{'name': 'linked_scene_update', 'start_gba_address': '0x080995E8', 'end_gba_address_exclusive': '0x08099998', 'sha256': '080c71f2b421b09a1f176fd1e4d1baaa6b116068c67714616b3c4948a9c39f8a'}</span></div></div></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>timing</code><span class="fml-meta">8 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">installer_prelude_frames</div><div class="fml-val"><span class="fml-num">21</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">installer_internal_update_ticks</div><div class="fml-val"><span class="fml-num">16</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">controller_update_ticks</div><div class="fml-val"><span class="fml-num">90</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">linked_update_ticks</div><div class="fml-val"><span class="fml-num">106</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">palette_transform_frames</div><div class="fml-val"><span class="fml-num">16</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">overlay_visible_frames</div><div class="fml-val"><span class="fml-num">240</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">total_wall_frames</div><div class="fml-val"><span class="fml-num">383</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">overlay_first_wall_frame</div><div class="fml-val"><span class="fml-num">144</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[0].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[0].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[1].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[1].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[2].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[2].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[3].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[3].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[4].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[4].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[5].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[5].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[6].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[6].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[7].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[7].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[8].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[8].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[9].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[9].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[10].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[10].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[11].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[11].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[12].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[12].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[13].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[13].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[14].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[14].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[15].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[15].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[16].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[16].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[17].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[17].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[18].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[18].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[19].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[19].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[20].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[20].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[21].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[21].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[22].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[22].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[23].layers[2].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">state[0x16] &gt;&gt; 1</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>bindings[23].layers[3].resource_layout</code><span class="fml-meta">3 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">graphics_destination_base</div><div class="fml-val"><span class="fml-text">0x06004000</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">tile_base_expression</div><div class="fml-val"><code class="fml-expr">u16(state[0x12] + state[0x16])</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">staging_stride_tiles</div><div class="fml-val"><span class="fml-num">64</span></div></div></div>
+            </details>
+        </div>
+
+        
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

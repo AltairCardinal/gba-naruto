@@ -1,0 +1,26 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 37127,
+  "peak_tree_rss_mib": 39.56640625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "cmake",
+    "-S",
+    "/Users/altair/github/gba-naruto/build/macos-mgba/workspace",
+    "-B",
+    "/Users/altair/github/gba-naruto/build/macos-mgba/build",
+    "-G",
+    "Ninja",
+    "-DCMAKE_BUILD_TYPE=Release",
+    "-DCMAKE_PREFIX_PATH=/usr/local/opt/qt@5",
+    "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
+    "-DENABLE_SCRIPTING=ON",
+    "-DBUILD_QT=ON",
+    "-DBUILD_SDL=OFF"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto",
+  "started_at": "2026-10-19T15:26:11.146346Z",
+  "finished_at": "2026-10-19T15:26:21.563942Z"
+}

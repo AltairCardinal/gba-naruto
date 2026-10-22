@@ -1,0 +1,54 @@
+{
+  "artifact_schema": "rom-renderer-text-inventory-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "renderer-text-inventory.json": "75be06e4b1c38d81d9a229dd1134177709706aa470a3d533bef07253079bfdbb",
+    "renderer-text-targets.bin": "28c999f31b51fe2727f66e295ad259920d2d472042d81ff98673c58e51c28cf5"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_renderer_text_inventory.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-renderer-text-inventory-v1"
+    ],
+    "exporter_sha256": "92dbb27b7b0f42513a2cabfdb7c7615ab56dc5200603fb02a459280bd48a5629",
+    "test_sha256": "4e008b62960a9c1a210a4212b525c3c81990f415fa5873552bd0ef7b7c6f6de9",
+    "verifier_sha256": "dedee49b3bfa3c4326fef8b70a56b48543455c2fb0ab9636ae0f0c64592ed446"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "consumer_typed_target_set_complete": true,
+    "fixed_pointer_table_denominator_complete": true,
+    "natural_gameplay_index_coverage_complete": false,
+    "renderer_consumed_byte_union_complete": true,
+    "unicode_decoding_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_renderer_text_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-renderer-text-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "packed_text_bytes": 22588,
+      "parse_failure_count": 0,
+      "pointer_slot_count": 704,
+      "pointer_table_count": 11,
+      "renderer_consumed_bytes": 22588,
+      "renderer_record_count": 625,
+      "schema": "rom-renderer-text-inventory-verification-v1",
+      "target_overlap_bytes": 0,
+      "unique_target_count": 625,
+      "verified": true
+    },
+    "verifier_sha256": "dedee49b3bfa3c4326fef8b70a56b48543455c2fb0ab9636ae0f0c64592ed446"
+  }
+}

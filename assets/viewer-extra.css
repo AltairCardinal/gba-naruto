@@ -1,0 +1,608 @@
+/* Rules added after the single-page viewer was split into hub pages.
+   Kept in a separate file so re-running tools/split_results_viewer.py --
+   which regenerates viewer.css from the source page -- cannot wipe them. */
+
+/* ---------- Reverse-engineering formula page ---------- */
+.fml-model {
+    background: #0b1120;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-top: 10px;
+}
+.fml-model > summary {
+    cursor: pointer;
+    color: var(--accent-cyan);
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+}
+.fml-model > summary code { font-size: 0.82rem; }
+.fml-meta { color: var(--text-muted); font-size: 0.72rem; font-weight: 400; white-space: nowrap; }
+.fml-tree { margin-top: 8px; font-size: 0.78rem; }
+.fml-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 240px) 1fr;
+    gap: 10px;
+    padding: 3px 0;
+    border-top: 1px solid rgba(38, 53, 84, 0.45);
+}
+.fml-key {
+    color: var(--accent-purple, #c084fc);
+    font-family: var(--font-mono);
+    word-break: break-word;
+}
+.fml-val { min-width: 0; }
+.fml-expr {
+    display: inline-block;
+    background: #090d16;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 1px 6px;
+    color: #7ee787;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    word-break: break-all;
+}
+.fml-text { color: var(--text-secondary); }
+.fml-num { color: var(--accent-amber); font-family: var(--font-mono); }
+.fml-bool { color: var(--accent-cyan); font-family: var(--font-mono); }
+.fml-list { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ---------- Reverse-engineering conclusions index ---------- */
+.cc-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.cc-filter {
+    background: #10182c;
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    border-radius: 9999px;
+    padding: 4px 12px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: inherit;
+}
+.cc-filter.active, .cc-filter:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+.cc-note {
+    background: #0b1120;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px 12px;
+    margin-top: 8px;
+}
+.cc-note > summary {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+}
+.cc-meta { color: var(--text-muted); font-size: 0.72rem; white-space: nowrap; }
+.cc-title { margin-top: 8px; font-weight: 600; color: var(--text-primary); font-size: 0.86rem; }
+.cc-body { margin-top: 8px; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.65; }
+.cc-note-line { margin: 3px 0; }
+.cc-muted { color: var(--text-muted); font-style: italic; }
+.cc-note-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 3px 0;
+    border-top: 1px solid rgba(38, 53, 84, 0.45);
+}
+.cc-note-row span:first-child { color: var(--accent-cyan); min-width: 130px; }
+.cc-code {
+    background: #090d16;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 0 5px;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: #7ee787;
+}
+.cc-body pre {
+    background: #090d16;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 8px 10px;
+    overflow-x: auto;
+    font-size: 0.74rem;
+}
+.cc-foot { margin-top: 8px; font-size: 0.72rem; color: var(--text-muted); }
+
+/* ---------- ROM data artifact index ---------- */
+.di-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 10px;
+    padding: 6px 0;
+    border-top: 1px solid rgba(38, 53, 84, 0.45);
+}
+.di-key { color: var(--accent-purple, #c084fc); font-family: var(--font-mono); font-size: 0.78rem; }
+.di-val { font-size: 0.78rem; }
+
+/* ===================================================================
+   Viewer reset: one motion component, one card shape, one pager.
+   =================================================================== */
+
+/* Motion player -- identical for GIF and for frame strips. */
+.is-motion {
+    width: var(--fw, 64px);
+    height: var(--fh, 64px);
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.is-motion img,
+.is-motion img.paused {
+    image-rendering: pixelated;
+    width: var(--fw, 64px);
+    height: var(--fh, 64px);
+    display: block;
+}
+
+/* Cards: one shape everywhere. */
+.vcard {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.vcard-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.vcard-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 0.84rem;
+}
+
+.vcard-meta {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+/* Pager */
+.pager {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0 4px;
+}
+
+.pager-info {
+    font-size: 0.76rem;
+    color: var(--text-muted);
+}
+
+.pager-more {
+    background: #10182c;
+    border: 1px solid var(--border-color);
+    color: var(--accent-cyan);
+    border-radius: 6px;
+    padding: 4px 14px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.pager-more:hover { border-color: var(--accent-cyan); }
+
+/* Global search panel */
+#searchPanel {
+    display: none;
+    position: fixed;
+    top: 62px;
+    right: 16px;
+    width: min(560px, 92vw);
+    max-height: 70vh;
+    overflow-y: auto;
+    background: #0f1728;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 8px;
+    z-index: 900;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+
+.sp-head, .sp-empty {
+    padding: 6px 8px;
+    font-size: 0.74rem;
+    color: var(--text-muted);
+}
+
+.sp-row {
+    display: block;
+    padding: 6px 8px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.sp-row:hover { background: #18233c; }
+.sp-title { color: var(--accent-cyan); font-size: 0.82rem; }
+.sp-where { color: var(--text-muted); font-size: 0.68rem; margin-left: 8px; }
+.sp-snip { display: block; color: var(--text-secondary); font-size: 0.72rem; }
+
+/* Motion cell states: an uninitialised or failed cell must never read as a
+   silent black square. */
+.is-motion {
+    background-color: #10182c;
+    background-blend-mode: normal;
+}
+
+.is-motion.is-motion-ready {
+    background-color: transparent;
+}
+
+.is-motion.is-motion-missing {
+    background: repeating-linear-gradient(45deg, #2a1620, #2a1620 6px, #1c1020 6px, #1c1020 12px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.motion-err {
+    font-size: 0.58rem;
+    color: #fb7185;
+    text-align: center;
+    line-height: 1.2;
+}
+
+/* ---------- Lightbox ---------- */
+.lb {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: none;
+}
+
+.lb.is-open { display: block; }
+
+.lb-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 6, 14, 0.93);
+}
+
+.lb-figure {
+    position: absolute;
+    inset: 40px 80px 70px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.lb-image {
+    max-width: 100%;
+    max-height: calc(100% - 30px);
+    object-fit: contain;
+    image-rendering: pixelated;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background:
+        repeating-conic-gradient(#1a2338 0% 25%, #131b2d 0% 50%) 50% / 24px 24px;
+}
+
+.lb-caption {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    text-align: center;
+}
+
+.lb-close, .lb-nav {
+    position: absolute;
+    background: rgba(19, 27, 45, 0.92);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.lb-close { top: 14px; right: 16px; padding: 8px 12px; }
+.lb-nav { top: 50%; transform: translateY(-50%); padding: 14px 18px; }
+.lb-prev { left: 16px; }
+.lb-next { right: 16px; }
+.lb-close:hover, .lb-nav:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+
+.lb-download {
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--accent-cyan);
+    border: 1px solid var(--border-color);
+    border-radius: 9999px;
+    padding: 6px 18px;
+    text-decoration: none;
+    font-size: 0.8rem;
+}
+
+.lb-download:hover { border-color: var(--accent-cyan); }
+
+/* Galleries invite the click. */
+.tileset-item img, .vcard img { cursor: zoom-in; }
+
+/* ---------- Download packs ---------- */
+.dl-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.dl-chip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 6px 12px;
+    text-decoration: none;
+    color: var(--accent-cyan);
+    font-size: 0.78rem;
+    background: #0d1425;
+}
+
+.dl-chip:hover { border-color: var(--accent-cyan); }
+.dl-chip .dl-size { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.7rem; }
+
+/* Per-card download button, next to the card's existing tag. */
+/* Title keeps its own line; the tag and the download button share the next. */
+/* Grid/flex children default to min-width:auto and refuse to shrink, which
+   would let the download button push the card past the viewport. */
+.card, .card-grid > * { min-width: 0; }
+
+.card-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 10px;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.card-head .card-title { order: 1; flex: 1 1 0; min-width: 0; }
+.card-dl { order: 2; }
+.card-head .tag { order: 3; flex: 1 1 100%; }
+
+.card-dl {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    height: 46px;
+    padding: 5px 18px 5px 12px;
+    border: 1px solid #b45309;
+    border-radius: 11px;
+    background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+    color: #451a03;
+    text-decoration: none;
+    box-shadow:
+        0 4px 0 #92400e,
+        0 6px 14px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+/* The icon spans the button's full height. */
+.card-dl-icon {
+    align-self: stretch;
+    height: 100%;
+    width: 26px;
+    flex: 0 0 auto;
+    stroke-width: 2.4;
+}
+
+.card-dl-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.card-dl-main {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.card-dl-sub {
+    font-size: 0.64rem;
+    font-weight: 700;
+    opacity: 0.82;
+    font-family: var(--font-mono);
+}
+
+.card-dl:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 5px 0 #92400e,
+        0 9px 20px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.card-dl:active {
+    transform: translateY(3px);
+    box-shadow:
+        0 1px 0 #92400e,
+        0 3px 8px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* Generated sidebar: hub entry plus an indented entry per real card. */
+.sidebar-sub {
+    padding-left: 26px;
+    font-size: 0.78rem;
+    border-left: 1px solid rgba(56, 189, 248, 0.16);
+    margin-left: 12px;
+}
+
+.sidebar-sub .link-text {
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sidebar-sub:hover .link-text,
+.sidebar-sub.active .link-text {
+    color: var(--accent-cyan);
+}
+
+.sidebar-group + .sidebar-group { margin-top: 18px; }
+
+/* The hub entry replaces the old plain-text group title, so it carries the
+   group heading itself. */
+.sidebar-hub {
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.sidebar-hub.active { color: var(--accent-cyan); }
+.sidebar-hub .link-badge { margin-left: auto; }
+
+/* The group the reader is currently inside.  The scroll spy hands ".active"
+   to the individual card entry, so the group header keeps its own, lighter
+   marker -- otherwise the hierarchy would collapse into one highlighted row
+   and the reader would lose sight of which page they are on. */
+.sidebar-hub.current-group {
+    color: var(--accent-cyan);
+    background: rgba(56, 189, 248, 0.07);
+}
+
+/* ---------- Anchor jumps must clear the sticky header -------------------
+   The top bar is sticky and 56px tall, so a plain anchor jump tucked the
+   card's own title underneath it -- the reader clicked a nav entry and the
+   title of the card they asked for was hidden.  scroll-margin-top is honoured
+   by both native anchor jumps and scrollIntoView(), so one rule covers the
+   nav links and the in-page buttons. */
+.card,
+[id^="sec-"] {
+    scroll-margin-top: 72px;
+}
+
+/* ---------- Scene visual packs: background + animated OBJ layers ---------- */
+.pack-anims {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    text-align: left;
+}
+
+.pack-anim {
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 6px;
+    background: #0b1120;
+}
+
+.pack-anim-label {
+    font-size: 0.68rem;
+    color: var(--accent-cyan);
+    margin-bottom: 4px;
+}
+
+.pack-anim-player {
+    display: block;
+    width: 100%;
+    height: 96px;
+    image-rendering: pixelated;
+    background-color: #10182c;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pack-anim-meta {
+    font-size: 0.6rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    margin-top: 4px;
+    word-break: break-all;
+}
+
+.pack-atlases {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+}
+
+.pack-atlas img {
+    image-rendering: pixelated;
+    background: #10182c;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+}
+
+/* The figure's padding is click-to-close, so say so with the cursor. */
+.lb-figure { cursor: zoom-out; }
+.lb-figure .lb-image { cursor: default; }
+
+/* ---------- Battle-map canvases: one backdrop for every "no tile" block ----
+   The map canvases are indexed-colour PNGs whose palette entry 0 is that
+   map's own BG backdrop colour, and index 0 is exactly the "nothing was
+   placed here" pixel (tile 0 is fully transparent in all 47 maps).  Shown
+   raw, every map therefore painted its empty blocks in a different colour --
+   light blue on map 0, dark blue on maps 1-5, green on map 6, black on the
+   rest -- which read as a rendering bug.
+
+   tools/build_results_viewer_map_canvases.py writes display copies whose
+   palette index 0 is transparent, so the empty blocks now share this one
+   neutral checkerboard, identical to the one the lightbox already uses. */
+.map-canvas-img {
+    background:
+        repeating-conic-gradient(#1a2338 0% 25%, #131b2d 0% 50%) 50% / 24px 24px;
+}
+
+/* The frame around the canvas gets the same backdrop, so a narrow map does
+   not sit inside a black band that reads as content. */
+.tileset-img-wrap.map-canvas-wrap {
+    background:
+        repeating-conic-gradient(#1a2338 0% 25%, #131b2d 0% 50%) 50% / 24px 24px;
+}
+
+/* ---------- Battle-effect animations: frames no keyframe plays -------------
+   A group can define more frames than its keyframe timeline uses (group 18
+   defines 8, its only animation plays 7).  Those frames are real artifacts,
+   so they are shown as stills instead of being invisible. */
+.pack-anim-extra {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    margin: 4px 0 2px;
+}
+
+.pack-anim-extra-label {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    margin-right: 2px;
+}
+
+.pack-anim-extra img {
+    background: #05070d;
+    border: 1px solid var(--border-color);
+    border-radius: 3px;
+}

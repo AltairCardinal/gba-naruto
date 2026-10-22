@@ -1,0 +1,61 @@
+{
+  "artifact_schema": "rom-positions-aux-dispatch-v1",
+  "denominator": {
+    "packed_range_bytes_sha256": "ce2ce373f1699899739903532424f59e89184afa8cd37a527f0adc4ecc8c2c57",
+    "per_range_sha256_vector_sha256": "29bee47cef98715a027f5df0ce76c03c03d11dcbd7a84b225e50524e6215d8cb",
+    "range_list_sha256": "47d995f09d6aaafcc4f4b4f88e3fbe81c2c4e0ea48ff10048674f1dbf6847d68"
+  },
+  "file_set": [
+    "manifest.json",
+    "rom-positions-aux-dispatch.json"
+  ],
+  "files": {
+    "rom-positions-aux-dispatch.json": "80a4d90217a811403ea0adddb468ffeed5d400fc19e524a5c7b7b8b2e3011ee5"
+  },
+  "payload": {
+    "filename": "rom-positions-aux-dispatch.json",
+    "sha256": "80a4d90217a811403ea0adddb468ffeed5d400fc19e524a5c7b7b8b2e3011ee5"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_positions_aux_dispatch.py",
+      "sha256": "1d33d25b68d17e7ba08d0f8ea32e27451f445882074e201ba912075b8d39b00b"
+    },
+    "test": {
+      "path": "tests/test_export_rom_positions_aux_dispatch.py",
+      "sha256": "f17027566d478b790dab60d7114d6dad3f9429802265710b939985f914c1463d"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_positions_aux_dispatch.py",
+      "sha256": "17cd6b6c969230de39f23b22273f5f3410f245a7151932f0754bd18abf352d66"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-positions-aux-dispatch-v1-artifact-manifest-v1",
+  "summary": {
+    "byte_count": 9216,
+    "bytes_per_table": 64,
+    "cell_count": 2304,
+    "cell_stride": 4,
+    "cells_per_table": 16,
+    "nonzero_byte_count": 699,
+    "nonzero_table_count": 71,
+    "table_count": 144
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_positions_aux_dispatch.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-positions-aux-dispatch-v1"
+    ],
+    "schema": "rom-positions-aux-dispatch-verification-v1",
+    "verifier_sha256": "17cd6b6c969230de39f23b22273f5f3410f245a7151932f0754bd18abf352d66"
+  }
+}

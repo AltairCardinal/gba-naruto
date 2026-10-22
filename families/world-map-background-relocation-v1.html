@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>world-map-background-relocation-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">world-map-background-relocation-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">git-artifact-promotion-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">10 个顶层分区 · 3 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="world-map-background-relocation-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-schema">artifact_schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-scope">scope</a><a class="sec-jump" href="#sec-summary">summary</a><a class="sec-jump" href="#sec-files">files</a><a class="sec-jump" href="#sec-artifact-id">artifact_id</a><a class="sec-jump" href="#sec-payload-file">payload_file</a><a class="sec-jump" href="#sec-payload-sha256">payload_sha256</a><a class="sec-jump" href="#sec-verifier">verifier</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">git-artifact-promotion-v1</span></section>
+<section class="fam-sec" id="sec-artifact-schema"><h2 class="fam-sec-title">artifact_schema</h2><span class="fml-text">world-map-background-relocation-audit-v1</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-scope"><h2 class="fam-sec-title">scope</h2><div class="fml-row"><div class="fml-key">proved</div><div class="fml-val"><span class="fml-text">All three world-map pages, seven content resources, nine physical payloads and all nine exact descriptor pointer fields relocate into the registered world-map-backgrounds image region.</span></div></div><div class="fml-row"><div class="fml-key">editable</div><div class="fml-val"><span class="fml-text">Each page may use 1..512 complete 8bpp tiles; its fixed 30x20 tilemap and 160-color palette remain validated together. Catalog-approved aliases may split without original slot limits.</span></div></div><div class="fml-row"><div class="fml-key">not_proved</div><div class="fml-val"><span class="fml-text">Location-label text edits, unlock rules, page 1/2 natural runtime selection, cursor behavior, transition timing or final composed pixel equivalence after modification.</span></div></div></section>
+<section class="fam-sec" id="sec-summary"><h2 class="fam-sec-title">summary</h2><div class="fml-row"><div class="fml-key">page_count</div><div class="fml-val"><span class="fml-num">3</span></div></div><div class="fml-row"><div class="fml-key">content_resource_count</div><div class="fml-val"><span class="fml-num">7</span></div></div><div class="fml-row"><div class="fml-key">physical_payload_count</div><div class="fml-val"><span class="fml-num">9</span></div></div><div class="fml-row"><div class="fml-key">logical_pointer_count</div><div class="fml-val"><span class="fml-num">9</span></div></div><div class="fml-row"><div class="fml-key">unexpected_pointer_count</div><div class="fml-val"><span class="fml-num">0</span></div></div><div class="fml-row"><div class="fml-key">allocation_count</div><div class="fml-val"><span class="fml-num">7</span></div></div><div class="fml-row"><div class="fml-key">pointer_patch_count</div><div class="fml-val"><span class="fml-num">9</span></div></div><div class="fml-row"><div class="fml-key">allocation_start</div><div class="fml-val"><span class="fml-num">11,997,184</span></div></div><div class="fml-row"><div class="fml-key">allocation_end</div><div class="fml-val"><span class="fml-num">12,087,376</span></div></div><div class="fml-row"><div class="fml-key">region_end</div><div class="fml-val"><span class="fml-num">12,124,160</span></div></div><div class="fml-row"><div class="fml-key">stored_payload_bytes</div><div class="fml-val"><span class="fml-num">90,191</span></div></div><div class="fml-row"><div class="fml-key">allocation_span</div><div class="fml-val"><span class="fml-num">90,192</span></div></div><div class="fml-row"><div class="fml-key">remaining_bytes</div><div class="fml-val"><span class="fml-num">36,784</span></div></div><div class="fml-row"><div class="fml-key">applied_patch_count</div><div class="fml-val"><span class="fml-num">16</span></div></div></section>
+<section class="fam-sec" id="sec-files"><h2 class="fam-sec-title">files</h2><div class="fml-row"><div class="fml-key">relocation-audit.json</div><div class="fml-val"><span class="fml-text">9c0b537b2f816ffa9f1839b5bebd5ddf47edae2ea7e57468ecfb416154f7159c</span></div></div><div class="fml-row"><div class="fml-key">full-relocation-spec.json</div><div class="fml-val"><span class="fml-text">7962acda41e4d0c01f2c8d0d898bc30c15388f2b4560135b699aa0f5863f1edd</span></div></div></section>
+<section class="fam-sec" id="sec-artifact-id"><h2 class="fam-sec-title">artifact_id</h2><span class="fml-text">world-map-background-relocation-v1</span></section>
+<section class="fam-sec" id="sec-payload-file"><h2 class="fam-sec-title">payload_file</h2><span class="fml-text">relocation-audit.json</span></section>
+<section class="fam-sec" id="sec-payload-sha256"><h2 class="fam-sec-title">payload_sha256</h2><span class="fml-text">9c0b537b2f816ffa9f1839b5bebd5ddf47edae2ea7e57468ecfb416154f7159c</span></section>
+<section class="fam-sec" id="sec-verifier"><h2 class="fam-sec-title">verifier</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/verify_world_map_background_relocation_audit.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--artifact</span></span><span><span class="fml-text">artifacts/world-map-background-relocation-v1</span></span></div></div></div><div class="fml-row"><div class="fml-key">exit_code</div><div class="fml-val"><span class="fml-num">0</span></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/world-map-background-relocation-v1/full-relocation-spec.json">full-relocation-spec.json</a><span class="fml-meta"> 3,812 B</span></li><li><a href="../artifacts/world-map-background-relocation-v1/manifest.json">manifest.json</a><span class="fml-meta"> 1,848 B</span></li><li><a href="../artifacts/world-map-background-relocation-v1/relocation-audit.json">relocation-audit.json</a><span class="fml-meta"> 10,351 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

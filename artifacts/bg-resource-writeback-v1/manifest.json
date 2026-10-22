@@ -1,0 +1,40 @@
+{
+  "artifact_id": "bg-resource-writeback-v1",
+  "artifact_schema": "bg-resource-writeback-audit-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "bg-resource-writeback.json": "498f2dab4aecdb36d432b7189193fad6279b660d4028a6daf38fa131a59dba7e"
+  },
+  "payload_file": "bg-resource-writeback.json",
+  "payload_sha256": "498f2dab4aecdb36d432b7189193fad6279b660d4028a6daf38fa131a59dba7e",
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "all_content_resources_audited": true,
+    "all_logical_references_accounted": true,
+    "all_physical_slots_audited": true,
+    "arbitrary_edit_capacity_complete": false,
+    "atomic_all_alias_capacity_gate": true,
+    "canvas_png_writeback_complete": false,
+    "deterministic_first_unit_mutation_audited": true,
+    "explicit_physical_slot_targeting_available": true,
+    "guarded_in_place_importer_available": true,
+    "linked_resource_validation_complete": true,
+    "original_roundtrip_capacity_complete": true,
+    "pointer_rewrite_complete": false,
+    "resource_relocation_complete": false,
+    "runtime_entry_selection_complete": false,
+    "runtime_pixel_equivalence": false,
+    "vram_safe_encoding_audited": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_bg_resource_writeback_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/bg-resource-writeback-v1"
+    ],
+    "exit_code": 0
+  }
+}

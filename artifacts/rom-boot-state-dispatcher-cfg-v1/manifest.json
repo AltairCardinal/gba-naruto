@@ -1,0 +1,41 @@
+{
+  "artifact_schema": "rom-boot-state-dispatcher-cfg-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-boot-state-dispatcher-cfg.json": {
+      "sha256": "ac14c13a765ee75ca0b2236bc528504d632d46ac284869f0415e2a160ebe0465",
+      "size": 21757
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "232acedf66291d8bff7cd7c74ac1155f0e57367d9f104febf1b1a9b0844fa261",
+    "test_sha256": "d3f87e05d820ce96c1a7a6bdef7d6968d4dedc11d2927fa8e6b46012258c4c81",
+    "verifier_sha256": "5b373b9092fde885ee11036b7242c0ba568b98ca26cec13f30fb9286c7d3a802"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_boot_state_dispatcher_cfg.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-boot-state-dispatcher-cfg-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "frontier_count": 0,
+    "promotion_bytes": 2532,
+    "root_count": 5
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_boot_state_dispatcher_cfg.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-boot-state-dispatcher-cfg-v1"
+    ]
+  }
+}

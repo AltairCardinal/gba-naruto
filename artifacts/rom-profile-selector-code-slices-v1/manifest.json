@@ -1,0 +1,72 @@
+{
+  "artifact_schema": "rom-profile-selector-code-slices-v1",
+  "artifact_status": "accepted",
+  "coverage": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+  },
+  "files": {
+    "rom-profile-selector-code-slices.json": "29f2138de43ff74321833e65bff34e6e28bf30342808d53582dac6d1585eb236"
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_profile_selector_code_slices.py",
+      "sha256": "7b09cb621e7ca2fc856f969cf6e690c836578d968e69a56b0cb5ec53e7eead3e"
+    },
+    "test": {
+      "path": "tests/test_export_rom_profile_selector_code_slices.py",
+      "sha256": "aae84c3adce8c242a69f11fe5738aace1af27b5ef5619ed7cc2d43ab19afa705"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_profile_selector_code_slices.py",
+        "sha256": "94312dd1ef481306c4f37772becd96fc07f4e7a82dbc5da90fab6f34511bbf76"
+    }
+  },
+  "schema": "rom-profile-selector-code-slices-v1-artifact-manifest-v1",
+  "source": {
+    "artifact_schema": "rom-profile-text-inventory-v1",
+    "coverage": {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "24cf30aa8049f961ce71737ca9cacfa42c63771643e8bb6784a8a834ee097987"
+    },
+    "exporter": {
+      "path": "tools/export_rom_profile_text_inventory.py",
+      "sha256": "bb6c5c259ab8caa822c266e7674a4642b2850e0b45764d299b66bf2d23f2e223"
+    },
+    "manifest": {
+      "path": "artifacts/rom-profile-text-inventory-v1/manifest.json",
+      "sha256": "57979c4355a182f219702d48055ff21b3b81d132ffb5240c64e152ecb54503f8"
+    },
+    "payload": {
+      "path": "artifacts/rom-profile-text-inventory-v1/profile-text-inventory.json",
+      "sha256": "592c34ae72ec4ad2ebaa4847fdbc700d0ecf2e995ef1c3cec6b13aedc09646e9"
+    },
+    "region": {
+      "path": "artifacts/rom-profile-text-inventory-v1/profile-text-region.bin",
+      "sha256": "b3b663177a39e60f691fde0ff9272df69e875a116abc5a08647c4ec5d17c142d"
+    },
+    "test": {
+      "path": "tests/test_export_rom_profile_text_inventory.py",
+      "sha256": "e95918f1ee0e085c513e0e4fe34056ff4fc1a7f758c6cd1c7302dac5fe30ce6e"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_profile_text_inventory.py",
+      "sha256": "87830893bf507866e6966c8f9bda558bee094be890d442f3375970f2d3084009"
+    },
+    "verifier_report": {
+      "schema": "rom-profile-text-inventory-verification-v1",
+      "sha256": "a5d8e815d80976f193d446ccb7fa20dc325fb31edf8e8326666f963b2168e355"
+    }
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_profile_selector_code_slices.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-profile-selector-code-slices-v1"
+    ],
+    "schema": "rom-profile-selector-code-slices-verification-v1"
+  }
+}

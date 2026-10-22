@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+"""Frozen public contract for the dependency-gated CFG v19 packet."""
+
+from pathlib import Path
+
+
+ROM_BASE = 0x08000000
+ROM_PATH = Path("rom/base.gba")
+ROM_SIZE = 6_291_456
+ROM_SHA256 = "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+SCHEMA = "rom-cfg-proven-roots-v19"
+VERIFY_SCHEMA = "rom-cfg-proven-roots-v19-verification-v1"
+PAYLOAD_NAME = "rom-cfg-proven-roots-v19.json"
+MANIFEST_NAME = "manifest.json"
+EXPERIMENT_OUTPUT_ROOT = Path("build/experiments/active/cfg-proven-roots-v19-luna-20260901")
+OFFICIAL_ARTIFACT = Path("artifacts/rom-cfg-proven-roots-v19")
+
+PRECOVERAGE_DIR = Path("artifacts/rom-boot-interwork-continuation-precoverage-v1")
+PRECOVERAGE_MANIFEST_SHA256 = "1274d157a6a61c61d1e9b8709f31d97355174118574310d667a5c8f906118bb5"
+PRECOVERAGE_ARCHIVE_SHA256 = "7be5ee2d603ac73d77d39bd1911acd5fda4ab1c0ff07d8583e411fcf882645eb"
+PRECOVERAGE_ARCHIVE_SIZE = 1_765_648
+PRECOVERAGE_RAW_SHA256 = "984eb8ed8ef72691e1b580b00465d24e1762bb5c0604c35fe76db40153fc42e0"
+PRECOVERAGE_RAW_SIZE = 29_741_790
+BASELINE = {"classified_bytes": 6_155_318, "unknown_bytes": 136_138, "claim_count": 16_104, "segment_count": 17_533}
+
+UPSTREAM_ARTIFACT = "artifacts/rom-boot-interwork-continuation-v1"
+UPSTREAM_MANIFEST_SHA256 = "beb4220307bbc0b99b58d6652bfd3f7339928d9e30b104f0fde06c7ed62d82ff"
+UPSTREAM_MANIFEST_SIZE = 10_337
+UPSTREAM_PAYLOAD_SHA256 = "43ba163ac9f8313b9579c660ab701a51006186b45f2b96247fd2e58f0c16babd"
+UPSTREAM_PAYLOAD_SIZE = 105_718
+UPSTREAM_CODE_CLAIM_ID = "continuation-code-06108a-0610d4"
+UPSTREAM_CODE_RANGE = (0x06108A, 0x0610D4)
+
+ROOT = 0x065728
+ROOT_ENTRY_SHA256 = "8a1d56a49bd75817476a967ee4e23ecef2beeffa6748599c19bc8e7ed7620257"
+TARGET_RANGE = (0x065728, 0x065DB0)
+PRODUCER = (0x061092, 0x065728, "bl", "04f049fb")
+PRODUCER_SCAN_DENOMINATOR_SHA256 = "bcd7352167acaec7515c5664673529cb4a10bf1ea2609c4611b743c87066b85b"
+PRODUCER_VECTOR_SHA256 = "d982135e57fcbdb2128a6557fc702885e53ce10d4674e3cf99c5e10bc091f2ff"
+PRODUCER_PACKED_SHA256 = "cc70aad10a03d194fb1131a9d1d769ccc32e524ad6e6d07605965ad217e72adb"
+
+CODE_RANGES = ((0x065728,0x0657CA),(0x0657E0,0x06586C),(0x065870,0x065906),(0x06590C,0x06598A),(0x065990,0x065BA2),(0x065BA8,0x065C26),(0x065C2C,0x065D9A))
+LITERAL_RANGES = ((0x0657CC,0x0657E0),(0x06586C,0x065870),(0x065908,0x06590C),(0x06598C,0x065990),(0x065BA4,0x065BA8),(0x065C28,0x065C2C),(0x065D9C,0x065DB0))
+UNION_RANGES = ((0x065728,0x0657CA),(0x0657CC,0x065906),(0x065908,0x06598A),(0x06598C,0x065BA2),(0x065BA4,0x065C26),(0x065C28,0x065D9A),(0x065D9C,0x065DB0))
+HOLES = ((0x0657CA,0x0657CC),(0x065906,0x065908),(0x06598A,0x06598C),(0x065BA2,0x065BA4),(0x065C26,0x065C28),(0x065D9A,0x065D9C))
+CODE_RANGE_SHA256 = "a2e2d89b36ea3cb7162d5049417eccef42bfae44d3a237ec1f434acb54d23dc3"
+CODE_PACKED_SHA256 = "c45482501587158fef44f10382186a245cf8f13d1cff61d2385510941ce3d468"
+LITERAL_RANGE_SHA256 = "e487ed2da56203fc6e38d5d69263b9f93df0eec04c3cbc3dd6045db1b16590ba"
+LITERAL_PACKED_SHA256 = "2727b37b1dc24ec4f6f316c19707ec49376a56017a117d04ab4ea43d491ee2f5"
+UNION_RANGE_SHA256 = "174b2188f920093d3f0d9cb9e43e1a770dd412ccc9de22a0418889305cf9d455"
+UNION_PACKED_SHA256 = "fdd2869db377e1ec2a1172884ad9502ae75572a8f51e14f4be493be19f2357b2"
+HOLE_RANGE_SHA256 = "5c2a107839141a1fc85b9a3c8677de3a3b36de2dc3a84acc25e8780cf8fe0a39"
+HOLE_PACKED_SHA256 = "15ec7bf0b50732b49f8228e07d24365338f9e3ab994b00af08e5a3bffe55fd8b"
+
+METRICS = {"instruction_count":798,"instruction_bytes":1600,"basic_block_count":54,"decode_reject_count":0,"baseline_call_edge_count":2,"frontier_count":1,"unique_literal_word_count":15,"literal_reference_count":15,"literal_bytes":60}
+FRONTIERS = ((0x065D98, "indirect_pc_target"),)
+OPAQUE_CALLS = ((0x065796, 0x063604), (0x065D22, 0x063604))
+V2_ARTIFACT = Path("artifacts/rom-cfg-inventory-v2")
+V2_MANIFEST_SHA256 = "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753"
+V2_MANIFEST_SIZE = 4_350
+V2_PAYLOAD_NAME = "rom-cfg-inventory.json"
+V2_PAYLOAD_SHA256 = "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd"
+V2_PAYLOAD_SIZE = 5_936_694
+OPAQUE_BASELINE_ENTRY = {"artifact":"artifacts/rom-cfg-inventory-v2","block_id":"block-thumb-063604","mode":"thumb","range":[0x063604,0x063620],"bytes_sha256":"40205ac89e11659a8bf30d5e7fe1c1d691266ad3da412ed5de6f92af91e5adce"}
+LITERAL_BINDING_VECTOR_SHA256 = "4d69124351782066c57f4023e7e4577101445757e242b94cd6b82ffffd63b80f"
+BLOCK_VECTOR_SHA256 = "3b08fc8b0ddf77d78ef9248eb2da3c6568392ae9b8918267e7a830a2ede8dda4"
+INTERNAL_EDGE_VECTOR_SHA256 = "c8fcdf7cc4561894e24632297b610bde6ef68d968471456eff4d68d6ea7803a5"
+OUTBOUND_VECTOR_SHA256 = "1cd5625e064b51d9c75953ff6fa903ce66afa8cc01891ab0baa69246ee2c5cab"
+FRONTIER_VECTOR_SHA256 = "ae3318d0c396808fca04d2a8c415fbd6dd0aa3afd6fdc135722d56125b95e2e3"
+
+V7_PAYLOAD_PATH = Path("artifacts/rom-cfg-proven-roots-v7/rom-cfg-proven-roots-v7.json")
+V7_PAYLOAD_SHA256 = "184e9b84df829fb1ad41f272aabe931c1a1f86111eebd60629ad2d2a23d89a06"
+IMPLEMENTATION_PATHS = {
+    "contract": Path("tools/rom_cfg_proven_roots_v19_contract.py"),
+    "exporter": Path("tools/export_rom_cfg_proven_roots_v19.py"),
+    "verifier": Path("tools/verify_rom_cfg_proven_roots_v19.py"),
+    "test_exporter": Path("tests/test_export_rom_cfg_proven_roots_v19.py"),
+}

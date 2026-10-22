@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《火影忍者：木叶战记》逆向工程结果查看器 · 3. 剧情调度与文本系统</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+</head>
+<body data-page="reverse-engineering-story.html">
+
+  <div id="toast">已复制</div>
+  <div id="searchPanel"></div>
+
+<header class="top-bar">
+    <div class="top-bar-left">
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="折叠/展开侧边栏">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <div class="top-bar-brand">
+        <span class="brand-badge">GBA</span>
+        <span class="brand-title">《火影忍者：木叶战记》逆向工程结果查看器</span>
+      </div>
+      <div class="rom-status-tag">
+        <span class="pulse-dot"></span>
+        <span>ROM v1.3 (简)(JP) 48Mb · 校验通过</span>
+      </div>
+    </div>
+
+    <div class="top-bar-right">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="本页检索地址/角色/技能/道具/函数 (Ctrl+K)..." oninput="handleSearch()">
+        <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()" style="display:none;" title="清空检索">✕</button>
+      </div>
+      <div class="top-actions">
+        <a class="top-action-btn badge-cyan" href="reverse-engineering-results.html#sec-image-downloads" title="按板块打包下载全部图像">
+          📧 图像打包下载
+        </a>
+
+        <a class="top-action-btn badge-green" href="reverse-engineering-results.html#sec-progress-tests" title="查看 17 项自动化回归测试详情">
+          ✓ 17/17 测试通过
+        </a>
+        <button class="top-action-btn" onclick="copyCurrentUrl()" title="复制本页面分享链接">
+          🔗 分享
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+<aside class="left-sidebar" id="leftSidebar">
+    <nav class="sidebar-nav">
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="progress" href="reverse-engineering-results.html"><span class="link-text">研发全景</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-image-downloads" href="reverse-engineering-results.html#sec-image-downloads"><span class="link-text">图像资源打包下载 (Image Download Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-kpi" href="reverse-engineering-results.html#sec-progress-kpi"><span class="link-text">逆向工程核心量化成果总览 (Executive Technical Metrics)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-phases" href="reverse-engineering-results.html#sec-progress-phases"><span class="link-text">续作研发工程全阶段进展 (Roadmap Phase Progress)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-milestones" href="reverse-engineering-results.html#sec-progress-milestones"><span class="link-text">P0 逆向工程 7 大里程碑攻坚矩阵 (P0 Reverse Engineering Milestones Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-memory" href="reverse-engineering-results.html#sec-progress-memory"><span class="link-text">ROM 存储拓扑全景与 128 KB 自由空间分配规划 (Memory Topology &amp; Free Space)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-tests" href="reverse-engineering-results.html#sec-progress-tests"><span class="link-text">CI 自动化测试防回归体系 (Test Suites)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-next" href="reverse-engineering-results.html#sec-progress-next"><span class="link-text">下阶段续作研发推进清单 (Immediate Next Steps)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-artifact-coverage" href="reverse-engineering-results.html#sec-artifact-coverage"><span class="link-text">逆向成果收录覆盖总表 (Artifact Family Coverage)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-rom-catalog" href="reverse-engineering-results.html#sec-rom-catalog"><span class="link-text">ROM 逆向成果族全量目录 (ROM Family Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-reverse-ledger" href="reverse-engineering-results.html#sec-reverse-ledger"><span class="link-text">逆向成果台账 (Reverse Results Ledger)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="visuals" href="reverse-engineering-visuals.html"><span class="link-text">1. 视觉与动画资产库</span><span class="link-badge">12</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-studio" href="reverse-engineering-visuals.html#sec-studio"><span class="link-text">⚡ 角色动作交互工作室 (Character Action &amp; Sprite Studio)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-action-matrix" href="reverse-engineering-visuals.html#sec-action-matrix"><span class="link-text">木叶战记 35 位全员动作状态与动画帧数全览表</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-portraits-poster" href="reverse-engineering-visuals.html#sec-portraits-poster"><span class="link-text">菜单 / 剧情立绘矩阵总集海报 (Menu &amp; Story Portrait Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-roster-poster" href="reverse-engineering-visuals.html#sec-roster-poster"><span class="link-text">全 35 位登场角色全家福精灵海报 (Master Roster Poster)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tilesets" href="reverse-engineering-visuals.html#sec-tilesets"><span class="link-text">战场地图 Tileset 图集 (47 行全量 PNG Export)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-map-canvases" href="reverse-engineering-visuals.html#sec-map-canvases"><span class="link-text">成品战场地图画布 (Assembled Battle Map Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tile-assets-bg" href="reverse-engineering-visuals.html#sec-tile-assets-bg"><span class="link-text">图块资产 BG 图层 (Tile Asset BG Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-character-battle-visuals" href="reverse-engineering-visuals.html#sec-character-battle-visuals"><span class="link-text">角色战斗视觉资源 (Character Battle Visuals)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-canvases" href="reverse-engineering-visuals.html#sec-bg-canvases"><span class="link-text">BG 资源画布 (BG Resource Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-scene-selection" href="reverse-engineering-visuals.html#sec-bg-scene-selection"><span class="link-text">章节选择 opcode 0x1E 记录 (Chapter Scene Selection)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-scene-visual-packs" href="reverse-engineering-visuals.html#sec-scene-visual-packs"><span class="link-text">场景视觉包 (Scene Visual Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-world-map-bg" href="reverse-engineering-visuals.html#sec-world-map-bg"><span class="link-text">世界地图背景 (World Map Backgrounds)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="battle" href="reverse-engineering-battle.html"><span class="link-text">2. 战斗系统与时序引擎</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-vm" href="reverse-engineering-battle.html#sec-battle-vm"><span class="link-text">忍术战斗时序虚拟机 (Jutsu Execution VM) 字节码指令集规范</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-scripts" href="reverse-engineering-battle.html#sec-battle-scripts"><span class="link-text">木叶战记 36 张忍术技能脚本表全量逆向解析库</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-scenario-fsm" href="reverse-engineering-battle.html#sec-scenario-fsm"><span class="link-text">战斗场景配置总表 (Battle Scenario Config Table - ROM 0x0853D910)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-fsm-funcs" href="reverse-engineering-battle.html#sec-battle-fsm-funcs"><span class="link-text">战斗状态机函数指针表 (Battle State Machine Functions)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-sequences" href="reverse-engineering-battle.html#sec-battle-effect-sequences"><span class="link-text">战斗特效时序绑定 (Battle Effect Sequence Bindings)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-catalog" href="reverse-engineering-battle.html#sec-battle-visual-catalog"><span class="link-text">79 项战斗视觉表现目录 (Battle Visual Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-timelines" href="reverse-engineering-battle.html#sec-battle-visual-timelines"><span class="link-text">战斗视觉运行时时间线 (Battle Visual Runtime Timelines)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-affine-runtime" href="reverse-engineering-battle.html#sec-affine-runtime"><span class="link-text">战斗特效仿射运行时 (Affine Runtime Evidence)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-pairs" href="reverse-engineering-battle.html#sec-battle-effect-pairs"><span class="link-text">战斗特效资源对 (Battle Effect Resource Pairs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-anims" href="reverse-engineering-battle.html#sec-battle-effect-anims"><span class="link-text">战斗特效精灵动画 (Battle Effect Sprite Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub active" data-hub="story" href="reverse-engineering-story.html"><span class="link-text">3. 剧情调度与文本系统</span><span class="link-badge">9</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-pipeline" href="reverse-engineering-story.html#sec-dialogue-pipeline"><span class="link-text">GBA 对话渲染硬件链路与数据通路 (Screen Render Pipeline)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-asm" href="reverse-engineering-story.html#sec-dialogue-asm"><span class="link-text">关键文本与渲染函数清单 (Thumb ASM)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-chapter-fsm" href="reverse-engineering-story.html#sec-chapter-fsm"><span class="link-text">章节状态结构体与关卡加载劫持 (Chapter State Struct)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-font" href="reverse-engineering-story.html#sec-dialogue-font"><span class="link-text">对话字体图集 (Dialogue Font Atlases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-cutscene-obj" href="reverse-engineering-story.html#sec-cutscene-obj"><span class="link-text">过场 OBJ 静态资源 (Cutscene OBJ Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-free-space-pipe" href="reverse-engineering-story.html#sec-free-space-pipe"><span class="link-text">可变长对白扩容系统与 128 KB 空闲区域 (Pointer Redirect Engine)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-battle-glyphs" href="reverse-engineering-story.html#sec-battle-glyphs"><span class="link-text">战斗演出字形与消息表 (Battle Presentation Glyphs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-visual-layers" href="reverse-engineering-story.html#sec-story-visual-layers"><span class="link-text">剧情视觉图层 (Story Visual Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-scene-timelines" href="reverse-engineering-story.html#sec-story-scene-timelines"><span class="link-text">剧情场景时间线 (Story Scene Timelines)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="data" href="reverse-engineering-data.html"><span class="link-text">4. 内存数据与音频架构</span><span class="link-badge">5</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-unit-struct" href="reverse-engineering-data.html#sec-unit-struct"><span class="link-text">单位 ID 映射表 (ROM 0x0853F298) 与 WRAM 战斗阵列</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-item-matrix" href="reverse-engineering-data.html#sec-item-matrix"><span class="link-text">忍具 / 药品 / 卷轴 / 材料内存表 (WRAM 0x02023FD4 - 0x02024044)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-audio-pcm" href="reverse-engineering-data.html#sec-audio-pcm"><span class="link-text">DirectSound PCM 音频样本提取 (10 个 WAV 样本，共 ~3 MB)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-definitions" href="reverse-engineering-data.html#sec-sprite-definitions"><span class="link-text">精灵定义静态资源与运行时链 (Sprite Definition Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-def-anims" href="reverse-engineering-data.html#sec-sprite-def-anims"><span class="link-text">精灵定义动画 (Sprite Definition Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="engineering" href="reverse-engineering-engineering.html"><span class="link-text">5. 逆向基建与工程流水线</span><span class="link-badge">4</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-mod-builder" href="reverse-engineering-engineering.html#sec-mod-builder"><span class="link-text">ROM 补丁流水线 (tools/build_mod.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-auto-tests" href="reverse-engineering-engineering.html#sec-auto-tests"><span class="link-text">全覆盖自动化测试套件 (tools/automated_test.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-full" href="reverse-engineering-engineering.html#sec-toolbox-full"><span class="link-text">工具全量清单 (Complete Tool Inventory)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-index" href="reverse-engineering-engineering.html#sec-toolbox-index"><span class="link-text">自研逆向工具箱清单 (Tools Inventory)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="formulas" href="reverse-engineering-formulas.html"><span class="link-text">6. 逆向公式与运行时模型</span><span class="link-badge">2</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-formula-index" href="reverse-engineering-formulas.html#sec-formula-index"><span class="link-text">逆向公式与运行时模型总览 (Reverse Engineering Formulas)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-heavy-index" href="reverse-engineering-formulas.html#sec-heavy-index"><span class="link-text">公式与运行时模型索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="conclusions" href="reverse-engineering-conclusions.html"><span class="link-text">7. 逆向结论索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="conclusions" data-anchor="sec-conclusions" href="reverse-engineering-conclusions.html#sec-conclusions"><span class="link-text">结论分主题索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="dataindex" href="reverse-engineering-data-index.html"><span class="link-text">8. ROM 数据产物索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="dataindex" data-anchor="sec-data-index" href="reverse-engineering-data-index.html#sec-data-index"><span class="link-text">ROM 数据产物索引 (ROM Data Artifacts)</span></a>
+        </div>
+    </nav>
+</aside>
+
+    <main class="main-workspace" id="mainWorkspace">
+
+<section class="category-section" id="hub-story" data-category="story">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">💬</span> 3. 剧情调度与文本系统 (Story Flow &amp; Dialogue Engine)
+        </div>
+        <span class="section-tag">ROM 0x459414 / WRAM 0xA900 / VRAM BG3 0x1800 | 305 对白组 | 章节状态机</span>
+      </div>
+
+      <div class="card-grid">
+        <!-- 对话渲染硬件链路与数据通路 -->
+        <div class="card full-width" id="sec-dialogue-pipeline">
+          <div class="card-head">
+            <div class="card-title">GBA 对话渲染硬件链路与数据通路 (Screen Render Pipeline)</div>
+            <span class="tag tag-cyan">Hardware &amp; Engine Trace</span>
+          </div>
+          <p class="card-desc">
+            逆向排除了“RAM 中直接以 UTF-8/GBK/Shift-JIS 存储活动文本”的假设。游戏采用 GBA Mode 0 图层渲染机制：文本在 ROM 中由 CP932/Shift-JIS 存储，经由状态机调度解密展开为 16-halfword 字形，动态写入 WRAM 缓冲，再经 DMA 刷新到 BG3 显存。
+          </p>
+
+          <div class="pipeline-diagram">
+            <div class="flow-steps">
+              <div class="flow-node">
+                <div class="node-title">ROM 文本库与指针表</div>
+                <div class="node-addr" onclick="copyAddr('0x08459414')">0x459414 / 0x461CE8</div>
+                <div class="node-desc">305 组对话指针，Shift-JIS 变种</div>
+              </div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-node">
+                <div class="node-title">WRAM 字形准备缓冲</div>
+                <div class="node-addr" onclick="copyAddr('0x0200A900')">0x0200A900 - 0x0200AA4A</div>
+                <div class="node-desc">写入者: 0x08066D74 (strh r1, [r0])</div>
+              </div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-node">
+                <div class="node-title">VRAM 图层显存 (BG3)</div>
+                <div class="node-addr" onclick="copyAddr('0x06001800')">0x06001800+ / 0x06002000+</div>
+                <div class="node-desc">字形写入者: 0x08065F50 (strh r0, [r1])</div>
+              </div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-node">
+                <div class="node-title">LCD 控制器 (Mode 0)</div>
+                <div class="node-addr">DISPCNT: 0x04000000</div>
+                <div class="node-desc">BG3 硬件图层合成输出</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 关键文本汇编函数 -->
+        <div class="card" id="sec-dialogue-asm">
+          <div class="card-head">
+            <div class="card-title">关键文本与渲染函数清单 (Thumb ASM)</div>
+            <span class="tag tag-amber">核心执行链路</span>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead><tr><th>函数地址</th><th>指令</th><th>职责</th></tr></thead>
+              <tbody>
+                <tr><td><code class="addr-badge" onclick="copyAddr('0x08066D70')">0x08066D70</code></td><td><code>strh r1, [r0]</code></td><td>WRAM 对白 tilemap 写入点</td></tr>
+                <tr><td><code class="addr-badge" onclick="copyAddr('0x08065F4C')">0x08065F4C</code></td><td><code>strh r0, [r1]</code></td><td>VRAM 字形显存直接写入点</td></tr>
+                <tr><td><code class="addr-badge" onclick="copyAddr('0x08065EB8')">0x08065EB8</code></td><td>函数入口</td><td>字形解密与展开函数</td></tr>
+                <tr><td><code class="addr-badge" onclick="copyAddr('0x080968A0')">0x080968A0</code></td><td>函数入口</td><td>开场对话主调度入口</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 章节状态结构体与任意关卡加载劫持 -->
+        <div class="card" id="sec-chapter-fsm">
+          <div class="card-head">
+            <div class="card-title">章节状态结构体与关卡加载劫持 (Chapter State Struct)</div>
+            <span class="tag tag-purple">关卡自由切换</span>
+          </div>
+          <p class="card-desc">
+            章节管理结构体驻留在 WRAM <code>0x020311D4</code>。通过拦截 <code>0x020311EA</code> 处的半字写入，可实现对任何关卡的任意跳转：
+          </p>
+          <div class="table-container">
+            <table>
+              <thead><tr><th>WRAM 地址</th><th>字段</th><th>描述</th></tr></thead>
+              <tbody>
+                <tr><td><code>0x020311D4</code></td><td><code>state_base</code></td><td>章节状态机基地址</td></tr>
+                <tr><td><code>0x020311EA</code></td><td><code>chapter_slot</code></td><td>写入此地址直接控制加载的关卡 ID</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card full-width" id="sec-dialogue-font">
+          <div class="card-head">
+            <div class="card-title">对话字体图集 (Dialogue Font Atlases)</div>
+            <span class="tag tag-cyan">artifacts/dialogue-font-v2 · 字形图集 —</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-dialogue-font.zip" download title="下载本板块全部 4 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">4 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_dialogue_font_atlases.py</code> 导出，独立校验器 <code>tools/verify_dialogue_font_atlases.py</code> 复核零错误。
+            清单 schema：<code>dialogue-font-atlas-v2</code>，完整字段见
+            <code>artifacts/dialogue-font-v2/manifest.json</code>。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>all-unique-halves-atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/dialogue-font-v2/all-unique-halves-atlas.png" alt="all-unique-halves-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>byte-full-atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/dialogue-font-v2/byte-full-atlas.png" alt="byte-full-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>chapter-intro-used-atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/dialogue-font-v2/chapter-intro-used-atlas.png" alt="chapter-intro-used-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>sjis-full-atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/dialogue-font-v2/sjis-full-atlas.png" alt="sjis-full-atlas" loading="lazy"></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card full-width" id="sec-cutscene-obj">
+          <div class="card-head">
+            <div class="card-title">过场 OBJ 静态资源 (Cutscene OBJ Assets)</div>
+            <span class="tag tag-cyan">artifacts/cutscene-obj-v1 · 静态 OBJ 帧 10</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-cutscene-obj.zip" download title="下载本板块全部 14 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">14 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_cutscene_obj_assets.py</code> 导出，独立校验器 <code>tools/verify_cutscene_obj_export.py</code> 复核零错误。
+            清单 schema：<code>cutscene-obj-export-v1</code>，完整字段见
+            <code>artifacts/cutscene-obj-v1/manifest.json</code>。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_0_atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_0_atlas.png" alt="resource_0_atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_0_frame_00</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_0_frame_00.png" alt="resource_0_frame_00" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_0_frame_01</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_0_frame_01.png" alt="resource_0_frame_01" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_1_atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_1_atlas.png" alt="resource_1_atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_1_frame_00</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_1_frame_00.png" alt="resource_1_frame_00" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_1_frame_01</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_1_frame_01.png" alt="resource_1_frame_01" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_2_atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_2_atlas.png" alt="resource_2_atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_2_frame_00</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_2_frame_00.png" alt="resource_2_frame_00" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_2_frame_01</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_2_frame_01.png" alt="resource_2_frame_01" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_3_atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_3_atlas.png" alt="resource_3_atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_3_frame_00</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_3_frame_00.png" alt="resource_3_frame_00" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_3_frame_01</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_3_frame_01.png" alt="resource_3_frame_01" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_3_frame_02</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_3_frame_02.png" alt="resource_3_frame_02" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>resource_3_frame_03</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/cutscene-obj-v1/resource_3_frame_03.png" alt="resource_3_frame_03" loading="lazy"></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 可变长对白扩容系统 (128 KB Free Space) -->
+        <div class="card full-width" id="sec-free-space-pipe">
+          <div class="card-head">
+            <div class="card-title">可变长对白扩容系统与 128 KB 空闲区域 (Pointer Redirect Engine)</div>
+            <span class="tag tag-green">ROM 0x5DFBEC ~ 0x5FFFFF</span>
+          </div>
+          <p class="card-desc">
+            在原版 ROM 尾部（<code>0x5DFBEC</code> 至 <code>0x5FFFFF</code>）确认了多达 <strong>132,116 字节 (~129 KB)</strong> 的全 <code>0xFF</code> 空白区域。自研的 <code>tools/import_dialogue_var.py</code> 补丁工具可将超长汉化文本写入此空闲区域，并通过 <code>pointer_redirect</code> 补丁重定向原指针表，打破原版文本长度限制。
+          </p>
+        </div>
+      </div>
+                <div class="card full-width" id="sec-battle-glyphs">
+          <div class="card-head">
+            <div class="card-title">战斗演出字形与消息表 (Battle Presentation Glyphs)</div>
+            <span class="tag tag-cyan">artifacts/battle-presentation-glyphs-v1 · 79 条消息 · 172 个字形</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-battle-glyphs.zip" download title="下载本板块全部 174 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">174 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_battle_presentation_glyphs.py</code> 导出：闭合了战斗演出中 79 条消息指针
+            （表 <code>0x085A2B08</code>）、172 个 LZ77 字形，以及消息 ↔ 字形绑定表（<code>0x085A2EF4</code>）。
+            运行时调色板为 16×BGR555，初始化器 <code>0x080983B8..0x0809860E</code> 拷贝到 OBJ 调色板 bank 13。
+            <code>tools/verify_battle_presentation_glyphs.py</code> 复核 79 条消息 / 172 字形零错误。
+          </p>
+          <div style="display:flex; gap:16px; flex-wrap:wrap; justify-content:center; background:#000; padding:12px; border-radius:8px; border:1px solid #334155; margin-bottom:14px;">
+            <figure style="margin:0; text-align:center;">
+              <img src="artifacts/battle-presentation-glyphs-v1/glyph-atlas.png" alt="glyph atlas" style="image-rendering:pixelated; max-width:100%; height:auto;">
+              <figcaption style="color:var(--text-muted); font-size:0.75rem; margin-top:6px;">字形图集（原始调色板）</figcaption>
+            </figure>
+            <figure style="margin:0; text-align:center;">
+              <img src="artifacts/battle-presentation-glyphs-v1/glyph-atlas-runtime.png" alt="glyph atlas runtime" style="image-rendering:pixelated; max-width:100%; height:auto;">
+              <figcaption style="color:var(--text-muted); font-size:0.75rem; margin-top:6px;">字形图集（运行时调色板）</figcaption>
+            </figure>
+          </div>
+
+          <details open>
+            <summary style="cursor:pointer; color:var(--accent-cyan); font-weight:700; font-size:0.9rem;">📝 全部 79 条消息：按绑定顺序还原的字形条</summary>
+            <p style="margin-top:8px; color:var(--text-secondary); font-size:0.82rem;">
+              每行把该条消息绑定的字形按原始顺序拼出，便于直接读出战斗提示文本。
+              字形本身无字符映射（manifest 只记录 glyph_id 与哈希），故此处呈现的是<strong>原始字形序列</strong>，不是解码后的文字。
+            </p>
+            <div class="table-container" style="max-height:520px; overflow-y:auto;">
+              <table>
+                <thead><tr><th>#</th><th>消息指针</th><th>字形序列</th><th>字形数</th><th>原始字节</th></tr></thead>
+                <tbody>
+                <tr><td><code>#00</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2170')">0x085A2170</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-017.png" alt="glyph 17" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-018.png" alt="glyph 18" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">9a798c74958c95f2816081608149814900</code></td></tr>
+                <tr><td><code>#01</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A219C')">0x085A219C</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-001.png" alt="glyph 1" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-002.png" alt="glyph 2" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">889f8160989d814900</code></td></tr>
+                <tr><td><code>#02</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A21AC')">0x085A21AC</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-020.png" alt="glyph 20" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-021.png" alt="glyph 21" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-017.png" alt="glyph 17" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-018.png" alt="glyph 18" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>6</code></td><td><code style="font-size:0.7rem;">8dc08143956d88c7816081608149814900</code></td></tr>
+                <tr><td><code>#03</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A21C8')">0x085A21C8</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-003.png" alt="glyph 3" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-004.png" alt="glyph 4" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">9779816081608160816081608160989a8149814900</code></td></tr>
+                <tr><td><code>#04</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A21E0')">0x085A21E0</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-127.png" alt="glyph 127" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-005.png" alt="glyph 5" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-140.png" alt="glyph 140" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-118.png" alt="glyph 118" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-022.png" alt="glyph 22" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-023.png" alt="glyph 23" loading="lazy"></div></td><td><code>6</code></td><td><code style="font-size:0.7rem;">99688149814097cd8149814092988149814094c881490a914a8b4d8149814900</code></td></tr>
+                <tr><td><code>#05</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2214')">0x085A2214</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-096.png" alt="glyph 96" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-097.png" alt="glyph 97" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-000.png" alt="glyph 0" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-006.png" alt="glyph 6" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-007.png" alt="glyph 7" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-008.png" alt="glyph 8" loading="lazy"></div></td><td><code>6</code></td><td><code style="font-size:0.7rem;">8fc297af8a938df990e781490a88cf89e6906990aa8f878cf597cf88c7814900</code></td></tr>
+                <tr><td><code>#06</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A224C')">0x085A224C</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-017.png" alt="glyph 17" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-098.png" alt="glyph 98" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-099.png" alt="glyph 99" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">9a798c868a53814900</code></td></tr>
+                <tr><td><code>#07</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2268')">0x085A2268</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-017.png" alt="glyph 17" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-100.png" alt="glyph 100" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-101.png" alt="glyph 101" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-102.png" alt="glyph 102" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>5</code></td><td><code style="font-size:0.7rem;">9a7995d390ec8f4195f28149814900</code></td></tr>
+                <tr><td><code>#08</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2294')">0x085A2294</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-103.png" alt="glyph 103" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-024.png" alt="glyph 24" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-025.png" alt="glyph 25" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">90528ef891698149814900</code></td></tr>
+                <tr><td><code>#09</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A22A4')">0x085A22A4</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-026.png" alt="glyph 26" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">8e8f8bda95f28149814900</code></td></tr>
+                <tr><td><code>#10</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A22C4')">0x085A22C4</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-026.png" alt="glyph 26" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-160.png" alt="glyph 160" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-028.png" alt="glyph 28" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-026.png" alt="glyph 26" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-029.png" alt="glyph 29" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>7</code></td><td><code style="font-size:0.7rem;">8dbd8e8f949195f28149814900</code></td></tr>
+                <tr><td><code>#11</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A22EC')">0x085A22EC</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-026.png" alt="glyph 26" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-160.png" alt="glyph 160" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-030.png" alt="glyph 30" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-031.png" alt="glyph 31" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-026.png" alt="glyph 26" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>7</code></td><td><code style="font-size:0.7rem;">8c8e98678e8f95f28149814900</code></td></tr>
+                <tr><td><code>#12</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2314')">0x085A2314</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-104.png" alt="glyph 104" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-105.png" alt="glyph 105" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-022.png" alt="glyph 22" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-023.png" alt="glyph 23" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">95a59c9d914a8b4d8149814900</code></td></tr>
+                <tr><td><code>#13</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2334')">0x085A2334</code></td><td style="min-width:200px;"><div class="glyph-strip"></div></td><td><code>0</code></td><td><code style="font-size:0.7rem;">944592ee8149814900</code></td></tr>
+                <tr><td><code>#14</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2348')">0x085A2348</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-009.png" alt="glyph 9" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-109.png" alt="glyph 109" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">974a8d889aa48f9e88c78149814900</code></td></tr>
+                <tr><td><code>#15</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2368')">0x085A2368</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-110.png" alt="glyph 110" loading="lazy"></div></td><td><code>1</code></td><td><code style="font-size:0.7rem;">8f818149814900</code></td></tr>
+                <tr><td><code>#16</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2378')">0x085A2378</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-010.png" alt="glyph 10" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-000.png" alt="glyph 0" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-111.png" alt="glyph 111" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-032.png" alt="glyph 32" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">8169964b9360964b998781498149816a00</code></td></tr>
+                <tr><td><code>#17</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2390')">0x085A2390</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-032.png" alt="glyph 32" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-033.png" alt="glyph 33" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">98ec9c73958c95f200</code></td></tr>
+                <tr><td><code>#18</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A23B4')">0x085A23B4</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-011.png" alt="glyph 11" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-017.png" alt="glyph 17" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">94c98c46814592df9a7995f2814900</code></td></tr>
+                <tr><td><code>#19</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A23E8')">0x085A23E8</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-036.png" alt="glyph 36" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-037.png" alt="glyph 37" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">89558e4d95f200</code></td></tr>
+                <tr><td><code>#20</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2404')">0x085A2404</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-038.png" alt="glyph 38" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-023.png" alt="glyph 23" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-039.png" alt="glyph 39" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-099.png" alt="glyph 99" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">8c8091f797919689816081608160816081608160816081600a81608160816081608160816081608160816081608149814900</code></td></tr>
+                <tr><td><code>#21</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2444')">0x085A2444</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-080.png" alt="glyph 80" loading="lazy"></div></td><td><code>1</code></td><td><code style="font-size:0.7rem;">816381638dc08a728b62816381638dc08a728b628163816300</code></td></tr>
+                <tr><td><code>#22</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2460')">0x085A2460</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-103.png" alt="glyph 103" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-024.png" alt="glyph 24" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-025.png" alt="glyph 25" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">92e08b628bac9cc199f98faa895a97cf0a90528aa69169814900</code></td></tr>
+                <tr><td><code>#23</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2484')">0x085A2484</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-106.png" alt="glyph 106" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-113.png" alt="glyph 113" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-114.png" alt="glyph 114" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">944592e7954f816081608149814900</code></td></tr>
+                <tr><td><code>#24</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A24AC')">0x085A24AC</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-115.png" alt="glyph 115" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-064.png" alt="glyph 64" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">90d4946e8149814900</code></td></tr>
+                <tr><td><code>#25</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A24C4')">0x085A24C4</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-117.png" alt="glyph 117" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-118.png" alt="glyph 118" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-018.png" alt="glyph 18" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">95db94c88c74958c81498149814900</code></td></tr>
+                <tr><td><code>#26</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A24EC')">0x085A24EC</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-053.png" alt="glyph 53" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-119.png" alt="glyph 119" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">8a84889f814981490a96628f6395f28149814900</code></td></tr>
+                <tr><td><code>#27</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A251C')">0x085A251C</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-040.png" alt="glyph 40" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-041.png" alt="glyph 41" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-040.png" alt="glyph 40" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">998a9746998a81498149814900</code></td></tr>
+                <tr><td><code>#28</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2538')">0x085A2538</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-042.png" alt="glyph 42" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-043.png" alt="glyph 43" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-044.png" alt="glyph 44" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">8ec18e538a8595f200</code></td></tr>
+                <tr><td><code>#29</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A255C')">0x085A255C</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-045.png" alt="glyph 45" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-025.png" alt="glyph 25" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">88d599a58149814900</code></td></tr>
+                <tr><td><code>#30</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2574')">0x085A2574</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-045.png" alt="glyph 45" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-025.png" alt="glyph 25" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">97cf92d990528a9599718b5e8163816300</code></td></tr>
+                <tr><td><code>#31</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2598')">0x085A2598</code></td><td style="min-width:200px;"><div class="glyph-strip"></div></td><td><code>0</code></td><td><code style="font-size:0.7rem;">88c99cdf919895ab96629b9081498149814900</code></td></tr>
+                <tr><td><code>#32</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A25CC')">0x085A25CC</code></td><td style="min-width:200px;"><div class="glyph-strip"></div></td><td><code>0</code></td><td><code style="font-size:0.7rem;">88c99cdf9b908e7696e981498149814900</code></td></tr>
+                <tr><td><code>#33</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A25F8')">0x085A25F8</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-125.png" alt="glyph 125" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-126.png" alt="glyph 126" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-127.png" alt="glyph 127" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-098.png" alt="glyph 98" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">92d9897b904891ed8149814800</code></td></tr>
+                <tr><td><code>#34</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A260C')">0x085A260C</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-125.png" alt="glyph 125" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-126.png" alt="glyph 126" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-048.png" alt="glyph 48" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-098.png" alt="glyph 98" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">92bb99de91708c8681498149814900</code></td></tr>
+                <tr><td><code>#35</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2630')">0x085A2630</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-049.png" alt="glyph 49" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-050.png" alt="glyph 50" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-055.png" alt="glyph 55" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-128.png" alt="glyph 128" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-055.png" alt="glyph 55" loading="lazy"></div></td><td><code>7</code></td><td><code style="font-size:0.7rem;">90488149814900</code></td></tr>
+                <tr><td><code>#36</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2640')">0x085A2640</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-049.png" alt="glyph 49" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-051.png" alt="glyph 51" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-129.png" alt="glyph 129" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-128.png" alt="glyph 128" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-055.png" alt="glyph 55" loading="lazy"></div></td><td><code>7</code></td><td><code style="font-size:0.7rem;">90488149814900</code></td></tr>
+                <tr><td><code>#37</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2650')">0x085A2650</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-049.png" alt="glyph 49" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-052.png" alt="glyph 52" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-130.png" alt="glyph 130" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-128.png" alt="glyph 128" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-055.png" alt="glyph 55" loading="lazy"></div></td><td><code>7</code></td><td><code style="font-size:0.7rem;">90488149814900</code></td></tr>
+                <tr><td><code>#38</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2660')">0x085A2660</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-049.png" alt="glyph 49" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-053.png" alt="glyph 53" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-131.png" alt="glyph 131" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-128.png" alt="glyph 128" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-055.png" alt="glyph 55" loading="lazy"></div></td><td><code>7</code></td><td><code style="font-size:0.7rem;">90488149814900</code></td></tr>
+                <tr><td><code>#39</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2670')">0x085A2670</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-049.png" alt="glyph 49" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-054.png" alt="glyph 54" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-132.png" alt="glyph 132" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-128.png" alt="glyph 128" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-055.png" alt="glyph 55" loading="lazy"></div></td><td><code>7</code></td><td><code style="font-size:0.7rem;">90488149814900</code></td></tr>
+                <tr><td><code>#40</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2680')">0x085A2680</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-133.png" alt="glyph 133" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-134.png" alt="glyph 134" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-135.png" alt="glyph 135" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">90529b9a814981490a898c91498e4600</code></td></tr>
+                <tr><td><code>#41</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A26A4')">0x085A26A4</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-101.png" alt="glyph 101" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-134.png" alt="glyph 134" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-135.png" alt="glyph 135" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">90ec91498e468149814900</code></td></tr>
+                <tr><td><code>#42</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A26C0')">0x085A26C0</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-100.png" alt="glyph 100" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-101.png" alt="glyph 101" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-102.png" alt="glyph 102" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">8e579a9a889f814900</code></td></tr>
+                <tr><td><code>#43</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A26D0')">0x085A26D0</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-012.png" alt="glyph 12" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-013.png" alt="glyph 13" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">8c67988f814900</code></td></tr>
+                <tr><td><code>#44</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A26DC')">0x085A26DC</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-056.png" alt="glyph 56" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-018.png" alt="glyph 18" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">954e8c74958c8149814900</code></td></tr>
+                <tr><td><code>#45</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A26F8')">0x085A26F8</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-056.png" alt="glyph 56" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-057.png" alt="glyph 57" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">954e8bd900</code></td></tr>
+                <tr><td><code>#46</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2710')">0x085A2710</code></td><td style="min-width:200px;"><div class="glyph-strip"></div></td><td><code>0</code></td><td><code style="font-size:0.7rem;">954e9ce000</code></td></tr>
+                <tr><td><code>#47</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2728')">0x085A2728</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-056.png" alt="glyph 56" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-059.png" alt="glyph 59" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-060.png" alt="glyph 60" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">954e8cbc9cd000</code></td></tr>
+                <tr><td><code>#48</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2740')">0x085A2740</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-061.png" alt="glyph 61" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-062.png" alt="glyph 62" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">956d88c7814981490a97d7998595c497cf8b628c74958c814900</code></td></tr>
+                <tr><td><code>#49</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2764')">0x085A2764</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-152.png" alt="glyph 152" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-081.png" alt="glyph 81" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">914b9cd795f28149814900</code></td></tr>
+                <tr><td><code>#50</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2790')">0x085A2790</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-063.png" alt="glyph 63" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-136.png" alt="glyph 136" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-137.png" alt="glyph 137" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">8f719b9a88c7814981490a9b80907389a58149814900</code></td></tr>
+                <tr><td><code>#51</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A27BC')">0x085A27BC</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-063.png" alt="glyph 63" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-136.png" alt="glyph 136" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-138.png" alt="glyph 138" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-137.png" alt="glyph 137" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">94a2965e88c78149814900</code></td></tr>
+                <tr><td><code>#52</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A27D0')">0x085A27D0</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-139.png" alt="glyph 139" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-140.png" alt="glyph 140" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-141.png" alt="glyph 141" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">98b692988aa68149814900</code></td></tr>
+                <tr><td><code>#53</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A27F0')">0x085A27F0</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-106.png" alt="glyph 106" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-142.png" alt="glyph 142" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">9445895d00</code></td></tr>
+                <tr><td><code>#54</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2804')">0x085A2804</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-063.png" alt="glyph 63" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-143.png" alt="glyph 143" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-014.png" alt="glyph 14" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-015.png" alt="glyph 15" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">9051965e92e08163816300</code></td></tr>
+                <tr><td><code>#55</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2818')">0x085A2818</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-067.png" alt="glyph 67" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-068.png" alt="glyph 68" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">92e095c4816381630a9a7789b8916997cf8b628149814900</code></td></tr>
+                <tr><td><code>#56</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2840')">0x085A2840</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-145.png" alt="glyph 145" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-018.png" alt="glyph 18" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">964c8c74958c95f200</code></td></tr>
+                <tr><td><code>#57</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2864')">0x085A2864</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-145.png" alt="glyph 145" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-160.png" alt="glyph 160" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-145.png" alt="glyph 145" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-069.png" alt="glyph 69" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-023.png" alt="glyph 23" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>7</code></td><td><code style="font-size:0.7rem;">964c8bda8145964c91998b4d95f28149814900</code></td></tr>
+                <tr><td><code>#58</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A28A0')">0x085A28A0</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-145.png" alt="glyph 145" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-160.png" alt="glyph 160" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-070.png" alt="glyph 70" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-071.png" alt="glyph 71" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-144.png" alt="glyph 144" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>7</code></td><td><code style="font-size:0.7rem;">964c8bda81458af093d689b995f28149814900</code></td></tr>
+                <tr><td><code>#59</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A28D8')">0x085A28D8</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-145.png" alt="glyph 145" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-146.png" alt="glyph 146" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">964c90cb95f28149814900</code></td></tr>
+                <tr><td><code>#60</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A28FC')">0x085A28FC</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-106.png" alt="glyph 106" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-114.png" alt="glyph 114" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-145.png" alt="glyph 145" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-147.png" alt="glyph 147" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">9445954f964c98b28149814900</code></td></tr>
+                <tr><td><code>#61</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2920')">0x085A2920</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-148.png" alt="glyph 148" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-149.png" alt="glyph 149" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-150.png" alt="glyph 150" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-151.png" alt="glyph 151" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">92a48fb289988fa48149814900</code></td></tr>
+                <tr><td><code>#62</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2948')">0x085A2948</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-106.png" alt="glyph 106" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-142.png" alt="glyph 142" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">9445895d00</code></td></tr>
+                <tr><td><code>#63</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A295C')">0x085A295C</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-072.png" alt="glyph 72" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-160.png" alt="glyph 160" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-072.png" alt="glyph 72" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-073.png" alt="glyph 73" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-074.png" alt="glyph 74" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-075.png" alt="glyph 75" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>8</code></td><td><code style="font-size:0.7rem;">816381639a9a986095d38aa38163816300</code></td></tr>
+                <tr><td><code>#64</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2970')">0x085A2970</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-076.png" alt="glyph 76" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-018.png" alt="glyph 18" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">8dc48dc48dc48dc48163816300</code></td></tr>
+                <tr><td><code>#65</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2980')">0x085A2980</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-072.png" alt="glyph 72" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-160.png" alt="glyph 160" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-072.png" alt="glyph 72" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-073.png" alt="glyph 73" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-074.png" alt="glyph 74" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-075.png" alt="glyph 75" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>8</code></td><td><code style="font-size:0.7rem;">8dc48dc48dc48dc4816381639bb08dc09af3814900</code></td></tr>
+                <tr><td><code>#66</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2998')">0x085A2998</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-076.png" alt="glyph 76" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-018.png" alt="glyph 18" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">90c88c6f97cf8b6295ae8ee18163816300</code></td></tr>
+                <tr><td><code>#67</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A29B4')">0x085A29B4</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-072.png" alt="glyph 72" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-160.png" alt="glyph 160" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-072.png" alt="glyph 72" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-073.png" alt="glyph 73" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-074.png" alt="glyph 74" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-075.png" alt="glyph 75" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>8</code></td><td><code style="font-size:0.7rem;">8dc48dc48dc48dc48163816300</code></td></tr>
+                <tr><td><code>#68</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A29C4')">0x085A29C4</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-076.png" alt="glyph 76" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-018.png" alt="glyph 18" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">905292e092d997448b5b95af925295ae8def8163816300</code></td></tr>
+                <tr><td><code>#69</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A29E0')">0x085A29E0</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-077.png" alt="glyph 77" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-078.png" alt="glyph 78" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-079.png" alt="glyph 79" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-152.png" alt="glyph 152" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">8ddc8ddc8ddc8163816392e0956d8b4f91698163816300</code></td></tr>
+                <tr><td><code>#70</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A29FC')">0x085A29FC</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-077.png" alt="glyph 77" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-078.png" alt="glyph 78" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-079.png" alt="glyph 79" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-152.png" alt="glyph 152" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">81638163937a89b88b9391698163816300</code></td></tr>
+                <tr><td><code>#71</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2A14')">0x085A2A14</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-153.png" alt="glyph 153" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-154.png" alt="glyph 154" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">8fd08dcc814900</code></td></tr>
+                <tr><td><code>#72</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2A28')">0x085A2A28</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-153.png" alt="glyph 153" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-154.png" alt="glyph 154" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">8fd08dcc814900</code></td></tr>
+                <tr><td><code>#73</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2A3C')">0x085A2A3C</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-155.png" alt="glyph 155" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-156.png" alt="glyph 156" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-157.png" alt="glyph 157" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">94ea8cc19b5700</code></td></tr>
+                <tr><td><code>#74</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2A58')">0x085A2A58</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-098.png" alt="glyph 98" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">8c868bda95f200</code></td></tr>
+                <tr><td><code>#75</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2A78')">0x085A2A78</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-159.png" alt="glyph 159" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-059.png" alt="glyph 59" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div></td><td><code>3</code></td><td><code style="font-size:0.7rem;">8bac89b89169916991ed81480a8fca98bb895a957d8b9f956d8b62947e977a99e399c38163816300</code></td></tr>
+                <tr><td><code>#76</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2AA4')">0x085A2AA4</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-082.png" alt="glyph 82" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-083.png" alt="glyph 83" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-084.png" alt="glyph 84" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-170.png" alt="glyph 170" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-170.png" alt="glyph 170" loading="lazy"></div></td><td><code>5</code></td><td><code style="font-size:0.7rem;">97cf89b88d7a90af81608160814981490a97cf974a9a4d81498149814900</code></td></tr>
+                <tr><td><code>#77</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2AC8')">0x085A2AC8</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-162.png" alt="glyph 162" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-163.png" alt="glyph 163" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-164.png" alt="glyph 164" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-165.png" alt="glyph 165" loading="lazy"></div></td><td><code>4</code></td><td><code style="font-size:0.7rem;">97cf95c48cb18a8f9ba981498149814900</code></td></tr>
+                <tr><td><code>#78</code></td><td><code class="addr-badge" onclick="copyAddr('0x085A2AF0')">0x085A2AF0</code></td><td style="min-width:200px;"><div class="glyph-strip"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-162.png" alt="glyph 162" loading="lazy"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-163.png" alt="glyph 163" loading="lazy"></div></td><td><code>2</code></td><td><code style="font-size:0.7rem;">9c4f9a6a8149814900</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </details>
+
+          <details style="margin-top:12px;">
+            <summary style="cursor:pointer; color:var(--accent-cyan); font-weight:700; font-size:0.9rem;">🔠 全部 172 个字形图像</summary>
+            <div class="tileset-gallery" data-paginate="24" style="margin-top:10px;">
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g000</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-000.png" alt="glyph 0" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g001</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-001.png" alt="glyph 1" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g002</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-002.png" alt="glyph 2" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g003</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-003.png" alt="glyph 3" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g004</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-004.png" alt="glyph 4" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g005</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-005.png" alt="glyph 5" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g006</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-006.png" alt="glyph 6" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g007</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-007.png" alt="glyph 7" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g008</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-008.png" alt="glyph 8" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g009</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-009.png" alt="glyph 9" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g010</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-010.png" alt="glyph 10" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g011</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-011.png" alt="glyph 11" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g012</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-012.png" alt="glyph 12" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g013</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-013.png" alt="glyph 13" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g014</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-014.png" alt="glyph 14" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g015</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-015.png" alt="glyph 15" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g016</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-016.png" alt="glyph 16" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 28 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g017</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-017.png" alt="glyph 17" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 5 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g018</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-018.png" alt="glyph 18" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 8 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g019</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-019.png" alt="glyph 19" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 9 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g020</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-020.png" alt="glyph 20" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g021</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-021.png" alt="glyph 21" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g022</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-022.png" alt="glyph 22" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g023</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-023.png" alt="glyph 23" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 4 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g024</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-024.png" alt="glyph 24" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g025</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-025.png" alt="glyph 25" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 4 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g026</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-026.png" alt="glyph 26" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g027</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-027.png" alt="glyph 27" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 9 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g028</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-028.png" alt="glyph 28" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g029</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-029.png" alt="glyph 29" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g030</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-030.png" alt="glyph 30" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g031</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-031.png" alt="glyph 31" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g032</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-032.png" alt="glyph 32" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g033</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-033.png" alt="glyph 33" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g034</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-034.png" alt="glyph 34" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g035</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-035.png" alt="glyph 35" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g036</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-036.png" alt="glyph 36" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g037</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-037.png" alt="glyph 37" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g038</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-038.png" alt="glyph 38" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g039</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-039.png" alt="glyph 39" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g040</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-040.png" alt="glyph 40" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g041</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-041.png" alt="glyph 41" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g042</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-042.png" alt="glyph 42" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g043</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-043.png" alt="glyph 43" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g044</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-044.png" alt="glyph 44" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g045</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-045.png" alt="glyph 45" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g046</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-046.png" alt="glyph 46" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g047</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-047.png" alt="glyph 47" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g048</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-048.png" alt="glyph 48" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g049</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-049.png" alt="glyph 49" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 5 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g050</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-050.png" alt="glyph 50" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g051</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-051.png" alt="glyph 51" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g052</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-052.png" alt="glyph 52" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g053</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-053.png" alt="glyph 53" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g054</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-054.png" alt="glyph 54" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g055</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-055.png" alt="glyph 55" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 5 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g056</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-056.png" alt="glyph 56" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g057</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-057.png" alt="glyph 57" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g058</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-058.png" alt="glyph 58" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g059</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-059.png" alt="glyph 59" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g060</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-060.png" alt="glyph 60" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g061</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-061.png" alt="glyph 61" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g062</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-062.png" alt="glyph 62" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g063</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-063.png" alt="glyph 63" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g064</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-064.png" alt="glyph 64" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g065</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-065.png" alt="glyph 65" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g066</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-066.png" alt="glyph 66" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g067</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-067.png" alt="glyph 67" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g068</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-068.png" alt="glyph 68" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g069</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-069.png" alt="glyph 69" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g070</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-070.png" alt="glyph 70" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g071</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-071.png" alt="glyph 71" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g072</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-072.png" alt="glyph 72" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g073</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-073.png" alt="glyph 73" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g074</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-074.png" alt="glyph 74" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g075</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-075.png" alt="glyph 75" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g076</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-076.png" alt="glyph 76" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g077</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-077.png" alt="glyph 77" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g078</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-078.png" alt="glyph 78" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g079</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-079.png" alt="glyph 79" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g080</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-080.png" alt="glyph 80" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g081</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-081.png" alt="glyph 81" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g082</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-082.png" alt="glyph 82" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g083</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-083.png" alt="glyph 83" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g084</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-084.png" alt="glyph 84" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g085</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-085.png" alt="glyph 85" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g086</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-086.png" alt="glyph 86" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g087</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-087.png" alt="glyph 87" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g088</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-088.png" alt="glyph 88" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g089</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-089.png" alt="glyph 89" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g090</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-090.png" alt="glyph 90" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g091</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-091.png" alt="glyph 91" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g092</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-092.png" alt="glyph 92" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g093</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-093.png" alt="glyph 93" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g094</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-094.png" alt="glyph 94" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g095</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-095.png" alt="glyph 95" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g096</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-096.png" alt="glyph 96" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g097</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-097.png" alt="glyph 97" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g098</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-098.png" alt="glyph 98" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 4 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g099</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-099.png" alt="glyph 99" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g100</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-100.png" alt="glyph 100" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g101</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-101.png" alt="glyph 101" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g102</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-102.png" alt="glyph 102" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g103</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-103.png" alt="glyph 103" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g104</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-104.png" alt="glyph 104" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g105</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-105.png" alt="glyph 105" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g106</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-106.png" alt="glyph 106" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 4 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g107</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-107.png" alt="glyph 107" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g108</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-108.png" alt="glyph 108" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g109</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-109.png" alt="glyph 109" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g110</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-110.png" alt="glyph 110" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g111</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-111.png" alt="glyph 111" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g112</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-112.png" alt="glyph 112" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g113</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-113.png" alt="glyph 113" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g114</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-114.png" alt="glyph 114" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g115</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-115.png" alt="glyph 115" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g116</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-116.png" alt="glyph 116" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g117</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-117.png" alt="glyph 117" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g118</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-118.png" alt="glyph 118" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g119</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-119.png" alt="glyph 119" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g120</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-120.png" alt="glyph 120" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g121</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-121.png" alt="glyph 121" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g122</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-122.png" alt="glyph 122" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g123</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-123.png" alt="glyph 123" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g124</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-124.png" alt="glyph 124" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g125</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-125.png" alt="glyph 125" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g126</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-126.png" alt="glyph 126" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g127</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-127.png" alt="glyph 127" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g128</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-128.png" alt="glyph 128" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 5 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g129</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-129.png" alt="glyph 129" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g130</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-130.png" alt="glyph 130" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g131</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-131.png" alt="glyph 131" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g132</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-132.png" alt="glyph 132" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g133</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-133.png" alt="glyph 133" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g134</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-134.png" alt="glyph 134" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g135</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-135.png" alt="glyph 135" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g136</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-136.png" alt="glyph 136" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g137</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-137.png" alt="glyph 137" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g138</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-138.png" alt="glyph 138" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g139</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-139.png" alt="glyph 139" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g140</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-140.png" alt="glyph 140" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g141</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-141.png" alt="glyph 141" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g142</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-142.png" alt="glyph 142" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g143</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-143.png" alt="glyph 143" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g144</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-144.png" alt="glyph 144" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g145</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-145.png" alt="glyph 145" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 5 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g146</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-146.png" alt="glyph 146" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g147</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-147.png" alt="glyph 147" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g148</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-148.png" alt="glyph 148" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g149</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-149.png" alt="glyph 149" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g150</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-150.png" alt="glyph 150" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g151</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-151.png" alt="glyph 151" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g152</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-152.png" alt="glyph 152" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 3 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g153</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-153.png" alt="glyph 153" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g154</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-154.png" alt="glyph 154" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g155</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-155.png" alt="glyph 155" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g156</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-156.png" alt="glyph 156" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g157</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-157.png" alt="glyph 157" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g158</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-158.png" alt="glyph 158" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g159</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-159.png" alt="glyph 159" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g160</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-160.png" alt="glyph 160" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 7 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g161</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-161.png" alt="glyph 161" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g162</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-162.png" alt="glyph 162" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g163</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-163.png" alt="glyph 163" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 2 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g164</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-164.png" alt="glyph 164" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g165</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-165.png" alt="glyph 165" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g166</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-166.png" alt="glyph 166" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g167</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-167.png" alt="glyph 167" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g168</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-168.png" alt="glyph 168" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g169</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-169.png" alt="glyph 169" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g170</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-170.png" alt="glyph 170" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 1 条消息引用</div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>g171</strong></div>
+              <div class="tileset-img-wrap"><img src="artifacts/battle-presentation-glyphs-v1/glyphs/glyph-171.png" alt="glyph 171" loading="lazy"></div>
+              <div class="tileset-meta">32×32 · 被 0 条消息引用</div>
+            </div>
+            </div>
+          </details>
+        </div>
+        <div class="card full-width" id="sec-story-visual-layers">
+          <div class="card-head">
+            <div class="card-title">剧情视觉图层 (Story Visual Layers)</div>
+            <span class="tag tag-cyan">artifacts/story-visual-layers-v1 · 剧情视觉图层 24</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-story-visual-layers.zip" download title="下载本板块全部 24 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">24 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_story_visual_layers.py</code> 导出，独立校验器 <code>tools/verify_story_visual_layer_export.py</code> 复核零错误。
+            清单 schema：<code>story-visual-layer-export-v1</code>，完整字段见
+            <code>artifacts/story-visual-layers-v1/manifest.json</code>。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_00_config_04</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_00_config_04.png" alt="story_visual_layer_00_config_04" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_01_config_10</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_01_config_10.png" alt="story_visual_layer_01_config_10" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_02_config_14</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_02_config_14.png" alt="story_visual_layer_02_config_14" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_03_config_24</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_03_config_24.png" alt="story_visual_layer_03_config_24" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_04_config_17</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_04_config_17.png" alt="story_visual_layer_04_config_17" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_05_config_18</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_05_config_18.png" alt="story_visual_layer_05_config_18" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_06_config_21</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_06_config_21.png" alt="story_visual_layer_06_config_21" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_07_config_25</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_07_config_25.png" alt="story_visual_layer_07_config_25" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_08_config_29</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_08_config_29.png" alt="story_visual_layer_08_config_29" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_09_config_28</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_09_config_28.png" alt="story_visual_layer_09_config_28" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_10_config_34</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_10_config_34.png" alt="story_visual_layer_10_config_34" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_11_config_76</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_11_config_76.png" alt="story_visual_layer_11_config_76" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_12_config_30</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_12_config_30.png" alt="story_visual_layer_12_config_30" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_13_config_47</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_13_config_47.png" alt="story_visual_layer_13_config_47" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_14_config_48</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_14_config_48.png" alt="story_visual_layer_14_config_48" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_15_config_49</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_15_config_49.png" alt="story_visual_layer_15_config_49" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_16_config_51</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_16_config_51.png" alt="story_visual_layer_16_config_51" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_17_config_52</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_17_config_52.png" alt="story_visual_layer_17_config_52" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_18_config_58</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_18_config_58.png" alt="story_visual_layer_18_config_58" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_19_config_61</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_19_config_61.png" alt="story_visual_layer_19_config_61" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_20_config_74</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_20_config_74.png" alt="story_visual_layer_20_config_74" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_21_config_16</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_21_config_16.png" alt="story_visual_layer_21_config_16" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_22_config_77</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_22_config_77.png" alt="story_visual_layer_22_config_77" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_visual_layer_23_config_05</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-visual-layers-v1/story_visual_layer_23_config_05.png" alt="story_visual_layer_23_config_05" loading="lazy"></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card full-width" id="sec-story-scene-timelines">
+          <div class="card-head">
+            <div class="card-title">剧情场景时间线 (Story Scene Timelines)</div>
+            <span class="tag tag-cyan">artifacts/story-scene-timelines-v1 · 剧情场景时间线 —</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-story-scene-timelines.zip" download title="下载本板块全部 24 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">24 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_story_scene_timelines.py</code> 导出，独立校验器 <code>tools/verify_story_scene_timelines.py</code> 复核零错误。
+            清单 schema：<code>story-scene-timelines-v1</code>，完整字段见
+            <code>artifacts/story-scene-timelines-v1/manifest.json</code>。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_00_config_04_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_00_config_04_contact.png" alt="story_00_config_04_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_01_config_10_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_01_config_10_contact.png" alt="story_01_config_10_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_02_config_14_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_02_config_14_contact.png" alt="story_02_config_14_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_03_config_24_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_03_config_24_contact.png" alt="story_03_config_24_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_04_config_17_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_04_config_17_contact.png" alt="story_04_config_17_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_05_config_18_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_05_config_18_contact.png" alt="story_05_config_18_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_06_config_21_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_06_config_21_contact.png" alt="story_06_config_21_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_07_config_25_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_07_config_25_contact.png" alt="story_07_config_25_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_08_config_29_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_08_config_29_contact.png" alt="story_08_config_29_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_09_config_28_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_09_config_28_contact.png" alt="story_09_config_28_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_10_config_34_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_10_config_34_contact.png" alt="story_10_config_34_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_11_config_76_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_11_config_76_contact.png" alt="story_11_config_76_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_12_config_30_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_12_config_30_contact.png" alt="story_12_config_30_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_13_config_47_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_13_config_47_contact.png" alt="story_13_config_47_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_14_config_48_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_14_config_48_contact.png" alt="story_14_config_48_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_15_config_49_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_15_config_49_contact.png" alt="story_15_config_49_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_16_config_51_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_16_config_51_contact.png" alt="story_16_config_51_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_17_config_52_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_17_config_52_contact.png" alt="story_17_config_52_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_18_config_58_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_18_config_58_contact.png" alt="story_18_config_58_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_19_config_61_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_19_config_61_contact.png" alt="story_19_config_61_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_20_config_74_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_20_config_74_contact.png" alt="story_20_config_74_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_21_config_16_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_21_config_16_contact.png" alt="story_21_config_16_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_22_config_77_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_22_config_77_contact.png" alt="story_22_config_77_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>story_23_config_05_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/story-scene-timelines-v1/story_23_config_05_contact.png" alt="story_23_config_05_contact" loading="lazy"></div>
+            </div>
+          </div>
+
+        </div>
+    </section>
+    
+      
+    <!-- HUB 4: 内存数据与音频架构 (RAM Layout & Audio Assets) -->
+
+    </main>
+  </div>
+
+  <script src="assets/viewer.js" defer></script>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

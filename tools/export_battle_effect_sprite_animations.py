@@ -1,0 +1,1787 @@
+#!/usr/bin/env python3
+"""Export every battle-effect child sprite frame and animation timeline."""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import shutil
+import struct
+import sys
+from pathlib import Path
+from typing import Any
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+from tools.gba_image_export import (
+    indexed_png_from_bgr555,
+    render_4bpp_tile_block_indices,
+)
+
+
+ROM_BASE = 0x08000000
+ROM_SHA256 = "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+RESOURCE_TABLE_OFFSET = 0x59911C
+SPRITE_PAIR_TABLE_OFFSET = 0x5991B4
+TABLE_ENTRY_COUNT = 19
+TABLE_ENTRY_SIZE = 8
+RESOURCE_TABLE_SHA256 = (
+    "7d9f94e05b975940bd2e17f55681120782cb7b6f07d0ab6245adef7260d24130"
+)
+SPRITE_PAIR_TABLE_SHA256 = (
+    "c7025f5ca83b63b21ff3bf3e3183602447d157cf6cd1e63395b918a318e74392"
+)
+MOTION_TABLE_OFFSET = 0x53EE98
+MOTION_ENTRY_COUNT = 15
+MOTION_ENTRY_SIZE = 10
+MOTION_TABLE_SHA256 = (
+    "d1793f9c19b046ff1f431f28da31518c2093b77914b5c1f8b13f7e01d0ff1c6d"
+)
+COMPONENT_SIZE = 20
+TERMINATOR = bytes.fromhex("ffff0000")
+RESOURCE_MANIFEST_PATH = (
+    "artifacts/battle-effect-resource-pairs-v1/manifest.json"
+)
+SEQUENCE_MANIFEST_PATH = (
+    "artifacts/battle-effect-sequence-bindings-v1/manifest.json"
+)
+CODE_SLICES = (
+    {
+        "name": "runtime_offset_table_initializer",
+        "file_offset": 0x061624,
+        "gba_start": "0x08061624",
+        "gba_end": "0x08061710",
+        "sha256": "e3ba1dadf23b428fd2a39b6d9aef48b7ba9521d825ca196b37d7a93403192dff",
+    },
+    {
+        "name": "all_effect_descriptor_callbacks",
+        "file_offset": 0x080554,
+        "gba_start": "0x08080554",
+        "gba_end": "0x08080A46",
+        "sha256": "22aae5132d081d89b9e9315968c1d3d089131b269ae1f5cfa232d1d6d13b8c8a",
+    },
+    {
+        "name": "child_spawn_and_busy_check",
+        "file_offset": 0x080218,
+        "gba_start": "0x08080218",
+        "gba_end": "0x0808041C",
+        "sha256": "535602dc02bcc106e0d35f04793aad246f02202ce5d409643a4ac79675044203",
+    },
+    {
+        "name": "child_position_and_ballistic_callbacks",
+        "file_offset": 0x08041C,
+        "gba_start": "0x0808041C",
+        "gba_end": "0x08080554",
+        "sha256": "aa07bf4cce0e10e2786bf38371aa50dd22a9424fb62605d85de50b331b644aa2",
+    },
+    {
+        "name": "effect_child_sprite_allocator_bridge",
+        "file_offset": 0x0802AE,
+        "gba_start": "0x080802AE",
+        "gba_end": "0x08080308",
+        "sha256": "53e4a757cf7d5074ea0dfdb58822c7e68b5768426facd3e5e9ec3d1e58cfcca6",
+    },
+    {
+        "name": "sprite_task_allocator",
+        "file_offset": 0x0625A4,
+        "gba_start": "0x080625A4",
+        "gba_end": "0x080626B0",
+        "sha256": "e238cd1ee159265fb8b718766f336f8d5462596954f93c7805d1bf33dd6b3c54",
+    },
+    {
+        "name": "component_and_timeline_selector",
+        "file_offset": 0x06298C,
+        "gba_start": "0x0806298C",
+        "gba_end": "0x08062A0A",
+        "sha256": "722200eb6511a974b79fe00ee335f21e557cc0fc1898343a5eab4c7032e8ed2f",
+    },
+    {
+        "name": "animation_frame_selector_exact",
+        "file_offset": 0x06298C,
+        "gba_start": "0x0806298C",
+        "gba_end": "0x080629A0",
+        "sha256": "62718fbb246078256e2c3344773d0ab9a0b2c10aee2fb3890d16e134b331e1ab",
+    },
+    {
+        "name": "animation_hold_step_and_termination",
+        "file_offset": 0x063256,
+        "gba_start": "0x08063256",
+        "gba_end": "0x080632D8",
+        "sha256": "1ec4801f36351e56d511caaa6cc5fdf31d52142292e64d3c9cf6567eed468be0",
+    },
+    {
+        "name": "attr2_and_obj_vram_path",
+        "file_offset": 0x063108,
+        "gba_start": "0x08063108",
+        "gba_end": "0x08063186",
+        "sha256": "748340bb724a0fc8a4911c8879e8fb0c1152c84bac87b910cb36b3e15d790b17",
+    },
+    {
+        "name": "task_origin_and_component_position_composition",
+        "file_offset": 0x062C58,
+        "gba_start": "0x08062C58",
+        "gba_end": "0x08062C7C",
+        "sha256": "dc022a30c9ef95ab0bcb78e1a00e9cfa5c3bc4793e9c8352dd664086323e8313",
+    },
+    {
+        "name": "pre_oam_offset_scale_and_visibility",
+        "file_offset": 0x062C7C,
+        "gba_start": "0x08062C7C",
+        "gba_end": "0x08062D92",
+        "sha256": "725a25fba4d30a78d197ea94b4ebf272ab03d48692e20c3e3a7bcfac82264039",
+    },
+    {
+        "name": "runtime_offset_table_slot_reset",
+        "file_offset": 0x065404,
+        "gba_start": "0x08065404",
+        "gba_end": "0x08065554",
+        "sha256": "213423e70948ef3dbd91ed7854efb5c52fd7543f4b73b4a4a2219ffd89ce66f7",
+    },
+    {
+        "name": "runtime_offset_table_dynamic_update",
+        "file_offset": 0x06E958,
+        "gba_start": "0x0806E958",
+        "gba_end": "0x0806EA96",
+        "sha256": "66f49791cd737c096ed6a7785591e202287b02dd679a4e2f5c095cd18c1c86a0",
+    },
+    {
+        "name": "oam_shape_size_affine_and_attribute_writer",
+        "file_offset": 0x062D92,
+        "gba_start": "0x08062D92",
+        "gba_end": "0x08063186",
+        "sha256": "566415d7bf30967ce2f4228311e13e5b63e2de3d620b1d68e3622d58da9f8d23",
+    },
+    {
+        "name": "affine_matrix_writer",
+        "file_offset": 0x062EF4,
+        "gba_start": "0x08062EF4",
+        "gba_end": "0x080630EC",
+        "sha256": "533121ae8ca8e28877ae1961766241578a037039ba3ee9401790098fa6a1b7f9",
+    },
+    {
+        "name": "affine_local_coordinate_rotation",
+        "file_offset": 0x062AF2,
+        "gba_start": "0x08062AF2",
+        "gba_end": "0x08062B60",
+        "sha256": "c252ef73392603ddc17bb6c425d74d7faa15c24859b6a15814f85dd12481f9b4",
+    },
+    {
+        "name": "dynamic_obj_vram_renderer_path",
+        "file_offset": 0x063122,
+        "gba_start": "0x08063122",
+        "gba_end": "0x080631F6",
+        "sha256": "fe6814464976f17f5e708266b02a79aaa195d1bf96985fa852b80d1f3df9afc3",
+    },
+    {
+        "name": "dynamic_obj_vram_copy_queue_enqueue",
+        "file_offset": 0x0635B8,
+        "gba_start": "0x080635B8",
+        "gba_end": "0x08063604",
+        "sha256": "c72bd39f05cbff96897e1a508d02311661d11db5364d9c51525a1b2dc1562e48",
+    },
+    {
+        "name": "dynamic_obj_vram_copy_queue_consumer",
+        "file_offset": 0x06365C,
+        "gba_start": "0x0806365C",
+        "gba_end": "0x080636DC",
+        "sha256": "ec7573f6149a187012c360a2755fd8336c0f496c1519d1e727e9ff582eef2203",
+    },
+    {
+        "name": "dynamic_obj_vram_dispatch_order",
+        "file_offset": 0x0612BC,
+        "gba_start": "0x080612BC",
+        "gba_end": "0x080614E4",
+        "sha256": "90568d99bb0ddfba74ce946781049494e117bd2273bd3b69843f7df420506817",
+    },
+)
+
+
+def _sha256(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _address(value: int) -> str:
+    return f"0x{value:08X}"
+
+
+def _rom_offset(pointer: int, rom_size: int) -> int:
+    offset = pointer - ROM_BASE
+    if not 0 <= offset < rom_size:
+        raise ValueError(f"pointer {_address(pointer)} is outside the ROM")
+    return offset
+
+
+def _load_inputs(root: Path, rom_sha256: str) -> tuple[dict[str, Any], dict[str, Any]]:
+    resource_path = root / RESOURCE_MANIFEST_PATH
+    sequence_path = root / SEQUENCE_MANIFEST_PATH
+    resources = json.loads(resource_path.read_text(encoding="utf-8"))
+    sequences = json.loads(sequence_path.read_text(encoding="utf-8"))
+    if resources.get("schema") != "battle-effect-resource-pairs-v1":
+        raise ValueError("unexpected battle-effect resource manifest schema")
+    if sequences.get("schema") != "battle-effect-sequence-bindings-v1":
+        raise ValueError("unexpected battle-effect sequence manifest schema")
+    if resources["rom"]["sha256"] != rom_sha256:
+        raise ValueError("resource manifest ROM hash mismatch")
+    if sequences["rom"]["sha256"] != rom_sha256:
+        raise ValueError("sequence manifest ROM hash mismatch")
+    if [entry["group_id"] for entry in resources["entries"]] != list(
+        range(1, TABLE_ENTRY_COUNT)
+    ):
+        raise ValueError("resource manifest does not contain groups 1..18")
+    if len(sequences["sequences"]) != 22:
+        raise ValueError("sequence manifest does not contain 22 descriptors")
+    return resources, sequences
+
+
+def _parse_component(raw: bytes, component_index: int) -> dict[str, Any]:
+    if len(raw) != COMPONENT_SIZE:
+        raise ValueError("component record is truncated")
+    (
+        tile_index,
+        tile_flags_and_angle,
+        x,
+        y,
+        width,
+        height,
+        scale_x,
+        scale_y,
+        control,
+        affine_mode,
+        reserved_12,
+    ) = struct.unpack("<HHhhHHHHBBH", raw)
+    if tile_index == 0xFFFF:
+        raise ValueError("component terminator was parsed as data")
+    if width not in (8, 16, 32, 64) or height not in (8, 16, 32, 64):
+        raise ValueError(
+            f"component {component_index} has unsupported size {width}x{height}"
+        )
+    tile_flags = tile_flags_and_angle & 0x00FF
+    angle_offset = tile_flags_and_angle >> 8
+    if tile_flags & ~0x03:
+        raise ValueError(
+            f"component {component_index} has unknown tile flags "
+            f"0x{tile_flags:02X}"
+        )
+    if control not in (0x00, 0xFF):
+        raise ValueError(
+            f"component {component_index} has unknown control 0x{control:02X}"
+        )
+    if affine_mode not in (0, 1) or reserved_12:
+        raise ValueError(f"component {component_index} has unknown reserved fields")
+    return {
+        "component_index": component_index,
+        "tile_index": tile_index,
+        "tile_flags": tile_flags,
+        "angle_offset": angle_offset,
+        "horizontal_flip": bool(tile_flags & 1),
+        "vertical_flip": bool(tile_flags & 2),
+        "x": x,
+        "y": y,
+        "width": width,
+        "height": height,
+        "scale_x": scale_x,
+        "scale_y": scale_y,
+        "control": control,
+        "affine_mode": affine_mode,
+        "reserved_12": reserved_12,
+        "raw_hex": raw.hex(),
+    }
+
+
+def _frame_pointers(
+    rom: bytes,
+    definition_pointer: int,
+) -> tuple[list[int], int]:
+    cursor = _rom_offset(definition_pointer, len(rom))
+    pointers: list[int] = []
+    while cursor + 4 <= len(rom):
+        pointer = struct.unpack_from("<I", rom, cursor)[0]
+        if not ROM_BASE <= pointer < definition_pointer:
+            break
+        if pointers and pointer <= pointers[-1]:
+            raise ValueError("frame component-list pointers are not increasing")
+        pointers.append(pointer)
+        cursor += 4
+        if len(pointers) > 128:
+            raise ValueError("frame pointer table has no bounded end")
+    if not pointers:
+        raise ValueError("definition table has no frame pointers")
+    return pointers, ROM_BASE + cursor
+
+
+def _parse_frames(
+    rom: bytes,
+    frame_pointers: list[int],
+    definition_pointer: int,
+) -> tuple[list[dict[str, Any]], bool]:
+    frames: list[dict[str, Any]] = []
+    expected_ends = frame_pointers[1:] + [definition_pointer]
+    contiguous = True
+    for frame_id, (pointer, expected_end) in enumerate(
+        zip(frame_pointers, expected_ends)
+    ):
+        cursor = _rom_offset(pointer, len(rom))
+        start = cursor
+        components: list[dict[str, Any]] = []
+        while cursor + 4 <= len(rom) and rom[cursor : cursor + 4] != TERMINATOR:
+            if cursor + COMPONENT_SIZE > len(rom):
+                raise ValueError(f"group frame {frame_id} is truncated")
+            components.append(
+                _parse_component(
+                    rom[cursor : cursor + COMPONENT_SIZE],
+                    len(components),
+                )
+            )
+            cursor += COMPONENT_SIZE
+            if len(components) > 32:
+                raise ValueError(f"group frame {frame_id} has too many components")
+        if rom[cursor : cursor + 4] != TERMINATOR:
+            raise ValueError(f"group frame {frame_id} has no terminator")
+        cursor += 4
+        actual_end = ROM_BASE + cursor
+        contiguous = contiguous and actual_end == expected_end
+        raw = rom[start:cursor]
+        frames.append(
+            {
+                "frame_id": frame_id,
+                "component_list_pointer": _address(pointer),
+                "component_count": len(components),
+                "components": components,
+                "terminator_raw_hex": TERMINATOR.hex(),
+                "raw_size": len(raw),
+                "raw_sha256": _sha256(raw),
+            }
+        )
+    if not contiguous:
+        raise ValueError("component-list region is not contiguous")
+    return frames, contiguous
+
+
+def _animation_pointers(
+    rom: bytes,
+    timeline_region_start: int,
+    animation_table_pointer: int,
+) -> list[int]:
+    cursor = _rom_offset(animation_table_pointer, len(rom))
+    pointers: list[int] = []
+    while cursor + 4 <= len(rom):
+        pointer = struct.unpack_from("<I", rom, cursor)[0]
+        if not timeline_region_start <= pointer < animation_table_pointer:
+            break
+        if pointers and pointer <= pointers[-1]:
+            raise ValueError("animation timeline pointers are not increasing")
+        pointers.append(pointer)
+        cursor += 4
+        if len(pointers) > 32:
+            raise ValueError("animation pointer table has no bounded end")
+    if not pointers:
+        raise ValueError("animation table has no timeline pointers")
+    return pointers
+
+
+def _parse_animations(
+    rom: bytes,
+    animation_pointers: list[int],
+    animation_table_pointer: int,
+    frame_count: int,
+) -> tuple[list[dict[str, Any]], bool]:
+    animations: list[dict[str, Any]] = []
+    expected_ends = animation_pointers[1:] + [animation_table_pointer]
+    contiguous = True
+    for animation_id, (pointer, expected_end) in enumerate(
+        zip(animation_pointers, expected_ends)
+    ):
+        cursor = _rom_offset(pointer, len(rom))
+        start = cursor
+        keyframes: list[dict[str, int]] = []
+        while cursor + 4 <= len(rom):
+            frame_id, hold_frames = struct.unpack_from("<HH", rom, cursor)
+            cursor += 4
+            if frame_id == 0xFFFF:
+                if hold_frames:
+                    raise ValueError("timeline terminator hold is not zero")
+                break
+            if frame_id >= frame_count:
+                raise ValueError(
+                    f"animation {animation_id} frame {frame_id} is out of range"
+                )
+            if not hold_frames:
+                raise ValueError(
+                    f"animation {animation_id} has a zero-frame hold"
+                )
+            keyframes.append(
+                {
+                    "frame_id": frame_id,
+                    "hold_frames": hold_frames,
+                }
+            )
+            if len(keyframes) > 256:
+                raise ValueError(f"animation {animation_id} has no bounded end")
+        if not keyframes:
+            raise ValueError(f"animation {animation_id} is empty")
+        actual_end = ROM_BASE + cursor
+        contiguous = contiguous and actual_end == expected_end
+        raw = rom[start:cursor]
+        animations.append(
+            {
+                "animation_id": animation_id,
+                "timeline_pointer": _address(pointer),
+                "keyframe_count": len(keyframes),
+                "duration_frames": sum(
+                    item["hold_frames"] for item in keyframes
+                ),
+                "keyframes": keyframes,
+                "terminator": {
+                    "frame_id": 0xFFFF,
+                    "hold_frames": 0,
+                },
+                "raw_size": len(raw),
+                "raw_sha256": _sha256(raw),
+            }
+        )
+    if not contiguous:
+        raise ValueError("animation timeline region is not contiguous")
+    return animations, contiguous
+
+
+def _flip_pixels(
+    pixels: bytes,
+    width: int,
+    height: int,
+    *,
+    horizontal: bool,
+    vertical: bool,
+) -> bytes:
+    if not horizontal and not vertical:
+        return pixels
+    result = bytearray(len(pixels))
+    for y in range(height):
+        source_y = height - 1 - y if vertical else y
+        for x in range(width):
+            source_x = width - 1 - x if horizontal else x
+            result[y * width + x] = pixels[source_y * width + source_x]
+    return bytes(result)
+
+
+def _raster_affine_indices(
+    source: bytes,
+    width: int,
+    height: int,
+    *,
+    pa: int,
+    pb: int,
+    pc: int,
+    pd: int,
+    double_size: bool,
+) -> tuple[bytes, int, int]:
+    if len(source) != width * height:
+        raise ValueError("affine source length does not match geometry")
+    output_width = width << int(double_size)
+    output_height = height << int(double_size)
+    output = bytearray(output_width * output_height)
+    for screen_y in range(output_height):
+        relative_y = screen_y - output_height // 2
+        for screen_x in range(output_width):
+            relative_x = screen_x - output_width // 2
+            source_x = (
+                pa * relative_x + pb * relative_y + (width << 7)
+            ) >> 8
+            source_y = (
+                pc * relative_x + pd * relative_y + (height << 7)
+            ) >> 8
+            if 0 <= source_x < width and 0 <= source_y < height:
+                output[screen_y * output_width + screen_x] = source[
+                    source_y * width + source_x
+                ]
+    return bytes(output), output_width, output_height
+
+
+def _render_affine_reference_previews(
+    group_id: int,
+    frame_id: int,
+    component: dict[str, Any],
+    graphics: bytes,
+    palette: bytes,
+) -> tuple[list[dict[str, Any]], dict[str, bytes]]:
+    source, width, height = render_4bpp_tile_block_indices(
+        graphics,
+        tile_offset=component["tile_index"],
+        width_tiles=component["width"] // 8,
+        height_tiles=component["height"] // 8,
+    )
+    variants = (
+        ("normal", {"PA": 240, "PB": 0, "PC": 0, "PD": 240}),
+        (
+            "side_horizontal_mirror",
+            {"PA": -240, "PB": 0, "PC": 0, "PD": 240},
+        ),
+    )
+    previews = []
+    outputs = {}
+    for variant, matrix in variants:
+        pixels, output_width, output_height = _raster_affine_indices(
+            source,
+            width,
+            height,
+            pa=matrix["PA"],
+            pb=matrix["PB"],
+            pc=matrix["PC"],
+            pd=matrix["PD"],
+            double_size=False,
+        )
+        png = indexed_png_from_bgr555(
+            pixels,
+            palette,
+            width=output_width,
+            height=output_height,
+            transparent_index=0,
+        )
+        png_name = (
+            f"group-{group_id:02d}-frame-{frame_id:02d}-"
+            f"component-{component['component_index']:02d}-"
+            f"affine-{variant.replace('_', '-')}.png"
+        )
+        previews.append(
+            {
+                "variant": variant,
+                "png": png_name,
+                "width": output_width,
+                "height": output_height,
+                "double_size": False,
+                "matrix": matrix,
+                "pixel_sha256": _sha256(pixels),
+                "png_sha256": _sha256(png),
+                "evidence_scope": "mGBA source-model; not a hardware golden",
+            }
+        )
+        outputs[png_name] = png
+    return previews, outputs
+
+
+def _render_frame(
+    group_id: int,
+    frame: dict[str, Any],
+    graphics: bytes,
+    palette: bytes,
+) -> tuple[dict[str, Any], bytes]:
+    components = frame["components"]
+    png_name = f"group-{group_id:02d}-frame-{frame['frame_id']:02d}.png"
+    if not components:
+        pixels = b"\0"
+        width = height = 1
+        bounds = {"min_x": 0, "min_y": 0, "max_x": 1, "max_y": 1}
+    else:
+        min_x = min(component["x"] for component in components)
+        min_y = min(component["y"] for component in components)
+        max_x = max(
+            component["x"] + component["width"] for component in components
+        )
+        max_y = max(
+            component["y"] + component["height"] for component in components
+        )
+        width = max_x - min_x
+        height = max_y - min_y
+        if width <= 0 or height <= 0:
+            raise ValueError(
+                f"group {group_id} frame {frame['frame_id']} has invalid bounds"
+            )
+        canvas = bytearray(width * height)
+        for component in components:
+            component_pixels, component_width, component_height = (
+                render_4bpp_tile_block_indices(
+                    graphics,
+                    tile_offset=component["tile_index"],
+                    width_tiles=component["width"] // 8,
+                    height_tiles=component["height"] // 8,
+                )
+            )
+            if (
+                component_width != component["width"]
+                or component_height != component["height"]
+            ):
+                raise ValueError("component renderer returned unexpected geometry")
+            component_pixels = _flip_pixels(
+                component_pixels,
+                component_width,
+                component_height,
+                horizontal=component["horizontal_flip"],
+                vertical=component["vertical_flip"],
+            )
+            destination_x = component["x"] - min_x
+            destination_y = component["y"] - min_y
+            for local_y in range(component_height):
+                for local_x in range(component_width):
+                    color = component_pixels[
+                        local_y * component_width + local_x
+                    ]
+                    if color:
+                        canvas[
+                            (destination_y + local_y) * width
+                            + destination_x
+                            + local_x
+                        ] = color
+        pixels = bytes(canvas)
+        bounds = {
+            "min_x": min_x,
+            "min_y": min_y,
+            "max_x": max_x,
+            "max_y": max_y,
+        }
+    png = indexed_png_from_bgr555(
+        pixels,
+        palette,
+        width=width,
+        height=height,
+        transparent_index=0,
+    )
+    return (
+        {
+            "png": png_name,
+            "width": width,
+            "height": height,
+            "component_local_bounds": bounds,
+            "pixel_sha256": _sha256(pixels),
+            "png_sha256": _sha256(png),
+            "rendering_scope": (
+                "source-space component order with H/V tile flips; "
+                "runtime affine, screen position and priority are not applied"
+            ),
+        },
+        png,
+    )
+
+
+def _code_slices(rom: bytes) -> list[dict[str, Any]]:
+    result = []
+    for expected in CODE_SLICES:
+        start = expected["file_offset"]
+        end = int(expected["gba_end"], 16) - ROM_BASE
+        actual = _sha256(rom[start:end])
+        if actual != expected["sha256"]:
+            raise ValueError(f"{expected['name']} code SHA-256 mismatch")
+        result.append(dict(expected))
+    return result
+
+
+def _child_task_origin_model() -> dict[str, Any]:
+    return {
+        "task_fields": {
+            "+0x00": "u32 render_flags",
+            "+0x04": "s16 anchor_x",
+            "+0x06": "s16 anchor_y",
+            "+0x08": "s16 delta_x",
+            "+0x0A": "s16 delta_y",
+            "+0x2C": "s32 ballistic_x_q8_8",
+            "+0x30": "s32 ballistic_y_q8_8",
+            "+0x34": "s32 ballistic_angle; callback consumes low s16",
+            "+0x38": "s32 ballistic_speed",
+        },
+        "q8_8_conversion": {
+            "formula": (
+                "truncate_toward_zero_q8_8(v) = "
+                "s32(v + (255 if s32(v) < 0 else 0)) >> 8"
+            ),
+            "actor_x_source": "actor[side_id]+0x20",
+            "actor_y_source": "actor[side_id]+0x24",
+        },
+        "constructor": {
+            "parent_side_id_source": "s32(parent+0xA4)",
+            "parent_x_source": "s32(parent+0x04)",
+            "parent_y_source": "s32(parent+0x08)",
+            "initial_anchor_x": "s16(parent_x + effective_x_offset)",
+            "initial_anchor_y": "s16(parent_y + y_offset)",
+            "mirrored_x_offset": "s16(-x_offset)",
+            "effective_x_offset": (
+                "mirrored_x_offset when side_id==0 and "
+                "actor[0].orientation!=1, or side_id==1 and "
+                "actor[1].orientation==0; otherwise s16(x_offset)"
+            ),
+            "horizontal_flip_toggle_mask": "0x8000",
+            "side_unknown_render_flags": "0x40001000",
+            "side_render_flags_formula": (
+                "0x40001000 | (u8(side_id)<<13) | "
+                "((u8(side_id)&1)<<31) | "
+                "(0x20000000 if x_offset_mirrored else 0) | "
+                "(u8(follow_argument)<<28)"
+            ),
+        },
+        "actor_follow": {
+            "enabled_when": (
+                "parent_side_id != -1 and follow_argument != 0"
+            ),
+            "actor_anchor_x_formula": (
+                "truncate_toward_zero_q8_8(actor_x_q8_8) when "
+                "actor.orientation==side_id; otherwise "
+                "240-truncate_toward_zero_q8_8(actor_x_q8_8)"
+            ),
+            "actor_anchor_y_formula": (
+                "truncate_toward_zero_q8_8(actor_y_q8_8)"
+            ),
+            "delta_x_at_spawn": "s16(initial_anchor_x-actor_anchor_x(spawn))",
+            "delta_y_at_spawn": "s16(initial_anchor_y-actor_anchor_y(spawn))",
+            "task_origin_x_at_tick": "s16(actor_anchor_x(t) + delta_x)",
+            "task_origin_y_at_tick": "s16(actor_anchor_y(t) + delta_y)",
+            "consumer_code_range": "0x08062C58..0x08062C7C",
+            "consumer_x_formula": (
+                "s16(component_x + task.anchor_x + task.delta_x)"
+            ),
+            "consumer_y_formula": (
+                "s16(component_y + task.anchor_y + task.delta_y)"
+            ),
+        },
+        "rng_ballistic": {
+            "sequence_id": 1,
+            "child_count": 3,
+            "initial_x_q8_8": "s32(parent_x<<8)",
+            "initial_y_q8_8": "s32(parent_y<<8)",
+            "rng_dispatch_call_target": "0x0809C110",
+            "angle_jitter": "u32(rng_angle_result*7)>>15",
+            "angle_when_mode_even": (
+                "((parent_mode+2)<<6) + 12*child_index - 12 + angle_jitter"
+            ),
+            "angle_when_mode_one": (
+                "192 + 12*child_index + angle_jitter"
+            ),
+            "angle_when_mode_other_odd": (
+                "64 - angle_jitter - 12*child_index"
+            ),
+            "initial_speed": (
+                "512 + ((child_index&1)<<6) + "
+                "(u32(rng_speed_result*65)>>15)"
+            ),
+            "x_transition": (
+                "u32(x_q8_8_t + "
+                "(u32(s16(sin_rom(angle))*speed_t)>>8))"
+            ),
+            "y_transition": (
+                "u32(y_q8_8_t - "
+                "(u32(s16(cos_rom(angle))*speed_t)>>8))"
+            ),
+            "speed_transition": "max(0, speed_t - 24)",
+            "task_origin_x_at_tick": (
+                "truncate_toward_zero_q8_8(s32(x_q8_8_t))"
+            ),
+            "task_origin_y_at_tick": (
+                "truncate_toward_zero_q8_8(s32(y_q8_8_t))"
+            ),
+            "concrete_boundary": (
+                "parent coordinates, parent mode, RNG dispatch target/state "
+                "and both RNG results per child are runtime inputs"
+            ),
+        },
+        "model_boundaries": {
+            "component_local_position_applied": False,
+            "oam_attr_composition_applied": False,
+            "affine_rasterization_applied": False,
+            "screen_clipping_applied": False,
+        },
+    }
+
+
+def _oam_attribute_model(
+    groups: list[dict[str, Any]],
+    playback_plans: list[dict[str, Any]],
+) -> dict[str, Any]:
+    observed_sizes = sorted({
+        (component["width"], component["height"])
+        for group in groups
+        for frame in group["frames"]
+        for component in frame["components"]
+    })
+    render_attribute_arguments = sorted({
+        event["render_attributes_argument"]
+        for plan in playback_plans
+        for event in plan["spawn_events"]
+    })
+    return {
+        "code_range": "0x08062D92..0x08063186",
+        "combined_word_layout": "u32(attr1) << 16 | u16(attr0)",
+        "task_fields": {
+            "+0x00": "u32 render_flags",
+            "+0x10": "u16 tile_base",
+            "+0x12": "u8 palette_bank",
+        },
+        "shape_size_combined_masks": {
+            "8x8": "0x00000000",
+            "8x16": "0x00008000",
+            "8x32": "0x40008000",
+            "16x8": "0x00004000",
+            "16x16": "0x40000000",
+            "16x32": "0x80008000",
+            "32x8": "0x40004000",
+            "32x16": "0x80004000",
+            "32x32": "0x80000000",
+            "32x64": "0xC0008000",
+            "64x32": "0xC0004000",
+            "64x64": "0xC0000000",
+        },
+        "observed_component_sizes": [
+            f"{width}x{height}" for width, height in observed_sizes
+        ],
+        "attr0": {
+            "y_coordinate": "u8(renderer_final_y)",
+            "object_mode": "task.render_flags & 0x00000C00",
+            "affine_enable": "u1(matrix_path_predicate) << 8",
+            "affine_double_size": (
+                "u1(matrix_path_predicate and "
+                "(task.render_flags & 0x00080000) != 0) << 9"
+            ),
+            "global_bit7": "global_obj_control_byte & 0x80",
+            "shape_bits_source": "shape_size_combined_masks low u16",
+        },
+        "attr1": {
+            "x_coordinate": "u9(renderer_final_x)",
+            "non_affine_flip_bits": (
+                "u2(component.tile_flags XOR "
+                "((task.render_flags & 0x00018000) >> 15))"
+            ),
+            "non_affine_flip_placement": "flip_bits << 12",
+            "non_affine_flip_placement_guard": (
+                "(renderer_stack_mode_byte & 1) == 0 and "
+                "task.byte_13 == 0 and task.scale_xy_q8_8 == 0x01000100 "
+                "and (task.render_flags & 0x00080000) == 0"
+            ),
+            "size_bits_source": "shape_size_combined_masks high u16",
+        },
+        "attr2": {
+            "applicable_path": (
+                "battle-effect normal OBJ path where "
+                "(task.render_flags & 0x00400000) == 0"
+            ),
+            "tile_index": "u16(task.tile_base + component.tile_index)",
+            "palette_bank": "u4(task.palette_bank) << 12",
+            "priority": "(task.render_flags & 0x000000C0) << 4",
+            "formula": (
+                "u16(task.tile_base + component.tile_index) | "
+                "(u4(task.palette_bank) << 12) | "
+                "((task.render_flags & 0x000000C0) << 4)"
+            ),
+        },
+        "normal_path_reachability": {
+            "constructor_fixed_and_side_flags_clear_bit_22": True,
+            "reachable_render_attributes_arguments": render_attribute_arguments,
+            "all_reachable_arguments_clear_bit_22": all(
+                not value & 0x00400000
+                for value in render_attribute_arguments
+            ),
+        },
+        "model_boundaries": {
+            "pre_attr_coordinate_transform_model_linked": True,
+            "pre_attr_concrete_runtime_values_applied": False,
+            "concrete_runtime_coordinates_applied": False,
+            "affine_matrix_model_linked": True,
+            "concrete_affine_matrix_slot_applied": False,
+            "affine_rasterization_applied": False,
+            "dynamic_obj_vram_model_linked": True,
+            "dynamic_obj_vram_copy_execution_applied": False,
+            "screen_clipping_applied": False,
+        },
+    }
+
+
+def _affine_matrix_model(groups: list[dict[str, Any]]) -> dict[str, Any]:
+    observed = [
+        {
+            "group_id": group["group_id"],
+            "frame_id": frame["frame_id"],
+            "component_index": component["component_index"],
+            "normal": {"PA": 240, "PB": 0, "PC": 0, "PD": 240},
+            "side_horizontal_mirror": {
+                "PA": -240,
+                "PB": 0,
+                "PC": 0,
+                "PD": 240,
+            },
+        }
+        for group in groups
+        for frame in group["frames"]
+        for component in frame["components"]
+        if component["affine_mode"]
+    ]
+    return {
+        "code_range": "0x08062EF4..0x080630EC",
+        "matrix_path_predicate": (
+            "component.affine_mode != 0 or component.angle_offset != 0 or "
+            "task.angle_offset != 0 or "
+            "component.scale_xy_q8_8 != 0x01000100 or "
+            "task.scale_xy_q8_8 != 0x01000100 or "
+            "(task.render_flags & 0x00080000) != 0"
+        ),
+        "angle": {
+            "phase": "u8(component.angle_offset + task.angle_offset)",
+            "sin": "sin_q8_8(phase) via 0x08061A80",
+            "cos": "sin_q8_8(u8(phase+64)) via 0x08061ACC",
+        },
+        "flip_bits": (
+            "u2(component.tile_flags XOR "
+            "((task.render_flags & 0x00018000) >> 15))"
+        ),
+        "horizontal_sign": "-1 when (flip_bits & 1) else 1",
+        "vertical_sign": "-1 when (flip_bits & 2) else 1",
+        "scale_x_product": "s16(task.scale_x) * s16(component.scale_x)",
+        "scale_y_product": "s16(task.scale_y) * s16(component.scale_y)",
+        "scaled_coefficient": (
+            "trunc0((s32(value_q8_8) << 16) / s32(scale_product))"
+        ),
+        "matrix_formula": {
+            "PA": "horizontal_sign * Q(cos_q8_8(phase),scale_x_product)",
+            "PB": "vertical_sign * Q(sin_q8_8(phase),scale_x_product)",
+            "PC": "-horizontal_sign * Q(sin_q8_8(phase),scale_y_product)",
+            "PD": "vertical_sign * Q(cos_q8_8(phase),scale_y_product)",
+        },
+        "default_scale_optimization": (
+            "when both scale pairs are 0x01000100, Q(value,65536)=value"
+        ),
+        "shadow_oam_affine_base": "0x03000282",
+        "matrix_parameter_offsets": {
+            "PA": 0,
+            "PB": 8,
+            "PC": 16,
+            "PD": 24,
+        },
+        "attr1_matrix_index": "u5(affine_matrix_ordinal) << 9",
+        "rasterization": {
+            "reference": "mGBA src/gba/renderers/software-obj.c lines 215..316",
+            "mgba_commit": "d8bad14",
+            "software_obj_sha256": (
+                "b737ba2372054156fd987f95ed9350e3370f469cb38b40367657c70c02667fe9"
+            ),
+            "output_bounds": (
+                "width << double_size by height << double_size"
+            ),
+            "inverse_mapping": (
+                "source_fp = matrix * (screen - output_half_extent) + "
+                "source_half_extent_q8_8"
+            ),
+            "fixed_point_sampling": (
+                "arithmetic signed >> 8 (floor for negative accumulators)"
+            ),
+            "out_of_bounds": "transparent",
+            "palette_index_zero": "transparent",
+            "affine_flip_rule": (
+                "attr1 bits 9..13 are matrix index; mirror is encoded in matrix"
+            ),
+        },
+        "local_coordinate_rotation": {
+            "center_x": (
+                "component.x + trunc0_div2(component.width)"
+            ),
+            "center_y": (
+                "component.y + trunc0_div2(component.height)"
+            ),
+            "scaled_center_x": (
+                "q8_8_mul_trunc0(center_x,task.scale_x)"
+            ),
+            "scaled_center_y": (
+                "q8_8_mul_trunc0(center_y,task.scale_y)"
+            ),
+            "phase": "u8(task.angle_offset)",
+            "component_angle_boundary": (
+                "component.angle_offset does not rotate component center position"
+            ),
+            "rotated_local_x": (
+                "-trunc0_div2(component.width) + "
+                "trunc0_div256(scaled_center_x*cos_q8_8(task_phase) - "
+                "scaled_center_y*sin_q8_8(task_phase))"
+            ),
+            "rotated_local_y": (
+                "-trunc0_div2(component.height) + "
+                "trunc0_div256(scaled_center_x*sin_q8_8(task_phase) + "
+                "scaled_center_y*cos_q8_8(task_phase))"
+            ),
+        },
+        "current_reachable_non_default_components": observed,
+        "model_boundaries": {
+            "current_task_scale_and_angle_initialization_known": True,
+            "current_side_horizontal_mirror_known": True,
+            "fixed_matrix_slot_known": False,
+            "general_rotated_local_coordinate_formula_complete": True,
+            "source_model_pixel_rasterization_complete": True,
+            "hardware_golden_pixel_rasterization_complete": False,
+        },
+    }
+
+
+def _dynamic_obj_vram_model(
+    playback_plans: list[dict[str, Any]],
+) -> dict[str, Any]:
+    render_attribute_arguments = sorted({
+        event["render_attributes_argument"]
+        for plan in playback_plans
+        for event in plan["spawn_events"]
+    })
+    return {
+        "code_range": "0x08063122..0x080631F6",
+        "activation": "(task.render_flags & 0x00400000) != 0",
+        "copy_enqueue": {
+            "enabled_when": (
+                "(task.render_flags & 0x00800000) == 0 and "
+                "(task.render_flags & 0x01000008) != 0x01000008"
+            ),
+            "source": (
+                "task.tile_source_ptr + s16(component.tile_index) * 32"
+            ),
+            "destination": (
+                "0x06010000 + "
+                "u16(task.tile_base + running_dynamic_tile_offset) * 32"
+            ),
+            "size_bytes": (
+                "u16(trunc0_div64("
+                "s16(component.width)*s16(component.height)) * 32)"
+            ),
+            "enqueue_helper": "0x080635B8",
+            "enqueue_return_value_ignored_by_renderer": True,
+        },
+        "copy_queue": {
+            "iwram_address": "0x03005BBC",
+            "slot_count": 16,
+            "slot_stride": 16,
+            "slot_fields": "u32 active, u32 source, u32 destination, u16 size",
+            "enqueue_result": "1 when a free slot is reserved; 0 when full",
+            "execution": {
+                "consumer_code_range": "0x0806365C..0x080636DC",
+                "status_1_operation": (
+                    "CpuSet(source,destination,u16(size_bytes)>>1)"
+                ),
+                "status_1_unit": "16-bit halfwords",
+                "synchronous": True,
+                "completion_action": "clear queue slot active bit",
+                "dispatcher_render_call": "0x08061320 -> 0x08062924",
+                "dispatcher_first_flush_call": (
+                    "0x080613FC -> 0x0806365C"
+                ),
+                "dispatcher_optional_second_flush_call": (
+                    "0x080614C2 -> 0x0806365C"
+                ),
+                "relative_order": (
+                    "sprite task/render dispatch completes before first flush"
+                ),
+            },
+        },
+        "attr2": (
+            "u16(task.tile_base + running_dynamic_tile_offset) | "
+            "(u4(task.palette_bank) << 12) | "
+            "((task.render_flags & 0xC0) << 4)"
+        ),
+        "running_offset_initial": 0,
+        "running_offset_after_component": (
+            "u16(running_dynamic_tile_offset + "
+            "trunc0_div64(s16(component.width)*s16(component.height)))"
+        ),
+        "current_sequence_reachability": {
+            "reachable": any(
+                value & 0x00400000
+                for value in render_attribute_arguments
+            ),
+            "reachable_render_attributes_arguments": (
+                render_attribute_arguments
+            ),
+            "all_reachable_arguments_clear_bit_22": all(
+                not value & 0x00400000
+                for value in render_attribute_arguments
+            ),
+        },
+        "model_boundaries": {
+            "enqueue_formula_known": True,
+            "queue_full_failure_known": True,
+            "queued_copy_execution_mechanism_known": True,
+            "queued_copy_relative_dispatch_order_known": True,
+            "dispatcher_hardware_vblank_phase_known": False,
+            "current_battle_effect_sequence_runtime_instance_known": False,
+        },
+    }
+
+
+def _pre_oam_coordinate_transform_model(
+    groups: list[dict[str, Any]],
+) -> dict[str, Any]:
+    non_default_components = [
+        {
+            "group_id": group["group_id"],
+            "frame_id": frame["frame_id"],
+            "component_index": component["component_index"],
+            "width": component["width"],
+            "height": component["height"],
+            "scale_x": component["scale_x"],
+            "scale_y": component["scale_y"],
+            "affine_mode": component["affine_mode"],
+        }
+        for group in groups
+        for frame in group["frames"]
+        for component in frame["components"]
+        if (component["scale_x"], component["scale_y"]) != (0x100, 0x100)
+    ]
+    return {
+        "code_range": "0x08062C7C..0x08062D92",
+        "inputs": {
+            "x_after_origin": (
+                "s16 renderer x after component/task-origin composition"
+            ),
+            "y_after_origin": (
+                "s16 renderer y after component/task-origin composition"
+            ),
+            "pre_scale_width": "s16 renderer extent before task/component scale",
+            "pre_scale_height": "s16 renderer extent before task/component scale",
+            "task_scale_x": "s16 task+0x0C Q8.8",
+            "task_scale_y": "s16 task+0x0E Q8.8",
+        },
+        "runtime_offset_table": {
+            "iwram_address": "0x03000054",
+            "entry_count": 4,
+            "entry_stride": 8,
+            "entry_fields": "s32 x_q8_8, s32 y_q8_8",
+            "enabled_when": "(task.render_flags & 0x00001000) != 0",
+            "pair_index": "(task.render_flags & 0x00006000) >> 13",
+            "x_after_offset": (
+                "s16(x_after_origin - "
+                "(s32(offset_table[pair_index*2]) >> 8))"
+            ),
+            "y_after_offset": (
+                "s16(y_after_origin - "
+                "(s32(offset_table[pair_index*2+1]) >> 8))"
+            ),
+            "disabled_result": (
+                "x_after_offset=x_after_origin; "
+                "y_after_offset=y_after_origin"
+            ),
+            "writer_evidence": [
+                {
+                    "kind": "initialize_all_entries_to_zero",
+                    "code_range": "0x08061624..0x08061710",
+                    "write_range": "0x080616D0..0x080616E0",
+                    "direct_caller_known": False,
+                },
+                {
+                    "kind": "reset_runtime_selected_entry_to_zero",
+                    "code_range": "0x08065404..0x08065554",
+                    "write_range": "0x08065528..0x0806553A",
+                    "direct_caller_count": 23,
+                },
+                {
+                    "kind": "state_driven_dynamic_update",
+                    "code_range": "0x0806E958..0x0806EA96",
+                    "state_1_effect": (
+                        "write entry 0 x/y from runtime sources"
+                    ),
+                    "state_2_effect": (
+                        "add/subtract runtime delta across entries 0 and 1"
+                    ),
+                },
+            ],
+        },
+        "scale_and_extent": {
+            "q8_8_multiply": (
+                "q8_8_mul_trunc0(a,b) = "
+                "s32(a*b + (255 if s32(a*b) < 0 else 0)) >> 8"
+            ),
+            "default_fast_path_when": (
+                "component.scale_xy_q8_8 == 0x01000100 and "
+                "task.scale_xy_q8_8 == 0x01000100"
+            ),
+            "default_fast_path_extent": (
+                "scaled_width=component.width; "
+                "scaled_height=component.height"
+            ),
+            "scaled_width": (
+                "min_s16(pre_scale_width,"
+                "s16(q8_8_mul_trunc0("
+                "q8_8_mul_trunc0(component.width,task.scale_x),"
+                "component.scale_x)))"
+            ),
+            "scaled_height": (
+                "min_s16(pre_scale_height,"
+                "s16(q8_8_mul_trunc0("
+                "q8_8_mul_trunc0(component.height,task.scale_y),"
+                "component.scale_y)))"
+            ),
+            "observed_non_default_components": non_default_components,
+        },
+        "visibility_gate": {
+            "half_difference": (
+                "trunc0_div2(v) = s32(v + (1 if s32(v) < 0 else 0)) >> 1"
+            ),
+            "all_required_conditions": [
+                "x_after_offset + scaled_width > 0",
+                "y_after_offset + scaled_height > 0",
+                (
+                    "x_after_offset < 240 - "
+                    "trunc0_div2(pre_scale_width-scaled_width)"
+                ),
+                (
+                    "y_after_offset < 160 - "
+                    "trunc0_div2(pre_scale_height-scaled_height)"
+                ),
+            ],
+            "failure_action": "skip component without emitting OAM",
+        },
+        "model_boundaries": {
+            "runtime_offset_table_values_known": False,
+            "runtime_offset_table_initialization_known": True,
+            "runtime_offset_table_slot_reset_known": True,
+            "runtime_offset_table_dynamic_writer_family_known": True,
+            "runtime_offset_table_complete_schedule_known": False,
+            "concrete_final_coordinates_known": False,
+            "affine_matrix_and_rasterization_applied": False,
+        },
+    }
+
+
+def _motion_spawn_records(rom: bytes) -> tuple[bytes, list[dict[str, Any]]]:
+    size = MOTION_ENTRY_COUNT * MOTION_ENTRY_SIZE
+    table = rom[MOTION_TABLE_OFFSET : MOTION_TABLE_OFFSET + size]
+    if _sha256(table) != MOTION_TABLE_SHA256:
+        raise ValueError("motion spawn table SHA-256 mismatch")
+    records = []
+    spawn_tick = 0
+    for record_id in range(MOTION_ENTRY_COUNT):
+        fields = struct.unpack_from(
+            "<5h",
+            table,
+            record_id * MOTION_ENTRY_SIZE,
+        )
+        effect_id, x_offset, y_offset, render_attributes, delay_ticks = fields
+        is_terminator = effect_id == -1
+        if is_terminator and fields != (-1, 0, 0, 0, 0):
+            raise ValueError("motion spawn terminator is malformed")
+        if not is_terminator and (effect_id not in (0, 1, 2) or delay_ticks < 0):
+            raise ValueError(f"motion spawn record {record_id} is invalid")
+        records.append(
+            {
+                "record_id": record_id,
+                "effect_id": effect_id,
+                "x_offset": x_offset,
+                "y_offset": y_offset,
+                "render_attributes": render_attributes,
+                "delay_ticks": delay_ticks,
+                "spawn_tick": None if is_terminator else spawn_tick,
+                "is_terminator": is_terminator,
+                "raw_hex": table[
+                    record_id * MOTION_ENTRY_SIZE :
+                    (record_id + 1) * MOTION_ENTRY_SIZE
+                ].hex(),
+            }
+        )
+        if not is_terminator:
+            spawn_tick += delay_ticks
+    if not records[-1]["is_terminator"]:
+        raise ValueError("motion spawn table has no final terminator")
+    return table, records
+
+
+def _sequence_playback_plans(
+    sequence_manifest: dict[str, Any],
+    groups: list[dict[str, Any]],
+    motion_records: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    group_by_id = {group["group_id"]: group for group in groups}
+    plans = []
+    for sequence in sequence_manifest["sequences"]:
+        sequence_id = sequence["sequence_id"]
+        group_id = (
+            sequence["nonzero_resource_group_ids"][0]
+            if sequence["nonzero_resource_group_ids"]
+            else 0
+        )
+        events: list[dict[str, Any]] = []
+        if sequence_id == 0:
+            policy = "null"
+            screen_coordinates_complete = True
+            origin_model_id = "none"
+        elif sequence_id == 1:
+            policy = "three_child_ballistic_rng"
+            screen_coordinates_complete = False
+            origin_model_id = "rng_ballistic"
+            duration = group_by_id[group_id]["animations"][0][
+                "duration_frames"
+            ]
+            for child_index in range(3):
+                events.append(
+                    {
+                        "child_index": child_index,
+                        "spawn_tick": 0,
+                        "group_id": group_id,
+                        "animation_variant": 0,
+                        "child_duration_frames": duration,
+                        "static_completion_tick": duration,
+                        "x_offset": None,
+                        "y_offset": None,
+                        "render_attributes_argument": 0,
+                        "per_tick_callback_thumb": "0x080804ED",
+                        "coordinate_boundary": (
+                            "initial angle/position depend on RNG and parent "
+                            "+0x8C runtime mode"
+                        ),
+                    }
+                )
+        elif sequence_id in (2, 3, 18):
+            forced_zero = sequence_id == 18
+            policy = (
+                "motion_table_forced_variant_zero"
+                if forced_zero
+                else "motion_table_fan_out"
+            )
+            screen_coordinates_complete = False
+            origin_model_id = "parent_offset_static"
+            for child_index, record in enumerate(motion_records[:-1]):
+                variant = 0 if forced_zero else record["effect_id"]
+                duration = group_by_id[group_id]["animations"][variant][
+                    "duration_frames"
+                ]
+                if sequence_id == 2:
+                    render_attributes = (
+                        record["render_attributes"] << 8
+                    ) | 0x400
+                elif sequence_id == 3:
+                    render_attributes = record["render_attributes"] << 8
+                else:
+                    render_attributes = 0
+                events.append(
+                    {
+                        "child_index": child_index,
+                        "spawn_tick": record["spawn_tick"],
+                        "motion_record_id": record["record_id"],
+                        "group_id": group_id,
+                        "animation_variant": variant,
+                        "child_duration_frames": duration,
+                        "static_completion_tick": (
+                            record["spawn_tick"] + duration
+                        ),
+                        "x_offset": record["x_offset"],
+                        "y_offset": record["y_offset"],
+                        "render_attributes_argument": render_attributes,
+                        "per_tick_callback_thumb": "0x0808041D",
+                    }
+                )
+        else:
+            policy = "single_child_variant_zero"
+            screen_coordinates_complete = False
+            duration = group_by_id[group_id]["animations"][0][
+                "duration_frames"
+            ]
+            tick_callback = sequence["tick_callback_address"]
+            if tick_callback == "0x08080914":
+                render_attributes = 1 << 28
+            elif tick_callback == "0x080809F4":
+                render_attributes = 0x310
+            elif tick_callback == "0x08080964":
+                render_attributes = 0x400
+            elif tick_callback == "0x080808C4":
+                render_attributes = 0
+            else:
+                raise ValueError(
+                    f"sequence {sequence_id} has unknown simple callback "
+                    f"{tick_callback}"
+                )
+            origin_model_id = (
+                "actor_anchor_follow"
+                if tick_callback == "0x08080914"
+                else "parent_origin_static"
+            )
+            events.append(
+                {
+                    "child_index": 0,
+                    "spawn_tick": 0,
+                    "group_id": group_id,
+                    "animation_variant": 0,
+                    "child_duration_frames": duration,
+                    "static_completion_tick": duration,
+                    "x_offset": 0,
+                    "y_offset": 0,
+                    "render_attributes_argument": render_attributes,
+                    "per_tick_callback_thumb": "0x0808041D",
+                }
+            )
+        last_completion = max(
+            (event["static_completion_tick"] for event in events),
+            default=0,
+        )
+        plans.append(
+            {
+                "sequence_id": sequence_id,
+                "group_id": group_id,
+                "init_once_callback_thumb": sequence[
+                    "init_once_callback_thumb"
+                ],
+                "tick_callback_thumb": sequence["tick_callback_thumb"],
+                "spawn_policy": policy,
+                "child_task_origin_model_id": origin_model_id,
+                "spawn_events": events,
+                "last_child_static_completion_tick": last_completion,
+                "parent_release_tick_range": (
+                    [0, 0]
+                    if sequence_id == 0
+                    else [last_completion, last_completion + 1]
+                ),
+                "screen_coordinates_complete": screen_coordinates_complete,
+            }
+        )
+    return plans
+
+
+def export_battle_effect_sprite_animations(
+    root: Path | str,
+    output_dir: Path | str,
+) -> dict[str, Any]:
+    root = Path(root)
+    output_dir = Path(output_dir)
+    rom = (root / "rom/base.gba").read_bytes()
+    rom_sha256 = _sha256(rom)
+    if rom_sha256 != ROM_SHA256:
+        raise ValueError(
+            f"ROM SHA-256 mismatch: expected {ROM_SHA256}, got {rom_sha256}"
+        )
+    resources, sequences = _load_inputs(root, rom_sha256)
+    resource_path = root / RESOURCE_MANIFEST_PATH
+    sequence_path = root / SEQUENCE_MANIFEST_PATH
+
+    table_size = TABLE_ENTRY_COUNT * TABLE_ENTRY_SIZE
+    resource_table = rom[
+        RESOURCE_TABLE_OFFSET : RESOURCE_TABLE_OFFSET + table_size
+    ]
+    sprite_pair_table = rom[
+        SPRITE_PAIR_TABLE_OFFSET : SPRITE_PAIR_TABLE_OFFSET + table_size
+    ]
+    if _sha256(resource_table) != RESOURCE_TABLE_SHA256:
+        raise ValueError("resource pointer table SHA-256 mismatch")
+    if _sha256(sprite_pair_table) != SPRITE_PAIR_TABLE_SHA256:
+        raise ValueError("sprite pair table SHA-256 mismatch")
+    if resource_table[:8] != b"\0" * 8 or sprite_pair_table[:8] != b"\0" * 8:
+        raise ValueError("resource group zero is not the null sentinel")
+    motion_table, motion_records = _motion_spawn_records(rom)
+
+    resource_entries = {
+        entry["group_id"]: entry for entry in resources["entries"]
+    }
+    sequence_ids_by_group: dict[int, list[int]] = {
+        group_id: [] for group_id in range(1, TABLE_ENTRY_COUNT)
+    }
+    for sequence in sequences["sequences"]:
+        for group_id in sequence["nonzero_resource_group_ids"]:
+            sequence_ids_by_group[group_id].append(sequence["sequence_id"])
+
+    groups: list[dict[str, Any]] = []
+    outputs: dict[str, bytes] = {}
+    for group_id in range(1, TABLE_ENTRY_COUNT):
+        graphics_pointer, palette_pointer = struct.unpack_from(
+            "<II",
+            resource_table,
+            group_id * TABLE_ENTRY_SIZE,
+        )
+        definition_pointer, animation_table_pointer = struct.unpack_from(
+            "<II",
+            sprite_pair_table,
+            group_id * TABLE_ENTRY_SIZE,
+        )
+        resource_entry = resource_entries[group_id]
+        if resource_entry["graphics"]["gba_address"] != _address(
+            graphics_pointer
+        ):
+            raise ValueError(f"group {group_id} graphics pointer mismatch")
+        if resource_entry["palette"]["gba_address"] != _address(
+            palette_pointer
+        ):
+            raise ValueError(f"group {group_id} palette pointer mismatch")
+        graphics_path = (
+            root
+            / "artifacts/battle-effect-resource-pairs-v1"
+            / resource_entry["graphics"]["output_bin"]
+        )
+        palette_path = (
+            root
+            / "artifacts/battle-effect-resource-pairs-v1"
+            / resource_entry["palette"]["output_bin"]
+        )
+        graphics = graphics_path.read_bytes()
+        palette = palette_path.read_bytes()
+        if _sha256(graphics) != resource_entry["graphics"]["decompressed_sha256"]:
+            raise ValueError(f"group {group_id} graphics artifact hash mismatch")
+        if _sha256(palette) != resource_entry["palette"]["decompressed_sha256"]:
+            raise ValueError(f"group {group_id} palette artifact hash mismatch")
+
+        frame_pointers, timeline_region_start = _frame_pointers(
+            rom,
+            definition_pointer,
+        )
+        frames, definition_contiguous = _parse_frames(
+            rom,
+            frame_pointers,
+            definition_pointer,
+        )
+        animation_pointers = _animation_pointers(
+            rom,
+            timeline_region_start,
+            animation_table_pointer,
+        )
+        animations, timeline_contiguous = _parse_animations(
+            rom,
+            animation_pointers,
+            animation_table_pointer,
+            len(frames),
+        )
+
+        referenced_tiles: set[int] = set()
+        for frame in frames:
+            for component in frame["components"]:
+                tile_count = component["width"] * component["height"] // 64
+                end_tile = component["tile_index"] + tile_count
+                if end_tile > resource_entry["graphics"]["tile_count"]:
+                    raise ValueError(
+                        f"group {group_id} frame {frame['frame_id']} "
+                        "references tiles outside its graphics"
+                    )
+                referenced_tiles.update(
+                    range(component["tile_index"], end_tile)
+                )
+                if component["affine_mode"]:
+                    previews, affine_outputs = (
+                        _render_affine_reference_previews(
+                            group_id,
+                            frame["frame_id"],
+                            component,
+                            graphics,
+                            palette,
+                        )
+                    )
+                    component["affine_reference_previews"] = previews
+                    outputs.update(affine_outputs)
+            preview, png = _render_frame(
+                group_id,
+                frame,
+                graphics,
+                palette,
+            )
+            frame["preview"] = preview
+            outputs[preview["png"]] = png
+
+        tile_count = resource_entry["graphics"]["tile_count"]
+        missing_tiles = sorted(set(range(tile_count)) - referenced_tiles)
+        if missing_tiles:
+            raise ValueError(f"group {group_id} has unreferenced source tiles")
+        groups.append(
+            {
+                "group_id": group_id,
+                "sequence_ids": sorted(set(sequence_ids_by_group[group_id])),
+                "resource_table_entry_gba_address": _address(
+                    ROM_BASE
+                    + RESOURCE_TABLE_OFFSET
+                    + group_id * TABLE_ENTRY_SIZE
+                ),
+                "sprite_pair_table_entry_gba_address": _address(
+                    ROM_BASE
+                    + SPRITE_PAIR_TABLE_OFFSET
+                    + group_id * TABLE_ENTRY_SIZE
+                ),
+                "definition_pointer_table": _address(definition_pointer),
+                "animation_pointer_table": _address(animation_table_pointer),
+                "timeline_region_start": _address(timeline_region_start),
+                "graphics": dict(resource_entry["graphics"]),
+                "palette": dict(resource_entry["palette"]),
+                "frame_count": len(frames),
+                "component_count": sum(
+                    frame["component_count"] for frame in frames
+                ),
+                "animation_count": len(animations),
+                "keyframe_count": sum(
+                    animation["keyframe_count"] for animation in animations
+                ),
+                "animation_durations": [
+                    animation["duration_frames"] for animation in animations
+                ],
+                "definition_region_contiguous": definition_contiguous,
+                "timeline_region_contiguous": timeline_contiguous,
+                "tile_coverage": {
+                    "referenced_tile_indices": sorted(referenced_tiles),
+                    "missing_tile_indices": missing_tiles,
+                    "all_tiles_referenced": not missing_tiles,
+                },
+                "frames": frames,
+                "animations": animations,
+            }
+        )
+
+    playback_plans = _sequence_playback_plans(
+        sequences,
+        groups,
+        motion_records,
+    )
+    manifest: dict[str, Any] = {
+        "schema": "battle-effect-sprite-animations-v1",
+        "rom": {
+            "path": "rom/base.gba",
+            "size": len(rom),
+            "sha256": rom_sha256,
+        },
+        "inputs": {
+            "resource_manifest": {
+                "path": RESOURCE_MANIFEST_PATH,
+                "sha256": _sha256(resource_path.read_bytes()),
+            },
+            "sequence_manifest": {
+                "path": SEQUENCE_MANIFEST_PATH,
+                "sha256": _sha256(sequence_path.read_bytes()),
+            },
+        },
+        "resource_pointer_table": {
+            "file_offset": RESOURCE_TABLE_OFFSET,
+            "gba_address": _address(ROM_BASE + RESOURCE_TABLE_OFFSET),
+            "entry_count": TABLE_ENTRY_COUNT,
+            "entry_size": TABLE_ENTRY_SIZE,
+            "sha256": _sha256(resource_table),
+        },
+        "sprite_pair_table": {
+            "file_offset": SPRITE_PAIR_TABLE_OFFSET,
+            "gba_address": _address(ROM_BASE + SPRITE_PAIR_TABLE_OFFSET),
+            "entry_count": TABLE_ENTRY_COUNT,
+            "entry_size": TABLE_ENTRY_SIZE,
+            "sha256": _sha256(sprite_pair_table),
+        },
+        "motion_spawn_table": {
+            "file_offset": MOTION_TABLE_OFFSET,
+            "gba_address": _address(ROM_BASE + MOTION_TABLE_OFFSET),
+            "entry_count": MOTION_ENTRY_COUNT,
+            "entry_size": MOTION_ENTRY_SIZE,
+            "sha256": _sha256(motion_table),
+        },
+        "motion_spawn_records": motion_records,
+        "group_count": len(groups),
+        "frame_definition_count": sum(group["frame_count"] for group in groups),
+        "component_count": sum(group["component_count"] for group in groups),
+        "animation_count": sum(group["animation_count"] for group in groups),
+        "keyframe_count": sum(group["keyframe_count"] for group in groups),
+        "artifact_file_count": len(outputs) + 1,
+        "artifact_files": sorted([*outputs, "manifest.json"]),
+        "runtime_golden_duration_cross_checks": {
+            "group_01_action_05_dust_frames": groups[0]["animation_durations"][0],
+            "group_04_bomb_projectile_frames": groups[3]["animation_durations"][0],
+            "group_05_action_05_hit_frames": groups[4]["animation_durations"][0],
+            "group_14_action_16_fire_hit_frames": groups[13]["animation_durations"][0],
+        },
+        "component_schema": {
+            "record_size": COMPONENT_SIZE,
+            "terminator_raw_hex": TERMINATOR.hex(),
+            "fields": {
+                "+0x00": "u16 tile_index",
+                "+0x02": "u8 tile_flags; bit0 H-flip, bit1 V-flip",
+                "+0x03": "u8 affine angle offset; 1/256-turn phase",
+                "+0x04": "s16 component-local x",
+                "+0x06": "s16 component-local y",
+                "+0x08": "u16 width",
+                "+0x0A": "u16 height",
+                "+0x0C": "u16 scale_x",
+                "+0x0E": "u16 scale_y",
+                "+0x10": "u8 control",
+                "+0x11": "u8 affine_mode",
+                "+0x12": "u16 reserved",
+            },
+        },
+        "animation_schema": {
+            "keyframe_size": 4,
+            "fields": {
+                "+0x00": "u16 frame_id; 0xFFFF terminates",
+                "+0x02": "u16 hold_frames; terminator uses zero",
+            },
+        },
+        "consumer_code_slices": _code_slices(rom),
+        "child_task_origin_model": _child_task_origin_model(),
+        "oam_attribute_model": _oam_attribute_model(groups, playback_plans),
+        "affine_matrix_model": _affine_matrix_model(groups),
+        "dynamic_obj_vram_model": _dynamic_obj_vram_model(playback_plans),
+        "pre_oam_coordinate_transform_model": (
+            _pre_oam_coordinate_transform_model(groups)
+        ),
+        "groups": groups,
+        "sequence_playback_plans": playback_plans,
+        "parent_release_scheduler_boundary": {
+            "minimum_extra_scheduler_ticks": 0,
+            "maximum_extra_scheduler_ticks": 1,
+            "reason": (
+                "parent/child task slot order within the user-visible "
+                "frame is not statically fixed"
+            ),
+        },
+        "scope": {
+            "all_nonzero_resource_groups_complete": True,
+            "definition_pointer_tables_complete": True,
+            "component_lists_complete": True,
+            "child_animation_timelines_complete": True,
+            "child_frame_hold_timing_complete": True,
+            "component_local_geometry_complete": True,
+            "source_tile_coverage_complete": True,
+            "source_space_previews_complete": True,
+            "callback_spawn_state_machines_complete": True,
+            "callback_child_variant_and_hold_complete": True,
+            "child_task_origin_formulas_complete": True,
+            "child_task_side_mirroring_formula_complete": True,
+            "oam_shape_size_encoding_complete": True,
+            "oam_coordinate_field_wrapping_complete": True,
+            "normal_oam_tile_palette_priority_formula_complete": True,
+            "guarded_oam_non_affine_flip_formula_complete": True,
+            "pre_oam_runtime_offset_formula_complete": True,
+            "pre_oam_scale_extent_formula_complete": True,
+            "pre_oam_visibility_gate_complete": True,
+            "concrete_runtime_offset_table_values_complete": False,
+            "dynamic_obj_vram_enqueue_and_attr2_formula_complete": True,
+            "dynamic_obj_vram_copy_queue_consumer_complete": True,
+            "dynamic_obj_vram_hardware_frame_phase_complete": False,
+            "affine_matrix_formula_complete": True,
+            "current_effect_affine_values_complete": True,
+            "general_affine_rotated_coordinates_complete": True,
+            "affine_rasterization_formula_complete": True,
+            "affine_hardware_golden_complete": False,
+            "concrete_rng_trajectory_complete": False,
+            "callback_random_screen_coordinates_complete": False,
+            "parent_visible_release_tick_exact": False,
+            "screen_space_oam_composition_complete": False,
+            "runtime_mirroring_and_affine_complete": False,
+            "runtime_affine_rasterization_complete": False,
+            "blend_and_audio_binding_complete": False,
+        },
+    }
+
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
+    output_dir.mkdir(parents=True)
+    for name, payload in outputs.items():
+        (output_dir / name).write_bytes(payload)
+    (output_dir / "manifest.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8",
+    )
+    return manifest
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root", type=Path, default=Path("."))
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        default=Path("artifacts/battle-effect-sprite-animations-v1"),
+    )
+    args = parser.parse_args()
+    manifest = export_battle_effect_sprite_animations(
+        args.root,
+        args.output_dir,
+    )
+    print(
+        json.dumps(
+            {
+                "output_dir": str(args.output_dir),
+                "groups": manifest["group_count"],
+                "frames": manifest["frame_definition_count"],
+                "components": manifest["component_count"],
+                "animations": manifest["animation_count"],
+                "errors": [],
+            },
+            ensure_ascii=False,
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

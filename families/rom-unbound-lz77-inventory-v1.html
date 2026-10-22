@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rom-unbound-lz77-inventory-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">rom-unbound-lz77-inventory-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">git-artifact-promotion-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">10 个顶层分区 · 4 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="rom-unbound-lz77-inventory-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-schema">artifact_schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-scope">scope</a><a class="sec-jump" href="#sec-files">files</a><a class="sec-jump" href="#sec-artifact-id">artifact_id</a><a class="sec-jump" href="#sec-payload-file">payload_file</a><a class="sec-jump" href="#sec-payload-schema">payload_schema</a><a class="sec-jump" href="#sec-producer">producer</a><a class="sec-jump" href="#sec-verifier">verifier</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">git-artifact-promotion-v1</span></section>
+<section class="fam-sec" id="sec-artifact-schema"><h2 class="fam-sec-title">artifact_schema</h2><span class="fml-text">rom-unbound-lz77-inventory-v1</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-scope"><h2 class="fam-sec-title">scope</h2><div class="fml-row"><div class="fml-key">aligned_u32_rom_pointer_scan_complete</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">all_records_are_graphics</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">all_records_are_resources</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">consumer_identity_complete</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">indirect_or_computed_references_excluded</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">runtime_reachability_complete</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row"><div class="fml-key">selected_nonoverlapping_inventory_complete</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row"><div class="fml-key">strict_type_0x10_syntax_scan_complete</div><div class="fml-val"><span class="fml-bool">true</span></div></div></section>
+<section class="fam-sec" id="sec-files"><h2 class="fam-sec-title">files</h2><div class="fml-row"><div class="fml-key">inventory.json</div><div class="fml-val"><span class="fml-text">52674bcbe44ffe0b1e620602f630c332420b35bcb05676aa2447e9ea2de2b3f1</span></div></div><div class="fml-row"><div class="fml-key">payloads.bin</div><div class="fml-val"><span class="fml-text">7027b4c7ca61cf2b5f92dd3851cefe24bf5b244c7354756504432901055cdd65</span></div></div><div class="fml-row"><div class="fml-key">streams.lz77.bin</div><div class="fml-val"><span class="fml-text">2db24f2804ad3d6c11d2cee7cde9a0205e86ae06eab4a02339c7ade130e41505</span></div></div></section>
+<section class="fam-sec" id="sec-artifact-id"><h2 class="fam-sec-title">artifact_id</h2><span class="fml-text">rom-unbound-lz77-inventory-v1</span></section>
+<section class="fam-sec" id="sec-payload-file"><h2 class="fam-sec-title">payload_file</h2><span class="fml-text">inventory.json</span></section>
+<section class="fam-sec" id="sec-payload-schema"><h2 class="fam-sec-title">payload_schema</h2><span class="fml-text">rom-unbound-lz77-inventory-v1</span></section>
+<section class="fam-sec" id="sec-producer"><h2 class="fam-sec-title">producer</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/export_rom_unbound_lz77_inventory.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--output-dir</span></span><span><span class="fml-text">artifacts/rom-unbound-lz77-inventory-v1</span></span></div></div></div><div class="fml-row"><div class="fml-key">exporter_sha256</div><div class="fml-val"><span class="fml-text">5dc2aec1b645e8cbb558d4d51f527c728b3477470228d55f1ec18c2994f1a54d</span></div></div><div class="fml-row"><div class="fml-key">test_sha256</div><div class="fml-val"><span class="fml-text">eb5dfc7303d29e88e93f8363e2cda025158ce360c0ba1b009c8dc9f3916cf598</span></div></div><div class="fml-row"><div class="fml-key">verifier_sha256</div><div class="fml-val"><span class="fml-text">0a309854c9262947feb127188a6a13984b8a8643489af386bf2397c3715c9091</span></div></div></section>
+<section class="fam-sec" id="sec-verifier"><h2 class="fam-sec-title">verifier</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/verify_rom_unbound_lz77_inventory.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--artifact-dir</span></span><span><span class="fml-text">artifacts/rom-unbound-lz77-inventory-v1</span></span></div></div></div><div class="fml-row"><div class="fml-key">exit_code</div><div class="fml-val"><span class="fml-num">0</span></div></div><div class="fml-row"><div class="fml-key">report</div><div class="fml-val"><div class="fml-row"><div class="fml-key">errors</div><div class="fml-val"><span class="fml-text">[]</span></div></div><div class="fml-row"><div class="fml-key">raw_unknown_unreferenced_candidate_count</div><div class="fml-val"><span class="fml-num">43</span></div></div><div class="fml-row"><div class="fml-key">raw_unknown_unreferenced_compressed_bytes</div><div class="fml-val"><span class="fml-num">14,737</span></div></div><div class="fml-row"><div class="fml-key">raw_unknown_unreferenced_decompressed_bytes</div><div class="fml-val"><span class="fml-num">30,774</span></div></div><div class="fml-row"><div class="fml-key">schema</div><div class="fml-val"><span class="fml-text">rom-unbound-lz77-inventory-verification-v1</span></div></div><div class="fml-row"><div class="fml-key">selected_compressed_bytes</div><div class="fml-val"><span class="fml-num">14,725</span></div></div><div class="fml-row"><div class="fml-key">selected_decompressed_bytes</div><div class="fml-val"><span class="fml-num">30,772</span></div></div><div class="fml-row"><div class="fml-key">selected_record_count</div><div class="fml-val"><span class="fml-num">41</span></div></div><div class="fml-row"><div class="fml-key">strict_candidate_count</div><div class="fml-val"><span class="fml-num">1,099</span></div></div><div class="fml-row"><div class="fml-key">verified</div><div class="fml-val"><span class="fml-bool">true</span></div></div></div></div><div class="fml-row"><div class="fml-key">verifier_sha256</div><div class="fml-val"><span class="fml-text">0a309854c9262947feb127188a6a13984b8a8643489af386bf2397c3715c9091</span></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/rom-unbound-lz77-inventory-v1/inventory.json">inventory.json</a><span class="fml-meta"> 24,812 B</span></li><li><a href="../artifacts/rom-unbound-lz77-inventory-v1/manifest.json">manifest.json</a><span class="fml-meta"> 2,211 B</span></li><li><a href="../artifacts/rom-unbound-lz77-inventory-v1/payloads.bin">payloads.bin</a><span class="fml-meta"> 30,772 B</span></li><li><a href="../artifacts/rom-unbound-lz77-inventory-v1/streams.lz77.bin">streams.lz77.bin</a><span class="fml-meta"> 14,725 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

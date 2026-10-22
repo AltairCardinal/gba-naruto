@@ -1,0 +1,120 @@
+{
+  "actual_identity": "two adjacent four-record Cutscene OBJ visual-resource tables",
+  "edit": {
+    "after_pointer": 146409932,
+    "before_pointer": 146408640,
+    "donor_resource_id": 2,
+    "field": "primary_ptr",
+    "offset": 5496696,
+    "resource_id": 1
+  },
+  "emulator": {
+    "binary_sha256": "ef2386a58364932504b082fb5097340268c2b5b7b202bbf8201b0ce69271d54b",
+    "script_path": "tools/mgba_single_input_replay.lua",
+    "script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8"
+  },
+  "input": {
+    "capture_frame": 512,
+    "event": {
+      "down_frame": 5,
+      "key": "A",
+      "up_frame": 13
+    },
+    "natural_victory_load": true,
+    "path": "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9",
+    "sha256": "01f478cfafa2796cbe1652007c16e54480d2a289d1e6f54068ace8adc970300a"
+  },
+  "memory_differences": {
+    "EWRAM": {
+      "baseline_sha256": "0d8c650f6c673b567954aa713c5d55fcfbe67b989148b1c3e60a1c5806286f63",
+      "candidate_sha256": "0d8c650f6c673b567954aa713c5d55fcfbe67b989148b1c3e60a1c5806286f63",
+      "count": 0,
+      "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "IO": {
+      "baseline_sha256": "b34a9c5192b642487c66a138971036c6823499449f7c13d980902a80718bb7ae",
+      "candidate_sha256": "b34a9c5192b642487c66a138971036c6823499449f7c13d980902a80718bb7ae",
+      "count": 0,
+      "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "IWRAM": {
+      "baseline_sha256": "1e7cd8df8827f7e9bfc94d2698f0b451b803c4ccbdca8f6816b52111a95480d8",
+      "candidate_sha256": "1e7cd8df8827f7e9bfc94d2698f0b451b803c4ccbdca8f6816b52111a95480d8",
+      "count": 0,
+      "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "OAM": {
+      "baseline_sha256": "0d093adb5edfbdc4d2fd588c586ed62be13a2f84ec47a946e1c4044565b35ad8",
+      "candidate_sha256": "0d093adb5edfbdc4d2fd588c586ed62be13a2f84ec47a946e1c4044565b35ad8",
+      "count": 0,
+      "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "PRAM": {
+      "baseline_sha256": "3e236665e019c89aae4d6a96c8db5312c7e8b4a4c209b53a66b33ddbd4920af8",
+      "candidate_sha256": "3e236665e019c89aae4d6a96c8db5312c7e8b4a4c209b53a66b33ddbd4920af8",
+      "count": 0,
+      "index_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "VRAM": {
+      "baseline_sha256": "b748df4b171a330826a34e3faa6521b993cb6089e4d8eb107f8301474ab2fc13",
+      "candidate_sha256": "13d1e0b1eaedc070150a774c31c213bcfb362725b36165e2bcf801186747da1c",
+      "count": 2263,
+      "first_offset": 90175,
+      "index_sha256": "ae85828d998f83ebf49515f644e53f60feae7c100571250a5c9d1bc02a3c21f7",
+      "last_offset": 94198
+    }
+  },
+  "pixels": {
+    "baseline_rgb_sha256": "051162ea4f830febd94823d2e87d75ad474223f352867e63fa0965912dbe7bc8",
+    "bbox_inclusive": [
+      42,
+      49,
+      197,
+      110
+    ],
+    "candidate_rgb_sha256": "cf8f61412fd1dfa5defd75fa52cd580c6f788972c62f8a0b0fc6caf02a1895d4",
+    "changed_pixel_count": 4032,
+    "height": 160,
+    "width": 240
+  },
+  "runs": {
+    "baseline": {
+      "audit_sha256": "e73d358caacc1c44c07e0b309cbf390f6c70056190abd3693b7731259b68d1cc",
+      "guard_sha256": "415dc39dd0e8b6c56df614843c9d5a3f59f2c19b007fcddfd5a39d8309f7d3ad",
+      "peak_tree_rss_mib": 59.66015625,
+      "pgid_clean": true,
+      "png_sha256": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+      "rom_sha256": "4da5caf8e6aedf78182b13e75829931398dfb61aee7b7f5f45cd6ec324a33c16",
+      "sentinel_sha256": "e73d358caacc1c44c07e0b309cbf390f6c70056190abd3693b7731259b68d1cc",
+      "staged_rom_sha256": "4da5caf8e6aedf78182b13e75829931398dfb61aee7b7f5f45cd6ec324a33c16",
+      "state_sha256": "82daf3782c8e08a66cae9a3243bd4145e9d98c098671322b69f66db63b15da3f"
+    },
+    "candidate": {
+      "audit_sha256": "1c41e985fbaeb2036cd9117bf53c1647dce1eeea8a13ace4c399d257f394dbad",
+      "guard_sha256": "2d5b9caa71ae6a5985a64a7b808e3614db1803d3f7be8373b8d6e59756199c33",
+      "peak_tree_rss_mib": 59.76171875,
+      "pgid_clean": true,
+      "png_sha256": "e4955c26831d3f60eb1330dd6427b49e44d58c5ad9537a395069e3f2905aa651",
+      "rom_sha256": "68c41eda7ec258f32cafcac2977d7a3beb157987a4795a3297690bc17ca0ddf4",
+      "sentinel_sha256": "1c41e985fbaeb2036cd9117bf53c1647dce1eeea8a13ace4c399d257f394dbad",
+      "staged_rom_sha256": "68c41eda7ec258f32cafcac2977d7a3beb157987a4795a3297690bc17ca0ddf4",
+      "state_sha256": "208d4fbcdcb11eb2fdc8b1ace0590dd022061e1054a2d1b2a7789c4f7261ae57"
+    }
+  },
+  "runtime": {
+    "graphics_vram_address": "0x06016000",
+    "oam_entry": 1,
+    "oam_equal": true,
+    "palette_equal": true,
+    "renderer_exact": true
+  },
+  "schema": "cutscene-obj-id1-primary-ptr-ab-evidence-v1",
+  "scope": {
+    "physical_gba_verified": false,
+    "resource_1_primary_pointer_runtime_verified": true,
+    "resources_0_2_3_runtime_verified": false,
+    "second_table_runtime_ab_verified": false
+  },
+  "verified": true
+}

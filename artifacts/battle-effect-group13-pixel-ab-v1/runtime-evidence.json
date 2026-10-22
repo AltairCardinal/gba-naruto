@@ -1,0 +1,159 @@
+{
+  "binding": {
+    "active_action_id": 61,
+    "encoded_action_id": 61,
+    "group_id": 13,
+    "sequence_id": 15
+  },
+  "edit": {
+    "after_byte": 34,
+    "after_index": 2,
+    "after_rgb": [
+      214,
+      231,
+      239
+    ],
+    "before_byte": 50,
+    "before_index": 3,
+    "before_rgb": [
+      173,
+      198,
+      214
+    ],
+    "component_index": 1,
+    "component_pixel_xy": [
+      3,
+      7
+    ],
+    "frame_id": 0,
+    "graphics_byte_offset": 93,
+    "screen_xy": [
+      96,
+      63
+    ]
+  },
+  "input": {
+    "capture_frame": 590,
+    "event": {
+      "down_frame": 60,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 68
+    },
+    "path": "artifacts/runtime-checkpoints/battle3-action61-ai-preconfirm.ss9",
+    "resource_absent_before_input": true,
+    "sha256": "6524764b33c419077bfad8d13fff220a6d20e80b8b92c9da08c9b94d6cdcdf48"
+  },
+  "profile": "sequel/content/battle-effect-pixel-ab/group-13-action61-execution.json",
+  "profile_sha256": "dd7f3f67cf223f79b347486abd4a90654bc50f314b5f89ff2ccd2ec80b04dd03",
+  "runs": {
+    "baseline": {
+      "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+      "child_pgid": 82051,
+      "guard_sha256": "c476b5ef64e085d5442e50db69165498aa804489209ef0ef1cd3aa54ca0344af",
+      "peak_tree_rss_mib": 69.58203125,
+      "pgid_clean": true,
+      "png_sha256": "1d8e6736b274239f06400f6accc63bcd737506e1876f4a04a0385ce798b1bf3b",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "ce8514a973824c1763096e30305a045a293fa18726f0f489154fcecc9e5e827f",
+      "run_id": "478b73e238039100b4fe2dadc8d192be",
+      "state_sha256": "275be7e75fd7d90f19845c1c325f6891f47f39abbae9b7a3f8610176f32bf703",
+      "toolchain": {
+        "kind": "current-desktop-runtime-profile",
+        "patch_sha256": null,
+        "path": "toolchain/mgba-runtime-profile.json",
+        "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+        "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+      }
+    },
+    "candidate": {
+      "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+      "child_pgid": 82384,
+      "guard_sha256": "4b386e7fca04723139958131e15a7b19f509537f9d7b05e2e877a2a4ee0bc100",
+      "peak_tree_rss_mib": 69.5703125,
+      "pgid_clean": true,
+      "png_sha256": "0e6e7127abf70467fd6e352ea792c45503a1a8041beab331b8fb4306c430049d",
+      "replay_script_sha256": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+      "rom_sha256": "827292ce7c44c80cdc9d5a4a6e7537831387e2cfd922954039e9cc0d2b6c9166",
+      "run_id": "6db769277a053af03bba13a66f6be233",
+      "state_sha256": "578a631fd21ef44d99c5f86bac216e64251308f5da14ff1b03c866ba9e05ed1a",
+      "toolchain": {
+        "kind": "current-desktop-runtime-profile",
+        "patch_sha256": null,
+        "path": "toolchain/mgba-runtime-profile.json",
+        "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+        "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+      }
+    }
+  },
+  "runtime": {
+    "baseline_vram_byte": 50,
+    "candidate_vram_byte": 34,
+    "capture_phase": {
+      "baseline_return_address": "0x08061130",
+      "candidate_return_address": "0x0806112C",
+      "classification": "vblank-wait-boundary",
+      "iwram_address": "0x03007F9C"
+    },
+    "changed_vram_address": "0x0601245D",
+    "graphics_vram_address": "0x06012400",
+    "memory_differences": {
+      "EWRAM": [],
+      "IO": [],
+      "IWRAM": [
+        32668
+      ],
+      "OAM": [],
+      "PRAM": [],
+      "VRAM": [
+        74845
+      ]
+    },
+    "oam_attributes": [
+      "0x4038",
+      "0x9044",
+      "0x5922"
+    ],
+    "oam_entry": 2,
+    "palette_bank": 5,
+    "pixels": {
+      "baseline_rgb_sha256": "205da018c285aaa36d407485a35b90189085f53846c8991b1282f38322ca9829",
+      "bbox": [
+        96,
+        63,
+        96,
+        63
+      ],
+      "candidate_rgb_sha256": "2011ff8132ce7b788d601bb4226f60701f78052c6c9223281a7e143a132318c1",
+      "changes": [
+        {
+          "after_rgb": [
+            214,
+            231,
+            239
+          ],
+          "before_rgb": [
+            173,
+            198,
+            214
+          ],
+          "x": 96,
+          "y": 63
+        }
+      ],
+      "count": 1
+    },
+    "renderer_exact": true
+  },
+  "schema": "battle-effect-pixel-ab-runtime-v1",
+  "scope": {
+    "all_18_effect_groups_runtime_verified": false,
+    "all_group_frames_runtime_verified": false,
+    "full_affine_blend_timing_audio_equivalence": false,
+    "natural_active_action_route": true,
+    "physical_gba_verified": false,
+    "production_relocation_route": true,
+    "single_group_single_frame_single_pixel": true
+  },
+  "verified": true
+}

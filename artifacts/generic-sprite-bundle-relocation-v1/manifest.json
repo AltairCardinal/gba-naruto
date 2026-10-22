@@ -1,0 +1,52 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_id": "generic-sprite-bundle-relocation-v1",
+  "artifact_schema": "generic-sprite-bundle-relocation-audit-v1",
+  "artifact_status": "accepted",
+  "payload_file": "relocation-audit.json",
+  "payload_sha256": "55a9d965b9f894246f04fb89ac3a7dd6b541d5294abe94627909258bcd43e61d",
+  "files": {
+    "full-relocation-spec.json": "6681131547ab9d83111252c20c98b8d84cdd8032a469f041fe77d044f1afe63b",
+    "relocation-audit.json": "55a9d965b9f894246f04fb89ac3a7dd6b541d5294abe94627909258bcd43e61d"
+  },
+  "scope": {
+    "proved": "All 43 fixed generic Sprite IDs, 45 source components, the canonical graphics/palette payloads and all 174 exact source pointer references are accounted for; 45 payload allocations, 88 external pointer patches and 43 tile-base writes rebuild a 16 MiB ROM.",
+    "editable": "The shared graphics pack may contain 1..97 complete 4bpp tiles, the palette remains one 16-color bank, and each fixed ID may contain 1..2 valid GBA OBJ components, matching the proved source maximum. Animation 0 remains the proved single-frame hold-one-tick then stop sequence.",
+    "not_proved": "Adding Sprite IDs, adding animations or frames, scene-specific resource overwrites, natural selection of every ID, or final screen-composited pixel/timing equivalence after modification."
+  },
+  "summary": {
+    "entry_count": 43,
+    "component_count": 45,
+    "graphics_tile_count": 49,
+    "maximum_runtime_tile_base": 927,
+    "maximum_safe_graphics_tiles": 97,
+    "runtime_loader_call_count": 12,
+    "runtime_tile_bases": [
+      846,
+      927
+    ],
+    "source_pointer_reference_count": 174,
+    "unexpected_source_pointer_count": 0,
+    "allocation_count": 45,
+    "pointer_patch_count": 88,
+    "tile_base_patch_count": 43,
+    "allocation_start": 12124160,
+    "allocation_end": 12126688,
+    "region_end": 12189696,
+    "stored_payload_bytes": 2525,
+    "allocation_span": 2528,
+    "remaining_bytes": 63008,
+    "applied_patch_count": 176
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_generic_sprite_bundle_relocation_audit.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/generic-sprite-bundle-relocation-v1"
+    ],
+    "exit_code": 0
+  }
+}

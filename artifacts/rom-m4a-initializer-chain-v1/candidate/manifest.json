@@ -1,0 +1,470 @@
+{
+  "artifact_schema": "rom-m4a-initializer-chain-v1",
+  "artifact_status": "candidate",
+  "coverage_baseline": {
+    "all_promotion_bytes_unknown": true,
+    "path": "sequel/rom-byte-coverage.json",
+    "primary_overlap_bytes": 0,
+    "promotion_bytes": 518,
+    "schema": "rom-byte-coverage-v1",
+    "sha256": "31cf4a9c14666345482cad325433814e7fe26d458327c3bc5d9a13e680616563",
+    "summary": {
+      "claim_count": 14493,
+      "classified_bytes": 6123419,
+      "segment_count": 16600,
+      "unknown_bytes": 168037
+    },
+    "target_segments": [
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          633404,
+          633488
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          633488,
+          633524
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          634104,
+          634304
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          634304,
+          634384
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          635260,
+          635366
+        ]
+      },
+      {
+        "primary_claim_ids": [],
+        "primary_class": "unknown",
+        "range": [
+          635368,
+          635380
+        ]
+      }
+    ],
+    "unknown_promotion_bytes": 518
+  },
+  "coverage_baseline_source": {
+    "archive_file": "rom-byte-coverage.json.gz",
+    "archive_sha256": "9249601f241fd767ca9aa6ce583061c88686f9040ef93d6f9dab335e3cddbbac",
+    "archive_size": 1297017,
+    "artifact": "artifacts/rom-m4a-initializer-chain-precoverage-v1",
+    "kind": "immutable-gzip-artifact",
+    "manifest_sha256": "6d345594ab9278f5a098189328621af635ec17839f6ee7c5250b08bd7ed81baa",
+    "raw_sha256": "31cf4a9c14666345482cad325433814e7fe26d458327c3bc5d9a13e680616563",
+    "raw_size": 23097532,
+    "recovery_kind": "byte-identical-inverse-promotion-projection"
+  },
+  "coverage_projection": {
+    "claim_delta": 6,
+    "classified_delta": 518,
+    "post": {
+      "claim_count": 14499,
+      "classified_bytes": 6123937,
+      "segment_count": 16608,
+      "unknown_bytes": 167519
+    },
+    "pre": {
+      "claim_count": 14493,
+      "classified_bytes": 6123419,
+      "segment_count": 16600,
+      "unknown_bytes": 168037
+    },
+    "segment_delta": 8,
+    "unknown_delta": -518
+  },
+  "files": {
+    "rom-m4a-initializer-chain.bin": {
+      "sha256": "f5c0a94ac06bf6750edc038e0db95fc5d4e96c321129e57a11abd461aa678ea7",
+      "size": 518
+    },
+    "rom-m4a-initializer-chain.json": {
+      "sha256": "7f019b01e800a3dd769463cbea907049429b1cad416dc17ed8719a561837babd",
+      "size": 214040
+    }
+  },
+  "gap_exclusion": {
+    "bytes": 2,
+    "promotion_excluded": true,
+    "ranges": [
+      [
+        635366,
+        635368
+      ]
+    ],
+    "semantic_label": "unknown",
+    "sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7"
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_m4a_initializer_chain.py",
+      "sha256": "4e0b8743247d9098a9d72667f4b2499abee1c71c45cd5a704feaa54f17a4ced9"
+    },
+    "exporter_test": {
+      "path": "tests/test_export_rom_m4a_initializer_chain.py",
+      "sha256": "b6ed2f247641c74bb1631e4bfb0e449d48ec1be03a7af08c4eecabcc8c297326"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_m4a_initializer_chain.py",
+      "sha256": "5cd9ccf232ebb10c69e89962e9861add7675dfb935c6e6a293b16049fd6cec31"
+    },
+    "verifier_test": {
+      "path": "tests/test_verify_rom_m4a_initializer_chain.py",
+      "sha256": "15fbf0bfd16857ed91d16d9987755e05c42a18799aeaa26fdc0e95b85629f68a"
+    }
+  },
+  "limitations": [
+    "This candidate classifies exactly 390 bounded Thumb instruction bytes and 128 consumed literal bytes in three target-limited initializer roots.",
+    "The three direct Thumb BL producer matches are raw provenance only; source instruction membership and producer bytes remain unpromoted.",
+    "Dynamic callback/RAM values, natural runtime reachability, global caller/code/indirect/computed producer denominators, and literal target semantics remain unproven.",
+    "The two bytes at 0x09B1E6..0x09B1E8 remain current unknown and are not padding, NOP, reserved, free, or allocatable space.",
+    "Audio behavior, editing, writeback, relocation, and allocatable free-space safety are outside scope."
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_m4a_initializer_chain.py",
+      "--coverage-baseline-artifact",
+      "artifacts/rom-m4a-initializer-chain-precoverage-v1",
+      "--output",
+      "artifacts/rom-m4a-initializer-chain-v1/candidate"
+    ],
+    "kind": "artifact-candidate-construction",
+    "output_artifact": "artifacts/rom-m4a-initializer-chain-v1/candidate"
+  },
+  "producer_denominator": {
+    "all_non_thumb_bl_forms_empty": true,
+    "computed_or_indirect_producer_denominator_complete": false,
+    "producer_bytes_promoted": false,
+    "producer_form_vector": [
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": [
+            400936
+          ]
+        },
+        "target_file_offset": 633404
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": [
+            633430
+          ]
+        },
+        "target_file_offset": 634104
+      },
+      {
+        "forms": {
+          "arm_b": [],
+          "arm_bl": [],
+          "bytewise_u32_entry": [],
+          "bytewise_u32_thumb_pointer": [],
+          "thumb_b": [],
+          "thumb_b_conditional": [],
+          "thumb_bl": [
+            633462
+          ]
+        },
+        "target_file_offset": 635260
+      }
+    ],
+    "producer_form_vector_sha256": "a7d22963e845b70bba181ac76b7c980d1ba027f105b486c18cf78ceacb677f6f",
+    "producer_source_instruction_membership_proven": false,
+    "root_forms": {
+      "0x09AA3C": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": [
+          400936
+        ]
+      },
+      "0x09ACF8": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": [
+          633430
+        ]
+      },
+      "0x09B17C": {
+        "arm_b": [],
+        "arm_bl": [],
+        "bytewise_u32_entry": [],
+        "bytewise_u32_thumb_pointer": [],
+        "thumb_b": [],
+        "thumb_b_conditional": [],
+        "thumb_bl": [
+          633462
+        ]
+      }
+    },
+    "scan": {
+      "alignment_bytes": 2,
+      "mode": "raw-rom",
+      "range": [
+        0,
+        6291456
+      ]
+    },
+    "target_limited_raw_producer_denominator_complete": true,
+    "thumb_bl": [
+      400936,
+      633430,
+      633462
+    ]
+  },
+  "promotion": {
+    "byte_count": 518,
+    "code_bytes": 390,
+    "literal_bytes": 128,
+    "packed_bytes_sha256": "f5c0a94ac06bf6750edc038e0db95fc5d4e96c321129e57a11abd461aa678ea7",
+    "range_count": 6,
+    "range_sha256": [
+      "c782ff96fc49708def45c12c5ba3c4170449390bf0ea4aa389561e09f359013b",
+      "7f208987daf90cface78da36557a0773839b56b2bf1fe174358f1a56cfebbc6f",
+      "b2c254e31eb7da12ddfd1a22a1fecb176659d1cc344e70cb8cad311230c84c9a",
+      "5b0dd3fbbfc9f8c964f9c0f806548ccd9b72059ee6b67188c9432ac2342652b0",
+      "b89251f7ae5e7e69702a82f4777b07d2a5ed1747b3aa8cfb8ea90bbfe0c7c733",
+      "93fd80ddfc01693c7d0a9011380fb8fc6fe9c830809470f90cdacb2979bf0c46"
+    ],
+    "range_vector_sha256": "8bcba07694e7375d59dddeb3cb12eeb4903e61147c91723482d61d06a47dbd72",
+    "ranges": [
+      [
+        633404,
+        633488
+      ],
+      [
+        633488,
+        633524
+      ],
+      [
+        634104,
+        634304
+      ],
+      [
+        634304,
+        634384
+      ],
+      [
+        635260,
+        635366
+      ],
+      [
+        635368,
+        635380
+      ]
+    ],
+    "union_bytes": 518,
+    "union_range_count": 4,
+    "union_ranges": [
+      [
+        633404,
+        633524
+      ],
+      [
+        634104,
+        634384
+      ],
+      [
+        635260,
+        635366
+      ],
+      [
+        635368,
+        635380
+      ]
+    ]
+  },
+  "promotion_ranges": [
+    {
+      "claim_kind": "m4a_initializer_chain_bounded_thumb_code",
+      "id": "m4a-sound-init-code-09aa3c",
+      "kind": "bounded_thumb_code",
+      "mode": "thumb",
+      "range": [
+        633404,
+        633488
+      ],
+      "semantic_class": "armv4t_m4a_initializer_chain_thumb_code",
+      "sha256": "c782ff96fc49708def45c12c5ba3c4170449390bf0ea4aa389561e09f359013b",
+      "size": 84
+    },
+    {
+      "claim_kind": "m4a_initializer_chain_consumed_literal_bytes",
+      "id": "m4a-sound-init-literals-09aa90",
+      "kind": "consumed_literals",
+      "mode": null,
+      "range": [
+        633488,
+        633524
+      ],
+      "semantic_class": "m4a_initializer_chain_consumed_literal_bytes",
+      "sha256": "7f208987daf90cface78da36557a0773839b56b2bf1fe174358f1a56cfebbc6f",
+      "size": 36
+    },
+    {
+      "claim_kind": "m4a_initializer_chain_bounded_thumb_code",
+      "id": "psg-initializer-code-09acf8",
+      "kind": "bounded_thumb_code",
+      "mode": "thumb",
+      "range": [
+        634104,
+        634304
+      ],
+      "semantic_class": "armv4t_m4a_initializer_chain_thumb_code",
+      "sha256": "b2c254e31eb7da12ddfd1a22a1fecb176659d1cc344e70cb8cad311230c84c9a",
+      "size": 200
+    },
+    {
+      "claim_kind": "m4a_initializer_chain_consumed_literal_bytes",
+      "id": "psg-initializer-literals-09adc0",
+      "kind": "consumed_literals",
+      "mode": null,
+      "range": [
+        634304,
+        634384
+      ],
+      "semantic_class": "m4a_initializer_chain_consumed_literal_bytes",
+      "sha256": "5b0dd3fbbfc9f8c964f9c0f806548ccd9b72059ee6b67188c9432ac2342652b0",
+      "size": 80
+    },
+    {
+      "claim_kind": "m4a_initializer_chain_bounded_thumb_code",
+      "id": "mplay-open-code-09b17c",
+      "kind": "bounded_thumb_code",
+      "mode": "thumb",
+      "range": [
+        635260,
+        635366
+      ],
+      "semantic_class": "armv4t_m4a_initializer_chain_thumb_code",
+      "sha256": "b89251f7ae5e7e69702a82f4777b07d2a5ed1747b3aa8cfb8ea90bbfe0c7c733",
+      "size": 106
+    },
+    {
+      "claim_kind": "m4a_initializer_chain_consumed_literal_bytes",
+      "id": "mplay-open-literals-09b1e8",
+      "kind": "consumed_literals",
+      "mode": null,
+      "range": [
+        635368,
+        635380
+      ],
+      "semantic_class": "m4a_initializer_chain_consumed_literal_bytes",
+      "sha256": "93fd80ddfc01693c7d0a9011380fb8fc6fe9c830809470f90cdacb2979bf0c46",
+      "size": 12
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "allocatable_free_space_proven": false,
+    "audio_behavior_proven": false,
+    "dynamic_callback_values_proven": false,
+    "editing_relocation_writeback_safe": false,
+    "global_caller_denominator_complete": false,
+    "global_code_denominator_complete": false,
+    "global_indirect_producer_denominator_complete": false,
+    "global_ram_or_computed_producer_denominator_complete": false,
+    "literal_pointer_target_semantics_claimed": false,
+    "natural_runtime_reachability_complete": false,
+    "producer_bytes_promoted": false,
+    "producer_source_instruction_membership_proven": false,
+    "source_instruction_membership_complete": false
+  },
+  "semantic_contract": {
+    "edge_vector_sha256": "f9b3af6a9fb362b747b02c47bee9ec722291c08dd01dd192d7bf9792f9235a73",
+    "literal_binding_vector_sha256": "443f325f99760e2cdb08dcac81b36f6286e2e1bec2d8c6c2d27f270a547576f2",
+    "packed_bytes_sha256": "f5c0a94ac06bf6750edc038e0db95fc5d4e96c321129e57a11abd461aa678ea7",
+    "producer_form_vector_sha256": "a7d22963e845b70bba181ac76b7c980d1ba027f105b486c18cf78ceacb677f6f",
+    "range_vector_sha256": "8bcba07694e7375d59dddeb3cb12eeb4903e61147c91723482d61d06a47dbd72",
+    "semantic_instruction_vector_sha256": "cd9b20cc068a48ebea28462200edc7c3571e14896f645a3b73f3caca302f871c"
+  },
+  "summary": {
+    "block_count": 25,
+    "code_bytes": 390,
+    "direct_call_count": 7,
+    "external_edge_count": 7,
+    "frontier_count": 0,
+    "gap_exclusion_bytes": 2,
+    "instruction_bytes": 390,
+    "instruction_count": 188,
+    "internal_block_edge_count": 31,
+    "internal_edge_count": 31,
+    "literal_bytes": 128,
+    "literal_ref_count": 33,
+    "literal_word_count": 32,
+    "producer_count": 3,
+    "promoted_bytes": 518,
+    "promotion_claim_count": 6,
+    "promotion_range_count": 6,
+    "structured_return_count": 3,
+    "unresolved_frontier_count": 0
+  },
+  "upstream_receipts": {
+    "mplaymain": {
+      "manifest_sha256": "43399803451c393722522c9d2a363736541c34c37dd03d3cb2c1e292ed0b8f5d",
+      "payload_sha256": "31bc026a8c83b3bf4af06746de2990a658bb86954a5aae31c45d63d68cf44f78",
+      "verifier_sha256": "c064fc6a576a518cbd825630babc40d1c2dab2d369846078c3950b68748a2c2a"
+    },
+    "psg": {
+      "manifest_sha256": "4fffbcc7e252595834adb368d10b3ce8f13323aee18cc518d98e0ff9c519575f",
+      "payload_sha256": "d2631b1a65a2e9fa0114dbd76a4e2c89853e3b2f402a491fdbc466e79dacd733",
+      "verifier_sha256": "c87ab33b067a35a0105e21967dc0caad5fe91368942f34baf91218d69258f616"
+    },
+    "soundmain": {
+      "manifest_sha256": "e6b9a2cbdb439c520b5c98a422279e44e03866dbf1541810626d28eb57ce0a37",
+      "payload_sha256": "63543ece1982ced20eb0818faf3b6f1848e72ba6dcdb68105fa8b2e3e07e477a",
+      "verifier_sha256": "321d5ca5b7d6f887a21ec93c1bb06640f6e1397248273068bb5a13d3d7167d82"
+    }
+  },
+  "verification": {
+    "report": null,
+    "status": "pending"
+  }
+}

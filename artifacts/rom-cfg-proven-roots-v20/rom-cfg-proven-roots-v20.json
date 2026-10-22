@@ -1,0 +1,1029 @@
+{
+  "accepted_producers": [
+    {
+      "accepted_as_root_proof": true,
+      "coverage_owner_claim_ids": [
+        "continuation-code-06108a-0610d4"
+      ],
+      "coverage_owner_class": "armv4t_boot_interwork_continuation_code",
+      "coverage_owner_range": [
+        397450,
+        397524
+      ],
+      "file_offset": 397454,
+      "instruction_only": true,
+      "kind": "bl",
+      "raw_hex": "01f049fc",
+      "rejection_reason": null,
+      "size": 4,
+      "target_file_offset": 403748
+    }
+  ],
+  "coverage_projection": {
+    "baseline_unknown_bytes": 93109,
+    "classified_bytes": 6201429,
+    "cumulative_promoted_bytes": 3082,
+    "remaining_unknown_bytes": 90027,
+    "story_overlay_promoted_bytes": 1932,
+    "unknown_after_story_overlay": 91177,
+    "v20_promoted_bytes": 1150
+  },
+  "implementation": {
+    "binding": "contract-exporter-verifier-tests-hash-bound",
+    "contract_sha256": "7d1cd9824b187214c8da43d217fa8c52b797b85702571626c4b087c145ec0f1e",
+    "exporter_sha256": "4d701fa18c114d7544cc04f2225b2584c83b9154586e0be4c3349b017c7500fa",
+    "paths": {
+      "contract": "tools/rom_cfg_proven_roots_v20_contract.py",
+      "exporter": "tools/export_rom_cfg_proven_roots_v20.py",
+      "test_exporter": "tests/test_export_rom_cfg_proven_roots_v20.py",
+      "verifier": "tools/verify_rom_cfg_proven_roots_v20.py"
+    },
+    "test_exporter_sha256": "c17f6ac725d980fc92e09aadf4dc0f9aaeb56cd5702b8e7ee33d108624f5b148",
+    "verifier_sha256": "0f185e030fda6461d5652d67d34850c872f45836ba580ef6a3074883736fde66"
+  },
+  "precoverage": {
+    "archive_sha256": "af9fd00d9e5bc5bf10b1d7f63b5e44325498982efe2c9b8b46aada34faa21c00",
+    "artifact": "artifacts/rom-story-callback-dependency-closures-precoverage-v1",
+    "claim_count": 16793,
+    "classified_bytes": 6198347,
+    "manifest_sha256": "fbdc769feb0c7d23752f73cf1caf7578a06a8c7df866cfaf0c64c738e1b0f423",
+    "raw_sha256": "b14d1778bc9961356cca7f319c9d2ae85a07a6811276f9ee0cd1bc2070e96b82",
+    "segment_count": 18552,
+    "unknown_bytes": 93109
+  },
+  "producer_denominator": {
+    "decoder_kinds": [
+      "thumb_bl",
+      "thumb_b",
+      "thumb_bcond"
+    ],
+    "match_count": 2,
+    "matches": [
+      {
+        "accepted_as_root_proof": true,
+        "coverage_owner_claim_ids": [
+          "continuation-code-06108a-0610d4"
+        ],
+        "coverage_owner_class": "armv4t_boot_interwork_continuation_code",
+        "coverage_owner_range": [
+          397450,
+          397524
+        ],
+        "file_offset": 397454,
+        "instruction_only": true,
+        "kind": "bl",
+        "raw_hex": "01f049fc",
+        "rejection_reason": null,
+        "size": 4,
+        "target_file_offset": 403748
+      },
+      {
+        "accepted_as_root_proof": false,
+        "coverage_owner_claim_ids": [
+          "consumer-code-battle_effect_sprite_animations-0612bc"
+        ],
+        "coverage_owner_class": "consumer_code_slice",
+        "coverage_owner_range": [
+          398012,
+          398564
+        ],
+        "file_offset": 398112,
+        "instruction_only": false,
+        "kind": "bl",
+        "raw_hex": "01f000fb",
+        "rejection_reason": "coverage_owner_not_instruction_only",
+        "size": 4,
+        "target_file_offset": 403748
+      }
+    ],
+    "scan_range": [
+      0,
+      6291456
+    ],
+    "stride": 2
+  },
+  "promotion": {
+    "claim_count": 18,
+    "claim_kind": "armv4t_cfg_proven_roots_v20_exact_bytes",
+    "claims": [
+      {
+        "bytes_sha256": "547cd3f144c2ccf64c058926e369f5165a43ea213327d9d594fb4751c71dc04f",
+        "id": "cfg-v20-reachable_thumb_code-01-0627b0",
+        "kind": "reachable_thumb_code",
+        "range": [
+          403376,
+          403442
+        ]
+      },
+      {
+        "bytes_sha256": "ba19ffb7f10b97868ec5ef35174a5733365b147015397bfe0e2cc0418f32e046",
+        "id": "cfg-v20-reachable_thumb_code-02-062800",
+        "kind": "reachable_thumb_code",
+        "range": [
+          403456,
+          403516
+        ]
+      },
+      {
+        "bytes_sha256": "fa4e86306ce72b96ba36c4b0e67468fd38f12508f80dadf8d9b55caab4e92e69",
+        "id": "cfg-v20-reachable_thumb_code-03-062844",
+        "kind": "reachable_thumb_code",
+        "range": [
+          403524,
+          403582
+        ]
+      },
+      {
+        "bytes_sha256": "3a3e7f10a3a9452a44a04d3f2c0f3788368a386a986766812357356d3947296a",
+        "id": "cfg-v20-reachable_thumb_code-04-062888",
+        "kind": "reachable_thumb_code",
+        "range": [
+          403592,
+          403738
+        ]
+      },
+      {
+        "bytes_sha256": "e3c156b8fc56ac38985fd152e287db397b5dac45aa3f7dfbd804b81be3c3b483",
+        "id": "cfg-v20-reachable_thumb_code-05-062924",
+        "kind": "reachable_thumb_code",
+        "range": [
+          403748,
+          403852
+        ]
+      },
+      {
+        "bytes_sha256": "68ac72c71edb40cdf352a93a2f0b4467b80f3adce17c6757cde9a77b716a9602",
+        "id": "cfg-v20-reachable_thumb_code-06-062a0a",
+        "kind": "reachable_thumb_code",
+        "range": [
+          403978,
+          404018
+        ]
+      },
+      {
+        "bytes_sha256": "679c3e1b83fc47584ef8cc30649ca964562a623c46b7bf49091308a56e80d92c",
+        "id": "cfg-v20-reachable_thumb_code-07-062a50",
+        "kind": "reachable_thumb_code",
+        "range": [
+          404048,
+          404210
+        ]
+      },
+      {
+        "bytes_sha256": "c8e557190286939a6deb0c03b0c595d6c1a464c841ed2877101a1a622dd12357",
+        "id": "cfg-v20-reachable_thumb_code-08-062b60",
+        "kind": "reachable_thumb_code",
+        "range": [
+          404320,
+          404568
+        ]
+      },
+      {
+        "bytes_sha256": "b7f4ec1e4e8888a397bf4963cf1304a2880b7bdac6a9acd48e717a1d5ee2d2bf",
+        "id": "cfg-v20-reachable_thumb_code-09-0631f6",
+        "kind": "reachable_thumb_code",
+        "range": [
+          406006,
+          406038
+        ]
+      },
+      {
+        "bytes_sha256": "f7f06f0764ce63716836345cce6b1e89e16e37b58300ed726925dfebec42aeac",
+        "id": "cfg-v20-reachable_thumb_code-10-06321c",
+        "kind": "reachable_thumb_code",
+        "range": [
+          406044,
+          406102
+        ]
+      },
+      {
+        "bytes_sha256": "e80c03a0bd2fed4de4fb25e2eeceaeb0d6079e99d9e21670691343befdcbd0dc",
+        "id": "cfg-v20-reachable_thumb_code-11-0632d8",
+        "kind": "reachable_thumb_code",
+        "range": [
+          406232,
+          406328
+        ]
+      },
+      {
+        "bytes_sha256": "88e35f817d6b83fc514142f37244c5e8df6d62182542046d2543d8cef53594aa",
+        "id": "cfg-v20-consumed_literal_words-01-0627f4",
+        "kind": "consumed_literal_words",
+        "range": [
+          403444,
+          403456
+        ]
+      },
+      {
+        "bytes_sha256": "05c4c457a79b27d8075f3f942fef6f352532bf59dd9a1ecb99b13e6d26a58a5e",
+        "id": "cfg-v20-consumed_literal_words-02-06283c",
+        "kind": "consumed_literal_words",
+        "range": [
+          403516,
+          403524
+        ]
+      },
+      {
+        "bytes_sha256": "c8aa64f812553b6cab96440a4ecd87c4d8867758a41832a2ea23ae98f47a19c5",
+        "id": "cfg-v20-consumed_literal_words-03-062880",
+        "kind": "consumed_literal_words",
+        "range": [
+          403584,
+          403592
+        ]
+      },
+      {
+        "bytes_sha256": "d7e129ccdf6a56d94d19e18e20c1e08117afeba3d85d75a3a01543b361d854df",
+        "id": "cfg-v20-consumed_literal_words-04-06291c",
+        "kind": "consumed_literal_words",
+        "range": [
+          403740,
+          403748
+        ]
+      },
+      {
+        "bytes_sha256": "65481a81575f9356de469c90a9e9096bc7f84ba4fdffab9c6ed38e3014fdba70",
+        "id": "cfg-v20-consumed_literal_words-05-062a34",
+        "kind": "consumed_literal_words",
+        "range": [
+          404020,
+          404048
+        ]
+      },
+      {
+        "bytes_sha256": "fdbfa4c2e5f8be8e8a07d17a7ff0a0529c52e31ee7805c572ae6a719c3fb9b37",
+        "id": "cfg-v20-consumed_literal_words-06-063218",
+        "kind": "consumed_literal_words",
+        "range": [
+          406040,
+          406044
+        ]
+      },
+      {
+        "bytes_sha256": "2abb642e740c05e0505f1334675d92773942cf1191a4eb4559de19ec83e0e8b0",
+        "id": "cfg-v20-consumed_literal_words-07-063338",
+        "kind": "consumed_literal_words",
+        "range": [
+          406328,
+          406340
+        ]
+      }
+    ],
+    "code_bytes": 1070,
+    "code_ranges": [
+      [
+        403376,
+        403442
+      ],
+      [
+        403456,
+        403516
+      ],
+      [
+        403524,
+        403582
+      ],
+      [
+        403592,
+        403738
+      ],
+      [
+        403748,
+        403852
+      ],
+      [
+        403978,
+        404018
+      ],
+      [
+        404048,
+        404210
+      ],
+      [
+        404320,
+        404568
+      ],
+      [
+        406006,
+        406038
+      ],
+      [
+        406044,
+        406102
+      ],
+      [
+        406232,
+        406328
+      ]
+    ],
+    "existing_owner_code_provenance_bytes": 1796,
+    "literal_bytes": 80,
+    "literal_ranges": [
+      [
+        403444,
+        403456
+      ],
+      [
+        403516,
+        403524
+      ],
+      [
+        403584,
+        403592
+      ],
+      [
+        403740,
+        403748
+      ],
+      [
+        404020,
+        404048
+      ],
+      [
+        406040,
+        406044
+      ],
+      [
+        406328,
+        406340
+      ]
+    ],
+    "primary_class": "armv4t_cfg_proven_roots_v20",
+    "promotion_batch": "rom-cfg-proven-roots-v20",
+    "promotion_bytes": 1150,
+    "union_ranges": [
+      [
+        403376,
+        403442
+      ],
+      [
+        403444,
+        403582
+      ],
+      [
+        403584,
+        403738
+      ],
+      [
+        403740,
+        403852
+      ],
+      [
+        403978,
+        404018
+      ],
+      [
+        404020,
+        404210
+      ],
+      [
+        404320,
+        404568
+      ],
+      [
+        406006,
+        406038
+      ],
+      [
+        406040,
+        406102
+      ],
+      [
+        406232,
+        406340
+      ]
+    ]
+  },
+  "rejected_producers": [
+    {
+      "accepted_as_root_proof": false,
+      "coverage_owner_claim_ids": [
+        "consumer-code-battle_effect_sprite_animations-0612bc"
+      ],
+      "coverage_owner_class": "consumer_code_slice",
+      "coverage_owner_range": [
+        398012,
+        398564
+      ],
+      "file_offset": 398112,
+      "instruction_only": false,
+      "kind": "bl",
+      "raw_hex": "01f000fb",
+      "rejection_reason": "coverage_owner_not_instruction_only",
+      "size": 4,
+      "target_file_offset": 403748
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "root": {
+    "entry_sha256": "715bb484d98123291dbfc7b03e6b6d0b85d3f836d828d1f9e196c59d842415fb",
+    "file_offset": 403748
+  },
+  "schema": "rom-cfg-proven-roots-v20",
+  "scope": {
+    "abi_or_compiler": false,
+    "editing_writeback_relocation_or_gameplay": false,
+    "existing_owner_reclassification": false,
+    "frontier_target_or_structured_return": false,
+    "global_caller_or_code_exhaustiveness": false,
+    "holes_alignment_padding_or_free_space": false,
+    "indirect_computed_or_ram_producers": false,
+    "literal_business_semantics": false,
+    "natural_runtime_reachability": false,
+    "raw_rom_redecoded": true,
+    "rejected_producer_validity": false,
+    "target_limited_direct_producer_denominator": true
+  },
+  "story_overlay": {
+    "artifact": "artifacts/rom-story-callback-dependency-closures-v1",
+    "claim_count": 32,
+    "manifest_sha256": "0c0209dcf0bb5081f83ec7d0c01816e9b40d318bf69b7a2bf9892716e10385ea",
+    "overlap_bytes": 0,
+    "payload_sha256": "62d3ad4455afac0c66d629097d2e50603e6c4dcff17b3c4fea5a72f28de0a18b",
+    "promotion_bytes": 1932,
+    "verified": true
+  },
+  "target_local_denominator": {
+    "baseline_call_edge_count": 17,
+    "basic_block_count": 249,
+    "code_ranges": [
+      [
+        403376,
+        403442
+      ],
+      [
+        403456,
+        403516
+      ],
+      [
+        403524,
+        403582
+      ],
+      [
+        403592,
+        403738
+      ],
+      [
+        403748,
+        404018
+      ],
+      [
+        404048,
+        404692
+      ],
+      [
+        404700,
+        404956
+      ],
+      [
+        404964,
+        405004
+      ],
+      [
+        405008,
+        405050
+      ],
+      [
+        405056,
+        405096
+      ],
+      [
+        405100,
+        405104
+      ],
+      [
+        405108,
+        405124
+      ],
+      [
+        405128,
+        405154
+      ],
+      [
+        405160,
+        405232
+      ],
+      [
+        405236,
+        405288
+      ],
+      [
+        405292,
+        405446
+      ],
+      [
+        405452,
+        405952
+      ],
+      [
+        405960,
+        406038
+      ],
+      [
+        406044,
+        406138
+      ],
+      [
+        406148,
+        406212
+      ],
+      [
+        406216,
+        406328
+      ],
+      [
+        406968,
+        407032
+      ],
+      [
+        407036,
+        407044
+      ]
+    ],
+    "decode_reject_count": 0,
+    "frontier_count": 3,
+    "frontiers": [
+      {
+        "file_offset": 403736,
+        "raw_hex": "0047",
+        "reason": "indirect_pc_target",
+        "register": "r0"
+      },
+      {
+        "file_offset": 406326,
+        "raw_hex": "0047",
+        "reason": "indirect_pc_target",
+        "register": "r0"
+      },
+      {
+        "file_offset": 407042,
+        "raw_hex": "0847",
+        "reason": "indirect_pc_target",
+        "register": "r1"
+      }
+    ],
+    "instruction_bytes": 2866,
+    "instruction_count": 1405,
+    "literal_bindings": [
+      [
+        403388,
+        403444,
+        "0d49",
+        "b85b0003"
+      ],
+      [
+        403396,
+        403448,
+        "0c4d",
+        "b83b0003"
+      ],
+      [
+        403398,
+        403452,
+        "0d4c",
+        "b8590003"
+      ],
+      [
+        403480,
+        403516,
+        "0848",
+        "b85b0003"
+      ],
+      [
+        403492,
+        403520,
+        "064a",
+        "b8590003"
+      ],
+      [
+        403526,
+        403584,
+        "0e48",
+        "0000ffff"
+      ],
+      [
+        403538,
+        403588,
+        "0c4d",
+        "b8590003"
+      ],
+      [
+        403698,
+        403740,
+        "0a4b",
+        "b8590003"
+      ],
+      [
+        403714,
+        403744,
+        "074d",
+        "b85b0003"
+      ],
+      [
+        403772,
+        404020,
+        "3d49",
+        "b83b0003"
+      ],
+      [
+        403820,
+        404024,
+        "324b",
+        "7c020003"
+      ],
+      [
+        403830,
+        404028,
+        "3148",
+        "b85b0003"
+      ],
+      [
+        403842,
+        404032,
+        "2f49",
+        "b8590003"
+      ],
+      [
+        403902,
+        404036,
+        "2148",
+        "78000003"
+      ],
+      [
+        403978,
+        404040,
+        "0f48",
+        "7c060003"
+      ],
+      [
+        404000,
+        404044,
+        "0a48",
+        "00010001"
+      ],
+      [
+        404614,
+        404692,
+        "134b",
+        "54000003"
+      ],
+      [
+        404672,
+        404696,
+        "0548",
+        "00010001"
+      ],
+      [
+        404900,
+        404956,
+        "0d48",
+        "445d0003"
+      ],
+      [
+        404924,
+        404960,
+        "084c",
+        "ff010000"
+      ],
+      [
+        405000,
+        405004,
+        "0048",
+        "00800040"
+      ],
+      [
+        405046,
+        405052,
+        "0148",
+        "00800080"
+      ],
+      [
+        405086,
+        405096,
+        "0248",
+        "00400040"
+      ],
+      [
+        405100,
+        405104,
+        "0048",
+        "00400080"
+      ],
+      [
+        405114,
+        405124,
+        "0248",
+        "008000c0"
+      ],
+      [
+        405144,
+        405156,
+        "0248",
+        "004000c0"
+      ],
+      [
+        405206,
+        405232,
+        "0648",
+        "00010001"
+      ],
+      [
+        405240,
+        405288,
+        "0b49",
+        "82020003"
+      ],
+      [
+        405412,
+        405448,
+        "0848",
+        "00010001"
+      ],
+      [
+        405804,
+        405952,
+        "2448",
+        "08000001"
+      ],
+      [
+        405832,
+        405956,
+        "1e4d",
+        "00000106"
+      ],
+      [
+        406024,
+        406040,
+        "0348",
+        "7c060003"
+      ],
+      [
+        406066,
+        406140,
+        "1249",
+        "fffffffe"
+      ],
+      [
+        406074,
+        406144,
+        "1148",
+        "75000003"
+      ],
+      [
+        406204,
+        406212,
+        "0148",
+        "fffffffe"
+      ],
+      [
+        406244,
+        406328,
+        "1449",
+        "75000003"
+      ],
+      [
+        406276,
+        406332,
+        "0d48",
+        "b85b0003"
+      ],
+      [
+        406288,
+        406336,
+        "0b48",
+        "7c060003"
+      ],
+      [
+        406980,
+        407032,
+        "0c4a",
+        "bc5b0003"
+      ]
+    ],
+    "literal_bytes": 156,
+    "literal_ranges": [
+      [
+        403444,
+        403456
+      ],
+      [
+        403516,
+        403524
+      ],
+      [
+        403584,
+        403592
+      ],
+      [
+        403740,
+        403748
+      ],
+      [
+        404020,
+        404048
+      ],
+      [
+        404692,
+        404700
+      ],
+      [
+        404956,
+        404964
+      ],
+      [
+        405004,
+        405008
+      ],
+      [
+        405052,
+        405056
+      ],
+      [
+        405096,
+        405100
+      ],
+      [
+        405104,
+        405108
+      ],
+      [
+        405124,
+        405128
+      ],
+      [
+        405156,
+        405160
+      ],
+      [
+        405232,
+        405236
+      ],
+      [
+        405288,
+        405292
+      ],
+      [
+        405448,
+        405452
+      ],
+      [
+        405952,
+        405960
+      ],
+      [
+        406040,
+        406044
+      ],
+      [
+        406140,
+        406148
+      ],
+      [
+        406212,
+        406216
+      ],
+      [
+        406328,
+        406340
+      ],
+      [
+        407032,
+        407036
+      ]
+    ],
+    "literal_reference_count": 39,
+    "opaque_calls": [
+      {
+        "source": 403796,
+        "target": 639252
+      },
+      {
+        "source": 404212,
+        "target": 400000
+      },
+      {
+        "source": 404222,
+        "target": 400076
+      },
+      {
+        "source": 405282,
+        "target": 639204
+      },
+      {
+        "source": 405310,
+        "target": 639204
+      },
+      {
+        "source": 405350,
+        "target": 639204
+      },
+      {
+        "source": 405384,
+        "target": 400000
+      },
+      {
+        "source": 405400,
+        "target": 400076
+      },
+      {
+        "source": 405522,
+        "target": 639204
+      },
+      {
+        "source": 405544,
+        "target": 639204
+      },
+      {
+        "source": 405572,
+        "target": 639204
+      },
+      {
+        "source": 405596,
+        "target": 639204
+      },
+      {
+        "source": 405628,
+        "target": 639204
+      },
+      {
+        "source": 405648,
+        "target": 639204
+      },
+      {
+        "source": 405668,
+        "target": 639204
+      },
+      {
+        "source": 405690,
+        "target": 639204
+      },
+      {
+        "source": 406220,
+        "target": 403352
+      }
+    ],
+    "opaque_target_owners": [
+      {
+        "accepted": true,
+        "coverage_owner_claim_id": "cfg-thumb-0775-09c114",
+        "coverage_owner_range": [
+          639252,
+          639254
+        ],
+        "entry_file_offset": 639252
+      },
+      {
+        "accepted": true,
+        "coverage_owner_claim_id": "cfg-v3-thumb-0000-061a80",
+        "coverage_owner_range": [
+          400000,
+          400058
+        ],
+        "entry_file_offset": 400000
+      },
+      {
+        "accepted": true,
+        "coverage_owner_claim_id": "cfg-v3-thumb-0002-061acc",
+        "coverage_owner_range": [
+          400076,
+          400100
+        ],
+        "entry_file_offset": 400076
+      },
+      {
+        "accepted": true,
+        "coverage_owner_claim_id": "cfg-thumb-0773-09c0d8",
+        "coverage_owner_range": [
+          639192,
+          639220
+        ],
+        "entry_file_offset": 639204
+      },
+      {
+        "accepted": true,
+        "coverage_owner_claim_id": "cfg-thumb-0009-062788",
+        "coverage_owner_range": [
+          403336,
+          403370
+        ],
+        "entry_file_offset": 403352
+      }
+    ],
+    "unique_literal_word_count": 39
+  },
+  "upstream_continuation_artifact": {
+    "artifact": "artifacts/rom-boot-interwork-continuation-v1",
+    "dependency_claim_id": "continuation-code-06108a-0610d4",
+    "dependency_code_range": [
+      397450,
+      397524
+    ],
+    "manifest_sha256": "beb4220307bbc0b99b58d6652bfd3f7339928d9e30b104f0fde06c7ed62d82ff",
+    "payload_sha256": "43ba163ac9f8313b9579c660ab701a51006186b45f2b96247fd2e58f0c16babd",
+    "verified": true
+  }
+}

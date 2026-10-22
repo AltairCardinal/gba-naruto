@@ -1,0 +1,50 @@
+{
+  "artifact_schema": "runtime-layer-static-provenance-v1",
+  "artifact_status": "accepted",
+  "experiment": {
+    "run_id": "tracked-runtime-layer-static-provenance-20260730-01",
+    "task": "runtime-layer-static-provenance"
+  },
+  "files": {
+    "runtime-layer-static-provenance.json": "4ba73a257695af886e939dd2dd2aff506a4fc4d0f952401f36f9dc408cc48578"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_runtime_layer_static_provenance.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/runtime-layer-static-provenance-v1"
+    ],
+    "exporter_sha256": "d821c7cc7d0c6ee567e20e5f1efd7d240b65af247df16706a59aab6fbe1d3f24",
+    "test_sha256": "4d39e5fc495fce477139cd9fe09c809d5727042a24fbd8d2ac8019fd44007d8d",
+    "verifier_sha256": "3847d008103ca67ecff2ec470ad6fdfaa5254850f07cfc00a1c990e76c4b9e4b"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "source": {
+    "candidate_count": 345,
+    "checkpoint_count": 91,
+    "checkpoint_root": "artifacts/runtime-checkpoints",
+    "unique_state_count": 89
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_runtime_layer_static_provenance.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/runtime-layer-static-provenance-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "checkpoint_count": 91,
+      "errors": [],
+      "layer_count": 196,
+      "schema": "runtime-layer-static-provenance-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "3847d008103ca67ecff2ec470ad6fdfaa5254850f07cfc00a1c990e76c4b9e4b"
+  }
+}

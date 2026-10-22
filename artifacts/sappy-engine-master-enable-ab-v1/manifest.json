@@ -1,0 +1,39 @@
+{
+  "artifact_id": "sappy-engine-master-enable-ab-v1",
+  "artifact_schema": "sappy-engine-master-enable-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline.png": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+    "candidate.png": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+    "evidence.json": "e05ef3ef627ffb3273467942616689a7093e9b9c9bd12ed8d84f5453ec8a01dc",
+    "raw.tar": "c3555a7770f2942970c309e6518a7a942d0250a4a0b70b9621dbf10c68ee3939"
+  },
+  "implementation": {
+    "tests/test_build_sappy_engine_master_enable_ab.py": "c9f9ae87c0b2f3657a861f948ea2209657203264de9573bcb0a269d552a7f92b",
+    "tests/test_mgba_sappy_engine_master_enable_trace_script.py": "1f56e5f60c89f2f28a1a1706f7048c9cfbd1927376cefcfb67ad64bcb8e1a3b2",
+    "tests/test_sappy_engine_master_enable_ab_artifact.py": "d6196a59e6c2493c00dfe7c6535517841d2218cae92a3855e2babdc4d6f63141",
+    "tools/build_controlled_audio_runtime_probe.py": "36156e687fd26de7822f7acf17df7452bf894d943bd3a2f7b3ed756d84a6e1cb",
+    "tools/build_sappy_engine_master_enable_ab.py": "c55fdeefcb5b180f5da8c81f4c7d74116084abab478d2ed00b8f8d987689cd2d",
+    "tools/export_sappy_engine_master_enable_ab.py": "0fb1b1ce98494341f60a422fef88808d8be6e8768b7c804a49a05e81a8915151",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_runtime_safety.py": "f6b09eca8cd1a084fe9ee4bad5294418a55fd25856b155ac77a57dd04e7a248b",
+    "tools/mgba_sappy_engine_master_enable_trace.lua": "a678f24bbe6aa78918b5eeadf842e4974a5a7e9e71fdd7a1d15205d22d198d6c",
+    "tools/project_resource_guard.py": "17ca1354306bd58071d4e5f57009c20d765b3ee55156f15dc98707f3598ac1c4",
+    "tools/run_guarded.py": "72e1237bb89f5796485ecbc52ea687bd2f1fe29b603ff55f1e1cc935a41469b1",
+    "tools/verify_sappy_engine_master_enable_ab.py": "f3011d8bd1f592c5dceca831e47ec50e7708e63ad2f3cd7262896a9367200886"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_sappy_engine_master_enable_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/sappy-engine-master-enable-ab-v1",
+      "--binary",
+      "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+    ],
+    "exit_code": 0
+  }
+}

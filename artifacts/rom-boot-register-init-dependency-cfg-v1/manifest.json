@@ -1,0 +1,357 @@
+{
+  "artifact_schema": "rom-boot-register-init-dependency-cfg-v1",
+  "artifact_status": "accepted",
+  "cfg_inventory": {
+    "artifact": "artifacts/rom-cfg-inventory-v2",
+    "entry_block": {
+      "bytes_sha256": "38ac888b30c3f43dc0b29840880256705d34b3f73035d6daa036c7b61ab5db6e",
+      "id": "block-thumb-09c0e0",
+      "instruction_count": 1,
+      "mode": "thumb",
+      "range": [
+        639200,
+        639202
+      ],
+      "raw_hex": "0bdf"
+    },
+    "manifest_sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+    "owner": {
+      "claim_id": "cfg-thumb-0773-09c0d8",
+      "primary_class": "armv4t_cfg_reachable_thumb_code",
+      "range": [
+        639192,
+        639220
+      ]
+    },
+    "payload_sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+    "verified": true,
+    "verifier_sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93"
+  },
+  "coverage_projection": {
+    "baseline_unknown_bytes": 93109,
+    "classified_bytes": 6202729,
+    "cumulative_promoted_bytes": 4382,
+    "remaining_unknown_bytes": 88727,
+    "story_next_overlay_promoted_bytes": 854,
+    "story_overlay_promoted_bytes": 1932,
+    "target_promoted_bytes": 446,
+    "v20_overlay_promoted_bytes": 1150
+  },
+  "files": {
+    "rom-boot-register-init-dependency-cfg-v1.json": {
+      "sha256": "ec89abce638edd878811697fe5d4f2abc08d5170fb4763f8ee199839d6fb22bd",
+      "size": 31413
+    }
+  },
+  "implementation": {
+    "binding": "contract-exporter-verifier-tests-hash-bound",
+    "paths": {
+      "contract": "tools/rom_boot_register_init_dependency_cfg_contract.py",
+      "exporter": "tools/export_rom_boot_register_init_dependency_cfg.py",
+      "test_exporter": "tests/test_export_rom_boot_register_init_dependency_cfg.py",
+      "verifier": "tools/verify_rom_boot_register_init_dependency_cfg.py"
+    },
+    "sha256": {
+      "contract": "94c12ad423b4fd850e0f6bdec7a069b94f4d7e339a2e32d12b38e0507f78929c",
+      "exporter": "c8dac6aacac56360625c7ffef259174174d75e596c95dcdc6e17614747e8425c",
+      "test_exporter": "e0dbc9de004b9746c58acad96f878af7581d367fc1e8c59c02b8783dcb996ab7",
+      "verifier": "6710e77a312c4818d654f4741bd7fe5753116a0c53a5ae3c5255367478b4ff91"
+    }
+  },
+  "overlays": [
+    {
+      "artifact": "artifacts/rom-story-callback-dependency-closures-v1",
+      "claim_count": 32,
+      "manifest_sha256": "0c0209dcf0bb5081f83ec7d0c01816e9b40d318bf69b7a2bf9892716e10385ea",
+      "name": "story_callback",
+      "overlap_bytes": 0,
+      "payload_sha256": "62d3ad4455afac0c66d629097d2e50603e6c4dcff17b3c4fea5a72f28de0a18b",
+      "promotion_bytes": 1932,
+      "verified": true,
+      "verifier_sha256": "3338abdaeeca3e8187aad6484f7bfeba5b6b5e2a6affe16ca0613405df902364"
+    },
+    {
+      "artifact": "artifacts/rom-cfg-proven-roots-v20",
+      "claim_count": 18,
+      "manifest_sha256": "7f5ed6e408b834afc91e622898f0eabb7278b7906098dbfff39fa87283975f2d",
+      "name": "v20",
+      "overlap_bytes": 0,
+      "payload_sha256": "5d3186a688973b1733b0117aedee7c689a5270497c83f8726d4d2540bcfe1543",
+      "promotion_bytes": 1150,
+      "verified": true,
+      "verifier_sha256": "0f185e030fda6461d5652d67d34850c872f45836ba580ef6a3074883736fde66"
+    },
+    {
+      "artifact": "artifacts/rom-story-next-dependency-cfg-v1",
+      "claim_count": 19,
+      "manifest_sha256": "a5429f89ecfb60da5ce6950063ee5d9df2996eead6ad60d221474429d49e4669",
+      "name": "story_next",
+      "overlap_bytes": 0,
+      "payload_sha256": "d12f4b28c68ba94bc122fc284cd3bbb8fd4fd59426c0bc46ab4b9dcf377a5e6b",
+      "promotion_bytes": 854,
+      "verified": true,
+      "verifier_sha256": "ed5b35817e06320089bb74914a60ec8765129a4e0c49013cdc6ee9959a1ecfa8"
+    }
+  ],
+  "precoverage": {
+    "archive_sha256": "af9fd00d9e5bc5bf10b1d7f63b5e44325498982efe2c9b8b46aada34faa21c00",
+    "artifact": "artifacts/rom-story-callback-dependency-closures-precoverage-v1",
+    "claim_count": 16793,
+    "classified_bytes": 6198347,
+    "manifest_sha256": "fbdc769feb0c7d23752f73cf1caf7578a06a8c7df866cfaf0c64c738e1b0f423",
+    "raw_sha256": "b14d1778bc9961356cca7f319c9d2ae85a07a6811276f9ee0cd1bc2070e96b82",
+    "segment_count": 18552,
+    "unknown_bytes": 93109
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/export_rom_boot_register_init_dependency_cfg.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-boot-register-init-dependency-cfg-v1"
+    ]
+  },
+  "producer_owner": {
+    "artifact": "artifacts/rom-boot-interwork-continuation-v1",
+    "bytes_sha256": "dfda6e9d1919d3a5b14515a8c3e0abe5415b105a13651aba7652cfe003fc215a",
+    "claim_id": "continuation-code-06108a-0610d4",
+    "manifest_sha256": "beb4220307bbc0b99b58d6652bfd3f7339928d9e30b104f0fde06c7ed62d82ff",
+    "mode": "thumb",
+    "payload_sha256": "43ba163ac9f8313b9579c660ab701a51006186b45f2b96247fd2e58f0c16babd",
+    "primary_class": "armv4t_boot_interwork_continuation_code",
+    "producer_block": {
+      "bytes_sha256": "f0f0cde8bea058ba34b361665a446c13a6bf59e76f84ef87794d18fec046e8d4",
+      "call_target_successor": {
+        "kind": "call_target",
+        "mode": "thumb",
+        "resolution": "opaque_external_edge",
+        "source_block_id": "block-thumb-06109e",
+        "source_instruction_offset": 397470,
+        "target_gba_address": "0x0806178C",
+        "target_offset": 399244
+      },
+      "id": "block-thumb-06109e",
+      "instruction_count": 1,
+      "mode": "thumb",
+      "range": [
+        397470,
+        397474
+      ],
+      "terminator": {
+        "conditional": false,
+        "file_offset": 397470,
+        "flow_kind": "call",
+        "mnemonic": "bl",
+        "op_str": "#0x806178c",
+        "raw_hex": "00f075fb",
+        "size": 4
+      }
+    },
+    "range": [
+      397450,
+      397524
+    ],
+    "verified": true,
+    "verifier_sha256": "8da8303e47e8666a9883fc411fd274ab1d8bf3651da95a4530dabd152bdcec58"
+  },
+  "promotion": {
+    "claim_count": 8,
+    "claim_kind": "armv4t_boot_register_init_dependency_cfg_exact_bytes",
+    "claims": [
+      {
+        "bytes_sha256": "de6ed5f3a6894bff2b3288355500648992dec50ad8e0ebd0827beceefba10825",
+        "id": "boot-register-init-reachable_thumb_code-01-06178c",
+        "kind": "reachable_thumb_code",
+        "range": [
+          399244,
+          399324
+        ]
+      },
+      {
+        "bytes_sha256": "8f68d05ffe42141e68d8c914794566ff1efc4c7867674a6b5eb11f982645c914",
+        "id": "boot-register-init-reachable_thumb_code-02-061804",
+        "kind": "reachable_thumb_code",
+        "range": [
+          399364,
+          399390
+        ]
+      },
+      {
+        "bytes_sha256": "57541cc828c8022c18298e589cdf867c5d24bac49c00fefdc1382345c8cdf3e0",
+        "id": "boot-register-init-reachable_thumb_code-03-061fdc",
+        "kind": "reachable_thumb_code",
+        "range": [
+          401372,
+          401532
+        ]
+      },
+      {
+        "bytes_sha256": "a63c55588a05dde5e738e8801e622432d128487d13d28a0f9e0fd5253c2aad82",
+        "id": "boot-register-init-reachable_thumb_code-04-0620cc",
+        "kind": "reachable_thumb_code",
+        "range": [
+          401612,
+          401664
+        ]
+      },
+      {
+        "bytes_sha256": "90b35c9b4e354b737eef2b73be2fd90bc791ca9576ab9e9fbc02db74c1a44a19",
+        "id": "boot-register-init-consumed_literal_words-01-0617dc",
+        "kind": "consumed_literal_words",
+        "range": [
+          399324,
+          399364
+        ]
+      },
+      {
+        "bytes_sha256": "ec059cd453eba29035fbeaf03c9b35e27ed128819bae55106b6600f04e3ee075",
+        "id": "boot-register-init-consumed_literal_words-02-061820",
+        "kind": "consumed_literal_words",
+        "range": [
+          399392,
+          399396
+        ]
+      },
+      {
+        "bytes_sha256": "904cc0d0628a0c44a15b44b368d3eb24d70076442f645aa9ae4d8cbddc6c3306",
+        "id": "boot-register-init-consumed_literal_words-03-06207c",
+        "kind": "consumed_literal_words",
+        "range": [
+          401532,
+          401588
+        ]
+      },
+      {
+        "bytes_sha256": "2e3b65a880f2f91bd18a5b6d5af102755e58e8d43fb600561d33711f4c3cce35",
+        "id": "boot-register-init-consumed_literal_words-04-062100",
+        "kind": "consumed_literal_words",
+        "range": [
+          401664,
+          401692
+        ]
+      }
+    ],
+    "code_bytes": 318,
+    "code_ranges": [
+      [
+        399244,
+        399324
+      ],
+      [
+        399364,
+        399390
+      ],
+      [
+        401372,
+        401532
+      ],
+      [
+        401612,
+        401664
+      ]
+    ],
+    "literal_bytes": 128,
+    "literal_ranges": [
+      [
+        399324,
+        399364
+      ],
+      [
+        399392,
+        399396
+      ],
+      [
+        401532,
+        401588
+      ],
+      [
+        401664,
+        401692
+      ]
+    ],
+    "outside_worklist_existing_owner_exclusions": [
+      [
+        401588,
+        401612
+      ]
+    ],
+    "packed_promotion_sha256": "86c06d3ccf840184cdfb583622624cec553daab5e0dd73981244d55b8e75694f",
+    "preserved_unknown_holes": [
+      [
+        399390,
+        399392
+      ]
+    ],
+    "primary_class": "armv4t_boot_register_init_dependency_cfg",
+    "promotion_batch": "rom-boot-register-init-dependency-cfg-v1",
+    "promotion_bytes": 446,
+    "union_ranges": [
+      [
+        399244,
+        399390
+      ],
+      [
+        399392,
+        399396
+      ],
+      [
+        401372,
+        401588
+      ],
+      [
+        401612,
+        401692
+      ]
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "abi_or_compiler": false,
+    "computed_or_ram_producers": false,
+    "editing_writeback_relocation_or_gameplay": false,
+    "existing_owner_reclassification": false,
+    "frontier_targets_or_structured_returns": false,
+    "global_caller_code_or_indirect_exhaustiveness": false,
+    "holes_alignment_padding_or_free_space": false,
+    "literal_business_semantics": false,
+    "natural_runtime_reachability": false,
+    "raw_rom_redecoded": true,
+    "target_limited_direct_producer_denominator": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "-I",
+      "-S",
+      "tools/verify_rom_boot_register_init_dependency_cfg.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-boot-register-init-dependency-cfg-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "basic_block_count": 12,
+      "errors": [],
+      "frontier_count": 3,
+      "instruction_count": 154,
+      "literal_word_count": 32,
+      "opaque_call_count": 3,
+      "promotion_bytes": 446,
+      "remaining_unknown_bytes": 88727,
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "schema": "rom-boot-register-init-dependency-cfg-v1-verification-v1",
+      "structured_return_count": 0,
+      "verified": true
+    }
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "edits": {
+    "component": {
+      "after": -15,
+      "after_hex": "f1",
+      "before": -16,
+      "before_hex": "f0",
+      "bundle_local_offset": 18540,
+      "component_index": 0,
+      "field": "x",
+      "frame_id": 3
+    },
+    "palette": {
+      "after_hex": "85",
+      "before_hex": "84",
+      "bundle_local_offset": 2,
+      "palette_index": 1
+    },
+    "timeline": {
+      "after": 4,
+      "after_hex": "04",
+      "animation_id": 1,
+      "before": 3,
+      "before_hex": "03",
+      "bundle_local_offset": 19044,
+      "field": "frame_id",
+      "keyframe_index": 0
+    }
+  },
+  "isolation": {
+    "independent_runtime_required": true,
+    "rom_difference_offsets": {
+      "component": [
+        6309996
+      ],
+      "palette": [
+        6291458
+      ],
+      "timeline": [
+        6310500
+      ]
+    },
+    "shared_patch_topology": true,
+    "single_byte_candidates": true
+  },
+  "resource": {
+    "animation_id": 1,
+    "character_id": 1,
+    "component_index": 0,
+    "frame_id": 3,
+    "keyframe_index": 0,
+    "resource_id": 0,
+    "slot_rows": [
+      0
+    ],
+    "visual_slot": 0
+  },
+  "runtime_contract": {
+    "baseline_active_task": {
+      "animation_id": 1,
+      "frame_id": 3,
+      "keyframe_index": 0,
+      "task_address": "0x0300597C"
+    },
+    "capture_frame": 80,
+    "input": {
+      "down_frame": 5,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 13
+    },
+    "input_checkpoint": "artifacts/runtime-checkpoints/scenario-41-start-row.ss9"
+  },
+  "schema": "character-battle-visual-resource-matrix-build-v1",
+  "variants": {
+    "baseline": {
+      "graphics_sha256": "00604b6d454b23f73413ec7d65cebead033c7a6177f3e8da9861fb32f44db3ec",
+      "palette_sha256": "5ed6559b7dbaee0832ff46c3961fd0e60ed89c6c9db5dd945d1135aa2dc52916",
+      "patch_ledger": [
+        {
+          "after_sha256": "10b78ae7a78d886531b49b3d4810008f191bea11eadc62f364ad873bd79d636d",
+          "allocation": {
+            "owner": "character_battle_visuals",
+            "partition": "character-battle-visual-bundles"
+          },
+          "before_sha256": "145d4de8533af074349df1a1c58fc822dca9897f1289150c4e911e3445a0c36f",
+          "id": "resource-000-visual-matrix-baseline.bundle",
+          "kind": "allocation",
+          "new_pointers": {
+            "animation_pointer_table": "0x08604B30",
+            "component_region": "0x08604820",
+            "frame_pointer_table": "0x08604A00",
+            "graphics": "0x08600020",
+            "palette": "0x08600000",
+            "timeline_region": "0x08604A50"
+          },
+          "offset": 6291456,
+          "resource_id": 0,
+          "size": 19296,
+          "slot_row": null
+        },
+        {
+          "after_sha256": "fbae295f80dbd5fe1a093921684aaae2b85da56b33bc599488b05e5d3efeed32",
+          "allocation": null,
+          "before_sha256": "dc077d7cc126efba447b0f1cff8a96f105920410e4a278b3c80a689b555c4854",
+          "id": "resource-000-visual-matrix-baseline.descriptor-row-0",
+          "kind": "descriptor",
+          "new_pointers": {
+            "animation_pointer_table": "0x08604B30",
+            "component_region": "0x08604820",
+            "frame_pointer_table": "0x08604A00",
+            "graphics": "0x08600020",
+            "palette": "0x08600000",
+            "timeline_region": "0x08604A50"
+          },
+          "offset": 5860700,
+          "resource_id": 0,
+          "size": 16,
+          "slot_row": 0
+        }
+      ],
+      "rom_path": "baseline/baseline.gba",
+      "rom_sha256": "2f738f390239caed48d12af99bd8d324df6c5465610c64fda8278c7f945e5db8",
+      "rom_size": 16777216,
+      "spec_path": "baseline/spec.json"
+    },
+    "component": {
+      "graphics_sha256": "00604b6d454b23f73413ec7d65cebead033c7a6177f3e8da9861fb32f44db3ec",
+      "palette_sha256": "5ed6559b7dbaee0832ff46c3961fd0e60ed89c6c9db5dd945d1135aa2dc52916",
+      "patch_ledger": [
+        {
+          "after_sha256": "7c6c6331f8a41b5131d1201cdaf68b330bf625c0c8ad086640faf90426185a26",
+          "allocation": {
+            "owner": "character_battle_visuals",
+            "partition": "character-battle-visual-bundles"
+          },
+          "before_sha256": "145d4de8533af074349df1a1c58fc822dca9897f1289150c4e911e3445a0c36f",
+          "id": "resource-000-visual-matrix-component.bundle",
+          "kind": "allocation",
+          "new_pointers": {
+            "animation_pointer_table": "0x08604B30",
+            "component_region": "0x08604820",
+            "frame_pointer_table": "0x08604A00",
+            "graphics": "0x08600020",
+            "palette": "0x08600000",
+            "timeline_region": "0x08604A50"
+          },
+          "offset": 6291456,
+          "resource_id": 0,
+          "size": 19296,
+          "slot_row": null
+        },
+        {
+          "after_sha256": "fbae295f80dbd5fe1a093921684aaae2b85da56b33bc599488b05e5d3efeed32",
+          "allocation": null,
+          "before_sha256": "dc077d7cc126efba447b0f1cff8a96f105920410e4a278b3c80a689b555c4854",
+          "id": "resource-000-visual-matrix-component.descriptor-row-0",
+          "kind": "descriptor",
+          "new_pointers": {
+            "animation_pointer_table": "0x08604B30",
+            "component_region": "0x08604820",
+            "frame_pointer_table": "0x08604A00",
+            "graphics": "0x08600020",
+            "palette": "0x08600000",
+            "timeline_region": "0x08604A50"
+          },
+          "offset": 5860700,
+          "resource_id": 0,
+          "size": 16,
+          "slot_row": 0
+        }
+      ],
+      "rom_path": "component/component.gba",
+      "rom_sha256": "3b8d46cf3e4a555a2928a019736d633624f0909a10c1cbe22510cce9c199e84b",
+      "rom_size": 16777216,
+      "spec_path": "component/spec.json"
+    },
+    "palette": {
+      "graphics_sha256": "00604b6d454b23f73413ec7d65cebead033c7a6177f3e8da9861fb32f44db3ec",
+      "palette_sha256": "8fab9afb53a8e291874b960327f54aa9655e1f3da59384ef0ab42b0bed3471ef",
+      "patch_ledger": [
+        {
+          "after_sha256": "9c40959228c19ea0bc32a2846b1986e05e944d76c34e7c23c4a576833e2b44bc",
+          "allocation": {
+            "owner": "character_battle_visuals",
+            "partition": "character-battle-visual-bundles"
+          },
+          "before_sha256": "145d4de8533af074349df1a1c58fc822dca9897f1289150c4e911e3445a0c36f",
+          "id": "resource-000-visual-matrix-palette.bundle",
+          "kind": "allocation",
+          "new_pointers": {
+            "animation_pointer_table": "0x08604B30",
+            "component_region": "0x08604820",
+            "frame_pointer_table": "0x08604A00",
+            "graphics": "0x08600020",
+            "palette": "0x08600000",
+            "timeline_region": "0x08604A50"
+          },
+          "offset": 6291456,
+          "resource_id": 0,
+          "size": 19296,
+          "slot_row": null
+        },
+        {
+          "after_sha256": "fbae295f80dbd5fe1a093921684aaae2b85da56b33bc599488b05e5d3efeed32",
+          "allocation": null,
+          "before_sha256": "dc077d7cc126efba447b0f1cff8a96f105920410e4a278b3c80a689b555c4854",
+          "id": "resource-000-visual-matrix-palette.descriptor-row-0",
+          "kind": "descriptor",
+          "new_pointers": {
+            "animation_pointer_table": "0x08604B30",
+            "component_region": "0x08604820",
+            "frame_pointer_table": "0x08604A00",
+            "graphics": "0x08600020",
+            "palette": "0x08600000",
+            "timeline_region": "0x08604A50"
+          },
+          "offset": 5860700,
+          "resource_id": 0,
+          "size": 16,
+          "slot_row": 0
+        }
+      ],
+      "rom_path": "palette/palette.gba",
+      "rom_sha256": "7812e244b7dfe305c631695ac6dc5de774fbbff9bf6c8859a9364a2846483b61",
+      "rom_size": 16777216,
+      "spec_path": "palette/spec.json"
+    },
+    "timeline": {
+      "graphics_sha256": "00604b6d454b23f73413ec7d65cebead033c7a6177f3e8da9861fb32f44db3ec",
+      "palette_sha256": "5ed6559b7dbaee0832ff46c3961fd0e60ed89c6c9db5dd945d1135aa2dc52916",
+      "patch_ledger": [
+        {
+          "after_sha256": "1ec398095b78fa0d3d7a8e953bc93db71555b1e0e67004a49c7d186f60634603",
+          "allocation": {
+            "owner": "character_battle_visuals",
+            "partition": "character-battle-visual-bundles"
+          },
+          "before_sha256": "145d4de8533af074349df1a1c58fc822dca9897f1289150c4e911e3445a0c36f",
+          "id": "resource-000-visual-matrix-timeline.bundle",
+          "kind": "allocation",
+          "new_pointers": {
+            "animation_pointer_table": "0x08604B30",
+            "component_region": "0x08604820",
+            "frame_pointer_table": "0x08604A00",
+            "graphics": "0x08600020",
+            "palette": "0x08600000",
+            "timeline_region": "0x08604A50"
+          },
+          "offset": 6291456,
+          "resource_id": 0,
+          "size": 19296,
+          "slot_row": null
+        },
+        {
+          "after_sha256": "fbae295f80dbd5fe1a093921684aaae2b85da56b33bc599488b05e5d3efeed32",
+          "allocation": null,
+          "before_sha256": "dc077d7cc126efba447b0f1cff8a96f105920410e4a278b3c80a689b555c4854",
+          "id": "resource-000-visual-matrix-timeline.descriptor-row-0",
+          "kind": "descriptor",
+          "new_pointers": {
+            "animation_pointer_table": "0x08604B30",
+            "component_region": "0x08604820",
+            "frame_pointer_table": "0x08604A00",
+            "graphics": "0x08600020",
+            "palette": "0x08600000",
+            "timeline_region": "0x08604A50"
+          },
+          "offset": 5860700,
+          "resource_id": 0,
+          "size": 16,
+          "slot_row": 0
+        }
+      ],
+      "rom_path": "timeline/timeline.gba",
+      "rom_sha256": "f94dc6b6c44c964e0097787b4f5e70ea40ee0278479999faec20fd0059e203e8",
+      "rom_size": 16777216,
+      "spec_path": "timeline/spec.json"
+    }
+  }
+}

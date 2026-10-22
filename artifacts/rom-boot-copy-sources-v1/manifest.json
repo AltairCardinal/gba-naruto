@@ -1,0 +1,41 @@
+{
+  "artifact_schema": "rom-boot-copy-sources-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-boot-copy-sources.json": {
+      "sha256": "aeecd2f04c41701ffc73e9bf5853edaccdf074727684bfbf0d3b1ee6728bf59b",
+      "size": 5587
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "20ab739200dd2af697efcf6048900b1071c1a5f36df148b6a992931641ac6160",
+    "test_sha256": "0e28a16e5fa205bbf60dda2616fb68b9a18810503c610747aac13fd0ab3934cf",
+    "verifier_sha256": "57c336d3f9b0b39d99d0d8bdfc1ce3ab69d324e2445fb69a74798ade011f189a"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_boot_copy_sources.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-boot-copy-sources-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "copy_operation_count": 5,
+    "dma_descriptor_count": 9,
+    "promotion_bytes": 620
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_boot_copy_sources.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-boot-copy-sources-v1"
+    ]
+  }
+}

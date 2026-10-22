@@ -1,0 +1,48 @@
+{
+  "artifact_schema": "overview-gradient-overlay-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "generated-palette.bgr555.bin": "19b43b15fd2dcc824f03e524fad7a77d990ecb7b79eb3fa876ac862a53b7c7a5",
+    "generated-tilemap-30x20.bin": "9d3188d3ef983613085b4808e19063e4bb1b4be955aa6e67041ae07a73a0d523",
+    "generated-tiles.4bpp.bin": "9c54d11cc0b46d60728f59611b2181241626bfaad61c479536a14dbf0e54a2e4",
+    "overview-gradient-overlay.json": "b4ac97c3bc534d6932b9d189d58a31fe7986c5c9f3557f590fba0fdd839a8b6d",
+    "overview-gradient-overlay.png": "a33d3ac09b7b6f27611ee09aaaf9a4c26c242134227892f8754a27fd5d3ab971"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_overview_gradient_overlay.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/overview-gradient-overlay-v1"
+    ],
+    "exporter_sha256": "ef50ec1dc399ee11844b098da6d1a6c0926036ea5a6f4acb91acf649e6f489fa",
+    "test_sha256": "1284edaab842769fa5f2a04602b5e380770a752c35ca26a0c1376a4b6fe3780d",
+    "verifier_sha256": "7fd5df34052fa897b37068c7548285fa0c54b8e1e67f7e827523d92754382fe0"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "source": {
+    "checkpoint_sha256": "209bf3c7321fedc93a6c957fb2c7b46f0d48aa56ea5c4bb3858fce93d0a336f6",
+    "generator_gba_address": "0x0808D934",
+    "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_overview_gradient_overlay.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/overview-gradient-overlay-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "schema": "overview-gradient-overlay-verification-v1",
+      "tilemap_exact_cell_count": 600,
+      "verified": true
+    },
+    "verifier_sha256": "7fd5df34052fa897b37068c7548285fa0c54b8e1e67f7e827523d92754382fe0"
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "artifact_status": "accepted",
+  "coverage": {
+    "archive": {
+      "compression": "gzip",
+      "file": "rom-byte-coverage.json.gz",
+      "sha256": "9249601f241fd767ca9aa6ce583061c88686f9040ef93d6f9dab335e3cddbbac",
+      "size": 1297017
+    },
+    "raw": {
+      "canonical_json": true,
+      "schema": "rom-byte-coverage-v1",
+      "sha256": "31cf4a9c14666345482cad325433814e7fe26d458327c3bc5d9a13e680616563",
+      "size": 23097532,
+      "summary": {
+        "claim_count": 14493,
+        "classified_bytes": 6123419,
+        "segment_count": 16600,
+        "unknown_bytes": 168037
+      }
+    }
+  },
+  "limitations": [
+    "This is a byte-identical recovery of the historical pre-promotion coverage JSON, not a surviving copy of the overwritten filesystem inode.",
+    "Identity is limited to the canonical raw JSON bytes whose previously frozen SHA-256 is 31cf4a9c14666345482cad325433814e7fe26d458327c3bc5d9a13e680616563.",
+    "The recovery proves only the M4A initializer-chain pre-promotion coverage state; it does not roll back or invalidate the live post-promotion coverage file."
+  ],
+  "recovery": {
+    "kind": "byte-identical-inverse-promotion-projection",
+    "removed_claim_ids": [
+      "m4a-sound-init-code-09aa3c",
+      "m4a-sound-init-literals-09aa90",
+      "psg-initializer-code-09acf8",
+      "psg-initializer-literals-09adc0",
+      "mplay-open-code-09b17c",
+      "mplay-open-literals-09b1e8"
+    ],
+    "removed_limitation_prefix": "The M4A initializer-chain artifact",
+    "removed_promotion_batch": "rom-m4a-initializer-chain-v1",
+    "removed_summary_key_prefix": "m4a_initializer_chain_",
+    "segment_rebuild": "atomize retained claims over the fixed 6291456-byte ROM domain",
+    "serialization": "UTF-8 JSON with ensure_ascii=false, indent=2, sort_keys=true, and one trailing newline",
+    "source_post_coverage": {
+      "path": "sequel/rom-byte-coverage.json",
+      "sha256": "0b99f9cb188c147275883b78e97016b2def54b2b0867a7bcae7112dbdf47dc63",
+      "size": 23120179,
+      "summary": {
+        "claim_count": 14499,
+        "classified_bytes": 6123937,
+        "segment_count": 16608,
+        "unknown_bytes": 167519
+      }
+    }
+  },
+  "schema": "rom-byte-coverage-prepromotion-baseline-v1"
+}

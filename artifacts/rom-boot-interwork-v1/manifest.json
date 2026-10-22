@@ -1,0 +1,70 @@
+{
+  "artifact_schema": "rom-boot-interwork-v1",
+  "files": {
+    "rom-boot-interwork.json": {
+      "sha256": "2f78132647235ca1c9fd155b950ff4128e4b01ca10d0fa0ae0fcfa4fdd37e30d",
+      "size": 55454
+    }
+  },
+  "producer": {
+    "exporter": {
+      "path": "tools/export_rom_boot_interwork.py",
+      "sha256": "e9b87cba69eba1307403300d501d660c48ebb99356dd26cccdd1b2f962eadf41"
+    },
+    "test": {
+      "path": "tests/test_export_rom_boot_interwork.py",
+      "sha256": "7d98ef28788ef6d5a44ba0af2b36a7e1834db0be213c6c1138a4d06d5b829d50"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_boot_interwork.py",
+      "sha256": "66d34dc56f837e09c22fcebdd58e2e67b132c133ea7402e8d50f7e187d54984b"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-boot-interwork-v1-artifact-manifest-v1",
+  "scope": {
+    "arm_root_static_cfg_closed": true,
+    "armv4t_instruction_set_enforced": true,
+    "consumed_literal_pool_complete": true,
+    "direct_producer_denominator_complete": true,
+    "fixed_interwork_spine_verified": true,
+    "physical_gba_verified": false,
+    "ram_targets_classified_as_code": false,
+    "reset_to_root_path_complete": false,
+    "runtime_reachability_complete": false,
+    "skipped_interwork_padding_classified": false,
+    "surrounding_40k_region_classified": false
+  },
+  "summary": {
+    "arm_instruction_bytes": 368,
+    "arm_instruction_count": 92,
+    "basic_block_count": 8,
+    "classified_bytes": 414,
+    "closed_root_count": 1,
+    "coverage_claim_count": 5,
+    "edge_count": 10,
+    "frontier_count": 0,
+    "literal_binding_count": 9,
+    "literal_pool_bytes": 36,
+    "producer_instruction_bytes": 10,
+    "producer_instruction_count": 3,
+    "range_overlap_bytes": 0,
+    "root_count": 1
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_boot_interwork.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-boot-interwork-v1"
+    ],
+    "schema": "rom-boot-interwork-verification-v1",
+    "verifier_sha256": "66d34dc56f837e09c22fcebdd58e2e67b132c133ea7402e8d50f7e187d54984b"
+  }
+}

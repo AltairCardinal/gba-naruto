@@ -1,0 +1,176 @@
+{
+  "artifact_schema": "rom-selector-code-windows-v1",
+  "artifact_status": "accepted",
+  "coverage": {
+    "accepted_live_primary_states": [
+      "unknown",
+      "rom-selector-code-windows-v1"
+    ],
+    "baseline_observation": {
+      "classified_bytes": 6091909,
+      "sha256": "d441f702add65e36dce291cfa6e6235e3ee7156cbb7b259ad47255848a581049",
+      "size": 21057965,
+      "unknown_bytes": 199547
+    },
+    "live_hash_pin_omission_reason": "coverage incorporates this artifact's claims; the verifier accepts only unknown or this exact batch while rebuilding the same projection",
+    "live_hash_pinned": false,
+    "path": "sequel/rom-byte-coverage.json",
+    "primary_overlap_bytes": 1502
+  },
+  "files": {
+    "rom-selector-code-windows-promotion.bin": "2207f28f0e2635b7cff09660d4440d5f8c926017583d210b748a34ac2639672b",
+    "rom-selector-code-windows.bin": "4c1d5865350a66b57db7b483f68c6bf97e9c88fcd5372f021358d4ad8c917523",
+    "rom-selector-code-windows.json": "23b830dc19248b3192198757da6e41624f804e78a5ee4e10764c8702947ca39b"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_selector_code_windows.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-selector-code-windows-v1"
+    ],
+    "exporter": {
+      "path": "tools/export_rom_selector_code_windows.py",
+      "sha256": "06c2e9ffe2a6ffb70a7d87b0cc64eeaf0f20065993ef2fcdcd14b15feb5cbd8a"
+    },
+    "test": {
+      "path": "tests/test_export_rom_selector_code_windows.py",
+      "sha256": "25b736eb3519b9118b7316dbd000963ce9fc903e3ced327c772e57d7a257a562"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_selector_code_windows.py",
+      "sha256": "e9d8ea4cbe5aec14359b5c8ba74ac3e8182f0441a3014d3f760196242601665b"
+    }
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "allocatable": false,
+    "baseline_unknown_only": true,
+    "bridge_window_promotion_count": 0,
+    "claim_kind": "consumer_code_slice",
+    "existing_primary_bytes_preserved": 1502,
+    "instruction_only_claimed": false,
+    "mapper_window_promotion_count": 0,
+    "primary_class": "consumer_code_slice",
+    "promotion_batch": "rom-selector-code-windows-v1",
+    "runtime_reachability_claimed": false,
+    "safe_editing": false
+  },
+  "upstream": {
+    "artifacts": {
+      "rom-selector-direct-source-records-v1": {
+        "bundle": {
+          "path": "artifacts/rom-selector-direct-source-records-v1/rom-selector-direct-source-records.bin",
+          "sha256": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56"
+        },
+        "manifest": {
+          "path": "artifacts/rom-selector-direct-source-records-v1/manifest.json",
+          "sha256": "094dbb593b2b8e09849ea795f4a09155598936cd3a1bc0b36e2eda6a413cf789"
+        },
+        "payload": {
+          "path": "artifacts/rom-selector-direct-source-records-v1/rom-selector-direct-source-records.json",
+          "sha256": "adc03bd5e29e956c208698fedc733e305ea87e519e17dfa405ff813939149430"
+        },
+        "verifier": {
+          "path": "tools/verify_rom_selector_direct_source_records.py",
+          "sha256": "510835b5d104f0009df09e3c8200beaefcb4f01836c40db7d3b1c11b475052d1"
+        },
+        "verifier_report": {
+          "artifact_schema": "rom-selector-direct-source-records-v1",
+          "bundle_sha256": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+          "errors": [],
+          "record_bytes": 920,
+          "record_count": 46,
+          "record_vector_sha256": "065fca6237d166557a03cf30ddd309f695b825f5c850356a3c736e396d9478db",
+          "schema": "rom-selector-direct-source-records-verification-v1",
+          "verified": true
+        }
+      },
+      "rom-selector-text-bindings-v1": {
+        "bundle": {
+          "path": "artifacts/rom-selector-text-bindings-v1/selector-text-bytes.bin",
+          "sha256": "1bc1df2046811a0399226edc53895b3c3359779d9407a6555dc0e7810d11e869"
+        },
+        "manifest": {
+          "path": "artifacts/rom-selector-text-bindings-v1/manifest.json",
+          "sha256": "05cd987a60990ca6b2d3ee187eae963fd6ac8728ef9b42b92d6b37b5dc4bc031"
+        },
+        "payload": {
+          "path": "artifacts/rom-selector-text-bindings-v1/selector-text-bindings.json",
+          "sha256": "8737d04de14949cbbbb9215c892a7776476c4230eb1e2b0c2abbbbe4440ce2eb"
+        },
+        "verifier": {
+          "path": "tools/verify_rom_selector_text_bindings.py",
+          "sha256": "a68a0d1e036be241bbac84538d5a082c7e76e2c6331ffa1d12cd384dc79e2f18"
+        },
+        "verifier_report": {
+          "artifact_schema": "rom-selector-text-bindings-v1",
+          "errors": [],
+          "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "schema": "rom-selector-text-bindings-verification-v1",
+          "summary": {
+            "classified_bytes": 816,
+            "classified_range_count": 86,
+            "config_bytes": 164,
+            "config_list_count": 3,
+            "config_pointer_bytes": 12,
+            "config_pointer_slot_count": 3,
+            "config_record_count": 38,
+            "config_terminator_count": 3,
+            "configured_physical_slot_count": 55,
+            "configured_referenced_slot_count": 38,
+            "configured_text_consumed_bytes": 316,
+            "configured_text_unclassified_suffix_bytes": 368,
+            "configured_unreferenced_slot_bytes": 306,
+            "direct_source_record_bytes": 920,
+            "direct_source_record_count": 46,
+            "direct_text_candidate_slot_count": 46,
+            "direct_text_consumed_bytes": 324,
+            "direct_text_unclassified_suffix_bytes": 550,
+            "packed_bytes": 816,
+            "parse_failure_count": 0,
+            "range_overlap_bytes": 0
+          },
+          "verified": true
+        }
+      }
+    }
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_selector_code_windows.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-selector-code-windows-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-selector-code-windows-v1",
+      "bridge_promotion_count": 0,
+      "errors": [],
+      "full_bundle_sha256": "4c1d5865350a66b57db7b483f68c6bf97e9c88fcd5372f021358d4ad8c917523",
+      "mapper_promotion_count": 0,
+      "primary_overlap_bytes": 1502,
+      "promotion_bundle_sha256": "2207f28f0e2635b7cff09660d4440d5f8c926017583d210b748a34ac2639672b",
+      "promotion_bytes": 1252,
+      "promotion_range_count": 19,
+      "promotion_range_denominator_sha256": "1a1e50479424dbd441bc81adeca3c7d9075dc1a8ca13869e94693a71e702563e",
+      "schema": "rom-selector-code-windows-verification-v1",
+      "source_window_bytes": 2754,
+      "source_window_count": 10,
+      "source_window_range_denominator_sha256": "c45e828631f019ea506b0b24a0efeb16ed8508377277bc27936e8a8932fa8d43",
+      "verified": true
+    },
+    "schema": "rom-selector-code-windows-verification-v1",
+    "verifier_sha256": "e9d8ea4cbe5aec14359b5c8ba74ac3e8182f0441a3014d3f760196242601665b"
+  }
+}

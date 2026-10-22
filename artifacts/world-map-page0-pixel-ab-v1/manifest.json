@@ -1,0 +1,90 @@
+{
+  "artifact_id": "world-map-page0-pixel-ab-v1",
+  "artifact_schema": "world-map-page0-pixel-ab-runtime-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "files": {
+    "raw/baseline/audit.json": "4a5450f7aa751664c794bfe7b2da4d265b45216244e0aa0cc0792f371bd69de9",
+    "raw/baseline/background.8bpp.bin": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
+    "raw/baseline/frame80.png": "989a9c9b60f3ea352758eb08f74402eefa524959565dbf00491e23563da51046",
+    "raw/baseline/frame80.ss9": "5d49b2cbe4c770d88122a98db9893a3288e68e14edc4c6bd074c238fe7a4ef29",
+    "raw/baseline/guard.json": "455efb375d5290161f703c577cdf01ca94c89a8829c2ef598a51e850f8818700",
+    "raw/baseline/sentinel.json": "4a5450f7aa751664c794bfe7b2da4d265b45216244e0aa0cc0792f371bd69de9",
+    "raw/baseline/spec.json": "8a42f00b9b226d180a31eac24b0df74a4ceb236c5137200e1d7f8b894dd89526",
+    "raw/build-manifest.json": "9ea7649e4e0d8d728f669ab710424bbda60a5a7371463994f4425e3e7e4e7c35",
+    "raw/candidate/audit.json": "734d127e3396d8e548ff3eeea8a309b4de2b7c22ff353ab7706d7803d7a3ce96",
+    "raw/candidate/background.8bpp.bin": "1cc2f755948525ebd13d358fc97910658e4aa8c7ce82393c3ffc7b4be454fd1e",
+    "raw/candidate/frame80.png": "8ad24b4e6dea41c7067b84e1ea0c7f3d8fa917a4609d15943e5a481e284ff622",
+    "raw/candidate/frame80.ss9": "9b03c62bbd5ab1f4d552a3b605389f297569f77eccc6a16fe5c4aeb231a10387",
+    "raw/candidate/guard.json": "7c1a57189fc26e4fe0e6abf5ba5f01a1e4f0d4969249b0311200ddbd298dfc4e",
+    "raw/candidate/sentinel.json": "734d127e3396d8e548ff3eeea8a309b4de2b7c22ff353ab7706d7803d7a3ce96",
+    "raw/candidate/spec.json": "6b1e17a663ebda49fc4dd5e5e5488f328dfc4bfa8ed6b1af4cf658b4b3797d79",
+    "runtime-evidence.json": "11793b871249326e5127c41b706352710047190d93043dc5d1997e1971987d25"
+  },
+  "implementation_sha256": {
+    "tools/build_mod.py": "207b1ad776fcb823135a34bdc05b1b98e8a5923657faa65192436f75838cf090",
+    "tools/build_world_map_page0_pixel_ab.py": "174ee943367d9b85583f7e7270f1edbedbd1a3b7ab671bba7c1673fad893d78f",
+    "tools/export_world_map_page0_pixel_ab_evidence.py": "00baac614c846ce8c4f4b1c36887da72b9893f6740208d3e96b66769a3632059",
+    "tools/extract_tileset.py": "c70c1efb31174fbb3dae02cdd600bd1bc3febae3141cf66bed00d18450688b33",
+    "tools/gba_image_export.py": "fdbc2741dad2438d67f503156b70e87921beca7a2c21249c547175a919fd4416",
+    "tools/image_resource_regions.py": "9c240259afd56bab99809c49909c26371ed7b7e8ba60018b55caad81fd29bcd0",
+    "tools/import_world_map_background_relocations.py": "97c84865bc7be957e37dc53c0e4947cd24acef1de47531d5a12b4c0620b0fe9e",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_single_input_replay.lua": "28965f8610bdb9e6669ac4c4b787c7e6d1e16cc1e259d6446150f306a382703d",
+    "tools/patch_safety.py": "2abbf2cb1278534dcfeec0af16b699882134d85a9abdb12e3808bbfa7a9910ca",
+    "tools/render_mode0_checkpoint.py": "dbd6e5e179c43218e7f97f3e496ac808908422ed6d08f472b3e0d0968eda53e0",
+    "tools/rom_layout.py": "0cdb589859fa402c21b3d7597bf957a89cd7f8af7c99abe6deac2e843a4b0928",
+    "tools/run_macos_mgba_single_input.py": "aa94c3f540d9a18a898de2bf0f41809bf9a1073bc9b2b56ed250f179a124a057",
+    "tools/verify_menu_portrait_writeback_audit.py": "6df2c2b1c9b2495d882a01111da9894da9adab894161b3126f28d0cb97324734",
+    "tools/verify_world_map_page0_pixel_ab_evidence.py": "e43db720b05dce8e2ab06f9e929c3d7233c1336dd4162b43aa3f5eac2f9edc15"
+  },
+  "parent": {
+    "path": "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-11.ss9",
+    "sha256": "bf821ecdd9945c123576ff7f26717c4d2018f07e623c36cb83dc2bb0fa569555"
+  },
+  "payload_file": "runtime-evidence.json",
+  "payload_sha256": "11793b871249326e5127c41b706352710047190d93043dc5d1997e1971987d25",
+  "raw_files": {
+    "baseline/audit.json": "4a5450f7aa751664c794bfe7b2da4d265b45216244e0aa0cc0792f371bd69de9",
+    "baseline/background.8bpp.bin": "ed2ef49ec3f755360f2492afaed49936efe70fd92be4333be8cfc9e172338d5e",
+    "baseline/frame80.png": "989a9c9b60f3ea352758eb08f74402eefa524959565dbf00491e23563da51046",
+    "baseline/frame80.ss9": "5d49b2cbe4c770d88122a98db9893a3288e68e14edc4c6bd074c238fe7a4ef29",
+    "baseline/guard.json": "455efb375d5290161f703c577cdf01ca94c89a8829c2ef598a51e850f8818700",
+    "baseline/sentinel.json": "4a5450f7aa751664c794bfe7b2da4d265b45216244e0aa0cc0792f371bd69de9",
+    "baseline/spec.json": "8a42f00b9b226d180a31eac24b0df74a4ceb236c5137200e1d7f8b894dd89526",
+    "build-manifest.json": "9ea7649e4e0d8d728f669ab710424bbda60a5a7371463994f4425e3e7e4e7c35",
+    "candidate/audit.json": "734d127e3396d8e548ff3eeea8a309b4de2b7c22ff353ab7706d7803d7a3ce96",
+    "candidate/background.8bpp.bin": "1cc2f755948525ebd13d358fc97910658e4aa8c7ce82393c3ffc7b4be454fd1e",
+    "candidate/frame80.png": "8ad24b4e6dea41c7067b84e1ea0c7f3d8fa917a4609d15943e5a481e284ff622",
+    "candidate/frame80.ss9": "9b03c62bbd5ab1f4d552a3b605389f297569f77eccc6a16fe5c4aeb231a10387",
+    "candidate/guard.json": "7c1a57189fc26e4fe0e6abf5ba5f01a1e4f0d4969249b0311200ddbd298dfc4e",
+    "candidate/sentinel.json": "734d127e3396d8e548ff3eeea8a309b4de2b7c22ff353ab7706d7803d7a3ce96",
+    "candidate/spec.json": "6b1e17a663ebda49fc4dd5e5e5488f328dfc4bfa8ed6b1af4cf658b4b3797d79"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "labels_cursor_transition_verified": false,
+    "natural_page0_load": true,
+    "page0_graphics_single_pixel": true,
+    "page1_and_page2_runtime_verified": false,
+    "physical_gba_verified": false,
+    "production_relocation_route": true
+  },
+  "source_catalog": "artifacts/world-map-backgrounds-v1/manifest.json",
+  "source_catalog_sha256": "b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_world_map_page0_pixel_ab_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/world-map-page0-pixel-ab-v1"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "verified": true
+    }
+  }
+}

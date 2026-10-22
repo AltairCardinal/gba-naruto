@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>generic-sprite-bundle-relocation-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">generic-sprite-bundle-relocation-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">git-artifact-promotion-v1</span>
+        <span class="tag tag-amber">accepted</span>
+        <span class="tag tag-cyan">10 个顶层分区 · 3 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="generic-sprite-bundle-relocation-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-artifact-schema">artifact_schema</a><a class="sec-jump" href="#sec-artifact-status">artifact_status</a><a class="sec-jump" href="#sec-scope">scope</a><a class="sec-jump" href="#sec-summary">summary</a><a class="sec-jump" href="#sec-files">files</a><a class="sec-jump" href="#sec-artifact-id">artifact_id</a><a class="sec-jump" href="#sec-payload-file">payload_file</a><a class="sec-jump" href="#sec-payload-sha256">payload_sha256</a><a class="sec-jump" href="#sec-verifier">verifier</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">git-artifact-promotion-v1</span></section>
+<section class="fam-sec" id="sec-artifact-schema"><h2 class="fam-sec-title">artifact_schema</h2><span class="fml-text">generic-sprite-bundle-relocation-audit-v1</span></section>
+<section class="fam-sec" id="sec-artifact-status"><h2 class="fam-sec-title">artifact_status</h2><span class="fml-text">accepted</span></section>
+<section class="fam-sec" id="sec-scope"><h2 class="fam-sec-title">scope</h2><div class="fml-row"><div class="fml-key">proved</div><div class="fml-val"><span class="fml-text">All 43 fixed generic Sprite IDs, 45 source components, the canonical graphics/palette payloads and all 174 exact source pointer references are accounted for; 45 payload allocations, 88 external pointer patches and 43 tile-base writes rebuild a 16 MiB ROM.</span></div></div><div class="fml-row"><div class="fml-key">editable</div><div class="fml-val"><span class="fml-text">The shared graphics pack may contain 1..97 complete 4bpp tiles, the palette remains one 16-color bank, and each fixed ID may contain 1..2 valid GBA OBJ components, matching the proved source maximum. Animation 0 remains the proved single-frame hold-one-tick then stop sequence.</span></div></div><div class="fml-row"><div class="fml-key">not_proved</div><div class="fml-val"><span class="fml-text">Adding Sprite IDs, adding animations or frames, scene-specific resource overwrites, natural selection of every ID, or final screen-composited pixel/timing equivalence after modification.</span></div></div></section>
+<section class="fam-sec" id="sec-summary"><h2 class="fam-sec-title">summary</h2><div class="fml-row"><div class="fml-key">entry_count</div><div class="fml-val"><span class="fml-num">43</span></div></div><div class="fml-row"><div class="fml-key">component_count</div><div class="fml-val"><span class="fml-num">45</span></div></div><div class="fml-row"><div class="fml-key">graphics_tile_count</div><div class="fml-val"><span class="fml-num">49</span></div></div><div class="fml-row"><div class="fml-key">maximum_runtime_tile_base</div><div class="fml-val"><span class="fml-num">927</span></div></div><div class="fml-row"><div class="fml-key">maximum_safe_graphics_tiles</div><div class="fml-val"><span class="fml-num">97</span></div></div><div class="fml-row"><div class="fml-key">runtime_loader_call_count</div><div class="fml-val"><span class="fml-num">12</span></div></div><div class="fml-row"><div class="fml-key">runtime_tile_bases</div><div class="fml-val"><div class="fml-list"><span><span class="fml-num">846</span></span><span><span class="fml-num">927</span></span></div></div></div><div class="fml-row"><div class="fml-key">source_pointer_reference_count</div><div class="fml-val"><span class="fml-num">174</span></div></div><div class="fml-row"><div class="fml-key">unexpected_source_pointer_count</div><div class="fml-val"><span class="fml-num">0</span></div></div><div class="fml-row"><div class="fml-key">allocation_count</div><div class="fml-val"><span class="fml-num">45</span></div></div><div class="fml-row"><div class="fml-key">pointer_patch_count</div><div class="fml-val"><span class="fml-num">88</span></div></div><div class="fml-row"><div class="fml-key">tile_base_patch_count</div><div class="fml-val"><span class="fml-num">43</span></div></div><div class="fml-row"><div class="fml-key">allocation_start</div><div class="fml-val"><span class="fml-num">12,124,160</span></div></div><div class="fml-row"><div class="fml-key">allocation_end</div><div class="fml-val"><span class="fml-num">12,126,688</span></div></div><div class="fml-row"><div class="fml-key">region_end</div><div class="fml-val"><span class="fml-num">12,189,696</span></div></div><div class="fml-row"><div class="fml-key">stored_payload_bytes</div><div class="fml-val"><span class="fml-num">2,525</span></div></div><div class="fml-row"><div class="fml-key">allocation_span</div><div class="fml-val"><span class="fml-num">2,528</span></div></div><div class="fml-row"><div class="fml-key">remaining_bytes</div><div class="fml-val"><span class="fml-num">63,008</span></div></div><div class="fml-row"><div class="fml-key">applied_patch_count</div><div class="fml-val"><span class="fml-num">176</span></div></div></section>
+<section class="fam-sec" id="sec-files"><h2 class="fam-sec-title">files</h2><div class="fml-row"><div class="fml-key">full-relocation-spec.json</div><div class="fml-val"><span class="fml-text">6681131547ab9d83111252c20c98b8d84cdd8032a469f041fe77d044f1afe63b</span></div></div><div class="fml-row"><div class="fml-key">relocation-audit.json</div><div class="fml-val"><span class="fml-text">55a9d965b9f894246f04fb89ac3a7dd6b541d5294abe94627909258bcd43e61d</span></div></div></section>
+<section class="fam-sec" id="sec-artifact-id"><h2 class="fam-sec-title">artifact_id</h2><span class="fml-text">generic-sprite-bundle-relocation-v1</span></section>
+<section class="fam-sec" id="sec-payload-file"><h2 class="fam-sec-title">payload_file</h2><span class="fml-text">relocation-audit.json</span></section>
+<section class="fam-sec" id="sec-payload-sha256"><h2 class="fam-sec-title">payload_sha256</h2><span class="fml-text">55a9d965b9f894246f04fb89ac3a7dd6b541d5294abe94627909258bcd43e61d</span></section>
+<section class="fam-sec" id="sec-verifier"><h2 class="fam-sec-title">verifier</h2><div class="fml-row"><div class="fml-key">command</div><div class="fml-val"><div class="fml-list"><span><span class="fml-text">python3</span></span><span><span class="fml-text">tools/verify_generic_sprite_bundle_relocation_audit.py</span></span><span><span class="fml-text">--root</span></span><span><span class="fml-text">.</span></span><span><span class="fml-text">--artifact</span></span><span><span class="fml-text">artifacts/generic-sprite-bundle-relocation-v1</span></span></div></div></div><div class="fml-row"><div class="fml-key">exit_code</div><div class="fml-val"><span class="fml-num">0</span></div></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/generic-sprite-bundle-relocation-v1/full-relocation-spec.json">full-relocation-spec.json</a><span class="fml-meta"> 22,555 B</span></li><li><a href="../artifacts/generic-sprite-bundle-relocation-v1/manifest.json">manifest.json</a><span class="fml-meta"> 2,252 B</span></li><li><a href="../artifacts/generic-sprite-bundle-relocation-v1/relocation-audit.json">relocation-audit.json</a><span class="fml-meta"> 21,013 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

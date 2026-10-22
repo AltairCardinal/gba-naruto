@@ -1,0 +1,20 @@
+{
+  "reason": "completed",
+  "exit_code": 0,
+  "child_pid": 39775,
+  "peak_tree_rss_mib": 0.91015625,
+  "protection_backend": "posix-process-group",
+  "degraded": false,
+  "command": [
+    "/usr/local/opt/python@3.14/bin/python3.14",
+    "/Users/altair/github/gba-naruto/tools/build_macos_mgba.py",
+    "_capture",
+    "/Users/altair/github/gba-naruto/artifacts/macos-mgba-20261019-v1/evidence/help.txt",
+    "--",
+    "/Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--help"
+  ],
+  "cwd": "/Users/altair/github/gba-naruto",
+  "started_at": "2026-10-19T15:28:57.475178Z",
+  "finished_at": "2026-10-19T15:28:58.522811Z"
+}

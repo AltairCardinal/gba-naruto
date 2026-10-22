@@ -1,0 +1,24 @@
+usage: /Users/altair/github/gba-naruto/build/macos-mgba/build/qt/mGBA.app/Contents/MacOS/mGBA [option ...] file
+
+Generic options:
+  -b, --bios FILE            GBA BIOS file to use
+  -c, --cheats FILE          Apply cheat codes from a file
+  -C, --config OPTION=VALUE  Override config value
+  -d, --debug                Use command-line debugger
+  -g, --gdb                  Start GDB session (default port 2345)
+  -l, --log-level N          Log level mask
+  -t, --savestate FILE       Load savestate when starting
+  -p, --patch FILE           Apply a specified patch file when running
+  -s, --frameskip N          Skip every N frames
+  --version                  Print version and exit
+
+Graphics options:
+  -1, -2, -3, -4, -5, -6, -7, -8  Scale viewport by 1-8 times
+  -f, --fullscreen                Start full-screen
+  --scale X                       Scale viewport by X times
+
+Frontend options:
+  --ecard FILE  Scan an e-Reader card in the first loaded game
+                Can be passed multiple times for multiple cards
+  --mb FILE     Boot a multiboot image with FILE inserted into the ROM slot
+  --script FILE Script file to load on start

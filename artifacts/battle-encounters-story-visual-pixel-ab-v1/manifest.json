@@ -1,0 +1,34 @@
+{
+  "artifact_schema": "battle-encounters-story-visual-pixel-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "baseline.png": "c1fbfc4b1050e8b60e83ad65bc050cf5a201157f8de64de9136f776d6794c180",
+    "candidate.png": "ec594790cbb0ab7173ec375af1632ba319680ba95a33930199d24f077628693f",
+    "evidence.json": "37ce7ddb7a3812745e82dfc7f4802a4af155f8ea3632338a7d000f9c6710b2ab",
+    "raw.tar": "491ada895f0094771c90854948fb6eb5486ce16e50bf1ec0aeccbd3b0c56eb9f"
+  },
+  "implementation": {
+    "tests/test_battle_encounters_story_visual_pixel_ab_artifact.py": "a9920817913565bf696a0bcbeb0d7df575829d52a00dd17f97982b951f8b07b0",
+    "tests/test_build_battle_encounters_story_visual_pixel_ab.py": "d7a6313683289d90d6f7e344d8b8620110a280100a1783a6a0b565d335a5a744",
+    "tests/test_mgba_battle_encounters_story_visual_trace_script.py": "bba1f187addc9864608d9df661eaac5976c520e1e020fa1e3d2cd7c635771092",
+    "tools/build_battle_encounters_story_visual_pixel_ab.py": "706d089e403c996ebc7543c97f91cd5b3b165f5a327a8e01c46ece8e1487c6d8",
+    "tools/export_battle_encounters_story_visual_pixel_ab.py": "d5d081099560ae7242a75e7c19c4a3ee7f3a745b43408123660f1278d5c70967",
+    "tools/inspect_mgba_savestate.py": "5607a5a3192be34462f5f811f8cc69b8312a21de2a3ce644e53ce46cad3ae93b",
+    "tools/mgba_battle_encounters_story_visual_trace.lua": "078c19552036a1fea0fe33ec173ec823ba81995b05f8a4398378eb90580e49e0",
+    "tools/patch_mgba_savestate_memory.py": "048db560dfd2e353c31eb7f2b4ca7fb3b0c75a309ff403575ee356c6101e2384",
+    "tools/render_mode0_checkpoint.py": "80a7d188d93418ba3796b597deb62a0584acfd1270dce633cfd8f1b18794c369",
+    "tools/verify_battle_encounters_story_visual_pixel_ab.py": "4757eda87c9da08a13c4b771861742b9af8c8353cf7e78428b28cb61adcc6ade"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_encounters_story_visual_pixel_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-encounters-story-visual-pixel-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

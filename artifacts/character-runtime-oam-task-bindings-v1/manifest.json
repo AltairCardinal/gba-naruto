@@ -1,0 +1,51 @@
+{
+  "schema": "git-artifact-promotion-v1",
+  "artifact_schema": "character-runtime-oam-task-bindings-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "bindings.json": "8930a32d0b72c5ea61b2cf66f1493fcac25fd98a8d75f4ddb488013bcc53771a"
+  },
+  "source": {
+    "source_oam_bindings_path": "artifacts/character-runtime-oam-bindings-v1/bindings.json",
+    "source_oam_bindings_sha256": "d13782ef403d49c32668c6692c67f826df518dee3619e9cebdae21d94bd86ddf",
+    "source_oam_promotion_manifest_path": "artifacts/character-runtime-oam-bindings-v1/manifest.json",
+    "source_oam_promotion_manifest_sha256": "98d84e6ce9a75b9d47be3efc4e1d7a14924729b3605dfde6b65d4b370f3fdce6",
+    "source_character_visual_manifest_path": "artifacts/character-battle-visuals-v1/manifest.json",
+    "source_character_visual_manifest_sha256": "a048eb6b494ceab3cee09ff3db98947ff739e750551e52d6692dc489c4c3db4c"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_character_runtime_oam_task_bindings.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/character-runtime-oam-task-bindings-v1/bindings.json"
+    ],
+    "exporter_sha256": "cdc425958cb7b5718084915b6900e601f9c9a013d17d9adbd50820817d5888eb",
+    "test_sha256": "411d5e40224ed2dd0fd2bbda77eb4b681747dfb351d1fc7b06ce9922d57434c9"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_runtime_oam_task_bindings.py",
+      "--root",
+      ".",
+      "--bindings",
+      "artifacts/character-runtime-oam-task-bindings-v1/bindings.json"
+    ],
+    "verifier_sha256": "7d63146f71d7870ebcc6e052bea924d99966f917f46d2351606a8e71edb29512",
+    "exit_code": 0,
+    "report": {
+      "verified": true,
+      "errors": [],
+      "schema": "character-runtime-oam-task-bindings-verification-v1",
+      "checkpoint_count": 91,
+      "binding_count": 53
+    }
+  },
+  "experiment": {
+    "task": "character-runtime-oam-task-bindings",
+    "run_id": "natural-task-binding-20260730-01"
+  }
+}

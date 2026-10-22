@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运行时模型 · character-battle-visuals-v1 · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-formulas.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<div class="card full-width" id="fml-character-battle-visuals-v1">
+          <div class="card-head">
+            <div class="card-title">角色战斗视觉 · 描述符行公式</div>
+            <span class="tag tag-purple">1. 视觉与动画资产库 · artifacts/character-battle-visuals-v1</span>
+          </div>
+          <p class="card-desc">
+            下列模型由 <code>artifacts/character-battle-visuals-v1/manifest.json</code> 直接导出，共 <strong>43</strong> 个字段；字段值即 ROM 中签发的表达式原文，未经改写。
+          </p>
+            <details class="fml-model">
+              <summary><code>table</code><span class="fml-meta">7 个字段 · 代码区间 0x08596D5C</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">gba_start</div><div class="fml-val"><span class="fml-text">0x08596D5C</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">gba_end</div><div class="fml-val"><span class="fml-text">0x0859903C</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">entry_size</div><div class="fml-val"><span class="fml-num">16</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">entry_count</div><div class="fml-val"><span class="fml-num">558</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">row_formula</div><div class="fml-val"><span class="fml-text">(character_id - 1) * 9 + visual_slot</span></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>consumer</code><span class="fml-meta">27 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">prebiased_matrix_base</div><div class="fml-val"><span class="fml-text">0x08596CCC</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">descriptor_formula</div><div class="fml-val"><code class="fml-expr">0x08596CCC + character_id * 0x90 + visual_slot * 0x10</code></div></div><div class="fml-row" style="--d:0"><div class="fml-key">selector</div><div class="fml-val"><div class="fml-row" style="--d:1"><div class="fml-key">gba_start</div><div class="fml-val"><span class="fml-text">0x0807AE04</span></div></div><div class="fml-row" style="--d:1"><div class="fml-key">gba_end</div><div class="fml-val"><span class="fml-text">0x0807B284</span></div></div><div class="fml-row" style="--d:1"><div class="fml-key">size</div><div class="fml-val"><span class="fml-num">1152</span></div></div><div class="fml-row" style="--d:1"><div class="fml-key">opcode_domain</div><div class="fml-val"><div class="fml-list"><div><span class="fml-num">0</span></div><div><span class="fml-num">1</span></div><div><span class="fml-num">2</span></div><div><span class="fml-num">3</span></div><div><span class="fml-num">4</span></div><div><span class="fml-num">5</span></div><div><span class="fml-num">6</span></div><div><span class="fml-num">7</span></div></div></div></div></div></div><div class="fml-row" style="--d:0"><div class="fml-key">sprite_task_allocator</div><div class="fml-val"><div class="fml-row" style="--d:1"><div class="fml-key">gba_start</div><div class="fml-val"><span class="fml-text">0x080625A4</span></div></div><div class="fml-row" style="--d:1"><div class="fml-key">gba_end</div><div class="fml-val"><span class="fml-text">0x080626B0</span></div></div><div class="fml-row" style="--d:1"><div class="fml-key">size</div><div class="fml-val"><span class="fml-num">268</span></div></div></div></div><div class="fml-row" style="--d:0"><div class="fml-key">left_facing_empty_slot_fallback</div><div class="fml-val"><div class="fml-row" style="--d:1"><div class="fml-key">from_slots</div><div class="fml-val"><div class="fml-list"><div><span class="fml-num">5</span></div><div><span class="fml-num">6</span></div><div><span class="fml-num">7</span></div><div><span class="fml-num">8</span></div></div></div></div><div class="fml-row" style="--d:1"><div class="fml-key">to_slots</div><div class="fml-val"><div class="fml-list"><div><span class="fml-num">1</span></div><div><span class="fml-num">2</span></div><div><span class="fml-num">3</span></div><div><span class="fml-num">4</span></div></div></div></div><div class="fml-row" style="--d:1"><div class="fml-key">horizontal_flip_flag</div><div class="fml-val"><span class="fml-text">0x8000</span></div></div></div></div></div>
+            </details>
+            <details class="fml-model">
+              <summary><code>scope</code><span class="fml-meta">9 个字段</span></summary>
+              <div class="fml-tree"><div class="fml-row" style="--d:0"><div class="fml-key">static_source_space_frames</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">component_geometry_and_flips</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">animation_holds</div><div class="fml-val"><span class="fml-bool">true</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">screen_space_position</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">camera_and_priority</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">runtime_slot_selection</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">blend_and_palette_transform</div><div class="fml-val"><span class="fml-bool">false</span></div></div><div class="fml-row" style="--d:0"><div class="fml-key">all_component_termination_semantics_complete</div><div class="fml-val"><span class="fml-bool">true</span></div></div></div>
+            </details>
+        </div>
+
+        
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

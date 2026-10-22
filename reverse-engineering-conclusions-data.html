@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>逆向结论 · data · 逆向结果查看器</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+  <link rel="stylesheet" href="assets/family.css">
+</head>
+<body>
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="reverse-engineering-conclusions.html">← 返回</a>
+    </div>
+  </header>
+  <main class="family-page">
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-stats-addresses</code><span class="cc-meta">单位与数值 </span></summary>
+          <div class="cc-title">Character Stats (人物数据) Addresses</div>
+          <div class="cc-body"><div class="cc-note-line"><strong>来源：</strong> 第三方逆向成果（图片提取）</div>
+<div class="cc-note-line"><strong>状态更新（2026-07-11）：</strong> <code class="cc-code">0x02022EF0</code> 不是独立 character-stats WRAM</div>
+<div class="cc-note-line">基址；它等于角色模板池 <code class="cc-code">0x02022E34 + 1*0xBC</code>，即 template slot 1。首战 WASM</div>
+<div class="cc-note-line">样本中 <code class="cc-code">0x02022EF0</code> first16 为 <code class="cc-code">01010e0d0803050505000f0050005000</code>，与</div>
+<div class="cc-note-line"><code class="cc-code">runtimeTemplates[slot=1]</code> 完全一致。下面的字段表只能作为历史假设保留，不能作为</div>
+<div class="cc-note-line"><code class="cc-code">character-stats</code> bank <code class="cc-code">0x54507A</code> 的动态证据。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/character-stats-addresses.md" download>notes/character-stats-addresses.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">unit-id-mapping-analysis</code><span class="cc-meta">单位与数值 </span></summary>
+          <div class="cc-title">Unit ID Mapping Table - Static Analysis</div>
+          <div class="cc-body"><div class="cc-note-line cc-muted">本篇为过程记录，未能提取到结论段落。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/unit-id-mapping-analysis.md" download>notes/unit-id-mapping-analysis.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">unit-skill-addresses</code><span class="cc-meta">单位与数值 </span></summary>
+          <div class="cc-title">Unit &amp; Skill Addresses</div>
+          <div class="cc-body"><div class="cc-note-line"><strong>Substantially identified.</strong> Unit ID mapping table, battle scenario config table, and WRAM battle data layout all confirmed. ROM data format for battle maps partially decoded (ptr1 tilemap header + ptr2 LZ77 palette data). Patch generation operational.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/unit-skill-addresses.md" download>notes/unit-skill-addresses.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">positions-rom-source-20260710</code><span class="cc-meta">单位与数值 · 20260710 <span class="tag tag-amber">含纠错/证伪</span></span></summary>
+          <div class="cc-title">Positions ROM Source Static Trace (2026-07-10)</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">positions</code> 并不位于场景图块表 <code class="cc-code">0x0853D910</code> 内。单位初始坐标来自 ROM</div>
+<div class="cc-note-line"><code class="cc-code">0x085461C4</code> 起始的战斗编成矩阵；战斗初始化函数读取每个 <code class="cc-code">0xB8</code> 字节记录的</div>
+<div class="cc-note-line"><code class="cc-code">+2/+3</code> 两个字节，并经 <code class="cc-code">0x0806AC70 -&gt; 0x0806AA64</code> 写入运行时单位结构。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">静态证据已经闭合到以下数据流：</div>
+<div class="cc-note-line"></div>
+<pre><code>
+ROM record = 0x085461C4
+           + battle_control[1] * 0x1AAC
+           + battle_control[2] * 0x08E4
+           + 4
+           + record_index * 0xB8
+
+record[+2] (x), record[+3] (y), record[+4] (parameter)
+       |
+       v
+0x0806E41E..0x0806E434 / 0x0806E71E..0x0806E734
+       |
+       v
+0x0806AC70 (wrapper) -&gt; 0x0806AA64 (allocate/copy unit)
+       |
+       v
+unit[+0xC4] = x; unit[+0xC5] = y
+unit[+0xC7] = x; unit[+0xC8] = y
+</code></pre>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">因此，现有 <code class="cc-code">sequel/content/positions/bank.json</code> 将 <code class="cc-code">0x53D914</code> 当作位置来源的</div>
+<div class="cc-note-line">结论应撤销；<code class="cc-code">0x53D914</code> 是场景 0 的 <code class="cc-code">tile_gfx_ptr</code>，不是单位坐标。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/positions-rom-source-20260710.md" download>notes/positions-rom-source-20260710.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">audio-palette-identity-correction-20260711</code><span class="cc-meta">音频 · 20260711 </span></summary>
+          <div class="cc-title">Audio / palette identity correction（2026-07-11）</div>
+          <div class="cc-body"><div class="cc-note-line">The former <code class="cc-code">audio</code> and <code class="cc-code">palettes</code> banks both claimed file <code class="cc-code">0x53F138</code> because</div>
+<div class="cc-note-line">the audio bank had copied the palette entries while its own metadata described</div>
+<div class="cc-note-line">a different table.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/audio-palette-identity-correction-20260711.md" download>notes/audio-palette-identity-correction-20260711.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-definition-source-20260711</code><span class="cc-meta">单位与数值 · 20260711 <span class="tag tag-amber">含纠错/证伪</span></span></summary>
+          <div class="cc-title">角色定义与战斗单位复制链（2026-07-11）</div>
+          <div class="cc-body"><div class="cc-note-line">真实角色定义表位于 ROM <code class="cc-code">0x0854241C</code>（file <code class="cc-code">0x54241C</code>），共 63 条（ID 0..62），</div>
+<div class="cc-note-line">stride <code class="cc-code">0xB4</code>。末条从 <code class="cc-code">0x544FB4</code> 开始，表结束于 <code class="cc-code">0x545068</code>。<code class="cc-code">0x545068..0x545079</code></div>
+<div class="cc-note-line">是 18 字节 gap，实际字节为 <code class="cc-code">00000000000000000000000000000000aa05</code>：前 16 字节为零，</div>
+<div class="cc-note-line">末 2 字节不是零。后续调查已证明真实成长表从 <code class="cc-code">0x545068</code> 原地开始；旧</div>
+<div class="cc-note-line"><code class="cc-code">0x54507A</code> bank 是错位切片，因此这里不存在独立 gap，不能再把该区域记为</div>
+<div class="cc-note-line">“18 字节零填充”。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">旧 <code class="cc-code">units</code> bank 所称 <code class="cc-code">0x53F298</code> 角色 ID 表已撤销；该地址唯一消费者属于对象/渲染</div>
+<div class="cc-note-line">偏移查找。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/character-definition-source-20260711.md" download>notes/character-definition-source-20260711.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-growth-runtime-chain-20260711</code><span class="cc-meta">单位与数值 · 20260711 </span></summary>
+          <div class="cc-title">Character growth 运行时消费链（2026-07-11）</div>
+          <div class="cc-body"><div class="cc-note-line">原 <code class="cc-code">character-stats@0x54507A</code> 和 <code class="cc-code">character-stats-b@0x545200</code> 不是两张表。</div>
+<div class="cc-note-line">真实结构是 file <code class="cc-code">0x545068..0x545457</code> 的 <strong>63×<code class="cc-code">0x10</code> 角色成长表</strong>，并已通过</div>
+<div class="cc-note-line">代码引用和受控首战 A/B 闭合到 WRAM 角色模板及战斗单位槽。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- 地址公式：<code class="cc-code">0x545068 + character_id*0x10</code>；</div>
+<div class="cc-note-line">- 结束地址：<code class="cc-code">0x545068 + 63*0x10 = 0x545458</code>，与下一张已知表严格相接；</div>
+<div class="cc-note-line">- 消费函数：Thumb <code class="cc-code">0x0806D964</code>；</div>
+<div class="cc-note-line">- 模板池：<code class="cc-code">0x02022E34 + slot*0xBC</code>；</div>
+<div class="cc-note-line">- 战斗单位：<code class="cc-code">0x020240C0 + slot*0x1D4</code>；</div>
+<div class="cc-note-line">- 证据等级：<code class="cc-code">runtime_verified</code>；</div>
+<div class="cc-note-line">- <code class="cc-code">0x545200</code> legacy 回写已禁用。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/character-growth-runtime-chain-20260711.md" download>notes/character-growth-runtime-chain-20260711.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">save-state-wasm-probe-20260711</code><span class="cc-meta">单位与数值 · 20260711 </span></summary>
+          <div class="cc-title">Save-state WASM SRAM probe（2026-07-11）</div>
+          <div class="cc-body"><div class="cc-note-line">在现有可重复的标题→新游戏→首战 WASM 路线中，于导航前后读取 save-state bank</div>
+<div class="cc-note-line">记录的七个唯一 SRAM 目标，每条读取 20 字节，并按 <code class="cc-code">~sum(first19) &amp; 0xFF</code></div>
+<div class="cc-note-line">检查第 20 字节。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/save-state-wasm-probe-20260711.md" download>notes/save-state-wasm-probe-20260711.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">skill-template-identity-20260711</code><span class="cc-meta">单位与数值 · 20260711 <span class="tag tag-amber">含纠错/证伪</span></span></summary>
+          <div class="cc-title">Skill template identity correction（2026-07-11）</div>
+          <div class="cc-body"><div class="cc-note-line">The former <code class="cc-code">skills@0x546100</code> bank was a misbased 12-record tail slice. A range</div>
+<div class="cc-note-line">pointer scan found six aligned literals targeting <code class="cc-code">0x08545BE4</code>, including the</div>
+<div class="cc-note-line">literal at <code class="cc-code">0x0806D960</code> used by <code class="cc-code">0x0806D910</code>.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/skill-template-identity-20260711.md" download>notes/skill-template-identity-20260711.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">units-unsafe-table-fix-20260711</code><span class="cc-meta">单位与数值 · 20260711 </span></summary>
+          <div class="cc-title">Units 旧表语义与危险回写修正（2026-07-11）</div>
+          <div class="cc-body"><div class="cc-note-line">利用首战 WASM 样本继续验证 <code class="cc-code">units</code> 时，复核了旧文档声称的消费者</div>
+<div class="cc-note-line"><code class="cc-code">0x0806E654</code>、ROM 表 <code class="cc-code">0x0853F298</code> 及 WRAM 单位槽字段。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/units-unsafe-table-fix-20260711.md" download>notes/units-unsafe-table-fix-20260711.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">audio-engine-runtime-chain-20260712</code><span class="cc-meta">音频 · 20260712 <span class="tag tag-amber">含纠错/证伪</span></span></summary>
+          <div class="cc-title">Real audio engine and runtime chain (2026-07-12)</div>
+          <div class="cc-body"><div class="cc-note-line">The former audio identities are revoked. <code class="cc-code">0x53F138</code> is a palette table, while</div>
+<div class="cc-note-line"><code class="cc-code">0x599634</code> / <code class="cc-code">0x08079668</code> are a message table and dispatcher. The real chain is:</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line"><code class="cc-code">0x08061E6C</code> public wrapper → <code class="cc-code">0x0809AAC0</code> sound-ID dispatcher →</div>
+<div class="cc-note-line"><code class="cc-code">0x08465B70 + sound_id*8</code> → player slot <code class="cc-code">+ player_index*12</code> →</div>
+<div class="cc-note-line">song/track initializer <code class="cc-code">0x0809B1F4</code>.</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">The hardware initializer at <code class="cc-code">0x0809AE3C</code> writes GBA sound, FIFO and DMA</div>
+<div class="cc-note-line">register families including <code class="cc-code">0x04000060</code>, <code class="cc-code">0x04000080</code>, <code class="cc-code">0x04000084</code>,</div>
+<div class="cc-note-line"><code class="cc-code">0x040000A0</code> and <code class="cc-code">0x040000A4</code>.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/audio-engine-runtime-chain-20260712.md" download>notes/audio-engine-runtime-chain-20260712.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">save-descriptor-layout-correction-20260712</code><span class="cc-meta">单位与数值 · 20260712 </span></summary>
+          <div class="cc-title">Save descriptor layout and WASM export correction (2026-07-12)</div>
+          <div class="cc-body"><div class="cc-note-line">The second u32 in each <code class="cc-code">0x53D848</code> descriptor is not an independent SRAM</div>
+<div class="cc-note-line">offset. <code class="cc-code">0x08068684</code> reaches descriptor <code class="cc-code">i</code> by starting at SRAM base and adding</div>
+<div class="cc-note-line"><code class="cc-code">previous_field + 0x14</code> for every preceding descriptor. It then uses the</div>
+<div class="cc-note-line">selected field as the payload length and appends a NOT-sum checksum byte.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/save-descriptor-layout-correction-20260712.md" download>notes/save-descriptor-layout-correction-20260712.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">skill-template-ui-probe-20260712</code><span class="cc-meta">单位与数值 · 20260712 </span></summary>
+          <div class="cc-title">Skill template UI/runtime probe (2026-07-12)</div>
+          <div class="cc-body"><div class="cc-note-line">The real table is file <code class="cc-code">0x545BE4..0x5461C3</code>, 94×<code class="cc-code">0x10</code>. Initializer</div>
+<div class="cc-note-line"><code class="cc-code">0x0806D910</code> computes <code class="cc-code">base + skill_id*16</code>, but the old bank description was</div>
+<div class="cc-note-line">off by one: source <code class="cc-code">+0</code> is copied to runtime <code class="cc-code">+1</code>, source <code class="cc-code">+1</code> is skipped, and</div>
+<div class="cc-note-line">source <code class="cc-code">+2..+9</code> copy to matching runtime offsets. Runtime <code class="cc-code">+0</code> is fixed to 5;</div>
+<div class="cc-note-line"><code class="cc-code">+A/+C/+E</code> are cleared. Source <code class="cc-code">+A/+B</code> are not unused tails: separate code at</div>
+<div class="cc-note-line"><code class="cc-code">0x0808FF7C/0x0808FF88</code> consumes them. The generator and bank now encode these</div>
+<div class="cc-note-line">exact destinations while retaining legacy column names for DB compatibility.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/skill-template-ui-probe-20260712.md" download>notes/skill-template-ui-probe-20260712.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">audio-cue-semantics-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">Audio cue 语义来源审计（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line">本轮只使用 ROM 静态调用点、已闭合章节命令、既有运行时记录和 descriptor</div>
+<div class="cc-note-line">结构，不按听感猜名。80 个有效 sound ID 中：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- 4 个得到高可信代码语义候选名：102 确认、103 取消、104 光标移动、105</div>
+<div class="cc-note-line">无效/拒绝；</div>
+<div class="cc-note-line">- 4 个得到场景或来源约束候选名：4、101、118、144；</div>
+<div class="cc-note-line">- 其余 72 个仍明确标为 <code class="cc-code">unknown</code>；</div>
+<div class="cc-note-line">- 0 个具备游戏官方曲名或官方音效名证据。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">因此“有玩家可理解候选名”为 <strong>8/80</strong>，但“官方名称”为 <strong>0/80</strong>。候选名不可在</div>
+<div class="cc-note-line">没有新的受控运行时事件关联前去掉 <code class="cc-code">_candidate</code> 后缀。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/audio-cue-semantics-20260713.md" download>notes/audio-cue-semantics-20260713.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">audio-tie-lifecycle-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">MP2K TIE / EOT 生命周期闭合（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">tools/render_m4a_midi.py</code> 会把 <code class="cc-code">TIE</code> 记录成 duration 为 <code class="cc-code">None</code> 的 note，但 MIDI</div>
+<div class="cc-note-line">编码器只输出有 duration 的 note，因此所有延音在导出的 MIDI 中被静默丢弃。</div>
+<div class="cc-note-line"><code class="cc-code">EOT</code> 虽有事件记录，却没有回填对应 TIE 的结束 tick。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/audio-tie-lifecycle-20260713.md" download>notes/audio-tie-lifecycle-20260713.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">directsound-envelope-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">DirectSound ADSR / release / pseudo echo（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line">SoundChannel 的 tone ADSR 在 note init <code class="cc-code">0x0809A88E..0x0809A892</code> 从 tone <code class="cc-code">+8..+B</code></div>
+<div class="cc-note-line">复制到 channel <code class="cc-code">+4..+7</code>。状态机位于 <code class="cc-code">0x08099EC8..0x08099F68</code>，每次</div>
+<div class="cc-note-line">SoundMain mixer invocation 推进一次，不跟 MP2K wait tick 等价。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/directsound-envelope-20260713.md" download>notes/directsound-envelope-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">directsound-mixer-runtime-chain-20260713</code><span class="cc-meta">音频 · 20260713 <span class="tag tag-amber">含纠错/证伪</span></span></summary>
+          <div class="cc-title">DirectSound mixer runtime chain (2026-07-13)</div>
+          <div class="cc-body"><div class="cc-note-line">The ROM does not saturate DirectSound contributions. <code class="cc-code">SoundMain</code> packs each</div>
+<div class="cc-note-line">signed contribution into one byte, adds it to the existing packed PCM word and</div>
+<div class="cc-note-line">lets the high-byte overflow fall away. Every per-channel contribution and the</div>
+<div class="cc-note-line">multi-channel sum therefore uses signed 8-bit modulo-256 wrap. A conventional</div>
+<div class="cc-note-line"><code class="cc-code">clamp(-128, 127)</code> renderer is observably wrong.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/directsound-mixer-runtime-chain-20260713.md" download>notes/directsound-mixer-runtime-chain-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">directsound-pitch-step-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">DirectSound pitch-step 与 mixer phase（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">MidiKeyToFreq</code> 位于 <code class="cc-code">0x0809A998..0x0809A9F2</code>。它读取 180-byte scale 表</div>
+<div class="cc-note-line"><code class="cc-code">0x084645C4</code> 与 12×u32 frequency 表 <code class="cc-code">0x08464678</code>，并通过</div>
+<div class="cc-note-line"><code class="cc-code">0x08099D7C</code> 的 ARM <code class="cc-code">UMULL</code> helper 取得 unsigned product 高 32 位。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/directsound-pitch-step-20260713.md" download>notes/directsound-pitch-step-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">directsound-volume-pan-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">DirectSound 音量与声像链（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line">- <code class="cc-code">TrkVolPitSet 0x0809B3E0..0x0809B492</code>：把 track 的 VOL、volX、PAN、panX</div>
+<div class="cc-note-line">与 MODT 合成为右/左增益缓存 <code class="cc-code">track+0x10/+0x11</code>。</div>
+<div class="cc-note-line">- <code class="cc-code">ChnVolSetAsm 0x0809A6D8..0x0809A706</code>：把上述缓存与每个 channel 的</div>
+<div class="cc-note-line">note velocity、drum tone pan 合成为 pre-envelope 增益 <code class="cc-code">channel+2/+3</code>。</div>
+<div class="cc-note-line">- <code class="cc-code">0x08099F74..0x08099F82</code>：再以实时 envelope scalar 缩放到 mixer 使用的</div>
+<div class="cc-note-line"><code class="cc-code">channel+0x0A/+0x0B</code>；该 envelope 状态机现见</div>
+<div class="cc-note-line"><code class="cc-code">notes/directsound-envelope-20260713.md</code>。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/directsound-volume-pan-20260713.md" download>notes/directsound-volume-pan-20260713.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">m4a-channel-allocation-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">m4a channel allocation and steal rules (2026-07-13)</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">m4aSoundMode 0x0809AFD8..0x0809B05A</code> consumes mode literal <code class="cc-code">0x0095FA00</code></div>
+<div class="cc-note-line">(ROM file <code class="cc-code">0x9AAA4</code>) and sets <code class="cc-code">SoundInfo.maxChans=10</code>. This ROM therefore has</div>
+<div class="cc-note-line">ten pooled DirectSound channels plus four fixed CGB hardware channels. The two</div>
+<div class="cc-note-line">allocators are not interchangeable.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/m4a-channel-allocation-20260713.md" download>notes/m4a-channel-allocation-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">m4a-command-vm-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">Persistent m4a command VM (2026-07-13)</div>
+          <div class="cc-body"><div class="cc-note-line">The MIDI executor intentionally stops at the first revisited backward GOTO to</div>
+<div class="cc-note-line">produce a bounded structural audition. That policy cannot drive final PCM:</div>
+<div class="cc-note-line">runtime GOTO changes the command pointer and continues in the same MP2K tick,</div>
+<div class="cc-note-line">and TIE/channel state survives the loop edge.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/m4a-command-vm-20260713.md" download>notes/m4a-command-vm-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">m4a-emulator-differential-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">m4a emulator differential（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line">本轮用独立 mGBA 0.10.1 运行时数据闭合了离线整曲引擎的两个硬件边界：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- DirectSound：sound ID 101 从干净 <code class="cc-code">m4aSoundInit</code> 后开始，79 次 <code class="cc-code">SoundMain</code></div>
+<div class="cc-note-line">直至自然结束；79/79 个 264-frame 双声道 FIFO 块逐字节相同，合并原始 signed</div>
+<div class="cc-note-line">PCM SHA-256 在 ROM 与离线引擎两侧均为</div>
+<div class="cc-note-line"><code class="cc-code">d0f02e59c6595bcbaefa0f881e72add5cd2d74f16f5b23eb3dd40127e5648197</code>。</div>
+<div class="cc-note-line">- CGB noise：sound ID 144 的 68 次 <code class="cc-code">SoundMain</code> 全时间线中，68/68 组可读</div>
+<div class="cc-note-line"><code class="cc-code">NR41/NR42/NR43/NR51</code> 与 68/68 个 channel-4 status 都和离线引擎一致；11 次</div>
+<div class="cc-note-line">retrigger 位于 invocation <code class="cc-code">1,7,13,19,25,31,37,43,49,55,61</code>。Direct FIFO 全程为零，</div>
+<div class="cc-note-line">离线引擎与 ROM 同时在 invocation 68 后自然结束。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">这组证据动态覆盖 ID 101 已执行路径中的 player tick、ADSR、gain/pan、23-bit sample</div>
+<div class="cc-note-line">phase、forward-linear interpolation、264-frame buffer、6-slot ring 和左右路 modulo-256</div>
+<div class="cc-note-line">混合；也覆盖 ID 144 的三档 <code class="cc-code">NR42</code>、<code class="cc-code">NR43=0x14</code>、<code class="cc-code">NR51=0x88</code>、release stop 与固定</div>
+<div class="cc-note-line">CGB channel-4 生命周期。同 player slot hard replacement、多个 linked player 并发及</div>
+<div class="cc-note-line">跨 player 的全局 CGB pool 竞争已在后续</div>
+<div class="cc-note-line"><code class="cc-code">notes/m4a-player-slot-runtime-differential-20260713.md</code> 中独立闭合。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/m4a-emulator-differential-20260713.md" download>notes/m4a-emulator-differential-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">m4a-full-song-render-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">MP2K 整曲 PCM 与 CGB 联合输出（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">tools/m4a_song_engine.py</code> 现以 player 为单位连接 MPlay tempo accumulator、全部</div>
+<div class="cc-note-line">track VM、gate/EOT/FINE、dirty pitch/mix 传播、10+4 通道池、DirectSound ADSR/</div>
+<div class="cc-note-line">sampler、CGB channel-4 noise 和 6×264 reverb ring。每次 SoundMain 先执行该</div>
+<div class="cc-note-line">player 所有到期 tick，再更新 CGB，最后混合一个 264-frame DirectSound chunk。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/m4a-full-song-render-20260713.md" download>notes/m4a-full-song-render-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">m4a-player-slot-control-flow-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">MP2K player-slot control flow（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line">本 ROM 的 4 个 player slot 只分别拥有 player/track 状态，不分别拥有声道池。</div>
+<div class="cc-note-line">所有 player 的 note handler 都从同一个 <code class="cc-code">SoundInfo</code> 取得 10 个可用</div>
+<div class="cc-note-line">DirectSound channel 和 4 个固定 CGB channel。因此跨 player 的分配、steal 和</div>
+<div class="cc-note-line">priority/tie-break 是真实的全局竞争。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">同一个 slot 启动新 cue 时，<code class="cc-code">MPlayStart 0x0809B1F4</code> 在装入新 track 指针之前，</div>
+<div class="cc-note-line">对该 slot 的每个 track 调用 <code class="cc-code">TrackStop 0x0809A694</code>。旧 DirectSound channel 立即</div>
+<div class="cc-note-line">清 <code class="cc-code">status</code>，旧 CGB channel 还会先调用硬件 stop handler；两者都清 owner/track</div>
+<div class="cc-note-line">链，不经过 release envelope，也不保留尾音。随后只有新 descriptor 声明的 track</div>
+<div class="cc-note-line">被设为 <code class="cc-code">0xC0</code> 并装入命令指针，多余的 slot track 保持停止。因此“同 slot 新 cue”</div>
+<div class="cc-note-line">不是与旧 cue 叠加，也不是 FINE 式 release，而是硬替换。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">四个 slot 初始化后，<code class="cc-code">SoundMain</code> 中实际的 player 更新顺序是：</div>
+<div class="cc-note-line"></div>
+<pre><code>
+slot 0 -&gt; slot 1 -&gt; slot 2 -&gt; slot 3 -&gt; CgbSound -&gt; DirectSound mix
+</code></pre>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">链表的 head/入口实际上是最后注册的 slot 3；<code class="cc-code">MPlayMain 0x0809A42C</code> 先递归调用</div>
+<div class="cc-note-line">保存在当前 player <code class="cc-code">+0x38/+0x3C</code> 的旧 callback/argument，再更新自己，所以执行顺序</div>
+<div class="cc-note-line">反转回 0、1、2、3。这里不是四个独立的 <code class="cc-code">SoundMain</code>，所有到期 player tick 都在</div>
+<div class="cc-note-line">同一次 CGB/DirectSound 更新之前完成。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/m4a-player-slot-control-flow-20260713.md" download>notes/m4a-player-slot-control-flow-20260713.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">m4a-player-slot-runtime-differential-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">MP2K player-slot 运行时差分（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line">本轮用 mGBA 0.10.1 的真实 <code class="cc-code">SoundMain</code> 输出闭合了 player slot 的三个动态边界：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">1. 同一 slot 的新 cue 会硬替换旧 cue；替换当次旧 DirectSound channel 已全部清空，</div>
+<div class="cc-note-line">player 时钟从 1 重新开始，不存在旧 cue 的 release 尾音。</div>
+<div class="cc-note-line">2. 不同 slot 的 cue 会在同一个 <code class="cc-code">SoundMain</code> 中并发推进，并共同使用一组</div>
+<div class="cc-note-line">10-channel DirectSound pool；实际 FIFO 等于两个隔离离线引擎之和。</div>
+<div class="cc-note-line">3. 不同 slot 争用同一固定 CGB channel、priority 相同时，低地址 track owner</div>
+<div class="cc-note-line"><code class="cc-code">0x03006178</code> 稳定胜过 <code class="cc-code">0x030061C8</code>；68 次寄存器、status、player clock 时间线均与</div>
+<div class="cc-note-line">离线模型一致。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">静态调用链和地址推导见 <code class="cc-code">notes/m4a-player-slot-control-flow-20260713.md</code>。本文件记录</div>
+<div class="cc-note-line">对应的动态证据、诊断 ROM 边界和可复现命令。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/m4a-player-slot-runtime-differential-20260713.md" download>notes/m4a-player-slot-runtime-differential-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">m4a-runtime-channel-wiring-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">MP2K 运行时通道连接（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">tools/m4a_runtime_channels.py</code> 已把持久 <code class="cc-code">MPlayTrackVM</code> 和</div>
+<div class="cc-note-line"><code class="cc-code">MPlayMusicalState</code> 产生的 <code class="cc-code">NoteRequest</code> 接到真实 terminal tone、10 个</div>
+<div class="cc-note-line">DirectSound 通道和 4 个固定 CGB 通道。该层复用既有的 tone/drum 解析、ROM</div>
+<div class="cc-note-line">pitch 表、双声道整数增益、ADSR、forward-linear sampler、priority/steal 和</div>
+<div class="cc-note-line">track chain 实现，没有另建平行解析器。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">真实 sound ID 1 的 track <code class="cc-code">0x08535CFC</code>、voicegroup <code class="cc-code">0x0846480C</code>、voice 0、</div>
+<div class="cc-note-line">key 57 会到达 wave <code class="cc-code">0x0846606C</code>，step 为 11772。两个同 key 音符占用 slot 0/1，</div>
+<div class="cc-note-line">EOT 只释放 newest slot 1；首个 264-frame stereo chunk 的 SHA-256 是</div>
+<div class="cc-note-line"><code class="cc-code">da11e7ede6b8fa119983d90d69f526aeffb11a9a49682d9caf36aea215d5939c</code>。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">真实 sound ID 144 的 voice 43、key 72 会到达固定 CGB channel 4，启动寄存器是</div>
+<div class="cc-note-line"><code class="cc-code">NR41=00 NR42=18 NR43=14 NR44=80 NR51=88</code>。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/m4a-runtime-channel-wiring-20260713.md" download>notes/m4a-runtime-channel-wiring-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">m4a-soundmain-scheduler-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">m4a SoundMain scheduler (2026-07-13)</div>
+          <div class="cc-body"><div class="cc-note-line">MP2K track ticks are not audio buffers. Every <code class="cc-code">SoundMain</code> invocation produces</div>
+<div class="cc-note-line">exactly 264 stereo PCM frames, while each linked MPlay player may execute zero,</div>
+<div class="cc-note-line">one or multiple ticks inside that invocation. Rendering audio once per track</div>
+<div class="cc-note-line">tick is therefore incorrect.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/m4a-soundmain-scheduler-20260713.md" download>notes/m4a-soundmain-scheduler-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">m4a-track-register-state-20260713</code><span class="cc-meta">音频 · 20260713 </span></summary>
+          <div class="cc-title">Persistent m4a track register state (2026-07-13)</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">tools/m4a_track_state.py</code> connects decoded musical commands to persistent</div>
+<div class="cc-note-line">per-track registers while <code class="cc-code">tools/m4a_command_vm.py</code> retains control flow. It</div>
+<div class="cc-note-line">reuses the existing track volume/pan coefficient function; it does not decode</div>
+<div class="cc-note-line">bytes again or duplicate the pitch/sample/envelope modules.</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/m4a-track-register-state-20260713.md" download>notes/m4a-track-register-state-20260713.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">skill-template-consumer-semantics-20260713</code><span class="cc-meta">单位与数值 · 20260713 </span></summary>
+          <div class="cc-title">Skill template 消费字段语义（2026-07-13）</div>
+          <div class="cc-body"><div class="cc-note-line">真实忍具模板为 file <code class="cc-code">0x545BE4..0x5461C3</code> 的 94×<code class="cc-code">0x10</code> 表。后续自然术列表</div>
+<div class="cc-note-line">运行时闭环已把 bank 升级为 <code class="cc-code">runtime_verified</code>；本节原先闭合的五个关系字段仍有效，</div>
+<div class="cc-note-line">详情数值的新结论见 <code class="cc-code">notes/natural-skill-detail-runtime-20260713.md</code>。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-row"><span>ROM 字段</span><span>已证明语义</span><span>消费者</span></div>
+<div class="cc-note-row"><span><code class="cc-code">+0x00</code></span><span>战斗对象显示/动画族</span><span><code class="cc-code">0x08078F16</code>、镜像 <code class="cc-code">0x080953B4</code></span></div>
+<div class="cc-note-row"><span><code class="cc-code">+0x0A</code></span><span>前置/父忍具 ID</span><span><code class="cc-code">0x0808FF7C</code></span></div>
+<div class="cc-note-row"><span><code class="cc-code">+0x0B</code></span><span>可联动忍具候选 ID</span><span><code class="cc-code">0x0808FF88</code></span></div>
+<div class="cc-note-row"><span><code class="cc-code">+0x0C</code></span><span>使用/目标资格白名单 ID 0；零表示不限制</span><span><code class="cc-code">0x0808FC20</code></span></div>
+<div class="cc-note-row"><span><code class="cc-code">+0x0D</code></span><span>可选的第二个资格白名单 ID</span><span><code class="cc-code">0x0808FC20</code></span></div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/skill-template-consumer-semantics-20260713.md" download>notes/skill-template-consumer-semantics-20260713.md</a></div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-battle-visuals-export-20260729</code><span class="cc-meta">单位与数值 · 20260729 </span></summary>
+          <div class="cc-title">角色战斗视觉矩阵全量导出（2026-07-29）</div>
+          <div class="cc-body"><div class="cc-note-line">ROM <code class="cc-code">0x08596D5C..0x0859903C</code> 是 62 个角色×9 个视觉槽的稀疏战斗 OBJ</div>
+<div class="cc-note-line">矩阵，不是旧笔记所称的 312 行地图 tile 表。558 个 16-byte descriptor 中：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- 342 个槽四指针完整，216 个槽全零，没有部分填充；</div>
+<div class="cc-note-line">- 槽 0–4 各有 62 项，槽 5–8 各有 8 项；</div>
+<div class="cc-note-line">- 342 个逻辑槽去重为 250 套 definition/animation/graphics/palette 资源；</div>
+<div class="cc-note-line">- 逻辑视图共 2674 帧、2860 个 component、1045 条动画、4246 个 keyframe；</div>
+<div class="cc-note-line">- 去重资源共 2004 帧、2190 个 component、784 条动画、3187 个 keyframe；</div>
+<div class="cc-note-line">- 250 段 graphics 共 60,430 个 4bpp tile，全部由 component 精确引用；</div>
+<div class="cc-note-line">- palette 有 48 个 ROM 指针、40 份不同的 32-byte 内容。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">完整成果位于 <code class="cc-code">artifacts/character-battle-visuals-v1/</code>：每套资源保存 component</div>
+<div class="cc-note-line">区、frame 指针表、timeline 区、animation 指针表、原始 4bpp 图块、BGR555 palette</div>
+<div class="cc-note-line">和逐帧 indexed PNG；<code class="cc-code">manifest.json</code> 保留 558 个逻辑槽到 250 套物理资源的映射。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">这使地图/战斗角色编辑器可以直接消费 2004 个完整去重源空间帧、全部组件原始字节和</div>
+<div class="cc-note-line">原始 hold，而不必依赖 Butano 生成目录或重新运行 mGBA。唯一 <code class="cc-code">FBFF</code> 原始字节仍被</div>
+<div class="cc-note-line">无损保存，但其运行语义已由 2026-07-30 的同快照一字节 A/B 闭合为 ROM 数据异常；</div>
+<div class="cc-note-line">导出时只对该已知地址采用显式 <code class="cc-code">FFFF</code> 终止修复。最终屏幕坐标、相机、priority、</div>
+<div class="cc-note-line">运行时槽选择、blend 和 palette transform 不在本源空间成果的完成边界内。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/character-battle-visuals-export-20260729.md" download>notes/character-battle-visuals-export-20260729.md</a> · 关联产物 2 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-runtime-oam-bindings-20260730</code><span class="cc-meta">单位与数值 · 20260730 <span class="tag tag-cyan">逆向树</span></span></summary>
+          <div class="cc-title">角色战斗视觉的自然 OAM/VRAM 批量绑定（2026-07-30）</div>
+          <div class="cc-body"><div class="cc-note-line">仓库已有的全部 91 个 tracked <code class="cc-code">.ss9</code> checkpoint 现在都能离线、确定性地扫描，</div>
+<div class="cc-note-line">无需重新启动 mGBA。批量分析把自然运行时 OAM 对象的尺寸和 OBJ VRAM 图形字节精确</div>
+<div class="cc-note-line">绑定到 <code class="cc-code">character-battle-visuals-v1</code> 的源 component，并用运行时 OBJ palette 与</div>
+<div class="cc-note-line">源 BGR555 palette 的差异数处理同图形候选歧义。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">成果位于：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- <code class="cc-code">artifacts/character-runtime-oam-bindings-v1/bindings.json</code></div>
+<div class="cc-note-line">- <code class="cc-code">tools/export_character_runtime_oam_bindings.py</code></div>
+<div class="cc-note-line">- <code class="cc-code">tools/verify_character_runtime_oam_bindings.py</code></div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">当前批次得到：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-row"><span>项目</span><span>数量</span></div>
+<div class="cc-note-row"><span>tracked checkpoint</span><span>91</span></div>
+<div class="cc-note-row"><span>成功解析 / 1D OBJ mapping</span><span>91 / 91</span></div>
+<div class="cc-note-row"><span>活动 OAM 对象</span><span>1211</span></div>
+<div class="cc-note-row"><span>命中角色源 component 的 OAM</span><span>222</span></div>
+<div class="cc-note-row"><span>含命中的 checkpoint</span><span>57</span></div>
+<div class="cc-note-row"><span>唯一最优源绑定</span><span>133</span></div>
+<div class="cc-note-row"><span>明确保留歧义的最优绑定</span><span>89</span></div>
+<div class="cc-note-row"><span>palette 完全相同</span><span>11</span></div>
+<div class="cc-note-row"><span>palette 仅一色不同</span><span>194</span></div>
+<div class="cc-note-row"><span>palette 差异不超过一色</span><span>205</span></div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">最优候选覆盖 8 个可证明的角色 ID</div>
+<div class="cc-note-line"><code class="cc-code">[1,2,3,30,33,35,41,55]</code>、47 个去重角色视觉 resource、146 个</div>
+<div class="cc-note-line"><code class="cc-code">(resource, frame)</code> 组合和全部 9 个 visual slot。这里的覆盖只描述现有 checkpoint</div>
+<div class="cc-note-line">自然观察值，不代表其他 54 个角色或全部 558 个槽已经有运行时样本。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/reverse/character-runtime-oam-bindings-20260730.md" download>notes/reverse/character-runtime-oam-bindings-20260730.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-runtime-oam-task-bindings-20260730</code><span class="cc-meta">单位与数值 · 20260730 <span class="tag tag-cyan">逆向树</span></span></summary>
+          <div class="cc-title">角色自然 OAM 与 sprite task 渲染身份（2026-07-30）</div>
+          <div class="cc-body"><div class="cc-note-line">在已经签发的 91 个自然 <code class="cc-code">.ss9</code> checkpoint、222 个角色 OAM 图形命中和</div>
+<div class="cc-note-line">2004 个完整角色源帧之上，现可离线重建角色 sprite task 的当前渲染状态，并将</div>
+<div class="cc-note-line">53 个 OAM 唯一关联到同 checkpoint 中一个 frame-state-consistent task：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- 91/91 个 checkpoint 均成功解析；</div>
+<div class="cc-note-line">- 128×<code class="cc-code">0x3C</code> 的全局 sprite task pool 已由 allocator 与 dispatcher 代码证明；</div>
+<div class="cc-note-line">- 59 个 OAM 同时满足资源三指针和 task origin；</div>
+<div class="cc-note-line">- 53 个又满足当前 animation/keyframe 选中的 frame，并精确重建完整</div>
+<div class="cc-note-line"><code class="cc-code">attr0/attr1/attr2</code>；</div>
+<div class="cc-note-line">- 6 个资源与原点相关项因当前 frame 不一致而拒绝，不升级为渲染身份；</div>
+<div class="cc-note-line">- 53 个已接受观测覆盖 9 个 checkpoint、8 个 task slot、6 套角色资源。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">成果位于 <code class="cc-code">artifacts/character-runtime-oam-task-bindings-v1/</code>。导出器为</div>
+<div class="cc-note-line"><code class="cc-code">tools/export_character_runtime_oam_task_bindings.py</code>，独立验证器为</div>
+<div class="cc-note-line"><code class="cc-code">tools/verify_character_runtime_oam_task_bindings.py</code>。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">这里的“渲染身份”只表示：同一帧内的 task 字段按已证明 renderer 公式可生成该</div>
+<div class="cc-note-line">OAM。它不表示已经追踪到实际 OAM allocator index、逐帧 writer 或业务单位 ownership。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/reverse/character-runtime-oam-task-bindings-20260730.md" download>notes/reverse/character-runtime-oam-task-bindings-20260730.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-runtime-unit-oam-bindings-20260730</code><span class="cc-meta">单位与数值 · 20260730 <span class="tag tag-cyan">逆向树</span></span></summary>
+          <div class="cc-title">角色运行时单位格坐标与 OAM 原点绑定（2026-07-30）</div>
+          <div class="cc-body"><div class="cc-note-line">在已经签发的 91 个自然 <code class="cc-code">.ss9</code> checkpoint 和 222 个角色 OAM 图形命中之上，</div>
+<div class="cc-note-line">现可对单位池格坐标、BG0 scroll 与非 affine 角色原点候选建立统一的基础模型：</div>
+<div class="cc-note-line"></div>
+<pre><code>
+origin_x ≡ grid_x * 32 - BG0HOFS + 16  (mod 512)
+origin_y ≡ grid_y * 16 - BG0VOFS + 8   (mod 256)
+</code></pre>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">横向使用 OBJ <code class="cc-code">attr1</code> 的 9-bit 坐标回绕；纵向使用 OBJ <code class="cc-code">attr0</code> 的 8-bit</div>
+<div class="cc-note-line">坐标回绕。纵向不能按 BG scroll 的 9-bit 域比较，因为最终 OBJ Y 字段只有 8 bit。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">在 222 个 OAM 观测中：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- 220 个能在同一 checkpoint 的单位槽 1–12 找到相同 character ID；</div>
+<div class="cc-note-line">- 208 个能由上述二维模型唯一落到一个单位槽；</div>
+<div class="cc-note-line">- 12 个只有一个同 character live unit，但存在非零演出偏移；</div>
+<div class="cc-note-line">- 2 个没有同 character live unit；</div>
+<div class="cc-note-line">- 0 个需要在多个单位槽之间保留基础锚点歧义；</div>
+<div class="cc-note-line">- 单位 OAM ownership 仍为 0 个已证明。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">成果位于 <code class="cc-code">artifacts/character-runtime-unit-oam-bindings-v1/</code>。导出器为</div>
+<div class="cc-note-line"><code class="cc-code">tools/export_character_runtime_unit_oam_bindings.py</code>，独立验证器为</div>
+<div class="cc-note-line"><code class="cc-code">tools/verify_character_runtime_unit_oam_bindings.py</code>。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/reverse/character-runtime-unit-oam-bindings-20260730.md" download>notes/reverse/character-runtime-unit-oam-bindings-20260730.md</a> · 关联产物 1 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-battle-graphics-writeback-20260731</code><span class="cc-meta">单位与数值 · 20260731 <span class="tag tag-cyan">逆向树</span></span></summary>
+          <div class="cc-title">角色战斗 Graphics 固定长度安全回编（2026-07-31）</div>
+          <div class="cc-body"><div class="cc-note-line">角色战斗视觉矩阵的250套 raw 4bpp graphics 已从无损导出推进到固定长度安全回编。</div>
+<div class="cc-note-line">每套 graphics 都是独立 ROM byte slice，不使用 LZ77：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- 250个资源对应250个唯一物理指针和250份唯一内容；</div>
+<div class="cc-note-line">- 总计60,430个32-byte tile，即1,933,760 bytes；</div>
+<div class="cc-note-line">- 单资源长度1,600–26,624 bytes，共21种长度；</div>
+<div class="cc-note-line">- 250个 graphics 区间彼此不重叠，也不与 palette、component region、</div>
+<div class="cc-note-line">frame pointer table、timeline 或 animation pointer table 交叉；</div>
+<div class="cc-note-line">- 342个逻辑 slot 对应250个资源，资源32–36分别被15/24/24/18/16个 slot 共享。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">新 <code class="cc-code">character_battle_graphics</code> 构建类型只覆盖目标 graphics 区间。同一资源的全部</div>
+<div class="cc-note-line">逻辑 slot 会在报告中原子披露；descriptor、component、frame、timeline 和</div>
+<div class="cc-note-line">animation pointer table 均保持不变。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/reverse/character-battle-graphics-writeback-20260731.md" download>notes/reverse/character-battle-graphics-writeback-20260731.md</a> · 关联产物 2 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-battle-palette-writeback-20260731</code><span class="cc-meta">单位与数值 · 20260731 <span class="tag tag-cyan">逆向树</span></span></summary>
+          <div class="cc-title">角色战斗视觉调色板安全原位回编（2026-07-31）</div>
+          <div class="cc-body"><div class="cc-note-line">角色战斗视觉矩阵的342个有效逻辑槽、250套去重 descriptor 资源最终引用48个</div>
+<div class="cc-note-line">互不重叠的物理调色板槽。每槽都是未压缩的32-byte、16色 BGR555 数据，因此现在</div>
+<div class="cc-note-line">具备不迁移资源、不修改指针的完整固定长度回编链：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- <code class="cc-code">character_battle_palette</code> 构建类型从</div>
+<div class="cc-note-line"><code class="cc-code">artifacts/character-battle-visuals-v1/manifest.json</code> 重建全部别名；</div>
+<div class="cc-note-line">- 每项编辑用物理 palette 指针和原始 SHA-256 标识；</div>
+<div class="cc-note-line">- 32-byte 输入会先核对基准 ROM、catalog、descriptor 表指针、全部</div>
+<div class="cc-note-line">resource ID 和逻辑 slot row；</div>
+<div class="cc-note-line">- 真正共用同一 palette 指针的全部 resource/slot 自动联动；</div>
+<div class="cc-note-line">- 内容相同但物理指针不同的8组重复内容保持独立，不按内容哈希误合并；</div>
+<div class="cc-note-line">- 补丁仍经过统一 immutable-base 和重叠冲突门禁，失败时不会产生部分 ROM。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/reverse/character-battle-palette-writeback-20260731.md" download>notes/reverse/character-battle-palette-writeback-20260731.md</a> · 关联产物 2 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-battle-structure-writeback-20260731</code><span class="cc-meta">单位与数值 · 20260731 <span class="tag tag-cyan">逆向树</span></span></summary>
+          <div class="cc-title">角色战斗视觉结构同布局回编（2026-07-31）</div>
+          <div class="cc-body"><div class="cc-note-line">角色战斗视觉的 component 与 animation keyframe 已从只读解析推进到高层语义回编。</div>
+<div class="cc-note-line">新 <code class="cc-code">character_battle_structure</code> 构建类型允许在不改变任何结构数量、指针或区域</div>
+<div class="cc-note-line">长度的前提下编辑：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- component 的 graphics tile、水平/垂直翻转、局部 x/y 和已验证 OBJ 尺寸；</div>
+<div class="cc-note-line">- keyframe 的 frame 引用和 hold 帧数。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">构建器从基准 ROM 和 catalog 重建250个资源、2,004帧、2,190个 component、</div>
+<div class="cc-note-line">784条 animation、3,187个 keyframe 和342个逻辑 slot。每项修改只生成一个</div>
+<div class="cc-note-line">20-byte component 或4-byte keyframe 补丁；frame/animation pointer table、</div>
+<div class="cc-note-line">terminator、graphics、palette 和 descriptor 均不改动。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/reverse/character-battle-structure-writeback-20260731.md" download>notes/reverse/character-battle-structure-writeback-20260731.md</a> · 关联产物 2 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-battle-graphics-pixel-ab-20260801</code><span class="cc-meta">单位与数值 · 20260801 <span class="tag tag-cyan">逆向树</span></span></summary>
+          <div class="cc-title">角色战斗图形自然最终像素 A/B（2026-08-01）</div>
+          <div class="cc-body"><div class="cc-note-line">角色战斗资源 0（鸣人、visual slot 0）的迁移图形已完成首条“修改 ROM → 自然战斗</div>
+<div class="cc-note-line">入口 → OBJ VRAM → 最终像素”闭环。目标是 source frame 3、component 0、tile offset</div>
+<div class="cc-note-line">96 的局部像素 <code class="cc-code">(13,17)</code>：4bpp graphics byte <code class="cc-code">+0xD26</code> 从 <code class="cc-code">0x12</code> 改为 <code class="cc-code">0x42</code>，</div>
+<div class="cc-note-line">即高 nibble 的 palette index <code class="cc-code">1→4</code>。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">baseline 与 candidate 都使用生产 <code class="cc-code">resolve_character_battle_bundle_patches</code> 路径，把</div>
+<div class="cc-note-line">resource 0 的完整 bundle 迁移到 <code class="cc-code">0x08600000</code>：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-row"><span>区段</span><span>新地址</span></div>
+<div class="cc-note-row"><span>palette</span><span><code class="cc-code">0x08600000</code></span></div>
+<div class="cc-note-row"><span>graphics</span><span><code class="cc-code">0x08600020</code></span></div>
+<div class="cc-note-row"><span>component region</span><span><code class="cc-code">0x08604820</code></span></div>
+<div class="cc-note-row"><span>frame pointer table</span><span><code class="cc-code">0x08604A00</code></span></div>
+<div class="cc-note-row"><span>timeline region</span><span><code class="cc-code">0x08604A50</code></span></div>
+<div class="cc-note-row"><span>animation pointer table</span><span><code class="cc-code">0x08604B30</code></span></div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">两边 bundle 均为 <code class="cc-code">0x4B60</code> bytes，descriptor row 0 统一重定向；两份 16 MiB ROM 的</div>
+<div class="cc-note-line">补丁拓扑完全相同，整份 ROM 只差 file offset <code class="cc-code">0x600D46</code> 一个 byte。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/reverse/character-battle-graphics-pixel-ab-20260801.md" download>notes/reverse/character-battle-graphics-pixel-ab-20260801.md</a> · 关联产物 2 族</div>
+        </details>
+<details class="cc-note" data-hub="data">
+          <summary><code class="cc-code">character-battle-visual-resource-matrix-20260801</code><span class="cc-meta">单位与数值 · 20260801 <span class="tag tag-cyan">逆向树</span></span></summary>
+          <div class="cc-title">角色战斗视觉 palette/component/timeline 自然像素矩阵（2026-08-01）</div>
+          <div class="cc-body"><div class="cc-note-line"><code class="cc-code">artifacts/character-battle-visual-resource-matrix-v1/</code> 将角色 battle bundle 中除</div>
+<div class="cc-note-line">graphics 像素以外的三类核心可编辑字段推进到修改 ROM 后的自然最终像素 A/B：</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">- palette：OBJ palette index 1 的 BGR555 低字节 <code class="cc-code">0x84→0x85</code>；</div>
+<div class="cc-note-line">- component geometry：frame 3/component 0 的 <code class="cc-code">x=-16→-15</code>；</div>
+<div class="cc-note-line">- animation timeline：animation 1/keyframe 0 的 <code class="cc-code">frame_id=3→4</code>。</div>
+<div class="cc-note-line"></div>
+<div class="cc-note-line">三项均使用 resource 0（character 1／鸣人 visual slot 0）和同一个已验收</div>
+<div class="cc-note-line"><code class="cc-code">scenario-41-start-row.ss9</code>。baseline 与三个 candidate 均为独立 mGBA 运行，只输入</div>
+<div class="cc-note-line">一次 A（frame 5 down、frame 13 up），在 frame 80 到达 battle 41。</div></div>
+          <div class="cc-foot"><a class="cc-code" href="notes/reverse/character-battle-visual-resource-matrix-20260801.md" download>notes/reverse/character-battle-visual-resource-matrix-20260801.md</a> · 关联产物 1 族</div>
+        </details>
+  </main>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>

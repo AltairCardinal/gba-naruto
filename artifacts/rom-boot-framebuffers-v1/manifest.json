@@ -1,0 +1,412 @@
+{
+  "arm_routines": [
+    {
+      "blend": {
+        "register": "0x04000050",
+        "values": [
+          "0x000004C4",
+          "0x00000484"
+        ]
+      },
+      "code_range": [
+        6081536,
+        6081856
+      ],
+      "code_sha256": "9e7b9abc901897288a32f4ddce07a4544e83f872a9a847378d7392c54af096d8",
+      "display": {
+        "decoded": "mode3_bgr555_bg2",
+        "register": "0x04000000",
+        "value": "0x00000403"
+      },
+      "dma": {
+        "byte_count": 76800,
+        "channel": "DMA3",
+        "control": "0x84004B00",
+        "control_register": "0x040000DC",
+        "destination": "0x06000000",
+        "destination_register": "0x040000D8",
+        "source": "0x085BA000",
+        "source_register": "0x040000D4"
+      },
+      "gba_range": [
+        "0x085CCC00",
+        "0x085CCDEC"
+      ],
+      "id": "boot-display-a",
+      "literal_pool_range": [
+        6081856,
+        6082028
+      ],
+      "literal_pool_sha256": "f8e223cf0bce0cb8af3018716240bb7d05f93748e8b011a546fb540bc67b5f89",
+      "range": [
+        6081536,
+        6082028
+      ],
+      "routine_sha256": "fc822696f80ed25edc2f3ee86f7646f8bf96e96b20a5e00fcc8c05ccefbb65ba",
+      "terminal_target": "0x085DFA00",
+      "vcount_poll": {
+        "register": "0x04000006",
+        "scanline": 160
+      }
+    },
+    {
+      "blend": {
+        "register": "0x04000050",
+        "values": [
+          "0x000004C4",
+          "0x00000484"
+        ]
+      },
+      "code_range": [
+        6158848,
+        6159168
+      ],
+      "code_sha256": "3415db365bc258197c5665c1ce24b296fee80fb5ba983abbc5d9ad0341681e2f",
+      "display": {
+        "decoded": "mode3_bgr555_bg2",
+        "register": "0x04000000",
+        "value": "0x00000403"
+      },
+      "dma": {
+        "byte_count": 76800,
+        "channel": "DMA3",
+        "control": "0x84004B00",
+        "control_register": "0x040000DC",
+        "destination": "0x06000000",
+        "destination_register": "0x040000D8",
+        "source": "0x085CCE00",
+        "source_register": "0x040000D4"
+      },
+      "gba_range": [
+        "0x085DFA00",
+        "0x085DFBEC"
+      ],
+      "id": "boot-display-b",
+      "literal_pool_range": [
+        6159168,
+        6159340
+      ],
+      "literal_pool_sha256": "8df20a3734d89bffe9e12f69f36baabc8d636ed052957e7adedc30e5fafad564",
+      "range": [
+        6158848,
+        6159340
+      ],
+      "routine_sha256": "35cfd378a3bec78899031ad6edf170a02dc9940cadd9b716990be086fee2ba3f",
+      "terminal_target": "0x080000C8",
+      "vcount_poll": {
+        "register": "0x04000006",
+        "scanline": 160
+      }
+    }
+  ],
+  "boot_chain": {
+    "header_handoff": {
+      "address": "0x080000C0",
+      "target": "0x085CCC04"
+    },
+    "reset_vector": {
+      "address": "0x08000000",
+      "target": "0x080000C0"
+    },
+    "targets": [
+      "0x085CCC04",
+      "0x085DFA00",
+      "0x080000C8"
+    ]
+  },
+  "claims": [
+    {
+      "id": "reset-vector",
+      "range": [
+        0,
+        4
+      ],
+      "semantic_class": "arm_code",
+      "sha256": "e3de0a6864e3119f5ccb28524e580cd769e44efefd06ba6c0bf7c2807bfd3a16",
+      "size": 4
+    },
+    {
+      "id": "gba-header",
+      "range": [
+        4,
+        192
+      ],
+      "semantic_class": "gba_header",
+      "sha256": "bb4d92a4e61881dd4c18cb08b8b3de870832e234e58a4f36d6c533922fdf83bb",
+      "size": 188
+    },
+    {
+      "id": "display-handoff",
+      "range": [
+        192,
+        196
+      ],
+      "semantic_class": "arm_code",
+      "sha256": "7c761439b51713afbe41659f76634b199c8a9a284f02cf0dbeea0896a44d6fe7",
+      "size": 4
+    },
+    {
+      "id": "arm-bootstrap",
+      "range": [
+        200,
+        244
+      ],
+      "semantic_class": "arm_code",
+      "sha256": "90eace5ce45f29f48f27f66696728fc50d37ea6f62b4fff9d80556cf013fdff7",
+      "size": 44
+    },
+    {
+      "id": "arm-bootstrap-literals",
+      "range": [
+        244,
+        260
+      ],
+      "semantic_class": "literal_pool",
+      "sha256": "6d087001a1c6b73ef334e65f00390bfed550fbec64cb21d90b4e843667cf5986",
+      "size": 16
+    },
+    {
+      "id": "arm-irq-callback",
+      "range": [
+        260,
+        580
+      ],
+      "semantic_class": "arm_code",
+      "sha256": "d1f17c7955af78b297a5bb5d8222377ba9e6a125c59354255b1aaaa0cd86f1f8",
+      "size": 320
+    },
+    {
+      "id": "arm-irq-literals",
+      "range": [
+        580,
+        588
+      ],
+      "semantic_class": "literal_pool",
+      "sha256": "a9c21a365a1fa53e8fa21284fafbd7c8514ff14ac9ff4298ef24fb054cb9aca0",
+      "size": 8
+    },
+    {
+      "id": "boot-frame-a",
+      "range": [
+        6004736,
+        6081536
+      ],
+      "semantic_class": "boot_mode3_framebuffer_bgr555",
+      "sha256": "68403b4d80800603aee5340b21fce0e95b59bece8d52edc82e3c97206ea320d1",
+      "size": 76800
+    },
+    {
+      "id": "boot-display-a-code",
+      "range": [
+        6081536,
+        6081856
+      ],
+      "semantic_class": "arm_code",
+      "sha256": "9e7b9abc901897288a32f4ddce07a4544e83f872a9a847378d7392c54af096d8",
+      "size": 320
+    },
+    {
+      "id": "boot-display-a-literals",
+      "range": [
+        6081856,
+        6082028
+      ],
+      "semantic_class": "literal_pool",
+      "sha256": "f8e223cf0bce0cb8af3018716240bb7d05f93748e8b011a546fb540bc67b5f89",
+      "size": 172
+    },
+    {
+      "id": "boot-framebuffer-alignment",
+      "range": [
+        6082028,
+        6082048
+      ],
+      "semantic_class": "alignment_ff",
+      "sha256": "9a8dcd3f9ff7aa3114e141f03c12989d363ea81fd74c02eea63c5f41489cb17a",
+      "size": 20
+    },
+    {
+      "id": "boot-frame-b",
+      "range": [
+        6082048,
+        6158848
+      ],
+      "semantic_class": "boot_mode3_framebuffer_bgr555",
+      "sha256": "f76aa2f65fa186390ec0625f9a0b8a0668455c8454c4ac1e0b522f4bbde38412",
+      "size": 76800
+    },
+    {
+      "id": "boot-display-b-code",
+      "range": [
+        6158848,
+        6159168
+      ],
+      "semantic_class": "arm_code",
+      "sha256": "3415db365bc258197c5665c1ce24b296fee80fb5ba983abbc5d9ad0341681e2f",
+      "size": 320
+    },
+    {
+      "id": "boot-display-b-literals",
+      "range": [
+        6159168,
+        6159340
+      ],
+      "semantic_class": "literal_pool",
+      "sha256": "8df20a3734d89bffe9e12f69f36baabc8d636ed052957e7adedc30e5fafad564",
+      "size": 172
+    }
+  ],
+  "framebuffers": [
+    {
+      "all_bit15_clear": true,
+      "dimensions": [
+        240,
+        160
+      ],
+      "gba_range": [
+        "0x085BA000",
+        "0x085CCC00"
+      ],
+      "id": "boot-frame-a",
+      "pixel_count": 38400,
+      "pixel_storage": "mode3_bgr555_le",
+      "preview_png": "boot-frame-a.png",
+      "preview_png_sha256": "0c7e67611fc3de1641e344a2737ca0e7d30ba704c60d34acc86d78a1deda3dc2",
+      "range": [
+        6004736,
+        6081536
+      ],
+      "sha256": "68403b4d80800603aee5340b21fce0e95b59bece8d52edc82e3c97206ea320d1",
+      "size": 76800,
+      "source_bin": "boot-frame-a.bin",
+      "source_bin_sha256": "68403b4d80800603aee5340b21fce0e95b59bece8d52edc82e3c97206ea320d1"
+    },
+    {
+      "all_bit15_clear": true,
+      "dimensions": [
+        240,
+        160
+      ],
+      "gba_range": [
+        "0x085CCE00",
+        "0x085DFA00"
+      ],
+      "id": "boot-frame-b",
+      "pixel_count": 38400,
+      "pixel_storage": "mode3_bgr555_le",
+      "preview_png": "boot-frame-b.png",
+      "preview_png_sha256": "964cbaaa0762b368295ce13642206954f939a3633e6d4dd8b3c5fecb95d4b0c8",
+      "range": [
+        6082048,
+        6158848
+      ],
+      "sha256": "f76aa2f65fa186390ec0625f9a0b8a0668455c8454c4ac1e0b522f4bbde38412",
+      "size": 76800,
+      "source_bin": "boot-frame-b.bin",
+      "source_bin_sha256": "f76aa2f65fa186390ec0625f9a0b8a0668455c8454c4ac1e0b522f4bbde38412"
+    }
+  ],
+  "implementation": {
+    "exporter_sha256": "ade478afc91aeed33554a7eda6c6317c91c1cb13603db94d7efcc4eddb10ec61",
+    "test_sha256": "5bdcfda2338a0a012f8dc043309b8b9c08d6ebbc8e2f61b778f897f1dc8687c7",
+    "verifier_sha256": "58a14bd0d3229e90093ea47d6bc3012e779b2c4453997d05f61665e371a5bae5"
+  },
+  "padding": {
+    "allocatable_free_space": false,
+    "fill_byte": 255,
+    "range": [
+      6082028,
+      6082048
+    ],
+    "sha256": "9a8dcd3f9ff7aa3114e141f03c12989d363ea81fd74c02eea63c5f41489cb17a",
+    "size": 20
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-boot-framebuffers-v1",
+  "scope": {
+    "all_boot_paths_complete": false,
+    "bootstrap_irq_chain_verified": true,
+    "final_screen_rgb_with_blending_verified": false,
+    "framebuffer_writeback_verified": false,
+    "mgba_runtime_replay_verified": false,
+    "mode3_dma_route_verified": true,
+    "physical_gba_verified": false,
+    "raw_bgr555_decode_verified": true,
+    "startup_header_verified": true,
+    "static_reset_chain_verified": true,
+    "unreferenced_boot_gap_semantically_classified": false
+  },
+  "startup_chain": {
+    "display_handoff": {
+      "address": "0x080000C0",
+      "target": "0x085CCC04"
+    },
+    "header": {
+      "complement": 14,
+      "complement_check_valid": true,
+      "fixed_byte": 150,
+      "game_code": "AUEJ",
+      "maker_code": "DA",
+      "range": [
+        4,
+        192
+      ],
+      "sha256": "bb4d92a4e61881dd4c18cb08b8b3de870832e234e58a4f36d6c533922fdf83bb",
+      "title": "NARUTOKONOHA"
+    },
+    "irq_callback": {
+      "handler_table": "0x03000014",
+      "handler_table_literal": "0x08000248",
+      "mask": "0x00002006",
+      "mask_literal": "0x08000244",
+      "range": [
+        260,
+        580
+      ],
+      "return_instruction": "0x08000240"
+    },
+    "irq_install": {
+      "callback": "0x08000104",
+      "slot": "0x03007FFC",
+      "slot_literal": "0x080000F4"
+    },
+    "reset_vector": {
+      "address": "0x08000000",
+      "target": "0x080000C0"
+    },
+    "stack_literals": [
+      {
+        "literal": "0x08000100",
+        "load": "0x080000C8",
+        "value": "0x03007FA0"
+      },
+      {
+        "literal": "0x080000FC",
+        "load": "0x080000D4",
+        "value": "0x03007F00"
+      }
+    ],
+    "thumb_handoff": {
+      "literal": "0x080000F8",
+      "mode": "thumb",
+      "target": "0x08060FAD"
+    },
+    "unclaimed_gap": [
+      196,
+      200
+    ]
+  },
+  "summary": {
+    "arm_routine_count": 2,
+    "byte_count": 155188,
+    "claim_count": 14,
+    "framebuffer_count": 2,
+    "pixels_per_framebuffer": 38400,
+    "startup_byte_count": 584,
+    "startup_claim_count": 7
+  }
+}

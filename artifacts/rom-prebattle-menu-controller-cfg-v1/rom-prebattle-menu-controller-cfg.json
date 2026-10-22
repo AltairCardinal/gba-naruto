@@ -1,0 +1,1179 @@
+{
+  "coverage_baseline": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "ae7c69330285bd3d668612b057a793f1b98edda5e0df421a8bda6f5e90290024",
+    "summary": {
+      "accounted_bytes": 6291456,
+      "claim_count": 16652,
+      "classified_bytes": 6194116,
+      "rom_bytes": 6291456,
+      "segment_count": 18332,
+      "unknown_bytes": 97340
+    }
+  },
+  "limitations": [
+    "This packet proves a bounded static Thumb closure rooted at the menu controller and its raw jump-table targets.",
+    "Unknown external callees are recursively decoded only along direct static successors; existing non-unknown code targets are opaque call dependencies.",
+    "Existing code dependency bytes and existing literal words are traversal evidence only and are never re-claimed.",
+    "The seven indirect PC targets remain frontiers; the selector's one fixed jump table is the sole indirect target expansion.",
+    "No natural runtime reachability, gameplay semantics, padding/free-space status, edit safety, or relocation safety is claimed."
+  ],
+  "producer_denominator": {
+    "denominator_sha256": "a2c444d413c7e75551bc4c360a6f2e91b47c3f6cbfc855a7b50eceaa3f4f03d7",
+    "match_vector_sha256": "265516024d3d3c53826a28fdcf3691e4a10c5ab5a2df4a0efd840957c47c3172",
+    "matches": [
+      [
+        587924,
+        586128,
+        "bl",
+        4,
+        "fff77cfc"
+      ]
+    ],
+    "owner_claim_id": "story-callback-reachable_thumb_code-04-08f872",
+    "owner_primary_class": "armv4t_story_state_callback_reachable_thumb_code",
+    "owner_range": [
+      587890,
+      588014
+    ],
+    "scan": {
+      "decoder_kinds": [
+        "thumb_bl",
+        "thumb_b",
+        "thumb_bcond"
+      ],
+      "rom_range": [
+        0,
+        6291456
+      ],
+      "stride": 2,
+      "target_file_offset": 586128
+    },
+    "upstream_identities": {
+      "artifacts/rom-story-state-callback-cfg-v1/manifest.json": {
+        "sha256": "8384dee3207e426361545a94be1b0c1052381a177e159ef85f452f636db5380a",
+        "size": 5858
+      },
+      "artifacts/rom-story-state-callback-cfg-v1/rom-story-state-callback-cfg.json": {
+        "sha256": "f82f2472f49d9b6b620aee162a65ca372ead47ae5aa73c4f5e25888482d57ab5",
+        "size": 16837
+      },
+      "tools/verify_rom_story_state_callback_cfg.py": {
+        "sha256": "ab808e73e40858b4bf737875ddcebfb8286a662b55af0c36424215e506867d98",
+        "size": 14179
+      }
+    }
+  },
+  "promotion": {
+    "code_bytes": 1564,
+    "code_packed_sha256": "57d8f3d6c90e6eb54a53aa0f0dd4982805262f7731ad31d9adc4e4fe53602f29",
+    "code_range_sha256": "76a037c53bb22a38683506269c66ad66f6e72f883f328847d611ced563ba03d7",
+    "code_ranges": [
+      [
+        428104,
+        428192
+      ],
+      [
+        429324,
+        429342
+      ],
+      [
+        554636,
+        554760
+      ],
+      [
+        554788,
+        555078
+      ],
+      [
+        555132,
+        555212
+      ],
+      [
+        555224,
+        555240
+      ],
+      [
+        555244,
+        555270
+      ],
+      [
+        555284,
+        555326
+      ],
+      [
+        576832,
+        576858
+      ],
+      [
+        577016,
+        577060
+      ],
+      [
+        585308,
+        585432
+      ],
+      [
+        585464,
+        585486
+      ],
+      [
+        585492,
+        585512
+      ],
+      [
+        586128,
+        586226
+      ],
+      [
+        586248,
+        586372
+      ],
+      [
+        586402,
+        586480
+      ],
+      [
+        586508,
+        586534
+      ],
+      [
+        586540,
+        586572
+      ],
+      [
+        586576,
+        586608
+      ],
+      [
+        586616,
+        586644
+      ],
+      [
+        586676,
+        586688
+      ],
+      [
+        586692,
+        586728
+      ],
+      [
+        586732,
+        586738
+      ],
+      [
+        586744,
+        586752
+      ],
+      [
+        586756,
+        586804
+      ],
+      [
+        586832,
+        586862
+      ],
+      [
+        586868,
+        586954
+      ]
+    ],
+    "jump_table_bytes": 24,
+    "jump_table_packed_sha256": "6ad82039898c09ad9fc0b56291d5634355887cb9b6c6f6df190c7bdc86373db4",
+    "jump_table_range": [
+      586652,
+      586676
+    ],
+    "literal_bytes": 332,
+    "literal_packed_sha256": "3bebe882bcc3cab4ba4ec9a6702a7b1f4c622d7ace680d07ee97b5706dc3efea",
+    "literal_range_sha256": "ff5a94625061782582f3edc58c9c24109ec31162c1c7b6dcf8ffc3ae12168e07",
+    "literal_ranges": [
+      [
+        428192,
+        428216
+      ],
+      [
+        554760,
+        554788
+      ],
+      [
+        555080,
+        555132
+      ],
+      [
+        555212,
+        555224
+      ],
+      [
+        555240,
+        555244
+      ],
+      [
+        555272,
+        555284
+      ],
+      [
+        577060,
+        577100
+      ],
+      [
+        585432,
+        585464
+      ],
+      [
+        585488,
+        585492
+      ],
+      [
+        585512,
+        585516
+      ],
+      [
+        586228,
+        586248
+      ],
+      [
+        586480,
+        586488
+      ],
+      [
+        586496,
+        586508
+      ],
+      [
+        586536,
+        586540
+      ],
+      [
+        586572,
+        586576
+      ],
+      [
+        586608,
+        586616
+      ],
+      [
+        586644,
+        586652
+      ],
+      [
+        586688,
+        586692
+      ],
+      [
+        586728,
+        586732
+      ],
+      [
+        586740,
+        586744
+      ],
+      [
+        586752,
+        586756
+      ],
+      [
+        586804,
+        586832
+      ],
+      [
+        586864,
+        586868
+      ],
+      [
+        586956,
+        586964
+      ]
+    ],
+    "literal_reference_count": 84,
+    "promotion_bytes": 1920,
+    "promotion_packed_sha256": "ba37224c2db89cdf8718874a8dd6c0fd865dd11cc427f00679ff456a7ffe8311",
+    "promotion_range_sha256": "921dee8cd4e919ab6ee63e63dfdf59021d67eff2003208637706b722210c3d15",
+    "union_ranges": [
+      [
+        428104,
+        428216
+      ],
+      [
+        429324,
+        429342
+      ],
+      [
+        554636,
+        555078
+      ],
+      [
+        555080,
+        555270
+      ],
+      [
+        555272,
+        555326
+      ],
+      [
+        576832,
+        576858
+      ],
+      [
+        577016,
+        577100
+      ],
+      [
+        585308,
+        585486
+      ],
+      [
+        585488,
+        585516
+      ],
+      [
+        586128,
+        586226
+      ],
+      [
+        586228,
+        586372
+      ],
+      [
+        586402,
+        586488
+      ],
+      [
+        586496,
+        586534
+      ],
+      [
+        586536,
+        586738
+      ],
+      [
+        586740,
+        586862
+      ],
+      [
+        586864,
+        586954
+      ],
+      [
+        586956,
+        586964
+      ]
+    ],
+    "unique_literal_word_count": 83
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-prebattle-menu-controller-cfg-v1",
+  "scope": {
+    "business_semantics": false,
+    "current_unknown_only_promotion": true,
+    "editing_writeback_or_relocation_safety": false,
+    "existing_code_dependencies_decoded_without_reclaim": true,
+    "global_function_entry_denominator_complete": false,
+    "indirect_pc_target_resolution_complete": false,
+    "natural_runtime_reachability": false,
+    "padding_or_free_space": false,
+    "producer_owner_claim_independently_verified": true,
+    "raw_thumb_cfg_redecoded": true,
+    "selector_table_targets_derived_from_raw_table": true,
+    "target_limited_direct_producer_denominator_complete": true,
+    "unknown_callees_recursively_decoded": true
+  },
+  "selector_binding": {
+    "bound_site": 586628,
+    "branch_site": 586630,
+    "fallback_target": 586894,
+    "index_shift": 2,
+    "indirect_site": 586642,
+    "load_site": 586626,
+    "max_selector": 5,
+    "pc_literal_site": 586648,
+    "range": [
+      586624,
+      586644
+    ],
+    "table_base_value": 134804380,
+    "table_range": [
+      586652,
+      586676
+    ],
+    "table_sha256": "6ad82039898c09ad9fc0b56291d5634355887cb9b6c6f6df190c7bdc86373db4",
+    "table_targets": [
+      586676,
+      586692,
+      586698,
+      586710,
+      586722,
+      586732
+    ]
+  },
+  "target_local_denominator": {
+    "basic_block_count": 200,
+    "block_edge_count": 253,
+    "current_unknown_code_bytes": 1564,
+    "current_unknown_instruction_count": 699,
+    "dependency_code_bytes": 188,
+    "dependency_code_owners": [
+      {
+        "claim_id": "selector-code-window-15-08cd5a",
+        "primary_class": "consumer_code_slice",
+        "range": [
+          576858,
+          577016
+        ]
+      },
+      {
+        "claim_id": "verified-reuse-world-map-selection-load-calls-08f284",
+        "primary_class": "consumer_code_slice",
+        "range": [
+          586372,
+          586402
+        ]
+      }
+    ],
+    "dependency_code_ranges": [
+      [
+        576858,
+        577016
+      ],
+      [
+        586372,
+        586402
+      ]
+    ],
+    "dependency_instruction_count": 87,
+    "frontier_count": 7,
+    "frontiers": [
+      [
+        428190,
+        "indirect_pc_target"
+      ],
+      [
+        429340,
+        "indirect_pc_target"
+      ],
+      [
+        555324,
+        "indirect_pc_target"
+      ],
+      [
+        577058,
+        "indirect_pc_target"
+      ],
+      [
+        585430,
+        "indirect_pc_target"
+      ],
+      [
+        585510,
+        "indirect_pc_target"
+      ],
+      [
+        586952,
+        "indirect_pc_target"
+      ]
+    ],
+    "instruction_bytes": 1752,
+    "instruction_count": 786,
+    "internal_edge_count": 839,
+    "literal_bindings": [
+      [
+        428112,
+        428192
+      ],
+      [
+        428114,
+        428196
+      ],
+      [
+        428120,
+        428200
+      ],
+      [
+        428142,
+        428204
+      ],
+      [
+        428144,
+        428208
+      ],
+      [
+        428164,
+        428212
+      ],
+      [
+        554664,
+        554760
+      ],
+      [
+        554674,
+        554764
+      ],
+      [
+        554676,
+        554768
+      ],
+      [
+        554682,
+        554772
+      ],
+      [
+        554688,
+        554776
+      ],
+      [
+        554714,
+        554780
+      ],
+      [
+        554716,
+        554784
+      ],
+      [
+        554804,
+        555080
+      ],
+      [
+        554806,
+        555084
+      ],
+      [
+        554812,
+        555088
+      ],
+      [
+        554824,
+        555092
+      ],
+      [
+        554844,
+        555096
+      ],
+      [
+        554888,
+        555100
+      ],
+      [
+        554900,
+        555104
+      ],
+      [
+        554944,
+        555108
+      ],
+      [
+        554966,
+        555112
+      ],
+      [
+        555014,
+        555116
+      ],
+      [
+        555022,
+        555120
+      ],
+      [
+        555028,
+        555124
+      ],
+      [
+        555070,
+        555128
+      ],
+      [
+        555158,
+        555212
+      ],
+      [
+        555164,
+        555216
+      ],
+      [
+        555204,
+        555220
+      ],
+      [
+        555228,
+        555240
+      ],
+      [
+        555244,
+        555272
+      ],
+      [
+        555250,
+        555276
+      ],
+      [
+        555258,
+        555280
+      ],
+      [
+        576848,
+        577060
+      ],
+      [
+        576858,
+        577064
+      ],
+      [
+        576860,
+        577068
+      ],
+      [
+        576910,
+        577072
+      ],
+      [
+        576928,
+        577060
+      ],
+      [
+        576976,
+        577076
+      ],
+      [
+        576980,
+        577080
+      ],
+      [
+        576982,
+        577084
+      ],
+      [
+        577014,
+        577088
+      ],
+      [
+        577016,
+        577092
+      ],
+      [
+        577032,
+        577096
+      ],
+      [
+        585318,
+        585432
+      ],
+      [
+        585338,
+        585436
+      ],
+      [
+        585340,
+        585440
+      ],
+      [
+        585346,
+        585444
+      ],
+      [
+        585360,
+        585448
+      ],
+      [
+        585370,
+        585452
+      ],
+      [
+        585382,
+        585456
+      ],
+      [
+        585384,
+        585460
+      ],
+      [
+        585478,
+        585488
+      ],
+      [
+        585492,
+        585512
+      ],
+      [
+        586148,
+        586228
+      ],
+      [
+        586154,
+        586232
+      ],
+      [
+        586162,
+        586236
+      ],
+      [
+        586164,
+        586240
+      ],
+      [
+        586186,
+        586244
+      ],
+      [
+        586298,
+        586480
+      ],
+      [
+        586308,
+        586484
+      ],
+      [
+        586372,
+        586488
+      ],
+      [
+        586378,
+        586492
+      ],
+      [
+        586422,
+        586496
+      ],
+      [
+        586428,
+        586500
+      ],
+      [
+        586450,
+        586504
+      ],
+      [
+        586464,
+        586488
+      ],
+      [
+        586518,
+        586536
+      ],
+      [
+        586564,
+        586572
+      ],
+      [
+        586576,
+        586608
+      ],
+      [
+        586584,
+        586612
+      ],
+      [
+        586624,
+        586644
+      ],
+      [
+        586636,
+        586648
+      ],
+      [
+        586680,
+        586688
+      ],
+      [
+        586724,
+        586728
+      ],
+      [
+        586734,
+        586740
+      ],
+      [
+        586748,
+        586752
+      ],
+      [
+        586756,
+        586804
+      ],
+      [
+        586768,
+        586808
+      ],
+      [
+        586774,
+        586812
+      ],
+      [
+        586782,
+        586816
+      ],
+      [
+        586784,
+        586820
+      ],
+      [
+        586786,
+        586824
+      ],
+      [
+        586800,
+        586828
+      ],
+      [
+        586846,
+        586864
+      ],
+      [
+        586900,
+        586956
+      ],
+      [
+        586920,
+        586960
+      ]
+    ],
+    "opaque_call_count": 83,
+    "opaque_call_vector_sha256": "87ca1bf80f687a992269851581c396c6bc81ff4375617b74df30ffd8bd4e8ee9",
+    "opaque_calls": [
+      [
+        428170,
+        639200
+      ],
+      [
+        428178,
+        427652
+      ],
+      [
+        429330,
+        427652
+      ],
+      [
+        554656,
+        400988
+      ],
+      [
+        554660,
+        554380
+      ],
+      [
+        554666,
+        422232
+      ],
+      [
+        554670,
+        553780
+      ],
+      [
+        554710,
+        403124
+      ],
+      [
+        554746,
+        403124
+      ],
+      [
+        554754,
+        411392
+      ],
+      [
+        554790,
+        640372
+      ],
+      [
+        554794,
+        412232
+      ],
+      [
+        554838,
+        403124
+      ],
+      [
+        554876,
+        554448
+      ],
+      [
+        554902,
+        422232
+      ],
+      [
+        554906,
+        415516
+      ],
+      [
+        554936,
+        554448
+      ],
+      [
+        554946,
+        422232
+      ],
+      [
+        555016,
+        422232
+      ],
+      [
+        555030,
+        422232
+      ],
+      [
+        555034,
+        415516
+      ],
+      [
+        555062,
+        554448
+      ],
+      [
+        555072,
+        422232
+      ],
+      [
+        555190,
+        401004
+      ],
+      [
+        555194,
+        429112
+      ],
+      [
+        555206,
+        422232
+      ],
+      [
+        555224,
+        429240
+      ],
+      [
+        555230,
+        422232
+      ],
+      [
+        555234,
+        553780
+      ],
+      [
+        555246,
+        422232
+      ],
+      [
+        555252,
+        422232
+      ],
+      [
+        555264,
+        415516
+      ],
+      [
+        555288,
+        411392
+      ],
+      [
+        555296,
+        640372
+      ],
+      [
+        555300,
+        412232
+      ],
+      [
+        576892,
+        618768
+      ],
+      [
+        576916,
+        640220
+      ],
+      [
+        576950,
+        421628
+      ],
+      [
+        576988,
+        403124
+      ],
+      [
+        577040,
+        403124
+      ],
+      [
+        585326,
+        618800
+      ],
+      [
+        585378,
+        403124
+      ],
+      [
+        585414,
+        403124
+      ],
+      [
+        585470,
+        618800
+      ],
+      [
+        585480,
+        422232
+      ],
+      [
+        585494,
+        422232
+      ],
+      [
+        585500,
+        415156
+      ],
+      [
+        586158,
+        639208
+      ],
+      [
+        586168,
+        639200
+      ],
+      [
+        586174,
+        400988
+      ],
+      [
+        586178,
+        618800
+      ],
+      [
+        586190,
+        400764
+      ],
+      [
+        586346,
+        414724
+      ],
+      [
+        586350,
+        402784
+      ],
+      [
+        586368,
+        420584
+      ],
+      [
+        586390,
+        419672
+      ],
+      [
+        586394,
+        415516
+      ],
+      [
+        586398,
+        585148
+      ],
+      [
+        586408,
+        576436
+      ],
+      [
+        586412,
+        414596
+      ],
+      [
+        586424,
+        422232
+      ],
+      [
+        586436,
+        618800
+      ],
+      [
+        586446,
+        401004
+      ],
+      [
+        586544,
+        576468
+      ],
+      [
+        586550,
+        421300
+      ],
+      [
+        586556,
+        421300
+      ],
+      [
+        586560,
+        415516
+      ],
+      [
+        586588,
+        618800
+      ],
+      [
+        586682,
+        422232
+      ],
+      [
+        586758,
+        422232
+      ],
+      [
+        586770,
+        422232
+      ],
+      [
+        586842,
+        576468
+      ],
+      [
+        586848,
+        422232
+      ],
+      [
+        586854,
+        421300
+      ],
+      [
+        586868,
+        584912
+      ],
+      [
+        586874,
+        581912
+      ],
+      [
+        586888,
+        400988
+      ],
+      [
+        586896,
+        640372
+      ],
+      [
+        586910,
+        400896
+      ],
+      [
+        586916,
+        576536
+      ],
+      [
+        586922,
+        422232
+      ],
+      [
+        586928,
+        421300
+      ],
+      [
+        586934,
+        640372
+      ]
+    ],
+    "opaque_unique_target_count": 35,
+    "roots": [
+      586128,
+      586676,
+      586692,
+      586698,
+      586710,
+      586722,
+      586732
+    ]
+  }
+}

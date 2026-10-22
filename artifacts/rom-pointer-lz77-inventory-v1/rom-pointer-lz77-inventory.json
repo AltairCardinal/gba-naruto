@@ -1,0 +1,3052 @@
+{
+  "bundles": {
+    "compressed": {
+      "file": "uncovered-records.lz77.bin",
+      "sha256": "27418b03a9d86850a0996f625b9d4d4547e993a0b96610944e8c0de8585a9c3e",
+      "size": 18286
+    },
+    "decompressed": {
+      "file": "uncovered-payloads.bin",
+      "sha256": "70a10f7028738de02277fb9a4a696022a305a83700b37f11c531acd440c52eb5",
+      "size": 40994
+    }
+  },
+  "classification_counts": {
+    "graphics": 20,
+    "palette": 3,
+    "visual_metadata": 8
+  },
+  "implementation": {
+    "exporter_sha256": "291164c8b517b02a3f36999a838c2a925038b03d755114d40ba4164430c808c0",
+    "test_sha256": "bd86de48242b801e0854f3ffa99cef1a6ff96ed021a25dc55bdc66782ba5fc52",
+    "verifier_sha256": "7226faf073dd2495392fba3792d52239c223709581846ed1e8e5a8419a736e6b"
+  },
+  "new_records": [
+    {
+      "aligned_pointer_references": [
+        "0x080694E0"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x080694C6",
+            "sha256": "82bc6c4b9104053899e93fef779f4a9d23198f17b236a24526e112196250fd7c",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06002000"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 0,
+      "compressed_sha256": "b4e197b91b4e6a3d7650a02d785af8fc37e1083c0b67d5355966b3fd8a85c733",
+      "compressed_size": 198,
+      "decompressed_bundle_offset": 0,
+      "decompressed_sha256": "0f86c8032129ef1b92fb1464c516a03b1c0ca71672ac5de4d37e8b302cf6ce40",
+      "decompressed_size": 1024,
+      "file_offset": 761492,
+      "gba_address": "0x080B9E94",
+      "literal_load_users": [
+        "0x080694C6"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x080694CA",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x080694D2",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x080694D6",
+          "known_route": null,
+          "target": "0x08069480"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x080694E8"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x080694CE",
+            "sha256": "7c2f3ea6d8831f74696edcd376c47e33598cc09983963d832b41e3a19d235c17",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x05000180"
+        ],
+        "destination_domain": "PRAM",
+        "evidence_type": "static_code",
+        "kind": "palette",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 198,
+      "compressed_sha256": "2e1e27099e8bbed038c35e677aefa9c90a754ea1423f7e653c5c1ba52585967b",
+      "compressed_size": 36,
+      "decompressed_bundle_offset": 1024,
+      "decompressed_sha256": "d198ec85eff147b157978bb44d1948db5b9893edb5f8f63d4d9b96b5ca7e7e84",
+      "decompressed_size": 32,
+      "file_offset": 761692,
+      "gba_address": "0x080B9F5C",
+      "literal_load_users": [
+        "0x080694CE"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x080694D2",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x080694D6",
+          "known_route": null,
+          "target": "0x08069480"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0806F184",
+        "0x0807304C"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0806F120",
+            "sha256": "da8caf6b1375dcd84147e3bcde62d7a940fe40aff23687be3dca03779eea2248",
+            "size": 16
+          },
+          {
+            "gba_start": "0x08073024",
+            "sha256": "d1b9c5a96cf0d6fcaf4367b44d260a3f026726d4a31c3ec6c8ce986fb238458b",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06016FE0"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 234,
+      "compressed_sha256": "e46a38bb2230c2b2fe8dd8cdd3949455f1277fe105d7c064070625a5546f290f",
+      "compressed_size": 81,
+      "decompressed_bundle_offset": 1056,
+      "decompressed_sha256": "97260176f5d96284f45e36a786b91951ae79e55dcb65c1dd11936ab368001a54",
+      "decompressed_size": 128,
+      "file_offset": 1231024,
+      "gba_address": "0x0812C8B0",
+      "literal_load_users": [
+        "0x0806F120",
+        "0x08073024"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0806F124",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0806F12C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x08073028",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0806F18C"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0806F128",
+            "sha256": "5e8de54341f7e78a072afd4d9517f91781c19d409420eac92694d2cd63a59517",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06017060"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 315,
+      "compressed_sha256": "9c9ec0e04c8a830f499b6d28826fb8b8f93b69c961cf44491274de378f4c9670",
+      "compressed_size": 58,
+      "decompressed_bundle_offset": 1184,
+      "decompressed_sha256": "a58292fac1752ac0fb2cae52b220f6c1d40a90eb4a5f396b5fa2e6558d7ffa64",
+      "decompressed_size": 64,
+      "file_offset": 1233204,
+      "gba_address": "0x0812D134",
+      "literal_load_users": [
+        "0x0806F128"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0806F12C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08071BE4"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x08071BC2",
+            "sha256": "162c7db349cf7e740289c8ae94833d5984e1454a1b1455ed5ab6ea902b7710aa",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06016400"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 373,
+      "compressed_sha256": "708c0c87a84559ed6ac8d3cdcb1466632b6ac4531cb740152174d46c65bf6f29",
+      "compressed_size": 644,
+      "decompressed_bundle_offset": 1248,
+      "decompressed_sha256": "4659a40fdf0430232e594f3f8ac3a544e749c6e7de35a5d1d5805567556c0e15",
+      "decompressed_size": 1344,
+      "file_offset": 1233648,
+      "gba_address": "0x0812D2F0",
+      "literal_load_users": [
+        "0x08071BC2"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x08071BC6",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x08071BCC",
+          "known_route": null,
+          "target": "0x08067158"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08080F08"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x08080EF2",
+            "sha256": "fe78640c52e1c26322269ae3781990673c38e67efafd963f6fc4cd17e3a806dd",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x060170A0"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 1017,
+      "compressed_sha256": "b94314e92494a88cd48a7160838a9af588f8c5840c27ec29d67d80c0e511b6b5",
+      "compressed_size": 1159,
+      "decompressed_bundle_offset": 2592,
+      "decompressed_sha256": "a1b8359ba32e4d709124e556abfd1ba53c535c547629abae13cbd24181338c71",
+      "decompressed_size": 2400,
+      "file_offset": 3441120,
+      "gba_address": "0x083481E0",
+      "literal_load_users": [
+        "0x08080EF2"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x08080EF6",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x08080EFE",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08080F10"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x08080EFA",
+            "sha256": "14c147fde3b59756521a8cbc21bbd48d632f02c8ddb2aa89de31a9d4ca1d8072",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x050003C0"
+        ],
+        "destination_domain": "PRAM",
+        "evidence_type": "static_code",
+        "kind": "palette",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 2176,
+      "compressed_sha256": "00389842638360144130df6bd7479e301662c956174f498c6f68d78fb4ff5d7a",
+      "compressed_size": 40,
+      "decompressed_bundle_offset": 4992,
+      "decompressed_sha256": "3856b4b91a67ee3e5bc2149a3d3cca18c1b2c922396fe8382a3ddeb620b26073",
+      "decompressed_size": 32,
+      "file_offset": 3442280,
+      "gba_address": "0x08348668",
+      "literal_load_users": [
+        "0x08080EFA"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x08080EFE",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08089520"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808931C",
+            "sha256": "b959b84347b819a537acbbcdfdd26be6ab553ec73295122a12dab0fc5de56d0d",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06014000"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 2216,
+      "compressed_sha256": "63db96cb21bfa77208f07550316a0df24184fbd518f3545705d72952ac58f8fc",
+      "compressed_size": 421,
+      "decompressed_bundle_offset": 5024,
+      "decompressed_sha256": "0657b696d1702bd2a543b38857b46125731f34e6425effd3b030e41556895d79",
+      "decompressed_size": 960,
+      "file_offset": 3443260,
+      "gba_address": "0x08348A3C",
+      "literal_load_users": [
+        "0x0808931C"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x08089320",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808932A",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808B620"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808B5D4",
+            "sha256": "9cd487894303f673b585d1169be28403c08d0ed5f07359260286dd9c2872ae60",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06004000"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 2637,
+      "compressed_sha256": "98554f122b4f14986160dfbefe7dcc0dad3ff5ba62cbd87d0d9cc9e34eb77438",
+      "compressed_size": 907,
+      "decompressed_bundle_offset": 5984,
+      "decompressed_sha256": "1819e2bcbe0204fb3fe73907aab5fdbd561de0dfe7b8ccae316facc037357cae",
+      "decompressed_size": 2176,
+      "file_offset": 3444480,
+      "gba_address": "0x08348F00",
+      "literal_load_users": [
+        "0x0808B5D4"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808B5D8",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808B5E2",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808AEE0"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808AD30",
+            "sha256": "5ed6e8964f1229dc9f07c46c9d48c6ca129682c4571271ad38039d7825de1302",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [],
+        "destination_domain": "WRAM_dynamic",
+        "evidence_type": "static_code",
+        "kind": "visual_metadata",
+        "load_route": "LZ77UnCompWram_wrapper"
+      },
+      "compressed_bundle_offset": 3544,
+      "compressed_sha256": "cb1292f414680f00ebab4509e0d1eaab0db80c4faf5e9c79da1b694a862e7146",
+      "compressed_size": 217,
+      "decompressed_bundle_offset": 8160,
+      "decompressed_sha256": "4396144ffc41de6ee3d0da6383f825695bd37aefde1cb2100bd5672200d9140d",
+      "decompressed_size": 600,
+      "file_offset": 3445388,
+      "gba_address": "0x0834928C",
+      "literal_load_users": [
+        "0x0808AD30"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808AD3A",
+          "known_route": "LZ77UnCompWram_wrapper",
+          "target": "0x0809C0EC"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808B464"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808B348",
+            "sha256": "92015fd81bfad3066111a9d094a367a29d4d7e3b7cfeef7489cb36414611d963",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06001000"
+        ],
+        "destination_domain": "VRAM_screenblock",
+        "evidence_type": "static_code_and_payload_shape",
+        "kind": "visual_metadata",
+        "load_route": "LZ77UnCompVram_wrapper",
+        "subtype": "text_bg_tilemap",
+        "tilemap": {
+          "entry_count": 640,
+          "entry_size": 2,
+          "height_entries": 20,
+          "horizontal_flip_count": 0,
+          "palette_banks": [
+            1
+          ],
+          "tile_index_max": 5,
+          "tile_index_min": 0,
+          "vertical_flip_count": 12,
+          "width_entries": 32
+        }
+      },
+      "compressed_bundle_offset": 3761,
+      "compressed_sha256": "259891ea9126d0d1c2683ecfdd392f22f2a8b926eb6f2bd4ef4b601935b7898b",
+      "compressed_size": 178,
+      "decompressed_bundle_offset": 8760,
+      "decompressed_sha256": "0876b9165e63106e30681dd9ca5831d629ba8903a9f0d05fd5cbf8f1088e920c",
+      "decompressed_size": 1280,
+      "file_offset": 3445608,
+      "gba_address": "0x08349368",
+      "literal_load_users": [
+        "0x0808B348"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808B34C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808B352",
+          "known_route": null,
+          "target": "0x08067158"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808B610"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808B5C2",
+            "sha256": "24f8279069e40c943dbd01a2352fe54715aa636debfc263ff83d7b00384376a2",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06017100"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 3939,
+      "compressed_sha256": "589b0b2fff51d5f7f9a955c1f65b98f3965ec1435dd879fbcca18befa90fc9cb",
+      "compressed_size": 625,
+      "decompressed_bundle_offset": 10040,
+      "decompressed_sha256": "01d33444012185e56e279086c4feb8eac4768b45446b4c861b2e5b3f05ebacae",
+      "decompressed_size": 1152,
+      "file_offset": 3445820,
+      "gba_address": "0x0834943C",
+      "literal_load_users": [
+        "0x0808B5C2"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808B5C6",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808B5D0",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808B630"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808B5E6",
+            "sha256": "b6a0d7e7808635f901b67ff2a6b74e9a97a85f884dcdbf9c3f33695a5fa1bca4",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06017580"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 4564,
+      "compressed_sha256": "891dc08f897333cd486386163dd42ad1e8aa8007cfc9f4d9df30db870f4e72bb",
+      "compressed_size": 76,
+      "decompressed_bundle_offset": 11192,
+      "decompressed_sha256": "0b079699856f54d695ce3190cae2cda5e74a17dcc2456813bc716b4f12cd375b",
+      "decompressed_size": 128,
+      "file_offset": 3446520,
+      "gba_address": "0x083496F8",
+      "literal_load_users": [
+        "0x0808B5E6"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808B5EA",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808B69C"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808B65E",
+            "sha256": "c44a82a3b2bb1a0c40c6a25e5a343dcd08a4fba60053aa6057934068d47a18bb",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06004000"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 4640,
+      "compressed_sha256": "a75488408baac730bce713aeb83584433dbe361302eb191e3886525ed984245f",
+      "compressed_size": 2091,
+      "decompressed_bundle_offset": 11320,
+      "decompressed_sha256": "9244c573b838e6cffd516a43ffc110571669172e1bd7db329dffd5995003c392",
+      "decompressed_size": 4480,
+      "file_offset": 4128968,
+      "gba_address": "0x083F00C8",
+      "literal_load_users": [
+        "0x0808B65E"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808B662",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808B66C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808B6A4"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808B666",
+            "sha256": "5ac5d77243e39f8361d7c07d3042a130d5b0364450ddccdb79f7b198ee9d834a",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06000000"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 6731,
+      "compressed_sha256": "f62c7367082de28d957c78ddb1d8c001fb889085b4ab68cab4f88ebf55427f58",
+      "compressed_size": 465,
+      "decompressed_bundle_offset": 15800,
+      "decompressed_sha256": "758151da506aaa50edcb3e2261418c5606daac309bf15d4e008a0046281fc7e4",
+      "decompressed_size": 1280,
+      "file_offset": 4131060,
+      "gba_address": "0x083F08F4",
+      "literal_load_users": [
+        "0x0808B666"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808B66C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808B676",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808B6A8"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808B670",
+            "sha256": "52a36fe20bf547ea53743f583fde88684f5fc6c67937616c0d9c30efcec071e5",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x05000000"
+        ],
+        "destination_domain": "PRAM",
+        "evidence_type": "static_code",
+        "kind": "palette",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 7196,
+      "compressed_sha256": "1f893d39e00f3c524c43fe6329d215c4b7fcef613133e0ecf718d6f30e634f73",
+      "compressed_size": 40,
+      "decompressed_bundle_offset": 17080,
+      "decompressed_sha256": "a0b2e109a1f53d565e41bc05112ad6018b6a390b9b9dd902e93526a788a00217",
+      "decompressed_size": 32,
+      "file_offset": 4131528,
+      "gba_address": "0x083F0AC8",
+      "literal_load_users": [
+        "0x0808B670"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808B676",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808BD38"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808BBD4",
+            "sha256": "8e1224d8ba40b9fb6f2c36e1a7d1395185781a16badea076ea28affd5e8f9ca8",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [],
+        "destination_domain": "WRAM_dynamic",
+        "evidence_type": "static_code",
+        "kind": "visual_metadata",
+        "load_route": "LZ77UnCompWram_wrapper"
+      },
+      "compressed_bundle_offset": 7236,
+      "compressed_sha256": "39e185414978bea615798e9db6d669053467063c98acf41754622c20630c3b4d",
+      "compressed_size": 454,
+      "decompressed_bundle_offset": 17112,
+      "decompressed_sha256": "8661e87accb82f8d07b4102c70203fe19093710d794b0cdde0f1d8ae96db2790",
+      "decompressed_size": 576,
+      "file_offset": 4136088,
+      "gba_address": "0x083F1C98",
+      "literal_load_users": [
+        "0x0808BBD4"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808BBD8",
+          "known_route": "LZ77UnCompWram_wrapper",
+          "target": "0x0809C0EC"
+        },
+        {
+          "callsite": "0x0808BBE2",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808BD60"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808BC2A",
+            "sha256": "1a5332253ac2b0ccf8eead861567be8c9b8243109f8375a22007a6e238bf0dad",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [],
+        "destination_domain": "WRAM_dynamic",
+        "evidence_type": "static_code",
+        "kind": "visual_metadata",
+        "load_route": "LZ77UnCompWram_wrapper"
+      },
+      "compressed_bundle_offset": 7690,
+      "compressed_sha256": "be925c87a99654108d5cf2fd2d480b10a1ac468650c607772b1f3b223993ac1a",
+      "compressed_size": 140,
+      "decompressed_bundle_offset": 17688,
+      "decompressed_sha256": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc",
+      "decompressed_size": 800,
+      "file_offset": 4137224,
+      "gba_address": "0x083F2108",
+      "literal_load_users": [
+        "0x0808BC2A"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808BC2E",
+          "known_route": "LZ77UnCompWram_wrapper",
+          "target": "0x0809C0EC"
+        },
+        {
+          "callsite": "0x0808BC36",
+          "known_route": null,
+          "target": "0x0808B79C"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808BD98"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808BCB6",
+            "sha256": "3106ebb3883203d14239858bea40b77a5263e61a3eca2fb34e8af674209877b2",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06010000"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 7830,
+      "compressed_sha256": "147543c3efbc9ff83588296449f028f46ed504c10ab37a2adaca67b8bbade689",
+      "compressed_size": 1456,
+      "decompressed_bundle_offset": 18488,
+      "decompressed_sha256": "dfaf8546650d59a8ad1ab1abf918feb4fbae953800e02806de14089dc6d2fbfd",
+      "decompressed_size": 2304,
+      "file_offset": 4137444,
+      "gba_address": "0x083F21E4",
+      "literal_load_users": [
+        "0x0808BCB6"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808BCBA",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808BCC4",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808BDA8"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808BCC8",
+            "sha256": "82ce9fb1b4311fec203f71b11cf52bdd3a2f844a82ef5a359469bea9f2c1ab7b",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06010900"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 9286,
+      "compressed_sha256": "ee7d7d0e9d17b9227e53a700c0750ba14614c8be0411359e723d17de83177320",
+      "compressed_size": 662,
+      "decompressed_bundle_offset": 20792,
+      "decompressed_sha256": "7f3d6eba5afb1d4cd802b346f716d0aa65b23128dea4a57fdb31cfc29189a64f",
+      "decompressed_size": 1728,
+      "file_offset": 4139544,
+      "gba_address": "0x083F2A18",
+      "literal_load_users": [
+        "0x0808BCC8"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808BCCC",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808BCD6",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08087070",
+        "0x0808C018",
+        "0x0808C588"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x08087030",
+            "sha256": "964212ebf77135eab9614b4e92779ced010309bff5fbf4661d04331b8c612362",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0808BFDE",
+            "sha256": "0429f7bcb5ee6eb6d737a6209b03a646fdb3b9809d5058f80bcc286a74b653da",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0808C50E",
+            "sha256": "4182258a342b132ba7725d206e21788ee8efc8d771b6a074c5eafa4fdd829859",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x0600E800",
+          "0x06006800"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 9948,
+      "compressed_sha256": "7f17059cb05429353df7d576f20fc7a4ec4fdcb4b7cf6167de41f5ebfb5ade0b",
+      "compressed_size": 108,
+      "decompressed_bundle_offset": 22520,
+      "decompressed_sha256": "2c757d754c5f1c0e043bbbb878dbad37c221a6b2b60ab96f666680a94da08d91",
+      "decompressed_size": 512,
+      "file_offset": 4218532,
+      "gba_address": "0x08405EA4",
+      "literal_load_users": [
+        "0x08087030",
+        "0x0808BFDE",
+        "0x0808C50E"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x08087034",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808703C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808BFE2",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808BFEA",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808C512",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808C51C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08087078",
+        "0x0808C020",
+        "0x0808C590"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x08087038",
+            "sha256": "aa46dd8b2e3c65df46798ee1dfdeb01cc896805d0d9c2e83b510e20979ae4c51",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0808BFE6",
+            "sha256": "a8d1289fa5cab6a4eaf1374610bb6cfd5743191c99dac05410d217ba2dc2c475",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0808C516",
+            "sha256": "ca2e03ddcfc0e3445a94d75ef508f2f9ae1404a4ab2690dfbd7848b339206000",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06000800",
+          "0x06001000",
+          "0x06000000"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 10056,
+      "compressed_sha256": "6ada1b5570248c8d7a8d9e3e4690750fd173033c2bcc0ad58808e17d81003d79",
+      "compressed_size": 221,
+      "decompressed_bundle_offset": 23032,
+      "decompressed_sha256": "1b30ba083c2afd77ecf66986a1cecab33cef5a46147279af1e03815c281b2d70",
+      "decompressed_size": 1280,
+      "file_offset": 4218640,
+      "gba_address": "0x08405F10",
+      "literal_load_users": [
+        "0x08087038",
+        "0x0808BFE6",
+        "0x0808C516"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808703C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x08087046",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        },
+        {
+          "callsite": "0x0808BFEA",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808BFF4",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        },
+        {
+          "callsite": "0x0808C51C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808C526",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x080795AC",
+        "0x0808F1F4"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x08079548",
+            "sha256": "50eec97af68b3063017fadf3f5162558f2e08af047ebdb57f98255bde006fe10",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0808F1A4",
+            "sha256": "4e9f2dd875112a341066afbe069b02019c5f34ec47a81c394e03aebf4533b21a",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06017780",
+          "dynamic_obj_vram_slot"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 10277,
+      "compressed_sha256": "3120bc369a5723a3fb0459dc46d86ae7ec67bba088dce7419b8d9a439c11dc8b",
+      "compressed_size": 362,
+      "decompressed_bundle_offset": 24312,
+      "decompressed_sha256": "eea31d0d2012d3ec1c91a7c35340e4cdc25a8495c11092ec34f0a892401853ab",
+      "decompressed_size": 576,
+      "file_offset": 4554044,
+      "gba_address": "0x08457D3C",
+      "literal_load_users": [
+        "0x08079548",
+        "0x0808F1A4"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0807954C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x08079556",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        },
+        {
+          "callsite": "0x0808F1AE",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808625C",
+        "0x08088A24",
+        "0x0808DF64"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808621A",
+            "sha256": "db2c04f18a8f5c7d7f584b314aebe1a69db2543b63c27830f6d8ad2be00f1279",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0808893E",
+            "sha256": "a5abbc71732a1485d0fd7c7535815dbf9bde9b03c41f850f4f87be784120cdfb",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0808DD00",
+            "sha256": "add75756fc8092fb68853f81c8d1a14f2ec3178623964c65e9f5589c12a49098",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06014000"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 10639,
+      "compressed_sha256": "4c5314e99ac10f33fbd4f3a9671e51766832639598d219e2fecf0d50169fe4a4",
+      "compressed_size": 580,
+      "decompressed_bundle_offset": 24888,
+      "decompressed_sha256": "537002ffe5973c72f365e22d67895350bb79ed76f4827bdd96a3d6be2b45242e",
+      "decompressed_size": 1792,
+      "file_offset": 4554952,
+      "gba_address": "0x084580C8",
+      "literal_load_users": [
+        "0x0808621A",
+        "0x0808893E",
+        "0x0808DD00"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808621E",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x08086228",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        },
+        {
+          "callsite": "0x08088942",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808894C",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        },
+        {
+          "callsite": "0x0808DD04",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808DD0E",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08090BDC"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x08090B58",
+            "sha256": "ffb6d26f094ea629b9446ef1041828a812e40cc22fd304d71464f7345e83cec2",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [],
+        "destination_domain": "WRAM_dynamic",
+        "evidence_type": "static_code",
+        "kind": "visual_metadata",
+        "load_route": "LZ77UnCompWram_wrapper"
+      },
+      "compressed_bundle_offset": 11219,
+      "compressed_sha256": "b0ee9cb86524e286a9d6d52a0e5348255f7c114d4bbe4471ac0366ad1eda7e26",
+      "compressed_size": 177,
+      "decompressed_bundle_offset": 26680,
+      "decompressed_sha256": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+      "decompressed_size": 288,
+      "file_offset": 4601016,
+      "gba_address": "0x084634B8",
+      "literal_load_users": [
+        "0x08090B58"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x08090B5C",
+          "known_route": "LZ77UnCompWram_wrapper",
+          "target": "0x0809C0EC"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08090DDC"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x08090D52",
+            "sha256": "e656aa94cf38596f0858d4b4a04fcca621f511c88f11561dfcf697de083cb7bc",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [],
+        "destination_domain": "WRAM_dynamic",
+        "evidence_type": "static_code",
+        "kind": "visual_metadata",
+        "load_route": "LZ77UnCompWram_wrapper"
+      },
+      "compressed_bundle_offset": 11396,
+      "compressed_sha256": "b0d0a49ac1d30c88dffa715308e910d81f9cadd8829330c5a2f3db40f2fe065a",
+      "compressed_size": 105,
+      "decompressed_bundle_offset": 26968,
+      "decompressed_sha256": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+      "decompressed_size": 288,
+      "file_offset": 4601196,
+      "gba_address": "0x0846356C",
+      "literal_load_users": [
+        "0x08090D52"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x08090D56",
+          "known_route": "LZ77UnCompWram_wrapper",
+          "target": "0x0809C0EC"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08090DE8"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x08090DC0",
+            "sha256": "dd0af6d7de652fe55a124371cf91a8cd64eaeec5953734e8feb0cd71d7b1e1fb",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [],
+        "destination_domain": "WRAM_dynamic",
+        "evidence_type": "static_code",
+        "kind": "visual_metadata",
+        "load_route": "LZ77UnCompWram_wrapper"
+      },
+      "compressed_bundle_offset": 11501,
+      "compressed_sha256": "8362ef30992001077204e7dcced82f9ef3a170411fa0cdc2bda1f7573a4b77a9",
+      "compressed_size": 175,
+      "decompressed_bundle_offset": 27256,
+      "decompressed_sha256": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640",
+      "decompressed_size": 288,
+      "file_offset": 4601304,
+      "gba_address": "0x084635D8",
+      "literal_load_users": [
+        "0x08090DC0"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x08090DC4",
+          "known_route": "LZ77UnCompWram_wrapper",
+          "target": "0x0809C0EC"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08091884"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0809165A",
+            "sha256": "c68c2c74b7f99bf24bb0848ae44a3e99520693eb020dcd7fd7e59db817911559",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06009780"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 11676,
+      "compressed_sha256": "2b5597a40cf7dc27f8117ef020e78c7acfcb9ebd8da1c28c66a486f1bbb28140",
+      "compressed_size": 586,
+      "decompressed_bundle_offset": 27544,
+      "decompressed_sha256": "892ddfd26c50ca74564b24b32f34f14bbd20e7272c92762c72b084e32b4f55c6",
+      "decompressed_size": 3072,
+      "file_offset": 4601480,
+      "gba_address": "0x08463688",
+      "literal_load_users": [
+        "0x0809165A"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0809165E",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x08091668",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x08070750",
+        "0x08078C28",
+        "0x08079368",
+        "0x0808ED24",
+        "0x08092150",
+        "0x080950C0",
+        "0x08095804"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x080706D4",
+            "sha256": "bd53a4e4fac27f91b6ed821d076aa6abc97926c6e720a92a9d97fb8804749269",
+            "size": 16
+          },
+          {
+            "gba_start": "0x08078B58",
+            "sha256": "3fa5811ac1c6a1f5e1fc5a9c7652776e9babb22671e05b1b7345fb5ade35b474",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0807927A",
+            "sha256": "4716a3a72b08fe49a0ac5140499acdcf7e91198ddb67cd63e2ca96b6a24e1fa9",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0808ECEE",
+            "sha256": "d9a721016e57dbd63af17590773201cc7e09f5738f1dd0579a0533c576631117",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0809208E",
+            "sha256": "1036637c26c01b603100051a160bbf3f5dd9570d9efa3db7425bc1622a7f5848",
+            "size": 16
+          },
+          {
+            "gba_start": "0x08094FF0",
+            "sha256": "efe46bf1b94e31f88738a0ac077efcaef22e2bb2166d801f360529ea3d231b75",
+            "size": 16
+          },
+          {
+            "gba_start": "0x0809570A",
+            "sha256": "e466817eb7bb48e1d6e9b463886947204def74c7a68e9c87c889cb4f278ac126",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x06016600",
+          "0x06010000",
+          "dynamic_obj_vram_slot"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 12262,
+      "compressed_sha256": "cf440129c9f3136727e694e282287e43110b1973656165d44b0bd41230ef9205",
+      "compressed_size": 1236,
+      "decompressed_bundle_offset": 30616,
+      "decompressed_sha256": "2d9444c08bd4ad61bea7b9f977d423f960af2a0f4ee4257e3eecff5e1264aa15",
+      "decompressed_size": 1664,
+      "file_offset": 5988352,
+      "gba_address": "0x085B6000",
+      "literal_load_users": [
+        "0x080706D4",
+        "0x08078B58",
+        "0x0807927A",
+        "0x0808ECEE",
+        "0x0809208E",
+        "0x08094FF0",
+        "0x0809570A"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x080706D8",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x080706E2",
+          "known_route": null,
+          "target": "0x0809C0DC"
+        },
+        {
+          "callsite": "0x08078B5C",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0807927E",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808ECF2",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808ECFC",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        },
+        {
+          "callsite": "0x08092098",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x08094FF4",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0809570E",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808BD48"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808BBF8",
+            "sha256": "e39fcf18ca8c016272c6ba535368c345167d4f201f3db3886a3a6c40f6f6bc29",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [],
+        "destination_domain": "WRAM_dynamic",
+        "evidence_type": "static_code",
+        "kind": "visual_metadata",
+        "load_route": "LZ77UnCompWram_wrapper"
+      },
+      "compressed_bundle_offset": 13498,
+      "compressed_sha256": "c257690932ef3f9f181c8408ff1a4f02f03e4dd6f9312261317dd61c7f427846",
+      "compressed_size": 150,
+      "decompressed_bundle_offset": 32280,
+      "decompressed_sha256": "2c841501108a1892a34aa8d877eee414fe2eed9f0bb0dce1e8700332a7726675",
+      "decompressed_size": 138,
+      "file_offset": 5990368,
+      "gba_address": "0x085B67E0",
+      "literal_load_users": [
+        "0x0808BBF8"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808BBFC",
+          "known_route": "LZ77UnCompWram_wrapper",
+          "target": "0x0809C0EC"
+        },
+        {
+          "callsite": "0x0808BC06",
+          "known_route": null,
+          "target": "0x0809C0E0"
+        }
+      ]
+    },
+    {
+      "aligned_pointer_references": [
+        "0x0808BD30"
+      ],
+      "classification": {
+        "code_windows": [
+          {
+            "gba_start": "0x0808BBCC",
+            "sha256": "c13a4291aa503cdbc06b4a9ede62d1fda21f44ee25c34ab0ecf1eff58eec7c8f",
+            "size": 16
+          }
+        ],
+        "destination_addresses": [
+          "0x0600C000"
+        ],
+        "destination_domain": "VRAM",
+        "evidence_type": "static_code",
+        "kind": "graphics",
+        "load_route": "LZ77UnCompVram_wrapper"
+      },
+      "compressed_bundle_offset": 13648,
+      "compressed_sha256": "1527865705a747943d24073399bdbf3d78751aad46735be11977becfac7c94ba",
+      "compressed_size": 4638,
+      "decompressed_bundle_offset": 32418,
+      "decompressed_sha256": "6d3edca8c66980c173fcd176240a029a2de532ab5d697d6682a18a2f2d96a715",
+      "decompressed_size": 8576,
+      "file_offset": 5990528,
+      "gba_address": "0x085B6880",
+      "literal_load_users": [
+        "0x0808BBCC"
+      ],
+      "nearby_direct_calls": [
+        {
+          "callsite": "0x0808BBD0",
+          "known_route": "LZ77UnCompVram_wrapper",
+          "target": "0x0809C0E8"
+        },
+        {
+          "callsite": "0x0808BBD8",
+          "known_route": "LZ77UnCompWram_wrapper",
+          "target": "0x0809C0EC"
+        }
+      ]
+    }
+  ],
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-pointer-lz77-inventory-v1",
+  "scope": {
+    "aligned_pointer_reachable_lz77_denominator_complete": true,
+    "all_denominator_records_artifact_bound": true,
+    "all_game_visual_states_complete": false,
+    "all_records_are_graphics": false,
+    "generic_image_writeback_complete": false,
+    "natural_language_identity_complete": false,
+    "procedural_graphics_complete": false,
+    "raw_palettes_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false,
+    "strict_lz77_syntax_scan_complete": true,
+    "uncovered_records_losslessly_exported": true
+  },
+  "selection_rule": {
+    "pointer_domain": "mapped ROM u32 values",
+    "pointer_reference_alignment": 4,
+    "runtime_reachability_claimed": false,
+    "source_alignment": 4,
+    "syntax": "valid GBA type-0x10 stream with exact declared-size termination, in-range back-references, and no output overrun"
+  },
+  "summary": {
+    "aligned_pointer_reachable_record_count": 896,
+    "newly_exported_record_count": 31,
+    "previously_bound_record_count": 865,
+    "remaining_unbound_record_count": 0,
+    "strict_lz77_record_count": 1099
+  },
+  "upstream_binding_registry": {
+    "bound_record_count": 865,
+    "files": [
+      {
+        "bound_addresses": [
+          "0x083406F0",
+          "0x083409D0",
+          "0x08340AF8",
+          "0x08341FA8",
+          "0x08342340",
+          "0x083426D8",
+          "0x08342898",
+          "0x08342938",
+          "0x08342DC8",
+          "0x0834311C",
+          "0x0834330C",
+          "0x08343760",
+          "0x08343A5C",
+          "0x08343D88",
+          "0x083442A0",
+          "0x08344580",
+          "0x083447AC",
+          "0x08344E18",
+          "0x08344F04",
+          "0x0834529C",
+          "0x08345484",
+          "0x08345568",
+          "0x083459BC",
+          "0x08345AC8",
+          "0x08345CF4",
+          "0x08345E64",
+          "0x083466C0",
+          "0x08346918",
+          "0x08346F30",
+          "0x0834716C",
+          "0x0834747C",
+          "0x0834754C",
+          "0x083475B4",
+          "0x083478F4",
+          "0x083480C8"
+        ],
+        "bound_record_count": 35,
+        "path": "artifacts/battle-effect-resource-pairs-v1/manifest.json",
+        "sha256": "716ac580326077127797c634d1f19bbc0aadcfd4db9c577730728b112f002963"
+      },
+      {
+        "bound_addresses": [
+          "0x083406F0",
+          "0x083409D0",
+          "0x08340AF8",
+          "0x08341FA8",
+          "0x08342340",
+          "0x083426D8",
+          "0x08342898",
+          "0x08342938",
+          "0x08342DC8",
+          "0x0834311C",
+          "0x0834330C",
+          "0x08343760",
+          "0x08343A5C",
+          "0x08343D88",
+          "0x083442A0",
+          "0x08344580",
+          "0x083447AC",
+          "0x08344E18",
+          "0x08344F04",
+          "0x0834529C",
+          "0x08345484",
+          "0x08345568",
+          "0x083459BC",
+          "0x08345AC8",
+          "0x08345CF4",
+          "0x08345E64",
+          "0x083466C0",
+          "0x08346918",
+          "0x08346F30",
+          "0x0834716C",
+          "0x0834747C",
+          "0x0834754C",
+          "0x083475B4",
+          "0x083478F4",
+          "0x083480C8"
+        ],
+        "bound_record_count": 35,
+        "path": "artifacts/battle-effect-sprite-animations-v1/manifest.json",
+        "sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848"
+      },
+      {
+        "bound_addresses": [
+          "0x083E4C08",
+          "0x083E5974",
+          "0x083E5AA0",
+          "0x083E5BD8",
+          "0x083E5CE0",
+          "0x083E5E00",
+          "0x083E5F1C",
+          "0x083E602C",
+          "0x083E6150",
+          "0x083E63A8",
+          "0x083E64D8",
+          "0x083E65D8",
+          "0x083E6710",
+          "0x083E6840",
+          "0x083E6978",
+          "0x083E6AAC",
+          "0x083E6BB4",
+          "0x083E6CD0",
+          "0x083E6DF4",
+          "0x083E6F04",
+          "0x083E7038",
+          "0x083E715C",
+          "0x083E726C",
+          "0x083E7370",
+          "0x083E74A4",
+          "0x083E759C",
+          "0x083E76CC",
+          "0x083E77E4",
+          "0x083E791C",
+          "0x083E7A60",
+          "0x083E7B58",
+          "0x083E7C58",
+          "0x083E7D74",
+          "0x083E7EA0",
+          "0x083E7FC8",
+          "0x083E8054",
+          "0x083E810C",
+          "0x083E81FC",
+          "0x083E82F8",
+          "0x083E84F4",
+          "0x083E862C",
+          "0x083E8740",
+          "0x083E8880",
+          "0x083E89BC",
+          "0x083E8AF4",
+          "0x083E8C30",
+          "0x083E8D58",
+          "0x083E8E80",
+          "0x083E8FB0",
+          "0x083E90D0",
+          "0x083E918C",
+          "0x083E93F0",
+          "0x083E9538",
+          "0x083E962C",
+          "0x083E9774",
+          "0x083E9850",
+          "0x083E9948",
+          "0x083E9A6C",
+          "0x083E9B94",
+          "0x083E9CE0",
+          "0x083E9E10",
+          "0x083E9F4C",
+          "0x083EA574",
+          "0x083EA678",
+          "0x083EA778",
+          "0x083EA890",
+          "0x083EA944",
+          "0x083EAA28",
+          "0x083EAB10",
+          "0x083EABF0",
+          "0x083EACA0",
+          "0x083EADA0",
+          "0x083EAE78",
+          "0x083EAF6C",
+          "0x083EB084",
+          "0x083EB1B0",
+          "0x083EB2D4",
+          "0x083EB3E0",
+          "0x083EB4E0",
+          "0x083EB838",
+          "0x083EB96C",
+          "0x083EBA70",
+          "0x083EBB54",
+          "0x083EBC74",
+          "0x083EBD84",
+          "0x083EBE80",
+          "0x083EBFB8",
+          "0x083EC0B0",
+          "0x083EC1CC",
+          "0x083EC2C4",
+          "0x083EC3FC",
+          "0x083EC510",
+          "0x083EC640",
+          "0x083EC77C",
+          "0x083EC858",
+          "0x083EC980",
+          "0x083ECA84",
+          "0x083ECB30",
+          "0x083ECC54",
+          "0x083ECD6C",
+          "0x083ECE64",
+          "0x083ECF58",
+          "0x083ED07C",
+          "0x083ED2A4",
+          "0x083ED4C0",
+          "0x083ED5FC",
+          "0x083ED70C",
+          "0x083ED820",
+          "0x083ED94C",
+          "0x083EDA5C",
+          "0x083EDB7C",
+          "0x083EDCB4",
+          "0x083EDDE8",
+          "0x083EE048",
+          "0x083EE164",
+          "0x083EE260",
+          "0x083EE368",
+          "0x083EE464",
+          "0x083EE56C",
+          "0x083EE678",
+          "0x083EE7C0",
+          "0x083EE8EC",
+          "0x083EEA28",
+          "0x083EEB44",
+          "0x083EEC5C",
+          "0x083EED9C",
+          "0x083EEEC4",
+          "0x083EEFD8",
+          "0x083EF110",
+          "0x083EF238",
+          "0x083EF364",
+          "0x083EF470",
+          "0x083EF574",
+          "0x083EF5D0",
+          "0x083EF830",
+          "0x083EF93C",
+          "0x083EFA50",
+          "0x083EFB48",
+          "0x083EFC28",
+          "0x083EFD44",
+          "0x083EFE48",
+          "0x083EFF28",
+          "0x083F0008",
+          "0x085B7AB0",
+          "0x085B7BD0",
+          "0x085B7D00",
+          "0x085B7E10",
+          "0x085B7F20",
+          "0x085B8050",
+          "0x085B85A0",
+          "0x085B86A0",
+          "0x085B87C0",
+          "0x085B88C0",
+          "0x085B89F0",
+          "0x085B8B30",
+          "0x085B8C40",
+          "0x085B8D70",
+          "0x085B8E80",
+          "0x085B8F70",
+          "0x085B90A0",
+          "0x085B91D0",
+          "0x085B9310",
+          "0x085B9430",
+          "0x085B9550",
+          "0x085B9680",
+          "0x085B9780",
+          "0x085B9890",
+          "0x085B99C0",
+          "0x085B9AE0",
+          "0x085B9C30",
+          "0x085B9D80",
+          "0x085B9EB0"
+        ],
+        "bound_record_count": 172,
+        "path": "artifacts/battle-presentation-glyphs-v1/manifest.json",
+        "sha256": "ecc44fde0d886b75397d34181112f5b86dbb791b09e3b85797e9b4013f4e74a7"
+      },
+      {
+        "bound_addresses": [
+          "0x0809C8B0"
+        ],
+        "bound_record_count": 1,
+        "path": "artifacts/battle-status-bars-v1/battle-status-bars.json",
+        "sha256": "c8ff2c231c5a0ac111f10c7ca545d285cde0e23c4fca706815ee40277086d4eb"
+      },
+      {
+        "bound_addresses": [
+          "0x083497BC",
+          "0x08349D10",
+          "0x08349EB4",
+          "0x0834AFC8",
+          "0x0834B248",
+          "0x0834C1CC",
+          "0x0834C438",
+          "0x0834D02C",
+          "0x0834D23C",
+          "0x0834DECC",
+          "0x0834E0CC",
+          "0x0834EC8C",
+          "0x0834EE64",
+          "0x0834FE40",
+          "0x08350080",
+          "0x08350FFC",
+          "0x08351258",
+          "0x08351EB4",
+          "0x083520EC",
+          "0x08352DA8",
+          "0x08352FC8",
+          "0x08353B20",
+          "0x08353D54",
+          "0x083547BC",
+          "0x083549A8",
+          "0x08355588",
+          "0x08355798",
+          "0x08356384",
+          "0x0835655C",
+          "0x08357370",
+          "0x083575A0",
+          "0x08358258",
+          "0x083584B4",
+          "0x0835969C",
+          "0x08359904",
+          "0x0835A7A8",
+          "0x0835A9FC",
+          "0x0835B9F8",
+          "0x0835BC90",
+          "0x0835C860",
+          "0x0835CA58",
+          "0x0835DABC",
+          "0x0835DD10",
+          "0x0835E644",
+          "0x0835E818",
+          "0x0835F178",
+          "0x0835F348",
+          "0x0835FFF4",
+          "0x08360224",
+          "0x08360A34",
+          "0x08360BFC",
+          "0x08361924",
+          "0x08361B84",
+          "0x0836288C",
+          "0x08362AB0",
+          "0x0836360C",
+          "0x08363804",
+          "0x08364860",
+          "0x08364AE8",
+          "0x083656C0",
+          "0x083658C4",
+          "0x08367630",
+          "0x0836774C",
+          "0x083679E0",
+          "0x08369930",
+          "0x08369C18",
+          "0x0836AFAC",
+          "0x0836B1DC",
+          "0x0836E8E4",
+          "0x0836EC0C",
+          "0x08370504",
+          "0x08370848",
+          "0x08371C88",
+          "0x08371EAC",
+          "0x08374B50",
+          "0x08374E34",
+          "0x08376A0C",
+          "0x08376CC4",
+          "0x08378668",
+          "0x083788A4",
+          "0x0837A2A4",
+          "0x0837A5A0",
+          "0x0837AE40",
+          "0x0837AFB8",
+          "0x0837C044",
+          "0x0837C1E4",
+          "0x0837C818",
+          "0x0837C918",
+          "0x0837D610",
+          "0x0837D7F0",
+          "0x0837E398",
+          "0x0837E530",
+          "0x0837F914",
+          "0x0837FB04",
+          "0x083816FC",
+          "0x08381A34",
+          "0x08382F30",
+          "0x0838315C",
+          "0x083847F8",
+          "0x08384A1C",
+          "0x08385A9C",
+          "0x08385C64",
+          "0x08387AC4",
+          "0x08387D6C",
+          "0x083895C0",
+          "0x08389818",
+          "0x0838B0C0",
+          "0x0838B32C",
+          "0x0838D554",
+          "0x0838D7AC",
+          "0x0838E488",
+          "0x0838E5FC",
+          "0x0838FA74",
+          "0x0838FCE0",
+          "0x083911A0",
+          "0x083913E8",
+          "0x083937FC",
+          "0x08393AE4",
+          "0x08395E08",
+          "0x083960F8",
+          "0x08397EE4",
+          "0x083981BC",
+          "0x08399B54",
+          "0x08399DBC",
+          "0x0839BC8C",
+          "0x0839BF30",
+          "0x0839D038",
+          "0x0839D22C",
+          "0x0839E250",
+          "0x0839E440",
+          "0x0839F7EC",
+          "0x0839FA00",
+          "0x083A0DF0",
+          "0x083A1034",
+          "0x083A1D70",
+          "0x083A1F30",
+          "0x083A2EB0",
+          "0x083A3080",
+          "0x083A42C4",
+          "0x083A44C4",
+          "0x083A57AC",
+          "0x083A59B0",
+          "0x083A6A2C",
+          "0x083A6C1C",
+          "0x083A7C84",
+          "0x083A7EAC",
+          "0x083A904C",
+          "0x083A9284",
+          "0x083AAC7C",
+          "0x083AAED4",
+          "0x083AD0F0",
+          "0x083AD3B4",
+          "0x083AEF68",
+          "0x083AF1EC",
+          "0x083B15D0",
+          "0x083B18CC",
+          "0x083B3844",
+          "0x083B3B24",
+          "0x083B5934",
+          "0x083B5C14",
+          "0x083B7DE0",
+          "0x083B80B8",
+          "0x083BA6A0",
+          "0x083BA9B8",
+          "0x083BBDF4",
+          "0x083BC034",
+          "0x083BCDA8",
+          "0x083BCF70",
+          "0x083BE2F4",
+          "0x083BE4F0",
+          "0x083C0508",
+          "0x083C07D0",
+          "0x083C230C",
+          "0x083C25A0",
+          "0x083C577C",
+          "0x083C5AA4",
+          "0x083C860C",
+          "0x083C8930",
+          "0x083C9EFC",
+          "0x083CA13C",
+          "0x083CAB4C",
+          "0x083CAC98",
+          "0x083CC578",
+          "0x083CC80C",
+          "0x083CD71C",
+          "0x083CD8A8",
+          "0x083CEEC0",
+          "0x083CF110",
+          "0x083D03B8",
+          "0x083D05A4",
+          "0x083D21E0",
+          "0x083D248C",
+          "0x083D3708",
+          "0x083D38E8",
+          "0x083D4FA0",
+          "0x083D51C0",
+          "0x083D6290",
+          "0x083D6450",
+          "0x083D81E8",
+          "0x083D8478",
+          "0x083DA98C",
+          "0x083DAC74",
+          "0x083DD514",
+          "0x083DD7D4",
+          "0x083DEBCC",
+          "0x083DEDB0",
+          "0x083E00C0",
+          "0x083E02A0",
+          "0x083E1760",
+          "0x083E19B0",
+          "0x083E2754",
+          "0x083E28D8",
+          "0x083E34B4",
+          "0x083E36A0",
+          "0x083E48A4"
+        ],
+        "bound_record_count": 215,
+        "path": "artifacts/battle-visual-catalog-v1/manifest.json",
+        "sha256": "1ccbdfda751953328104c845e061074150324ca69a569330a25263e5be787bcc"
+      },
+      {
+        "bound_addresses": [
+          "0x08329C34",
+          "0x0832A854",
+          "0x0832A8F8",
+          "0x0832AA04",
+          "0x0832B528",
+          "0x0832B5E8",
+          "0x0832B6EC",
+          "0x0832C350",
+          "0x0832C454",
+          "0x0832C5C8",
+          "0x0832D138",
+          "0x0832D1D0",
+          "0x0832D388",
+          "0x0832DAD8",
+          "0x0832DB78",
+          "0x0832DC6C",
+          "0x0832E534",
+          "0x0832E618",
+          "0x0832E778",
+          "0x0832F398",
+          "0x0832F450",
+          "0x0832F55C",
+          "0x08332E3C",
+          "0x08332FB4",
+          "0x08333268",
+          "0x08336718",
+          "0x08336884",
+          "0x08336B38",
+          "0x08339EA0",
+          "0x0833A018",
+          "0x0833A2CC",
+          "0x0833C6B8",
+          "0x0833C830",
+          "0x0833CA94",
+          "0x083402E4",
+          "0x0834043C"
+        ],
+        "bound_record_count": 36,
+        "path": "artifacts/bg-resource-canvases-v1/manifest.json",
+        "sha256": "27096c9129823cc7d4f98aeb1fde304419a1c6abfadaf1cff6e13b80bf2fa99e"
+      },
+      {
+        "bound_addresses": [
+          "0x0812D9E4",
+          "0x0812DEE4",
+          "0x0812DF4C",
+          "0x0812E42C",
+          "0x0812E494",
+          "0x0812E948",
+          "0x0812E9B0",
+          "0x0812ED58"
+        ],
+        "bound_record_count": 8,
+        "path": "artifacts/cutscene-obj-v1/manifest.json",
+        "sha256": "b8e1341172decef9f07080879cd8369bc5308274d84383d5c706de72a0b781e7"
+      },
+      {
+        "bound_addresses": [],
+        "bound_record_count": 0,
+        "path": "artifacts/dialogue-font-v2/manifest.json",
+        "sha256": "818684d7533ae44bbe4f56b4b6df9a6d6f69612a43ae041dfb5a7b0b0698e69c"
+      },
+      {
+        "bound_addresses": [
+          "0x0809C614",
+          "0x0809C870",
+          "0x0809CBC4",
+          "0x085B64E0"
+        ],
+        "bound_record_count": 4,
+        "path": "artifacts/initializer-resource-pack-v1/initializer-resource-pack.json",
+        "sha256": "c096e70c033f804548446272c47d43bfefa72eed173841e152c630c5436efba8"
+      },
+      {
+        "bound_addresses": [
+          "0x080B9F80",
+          "0x080BD608",
+          "0x080BD70C",
+          "0x080BDF00",
+          "0x080BE10C",
+          "0x080BF250",
+          "0x080BF318",
+          "0x080C166C",
+          "0x080C1710",
+          "0x080C18EC",
+          "0x080C1CAC",
+          "0x080C1CF8",
+          "0x080C416C",
+          "0x080C4210",
+          "0x080C43E4",
+          "0x080C4844",
+          "0x080C4880",
+          "0x080C5F24",
+          "0x080C5FC8",
+          "0x080C6140",
+          "0x080C6410",
+          "0x080C6450",
+          "0x080C8454",
+          "0x080C84F8",
+          "0x080C86D8",
+          "0x080C8ABC",
+          "0x080C8AF4",
+          "0x080CAA94",
+          "0x080CAB30",
+          "0x080CAD38",
+          "0x080CB138",
+          "0x080CB18C",
+          "0x080CCB54",
+          "0x080CCC28",
+          "0x080CCE1C",
+          "0x080CD21C",
+          "0x080CD260",
+          "0x080D0054",
+          "0x080D0154",
+          "0x080D041C",
+          "0x080D0638",
+          "0x080D1238",
+          "0x080D1284",
+          "0x080D4388",
+          "0x080D447C",
+          "0x080D4664",
+          "0x080D475C",
+          "0x080D4D9C",
+          "0x080D4DE4",
+          "0x080D8624",
+          "0x080D8738",
+          "0x080D89D4",
+          "0x080D8CD8",
+          "0x080D96F0",
+          "0x080D9780",
+          "0x080DBBD8",
+          "0x080DBCEC",
+          "0x080DBE98",
+          "0x080DC09C",
+          "0x080DC6E8",
+          "0x080DC748",
+          "0x080DFE48",
+          "0x080DFF5C",
+          "0x080E01E4",
+          "0x080E04C8",
+          "0x080E0E38",
+          "0x080E0EC4",
+          "0x080E4470",
+          "0x080E4584",
+          "0x080E47A0",
+          "0x080E4994",
+          "0x080E50D0",
+          "0x080E5138",
+          "0x080E728C",
+          "0x080E7344",
+          "0x080E7584",
+          "0x080E79A0",
+          "0x080E79F4",
+          "0x080EA0F4",
+          "0x080EA198",
+          "0x080EA3EC",
+          "0x080EA898",
+          "0x080EA8FC",
+          "0x080ECB40",
+          "0x080ECBF8",
+          "0x080ECE3C",
+          "0x080ED270",
+          "0x080ED2D0",
+          "0x080EF448",
+          "0x080EF4EC",
+          "0x080EF6A8",
+          "0x080EFA8C",
+          "0x080EFACC",
+          "0x080F26F8",
+          "0x080F27B0",
+          "0x080F2A38",
+          "0x080F3004",
+          "0x080F3060",
+          "0x080F584C",
+          "0x080F58F0",
+          "0x080F5B7C",
+          "0x080F6060",
+          "0x080F60CC",
+          "0x080F760C",
+          "0x080F76BC",
+          "0x080F78A8",
+          "0x080F7B58",
+          "0x080F7BB8",
+          "0x080F9C80",
+          "0x080F9D30",
+          "0x080F9F14",
+          "0x080FA2A0",
+          "0x080FA2FC",
+          "0x080FB020",
+          "0x080FB0C0",
+          "0x080FB1E8",
+          "0x080FB244",
+          "0x080FB4DC",
+          "0x080FB508",
+          "0x080FC6A8",
+          "0x080FC740",
+          "0x080FC8E8",
+          "0x080FC98C",
+          "0x080FCD28",
+          "0x080FCD7C",
+          "0x080FE058",
+          "0x080FE0F0",
+          "0x080FE2FC",
+          "0x080FE3B0",
+          "0x080FE79C",
+          "0x080FE7FC",
+          "0x08100984",
+          "0x08100A3C",
+          "0x08100C38",
+          "0x08101034",
+          "0x08101084",
+          "0x081036BC",
+          "0x08103774",
+          "0x081039B0",
+          "0x08103E38",
+          "0x08103E90",
+          "0x08105F8C",
+          "0x08106044",
+          "0x08106224",
+          "0x081065EC",
+          "0x08106634",
+          "0x08109058",
+          "0x08109108",
+          "0x08109338",
+          "0x08109814",
+          "0x0810986C",
+          "0x0810B9E4",
+          "0x0810BA94",
+          "0x0810BC80",
+          "0x0810C02C",
+          "0x0810C080",
+          "0x0810E2C4",
+          "0x0810E374",
+          "0x0810E538",
+          "0x0810E8E0",
+          "0x0810E924",
+          "0x08110A80",
+          "0x08110B38",
+          "0x08110D64",
+          "0x08111150",
+          "0x081111A0",
+          "0x08112260",
+          "0x08112300",
+          "0x081124A8",
+          "0x08112538",
+          "0x08112874",
+          "0x081128B8",
+          "0x08114CF8",
+          "0x08114DDC",
+          "0x0811507C",
+          "0x0811516C",
+          "0x081156FC",
+          "0x08115760",
+          "0x08117E9C",
+          "0x08117F40",
+          "0x08118134",
+          "0x081185D8",
+          "0x08118620",
+          "0x0811AD5C",
+          "0x0811AE00",
+          "0x0811AFF4",
+          "0x0811B498",
+          "0x0811B4E0",
+          "0x0811DC1C",
+          "0x0811DCC0",
+          "0x0811DEB4",
+          "0x0811E358",
+          "0x0811E3A0",
+          "0x08120ADC",
+          "0x08120B80",
+          "0x08120D74",
+          "0x08121218",
+          "0x08121260",
+          "0x0812399C",
+          "0x08123A40",
+          "0x08123C34",
+          "0x081240D8",
+          "0x08124120",
+          "0x0812685C",
+          "0x08126900",
+          "0x08126AF4",
+          "0x08126F98",
+          "0x08126FE0",
+          "0x0812971C",
+          "0x081297C0",
+          "0x081299B4",
+          "0x08129E58",
+          "0x08129EA0",
+          "0x0812C188",
+          "0x0812C240",
+          "0x0812C440",
+          "0x0812C80C"
+        ],
+        "bound_record_count": 217,
+        "path": "artifacts/map-canvases-v1/manifest.json",
+        "sha256": "12a231a570a1cb9e56bec7e2f87cb6de4ac48d673765b1ba536bbc5b0137e19c"
+      },
+      {
+        "bound_addresses": [
+          "0x08408BD8",
+          "0x08409944",
+          "0x0840A724",
+          "0x0840B578",
+          "0x0840C2E0",
+          "0x0840D1A8",
+          "0x0840DF00",
+          "0x0840EA58",
+          "0x0840F61C",
+          "0x0841031C",
+          "0x08410FE0",
+          "0x08411CD4",
+          "0x08412A04",
+          "0x084137B8",
+          "0x08414730",
+          "0x08415614",
+          "0x08416438",
+          "0x084171F8",
+          "0x08417C34",
+          "0x08418A88",
+          "0x08419748",
+          "0x0841A3DC",
+          "0x0841B258",
+          "0x0841C00C",
+          "0x0841CD68",
+          "0x0841D984",
+          "0x0841E4CC",
+          "0x0841F034",
+          "0x0841FA00",
+          "0x08420684",
+          "0x084212EC",
+          "0x08421E68",
+          "0x08422DCC",
+          "0x08423A28",
+          "0x0842499C",
+          "0x084254F8",
+          "0x08426250",
+          "0x08426F34",
+          "0x08427C14",
+          "0x08428824",
+          "0x08429264",
+          "0x08429E6C",
+          "0x0842AA64",
+          "0x0842B574",
+          "0x0842C264",
+          "0x0842CF34",
+          "0x0842DE28",
+          "0x0842E880",
+          "0x0842F308",
+          "0x0842FEC4",
+          "0x08430D84",
+          "0x08431D44",
+          "0x08432CE0",
+          "0x08433D08",
+          "0x08434698",
+          "0x084352F8",
+          "0x08436278",
+          "0x084370CC",
+          "0x08437EAC",
+          "0x08438BE4",
+          "0x084398B8",
+          "0x0843A564",
+          "0x0843B178",
+          "0x0843C030",
+          "0x0843CD64",
+          "0x0843D9B8",
+          "0x0843E550",
+          "0x0843EFCC",
+          "0x0843FC78",
+          "0x084407B8"
+        ],
+        "bound_record_count": 70,
+        "path": "artifacts/menu-portraits-v1/manifest.json",
+        "sha256": "cd54c20d774a2aa69c7a41db396ca344157320882602b03a00ccd83851a791b3"
+      },
+      {
+        "bound_addresses": [
+          "0x083F2CD0",
+          "0x083F4C3C",
+          "0x083F4F64",
+          "0x083F7248",
+          "0x083F7594",
+          "0x083F95CC",
+          "0x083F98EC",
+          "0x083FB9FC",
+          "0x083FBD40",
+          "0x083FDC8C",
+          "0x083FDFF0",
+          "0x083FF3F8",
+          "0x083FF6B4",
+          "0x08401704",
+          "0x08401A6C",
+          "0x08404084",
+          "0x084043D0",
+          "0x08405BC8",
+          "0x084060A8",
+          "0x084066B0",
+          "0x08406C4C",
+          "0x08407178",
+          "0x084076E8",
+          "0x08407C68",
+          "0x084084B4",
+          "0x08408810",
+          "0x085B8180"
+        ],
+        "bound_record_count": 27,
+        "path": "artifacts/scene-visual-packs-v1/manifest.json",
+        "sha256": "4bb40dff9ac2e5641b5e13f46b1dc90bdaa28b9b5615deab7e2a914ae002d5f4"
+      },
+      {
+        "bound_addresses": [
+          "0x0812F298",
+          "0x0812F584"
+        ],
+        "bound_record_count": 2,
+        "path": "artifacts/sprite-definition-assets-v2/manifest.json",
+        "sha256": "ee36523b6a02edb4b803f1835da3dd0d5e460102fc18507b121854d43b882e68"
+      },
+      {
+        "bound_addresses": [
+          "0x0812FF50",
+          "0x08130268",
+          "0x08130290",
+          "0x081303E8",
+          "0x08130D30",
+          "0x08130D58",
+          "0x08130F50",
+          "0x08131794",
+          "0x081317BC",
+          "0x08131998",
+          "0x081322A4",
+          "0x081322CC",
+          "0x08132494",
+          "0x08132BA0",
+          "0x08132BC8",
+          "0x08132D74",
+          "0x08133910",
+          "0x08133938",
+          "0x08133B50",
+          "0x081344C8",
+          "0x081344F0",
+          "0x081346C8",
+          "0x08134A1C",
+          "0x08134A44",
+          "0x08134B94",
+          "0x0813534C",
+          "0x08135374",
+          "0x08135524",
+          "0x08135C60",
+          "0x08135C88",
+          "0x08135E44",
+          "0x08136448",
+          "0x08136470",
+          "0x08136614",
+          "0x08136C28",
+          "0x08136C50",
+          "0x08136DF8",
+          "0x0813756C",
+          "0x08137594",
+          "0x0813775C",
+          "0x08138134",
+          "0x0813815C",
+          "0x08138344",
+          "0x08138F4C",
+          "0x08138F74",
+          "0x0813918C",
+          "0x08139A6C",
+          "0x08139A94",
+          "0x08139C68",
+          "0x0813AA50",
+          "0x0813AA78",
+          "0x0813ACC8",
+          "0x0813AFB8",
+          "0x0813AFE0",
+          "0x0813B120",
+          "0x0813B640",
+          "0x0813B668",
+          "0x0813B7D4",
+          "0x0813BE88",
+          "0x0813BEB0",
+          "0x0813C058",
+          "0x0813C53C",
+          "0x0813C564",
+          "0x0813C6D8",
+          "0x0813CB74",
+          "0x0813CB9C",
+          "0x0813CD0C",
+          "0x0813D40C",
+          "0x0813D434",
+          "0x0813D5E8",
+          "0x0813DE30",
+          "0x0813DE58"
+        ],
+        "bound_record_count": 72,
+        "path": "artifacts/story-visual-layers-v1/manifest.json",
+        "sha256": "556a7319ce57699e2542c578ce0bd1331b93efda58fde1f364271f12f5052fd8"
+      },
+      {
+        "bound_addresses": [
+          "0x083497BC",
+          "0x08349D10",
+          "0x08349EB4",
+          "0x0834AFC8",
+          "0x0834B248",
+          "0x0834C1CC",
+          "0x0834C438",
+          "0x0834D02C",
+          "0x0834D23C",
+          "0x0834DECC",
+          "0x0834E0CC",
+          "0x0834EC8C",
+          "0x0834EE64",
+          "0x0834FE40",
+          "0x08350080",
+          "0x08350FFC",
+          "0x08351258",
+          "0x08351EB4",
+          "0x083520EC",
+          "0x08352DA8",
+          "0x08352FC8",
+          "0x08353B20",
+          "0x08353D54",
+          "0x083547BC",
+          "0x083549A8",
+          "0x08355588",
+          "0x08355798",
+          "0x08356384",
+          "0x0835655C",
+          "0x08357370",
+          "0x083575A0",
+          "0x08358258",
+          "0x083584B4",
+          "0x0835969C",
+          "0x08359904",
+          "0x0835A7A8",
+          "0x0835A9FC",
+          "0x0835B9F8",
+          "0x0835BC90",
+          "0x0835C860",
+          "0x0835CA58",
+          "0x0835DABC",
+          "0x0835DD10",
+          "0x0835E644",
+          "0x0835E818",
+          "0x0835F178",
+          "0x0835F348",
+          "0x0835FFF4",
+          "0x08360224",
+          "0x08360A34",
+          "0x08360BFC",
+          "0x08361924",
+          "0x08361B84",
+          "0x0836288C",
+          "0x08362AB0",
+          "0x0836360C",
+          "0x08363804",
+          "0x08364860",
+          "0x08364AE8",
+          "0x083656C0",
+          "0x083658C4",
+          "0x08367630",
+          "0x0836774C",
+          "0x083679E0",
+          "0x08369930",
+          "0x08369C18",
+          "0x0836AFAC",
+          "0x0836B1DC",
+          "0x0836E8E4",
+          "0x0836EC0C",
+          "0x08370504",
+          "0x08370848",
+          "0x08371C88",
+          "0x08371EAC",
+          "0x08374B50",
+          "0x08374E34",
+          "0x08376A0C",
+          "0x08376CC4",
+          "0x08378668",
+          "0x083788A4",
+          "0x0837A2A4",
+          "0x0837A5A0",
+          "0x0837AE40",
+          "0x0837AFB8",
+          "0x0837C044",
+          "0x0837C1E4",
+          "0x0837C818",
+          "0x0837C918",
+          "0x0837D610",
+          "0x0837D7F0",
+          "0x0837E398",
+          "0x0837E530",
+          "0x0837F914",
+          "0x0837FB04",
+          "0x083816FC",
+          "0x08381A34",
+          "0x08382F30",
+          "0x0838315C",
+          "0x083847F8",
+          "0x08384A1C",
+          "0x08385A9C",
+          "0x08385C64",
+          "0x08387AC4",
+          "0x08387D6C",
+          "0x083895C0",
+          "0x08389818",
+          "0x0838B0C0",
+          "0x0838B32C",
+          "0x0838D554",
+          "0x0838D7AC",
+          "0x0838E488",
+          "0x0838E5FC",
+          "0x0838FA74",
+          "0x0838FCE0",
+          "0x083911A0",
+          "0x083913E8",
+          "0x083937FC",
+          "0x08393AE4",
+          "0x08395E08",
+          "0x083960F8",
+          "0x08397EE4",
+          "0x083981BC",
+          "0x08399B54",
+          "0x08399DBC",
+          "0x0839BC8C",
+          "0x0839BF30",
+          "0x0839D038",
+          "0x0839D22C",
+          "0x0839E250",
+          "0x0839E440",
+          "0x0839F7EC",
+          "0x0839FA00",
+          "0x083A0DF0",
+          "0x083A1034",
+          "0x083A1D70",
+          "0x083A1F30",
+          "0x083A2EB0",
+          "0x083A3080",
+          "0x083A42C4",
+          "0x083A44C4",
+          "0x083A57AC",
+          "0x083A59B0",
+          "0x083A6A2C",
+          "0x083A6C1C",
+          "0x083A7C84",
+          "0x083A7EAC",
+          "0x083A904C",
+          "0x083A9284",
+          "0x083AAC7C",
+          "0x083AAED4",
+          "0x083AD0F0",
+          "0x083AD3B4",
+          "0x083AEF68",
+          "0x083AF1EC",
+          "0x083B15D0",
+          "0x083B18CC",
+          "0x083B3844",
+          "0x083B3B24",
+          "0x083B5934",
+          "0x083B5C14",
+          "0x083B7DE0",
+          "0x083B80B8",
+          "0x083BA6A0",
+          "0x083BA9B8",
+          "0x083BBDF4",
+          "0x083BC034",
+          "0x083BCDA8",
+          "0x083BCF70",
+          "0x083BE2F4",
+          "0x083BE4F0",
+          "0x083C0508",
+          "0x083C07D0",
+          "0x083C230C",
+          "0x083C25A0",
+          "0x083C577C",
+          "0x083C5AA4",
+          "0x083C860C",
+          "0x083C8930",
+          "0x083C9EFC",
+          "0x083CA13C",
+          "0x083CAB4C",
+          "0x083CAC98",
+          "0x083CC578",
+          "0x083CC80C",
+          "0x083CD71C",
+          "0x083CD8A8",
+          "0x083CEEC0",
+          "0x083CF110",
+          "0x083D03B8",
+          "0x083D05A4",
+          "0x083D21E0",
+          "0x083D248C",
+          "0x083D3708",
+          "0x083D38E8",
+          "0x083D4FA0",
+          "0x083D51C0",
+          "0x083D6290",
+          "0x083D6450",
+          "0x083D81E8",
+          "0x083D8478",
+          "0x083DA98C",
+          "0x083DAC74",
+          "0x083DD514",
+          "0x083DD7D4",
+          "0x083DEBCC",
+          "0x083DEDB0",
+          "0x083E00C0",
+          "0x083E02A0",
+          "0x083E1760",
+          "0x083E19B0",
+          "0x083E2754",
+          "0x083E28D8",
+          "0x083E34B4",
+          "0x083E36A0",
+          "0x083E48A4"
+        ],
+        "bound_record_count": 215,
+        "path": "artifacts/tile-assets-bg-v1/manifest.json",
+        "sha256": "ac72a25f412fbcc72d3f29c438a2b13070425cf39cd28ae6cf9e2a66e47e0063"
+      },
+      {
+        "bound_addresses": [
+          "0x083497BC",
+          "0x08349D10",
+          "0x08349EB4",
+          "0x0834AFC8",
+          "0x0834B248",
+          "0x0834C1CC",
+          "0x0834C438",
+          "0x0834D02C",
+          "0x0834D23C",
+          "0x0834DECC",
+          "0x0834E0CC",
+          "0x0834EC8C",
+          "0x0834EE64",
+          "0x0834FE40",
+          "0x08350080",
+          "0x08350FFC",
+          "0x08351258",
+          "0x08351EB4",
+          "0x083520EC",
+          "0x08352DA8",
+          "0x08352FC8",
+          "0x08353B20",
+          "0x08353D54",
+          "0x083547BC",
+          "0x083549A8",
+          "0x08355588",
+          "0x08355798",
+          "0x08356384",
+          "0x0835655C",
+          "0x08357370",
+          "0x083575A0",
+          "0x08358258",
+          "0x083584B4",
+          "0x0835969C",
+          "0x08359904",
+          "0x0835A7A8",
+          "0x0835A9FC",
+          "0x0835B9F8",
+          "0x0835BC90",
+          "0x0835C860",
+          "0x0835CA58",
+          "0x0835DABC",
+          "0x0835DD10",
+          "0x0835E644",
+          "0x0835E818",
+          "0x0835F178",
+          "0x0835F348",
+          "0x0835FFF4",
+          "0x08360224",
+          "0x08360A34",
+          "0x08360BFC",
+          "0x08361924",
+          "0x08361B84",
+          "0x0836288C",
+          "0x08362AB0",
+          "0x0836360C",
+          "0x08363804",
+          "0x08364860",
+          "0x08364AE8",
+          "0x083656C0",
+          "0x083658C4",
+          "0x08367630",
+          "0x0836774C",
+          "0x083679E0",
+          "0x08369930",
+          "0x08369C18",
+          "0x0836AFAC",
+          "0x0836B1DC",
+          "0x0836E8E4",
+          "0x0836EC0C",
+          "0x08370504",
+          "0x08370848",
+          "0x08371C88",
+          "0x08371EAC",
+          "0x08374B50",
+          "0x08374E34",
+          "0x08376A0C",
+          "0x08376CC4",
+          "0x08378668",
+          "0x083788A4",
+          "0x0837A2A4",
+          "0x0837A5A0",
+          "0x0837AE40",
+          "0x0837AFB8",
+          "0x0837C044",
+          "0x0837C1E4",
+          "0x0837C818",
+          "0x0837C918",
+          "0x0837D610",
+          "0x0837D7F0",
+          "0x0837E398",
+          "0x0837E530",
+          "0x0837F914",
+          "0x0837FB04",
+          "0x083816FC",
+          "0x08381A34",
+          "0x08382F30",
+          "0x0838315C",
+          "0x083847F8",
+          "0x08384A1C",
+          "0x08385A9C",
+          "0x08385C64",
+          "0x08387AC4",
+          "0x08387D6C",
+          "0x083895C0",
+          "0x08389818",
+          "0x0838B0C0",
+          "0x0838B32C",
+          "0x0838D554",
+          "0x0838D7AC",
+          "0x0838E488",
+          "0x0838E5FC",
+          "0x0838FA74",
+          "0x0838FCE0",
+          "0x083911A0",
+          "0x083913E8",
+          "0x083937FC",
+          "0x08393AE4",
+          "0x08395E08",
+          "0x083960F8",
+          "0x08397EE4",
+          "0x083981BC",
+          "0x08399B54",
+          "0x08399DBC",
+          "0x0839BC8C",
+          "0x0839BF30",
+          "0x0839D038",
+          "0x0839D22C",
+          "0x0839E250",
+          "0x0839E440",
+          "0x0839F7EC",
+          "0x0839FA00",
+          "0x083A0DF0",
+          "0x083A1034",
+          "0x083A1D70",
+          "0x083A1F30",
+          "0x083A2EB0",
+          "0x083A3080",
+          "0x083A42C4",
+          "0x083A44C4",
+          "0x083A57AC",
+          "0x083A59B0",
+          "0x083A6A2C",
+          "0x083A6C1C",
+          "0x083A7C84",
+          "0x083A7EAC",
+          "0x083A904C",
+          "0x083A9284",
+          "0x083AAC7C",
+          "0x083AAED4",
+          "0x083AD0F0",
+          "0x083AD3B4",
+          "0x083AEF68",
+          "0x083AF1EC",
+          "0x083B15D0",
+          "0x083B18CC",
+          "0x083B3844",
+          "0x083B3B24",
+          "0x083B5934",
+          "0x083B5C14",
+          "0x083B7DE0",
+          "0x083B80B8",
+          "0x083BA6A0",
+          "0x083BA9B8",
+          "0x083BBDF4",
+          "0x083BC034",
+          "0x083BCDA8",
+          "0x083BCF70",
+          "0x083BE2F4",
+          "0x083BE4F0",
+          "0x083C0508",
+          "0x083C07D0",
+          "0x083C230C",
+          "0x083C25A0",
+          "0x083C577C",
+          "0x083C5AA4",
+          "0x083C860C",
+          "0x083C8930",
+          "0x083C9EFC",
+          "0x083CA13C",
+          "0x083CAB4C",
+          "0x083CAC98",
+          "0x083CC578",
+          "0x083CC80C",
+          "0x083CD71C",
+          "0x083CD8A8",
+          "0x083CEEC0",
+          "0x083CF110",
+          "0x083D03B8",
+          "0x083D05A4",
+          "0x083D21E0",
+          "0x083D248C",
+          "0x083D3708",
+          "0x083D38E8",
+          "0x083D4FA0",
+          "0x083D51C0",
+          "0x083D6290",
+          "0x083D6450",
+          "0x083D81E8",
+          "0x083D8478",
+          "0x083DA98C",
+          "0x083DAC74",
+          "0x083DD514",
+          "0x083DD7D4",
+          "0x083DEBCC",
+          "0x083DEDB0",
+          "0x083E00C0",
+          "0x083E02A0",
+          "0x083E1760",
+          "0x083E19B0",
+          "0x083E2754",
+          "0x083E28D8",
+          "0x083E34B4",
+          "0x083E36A0",
+          "0x083E48A4"
+        ],
+        "bound_record_count": 215,
+        "path": "artifacts/tile-assets-bg-v2/manifest.json",
+        "sha256": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749"
+      },
+      {
+        "bound_addresses": [
+          "0x084414E4",
+          "0x084491D8",
+          "0x084497BC",
+          "0x08450298",
+          "0x0845087C",
+          "0x08457898"
+        ],
+        "bound_record_count": 6,
+        "path": "artifacts/world-map-backgrounds-v1/manifest.json",
+        "sha256": "b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3"
+      }
+    ],
+    "method": "hash-pinned artifact JSON schema allowlist of semantic resource-start fields"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "artifact_status": "accepted",
+  "files": {
+    "rom-byte-coverage.json.gz": {
+      "compression": "gzip",
+      "file": "rom-byte-coverage.json.gz",
+      "sha256": "88365f670c9c820760cc1e199f48a1ec6583d1f9ec41b5e86a69866c06baa6b6",
+      "size": 1754320,
+      "uncompressed_sha256": "2cc07bc74d24276b994219900ad7419787f9b8832dd62a66bb7839d09df42c01",
+      "uncompressed_size": 31378342
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_post_story_dependency_precoverage.py",
+      "sha256": "52e4e5726de502484dfbfdd7fac72e39d7dcd17ac96e07fbb6e19831bc11e629"
+    },
+    "test": {
+      "path": "tests/test_export_rom_post_story_dependency_precoverage.py",
+      "sha256": "77dc9fa2313682e6c04e141c8dc705cc8760c95cc459f2694e797e75d9c1bb81"
+    }
+  },
+  "schema": "rom-byte-coverage-prepromotion-baseline-v1",
+  "source": {
+    "path": "sequel/rom-byte-coverage.json",
+    "sha256": "2cc07bc74d24276b994219900ad7419787f9b8832dd62a66bb7839d09df42c01",
+    "size": 31378342
+  }
+}

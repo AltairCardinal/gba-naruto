@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>rom-battle-condition-result-text-v1 · 逆向成果族全量页</title>
+  <link rel="stylesheet" href="../assets/viewer.css">
+  <link rel="stylesheet" href="../assets/viewer-extra.css">
+  <link rel="stylesheet" href="../assets/family.css">
+</head>
+<body data-page="families">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <a class="brand-title" href="../reverse-engineering-data-index.html">← 成果族索引</a>
+    </div>
+    <div class="top-bar-right">
+      <span class="fml-meta">第 1/1 段 · 共 1 段</span>
+    </div>
+  </header>
+
+  <main class="family-page">
+    <div class="fam-head">
+      <h1 class="fam-title">rom-battle-condition-result-text-v1</h1>
+      <div class="fam-meta">
+        <span class="tag tag-purple">rom-battle-condition-result-text-v1</span>
+        
+        <span class="tag tag-cyan">4 个顶层分区 · 3 个可下载文件</span>
+      </div>
+      <p class="fam-note">
+        本页<strong>完整呈现</strong>该成果族 manifest 的全部内容，不做任何截断。
+        内容较多时按顶层分区分段成多页（见上方分段导航）；原始数据可整份下载。
+      </p>
+    </div>
+
+    <nav class="fam-nav"><a class="sec-jump" href="rom-battle-condition-result-text-v1.html">第 1/1 段</a></nav>
+    <nav class="fam-nav fam-nav-sub"><a class="sec-jump" href="#sec-schema">schema</a><a class="sec-jump" href="#sec-implementation">implementation</a><a class="sec-jump" href="#sec-files">files</a><a class="sec-jump" href="#sec-limitations">limitations</a></nav>
+
+    <div class="fam-body">
+<section class="fam-sec" id="sec-schema"><h2 class="fam-sec-title">schema</h2><span class="fml-text">rom-battle-condition-result-text-v1</span></section>
+<section class="fam-sec" id="sec-implementation"><h2 class="fam-sec-title">implementation</h2><div class="fml-row"><div class="fml-key">exporter</div><div class="fml-val"><div class="fml-row"><div class="fml-key">path</div><div class="fml-val"><span class="fml-text">tools/export_rom_battle_condition_result_text.py</span></div></div><div class="fml-row"><div class="fml-key">sha256</div><div class="fml-val"><span class="fml-text">40ce862433b3674a7253ad22fa723d533009c5ce80a71391743b79684d9a5065</span></div></div></div></div><div class="fml-row"><div class="fml-key">tests</div><div class="fml-val"><div class="fml-row"><div class="fml-key">path</div><div class="fml-val"><span class="fml-text">tests/test_export_rom_battle_condition_result_text.py</span></div></div><div class="fml-row"><div class="fml-key">sha256</div><div class="fml-val"><span class="fml-text">864d5d02cc690e51c6fa2e2e2100bf43275ca063f524c006221422582f10f7c4</span></div></div></div></div><div class="fml-row"><div class="fml-key">verifier</div><div class="fml-val"><div class="fml-row"><div class="fml-key">path</div><div class="fml-val"><span class="fml-text">tools/verify_rom_battle_condition_result_text.py</span></div></div><div class="fml-row"><div class="fml-key">sha256</div><div class="fml-val"><span class="fml-text">ec8de0fe812cf59df0e4e73c9ee1d2e0aa0364442f10921416aa00da05f7c361</span></div></div></div></div></section>
+<section class="fam-sec" id="sec-files"><h2 class="fam-sec-title">files</h2><div class="fml-row"><div class="fml-key">battle-condition-result-text.bin</div><div class="fml-val"><span class="fml-text">9826a706b7c4e840117c5ff1a3a6c9d06057cac9188c66f2bd523592cf533d91</span></div></div><div class="fml-row"><div class="fml-key">battle-condition-result-text.json</div><div class="fml-val"><span class="fml-text">16457b1e3152451073489cdd6287b6a7429f9b298ba6f4cf8a3216fadcd4b0f2</span></div></div></section>
+<section class="fam-sec" id="sec-limitations"><h2 class="fam-sec-title">limitations</h2><div class="fml-list"><span><span class="fml-text">Only the 219 renderer-consumed NUL records selected by the complete physical condition-row denominator are promoted.</span></span><span><span class="fml-text">The 2,782 inter-record gap bytes and the ranges [0x9974,0x9980), [0x9980,0x9986), and [0x9986,0x9F2E) are not promoted.</span></span><span><span class="fml-text">Positions group 47 begins at 0x594758 and is a physical alias of the condition table; its pointer-looking aux words are not independent provenance.</span></span><span><span class="fml-text">Natural reachability, Unicode decoding, editing, writeback, relocation, and free-space safety remain unclaimed.</span></span></div></section>
+    <section class="fam-sec" id="sec-downloads">
+      <h2 class="fam-sec-title">原始文件下载（完整内容）</h2>
+      <ul class="fam-dl">
+<li><a href="../artifacts/rom-battle-condition-result-text-v1/battle-condition-result-text.bin">battle-condition-result-text.bin</a><span class="fml-meta"> 3,961 B</span></li><li><a href="../artifacts/rom-battle-condition-result-text-v1/battle-condition-result-text.json">battle-condition-result-text.json</a><span class="fml-meta"> 211,102 B</span></li><li><a href="../artifacts/rom-battle-condition-result-text-v1/manifest.json">manifest.json</a><span class="fml-meta"> 1,386 B</span></li>
+      </ul>
+    </section>
+    </div>
+  </main>
+
+  <script src="../assets/viewer-runtime.js"></script>
+</body>
+</html>

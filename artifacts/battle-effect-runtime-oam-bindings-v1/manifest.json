@@ -1,0 +1,86 @@
+{
+  "artifact_schema": "battle-effect-runtime-oam-bindings-v1",
+  "artifact_status": "accepted",
+  "description": "Content-addressed battle-effect group/frame/component candidates reconstructed from every current tracked checkpoint plus five separately counted accepted runtime states.",
+  "files": {
+    "bindings.json": "853571d06d0303ed0164bcc7717a0b640a34bd1965108a41052cc3eb7cec8240"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_battle_effect_runtime_oam_bindings.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/battle-effect-runtime-oam-bindings-v1/bindings.json"
+    ],
+    "exporter_sha256": "15c899ac8c84a78d1ed3144ddde05212d756a42720d078abc6e1ceab0fb578d4",
+    "exporter_test_sha256": "4be27fd5a128b8a557c6900c7b282e98d5fdf60665f4992e6b1a9d253a13d3ec",
+    "verifier_sha256": "8c327d6b76ef9a02b61d8be811652f4b6964fab8736efcd24b5a6bae1d0cbd77",
+    "verifier_test_sha256": "3e55ef534129b2da2d30702021e3c18ef0d4b0af1f6331b9bb1b1e13905cae91"
+  },
+  "schema": "git-artifact-promotion-v1",
+  "source": {
+    "accepted_checkpoint_parent": "artifacts/runtime-screen-composites-v1",
+    "accepted_checkpoint_parent_count": 91,
+    "accepted_checkpoint_parent_manifest_sha256": "f31ca8e7e21de6b930fcdb487359e63e30b08b140e74c1e7791a1a3ec619624c",
+    "accepted_checkpoint_parent_payload_sha256": "9ea1b85836db1f03cb57f0d1f4b64d582f06a43e12d74a0c7e76522fec8f9366",
+    "post_parent_tracked_extension_count": 2,
+    "run_id": "tracked-93-plus-supplemental-20260801-01",
+    "source_artifact": "artifacts/battle-effect-sprite-animations-v1",
+    "source_artifact_manifest_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+    "supplemental_state_count": 5,
+    "tracked_checkpoint_count": 93
+  },
+  "summary": {
+    "all_persisted_observed_group_count": 5,
+    "all_persisted_observed_group_ids": [
+      1,
+      2,
+      5,
+      11,
+      14
+    ],
+    "supplemental_matched_oam_object_count": 9,
+    "tracked_checkpoint_parse_error_count": 0,
+    "tracked_checkpoints_with_matches": 1,
+    "tracked_matched_oam_object_count": 3,
+    "tracked_observed_group_ids": [
+      1
+    ]
+  },
+  "verification_layers": [
+    "accepted 91-checkpoint GPU parent preserved while two later tracked checkpoints remain explicit extensions",
+    "complete battle-effect group graphics required at the inferred OBJ VRAM load base before a frame/component candidate is accepted",
+    "OAM shape/size and BGR555 palette independently reconstructed with the pre-existing GPU decoder",
+    "shared graphics and repeated frame components remain explicitly ambiguous",
+    "four accepted natural pixel A/B baselines and one affine runtime golden remain separate from the tracked checkpoint denominator",
+    "independent full reconstruction and semantic tamper rejection"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_runtime_oam_bindings.py",
+      "--root",
+      ".",
+      "--bindings",
+      "artifacts/battle-effect-runtime-oam-bindings-v1/bindings.json"
+    ],
+    "exit_code": 0,
+    "result": {
+      "errors": [],
+      "observed_group_ids": [
+        1,
+        2,
+        5,
+        11,
+        14
+      ],
+      "supplemental_matches": 9,
+      "supplemental_states": 5,
+      "tracked_checkpoints": 93,
+      "tracked_matches": 3,
+      "verified": true
+    }
+  }
+}

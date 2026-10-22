@@ -1,0 +1,167 @@
+{
+  "caller_denominator": {
+    "excluded_non_fixed_call_offsets": [
+      506348,
+      507028,
+      511322,
+      516600,
+      516976,
+      517364,
+      520224,
+      520268,
+      520380
+    ],
+    "fixed_immediate_callers": [
+      {
+        "call_offset": 518932,
+        "file_range": [
+          518928,
+          518936
+        ],
+        "index_u8": 110,
+        "raw_hex": "6e200021fdf706fe",
+        "sha256": "9f8ed86a27ff7601c8e6232ee575a8f9852ac3562bb4bc51051ce83713e23f8e"
+      },
+      {
+        "call_offset": 519100,
+        "file_range": [
+          519096,
+          519104
+        ],
+        "index_u8": 111,
+        "raw_hex": "6f200021fdf7b2fd",
+        "sha256": "993182dfbc8c3619ec0959bc620752445b1c9a407cbef5ee252205032b93d014"
+      },
+      {
+        "call_offset": 519278,
+        "file_range": [
+          519274,
+          519282
+        ],
+        "index_u8": 112,
+        "raw_hex": "70200021fdf759fd",
+        "sha256": "f00dda4173d39a2f2fd38399ae2201603f6f408450c81cd52555aa815447f008"
+      },
+      {
+        "call_offset": 519312,
+        "file_range": [
+          519308,
+          519316
+        ],
+        "index_u8": 113,
+        "raw_hex": "71200021fdf748fd",
+        "sha256": "2c8715a50f7041b47fe4749c3e3d87cf32fbeaa533518b1b0dc33d55fec61377"
+      }
+    ],
+    "literal_ldr_offsets": [
+      509742
+    ],
+    "literal_word_occurrences": [
+      509880
+    ],
+    "target_limited_bl_count": 13,
+    "target_limited_bl_offsets": [
+      506348,
+      507028,
+      511322,
+      516600,
+      516976,
+      517364,
+      518932,
+      519100,
+      519278,
+      519312,
+      520224,
+      520268,
+      520380
+    ]
+  },
+  "consumer": {
+    "literal_range": [
+      509880,
+      509884
+    ],
+    "literal_sha256": "cc764aa911c7040d08dbff3d89d6ef6a0f34e693e8c83631ce9e9ad6e29ec757",
+    "literal_value": 139715620,
+    "proof_range": [
+      509736,
+      509748
+    ],
+    "proof_raw_hex": "0006000e214d224a80180078",
+    "proof_sha256": "91b96b971bcbe695b8ec202767dc1589845d32e987901326ff0e66e7504d3c4f",
+    "range": [
+      509732,
+      509874
+    ],
+    "sha256": "30db564e71b99a0b9b28c2736aa4c5903f46f62be3f38a37fe7ec9ebe512025e"
+  },
+  "coverage_baseline": {
+    "candidate_current_unknown": true,
+    "path": "sequel/rom-byte-coverage.json",
+    "provenance_owners_preserved": true,
+    "sha256": "2cc07bc74d24276b994219900ad7419787f9b8832dd62a66bb7839d09df42c01",
+    "size": 31378342,
+    "snapshot_archive_sha256": "88365f670c9c820760cc1e199f48a1ec6583d1f9ec41b5e86a69866c06baa6b6",
+    "snapshot_artifact": "artifacts/rom-post-story-dependency-precoverage-v1",
+    "snapshot_manifest_sha256": "95cb2fef985e13eea7dda71b144e082e35fd3a7b004578df646dbfa18c0ee65a"
+  },
+  "lookup_binding": {
+    "address_expression": "0x0853E424 + u8(r0)",
+    "candidate_range": [
+      5498002,
+      5498006
+    ],
+    "candidate_raw_hex": "2b2c363f",
+    "candidate_sha256": "bd902ab864b10eae585043d085f4375c20be295e5d64021f885e2fca391fd3ba",
+    "candidate_values_u8": [
+      43,
+      44,
+      54,
+      63
+    ],
+    "consumer_index_width": "u8",
+    "fixed_indices": [
+      110,
+      111,
+      112,
+      113
+    ],
+    "load_width": "u8",
+    "logical_base_file_offset": 5497892
+  },
+  "promotion": {
+    "claim_count": 1,
+    "claims": [
+      {
+        "byte_size": 4,
+        "bytes_sha256": "bd902ab864b10eae585043d085f4375c20be295e5d64021f885e2fca391fd3ba",
+        "claim_kind": "fixed_index_u8_lookup_tail_bytes",
+        "id": "fixed-index-u8-tail-53e492",
+        "primary_class": "fixed_index_u8_lookup_tail",
+        "promoted_from_primary_class": "unknown",
+        "range": [
+          5498002,
+          5498006
+        ],
+        "role": "primary"
+      }
+    ],
+    "promotion_batch": "rom-fixed-index-u8-tail-v1",
+    "promotion_bytes": 4,
+    "range_order": "file_offset_ascending"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-fixed-index-u8-tail-v1",
+  "scope": {
+    "business_semantics": false,
+    "complete_114_byte_table": false,
+    "dynamic_index_domain": false,
+    "editing_writeback_or_relocation_safety": false,
+    "free_or_allocatable_space": false,
+    "natural_runtime_reachability": false
+  }
+}

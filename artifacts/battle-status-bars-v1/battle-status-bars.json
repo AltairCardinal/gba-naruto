@@ -1,0 +1,3895 @@
+{
+  "generated": {
+    "bytes_per_bar": 160,
+    "contact_sheet": {
+      "dimensions_pixels": [
+        80,
+        312
+      ],
+      "encoder": "canonical-indexed-png-stored-deflate-v1",
+      "file": "battle-status-bars.png",
+      "layout": "style columns, fill-level rows",
+      "sha256": "03533e8d5d6305f1f09a9722bef453f198f2d17079e18df2cf7eb18e66b8b2dc",
+      "size": 26133,
+      "transparent_palette_index": 0
+    },
+    "family": {
+      "file": "generated-family.4bpp.bin",
+      "order": "style 0 levels 0..38, then style 1 levels 0..38",
+      "sha256": "f85290faaf0a17266405d1d3f7d2d723296093a753b4f3cc05af477deb4c862c",
+      "size": 12480
+    },
+    "fill_level_count": 39,
+    "palette": {
+      "file": "runtime-palette-bank13.bgr555.bin",
+      "palette_bank": 13,
+      "runtime_address": "0x050001A0",
+      "sha256": "82f1c93a86b077a17e05e44c28d7f6522ff69542a6356487ce25a45b61a8a9d2",
+      "size": 32
+    },
+    "style_count": 2,
+    "templates": {
+      "file": "source-templates.4bpp.bin",
+      "initializer_tile_ranges": [
+        [
+          24,
+          29
+        ],
+        [
+          29,
+          34
+        ]
+      ],
+      "sha256": "6c00fd92b8abda7133be37a8305b36e6613ed542c765e7981d3a6b8aea527bbc",
+      "size": 320,
+      "style_sha256": [
+        "cacf8c0f71ff964ddd962a02ad4f5a2713dd0dc9e43f1adc5d3f690f72f5b21f",
+        "d0eda4d1836693671205f7c9cfb82abed04167600ecf498fdcbf2b98608791cd"
+      ]
+    },
+    "tiles_per_bar": 5
+  },
+  "generator": {
+    "callers": [
+      {
+        "gba_end_exclusive": "0x0806F0FC",
+        "gba_start": "0x0806ED88",
+        "sha256": "35c52ecf13a5ce848d9077b47f96d2d04c3134e5ebe28444b61fa90a4c1d9964",
+        "size": 884
+      },
+      {
+        "gba_end_exclusive": "0x0807AA8C",
+        "gba_start": "0x0807A34C",
+        "sha256": "f400ef9501381b6e005e7d9c51add8ac5fe3dc4217a3fa6397e1ccdf3dc64c51",
+        "size": 1856
+      }
+    ],
+    "code": {
+      "gba_end_exclusive": "0x08068642",
+      "gba_start": "0x08068370",
+      "sha256": "13ef2ceedfe889bee6b7a6666d268246f43daa3fe5ad0be83a37f275e4ff4b20",
+      "size": 722
+    },
+    "copy_route": {
+      "hardware_screenblock": "0x06001800",
+      "template_to_work": "*0x0201BD54 + (24 + style * 5) * 32 -> 0x0201BD84, 160 bytes",
+      "tilemap_destination": "record+0x1E+2*((y+1)*record.width+(x+1+tile_index))",
+      "tilemap_entry": "dynamic_tile_id | 0xD000",
+      "work_to_vram": "0x0201BD84 + tile_index * 32 -> *0x0201BD48 + dynamic_tile_id * 32"
+    },
+    "direct_calls": [
+      "0x0806F0D6",
+      "0x0806F0EC",
+      "0x0807A83C",
+      "0x0807A8A6"
+    ],
+    "formula": {
+      "domain": "style in {0,1}; fill_level in [0,38]",
+      "fill_level": "floor(38 * numerator / denominator)",
+      "fill_level_storage": "unsigned 8-bit result",
+      "interior_width_pixels": 38,
+      "output": "five consecutive 8x8 4bpp tiles"
+    },
+    "full_object": {
+      "gba_end_exclusive": "0x08068660",
+      "gba_start": "0x08068370",
+      "sha256": "9ed2404ba8cae02b834b691ef5f7b9df8db76eca6cc52f280a4e3737dd8e0b3e",
+      "size": 752
+    },
+    "literals": {
+      "graphics_base_pointer": "0x0201BD48",
+      "palette_lz77": "0x0809C8B0",
+      "palette_selector": "0x0201BD5C",
+      "palette_work": "0x02002880",
+      "template_base_pointer": "0x0201BD54",
+      "work_tiles": "0x0201BD84"
+    },
+    "runtime_globals": {
+      "graphics_base_pointer": "0x0201BD48",
+      "screenblock_pointer": "0x0201BD50",
+      "template_base_pointer": "0x0201BD54",
+      "work_tiles": "0x0201BD84"
+    },
+    "tail_literal_pool": {
+      "gba_end_exclusive": "0x08068660",
+      "gba_start": "0x08068644",
+      "sha256": "b39034f0d29df6c4c8f3c26eaad80f406ec9e105f0f7b1bb1c8729ae159c926f",
+      "size": 28
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "1118ff63553ee1e31606a96b0d6564609beada3a42a37e8118a4e16103b55102",
+    "test_sha256": "4a84c9eb211874b0d216bf061f18f213b2bfa3893e10307d76c3e9bc6fb7007e",
+    "verifier_sha256": "53202cb452c25c762ff6fbface0705c31bb01392177d66f168628919c8b77d32"
+  },
+  "parent_visible_resource_resolution": {
+    "baseline": {
+      "global_visible_resource_unmatched_cell_count": 181,
+      "global_visible_resource_unmatched_distinct_hash_count": 22
+    },
+    "parents": {
+      "initializer_artifact": "artifacts/initializer-resource-pack-v1/initializer-resource-pack.json",
+      "initializer_artifact_sha256": "c096e70c033f804548446272c47d43bfefa72eed173841e152c630c5436efba8",
+      "initializer_manifest": "artifacts/initializer-resource-pack-v1/manifest.json",
+      "initializer_manifest_sha256": "8fc7c3ea449b480c5065a97e70d0f6c5c0fa30a0dc3f942931f6be86264337a4",
+      "overview_artifact": "artifacts/overview-gradient-overlay-v1/overview-gradient-overlay.json",
+      "overview_artifact_sha256": "b4ac97c3bc534d6932b9d189d58a31fe7986c5c9f3557f590fba0fdd839a8b6d",
+      "overview_manifest": "artifacts/overview-gradient-overlay-v1/manifest.json",
+      "overview_manifest_sha256": "cd7c16abcd865827ea35fc7014e13b1681b69a7e17ecf45daa0a1f9a82be931e"
+    },
+    "remaining": {
+      "global_visible_resource_unmatched_cell_count": 0,
+      "global_visible_resource_unmatched_distinct_hash_count": 0
+    },
+    "resolved": {
+      "cell_count": 181,
+      "classification": "generated_battle_status_bar_content",
+      "distinct_hash_count": 22
+    }
+  },
+  "rom": {
+    "file": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "runtime_binding": {
+    "bar_count": 60,
+    "bars": [
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+        "checkpoint_sha256": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "3937de96ceb9d1f4bc6614e98926525e82e8c6bb03dcd32eb5b130fa0b1e9ced:bg3",
+        "parent_layer_sha256": "36a8e117d17f92fd47ff429ce60da4bd76d1272d0aa79656d65578958f67737c",
+        "runtime_tile_ids": [
+          52,
+          53,
+          54,
+          55,
+          56
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD034",
+          "0xD035",
+          "0xD036",
+          "0xD037",
+          "0xD038"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/actionable-move-grid.ss9",
+        "checkpoint_sha256": "4821a3a6694d32871a23bbea6a93ba1724663cb4a3c6e5f691d4fd48a5635fac",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "3937de96ceb9d1f4bc6614e98926525e82e8c6bb03dcd32eb5b130fa0b1e9ced:bg3",
+        "parent_layer_sha256": "36a8e117d17f92fd47ff429ce60da4bd76d1272d0aa79656d65578958f67737c",
+        "runtime_tile_ids": [
+          57,
+          58,
+          59,
+          60,
+          61
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD039",
+          "0xD03A",
+          "0xD03B",
+          "0xD03C",
+          "0xD03D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-0.ss9",
+        "checkpoint_sha256": "863737740529a3fbd74931acdbc6eca822e4d01c09772e11a5800ab0097537ab",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "f868926bb91cdad7ffda9b5d749ecb3fa8ba7995681f5010824b9e3165d97f1b:bg3",
+        "parent_layer_sha256": "4db33db512b23d4832e04d9ca26380b984e918b0ef96d4f183a3a87338325365",
+        "runtime_tile_ids": [
+          52,
+          53,
+          54,
+          55,
+          56
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD034",
+          "0xD035",
+          "0xD036",
+          "0xD037",
+          "0xD038"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-0.ss9",
+        "checkpoint_sha256": "863737740529a3fbd74931acdbc6eca822e4d01c09772e11a5800ab0097537ab",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "f868926bb91cdad7ffda9b5d749ecb3fa8ba7995681f5010824b9e3165d97f1b:bg3",
+        "parent_layer_sha256": "4db33db512b23d4832e04d9ca26380b984e918b0ef96d4f183a3a87338325365",
+        "runtime_tile_ids": [
+          57,
+          58,
+          59,
+          60,
+          61
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD039",
+          "0xD03A",
+          "0xD03B",
+          "0xD03C",
+          "0xD03D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-1.ss9",
+        "checkpoint_sha256": "21601d4d031b8c8d1147afd457267735fc42080a545fc5be16708d9f79f03d5b",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "ac07345b74f4643426a657927dab7b7fecfad730270d1d96d82d99079177401a:bg3",
+        "parent_layer_sha256": "63f273fdd35798fd4de68f1e27f151645de365daeeea83d47216acd03d5cb30f",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          62
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD03E"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-action-menu-1.ss9",
+        "checkpoint_sha256": "21601d4d031b8c8d1147afd457267735fc42080a545fc5be16708d9f79f03d5b",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "ac07345b74f4643426a657927dab7b7fecfad730270d1d96d82d99079177401a:bg3",
+        "parent_layer_sha256": "63f273fdd35798fd4de68f1e27f151645de365daeeea83d47216acd03d5cb30f",
+        "runtime_tile_ids": [
+          63,
+          64,
+          65,
+          66,
+          67
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD03F",
+          "0xD040",
+          "0xD041",
+          "0xD042",
+          "0xD043"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+        "checkpoint_sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 501,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "47f7ed9a8861000cdcf27d05d44c8dddfb4ba6a6452d9292be5f2ab42bf3de2f:bg3",
+        "parent_layer_sha256": "8d4cd87ea002f2ce1514527cbf027b768131a8f80d873105bd70d106f4cecd2e",
+        "runtime_tile_ids": [
+          88,
+          89,
+          90,
+          91,
+          92
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          15
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD058",
+          "0xD059",
+          "0xD05A",
+          "0xD05B",
+          "0xD05C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-attack-confirmation.ss9",
+        "checkpoint_sha256": "544cffbaea182a55d1963447965d95750984a915cae9877d66d6bc3aebbd560f",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 533,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "47f7ed9a8861000cdcf27d05d44c8dddfb4ba6a6452d9292be5f2ab42bf3de2f:bg3",
+        "parent_layer_sha256": "8d4cd87ea002f2ce1514527cbf027b768131a8f80d873105bd70d106f4cecd2e",
+        "runtime_tile_ids": [
+          93,
+          94,
+          95,
+          96,
+          97
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          16
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD05D",
+          "0xD05E",
+          "0xD05F",
+          "0xD060",
+          "0xD061"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9",
+        "checkpoint_sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "d9e3c9b65380110e7037e6d15b14d11ee48ade5ebc7d1d12c910c9f115bc9389:bg3",
+        "parent_layer_sha256": "2da0766bb710cdeb1ad382110633a204d31254a8edb6916f22ff78e4370cb54c",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-controller-entry.ss9",
+        "checkpoint_sha256": "4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "d9e3c9b65380110e7037e6d15b14d11ee48ade5ebc7d1d12c910c9f115bc9389:bg3",
+        "parent_layer_sha256": "2da0766bb710cdeb1ad382110633a204d31254a8edb6916f22ff78e4370cb54c",
+        "runtime_tile_ids": [
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-defense-confirmation.ss9",
+        "checkpoint_sha256": "695d14e7828251b6c908f8dc57a5f0e8951fc9cc877c22525479e2a687323fa3",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "3487e5e446f5e86790b5e5da236e361de23d9e75bcb3c644398e3760cdca8bd0:bg3",
+        "parent_layer_sha256": "6c9439380d75fb3561ee28186a30f1f7769812c96c32fcdbb686c6fc9cc865ba",
+        "runtime_tile_ids": [
+          52,
+          53,
+          54,
+          55,
+          56
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD034",
+          "0xD035",
+          "0xD036",
+          "0xD037",
+          "0xD038"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-defense-confirmation.ss9",
+        "checkpoint_sha256": "695d14e7828251b6c908f8dc57a5f0e8951fc9cc877c22525479e2a687323fa3",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "3487e5e446f5e86790b5e5da236e361de23d9e75bcb3c644398e3760cdca8bd0:bg3",
+        "parent_layer_sha256": "6c9439380d75fb3561ee28186a30f1f7769812c96c32fcdbb686c6fc9cc865ba",
+        "runtime_tile_ids": [
+          57,
+          58,
+          59,
+          60,
+          61
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD039",
+          "0xD03A",
+          "0xD03B",
+          "0xD03C",
+          "0xD03D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-end-confirmation.ss9",
+        "checkpoint_sha256": "6ddd7ada5ac3e58f7b3b634f40b87dbae31273487d2d31a4f37f26e739601b4a",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "38d3441b486cc025b273983eb7908b10690060855ce7e9fb7cec4e2e67f51681:bg3",
+        "parent_layer_sha256": "8c723f321584c8a61509b8fd03281b2e0efdb245acc90c981d56c2f7f5fa0512",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          62
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD03E"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-end-confirmation.ss9",
+        "checkpoint_sha256": "6ddd7ada5ac3e58f7b3b634f40b87dbae31273487d2d31a4f37f26e739601b4a",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "38d3441b486cc025b273983eb7908b10690060855ce7e9fb7cec4e2e67f51681:bg3",
+        "parent_layer_sha256": "8c723f321584c8a61509b8fd03281b2e0efdb245acc90c981d56c2f7f5fa0512",
+        "runtime_tile_ids": [
+          63,
+          64,
+          65,
+          66,
+          67
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD03F",
+          "0xD040",
+          "0xD041",
+          "0xD042",
+          "0xD043"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-player-turn.ss9",
+        "checkpoint_sha256": "ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "bff2e109624d609ac16651e5aa1a1b3a4bb546ecdbe9a99c19082c2e92a40c9f:bg3",
+        "parent_layer_sha256": "8dd7615b6bc71982251ce88c5907547373a18d809ec47682a6bbcd3fde191911",
+        "runtime_tile_ids": [
+          52,
+          53,
+          54,
+          55,
+          56
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD034",
+          "0xD035",
+          "0xD036",
+          "0xD037",
+          "0xD038"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-player-turn.ss9",
+        "checkpoint_sha256": "ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "bff2e109624d609ac16651e5aa1a1b3a4bb546ecdbe9a99c19082c2e92a40c9f:bg3",
+        "parent_layer_sha256": "8dd7615b6bc71982251ce88c5907547373a18d809ec47682a6bbcd3fde191911",
+        "runtime_tile_ids": [
+          57,
+          58,
+          59,
+          60,
+          61
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD039",
+          "0xD03A",
+          "0xD03B",
+          "0xD03C",
+          "0xD03D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-target-select.ss9",
+        "checkpoint_sha256": "fee59b98fa22b1f05d083f490566aaa690406c73ead0bd808522cc660497eafc",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "228335c0b5f59e2f77c4e85b28a8e7c1b8ed1d95ce330b00aaf1ebce5e40d686:bg3",
+        "parent_layer_sha256": "93a77a685a786adf0d25a8ba33656f96197feb5510cb201656034410acbd58ae",
+        "runtime_tile_ids": [
+          58,
+          59,
+          60,
+          61,
+          62
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD03A",
+          "0xD03B",
+          "0xD03C",
+          "0xD03D",
+          "0xD03E"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-41-target-select.ss9",
+        "checkpoint_sha256": "fee59b98fa22b1f05d083f490566aaa690406c73ead0bd808522cc660497eafc",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "228335c0b5f59e2f77c4e85b28a8e7c1b8ed1d95ce330b00aaf1ebce5e40d686:bg3",
+        "parent_layer_sha256": "93a77a685a786adf0d25a8ba33656f96197feb5510cb201656034410acbd58ae",
+        "runtime_tile_ids": [
+          63,
+          64,
+          65,
+          66,
+          67
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD03F",
+          "0xD040",
+          "0xD041",
+          "0xD042",
+          "0xD043"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-47-battle-13-entry.ss9",
+        "checkpoint_sha256": "af1c2f79643bbe45bf4f179ea36e4b951bdaa4de70d54aa754c11085c30f8e03",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "7d3d59fcda19661e491a78297647a18c805bd28397a2aeb2d7dfb1b3e64b16c7:bg3",
+        "parent_layer_sha256": "df2c2e04ccf76a47bc92e0d1147add243f5ba15e92a43b5b115a831400fbbd44",
+        "runtime_tile_ids": [
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C",
+          "0xD01D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-47-battle-13-entry.ss9",
+        "checkpoint_sha256": "af1c2f79643bbe45bf4f179ea36e4b951bdaa4de70d54aa754c11085c30f8e03",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "7d3d59fcda19661e491a78297647a18c805bd28397a2aeb2d7dfb1b3e64b16c7:bg3",
+        "parent_layer_sha256": "df2c2e04ccf76a47bc92e0d1147add243f5ba15e92a43b5b115a831400fbbd44",
+        "runtime_tile_ids": [
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021",
+          "0xD022"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-47-battle-13-turn22-third-kill-rest-route.ss9",
+        "checkpoint_sha256": "be0ac5c920d4c5b6d8ad60300163ece179d05ecf10ae6af0fe6a2cf2b46e6cbe",
+        "fill_level_matches": [
+          7
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "7eef49d48d769e42d2f7b2c75eb94fa8e942a722ef2203c360f055943375e6c4",
+        "parent_layer_key": "6d4696a53ec10460ec6df518cea4daeb1f9dfe3e99286b8ac1ba550dcc80f66b:bg3",
+        "parent_layer_sha256": "8995fa836d03ef0b696980be3faf90de68dcab3f32ee07d91fdba3328f81ee09",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "21093e3e19456ec6333570e6a66d6883ee60a42a27148e6ddf689a560ba62eff",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-47-battle-13-turn22-third-kill-rest-route.ss9",
+        "checkpoint_sha256": "be0ac5c920d4c5b6d8ad60300163ece179d05ecf10ae6af0fe6a2cf2b46e6cbe",
+        "fill_level_matches": [
+          30
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "d2f888527170a805ff8a3a1f498efd49fcae6cb21dc4177d0ff68d1a573f3d7a",
+        "parent_layer_key": "6d4696a53ec10460ec6df518cea4daeb1f9dfe3e99286b8ac1ba550dcc80f66b:bg3",
+        "parent_layer_sha256": "8995fa836d03ef0b696980be3faf90de68dcab3f32ee07d91fdba3328f81ee09",
+        "runtime_tile_ids": [
+          29,
+          64,
+          65,
+          66,
+          67
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD040",
+          "0xD041",
+          "0xD042",
+          "0xD043"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-47-battle-13-turn4-player.ss9",
+        "checkpoint_sha256": "5815e69ad0ed435f51610b95e85f375325491bafbf16fed6a8facf15429e0d4b",
+        "fill_level_matches": [
+          29
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "2d37b9937ad0e548ce43e310d5de07befb11876ca71c588c384b4ffa8a09994f",
+        "parent_layer_key": "bd17412a6474932e84fb643fac483bd17e3327039d46ef01ba1ed2c69c88622d:bg3",
+        "parent_layer_sha256": "0953b4f48c888ee83eb117544c90a5e5cdabede9c1f054448d49aa42701a37d2",
+        "runtime_tile_ids": [
+          54,
+          55,
+          56,
+          57,
+          58
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "da28824e797b77478cd4380c773d52544c6dc8f1dcb16bfdb0b5baefed7b6858",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD036",
+          "0xD037",
+          "0xD038",
+          "0xD039",
+          "0xD03A"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-47-battle-13-turn4-player.ss9",
+        "checkpoint_sha256": "5815e69ad0ed435f51610b95e85f375325491bafbf16fed6a8facf15429e0d4b",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "bd17412a6474932e84fb643fac483bd17e3327039d46ef01ba1ed2c69c88622d:bg3",
+        "parent_layer_sha256": "0953b4f48c888ee83eb117544c90a5e5cdabede9c1f054448d49aa42701a37d2",
+        "runtime_tile_ids": [
+          59,
+          60,
+          61,
+          62,
+          63
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD03B",
+          "0xD03C",
+          "0xD03D",
+          "0xD03E",
+          "0xD03F"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-47-battle-13-turn9-second-kill.ss9",
+        "checkpoint_sha256": "d7d480d22cc98bb4924d674a46a58fee6324e279060742309fcede91b1db75f9",
+        "fill_level_matches": [
+          18
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "0abc44cdc3d65ba31d4a6c44b5b600e17a97134c014da27ee1ad6d608b07a293",
+        "parent_layer_key": "4387ba655f6eeb6bbca98b94cba02d5c75b10531723f234091e52e7c2f4aa817:bg3",
+        "parent_layer_sha256": "89d161295ca65553de203db2d202da40e78f5b8ba8eacc8492ff05fd2d7e8d25",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "5eb6c3329f0e488a46b3dff72a35606b0d9f5d5ede6086c70e9e72525e3bab58",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-47-battle-13-turn9-second-kill.ss9",
+        "checkpoint_sha256": "d7d480d22cc98bb4924d674a46a58fee6324e279060742309fcede91b1db75f9",
+        "fill_level_matches": [
+          30
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "d2f888527170a805ff8a3a1f498efd49fcae6cb21dc4177d0ff68d1a573f3d7a",
+        "parent_layer_key": "4387ba655f6eeb6bbca98b94cba02d5c75b10531723f234091e52e7c2f4aa817:bg3",
+        "parent_layer_sha256": "89d161295ca65553de203db2d202da40e78f5b8ba8eacc8492ff05fd2d7e8d25",
+        "runtime_tile_ids": [
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-49-battle-14-entry.ss9",
+        "checkpoint_sha256": "a3628723ac595f41b87d329f49d5422a7b9b397a8491379abb8c9620568a0aa1",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "6a94272062b99d32b1e433e8742d163a72d555ba7893471d03c1b5b34408a4d2:bg3",
+        "parent_layer_sha256": "938e8c4ef0ee572346ad50737314e3b6238cf17e0e234d599070b306a3c5f673",
+        "runtime_tile_ids": [
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C",
+          "0xD01D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-49-battle-14-entry.ss9",
+        "checkpoint_sha256": "a3628723ac595f41b87d329f49d5422a7b9b397a8491379abb8c9620568a0aa1",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "6a94272062b99d32b1e433e8742d163a72d555ba7893471d03c1b5b34408a4d2:bg3",
+        "parent_layer_sha256": "938e8c4ef0ee572346ad50737314e3b6238cf17e0e234d599070b306a3c5f673",
+        "runtime_tile_ids": [
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021",
+          "0xD022"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-49-battle-14-turn4-two-kills.ss9",
+        "checkpoint_sha256": "e8b2a5ee0cc4dfbcf89086c8a5fd8fb2bc9e38b9a7bec83cfcb2e3e2a44de350",
+        "fill_level_matches": [
+          27
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "1deade0293a919ad9a57053757bfda5dc526ac8bba177c5cc25b984d9ea77da7",
+        "parent_layer_key": "af95707ae574fa59d80652d5fe7bd56107251ecab7450fdbbaf8bf5dfa0f4c49:bg3",
+        "parent_layer_sha256": "643b0429c2b28b3d5fff38d28003751dfaea25cb894649225c153abee7285121",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "8be0f9e3fd62d3e1d7d728b8ae1ecb4be97e62f43d532e13a35db87029e83e30",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-49-battle-14-turn4-two-kills.ss9",
+        "checkpoint_sha256": "e8b2a5ee0cc4dfbcf89086c8a5fd8fb2bc9e38b9a7bec83cfcb2e3e2a44de350",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "af95707ae574fa59d80652d5fe7bd56107251ecab7450fdbbaf8bf5dfa0f4c49:bg3",
+        "parent_layer_sha256": "643b0429c2b28b3d5fff38d28003751dfaea25cb894649225c153abee7285121",
+        "runtime_tile_ids": [
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-entry.ss9",
+        "checkpoint_sha256": "9e74b086029b0873dfae1c6237e1ebf5fbccc4a01b493cdff35981b0bb6c2cc8",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "bb6edffe2dc7ca7b5f91af3708cb25760624167fecba09716324b45d2668dec6:bg3",
+        "parent_layer_sha256": "454d741a3151a676eb58ffba3157ce30c06201bc68a2235ffd06f07c83811745",
+        "runtime_tile_ids": [
+          35,
+          36,
+          37,
+          38,
+          39
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD023",
+          "0xD024",
+          "0xD025",
+          "0xD026",
+          "0xD027"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-entry.ss9",
+        "checkpoint_sha256": "9e74b086029b0873dfae1c6237e1ebf5fbccc4a01b493cdff35981b0bb6c2cc8",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "88cabc262b4aed075d9c17d0e977ee24d56e9fedae5ac6a691f331f173f861e2",
+        "parent_layer_key": "bb6edffe2dc7ca7b5f91af3708cb25760624167fecba09716324b45d2668dec6:bg3",
+        "parent_layer_sha256": "454d741a3151a676eb58ffba3157ce30c06201bc68a2235ffd06f07c83811745",
+        "runtime_tile_ids": [
+          40,
+          41,
+          42,
+          43,
+          44
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD028",
+          "0xD029",
+          "0xD02A",
+          "0xD02B",
+          "0xD02C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-escort-12hp-player-turn.ss9",
+        "checkpoint_sha256": "7d6796a767d574f5f7a91935c3c1e65ce44edbc51aa5a6b587784d4730bbe94f",
+        "fill_level_matches": [
+          38
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "386c40bf377abc3059f3be5cdf548791539e22b4915c9a4fddf32633c809f12f",
+        "parent_layer_key": "a262dc72bc666091479b717c78b99f834a889d7095803034a96aa6ff756a062a:bg3",
+        "parent_layer_sha256": "f46beb240be80865ed825ab8415405bff0412e139ecaf95c80b6fe85c3509774",
+        "runtime_tile_ids": [
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C",
+          "0xD01D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-escort-12hp-player-turn.ss9",
+        "checkpoint_sha256": "7d6796a767d574f5f7a91935c3c1e65ce44edbc51aa5a6b587784d4730bbe94f",
+        "fill_level_matches": [
+          30
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "d2f888527170a805ff8a3a1f498efd49fcae6cb21dc4177d0ff68d1a573f3d7a",
+        "parent_layer_key": "a262dc72bc666091479b717c78b99f834a889d7095803034a96aa6ff756a062a:bg3",
+        "parent_layer_sha256": "f46beb240be80865ed825ab8415405bff0412e139ecaf95c80b6fe85c3509774",
+        "runtime_tile_ids": [
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021",
+          "0xD022"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round10-objective4-sasuke26.ss9",
+        "checkpoint_sha256": "b9a7ee664e157081be03b1fa28e3fe43ed0e93f5e87fe75ca878b8cbef4c4c4f",
+        "fill_level_matches": [
+          8
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "cee4f9f3f89384d16c04bccd96c57dfb2cb6aa43cbd8cb660c5fba89cf67d7e4",
+        "parent_layer_key": "bb87ab68b72be15cf1a844442bc237ce533b8751213576a74ddbc2b2bb855244:bg3",
+        "parent_layer_sha256": "786efc7d2e9766f4fd44f9ac074738b3c609044da2b0d0aba6aa2e5d81b4b423",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "21e55d2cb272dfacd9e4be9ac00869eca1e42451b121e06b95c0884e12fed6ad",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round10-objective4-sasuke26.ss9",
+        "checkpoint_sha256": "b9a7ee664e157081be03b1fa28e3fe43ed0e93f5e87fe75ca878b8cbef4c4c4f",
+        "fill_level_matches": [
+          22
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "6016f804eadf583b2f513f78a5a34ea7f171098fd29bf2f2fff27470344dfab0",
+        "parent_layer_key": "bb87ab68b72be15cf1a844442bc237ce533b8751213576a74ddbc2b2bb855244:bg3",
+        "parent_layer_sha256": "786efc7d2e9766f4fd44f9ac074738b3c609044da2b0d0aba6aa2e5d81b4b423",
+        "runtime_tile_ids": [
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round11-objective4-first-enemy-cleared.ss9",
+        "checkpoint_sha256": "d34b5bde39f68148860a751c1eee3e67906b5f74351072d7cc31bf1fcf53d4f5",
+        "fill_level_matches": [
+          16
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "31412059f4384fa11dbffd5c7d3cd600dd400ddb37a904d63064e7ce78a72620",
+        "parent_layer_key": "02ce3f56904872fcd2aa966f8c9a749f150546463ddc0ce7f30ba93ac51a7793:bg3",
+        "parent_layer_sha256": "dc94ce60b39ba3775b7a6ef771b5f7475094dcaa387e9b796407863698236eb0",
+        "runtime_tile_ids": [
+          26,
+          27,
+          28,
+          29,
+          30
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "21e55d2cb272dfacd9e4be9ac00869eca1e42451b121e06b95c0884e12fed6ad",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD01A",
+          "0xD01B",
+          "0xD01C",
+          "0xD01D",
+          "0xD01E"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round11-objective4-first-enemy-cleared.ss9",
+        "checkpoint_sha256": "d34b5bde39f68148860a751c1eee3e67906b5f74351072d7cc31bf1fcf53d4f5",
+        "fill_level_matches": [
+          9
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "e0fdd9012692c8e9fb3adb4f77e4743968a101dd674a5cfec92691a758d1c567",
+        "parent_layer_key": "02ce3f56904872fcd2aa966f8c9a749f150546463ddc0ce7f30ba93ac51a7793:bg3",
+        "parent_layer_sha256": "dc94ce60b39ba3775b7a6ef771b5f7475094dcaa387e9b796407863698236eb0",
+        "runtime_tile_ids": [
+          31,
+          32,
+          33,
+          34,
+          35
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "f3765bf03e2a1650eacfd1852dd39d80d2c4328b8b1cf711e5a24ba2b0ad5112",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01F",
+          "0xD020",
+          "0xD021",
+          "0xD022",
+          "0xD023"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round12-objective4-stable-loop.ss9",
+        "checkpoint_sha256": "a1919e59dfbc8f0a1995f06269224059b500c8f3a89a7e5467acffba0b2ff91a",
+        "fill_level_matches": [
+          12
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "13ab49b1bd05334bf77be8646c89871ce0c93f7bc3ca85ffe4dacdd6f7816f91",
+        "parent_layer_key": "2f5eddb338a4c1ccf91b664587e4ccc7eb1fdf0e573d3ccbd52a87e5acc1b81e:bg3",
+        "parent_layer_sha256": "659ea801f7be3e5fee2ed7e61bf18324a5966f6548efc8157b76e4f7010dd2f5",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "e04fcae2c81cda8d9509c47626817172c3e97514f232fa8064ccfcaba1b3d1da",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round12-objective4-stable-loop.ss9",
+        "checkpoint_sha256": "a1919e59dfbc8f0a1995f06269224059b500c8f3a89a7e5467acffba0b2ff91a",
+        "fill_level_matches": [
+          22
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "6016f804eadf583b2f513f78a5a34ea7f171098fd29bf2f2fff27470344dfab0",
+        "parent_layer_key": "2f5eddb338a4c1ccf91b664587e4ccc7eb1fdf0e573d3ccbd52a87e5acc1b81e:bg3",
+        "parent_layer_sha256": "659ea801f7be3e5fee2ed7e61bf18324a5966f6548efc8157b76e4f7010dd2f5",
+        "runtime_tile_ids": [
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round14-objective4-enemies68-71.ss9",
+        "checkpoint_sha256": "9e22602e5e5391bb83ef661e56ec6c58599d6953b344b88b07902c8f6530682d",
+        "fill_level_matches": [
+          11
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "b2e3ddabb5e8086f31b6e0a51f7c98e847659128971ea31707733d2dfead5ec0",
+        "parent_layer_key": "6a3ccb8b997a77a072170e230ff0a0942a151972ee3dee9ab3aeebbed589d5d6:bg3",
+        "parent_layer_sha256": "e931530d5f6dec4cba830c7328109242cd0c3c8ee39b63752c3aad4d8f267ba6",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "8be0f9e3fd62d3e1d7d728b8ae1ecb4be97e62f43d532e13a35db87029e83e30",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round14-objective4-enemies68-71.ss9",
+        "checkpoint_sha256": "9e22602e5e5391bb83ef661e56ec6c58599d6953b344b88b07902c8f6530682d",
+        "fill_level_matches": [
+          22
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "6016f804eadf583b2f513f78a5a34ea7f171098fd29bf2f2fff27470344dfab0",
+        "parent_layer_key": "6a3ccb8b997a77a072170e230ff0a0942a151972ee3dee9ab3aeebbed589d5d6:bg3",
+        "parent_layer_sha256": "e931530d5f6dec4cba830c7328109242cd0c3c8ee39b63752c3aad4d8f267ba6",
+        "runtime_tile_ids": [
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round3-frontline-assembled.ss9",
+        "checkpoint_sha256": "9ce9973360b8636952b0cbd44b44104b1a8ded15f52a07c11e284157831b420e",
+        "fill_level_matches": [
+          33
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "48f3824dddd1e04b736913506bc80dbc84351d88290cf96f461f4947dbf48dac",
+        "parent_layer_key": "268ea8db9070e9bed15e63c5b7947f760515a417d0de6f7c06df4cd886387231:bg3",
+        "parent_layer_sha256": "9579700ba0ad9362c7257a90654ece67b0629960d885f974ba6fea6855397dd4",
+        "runtime_tile_ids": [
+          56,
+          57,
+          58,
+          59,
+          60
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "8eb7d5162f1f921d624af515f9a180d4d6d39e82fef8e26339872a5df5cc3c78"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD038",
+          "0xD039",
+          "0xD03A",
+          "0xD03B",
+          "0xD03C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round3-frontline-assembled.ss9",
+        "checkpoint_sha256": "9ce9973360b8636952b0cbd44b44104b1a8ded15f52a07c11e284157831b420e",
+        "fill_level_matches": [
+          30
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "d2f888527170a805ff8a3a1f498efd49fcae6cb21dc4177d0ff68d1a573f3d7a",
+        "parent_layer_key": "268ea8db9070e9bed15e63c5b7947f760515a417d0de6f7c06df4cd886387231:bg3",
+        "parent_layer_sha256": "9579700ba0ad9362c7257a90654ece67b0629960d885f974ba6fea6855397dd4",
+        "runtime_tile_ids": [
+          61,
+          62,
+          63,
+          64,
+          65
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD03D",
+          "0xD03E",
+          "0xD03F",
+          "0xD040",
+          "0xD041"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round4-scroll-safe.ss9",
+        "checkpoint_sha256": "3ee17bef07d87173eee28a079511538c7a3eb0e2b7df3015cba787b383418cfa",
+        "fill_level_matches": [
+          35
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "d6d43585fa777817d5934adc4a6953cda9d6ef1b4afa28d9bbd157fc4f8204f7",
+        "parent_layer_key": "75d34e1c2e94b46f8c87088434c53e45fa025d129d7623f90288651b43be37e8:bg3",
+        "parent_layer_sha256": "a92c84274c0ae1c2bd3dade0ecd8eb3850c376c000d8e48254b1ad97ab1cee29",
+        "runtime_tile_ids": [
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "4a6dfd1864d741f9a3ee82077e4f8ebbd6c6f41b0ef796ec90764e7bd2bc50fa"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C",
+          "0xD01D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round4-scroll-safe.ss9",
+        "checkpoint_sha256": "3ee17bef07d87173eee28a079511538c7a3eb0e2b7df3015cba787b383418cfa",
+        "fill_level_matches": [
+          7
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "48e9799c2c3652df426507f363fa8e7b3bafb37da29ef6d8d59169f6aae7da45",
+        "parent_layer_key": "75d34e1c2e94b46f8c87088434c53e45fa025d129d7623f90288651b43be37e8:bg3",
+        "parent_layer_sha256": "a92c84274c0ae1c2bd3dade0ecd8eb3850c376c000d8e48254b1ad97ab1cee29",
+        "runtime_tile_ids": [
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "runtime_tile_sha256": [
+          "715c1a1302af0d1fbe615a755078631180da8309657df8633aa33afabeff90af",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021",
+          "0xD022"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round6-hardblock.ss9",
+        "checkpoint_sha256": "10c1eac73a03e74182ed4f7c558410e8bb91794b8939080ceaf0e45c516e9390",
+        "fill_level_matches": [
+          27
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "1deade0293a919ad9a57053757bfda5dc526ac8bba177c5cc25b984d9ea77da7",
+        "parent_layer_key": "1c1de2d7ef77543771fedb90b48707645836aa5f95cfbfd75c6dbf12cee233fb:bg3",
+        "parent_layer_sha256": "6a361003d758448af04e22a328771b3c858343581c7e5c9fe76ad6dbae95ed7e",
+        "runtime_tile_ids": [
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "8be0f9e3fd62d3e1d7d728b8ae1ecb4be97e62f43d532e13a35db87029e83e30",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C",
+          "0xD01D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round6-hardblock.ss9",
+        "checkpoint_sha256": "10c1eac73a03e74182ed4f7c558410e8bb91794b8939080ceaf0e45c516e9390",
+        "fill_level_matches": [
+          0
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "67dfc80b8374929fd786780e129e6202503f601c4b59cac4b16f28b24b7b8bcb",
+        "parent_layer_key": "1c1de2d7ef77543771fedb90b48707645836aa5f95cfbfd75c6dbf12cee233fb:bg3",
+        "parent_layer_sha256": "6a361003d758448af04e22a328771b3c858343581c7e5c9fe76ad6dbae95ed7e",
+        "runtime_tile_ids": [
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "runtime_tile_sha256": [
+          "37f23a229a86e4bb8811f8be3b2dfa3f9750ed3b0f4961dfee9da39f1a703fe8",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021",
+          "0xD022"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round6-objective40-enemy17.ss9",
+        "checkpoint_sha256": "082522726e1d8a2c154a8feff66b95240fe53fd4c54f32bc553a4e5e3c4abc62",
+        "fill_level_matches": [
+          19
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "fd94f06c2d6f951e2cc68b6e7f47e0a6ae373634ca4eca603f14e77302202a1f",
+        "parent_layer_key": "e080a197950d01937e15ce4dd5d10c0145a0ae8b473de3c7b7d297f4c8bea8c6:bg3",
+        "parent_layer_sha256": "5fe7a74edb271df8c924b7f642186e7ac6321313d632ef372f041b6baec99cd0",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "8be0f9e3fd62d3e1d7d728b8ae1ecb4be97e62f43d532e13a35db87029e83e30",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round6-objective40-enemy17.ss9",
+        "checkpoint_sha256": "082522726e1d8a2c154a8feff66b95240fe53fd4c54f32bc553a4e5e3c4abc62",
+        "fill_level_matches": [
+          30
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "d2f888527170a805ff8a3a1f498efd49fcae6cb21dc4177d0ff68d1a573f3d7a",
+        "parent_layer_key": "e080a197950d01937e15ce4dd5d10c0145a0ae8b473de3c7b7d297f4c8bea8c6:bg3",
+        "parent_layer_sha256": "5fe7a74edb271df8c924b7f642186e7ac6321313d632ef372f041b6baec99cd0",
+        "runtime_tile_ids": [
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round8-bait-success.ss9",
+        "checkpoint_sha256": "23d03e0c6f591beeea3fda0d0e8e2911891394ea1ed5fbbca24d80371978a2a6",
+        "fill_level_matches": [
+          18
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "0abc44cdc3d65ba31d4a6c44b5b600e17a97134c014da27ee1ad6d608b07a293",
+        "parent_layer_key": "ff40418099b89afb5b913ec288c3aa7e41b4c837bec1b51c1b32db6d9c739f5a:bg3",
+        "parent_layer_sha256": "be18a0f7b9341a7f2c6871c5646036ea77db4d8a2b1a782e42d7cf88eb9cae3c",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "5eb6c3329f0e488a46b3dff72a35606b0d9f5d5ede6086c70e9e72525e3bab58",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round8-bait-success.ss9",
+        "checkpoint_sha256": "23d03e0c6f591beeea3fda0d0e8e2911891394ea1ed5fbbca24d80371978a2a6",
+        "fill_level_matches": [
+          22
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "6016f804eadf583b2f513f78a5a34ea7f171098fd29bf2f2fff27470344dfab0",
+        "parent_layer_key": "ff40418099b89afb5b913ec288c3aa7e41b4c837bec1b51c1b32db6d9c739f5a:bg3",
+        "parent_layer_sha256": "be18a0f7b9341a7f2c6871c5646036ea77db4d8a2b1a782e42d7cf88eb9cae3c",
+        "runtime_tile_ids": [
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round8-objective28-frontblock.ss9",
+        "checkpoint_sha256": "ef761db1ff4ba3d985150d9ec7d1e75d49e35717d3fe76acaf995ea1673922b8",
+        "fill_level_matches": [
+          4
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "9c8b213519fd0622c3d29336d3b120813b62f3e97ad956a95a3b3c17b94baf30",
+        "parent_layer_key": "69eecc10d3d5f2f1856ed0e21ffde367038cbbd9bbf7ea36bd4f8e7250cd5a10:bg3",
+        "parent_layer_sha256": "8dfd467fd2f3bde0a61c13347824940e420a8058c5eb81e6bd29b3b943899240",
+        "runtime_tile_ids": [
+          88,
+          89,
+          90,
+          91,
+          92
+        ],
+        "runtime_tile_sha256": [
+          "3dcc3e5fbddcf7e75d10d81476301a8a4a5e65178f50895e6eee1d961a941e6e",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD058",
+          "0xD059",
+          "0xD05A",
+          "0xD05B",
+          "0xD05C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round8-objective28-frontblock.ss9",
+        "checkpoint_sha256": "ef761db1ff4ba3d985150d9ec7d1e75d49e35717d3fe76acaf995ea1673922b8",
+        "fill_level_matches": [
+          22
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "6016f804eadf583b2f513f78a5a34ea7f171098fd29bf2f2fff27470344dfab0",
+        "parent_layer_key": "69eecc10d3d5f2f1856ed0e21ffde367038cbbd9bbf7ea36bd4f8e7250cd5a10:bg3",
+        "parent_layer_sha256": "8dfd467fd2f3bde0a61c13347824940e420a8058c5eb81e6bd29b3b943899240",
+        "runtime_tile_ids": [
+          93,
+          94,
+          95,
+          96,
+          97
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD05D",
+          "0xD05E",
+          "0xD05F",
+          "0xD060",
+          "0xD061"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round9-objective16-restline.ss9",
+        "checkpoint_sha256": "bc7de1c43e1a552937fcc01c8034e1e3e67fe47b4a128b82ab7ec56fac4f00b0",
+        "fill_level_matches": [
+          4
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "9c8b213519fd0622c3d29336d3b120813b62f3e97ad956a95a3b3c17b94baf30",
+        "parent_layer_key": "561aff39b31cb9a197c7d5b2663f718e2974f6114734a510d2392606d0afa73a:bg3",
+        "parent_layer_sha256": "ff5ba38c982e5d2b46031ac8a7320aa897c4f6eb4ee25fa7d74bfb44fbd998ca",
+        "runtime_tile_ids": [
+          24,
+          25,
+          26,
+          27,
+          28
+        ],
+        "runtime_tile_sha256": [
+          "3dcc3e5fbddcf7e75d10d81476301a8a4a5e65178f50895e6eee1d961a941e6e",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD018",
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round9-objective16-restline.ss9",
+        "checkpoint_sha256": "bc7de1c43e1a552937fcc01c8034e1e3e67fe47b4a128b82ab7ec56fac4f00b0",
+        "fill_level_matches": [
+          22
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "6016f804eadf583b2f513f78a5a34ea7f171098fd29bf2f2fff27470344dfab0",
+        "parent_layer_key": "561aff39b31cb9a197c7d5b2663f718e2974f6114734a510d2392606d0afa73a:bg3",
+        "parent_layer_sha256": "ff5ba38c982e5d2b46031ac8a7320aa897c4f6eb4ee25fa7d74bfb44fbd998ca",
+        "runtime_tile_ids": [
+          29,
+          30,
+          31,
+          32,
+          33
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01D",
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round9-objective16-sasuke46.ss9",
+        "checkpoint_sha256": "22c08cf668959e001f326eb5eb5d02b927ee09006e83e11248cc58a3ae935f24",
+        "fill_level_matches": [
+          6
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "cbfccdb08774c35ef73fa49ea2467b7c2173d2d1c8e44a4fab4d1255780e2bc4",
+        "parent_layer_key": "4e50f87c5c5e7b33f51311e60f1afc54d3981c92518de83073161b34224c4f86:bg3",
+        "parent_layer_sha256": "4275d1cc8240342f86ac97f845523b47019d21bab3393ca8dd801fbbf80062cc",
+        "runtime_tile_ids": [
+          88,
+          89,
+          90,
+          91,
+          92
+        ],
+        "runtime_tile_sha256": [
+          "9d5ddfee89e0aa6a662623cbf2041bccd856472dfd616d5ae4fb4d261583903e",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f",
+          "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD058",
+          "0xD059",
+          "0xD05A",
+          "0xD05B",
+          "0xD05C"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-round9-objective16-sasuke46.ss9",
+        "checkpoint_sha256": "22c08cf668959e001f326eb5eb5d02b927ee09006e83e11248cc58a3ae935f24",
+        "fill_level_matches": [
+          22
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "6016f804eadf583b2f513f78a5a34ea7f171098fd29bf2f2fff27470344dfab0",
+        "parent_layer_key": "4e50f87c5c5e7b33f51311e60f1afc54d3981c92518de83073161b34224c4f86:bg3",
+        "parent_layer_sha256": "4275d1cc8240342f86ac97f845523b47019d21bab3393ca8dd801fbbf80062cc",
+        "runtime_tile_ids": [
+          93,
+          94,
+          95,
+          96,
+          97
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD05D",
+          "0xD05E",
+          "0xD05F",
+          "0xD060",
+          "0xD061"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-safe-intercept-turn3.ss9",
+        "checkpoint_sha256": "2d872689345ade80d0027dfa7bbb58adfc28cfe3028f6b13856d43c8dc7a6ba8",
+        "fill_level_matches": [
+          35
+        ],
+        "first_linear_cell": 565,
+        "full_bar_sha256": "d6d43585fa777817d5934adc4a6953cda9d6ef1b4afa28d9bbd157fc4f8204f7",
+        "parent_layer_key": "4318a9c625d19272620d607e63d639e76f81b393c94ad1df23342c51d3bbef65:bg3",
+        "parent_layer_sha256": "88ecbfe4e6c4e68c5738c93791b94eec0d4e1613d460d7ece2e0c618afb2feaa",
+        "runtime_tile_ids": [
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "runtime_tile_sha256": [
+          "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "49bda8761ffb318dd54e42a4dead1717b756ac25646e7308cb8dd24188f8e535",
+          "4a6dfd1864d741f9a3ee82077e4f8ebbd6c6f41b0ef796ec90764e7bd2bc50fa"
+        ],
+        "screen_xy": [
+          21,
+          17
+        ],
+        "style": 0,
+        "tilemap_entries": [
+          "0xD019",
+          "0xD01A",
+          "0xD01B",
+          "0xD01C",
+          "0xD01D"
+        ]
+      },
+      {
+        "checkpoint": "artifacts/runtime-checkpoints/scenario-50-battle-15-safe-intercept-turn3.ss9",
+        "checkpoint_sha256": "2d872689345ade80d0027dfa7bbb58adfc28cfe3028f6b13856d43c8dc7a6ba8",
+        "fill_level_matches": [
+          30
+        ],
+        "first_linear_cell": 597,
+        "full_bar_sha256": "d2f888527170a805ff8a3a1f498efd49fcae6cb21dc4177d0ff68d1a573f3d7a",
+        "parent_layer_key": "4318a9c625d19272620d607e63d639e76f81b393c94ad1df23342c51d3bbef65:bg3",
+        "parent_layer_sha256": "88ecbfe4e6c4e68c5738c93791b94eec0d4e1613d460d7ece2e0c618afb2feaa",
+        "runtime_tile_ids": [
+          30,
+          31,
+          32,
+          33,
+          34
+        ],
+        "runtime_tile_sha256": [
+          "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "2806033240c7854ec26ec00fa0b74b856936cb5c787c0ff6d2986baadc5b1696",
+          "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e",
+          "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+        ],
+        "screen_xy": [
+          21,
+          18
+        ],
+        "style": 1,
+        "tilemap_entries": [
+          "0xD01E",
+          "0xD01F",
+          "0xD020",
+          "0xD021",
+          "0xD022"
+        ]
+      }
+    ],
+    "checkpoint_count": 30,
+    "exact_generated_unknown_cell_count": 181,
+    "exact_generated_unknown_distinct_hash_count": 22,
+    "fill_level_distribution": [
+      {
+        "bar_count": 2,
+        "fill_level": 4,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 6,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 7,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 8,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 11,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 12,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 16,
+        "style": 0
+      },
+      {
+        "bar_count": 2,
+        "fill_level": 18,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 19,
+        "style": 0
+      },
+      {
+        "bar_count": 2,
+        "fill_level": 27,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 29,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 33,
+        "style": 0
+      },
+      {
+        "bar_count": 2,
+        "fill_level": 35,
+        "style": 0
+      },
+      {
+        "bar_count": 13,
+        "fill_level": 38,
+        "style": 0
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 0,
+        "style": 1
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 7,
+        "style": 1
+      },
+      {
+        "bar_count": 1,
+        "fill_level": 9,
+        "style": 1
+      },
+      {
+        "bar_count": 7,
+        "fill_level": 22,
+        "style": 1
+      },
+      {
+        "bar_count": 6,
+        "fill_level": 30,
+        "style": 1
+      },
+      {
+        "bar_count": 14,
+        "fill_level": 38,
+        "style": 1
+      }
+    ],
+    "full_bar_tile_count": 300,
+    "hash_coverage": [
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 8,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 9,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 10,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 11,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 12,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 13,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 14,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 15,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 16,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 17,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 18,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 19,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 20,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 21,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 22,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 23,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 24,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 25,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 26,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 27,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 28,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 29,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 30,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 31,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 32,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 33,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 34,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 35,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 36,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 37,
+            "style": 1,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 38,
+            "style": 1,
+            "tile_index": 0
+          }
+        ],
+        "parent_cell_count": 28,
+        "runtime_tile_sha256": "0dc91e61d6b711df023f76ca0dbd282342991b9fc200aa6b901977fa9992a07a"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 0,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 0,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 0,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 1,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 1,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 1,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 2,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 2,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 2,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 3,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 3,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 3,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 4,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 4,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 4,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 5,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 5,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 5,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 6,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 6,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 6,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 7,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 7,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 7,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 8,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 8,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 9,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 9,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 10,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 10,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 11,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 11,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 12,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 12,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 13,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 13,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 14,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 14,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 15,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 15,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 16,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 17,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 18,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 19,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 20,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 21,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 22,
+            "style": 0,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 23,
+            "style": 0,
+            "tile_index": 3
+          }
+        ],
+        "parent_cell_count": 22,
+        "runtime_tile_sha256": "20120e229b2f5d7cef4528f528c382886b5afb4b198791499874df0270f9dd8f"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 14,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 22,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 30,
+            "style": 1,
+            "tile_index": 3
+          }
+        ],
+        "parent_cell_count": 13,
+        "runtime_tile_sha256": "20d95239e143a32c3bd9c02bed7dcbe259462ec9dee5b5909ba579d53088507e"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 7,
+            "style": 0,
+            "tile_index": 0
+          }
+        ],
+        "parent_cell_count": 1,
+        "runtime_tile_sha256": "21093e3e19456ec6333570e6a66d6883ee60a42a27148e6ddf689a560ba62eff"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 8,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 16,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 24,
+            "style": 0,
+            "tile_index": 3
+          }
+        ],
+        "parent_cell_count": 2,
+        "runtime_tile_sha256": "21e55d2cb272dfacd9e4be9ac00869eca1e42451b121e06b95c0884e12fed6ad"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 0,
+            "style": 1,
+            "tile_index": 0
+          }
+        ],
+        "parent_cell_count": 1,
+        "runtime_tile_sha256": "37f23a229a86e4bb8811f8be3b2dfa3f9750ed3b0f4961dfee9da39f1a703fe8"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 4,
+            "style": 0,
+            "tile_index": 0
+          }
+        ],
+        "parent_cell_count": 2,
+        "runtime_tile_sha256": "3dcc3e5fbddcf7e75d10d81476301a8a4a5e65178f50895e6eee1d961a941e6e"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 0,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 1,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 2,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 3,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 4,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 5,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 6,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 7,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 8,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 9,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 10,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 11,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 12,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 13,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 14,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 15,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 16,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 17,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 18,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 19,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 20,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 21,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 22,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 23,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 24,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 25,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 26,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 27,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 28,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 29,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 30,
+            "style": 0,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 31,
+            "style": 0,
+            "tile_index": 4
+          }
+        ],
+        "parent_cell_count": 14,
+        "runtime_tile_sha256": "417d206753d8dd3adfc65784e03db272cc78fb7a561e59401fe9397534be5501"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 0,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 1,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 2,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 3,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 4,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 5,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 6,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 7,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 8,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 9,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 10,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 11,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 12,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 13,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 14,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 15,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 16,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 17,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 18,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 19,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 20,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 21,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 22,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 23,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 24,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 25,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 26,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 27,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 28,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 29,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 30,
+            "style": 1,
+            "tile_index": 4
+          },
+          {
+            "fill_level": 31,
+            "style": 1,
+            "tile_index": 4
+          }
+        ],
+        "parent_cell_count": 16,
+        "runtime_tile_sha256": "49f4870a135afb3f2ddff6eea0f932ab7e679002bd0d3735a03cec06a5cffb97"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 35,
+            "style": 0,
+            "tile_index": 4
+          }
+        ],
+        "parent_cell_count": 2,
+        "runtime_tile_sha256": "4a6dfd1864d741f9a3ee82077e4f8ebbd6c6f41b0ef796ec90764e7bd2bc50fa"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 10,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 18,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 26,
+            "style": 0,
+            "tile_index": 3
+          }
+        ],
+        "parent_cell_count": 2,
+        "runtime_tile_sha256": "5eb6c3329f0e488a46b3dff72a35606b0d9f5d5ede6086c70e9e72525e3bab58"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 7,
+            "style": 1,
+            "tile_index": 0
+          }
+        ],
+        "parent_cell_count": 1,
+        "runtime_tile_sha256": "715c1a1302af0d1fbe615a755078631180da8309657df8633aa33afabeff90af"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 11,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 19,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 27,
+            "style": 0,
+            "tile_index": 3
+          }
+        ],
+        "parent_cell_count": 4,
+        "runtime_tile_sha256": "8be0f9e3fd62d3e1d7d728b8ae1ecb4be97e62f43d532e13a35db87029e83e30"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 33,
+            "style": 0,
+            "tile_index": 4
+          }
+        ],
+        "parent_cell_count": 1,
+        "runtime_tile_sha256": "8eb7d5162f1f921d624af515f9a180d4d6d39e82fef8e26339872a5df5cc3c78"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 8,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 9,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 10,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 11,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 12,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 13,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 14,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 15,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 16,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 17,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 18,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 19,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 20,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 21,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 22,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 23,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 24,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 25,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 26,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 27,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 28,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 29,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 30,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 31,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 32,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 33,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 34,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 35,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 36,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 37,
+            "style": 0,
+            "tile_index": 0
+          },
+          {
+            "fill_level": 38,
+            "style": 0,
+            "tile_index": 0
+          }
+        ],
+        "parent_cell_count": 26,
+        "runtime_tile_sha256": "9cb921a72017ee9ee3b24093ae34e6e4157680487046a96402e98f08ba6b3c2c"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 6,
+            "style": 0,
+            "tile_index": 0
+          }
+        ],
+        "parent_cell_count": 1,
+        "runtime_tile_sha256": "9d5ddfee89e0aa6a662623cbf2041bccd856472dfd616d5ae4fb4d261583903e"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 38,
+            "style": 0,
+            "tile_index": 4
+          }
+        ],
+        "parent_cell_count": 13,
+        "runtime_tile_sha256": "aec5d03e8d092a4d35ec5e284c9b3d8e64d2f0938eb5a015f78b8dc06077f14a"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 38,
+            "style": 1,
+            "tile_index": 4
+          }
+        ],
+        "parent_cell_count": 14,
+        "runtime_tile_sha256": "b2172546cdfb7afecc9d71d172d2025f8561d3651b336e2c733a5905810a65f1"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 0,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 0,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 0,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 1,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 1,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 1,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 2,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 2,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 2,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 3,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 3,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 3,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 4,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 4,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 4,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 5,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 5,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 5,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 6,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 6,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 6,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 7,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 7,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 7,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 8,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 8,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 9,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 9,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 10,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 10,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 11,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 11,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 12,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 12,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 13,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 13,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 14,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 14,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 15,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 15,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 16,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 17,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 18,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 19,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 20,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 21,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 22,
+            "style": 1,
+            "tile_index": 3
+          },
+          {
+            "fill_level": 23,
+            "style": 1,
+            "tile_index": 3
+          }
+        ],
+        "parent_cell_count": 15,
+        "runtime_tile_sha256": "c884b9e1a6e0d8aa7c5775a75d6e581f8b714fa63f45db89295b6ad556d45c8b"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 13,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 21,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 29,
+            "style": 0,
+            "tile_index": 3
+          }
+        ],
+        "parent_cell_count": 1,
+        "runtime_tile_sha256": "da28824e797b77478cd4380c773d52544c6dc8f1dcb16bfdb0b5baefed7b6858"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 12,
+            "style": 0,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 20,
+            "style": 0,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 28,
+            "style": 0,
+            "tile_index": 3
+          }
+        ],
+        "parent_cell_count": 1,
+        "runtime_tile_sha256": "e04fcae2c81cda8d9509c47626817172c3e97514f232fa8064ccfcaba1b3d1da"
+      },
+      {
+        "generated_candidates": [
+          {
+            "fill_level": 9,
+            "style": 1,
+            "tile_index": 1
+          },
+          {
+            "fill_level": 17,
+            "style": 1,
+            "tile_index": 2
+          },
+          {
+            "fill_level": 25,
+            "style": 1,
+            "tile_index": 3
+          }
+        ],
+        "parent_cell_count": 1,
+        "runtime_tile_sha256": "f3765bf03e2a1650eacfd1852dd39d80d2c4328b8b1cf711e5a24ba2b0ad5112"
+      }
+    ],
+    "parent_unknown_cell_count": 181,
+    "parent_unknown_distinct_hash_count": 22,
+    "parent_unknown_record_count": 181,
+    "unmatched_unknown_cell_count": 0
+  },
+  "schema": "battle-status-bars-v1",
+  "scope": {
+    "all_fill_levels_losslessly_generated": true,
+    "all_game_visual_states_complete": false,
+    "all_generator_callers_runtime_bound": false,
+    "bar_input_field_semantics_complete": false,
+    "generator_algorithm_code_verified": true,
+    "generic_image_writeback_complete": false,
+    "source_templates_losslessly_exported": true,
+    "tracked_battle_bg3_unknown_content_fully_resolved": true,
+    "tracked_visible_resource_denominator_complete": true
+  }
+}

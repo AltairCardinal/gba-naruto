@@ -1,0 +1,942 @@
+{
+  "artifact_status": "accepted",
+  "files": {
+    "rom-small-cfg-dependency-batch.json": {
+      "sha256": "4420a02756dfc59f73e8e051440d174fafa590d62086e3812e96960f8ea0336d",
+      "size": 203761
+    }
+  },
+  "implementation_inputs": [
+    {
+      "path": "tools/export_rom_small_cfg_dependency_batch.py",
+      "sha256": "403cec301959d4f01e1007516fedfcc43fa52b6ef5c30186a3032a45a2391058",
+      "size": 4190
+    },
+    {
+      "path": "tools/verify_rom_small_cfg_dependency_batch.py",
+      "sha256": "013d4ca34c378d158e4e4673e7904a6253e4d78052743a30f333b2d75bf17fad",
+      "size": 6831
+    }
+  ],
+  "publication_contract_sha256": "9f8390a6db4c32add3d723e57483f94b7f3d70cb5c483eb2cd6983818cd3fc6a",
+  "schema": "git-artifact-promotion-v1",
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_small_cfg_dependency_batch.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-small-cfg-dependency-batch-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "canonical_promoted": false,
+      "claim_count": 21,
+      "errors": [],
+      "full_upstream_lifecycle_replayed_here": false,
+      "natural_runtime_reachability_claimed": false,
+      "packet_count": 4,
+      "packet_reports": {
+        "callback_gaps": {
+          "baseline_archive": {
+            "path": "notes/evidence/rom-evidence-selector-repair-20260905/coverage-after.json.gz",
+            "sha256": "f996d62735f43b00fc3375b1e74423aac6b331edbca0943ae3033c2ceea0942b",
+            "size": 1759704
+          },
+          "baseline_archive_observed_by_verifier": true,
+          "baseline_raw_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+          "candidate_payload_sha256": "190b1a13162df0f00631cf1e35b52a09cd47c72b92dfda55dc4c10befb2ba715",
+          "canonical_promoted": false,
+          "gap_count": 5,
+          "indirect_pc_target_count": 1,
+          "promotion_bytes": 10,
+          "public_contract_sha256": "bc8d545f5bb9619935abc4fe52b4651967f3fe8d4dbd330cf2688fe74b18164a",
+          "schema": "rom-task-callback-five-gaps-candidate-verification-v1",
+          "scope": {
+            "canonical_promoted": false,
+            "classification": "artifact-bound align4 bytes between accepted non-fallthrough Thumb code and consumed literals",
+            "free_space": false,
+            "natural_reachability": false,
+            "nop": false,
+            "padding": false,
+            "source_full_lifecycle_replayed_here": false,
+            "structured_return": false
+          },
+          "source_block_count": 61,
+          "source_frontiers": [
+            {
+              "reason": "indirect_pc_target",
+              "source": 495940
+            }
+          ],
+          "source_full_lifecycle_replayed_here": false,
+          "source_inputs": [
+            {
+              "path": "artifacts/rom-task-callback-078e38-closure-v1/manifest.json",
+              "sha256": "a944163366106871fc983fb03bfb8e42666268b453083a6f38ba3ead6f737ca0",
+              "size": 2185
+            },
+            {
+              "path": "artifacts/rom-task-callback-078e38-closure-v1/rom-task-callback-078e38-closure-v1.json",
+              "sha256": "ac163dad2bf1120ba1b5dc15936502d7b3a6efab59cd0b6b0e8db2e4ad48e1aa",
+              "size": 19489
+            },
+            {
+              "path": "tools/verify_rom_task_callback_078e38_closure.py",
+              "sha256": "46ad2406bf153106d4fe523109e8ff2ab3e888fbb5f66e8739ef6aff360a6f14",
+              "size": 20596
+            },
+            {
+              "path": "tools/rom_task_callback_078e38_contract.py",
+              "sha256": "0d889c48ea66ad632eb6d41f891aba12c8133373924bf11844b23234ddd73e72",
+              "size": 7959
+            }
+          ],
+          "source_instruction_count": 342,
+          "source_literal_binding_count": 15,
+          "unconditional_branch_count": 4,
+          "verified": true
+        },
+        "dispatcher": {
+          "baseline_archive": {
+            "path": "notes/evidence/rom-evidence-selector-repair-20260905/coverage-after.json.gz",
+            "sha256": "f996d62735f43b00fc3375b1e74423aac6b331edbca0943ae3033c2ceea0942b",
+            "size": 1759704
+          },
+          "baseline_archive_observed_by_verifier": true,
+          "baseline_raw_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+          "basic_block_count": 3,
+          "block_edge_count": 8,
+          "candidate_payload_sha256": "69e8644ef8d0c864624a18d8dc175044cec7a8268e5e0eb6b38e753e983f0a6e",
+          "canonical_promoted": false,
+          "claim_count": 4,
+          "code_bytes": 32,
+          "existing_owner_bytes": 80,
+          "frontier_count": 0,
+          "instruction_count": 15,
+          "literal_bytes": 8,
+          "opaque_entry_count": 4,
+          "opaque_entry_membership": [
+            {
+              "block": {
+                "bytes_sha256": "54264659495cab2674eddae68ad0d6d24b46db3e8daf69e45829713838cba71b",
+                "id": "block-thumb-061e6c",
+                "instruction_count": 4,
+                "mode": "thumb",
+                "range": [
+                  401004,
+                  401014
+                ],
+                "successors": [
+                  {
+                    "block_id": "block-thumb-09aac0",
+                    "file_offset": 633536,
+                    "kind": "call_target",
+                    "mode": "thumb"
+                  },
+                  {
+                    "block_id": "block-thumb-061e76",
+                    "file_offset": 401014,
+                    "kind": "fallthrough",
+                    "mode": "thumb"
+                  }
+                ],
+                "terminator": {
+                  "conditional": false,
+                  "file_offset": 401010,
+                  "flow_kind": "call",
+                  "mnemonic": "bl",
+                  "op_str": "#0x809aac0",
+                  "size": 4
+                }
+              },
+              "entry": 401004,
+              "owner_claim_ids": [
+                "cfg-thumb-0003-061e6c"
+              ]
+            },
+            {
+              "block": {
+                "bytes_sha256": "152a2903cb5892cbe4daf8aab978c65d268d7dbe212b3c071b1286e619582728",
+                "id": "block-thumb-07dd2c",
+                "instruction_count": 2,
+                "mode": "thumb",
+                "range": [
+                  515372,
+                  515378
+                ],
+                "successors": [
+                  {
+                    "block_id": "block-thumb-061e6c",
+                    "file_offset": 401004,
+                    "kind": "call_target",
+                    "mode": "thumb"
+                  },
+                  {
+                    "block_id": "block-thumb-07dd32",
+                    "file_offset": 515378,
+                    "kind": "fallthrough",
+                    "mode": "thumb"
+                  }
+                ],
+                "terminator": {
+                  "conditional": false,
+                  "file_offset": 515374,
+                  "flow_kind": "call",
+                  "mnemonic": "bl",
+                  "op_str": "#0x8061e6c",
+                  "size": 4
+                }
+              },
+              "entry": 515372,
+              "owner_claim_ids": [
+                "cfg-thumb-0484-07dd2c"
+              ]
+            },
+            {
+              "block": {
+                "bytes_sha256": "35de4e1f3782e1f23a6ab4fbbf0d9be466e077b5b7ff3cd273753e5a8b156694",
+                "id": "block-thumb-07dd34",
+                "instruction_count": 2,
+                "mode": "thumb",
+                "range": [
+                  515380,
+                  515386
+                ],
+                "successors": [
+                  {
+                    "block_id": "block-thumb-061e6c",
+                    "file_offset": 401004,
+                    "kind": "call_target",
+                    "mode": "thumb"
+                  },
+                  {
+                    "block_id": "block-thumb-07dd3a",
+                    "file_offset": 515386,
+                    "kind": "fallthrough",
+                    "mode": "thumb"
+                  }
+                ],
+                "terminator": {
+                  "conditional": false,
+                  "file_offset": 515382,
+                  "flow_kind": "call",
+                  "mnemonic": "bl",
+                  "op_str": "#0x8061e6c",
+                  "size": 4
+                }
+              },
+              "entry": 515380,
+              "owner_claim_ids": [
+                "cfg-thumb-0484-07dd2c"
+              ]
+            },
+            {
+              "block": {
+                "bytes_sha256": "16a508472a2f1699b466abc831cd94383c62ab97dc36d6c9594b9decec29122a",
+                "id": "block-thumb-07dd42",
+                "instruction_count": 7,
+                "mode": "thumb",
+                "range": [
+                  515394,
+                  515408
+                ],
+                "successors": [
+                  {
+                    "block_id": "block-thumb-07dd52",
+                    "file_offset": 515410,
+                    "kind": "branch_target",
+                    "mode": "thumb"
+                  },
+                  {
+                    "block_id": "block-thumb-07dd50",
+                    "file_offset": 515408,
+                    "kind": "fallthrough",
+                    "mode": "thumb"
+                  }
+                ],
+                "terminator": {
+                  "conditional": true,
+                  "file_offset": 515406,
+                  "flow_kind": "conditional_branch",
+                  "mnemonic": "bls",
+                  "op_str": "#0x807dd52",
+                  "size": 2
+                }
+              },
+              "entry": 515394,
+              "owner_claim_ids": [
+                "cfg-thumb-0485-07dd42"
+              ]
+            }
+          ],
+          "producer_count": 1,
+          "producer_instruction_membership": [
+            {
+              "accepted_roots_reaching_source": [
+                518252
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-013-07e86c"
+              ],
+              "size": 4,
+              "source": 518254,
+              "target": 515256,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            }
+          ],
+          "promotion_bytes": 40,
+          "public_contract_sha256": "f0cb65f5184ed6536c808e5d375441810a1251dbfd9bcb3feda648e1155ab711",
+          "schema": "rom-u8-subtract-bounded-movpc-dispatch-candidate-verification-v1",
+          "scope": {
+            "canonical_promoted": false,
+            "classification": "producer-bound Thumb CFG, consumed literals and complete bounded table; only unknown intersections promoted",
+            "computed_indirect_producers_exhausted": false,
+            "full_source_verifier_replayed_here": false,
+            "holes_classified": false,
+            "natural_reachability": false,
+            "opaque_callee_stack_effects_proven": false,
+            "state_pointer_lifecycle_proven": false,
+            "structured_return": false
+          },
+          "source_full_verifier_replayed_here": false,
+          "source_instruction_count": 1742,
+          "structured_return_count": 0,
+          "table_bytes": 80,
+          "table_slot_count": 20,
+          "upstream_inputs": [
+            {
+              "path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+              "sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+              "size": 4350
+            },
+            {
+              "path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+              "sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+              "size": 5936694
+            },
+            {
+              "path": "artifacts/rom-cfg-proven-roots-v1/manifest.json",
+              "sha256": "ea1230fe24cf111a91044c059468a1467e46c471363780b23c2a0311bab8644a",
+              "size": 5186
+            },
+            {
+              "path": "artifacts/rom-cfg-proven-roots-v1/rom-cfg-proven-roots.json",
+              "sha256": "7fdee7d0d62d3a8c82bfe7b03804e9cb0e3d213ebdf63acce6b0533045aecf54",
+              "size": 1024474
+            },
+            {
+              "path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "size": 37061
+            },
+            {
+              "path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "size": 34133
+            },
+            {
+              "path": "artifacts/rom-text-bg-task-closure-v1/manifest.json",
+              "sha256": "fd632dd3d8762fa7f7b2492917fff814628587255e3853973013757e9346dd0d",
+              "size": 1148
+            },
+            {
+              "path": "artifacts/rom-text-bg-task-closure-v1/rom-text-bg-task-closure.json",
+              "sha256": "014c4b8c4fd098e8049511df55f248505e4d680be5b394592cab92e26c512a0c",
+              "size": 20175
+            },
+            {
+              "path": "tools/_vendor/capstone/__init__.py",
+              "sha256": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+              "size": 42474
+            },
+            {
+              "path": "tools/_vendor/capstone/arm.py",
+              "sha256": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+              "size": 2071
+            },
+            {
+              "path": "tools/_vendor/capstone/arm_const.py",
+              "sha256": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+              "size": 16464
+            },
+            {
+              "path": "tools/_vendor/capstone/lib/libcapstone.dylib",
+              "sha256": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f",
+              "size": 7308696
+            },
+            {
+              "path": "tools/export_rom_cfg_inventory.py",
+              "sha256": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+              "size": 40396
+            },
+            {
+              "path": "tools/export_rom_cfg_proven_roots_v13.py",
+              "sha256": "7017045fc098faff14e1726873a05a379123222ee878d771e3bdb4b5d5a70c8c",
+              "size": 40788
+            },
+            {
+              "path": "tools/rom_event_handler_cfg_contract.py",
+              "sha256": "42ff03212b40d435093c8de589b5750f704d0e3b5910e4a6dc2b7f1c5e657ae9",
+              "size": 9242
+            },
+            {
+              "path": "tools/thumb_branch.py",
+              "sha256": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+              "size": 3084
+            },
+            {
+              "path": "tools/verify_rom_cfg_inventory.py",
+              "sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+              "size": 45183
+            },
+            {
+              "path": "tools/verify_rom_cfg_proven_roots.py",
+              "sha256": "693d9381f429346376a6400bea20025ca0c56e1e68d0bf3164b070ea722aa4d7",
+              "size": 36912
+            },
+            {
+              "path": "tools/verify_rom_cfg_proven_roots_v13.py",
+              "sha256": "a687af7750e9a177b47883f1b540d555bd4c666d92865d56e521f85174c869a7",
+              "size": 39526
+            },
+            {
+              "path": "tools/verify_rom_event_handler_cfg.py",
+              "sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "size": 22929
+            },
+            {
+              "path": "tools/verify_rom_text_bg_task_closure.py",
+              "sha256": "9e29205f8e32dc37cb0d50843ae86e96abee6270d0294ed9fc9c24c494859a50",
+              "size": 19636
+            },
+            {
+              "path": "tools/rom_small_cfg_wrappers_independent_verifier.py",
+              "sha256": "3d1524d799a6b1f7d86de7488ba849605fdd533e8a4882922e539cb5dcbefdf8",
+              "size": 18723
+            }
+          ],
+          "verified": true
+        },
+        "event_gaps": {
+          "baseline_archive": {
+            "path": "notes/evidence/rom-evidence-selector-repair-20260905/coverage-after.json.gz",
+            "sha256": "f996d62735f43b00fc3375b1e74423aac6b331edbca0943ae3033c2ceea0942b",
+            "size": 1759704
+          },
+          "baseline_archive_observed_by_verifier": true,
+          "baseline_raw_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+          "candidate_payload_sha256": "e4a158e824408fc0f8da6b28b35777bdc41362f6ca6094e46906e21d2f871d48",
+          "canonical_promoted": false,
+          "claim_count": 7,
+          "excluded_hole_bytes": 160,
+          "gap_count": 7,
+          "indirect_pc_target_count": 4,
+          "promotion_bytes": 14,
+          "public_contract_sha256": "a69a2fe7fbf9748957ee5258ae850c6049c829a63c3422047b06491debe85f0a",
+          "schema": "rom-event-handler-seven-gaps-candidate-verification-v1",
+          "scope": {
+            "canonical_promoted": false,
+            "classification": "artifact-bound align4 bytes between accepted non-fallthrough Thumb code and consumed literals",
+            "excluded_holes_classified": false,
+            "free_space": false,
+            "natural_reachability": false,
+            "nop": false,
+            "padding": false,
+            "source_full_verifier_replayed_here": false,
+            "source_rejected_root_accepted": false,
+            "structured_return": false
+          },
+          "source_code_range_count": 22,
+          "source_frontier_count": 18,
+          "source_full_verifier_replayed_here": false,
+          "source_instruction_count": 1742,
+          "source_literal_binding_count": 53,
+          "source_literal_range_count": 18,
+          "unconditional_branch_count": 3,
+          "upstream_inputs": [
+            {
+              "path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "size": 37061
+            },
+            {
+              "path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "size": 34133
+            },
+            {
+              "path": "tools/rom_small_cfg_callback_gaps_independent_verifier.py",
+              "sha256": "c6244e7fbb08b63dd8387cbba9b381564e24ad72b13f717d1cc9752dd3f3d083",
+              "size": 11876
+            },
+            {
+              "path": "tools/rom_small_cfg_callback_gaps_producer.py",
+              "sha256": "241edc5022877fe05abce6ffcac760ecb7aa54414a7431a366b5d0e362315315",
+              "size": 23041
+            },
+            {
+              "path": "tools/_vendor/capstone/__init__.py",
+              "sha256": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+              "size": 42474
+            },
+            {
+              "path": "tools/_vendor/capstone/arm.py",
+              "sha256": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+              "size": 2071
+            },
+            {
+              "path": "tools/_vendor/capstone/arm_const.py",
+              "sha256": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+              "size": 16464
+            },
+            {
+              "path": "tools/_vendor/capstone/lib/libcapstone.dylib",
+              "sha256": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f",
+              "size": 7308696
+            },
+            {
+              "path": "tools/export_rom_cfg_inventory.py",
+              "sha256": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+              "size": 40396
+            },
+            {
+              "path": "tools/export_rom_cfg_proven_roots_v13.py",
+              "sha256": "7017045fc098faff14e1726873a05a379123222ee878d771e3bdb4b5d5a70c8c",
+              "size": 40788
+            },
+            {
+              "path": "tools/rom_event_handler_cfg_contract.py",
+              "sha256": "42ff03212b40d435093c8de589b5750f704d0e3b5910e4a6dc2b7f1c5e657ae9",
+              "size": 9242
+            },
+            {
+              "path": "tools/thumb_branch.py",
+              "sha256": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+              "size": 3084
+            },
+            {
+              "path": "tools/verify_rom_cfg_inventory.py",
+              "sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+              "size": 45183
+            },
+            {
+              "path": "tools/verify_rom_cfg_proven_roots_v13.py",
+              "sha256": "a687af7750e9a177b47883f1b540d555bd4c666d92865d56e521f85174c869a7",
+              "size": 39526
+            },
+            {
+              "path": "tools/verify_rom_event_handler_cfg.py",
+              "sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "size": 22929
+            }
+          ],
+          "verified": true,
+          "zero_gap_count": 11
+        },
+        "wrappers": {
+          "baseline_archive": {
+            "path": "notes/evidence/rom-evidence-selector-repair-20260905/coverage-after.json.gz",
+            "sha256": "f996d62735f43b00fc3375b1e74423aac6b331edbca0943ae3033c2ceea0942b",
+            "size": 1759704
+          },
+          "baseline_archive_observed_by_verifier": true,
+          "baseline_raw_sha256": "1c6af01a54f3522ba277a4744b5b821d53588b853b3e7755902c65431df584b6",
+          "basic_block_count": 5,
+          "candidate_payload_sha256": "1f6d8c62a2a22564eef4b01b69c65a6b3a6015fd4b4bb0e5276fc32d1a906cc1",
+          "canonical_promoted": false,
+          "claim_count": 5,
+          "code_bytes": 46,
+          "frontier_count": 3,
+          "instruction_count": 21,
+          "literal_bytes": 8,
+          "opaque_call_count": 2,
+          "opaque_entry_membership": [
+            {
+              "block": {
+                "bytes_sha256": "5fc0a60c2ae0a3cc204a62ea87527a6a5f1fcfefcbe5c077867005989018fa2d",
+                "id": "block-thumb-07adbc",
+                "instruction_count": 3,
+                "mode": "thumb",
+                "range": [
+                  503228,
+                  503234
+                ],
+                "successors": [
+                  {
+                    "block_id": "block-thumb-07adc2",
+                    "file_offset": 503234,
+                    "kind": "fallthrough",
+                    "mode": "thumb"
+                  }
+                ],
+                "terminator": {
+                  "conditional": false,
+                  "file_offset": 503232,
+                  "flow_kind": "linear",
+                  "mnemonic": "movs",
+                  "op_str": "r5, #0",
+                  "size": 2
+                }
+              },
+              "entry": 503228,
+              "owner_claim_ids": [
+                "cfg-thumb-0440-07adbc"
+              ],
+              "upstream_payload": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json"
+            },
+            {
+              "block": {
+                "bytes_sha256": "d4b30640116de54ecf7cc8c0e575dc2894e1aa1029c5f0a856321a4f3c6112b2",
+                "id": "block-thumb-07b888",
+                "instruction_count": 3,
+                "mode": "thumb",
+                "range": [
+                  505992,
+                  506000
+                ],
+                "successors": [
+                  {
+                    "block_id": "block-thumb-07b890",
+                    "file_offset": 506000,
+                    "kind": "fallthrough",
+                    "mode": "thumb"
+                  }
+                ],
+                "terminator": {
+                  "conditional": false,
+                  "file_offset": 505996,
+                  "flow_kind": "call",
+                  "mnemonic": "bl",
+                  "op_str": "#0x807adbc",
+                  "size": 4
+                }
+              },
+              "entry": 505992,
+              "owner_claim_ids": [
+                "cfg-proven-roots-thumb-0085-07b868"
+              ],
+              "upstream_payload": "artifacts/rom-cfg-proven-roots-v1/rom-cfg-proven-roots.json"
+            }
+          ],
+          "producer_count": 15,
+          "producer_instruction_membership": [
+            {
+              "accepted_roots_reaching_source": [
+                516208
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-000-07e070"
+              ],
+              "size": 4,
+              "source": 516306,
+              "target": 503272,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                516552
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-002-07e1c8"
+              ],
+              "size": 4,
+              "source": 516684,
+              "target": 503272,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                516928
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-004-07e340"
+              ],
+              "size": 4,
+              "source": 517060,
+              "target": 503272,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                517316
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-006-07e4c4"
+              ],
+              "size": 4,
+              "source": 517448,
+              "target": 503272,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                517704
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-008-07e648"
+              ],
+              "size": 4,
+              "source": 517808,
+              "target": 503272,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                518312
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-015-07e8a8"
+              ],
+              "size": 4,
+              "source": 518474,
+              "target": 503272,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                516208
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-000-07e070"
+              ],
+              "size": 4,
+              "source": 516312,
+              "target": 506012,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                516552
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-002-07e1c8"
+              ],
+              "size": 4,
+              "source": 516690,
+              "target": 506012,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                516928
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-004-07e340"
+              ],
+              "size": 4,
+              "source": 517066,
+              "target": 506012,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                517316
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-006-07e4c4"
+              ],
+              "size": 4,
+              "source": 517454,
+              "target": 506012,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                517704
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-008-07e648"
+              ],
+              "size": 4,
+              "source": 517814,
+              "target": 506012,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                518004
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-010-07e774"
+              ],
+              "size": 4,
+              "source": 518128,
+              "target": 506012,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                518312
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-017-07e968"
+              ],
+              "size": 4,
+              "source": 518506,
+              "target": 506012,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                518656
+              ],
+              "owner_claim_ids": [
+                "event-handler-cfg-020-07ea00"
+              ],
+              "size": 4,
+              "source": 518736,
+              "target": 506012,
+              "upstream_payload": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json"
+            },
+            {
+              "accepted_roots_reaching_source": [
+                575244
+              ],
+              "owner_claim_ids": [
+                "text-bg-task-closure-code-08c7bc"
+              ],
+              "size": 4,
+              "source": 575488,
+              "target": 639276,
+              "upstream_payload": "artifacts/rom-text-bg-task-closure-v1/rom-text-bg-task-closure.json"
+            }
+          ],
+          "promotion_bytes": 54,
+          "public_contract_sha256": "065dae442f4f1276b6b41b42f5d5e56d550a043dea5a5a73090ab9fa886174ac",
+          "root_count": 3,
+          "schema": "rom-three-direct-wrapper-candidate-verification-v1",
+          "scope": {
+            "canonical_promoted": false,
+            "classification": "producer-bound finite Thumb code and consumed literal words",
+            "computed_indirect_producers_exhausted": false,
+            "global_direct_code_denominator": false,
+            "holes_classified": false,
+            "natural_reachability": false,
+            "opaque_callee_stack_effects_proven": false,
+            "source_full_lifecycle_replayed_here": false,
+            "structured_return": false
+          },
+          "source_full_lifecycle_replayed_here": false,
+          "structured_return_count": 0,
+          "upstream_event_instruction_count": 1742,
+          "upstream_inputs": [
+            {
+              "path": "artifacts/rom-cfg-inventory-v2/manifest.json",
+              "sha256": "ee19c03c17a25a5c0492c72892f25dcbd213d3dc9413941c886dcea51bdb8753",
+              "size": 4350
+            },
+            {
+              "path": "artifacts/rom-cfg-inventory-v2/rom-cfg-inventory.json",
+              "sha256": "b595e3469660d7cf0214a77cd3ebf9902f656a43d86c7ad62de0ce1ea8e4eedd",
+              "size": 5936694
+            },
+            {
+              "path": "artifacts/rom-cfg-proven-roots-v1/manifest.json",
+              "sha256": "ea1230fe24cf111a91044c059468a1467e46c471363780b23c2a0311bab8644a",
+              "size": 5186
+            },
+            {
+              "path": "artifacts/rom-cfg-proven-roots-v1/rom-cfg-proven-roots.json",
+              "sha256": "7fdee7d0d62d3a8c82bfe7b03804e9cb0e3d213ebdf63acce6b0533045aecf54",
+              "size": 1024474
+            },
+            {
+              "path": "artifacts/rom-event-handler-cfg-v1/manifest.json",
+              "sha256": "c665fe39c92124717ea851822542b883803a8957fe0d4b5bacaac0a47ed6a906",
+              "size": 37061
+            },
+            {
+              "path": "artifacts/rom-event-handler-cfg-v1/rom-event-handler-cfg.json",
+              "sha256": "577fb65f3d73ba0f797fa9cdc306165b60941de4f88e13dede0eac7e573f8892",
+              "size": 34133
+            },
+            {
+              "path": "artifacts/rom-text-bg-task-closure-v1/manifest.json",
+              "sha256": "fd632dd3d8762fa7f7b2492917fff814628587255e3853973013757e9346dd0d",
+              "size": 1148
+            },
+            {
+              "path": "artifacts/rom-text-bg-task-closure-v1/rom-text-bg-task-closure.json",
+              "sha256": "014c4b8c4fd098e8049511df55f248505e4d680be5b394592cab92e26c512a0c",
+              "size": 20175
+            },
+            {
+              "path": "tools/_vendor/capstone/__init__.py",
+              "sha256": "17a8db1bfe9cb52a97cc89d4ddc9b3246b5d0ddd330fb592ea17060554032f8e",
+              "size": 42474
+            },
+            {
+              "path": "tools/_vendor/capstone/arm.py",
+              "sha256": "bd8e7a96074481a55c77192f6202f92a52e8c9022aa68c2de5736edf0e04fff0",
+              "size": 2071
+            },
+            {
+              "path": "tools/_vendor/capstone/arm_const.py",
+              "sha256": "ca87ac6edbf031e1eff66531743dc6f2e4ba8ea63d532da401a5d1fa28653192",
+              "size": 16464
+            },
+            {
+              "path": "tools/_vendor/capstone/lib/libcapstone.dylib",
+              "sha256": "00f3876991807d87ef26b6564609dd2e2c46616c476336498f33a8c8501fb35f",
+              "size": 7308696
+            },
+            {
+              "path": "tools/export_rom_cfg_inventory.py",
+              "sha256": "2e50e58f753d88dbbfac617709280cc79207a1990a13dd06cb1c3eae5856e0ca",
+              "size": 40396
+            },
+            {
+              "path": "tools/export_rom_cfg_proven_roots_v13.py",
+              "sha256": "7017045fc098faff14e1726873a05a379123222ee878d771e3bdb4b5d5a70c8c",
+              "size": 40788
+            },
+            {
+              "path": "tools/rom_event_handler_cfg_contract.py",
+              "sha256": "42ff03212b40d435093c8de589b5750f704d0e3b5910e4a6dc2b7f1c5e657ae9",
+              "size": 9242
+            },
+            {
+              "path": "tools/thumb_branch.py",
+              "sha256": "e411a2b8b7d66191c526e783c1a38a6d9237fd99791c84d42004ac7441f60b51",
+              "size": 3084
+            },
+            {
+              "path": "tools/verify_rom_cfg_inventory.py",
+              "sha256": "a23ff1915def7a55f25795ca848d63610aed730865ecfb26f4c518e509c75e93",
+              "size": 45183
+            },
+            {
+              "path": "tools/verify_rom_cfg_proven_roots.py",
+              "sha256": "693d9381f429346376a6400bea20025ca0c56e1e68d0bf3164b070ea722aa4d7",
+              "size": 36912
+            },
+            {
+              "path": "tools/verify_rom_cfg_proven_roots_v13.py",
+              "sha256": "a687af7750e9a177b47883f1b540d555bd4c666d92865d56e521f85174c869a7",
+              "size": 39526
+            },
+            {
+              "path": "tools/verify_rom_event_handler_cfg.py",
+              "sha256": "f47e7e5a570ae6a1fc1a7bff11064df0b53bf60136314a799c0cc3962bfc36d3",
+              "size": 22929
+            },
+            {
+              "path": "tools/verify_rom_text_bg_task_closure.py",
+              "sha256": "9e29205f8e32dc37cb0d50843ae86e96abee6270d0294ed9fc9c24c494859a50",
+              "size": 19636
+            }
+          ],
+          "upstream_text_bg_instruction_count": 1330,
+          "upstream_whole_verifiers_replayed_here": false,
+          "verified": true
+        }
+      },
+      "payload_sha256": "4420a02756dfc59f73e8e051440d174fafa590d62086e3812e96960f8ea0336d",
+      "promotion_bytes": 118,
+      "schema": "rom-small-cfg-dependency-batch-v1-verification-v1",
+      "verified": true
+    }
+  }
+}

@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>《火影忍者：木叶战记》逆向工程结果查看器 · 2. 战斗系统与时序引擎</title>
+  <link rel="stylesheet" href="assets/viewer.css">
+  <link rel="stylesheet" href="assets/viewer-extra.css">
+</head>
+<body data-page="reverse-engineering-battle.html">
+
+  <div id="toast">已复制</div>
+  <div id="searchPanel"></div>
+
+<header class="top-bar">
+    <div class="top-bar-left">
+      <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="折叠/展开侧边栏">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+      <div class="top-bar-brand">
+        <span class="brand-badge">GBA</span>
+        <span class="brand-title">《火影忍者：木叶战记》逆向工程结果查看器</span>
+      </div>
+      <div class="rom-status-tag">
+        <span class="pulse-dot"></span>
+        <span>ROM v1.3 (简)(JP) 48Mb · 校验通过</span>
+      </div>
+    </div>
+
+    <div class="top-bar-right">
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="本页检索地址/角色/技能/道具/函数 (Ctrl+K)..." oninput="handleSearch()">
+        <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearch()" style="display:none;" title="清空检索">✕</button>
+      </div>
+      <div class="top-actions">
+        <a class="top-action-btn badge-cyan" href="reverse-engineering-results.html#sec-image-downloads" title="按板块打包下载全部图像">
+          📧 图像打包下载
+        </a>
+
+        <a class="top-action-btn badge-green" href="reverse-engineering-results.html#sec-progress-tests" title="查看 17 项自动化回归测试详情">
+          ✓ 17/17 测试通过
+        </a>
+        <button class="top-action-btn" onclick="copyCurrentUrl()" title="复制本页面分享链接">
+          🔗 分享
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-layout">
+<aside class="left-sidebar" id="leftSidebar">
+    <nav class="sidebar-nav">
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="progress" href="reverse-engineering-results.html"><span class="link-text">研发全景</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-image-downloads" href="reverse-engineering-results.html#sec-image-downloads"><span class="link-text">图像资源打包下载 (Image Download Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-kpi" href="reverse-engineering-results.html#sec-progress-kpi"><span class="link-text">逆向工程核心量化成果总览 (Executive Technical Metrics)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-phases" href="reverse-engineering-results.html#sec-progress-phases"><span class="link-text">续作研发工程全阶段进展 (Roadmap Phase Progress)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-milestones" href="reverse-engineering-results.html#sec-progress-milestones"><span class="link-text">P0 逆向工程 7 大里程碑攻坚矩阵 (P0 Reverse Engineering Milestones Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-memory" href="reverse-engineering-results.html#sec-progress-memory"><span class="link-text">ROM 存储拓扑全景与 128 KB 自由空间分配规划 (Memory Topology &amp; Free Space)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-tests" href="reverse-engineering-results.html#sec-progress-tests"><span class="link-text">CI 自动化测试防回归体系 (Test Suites)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-progress-next" href="reverse-engineering-results.html#sec-progress-next"><span class="link-text">下阶段续作研发推进清单 (Immediate Next Steps)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-artifact-coverage" href="reverse-engineering-results.html#sec-artifact-coverage"><span class="link-text">逆向成果收录覆盖总表 (Artifact Family Coverage)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-rom-catalog" href="reverse-engineering-results.html#sec-rom-catalog"><span class="link-text">ROM 逆向成果族全量目录 (ROM Family Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="progress" data-anchor="sec-reverse-ledger" href="reverse-engineering-results.html#sec-reverse-ledger"><span class="link-text">逆向成果台账 (Reverse Results Ledger)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="visuals" href="reverse-engineering-visuals.html"><span class="link-text">1. 视觉与动画资产库</span><span class="link-badge">12</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-studio" href="reverse-engineering-visuals.html#sec-studio"><span class="link-text">⚡ 角色动作交互工作室 (Character Action &amp; Sprite Studio)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-action-matrix" href="reverse-engineering-visuals.html#sec-action-matrix"><span class="link-text">木叶战记 35 位全员动作状态与动画帧数全览表</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-portraits-poster" href="reverse-engineering-visuals.html#sec-portraits-poster"><span class="link-text">菜单 / 剧情立绘矩阵总集海报 (Menu &amp; Story Portrait Matrix)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-roster-poster" href="reverse-engineering-visuals.html#sec-roster-poster"><span class="link-text">全 35 位登场角色全家福精灵海报 (Master Roster Poster)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tilesets" href="reverse-engineering-visuals.html#sec-tilesets"><span class="link-text">战场地图 Tileset 图集 (47 行全量 PNG Export)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-map-canvases" href="reverse-engineering-visuals.html#sec-map-canvases"><span class="link-text">成品战场地图画布 (Assembled Battle Map Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-tile-assets-bg" href="reverse-engineering-visuals.html#sec-tile-assets-bg"><span class="link-text">图块资产 BG 图层 (Tile Asset BG Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-character-battle-visuals" href="reverse-engineering-visuals.html#sec-character-battle-visuals"><span class="link-text">角色战斗视觉资源 (Character Battle Visuals)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-canvases" href="reverse-engineering-visuals.html#sec-bg-canvases"><span class="link-text">BG 资源画布 (BG Resource Canvases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-bg-scene-selection" href="reverse-engineering-visuals.html#sec-bg-scene-selection"><span class="link-text">章节选择 opcode 0x1E 记录 (Chapter Scene Selection)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-scene-visual-packs" href="reverse-engineering-visuals.html#sec-scene-visual-packs"><span class="link-text">场景视觉包 (Scene Visual Packs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="visuals" data-anchor="sec-world-map-bg" href="reverse-engineering-visuals.html#sec-world-map-bg"><span class="link-text">世界地图背景 (World Map Backgrounds)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub active" data-hub="battle" href="reverse-engineering-battle.html"><span class="link-text">2. 战斗系统与时序引擎</span><span class="link-badge">10</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-vm" href="reverse-engineering-battle.html#sec-battle-vm"><span class="link-text">忍术战斗时序虚拟机 (Jutsu Execution VM) 字节码指令集规范</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-scripts" href="reverse-engineering-battle.html#sec-battle-scripts"><span class="link-text">木叶战记 36 张忍术技能脚本表全量逆向解析库</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-scenario-fsm" href="reverse-engineering-battle.html#sec-scenario-fsm"><span class="link-text">战斗场景配置总表 (Battle Scenario Config Table - ROM 0x0853D910)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-fsm-funcs" href="reverse-engineering-battle.html#sec-battle-fsm-funcs"><span class="link-text">战斗状态机函数指针表 (Battle State Machine Functions)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-sequences" href="reverse-engineering-battle.html#sec-battle-effect-sequences"><span class="link-text">战斗特效时序绑定 (Battle Effect Sequence Bindings)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-catalog" href="reverse-engineering-battle.html#sec-battle-visual-catalog"><span class="link-text">79 项战斗视觉表现目录 (Battle Visual Catalog)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-visual-timelines" href="reverse-engineering-battle.html#sec-battle-visual-timelines"><span class="link-text">战斗视觉运行时时间线 (Battle Visual Runtime Timelines)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-affine-runtime" href="reverse-engineering-battle.html#sec-affine-runtime"><span class="link-text">战斗特效仿射运行时 (Affine Runtime Evidence)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-pairs" href="reverse-engineering-battle.html#sec-battle-effect-pairs"><span class="link-text">战斗特效资源对 (Battle Effect Resource Pairs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="battle" data-anchor="sec-battle-effect-anims" href="reverse-engineering-battle.html#sec-battle-effect-anims"><span class="link-text">战斗特效精灵动画 (Battle Effect Sprite Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="story" href="reverse-engineering-story.html"><span class="link-text">3. 剧情调度与文本系统</span><span class="link-badge">9</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-pipeline" href="reverse-engineering-story.html#sec-dialogue-pipeline"><span class="link-text">GBA 对话渲染硬件链路与数据通路 (Screen Render Pipeline)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-asm" href="reverse-engineering-story.html#sec-dialogue-asm"><span class="link-text">关键文本与渲染函数清单 (Thumb ASM)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-chapter-fsm" href="reverse-engineering-story.html#sec-chapter-fsm"><span class="link-text">章节状态结构体与关卡加载劫持 (Chapter State Struct)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-dialogue-font" href="reverse-engineering-story.html#sec-dialogue-font"><span class="link-text">对话字体图集 (Dialogue Font Atlases)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-cutscene-obj" href="reverse-engineering-story.html#sec-cutscene-obj"><span class="link-text">过场 OBJ 静态资源 (Cutscene OBJ Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-free-space-pipe" href="reverse-engineering-story.html#sec-free-space-pipe"><span class="link-text">可变长对白扩容系统与 128 KB 空闲区域 (Pointer Redirect Engine)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-battle-glyphs" href="reverse-engineering-story.html#sec-battle-glyphs"><span class="link-text">战斗演出字形与消息表 (Battle Presentation Glyphs)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-visual-layers" href="reverse-engineering-story.html#sec-story-visual-layers"><span class="link-text">剧情视觉图层 (Story Visual Layers)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="story" data-anchor="sec-story-scene-timelines" href="reverse-engineering-story.html#sec-story-scene-timelines"><span class="link-text">剧情场景时间线 (Story Scene Timelines)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="data" href="reverse-engineering-data.html"><span class="link-text">4. 内存数据与音频架构</span><span class="link-badge">5</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-unit-struct" href="reverse-engineering-data.html#sec-unit-struct"><span class="link-text">单位 ID 映射表 (ROM 0x0853F298) 与 WRAM 战斗阵列</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-item-matrix" href="reverse-engineering-data.html#sec-item-matrix"><span class="link-text">忍具 / 药品 / 卷轴 / 材料内存表 (WRAM 0x02023FD4 - 0x02024044)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-audio-pcm" href="reverse-engineering-data.html#sec-audio-pcm"><span class="link-text">DirectSound PCM 音频样本提取 (10 个 WAV 样本，共 ~3 MB)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-definitions" href="reverse-engineering-data.html#sec-sprite-definitions"><span class="link-text">精灵定义静态资源与运行时链 (Sprite Definition Assets)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="data" data-anchor="sec-sprite-def-anims" href="reverse-engineering-data.html#sec-sprite-def-anims"><span class="link-text">精灵定义动画 (Sprite Definition Animations)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="engineering" href="reverse-engineering-engineering.html"><span class="link-text">5. 逆向基建与工程流水线</span><span class="link-badge">4</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-mod-builder" href="reverse-engineering-engineering.html#sec-mod-builder"><span class="link-text">ROM 补丁流水线 (tools/build_mod.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-auto-tests" href="reverse-engineering-engineering.html#sec-auto-tests"><span class="link-text">全覆盖自动化测试套件 (tools/automated_test.py)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-full" href="reverse-engineering-engineering.html#sec-toolbox-full"><span class="link-text">工具全量清单 (Complete Tool Inventory)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="engineering" data-anchor="sec-toolbox-index" href="reverse-engineering-engineering.html#sec-toolbox-index"><span class="link-text">自研逆向工具箱清单 (Tools Inventory)</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="formulas" href="reverse-engineering-formulas.html"><span class="link-text">6. 逆向公式与运行时模型</span><span class="link-badge">2</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-formula-index" href="reverse-engineering-formulas.html#sec-formula-index"><span class="link-text">逆向公式与运行时模型总览 (Reverse Engineering Formulas)</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="formulas" data-anchor="sec-heavy-index" href="reverse-engineering-formulas.html#sec-heavy-index"><span class="link-text">公式与运行时模型索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="conclusions" href="reverse-engineering-conclusions.html"><span class="link-text">7. 逆向结论索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="conclusions" data-anchor="sec-conclusions" href="reverse-engineering-conclusions.html#sec-conclusions"><span class="link-text">结论分主题索引</span></a>
+        </div>
+        <div class="sidebar-group">
+          <a class="sidebar-link sidebar-hub" data-hub="dataindex" href="reverse-engineering-data-index.html"><span class="link-text">8. ROM 数据产物索引</span><span class="link-badge">1</span></a>
+          <a class="sidebar-link sidebar-sub" data-hub="dataindex" data-anchor="sec-data-index" href="reverse-engineering-data-index.html#sec-data-index"><span class="link-text">ROM 数据产物索引 (ROM Data Artifacts)</span></a>
+        </div>
+    </nav>
+</aside>
+
+    <main class="main-workspace" id="mainWorkspace">
+
+<section class="category-section" id="hub-battle" data-category="battle">
+      <div class="section-header">
+        <div class="section-title">
+          <span class="icon">⚔️</span> 2. 战斗系统与时序引擎 (Battle System &amp; Skill Engine)
+        </div>
+        <span class="section-tag">ROM 0x53636C ~ 0x53CE44 / 0x53D910 / 0x464800 | 36 技能脚本 | 8 场景配置</span>
+      </div>
+
+      <div class="card-grid">
+        <!-- 忍术虚拟机与字节码规范 -->
+        <div class="card full-width" id="sec-battle-vm">
+          <div class="card-head">
+            <div class="card-title">忍术战斗时序虚拟机 (Jutsu Execution VM) 字节码指令集规范</div>
+            <span class="tag tag-cyan">Battle Bytecode Instruction Set</span>
+          </div>
+          <p class="card-desc">
+            木叶战记的忍术释放由轻量级字节码解释器严格调控查克拉扣除、选敌范围判定、结印时序、弹道抛物线轨迹、命中判定、屏幕震动与伤害结算：
+          </p>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>操作码</th>
+                  <th>指令助记符</th>
+                  <th>参数格式</th>
+                  <th>功能说明与执行逻辑</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>0xBE</code></td>
+                  <td><code>SET_SKILL_ANIM</code></td>
+                  <td><code>u8 skill_id</code></td>
+                  <td>设置当前释放的技能动画 ID，驱动角色精灵与特效图层绑定。</td>
+                </tr>
+                <tr>
+                  <td><code>0xBC</code></td>
+                  <td><code>SET_TARGET_MODE</code></td>
+                  <td><code>u8 target_flag</code></td>
+                  <td>设定选敌范围：<code>0x00</code>=单体目标，<code>0x01</code>=十字范围/AOE，<code>0x02</code>=自身增益。</td>
+                </tr>
+                <tr>
+                  <td><code>0xBB</code></td>
+                  <td><code>REQ_CHAKRA</code></td>
+                  <td><code>u8 chakra_cost</code></td>
+                  <td>校验并扣减发动者的查克拉点数（如螺旋丸 80 点、豪火球 37 点、倍化术 87 点）。</td>
+                </tr>
+                <tr>
+                  <td><code>0xBD</code></td>
+                  <td><code>PHASE_STEP</code></td>
+                  <td><code>u8 step_index</code></td>
+                  <td>标定技能动作执行阶段（<code>00</code> 起手结印 -> <code>01</code> 查克拉汇聚 -> <code>02</code> 弹道飞行 -> <code>03</code> 命中爆炸）。</td>
+                </tr>
+                <tr>
+                  <td><code>0x81BF</code></td>
+                  <td><code>SPAWN_VFX_PARTICLE</code></td>
+                  <td><code>u16 particle_id</code></td>
+                  <td>调用 <code>0x464800</code> 样条曲线表生成飞行粒子（螺旋丸光晕、豪火球火焰、千鸟电流、冰晶针）。</td>
+                </tr>
+                <tr>
+                  <td><code>0x82</code></td>
+                  <td><code>CAMERA_SHAKE</code></td>
+                  <td><code>u8 intensity, u8 duration</code></td>
+                  <td>触发 GBA 屏幕震动与闪屏白光，营造重击打击感。</td>
+                </tr>
+                <tr>
+                  <td><code>0xDB</code></td>
+                  <td><code>WAIT_TICKS</code></td>
+                  <td><code>u8 tick_count</code></td>
+                  <td>挂起执行器指定拍数，保持当前视觉状态等待音效或动画播放同步。</td>
+                </tr>
+                <tr>
+                  <td><code>0xFF</code></td>
+                  <td><code>END_SCRIPT</code></td>
+                  <td>无</td>
+                  <td>终止技能脚本，释放粒子缓冲，将控制权归还给战场主状态机。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 36 张忍术脚本全量检索表 -->
+        <div class="card full-width" id="sec-battle-scripts">
+          <div class="card-head">
+            <div class="card-title">木叶战记 36 张忍术技能脚本表全量逆向解析库</div>
+            <span class="tag tag-purple">36 Skill Scripts Decoded</span>
+          </div>
+          <div class="table-container" style="max-height:360px; overflow-y:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>脚本表地址</th>
+                  <th>技能 ID</th>
+                  <th>目标模式</th>
+                  <th>查克拉消耗</th>
+                  <th>阶段数</th>
+                  <th>样条曲线指针</th>
+                  <th>阶段 0 字节码切片</th>
+                </tr>
+              </thead>
+              <tbody>
+                
+        <tr>
+          <td><code>#00</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53636c')">0x53636c</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x69</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(105)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">80 CP</strong></td>
+          <td><span class="tag tag-green">8 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846606c')">0x846606c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be69bc00bb50bd0081bf2282b0d13948</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#01</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x536bc8')">0x536bc8</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">37 CP</strong></td>
+          <td><span class="tag tag-green">10 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb25bd0081bf2282db2f788c</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#02</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x5374b8')">0x5374b8</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">59 CP</strong></td>
+          <td><span class="tag tag-green">10 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb3bbd0081bf2282b0db3950</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#03</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x537b94')">0x537b94</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">50 CP</strong></td>
+          <td><span class="tag tag-green">7 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb32bd0081bf2c82db347898</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#04</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x537f80')">0x537f80</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">35 CP</strong></td>
+          <td><span class="tag tag-green">6 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x8476a04')">0x8476a04</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb23bd0081bf2282b0b0d235</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#05</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x538438')">0x538438</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">77 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x847a780')">0x847a780</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb4dbd0081bf4082db3c508c</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#06</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x538894')">0x538894</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">39 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x847c328')">0x847c328</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb27bd0081bf4082f737488c</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#07</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x538ff0')">0x538ff0</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">87 CP</strong></td>
+          <td><span class="tag tag-green">9 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846606c')">0x846606c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb57bd0081bf2282db3b508c</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#08</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x539a5c')">0x539a5c</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">56 CP</strong></td>
+          <td><span class="tag tag-green">10 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb38bd0081bf4082b0b0b0a8</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#09</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53a1f0')">0x53a1f0</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">73 CP</strong></td>
+          <td><span class="tag tag-green">8 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb49bd0081bf2282b0b0b0b0</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#10</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53ab78')">0x53ab78</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">47 CP</strong></td>
+          <td><span class="tag tag-green">10 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846606c')">0x846606c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb2fbd0081bf2282d5346486</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#11</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53b248')">0x53b248</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">45 CP</strong></td>
+          <td><span class="tag tag-green">9 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x8476a04')">0x8476a04</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb2dbd0081bf1882b0b0bf18</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#12</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53bbec')">0x53bbec</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">85 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846e884')">0x846e884</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb55bd0081bf4082eb1f78eb</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#13</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53c3c0')">0x53c3c0</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">52 CP</strong></td>
+          <td><span class="tag tag-green">8 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb34bd0081bf2282db34788c</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#14</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53c568')">0x53c568</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">4 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb4bbd0081bf40828cdb3470</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#15</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53c700')">0x53c700</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">90 CP</strong></td>
+          <td><span class="tag tag-green">6 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846606c')">0x846606c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb5abd0081bf2282d2375c8c</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#16</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53c8bc')">0x53c8bc</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">85 CP</strong></td>
+          <td><span class="tag tag-green">5 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb55bd0081bf5e82e73270e7</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#17</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53ca74')">0x53ca74</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x66</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(102)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">77 CP</strong></td>
+          <td><span class="tag tag-green">7 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846606c')">0x846606c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be66bc00bb4dbd0081bf2282d53e5c86</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#18</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cbb8')">0x53cbb8</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x69</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(105)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">80 CP</strong></td>
+          <td><span class="tag tag-green">7 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be69bc00bb50bd0081bf228298db345c</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#19</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53ccb0')">0x53ccb0</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x69</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(105)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">6 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be69bc00bb4bbd0081bf2282d53964d5</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#20</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cd68')">0x53cd68</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x69</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(105)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">80 CP</strong></td>
+          <td><span class="tag tag-green">4 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be69bc00bb50bd0081bf4082d53b7f86</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#21</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53ce44')">0x53ce44</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x69</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(105)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">43 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x846b1b4')">0x846b1b4</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be69bc00bb2bbd0081bf4082db4a788c</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#22</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53ce70')">0x53ce70</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x7f</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(127)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be7fbc00bb4bbd00bf4081f83c7fa981</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#23</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53ce8c')">0x53ce8c</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x73</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(115)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be73bc00bb4bbd01bf4081e03c7f91b1</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#24</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cea8')">0x53cea8</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x50</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(80)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be50bc00bb4bbd02bf4081da3c7f8bb1</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#25</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cec4')">0x53cec4</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x6e</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(110)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be6ebc00bb4bbd03bf4081e03c7f91b1</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#26</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cee0')">0x53cee0</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x6e</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(110)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be6ebc00bb4bbd04bf4081e03c7f91b1</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#27</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cefc')">0x53cefc</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x7f</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(127)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be7fbc00bb4bbd05bf4081e63c7f97b1</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#28</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cf18')">0x53cf18</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x7f</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(127)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be7fbc00bb4bbd06bf4081e03c7f91b1</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#29</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cf34')">0x53cf34</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x7f</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(127)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be7fbc00bb4bbd07bf4081e63c7f97b1</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#30</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cf54')">0x53cf54</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x78</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(120)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be78bc00bb4bbd08bf4081ea3c7f9b83</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#31</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cf74')">0x53cf74</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x78</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(120)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be78bc00bb4bbd09bf4081ea3c7f9b83</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#32</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cf94')">0x53cf94</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x78</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(120)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be78bc00bb4bbd0abf4081f63c7fa783</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#33</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cfb4')">0x53cfb4</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x78</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(120)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be78bc00bb4bbd0bbf4081ea3c7f9b83</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#34</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cfd4')">0x53cfd4</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x7f</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(127)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be7fbc00bb4bbd0cbf4081ee3c7f9f83</code></td>
+        </tr>
+
+        <tr>
+          <td><code>#35</code></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x53cff4')">0x53cff4</code></td>
+          <td><strong style="color:var(--accent-cyan);">0x78</strong> <span style="color:var(--text-muted); font-size:0.75rem;">(120)</span></td>
+          <td><span class="tag tag-blue">单体</span></td>
+          <td><strong style="color:var(--accent-amber);">75 CP</strong></td>
+          <td><span class="tag tag-green">1 阶段</span></td>
+          <td><code class="addr-badge" onclick="copyAddr('0x849133c')">0x849133c</code></td>
+          <td><code style="font-size:0.75rem; color:#94a3b8;">be78bc00bb4bbd0dbf4081ec3c7f9d81</code></td>
+        </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 8 大战场场景配置总表 (32 字节配置表) -->
+        <div class="card full-width" id="sec-scenario-fsm">
+          <div class="card-head">
+            <div class="card-title">战斗场景配置总表 (Battle Scenario Config Table - ROM 0x0853D910)</div>
+            <span class="tag tag-amber">47 行 × 32 字节 (8 个 u32) 完整解密</span>
+          </div>
+          <p class="card-desc">
+            战斗场景配置表位于 ROM <code>0x0853D910</code>（文件偏移 <code>0x53D910</code>），共 <strong>47 行</strong>，每行占 <strong>32 字节 (8 个 u32)</strong>。
+            早先曾被误判为 16 字节，现已彻底纠正；本表字段口径同样经过复核：
+            <strong>字段 +4 = 瓦片图形</strong>、<strong>+8 = 背景调色板块</strong>（被传入 <code>LZ77UnCompVram</code>，目标 <code>0x05000000</code>）、
+            <strong>+12 / +16 = 两份布局</strong>（部分行为 0）、<strong>+20 = 元块/属性数据</strong>（历史 <code>palette_ptr</code> 别名把它误称为调色板）、
+            <strong>+24 = 附加指针</strong>、<strong>字段 0 = 打包网格尺寸</strong>（低 16 位宽、高 16 位高）。
+            场景的剧情命名（如“木叶演习场”“波之国大桥”）尚未与 ROM 字段闭合，因此此处按行号中性标注，不做推断性命名。
+          </p>
+
+          <div class="table-container" style="max-height:520px; overflow-y:auto;">
+            <table>
+              <thead>
+                <tr>
+                  <th>行号</th>
+                  <th>场景</th>
+                  <th>瓦片图形 (LZ77 4bpp)</th>
+                  <th>背景调色板块 (BGR555)</th>
+                  <th>布局 A</th>
+                  <th>布局 B</th>
+                  <th>元块/属性数据</th>
+                  <th>网格 (宽×高)</th>
+                  <th>地图格数</th>
+                  <th>图集瓦片数</th>
+                </tr>
+                </thead>
+              <tbody>
+                <tr><td><code>0</code></td><td>Map 00 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0B9F80')">0x0B9F80</code></td><td><code class="addr-badge" onclick="copyAddr('0x0BD608')">0x0BD608</code></td><td><code class="addr-badge" onclick="copyAddr('0x0BD70C')">0x0BD70C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0BDF00')">0x0BDF00</code></td><td><code class="addr-badge" onclick="copyAddr('0x0BE10C')">0x0BE10C</code></td><td>92 × 64</td><td>5888</td><td>672</td></tr>
+                <tr><td><code>1</code></td><td>Map 01 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0BF318')">0x0BF318</code></td><td><code class="addr-badge" onclick="copyAddr('0x0C166C')">0x0C166C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0C1710')">0x0C1710</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0C18EC')">0x0C18EC</code></td><td>60 × 30</td><td>1800</td><td>320</td></tr>
+                <tr><td><code>2</code></td><td>Map 02 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0C1CF8')">0x0C1CF8</code></td><td><code class="addr-badge" onclick="copyAddr('0x0C416C')">0x0C416C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0C4210')">0x0C4210</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0C43E4')">0x0C43E4</code></td><td>36 × 36</td><td>1296</td><td>352</td></tr>
+                <tr><td><code>3</code></td><td>Map 03 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0C4880')">0x0C4880</code></td><td><code class="addr-badge" onclick="copyAddr('0x0C5F24')">0x0C5F24</code></td><td><code class="addr-badge" onclick="copyAddr('0x0C5FC8')">0x0C5FC8</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0C6140')">0x0C6140</code></td><td>36 × 40</td><td>1440</td><td>224</td></tr>
+                <tr><td><code>4</code></td><td>Map 04 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0C6450')">0x0C6450</code></td><td><code class="addr-badge" onclick="copyAddr('0x0C8454')">0x0C8454</code></td><td><code class="addr-badge" onclick="copyAddr('0x0C84F8')">0x0C84F8</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0C86D8')">0x0C86D8</code></td><td>36 × 40</td><td>1440</td><td>288</td></tr>
+                <tr><td><code>5</code></td><td>Map 05 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0C8AF4')">0x0C8AF4</code></td><td><code class="addr-badge" onclick="copyAddr('0x0CAA94')">0x0CAA94</code></td><td><code class="addr-badge" onclick="copyAddr('0x0CAB30')">0x0CAB30</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0CAD38')">0x0CAD38</code></td><td>36 × 46</td><td>1656</td><td>320</td></tr>
+                <tr><td><code>6</code></td><td>Map 06 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0CB18C')">0x0CB18C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0CCB54')">0x0CCB54</code></td><td><code class="addr-badge" onclick="copyAddr('0x0CCC28')">0x0CCC28</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0CCE1C')">0x0CCE1C</code></td><td>60 × 32</td><td>1920</td><td>256</td></tr>
+                <tr><td><code>7</code></td><td>Map 07 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0CD260')">0x0CD260</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D0054')">0x0D0054</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D0154')">0x0D0154</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D041C')">0x0D041C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D0638')">0x0D0638</code></td><td>60 × 32</td><td>1920</td><td>672</td></tr>
+                <tr><td><code>8</code></td><td>Map 08 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0D1284')">0x0D1284</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D4388')">0x0D4388</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D447C')">0x0D447C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D4664')">0x0D4664</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D475C')">0x0D475C</code></td><td>60 × 32</td><td>1920</td><td>512</td></tr>
+                <tr><td><code>9</code></td><td>Map 09 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0D4DE4')">0x0D4DE4</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D8624')">0x0D8624</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D8738')">0x0D8738</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D89D4')">0x0D89D4</code></td><td><code class="addr-badge" onclick="copyAddr('0x0D8CD8')">0x0D8CD8</code></td><td>64 × 64</td><td>4096</td><td>704</td></tr>
+                <tr><td><code>10</code></td><td>Map 10 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0D9780')">0x0D9780</code></td><td><code class="addr-badge" onclick="copyAddr('0x0DBBD8')">0x0DBBD8</code></td><td><code class="addr-badge" onclick="copyAddr('0x0DBCEC')">0x0DBCEC</code></td><td><code class="addr-badge" onclick="copyAddr('0x0DBE98')">0x0DBE98</code></td><td><code class="addr-badge" onclick="copyAddr('0x0DC09C')">0x0DC09C</code></td><td>64 × 42</td><td>2688</td><td>480</td></tr>
+                <tr><td><code>11</code></td><td>Map 11 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0DC748')">0x0DC748</code></td><td><code class="addr-badge" onclick="copyAddr('0x0DFE48')">0x0DFE48</code></td><td><code class="addr-badge" onclick="copyAddr('0x0DFF5C')">0x0DFF5C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E01E4')">0x0E01E4</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E04C8')">0x0E04C8</code></td><td>68 × 60</td><td>4080</td><td>672</td></tr>
+                <tr><td><code>12</code></td><td>Map 12 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0E0EC4')">0x0E0EC4</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E4470')">0x0E4470</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E4584')">0x0E4584</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E47A0')">0x0E47A0</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E4994')">0x0E4994</code></td><td>44 × 64</td><td>2816</td><td>608</td></tr>
+                <tr><td><code>13</code></td><td>Map 13 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0E5138')">0x0E5138</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E728C')">0x0E728C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E7344')">0x0E7344</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0E7584')">0x0E7584</code></td><td>52 × 42</td><td>2184</td><td>320</td></tr>
+                <tr><td><code>14</code></td><td>Map 14 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0E79F4')">0x0E79F4</code></td><td><code class="addr-badge" onclick="copyAddr('0x0EA0F4')">0x0EA0F4</code></td><td><code class="addr-badge" onclick="copyAddr('0x0EA198')">0x0EA198</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0EA3EC')">0x0EA3EC</code></td><td>60 × 38</td><td>2280</td><td>384</td></tr>
+                <tr><td><code>15</code></td><td>Map 15 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0EA8FC')">0x0EA8FC</code></td><td><code class="addr-badge" onclick="copyAddr('0x0ECB40')">0x0ECB40</code></td><td><code class="addr-badge" onclick="copyAddr('0x0ECBF8')">0x0ECBF8</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0ECE3C')">0x0ECE3C</code></td><td>48 × 42</td><td>2016</td><td>320</td></tr>
+                <tr><td><code>16</code></td><td>Map 16 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0ED2D0')">0x0ED2D0</code></td><td><code class="addr-badge" onclick="copyAddr('0x0EF448')">0x0EF448</code></td><td><code class="addr-badge" onclick="copyAddr('0x0EF4EC')">0x0EF4EC</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0EF6A8')">0x0EF6A8</code></td><td>36 × 40</td><td>1440</td><td>320</td></tr>
+                <tr><td><code>17</code></td><td>Map 17 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0EFACC')">0x0EFACC</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F26F8')">0x0F26F8</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F27B0')">0x0F27B0</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0F2A38')">0x0F2A38</code></td><td>48 × 40</td><td>1920</td><td>416</td></tr>
+                <tr><td><code>18</code></td><td>Map 18 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0F3060')">0x0F3060</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F584C')">0x0F584C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F58F0')">0x0F58F0</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0F5B7C')">0x0F5B7C</code></td><td>60 × 42</td><td>2520</td><td>384</td></tr>
+                <tr><td><code>19</code></td><td>Map 19 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0F60CC')">0x0F60CC</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F760C')">0x0F760C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F76BC')">0x0F76BC</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0F78A8')">0x0F78A8</code></td><td>60 × 42</td><td>2520</td><td>224</td></tr>
+                <tr><td><code>20</code></td><td>Map 20 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0F7BB8')">0x0F7BB8</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F9C80')">0x0F9C80</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F9D30')">0x0F9D30</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0F9F14')">0x0F9F14</code></td><td>60 × 42</td><td>2520</td><td>320</td></tr>
+                <tr><td><code>21</code></td><td>Map 21 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0FA2FC')">0x0FA2FC</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FB020')">0x0FB020</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FB0C0')">0x0FB0C0</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FB1E8')">0x0FB1E8</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FB244')">0x0FB244</code></td><td>36 × 32</td><td>1152</td><td>160</td></tr>
+                <tr><td><code>22</code></td><td>Map 22 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0FB508')">0x0FB508</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FC6A8')">0x0FC6A8</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FC740')">0x0FC740</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FC8E8')">0x0FC8E8</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FC98C')">0x0FC98C</code></td><td>52 × 40</td><td>2080</td><td>256</td></tr>
+                <tr><td><code>23</code></td><td>Map 23 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0FCD7C')">0x0FCD7C</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FE058')">0x0FE058</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FE0F0')">0x0FE0F0</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FE2FC')">0x0FE2FC</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FE3B0')">0x0FE3B0</code></td><td>60 × 34</td><td>2040</td><td>288</td></tr>
+                <tr><td><code>24</code></td><td>Map 24 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0FE7FC')">0x0FE7FC</code></td><td><code class="addr-badge" onclick="copyAddr('0x100984')">0x100984</code></td><td><code class="addr-badge" onclick="copyAddr('0x100A3C')">0x100A3C</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x100C38')">0x100C38</code></td><td>52 × 34</td><td>1768</td><td>320</td></tr>
+                <tr><td><code>25</code></td><td>Map 25 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x101084')">0x101084</code></td><td><code class="addr-badge" onclick="copyAddr('0x1036BC')">0x1036BC</code></td><td><code class="addr-badge" onclick="copyAddr('0x103774')">0x103774</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x1039B0')">0x1039B0</code></td><td>52 × 40</td><td>2080</td><td>384</td></tr>
+                <tr><td><code>26</code></td><td>Map 26 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x103E90')">0x103E90</code></td><td><code class="addr-badge" onclick="copyAddr('0x105F8C')">0x105F8C</code></td><td><code class="addr-badge" onclick="copyAddr('0x106044')">0x106044</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x106224')">0x106224</code></td><td>44 × 40</td><td>1760</td><td>320</td></tr>
+                <tr><td><code>27</code></td><td>Map 27 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x106634')">0x106634</code></td><td><code class="addr-badge" onclick="copyAddr('0x109058')">0x109058</code></td><td><code class="addr-badge" onclick="copyAddr('0x109108')">0x109108</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x109338')">0x109338</code></td><td>44 × 42</td><td>1848</td><td>384</td></tr>
+                <tr><td><code>28</code></td><td>Map 28 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x10986C')">0x10986C</code></td><td><code class="addr-badge" onclick="copyAddr('0x10B9E4')">0x10B9E4</code></td><td><code class="addr-badge" onclick="copyAddr('0x10BA94')">0x10BA94</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x10BC80')">0x10BC80</code></td><td>36 × 46</td><td>1656</td><td>320</td></tr>
+                <tr><td><code>29</code></td><td>Map 29 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x10C080')">0x10C080</code></td><td><code class="addr-badge" onclick="copyAddr('0x10E2C4')">0x10E2C4</code></td><td><code class="addr-badge" onclick="copyAddr('0x10E374')">0x10E374</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x10E538')">0x10E538</code></td><td>36 × 40</td><td>1440</td><td>320</td></tr>
+                <tr><td><code>30</code></td><td>Map 30 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x10E924')">0x10E924</code></td><td><code class="addr-badge" onclick="copyAddr('0x110A80')">0x110A80</code></td><td><code class="addr-badge" onclick="copyAddr('0x110B38')">0x110B38</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x110D64')">0x110D64</code></td><td>52 × 40</td><td>2080</td><td>320</td></tr>
+                <tr><td><code>31</code></td><td>Map 31 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x1111A0')">0x1111A0</code></td><td><code class="addr-badge" onclick="copyAddr('0x112260')">0x112260</code></td><td><code class="addr-badge" onclick="copyAddr('0x112300')">0x112300</code></td><td><code class="addr-badge" onclick="copyAddr('0x1124A8')">0x1124A8</code></td><td><code class="addr-badge" onclick="copyAddr('0x112538')">0x112538</code></td><td>44 × 42</td><td>1848</td><td>224</td></tr>
+                <tr><td><code>32</code></td><td>Map 32 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x1128B8')">0x1128B8</code></td><td><code class="addr-badge" onclick="copyAddr('0x114CF8')">0x114CF8</code></td><td><code class="addr-badge" onclick="copyAddr('0x114DDC')">0x114DDC</code></td><td><code class="addr-badge" onclick="copyAddr('0x11507C')">0x11507C</code></td><td><code class="addr-badge" onclick="copyAddr('0x11516C')">0x11516C</code></td><td>52 × 52</td><td>2704</td><td>480</td></tr>
+                <tr><td><code>33</code></td><td>Map 33 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0ED2D0')">0x0ED2D0</code></td><td><code class="addr-badge" onclick="copyAddr('0x0EF448')">0x0EF448</code></td><td><code class="addr-badge" onclick="copyAddr('0x0EF4EC')">0x0EF4EC</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0EF6A8')">0x0EF6A8</code></td><td>36 × 40</td><td>1440</td><td>320</td></tr>
+                <tr><td><code>34</code></td><td>Map 34 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0FA2FC')">0x0FA2FC</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FB020')">0x0FB020</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FB0C0')">0x0FB0C0</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FB1E8')">0x0FB1E8</code></td><td><code class="addr-badge" onclick="copyAddr('0x0FB244')">0x0FB244</code></td><td>36 × 32</td><td>1152</td><td>160</td></tr>
+                <tr><td><code>35</code></td><td>Map 35 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0E0EC4')">0x0E0EC4</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E4470')">0x0E4470</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E4584')">0x0E4584</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E47A0')">0x0E47A0</code></td><td><code class="addr-badge" onclick="copyAddr('0x0E4994')">0x0E4994</code></td><td>44 × 64</td><td>2816</td><td>608</td></tr>
+                <tr><td><code>36</code></td><td>Map 36 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0FE7FC')">0x0FE7FC</code></td><td><code class="addr-badge" onclick="copyAddr('0x100984')">0x100984</code></td><td><code class="addr-badge" onclick="copyAddr('0x100A3C')">0x100A3C</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x100C38')">0x100C38</code></td><td>52 × 34</td><td>1768</td><td>320</td></tr>
+                <tr><td><code>37</code></td><td>Map 37 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x106634')">0x106634</code></td><td><code class="addr-badge" onclick="copyAddr('0x109058')">0x109058</code></td><td><code class="addr-badge" onclick="copyAddr('0x109108')">0x109108</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x109338')">0x109338</code></td><td>44 × 42</td><td>1848</td><td>384</td></tr>
+                <tr><td><code>38</code></td><td>Map 38 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x0F7BB8')">0x0F7BB8</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F9C80')">0x0F9C80</code></td><td><code class="addr-badge" onclick="copyAddr('0x0F9D30')">0x0F9D30</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x0F9F14')">0x0F9F14</code></td><td>60 × 42</td><td>2520</td><td>320</td></tr>
+                <tr><td><code>39</code></td><td>Map 39 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x115760')">0x115760</code></td><td><code class="addr-badge" onclick="copyAddr('0x117E9C')">0x117E9C</code></td><td><code class="addr-badge" onclick="copyAddr('0x117F40')">0x117F40</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x118134')">0x118134</code></td><td>36 × 44</td><td>1584</td><td>384</td></tr>
+                <tr><td><code>40</code></td><td>Map 40 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x118620')">0x118620</code></td><td><code class="addr-badge" onclick="copyAddr('0x11AD5C')">0x11AD5C</code></td><td><code class="addr-badge" onclick="copyAddr('0x11AE00')">0x11AE00</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x11AFF4')">0x11AFF4</code></td><td>36 × 44</td><td>1584</td><td>384</td></tr>
+                <tr><td><code>41</code></td><td>Map 41 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x11B4E0')">0x11B4E0</code></td><td><code class="addr-badge" onclick="copyAddr('0x11DC1C')">0x11DC1C</code></td><td><code class="addr-badge" onclick="copyAddr('0x11DCC0')">0x11DCC0</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x11DEB4')">0x11DEB4</code></td><td>36 × 44</td><td>1584</td><td>384</td></tr>
+                <tr><td><code>42</code></td><td>Map 42 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x11E3A0')">0x11E3A0</code></td><td><code class="addr-badge" onclick="copyAddr('0x120ADC')">0x120ADC</code></td><td><code class="addr-badge" onclick="copyAddr('0x120B80')">0x120B80</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x120D74')">0x120D74</code></td><td>36 × 44</td><td>1584</td><td>384</td></tr>
+                <tr><td><code>43</code></td><td>Map 43 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x121260')">0x121260</code></td><td><code class="addr-badge" onclick="copyAddr('0x12399C')">0x12399C</code></td><td><code class="addr-badge" onclick="copyAddr('0x123A40')">0x123A40</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x123C34')">0x123C34</code></td><td>36 × 44</td><td>1584</td><td>384</td></tr>
+                <tr><td><code>44</code></td><td>Map 44 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x124120')">0x124120</code></td><td><code class="addr-badge" onclick="copyAddr('0x12685C')">0x12685C</code></td><td><code class="addr-badge" onclick="copyAddr('0x126900')">0x126900</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x126AF4')">0x126AF4</code></td><td>36 × 44</td><td>1584</td><td>384</td></tr>
+                <tr><td><code>45</code></td><td>Map 45 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x126FE0')">0x126FE0</code></td><td><code class="addr-badge" onclick="copyAddr('0x12971C')">0x12971C</code></td><td><code class="addr-badge" onclick="copyAddr('0x1297C0')">0x1297C0</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x1299B4')">0x1299B4</code></td><td>36 × 44</td><td>1584</td><td>384</td></tr>
+                <tr><td><code>46</code></td><td>Map 46 战场配置</td><td><code class="addr-badge" onclick="copyAddr('0x129EA0')">0x129EA0</code></td><td><code class="addr-badge" onclick="copyAddr('0x12C188')">0x12C188</code></td><td><code class="addr-badge" onclick="copyAddr('0x12C240')">0x12C240</code></td><td><span style="color:var(--text-muted);">—</span></td><td><code class="addr-badge" onclick="copyAddr('0x12C440')">0x12C440</code></td><td>44 × 40</td><td>1760</td><td>320</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 战斗状态机函数阵列 -->
+        <div class="card full-width" id="sec-battle-fsm-funcs">
+          <div class="card-head">
+            <div class="card-title">战斗状态机函数指针表 (Battle State Machine Functions)</div>
+            <span class="tag tag-green">ROM 0x0853F1C0 (60 个函数指针)</span>
+          </div>
+          <p class="card-desc">
+            位于 ROM <code>0x53F1C0</code>，包含 60 个 32 位 Thumb/ARM 函数指针，全部指向 ROM Bank <code>0x0812Fxxx</code>。驱动着从战斗开始、轮询回合、技能施放、伤害飘字、胜负判定至战利品结算的全状态机流转。
+          </p>
+        </div>
+        <div class="card full-width" id="sec-battle-effect-sequences">
+          <div class="card-head">
+            <div class="card-title">战斗特效时序绑定 (Battle Effect Sequence Bindings)</div>
+            <span class="tag tag-green">artifacts/battle-effect-sequence-bindings-v1 · 22 条序列</span>
+          </div>
+          <p class="card-desc">
+            由 <code>tools/export_battle_effect_sequence_bindings.py</code> 导出并经
+            <code>tools/verify_battle_effect_sequence_bindings.py</code> 复核：
+            把<strong>256 条运行时状态绑定</strong>、
+            <strong>87 条主动行动绑定</strong>、
+            <strong>94 条忍具绑定</strong>，
+            归并到 <strong>22 条特效时序</strong>；另记录 67 个选择子调用点
+            与 14 段消费者代码切片。
+          </p>
+          <div class="table-container" style="max-height:420px; overflow-y:auto;">
+            <table>
+              <thead><tr><th>#</th><th>序列描述符地址</th><th>绑定内容</th></tr></thead>
+              <tbody>
+                <tr><td><code>00</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 0, "table_entry_file_offset": 5500720, "table_entry_gba_address": "0x0853EF30", "raw_hex": "000000000000000000000000000000000000000000</code></td></tr>
+                <tr><td><code>01</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 1, "table_entry_file_offset": 5500744, "table_entry_gba_address": "0x0853EF48", "raw_hex": "01000000000000000000000000000000550508085d</code></td></tr>
+                <tr><td><code>02</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 2, "table_entry_file_offset": 5500768, "table_entry_gba_address": "0x0853EF60", "raw_hex": "020000000000000000000000000000006106080871</code></td></tr>
+                <tr><td><code>03</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 3, "table_entry_file_offset": 5500792, "table_entry_gba_address": "0x0853EF78", "raw_hex": "030000000000000000000000000000006106080865</code></td></tr>
+                <tr><td><code>04</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 4, "table_entry_file_offset": 5500816, "table_entry_gba_address": "0x0853EF90", "raw_hex": "04000000000000000000000000000000bd080808c5</code></td></tr>
+                <tr><td><code>05</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 5, "table_entry_file_offset": 5500840, "table_entry_gba_address": "0x0853EFA8", "raw_hex": "01000000000000000000000000000000bd080808c5</code></td></tr>
+                <tr><td><code>06</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 6, "table_entry_file_offset": 5500864, "table_entry_gba_address": "0x0853EFC0", "raw_hex": "05000000000000000000000000000000bd080808c5</code></td></tr>
+                <tr><td><code>07</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 7, "table_entry_file_offset": 5500888, "table_entry_gba_address": "0x0853EFD8", "raw_hex": "12000000000000000000000000000000bd080808c5</code></td></tr>
+                <tr><td><code>08</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 8, "table_entry_file_offset": 5500912, "table_entry_gba_address": "0x0853EFF0", "raw_hex": "06000000000000000000000000000000bd08080815</code></td></tr>
+                <tr><td><code>09</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 9, "table_entry_file_offset": 5500936, "table_entry_gba_address": "0x0853F008", "raw_hex": "07000000000000000000000000000000bd08080815</code></td></tr>
+                <tr><td><code>10</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 10, "table_entry_file_offset": 5500960, "table_entry_gba_address": "0x0853F020", "raw_hex": "08000000000000000000000000000000bd080808f</code></td></tr>
+                <tr><td><code>11</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 11, "table_entry_file_offset": 5500984, "table_entry_gba_address": "0x0853F038", "raw_hex": "09000000000000000000000000000000bd0808081</code></td></tr>
+                <tr><td><code>12</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 12, "table_entry_file_offset": 5501008, "table_entry_gba_address": "0x0853F050", "raw_hex": "0a000000000000000000000000000000bd080808c</code></td></tr>
+                <tr><td><code>13</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 13, "table_entry_file_offset": 5501032, "table_entry_gba_address": "0x0853F068", "raw_hex": "0b000000000000000000000000000000bd080808c</code></td></tr>
+                <tr><td><code>14</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 14, "table_entry_file_offset": 5501056, "table_entry_gba_address": "0x0853F080", "raw_hex": "0c000000000000000000000000000000bd080808c</code></td></tr>
+                <tr><td><code>15</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 15, "table_entry_file_offset": 5501080, "table_entry_gba_address": "0x0853F098", "raw_hex": "0d000000000000000000000000000000bd080808c</code></td></tr>
+                <tr><td><code>16</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 16, "table_entry_file_offset": 5501104, "table_entry_gba_address": "0x0853F0B0", "raw_hex": "0e000000000000000000000000000000bd0808081</code></td></tr>
+                <tr><td><code>17</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 17, "table_entry_file_offset": 5501128, "table_entry_gba_address": "0x0853F0C8", "raw_hex": "0f000000000000000000000000000000bd080808c</code></td></tr>
+                <tr><td><code>18</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 18, "table_entry_file_offset": 5501152, "table_entry_gba_address": "0x0853F0E0", "raw_hex": "12000000000000000000000000000000610608081</code></td></tr>
+                <tr><td><code>19</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 19, "table_entry_file_offset": 5501176, "table_entry_gba_address": "0x0853F0F8", "raw_hex": "10000000000000000000000000000000bd080808f</code></td></tr>
+                <tr><td><code>20</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 20, "table_entry_file_offset": 5501200, "table_entry_gba_address": "0x0853F110", "raw_hex": "11000000000000000000000000000000bd080808f</code></td></tr>
+                <tr><td><code>21</code></td><td><code class="addr-badge" onclick="copyAddr('')">—</code></td><td><code style="font-size:0.72rem;">{"sequence_id": 21, "table_entry_file_offset": 5501224, "table_entry_gba_address": "0x0853F128", "raw_hex": "02000000000000000000000000000000bd0808086</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card full-width" id="sec-battle-visual-catalog">
+          <div class="card-head">
+            <div class="card-title">79 项战斗视觉表现目录 (Battle Visual Catalog)</div>
+            <span class="tag tag-cyan">artifacts/battle-visual-catalog-v1 · 表现描述符 —</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-battle-visual-catalog.zip" download title="下载本板块全部 79 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">79 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_battle_visual_catalog.py</code> 导出，独立校验器 <code>tools/verify_battle_visual_catalog.py</code> 复核零错误。
+            清单 schema：<code>battle-visual-catalog-v1</code>，完整字段见
+            <code>artifacts/battle-visual-catalog-v1/manifest.json</code>。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-00</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-00.png" alt="visual-00" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-01</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-01.png" alt="visual-01" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-02</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-02.png" alt="visual-02" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-03</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-03.png" alt="visual-03" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-04</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-04.png" alt="visual-04" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-05</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-05.png" alt="visual-05" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-06</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-06.png" alt="visual-06" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-07</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-07.png" alt="visual-07" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-08</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-08.png" alt="visual-08" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-09</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-09.png" alt="visual-09" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-10</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-10.png" alt="visual-10" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-11</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-11.png" alt="visual-11" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-12</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-12.png" alt="visual-12" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-13</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-13.png" alt="visual-13" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-14</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-14.png" alt="visual-14" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-15</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-15.png" alt="visual-15" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-16</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-16.png" alt="visual-16" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-17</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-17.png" alt="visual-17" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-18</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-18.png" alt="visual-18" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-19</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-19.png" alt="visual-19" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-20</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-20.png" alt="visual-20" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-21</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-21.png" alt="visual-21" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-22</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-22.png" alt="visual-22" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-23</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-23.png" alt="visual-23" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-24</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-24.png" alt="visual-24" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-25</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-25.png" alt="visual-25" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-26</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-26.png" alt="visual-26" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-27</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-27.png" alt="visual-27" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-28</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-28.png" alt="visual-28" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-29</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-29.png" alt="visual-29" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-30</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-30.png" alt="visual-30" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-31</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-31.png" alt="visual-31" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-32</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-32.png" alt="visual-32" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-33</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-33.png" alt="visual-33" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-34</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-34.png" alt="visual-34" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-35</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-35.png" alt="visual-35" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-36</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-36.png" alt="visual-36" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-37</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-37.png" alt="visual-37" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-38</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-38.png" alt="visual-38" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-39</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-39.png" alt="visual-39" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-40</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-40.png" alt="visual-40" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-41</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-41.png" alt="visual-41" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-42</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-42.png" alt="visual-42" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-43</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-43.png" alt="visual-43" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-44</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-44.png" alt="visual-44" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-45</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-45.png" alt="visual-45" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-46</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-46.png" alt="visual-46" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-47</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-47.png" alt="visual-47" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-48</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-48.png" alt="visual-48" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-49</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-49.png" alt="visual-49" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-50</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-50.png" alt="visual-50" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-51</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-51.png" alt="visual-51" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-52</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-52.png" alt="visual-52" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-53</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-53.png" alt="visual-53" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-54</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-54.png" alt="visual-54" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-55</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-55.png" alt="visual-55" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-56</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-56.png" alt="visual-56" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-57</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-57.png" alt="visual-57" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-58</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-58.png" alt="visual-58" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-59</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-59.png" alt="visual-59" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-60</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-60.png" alt="visual-60" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-61</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-61.png" alt="visual-61" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-62</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-62.png" alt="visual-62" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-63</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-63.png" alt="visual-63" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-64</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-64.png" alt="visual-64" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-65</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-65.png" alt="visual-65" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-66</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-66.png" alt="visual-66" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-67</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-67.png" alt="visual-67" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-68</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-68.png" alt="visual-68" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-69</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-69.png" alt="visual-69" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-70</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-70.png" alt="visual-70" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-71</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-71.png" alt="visual-71" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-72</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-72.png" alt="visual-72" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-73</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-73.png" alt="visual-73" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-74</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-74.png" alt="visual-74" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-75</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-75.png" alt="visual-75" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-76</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-76.png" alt="visual-76" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-77</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-77.png" alt="visual-77" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual-78</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-catalog-v1/previews/visual-78.png" alt="visual-78" loading="lazy"></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card full-width" id="sec-battle-visual-timelines">
+          <div class="card-head">
+            <div class="card-title">战斗视觉运行时时间线 (Battle Visual Runtime Timelines)</div>
+            <span class="tag tag-cyan">artifacts/battle-visual-runtime-timelines-v1 · 可播放时间线 75</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-battle-visual-timelines.zip" download title="下载本板块全部 75 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">75 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_battle_visual_runtime_timelines.py</code> 导出，独立校验器 <code>tools/verify_battle_visual_runtime_timelines.py</code> 复核零错误。
+            清单 schema：<code>battle-visual-runtime-timelines-v1</code>，完整字段见
+            <code>artifacts/battle-visual-runtime-timelines-v1/manifest.json</code>。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_00_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_00_contact.png" alt="visual_00_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_01_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_01_contact.png" alt="visual_01_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_02_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_02_contact.png" alt="visual_02_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_03_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_03_contact.png" alt="visual_03_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_04_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_04_contact.png" alt="visual_04_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_05_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_05_contact.png" alt="visual_05_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_06_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_06_contact.png" alt="visual_06_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_07_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_07_contact.png" alt="visual_07_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_08_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_08_contact.png" alt="visual_08_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_09_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_09_contact.png" alt="visual_09_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_10_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_10_contact.png" alt="visual_10_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_11_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_11_contact.png" alt="visual_11_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_12_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_12_contact.png" alt="visual_12_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_14_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_14_contact.png" alt="visual_14_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_15_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_15_contact.png" alt="visual_15_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_16_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_16_contact.png" alt="visual_16_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_17_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_17_contact.png" alt="visual_17_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_18_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_18_contact.png" alt="visual_18_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_19_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_19_contact.png" alt="visual_19_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_20_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_20_contact.png" alt="visual_20_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_21_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_21_contact.png" alt="visual_21_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_22_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_22_contact.png" alt="visual_22_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_23_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_23_contact.png" alt="visual_23_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_24_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_24_contact.png" alt="visual_24_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_25_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_25_contact.png" alt="visual_25_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_26_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_26_contact.png" alt="visual_26_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_27_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_27_contact.png" alt="visual_27_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_28_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_28_contact.png" alt="visual_28_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_29_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_29_contact.png" alt="visual_29_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_30_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_30_contact.png" alt="visual_30_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_33_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_33_contact.png" alt="visual_33_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_34_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_34_contact.png" alt="visual_34_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_35_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_35_contact.png" alt="visual_35_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_36_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_36_contact.png" alt="visual_36_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_37_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_37_contact.png" alt="visual_37_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_38_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_38_contact.png" alt="visual_38_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_39_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_39_contact.png" alt="visual_39_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_40_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_40_contact.png" alt="visual_40_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_41_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_41_contact.png" alt="visual_41_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_42_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_42_contact.png" alt="visual_42_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_43_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_43_contact.png" alt="visual_43_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_44_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_44_contact.png" alt="visual_44_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_45_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_45_contact.png" alt="visual_45_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_47_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_47_contact.png" alt="visual_47_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_48_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_48_contact.png" alt="visual_48_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_49_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_49_contact.png" alt="visual_49_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_50_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_50_contact.png" alt="visual_50_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_51_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_51_contact.png" alt="visual_51_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_52_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_52_contact.png" alt="visual_52_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_53_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_53_contact.png" alt="visual_53_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_54_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_54_contact.png" alt="visual_54_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_55_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_55_contact.png" alt="visual_55_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_56_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_56_contact.png" alt="visual_56_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_57_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_57_contact.png" alt="visual_57_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_58_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_58_contact.png" alt="visual_58_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_59_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_59_contact.png" alt="visual_59_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_60_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_60_contact.png" alt="visual_60_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_61_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_61_contact.png" alt="visual_61_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_62_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_62_contact.png" alt="visual_62_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_63_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_63_contact.png" alt="visual_63_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_64_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_64_contact.png" alt="visual_64_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_65_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_65_contact.png" alt="visual_65_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_66_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_66_contact.png" alt="visual_66_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_67_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_67_contact.png" alt="visual_67_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_68_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_68_contact.png" alt="visual_68_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_69_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_69_contact.png" alt="visual_69_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_70_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_70_contact.png" alt="visual_70_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_71_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_71_contact.png" alt="visual_71_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_72_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_72_contact.png" alt="visual_72_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_73_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_73_contact.png" alt="visual_73_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_74_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_74_contact.png" alt="visual_74_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_75_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_75_contact.png" alt="visual_75_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_76_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_76_contact.png" alt="visual_76_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_77_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_77_contact.png" alt="visual_77_contact" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>visual_78_contact</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-visual-runtime-timelines-v1/visual_78_contact.png" alt="visual_78_contact" loading="lazy"></div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card full-width" id="sec-affine-runtime">
+          <div class="card-head">
+            <div class="card-title">战斗特效仿射运行时 (Affine Runtime Evidence)</div>
+            <span class="tag tag-cyan">artifacts/battle-effect-affine-runtime-v1 · 仿射运行时证据 46</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-affine-runtime.zip" download title="下载本板块全部 2 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">2 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_battle_effect_affine_runtime.py</code> 导出，独立校验器 <code>tools/verify_battle_effect_affine_runtime.py</code> 复核零错误。
+            清单 schema：<code>battle-effect-affine-runtime-v1</code>，完整字段见
+            <code>artifacts/battle-effect-affine-runtime-v1/manifest.json</code>。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>runtime-object-02</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-effect-affine-runtime-v1/runtime-object-02.png" alt="runtime-object-02" loading="lazy"></div>
+            </div>
+            <div class="tileset-item tile-item-compact">
+              <div class="tileset-header"><strong>runtime-object-mirrored</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-sm" src="artifacts/battle-effect-affine-runtime-v1/runtime-object-mirrored.png" alt="runtime-object-mirrored" loading="lazy"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+        <div class="card full-width" id="sec-battle-effect-pairs">
+          <div class="card-head">
+            <div class="card-title">战斗特效资源对 (Battle Effect Resource Pairs)</div>
+            <span class="tag tag-amber">artifacts/battle-effect-resource-pairs-v1 · 18 组</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-battle-effect-pairs.zip" download title="下载本板块全部 18 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">18 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            由 <code>tools/export_battle_effect_resource_pairs.py</code> 导出 18 组特效的
+            <code>graphics-4bpp</code> 与 <code>palette-bgr555</code> 配对，并附消费者代码切片回链。
+            <code>tools/verify_battle_effect_resource_pairs.py</code> 复核 18 组图集零错误。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-01-atlas.png" alt="group-01-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-02-atlas.png" alt="group-02-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-03-atlas.png" alt="group-03-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-04-atlas.png" alt="group-04-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-05-atlas.png" alt="group-05-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-06-atlas.png" alt="group-06-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-07-atlas.png" alt="group-07-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-08-atlas.png" alt="group-08-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-09-atlas.png" alt="group-09-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-10-atlas.png" alt="group-10-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-11-atlas.png" alt="group-11-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-12-atlas.png" alt="group-12-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-13-atlas.png" alt="group-13-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-14-atlas.png" alt="group-14-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-15-atlas.png" alt="group-15-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-16-atlas.png" alt="group-16-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-17-atlas.png" alt="group-17-atlas" loading="lazy"></div>
+            </div>
+            <div class="tileset-item">
+              <div class="tileset-header"><strong>组 atlas</strong></div>
+              <div class="tileset-img-wrap"><img class="tile-zoom-md" src="artifacts/battle-effect-resource-pairs-v1/group-18-atlas.png" alt="group-18-atlas" loading="lazy"></div>
+            </div>
+          </div>
+        </div>
+
+                <div class="card full-width" id="sec-battle-effect-anims">
+          <div class="card-head">
+            <div class="card-title">战斗特效精灵动画 (Battle Effect Sprite Animations)</div>
+            <span class="tag tag-rose">18 组 · 0 帧 ·
+              0 动画 · 0 关键帧</span>
+          
+          <a class="card-dl" href="downloads/sections/sec-battle-effect-anims.zip" download title="下载本板块全部 182 张图像（ZIP）"><svg class="card-dl-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v10m0 0 4.2-4.2M12 13l-4.2-4.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 16.5v1.8A2.7 2.7 0 0 0 6.7 21h10.6A2.7 2.7 0 0 0 20 18.3v-1.8" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg><span class="card-dl-text"><span class="card-dl-main">下载本板块</span><span class="card-dl-sub">182 张图像</span></span></a>
+        </div>
+          <p class="card-desc">
+            每组特效按该族 manifest 里的 <strong>关键帧时序</strong>（<code>frame_id</code> +
+            <code>hold_frames</code>）播放，而不是把帧排成静态图。
+            下方每组可点击暂停 / 继续；帧序列出处列在各自图集下载包内。
+          </p>
+          <div class="tileset-gallery" data-paginate="24">
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 01</strong><span class="tag tag-cyan">8 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-01-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-01-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-01-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-01-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-01-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-01-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-01-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-01-frame-07.png" data-holds="4,4,6,8,8,9,10,10" data-fps="60" title="按 hold_frames 时序播放（59 tick）"></span>
+          <div class="tileset-meta">1 动画 · 8 组件 · 8 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 02</strong><span class="tag tag-cyan">26 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-02-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-07.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-08.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-09.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-10.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-11.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-12.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-13.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-14.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-15.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-16.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-17.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-18.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-19.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-20.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-21.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-22.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-23.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-24.png|artifacts/battle-effect-sprite-animations-v1/group-02-frame-25.png" data-holds="4,4,7,6,6,6,6,6,6,6,6,6,6,6,6,4,4,6,6,6,6,6,7,7,4,4,6,6,6,6,6,7" data-fps="60" title="按 hold_frames 时序播放（184 tick）"></span>
+          <div class="pack-anim-extra"><span class="pack-anim-extra-label">未被关键帧播放的 2 帧</span><img class="tile-zoom-sm" src="artifacts/battle-effect-sprite-animations-v1/group-02-frame-01-component-00-affine-normal.png" alt="group-02-frame-01-component-00-affine-normal.png" loading="lazy"><img class="tile-zoom-sm" src="artifacts/battle-effect-sprite-animations-v1/group-02-frame-01-component-00-affine-side-horizontal-mirror.png" alt="group-02-frame-01-component-00-affine-side-horizontal-mirror.png" loading="lazy"></div>
+          <div class="tileset-meta">3 动画 · 26 组件 · 32 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 03</strong><span class="tag tag-cyan">26 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-03-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-07.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-08.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-09.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-10.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-11.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-12.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-13.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-14.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-15.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-16.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-17.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-18.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-19.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-20.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-21.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-22.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-23.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-24.png|artifacts/battle-effect-sprite-animations-v1/group-03-frame-25.png" data-holds="4,4,7,6,6,6,6,6,6,6,6,6,6,6,6,4,4,6,6,6,6,6,7,7,4,4,6,6,6,6,6,7" data-fps="60" title="按 hold_frames 时序播放（184 tick）"></span>
+          <div class="pack-anim-extra"><span class="pack-anim-extra-label">未被关键帧播放的 2 帧</span><img class="tile-zoom-sm" src="artifacts/battle-effect-sprite-animations-v1/group-03-frame-01-component-00-affine-normal.png" alt="group-03-frame-01-component-00-affine-normal.png" loading="lazy"><img class="tile-zoom-sm" src="artifacts/battle-effect-sprite-animations-v1/group-03-frame-01-component-00-affine-side-horizontal-mirror.png" alt="group-03-frame-01-component-00-affine-side-horizontal-mirror.png" loading="lazy"></div>
+          <div class="tileset-meta">3 动画 · 26 组件 · 32 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 04</strong><span class="tag tag-cyan">4 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-04-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-04-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-04-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-04-frame-03.png" data-holds="2,2,2,1" data-fps="60" title="按 hold_frames 时序播放（7 tick）"></span>
+          <div class="tileset-meta">1 动画 · 4 组件 · 4 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 05</strong><span class="tag tag-cyan">8 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-05-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-05-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-05-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-05-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-05-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-05-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-05-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-05-frame-07.png" data-holds="2,2,2,2,2,2,2,2" data-fps="60" title="按 hold_frames 时序播放（16 tick）"></span>
+          <div class="tileset-meta">1 动画 · 36 组件 · 8 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 06</strong><span class="tag tag-cyan">11 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-06-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-07.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-08.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-09.png|artifacts/battle-effect-sprite-animations-v1/group-06-frame-10.png" data-holds="2,2,2,2,2,2,2,2,2,3,4" data-fps="60" title="按 hold_frames 时序播放（25 tick）"></span>
+          <div class="tileset-meta">1 动画 · 47 组件 · 11 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 07</strong><span class="tag tag-cyan">11 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-07-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-07.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-08.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-09.png|artifacts/battle-effect-sprite-animations-v1/group-07-frame-10.png" data-holds="4,4,4,4,4,4,4,4,4,4,4" data-fps="60" title="按 hold_frames 时序播放（44 tick）"></span>
+          <div class="tileset-meta">1 动画 · 32 组件 · 11 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 08</strong><span class="tag tag-cyan">11 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-08-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-07.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-08.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-09.png|artifacts/battle-effect-sprite-animations-v1/group-08-frame-10.png" data-holds="6,9,5,4,4,4,4,6,4,3,30" data-fps="60" title="按 hold_frames 时序播放（79 tick）"></span>
+          <div class="tileset-meta">1 动画 · 28 组件 · 11 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 09</strong><span class="tag tag-cyan">13 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-09-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-07.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-08.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-09.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-10.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-11.png|artifacts/battle-effect-sprite-animations-v1/group-09-frame-12.png" data-holds="1,1,1,1,1,4,4,4,4,5,5,5,5" data-fps="60" title="按 hold_frames 时序播放（41 tick）"></span>
+          <div class="tileset-meta">1 动画 · 72 组件 · 13 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 10</strong><span class="tag tag-cyan">7 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-10-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-10-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-10-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-10-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-10-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-10-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-10-frame-06.png" data-holds="4,4,4,6,6,8,8" data-fps="60" title="按 hold_frames 时序播放（40 tick）"></span>
+          <div class="tileset-meta">1 动画 · 40 组件 · 7 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 11</strong><span class="tag tag-cyan">6 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-11-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-11-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-11-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-11-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-11-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-11-frame-05.png" data-holds="1,1,2,2,3,2" data-fps="60" title="按 hold_frames 时序播放（11 tick）"></span>
+          <div class="tileset-meta">1 动画 · 6 组件 · 6 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 12</strong><span class="tag tag-cyan">6 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-12-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-12-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-12-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-12-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-12-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-12-frame-05.png" data-holds="2,3,2,2,2,2" data-fps="60" title="按 hold_frames 时序播放（13 tick）"></span>
+          <div class="tileset-meta">1 动画 · 8 组件 · 6 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 13</strong><span class="tag tag-cyan">4 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-13-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-13-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-13-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-13-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-13-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-13-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-13-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-13-frame-03.png" data-holds="3,2,1,2,3,2,1,3" data-fps="60" title="按 hold_frames 时序播放（17 tick）"></span>
+          <div class="tileset-meta">2 动画 · 13 组件 · 8 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 14</strong><span class="tag tag-cyan">8 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-14-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-14-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-14-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-14-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-14-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-14-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-14-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-14-frame-07.png" data-holds="2,3,4,4,5,5,4,3" data-fps="60" title="按 hold_frames 时序播放（30 tick）"></span>
+          <div class="tileset-meta">1 动画 · 23 组件 · 8 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 15</strong><span class="tag tag-cyan">9 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-15-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-15-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-15-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-15-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-15-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-15-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-15-frame-06.png|artifacts/battle-effect-sprite-animations-v1/group-15-frame-07.png|artifacts/battle-effect-sprite-animations-v1/group-15-frame-08.png" data-holds="2,3,3,3,3,3,3,3,2" data-fps="60" title="按 hold_frames 时序播放（25 tick）"></span>
+          <div class="tileset-meta">1 动画 · 21 组件 · 9 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 16</strong><span class="tag tag-cyan">5 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-16-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-16-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-16-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-16-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-16-frame-04.png" data-holds="4,4,5,7,60" data-fps="60" title="按 hold_frames 时序播放（80 tick）"></span>
+          <div class="tileset-meta">1 动画 · 5 组件 · 5 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 17</strong><span class="tag tag-cyan">7 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-17-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-17-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-17-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-17-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-17-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-17-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-17-frame-06.png" data-holds="5,5,5,5,5,5,60" data-fps="60" title="按 hold_frames 时序播放（90 tick）"></span>
+          <div class="tileset-meta">1 动画 · 35 组件 · 7 关键帧</div>
+        </div>
+        <div class="tileset-item tile-item-compact">
+          <div class="tileset-header"><strong>Group 18</strong><span class="tag tag-cyan">8 帧</span></div>
+          <span class="pack-anim-player" data-frames="artifacts/battle-effect-sprite-animations-v1/group-18-frame-00.png|artifacts/battle-effect-sprite-animations-v1/group-18-frame-01.png|artifacts/battle-effect-sprite-animations-v1/group-18-frame-02.png|artifacts/battle-effect-sprite-animations-v1/group-18-frame-03.png|artifacts/battle-effect-sprite-animations-v1/group-18-frame-04.png|artifacts/battle-effect-sprite-animations-v1/group-18-frame-05.png|artifacts/battle-effect-sprite-animations-v1/group-18-frame-06.png" data-holds="8,8,8,7,6,7,8" data-fps="60" title="按 hold_frames 时序播放（52 tick）"></span>
+          <div class="pack-anim-extra"><span class="pack-anim-extra-label">未被关键帧播放的 1 帧</span><img class="tile-zoom-sm" src="artifacts/battle-effect-sprite-animations-v1/group-18-frame-07.png" alt="group-18-frame-07.png" loading="lazy"></div>
+          <div class="tileset-meta">1 动画 · 7 组件 · 7 关键帧</div>
+        </div>
+          </div>
+        </div>    </section>
+    
+      
+    <!-- HUB 3: 剧情调度与文本系统 (Story Flow & Dialogue Engine) -->
+
+    </main>
+  </div>
+
+  <script src="assets/viewer.js" defer></script>
+  <script src="assets/viewer-runtime.js" defer></script>
+</body>
+</html>
