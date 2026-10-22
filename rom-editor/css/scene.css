@@ -1,0 +1,95 @@
+/* 剧情与对白域专用样式（场景视图 + 字库视图）。
+ *
+ * 其它域的通用类在 styles.css 里，这里只补剧情域自己用到的几件：
+ * 剧本指针格子、字形段字段、字宽表的行标记与「按字符码查字宽」的查表条。
+ */
+
+/* ---------- 场景视图：四个剧本指针 ---------- */
+.scene-ptrs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.scene-ptr {
+  padding: 9px 10px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.scene-ptr .field-label {
+  margin-bottom: 5px;
+}
+
+.scene-ptr .num-input {
+  max-width: 220px;
+}
+
+.scene-ptr .field-hint {
+  margin-top: 4px;
+}
+
+/* ---------- 字库视图 ---------- */
+.font-sub {
+  margin: 16px 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.font-seg-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 10px;
+}
+
+.font-seg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 8px 9px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.font-seg-field .num-input {
+  max-width: 180px;
+}
+
+/* 「按字符码查字宽」的查表条 */
+.font-lookup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.font-lookup .num-input {
+  width: 72px;
+}
+
+/* 字宽表：属于当前字形段的行标出来 */
+table.font-width-table td {
+  padding: 3px 8px;
+}
+
+table.font-width-table .slot-cell .num-input {
+  min-width: 62px;
+  width: 62px;
+}
+
+table.font-width-table tbody tr.width-hit td {
+  background: rgba(74, 157, 224, .10);
+}
+
+table.font-width-table tbody tr.lookup-hit td {
+  background: rgba(217, 164, 65, .18);
+  box-shadow: inset 0 0 0 1px rgba(217, 164, 65, .5);
+}

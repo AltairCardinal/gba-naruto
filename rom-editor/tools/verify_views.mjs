@@ -601,10 +601,20 @@ console.log('\n8) 域首页：每张表都够得着 + 带可编辑性信息');
     const cards = host.descendants().filter((n) => (n.className || '') === 'stat');
     const expected = pack.structures.filter((s) => s.module === module).length +
       pack.texts.filter((t) => t.module === module).length;
+    // 几张表合成一行时，行数会少于表数 —— 按「覆盖了几张表」判可达性
+    // （common.js 把这个数写在 table 的 data-covered 上；自己画表的域
+    //  没有这个属性，那就退回按行数判）。
+    const domainTables = host.descendants().filter((n) => n.className === 'grid domain-tables');
+    const covered = domainTables.reduce((n, t) => {
+      const value = Number((t.dataset || {}).covered || 0);
+      return value > n ? value : n;
+    }, 0);
+    const reached = covered > 0 ? covered >= expected : tables.length >= expected;
     check(`${label}：域首页渲染且列出本域全部表`,
-      !error && tables.length >= expected &&
+      !error && reached &&
       (host.textContent || '').includes('本域可编辑内容'),
-      error ? String(error.message) : `${tables.length} 行（应 ≥ ${expected}）`);
+      error ? String(error.message)
+        : `覆盖 ${covered || tables.length} 张表（应 ≥ ${expected}）· ${tables.length} 行`);
     check(`${label}：不再是纯卡片墙`, cards.length <= 5,
       `${cards.length} 张卡片`);
   }

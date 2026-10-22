@@ -86,20 +86,24 @@ export function renderDomainIndex(container, ctx, options) {
   // --- 2. 本域可编辑内容 ------------------------------------------------
   const rows = domainTableRows(ctx, options);
   if (rows.length) {
+    const tableEl = el('table', { class: 'grid domain-tables' }, [
+      el('thead', {}, [el('tr', {}, [
+        el('th', { text: '表' }),
+        el('th', { class: 'col-num', text: '条数' }),
+        el('th', { text: '字段' }),
+        el('th', { text: '改法' }),
+        el('th', { text: '长度策略' }),
+        el('th', { class: 'col-num', text: '已改' }),
+        el('th', { text: '入口' }),
+      ])]),
+      el('tbody', {}, rows),
+    ]);
+    // 几张表合成一行时，行数会少于表数 —— 所以把「覆盖了几张表」记在
+    // data 属性上，自检按这个数判（可达性），不按行数判。
+    tableEl.dataset.covered = String(domainCoverage(ctx, options));
     container.appendChild(el('div', { class: 'section' }, [
       el('h3', { text: '本域可编辑内容' }),
-      el('div', { class: 'table-wrap' }, [el('table', { class: 'grid domain-tables' }, [
-        el('thead', {}, [el('tr', {}, [
-          el('th', { text: '表' }),
-          el('th', { class: 'col-num', text: '条数' }),
-          el('th', { text: '字段' }),
-          el('th', { text: '改法' }),
-          el('th', { text: '长度策略' }),
-          el('th', { class: 'col-num', text: '已改' }),
-          el('th', { text: '入口' }),
-        ])]),
-        el('tbody', {}, rows),
-      ])]),
+      el('div', { class: 'table-wrap' }, [tableEl]),
     ]));
   }
 
@@ -111,6 +115,32 @@ export function renderDomainIndex(container, ctx, options) {
       options.extra,
     ]));
   }
+}
+
+/**
+ * How many tables of this domain the home page actually covers.
+ *
+ * 几张表合成一行时，行数 ≠ 表数；可达性要按「覆盖了几张表」算。
+ */
+function domainCoverage(ctx, options) {
+  const pack = ctx.pack;
+  const module = options.module;
+  const grouped = new Set();
+  for (const group of options.groups || []) {
+    for (const id of group.tables || []) grouped.add(id);
+  }
+  let n = 0;
+  for (const s of pack.structures) {
+    const wanted = new Set(options.structures || []);
+    if (grouped.has(s.id)) { n += 1; continue; }
+    if (wanted.has(s.id) || (module && s.module === module)) n += 1;
+  }
+  for (const t of pack.texts) {
+    if (grouped.has(t.id)) { n += 1; continue; }
+    const wanted = new Set(options.texts || []);
+    if (wanted.has(t.id) || (module && t.module === module)) n += 1;
+  }
+  return n;
 }
 
 /**

@@ -1,0 +1,41 @@
+/* 角色域专用样式（统一的角色编辑视图）。
+ *
+ * 通用类（split / detail-panel / field / grid-slots）在 styles.css 里，
+ * 这里只补角色视图自己用到的几件：左边的角色一览表、跳转按钮条、
+ * 技能参数表与头像拼块表。
+ */
+
+/* ---------- 左边：角色一览 ---------- */
+table.char-list td.char-name {
+  font-weight: 600;
+}
+
+table.char-list td.char-name + td {
+  color: var(--fg-dim);
+  font-family: var(--mono);
+}
+
+/* ---------- 详情顶部的跳转按钮条 ---------- */
+.char-jumps {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: 0 0 14px;
+}
+
+/* ---------- 技能参数表 / 头像拼块表 ---------- */
+table.char-perks td:first-child,
+table.char-pieces td:first-child {
+  white-space: nowrap;
+  font-family: var(--mono);
+}
+
+table.char-perks .slot-cell .field-hint,
+table.char-pieces .slot-cell .field-hint {
+  max-width: 170px;
+}
+
+/* 拼块表里的原始字节框窄一点，别把表格撑开 */
+table.char-pieces .hex-input {
+  min-width: 120px;
+}

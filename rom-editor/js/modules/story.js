@@ -2,11 +2,14 @@
 import { el, formatOffset } from '../ui.js';
 import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
 import { renderScriptView } from './scriptview.js';
+import { renderScene, renderFont } from './scene.js';
 
 export function renderStory(container, ctx) {
   if (ctx.state.view.panel) {
     const { kind, id, params } = ctx.state.view.panel;
     if (kind === 'script') return renderScriptView(container, ctx);
+    if (kind === 'scene') return renderScene(container, ctx, params);
+    if (kind === 'font') return renderFont(container, ctx, params);
     return renderPanel(container, ctx, kind, id, params);
   }
 
@@ -66,6 +69,23 @@ export function renderStory(container, ctx) {
       'story_logic_root', 'story_events_root',
       'font_segments', 'font_width_table', 'background_table',
     ],
+    // 四张剧情脚本根表是同一个场景的四个剧本入口，字形段表与字宽表是同一批字形的两面 ——
+    // 分成六行摆着会让作者以为要分别进六张表，那是细碎，不是清楚。
+    groups: [{
+      label: '场景（四张剧情脚本根表）',
+      tables: ['story_before_root', 'story_after_root', 'story_logic_root', 'story_events_root'],
+      method: '按场景改',
+      strategy: '定宽写回',
+      action: '打开场景',
+      onPick: (c) => c.openPanel('scene', '场景', {}),
+    }, {
+      label: '字库（字形段表 + 字宽表）',
+      tables: ['font_segments', 'font_width_table'],
+      method: '按字形改',
+      strategy: '定宽写回',
+      action: '打开字库',
+      onPick: (c) => c.openPanel('font', '字库', {}),
+    }],
   });
 }
 

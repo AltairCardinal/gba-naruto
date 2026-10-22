@@ -1,0 +1,65 @@
+/* 道具域专用样式：忍具视图与奖励视图。
+ *
+ * 通用类（split / detail-panel / grid / slot-table …）在 styles.css 里，
+ * 这里只补道具域自己用到的几件：详情里的一小节、三个数字字段一行、
+ * 逐字节的折叠块与归属脚注。
+ */
+
+/* 详情面板里的一小节（名字 / 记录 / 掉落）。 */
+.item-block {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.item-block:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* 归属脚注：这一条是哪几关的奖励、这段字被几处共用。 */
+.item-note {
+  font-size: 10.5px;
+  color: var(--warn);
+  font-family: var(--mono);
+  line-height: 1.5;
+  margin-top: 6px;
+}
+
+/* 金币 / 强化点 / 等级门槛并排。 */
+.item-numbers {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.item-number {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 120px;
+}
+
+.item-number .num-input {
+  width: 100%;
+}
+
+/* 逐字节看的折叠块。 */
+.item-bytes {
+  margin-top: 8px;
+}
+
+.item-bytes > summary {
+  cursor: pointer;
+  font-size: 11.5px;
+  color: var(--fg-dim);
+}
+
+.item-bytes > summary:hover {
+  color: var(--fg);
+}
+
+.item-bytes .table-wrap {
+  margin-top: 6px;
+  max-height: 220px;
+}

@@ -29,6 +29,11 @@ export const SUBVIEW_LABELS = {
   memory: 'EWRAM 内存图',
   overview: '指针接线总表',
   mission: '任务',
+  item: '忍具',
+  reward: '奖励',
+  scene: '场景',
+  font: '字库',
+  character: '角色',
 };
 
 /**
