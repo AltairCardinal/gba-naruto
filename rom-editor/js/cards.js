@@ -87,6 +87,7 @@ export class CardStack {
     this.cards = [];
     this.badgeNodes = new Map();
     this.badgeOverrides = new Map();
+    this.heads = new Map();
     this.host = el('div', { class: 'card-stack' });
     this.setCards(cards);
 
@@ -150,6 +151,7 @@ export class CardStack {
   render() {
     clear(this.host);
     this.badgeNodes = new Map();
+    this.heads = new Map();
     for (const card of this.cards) {
       const badge = this.badgeFor(card);
       const badgeNode = badge
@@ -173,6 +175,10 @@ export class CardStack {
         card.hint ? el('p', { class: 'editor-card-hint', text: card.hint }) : null,
         el('div', { class: 'editor-card-body' }, body ? [body] : []),
       ]));
+      // 记下卡片头 —— 角标出现/消失时要就地增删那个小标签，
+      // **不能整摞重画**（重画会把输入框重建，用户正在改的那一格就丢了焦点）。
+      this.heads.set(card.id, this.host.children[this.host.children.length - 1]
+        .children[0]);
     }
   }
 
@@ -188,21 +194,30 @@ export class CardStack {
   }
 
   /**
-   * 只更新角标 —— 内容包变了以后不必重建整摞卡片。
+   * 只更新角标 —— 内容包变了以后**不重建卡片**。
+   *
+   * 角标出现 / 消失时就地增删那个小标签：整摞重画会把所有输入框重建，
+   * 用户刚改完的那一格就丢了焦点（页签版只重画页签条，所以没这个问题）。
    */
   updateBadges() {
-    let changed = false;
     for (const card of this.cards) {
       const badge = this.badgeFor(card);
       const node = this.badgeNodes.get(card.id);
+      const head = this.heads.get(card.id);
       if (!node) {
-        if (badge) { changed = true; break; }
+        if (!badge || !head) continue;
+        const fresh = el('span', { class: 'card-badge', text: badge });
+        head.appendChild(fresh);
+        this.badgeNodes.set(card.id, fresh);
         continue;
       }
-      if (!badge) { changed = true; break; }
+      if (!badge) {
+        if (node.parentNode) node.parentNode.removeChild(node);
+        this.badgeNodes.set(card.id, null);
+        continue;
+      }
       if (node.textContent !== badge) node.textContent = badge;
     }
-    if (changed) this.render();
   }
 }
 

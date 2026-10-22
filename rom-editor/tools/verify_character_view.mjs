@@ -389,13 +389,16 @@ console.log('\n6) 右侧面板是卡片：卡片堆、卡片头、内容同时�
     // 头部（「已改 N 处」）也要跟上
     check('头部的「已改 N 处」跟上了', detail.textContent.includes('已改 1 处'),
       (detail.textContent.match(/已改\s*\d+\s*处/) || ['没有'])[0]);
-    // 改完一格：这一格的新值还在，别的卡片的内容也不能丢
+    // 改完一格：值写回了内容包，别的卡片的内容也不能丢
     const after = byClass(detail, 'field')
       .find((f) => f.textContent.includes('攻击力'))
       .descendants().find((n) => n.tagName === 'INPUT');
-    check('改完一格，「攻击力」的新值还在卡片里',
-      !!after && Number(after.value) === original + 1,
-      after ? `当前值 ${after.value}` : '输入框没了');
+    const statA = pack.structure('character_template').records[1].values.stat_a;
+    check('改完一格，值写回了内容包', statA === original + 1, `stat_a = ${statA}`);
+    // 角标是**就地**增删的 —— 卡片不会整摞重画，所以输入框还是原来那个节点，
+    // 用户正在改的那一格不会丢焦点。
+    check('改完一格，输入框没有被重建（同一个节点）', after === input,
+      after === input ? '同一个节点' : '被重建了');
     check('改完一格，别的卡片内容没丢', cardText(host, '成长').includes('体力每级成长'));
     // 改回去：角标也要跟着灭（按字节判定 —— 改了又改回去不算改）
     input.listeners.change[0]({ target: { value: String(original) } });

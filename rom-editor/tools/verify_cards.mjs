@@ -449,6 +449,35 @@ console.log('\n11) 通用机制：卡片堆自己');
   const badgeText = String((cardBadges(cardsOf(counterHost).find((c) => cardTitle(c) === '甲'))[0] || {}).textContent || '');
   check('角标跟着内容包变', badgeText === String(pack.changedCount()), badgeText);
   pack.setValue(structure, record, key, original);
+
+  // 角标是**就地**增删的 —— 卡片不整摞重画，输入框不重建（用户不丢焦点）
+  const rebuilt = [];
+  const keep = new CardStack([
+    {
+      id: 'a',
+      label: '甲',
+      badge: () => (pack.changedCount() > 0 ? '1' : null),
+      render: () => { rebuilt.push('a'); return new StubNode('div'); },
+    },
+  ], { pack });
+  const keepHost = new StubNode('div');
+  keepHost.appendChild(keep.element);
+  const builtOnce = rebuilt.length;
+  const before = pack.changedCount();
+  pack.setValue(structure, record, key, ((Number(original) || 0) + 1) & 0xff);
+  check('角标出现时卡片**没有**被重建', rebuilt.length === builtOnce,
+    `重建了 ${rebuilt.length - builtOnce} 次`);
+  check('角标确实出现了',
+    cardBadges(cardsOf(keepHost)[0]).length === 1,
+    `${cardBadges(cardsOf(keepHost)[0]).length} 个`);
+  pack.setValue(structure, record, key, original);
+  check('角标消失时卡片也没有被重建', rebuilt.length === builtOnce,
+    `重建了 ${rebuilt.length - builtOnce} 次`);
+  check('角标确实消失了',
+    cardBadges(cardsOf(keepHost)[0]).length === 0,
+    `${cardBadges(cardsOf(keepHost)[0]).length} 个`);
+  keep.dispose();
+
   stack.dispose();
   counter.dispose();
 }
