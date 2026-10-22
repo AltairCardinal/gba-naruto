@@ -502,6 +502,18 @@ function showBuildReport(report, bytes) {
       el('dt', { text: '改动记录' }), el('dd', { text: `${report.recordsChanged} 条` }),
       el('dt', { text: '文本表' }), el('dd', { text: `${report.texts} 个 / 改动 ${report.textsChanged} 个` }),
       el('dt', { text: '显式补丁' }), el('dd', { text: `${report.patches} 条` }),
+      el('dt', { text: '文本搬迁' }),
+      el('dd', { text: report.movedTexts && report.movedTexts.length
+        ? report.movedTexts.map((m) => `${m.table}#${m.id} → 0x${m.to.toString(16).toUpperCase()}`).join('，')
+        : '无' }),
+      // 剧本搬迁要**摊开给人看**：对白变长时整个剧本被搬到了别处，
+      // 作者得知道这件事（还有它的根表指针被改了）。
+      el('dt', { text: '剧本搬迁' }),
+      el('dd', { text: report.movedScripts && report.movedScripts.length
+        ? report.movedScripts.map((m) => `${m.id}：0x${(m.from || 0).toString(16).toUpperCase()}`
+          + ` → 0x${(m.to || 0).toString(16).toUpperCase()}`
+          + `（${m.bytes} 字节 / 重基 ${m.rebased} 处 / 改指针 ${m.slots} 个）`).join('；')
+        : '无' }),
       el('dt', { text: '重定位' }),
       el('dd', { text: report.freeRegionsUsed.length
         ? report.freeRegionsUsed.map((r) => `0x${r.offset.toString(16)}+${r.length}`).join(', ')
