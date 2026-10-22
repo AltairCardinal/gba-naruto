@@ -72,7 +72,14 @@ TABLES: dict[str, tuple[int, bool, str]] = {
     "skill_table": (0x545458, True, "忍术记录表 16 字节/条，87 条（下标 = 忍术 id）"),
     "ninjutsu_names": (0x599634, True, "忍具名表 93 条"),
     "material_names": (0x5A7E8C, True, "强化素材名表 16 条"),
-    "portrait_table": (0x5A4DEC, True, "头像指针表 id*40 + expr*8"),
+    "portrait_table": (0x5A4DEC, True,
+                       "头像指针表 id*40 + expr*8（项 = LZ77 8bpp 图形 + 128 字节调色板）；"
+                       "共 **63 行（id 0..62，只有 1..62 有效 = 310 条表情）**。"
+                       "**2026-10-22 订正**：紧跟着的「行 63」**不是垃圾指针**，"
+                       "它是**说话人名表**（`0x5A4DEC + 63*40 = 0x5A57C4`，"
+                       "每条 12 字节 = 最多 3 个双字节字形码 + 填充）；"
+                       "旧笔记把名字的字形码当指针读，才得出「行 63 是垃圾」的结论。"
+                       "见 notes/evidence/portrait-render-chain-20261022.md §2.1"),
     "portrait_pieces": (0x4643C0, True,
                         "头像拼块表 20 字节/块，6 块拼成 80x80。"
                         "**2026-10-21 闭合**：本表自己没有字面量读者，"
