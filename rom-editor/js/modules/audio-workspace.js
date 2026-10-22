@@ -8,8 +8,9 @@
 //   * structure.ptr_relation.options  描述符地址 → 标签 / 轨道数 / 共用数
 //   * derived.sound_stats             通道分布、函数指针表每个槽「是什么」
 //
-// 右侧详情面板按类分页签（描述符 / 谁指向它 / 播放入口）—— 见
-// notes/specs/tabbed-side-panels.md。头部留在页签外面，内容进页签。
+// 右侧详情面板按类分卡片（描述符 / 谁指向它 / 播放入口）—— 见
+// notes/specs/human-readable-cards-20261022.md。头部留在卡片外面，
+// 卡片纵向排开：往下滚就是全部可改的东西，不藏内容。
 //
 // 写回只有一条路：pack.setValue。
 
@@ -19,7 +20,7 @@ import { backReferencesByPointer } from '../xref.js';
 import { arraysIn, renderArrayTable, columnLabel } from '../slots.js';
 import { bytesToHex, base64ToBytes, ROM_BASE } from '../bytes.js';
 import { splitPane } from '../split.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 
 const KIND_TEXT = {
   song: '乐曲',
@@ -424,23 +425,23 @@ class AudioSoundTable {
     const tableWrap = el('div', { class: 'table-wrap' });
     const detail = el('div', { class: 'detail-panel hidden' });
 
-    // 右侧详情：头部留在页签外面，内容进页签。
+    // 右侧详情：头部留在卡片外面，内容进卡片。
     //
-    // 页签面板挂在**自己的容器**里（tabHost），openDetail() 只重画
-    // 头部 / 摘要 / 动作与页签内容 —— 页签条本身不重建，
-    // 这样「停在哪一页」与记住的页签都还在。
+    // 卡片堆挂在**自己的容器**里（cardHost），openDetail() 只重画
+    // 头部 / 摘要 / 动作与卡片内容 —— 卡片堆本身不重建，
+    // 这样换一条音效不会把滚动位置弄丢。
     this.detailHead = el('div', { class: 'detail-head' });
     this.detailSub = el('div', { class: 'detail-sub' });
-    this.tabHost = el('div', { class: 'detail-tabs' });
+    this.cardHost = el('div', { class: 'detail-cards' });
     this.detailActions = el('div', { class: 'detail-actions' });
     detail.appendChild(this.detailHead);
     detail.appendChild(this.detailSub);
-    detail.appendChild(this.tabHost);
+    detail.appendChild(this.cardHost);
     detail.appendChild(this.detailActions);
 
-    // 页签面板只建一次：换音效只 refresh，页签条与记住的页签都还在。
-    this.tabs = new TabPanel(this.tabSpecs(), { key: 'editor.audio', pack: this.pack });
-    this.tabHost.appendChild(this.tabs.element);
+    // 卡片堆只建一次：换音效只 refresh，卡片还是那几张。
+    this.cards = new CardStack(this.cardSpecs(), { pack: this.pack });
+    this.cardHost.appendChild(this.cards.element);
 
     container.appendChild(head);
     container.appendChild(el('div', { class: 'rule-note' }, [
@@ -515,7 +516,7 @@ class AudioSoundTable {
     const info = this.descriptorOf(record);
     const values = record.values || {};
 
-    // --- 头部（留在页签外面） ---------------------------------------------
+    // --- 头部（留在卡片外面） ---------------------------------------------
     clear(this.detailHead);
     this.detailHead.appendChild(el('h3', { text: `音效 #${record.id} · ${info.label}` }));
     this.detailHead.appendChild(el('div', { class: 'detail-nav' }, [
@@ -550,11 +551,11 @@ class AudioSoundTable {
       if (node) this.detailSub.appendChild(node);
     }
 
-    // --- 内容（进页签） ---------------------------------------------------
-    // 页签面板在 render() 里就建好了，这里只重画当前页的内容。
-    this.tabs.refresh();
+    // --- 内容（进卡片） ---------------------------------------------------
+    // 卡片堆在 render() 里就建好了，这里只重画卡片里的内容。
+    this.cards.refresh();
 
-    // --- 动作（留在页签外面） ---------------------------------------------
+    // --- 动作（留在卡片外面） ---------------------------------------------
     clear(this.detailActions);
     this.detailActions.appendChild(el('button', {
       class: 'btn btn-ghost',
@@ -585,39 +586,40 @@ class AudioSoundTable {
     }));
   }
 
-  // --- 右侧面板的页签 -------------------------------------------------------
+  // --- 右侧面板的卡片 -------------------------------------------------------
 
   /**
-   * 右侧面板的页签。
+   * 右侧面板的卡片。
    *
    * 内容按类分 —— 描述符 / 谁指向它 / 播放入口。
-   * 页签 id 用英文，label 用中文；key 记住上次停在哪一页。
+   * 卡片 id 用英文，label 用中文（就是卡片头的标题），
+   * hint 是卡片头下给作者看的一行说明。
    *
-   * render() 里的内容函数不缓存节点：切走的那一页不在 DOM 里
-   * （TabPanel 的约定，见 rom-editor/js/tabs.js）。
+   * 三张卡片全都渲染出来、同时在 DOM 里：右侧面板本来就在滚动，
+   * 藏起来只会让作者「不知道还有几类东西没看」。
    */
-  tabSpecs() {
+  cardSpecs() {
     return [
       {
         id: 'descriptor',
         label: '描述符',
         hint: '这个音效指向哪个 m4a 描述符：指针、轨道数与共用情况',
         badge: () => this.badgeDescriptor(),
-        render: () => this.renderDescriptorTab(),
+        render: () => this.renderDescriptorCard(),
       },
       {
         id: 'refs',
         label: '谁指向它',
         hint: '反向引用：哪些音效共用这个描述符',
         badge: () => this.badgeRefs(),
-        render: () => this.renderRefsTab(),
+        render: () => this.renderRefsCard(),
       },
       {
         id: 'playback',
         label: '播放入口',
         hint: '播放通道与播放配置，以及推定出来的播放入口',
         badge: () => this.badgePlayback(),
-        render: () => this.renderPlaybackTab(),
+        render: () => this.renderPlaybackCard(),
       },
     ];
   }
@@ -634,8 +636,8 @@ class AudioSoundTable {
     ]);
   }
 
-  /** 「描述符」这一页：这个音效指向哪个描述符。 */
-  renderDescriptorTab() {
+  /** 「描述符」这张卡片：这个音效指向哪个描述符。 */
+  renderDescriptorCard() {
     const record = this.selected;
     if (!record) return el('div', { class: 'empty', text: '没有选中的音效。' });
     const structure = this.structure;
@@ -653,15 +655,15 @@ class AudioSoundTable {
     ]);
   }
 
-  /** 「谁指向它」这一页：反向引用（共用这个描述符的音效）。 */
-  renderRefsTab() {
+  /** 「谁指向它」这张卡片：反向引用（共用这个描述符的音效）。 */
+  renderRefsCard() {
     const record = this.selected;
     if (!record) return el('div', { class: 'empty', text: '没有选中的音效。' });
     return this.pointerBlock(record);
   }
 
-  /** 「播放入口」这一页：播放通道 / 播放配置 + 推定出来的播放入口。 */
-  renderPlaybackTab() {
+  /** 「播放入口」这张卡片：播放通道 / 播放配置 + 推定出来的播放入口。 */
+  renderPlaybackCard() {
     const record = this.selected;
     if (!record) return el('div', { class: 'empty', text: '没有选中的音效。' });
     const structure = this.structure;
@@ -708,7 +710,7 @@ class AudioSoundTable {
     return playEntrySlots(this.pack, [record.id])[0] || null;
   }
 
-  // --- 页签角标：这一类改了几处 -------------------------------------------
+  // --- 卡片角标：这一类改了几处 -------------------------------------------
 
   /**
    * 这张结构表里哪些记录改过了（rom_offset 集合）。
@@ -1119,12 +1121,12 @@ function renderSongDescriptor(container, ctx, structure, params) {
     return form;
   };
 
-  // --- 内容进页签 ---------------------------------------------------------
+  // --- 内容进卡片 ---------------------------------------------------------
   // 描述符（歌曲头 + 轨道）/ 谁指向它（反查）/ 播放入口（推定的 thunk）。
   const soundIds = descriptor ? descriptor.sound_ids.map((id) => Number(id)) : [];
   const entrySlots = playEntrySlots(pack, soundIds);
 
-  const tabs = new TabPanel([
+  const cards = new CardStack([
     {
       id: 'descriptor',
       label: '描述符',
@@ -1148,8 +1150,8 @@ function renderSongDescriptor(container, ctx, structure, params) {
         `函数指针表只覆盖音效 ${playEntryRange(pack)}，`
         + (soundIds.length ? '这些音效没有对应的入口槽。' : '这个描述符还没有音效在用。')),
     },
-  ], { key: 'editor.audio', pack });
-  container.appendChild(tabs.element);
+  ], { pack });
+  container.appendChild(cards.element);
 
   container.appendChild(el('div', { class: 'detail-actions' }, [
     el('button', {

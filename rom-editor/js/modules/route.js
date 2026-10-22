@@ -16,7 +16,7 @@ import {
   openInModule,
 } from './common.js';
 import { splitPane } from '../split.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 import { missionIndexOwners, ownerLabel } from '../xref.js';
 import { arraysIn, renderArrayTable } from '../slots.js';
 import { fieldControl } from '../fields.js';
@@ -147,17 +147,15 @@ export function renderStage(container, ctx, stage) {
   const root = el('div', { class: 'route-workbench', tabindex: '-1' });
   container.appendChild(root);
 
-  // 工作台自己维护的少量状态：标题输入框（键盘 1/2/3 要聚焦）、页签面板。
-  const view = { titleInputs: [], tabs: null };
+  // 工作台自己维护的少量状态：标题输入框（键盘 1/2/3 要聚焦）、卡片堆。
+  const view = { titleInputs: [], cards: null };
 
-  // 右侧页签：这一关的其它配置按类分开放。
-  //
-  // 改完奖励要重画奖励那一页（改类别会让物品下拉换一批选项）。
+  // 改完奖励要重画奖励那一块（改类别会让物品下拉换一批选项）。
   const paintRewards = () => {
-    if (view.tabs) view.tabs.refresh();
+    if (view.cards) view.cards.refresh();
   };
 
-  const tabs = new TabPanel([
+  const cards = new CardStack([
     {
       id: 'mission',
       label: '任务文案',
@@ -172,21 +170,21 @@ export function renderStage(container, ctx, stage) {
       badge: () => rewardChanged(ctx, stage),
       render: () => rewardSection(ctx, stage, view, paintRewards),
     },
-  ], { key: 'editor.route.stage', pack: ctx.pack });
-  view.tabs = tabs;
+  ], { pack: ctx.pack });
+  view.cards = cards;
 
   const paint = () => {
     clear(root);
     view.titleInputs = [];
     root.appendChild(stageBar(ctx, stage));
     // 左边是主界面：这一关的路线走向常驻可见。
-    // 右边是页签：任务文案与本关奖励。
+    // 右边是卡片：任务文案与本关奖励。
     root.appendChild(splitPane(
       el('div', { class: 'route-main' }, [routeSection(ctx, stage)]),
-      el('div', { class: 'route-side' }, [tabs.element]),
+      el('div', { class: 'route-side' }, [cards.element]),
       { key: 'editor.route.stage', defaultWidth: 460 }
     ));
-    tabs.refresh();
+    cards.refresh();
   };
   paint();
 
@@ -306,8 +304,7 @@ function handleKey(e, ctx, stage, view) {
   }
   if (key === '1' || key === '2' || key === '3') {
     swallow(e);
-    // 标题输入框在「任务文案」那一页 —— 先把那一页切出来再聚焦。
-    if (view.tabs) view.tabs.setActive('mission');
+    // 标题输入框在「任务文案」那张卡片里 —— 卡片全都可见，直接聚焦就行。
     const input = view.titleInputs[Number(key) - 1];
     if (input && typeof input.focus === 'function') input.focus();
   }

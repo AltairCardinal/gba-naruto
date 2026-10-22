@@ -17,7 +17,7 @@ import {
   sideCell, stageChangeCount, mapAssetNotice, operandChanged, openInTable, BATTLE_LAYOUT,
 } from './common.js';
 import { renderRulesTab, renderScriptsTab } from './battle-sections.js';
-import { TabPanel } from '../tabs.js';
+import { CardStack } from '../cards.js';
 import { fetchMaybeGzip } from '../romsource.js';
 import { editorUrl } from '../loader.js';
 import {
@@ -705,14 +705,16 @@ export function renderBattleMap(container, ctx, stage, variant) {
   }
 
   // =========================================================================
-  // 右侧面板：这一关的全部配置，按类分页签
+  // 右侧面板：这一关的全部配置，按类分成卡片
   // =========================================================================
   //
-  // 地图是主界面；**这一关的其它配置**挂在右侧的页签上：
+  // 地图是主界面；**这一关的其它配置**摆在右侧的卡片里：
   // 战场布置 / 战场物件 / 角色出生点 / 胜负条件 / 剧情触发。
   // 以前这些散在「关卡视图」那一长条页面里，作者要在两个页面之间来回跳。
+  //
+  // 卡片**全都同时可见**（不是页签）—— 往下滚就是这一关全部能改的东西。
 
-  const tabs = new TabPanel([
+  const cards = new CardStack([
     {
       id: 'setup',
       label: '战场布置',
@@ -748,13 +750,13 @@ export function renderBattleMap(container, ctx, stage, variant) {
       badge: () => scriptsChanged(),
       render: () => renderScriptsTab(ctx, stage),
     },
-  ], { key: 'battle.map', pack });
+  ], { pack });
 
-  // 页签条只挂一次；换页签 / 刷新内容都在 TabPanel 内部做。
-  side.appendChild(tabs.element);
+  // 卡片堆只挂一次；刷新内容都在 CardStack 内部做。
+  side.appendChild(cards.element);
 
   function refreshPanel() {
-    tabs.refresh();
+    cards.refresh();
   }
 
   /** 这些偏移上的记录有几条被改过（按字节判定，与通用表格同一套）。 */

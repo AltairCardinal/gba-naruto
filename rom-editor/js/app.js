@@ -14,7 +14,7 @@ import { loadBundledRom } from './romsource.js';
 import { loadPackWithProgress, loadPackInFrame } from './loader.js';
 import { ensureTextIndex } from './textindex.js';
 import { parseHash as parseHashRaw, hashFor } from './routing.js';
-import { setDefaultPack, disposeAllTabs } from './tabs.js';
+import { setDefaultPack, disposeAllCards } from './cards.js';
 import { el, clear, toast, modal, downloadBlob, readFile } from './ui.js';
 
 export const MODULES = [
@@ -161,9 +161,9 @@ export function onChange() {
 
 export function render() {
   const main = dom.main;
-  // 旧视图马上要被丢掉 —— 它们的页签面板要退订内容包的变更，
+  // 旧视图马上要被丢掉 —— 它们的卡片堆要退订内容包的变更，
   // 不然每开一次视图就多一个订阅者，写回时都在更新一个已经不在页面上的角标。
-  disposeAllTabs();
+  disposeAllCards();
   clear(main);
   const module = currentModule();
   for (const item of MODULES) {

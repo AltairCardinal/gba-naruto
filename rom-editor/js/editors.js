@@ -22,7 +22,7 @@ import {
 } from './fields.js';
 import { arraysIn, renderArrayTable, columnLabel, arrayFields } from './slots.js';
 import { splitPane } from './split.js';
-import { TabPanel } from './tabs.js';
+import { CardStack } from './cards.js';
 import { backReferences, recordSources } from './xref.js';
 import { indexKey, isEmptyRecord, visibleRecords } from './indexkey.js';
 
@@ -221,13 +221,13 @@ export class StructureEditor {
     this.openDefaultGroups(structure);
     this.jumpTo = '';
     /**
-     * 右侧的页签面板：**一个编辑器只建一个**。
+     * 右侧的卡片堆：**一个编辑器只建一个**。
      *
-     * 打开另一条记录时换的是规格（`setTabs`），不是面板 ——
-     * 面板要订阅内容包的变更（角标），每建一个就多一个订阅者，
+     * 打开另一条记录时换的是规格（`setCards`），不是卡片堆 ——
+     * 卡片堆要订阅内容包的变更（角标），每建一个就多一个订阅者，
      * 反复建会漏。
      */
-    this.tabs = new TabPanel([], { key: 'editor.structure', pack });
+    this.cards = new CardStack([], { pack });
   }
 
   /**
@@ -528,15 +528,15 @@ export class StructureEditor {
       this.isDirty(record) ? el('span', { class: 'tag tag-warn', text: '已改动' }) : null,
     ]));
 
-    // 右侧分两页：**字段**（作者来看的）与**来源**（改了会动到谁）。
+    // 右侧分两块：**字段**（作者来看的）与**来源**（改了会动到谁）。
     //
     // 来源块有时很长（一条记录能被六条路径指到）——
-    // 放在字段前面会把要改的字段顶出屏幕，所以分开。
-    this.tabs.setTabs([
+    // 放在字段前面会把要改的字段顶出屏幕，所以分成两张卡片。
+    this.cards.setCards([
       {
         id: 'fields',
         label: '字段',
-        hint: '这条记录的各个字段（按内容包的分组折叠）',
+        hint: '这一条记录的各个字段（按内容包的分组折叠）',
         render: () => {
           const form = el('div', { class: 'field-list' });
           if (isRawOnly(structure)) {
@@ -562,7 +562,7 @@ export class StructureEditor {
         ),
       },
     ]);
-    this.detail.appendChild(this.tabs.element);
+    this.detail.appendChild(this.cards.element);
 
     this.detail.appendChild(el('div', { class: 'detail-actions' }, [
       el('button', {
@@ -820,9 +820,9 @@ export class TextTableEditor {
     this.limit = 200;          // 大表默认只渲染前 200 行
     this.showOwned = false;     // 是否显示「已被其它表拥有」的条目
     this.grouped = false;      // 是否按「空指针分隔」分组显示
-    // 右侧的页签面板：一个编辑器只建一个（换记录时换规格，不换面板 ——
-    // 面板要订阅内容包的变更，反复建会漏订阅）。
-    this.tabs = new TabPanel([], { key: 'editor.text', pack });
+    // 右侧的卡片堆：一个编辑器只建一个（换记录时换规格，不换卡片堆 ——
+    // 卡片堆要订阅内容包的变更，反复建会漏订阅）。
+    this.cards = new CardStack([], { pack });
   }
 
   /**
@@ -1177,10 +1177,10 @@ export class TextTableEditor {
       ]));
     }
 
-    // 右侧分两页：**文本**（作者来改的）与**来源**（谁在用这段字）。
+    // 右侧分两块：**文本**（作者来改的）与**来源**（谁在用这段字）。
     //
-    // 来源块有时很长 —— 放在文本框前面会把要改的东西顶出屏幕，所以分开。
-    this.tabs.setTabs([
+    // 来源块有时很长 —— 放在文本框前面会把要改的东西顶出屏幕，所以分成两张卡片。
+    this.cards.setCards([
       {
         id: 'text',
         label: '文本',
@@ -1200,7 +1200,7 @@ export class TextTableEditor {
         ),
       },
     ]);
-    this.detail.appendChild(this.tabs.element);
+    this.detail.appendChild(this.cards.element);
 
     this.detail.appendChild(el('div', { class: 'detail-actions' }, [
       el('button', {
