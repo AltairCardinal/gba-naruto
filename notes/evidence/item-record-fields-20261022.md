@@ -6,6 +6,10 @@
 >
 > 工具：`tools/item_record_fields.py`（**对不上就 exit 1**）
 > 证据：本文；内容包字段表：`tools/export_content_pack.py::item_fields`
+>
+> ![忍具视图的「记录字段」页（2026-10-22 实机截图）](item-record-fields-20261022.png)
+> —— 头部写着「16 字节 · 13 格有原生代码依据，3 格保留」，每一格下面就是它在
+> ROM 里的作用与出处地址。
 
 ```powershell
 python tools\item_record_fields.py rom\base.gba
