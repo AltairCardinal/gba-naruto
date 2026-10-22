@@ -208710,5 +208710,1963 @@
   "本包由 tools/export_content_pack.py 从 rom/base.gba 导出。",
   "每个结构的字段列表精确铺满整条记录，未解码的字节以 hex 字段原样保留。",
   "文本表分两类：指针表驱动（可重定位、可变长）与绝对地址引用（只能等长改写）。"
- ]
+ ],
+ "map_assets": {
+  "format": "gba-map-assets-v1",
+  "file": "content/maps/maps.bin.gz",
+  "sha256": "669cf34266f6028c17ef965d6fcd4d1980020ba78e09743f643a3baf0c92e547",
+  "raw_size": 710834,
+  "packed_size": 174584,
+  "maps": {
+   "1": {
+    "cell_w": 15,
+    "cell_h": 15,
+    "px_w": 480,
+    "px_h": 240,
+    "tile_count": 320,
+    "metatile_count": 144,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 0,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 10240,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 10624,
+      "length": 900
+     },
+     "layer1": {
+      "offset": 11524,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 11524,
+      "length": 1152
+     },
+     "terrain": {
+      "offset": 12676,
+      "length": 450
+     }
+    }
+   },
+   "2": {
+    "cell_w": 9,
+    "cell_h": 18,
+    "px_w": 288,
+    "px_h": 288,
+    "tile_count": 352,
+    "metatile_count": 165,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 13126,
+      "length": 11264
+     },
+     "palette": {
+      "offset": 24390,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 24774,
+      "length": 648
+     },
+     "layer1": {
+      "offset": 25422,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 25422,
+      "length": 1320
+     },
+     "terrain": {
+      "offset": 26742,
+      "length": 324
+     }
+    }
+   },
+   "3": {
+    "cell_w": 9,
+    "cell_h": 20,
+    "px_w": 288,
+    "px_h": 320,
+    "tile_count": 224,
+    "metatile_count": 121,
+    "banks": [
+     0,
+     2,
+     3
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 27066,
+      "length": 7168
+     },
+     "palette": {
+      "offset": 34234,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 34618,
+      "length": 720
+     },
+     "layer1": {
+      "offset": 35338,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 35338,
+      "length": 968
+     },
+     "terrain": {
+      "offset": 36306,
+      "length": 360
+     }
+    }
+   },
+   "4": {
+    "cell_w": 9,
+    "cell_h": 20,
+    "px_w": 288,
+    "px_h": 320,
+    "tile_count": 288,
+    "metatile_count": 164,
+    "banks": [
+     0,
+     1,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 36666,
+      "length": 9216
+     },
+     "palette": {
+      "offset": 45882,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 46266,
+      "length": 720
+     },
+     "layer1": {
+      "offset": 46986,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 46986,
+      "length": 1312
+     },
+     "terrain": {
+      "offset": 48298,
+      "length": 360
+     }
+    }
+   },
+   "5": {
+    "cell_w": 9,
+    "cell_h": 23,
+    "px_w": 288,
+    "px_h": 368,
+    "tile_count": 320,
+    "metatile_count": 163,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 48658,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 58898,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 59282,
+      "length": 828
+     },
+     "layer1": {
+      "offset": 60110,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 60110,
+      "length": 1304
+     },
+     "terrain": {
+      "offset": 61414,
+      "length": 414
+     }
+    }
+   },
+   "6": {
+    "cell_w": 15,
+    "cell_h": 16,
+    "px_w": 480,
+    "px_h": 256,
+    "tile_count": 256,
+    "metatile_count": 169,
+    "banks": [
+     0,
+     1,
+     2,
+     4,
+     5,
+     6
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 61828,
+      "length": 8192
+     },
+     "palette": {
+      "offset": 70020,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 70404,
+      "length": 960
+     },
+     "layer1": {
+      "offset": 71364,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 71364,
+      "length": 1352
+     },
+     "terrain": {
+      "offset": 72716,
+      "length": 480
+     }
+    }
+   },
+   "7": {
+    "cell_w": 15,
+    "cell_h": 16,
+    "px_w": 480,
+    "px_h": 256,
+    "tile_count": 672,
+    "metatile_count": 443,
+    "banks": [
+     0,
+     1,
+     2,
+     4,
+     5,
+     8,
+     9,
+     10
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 73196,
+      "length": 21504
+     },
+     "palette": {
+      "offset": 94700,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 95084,
+      "length": 960
+     },
+     "layer1": {
+      "offset": 96044,
+      "length": 960
+     },
+     "metatiles": {
+      "offset": 97004,
+      "length": 3544
+     },
+     "terrain": {
+      "offset": 100548,
+      "length": 480
+     }
+    }
+   },
+   "8": {
+    "cell_w": 15,
+    "cell_h": 16,
+    "px_w": 480,
+    "px_h": 256,
+    "tile_count": 512,
+    "metatile_count": 227,
+    "banks": [
+     0,
+     1,
+     2,
+     4,
+     5,
+     7,
+     8
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 101028,
+      "length": 16384
+     },
+     "palette": {
+      "offset": 117412,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 117796,
+      "length": 960
+     },
+     "layer1": {
+      "offset": 118756,
+      "length": 960
+     },
+     "metatiles": {
+      "offset": 119716,
+      "length": 1816
+     },
+     "terrain": {
+      "offset": 121532,
+      "length": 480
+     }
+    }
+   },
+   "9": {
+    "cell_w": 16,
+    "cell_h": 32,
+    "px_w": 512,
+    "px_h": 512,
+    "tile_count": 704,
+    "metatile_count": 377,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 122012,
+      "length": 22528
+     },
+     "palette": {
+      "offset": 144540,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 144924,
+      "length": 2048
+     },
+     "layer1": {
+      "offset": 146972,
+      "length": 2048
+     },
+     "metatiles": {
+      "offset": 149020,
+      "length": 3016
+     },
+     "terrain": {
+      "offset": 152036,
+      "length": 1024
+     }
+    }
+   },
+   "10": {
+    "cell_w": 16,
+    "cell_h": 21,
+    "px_w": 512,
+    "px_h": 336,
+    "tile_count": 480,
+    "metatile_count": 240,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     8,
+     9
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 153060,
+      "length": 15360
+     },
+     "palette": {
+      "offset": 168420,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 168804,
+      "length": 1344
+     },
+     "layer1": {
+      "offset": 170148,
+      "length": 1344
+     },
+     "metatiles": {
+      "offset": 171492,
+      "length": 1920
+     },
+     "terrain": {
+      "offset": 173412,
+      "length": 672
+     }
+    }
+   },
+   "11": {
+    "cell_w": 17,
+    "cell_h": 30,
+    "px_w": 544,
+    "px_h": 480,
+    "tile_count": 672,
+    "metatile_count": 341,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 174084,
+      "length": 21504
+     },
+     "palette": {
+      "offset": 195588,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 195972,
+      "length": 2040
+     },
+     "layer1": {
+      "offset": 198012,
+      "length": 2040
+     },
+     "metatiles": {
+      "offset": 200052,
+      "length": 2728
+     },
+     "terrain": {
+      "offset": 202780,
+      "length": 1020
+     }
+    }
+   },
+   "12": {
+    "cell_w": 11,
+    "cell_h": 32,
+    "px_w": 352,
+    "px_h": 512,
+    "tile_count": 608,
+    "metatile_count": 257,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 203800,
+      "length": 19456
+     },
+     "palette": {
+      "offset": 223256,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 223640,
+      "length": 1408
+     },
+     "layer1": {
+      "offset": 225048,
+      "length": 1408
+     },
+     "metatiles": {
+      "offset": 226456,
+      "length": 2056
+     },
+     "terrain": {
+      "offset": 228512,
+      "length": 704
+     }
+    }
+   },
+   "13": {
+    "cell_w": 13,
+    "cell_h": 21,
+    "px_w": 416,
+    "px_h": 336,
+    "tile_count": 320,
+    "metatile_count": 163,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 229216,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 239456,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 239840,
+      "length": 1092
+     },
+     "layer1": {
+      "offset": 240932,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 240932,
+      "length": 1304
+     },
+     "terrain": {
+      "offset": 242236,
+      "length": 546
+     }
+    }
+   },
+   "14": {
+    "cell_w": 15,
+    "cell_h": 19,
+    "px_w": 480,
+    "px_h": 304,
+    "tile_count": 384,
+    "metatile_count": 174,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 242782,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 255070,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 255454,
+      "length": 1140
+     },
+     "layer1": {
+      "offset": 256594,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 256594,
+      "length": 1392
+     },
+     "terrain": {
+      "offset": 257986,
+      "length": 570
+     }
+    }
+   },
+   "15": {
+    "cell_w": 12,
+    "cell_h": 21,
+    "px_w": 384,
+    "px_h": 336,
+    "tile_count": 320,
+    "metatile_count": 163,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 258556,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 268796,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 269180,
+      "length": 1008
+     },
+     "layer1": {
+      "offset": 270188,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 270188,
+      "length": 1304
+     },
+     "terrain": {
+      "offset": 271492,
+      "length": 504
+     }
+    }
+   },
+   "16": {
+    "cell_w": 9,
+    "cell_h": 20,
+    "px_w": 288,
+    "px_h": 320,
+    "tile_count": 320,
+    "metatile_count": 148,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 271996,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 282236,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 282620,
+      "length": 720
+     },
+     "layer1": {
+      "offset": 283340,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 283340,
+      "length": 1184
+     },
+     "terrain": {
+      "offset": 284524,
+      "length": 360
+     }
+    }
+   },
+   "17": {
+    "cell_w": 12,
+    "cell_h": 20,
+    "px_w": 384,
+    "px_h": 320,
+    "tile_count": 416,
+    "metatile_count": 224,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     6
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 284884,
+      "length": 13312
+     },
+     "palette": {
+      "offset": 298196,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 298580,
+      "length": 960
+     },
+     "layer1": {
+      "offset": 299540,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 299540,
+      "length": 1792
+     },
+     "terrain": {
+      "offset": 301332,
+      "length": 480
+     }
+    }
+   },
+   "18": {
+    "cell_w": 15,
+    "cell_h": 21,
+    "px_w": 480,
+    "px_h": 336,
+    "tile_count": 384,
+    "metatile_count": 184,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 301812,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 314100,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 314484,
+      "length": 1260
+     },
+     "layer1": {
+      "offset": 315744,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 315744,
+      "length": 1472
+     },
+     "terrain": {
+      "offset": 317216,
+      "length": 630
+     }
+    }
+   },
+   "19": {
+    "cell_w": 15,
+    "cell_h": 21,
+    "px_w": 480,
+    "px_h": 336,
+    "tile_count": 224,
+    "metatile_count": 106,
+    "banks": [
+     0,
+     3,
+     5
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 317846,
+      "length": 7168
+     },
+     "palette": {
+      "offset": 325014,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 325398,
+      "length": 1260
+     },
+     "layer1": {
+      "offset": 326658,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 326658,
+      "length": 848
+     },
+     "terrain": {
+      "offset": 327506,
+      "length": 630
+     }
+    }
+   },
+   "20": {
+    "cell_w": 15,
+    "cell_h": 21,
+    "px_w": 480,
+    "px_h": 336,
+    "tile_count": 320,
+    "metatile_count": 123,
+    "banks": [
+     0,
+     1,
+     3,
+     4,
+     5
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 328136,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 338376,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 338760,
+      "length": 1260
+     },
+     "layer1": {
+      "offset": 340020,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 340020,
+      "length": 984
+     },
+     "terrain": {
+      "offset": 341004,
+      "length": 630
+     }
+    }
+   },
+   "21": {
+    "cell_w": 9,
+    "cell_h": 16,
+    "px_w": 288,
+    "px_h": 256,
+    "tile_count": 160,
+    "metatile_count": 106,
+    "banks": [
+     0,
+     2,
+     3
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 341634,
+      "length": 5120
+     },
+     "palette": {
+      "offset": 346754,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 347138,
+      "length": 576
+     },
+     "layer1": {
+      "offset": 347714,
+      "length": 576
+     },
+     "metatiles": {
+      "offset": 348290,
+      "length": 848
+     },
+     "terrain": {
+      "offset": 349138,
+      "length": 288
+     }
+    }
+   },
+   "22": {
+    "cell_w": 13,
+    "cell_h": 20,
+    "px_w": 416,
+    "px_h": 320,
+    "tile_count": 256,
+    "metatile_count": 134,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 349426,
+      "length": 8192
+     },
+     "palette": {
+      "offset": 357618,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 358002,
+      "length": 1040
+     },
+     "layer1": {
+      "offset": 359042,
+      "length": 1040
+     },
+     "metatiles": {
+      "offset": 360082,
+      "length": 1072
+     },
+     "terrain": {
+      "offset": 361154,
+      "length": 520
+     }
+    }
+   },
+   "23": {
+    "cell_w": 15,
+    "cell_h": 17,
+    "px_w": 480,
+    "px_h": 272,
+    "tile_count": 288,
+    "metatile_count": 149,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 361674,
+      "length": 9216
+     },
+     "palette": {
+      "offset": 370890,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 371274,
+      "length": 1020
+     },
+     "layer1": {
+      "offset": 372294,
+      "length": 1020
+     },
+     "metatiles": {
+      "offset": 373314,
+      "length": 1192
+     },
+     "terrain": {
+      "offset": 374506,
+      "length": 510
+     }
+    }
+   },
+   "24": {
+    "cell_w": 13,
+    "cell_h": 17,
+    "px_w": 416,
+    "px_h": 272,
+    "tile_count": 320,
+    "metatile_count": 153,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 375016,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 385256,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 385640,
+      "length": 884
+     },
+     "layer1": {
+      "offset": 386524,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 386524,
+      "length": 1224
+     },
+     "terrain": {
+      "offset": 387748,
+      "length": 442
+     }
+    }
+   },
+   "25": {
+    "cell_w": 13,
+    "cell_h": 20,
+    "px_w": 416,
+    "px_h": 320,
+    "tile_count": 384,
+    "metatile_count": 167,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 388190,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 400478,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 400862,
+      "length": 1040
+     },
+     "layer1": {
+      "offset": 401902,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 401902,
+      "length": 1336
+     },
+     "terrain": {
+      "offset": 403238,
+      "length": 520
+     }
+    }
+   },
+   "26": {
+    "cell_w": 11,
+    "cell_h": 20,
+    "px_w": 352,
+    "px_h": 320,
+    "tile_count": 320,
+    "metatile_count": 142,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 403758,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 413998,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 414382,
+      "length": 880
+     },
+     "layer1": {
+      "offset": 415262,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 415262,
+      "length": 1136
+     },
+     "terrain": {
+      "offset": 416398,
+      "length": 440
+     }
+    }
+   },
+   "27": {
+    "cell_w": 11,
+    "cell_h": 21,
+    "px_w": 352,
+    "px_h": 336,
+    "tile_count": 384,
+    "metatile_count": 172,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     6
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 416838,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 429126,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 429510,
+      "length": 924
+     },
+     "layer1": {
+      "offset": 430434,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 430434,
+      "length": 1376
+     },
+     "terrain": {
+      "offset": 431810,
+      "length": 462
+     }
+    }
+   },
+   "28": {
+    "cell_w": 9,
+    "cell_h": 23,
+    "px_w": 288,
+    "px_h": 368,
+    "tile_count": 320,
+    "metatile_count": 130,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 432272,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 442512,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 442896,
+      "length": 828
+     },
+     "layer1": {
+      "offset": 443724,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 443724,
+      "length": 1040
+     },
+     "terrain": {
+      "offset": 444764,
+      "length": 414
+     }
+    }
+   },
+   "29": {
+    "cell_w": 9,
+    "cell_h": 20,
+    "px_w": 288,
+    "px_h": 320,
+    "tile_count": 320,
+    "metatile_count": 127,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 445178,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 455418,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 455802,
+      "length": 720
+     },
+     "layer1": {
+      "offset": 456522,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 456522,
+      "length": 1016
+     },
+     "terrain": {
+      "offset": 457538,
+      "length": 360
+     }
+    }
+   },
+   "30": {
+    "cell_w": 13,
+    "cell_h": 20,
+    "px_w": 416,
+    "px_h": 320,
+    "tile_count": 320,
+    "metatile_count": 149,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 457898,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 468138,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 468522,
+      "length": 1040
+     },
+     "layer1": {
+      "offset": 469562,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 469562,
+      "length": 1192
+     },
+     "terrain": {
+      "offset": 470754,
+      "length": 520
+     }
+    }
+   },
+   "31": {
+    "cell_w": 11,
+    "cell_h": 21,
+    "px_w": 352,
+    "px_h": 336,
+    "tile_count": 224,
+    "metatile_count": 128,
+    "banks": [
+     0,
+     1,
+     2,
+     4,
+     5
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 471274,
+      "length": 7168
+     },
+     "palette": {
+      "offset": 478442,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 478826,
+      "length": 924
+     },
+     "layer1": {
+      "offset": 479750,
+      "length": 924
+     },
+     "metatiles": {
+      "offset": 480674,
+      "length": 1024
+     },
+     "terrain": {
+      "offset": 481698,
+      "length": 462
+     }
+    }
+   },
+   "32": {
+    "cell_w": 13,
+    "cell_h": 26,
+    "px_w": 416,
+    "px_h": 416,
+    "tile_count": 480,
+    "metatile_count": 209,
+    "banks": [
+     0,
+     1,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 482160,
+      "length": 15360
+     },
+     "palette": {
+      "offset": 497520,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 497904,
+      "length": 1352
+     },
+     "layer1": {
+      "offset": 499256,
+      "length": 1352
+     },
+     "metatiles": {
+      "offset": 500608,
+      "length": 1672
+     },
+     "terrain": {
+      "offset": 502280,
+      "length": 676
+     }
+    }
+   },
+   "33": {
+    "cell_w": 9,
+    "cell_h": 20,
+    "px_w": 288,
+    "px_h": 320,
+    "tile_count": 320,
+    "metatile_count": 148,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 502956,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 513196,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 513580,
+      "length": 720
+     },
+     "layer1": {
+      "offset": 514300,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 514300,
+      "length": 1184
+     },
+     "terrain": {
+      "offset": 515484,
+      "length": 360
+     }
+    }
+   },
+   "34": {
+    "cell_w": 9,
+    "cell_h": 16,
+    "px_w": 288,
+    "px_h": 256,
+    "tile_count": 160,
+    "metatile_count": 106,
+    "banks": [
+     0,
+     2,
+     3
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 515844,
+      "length": 5120
+     },
+     "palette": {
+      "offset": 520964,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 521348,
+      "length": 576
+     },
+     "layer1": {
+      "offset": 521924,
+      "length": 576
+     },
+     "metatiles": {
+      "offset": 522500,
+      "length": 848
+     },
+     "terrain": {
+      "offset": 523348,
+      "length": 288
+     }
+    }
+   },
+   "35": {
+    "cell_w": 11,
+    "cell_h": 32,
+    "px_w": 352,
+    "px_h": 512,
+    "tile_count": 608,
+    "metatile_count": 257,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9
+    ],
+    "has_layer1": true,
+    "blocks": {
+     "gfx": {
+      "offset": 523636,
+      "length": 19456
+     },
+     "palette": {
+      "offset": 543092,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 543476,
+      "length": 1408
+     },
+     "layer1": {
+      "offset": 544884,
+      "length": 1408
+     },
+     "metatiles": {
+      "offset": 546292,
+      "length": 2056
+     },
+     "terrain": {
+      "offset": 548348,
+      "length": 704
+     }
+    }
+   },
+   "36": {
+    "cell_w": 13,
+    "cell_h": 17,
+    "px_w": 416,
+    "px_h": 272,
+    "tile_count": 320,
+    "metatile_count": 153,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 549052,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 559292,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 559676,
+      "length": 884
+     },
+     "layer1": {
+      "offset": 560560,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 560560,
+      "length": 1224
+     },
+     "terrain": {
+      "offset": 561784,
+      "length": 442
+     }
+    }
+   },
+   "37": {
+    "cell_w": 11,
+    "cell_h": 21,
+    "px_w": 352,
+    "px_h": 336,
+    "tile_count": 384,
+    "metatile_count": 172,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     6
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 562226,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 574514,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 574898,
+      "length": 924
+     },
+     "layer1": {
+      "offset": 575822,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 575822,
+      "length": 1376
+     },
+     "terrain": {
+      "offset": 577198,
+      "length": 462
+     }
+    }
+   },
+   "38": {
+    "cell_w": 15,
+    "cell_h": 21,
+    "px_w": 480,
+    "px_h": 336,
+    "tile_count": 320,
+    "metatile_count": 123,
+    "banks": [
+     0,
+     1,
+     3,
+     4,
+     5
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 577660,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 587900,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 588284,
+      "length": 1260
+     },
+     "layer1": {
+      "offset": 589544,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 589544,
+      "length": 984
+     },
+     "terrain": {
+      "offset": 590528,
+      "length": 630
+     }
+    }
+   },
+   "39": {
+    "cell_w": 9,
+    "cell_h": 22,
+    "px_w": 288,
+    "px_h": 352,
+    "tile_count": 384,
+    "metatile_count": 172,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 591158,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 603446,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 603830,
+      "length": 792
+     },
+     "layer1": {
+      "offset": 604622,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 604622,
+      "length": 1376
+     },
+     "terrain": {
+      "offset": 605998,
+      "length": 396
+     }
+    }
+   },
+   "40": {
+    "cell_w": 9,
+    "cell_h": 22,
+    "px_w": 288,
+    "px_h": 352,
+    "tile_count": 384,
+    "metatile_count": 172,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 606394,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 618682,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 619066,
+      "length": 792
+     },
+     "layer1": {
+      "offset": 619858,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 619858,
+      "length": 1376
+     },
+     "terrain": {
+      "offset": 621234,
+      "length": 396
+     }
+    }
+   },
+   "41": {
+    "cell_w": 9,
+    "cell_h": 22,
+    "px_w": 288,
+    "px_h": 352,
+    "tile_count": 384,
+    "metatile_count": 172,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 621630,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 633918,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 634302,
+      "length": 792
+     },
+     "layer1": {
+      "offset": 635094,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 635094,
+      "length": 1376
+     },
+     "terrain": {
+      "offset": 636470,
+      "length": 396
+     }
+    }
+   },
+   "42": {
+    "cell_w": 9,
+    "cell_h": 22,
+    "px_w": 288,
+    "px_h": 352,
+    "tile_count": 384,
+    "metatile_count": 172,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 636866,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 649154,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 649538,
+      "length": 792
+     },
+     "layer1": {
+      "offset": 650330,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 650330,
+      "length": 1376
+     },
+     "terrain": {
+      "offset": 651706,
+      "length": 396
+     }
+    }
+   },
+   "43": {
+    "cell_w": 9,
+    "cell_h": 22,
+    "px_w": 288,
+    "px_h": 352,
+    "tile_count": 384,
+    "metatile_count": 172,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 652102,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 664390,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 664774,
+      "length": 792
+     },
+     "layer1": {
+      "offset": 665566,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 665566,
+      "length": 1376
+     },
+     "terrain": {
+      "offset": 666942,
+      "length": 396
+     }
+    }
+   },
+   "44": {
+    "cell_w": 9,
+    "cell_h": 22,
+    "px_w": 288,
+    "px_h": 352,
+    "tile_count": 384,
+    "metatile_count": 172,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 667338,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 679626,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 680010,
+      "length": 792
+     },
+     "layer1": {
+      "offset": 680802,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 680802,
+      "length": 1376
+     },
+     "terrain": {
+      "offset": 682178,
+      "length": 396
+     }
+    }
+   },
+   "45": {
+    "cell_w": 9,
+    "cell_h": 22,
+    "px_w": 288,
+    "px_h": 352,
+    "tile_count": 384,
+    "metatile_count": 172,
+    "banks": [
+     0,
+     1,
+     2,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 682574,
+      "length": 12288
+     },
+     "palette": {
+      "offset": 694862,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 695246,
+      "length": 792
+     },
+     "layer1": {
+      "offset": 696038,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 696038,
+      "length": 1376
+     },
+     "terrain": {
+      "offset": 697414,
+      "length": 396
+     }
+    }
+   },
+   "46": {
+    "cell_w": 11,
+    "cell_h": 20,
+    "px_w": 352,
+    "px_h": 320,
+    "tile_count": 320,
+    "metatile_count": 135,
+    "banks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "has_layer1": false,
+    "blocks": {
+     "gfx": {
+      "offset": 697810,
+      "length": 10240
+     },
+     "palette": {
+      "offset": 708050,
+      "length": 384
+     },
+     "layer0": {
+      "offset": 708434,
+      "length": 880
+     },
+     "layer1": {
+      "offset": 709314,
+      "length": 0
+     },
+     "metatiles": {
+      "offset": 709314,
+      "length": 1080
+     },
+     "terrain": {
+      "offset": 710394,
+      "length": 440
+     }
+    }
+   }
+  }
+ }
 }

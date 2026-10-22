@@ -73,6 +73,22 @@ export function parseHash(hash) {
       panel: { kind: parts[1], id: SUBVIEW_LABELS[parts[1]], params: {} },
     };
   }
+  if (parts[1] === 'map') {
+    // 战场地图：#battle/map/<关卡>/<变体>
+    const stage = Number(parts[2]);
+    const variant = Number(parts[3]);
+    return {
+      module,
+      panel: {
+        kind: 'map',
+        id: 'map',
+        params: {
+          stage: Number.isFinite(stage) ? stage : 1,
+          variant: Number.isFinite(variant) ? variant : 0,
+        },
+      },
+    };
+  }
   if (parts[1] === 'offset' && parts[2]) {
     // 「原始字节」按地址打开：#raw/offset/0x5A15C0
     const offset = parseInt(String(parts[2]).replace(/^0x/i, ''), 16);
@@ -137,6 +153,10 @@ export function hashFor(view) {
   }
   if (SUBVIEW_LABELS[panel.kind]) {
     return `#${module}/${panel.kind}`;
+  }
+  if (panel.kind === 'map') {
+    const { stage, variant } = panel.params || {};
+    return `#${module}/map/${stage ?? 1}/${variant ?? 0}`;
   }
   if (panel.kind === 'raw-offset') {
     const offset = (panel.params && panel.params.offset) || 0;

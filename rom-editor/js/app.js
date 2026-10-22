@@ -188,6 +188,12 @@ function renderBreadcrumb() {
       const p = view.panel.params || {};
       const suffix = view.module === 'battle' ? ` · 变体 ${p.variant || 0}` : '';
       crumbs.push({ label: `第 ${p.stage} 关${suffix}` });
+    } else if (view.panel.kind === 'map') {
+      // 战场地图：第 N 关 · 变体 M · 战场地图
+      const p = view.panel.params || {};
+      crumbs.push({
+        label: `第 ${p.stage} 关 · 变体 ${p.variant || 0} · 战场地图`,
+      });
     } else {
       const table = view.panel.kind === 'structure'
         ? state.pack.structure(view.panel.id)

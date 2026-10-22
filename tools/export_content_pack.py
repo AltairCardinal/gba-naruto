@@ -35,6 +35,7 @@ if str(REPO / "tools") not in sys.path:
 
 from tools import text_codec  # noqa: E402
 from tools.lib.io import write_text  # noqa: E402
+from tools.lib.lz77 import decompress  # noqa: E402
 
 ROM_BASE = 0x08000000
 PACK_FORMAT = "naruto-konoha-content-pack"
@@ -79,6 +80,12 @@ PORTRAIT_PIECES_COUNT = 6
 MAP_TABLE_BASE = 0x53D910
 MAP_TABLE_STRIDE = 32
 MAP_TABLE_COUNT = 47
+
+# 战斗地图素材：规格见 notes/specs/battle-map-editor.md §6.3。
+# 46 张战斗关卡（1..46）的**已解压**素材打进一个二进制文件，按需拉取。
+MAP_ASSET_FORMAT = "gba-map-assets-v1"
+MAP_ASSET_STAGES = range(1, 47)
+MAP_ASSET_REL = "content/maps/maps.bin.gz"
 BATTLE_ACTORS_BASE = 0x5461C4
 BATTLE_GROUP_STRIDE = 0x1AAC
 BATTLE_VARIANT_STRIDE = 0x8E4
@@ -2661,6 +2668,131 @@ def write_base_rom_module(rom_path: Path, out_dir: Path) -> tuple[int, int]:
     return len(rom), target.stat().st_size
 
 
+def build_map_assets(rom: bytes, out_path: Path, write: bool = True) -> dict[str, Any]:
+    """战斗地图素材（**已解压**）打成二进制，界面按需拉取。
+
+    为什么不是「运行时从 ROM 现解」：编辑器的卖点是「不载入 ROM 也能编辑」，
+    地图是头号功能，不能挂在「载入内置 ROM」后面。而且我们已经**只读**这些载荷，
+    不需要与原版逐字节一致的压缩器（那是写回时才需要的）。
+
+    规格：notes/specs/battle-map-editor.md §6.3
+    事实：notes/evidence/battle-map-render-facts-20261022.md
+
+    产出：
+      * `<out_path>` —— gzip 的素材二进制
+      * 返回的字典 —— 内容包里的 `map_assets` 段
+    """
+    blob = bytearray()
+    maps: dict[str, Any] = {}
+
+    for stage in MAP_ASSET_STAGES:
+        base = MAP_TABLE_BASE + stage * MAP_TABLE_STRIDE
+        raw_w = struct.unpack_from("<H", rom, base + 0x00)[0]
+        raw_h = struct.unpack_from("<H", rom, base + 0x02)[0]
+        cell_w, cell_h = raw_w // 4, raw_h // 2
+        if raw_w % 4 or raw_h % 2:
+            raise ValueError(f"地图 {stage} 的尺寸不是 4/2 的倍数（{raw_w}×{raw_h}）")
+
+        blocks: dict[str, bytes] = {}
+        for name, offset in (("gfx", 0x04), ("palette", 0x08), ("layer0", 0x0C),
+                             ("layer1", 0x10), ("metatiles", 0x14), ("terrain", 0x18)):
+            ptr = struct.unpack_from("<I", rom, base + offset)[0]
+            if not ptr:
+                blocks[name] = b""
+                continue
+            file_off = ptr - ROM_BASE
+            if not (0 <= file_off < len(rom)):
+                raise ValueError(f"地图 {stage} 的 {name} 指针越界：0x{ptr:08X}")
+            blocks[name] = decompress(rom, file_off)
+
+        # --- 自检（不通过就不产出坏素材）---------------------------------
+        gfx = blocks["gfx"]
+        palette = blocks["palette"]
+        layer0 = blocks["layer0"]
+        layer1 = blocks["layer1"]
+        metatiles = blocks["metatiles"]
+        terrain = blocks["terrain"]
+        checks = [
+            (len(layer0) == cell_w * cell_h * 4, "图层0 长度"),
+            (len(layer1) in (0, cell_w * cell_h * 4), "图层1 长度"),
+            (len(metatiles) % 8 == 0, "组合图块表不是 8 字节的倍数"),
+            (len(terrain) == cell_w * cell_h * 2, "通行值表长度"),
+            (len(gfx) % 32 == 0, "图块不是 32 字节的倍数"),
+            (len(palette) == 384, "调色板不是 384 字节"),
+            (len(palette) // 2 // 16 == 12, "调色板不是 12 组 × 16 色"),
+        ]
+        for ok, what in checks:
+            if not ok:
+                raise ValueError(f"地图 {stage} 的{what}不对（自检不通过）")
+
+        metatile_count = len(metatiles) // 8
+        tile_count = len(gfx) // 32
+        for layer in (layer0, layer1):
+            for i in range(0, len(layer), 2):
+                index = struct.unpack_from("<H", layer, i)[0]
+                if index >= metatile_count:
+                    raise ValueError(
+                        f"地图 {stage} 的图层引用了越界的组合图块号 {index}"
+                        f"（共 {metatile_count} 项）")
+
+        # 用到的调色板组（组合图块里的图块号 bits 15-12）
+        banks: set[int] = set()
+        for i in range(0, len(metatiles), 2):
+            entry = struct.unpack_from("<H", metatiles, i)[0]
+            banks.add(entry >> 12)
+
+        # --- 写进 blob（绝对偏移）----------------------------------------
+        offsets: dict[str, Any] = {}
+        for name in ("gfx", "palette", "layer0", "layer1", "metatiles", "terrain"):
+            data = blocks[name]
+            offsets[name] = {"offset": len(blob), "length": len(data)}
+            blob += data
+
+        maps[str(stage)] = {
+            "cell_w": cell_w,
+            "cell_h": cell_h,
+            "px_w": cell_w * 32,
+            "px_h": cell_h * 16,
+            "tile_count": tile_count,
+            "metatile_count": metatile_count,
+            "banks": sorted(banks),
+            "has_layer1": bool(layer1),
+            "blocks": offsets,
+        }
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    import gzip
+    packed = bytearray()
+    with gzip.GzipFile(filename="", mode="wb", fileobj=_BytesSink(packed), mtime=0) as gz:
+        gz.write(bytes(blob))
+    digest = hashlib.sha256(bytes(packed)).hexdigest()
+    if write:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        out_path.write_bytes(bytes(packed))
+    return {
+        "format": MAP_ASSET_FORMAT,
+        "file": MAP_ASSET_REL,
+        "sha256": digest,
+        "raw_size": len(blob),
+        "packed_size": len(packed),
+        "maps": maps,
+    }
+
+
+class _BytesSink:
+    """A minimal file-like object that collects bytes (for deterministic gzip)."""
+
+    def __init__(self, target: bytearray) -> None:
+        self.target = target
+
+    def write(self, data: bytes) -> int:
+        self.target += data
+        return len(data)
+
+    def flush(self) -> None:
+        pass
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Export the ROM content pack.")
     parser.add_argument("--rom", type=Path, default=REPO / "rom" / "base.gba")
@@ -2676,6 +2808,9 @@ def main(argv: list[str] | None = None) -> int:
                         help="where to write the exhaustive ROM text index")
     parser.add_argument("--no-text-index", action="store_true",
                         help="do not write the separate text index file")
+    parser.add_argument("--maps-out", type=Path,
+                        default=REPO / "rom-editor" / "content" / "maps" / "maps.bin.gz",
+                        help="where to write the battle-map asset blob")
     parser.add_argument("--check", action="store_true",
                         help="only verify the pack on disk matches the ROM")
     parser.add_argument("--portrait-out", type=Path, default=None,
@@ -2755,6 +2890,10 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     pack = build_pack(args.rom, with_text_index=False)
+    # 战斗地图素材（已解压）单独一个二进制文件，界面按需拉取。
+    map_assets = build_map_assets(
+        args.rom.read_bytes(), args.maps_out, write=not args.check)
+    pack["map_assets"] = map_assets
     payload = json.dumps(pack, ensure_ascii=False, indent=1)
 
     if args.check:
