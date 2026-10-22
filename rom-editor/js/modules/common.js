@@ -535,9 +535,16 @@ export function mapAssetNotice(message, file, onRetry) {
   ]);
 }
 
-/** A small read-only summary table used by several domains. */
+/**
+ * A small read-only summary table used by several domains.
+ *
+ * `rows.class`（可选）会加到 `<table>` 的 class 上 ——
+ * 用来给某一张表的**某一列**单独改样式（列向 flex 容器里的剧情触发条件表
+ * 就靠它让最后那列说明文字能换行，见 css/battle-map.css）。
+ * 不给就还是 `grid`，行为不变。
+ */
 export function summaryTable(rows) {
-  const table = el('table', { class: 'grid' });
+  const table = el('table', { class: rows.class ? `grid ${rows.class}` : 'grid' });
   const head = el('tr');
   for (const cell of rows.head) head.appendChild(el('th', { text: cell }));
   table.appendChild(el('thead', {}, [head]));

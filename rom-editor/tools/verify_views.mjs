@@ -307,6 +307,20 @@ console.log('\n2) 战斗：第 40 关的战场地图（主界面）与右侧页�
     ['战前剧情', '战后剧情', '战场事件逻辑', '战场事件表']
       .every((name) => scriptText.includes(name)));
 
+  // 第十一轮：「剧情触发」卡片里多了一张**触发块列表**
+  // （一行 = 一组守门条件 + 它触发的那一段对白）。
+  //
+  // 这一关用的是**合成的零 ROM**（见本文件开头的 base），所以反汇编不出
+  // 触发块 —— 触发块列表的行数由 verify_battle_map.mjs（真 ROM）与
+  // verify_battle_story_triggers.mjs 断。这里断的是**新形态本身**：
+  // 「战斗中触发」这一段在、1 基映射的限定词在。
+  const triggerArea = host.descendants().find((n) => n.dataset && n.dataset.triggers === '1');
+  check('「剧情触发」卡片里有触发块列表这一段', !!triggerArea, '');
+  check('触发块列表写明了 1 基映射是「按 ROM 字节推定」',
+    scriptText.includes('按 ROM 字节推定') && scriptText.includes('未做运行期确认'), '');
+  check('「剧情触发」卡片写着「战斗中触发」与「战前 / 战后过场」是两回事',
+    scriptText.includes('战斗中触发') && scriptText.includes('战前 / 战后过场'), '');
+
   // 每一行都能跳到通用表格的同一条记录
   const jumpLinks = (cardOf(host, '战场物件') || { descendants: () => [] })
     .descendants().filter((n) => n.textContent === '↗');

@@ -46,6 +46,11 @@ export const SINGLE_TARGET = [7, 13, 50];
  * opcode → operand name → (offset inside the instruction, size in bytes).
  * Mirrors `tools/import_story_script.py::KNOWN_OPERANDS`; a rewrite here
  * cannot move anything, so branch targets stay valid.
+ *
+ * 0x32（事件链选择）**不在表里**：它的 u32 载荷是「段首地址」，
+ * 改它等于改控制流，不是改参数（见 notes/specs/battle-story-triggers-20261022.md D5）。
+ * 0x34..0x39（战场触发的条件指令）的定宽 u8 字段在这里补齐，
+ * 语义边界见 notes/story-vm-opcodes-20261020.md §3。
  */
 export const KNOWN_OPERANDS = {
   8: { portrait: [1, 1] },
@@ -65,6 +70,18 @@ export const KNOWN_OPERANDS = {
   31: { config: [1, 1] },
   35: { member_a: [1, 1], member_b: [2, 1] },
   51: { value: [1, 1] },
+  // 0x34 回合/相位条件：比较器 @+1、b @+2、c @+3（u32 目标 @+4 不给输入框）
+  52: { comparator: [1, 1], round_count: [2, 1], phase_byte: [3, 1] },
+  // 0x35 复合条件：a @+1、b @+2、c @+3、d @+4（三个参数的业务含义仓库还没解）
+  53: { expect: [1, 1], param_b: [2, 1], param_c: [3, 1], param_d: [4, 1] },
+  // 0x36 指定角色在场：a @+1、b @+2、c @+3
+  54: { expect: [1, 1], param_b: [2, 1], role_id: [3, 1] },
+  // 0x37 置/清战斗标志：模式 @+1、标志 @+2
+  55: { flag_mode: [1, 1], battle_flag: [2, 1] },
+  // 0x38 测试战斗标志：模式 @+1、标志 @+2
+  56: { flag_mode: [1, 1], battle_flag: [2, 1] },
+  // 0x39 子配置匹配：id @+1
+  57: { sub_config: [1, 1] },
 };
 
 export const OPERAND_LABELS = {
@@ -82,6 +99,32 @@ export const OPERAND_LABELS = {
   member_a: '队员 A',
   member_b: '队员 B',
   value: '事件队列值',
+  comparator: '比较器',
+  round_count: '回合计数',
+  phase_byte: '未定名字节',
+  expect: '期望值',
+  param_b: '参数 b（未命名）',
+  param_c: '参数 c（未命名）',
+  param_d: '参数 d（未命名）',
+  role_id: '角色 id',
+  flag_mode: '标志模式',
+  battle_flag: '战斗标志 id',
+  sub_config: '子配置 id',
+};
+
+/**
+ * 比较器（0x34 的 @+1）。
+ *
+ * `0x08097210` 分发到 `0x08097230` 的六项表：**无符号**，两个操作数都按 u8 取值。
+ * 见 notes/story-vm-opcodes-20261020.md §3.1。
+ */
+export const COMPARATOR_NAMES = {
+  0: '==',
+  1: '!=',
+  2: '>',
+  3: '>=',
+  4: '<',
+  5: '<=',
 };
 
 export const OPCODE_NAMES = {
@@ -170,6 +213,13 @@ export function scanScript(rom, root) {
  * The editable (proved fixed-width) operands of one instruction.
  * Each entry carries the absolute ROM offset, so the editor can write it back
  * without moving a single byte.
+ *
+ * 每个操作数还带 `before_hex`（原版字节）—— 写回通路 `pack.setScriptOperand`
+ * 拿它当补丁的「改前字节」：缺了它补丁就没有校验依据，构建时的
+ * 「原字节必须匹配」过不了，补丁的 before/after 长度也不相等。
+ * （`common.js::operandInput` 自己**不**补这个字段 ——
+ *  它之所以能用，是因为内容包里的 `pack.scripts[].operands` 自带 before_hex；
+ *  这里新算出来的操作数必须自带，才喂得进去。）
  */
 export function editableOperands(rom, instruction) {
   const spec = KNOWN_OPERANDS[instruction.op];
@@ -186,7 +236,17 @@ export function editableOperands(rom, instruction) {
       rom_offset: at,
       size,
       value,
+      before_hex: bytesOf(rom, at, size),
     });
+  }
+  return out;
+}
+
+/** 若干字节的十六进制（小端原样，补丁的「改前字节」用这个格式）。 */
+function bytesOf(rom, at, size) {
+  let out = '';
+  for (let i = 0; i < size; i++) {
+    out += (rom[at + i] & 0xff).toString(16).padStart(2, '0');
   }
   return out;
 }

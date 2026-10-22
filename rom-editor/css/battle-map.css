@@ -146,3 +146,47 @@ table.map-table .map-cell { font-family: var(--mono); color: var(--fg-dim); }
   border: 1px solid var(--line); border-radius: 6px;
   background: repeating-conic-gradient(#1b1f28 0% 25%, #232833 0% 50%) 50% / 16px 16px;
 }
+
+/* ---------- 剧情触发列表 ---------- */
+/* 一行 = 一处触发：行头点开，下面是条件表与对白表。 */
+.trigger-section { margin-bottom: 18px; }
+.trigger-list { display: flex; flex-direction: column; gap: 6px; }
+.trigger-block {
+  border: 1px solid var(--line); border-radius: 8px;
+  background: var(--bg-1); overflow: hidden;
+}
+.trigger-head {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: baseline;
+  width: 100%; text-align: left; cursor: pointer;
+  padding: 7px 10px; border: 0; background: transparent; color: var(--fg);
+  font-size: 12px; line-height: 1.5;
+}
+.trigger-head:hover { background: var(--bg-2); }
+.trigger-head.open { border-bottom: 1px solid var(--line); }
+.trigger-no { font-weight: 600; white-space: nowrap; }
+.trigger-seg { color: var(--fg-dim); white-space: nowrap; }
+.trigger-cond { flex: 1 1 100%; color: var(--fg-dim); font-size: 11.5px; }
+.trigger-toggle { margin-left: auto; color: var(--fg-dim); font-size: 11px; white-space: nowrap; }
+.trigger-body { padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 8px; }
+/* `.table-wrap` 在 styles.css 里是 `flex: 1 1 0` —— 那是给**行向** flex 容器
+   （编辑器主界面那种左右分栏）控制**宽度**用的。
+   `.trigger-body` 是**列向** flex 容器，flex-basis 就落到了**高度**上；
+   加上 `.table-wrap` 自带 `overflow: auto`（自动最小尺寸因此归零），
+   表格会被压成 0 高 —— 整张条件表与对白表只剩一条横线。
+   这里把 flex 改回 `0 0 auto`：高度按内容算，宽度仍由 stretch 撑满。 */
+.trigger-body > .table-wrap { flex: 0 0 auto; }
+.trigger-body table.grid { font-size: 11.5px; }
+/* 条件表最后一列是**人话说明**：全局的 `table.grid td` 是 nowrap，
+   长说明会被顶出容器、只能横向滚动才看得到 —— 这里让它换行。 */
+.trigger-body table.cond-table td:last-child { white-space: normal; min-width: 240px; }
+/* 窄栏（战斗域侧栏 420px）里条件表有四列，宽度会被挤掉 ——
+   输入框一旦被压到十几像素就点不进去、改不了。
+   给它们守住最小宽度：宁可让 `.table-wrap` 横向滚动。 */
+.trigger-body .num-input { min-width: 60px; }
+.trigger-body .text-input-inline { min-width: 180px; }
+.trigger-body table.grid th { font-size: 10.5px; }
+.trigger-body table.grid td { vertical-align: top; }
+.trigger-sub { margin: 4px 0 0; font-size: 12px; color: var(--fg-dim); }
+.story-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.operand-row { display: flex; gap: 6px; align-items: center; margin-bottom: 3px; }
+.operand-label { color: var(--fg-dim); font-size: 11px; white-space: nowrap; }

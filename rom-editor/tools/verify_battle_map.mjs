@@ -654,6 +654,22 @@ console.log('\n13) 右侧页签收纳了这一关的全部配置');
       .every((name) => scriptRows.some((r) => r.textContent.includes(name))),
     scriptRows.map((r) => r.textContent).join(' | ').slice(0, 200));
 
+  // 剧情触发那张卡片：**触发块列表**（第十一轮新增 —— 一行 = 一处触发）
+  const triggerRows = host.descendants().filter((n) => n.dataset && n.dataset.trigger);
+  check('「剧情触发」卡片里有触发块列表（第十一轮）', triggerRows.length > 0,
+    `${triggerRows.length} 处触发`);
+  check('触发块行头写着「触发 #N」',
+    triggerRows.length > 0 && triggerRows.every((r) => r.textContent.includes('触发 #')),
+    triggerRows.length ? triggerRows[0].textContent.slice(0, 60) : '没有');
+  check('触发块行头写着自己触发的是第几段对白',
+    triggerRows.length > 0 && triggerRows.every((r) => r.textContent.includes('段对白')),
+    triggerRows.length ? triggerRows[0].textContent.slice(0, 60) : '没有');
+  const scriptCardText = cardText(host, '剧情触发');
+  check('「剧情触发」卡片写着本关三个战斗变体共用同一份剧情',
+    scriptCardText.includes('三个战斗变体共用同一份剧情'), '');
+  check('「剧情触发」卡片写着「战斗中触发」与「战前 / 战后过场」是两回事',
+    scriptCardText.includes('战斗中触发') && scriptCardText.includes('战前 / 战后过场'), '');
+
   // 战场布置那张卡片：地图尺寸 + 剧情底图 + 六个指针
   const setupText = cardText(host, '战场布置');
   check('「战场布置」卡片写着地图尺寸', setupText.includes('格') && setupText.includes('像素'));

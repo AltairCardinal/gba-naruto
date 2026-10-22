@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QA · 战斗剧情触发列表</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../css/route.css">
+<link rel="stylesheet" href="../css/assets.css">
+<link rel="stylesheet" href="../css/audio.css">
+<link rel="stylesheet" href="../css/script.css">
+<link rel="stylesheet" href="../css/character.css">
+<link rel="stylesheet" href="../css/item.css">
+<link rel="stylesheet" href="../css/scene.css">
+<link rel="stylesheet" href="../css/battle-map.css">
+<style>
+  /* 探针页自己的样式：只加框线与状态行，不改编辑器本体。 */
+  body { margin: 0; }
+  .qa-wrap { max-width: 1180px; margin: 0 auto; padding: 16px 18px 60px; }
+  .qa-head {
+    border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px;
+    margin-bottom: 14px; background: var(--bg-1);
+  }
+  .qa-head h1 { margin: 0 0 4px; font-size: 15px; }
+  .qa-head p { margin: 2px 0; font-size: 12px; color: var(--fg-dim); line-height: 1.6; }
+  .qa-status { font-family: var(--mono); font-size: 12px; color: var(--fg-dim); }
+  .qa-error { color: #ff8a7a; }
+  /* 战斗域的卡片在真实的右栏里只有 420px 宽 —— 这里两种宽度都摆一份，
+     免得只在宽屏下看着正常。 */
+  .qa-cols { display: flex; gap: 18px; align-items: flex-start; flex-wrap: wrap; }
+  .qa-col { border: 1px dashed var(--line); border-radius: 8px; padding: 10px; }
+  .qa-col > .qa-cap { font-size: 11px; color: var(--fg-dim); margin-bottom: 6px; }
+  .qa-wide { width: 700px; max-width: 100%; }
+  .qa-narrow { width: 420px; max-width: 100%; }
+</style>
+</head>
+<body>
+<div class="qa-wrap">
+  <div class="qa-head">
+    <h1>战斗域「剧情触发」卡片 —— 真实浏览器 + 真实 ROM 的目视探针</h1>
+    <p>这个页面不是编辑器的一部分，是一个探针：它用仓库里真正的模块
+      （<code>js/pack.js</code> / <code>js/storyvm.js</code> / <code>js/battletriggers.js</code> /
+      <code>js/modules/battle-sections.js</code>）和真正的样式表，把某一场关卡的
+      「剧情触发」卡片渲染出来，专门用来在真浏览器里看布局 ——
+      无头门禁（<code>verify_battle_story_triggers.mjs</code>）只断文本与结构，断不了像素。</p>
+    <p>用 <code>?scene=N</code> 换关卡（默认 40）。ROM 字节由
+      <code>node tools/probe_battle_story_qa.mjs N</code> 预先抽好放进
+      <code>build/</code>（那个探针会自校验：稀疏 ROM 与完整 ROM 的触发模型逐项相等）；
+      这里只下载内容包与那几百字节，不写回任何东西。</p>
+    <div class="qa-status" id="qa-status">正在载入…</div>
+  </div>
+  <div class="qa-cols">
+    <div class="qa-col qa-wide">
+      <div class="qa-cap">宽（700px）</div>
+      <div id="wide"></div>
+    </div>
+    <div class="qa-col qa-narrow">
+      <div class="qa-cap">窄（420px，战斗域右栏的真实宽度）</div>
+      <div id="narrow"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { ContentPack } from '../js/pack.js';
+import { renderScriptsTab } from '../js/modules/battle-sections.js';
+
+const params = new URLSearchParams(location.search);
+const scene = Number(params.get('scene') || 40);
+const status = document.getElementById('qa-status');
+
+function say(text, isError) {
+  status.textContent = text;
+  status.className = 'qa-status' + (isError ? ' qa-error' : '');
+}
+
+try {
+  // 这台机器的 FilePanel 浏览器**单个文档只能下载约 1 MB**
+  // （见 content/base-rom/rom-loader.html 的注释），所以这里**不下载 6 MB 的 ROM**：
+  //
+  //   content/pack.min.json.gz  324 KB —— 内容包（编辑器自己也是这么载的）
+  //   /build/battle-story-qa-scene-N.json  几百字节 —— 这一场关卡用得上的 ROM 字节
+  //
+  // 第二份由 `node tools/probe_battle_story_qa.mjs N` 生成，
+  // 那个探针会**自校验**：拼出来的稀疏 ROM 必须与完整 ROM 产出同一份触发模型。
+  const ROOT = new URL('../', import.meta.url);
+
+  async function fetchGz(relPath) {
+    const response = await fetch(new URL(relPath, ROOT), { cache: 'no-cache' });
+    if (!response.ok) throw new Error(`${relPath} HTTP ${response.status}`);
+    if (typeof DecompressionStream !== 'function') {
+      return new Uint8Array(await response.arrayBuffer());
+    }
+    const stream = response.body.pipeThrough(new DecompressionStream('gzip'));
+    return new Uint8Array(await new Response(stream).arrayBuffer());
+  }
+
+  say('正在取回内容包…');
+  const packBytes = await fetchGz('content/pack.min.json.gz');
+  const pack = ContentPack.fromJSON(JSON.parse(new TextDecoder().decode(packBytes)));
+
+  say('正在取回这一场的 ROM 字节…');
+  const payloadRes = await fetch(`/build/battle-story-qa-scene-${scene}.json`, { cache: 'no-cache' });
+  if (!payloadRes.ok) {
+    throw new Error(`载荷 HTTP ${payloadRes.status} —— 先跑 node tools/probe_battle_story_qa.mjs ${scene}`);
+  }
+  const payload = await payloadRes.json();
+  const rom = new Uint8Array(payload.rom_size);
+  const raw = Uint8Array.from(atob(payload.data), (c) => c.charCodeAt(0));
+  let cursor = 0;
+  for (const [start, length] of payload.ranges) {
+    rom.set(raw.subarray(cursor, cursor + length), start);
+    cursor += length;
+  }
+
+  const ctx = {
+    pack,
+    rom,
+    baseRom: rom,
+    state: { view: { panel: null } },
+    onChange() {},
+    openPanel() {},
+    goModule() {},
+    render() {},
+    setStatus() {},
+    onJump() {},
+  };
+
+  for (const host of [document.getElementById('wide'), document.getElementById('narrow')]) {
+    host.appendChild(renderScriptsTab(ctx, scene));
+  }
+
+  // 展开前两处触发：行头是按钮，点一下就是展开。
+  for (const head of Array.from(document.querySelectorAll('.trigger-head')).slice(0, 4)) head.click();
+
+  const blocks = document.querySelectorAll('#wide [data-trigger]').length;
+  const usedBytes = payload.ranges.reduce((n, r) => n + r[1], 0);
+  say(`第 ${scene} 场 · ${blocks} 处触发 · 事件链 ${payload.chain} 段 · ` +
+    `这一场用得上的 ROM 字节 ${usedBytes} / ${payload.rom_size} · 已渲染`);
+  document.title = `QA · 第 ${scene} 场 · ${blocks} 处触发`;
+} catch (err) {
+  say(`失败：${err && err.message ? err.message : err}`, true);
+}
+</script>
+</body>
+</html>

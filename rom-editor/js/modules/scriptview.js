@@ -83,12 +83,13 @@ export function renderScriptView(container, ctx) {
   container.appendChild(el('div', { class: 'rule-note' }, [
     el('span', { class: 'rule-title', text: '说明' }),
     el('span', {
-      text: '这是剧情 VM 的字节码。对白正文**可以就地改**，但必须**等长**：' +
+      text: '这是剧情 VM 的字节码。对白正文可以就地改，但必须等长：' +
         '文本是内联在这段字节流里的，而脚本里的分支目标是绝对地址 —— ' +
         '改长改短都会让后面的指令移位、分支全部失效。' +
         '所以每个输入框旁边写着还能改几个字节，长度对不上当场拒收并回滚。' +
         '控制码 0x01 / 0x02 带着换行 / 分页的排版含义，写回时按原位保留。' +
-        '定宽操作数（0x16 / 0x1A 下一场景、0x1E 地图、0x1F 子配置、0x23 队员）' +
+        '定宽操作数（0x16 / 0x1A 下一场景、0x1E 地图、0x1F 子配置、0x23 队员，' +
+        '以及战场触发的 0x34–0x39 条件字段）' +
         '同样可以改。',
     }),
   ]));
@@ -132,8 +133,10 @@ export function renderScriptView(container, ctx) {
  *
  * 文本是内联在脚本字节流里的，所以「可编辑」= **等长原地改写**：
  * 输入框旁边写着还能改几个字节，改长改短当场拒收并回滚。
+ *
+ * 导出给战斗域的「剧情触发」列表复用（别复制粘贴一份）。
  */
-function textCell(ctx, rom, instruction) {
+export function textCell(ctx, rom, instruction) {
   const segments = textSegments(rom, ctx.pack, instruction);
   if (!segments.length) {
     return el('span', { class: 'stat-hint', text: '—' });
@@ -143,7 +146,7 @@ function textCell(ctx, rom, instruction) {
 }
 
 /** One text run: an input, a byte budget and a link to the raw bytes. */
-function textSegmentCell(ctx, segment) {
+export function textSegmentCell(ctx, segment) {
   const pack = ctx.pack;
   const input = el('input', {
     class: 'text-input-inline script-text-input',

@@ -59,6 +59,11 @@ BATTLE_SCENES = ds.BATTLE_SCENES
 
 # Fixed-width operands whose meaning is proved (notes/story-script-vm.md §4).
 # opcode -> field -> (offset inside the instruction, size in bytes)
+#
+# Mirrors `rom-editor/js/storyvm.js::KNOWN_OPERANDS` (the two tables must stay
+# item-for-item identical; the editor gate `verify_battle_story_triggers.mjs`
+# checks that).  0x32 is deliberately absent: its u32 payload is a *segment
+# start address*, not a parameter.
 KNOWN_OPERANDS: dict[int, dict[str, tuple[int, int]]] = {
     0x08: {"portrait": (1, 1)},                       # set portrait + speaker name
     0x09: {"flag": (1, 1)},                          # set story flag bit(id)
@@ -77,6 +82,14 @@ KNOWN_OPERANDS: dict[int, dict[str, tuple[int, int]]] = {
     0x1F: {"config": (1, 1)},                        # set sub-config id
     0x23: {"member_a": (1, 1), "member_b": (2, 1)},   # set party members
     0x33: {"value": (1, 1)},                         # push event queue value
+    # 战场触发的条件指令（0x34..0x39）：定宽 u8 字段。
+    # u32 跳转目标一律不给 —— 改它是改控制流，不是改参数。
+    0x34: {"comparator": (1, 1), "round_count": (2, 1), "phase_byte": (3, 1)},
+    0x35: {"expect": (1, 1), "param_b": (2, 1), "param_c": (3, 1), "param_d": (4, 1)},
+    0x36: {"expect": (1, 1), "param_b": (2, 1), "role_id": (3, 1)},
+    0x37: {"flag_mode": (1, 1), "battle_flag": (2, 1)},
+    0x38: {"flag_mode": (1, 1), "battle_flag": (2, 1)},
+    0x39: {"sub_config": (1, 1)},
 }
 
 # Variable-length (text) opcodes: a length-preserving write-back cannot edit

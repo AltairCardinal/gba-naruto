@@ -17,6 +17,7 @@ import {
   sideCell, stageChangeCount, mapAssetNotice, operandChanged, openInTable, BATTLE_LAYOUT,
 } from './common.js';
 import { renderRulesTab, renderScriptsTab } from './battle-sections.js';
+import { sceneTriggerChangeCount } from '../battletriggers.js';
 import { CardStack } from '../cards.js';
 import { fetchMaybeGzip } from '../romsource.js';
 import { editorUrl } from '../loader.js';
@@ -746,7 +747,7 @@ export function renderBattleMap(container, ctx, stage, variant) {
     {
       id: 'scripts',
       label: '剧情触发',
-      hint: '这一关在战斗里会触发的四个剧本与可改的操作数',
+      hint: '这一关在战斗里会触发的剧情：什么条件下触发、触发哪一段、对白就地改',
       badge: () => scriptsChanged(),
       render: () => renderScriptsTab(ctx, stage),
     },
@@ -804,7 +805,17 @@ export function renderBattleMap(container, ctx, stage, variant) {
     return n || null;
   }
 
-  /** 剧情触发这一页改了几处（脚本操作数是补丁，按操作数算）。 */
+  /**
+   * 剧情触发这一页改了几处。
+   *
+   * 口径（审核 P2-11，写死了的）：
+   *   * 战前 / 战后的定宽操作数（内容包里的 `pack.scripts[].operands`）；
+   *   * **本关触发块里的改动** —— 对白段与条件操作数都只以补丁存在，
+   *     而 `pack.patches` 是**全局**的，所以「本关」的映射规则是
+   *     「补丁偏移落在本关 logic / events 剧本的指令范围内」
+   *     （`battletriggers.js::sceneTriggerChangeCount`）。
+   *   * 角标**由当前状态重算**（不是累加），所以撤销之后会回落。
+   */
   function scriptsChanged() {
     let n = 0;
     for (const script of pack.scripts || []) {
@@ -813,6 +824,7 @@ export function renderBattleMap(container, ctx, stage, variant) {
         if (operandChanged(operand)) n += 1;
       }
     }
+    n += sceneTriggerChangeCount(pack, ctx.rom || ctx.baseRom, stage);
     return n || null;
   }
 
