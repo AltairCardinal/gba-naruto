@@ -30,20 +30,19 @@
   </div>
   <div class="topbar-tools">
     <button class="btn btn-ghost hidden" id="btn-retry" title="重新载入内容包">重试</button>
-    <label class="file-btn" for="rom-file" title="载入原版 ROM（作为构建基底）">
-      载入 ROM
-      <input type="file" id="rom-file" accept=".gba">
-    </label>
-    <button class="btn btn-ghost" id="btn-load-bundled"
-      title="从编辑器自带的内容包里取回原版 ROM">载入内置 ROM</button>
-    <button class="btn btn-ghost" id="btn-import-pack">导入内容包</button>
-    <button class="btn btn-ghost" id="btn-export-pack">导出内容包</button>
     <button class="btn btn-ghost hidden" id="btn-undo"
       title="撤销上一步改动（Ctrl+Z）">撤销</button>
-    <button class="btn btn-primary" id="btn-build">构建 ROM</button>
+    <button class="btn btn-primary" id="btn-build"
+      title="把内容包 + 原版 ROM 构建成新的 ROM">构建 ROM</button>
     <span class="dirty-badge hidden" id="dirty-badge">0</span>
   </div>
 </header>
+
+<!-- 载入状态条：ROM 与内容包各一个槽位，各自带「二选一」的载入入口与状态标记。 -->
+<div class="loadbar">
+  <div class="slot" id="slot-rom"></div>
+  <div class="slot" id="slot-pack"></div>
+</div>
 
 <div class="layout">
   <nav class="sidenav" id="sidenav"></nav>
@@ -56,6 +55,8 @@
   <span id="status-hint"></span>
 </div>
 
+<!-- 文件选择器藏在底部：载入状态条上的「在本地浏览上传」是 label，指向它们。 -->
+<input type="file" id="rom-file" accept=".gba" hidden>
 <input type="file" id="pack-file" accept=".json" hidden>
 
 <script type="module" src="js/app.js"></script>

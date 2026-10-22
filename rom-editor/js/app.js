@@ -9,12 +9,14 @@
 // the editor usable straight from a file:// URL.
 
 import { ContentPack } from './pack.js';
+import { parsePackFromRom } from './parsepack.js';
 import { buildRom } from './rom.js';
 import { loadBundledRom } from './romsource.js';
 import { loadPackWithProgress, loadPackInFrame } from './loader.js';
 import { ensureTextIndex } from './textindex.js';
 import { parseHash as parseHashRaw, hashFor } from './routing.js';
 import { setDefaultPack, disposeAllCards } from './cards.js';
+import { renderLoadBar as renderLoadBarView, confirmOverwrite } from './loadbar.js';
 import { el, clear, toast, modal, downloadBlob, readFile } from './ui.js';
 
 export const MODULES = [
@@ -36,6 +38,13 @@ export const state = {
   rom: null,
   view: { module: 'overview', panel: null },
   status: '',
+  /** ROM 的来源：null（未载入）/ 'bundled'（内置原版）/ 'file'（本地上传）。 */
+  romSource: null,
+  /** ROM 的显示信息（文件名、摘要）。 */
+  romName: null,
+  romSha: null,
+  /** 内容包的来源：null / 'builtin'（编辑器自带）/ 'rom'（从 ROM 解析）/ 'file'（本地上传）。 */
+  packSource: null,
 };
 
 const dom = {};
@@ -90,6 +99,8 @@ export function markDirty() {
       : '还没有可撤销的改动';
   }
   dom.buildButton.disabled = !state.rom;
+  // 内容包有未导出的修改时，载入状态条上要出现高亮的【导出】按钮。
+  renderLoadBar();
 }
 
 /** Undo the most recent change and refresh the view. */
@@ -316,6 +327,149 @@ function setRomStatus() {
   dom.romStatus.textContent = parts.join(' · ');
 }
 
+// --------------------------------------------------------------------------
+// 载入状态条（ROM 槽 / 内容包 槽）
+// --------------------------------------------------------------------------
+//
+// 规则（用户定的）：
+//   * **ROM 槽** —— 未载入时给**二选一**（内置原版 / 在本地浏览上传）；
+//     载入后显示**绿底白 √**，并且**不再提供载入别的 ROM 的入口**：
+//     要换 ROM 得先「导出修改后卸载 ROM」。
+//   * **内容包槽** —— 未载入时给**二选一**（从 ROM 中解析 / 在本地浏览上传）；
+//     载入后显示 **√** 并注明来源；有**未导出过的修改**时，
+//     【导出】按钮**高亮**；点【载入】会先确认「改动会被覆盖」。
+
+/** 内容包里有没有「没导出过的修改」。 */
+function packHasUnexportedChanges() {
+  return !!state.pack && state.pack.changedCount() > 0;
+}
+
+/** 重画载入状态条的两个槽位（画法在 `js/loadbar.js`，那里是纯函数，好测）。 */
+function renderLoadBar() {
+  renderLoadBarView(dom.slotRom, dom.slotPack, {
+    rom: {
+      loaded: !!state.rom,
+      name: state.romName,
+      size: state.rom ? state.rom.length : 0,
+      sha: state.romSha,
+    },
+    pack: {
+      loaded: !!state.pack,
+      source: state.packSource,
+      structures: state.pack ? state.pack.structures.length : 0,
+      texts: state.pack ? state.pack.texts.length : 0,
+      changed: packHasUnexportedChanges(),
+    },
+  }, {
+    loadBundledRom: loadBundledRomAction,
+    loadRomFile: () => { const input = document.getElementById('rom-file'); if (input) input.click(); },
+    unloadRom: exportAndUnloadRom,
+    parsePack: () => parsePackFromCurrentRom(),
+    loadPack: reloadPackAction,
+    loadPackFile: () => { const input = document.getElementById('pack-file'); if (input) input.click(); },
+    exportPack,
+  });
+}
+
+/**
+ * 内容包有未导出的修改时，载入前先确认。
+ *
+ * 「否」是高亮按钮 —— 丢数据是这个操作的主要风险，
+ * 所以**默认落点应该是「不覆盖」**。
+ */
+function confirmOverwriteChanges(onYes) {
+  if (!packHasUnexportedChanges()) {
+    onYes();
+    return;
+  }
+  confirmOverwrite(onYes);
+}
+
+/**
+ * 从当前载入的 ROM 解析出内容包。
+ *
+ * 内容包当**模板**（字段布局、记录偏移、文本表指针的位置都在里面），
+ * **值**从 ROM 的字节重读。详见 `js/parsepack.js`。
+ */
+async function parsePackFromCurrentRom() {
+  if (!state.rom) {
+    toast('请先载入原版 ROM', 'error');
+    return;
+  }
+  if (!state.pack) {
+    toast('没有可用的内容包模板', 'error');
+    return;
+  }
+  setStatus('正在从 ROM 解析内容包…');
+  await new Promise((resolve) => setTimeout(resolve, 10));
+  try {
+    const { pack, report } = parsePackFromRom(state.pack, state.rom, {
+      name: state.romName || 'base.gba',
+      sha256: state.romSha || '',
+    });
+    const next = ContentPack.fromJSON(pack);
+    setDefaultPack(next);
+    state.pack = next;
+    state.packSource = 'rom';
+    setRomStatus();
+    renderLoadBar();
+    markDirty();
+    render();
+    setStatus('已从 ROM 解析出内容包');
+    toast(`已从 ROM 解析出内容包：${report.records} 条记录 / ${report.texts} 张文本表`, 'ok');
+  } catch (err) {
+    toast(`从 ROM 解析内容包失败：${err.message}`, 'error');
+  }
+}
+
+/** 内容包槽的【载入】：重新载入（先确认会覆盖什么）。 */
+function reloadPackAction() {
+  confirmOverwriteChanges(() => {
+    if (state.rom && state.packSource === 'rom') {
+      parsePackFromCurrentRom();
+      return;
+    }
+    if (state.rom) {
+      parsePackFromCurrentRom();
+      return;
+    }
+    const input = document.getElementById('pack-file');
+    if (input) input.click();
+  });
+}
+
+/**
+ * 导出修改后的 ROM，然后卸载这个 ROM。
+ *
+ * 卸载后才能载入别的 ROM —— 这是有意的：**一个内容包只对应一个基线 ROM**，
+ * 拿改过的 ROM 当基线去构建会把内容包覆盖不到的地方回退掉。
+ */
+async function exportAndUnloadRom() {
+  if (!state.rom) return;
+  const changes = state.pack ? state.pack.changedCount() : 0;
+  if (changes > 0) {
+    const { bytes, report } = buildRom(state.pack, state.rom);
+    if (report.errors.length) {
+      showBuildReport(report, null);
+      toast('构建失败 —— ROM 没有卸载', 'error');
+      return;
+    }
+    downloadBlob(new Blob([bytes], { type: 'application/octet-stream' }),
+      'naruto-konoha-mod.gba');
+  }
+  state.rom = null;
+  state.baseRom = null;
+  state.romSource = null;
+  state.romName = null;
+  state.romSha = null;
+  setRomStatus();
+  renderLoadBar();
+  markDirty();
+  render();
+  setStatus('原版 ROM 已卸载');
+  toast(changes > 0 ? '已导出修改后的 ROM，并卸载了原版 ROM' : '原版 ROM 已卸载', 'ok');
+}
+
 async function doBuild() {
   if (!state.rom) {
     toast('请先载入原版 ROM', 'error');
@@ -385,6 +539,9 @@ function exportPack() {
   data.generated = new Date().toISOString();
   const text = JSON.stringify(data, null, 1);
   downloadBlob(new Blob([text], { type: 'application/json' }), 'content-pack.json');
+  // 导出过 = 这一版改动已经落到文件里了。
+  state.packExported = true;
+  renderLoadBar();
   toast('已导出内容包', 'ok');
 }
 
@@ -398,8 +555,10 @@ async function importPackFile(file) {
     }
     state.pack = ContentPack.fromJSON(data);
     setDefaultPack(state.pack);
+    state.packSource = 'file';
     markDirty();
     setRomStatus();
+    renderLoadBar();
     render();
     toast('已导入内容包', 'ok');
   } catch (err) {
@@ -412,16 +571,26 @@ async function loadRomFile(file) {
     const bytes = await readFile(file);
     state.baseRom = bytes;
     state.rom = bytes;
-    const hash = await sha256Hex(bytes);
-    const expected = state.pack.rom.sha256;
-    dom.romStatus.textContent =
-      `原版 ROM ${bytes.length.toLocaleString()} 字节 · sha256 ${hash.slice(0, 12)}…`;
-    if (expected && hash !== expected) {
-      toast('载入的 ROM 与内容包记录的基线不同', 'error');
-    } else {
-      toast('原版 ROM 已载入', 'ok');
+    state.romSource = 'file';
+    state.romName = file.name || 'base.gba';
+    try {
+      state.romSha = await sha256Hex(bytes);
+    } catch (err) {
+      state.romSha = null;
     }
+    // 载入 ROM 之后**默认先从 ROM 解析出内容包**。
+    await parsePackFromCurrentRom();
+    if (state.pack && state.pack.rom.sha256 && state.romSha
+        && state.pack.rom.sha256 !== state.romSha) {
+      toast('载入的 ROM 与内容包记录的基线不同 —— '
+        + '拿它当构建基底会回退内容包没覆盖到的字节', 'error');
+    } else {
+      toast(`原版 ROM 已载入（${state.romName}）`, 'ok');
+    }
+    setRomStatus();
+    renderLoadBar();
     markDirty();
+    setStatus('就绪');
     render();
   } catch (err) {
     toast(`读取失败：${err.message}`, 'error');
@@ -555,7 +724,8 @@ function build() {
   dom.retryButton = document.getElementById('btn-retry');
   dom.dirtyBadge = document.getElementById('dirty-badge');
   dom.buildButton = document.getElementById('btn-build');
-  dom.loadBundledButton = document.getElementById('btn-load-bundled');
+  dom.slotRom = document.getElementById('slot-rom');
+  dom.slotPack = document.getElementById('slot-pack');
   dom.buildButton.disabled = true;
 
   const groups = [
@@ -594,11 +764,6 @@ function build() {
   document.getElementById('btn-retry').addEventListener('click', () => {
     window.location.reload();
   });
-  document.getElementById('btn-load-bundled').addEventListener('click', loadBundledRomAction);
-  document.getElementById('btn-export-pack').addEventListener('click', exportPack);
-  document.getElementById('btn-import-pack').addEventListener('click', () => {
-    document.getElementById('pack-file').click();
-  });
   document.getElementById('pack-file').addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) importPackFile(file);
@@ -623,6 +788,7 @@ async function boot() {
   trace('shell ready');
   try {
     state.pack = await loadPack();
+    state.packSource = 'builtin';
     trace(`pack loaded: ${state.pack.structures.length} structures`);
   } catch (err) {
     dom.romStatus.textContent = `内容包载入失败：${err.message}`;
@@ -630,8 +796,9 @@ async function boot() {
     return;
   }
   setRomStatus();
+  renderLoadBar();
   markDirty();
-  setStatus('内容包已载入 —— 用「载入 ROM」或「载入内置 ROM」提供构建基底');
+  setStatus('内容包已载入（编辑器自带）—— 载入 ROM 后会默认从 ROM 重新解析一份');
   state.view = parseHash();
   render();
   trace('first render done');
@@ -640,11 +807,9 @@ async function boot() {
 /** Fetch the bundled base ROM on demand. */
 async function loadBundledRomAction() {
   if (state.rom) {
-    toast('原版 ROM 已载入', 'ok');
+    toast('原版 ROM 已载入 —— 要换 ROM 请先「导出修改后卸载 ROM」', 'ok');
     return;
   }
-  const button = dom.loadBundledButton;
-  button.disabled = true;
   console.log('[editor] loading bundled rom…');
   showProgress({ stage: 'download', label: '正在载入内置原版 ROM…', percent: undefined });
   try {
@@ -657,33 +822,33 @@ async function loadBundledRomAction() {
       showProgress({
         error: true,
         label: '内置 ROM 载入失败 —— 浏览器可能限制了单页下载量。\n' +
-          '请用顶栏「载入 ROM」手动选择 rom/base.gba（文件选择不走网络，一定能成功）。',
+          '请用「在本地浏览上传」手动选择 rom/base.gba（文件选择不走网络，一定能成功）。',
       });
-      setStatus('内置 ROM 载入失败 —— 请用「载入 ROM」手动选择');
+      setStatus('内置 ROM 载入失败 —— 请用「在本地浏览上传」手动选择');
       return;
     }
     console.log('[editor] bundled rom ok: ' + rom.length + ' bytes');
     state.rom = rom;
     state.baseRom = rom;
+    state.romSource = 'bundled';
+    state.romName = 'base.gba';
     try {
-      const digest = await sha256Hex(rom);
-      if (state.pack.rom.sha256 && digest !== state.pack.rom.sha256) {
-        dom.romStatus.textContent = '载入的 ROM 与内容包基线不一致';
-      }
+      state.romSha = await sha256Hex(rom);
     } catch (err) {
-      /* the hash is a nicety, not a requirement */
+      state.romSha = null;
     }
     hideProgress();
+    // 载入 ROM 之后**默认先从 ROM 解析出内容包**。
+    await parsePackFromCurrentRom();
     setRomStatus();
+    renderLoadBar();
     markDirty();
-    setStatus('就绪 —— 初始数据可直接构建出与原版逐字节相同的 ROM');
+    setStatus('就绪');
     render();
     toast('内置原版 ROM 已载入', 'ok');
   } catch (err) {
     showProgress({ error: true, label: `内置 ROM 载入失败：${err.message}` });
     setStatus('内置 ROM 载入失败');
-  } finally {
-    button.disabled = false;
   }
 }
 

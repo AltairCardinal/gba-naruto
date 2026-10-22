@@ -40,6 +40,39 @@ body { display: flex; flex-direction: column; }
 .brand-sub { font-size: 11px; color: var(--fg-dim); font-family: var(--mono); }
 .topbar-tools { display: flex; align-items: center; gap: 8px; }
 
+/* ---------- 载入状态条（ROM / 内容包 两个槽位） ---------- */
+.loadbar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  padding: 7px 16px; background: var(--bg-1); border-bottom: 1px solid var(--line);
+  flex: 0 0 auto;
+}
+.slot {
+  display: flex; align-items: center; gap: 8px;
+  padding: 4px 9px; border: 1px solid var(--line); border-radius: 7px;
+  background: var(--bg-2);
+}
+.slot-label {
+  font-size: 11px; color: var(--fg-dim); font-weight: 600;
+  letter-spacing: .5px; white-space: nowrap;
+}
+.slot-state {
+  font-size: 11px; color: var(--fg-dim); font-family: var(--mono);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 46ch;
+}
+/* 载入成功的标记：绿底白 √。 */
+.slot-ok {
+  display: inline-grid; place-items: center;
+  width: 17px; height: 17px; border-radius: 4px;
+  background: #2e9e4f; color: #fff; font-size: 11px; font-weight: 700;
+  line-height: 1; flex: 0 0 auto;
+}
+.slot-warn {
+  display: inline-grid; place-items: center;
+  width: 17px; height: 17px; border-radius: 4px;
+  background: #b8860b; color: #fff; font-size: 11px; font-weight: 700;
+  line-height: 1; flex: 0 0 auto;
+}
+
 /* ---------- 载入进度 ---------- */
 .load-progress { flex: 1 1 auto; max-width: 320px; margin: 0 14px; }
 .load-progress-bar {
