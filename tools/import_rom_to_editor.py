@@ -32,7 +32,7 @@ def load_entries(path: str, key: str | None = None) -> list[dict]:
     """Load entries[] from a bank.json. key=None uses top-level entries."""
     if not Path(path).exists():
         return []
-    data = json.load(open(path))
+    data = json.load(open(path, encoding='utf-8'))
     if key and isinstance(data.get(key), dict):
         return data[key].get('entries', [])
     return data.get('entries', [])
@@ -53,13 +53,13 @@ def import_units(conn, dry_run=False):
     char_id matches (character_stats[char_id] gives the real base stats).
     """
     cur = conn.cursor()
-    data = json.load(open(CONTENT_DIR / 'units' / 'bank.json'))
+    data = json.load(open(CONTENT_DIR / 'units' / 'bank.json', encoding='utf-8'))
 
     # Load character_stats for hp/atk/def enrichment (20 chars, indexed by char_id)
     char_stats = {}
     stats_path = CONTENT_DIR / 'character-stats' / 'bank.json'
     if stats_path.exists():
-        stats_data = json.load(open(stats_path))
+        stats_data = json.load(open(stats_path, encoding='utf-8'))
         for e in stats_data.get('entries', []):
             idx = e.get('_index', -1)
             if 0 <= idx < 256:
@@ -142,7 +142,7 @@ def import_dialogues(conn, dry_run=False):
     if not full_path.exists():
         print(f'  ⚠️  dialogue-bank-full.json missing — run tools/extract_dialogue_full.py first')
         return 0
-    entries = json.load(open(full_path))
+    entries = json.load(open(full_path, encoding='utf-8'))
     if not isinstance(entries, list):
         entries = entries.get('entries', [])
     inserted = 0
@@ -189,7 +189,7 @@ def import_dialogues(conn, dry_run=False):
 def import_skills(conn, dry_run=False):
     """12 skills entries → skills table."""
     cur = conn.cursor()
-    data = json.load(open(CONTENT_DIR / 'skills' / 'bank.json'))
+    data = json.load(open(CONTENT_DIR / 'skills' / 'bank.json', encoding='utf-8'))
     inserted = 0
     for i, entry in enumerate(data.get('entries', [])):
         skill_id = entry.get('skill_id', i)

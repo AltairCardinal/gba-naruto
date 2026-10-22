@@ -72,6 +72,34 @@ python tools\mgba_probe\unitslot_probe.py rom\base.gba --groups 0,9
 python tools\mgba_probe\unitslot_probe.py rom\base.gba --groups 0 --force
 ```
 
+### `mgba_probe/spawn_forcer.py`
+
+战斗包装 `fn 0x080732B4` 里**确实**有实体生成（`bl 0x080722A8` → `fn 0x08080E30`），
+但它被两道门控挡住：`ctrl[0] != 0` 会跳过战斗入口，
+`ctrl[0xCD] == 0xFF` 才走生成分支。这个工具在判定点现场改写门控字节，
+看游戏自己的代码会不会走进去。
+
+```powershell
+python tools\mgba_probe\spawn_forcer.py rom\base.gba --groups 0,1,2
+```
+
+### `closure_portrait_pieces.py` / `closure_portrait_probe.py`
+
+头像的两条 evidence 闭环：
+
+* `closure_portrait_pieces.py` —— 拼块表基址的运行时读数：
+  在头像加载路径上读静态描述符 `0x0846443C`，跟进它拿到拼块表 `0x084643C0`，
+  核对 6×20 = 120 字节与 ROM **逐字节相等**。
+* `closure_portrait_probe.py` —— `param << 4` 的运行时读数：
+  在 VRAM 拷贝点断下，**WRAM 暂存缓冲 `0x02002880`** 的前 6144 字节与
+  「ROM LZ77 解压结果 + 单个 `param<<4` 平移」逐字节相等（0 不符）。
+  比对目标**必须**是 WRAM 暂存缓冲而不是 VRAM —— VRAM 里装的是拼好的成品。
+
+```powershell
+python tools\closure_portrait_pieces.py rom\base.gba --scene 1
+python tools\closure_portrait_probe.py rom\base.gba --scene 1
+```
+
 ### `m4a_block_table.py`
 
 m4a **block 表**格式的逐字段拆解 + 往返自检：decode→encode 对 45 个原生

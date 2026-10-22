@@ -390,6 +390,49 @@ static void _cmdDump(struct CLIDebugger* debugger, struct CLIDebugVector* dv) {
 	debugger->backend->printf(debugger->backend, "\nENDDUMP\n");
 }
 
+/* Write one byte / one halfword into the emulated address space.
+ *
+ * The companion of `dump`: reading uses g_core->busRead8(), so writing uses
+ * g_core->busWrite8().  This is what makes an instrumented playthrough
+ * possible -- the L4 harness pokes the story "next scene" byte at
+ * 0x020311EA (inside the story flag block at 0x020311D4) so the game
+ * dispatches a chosen scene, and the scene then plays normally.
+ */
+static void _cmdPoke(struct CLIDebugger* debugger, struct CLIDebugVector* dv) {
+	if (!dv || dv->type != CLIDV_INT_TYPE || !dv->next
+		|| dv->next->type != CLIDV_INT_TYPE) {
+		debugger->backend->printf(debugger->backend, "ERR poke <addr> <value>\n");
+		return;
+	}
+	if (!g_core) {
+		debugger->backend->printf(debugger->backend, "ERR no core\n");
+		return;
+	}
+	uint32_t addr = (uint32_t) dv->intValue;
+	uint32_t value = (uint32_t) dv->next->intValue;
+	g_core->busWrite8(g_core, addr, (uint8_t) (value & 0xFF));
+	debugger->backend->printf(debugger->backend, "OK poke %08X %02X\n",
+		addr, value & 0xFF);
+}
+
+static void _cmdPoke16(struct CLIDebugger* debugger, struct CLIDebugVector* dv) {
+	if (!dv || dv->type != CLIDV_INT_TYPE || !dv->next
+		|| dv->next->type != CLIDV_INT_TYPE) {
+		debugger->backend->printf(debugger->backend, "ERR poke16 <addr> <value>\n");
+		return;
+	}
+	if (!g_core) {
+		debugger->backend->printf(debugger->backend, "ERR no core\n");
+		return;
+	}
+	uint32_t addr = (uint32_t) dv->intValue;
+	uint32_t value = (uint32_t) dv->next->intValue;
+	g_core->busWrite8(g_core, addr, (uint8_t) (value & 0xFF));
+	g_core->busWrite8(g_core, addr + 1, (uint8_t) ((value >> 8) & 0xFF));
+	debugger->backend->printf(debugger->backend, "OK poke16 %08X %04X\n",
+		addr, value & 0xFFFF);
+}
+
 /* mGBA's own "save"/"load" work on numbered state slots, and the "*"
  * argument format mGBA uses for them cannot parse a path (the CLI parser
  * tries an integer first and reports "Parse error" for anything else).
@@ -543,6 +586,8 @@ static struct CLIDebuggerCommandSummary _extraCommands[] = {
 	{ "run", _cmdRun, "I", "Run N frames, keeping the current key state" },
 	{ "cont", _cmdCont, "I", "Run until a breakpoint hits (default 600 frames)" },
 	{ "dump", _cmdDump, "Ii", "Hex dump an arbitrary region" },
+	{ "poke", _cmdPoke, "II", "Write one byte into memory" },
+	{ "poke16", _cmdPoke16, "II", "Write one halfword into memory" },
 	{ "save", _cmdSave, "S", "Save a savestate to a file" },
 	{ "load", _cmdLoad, "S", "Load a savestate from a file" },
 	{ "shot", _cmdShot, "S", "Save a PNG screenshot of the current frame" },

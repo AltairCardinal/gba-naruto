@@ -1,22 +1,22 @@
 {
   "version": 1,
-  "description": "Data pointer table discovered at ROM offset 0x5A2120. 20 entries of u32 pointers to encoded data in the 0x5Axxxx region.",
-  "table_offset": 5906720,
-  "table_offset_hex": "0x5A2120",
-  "entry_count": 20,
+  "description": "数据指针表 B：90 项 u32（79 项是 ROM 指针）。真实基址 0x5A2034（原生读者 0x080985D8 / 0x08099D26）。",
+  "table_offset": 5906484,
+  "table_offset_hex": "0x5A2034",
+  "entry_count": 90,
   "entry_size": 4,
   "entry_format": {
     "fields": [
       {
         "offset": 0,
         "size": 4,
-        "name": "data_ptr",
+        "name": "rom_ptr",
         "type": "u32",
-        "description": "Pointer to encoded data in the 0x5Axxxx region"
+        "description": "指向 ROM 数据的指针（业务名未定；少数项不是指针）"
       }
     ]
   },
-  "notes": "Data pointer table with 20 entries. All entries point to encoded data in the 0x5Axxxx region. The target data appears to be encoded content (possibly text or compressed data). The data starts with bytes like 0x9C, 0x6E, 0x9C, 0x6A which don't match standard text encoding. Located in the 0x5Axxxx region which is known to contain resource data tables. This table is separate from Data Table A at 0x5A14A4.",
+  "notes": "旧基址 0x5A2120 = 0x5A2034 + 59*4。表尾 0x5A2034 + 90*4 = 0x5A219C。",
   "entries_sample": [
     {
       "index": 0,
@@ -63,131 +63,554 @@
   "discovered_by": "Examining region 0x5A2000-0x5B0000 for pointer tables",
   "entries": [
     {
-      "_raw_offset": 5906720,
-      "data_ptr": 140123472,
-      "data_ptr_hex": "501d5a08",
+      "_raw_offset": 5906484,
+      "rom_ptr": 140121472,
+      "rom_ptr_hex": "80155a08",
       "_index": 0
     },
     {
-      "_raw_offset": 5906724,
-      "data_ptr": 140123488,
-      "data_ptr_hex": "601d5a08",
+      "_raw_offset": 5906488,
+      "rom_ptr": 140121496,
+      "rom_ptr_hex": "98155a08",
       "_index": 1
     },
     {
-      "_raw_offset": 5906728,
-      "data_ptr": 140123512,
-      "data_ptr_hex": "781d5a08",
+      "_raw_offset": 5906492,
+      "rom_ptr": 140121536,
+      "rom_ptr_hex": "c0155a08",
       "_index": 2
     },
     {
-      "_raw_offset": 5906732,
-      "data_ptr": 140123552,
-      "data_ptr_hex": "a01d5a08",
+      "_raw_offset": 5906496,
+      "rom_ptr": 140121592,
+      "rom_ptr_hex": "f8155a08",
       "_index": 3
     },
     {
-      "_raw_offset": 5906736,
-      "data_ptr": 140123572,
-      "data_ptr_hex": "b41d5a08",
+      "_raw_offset": 5906500,
+      "rom_ptr": 140121636,
+      "rom_ptr_hex": "24165a08",
       "_index": 4
     },
     {
-      "_raw_offset": 5906740,
-      "data_ptr": 140123628,
-      "data_ptr_hex": "ec1d5a08",
+      "_raw_offset": 5906504,
+      "rom_ptr": 140121656,
+      "rom_ptr_hex": "38165a08",
       "_index": 5
     },
     {
-      "_raw_offset": 5906744,
-      "data_ptr": 140123668,
-      "data_ptr_hex": "141e5a08",
+      "_raw_offset": 5906508,
+      "rom_ptr": 140121680,
+      "rom_ptr_hex": "50165a08",
       "_index": 6
     },
     {
-      "_raw_offset": 5906748,
-      "data_ptr": 140123724,
-      "data_ptr_hex": "4c1e5a08",
+      "_raw_offset": 5906512,
+      "rom_ptr": 140121712,
+      "rom_ptr_hex": "70165a08",
       "_index": 7
     },
     {
-      "_raw_offset": 5906752,
-      "data_ptr": 140123764,
-      "data_ptr_hex": "741e5a08",
+      "_raw_offset": 5906516,
+      "rom_ptr": 140121744,
+      "rom_ptr_hex": "90165a08",
       "_index": 8
     },
     {
-      "_raw_offset": 5906756,
-      "data_ptr": 140123820,
-      "data_ptr_hex": "ac1e5a08",
+      "_raw_offset": 5906520,
+      "rom_ptr": 140121772,
+      "rom_ptr_hex": "ac165a08",
       "_index": 9
     },
     {
-      "_raw_offset": 5906760,
-      "data_ptr": 140123860,
-      "data_ptr_hex": "d41e5a08",
+      "_raw_offset": 5906524,
+      "rom_ptr": 140121784,
+      "rom_ptr_hex": "b8165a08",
       "_index": 10
     },
     {
-      "_raw_offset": 5906764,
-      "data_ptr": 140123896,
-      "data_ptr_hex": "f81e5a08",
+      "_raw_offset": 5906528,
+      "rom_ptr": 140121808,
+      "rom_ptr_hex": "d0165a08",
       "_index": 11
     },
     {
-      "_raw_offset": 5906768,
-      "data_ptr": 140123932,
-      "data_ptr_hex": "1c1f5a08",
+      "_raw_offset": 5906532,
+      "rom_ptr": 140121832,
+      "rom_ptr_hex": "e8165a08",
       "_index": 12
     },
     {
-      "_raw_offset": 5906772,
-      "data_ptr": 140123964,
-      "data_ptr_hex": "3c1f5a08",
+      "_raw_offset": 5906536,
+      "rom_ptr": 140121844,
+      "rom_ptr_hex": "f4165a08",
       "_index": 13
     },
     {
-      "_raw_offset": 5906776,
-      "data_ptr": 140123976,
-      "data_ptr_hex": "481f5a08",
+      "_raw_offset": 5906540,
+      "rom_ptr": 140121868,
+      "rom_ptr_hex": "0c175a08",
       "_index": 14
     },
     {
-      "_raw_offset": 5906780,
-      "data_ptr": 140123996,
-      "data_ptr_hex": "5c1f5a08",
+      "_raw_offset": 5906544,
+      "rom_ptr": 140121904,
+      "rom_ptr_hex": "30175a08",
       "_index": 15
     },
     {
-      "_raw_offset": 5906784,
-      "data_ptr": 140124016,
-      "data_ptr_hex": "701f5a08",
+      "_raw_offset": 5906548,
+      "rom_ptr": 140121924,
+      "rom_ptr_hex": "44175a08",
       "_index": 16
     },
     {
-      "_raw_offset": 5906788,
-      "data_ptr": 140124052,
-      "data_ptr_hex": "941f5a08",
+      "_raw_offset": 5906552,
+      "rom_ptr": 140121956,
+      "rom_ptr_hex": "64175a08",
       "_index": 17
     },
     {
-      "_raw_offset": 5906792,
-      "data_ptr": 140124108,
-      "data_ptr_hex": "cc1f5a08",
+      "_raw_offset": 5906556,
+      "rom_ptr": 140121988,
+      "rom_ptr_hex": "84175a08",
       "_index": 18
     },
     {
-      "_raw_offset": 5906796,
-      "data_ptr": 140124172,
-      "data_ptr_hex": "0c205a08",
+      "_raw_offset": 5906560,
+      "rom_ptr": 140122016,
+      "rom_ptr_hex": "a0175a08",
       "_index": 19
+    },
+    {
+      "_raw_offset": 5906564,
+      "rom_ptr": 140122068,
+      "rom_ptr_hex": "d4175a08",
+      "_index": 20
+    },
+    {
+      "_raw_offset": 5906568,
+      "rom_ptr": 140122112,
+      "rom_ptr_hex": "00185a08",
+      "_index": 21
+    },
+    {
+      "_raw_offset": 5906572,
+      "rom_ptr": 140122136,
+      "rom_ptr_hex": "18185a08",
+      "_index": 22
+    },
+    {
+      "_raw_offset": 5906576,
+      "rom_ptr": 140122164,
+      "rom_ptr_hex": "34185a08",
+      "_index": 23
+    },
+    {
+      "_raw_offset": 5906580,
+      "rom_ptr": 140122232,
+      "rom_ptr_hex": "78185a08",
+      "_index": 24
+    },
+    {
+      "_raw_offset": 5906584,
+      "rom_ptr": 140122260,
+      "rom_ptr_hex": "94185a08",
+      "_index": 25
+    },
+    {
+      "_raw_offset": 5906588,
+      "rom_ptr": 140122312,
+      "rom_ptr_hex": "c8185a08",
+      "_index": 26
+    },
+    {
+      "_raw_offset": 5906592,
+      "rom_ptr": 140122344,
+      "rom_ptr_hex": "e8185a08",
+      "_index": 27
+    },
+    {
+      "_raw_offset": 5906596,
+      "rom_ptr": 140122404,
+      "rom_ptr_hex": "24195a08",
+      "_index": 28
+    },
+    {
+      "_raw_offset": 5906600,
+      "rom_ptr": 140122468,
+      "rom_ptr_hex": "64195a08",
+      "_index": 29
+    },
+    {
+      "_raw_offset": 5906604,
+      "rom_ptr": 140122496,
+      "rom_ptr_hex": "80195a08",
+      "_index": 30
+    },
+    {
+      "_raw_offset": 5906608,
+      "rom_ptr": 140122516,
+      "rom_ptr_hex": "94195a08",
+      "_index": 31
+    },
+    {
+      "_raw_offset": 5906612,
+      "rom_ptr": 140122600,
+      "rom_ptr_hex": "e8195a08",
+      "_index": 32
+    },
+    {
+      "_raw_offset": 5906616,
+      "rom_ptr": 140122624,
+      "rom_ptr_hex": "001a5a08",
+      "_index": 33
+    },
+    {
+      "_raw_offset": 5906620,
+      "rom_ptr": 140122660,
+      "rom_ptr_hex": "241a5a08",
+      "_index": 34
+    },
+    {
+      "_raw_offset": 5906624,
+      "rom_ptr": 140122680,
+      "rom_ptr_hex": "381a5a08",
+      "_index": 35
+    },
+    {
+      "_raw_offset": 5906628,
+      "rom_ptr": 140122720,
+      "rom_ptr_hex": "601a5a08",
+      "_index": 36
+    },
+    {
+      "_raw_offset": 5906632,
+      "rom_ptr": 140122760,
+      "rom_ptr_hex": "881a5a08",
+      "_index": 37
+    },
+    {
+      "_raw_offset": 5906636,
+      "rom_ptr": 140122800,
+      "rom_ptr_hex": "b01a5a08",
+      "_index": 38
+    },
+    {
+      "_raw_offset": 5906640,
+      "rom_ptr": 140122848,
+      "rom_ptr_hex": "e01a5a08",
+      "_index": 39
+    },
+    {
+      "_raw_offset": 5906644,
+      "rom_ptr": 140122904,
+      "rom_ptr_hex": "181b5a08",
+      "_index": 40
+    },
+    {
+      "_raw_offset": 5906648,
+      "rom_ptr": 140122944,
+      "rom_ptr_hex": "401b5a08",
+      "_index": 41
+    },
+    {
+      "_raw_offset": 5906652,
+      "rom_ptr": 140122988,
+      "rom_ptr_hex": "6c1b5a08",
+      "_index": 42
+    },
+    {
+      "_raw_offset": 5906656,
+      "rom_ptr": 140123016,
+      "rom_ptr_hex": "881b5a08",
+      "_index": 43
+    },
+    {
+      "_raw_offset": 5906660,
+      "rom_ptr": 140123036,
+      "rom_ptr_hex": "9c1b5a08",
+      "_index": 44
+    },
+    {
+      "_raw_offset": 5906664,
+      "rom_ptr": 140123072,
+      "rom_ptr_hex": "c01b5a08",
+      "_index": 45
+    },
+    {
+      "_raw_offset": 5906668,
+      "rom_ptr": 140123084,
+      "rom_ptr_hex": "cc1b5a08",
+      "_index": 46
+    },
+    {
+      "_raw_offset": 5906672,
+      "rom_ptr": 140123116,
+      "rom_ptr_hex": "ec1b5a08",
+      "_index": 47
+    },
+    {
+      "_raw_offset": 5906676,
+      "rom_ptr": 140123152,
+      "rom_ptr_hex": "101c5a08",
+      "_index": 48
+    },
+    {
+      "_raw_offset": 5906680,
+      "rom_ptr": 140123180,
+      "rom_ptr_hex": "2c1c5a08",
+      "_index": 49
+    },
+    {
+      "_raw_offset": 5906684,
+      "rom_ptr": 140123200,
+      "rom_ptr_hex": "401c5a08",
+      "_index": 50
+    },
+    {
+      "_raw_offset": 5906688,
+      "rom_ptr": 140123244,
+      "rom_ptr_hex": "6c1c5a08",
+      "_index": 51
+    },
+    {
+      "_raw_offset": 5906692,
+      "rom_ptr": 140123280,
+      "rom_ptr_hex": "901c5a08",
+      "_index": 52
+    },
+    {
+      "_raw_offset": 5906696,
+      "rom_ptr": 140123320,
+      "rom_ptr_hex": "b81c5a08",
+      "_index": 53
+    },
+    {
+      "_raw_offset": 5906700,
+      "rom_ptr": 140123348,
+      "rom_ptr_hex": "d41c5a08",
+      "_index": 54
+    },
+    {
+      "_raw_offset": 5906704,
+      "rom_ptr": 140123392,
+      "rom_ptr_hex": "001d5a08",
+      "_index": 55
+    },
+    {
+      "_raw_offset": 5906708,
+      "rom_ptr": 140123428,
+      "rom_ptr_hex": "241d5a08",
+      "_index": 56
+    },
+    {
+      "_raw_offset": 5906712,
+      "rom_ptr": 140123444,
+      "rom_ptr_hex": "341d5a08",
+      "_index": 57
+    },
+    {
+      "_raw_offset": 5906716,
+      "rom_ptr": 140123460,
+      "rom_ptr_hex": "441d5a08",
+      "_index": 58
+    },
+    {
+      "_raw_offset": 5906720,
+      "rom_ptr": 140123472,
+      "rom_ptr_hex": "501d5a08",
+      "_index": 59
+    },
+    {
+      "_raw_offset": 5906724,
+      "rom_ptr": 140123488,
+      "rom_ptr_hex": "601d5a08",
+      "_index": 60
+    },
+    {
+      "_raw_offset": 5906728,
+      "rom_ptr": 140123512,
+      "rom_ptr_hex": "781d5a08",
+      "_index": 61
+    },
+    {
+      "_raw_offset": 5906732,
+      "rom_ptr": 140123552,
+      "rom_ptr_hex": "a01d5a08",
+      "_index": 62
+    },
+    {
+      "_raw_offset": 5906736,
+      "rom_ptr": 140123572,
+      "rom_ptr_hex": "b41d5a08",
+      "_index": 63
+    },
+    {
+      "_raw_offset": 5906740,
+      "rom_ptr": 140123628,
+      "rom_ptr_hex": "ec1d5a08",
+      "_index": 64
+    },
+    {
+      "_raw_offset": 5906744,
+      "rom_ptr": 140123668,
+      "rom_ptr_hex": "141e5a08",
+      "_index": 65
+    },
+    {
+      "_raw_offset": 5906748,
+      "rom_ptr": 140123724,
+      "rom_ptr_hex": "4c1e5a08",
+      "_index": 66
+    },
+    {
+      "_raw_offset": 5906752,
+      "rom_ptr": 140123764,
+      "rom_ptr_hex": "741e5a08",
+      "_index": 67
+    },
+    {
+      "_raw_offset": 5906756,
+      "rom_ptr": 140123820,
+      "rom_ptr_hex": "ac1e5a08",
+      "_index": 68
+    },
+    {
+      "_raw_offset": 5906760,
+      "rom_ptr": 140123860,
+      "rom_ptr_hex": "d41e5a08",
+      "_index": 69
+    },
+    {
+      "_raw_offset": 5906764,
+      "rom_ptr": 140123896,
+      "rom_ptr_hex": "f81e5a08",
+      "_index": 70
+    },
+    {
+      "_raw_offset": 5906768,
+      "rom_ptr": 140123932,
+      "rom_ptr_hex": "1c1f5a08",
+      "_index": 71
+    },
+    {
+      "_raw_offset": 5906772,
+      "rom_ptr": 140123964,
+      "rom_ptr_hex": "3c1f5a08",
+      "_index": 72
+    },
+    {
+      "_raw_offset": 5906776,
+      "rom_ptr": 140123976,
+      "rom_ptr_hex": "481f5a08",
+      "_index": 73
+    },
+    {
+      "_raw_offset": 5906780,
+      "rom_ptr": 140123996,
+      "rom_ptr_hex": "5c1f5a08",
+      "_index": 74
+    },
+    {
+      "_raw_offset": 5906784,
+      "rom_ptr": 140124016,
+      "rom_ptr_hex": "701f5a08",
+      "_index": 75
+    },
+    {
+      "_raw_offset": 5906788,
+      "rom_ptr": 140124052,
+      "rom_ptr_hex": "941f5a08",
+      "_index": 76
+    },
+    {
+      "_raw_offset": 5906792,
+      "rom_ptr": 140124108,
+      "rom_ptr_hex": "cc1f5a08",
+      "_index": 77
+    },
+    {
+      "_raw_offset": 5906796,
+      "rom_ptr": 140124172,
+      "rom_ptr_hex": "0c205a08",
+      "_index": 78
+    },
+    {
+      "_raw_offset": 5906800,
+      "rom_ptr": 1955363226,
+      "rom_ptr_hex": "9a798c74",
+      "_index": 79
+    },
+    {
+      "_raw_offset": 5906804,
+      "rom_ptr": 4069887125,
+      "rom_ptr_hex": "958c95f2",
+      "_index": 80
+    },
+    {
+      "_raw_offset": 5906808,
+      "rom_ptr": 1619091585,
+      "rom_ptr_hex": "81608160",
+      "_index": 81
+    },
+    {
+      "_raw_offset": 5906812,
+      "rom_ptr": 1233209729,
+      "rom_ptr_hex": "81498149",
+      "_index": 82
+    },
+    {
+      "_raw_offset": 5906816,
+      "rom_ptr": 0,
+      "rom_ptr_hex": "00000000",
+      "_index": 83
+    },
+    {
+      "_raw_offset": 5906820,
+      "rom_ptr": 0,
+      "rom_ptr_hex": "00000000",
+      "_index": 84
+    },
+    {
+      "_raw_offset": 5906824,
+      "rom_ptr": 0,
+      "rom_ptr_hex": "00000000",
+      "_index": 85
+    },
+    {
+      "_raw_offset": 5906828,
+      "rom_ptr": 0,
+      "rom_ptr_hex": "00000000",
+      "_index": 86
+    },
+    {
+      "_raw_offset": 5906832,
+      "rom_ptr": 0,
+      "rom_ptr_hex": "00000000",
+      "_index": 87
+    },
+    {
+      "_raw_offset": 5906836,
+      "rom_ptr": 0,
+      "rom_ptr_hex": "00000000",
+      "_index": 88
+    },
+    {
+      "_raw_offset": 5906840,
+      "rom_ptr": 0,
+      "rom_ptr_hex": "00000000",
+      "_index": 89
     }
   ],
   "verification": "static_verified",
   "extraction": {
     "tool": "tools/extract_all_structures.py",
-    "extracted_count": 20,
-    "rom_offset": 5906720,
-    "rom_offset_hex": "0x5A2120"
-  }
+    "extracted_count": 90,
+    "rom_offset": 5906484,
+    "rom_offset_hex": "0x5A2034"
+  },
+  "corrections": [
+    "2026-10-21: 旧基址已按原生消费者裁决改指为 0x5A2034（90 条 x 4 字节）；证据见 notes/evidence/legacy-rebase-final-20261021.md"
+  ]
 }

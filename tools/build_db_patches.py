@@ -928,6 +928,8 @@ def _generate_u32_pointer_table_patches(
     table_offset: int,
     entry_count: int,
     pointer_kind: str,
+    record_stride: int = 4,
+    field_offset: int = 0,
 ) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for an indexed u32 pointer table.
 
@@ -937,6 +939,13 @@ def _generate_u32_pointer_table_patches(
     ``raw`` for mixed u32 tables whose entries may be pointers or scalar tags.
     The stored ``_rom_offset`` is checked as an independent guard against a
     stale or incorrectly imported editor database.
+
+    ``record_stride`` is the distance between two records in the ROM and
+    ``field_offset`` the offset of the written u32 inside a record.  Both
+    default to the flat 4-byte case; a table whose records are wider (the
+    battle-encounter records are 16 bytes, the handler records 8, the
+    portrait rows 40, the tile-asset records 68) MUST pass them, otherwise
+    the patch would land in the middle of a record.
     """
     if not db_path.exists():
         return []
@@ -961,7 +970,7 @@ def _generate_u32_pointer_table_patches(
         try:
             index = int(row[index_column])
             pointer = int(row[pointer_column])
-            expected_offset = table_offset + index * 4
+            expected_offset = table_offset + index * record_stride
             stored_offset = int(row["_rom_offset"])
             if not 0 <= index < entry_count:
                 raise ValueError(f"index {index} outside 0..{entry_count - 1}")
@@ -972,6 +981,7 @@ def _generate_u32_pointer_table_patches(
                 raise ValueError(
                     f"stale _rom_offset 0x{stored_offset:X}; expected 0x{expected_offset:X}"
                 )
+            write_offset = expected_offset + field_offset
             if pointer_kind != "raw" and not ROM_POINTER_MIN <= pointer <= ROM_POINTER_MAX:
                 raise ValueError(
                     f"pointer 0x{pointer:08X} outside 48 Mbit ROM address range"
@@ -984,7 +994,7 @@ def _generate_u32_pointer_table_patches(
             payload = struct.pack("<I", pointer)
             patches.append({
                 "type": "bytes",
-                "offset": expected_offset,
+                "offset": write_offset,
                 "after_hex": payload.hex(),
                 "length": 4,
                 "description": (
@@ -1014,8 +1024,9 @@ def generate_battle_encounter_patches(db_path: Path) -> list[dict[str, Any]]:
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_battle_encounters", index_column="_idx",
-        pointer_column="entry", table_offset=0x542384,
-        entry_count=38, pointer_kind="raw",
+        pointer_column="ptr_0", table_offset=0x54229C,
+        entry_count=24, pointer_kind="raw",
+        record_stride=16, field_offset=0,
     )
     if not db_path.exists():
         return []
@@ -1065,32 +1076,39 @@ def generate_battle_handler_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for battle handler pointers.
 
     Each row writes one validated u32 directly to the game-consumed table.
-    The battle handler table at 0x53E6D8 contains 14 entries of u32
-    pointers to Thumb event handler code.
+    The battle handler table at 0x53E698 contains 256 records of 8 bytes
+    (two u32 code pointers each).
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_battle_handlers", index_column="_idx",
-        pointer_column="handler_ptr", table_offset=0x53E6D8,
-        entry_count=14, pointer_kind="thumb",
+        pointer_column="code_ptr_0", table_offset=0x53E698,
+        entry_count=256, pointer_kind="thumb",
+        record_stride=8, field_offset=0,
     )
 
 def generate_character_stats_b_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate ROM patches for character stats B rows.
+    """Generate ROM patches for the per-character stat rows.
 
-    Each row writes to the character stat B table at 0x545200 (stride 16 bytes).
-    This is a secondary character stat table with different field ordering.
+    The bank is the **same** table as ``character-stats``: the adjudicated
+    base is 0x545068 (16 bytes per row, 63 rows).  The old base 0x545200 was
+    a misaligned window (record 25, byte 8) and the old column names no
+    longer exist, so the generator used to fail open (empty patch list).
+
+    The row fields are the eight u16 slots of the record; their business
+    names are not known yet, so the editor columns are the neutral
+    ``field_0`` .. ``field_7``.
     """
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
     patches: list[dict[str, Any]] = []
-    TABLE_OFFSET = 0x545200
+    TABLE_OFFSET = 0x545068
     ENTRY_SIZE = 16
     try:
         rows = conn.execute(
-            "SELECT _idx, _rom_offset, hp, padding1, padding2, padding3, "
-            "max_value, char_type, attack, defense FROM rom_character_stats_b "
+            "SELECT _idx, _rom_offset, field_0, field_1, field_2, field_3, "
+            "field_4, field_5, field_6, field_7 FROM rom_character_stats_b "
             "ORDER BY _idx"
         ).fetchall()
     except sqlite3.OperationalError:
@@ -1099,14 +1117,14 @@ def generate_character_stats_b_patches(db_path: Path) -> list[dict[str, Any]]:
     for row in rows:
         try:
             char_index = int(row["_idx"])
-            if not 0 <= char_index < 18:
-                raise ValueError(f"index {char_index} outside 0..17")
+            if not 0 <= char_index < 63:
+                raise ValueError(f"index {char_index} outside 0..62")
             table_offset = TABLE_OFFSET + char_index * ENTRY_SIZE
             if int(row["_rom_offset"]) != table_offset:
                 raise ValueError("stale _rom_offset")
             fields = [int(row[name] or 0) for name in (
-                "hp", "padding1", "padding2", "padding3", "max_value",
-                "char_type", "attack", "defense",
+                "field_0", "field_1", "field_2", "field_3",
+                "field_4", "field_5", "field_6", "field_7",
             )]
             stat_data = struct.pack("<HHHHHHHH", *fields)
             patches.append({
@@ -1247,38 +1265,38 @@ def generate_data_table_a_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for data table A pointers.
 
     Each row writes one validated u32 directly to the game-consumed table.
-    The data table A at 0x5A14A4 contains 20 entries of u32 pointers.
+    The data table A at 0x5A143C contains 46 u32 ROM pointers.
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_data_table_a", index_column="_idx",
-        pointer_column="data_ptr", table_offset=0x5A14A4,
-        entry_count=20, pointer_kind="data",
+        pointer_column="rom_ptr", table_offset=0x5A143C,
+        entry_count=46, pointer_kind="data",
     )
 
 def generate_data_table_b_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for data table B pointers.
 
     Each row writes one validated u32 directly to the game-consumed table.
-    The data table B at 0x5A2120 contains 20 entries of u32 pointers.
+    The data table B at 0x5A2034 contains 90 u32 entries.
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_data_table_b", index_column="_idx",
-        pointer_column="data_ptr", table_offset=0x5A2120,
-        entry_count=20, pointer_kind="data",
+        pointer_column="rom_ptr", table_offset=0x5A2034,
+        entry_count=90, pointer_kind="data",
     )
 
 def generate_font_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate ROM patches for font width rows.
 
-    Each row writes to the font width table at 0x53E5B4 (stride 1 byte).
-    The font table maps ASCII characters to pixel widths.
+    Each row writes to the font width table at 0x53E596 (stride 1 byte).
+    The font table maps character codes to pixel widths.
     """
     if not db_path.exists():
         return []
     conn = sqlite3.connect(str(db_path))
     conn.row_factory = sqlite3.Row
     patches: list[dict[str, Any]] = []
-    TABLE_OFFSET = 0x53E5B4
+    TABLE_OFFSET = 0x53E596
     try:
         rows = conn.execute(
             "SELECT _idx, _rom_offset, char_width FROM rom_fonts ORDER BY _idx"
@@ -1320,26 +1338,27 @@ def generate_function_pointer_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for function pointers.
 
     Each row writes one validated u32 directly to the game-consumed table.
-    The function pointer table at 0x53D5F4 contains 11 entries of u32
-    pointers to Thumb code.
+    The function pointer table at 0x53D5F0 has 13 u32 slots; slots 0 and 12
+    are ``0xFFFFFFFF`` sentinels and slots 1..11 are the code pointers.
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_function_pointers", index_column="_idx",
-        pointer_column="func_ptr", table_offset=0x53D5F4,
-        entry_count=11, pointer_kind="thumb",
+        pointer_column="slot_value", table_offset=0x53D5F0,
+        entry_count=13, pointer_kind="raw",
     )
 
 def generate_map_event_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for map event handlers.
 
     Each row writes one validated u32 directly to the game-consumed table.
-    The map event table at 0x53EB08 contains 47 entries of u32 pointers
-    to Thumb event handler code.
+    The map event table at 0x53E698 contains 256 records of 8 bytes (two u32
+    code pointers each) -- the **same** table as ``battle-handlers``.
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_map_events", index_column="_idx",
-        pointer_column="handler_ptr", table_offset=0x53EB08,
-        entry_count=47, pointer_kind="thumb",
+        pointer_column="code_ptr_0", table_offset=0x53E698,
+        entry_count=256, pointer_kind="thumb",
+        record_stride=8, field_offset=0,
     )
 
 def generate_map_sprite_patches(db_path: Path) -> list[dict[str, Any]]:
@@ -1365,13 +1384,14 @@ def generate_menu_ui_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for menu UI data pointers.
 
     Each row writes one validated u32 directly to the game-consumed table.
-    The menu UI table at 0x5A5774 contains 20 entries of u32 pointers
-    to menu/UI data.
+    The portrait table at 0x5A4DEC contains 63 rows of 40 bytes; each row has
+    5 expression slots of 8 bytes (two u32 each).
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_menu_ui", index_column="_idx",
-        pointer_column="ui_ptr", table_offset=0x5A5774,
-        entry_count=20, pointer_kind="data",
+        pointer_column="expr0_ptr_0", table_offset=0x5A4DEC,
+        entry_count=63, pointer_kind="data",
+        record_stride=40, field_offset=0,
     )
 
 def generate_palette_patches(db_path: Path) -> list[dict[str, Any]]:
@@ -1702,68 +1722,59 @@ def generate_sprite_animation_patches(db_path: Path) -> list[dict[str, Any]]:
     return patches
 
 def generate_story_b_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for story B byte-stream pointers.
+    """Generate validated real-ROM patches for the sound id 2 SongHeader.
 
-    Each row writes one validated u32 directly to the game-consumed table.
-    The story B table at 0x536BC8 contains 11 entries of u32 pointers
-    to chapter data.
+    The bank is the m4a SongHeader at 0x536BC4; the only pointer in it with
+    an identified meaning is the **voicegroup pointer** (the old base
+    0x536BC8 was 4 bytes late and landed on that same word).
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_story_b", index_column="_idx",
-        pointer_column="chapter_ptr", table_offset=0x536BC8,
-        entry_count=11, pointer_kind="rom",
+        pointer_column="voicegroup_ptr", table_offset=0x536BC4,
+        entry_count=1, pointer_kind="rom",
+        record_stride=4, field_offset=4,
     )
 
 def generate_story_c_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for story C byte-stream pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The story C table at 0x538FF0 contains 10 entries of u32 pointers
-    to chapter data.
-    """
+    """Generate validated real-ROM patches for the sound id 8 SongHeader."""
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_story_c", index_column="_idx",
-        pointer_column="chapter_ptr", table_offset=0x538FF0,
-        entry_count=10, pointer_kind="rom",
+        pointer_column="voicegroup_ptr", table_offset=0x538FEC,
+        entry_count=1, pointer_kind="rom",
+        record_stride=4, field_offset=4,
     )
 
 def generate_story_d_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for story D byte-stream pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The story D table at 0x53AB78 contains 11 entries of u32 pointers
-    to chapter data.
-    """
+    """Generate validated real-ROM patches for the sound id 11 SongHeader."""
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_story_d", index_column="_idx",
-        pointer_column="chapter_ptr", table_offset=0x53AB78,
-        entry_count=11, pointer_kind="rom",
+        pointer_column="voicegroup_ptr", table_offset=0x53AB74,
+        entry_count=1, pointer_kind="rom",
+        record_stride=4, field_offset=4,
     )
 
 def generate_story_e_patches(db_path: Path) -> list[dict[str, Any]]:
-    """Generate validated real-ROM patches for story E byte-stream pointers.
-
-    Each row writes one validated u32 directly to the game-consumed table.
-    The story E table at 0x53C3C0 contains 9 entries of u32 pointers
-    to chapter data.
-    """
+    """Generate validated real-ROM patches for the sound id 14 SongHeader."""
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_story_e", index_column="_idx",
-        pointer_column="chapter_ptr", table_offset=0x53C3C0,
-        entry_count=9, pointer_kind="rom",
+        pointer_column="voicegroup_ptr", table_offset=0x53C3BC,
+        entry_count=1, pointer_kind="rom",
+        record_stride=4, field_offset=4,
     )
 
 def generate_tile_asset_patches(db_path: Path) -> list[dict[str, Any]]:
     """Generate validated real-ROM patches for tile asset data pointers.
 
     Each row writes one validated u32 directly to the game-consumed table.
-    The tile asset table at 0x5A3218 contains 6 entries of u32 pointers
-    to tile/map data.
+    The tile-asset table at 0x5A320C contains 79 records of 68 bytes; the
+    six tile pointers live at record offset +0x0C (the old base 0x5A3218 was
+    exactly that field, not a table start).
     """
     return _generate_u32_pointer_table_patches(
         db_path, table="rom_tile_assets", index_column="_idx",
-        pointer_column="tile_ptr", table_offset=0x5A3218,
-        entry_count=6, pointer_kind="data",
+        pointer_column="tile_ptr_0", table_offset=0x5A320C,
+        entry_count=79, pointer_kind="data",
+        record_stride=68, field_offset=12,
     )
 
 

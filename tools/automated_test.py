@@ -285,8 +285,13 @@ def suite_patches(runner: TestRunner) -> None:
     suite = "patches"
 
     def _get_output_rom() -> bytes:
-        project = load_project()
-        out_path = ROOT / project["build"]["output_rom"]
+        # The isolated build's ROM, not the committed one: the report and the
+        # ROM must be the **same pair**.  The committed artifacts were built
+        # with a developer-local `sequel/editor.db` that is not in the
+        # repository, so comparing a freshly built report against them
+        # compares two different databases.
+        ensure_isolated_build()
+        out_path = build_output_paths()[0]
         assert out_path.exists(), f"output ROM not found: run build first"
         return out_path.read_bytes()
 

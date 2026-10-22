@@ -110,8 +110,9 @@ def write_song_track(rom: bytearray, sound_id: int, track_index: int,
     """Repoint one track of a SongHeader, in place.
 
     Only a pointer that already occurs as a track pointer somewhere in the
-    sound table is accepted: the track block format is not proved, so a new
-    target cannot be validated.
+    sound table is accepted here.  The track **block format** is now proved
+    (see `tools/m4a_block_table.py`), so a *new* block can be written too --
+    use :func:`write_song_track_block` for that.
     """
     header = read_song_header(bytes(rom), sound_id)
     if not 0 <= track_index < header["track_count"]:
@@ -121,8 +122,7 @@ def write_song_track(rom: bytearray, sound_id: int, track_index: int,
     if value not in native_track_pointers(bytes(rom)):
         raise WriteBackError(
             f"track pointer 0x{value:08X} does not occur in the sound table; "
-            f"the track block format is not proved, so only repointing to an "
-            f"existing native track is allowed")
+            f"use --block to write a new block instead of repointing to one")
     off = header["offset"] + HEADER_SIZE + track_index * 4
     rom[off:off + 4] = value.to_bytes(4, "little")
     return {
@@ -131,6 +131,28 @@ def write_song_track(rom: bytearray, sound_id: int, track_index: int,
         "offset": off,
         "pointer": value,
     }
+
+
+def write_song_track_block(rom: bytearray, sound_id: int, track_index: int,
+                            commands: list[dict],
+                            target_offset: int | None = None) -> dict:
+    """Write a *new* track block and read it back.
+
+    The block format is proved by `tools/m4a_block_table.py` (decode -> encode
+    is byte-identical for all 45 native blocks), so a new block can be
+    authored instead of reusing a native one.
+
+    ``target_offset`` is ``None`` for an **in-place** rewrite (the new block
+    must fit in the original block's own span) or a ROM file offset for a new
+    block parked in the documented free region -- the SongHeader's track
+    pointer is then repointed at it.
+    """
+    from m4a_block_table import rewrite_track_block, rewrite_track_block_at
+
+    if target_offset is None:
+        return rewrite_track_block(rom, sound_id, track_index, commands)
+    return rewrite_track_block_at(rom, sound_id, track_index, commands,
+                                  target_offset)
 
 
 # --- CLI --------------------------------------------------------------------
@@ -142,6 +164,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--sound-id", type=int, required=True)
     parser.add_argument("--set", action="append", default=[], dest="sets",
                         help="trackN=pointer change (repeatable)")
+    parser.add_argument("--block", action="append", default=[], dest="blocks",
+                        help="trackN=json[,offset] -- write a NEW track block from "
+                             "a JSON command list (offset omitted = rewrite the "
+                             "original block in place; offset given = park it "
+                             "there and repoint the SongHeader)")
     parser.add_argument("--out", help="write the patched ROM copy here")
     parser.add_argument("--json", help="write the read-back report here")
     args = parser.parse_args(argv)
@@ -158,12 +185,35 @@ def main(argv: list[str] | None = None) -> int:
         if not key.startswith("track"):
             raise SystemExit(f"--set expects trackN=pointer, got {pair!r}")
         changes[int(key[5:])] = int(raw.strip(), 0)
-    if not changes:
-        parser.error("no --set change given")
+
+    blocks: dict[int, tuple[list[dict], int | None]] = {}
+    for pair in args.blocks:
+        if "=" not in pair:
+            raise SystemExit(f"--block expects trackN=json[,offset], got {pair!r}")
+        key, raw = pair.split("=", 1)
+        key = key.strip().lower()
+        if not key.startswith("track"):
+            raise SystemExit(f"--block expects trackN=json[,offset], got {pair!r}")
+        track_index = int(key[5:])
+        parts = raw.split(",")
+        payload = json.loads(pathlib.Path(parts[0].strip()).read_text(encoding="utf-8"))
+        commands = payload.get("commands") if isinstance(payload, dict) else payload
+        if not isinstance(commands, list):
+            raise SystemExit(
+                f"--block {pair!r}: the JSON must be a command list or "
+                f"{{\"commands\": [...]}}")
+        offset = int(parts[1].strip(), 0) if len(parts) > 1 else None
+        blocks[track_index] = (commands, offset)
+
+    if not changes and not blocks:
+        parser.error("no --set or --block change given")
 
     applied = []
     for track_index, pointer in sorted(changes.items()):
         applied.append(write_song_track(rom, args.sound_id, track_index, pointer))
+    for track_index, (commands, offset) in sorted(blocks.items()):
+        applied.append(write_song_track_block(rom, args.sound_id, track_index,
+                                              commands, offset))
 
     if args.out:
         out_path = pathlib.Path(args.out)

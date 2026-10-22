@@ -57,12 +57,16 @@ class U32PointerPatchTests(unittest.TestCase):
         path = Path(tmp.name)
         conn = sqlite3.connect(path)
         # (table, column, base, count, stride, pointer)
+        #
+        # The bases are the **adjudicated** ones (the legacy bases were
+        # skewed windows): see notes/evidence/legacy-rebase-final-20261021.md.
+        # The column names come from the banks' `entry_format.fields`.
         tables = [
-            ("rom_data_table_a", "data_ptr", 0x5A14A4, 20, 4, 0x0812F000),
-            ("rom_data_table_b", "data_ptr", 0x5A2120, 20, 4, 0x0812F100),
-            ("rom_function_pointers", "func_ptr", 0x53D5F4, 11, 4, 0x08001235),
-            ("rom_menu_ui", "ui_ptr", 0x5A5774, 20, 4, 0x0812F200),
-            ("rom_tile_assets", "tile_ptr", 0x5A3218, 6, 4, 0x0812F300),
+            ("rom_data_table_a", "rom_ptr", 0x5A143C, 46, 4, 0x0812F000),
+            ("rom_data_table_b", "rom_ptr", 0x5A2034, 90, 4, 0x0812F100),
+            ("rom_function_pointers", "slot_value", 0x53D5F0, 13, 4, 0x08001235),
+            ("rom_menu_ui", "expr0_ptr_0", 0x5A4DEC, 63, 40, 0x0812F200),
+            ("rom_tile_assets", "tile_ptr_0", 0x5A320C, 79, 68, 0x0812F300),
             ("rom_map_sprites", "sprite_ptr", 0x53F140, 86, 4, 0x0812F400),
             ("rom_palettes", "palette_ptr", 0x53F138, 88, 4, 0x0812F500),
             ("rom_resource_pointers", "resource_ptr", 0x596F0C, 20, 4, 0x0812F600),
@@ -140,16 +144,20 @@ class U32PointerPatchTests(unittest.TestCase):
         """
         db = self.make_editor_db()
         cases = [
-            (generate_data_table_a_patches, "rom_data_table_a", 20,
-             0x5A14A4, 0x5A14F0, "data"),
-            (generate_data_table_b_patches, "rom_data_table_b", 20,
-             0x5A2120, 0x5A216C, "data"),
-            (generate_function_pointer_patches, "rom_function_pointers", 11,
-             0x53D5F4, 0x53D61C, "thumb"),
-            (generate_menu_ui_patches, "rom_menu_ui", 20,
-             0x5A5774, 0x5A57C0, "data"),
-            (generate_tile_asset_patches, "rom_tile_assets", 6,
-             0x5A3218, 0x5A322C, "data"),
+            (generate_data_table_a_patches, "rom_data_table_a", 46,
+             0x5A143C, 0x5A143C + 45 * 4, "data"),
+            (generate_data_table_b_patches, "rom_data_table_b", 90,
+             0x5A2034, 0x5A2034 + 89 * 4, "data"),
+            (generate_function_pointer_patches, "rom_function_pointers", 13,
+             0x53D5F0, 0x53D5F0 + 12 * 4, "raw"),
+            # the portrait table: 40-byte rows, the written pointer is the
+            # first expression slot of the row
+            (generate_menu_ui_patches, "rom_menu_ui", 63,
+             0x5A4DEC, 0x5A4DEC + 62 * 40, "data"),
+            # the tile-asset table: 68-byte records, the written pointer is
+            # the record's +0x0C field
+            (generate_tile_asset_patches, "rom_tile_assets", 79,
+             0x5A320C + 12, 0x5A320C + 78 * 68 + 12, "data"),
             # adjudicated base: 0x53F1DC is item 39 of the array at 0x53F140
             (generate_map_sprite_patches, "rom_map_sprites", 86,
              0x53F140, 0x53F140 + 85 * 4, "data"),

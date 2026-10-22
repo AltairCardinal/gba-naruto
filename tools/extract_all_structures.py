@@ -14,10 +14,16 @@ Usage:
 import json
 import struct
 import argparse
+import sys
 from pathlib import Path
 
+REPO = Path(__file__).resolve().parents[1]
+for _p in (REPO, REPO / "tools"):
+    if str(_p) not in sys.path:
+        sys.path.insert(0, str(_p))
+
 DEFAULT_ROM_PATH = Path('火影忍者 - 木叶战记[熊组](v1.3)(简)(JP)(48Mb).gba')
-CONTENT_DIR = Path('sequel/content')
+CONTENT_DIR = REPO / "sequel" / "content"
 ENTRY_KEY = 'entries'
 
 # type → struct format char(s) + python reader
@@ -52,7 +58,7 @@ def extract_entry(rom: bytes, offset: int, fields: list) -> dict:
 
 def extract_structure(rom: bytes, bank_path: Path, dry_run=False) -> tuple[str, int]:
     """Returns (status, n_entries)."""
-    data = json.load(open(bank_path))
+    data = json.load(open(bank_path, encoding='utf-8'))
     name = bank_path.parent.name
 
     # Pre-conditions
@@ -68,6 +74,15 @@ def extract_structure(rom: bytes, bank_path: Path, dry_run=False) -> tuple[str, 
     count = data['entry_count']
     size = data['entry_size']
     fields = ef['fields']
+
+    # Not every bank is a flat array of fixed-width records: `positions`
+    # carries computed group/variant/record ids and a `bytes` blob, so it
+    # cannot be re-extracted generically and must keep its hand-built
+    # entries.  Skip those banks instead of crashing the whole run.
+    bad = [f.get('name') for f in fields
+           if 'offset' not in f or 'size' not in f or f.get('type') == 'bytes']
+    if bad:
+        return f'skipped (not a flat record table: {", ".join(map(str, bad))})', 0
 
     if offset + count * size > len(rom):
         return f'skipped (out of ROM: offset {offset} + {count*size} > {len(rom)})', 0

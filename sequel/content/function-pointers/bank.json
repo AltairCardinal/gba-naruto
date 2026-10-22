@@ -1,22 +1,22 @@
 {
   "version": 1,
-  "description": "Function pointer table discovered at ROM offset 0x53D5F4. 11 entries of u32 pointers to Thumb code.",
-  "table_offset": 5494260,
-  "table_offset_hex": "0x53D5F4",
-  "entry_count": 11,
+  "description": "函数指针表：13 槽 u32。槽 0 与槽 12 是 FFFFFFFF 哨兵，槽 1..11 是 11 个代码指针（0x08061C8D 起每槽 +12 字节等距）。真实基址 0x53D5F0（原生读者 0x08061DD4，fn 0x08061D8C）。",
+  "table_offset": 5494256,
+  "table_offset_hex": "0x53D5F0",
+  "entry_count": 13,
   "entry_size": 4,
   "entry_format": {
     "fields": [
       {
         "offset": 0,
         "size": 4,
-        "name": "func_ptr",
+        "name": "slot_value",
         "type": "u32",
-        "description": "Pointer to Thumb function code"
+        "description": "槽内容：FFFFFFFF = 哨兵，否则是代码指针（业务名未定）"
       }
     ]
   },
-  "notes": "Function pointer table with 11 entries. All entries point to Thumb code (PUSH instructions starting with 0xB5). The functions are located in the 0x061C8D-0x061D05 region and appear to be small functions that call a common function with different parameters (R0 = 1, 2, 3, 4, 5, 6, etc.). Located in the 0x53Dxxx region near the map headers. The functions appear to be menu or UI related based on their structure.",
+  "notes": "旧基址 0x53D5F4 是槽 1。表尾 0x53D5F0 + 13*4 = 0x53D624，正好接 printf 格式串。",
   "entries_sample": [
     {
       "index": 0,
@@ -58,77 +58,92 @@
   "discovered_by": "Examining region 0x53D000-0x53E000 between story tables and map headers",
   "entries": [
     {
-      "_raw_offset": 5494260,
-      "func_ptr": 134618253,
-      "func_ptr_hex": "8d1c0608",
+      "_raw_offset": 5494256,
+      "slot_value": 4294967295,
+      "slot_value_hex": "ffffffff",
       "_index": 0
     },
     {
-      "_raw_offset": 5494264,
-      "func_ptr": 134618265,
-      "func_ptr_hex": "991c0608",
+      "_raw_offset": 5494260,
+      "slot_value": 134618253,
+      "slot_value_hex": "8d1c0608",
       "_index": 1
     },
     {
-      "_raw_offset": 5494268,
-      "func_ptr": 134618277,
-      "func_ptr_hex": "a51c0608",
+      "_raw_offset": 5494264,
+      "slot_value": 134618265,
+      "slot_value_hex": "991c0608",
       "_index": 2
     },
     {
-      "_raw_offset": 5494272,
-      "func_ptr": 134618289,
-      "func_ptr_hex": "b11c0608",
+      "_raw_offset": 5494268,
+      "slot_value": 134618277,
+      "slot_value_hex": "a51c0608",
       "_index": 3
     },
     {
-      "_raw_offset": 5494276,
-      "func_ptr": 134618301,
-      "func_ptr_hex": "bd1c0608",
+      "_raw_offset": 5494272,
+      "slot_value": 134618289,
+      "slot_value_hex": "b11c0608",
       "_index": 4
     },
     {
-      "_raw_offset": 5494280,
-      "func_ptr": 134618313,
-      "func_ptr_hex": "c91c0608",
+      "_raw_offset": 5494276,
+      "slot_value": 134618301,
+      "slot_value_hex": "bd1c0608",
       "_index": 5
     },
     {
-      "_raw_offset": 5494284,
-      "func_ptr": 134618325,
-      "func_ptr_hex": "d51c0608",
+      "_raw_offset": 5494280,
+      "slot_value": 134618313,
+      "slot_value_hex": "c91c0608",
       "_index": 6
     },
     {
-      "_raw_offset": 5494288,
-      "func_ptr": 134618337,
-      "func_ptr_hex": "e11c0608",
+      "_raw_offset": 5494284,
+      "slot_value": 134618325,
+      "slot_value_hex": "d51c0608",
       "_index": 7
     },
     {
-      "_raw_offset": 5494292,
-      "func_ptr": 134618349,
-      "func_ptr_hex": "ed1c0608",
+      "_raw_offset": 5494288,
+      "slot_value": 134618337,
+      "slot_value_hex": "e11c0608",
       "_index": 8
     },
     {
-      "_raw_offset": 5494296,
-      "func_ptr": 134618361,
-      "func_ptr_hex": "f91c0608",
+      "_raw_offset": 5494292,
+      "slot_value": 134618349,
+      "slot_value_hex": "ed1c0608",
       "_index": 9
     },
     {
-      "_raw_offset": 5494300,
-      "func_ptr": 134618373,
-      "func_ptr_hex": "051d0608",
+      "_raw_offset": 5494296,
+      "slot_value": 134618361,
+      "slot_value_hex": "f91c0608",
       "_index": 10
+    },
+    {
+      "_raw_offset": 5494300,
+      "slot_value": 134618373,
+      "slot_value_hex": "051d0608",
+      "_index": 11
+    },
+    {
+      "_raw_offset": 5494304,
+      "slot_value": 4294967295,
+      "slot_value_hex": "ffffffff",
+      "_index": 12
     }
   ],
   "verification": "static_verified",
   "extraction": {
     "tool": "tools/extract_all_structures.py",
-    "extracted_count": 11,
-    "rom_offset": 5494260,
-    "rom_offset_hex": "0x53D5F4"
-  }
+    "extracted_count": 13,
+    "rom_offset": 5494256,
+    "rom_offset_hex": "0x53D5F0"
+  },
+  "corrections": [
+    "2026-10-21: 旧基址已按原生消费者裁决改指为 0x53D5F0（13 条 x 4 字节）；证据见 notes/evidence/legacy-rebase-final-20261021.md"
+  ]
 }

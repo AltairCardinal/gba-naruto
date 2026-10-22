@@ -353,3 +353,64 @@ python tools/portrait_assets.py --json build/portrait_assets.json
 python tools/runtime_capture.py rom/base.gba
 python tools/battle_rules_runtime.py rom/base.gba
 ```
+
+---
+
+## 2026-10-21 追加：`story_progress` / `story_branch` / `story_config` 的地址与语义
+
+三个字段都在**剧情标志块 `0x020311D4`** 里，本轮把地址与读写点全部钉死。
+
+| 字段 | 地址 | 偏移 | 读点 | 写点 | 语义（由原生代码证明） |
+|---|---|---|---|---|---|
+| `story_progress` | `0x020311E4` | +0x10 (u16) | `0x0808F5E0`、`0x08095338`、`0x08097BCA` | `0x0808F696`（新游戏清 0）、**`0x08097BD4`（剧情 VM 写绝对值）** | 剧情进度计数；剧情 VM 的一个 opcode 把它**置成绝对值**；调度器拿它跟 **360** 比 |
+| `story_branch` | `0x020311EC` | +0x18 (u8) | `0x0808F5A0`、`0x0808F5D4`、`0x0808F67E` | `0x0808F5CC`、`0x0808F5DC`、`0x0808F670` | **分支选择器**：非 0 时调度器改用「after」根表；用完即清 |
+| `story_config` ×3 | `0x020311ED..EF` | +0x19..0x1B | `0x0808F67A` 附近 | `0x0808F5C8` 把分支值抄进 `+0x19` | `+0x19` = 分支 id（**同时就是战斗 sub-config 字节**）；`+0x1A/+0x1B` 本轮未见写入 |
+
+关键代码：
+
+```
+; 剧情 VM 的「设进度」opcode（0x08097BC8）
+0x08097BC8  ldr  r1, [pc, #0x24]     ; 0x020311D4
+0x08097BCA  ldrh r0, [r1, #0x10]    ; 旧进度
+0x08097BCC  cmp  r0, r4             ; r4 = 操作数（目标进度）
+0x08097BCE  bne  0x8097bd2
+0x08097BD0  b    0x8097e2c          ; 已经是目标值 -> 不做事（幂等）
+0x08097BD4  strh r4, [r1, #0x10]    ; 进度 = 目标值   <<< 唯一的进度写入点
+0x08097BDA  bl   0x809c32c           ; 进度变化时的后续处理
+
+; 调度器（0x0808F5A0）
+0x0808F5A0  ldrb r1, [r6, #0x18]     ; story_branch
+0x0808F5A2  cmp  r1, #0
+0x0808F5A4  beq  0x808f5c0          ; 0 -> 用 before 根表
+0x0808F5C8  strb r1, [r6, #0x19]     ; 抄进 story_config[0]
+0x0808F5CC  strb r5, [r6, #0x18]     ; 分支用完清零
+
+; 调度器（0x0808F5E0）
+0x0808F5E0  ldrh r1, [r7, #0x10]     ; story_progress
+0x0808F5E2  movs r0, #0xb4 / lsls r0, r0, #1   ; 360
+0x0808F5E6  cmp  r1, r0
+0x0808F5E8  beq  0x808f604          ; 进度 == 360 -> 特殊分支
+```
+
+> 旧笔记写「370 = 原版通关」；**原生代码比的是 360**（`0xB4 << 1`），
+> 两者不一致，**以代码为准 = 360**。
+
+### 运行时读数
+
+`tools/closure_story_probe.py`（逐次按键读整个块）：
+
+- **`story_branch` 变了**：55 个剧情场景里只有**场景 31** 读到
+  `story_branch = 1`（其余全 0），而且它在 20 次按键里稳定为 1
+  ⇒ 该字段**确实是活的**，不是常量。
+- `story_progress` 与 `story_config` 在**直接调度**的场景里恒为 0：
+  进度只有剧情 VM 的那个 opcode 会写，而直接调度不会跑到它；
+  `story_config[0]` 只在分支被消费的那一刻被写入，而那之后立刻被清零。
+
+### 可证伪测试
+
+```
+python tools\closure_story_probe.py --scenes 31 --presses 20
+```
+
+断言：场景 31 的 `story_branch` 必须读出 **1**；
+若把 `+0x18` 当成别的字段，它会恒为 0。

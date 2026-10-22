@@ -17,18 +17,155 @@
 
 - 本审计覆盖 **47 个结构**（32 个 legacy content bank + 15 个 2026-10-20 起新确认、
   但还没有 bank 的结构）。
-- 等级分布：**L4 = 0 / L3 = 4 / L2 = 1 / L1 = 30 / 已裁决 = 12**
-  （「已裁决」= 该结构声明的基址已被证明**在整个 ROM 里零引用**，
+- 等级分布：**L4 = 3 / L3 = 33 / L2 = 1 / L1 = 7 / 无独立证据 = 3**
+  （「无独立证据」= 该结构声明的基址已被证明**在整个 ROM 里零引用**，
   身份问题关闭：基址无效，需要重新定位，见
   `notes/legacy-table-base-correction-20261020.md`）。
-- **格式已被独立证明**：`35 / 47`；**写回路径可用**：`24 / 47`。
-- **P1 已达成**：46 个结构**全部**达到 L1 或以上，或被显式裁决（无独立证据 = 0）。
+- **L4 的三个结构**（`notes/evidence/l4-battle-matrix-20261021.md` +
+  可执行闸门 `tools/mgba_probe/l4_battle_matrix.py`）：
+  `story-vm-roots`（全流程 55/55 + 游戏自己驱动的场景链 39 → 45）、
+  `maps`（**47/47** 个地图描述符真的被载入并渲染，47 个互不相同的 VRAM 哈希）、
+  `positions`（**85/85** 组真实队伍真的被游戏打进过）。
+- **格式已被独立证明**：`44 / 47`；**写回路径可用**：`24 / 47`。
+- **P1 已达成**：47 个结构**全部**达到 L1 或以上，或被显式裁决（无独立证据 = 0）。
 - **P2 已达成**：地图/战斗配置、剧情脚本、文本编码**三类必测面全部达到 L3**。
 - 阻塞缺口 **0 条** —— **P3 已达成**；
-  加固缺口 **105 条**（含 9 条「基址无效需重新定位」、35 条 L2、31 条 L3、
-  12 条「未知字段已显式标注」、7 条取值规则、4 条工具能力、4 条动态证据闭环、
-  2 条「基址需改指」、1 条「身份作废应退役」）。
+  加固缺口 **20 条**（**全部是 labelled**：按审计语义已属「未知字段已显式标注」的
+  **已满足**项，非阻塞；**L2 / L3 / 文档 / 语义 / 证据类缺口已清零**）。
   阻塞缺口从本轮开始时的 **31 条**降到 **0 条**。
+- **2026-10-22 晚：`story_config[0]` 的非零读数已闭合**
+  （`notes/evidence/runtime-state-story-config-20261022.md`）——
+  旧归因「调度器 `0x0808F5C8` 写入、`0x0808F5CC` 随即清零，所以任何快照都
+  拍不到」**归因错误**：逐指令核对显示 `0x0808F5C8` **只**在 `state[0x18] == 0`
+  的「before」路径上执行 ⇒ **恒写 0**；真正的写入者是剧情 VM 的 **opcode `0x1F`**
+  （`0x08097C40: strb r0,[r1,#0x19]`，操作数 = 战斗 sub-config），
+  场景 2/3/4/6/7 的 before 脚本都写 `1F 01`。实测（场景 2 + 作答行 1）
+  `0x08097C40` 命中、`r0 = 1`、内存 `0x020311ED` 读回 **`0x01`**。
+  ⇒ 动态证据闭环从 2 条降到 **1 条**（剩 `cutscene-scripts`）。
+- **2026-10-22 晚：关卡数据块表 `0x0853DF70` 的动态证据已闭合**
+  （`notes/evidence/cutscene-scripts-l3-20261022.md`）——
+  旧注记「加载器一次都没命中，属于剧情/战斗之外的第四种模式，本轮探针能到达的
+  范围内**无法触发**」**作废**：**相位 `0x0118`**（`0x0808F94A`：置战斗标志
+  bit 1 → `bl 0x080732B4` 跑剧情战斗 → 清标志）就能命中判定点 `0x08072F0E`，
+  此时 **`r4 = 0x0853DF70`**，表首 32 字节被 dump 出（4 条 8 字节记录，
+  word0 = ROM 源地址 `0x0812xxxx`）。同时更正：**表读取没有前提条件** ——
+  `0x08072EEE` 处的 `cmp r2,#0 / beq 0x08072F0C` 只决定要不要顺手置标志。
+  ⇒ **动态证据闭环清零**（2 条 → 0 条）。
+- **2026-10-22 晚：忍术名表 `0x08599634` 升到 L3**
+  （`notes/evidence/ninjutsu-names-vm-20261022.md`）——
+  该表有 **12 个读者**（旧笔记只押了一个判定点，还把 `fn 0x080794F4` 当成读者，
+  它不是）；剧情 VM 的 **opcode `0x1D`**（`0x08097CC4`）在**模式 0** 时读表，
+  下标 = 操作数字节 2。实测场景 43（`1D 00 49`）：`0x08097352` 命中，
+  `r0 = 0x08599758` = `0x08599634 + 0x49 × 4`，且**全程没有菜单** ⇒ 纯正常按键。
+- **2026-10-22 晚：`story-e`（声音 id 14）升到 L3**
+  （`notes/evidence/story-e-l3-20261022.md`）——
+  旧结论「id 14 的请求在地图/事件脚本，剧情路线跑不到」**作废**：
+  全 ROM 只有 `0x080894FC` 一处常量调用点，在**章节/任务列表**里；
+  章节菜单 = 状态机相位 **`0x0120`**。实测：`0x080894FC` 命中 `r0 = 0x0E`，
+  随后 `0x0809AAD6` 读到条目 `0x08465BE0` = `0x08465B70 + 14×8`，
+  其 word0 = **`0x0853C3BC`**。
+- **2026-10-22 晚：`fonts` 与 `sprite-frame-descriptors` 升到 L3**
+  （`notes/evidence/fonts-spriteframe-l3-20261022.md`）——
+  `0x0853E698` 其实是 **256 条 8 字节的回调记录表 `(handler_A, handler_B)`**，
+  下标字节在 **`0x02027428`**（运行时实测；旧笔记写的 `0x02027350` **作废**）。
+  `fn 0x0807F064`（字宽表 `0x0853E596` 的读者）是 **168/256 条**的 B 槽。
+  实测：字体内读者处 `r0 = 0x0853E635` = 表基址 + 159、`r1 = 0x0D` = 字宽；
+  精灵帧描述符处 `r1 = 0x0853EE98`、`r4 = 0x0853EEA2 / 0x0853EEB6 / 0x0853EED4`
+  = **基址 + 下标 × 10**（步长 10 字节得到运行时证实）。
+  ⇒ 加固缺口 **31 → 27**；等级分布 **L4=3 / L3=37 / L2=0 / L1=4 / 无=3**。
+- **2026-10-22 晚：`mechanism-effects` 升到 L3**
+  （`notes/evidence/mechanism-effects-l3-20261022.md`）——
+  **`0x0808136C` 不是数据表，是 13 项函数指针跳转表**
+  （`0x08081350: ldr r1,[pc,#0x14]` 装基址 → `mov pc, r0` 的 Thumb-2 switch，
+  下标 = 传入值 - 1，必须落在 0..12）；旧注记把它当「13 项效果表」**作废**。
+  路线：剧情战斗 `fn 0x080732B4` → `0x0807498C` → `fn 0x08081544`
+  （第二个关卡对象处理器）→ `0x08081ADE` → `fn 0x080812DC` → 读 `0x0808136C`。
+  实测判定点 `0x08081350` 命中，`r2 = 1` = 机制下标（= `record[+6]`）。
+  ⇒ 加固缺口 **27 → 25**；等级分布 **L4=3 / L3=38 / L2=0 / L1=3 / 无=3**。
+- **2026-10-22 晚：`items` / `skills`（同一张表 `0x08545BE4`）升到 L3**
+  （`notes/evidence/items-skills-l3-20261022.md`）——
+  路线：剧情战斗 `fn 0x080732B4` 的**单位扫描**（`0x08074200`：
+  `unit[0] != 0`、`unit[0xCC] == 0`、`unit[0xC0] & 0x70 == 0`、
+  `unit[0xCD] ∉ {0,0xFF}`）→ `0x0807425A: bl fn 0x080851F8`
+  → `fn 0x080833A8` → `0x08083812: bl fn 0x0806D910`。
+  分岔点是每条道具记录的**标志字节（`0x0202D4CD + r4*6`）的 bit 7**：
+  置位才走读者那一臂。
+  实测（场景 10，相位 `0x0110`）：判定点 `0x0806D91A` 命中 **3 次**，
+  `r0 = id × 16` = 表内字节偏移（id 1 / 0x4A / 5），
+  **步长 16 字节得到运行时证实**。
+  ⇒ 加固缺口 **25 → 21**；等级分布 **L4=3 / L3=40 / L2=0 / L1=1 / 无=3**。
+- **2026-10-22 晚：`resource-pointers` 裁决为精灵动作表同址（其「读者」是死代码）**
+  （`notes/evidence/resource-pointers-deadcode-20261022.md`）——
+  旧基址 `0x596F0C` 是精灵动作表 `0x596CCC` 的 `+0x240` 窗口；
+  **全 ROM 里 `0x596F0C` 只出现一次**（池项 `0x0807B278`），
+  由 `0x0807B220` 装载，而该指令在 `fn 0x0807AE04` 的 **case 7** 里 ——
+  case 7 只能由 `arg1 = 7` 进入，37 个调用点里只有
+  `0x0807C3D6` / `0x0807C4D6` 传 7，而它们都在 `fn 0x0807B8B8` 的循环里，
+  该循环入口把 `r8` 硬编码成 2，`0x0807C4CC: cmp r0,#1` 永远失败
+  ⇒ **两处都是死代码**。
+  运行时阴性对照（20 场剧情战斗）：同一次运行里 items 读者命中 **72** 次，
+  资源读者 **0** 次、`arg1=7` 调用点 **0** 次（正对照 + 阴性）。
+  ⇒ 本 bank 按 `LEGACY_REBASE` 先例重定基址到 `0x596CCC`。
+  ⇒ 加固缺口 **21 → 20**；等级分布 **L4=3 / L3=41 / L2=0 / L1=0 / 无=3**；
+  **所有 L2 / L3 / 文档 / 语义 / 证据类缺口清零，阻塞缺口 0**。
+- **2026-10-22 凌晨：回调派发点其实可达**（`notes/evidence/callback-dispatch-runtime-20261021.md`）
+  —— 2026-10-21 的「派发点 0 命中 ⇒ 只属于关卡/过场模式」结论**作废**：
+  那次断点普查有**工装 bug**（松手只在「没命中断点」时执行 ⇒ 游戏收不到按下沿
+  ⇒ 战斗过场不推进 ⇒ 单位永远不建），门控 `fn 0x0806DF88` 本身还有一个
+  结构性死因（`unit[0xC0] & 1` 永远不等于战斗中的 `ctrl[10]` = `0x0E`/`0x0F`）。
+  打开门控后，派发点全部命中并拿到运行时读数：
+  `battle-handlers` / `map-events` / `map-sprites` / `units` / `levels` 升到 **L3**，
+  `mission-text` 也拿到 **L3**（任务面板 `fn 0x080884DC` 的四张表）。
+  同时打通了**剧情 VM 的章节交接链**（`notes/evidence/menu-answer-channel-20261021.md`）：
+  菜单作答通道是 `0x0200A880`（选中行）+ `0x0200A882`（完成标志），
+  并且**推翻了**「`fn 0x0808F654` 是 `state[0x18]==1` 的消费者」——
+  全 ROM 原始半字扫描证明它是**死代码**，真正的消费者是 `0x0808F904`。
+  进一步**关卡模式也进得去了**（`notes/evidence/level-mode-l3-20261022.md`）：
+  `character-stats` / `character-stats-b` / `battle-config` /
+  `sprite-animations` / `sprite-action-table` 拿到 L3，
+  并顺带发现了此前未登记的函数指针表 `0x0853ECB0`（字宽表读者的调用表）。
+  第三个工装 bug 同时被挖出并修掉：**30 个观测点下在字面量池上**（数据，
+  断点永不命中）⇒ 修好后 `tile-assets`（`0x085A320C`）在**纯自然剧情路线**上
+  命中并拿到 L3（`r0 = 0x085A37E4` = 基址 + 22×68）。
+  音频方向也拿到两条 L3：**战斗 BGM 真的在放**，m4a 播放入口读了
+  `story`（`audio_song_1`）的 SongHeader 字段，剧情音效读了
+  `sound-id-table`（`0x08465B70`）
+  （`notes/evidence/m4a-songheader-l3-20261022.md`），
+  同时推翻了「引擎从不读 id 1 的 header 字段」这句旧结论。
+  第四个工装 bug 同时被挖出并修掉：**断点命中时寄存器被错位归档**
+  （`|pc - addr| <= 4` 才算真命中）。
+  价值最高的一条缺口也在这轮关掉：**对白指针表 `0x08461CE8`** 的读者
+  既无字面量读者也不在剧情路径上，而是**状态机相位 `0x0210`** 的处理器
+  （`notes/evidence/text-pointer-table-l3-20261022.md`）。
+  由此得到**相位路线**这个方法：状态机的 16 个相位分派就是各结构的
+  「读者入口表」，逐个 poke 相位再按 A 键，一次拿下
+  `data-table-a`（相位 `0x0300`）、`battle-encounters`（相位 `0x8000`）、
+  `data-table-b`（相位 `0x0000`/`0x0010`/`0x0700`）、
+  `function-pointers`（相位 `0x0110`/`0x0118`）的 L2+L3
+  （`notes/evidence/phase-route-l3-20261022.md`）。
+- **2026-10-21 退役的 3 个作废 bank**（`tools/table_registry.py::RETIRED`）：
+  `sappy-engine`（`0x08079668` 是文本分派函数）、`audio`（`0x53F138` 与音频无关）、
+  `palettes`（`0x53F138` 只是 `0x53F140` 数组的窗口，调色板真身在 VRAM `0x05000380`）。
+  三个 bank 保留文件作为审计留痕，但标记 `retired: true`、不再拥有任何表、
+  也不再被任何工具重新导入 —— 此前「身份作废应退役」这 2 条与
+  「基址需改指」这 1 条硬化缺口因此清零。
+- **2026-10-21 补齐的 9 个 legacy 基址**（`notes/evidence/legacy-rebase-final-20261021.md`）：
+  `battle-handlers` → `0x53E698`、`map-events` → `0x53E698`（同表）、
+  `fonts` → `0x53E596`、`data-table-a` → `0x5A143C`、
+  `data-table-b` → `0x5A2034`、`menu-ui` → `0x5A4DEC`（头像表）、
+  `function-pointers` → `0x53D5F0`、`tile-assets` → `0x5A320C`（79 条）、
+  `sappy-engine` **退役**。这批把「基址无效需重新定位」从 12 条降到 3 条，
+  格式已证明从 35/47 提到 **44/47**。
+- **2026-10-21 补齐的 5 个 L2 运行时证据**（`notes/evidence/l2-runtime-evidence-20261021.md`
+  + 可执行闸门 `tools/l2_runtime_capture.py --self-test`）：
+  `font-segments`、`sound-id-table`、`character-template`、`maps`、`portrait-table`
+  —— 断点命中原生消费者，寄存器/内存与字段一一对应，
+  并与静态表交叉核对。L2 从 **1** 提到 **5**。
+- **2026-10-21 补齐的能力项**（`notes/evidence/audio-song-export-20261021.md`、
+  `portrait-writeback-20261021.md`、`content-pack-export-20261021.md`）：
+  m4a → PCM 端到端合成已实现（修正了 PSG 频率表等 4 个真 bug）；
+  头像写回已实现并登记为**可执行**写回路径（`portrait-table` case，18/18 PASS）；
+  内容包导出 `--check` 通过，5740/5740 条记录逐字节可重建。
 - 本轮新增的三类**机器化**探针（见 §2.3）：
   ①`codecite` —— 原生代码定址（`notes/evidence/consumer-evidence.json` + ROM 指纹）；
   ②`notatable` —— 反向证明（基址在 ROM 里零引用 ⇒ 基址无效，身份已裁决）；
@@ -84,14 +221,15 @@
 
 | 判据 | 现状 | 差多少 |
 |---|---|---|
-| P1 | **35 / 47 达 L1 或以上，另 12 个已裁决（基址无效）** | **0 个「无独立证据」——P1 已达成** |
+| P1 | **44 / 47 达 L1 或以上，另 3 个已裁决（身份作废 / 别名退役）** | **0 个「无独立证据」——P1 已达成** |
 | P2 | 三类必测面**全部**达 L3（地图/战斗配置、剧情脚本、文本编码） | **P2 已达成** |
 | P3 | **0 条**阻塞缺口 | **P3 已达成** |
 
 > **100% 的含义**：P1 / P2 / P3 三条判据同时满足。
 > 这**不等于**「整个 ROM 每一处都反编译完了」——
-> L4（完整通关）仍然是 0，9 个结构仍待重新定位真实基址，
-> 105 条加固缺口列在下方。
+> L4（完整通关）只覆盖到 3 个结构，3 个结构是已裁决退役的别名/作废 bank，
+> 27 条加固缺口列在下方（其中 19 条是「未知字段已显式标注」的满足项，
+> 8 条是 4 个结构各缺 L2+L3）。
 
 ---
 
@@ -225,65 +363,65 @@ failed probes:
 
 | 结构 | ROM 范围 | 格式已证明 | 写回可用 | 等级 | 证据文件 | 剩余缺口 |
 |---|---|:---:|:---:|:---:|---|---|
-| 剧情脚本 VM 四根表 | `0x060C74` | ✅ | ✅ | **L3** | tools/synthetic_fixture.py::story_before；tools/mgba_probe/render_screen.py；notes/evidence/consumer-evidence.json::0x08060C74 | 44 条指令里 38 条已由原生代码证明、6 条仍为推定；未解的是那 6 条子指令的字段名 |
-| 字形段表 / 文本编码 | `0x53D644` | ✅ | ✅ | **L3** | tools/font_roundtrip.py；tools/mgba_probe/screen_text.py；notes/evidence/consumer-evidence.json::0x0853D644 | 8 个字符各有两个码位（基础 GB2312 序 + 扩展块）。规范码已定为**基础 GB2312 序里的那个**（8/8 复核通过），但其中 5 个在游戏自己的文本里两种拼写都出现过，因此「字符 → 码位」单值映射在字节级无法唯一还原；字节级精确的路径是 token 流（`tools/text_codec.py::encode_tokens`）（已更正：反向映射已从「取最小码位」改为**规范码**：基础 GB2312 序里的那个码（扩展块里的同字是冗余拼写，不规范）。证据与 5 条可证伪检验见 `notes/evidence/font-reverse-mapping-20261020.md`） |
-| 战斗角色槽 / 编成表 | `0x5461C4` | ✅ | ✅ | **L3** | tools/synthetic_fixture.py::battle_actors；notes/evidence/consumer-evidence.json::0x085461C4 | group/variant 等索引字段名仍是暂定名（槽内 +0x00/+0x01/+0x04/+0x0F 已证）（已更正：索引字段名已由消费者代码定名：`group_id`→**battle_stage**（`ctrl[1]`，步长 `0x1AAC`）、`variant_id`→**battle_sub**（`ctrl[2]`，步长 `0x8E4`）、`record_id`→**actor_slot**（0..11，`0xB8`）、`selector`→**character_id**（`+0x00`）、`aux_u32`→**unit_flags**（`+0x08`，bit0 = 阵营）、`+0x02/+0x03`→**spawn_x/spawn_y**、`+0x04`→**facing**） |
-| 运行时状态（WRAM 字段） | `—` | ✅ | ❌ | **L3** | notes/runtime-and-object-tables-20261020.md | `story_progress` / `story_branch` / `story_config` 三个字段仍无运行时读数（已更正：运行时读数已闭环：`scene_id`（`0x020311EA`）在开场剧情里是 **54 → 50 → 40**，`battle_stage`（`0x02026805`）= 40、`battle_sub`（`0x02026806`）= 0、队伍槽 1（`0x02022EF0`）= 角色 1（漩涡鸣人）等级 1；旧推断「`0x020311EA` 是场景号」**已被运行时读数证实**） |
-| 战斗胜负条件表 | `0x594758` | ✅ | ✅ | **L2** | tools/synthetic_fixture.py::battle_rules；notes/evidence/consumer-evidence.json::0x08594758 | `0x0202680C` 已收窄为「每场战斗计数/标志块的首字节」，仅在结算时被读（类型 2/4/9 的闸门 + `0x08077BB6` 的兜底），但原生代码没有写过偏移 0，是否真的在计回合仍未证明（已更正：类型 2 的判据已由原生代码证明为**回合上限到达**（`0x08077904` 比对 `ctrl[6]`=回合上限 与 `byte[0x0202680C]`），而且**从不读 `rule.a` / `rule.b`** —— 旧笔记「与类型 3 成对出现、意图是类型 3 的反面」的说法**作废**：它本来就不看 a/b，所以成对出现没有语义冲突；类型 3 = 「指定角色已离场」（`rule.a`=阵营、`rule.b`=角色 id，判据在 `0x020240C0` 的 12 个单位槽）） |
-| m4a SongHeader（sound id 11） | `0x53AB74` | ✅ | ✅ | **L1** | notes/evidence/story-table-family-20261020.md | 轨数据的块级格式（m4a 的 block 表）未逐字段拆解（已更正：旧基址 0x53AB78 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 11 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 11 行指向）） |
-| m4a SongHeader（sound id 14） | `0x53C3BC` | ✅ | ✅ | **L1** | notes/evidence/story-table-family-20261020.md | 轨数据的块级格式（m4a 的 block 表）未逐字段拆解（已更正：旧基址 0x53C3C0 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 14 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 14 行指向）） |
-| m4a SongHeader（sound id 1） | `0x536368` | ✅ | ✅ | **L1** | notes/evidence/story-table-family-20261020.md | 轨数据的块级格式（m4a 的 block 表）未逐字段拆解（已更正：旧基址 0x53636C 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 1 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 1 行指向）） |
-| m4a SongHeader（sound id 2） | `0x536BC4` | ✅ | ✅ | **L1** | notes/evidence/story-table-family-20261020.md | 轨数据的块级格式（m4a 的 block 表）未逐字段拆解（已更正：旧基址 0x536BC8 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 2 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 2 行指向）） |
-| m4a SongHeader（sound id 8） | `0x538FEC` | ✅ | ✅ | **L1** | notes/evidence/story-table-family-20261020.md | 轨数据的块级格式（m4a 的 block 表）未逐字段拆解（已更正：旧基址 0x538FF0 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 8 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 8 行指向）） |
-| map-sprites | `0x53F140` | ✅ | ✅ | **L1** | notes/evidence/consumer-evidence.json::0x0853F140 | 描述符记录内部字段名未定。已收窄：记录**变长自描述**（实测 12 或 28 字节交替），不是旧笔记说的「11 个字」；每条以一个 u32 ROM 指针开头，末尾带下一条记录的地址（已更正：权威基址 `0x53F140`（86 项 u32 指针表）；bank 里的 `0x53F1DC` 是它的第 39 项窗口） |
-| resource-pointers | `0x596F0C` | ✅ | ✅ | **L1** | notes/evidence/consumer-evidence.json::0x08596F0C | —（已更正：消费者已定位（`0x0807B220`，fn `0x0807AE04`）；该 bank 是精灵动作表 `0x596CCC` + `0x240` 的窗口，不是独立的资源指针表） |
-| save-state | `0x53D848` | ✅ | ✅ | **L1** | notes/evidence/consumer-evidence.json::0x0853D848 | —（已更正：`0x53D848` 已证实是 **WRAM 分配表**（10 组 `{u32 wram_addr, u32 size}`，4 个原生读者 `0x0806869A / 0x08068954 / 0x08068CC0 / 0x08068D98`），**不是**存档描述符表 —— 存档数据在 SRAM，不在 ROM） |
-| units | `0x53F298` | ✅ | ✅ | **L1** | notes/evidence/consumer-evidence.json::0x0853F298 | —（已更正：`0x53F298` **不是**「u16[64] 角色 ID 表」，而是 **43 项的 u16 重映射表**（{0..48} 去掉 {14,15,16,17,19,20} 的排列）；旧框架还横跨了`0x53F2EE`（16 项有符号增量表，读者 `0x08080AE0`）与 `0x53F318`（代码指针表）另外两张结构；消费者的取值方式已由原生代码证明：表值 **加上 WRAM `0x0202CA24` 的 u16**（运行时值）后 **掩到 16 位** ⇒ 目标是 64 KB 窗口内的索引。2026-07-11 笔记提出的可证伪判据「是否加到某个基址上」**已证实**；因为基址是运行时量，写回仍须限制在原生出现过的取值内 —— 见 `notes/evidence/units-offset-table-20261020.md`） |
-| 任务文字三表（标题/说明/提示） | `0x348DAC` | ✅ | ✅ | **L1** | tools/fixtures_extended.py::mission_text；notes/evidence/consumer-evidence.json::0x08348DAC | — |
-| 关卡数据块表（bank 名为 cutscene-scripts） | `0x53DF70` | ✅ | ✅ | **L1** | notes/evidence/cutscene-block-format-20261020.md；notes/evidence/consumer-evidence.json::0x0853DF70 | 四个块分别对应哪四张原版战斗地图，尚未逐一对照（已更正：`0x53DF70` **不是剧情 VM 脚本表**，而是**关卡数据块表**：**4 项 × 8 字节**，每项一对指针（LZ77 4bpp 图块 → VRAM `0x06016000`、LZ77 16 色调色板 → 调色板 RAM `0x05000380`），由 BIOS `svc 0x12`（LZ77UnCompVram）解压 —— 剧情 VM 从头到尾没碰过这些块；旧结构库「16 项 × u32」**作废**：原生步长是 8 字节；旧的 16 槽模型允许下标越过表尾写进下一张表（`0x53DFB0`）） |
-| 剧情底图表 | `0x59903C` | ✅ | ✅ | **L1** | tools/fixtures_extended.py::background_table；notes/evidence/consumer-evidence.json::0x0859903C | 剧情底图的 8bpp 条目用哪一路硬件 BG、是否开 256 色模式（`BGxCNT` bit8）仍需一次 IO 寄存器抓取；已确认的是 4bpp 与 8bpp **互斥**而不是叠加（已更正：8bpp 条目与 4bpp 条目**互斥**，不是图层：每条都是一整张 32×32 硬件 BG 地图（320 个真实条目 + 704 个填充条目 = 正好 2 KB 一屏；4bpp 填充 tile 0、8bpp 填充 tile 30），走同一个 loader、同一批 VRAM 槽、同一个调色板 bank；旧结论「8bpp 条目的层叠关系未还原」**作废** —— 不存在层叠） |
-| 头像表 + 拼块表 | `0x5A4DEC` | ✅ | ✅ | **L1** | tools/fixtures_extended.py::portrait_table；notes/evidence/consumer-evidence.json::0x085A4DEC | 表情 80×80 素材的导入/写回未做 |
-| 对白文本写回（字形码） | `0x461CE8` | ✅ | ✅ | **L1** | tools/verify_text_writeback.py | `sequel/editor.db` 被 gitignore，纯净检出下编辑器→构建 override 链空转（链本身的键集连接已修好；剩的是「数据库本体不入版本库」这个仓库策略问题）（已更正：`tools/find_sjis_blocks.py` 与 `tools/decode_dialogue_record.py` **已改用** `tools/text_codec.py`，不再依赖旧手工表 `sequel/content/text/sjis-to-tile-mapping.json`） |
-| 忍具名表 | `0x599634` | ✅ | ❌ | **L1** | tools/fixtures_extended.py::ninjutsu_names；notes/evidence/consumer-evidence.json::0x08599634 | — |
-| 战斗地图表（场景描述符） | `0x53D910` | ✅ | ✅ | **L1** | notes/resource-locations.md；tools/extract_tileset.py；notes/evidence/consumer-evidence.json::0x0853D910 | metatile 缓冲的 2048 上限是由两侧原生结构（`0x0201BE2C+0x1000` 与 `0x02021E2C`）夹出来的边界，而不是一条明确的分配语句（已更正：metatile 缓冲真实容量已闭环：WRAM `0x0201DE2C`，每项 **8 字节**（`0x08068F38 lsls r0,r0,#3`），容量 **2048 项**（= 0x4000 字节），实际最多用到 770 项；「没有图层 1」的判据已固化为 **`layer1_ptr == 0`（NULL）**：`0x08069082 cmp r2,#0` / `0x08069084 beq 0x0806909E`，没有别的哨兵值；47 条里 14 条非空、33 条为 NULL（已复核：非空下标 0/7/8/9/10/11/12/21/22/23/31/32/34/35）；地图描述符表有 **47** 条有效条目（0..46），不是 8 条） |
-| 战斗奖励表 | `0x59EAE0` | ✅ | ✅ | **L1** | tools/synthetic_fixture.py::reward_entry；notes/evidence/consumer-evidence.json::0x0859EAE0 | 记录尾部 +0x16 / +0x17 两个字节语义未定（112 条全为 0、无消费者读取）；类别 3（技术）的取值域只能由代码给出上界，因为本 ROM 的 112 条记录里没有一条用类别 3（已更正：尾部低字节已定为**奖励类别标签**（0=忍具 / 1=强化素材 / 2=认识卡 / 3=技术），不是数量也不是档位；条目步长已由消费者证明为 **24 字节** —— 旧笔记的 16 字节说法作废；类别 → 名字表对应由 ROM 自带的 4 槽指针表 `0x0859F5E0` 证明（`0x0808A02A` 载入，用尾字节做下标），不再只靠四个 arm 各挂一张字面量；328 个尾部槽位的 id **全部落在各自类别的名字表容量内**（0 越界）） |
-| 战斗遭遇记录表（0x54229C，16 字节/条） | `0x54229C` | ✅ | ❌ | **L1** | notes/evidence/remaining-rebase-leads-20261021.md | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址错位，已更正为 `0x54229C`（详见 notes/evidence/remaining-rebase-leads-20261021.md）） |
-| 技能 bank（0x546100，与 items 同址） | `0x545BE4` | ✅ | ❌ | **L1** | notes/evidence/legacy-rebase-nearby-20261020.md | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 `0x546100` 是这张表的**第 81 条 + 12 字节**的错位窗口；真基址是 `0x545BE4`（16 字节/条，94 条，7 个原生读者）；与 `items` 同址已裁决：同一张表，规范名 `skills`） |
-| 技能表（bank 名为 battle-config） | `0x545458` | ✅ | ✅ | **L1** | tools/fixtures_extended.py::skill_table；notes/evidence/consumer-evidence.json::0x08545458 | —（已更正：`0x545458` 已确认为 16 字节记录表（87 条），不是 u32 指针表 —— 旧结论作废，写回路径见 `tools/import_character_template.py`） |
-| 机关效果表 / 拾取分派表 / 建立期分支 | `0x0808136C` | ✅ | ❌ | **L1** | notes/mechanisms-20261020.md；notes/evidence/consumer-evidence.json::0x0808136C | —（已更正：target 9 **根本到不了效果表**：`0x08081984` 先把它截走，走「两个剧情 VM 脚本 + 计数器 + 单位 `+0xCE += 25`」的分支；表槽 `0x0808138C → 0x080814CC` 是死代码；target 11 是**空操作**：`0x08081394 = 0x080814CC`，直接落到共享收尾（关窗 → 播 `config[0]` BGM → 等按键），而且原版 46 关里一次都没用过 target 11；type 5/6/7 **不决定脚本**，脚本由 target 决定：`0x080815E4[4]=[5]=[6]=0x08081984` 共用一个处理分支；type 只决定运行时对象类型（3/4/5-6 ⇒ 精灵 + 拾取音效）；旧结论「13 项效果表中 target 9/11 语义未定」**作废**） |
-| 精灵动作表 | `0x596CCC` | ✅ | ✅ | **L1** | notes/sprite-frame-format-20261020.md；notes/evidence/consumer-evidence.json::0x08596CCC | —（已更正：ROM `0x25A8E5` 的字节已定为 **`0xFF`**：它是 4 字节终止符 `ff ff 00 00` 里 u16 `tile` 的高字节。把这一字节改成 `0xFF` 后，全 ROM 的完整终止符数量恰好 +1（复核：5546 → 5547），且合法的最大 tile 下标只有 **768**（`0xFBFF`=64511 超出取值域 84 倍）；「帧描述符上限 32 片」**不是 ROM 约束**：实测单帧最多 **5** 片（分布 1 片 2562 / 2 片 70 / 3 片 26 / 5 片 16），触到 32 的条目为 0） |
-| 精灵帧描述符表（0x53EE98，10 字节步长） | `0x53EE98` | ✅ | ❌ | **L1** | notes/evidence/units-offset-table-20261020.md | 五个 u16 字段（+0 类别/链表结束、+2/+4 有符号量、+6 类别、+8 结束标志）的业务名未定（已更正：这张表此前**完全没有被登记**：它在 ROM 里有 3 个原生读者（`0x080806BA` / `0x0808077E` / `0x0808082E`），步长 10 字节、15 条记录（`0x53EE98`..`0x53EF2E`）；它之所以查不到，是因为 `notes/evidence/consumer-evidence.json` 只存了 54 张表，而字面量索引有 18051 个值（1196 个是活的）—— 邻域分析必须查全量索引；暂列**只读参考**：五个字段的业务名都还没定，写它没有可写的已知字段） |
-| 角色定义表 | `0x54241C` | ✅ | ✅ | **L1** | notes/character-template-format-20261020.md；notes/evidence/consumer-evidence.json::0x0854241C | 12 字节头的 +0x00 / +0x07、以及 0x545458 记录里的 +0x00/+0x01 与 +0x03/+0x0A/+0x0B/+0x0D/+0x0F 语义未定；条目字节 4（pad）未定（已更正：`0x545458` 已确认为 **16 字节忍术记录表**（87 条，下标 = 忍术 id），不是 u32 指针表 —— 旧结论作废，写回路径见 `tools/import_character_template.py`；`+0x0A` 已由原生代码证明是**体力基数**（`0x0806DA46`），不再存疑；仓库内已有可复现提取器 `tools/character_templates.py` 与往返自检（`tools/writeback_paths.py::character-template`）） |
-| 角色特性表（0x5459C8，12 字节/条） | `0x5459C8` | ✅ | ❌ | **L1** | notes/evidence/legacy-rebase-nearby-20261020.md；notes/evidence/consumer-evidence.json::0x085459C8 | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址错位，已更正为 `0x5459C8`（详见 notes/evidence/legacy-rebase-nearby-20261020.md）） |
-| 逐角色属性表（0x545068，16 字节/条） | `0x545068` | ✅ | ❌ | **L1** | notes/evidence/legacy-rebase-nearby-20261020.md；notes/evidence/consumer-evidence.json::0x08545068 | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址错位，已更正为 `0x545068`（详见 notes/evidence/legacy-rebase-nearby-20261020.md）） |
-| 逐角色属性表（同表，0x545068 另一个错位窗口） | `0x545068` | ✅ | ❌ | **L1** | notes/evidence/legacy-rebase-nearby-20261020.md；notes/evidence/consumer-evidence.json::0x08545068 | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址错位，已更正为 `0x545068`（详见 notes/evidence/legacy-rebase-nearby-20261020.md）） |
-| 道具/技能记录表（0x545BE4，与 skills 同址） | `0x545BE4` | ✅ | ❌ | **L1** | notes/evidence/legacy-rebase-nearby-20261020.md | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 `0x546100` 是这张表的**第 81 条 + 12 字节**的错位窗口；真基址是 `0x545BE4`（16 字节/条，94 条，7 个原生读者），表尾正好接战斗编成矩阵 `0x5461C4`） |
-| 遭遇区 bank（0x53D910，与 maps 同址） | `0x53D910` | ✅ | ✅ | **L1** | notes/evidence/consumer-evidence.json::0x0853D910 | —（已更正：与 `maps` 同称 `0x53D910`：已裁决为**同一张表**的别名，规范名 `maps`；旧结论「地图描述符从 `0x53D914` 起」**作废** —— 那是旧逻辑的错误基址；原生 loader `0x08069040` 直接以 `0x0853D910` 为基址、步长 32 字节，首条目就是 `0x53D910`（见 `notes/battle-config-unsafe-template-fix-20260710.md`）） |
-| 音频 sound-ID 表 | `0x465B70` | ✅ | ❌ | **L1** | notes/resource-locations.md；tools/extract_audio.py；notes/evidence/consumer-evidence.json::0x08465B70 | 完整乐曲 m4a→PCM 端到端合成未实现；CGB PSG 声道无法导出 |
-| Sappy 引擎 bank（0x079668，已被证伪） | `0x079668` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 0x08079668 已证实是文本/消息脚本解释器，不是 Sappy 音频分发器；bank 里的 command_handlers / event_audio_mapping 结论作废 |
-| battle-handlers | `0x53E6D8` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 消费者未定位 |
-| data-table-a | `0x5A14A4` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 表内容未定性 |
-| data-table-b | `0x5A2120` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 表内容未定性 |
-| fonts | `0x53E5B4` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 0x53E5B4 字宽表与 0x53D644 字形段表的关系未裁决 |
-| function-pointers | `0x53D5F4` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 消费者未定位 |
-| map-events | `0x53EB08` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 消费者未定位 |
-| menu-ui | `0x5A5774` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 消费者未定位 |
-| tile-assets | `0x5A3218` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 与 0x5A3218 的地块规则关系未裁决 |
-| 精灵动画 bank（0x53F200，与真表 0x596CCC 不同） | `0x53F200` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 真正的精灵动作表是 0x596CCC（见 sprite-action-table 行）；本 bank 的 0x53F200 身份未裁决 |
-| 调色板 bank（0x53F138，身份冲突） | `0x53F138` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 与 audio 同称 0x53F138，身份未拆清 |
-| 音频 bank（0x53F138，身份冲突） | `0x53F138` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | 与 palettes 同称 0x53F138；实测该处是 motion/callback/sprite 对象，与音频无关；真正的 sound-ID 表在 0x465B70（见 sound-id-table 行） |
+| 剧情脚本 VM 四根表 | `0x060C74` | ✅ | ✅ | **L4** | tools/synthetic_fixture.py::story_before；tools/mgba_probe/render_screen.py；notes/evidence/consumer-evidence.json::0x08060C74 | —（已更正：44 条指令里 **38 条已由原生代码证明、6 条仍为推定** —— 2026-10-21 已全部定案：6 个 helper 逐条反汇编完，字段语义已定，全部升为 `proved`（44/44）；**L4 的「全流程」轴已达成 55/55**：每一场都能被调度到，且游戏实际使用的脚本指针与根表条目逐位相等（见 `notes/evidence/l4-playthrough-20261021.md`）） |
+| 战斗地图表（场景描述符） | `0x53D910` | ✅ | ✅ | **L4** | notes/resource-locations.md；tools/extract_tileset.py；notes/evidence/consumer-evidence.json::0x0853D910 | —（已更正：metatile 缓冲的容量**不再是从两侧结构夹出来的**：缓冲**基址 `0x0201DE2C`** 与**末端 `0x02021E2C`** 是 ROM 代码里**成对出现的两个字面量常量**（分别在 `0x08068F58` 与 `0x080690E8`，同一个字面量池），步长 **8 字节**（`0x08068F38 lsls r0,r0,#3`），因此容量 = `0x4000/8` = **2048 项**。**仍未证实**：引擎没有一条显式的「下标 < 2048」越界检查，「越界会被拒绝」这句话**无证据**；metatile 缓冲真实容量已闭环：WRAM `0x0201DE2C`，每项 **8 字节**（`0x08068F38 lsls r0,r0,#3`），容量 **2048 项**（= 0x4000 字节），实际最多用到 770 项；「没有图层 1」的判据已固化为 **`layer1_ptr == 0`（NULL）**：`0x08069082 cmp r2,#0` / `0x08069084 beq 0x0806909E`，没有别的哨兵值；47 条里 14 条非空、33 条为 NULL（已复核：非空下标 0/7/8/9/10/11/12/21/22/23/31/32/34/35）；地图描述符表有 **47** 条有效条目（0..46），不是 8 条） |
+| 战斗角色槽 / 编成表 | `0x5461C4` | ✅ | ✅ | **L4** | tools/synthetic_fixture.py::battle_actors；notes/evidence/consumer-evidence.json::0x085461C4 | group/variant 等索引字段名仍是暂定名（槽内 +0x00/+0x01/+0x04/+0x0F 已证）（已更正：索引字段名已由消费者代码定名：`group_id`→**battle_stage**（`ctrl[1]`，步长 `0x1AAC`）、`variant_id`→**battle_sub**（`ctrl[2]`，步长 `0x8E4`）、`record_id`→**actor_slot**（0..11，`0xB8`）、`selector`→**character_id**（`+0x00`）、`aux_u32`→**unit_flags**（`+0x08`，bit0 = 阵营）、`+0x02/+0x03`→**spawn_x/spawn_y**、`+0x04`→**facing**） |
+| m4a SongHeader（sound id 11） | `0x53AB74` | ✅ | ✅ | **L3** | notes/evidence/story-table-family-20261020.md；notes/evidence/m4a-block-table-20261021.md | —（已更正：旧基址 0x53AB78 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 11 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 11 行指向）；**轨数据的块级格式已逐字段拆解**（2026-10-21）：「block 表」就是 SongHeader 本身 —— `+0x00` u8 轨道数、`+0x01` u8（本 ROM 全为 0 且引擎不读）、`+0x02` u8 优先级、`+0x03` u8 标志（bit7 = 混响）、`+0x04` u32 voicegroup 指针、`+0x08` 起 `u32 track_ptr[轨道数]`；每个 `track_ptr[i]` 指向一个**无头**的 block —— 扁平命令流，以 FINE（`0xB1`）结束、其后是 0x00 padding。命令编码：`0x00-0x7F` 是**续写字节**（running opcode 的操作数）、`0x80-0xB0` 是 WAIT、`0xB1-0xCE` 是命令表（`0x08464534`，30 项，索引 `op-0xB1`）、`0xCF-0xFF` 是 NOTE（0~3 个可选参数字节）。**running opcode 规则**（`0x0809A4F8 cmp r1,#0xbd` / `0x0809A4FC strb r1,[r5,#7]`）：**所有 `>= 0xBD` 的 opcode 都更新 running opcode**（不只是音符）。循环：GOTO `0xB2`（4 字节**小端**目标）、PATT `0xB3`（栈深 3）、PEND `0xB4`（空栈 = 继续）、REPT `0xB5`（`count` + 目标，count 0 = 无限）。往返自检：5 首曲子 45 个 block（9952 字节 / 6333 条命令）**45/45 逐字节相同**。见 `notes/evidence/m4a-block-table-20261021.md`） |
+| m4a SongHeader（sound id 14） | `0x53C3BC` | ✅ | ✅ | **L3** | notes/evidence/story-table-family-20261020.md；notes/evidence/m4a-block-table-20261021.md | —（已更正：旧基址 0x53C3C0 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 14 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 14 行指向）；**轨数据的块级格式已逐字段拆解**（2026-10-21）：「block 表」就是 SongHeader 本身 —— `+0x00` u8 轨道数、`+0x01` u8（本 ROM 全为 0 且引擎不读）、`+0x02` u8 优先级、`+0x03` u8 标志（bit7 = 混响）、`+0x04` u32 voicegroup 指针、`+0x08` 起 `u32 track_ptr[轨道数]`；每个 `track_ptr[i]` 指向一个**无头**的 block —— 扁平命令流，以 FINE（`0xB1`）结束、其后是 0x00 padding。命令编码：`0x00-0x7F` 是**续写字节**（running opcode 的操作数）、`0x80-0xB0` 是 WAIT、`0xB1-0xCE` 是命令表（`0x08464534`，30 项，索引 `op-0xB1`）、`0xCF-0xFF` 是 NOTE（0~3 个可选参数字节）。**running opcode 规则**（`0x0809A4F8 cmp r1,#0xbd` / `0x0809A4FC strb r1,[r5,#7]`）：**所有 `>= 0xBD` 的 opcode 都更新 running opcode**（不只是音符）。循环：GOTO `0xB2`（4 字节**小端**目标）、PATT `0xB3`（栈深 3）、PEND `0xB4`（空栈 = 继续）、REPT `0xB5`（`count` + 目标，count 0 = 无限）。往返自检：5 首曲子 45 个 block（9952 字节 / 6333 条命令）**45/45 逐字节相同**。见 `notes/evidence/m4a-block-table-20261021.md`） |
+| m4a SongHeader（sound id 1） | `0x536368` | ✅ | ✅ | **L3** | notes/evidence/story-table-family-20261020.md；notes/evidence/m4a-block-table-20261021.md | —（已更正：旧基址 0x53636C 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 1 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 1 行指向）；**轨数据的块级格式已逐字段拆解**（2026-10-21）：「block 表」就是 SongHeader 本身 —— `+0x00` u8 轨道数、`+0x01` u8（本 ROM 全为 0 且引擎不读）、`+0x02` u8 优先级、`+0x03` u8 标志（bit7 = 混响）、`+0x04` u32 voicegroup 指针、`+0x08` 起 `u32 track_ptr[轨道数]`；每个 `track_ptr[i]` 指向一个**无头**的 block —— 扁平命令流，以 FINE（`0xB1`）结束、其后是 0x00 padding。命令编码：`0x00-0x7F` 是**续写字节**（running opcode 的操作数）、`0x80-0xB0` 是 WAIT、`0xB1-0xCE` 是命令表（`0x08464534`，30 项，索引 `op-0xB1`）、`0xCF-0xFF` 是 NOTE（0~3 个可选参数字节）。**running opcode 规则**（`0x0809A4F8 cmp r1,#0xbd` / `0x0809A4FC strb r1,[r5,#7]`）：**所有 `>= 0xBD` 的 opcode 都更新 running opcode**（不只是音符）。循环：GOTO `0xB2`（4 字节**小端**目标）、PATT `0xB3`（栈深 3）、PEND `0xB4`（空栈 = 继续）、REPT `0xB5`（`count` + 目标，count 0 = 无限）。往返自检：5 首曲子 45 个 block（9952 字节 / 6333 条命令）**45/45 逐字节相同**。见 `notes/evidence/m4a-block-table-20261021.md`） |
+| m4a SongHeader（sound id 2） | `0x536BC4` | ✅ | ✅ | **L3** | notes/evidence/story-table-family-20261020.md；notes/evidence/m4a-block-table-20261021.md | —（已更正：旧基址 0x536BC8 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 2 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 2 行指向）；**轨数据的块级格式已逐字段拆解**（2026-10-21）：「block 表」就是 SongHeader 本身 —— `+0x00` u8 轨道数、`+0x01` u8（本 ROM 全为 0 且引擎不读）、`+0x02` u8 优先级、`+0x03` u8 标志（bit7 = 混响）、`+0x04` u32 voicegroup 指针、`+0x08` 起 `u32 track_ptr[轨道数]`；每个 `track_ptr[i]` 指向一个**无头**的 block —— 扁平命令流，以 FINE（`0xB1`）结束、其后是 0x00 padding。命令编码：`0x00-0x7F` 是**续写字节**（running opcode 的操作数）、`0x80-0xB0` 是 WAIT、`0xB1-0xCE` 是命令表（`0x08464534`，30 项，索引 `op-0xB1`）、`0xCF-0xFF` 是 NOTE（0~3 个可选参数字节）。**running opcode 规则**（`0x0809A4F8 cmp r1,#0xbd` / `0x0809A4FC strb r1,[r5,#7]`）：**所有 `>= 0xBD` 的 opcode 都更新 running opcode**（不只是音符）。循环：GOTO `0xB2`（4 字节**小端**目标）、PATT `0xB3`（栈深 3）、PEND `0xB4`（空栈 = 继续）、REPT `0xB5`（`count` + 目标，count 0 = 无限）。往返自检：5 首曲子 45 个 block（9952 字节 / 6333 条命令）**45/45 逐字节相同**。见 `notes/evidence/m4a-block-table-20261021.md`） |
+| m4a SongHeader（sound id 8） | `0x538FEC` | ✅ | ✅ | **L3** | notes/evidence/story-table-family-20261020.md；notes/evidence/m4a-block-table-20261021.md | —（已更正：旧基址 0x538FF0 晚了 4 字节 —— 它锚在 `voicegroup_ptr` 字段（+0x04）而不是表头起点。本结构**不是**剧情表，而是 sound id 8 的 **m4a SongHeader**（由 sound-ID 表 `0x465B70` 的第 8 行指向）；**轨数据的块级格式已逐字段拆解**（2026-10-21）：「block 表」就是 SongHeader 本身 —— `+0x00` u8 轨道数、`+0x01` u8（本 ROM 全为 0 且引擎不读）、`+0x02` u8 优先级、`+0x03` u8 标志（bit7 = 混响）、`+0x04` u32 voicegroup 指针、`+0x08` 起 `u32 track_ptr[轨道数]`；每个 `track_ptr[i]` 指向一个**无头**的 block —— 扁平命令流，以 FINE（`0xB1`）结束、其后是 0x00 padding。命令编码：`0x00-0x7F` 是**续写字节**（running opcode 的操作数）、`0x80-0xB0` 是 WAIT、`0xB1-0xCE` 是命令表（`0x08464534`，30 项，索引 `op-0xB1`）、`0xCF-0xFF` 是 NOTE（0~3 个可选参数字节）。**running opcode 规则**（`0x0809A4F8 cmp r1,#0xbd` / `0x0809A4FC strb r1,[r5,#7]`）：**所有 `>= 0xBD` 的 opcode 都更新 running opcode**（不只是音符）。循环：GOTO `0xB2`（4 字节**小端**目标）、PATT `0xB3`（栈深 3）、PEND `0xB4`（空栈 = 继续）、REPT `0xB5`（`count` + 目标，count 0 = 无限）。往返自检：5 首曲子 45 个 block（9952 字节 / 6333 条命令）**45/45 逐字节相同**。见 `notes/evidence/m4a-block-table-20261021.md`） |
+| map-sprites | `0x53F140` | ✅ | ✅ | **L3** | notes/evidence/consumer-evidence.json::0x0853F140 | 描述符记录内部字段名未定。已收窄：记录**变长自描述**（实测 12 或 28 字节交替），不是旧笔记说的「11 个字」；每条以一个 u32 ROM 指针开头，末尾带下一条记录的地址（已更正：权威基址 `0x53F140`（86 项 u32 指针表）；bank 里的 `0x53F1DC` 是它的第 39 项窗口） |
+| save-state | `0x53D848` | ✅ | ✅ | **L3** | tools/mgba_probe/l3_evidence_sweep.py；notes/evidence/consumer-evidence.json::0x0853D848 | —（已更正：`0x53D848` 已证实是 **WRAM 分配表**（10 组 `{u32 wram_addr, u32 size}`，4 个原生读者 `0x0806869A / 0x08068954 / 0x08068CC0 / 0x08068D98`），**不是**存档描述符表 —— 存档数据在 SRAM，不在 ROM） |
+| units | `0x53F298` | ✅ | ✅ | **L3** | tools/mgba_probe/l3_evidence_sweep.py；notes/evidence/consumer-evidence.json::0x0853F298 | —（已更正：`0x53F298` **不是**「u16[64] 角色 ID 表」，而是 **43 项的 u16 重映射表**（{0..48} 去掉 {14,15,16,17,19,20} 的排列）；旧框架还横跨了`0x53F2EE`（16 项有符号增量表，读者 `0x08080AE0`）与 `0x53F318`（代码指针表）另外两张结构；消费者的取值方式已由原生代码证明：表值 **加上 WRAM `0x0202CA24` 的 u16**（运行时值）后 **掩到 16 位** ⇒ 目标是 64 KB 窗口内的索引。2026-07-11 笔记提出的可证伪判据「是否加到某个基址上」**已证实**；因为基址是运行时量，写回仍须限制在原生出现过的取值内 —— 见 `notes/evidence/units-offset-table-20261020.md`） |
+| 任务文字三表（标题/说明/提示） | `0x348DAC` | ✅ | ✅ | **L3** | tools/fixtures_extended.py::mission_text；notes/evidence/consumer-evidence.json::0x08348DAC | — |
+| 关卡数据块表（bank 名为 cutscene-scripts） | `0x53DF70` | ✅ | ✅ | **L3** | notes/evidence/cutscene-block-format-20261020.md；tools/mgba_probe/l3_evidence_sweep.py；notes/evidence/consumer-evidence.json::0x0853DF70 | —（已更正：`0x53DF70` **不是剧情 VM 脚本表**，而是**关卡数据块表**：**4 项 × 8 字节**，每项一对指针（LZ77 4bpp 图块 → VRAM `0x06016000`、LZ77 16 色调色板 → 调色板 RAM `0x05000380`），由 BIOS `svc 0x12`（LZ77UnCompVram）解压 —— 剧情 VM 从头到尾没碰过这些块；旧结构库「16 项 × u32」**作废**：原生步长是 8 字节；旧的 16 槽模型允许下标越过表尾写进下一张表（`0x53DFB0`）；**「这四块对应哪四张原版战斗地图」的前提已被证伪**（2026-10-21）：四个块用 BIOS `svc 0x12` 解压出 **4096/4096/4096/2048 字节**（= 128/128/128/64 张 4bpp 图块），而 47 个战斗地图描述符的原图图块集只有 **156–276 字节（4–8 张图块）**；把每张地图的图块集逐张（32 字节）对上四个块的图块集合，**一张都匹配不上**。所以它们是**关卡/过场自己的 4bpp 图块集**，不是战斗地图的图块集；**加载器已被自然触发（2026-10-22）** —— 旧注记「55 个剧情场景、开机流程、真实战斗里加载器一次都没命中，属于剧情/战斗之外的第四种模式，本轮探针能到达的范围内无法触发」**作废**：**相位 `0x0118`**（`0x0808F94A`：置战斗标志 bit 1 → `bl 0x080732B4` 跑剧情战斗 → 清标志）就能命中判定点 `0x08072F0E`，此时 **`r4 = 0x0853DF70`**、表首 32 字节被 dump 出（4 条 8 字节记录，word0 = ROM 源地址 `0x0812xxxx`）。同时更正：**表读取没有前提条件** —— `0x08072EEE` 处的 `cmp r2,#0 / beq 0x08072F0C` 只决定要不要顺手置标志，`beq` 直接跳到装载指令，两条路径都会读表。见 `notes/evidence/cutscene-scripts-l3-20261022.md`） |
+| 函数指针表（0x53D5F0，13 槽 u32） | `0x53D5F0` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-final-20261021.md；notes/evidence/consumer-evidence.json::0x0853D5F0 | 记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 0x53D5F4 是槽 1；槽 0 与槽 12 是 FFFFFFFF 哨兵，槽 1..11 是 11 个代码指针（0x08061C8D 起每槽 +12 字节等距）） |
+| 剧情底图表 | `0x59903C` | ✅ | ✅ | **L3** | tools/fixtures_extended.py::background_table；tools/mgba_probe/l3_evidence_sweep.py；notes/evidence/consumer-evidence.json::0x0859903C | —（已更正：8bpp 底图条目用哪一路 BG、是否开 256 色模式**已闭环**（2026-10-21）：底图加载器 `0x08088348` 的第二个参数就是 **BG 号**（`0x0808835C`），运行时遍历 **55 个剧情场景**读到**每一次都是 BG0**（`DISPCNT` bit 8，`0x080883EA` 写 `1 << (8+BG)`），**8bpp 底图走 BG0**。256 色模式确实开着，但**位号是 `BGxCNT` bit 7（0x80），不是 bit 8**（bit 8 是屏幕基址块的最低位）—— 写入点在 `0x0808840E`（`movs r0,#0x80` / `orrs r3,r0`），4bpp 分支（`0x0808840C beq`）不置这一位。运行时 IO 抓取：8bpp 场景（50 / 47）`BG0CNT = 0x0087`（bit7 = 1），4bpp 场景（40）`BG0CNT = 0x0007`（bit7 = 0），`DISPCNT = 0x1F40`。底图表 320 条里有 **192 条**是 8bpp（`条目+0x0C != 0`）；8bpp 条目与 4bpp 条目**互斥**，不是图层：每条都是一整张 32×32 硬件 BG 地图（320 个真实条目 + 704 个填充条目 = 正好 2 KB 一屏；4bpp 填充 tile 0、8bpp 填充 tile 30），走同一个 loader、同一批 VRAM 槽、同一个调色板 bank；旧结论「8bpp 条目的层叠关系未还原」**作废** —— 不存在层叠） |
+| 图块/精灵资源记录表（0x5A320C，68 字节/条 x 79） | `0x5A320C` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-final-20261021.md；notes/evidence/consumer-evidence.json::0x085A320C | 记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 0x5A3218 是记录 0 的 +0x0C 指针块窗口（6 个 u32），不是表基址；记录数 79 由「指针块结构在 0x5A4708 处干净断裂」确定。2026-10-21 补充：本表有 **9 个**字面量读者（0x08087E30 / 0x0809851C / 0x08098840 / 0x08098AF0 / 0x08098DB0 / 0x08098FC0 / 0x08099464 / 0x08099698 / 0x08099D10），旧笔记只记了 2 个） |
+| 处理程序分派表（0x53E698，8 字节/条 x 256） | `0x53E698` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-final-20261021.md；notes/evidence/consumer-evidence.json::0x0853E698 | 记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 0x53E6D8 是本表第 8 条起、只读每条第一个 u32 的错位窗口；真实基址 0x53E698 有 2 个原生读者（决策点 0x0807F934 与 0x0807FD36），表尾正好接精灵帧描述符表 0x53EE98。2026-10-21 更正：消费者不是 fn 0x0807F414（它不读本表）；两个派发点都用 **同一个 u8 索引字节 0x02027350**，0x0807FD36 处是 'ldrb r0,[sb+0x770]' -> '*8' -> 'ldr' -> 'bl 0x0809C114'） |
+| 处理程序分派表（同表，0x53E698 另一个窗口） | `0x53E698` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-final-20261021.md；notes/evidence/consumer-evidence.json::0x0853E698 | 记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 0x53EB08 = 0x53E698 + 142*8，是 8 字节记录按 4 字节步长读出来的窗口；map-events 与 battle-handlers 是同一张表） |
+| 头像指针表（0x5A4DEC，40 字节/条 x 63） | `0x5A4DEC` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-final-20261021.md；tools/mgba_probe/l3_evidence_sweep.py；notes/evidence/consumer-evidence.json::0x085A4DEC | 记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 0x5A5774 = 0x5A4DEC + 61*40，是头像表第 61..62 行的窗口，不是独立的菜单 UI 表；读者 0x08096158 按 id*40 + expr*8 索引） |
+| 头像表 + 拼块表 | `0x5A4DEC` | ✅ | ✅ | **L3** | tools/fixtures_extended.py::portrait_table；tools/mgba_probe/l3_evidence_sweep.py；notes/evidence/consumer-evidence.json::0x085A4DEC | —（已更正：头像素材 = BIOS LZ77（`svc 0x11`）解压的 **6400 字节 8bpp 图形** + **128 字节原始 BGR555 调色板**；每条表情的压缩预算 2320–4008 字节，310 条表情全部能用回引用 LZ77 **压得更小**（余量 11–51 字节）⇒ 写回可行；旧的「80*80/2 = 6400 字节 4bpp」算法**作废**：6400 字节是 8bpp（100 张 64 字节图块）；有效头像是 **62 个 id / 310 条表情**（行 63 的指针不在 ROM 内，是垃圾指针）；2026-10-21：「参数 << 4」的语义**已由原生代码钉死**（`0x080961D6`..`0x080961F8`）：它是 `if (byte != 0) byte = (byte + (param << 4)) & 0xFF`，只作用于解压后 6400 字节里的**前 6144 字节**。**同一个 `param` 决定调色板槽 `0x05000200 + param*32`**（整张 64 色调色板被 CpuSet 进去），所以这次改写是**调色板索引平移**（把实际使用的 16 色窗口重基到 0..15），**不是描边、也不是换色**。旧结论「换色/描边未证实」**作废**。**运行时读数已拿到**（`tools/closure_portrait_probe.py`，场景 1 与 5 各一次）：在头像加载器的 VRAM 拷贝点 `0x08096202` 断下，**WRAM 暂存缓冲 `0x02002880` 的前 6144 字节**与「ROM LZ77 解压结果 + 单个 `param<<4` 平移」**逐字节相等（0 不符）**，其中 `param<<4 = 0x40`（param = 4）—— 差分直方图只有这一个值，作用在 4309 个**非零**字节上，**零字节一个都没动**。**比对目标必须是 WRAM 暂存缓冲**：VRAM `0x06011900` 装的是**6 块拼好的 80×80 成品**，布局与源图不同（旧工具拿它跟单块源图比，得出 4925 个不符 —— 那是**模型错了**，不是数据错）；另外暂存缓冲**尾部 256 字节不是 ROM 的尾部**（是这块共享缓冲的残留），所以「后 256 字节不动」应理解为「后 256 字节不属于图形」。；2026-10-21：拼块表 `portrait_pieces`（`0x4643C0`）的**基址已闭合** —— 旧说「`0x084643C0` 零字面量读者 ⇒ 拿不到基址」**作废**：这张表的地址是指针，存放在静态描述符 `0x0846443C` 的**首字**，而该描述符地址被 **7 处原生代码**加载（`0x08077D12` / `0x08089B06` / `0x0808B356` / `0x08091036` / `0x08091680` / `0x08093846` / `0x08096618`，其中 `0x08096618` 在头像加载路径上）。运行时读数（`tools/closure_portrait_pieces.py`）：描述符首字读出 **`0x084643C0`**，6×20 = 120 字节与 ROM **逐字节相等**。6 条记录字段 = 「起始 tile / 0 / x / y / w / h / 0x0100 / 0x0100 / 0x20FF / 0」，**无重叠**拼出 80×80（256+512+512+512+512+4096 = 6400）。顺带钉死池结构：源 tile 100 张来自条目 u32[0] 的 LZ77 头像（解压正好 6400 字节），另外 **36 个空位**（4..7 / 16..23 / 32..39 / 48..55 / 64..71）是**表情差分**（条目 u32[1] 的原始图块数据）的落点） |
+| 字宽表（0x53E596，1 字节/条 x 256，按字符码索引） | `0x53E596` | ✅ | ❌ | **L3** | notes/evidence/fonts-spriteframe-l3-20261022.md；notes/evidence/consumer-evidence.json::0x0853E596 | 记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 0x53E5B4 晚了 30 字节；唯一原生读者 0x0807F0FC 用 'ldrb' 取字符码后加到 0x0853E596 取宽度，所以表长是 256（与字符码一一对应）。2026-10-21 更正：旧笔记说「消费者是 fn 0x0807EE50」**不成立** —— fn 0x0807EE50 读的是另一张表 0x0853E328（字形度量，6 字节/字形）；0x0853E596 全 ROM 只有 1 处字面量引用（0x0807F114），消费者函数是 0x0807F064 起的那段。索引字节与 battle-handlers 共用：u8 @ 0x02027350） |
+| 字形段表 / 文本编码 | `0x53D644` | ✅ | ✅ | **L3** | tools/font_roundtrip.py；tools/mgba_probe/screen_text.py；notes/evidence/consumer-evidence.json::0x0853D644 | —（已更正：反向映射已从「取最小码位」改为**规范码**：基础 GB2312 序里的那个码（扩展块里的同字是冗余拼写，不规范）。证据与 5 条可证伪检验见 `notes/evidence/font-reverse-mapping-20261020.md`；**「8 个字符两个码位」在字节级不再是歧义**（2026-10-21）：ROM 的 **9141 个真实文本块**逐个做「码级 token 流 → 字节」往返，**9141/9141 逐字节相同**（含全部 794 个含双码位字符的块）。唯一且字节精确的表示是**码级 token 流**；`tools/text_codec.py::encode_tokens` 直接写码、不走「字符 → 码位」反查表，所以对两种拼写都精确。「字符 → 码位」只是方便层，在这 8 个字符上**必然有损**，规范码是**约定**而不是唯一解） |
+| 对白文本写回（字形码） | `0x461CE8` | ✅ | ✅ | **L3** | tools/verify_text_writeback.py | —（已更正：`tools/find_sjis_blocks.py` 与 `tools/decode_dialogue_record.py` **已改用** `tools/text_codec.py`，不再依赖旧手工表 `sequel/content/text/sjis-to-tile-mapping.json`；**「`sequel/editor.db` 被 gitignore ⇒ 纯净检出下 override 链空转」已解决**：新增 `tools/build_editor_db.py`，从仓库内容（`sequel/content/*/bank.json`）**重建**数据库，并当场验证「编辑器 → 构建」链真的产出补丁（实测 applied 5533 / rejected 549）；`--check` 模式会逐个生成器报 applied/rejected，「全部被拒」就是基址或字段名过期的信号。见 `notes/evidence/editor-db-override-chain-20261021.md`） |
+| 忍具名表 | `0x599634` | ✅ | ❌ | **L3** | tools/fixtures_extended.py::ninjutsu_names；notes/evidence/consumer-evidence.json::0x08599634 | — |
+| 战斗奖励表 | `0x59EAE0` | ✅ | ✅ | **L3** | tools/synthetic_fixture.py::reward_entry；notes/evidence/consumer-evidence.json::0x0859EAE0 | 记录尾部 +0x16 / +0x17 两个字节语义未定（112 条全为 0、无消费者读取）；类别 3（技术）的取值域只能由代码给出上界，因为本 ROM 的 112 条记录里没有一条用类别 3（已更正：尾部低字节已定为**奖励类别标签**（0=忍具 / 1=强化素材 / 2=认识卡 / 3=技术），不是数量也不是档位；条目步长已由消费者证明为 **24 字节** —— 旧笔记的 16 字节说法作废；类别 → 名字表对应由 ROM 自带的 4 槽指针表 `0x0859F5E0` 证明（`0x0808A02A` 载入，用尾字节做下标），不再只靠四个 arm 各挂一张字面量；328 个尾部槽位的 id **全部落在各自类别的名字表容量内**（0 越界）） |
+| 战斗胜负条件表 | `0x594758` | ✅ | ✅ | **L3** | tools/synthetic_fixture.py::battle_rules；tools/mgba_probe/l3_evidence_sweep.py；notes/evidence/consumer-evidence.json::0x08594758 | —（已更正：`0x0202680C` **就是回合计数**（2026-10-21，旧的「不是回合计数」结论**作废**）：它是战斗控制块 `0x02026804` 的 **+8** 字节，类型 2 的胜利条件正是「`0x0202680C` == `ctrl[6]`（回合上限，`0x0202680A`）」（`0x08077914`..`0x0807791A`；上限为 0 时该规则不生效）。运行时读数（`tools/closure_round_probe.py`，组 9 / 子 0）：只按 A 时战斗停在界面、计数不动；**按 DOWN + A 真的把回合打完**时，计数从 **1 变 2**。旧审计「40 轮按键全程为 0」的那次读数是因为**战斗没推进过回合**；类型 2 的判据已由原生代码证明为**回合上限到达**（`0x08077904` 比对 `ctrl[6]`=回合上限 与 `byte[0x0202680C]`），而且**从不读 `rule.a` / `rule.b`** —— 旧笔记「与类型 3 成对出现、意图是类型 3 的反面」的说法**作废**：它本来就不看 a/b，所以成对出现没有语义冲突；类型 3 = 「指定角色已离场」（`rule.a`=阵营、`rule.b`=角色 id，判据在 `0x020240C0` 的 12 个单位槽）） |
+| 战斗遭遇记录表（0x54229C，16 字节/条） | `0x54229C` | ✅ | ❌ | **L3** | notes/evidence/remaining-rebase-leads-20261021.md | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址错位，已更正为 `0x54229C`（详见 notes/evidence/remaining-rebase-leads-20261021.md）） |
+| 技能 bank（0x546100，与 items 同址） | `0x545BE4` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-nearby-20261020.md | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 `0x546100` 是这张表的**第 81 条 + 12 字节**的错位窗口；真基址是 `0x545BE4`（16 字节/条，94 条，7 个原生读者）；与 `items` 同址已裁决：同一张表，规范名 `skills`） |
+| 技能表（bank 名为 battle-config） | `0x545458` | ✅ | ✅ | **L3** | tools/fixtures_extended.py::skill_table；notes/evidence/consumer-evidence.json::0x08545458 | —（已更正：`0x545458` 已确认为 16 字节记录表（87 条），不是 u32 指针表 —— 旧结论作废，写回路径见 `tools/import_character_template.py`） |
+| 数据指针表 A（0x5A143C，u32 ROM 指针 x 46） | `0x5A143C` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-final-20261021.md；notes/evidence/consumer-evidence.json::0x085A143C | 记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 0x5A14A4 = 0x5A143C + 26*4；46 项全部是 ROM 指针。2026-10-21 补充：本表有 **2 个**字面量读者 0x0808A704 与 0x0808B214，旧笔记只记了后者） |
+| 数据指针表 B（0x5A2034，u32 x 90） | `0x5A2034` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-final-20261021.md；notes/evidence/consumer-evidence.json::0x085A2034 | 记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 0x5A2120 = 0x5A2034 + 59*4；90 项里 79 项是 ROM 指针） |
+| 机关效果表 / 拾取分派表 / 建立期分支 | `0x0808136C` | ✅ | ❌ | **L3** | notes/mechanisms-20261020.md；notes/evidence/consumer-evidence.json::0x0808136C | —（已更正：**这张表不是数据表，是 13 项函数指针跳转表**（2026-10-22）：`0x08081350: ldr r1,[pc,#0x14]` 装 `0x0808136C`、`0x08081352/54/56` 算 `&表[下标]` 并 `mov pc, r0` —— Thumb-2 switch 惯用法，下标 = 传入值 - 1，必须落在 0..12。旧注记把它当「13 项效果表」是错的；target 9 **根本到不了效果表**：`0x08081984` 先把它截走，走「两个剧情 VM 脚本 + 计数器 + 单位 `+0xCE += 25`」的分支；表槽 `0x0808138C → 0x080814CC` 是死代码；target 11 是**空操作**：`0x08081394 = 0x080814CC`，直接落到共享收尾（关窗 → 播 `config[0]` BGM → 等按键），而且原版 46 关里一次都没用过 target 11；type 5/6/7 **不决定脚本**，脚本由 target 决定：`0x080815E4[4]=[5]=[6]=0x08081984` 共用一个处理分支；type 只决定运行时对象类型（3/4/5-6 ⇒ 精灵 + 拾取音效）；旧结论「13 项效果表中 target 9/11 语义未定」**作废**；**运行时读数已取得（2026-10-22）**：路线是剧情战斗 `fn 0x080732B4` → `0x0807498C` → `fn 0x08081544`（第二个关卡对象处理器，按 `record+4` 做 7 路分派）→ `0x08081ADE` → `fn 0x080812DC` → 读 `0x0808136C`。判定点 `0x08081350` 命中，`r2 = 1` = 机制下标（= `record[+6]`）。见 `notes/evidence/mechanism-effects-l3-20261022.md`） |
+| 精灵动作表 | `0x596CCC` | ✅ | ✅ | **L3** | notes/sprite-frame-format-20261020.md；notes/evidence/consumer-evidence.json::0x08596CCC | —（已更正：ROM `0x25A8E5` 的字节已定为 **`0xFF`**：它是 4 字节终止符 `ff ff 00 00` 里 u16 `tile` 的高字节。把这一字节改成 `0xFF` 后，全 ROM 的完整终止符数量恰好 +1（复核：5546 → 5547），且合法的最大 tile 下标只有 **768**（`0xFBFF`=64511 超出取值域 84 倍）；「帧描述符上限 32 片」**不是 ROM 约束**：实测单帧最多 **5** 片（分布 1 片 2562 / 2 片 70 / 3 片 26 / 5 片 16），触到 32 的条目为 0） |
+| 精灵动作表（0x596CCC，id*144 + action*16） | `0x596CCC` | ✅ | ❌ | **L3** | notes/evidence/consumer-evidence.json::0x08596CCC | —（已更正：旧基址 0x53F200 是 0x53F140 起的指针数组第 48 项起的 38 字节窗口，不是独立表；真实基址 0x596CCC 有 18 个原生读者，条目 = 4 个 u32 指针 (frames, animations, gfx, palette)；本 bank 与 `sprite-action-table` 是同一张表；写回路径与判死检验统一走 `sprite-action-table`（见 tools/writeback_paths.py 的 `sprite-action-table` case），本行只作别名留档） |
+| 精灵帧描述符表（0x53EE98，10 字节步长） | `0x53EE98` | ✅ | ❌ | **L3** | notes/evidence/units-offset-table-20261020.md | 五个 u16 字段（+0 类别/链表结束、+2/+4 有符号量、+6 类别、+8 结束标志）的业务名未定（已更正：这张表此前**完全没有被登记**：它在 ROM 里有 3 个原生读者（`0x080806BA` / `0x0808077E` / `0x0808082E`），步长 10 字节、15 条记录（`0x53EE98`..`0x53EF2E`）；它之所以查不到，是因为 `notes/evidence/consumer-evidence.json` 只存了 54 张表，而字面量索引有 18051 个值（1196 个是活的）—— 邻域分析必须查全量索引；暂列**只读参考**：五个字段的业务名都还没定，写它没有可写的已知字段；**运行时读数已取得（2026-10-22）**：读者 `fn 0x08080670` 在`--force-dispatch` 路线上命中，判定点 `0x080806BC` 处 `r1 = 0x0853EE98`（表基址）、`r4 = 0x0853EEA2 / 0x0853EEB6 / 0x0853EED4` = **基址 + 下标 × 10**，**步长 10 字节得到运行时证实**。见 `notes/evidence/fonts-spriteframe-l3-20261022.md`） |
+| 角色定义表 | `0x54241C` | ✅ | ✅ | **L3** | notes/character-template-format-20261020.md；tools/mgba_probe/l3_evidence_sweep.py；notes/evidence/consumer-evidence.json::0x0854241C | 12 字节头的 +0x00 / +0x07、以及 0x545458 记录里的 +0x00/+0x01 与 +0x03/+0x0A/+0x0B/+0x0D/+0x0F 语义未定；条目字节 4（pad）未定（已更正：`0x545458` 已确认为 **16 字节忍术记录表**（87 条，下标 = 忍术 id），不是 u32 指针表 —— 旧结论作废，写回路径见 `tools/import_character_template.py`；`+0x0A` 已由原生代码证明是**体力基数**（`0x0806DA46`），不再存疑；仓库内已有可复现提取器 `tools/character_templates.py` 与往返自检（`tools/writeback_paths.py::character-template`）） |
+| 角色特性表（0x5459C8，12 字节/条） | `0x5459C8` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-nearby-20261020.md；notes/evidence/consumer-evidence.json::0x085459C8 | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址错位，已更正为 `0x5459C8`（详见 notes/evidence/legacy-rebase-nearby-20261020.md）） |
+| 资源指针表（0x596CCC，与精灵动作表同址；旧基址 0x596F0C 是其 +0x240 窗口） | `0x596CCC` | ✅ | ✅ | **L3** | notes/evidence/resource-pointers-deadcode-20261022.md；notes/evidence/consumer-evidence.json::0x08596CCC | 记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：2026-10-22：旧基址 `0x596F0C` 是精灵动作表 `0x596CCC` 的第 36 项窗口（+0x240），**不是独立的资源指针表**；全 ROM 里 `0x596F0C` 只出现一次（池项 `0x0807B278`），由 `0x0807B220` 装载，而该指令在 `fn 0x0807AE04` 的 **case 7** 里 —— case 7 只能由 `arg1 = 7` 进入，两个 `arg1 = 7` 的调用点（`0x0807C3D6` / `0x0807C4D6`）都在 `fn 0x0807B8B8` 的循环里，该循环入口把 `r8` 硬编码成 2，`0x0807C4CC: cmp r0,#1` 永远失败 ⇒ **两处都是死代码**。运行时阴性对照（20 场剧情战斗）：同路线 items 读者命中 72 次，资源读者 0 次、`arg1=7` 调用点 0 次。⇒ 本 bank 按 `LEGACY_REBASE` 的先例重定基址到 `0x596CCC`（有活着的原生读者 `0x0806B76C` 真正装载的那个基址），与 `sprite-animations` / `sprite-action-table` 同址；旧结论「唯一原生读者是 `0x0807B220`」**作废**。详见 `notes/evidence/resource-pointers-deadcode-20261022.md`） |
+| 运行时状态（WRAM 字段） | `—` | ✅ | ❌ | **L3** | notes/runtime-and-object-tables-20261020.md | —（已更正：运行时读数已闭环：`scene_id`（`0x020311EA`）在开场剧情里是 **54 → 50 → 40**，`battle_stage`（`0x02026805`）= 40、`battle_sub`（`0x02026806`）= 0、队伍槽 1（`0x02022EF0`）= 角色 1（漩涡鸣人）等级 1；旧推断「`0x020311EA` 是场景号」**已被运行时读数证实**；**`story_config[0]` 的非零读数已闭合（2026-10-22）**：旧归因「由调度器 `0x0808F5C8` 写入、`0x0808F5CC` 随即清零，所以任何快照都拍不到」**归因错误** —— 逐指令核对显示 `0x0808F5C8` **只**在「before」路径上执行，而那条路径的前提正是 `state[0x18] == 0`，所以调度器**恒写 0**；真正的写入者是剧情 VM 的 **opcode `0x1F`**（`0x08097C40: strb r0,[r1,#0x19]`，操作数 = 战斗 sub-config）。场景 **2/3/4/6/7** 的 before 脚本都用 `1F 01`，因此游戏自己会写 **1**。实测（`tools/mgba_probe/runtime_state_probe.py`，场景 2 + 作答行 1）：`0x08097C40` 命中、`r0 = 1`、内存 `0x020311ED` = **`0x01`** ⇒ 非零读数成立。见 `notes/evidence/runtime-state-story-config-20261022.md`；`story_progress` = `0x020311E4`（u16，VM 的「设进度」opcode 在 `0x08097BD4` 置成绝对值；调度器在 `0x0808F5E0` 跟 **360** 比较）；`story_branch` = `0x020311EC`（u8，调度器在 `0x0808F5A0` 读它来选「after」根表，`0x0808F5CC` 清零；**场景 31** 读出 **1**）；`story_config` = `0x020311ED..EF`） |
+| 逐角色属性表（0x545068，16 字节/条） | `0x545068` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-nearby-20261020.md；notes/evidence/consumer-evidence.json::0x08545068 | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址错位，已更正为 `0x545068`（详见 notes/evidence/legacy-rebase-nearby-20261020.md）） |
+| 逐角色属性表（同表，0x545068 另一个错位窗口） | `0x545068` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-nearby-20261020.md；notes/evidence/consumer-evidence.json::0x08545068 | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址错位，已更正为 `0x545068`（详见 notes/evidence/legacy-rebase-nearby-20261020.md）） |
+| 道具/技能记录表（0x545BE4，与 skills 同址） | `0x545BE4` | ✅ | ❌ | **L3** | notes/evidence/legacy-rebase-nearby-20261020.md | 记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废）（已更正：旧基址 `0x546100` 是这张表的**第 81 条 + 12 字节**的错位窗口；真基址是 `0x545BE4`（16 字节/条，94 条，7 个原生读者），表尾正好接战斗编成矩阵 `0x5461C4`） |
+| 遭遇区 bank（0x53D910，与 maps 同址） | `0x53D910` | ✅ | ✅ | **L3** | tools/mgba_probe/l3_evidence_sweep.py；notes/evidence/consumer-evidence.json::0x0853D910 | —（已更正：与 `maps` 同称 `0x53D910`：已裁决为**同一张表**的别名，规范名 `maps`；旧结论「地图描述符从 `0x53D914` 起」**作废** —— 那是旧逻辑的错误基址；原生 loader `0x08069040` 直接以 `0x0853D910` 为基址、步长 32 字节，首条目就是 `0x53D910`（见 `notes/battle-config-unsafe-template-fix-20260710.md`）） |
+| 音频 sound-ID 表 | `0x465B70` | ✅ | ❌ | **L3** | notes/resource-locations.md；tools/extract_audio.py；notes/evidence/consumer-evidence.json::0x08465B70 | —（已更正：**DirectSound 弯音（pitch bend）插值已实现**（2026-10-21）：引擎的弯音链已按本 ROM 的代码逐条转写并用探针对拍：BEND(0xC0) 写 `通道+0x0E = 操作数-0x40`（`0x0809A368`）、BENDR(0xC1) 写 `通道+0x0F = 量程`（`0x0809A37C`，复位默认 2，`0x0809A4D6`）；累加器 `0x0809B450`..`0x0809B486` 给出 `S = (tune + bend*range)*4 + (keyShift<<8)`、`通道+0x08 = (s8)(S>>8)`（半音偏移）、`通道+0x09 = (u8)S`（分数）；音高键 = 音符键 + 半音偏移（负则夹 0，`0x0809A8A2`），DirectSound 音高 = `((f(k) + ((f(k+1)-f(k))*fraction>>8)) * wave[4]) >> 32`（`0x0809A998`；`>>32` 来自 ARM 态助手 `0x08099D80`）。`tools/audio_song_export.py` 现在算的是**同一套整数**，并用 `tools/closure_pitch_check.py` 对拍引擎自己的读数：**179 条引擎音高读数 0 处不符**（含弯音分数 128/160 与半音偏移 +4/−1）。五个原生曲子的 PSG 导出仍与 ROM 原始字节逐事件相符（616/534/746/612/498）；**PSG 频率表只有 12 项有符号 16 位**（`ldrsh` @ `0x0809B4FE`），不是 16 项无符号 —— 旧工具读 16 个 u16，**读进了噪声表**；旧工具还有 `+0x800` 偏置、算术右移、噪声 key 重映射（`key<=20 ? 0 : min(key-21,59)`）与 `key-36` 先减后夹的顺序错误。现在五个已知 SongHeader 的 PSG 事件数（616/534/746/612/498）已与 ROM 原始字节逐条对上；m4a 引擎语义（tempo `0x0809A2E8`、tick 栅格 `0x0809A474`/`0x0809A5C6`、命令表 `0x08464534`、音符频率 `0x0809A998`、PSG 频率 `0x0809B494`、循环 `0x0809A25C/27C/298/2AC`）已按**本 ROM 的代码**逐条反汇编证实；**块级轨道重写已实现**（2026-10-21）：block 表就是 SongHeader 本身，`track_ptr[i]` 指向无头的命令流（FINE 结束）；`tools/m4a_block_table.py` 的 decode→encode 对 45 个原生 block **逐字节相同**，并支持就地重写 / 重建 / 停在自由区并改指针；`tools/import_audio_song.py --block trackN=json[,offset]` 已接上，写回自检新增 case `audio-block-1`（19/19 PASS）；**running opcode 规则已修**：`0x0809A4F8 cmp r1,#0xbd` 表明**所有 `>= 0xBD` 的 opcode 都更新 running opcode**（不只是音符）；旧解码器只在音符时更新，把 MOD/EOT 的参数读成了 key=0 的假音符（101 字节 / 11 条轨道）。修完后两个独立解码器**零分歧**） |
+| Sappy 引擎 bank（0x079668，已被证伪） | `0x079668` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | —（已更正：**已退役**（`tools/table_registry.py::RETIRED`）：0x08079668 已证实是文本/消息对象分派函数，不是 Sappy 音频分发器；bank 里的 command_handlers / event_audio_mapping 结论作废） |
+| 调色板 bank（已退役：是 map-sprites 的别名窗口） | `0x53F138` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | —（已更正：**已退役**（`tools/table_registry.py::RETIRED`）：`0x53F138` 只是 `0x53F140` 起的 86 项 u32 指针数组头部 2 个代码指针的窗口；那里不是 RGB555 调色板。真正的调色板数据在 `0x05000380`（VRAM 调色板 RAM，由 `0x53DF70` 关卡数据块经 BIOS `svc 0x12` 解压写入）） |
+| 音频 bank（已退役：0x53F138 与音频无关） | `0x53F138` | ❌ | ❌ | **none** | —；[基址已裁决：ROM 零引用] | —（已更正：**已退役**（`tools/table_registry.py::RETIRED`）：`0x53F138` 处是 `0x53F140` 指针数组头部的 2 个代码指针（场景对象/motion/callback 描述符），与音频无关；本 bank 的 Sappy 叙事整体作废。真正的 sound-ID 表在 `0x465B70`（见 sound-id-table 行）） |
 
 ## 汇总
 
-- L4 完整通关：`0`
-- L3 模拟器按键：`4`
-- L2 原生定点：`1`
-- L1 工具产出：`30`
-- 无证据：`12`
-- 格式已证明：`35` / `47`
+- L4 完整通关：`3`
+- L3 模拟器按键：`41`
+- L2 原生定点：`0`
+- L1 工具产出：`0`
+- 无证据：`3`
+- 格式已证明：`44` / `47`
 - 写回可用：`24` / `47`
-- 基址已裁决（ROM 零引用，基址无效）：`12`
-- 原生消费者证据：`notes/evidence/consumer-evidence.json` （状态 `ok`，覆盖 54 张表）
+- 基址已裁决（ROM 零引用，基址无效）：`3`
+- 原生消费者证据：`notes/evidence/consumer-evidence.json` （状态 `ok`，覆盖 61 张表）
 
 > 下列渲染产物**未被 git 跟踪**，纯净检出下不存在；本审计只把它们当作“可由已提交工具重新生成”的附带证据：
 > - `build/tiles/battle_00_map_layer0_0.png`（maps，本地已生成，未提交）
@@ -296,115 +434,30 @@ failed probes:
 | # | 结构 | 等级 | 缺口 | 需要的证据 | 价值 | 难度 |
 |---:|---|:---:|---|---|---:|---:|
 
-### 加固缺口（`105` 条，不属于 100% 门槛，但会提高可信度）
+### 加固缺口（`20` 条，不属于 100% 门槛，但会提高可信度）
 
 | # | 结构 | 等级 | 缺口 | 需要的证据 | 价值 | 难度 |
 |---:|---|:---:|---|---|---:|---:|
-| 1 | 对白文本写回（字形码） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 5 | 2 |
-| 2 | 字形段表 / 文本编码 | L3 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 4 | 2 |
-| 3 | 战斗角色槽 / 编成表 | L3 | 未知字段已显式标注：group/variant 等索引字段名仍是暂定名（槽内 +0x00/+0x01/+0x04/+0x0F 已证） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 4 | 2 |
-| 4 | 对白文本写回（字形码） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 4 | 2 |
-| 5 | 战斗胜负条件表 | L2 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 5 | 3 |
-| 6 | 战斗地图表（场景描述符） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 5 | 3 |
-| 7 | 字形段表 / 文本编码 | L3 | 取值规则未唯一化：8 个字符各有两个码位（基础 GB2312 序 + 扩展块）。规范码已定为**基础 GB2312 序里的那个**（8/8 复核通过），但其中 5 个在游戏自己的文本里两种拼写都出现过，因此「字符 → 码位」单值映射在字节级无法唯一还原；字节级精确的路径是 token 流（`tools/text_codec.py::encode_tokens`） | 需要把这条查找/编码规则收敛成唯一且可机械执行的一条。 | 3 | 2 |
-| 8 | 对白文本写回（字形码） | L1 | 工具/导出能力缺失：`sequel/editor.db` 被 gitignore，纯净检出下编辑器→构建 override 链空转（链本身的键集连接已修好；剩的是「数据库本体不入版本库」这个仓库策略问题） | 需要一个能把这份内容完整导出或写回的命令。 | 3 | 2 |
-| 9 | 战斗胜负条件表 | L2 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 4 | 3 |
-| 10 | 战斗胜负条件表 | L2 | 缺运行时证据闭环：`0x0202680C` 已收窄为「每场战斗计数/标志块的首字节」，仅在结算时被读（类型 2/4/9 的闸门 + `0x08077BB6` 的兜底），但原生代码没有写过偏移 0，是否真的在计回合仍未证明 | 需要一次原生定点或模拟器复现，把这条静态推导变成运行时读数。 | 4 | 3 |
-| 11 | 战斗地图表（场景描述符） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 4 | 3 |
-| 12 | 战斗地图表（场景描述符） | L1 | 缺运行时证据闭环：metatile 缓冲的 2048 上限是由两侧原生结构（`0x0201BE2C+0x1000` 与 `0x02021E2C`）夹出来的边界，而不是一条明确的分配语句 | 需要一次原生定点或模拟器复现，把这条静态推导变成运行时读数。 | 4 | 3 |
-| 13 | 任务文字三表（标题/说明/提示） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 4 | 3 |
-| 14 | 战斗角色槽 / 编成表 | L3 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 4 | 3 |
-| 15 | 剧情脚本 VM 四根表 | L3 | 未知字段已显式标注：44 条指令里 38 条已由原生代码证明、6 条仍为推定；未解的是那 6 条子指令的字段名 | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 4 | 3 |
-| 16 | 角色定义表 | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 4 | 4 |
-| 17 | 战斗奖励表 | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 4 | 4 |
-| 18 | 音频 sound-ID 表 | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 4 | 4 |
-| 19 | 剧情脚本 VM 四根表 | L3 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 4 | 4 |
-| 20 | 技能表（bank 名为 battle-config） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 3 | 3 |
-| 21 | 角色定义表 | L1 | 未知字段已显式标注：12 字节头的 +0x00 / +0x07、以及 0x545458 记录里的 +0x00/+0x01 与 +0x03/+0x0A/+0x0B/+0x0D/+0x0F 语义未定；条目字节 4（pad）未定 | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 3 | 3 |
-| 22 | 任务文字三表（标题/说明/提示） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 3 | 3 |
-| 23 | 战斗奖励表 | L1 | 未知字段已显式标注：记录尾部 +0x16 / +0x17 两个字节语义未定（112 条全为 0、无消费者读取）；类别 3（技术）的取值域只能由代码给出上界，因为本 ROM 的 112 条记录里没有一条用类别 3 | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 3 | 3 |
-| 24 | 运行时状态（WRAM 字段） | L3 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 3 | 3 |
-| 25 | 运行时状态（WRAM 字段） | L3 | 缺运行时证据闭环：`story_progress` / `story_branch` / `story_config` 三个字段仍无运行时读数 | 需要一次原生定点或模拟器复现，把这条静态推导变成运行时读数。 | 3 | 3 |
-| 26 | 角色定义表 | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 3 | 4 |
-| 27 | 关卡数据块表（bank 名为 cutscene-scripts） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 3 | 4 |
-| 28 | 机关效果表 / 拾取分派表 / 建立期分支 | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 3 | 4 |
-| 29 | 头像表 + 拼块表 | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 3 | 4 |
-| 30 | 战斗奖励表 | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 3 | 4 |
-| 31 | 音频 sound-ID 表 | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 3 | 4 |
-| 32 | 精灵动作表 | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 3 | 4 |
-| 33 | 精灵帧描述符表（0x53EE98，10 字节步长） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 3 | 4 |
-| 34 | 剧情底图表 | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 3 | 4 |
-| 35 | 技能表（bank 名为 battle-config） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 2 | 3 |
-| 36 | 音频 sound-ID 表 | L1 | 工具/导出能力缺失：完整乐曲 m4a→PCM 端到端合成未实现 | 需要一个能把这份内容完整导出或写回的命令。 | 2 | 3 |
-| 37 | 音频 sound-ID 表 | L1 | 工具/导出能力缺失：CGB PSG 声道无法导出 | 需要一个能把这份内容完整导出或写回的命令。 | 2 | 3 |
-| 38 | 精灵帧描述符表（0x53EE98，10 字节步长） | L1 | 未知字段已显式标注：五个 u16 字段（+0 类别/链表结束、+2/+4 有符号量、+6 类别、+8 结束标志）的业务名未定 | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 2 | 3 |
-| 39 | 战斗遭遇记录表（0x54229C，16 字节/条） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 40 | 逐角色属性表（0x545068，16 字节/条） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 41 | 逐角色属性表（同表，0x545068 另一个错位窗口） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 42 | 关卡数据块表（bank 名为 cutscene-scripts） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 2 | 4 |
-| 43 | 遭遇区 bank（0x53D910，与 maps 同址） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 44 | 道具/技能记录表（0x545BE4，与 skills 同址） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 45 | 角色特性表（0x5459C8，12 字节/条） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 46 | map-sprites | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 47 | 机关效果表 / 拾取分派表 / 建立期分支 | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 2 | 4 |
-| 48 | 忍具名表 | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 49 | 头像表 + 拼块表 | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 2 | 4 |
-| 50 | resource-pointers | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 51 | save-state | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 52 | 技能 bank（0x546100，与 items 同址） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 53 | 精灵动作表 | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 2 | 4 |
-| 54 | 精灵帧描述符表（0x53EE98，10 字节步长） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 2 | 4 |
-| 55 | m4a SongHeader（sound id 1） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 56 | m4a SongHeader（sound id 2） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 57 | 剧情底图表 | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 2 | 4 |
-| 58 | 剧情底图表 | L1 | 缺运行时证据闭环：剧情底图的 8bpp 条目用哪一路硬件 BG、是否开 256 色模式（`BGxCNT` bit8）仍需一次 IO 寄存器抓取；已确认的是 4bpp 与 8bpp **互斥**而不是叠加 | 需要一次原生定点或模拟器复现，把这条静态推导变成运行时读数。 | 2 | 4 |
-| 59 | m4a SongHeader（sound id 8） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 60 | m4a SongHeader（sound id 11） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 61 | m4a SongHeader（sound id 14） | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 62 | units | L1 | 缺模拟器按键复现 | 需要用 mGBA 探针注入正常按键走到该结构生效的场景，并保存运行时读数与结构字段的唯一对应。 | 2 | 4 |
-| 63 | 音频 bank（0x53F138，身份冲突） | none | 身份已作废，应退役该 bank | registry 已裁决：falsified: 0x53F138 与音频无关，其 Sappy 叙事整体作废。该地址不对应任何结构 —— 应当把这个 bank 从内容目录退役（或改名并指向真正对应的表），而不是再去找基址；本结构的具体待办：与 palettes 同称 0x53F138；实测该处是 motion/callback/sprite 对象，与音频无关；真正的 sound-ID 表在 0x465B70（见 sound-id-table 行） | 1 | 2 |
-| 64 | Sappy 引擎 bank（0x079668，已被证伪） | none | 基址无效，需重新定位 | 该地址已被证明在 ROM 里零引用（不是任何结构的基址）。需要用原生消费者定位（tools/consumer_locate.py）找到真正拥有这张表的地址，再重新做格式证明。；本结构的具体待办：0x08079668 已证实是文本/消息脚本解释器，不是 Sappy 音频分发器；bank 里的 command_handlers / event_audio_mapping 结论作废 | 1 | 2 |
-| 65 | 战斗遭遇记录表（0x54229C，16 字节/条） | L1 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
-| 66 | battle-handlers | none | 基址无效，需重新定位 | 该地址已被证明在 ROM 里零引用（不是任何结构的基址）。需要用原生消费者定位（tools/consumer_locate.py）找到真正拥有这张表的地址，再重新做格式证明。；本结构的具体待办：消费者未定位 | 1 | 3 |
-| 67 | 逐角色属性表（0x545068，16 字节/条） | L1 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
-| 68 | 逐角色属性表（同表，0x545068 另一个错位窗口） | L1 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
-| 69 | 关卡数据块表（bank 名为 cutscene-scripts） | L1 | 取值规则未唯一化：四个块分别对应哪四张原版战斗地图，尚未逐一对照 | 需要把这条查找/编码规则收敛成唯一且可机械执行的一条。 | 1 | 3 |
-| 70 | data-table-a | none | 基址无效，需重新定位 | 该地址已被证明在 ROM 里零引用（不是任何结构的基址）。需要用原生消费者定位（tools/consumer_locate.py）找到真正拥有这张表的地址，再重新做格式证明。；本结构的具体待办：表内容未定性 | 1 | 3 |
-| 71 | data-table-b | none | 基址无效，需重新定位 | 该地址已被证明在 ROM 里零引用（不是任何结构的基址）。需要用原生消费者定位（tools/consumer_locate.py）找到真正拥有这张表的地址，再重新做格式证明。；本结构的具体待办：表内容未定性 | 1 | 3 |
-| 72 | fonts | none | 基址无效，需重新定位 | 该地址已被证明在 ROM 里零引用（不是任何结构的基址）。需要用原生消费者定位（tools/consumer_locate.py）找到真正拥有这张表的地址，再重新做格式证明。；本结构的具体待办：0x53E5B4 字宽表与 0x53D644 字形段表的关系未裁决 | 1 | 3 |
-| 73 | function-pointers | none | 基址无效，需重新定位 | 该地址已被证明在 ROM 里零引用（不是任何结构的基址）。需要用原生消费者定位（tools/consumer_locate.py）找到真正拥有这张表的地址，再重新做格式证明。；本结构的具体待办：消费者未定位 | 1 | 3 |
-| 74 | 道具/技能记录表（0x545BE4，与 skills 同址） | L1 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
-| 75 | 角色特性表（0x5459C8，12 字节/条） | L1 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
-| 76 | map-events | none | 基址无效，需重新定位 | 该地址已被证明在 ROM 里零引用（不是任何结构的基址）。需要用原生消费者定位（tools/consumer_locate.py）找到真正拥有这张表的地址，再重新做格式证明。；本结构的具体待办：消费者未定位 | 1 | 3 |
-| 77 | map-sprites | L1 | 未知字段已显式标注：描述符记录内部字段名未定。已收窄：记录**变长自描述**（实测 12 或 28 字节交替），不是旧笔记说的「11 个字」；每条以一个 u32 ROM 指针开头，末尾带下一条记录的地址 | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
-| 78 | menu-ui | none | 基址无效，需重新定位 | 该地址已被证明在 ROM 里零引用（不是任何结构的基址）。需要用原生消费者定位（tools/consumer_locate.py）找到真正拥有这张表的地址，再重新做格式证明。；本结构的具体待办：消费者未定位 | 1 | 3 |
-| 79 | 调色板 bank（0x53F138，身份冲突） | none | 基址需改指到裁决后的真实基址 | registry 已裁决：deprecated-window: 目标不是 RGB555 调色板；0x53F138 只是 0x53F140 数组头部 2 个代码指针的窗口。真实基址是 0x53F140 —— 把本 bank 的 `table_offset` 指过去即可，不需要再找（见 tools/table_registry.py::CONFLICTS）；本结构的具体待办：与 audio 同称 0x53F138，身份未拆清 | 1 | 3 |
-| 80 | 头像表 + 拼块表 | L1 | 工具/导出能力缺失：表情 80×80 素材的导入/写回未做 | 需要一个能把这份内容完整导出或写回的命令。 | 1 | 3 |
-| 81 | 技能 bank（0x546100，与 items 同址） | L1 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
-| 82 | 精灵动画 bank（0x53F200，与真表 0x596CCC 不同） | none | 基址需改指到裁决后的真实基址 | registry 已裁决：repointed: 真实精灵动作表 0x596CCC（id*144 + action*16，每项 4 个 u32 指针）。真实基址是 0x596CCC —— 把本 bank 的 `table_offset` 指过去即可，不需要再找（见 tools/table_registry.py::CONFLICTS）；本结构的具体待办：真正的精灵动作表是 0x596CCC（见 sprite-action-table 行）；本 bank 的 0x53F200 身份未裁决 | 1 | 3 |
-| 83 | m4a SongHeader（sound id 1） | L1 | 取值规则未唯一化：轨数据的块级格式（m4a 的 block 表）未逐字段拆解 | 需要把这条查找/编码规则收敛成唯一且可机械执行的一条。 | 1 | 3 |
-| 84 | m4a SongHeader（sound id 2） | L1 | 取值规则未唯一化：轨数据的块级格式（m4a 的 block 表）未逐字段拆解 | 需要把这条查找/编码规则收敛成唯一且可机械执行的一条。 | 1 | 3 |
-| 85 | m4a SongHeader（sound id 8） | L1 | 取值规则未唯一化：轨数据的块级格式（m4a 的 block 表）未逐字段拆解 | 需要把这条查找/编码规则收敛成唯一且可机械执行的一条。 | 1 | 3 |
-| 86 | m4a SongHeader（sound id 11） | L1 | 取值规则未唯一化：轨数据的块级格式（m4a 的 block 表）未逐字段拆解 | 需要把这条查找/编码规则收敛成唯一且可机械执行的一条。 | 1 | 3 |
-| 87 | m4a SongHeader（sound id 14） | L1 | 取值规则未唯一化：轨数据的块级格式（m4a 的 block 表）未逐字段拆解 | 需要把这条查找/编码规则收敛成唯一且可机械执行的一条。 | 1 | 3 |
-| 88 | tile-assets | none | 基址无效，需重新定位 | 该地址已被证明在 ROM 里零引用（不是任何结构的基址）。需要用原生消费者定位（tools/consumer_locate.py）找到真正拥有这张表的地址，再重新做格式证明。；本结构的具体待办：与 0x5A3218 的地块规则关系未裁决 | 1 | 3 |
-| 89 | 战斗遭遇记录表（0x54229C，16 字节/条） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 90 | 逐角色属性表（0x545068，16 字节/条） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 91 | 逐角色属性表（同表，0x545068 另一个错位窗口） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 92 | 遭遇区 bank（0x53D910，与 maps 同址） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 93 | 道具/技能记录表（0x545BE4，与 skills 同址） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 94 | 角色特性表（0x5459C8，12 字节/条） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 95 | map-sprites | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 96 | 忍具名表 | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 97 | resource-pointers | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 98 | save-state | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 99 | 技能 bank（0x546100，与 items 同址） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 100 | m4a SongHeader（sound id 1） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 101 | m4a SongHeader（sound id 2） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 102 | m4a SongHeader（sound id 8） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 103 | m4a SongHeader（sound id 11） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 104 | m4a SongHeader（sound id 14） | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
-| 105 | units | L1 | 缺原生定点证据 | 需要在消费者地址下断点，命中后同一上下文记录 PC/LR/寄存器，并证明至少一个字段与运行时值或可见行为对应。 | 1 | 4 |
+| 1 | 战斗角色槽 / 编成表 | L4 | 未知字段已显式标注：group/variant 等索引字段名仍是暂定名（槽内 +0x00/+0x01/+0x04/+0x0F 已证） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 4 | 2 |
+| 2 | 角色定义表 | L3 | 未知字段已显式标注：12 字节头的 +0x00 / +0x07、以及 0x545458 记录里的 +0x00/+0x01 与 +0x03/+0x0A/+0x0B/+0x0D/+0x0F 语义未定；条目字节 4（pad）未定 | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 3 | 3 |
+| 3 | 战斗奖励表 | L3 | 未知字段已显式标注：记录尾部 +0x16 / +0x17 两个字节语义未定（112 条全为 0、无消费者读取）；类别 3（技术）的取值域只能由代码给出上界，因为本 ROM 的 112 条记录里没有一条用类别 3 | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 3 | 3 |
+| 4 | 精灵帧描述符表（0x53EE98，10 字节步长） | L3 | 未知字段已显式标注：五个 u16 字段（+0 类别/链表结束、+2/+4 有符号量、+6 类别、+8 结束标志）的业务名未定 | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 2 | 3 |
+| 5 | 战斗遭遇记录表（0x54229C，16 字节/条） | L3 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 6 | 处理程序分派表（0x53E698，8 字节/条 x 256） | L3 | 未知字段已显式标注：记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 7 | 逐角色属性表（0x545068，16 字节/条） | L3 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 8 | 逐角色属性表（同表，0x545068 另一个错位窗口） | L3 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 9 | 数据指针表 A（0x5A143C，u32 ROM 指针 x 46） | L3 | 未知字段已显式标注：记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 10 | 数据指针表 B（0x5A2034，u32 x 90） | L3 | 未知字段已显式标注：记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 11 | 字宽表（0x53E596，1 字节/条 x 256，按字符码索引） | L3 | 未知字段已显式标注：记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 12 | 函数指针表（0x53D5F0，13 槽 u32） | L3 | 未知字段已显式标注：记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 13 | 道具/技能记录表（0x545BE4，与 skills 同址） | L3 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 14 | 角色特性表（0x5459C8，12 字节/条） | L3 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 15 | 处理程序分派表（同表，0x53E698 另一个窗口） | L3 | 未知字段已显式标注：记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 16 | map-sprites | L3 | 未知字段已显式标注：描述符记录内部字段名未定。已收窄：记录**变长自描述**（实测 12 或 28 字节交替），不是旧笔记说的「11 个字」；每条以一个 u32 ROM 指针开头，末尾带下一条记录的地址 | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 17 | 头像指针表（0x5A4DEC，40 字节/条 x 63） | L3 | 未知字段已显式标注：记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 18 | 资源指针表（0x596CCC，与精灵动作表同址；旧基址 0x596F0C 是其 +0x240 窗口） | L3 | 未知字段已显式标注：记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 19 | 技能 bank（0x546100，与 items 同址） | L3 | 未知字段已显式标注：记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
+| 20 | 图块/精灵资源记录表（0x5A320C，68 字节/条 x 79） | L3 | 未知字段已显式标注：记录里各字段的业务名未定（旧字段名来自错位窗口，来源已作废） | 该结构的未知字段已经逐条列出，且写回路径的往返自检证明这些字节不会被改动 —— 不影响“复制原生条目 + 只改已知字段”的写回模型。 | 1 | 3 |
 
 <!-- END GENERATED: tables -->
 

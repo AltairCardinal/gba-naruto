@@ -21,7 +21,7 @@
     "color_format": "u16: 0bbb bbgg gggr rrrr (5 bits per channel, 0-31)",
     "size": 32
   },
-  "notes": "【2026-10-20 裁决后】'RGB555 调色板表' 的身份已被证伪；0x53F138 是 0x53F140 起的指针数组头部窗口（前 2 槽是代码指针）。真正的调色板来自 0x596CCC 精灵动作表的 palette 指针（32 字节 BGR555）。",
+  "notes": "【2026-10-20 裁决后】'RGB555 调色板表' 的身份已被证伪；0x53F138 是 0x53F140 起的指针数组头部窗口（前 2 槽是代码指针）。真正的调色板来自 0x596CCC 精灵动作表的 palette 指针（32 字节 BGR555）。\n\n【2026-10-21 已退役】身份作废：0x53F138 只是 0x53F140 数组头部的窗口，不是 RGB555 调色板。调色板数据在 VRAM 0x05000380，由 0x53DF70 的关卡数据块经 BIOS svc 0x12 解压写入",
   "entries_sample": [
     {
       "index": 0,
@@ -608,5 +608,10 @@
   "alias_of": "map-sprites",
   "alias_status": "deprecated",
   "alias_verdict": "falsify",
-  "alias_note": "身份作废：0x12F5B0 起的记录里含 u32 指针 0x0812F598 / 0x0812F5B4，不是 32 字节 RGB555 调色板。调色板确实存在，但挂在精灵动作表 0x596CCC 的每项第 4 个指针上。详见 notes/alias-conflicts-20261020.md。"
+  "alias_note": "身份作废：0x12F5B0 起的记录里含 u32 指针 0x0812F598 / 0x0812F5B4，不是 32 字节 RGB555 调色板。调色板确实存在，但挂在精灵动作表 0x596CCC 的每项第 4 个指针上。详见 notes/alias-conflicts-20261020.md。",
+  "retired": true,
+  "retired_reason": "身份作废：0x53F138 只是 0x53F140 数组头部的窗口，不是 RGB555 调色板。调色板数据在 VRAM 0x05000380，由 0x53DF70 的关卡数据块经 BIOS svc 0x12 解压写入",
+  "corrections": [
+    "2026-10-21: 本 bank 已从内容目录退役（tools/table_registry.py::RETIRED）—— 身份作废：0x53F138 只是 0x53F140 数组头部的窗口，不是 RGB555 调色板。调色板数据在 VRAM 0x05000380，由 0x53DF70 的关卡数据块经 BIOS svc 0x12 解压写入"
+  ]
 }

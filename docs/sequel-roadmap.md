@@ -35,15 +35,22 @@
 
 ## 2026-10-22（晚）｜**读者函数的真实读法**：6 个「读者在子系统内」的结构解剖 + `story_config[0]` 非零读数闭合
 
-> 缺口从 **36** 降到 **27**；已闭合的是 `runtime-state` 的 **evidence 类**缺口
-> （`story_config[0]` 的非零运行时读数）、`ninjutsu-names` 的 **L2+L3**、
-> `story-e` 的 **L3**、`cutscene-scripts` 的 **evidence 类**缺口、
-> `fonts` 与 `sprite-frame-descriptors` 的 **L2+L3**。
+> 缺口从 **36** 降到 **20**；**所有 L2 / L3 / 文档 / 语义 / 证据类缺口已清零**，
+> 阻塞缺口 **0** —— 剩下的 20 条全是审计自己定义的 labelled
+> 「未知字段已显式标注」**已满足**项（非阻塞）。
+> 本轮闭合的结构：`runtime-state`（evidence）、`ninjutsu-names`（L2+L3）、
+> `story-e`（L3）、`cutscene-scripts`（evidence）、
+> `fonts` 与 `sprite-frame-descriptors`（L2+L3）、
+> `mechanism-effects`（L2+L3）、`items` 与 `skills`（L2+L3）、
+> `resource-pointers`（裁决为精灵动作表同址 + 读者是死代码）。
 > 方法与结果见 `notes/evidence/runtime-state-story-config-20261022.md`、
 > `notes/evidence/ninjutsu-names-vm-20261022.md`、
 > `notes/evidence/story-e-l3-20261022.md`、
 > `notes/evidence/cutscene-scripts-l3-20261022.md`、
 > `notes/evidence/fonts-spriteframe-l3-20261022.md`、
+> `notes/evidence/mechanism-effects-l3-20261022.md`、
+> `notes/evidence/items-skills-l3-20261022.md`、
+> `notes/evidence/resource-pointers-deadcode-20261022.md`、
 > `notes/evidence/open-structures-status-20261022.md`
 > 与 `notes/evidence/level-mode-l3-20261022.md` §4.6.4 更正。
 
@@ -168,6 +175,45 @@
   精灵帧描述符处 `r1 = 0x0853EE98`、`r4 = 0x0853EEA2 / 0x0853EEB6 / 0x0853EED4`
   = **基址 + 下标 × 10**（**步长 10 字节得到运行时证实**）。
 
+### 三之六、`mechanism-effects`：那张「效果表」其实是 13 项**函数指针跳转表**
+
+```
+0x08081346: subs  r0, r5, #1        ; 下标 = 传入值 - 1
+0x08081348: cmp   r0, #0xC
+0x08081350: ldr   r1, [pc, #0x14]   ; r1 = 0x0808136C   ← 跳转表
+0x08081352: adds  r0, r0, r1
+0x08081354: ldr   r0, [r0]
+0x08081356: mov   pc, r0            ; Thumb-2 switch 惯用法
+```
+
+⇒ 下标必须落在 **0..12**，表项是**代码指针** —— 旧注记把它当「13 项效果表」
+**作废**。
+
+路线：剧情战斗 `fn 0x080732B4` → `0x0807498C` → **`fn 0x08081544`**
+（**第二个关卡对象处理器**：按 `record+4` 做 7 路分派，下标由单位字段推出，
+范围 0..15）→ `0x08081ADE`（`ldrb r0,[r7,#6]` = 机制下标）→ `fn 0x080812DC`
+→ 读 `0x0808136C`。
+
+实测（场景 10，相位 `0x0110`）：判定点 `0x08081350` 命中，
+**`r2 = 1` = 机制下标**（= `record[+6]`）。
+
+### 三之七、`items` / `skills`（`0x08545BE4`）：剧情战斗的单位扫描
+
+```
+0x08074200: 扫描单位槽 1..12，过滤条件：
+             unit[0] != 0 · unit[0xCC] == 0 · unit[0xC0] & 0x70 == 0
+             unit[0xCD] ∉ {0, 0xFF}
+0x0807425A: bl fn 0x080851F8        → fn 0x080833A8 → 0x08083812: bl fn 0x0806D910
+```
+
+分岔点是每条道具记录的**标志字节（`0x0202D4CD + r4*6`）的 bit 7**：
+`0x080837C6` 读它，`0x080837CA` 与 `0x80`，
+`0x080837CE: bne 0x08083804` —— **置位才走读者那一臂**。
+
+实测（场景 10，相位 `0x0110`）：判定点 `0x0806D91A` 命中 **3 次**，
+`r0 = id × 16` = 表内字节偏移（id 1 / 0x4A / 5），
+**步长 16 字节得到运行时证实**。
+
 ### 四、方法上的一条新规矩（写进探针协议）
 
 * **mGBA 的 `status` 打印的是 `r15`，而且命中断点时 `r15 = 断点地址 + 2`**
@@ -178,17 +224,19 @@
   「VM 入口 → 对话 → 菜单 → branch2 → opcode 0x1F」这一串哨兵；
   没有哨兵时，看板上的 0 命中和「路线没跑」是同一件事。
 
-### 五、剩余缺口（27 条里 8 条是硬缺口）
+### 五、剩余缺口（20 条，全部是 labelled 的已满足项）
 
-* **4 L3 + 4 L2**：`items` / `skills`（同一张表 `0x08545BE4`）、
-  `resource-pointers`（`0x08596F0C`）、`mechanism-effects`（`0x0808136C`）。
-  它们的读者都在**关卡对象 / 战斗事件**子系统里；本轮把六条路线都测了 ——
-  关卡模式、地图模式（47 张地图全部载入）、剧情路线（55 场）、
-  **16 个相位 × 140 次按键的深扫**、战斗路线 + `--force-dispatch`（48 组）、
-  handler 表 256 项循环 —— **每一处「0 命中」都配了证明路线跑起来的哨兵**。
-  逐条的门控条件与下一步见
-  `notes/evidence/open-structures-status-20261022.md`。
-* **19 labelled**：按审计语义属「未知字段已显式标注」的满足项，非阻塞。
+**所有 L2 / L3 / 文档 / 语义 / 证据类缺口已清零，阻塞缺口 0。**
+
+剩下的 20 条全是审计自己定义的 **labelled** ——「未知字段已显式标注」的
+**已满足**项（非阻塞）。也就是说：**没有一个缺口还是「开着」的。**
+
+最后一个结构 `resource-pointers`（`0x08596F0C`）的裁决见
+`notes/evidence/resource-pointers-deadcode-20261022.md`：
+它是精灵动作表 `0x596CCC` 的 `+0x240` 窗口，
+**唯一的引用 `0x0807B220` 在死代码里**（`fn 0x0807AE04` 的 case 7，
+而两个 `arg1 = 7` 的调用点都在 `r8` 被硬编码成 2 的循环里），
+已按 `LEGACY_REBASE` 先例重定基址到 `0x596CCC`。
 
 ---
 

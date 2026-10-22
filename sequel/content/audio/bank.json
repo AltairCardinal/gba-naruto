@@ -574,5 +574,10 @@
   },
   "alias_of": "map-sprites",
   "alias_status": "falsified",
-  "notes": "【2026-10-20 裁决后】本 bank 仅保留 entries 供追溯；它不再声称任何音频结构。音频结构请用 0x465B70（sound-ID 表）。"
+  "notes": "【2026-10-20 裁决后】本 bank 仅保留 entries 供追溯；它不再声称任何音频结构。音频结构请用 0x465B70（sound-ID 表）。\n\n【2026-10-21 已退役】身份作废：0x53F138 处是 0x53F140 指针数组头部的 2 个代码指针，与音频无关；Sappy 叙事整体作废",
+  "retired": true,
+  "retired_reason": "身份作废：0x53F138 处是 0x53F140 指针数组头部的 2 个代码指针，与音频无关；Sappy 叙事整体作废",
+  "corrections": [
+    "2026-10-21: 本 bank 已从内容目录退役（tools/table_registry.py::RETIRED）—— 身份作废：0x53F138 处是 0x53F140 指针数组头部的 2 个代码指针，与音频无关；Sappy 叙事整体作废"
+  ]
 }

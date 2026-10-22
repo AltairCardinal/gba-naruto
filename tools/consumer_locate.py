@@ -28,6 +28,22 @@ A structure whose consumer is found this way can then be attached to the
 audit with the new `codecite` probe, which re-checks the JSON instead of
 grepping prose.
 
+Strides are derived, not guessed
+--------------------------------
+The element stride is re-derived from the **consumer's own dataflow**:
+the base pointer is seeded at the reader instruction and every later
+instruction is interpreted as ``const + sum(atoms * scale)``.  An
+immediate therefore only becomes a stride when it is combined with the
+register that holds the base (or a copy of it); the immediate of
+*another* load in the same function can no longer be paired with this
+load's multiply, and a bit mask (``ands r0, r3, #0x3f``) can never be
+mistaken for a stride.  The literal pool is filtered out of the
+instruction stream first, so a reader that sits after a pool is
+analysed like any other one.
+
+See ``notes/evidence/consumer-stride-fix-20261021.md`` for the bug this
+replaced, the before/after stride table and the falsifiable tests.
+
 The tool re-derives everything from the ROM; it never trusts a hand-written
 address.
 
@@ -359,7 +375,7 @@ def _decode_stream(rom, md, start, mode, pool, limit):
 
 
 def decode_function(rom: bytes, fn_start: int, mode: str,
-                    limit: int = 512) -> list:
+                    limit: int = 1024) -> list:
     """Disassemble a function with its literal pool filtered out.
 
     A literal pool sits *inside* a function and decodes as garbage code.
@@ -557,6 +573,16 @@ def analyze_reader(rom: bytes, insns, reader_addr: int, literal_value: int,
     carriers: set[int] = set()
     origins: dict[int, int] = {}
     slot_candidates: dict[tuple[int, int], None] = {}
+    add_dst = None
+    add_line = -1
+    add_dst = None
+    add_line = -1
+    add_dst = None
+    add_line = -1
+    add_dst = None
+    add_line = -1
+    add_dst = None
+    add_line = -1
     next_atom = [1]
     base_reg = None
     consumed = False
@@ -603,7 +629,7 @@ def analyze_reader(rom: bytes, insns, reader_addr: int, literal_value: int,
         dst = ops[0].reg
 
         # --- consumption of the base pointer
-        if index > reader_index and not consumed and base_reg is not None:
+        if index > reader_index and base_reg is not None:
             if mnemonic.startswith("add") and len(ops) >= 3:
                 left = state.get(ops[1].reg) if ops[1].type == OP_REG else None
                 right = None
@@ -616,23 +642,42 @@ def analyze_reader(rom: bytes, insns, reader_addr: int, literal_value: int,
                     right = _Val(const=ops[2].imm)
                 if left is not None and right is not None \
                         and (left.base or right.base):
-                    other = right if left.base else left
-                    result["evidence"].append(
-                        f"{insn.address:08X}  {insn.mnemonic} {insn.op_str}")
-                    if other.atoms:
-                        coeffs = other.coefficients()
-                        result["usage"] = ("indexed" if len(coeffs) == 1
-                                           else "indexed-2d")
-                        result["detail"] = "base + " + " + ".join(
-                            f"{c:g}*idx" for c in coeffs)
-                        result["strides"] = coeffs
-                        if coeffs and float(coeffs[0]).is_integer() \
-                                and coeffs[0] >= 1:
-                            result["stride"] = int(coeffs[0])
+                    # The address is the *sum* of both operands, so a
+                    # two-dimensional access (``base + row*204 + col*68``)
+                    # stays visible even when it is assembled by two adds.
+                    expr = _add(left, right)
+                    chain = (add_dst is not None
+                             and ((ops[1].reg == add_dst and left.base
+                                   and left.atoms)
+                                  or (ops[2].reg == add_dst and right.base
+                                      and right.atoms)))
+                    if consumed and not chain:
+                        pass            # an unrelated add: keep the verdict
                     else:
-                        result["usage"] = "offset"
-                        result["detail"] = f"base + {other.const:g}"
-                    consumed = True
+                        line = (f"{insn.address:08X}  {insn.mnemonic} "
+                                f"{insn.op_str}")
+                        if chain:
+                            # this add completes the expression the previous
+                            # one started: refine the classification
+                            result["evidence"][add_line] = line
+                        else:
+                            add_line = len(result["evidence"])
+                            result["evidence"].append(line)
+                        add_dst = dst
+                        coeffs = expr.coefficients()
+                        if coeffs:
+                            result["usage"] = ("indexed" if len(coeffs) == 1
+                                               else "indexed-2d")
+                            result["detail"] = "base + " + " + ".join(
+                                f"{c:g}*idx" for c in coeffs)
+                            result["strides"] = coeffs
+                            if float(coeffs[0]).is_integer() and coeffs[0] >= 1:
+                                result["stride"] = int(coeffs[0])
+                        else:
+                            result["usage"] = "offset"
+                            result["detail"] = (f"base + "
+                                                f"{expr.const - literal_value:g}")
+                        consumed = True
             if not consumed and mnemonic == "cmp":
                 if any(op.type == OP_REG and _carries_base(op.reg)
                        for op in ops):
@@ -703,35 +748,63 @@ def analyze_reader(rom: bytes, insns, reader_addr: int, literal_value: int,
             factor = 2 ** amount if mnemonic.startswith("lsl") else 2 ** -amount
             _set(dst, _scale(src, factor))
             continue
-        if mnemonic in ("add", "adds") and len(ops) >= 3:
-            left = state.get(ops[1].reg) if ops[1].type == OP_REG else None
-            if left is None:
-                left = _unknown(next_atom[0])
-                next_atom[0] += 1
-            if ops[2].type == OP_REG:
-                right = state.get(ops[2].reg)
-                if right is None:
-                    right = _unknown(next_atom[0])
+        if mnemonic in ("add", "adds") and len(ops) >= 2:
+            if len(ops) >= 3:
+                left = state.get(ops[1].reg) if ops[1].type == OP_REG else None
+                if left is None:
+                    left = _unknown(next_atom[0])
                     next_atom[0] += 1
-                shift = _shift_amount(ops[2])
-                if shift:
-                    right = _scale(right, 2 ** shift)
+                if ops[2].type == OP_REG:
+                    right = state.get(ops[2].reg)
+                    if right is None:
+                        right = _unknown(next_atom[0])
+                        next_atom[0] += 1
+                    shift = _shift_amount(ops[2])
+                    if shift:
+                        right = _scale(right, 2 ** shift)
+                else:
+                    right = _Val(const=ops[2].imm)
             else:
-                right = _Val(const=ops[2].imm)
+                # Thumb-1 two-operand form: `adds Rd, #imm` / `adds Rd, Rm`
+                left = state.get(dst)
+                if left is None:
+                    left = _unknown(next_atom[0])
+                    next_atom[0] += 1
+                if ops[1].type == OP_IMM:
+                    right = _Val(const=ops[1].imm)
+                else:
+                    right = state.get(ops[1].reg)
+                    if right is None:
+                        right = _unknown(next_atom[0])
+                        next_atom[0] += 1
             _set(dst, _add(left, right))
             continue
-        if mnemonic in ("sub", "subs") and len(ops) >= 3:
-            left = state.get(ops[1].reg) if ops[1].type == OP_REG else None
-            if left is None:
-                left = _unknown(next_atom[0])
-                next_atom[0] += 1
-            if ops[2].type == OP_REG:
-                right = state.get(ops[2].reg)
-                if right is None:
-                    right = _unknown(next_atom[0])
+        if mnemonic in ("sub", "subs") and len(ops) >= 2:
+            if len(ops) >= 3:
+                left = state.get(ops[1].reg) if ops[1].type == OP_REG else None
+                if left is None:
+                    left = _unknown(next_atom[0])
                     next_atom[0] += 1
+                if ops[2].type == OP_REG:
+                    right = state.get(ops[2].reg)
+                    if right is None:
+                        right = _unknown(next_atom[0])
+                        next_atom[0] += 1
+                else:
+                    right = _Val(const=ops[2].imm)
             else:
-                right = _Val(const=ops[2].imm)
+                # Thumb-1 two-operand form: `subs Rd, #imm` / `subs Rd, Rm`
+                left = state.get(dst)
+                if left is None:
+                    left = _unknown(next_atom[0])
+                    next_atom[0] += 1
+                if ops[1].type == OP_IMM:
+                    right = _Val(const=ops[1].imm)
+                else:
+                    right = state.get(ops[1].reg)
+                    if right is None:
+                        right = _unknown(next_atom[0])
+                        next_atom[0] += 1
             _set(dst, _sub(left, right))
             continue
         if mnemonic in ("mul", "muls", "mla") and len(ops) >= 3:
@@ -897,6 +970,15 @@ AUDIT_TABLES: dict[str, int] = {
     "sound_id_table": 0x465B70,
     "pickup_dispatch": 0x0815E4,
     "mechanism_effects": 0x08136C,
+    # --- 2026-10-21: the nine legacy bases that were adjudicated last ---
+    # (notes/evidence/legacy-rebase-final-20261021.md)
+    "battle_handler_table": 0x53E698,
+    "font_width_table": 0x53E596,
+    "function_pointer_table": 0x53D5F0,
+    "data_pointer_table_a": 0x5A143C,
+    "data_pointer_table_b": 0x5A2034,
+    "tile_asset_records": 0x5A320C,
+    "palette_source_table": 0x5A57C4,
     # --- legacy banks (see notes/legacy-table-base-correction-20261020.md) ---
     "legacy_audio_or_palettes": 0x53F138,
     "legacy_battle_encounters": 0x542384,
