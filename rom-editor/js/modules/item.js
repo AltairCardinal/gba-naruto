@@ -14,7 +14,7 @@
 //
 // 所以：
 //   左边列表 = 记录表 / 奖励表的每一条（一行 = 一个忍具 / 一条奖励）
-//   右边详情 = 这个忍具的名字、它的未解字节、它在哪几关掉落
+//   右边详情 = 这个忍具的名字、它的记录字段（16 字节，每格都有原生代码依据）、它在哪几关掉落
 //              这条奖励的金币 / 强化点 / 等级门槛与 8 个掉落位
 //
 // 写回仍然只走内容包已有的通路（pack.setValue / pack.setText），
@@ -232,6 +232,7 @@ class ItemView {
     this.records = this.pack.structure('item_record');
     this.names = itemNameTable(this.pack);
     this.id = this.pickId(params);
+    this.refreshers = [];
     this.tabs = null;
     this.tabsMounted = false;
   }
@@ -264,9 +265,25 @@ class ItemView {
     return map;
   }
 
-  /** 这条记录里那些语义未证的字节（内容包把它们描述成 hex 字段）。 */
-  byteFields() {
-    return ((this.records && this.records.fields) || []).filter((f) => f.type === 'hex');
+  /** 记录表里**每一个**字段（2026-10-22 起这 16 格都有名字与依据了）。 */
+  recordFields() {
+    return ((this.records && this.records.fields) || []).filter((f) => f.type !== 'hex');
+  }
+
+  /** 字段控件的上下文：改完一个字段要重画列表（改动角标）并刷新页签角标。 */
+  fieldCtx() {
+    const ctx = this.ctx;
+    return {
+      pack: ctx.pack,
+      onChange: ctx.onChange,
+      onJump: ctx.onJump,
+      registerRefresh: (fn) => this.refreshers.push(fn),
+      onCommit: () => {
+        for (const fn of this.refreshers) fn();
+        this.renderList();
+        this.refreshTabs();
+      },
+    };
   }
 
   render(container) {
@@ -286,7 +303,7 @@ class ItemView {
     ]));
     container.appendChild(el('p', { class: 'section-note', text:
       '左边按道具/忍具记录表列出（一行 = 一个忍具）；' +
-      '右边分三个页签：名字（忍具名表）、未解字节（记录表那串尚未证明语义的字节）、' +
+      '右边分三个页签：名字（忍具名表）、记录字段（记录表那 16 个字节，每格都有原生代码依据）、' +
       '掉落位置（奖励表里引用它的那些行，点一下就跳过去 —— 掉落关系改在奖励那一侧）。' }));
 
     this.listWrap = el('div', { class: 'table-wrap' });
@@ -311,8 +328,9 @@ class ItemView {
       },
       {
         id: 'bytes',
-        label: '未解字节',
-        hint: '记录表里那串字节：字段语义尚未证明，只能按原始字节改',
+        label: '记录字段',
+        hint: '记录表那 16 个字节：每一格都标了它在 ROM 里的作用'
+          + '（原生代码不读的标「保留」，只到取值分布的标「（推定）」）',
         badge: () => this.bytesBadge(),
         render: () => this.renderRecord(this.currentRecord()),
       },
@@ -400,7 +418,9 @@ class ItemView {
       return;
     }
     const name = itemName(this.names, record.id);
-    const bytes = this.byteFields().length;
+    const fields = this.recordFields();
+    const bytes = fields.length;
+    const reserved = fields.filter((f) => f.not_read).length;
 
     this.detailHead.appendChild(el('div', { class: 'detail-head' }, [
       el('h3', { text: name ? `${name}（#${record.id}）` : `忍具 #${record.id}` }),
@@ -408,7 +428,7 @@ class ItemView {
     this.detailHead.appendChild(el('div', { class: 'detail-sub' }, [
       el('span', { text: `记录表第 ${record.id} 条` }),
       el('span', { text: this.names ? `名表第 ${record.id} 条` : '没有忍具名表' }),
-      el('span', { text: `${bytes} 字节语义未证` }),
+      el('span', { text: `${bytes} 字节 · ${bytes - reserved} 格有原生代码依据，${reserved} 格保留` }),
     ]));
 
     this.mountTabs();
@@ -422,7 +442,7 @@ class ItemView {
     return textChanged(this.names, record.id) ? 1 : null;
   }
 
-  /** 未解字节这一类改了几处（按字节判定：记录字节与原版不同）。 */
+  /** 记录字段这一类改了几处（按字节判定：记录字节与原版不同）。 */
   bytesBadge() {
     const record = this.currentRecord();
     if (!record) return null;
@@ -514,51 +534,67 @@ class ItemView {
     return block;
   }
 
-  /** 这个忍具自己的记录：语义未证的那串字节。 */
+  /**
+   * 这个忍具自己的记录：16 个字节，每一格都有原生代码依据。
+   *
+   * 2026-10-22 之前这里是一整块十六进制输入框，理由是「这 16 字节没有任何一处
+   * 证明过字段含义」。现在逐字节普查过了（tools/item_record_fields.py，
+   * 证据 notes/evidence/item-record-fields-20261022.md）：
+   * 7 个原生读者分别读哪些格、读成什么宽度都有指令级依据；
+   * 原生代码根本不读的三格（+0x01 / +0x0E / +0x0F）标「保留」并降级为只读。
+   */
   renderRecord(record) {
     const ctx = this.ctx;
-    const fields = this.byteFields();
+    const fields = this.recordFields();
     const block = el('div', { class: 'item-block' });
     if (!record) {
       block.appendChild(el('div', { class: 'stat-hint', text: '找不到这个忍具。' }));
       return block;
     }
     const values = record.values || {};
-    const original = fields.map((f) => String(values[f.key] || '')).join('');
 
     block.appendChild(el('div', { class: 'field-label' }, [
-      el('span', { text: '这个忍具的记录（未解字节）' }),
+      el('span', { text: '这个忍具的记录（16 字节）' }),
     ]));
     block.appendChild(el('p', { class: 'section-note', text:
-      `记录表每条 ${fields.length} 字节，仓库里没有任何一处证明过这 ${fields.length} 个字节` +
-      '分别是什么，所以只能按原始字节改 —— 这里不替它编字段名。' }));
-    block.appendChild(el('textarea', {
-      class: 'hex-input',
-      rows: 2,
-      spellcheck: 'false',
-      value: original,
-      onchange: (e) => {
-        const clean = String(e.target.value).replace(/[^0-9a-fA-F]/g, '').toLowerCase();
-        if (clean.length !== fields.length * 2) {
-          toast(`这条记录固定 ${fields.length} 字节（${fields.length * 2} 个十六进制字符）`, 'error');
-          e.target.value = original;
-          return;
-        }
-        fields.forEach((f, i) => {
-          this.pack.setValue(this.records, record, f.key, clean.substr(i * 2, 2));
-        });
-        ctx.onChange();
-        this.renderList();
-        this.renderDetail();
-        toast(`已改写${this.records.label} #${record.id}`);
-      },
-    }));
-    const rows = { head: ['字节', '当前值'], body: [] };
+      '每一格都标了它在 ROM 里的作用：被原生代码读到的格子写明是哪段代码、'
+      + '读成什么宽度；原生代码不读的写「保留」并只读；'
+      + '只到取值分布的，业务名带「（推定）」。改完会原样写回 ROM。' }));
+
+    // 每个字段一行：名字 + 偏移 + 控件 + 说明（沿用通用结构编辑器的 .field 排版）
+    const grid = el('div', { class: 'field-list' });
     for (const f of fields) {
-      rows.body.push([f.label || f.key, String(values[f.key] || '').toUpperCase()]);
+      const wrapper = el('div', { class: 'field' });
+      const label = el('div', { class: 'field-label' }, [
+        el('span', { text: f.label || f.key }),
+        el('span', { class: 'field-offset', text: `+0x${(f.offset || 0).toString(16).toUpperCase().padStart(2, '0')}` }),
+      ]);
+      wrapper.appendChild(label);
+
+      if (f.not_read) {
+        // 原生代码不读这一格：只读展示，别给输入框（改了也没有效果）。
+        wrapper.appendChild(el('div', { class: 'field-hint', text:
+          `当前值 ${String(values[f.key] ?? '—')} —— 原生代码不读这一格，只读。` }));
+      } else {
+        const { node } = fieldControl(this.fieldCtx(), this.records, record, f);
+        wrapper.appendChild(node);
+      }
+      if (f.desc) wrapper.appendChild(el('div', { class: 'field-hint', text: f.desc }));
+      grid.appendChild(wrapper);
+    }
+    block.appendChild(grid);
+
+    // 原始字节还在这儿 —— 逐字节对照用
+    const rows = { head: ['字段', '偏移', '当前值'], body: [] };
+    for (const f of fields) {
+      rows.body.push([
+        f.label || f.key,
+        `+0x${(f.offset || 0).toString(16).toUpperCase().padStart(2, '0')}`,
+        String(values[f.key] ?? '').toUpperCase(),
+      ]);
     }
     block.appendChild(el('details', { class: 'item-bytes' }, [
-      el('summary', { text: `逐字节看（${fields.length} 字节，语义未证）` }),
+      el('summary', { text: `逐字节看（${fields.length} 字节）` }),
       summaryTable(rows),
     ]));
     return block;

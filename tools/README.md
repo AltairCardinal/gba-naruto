@@ -1,5 +1,30 @@
 # Tools
 
+## 逐字节字段取证（2026-10-22）
+
+### `item_record_fields.py`
+
+忍具记录表 `0x08545BE4` 的**逐字节**取证与自检。三件事：
+
+1. **读者普查** —— 全 ROM 扫 Thumb 的 `ldr Rt,[pc,#imm]`（位模式 `01001`，
+   不依赖线性反汇编），把装载 `0x08545BE4` 的 7 条指令列出来；
+2. **字段触达核对** —— 对每条已登记的读点，**直接解码那两字节 Thumb 指令**
+   （`ldrb/ldrh` 的立即数偏移、`adds rX,#imm8`、`cmp rX,#imm8`），
+   取出「偏移 + 宽度」与登记表比对，**对不上就 exit 1**；
+3. **无读者证明** —— 所有读点的偏移并起来，并集里没有的字节就是
+   「原生代码根本不读」的格子（`+0x01` / `+0x0E` / `+0x0F`）。
+
+```powershell
+python tools/item_record_fields.py rom/base.gba
+python tools/item_record_fields.py rom/base.gba --json build/item-fields.json
+```
+
+> **踩过的坑**：16 位 Thumb 的 `LDR(literal)` 在寄存器是 `r1..r7`（字长）时，
+> **imm8 要乘 4**。不乘 4 就会把字面量池地址算错 4 倍，普查会得出
+> 「0 处读者」这种假结论。工具里写死了这条规则。
+
+证据：`notes/evidence/item-record-fields-20261022.md`。
+
 ## L4 / L2 运行时证据闸门（2026-10-21）
 
 ### `mgba_probe/l4_battle_matrix.py`

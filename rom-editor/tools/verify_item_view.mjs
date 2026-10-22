@@ -215,15 +215,18 @@ console.log('1) 忍具视图：左边按记录表列出');
     rows.length === items.entry_count,
     `${rows.length} 行（记录表 ${items.entry_count} 条）`);
   const text = panesOf ? panesOf.detail.textContent : '';
-  check('详情写明这 16 个字节的语义尚未证明',
-    /语义未证|尚未证明/.test(text),
-    (text.match(/[^·]{0,30}语义未证[^·]{0,20}/) || [''])[0]);
-  // 「未解字节」那一页在页签里 —— 切过去才在 DOM 里。
-  switchTab(panesOf.detail, '未解字节');
+  check('详情写明这 16 个字节各自有多少格有据、几格保留',
+    /有原生代码依据/.test(text) && /格保留/.test(text),
+    (text.match(/[^·]{0,30}有原生代码依据[^·]{0,20}/) || [''])[0]);
+  // 「记录字段」那一页在页签里 —— 切过去才在 DOM 里。
+  switchTab(panesOf.detail, '记录字段');
   const bytesText = tabBody(panesOf.detail) ? tabBody(panesOf.detail).textContent : '';
-  check('详情里没有把未解字节编成字段名',
-    /未解字节/.test(bytesText),
-    (bytesText.match(/未解字节[^·]{0,14}/) || [''])[0]);
+  check('记录字段页给出的是**字段名**而不是「未解字节」',
+    !/未解字节/.test(bytesText) && /效果数值/.test(bytesText),
+    (bytesText.match(/[^·]{0,20}效果数值[^·]{0,14}/) || [''])[0]);
+  check('原生代码不读的三格标「保留」',
+    /保留/.test(bytesText),
+    (bytesText.match(/[^·]{0,10}保留[^·]{0,10}/) || [''])[0]);
 }
 
 console.log('\n2) 奖励视图：左边按奖励表列出');
@@ -388,7 +391,7 @@ console.log('\n10) 右侧面板页签化：页签条、页签标签、切页签'
   const detail = panes(host).detail;
   const labels = tabLabels(detail);
   check('忍具视图右侧有页签条', labels.length >= 3, `${labels.length} 个页签：${labels.join(' / ')}`);
-  for (const want of ['名字', '未解字节', '掉落位置']) {
+  for (const want of ['名字', '记录字段', '掉落位置']) {
     check(`忍具视图的页签里有「${want}」`, labels.some((t) => t.includes(want)), labels.join(' / '));
   }
   check('页签内容是懒渲染的（DOM 里只有当前这一页）',
@@ -400,7 +403,7 @@ console.log('\n10) 右侧面板页签化：页签条、页签标签、切页签'
   let bodyText = body ? body.textContent : '';
   check('切到「掉落位置」后那一页的内容在 DOM 里',
     bodyText.includes('它在哪几关掉落'), bodyText.slice(0, 60));
-  check('切走后「未解字节」那一页不在 DOM 里',
+  check('切走后「记录字段」那一页不在 DOM 里',
     !bodyText.includes('逐字节看'), '不该出现');
   check('切走后 DOM 里仍然只有一个内容区',
     byClass(detail, 'tab-body').length === 1, `${byClass(detail, 'tab-body').length} 个`);

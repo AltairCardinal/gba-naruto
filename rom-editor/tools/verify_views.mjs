@@ -445,10 +445,19 @@ console.log('\n4) 字段元数据：枚举 / 跨表引用 / 分组 / 原始字�
     groups.length >= 3 && groups.some((g) => g.name === '胜利条件'),
     groups.map((g) => `${g.name}×${g.fields.length}`).join('、'));
 
-  // 4e. 整张表都是未解码字节 → 认出来
-  check('整表未解码的结构被标记为 raw_only',
-    fields.isRawOnly(pack.structure('item_record')),
-    '道具/忍具记录表 94 条全是原始字节');
+  // 4e. 忍具记录表不再是「一整张未解码字节」—— 2026-10-22 起 16 格都有名字
+  const itemRecord = pack.structure('item_record');
+  check('忍具记录表不再是 raw_only（16 格都给出了名字）',
+    !fields.isRawOnly(itemRecord),
+    '2026-10-22 逐字节普查之后');
+  const itemLabels = (itemRecord.fields || []).map((f) => String(f.label || ''));
+  check('忍具记录表没有「未解字节」标签',
+    !itemLabels.some((l) => l.includes('未解字节')),
+    itemLabels.filter((l) => l.includes('未解字节')).join('、') || '全部有真名');
+  // 机制本身还在：整表都是 hex 字段的结构仍要认成 raw_only
+  check('「整表都是原始字节」这个判定还在',
+    fields.isRawOnly({ fields: [{ type: 'hex' }, { type: 'hex' }] }),
+    '合成结构：两个 hex 字段');
 }
 
 console.log('\n5) 结构编辑器：分组折叠 + 重复槽位成表 + 记录导航');

@@ -241,7 +241,7 @@ console.log('\n5) 道具域：忍具与奖励');
 {
   const { renderItem, renderReward } = await import('../js/modules/item.js');
   checkDomain('忍具', (host) => renderItem(host, ctx, {}),
-    ['名字', '未解字节', '掉落位置']);
+    ['名字', '记录字段', '掉落位置']);
   checkDomain('奖励', (host) => renderReward(host, ctx, {}),
     ['金币', '强化点', '等级门槛', '掉落位']);
 }

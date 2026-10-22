@@ -943,16 +943,22 @@ SPECS: dict[str, dict[str, Any]] = {
         ],
         "unresolved": [
             {"type": "field",
-             "text": "记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，"
-                     "来源已作废）",
+             "text": "16 个字节里已钉死 12 格的**作用**（哪段原生代码读、读成什么宽度）；"
+                     "剩下 4 格（+0x05 投掷数量 / +0x06 命中率 % / +0x08 变体号 / +0x09 效果标记）"
+                     "**只到取值分布**，业务名标「（推定）」，还没有指令级证据",
              "writeback_safe": True,
-             "note": "notes/evidence/legacy-rebase-nearby-20261020.md",
-             "need": ["0x545BE4"]},
+             "note": "notes/evidence/item-record-fields-20261022.md",
+             "need": ["0x545BE4", "0x0806D910", "0x0808FF24", "0x0808FC20"]},
         ],
         "corrections": [
             "旧基址 `0x546100` 是这张表的**第 81 条 + 12 字节**的错位窗口；"
             "真基址是 `0x545BE4`（16 字节/条，94 条，7 个原生读者），"
             "表尾正好接战斗编成矩阵 `0x5461C4`",
+            "**2026-10-22：这 16 字节不再是一片「未解字节」** —— "
+            "逐字节普查（tools/item_record_fields.py，对不上就 exit 1）给出每格的读者与宽度；"
+            "原生代码不读的三格（+0x01/+0x0E/+0x0F）写「保留」并只读；"
+            "内容包（rom-editor/content/pack.json）已按新字段表生成，"
+            "编辑器里这一页现在给的是字段名而不是十六进制输入框",
         ],
         "value": 2, "effort": 3,
     },
@@ -979,16 +985,19 @@ SPECS: dict[str, dict[str, Any]] = {
         ],
         "unresolved": [
             {"type": "field",
-             "text": "记录里各个 u16 字段的业务名未定（旧字段名来自错位窗口，"
-                     "来源已作废）",
+             "text": "与 items 同一张表：16 个字节里已钉死 12 格的**作用**，"
+                     "剩下 4 格（+0x05 / +0x06 / +0x08 / +0x09）只到取值分布，"
+                     "业务名标「（推定）」",
              "writeback_safe": True,
-             "note": "notes/evidence/legacy-rebase-nearby-20261020.md",
-             "need": ["0x545BE4"]},
+             "note": "notes/evidence/item-record-fields-20261022.md",
+             "need": ["0x545BE4", "0x0806D910", "0x0808FF24", "0x0808FC20"]},
         ],
         "corrections": [
             "旧基址 `0x546100` 是这张表的**第 81 条 + 12 字节**的错位窗口；"
             "真基址是 `0x545BE4`（16 字节/条，94 条，7 个原生读者）",
             "与 `items` 同址已裁决：同一张表，规范名 `skills`",
+            "**2026-10-22：16 字节的字段表定案**（与 items 同一张表）—— "
+            "逐字节普查见 notes/evidence/item-record-fields-20261022.md",
         ],
         "value": 2, "effort": 3,
     },
@@ -2124,6 +2133,14 @@ def build_gaps(rows: list[dict[str, Any]], alias_map: dict[str, list[str]],
     """
     ctx = ctx or {}
     gaps: list[dict[str, Any]] = []
+    # 内容包里**还标着「未解字节」的字段** —— 这是一条独立于 SPECS 清单的检查。
+    #
+    # 为什么要有它（2026-10-22）：上一轮提交说「所有语义类缺口已清零」，
+    # 而当时忍具记录表那 16 格在编辑器里全是「未解字节 +0xNN」——
+    # 也就是说「显式标注为未解」被当成了「已闭合」。
+    # 这条检查把内容包的现状直接摊到缺口表里：**标了未解就是未解**，
+    # 不再依赖谁记得在 SPECS 里补一条 unresolved。
+    pack_undecoded = ctx.get("pack_undecoded") or {}
     for row in rows:
         key = row["key"]
         unresolved = row.get("unresolved", [])
@@ -2278,6 +2295,22 @@ def build_gaps(rows: list[dict[str, Any]], alias_map: dict[str, list[str]],
                         GAP_TEXT[kind][1], max(row["value"] - 2, 1),
                         max(row["effort"], 2), False)
 
+            # 内容包现状：这一格结构在编辑器里还有几个「未解字节」字段。
+            # 这是**独立于 SPECS 清单**的检查 —— 标了未解就是未解。
+            # （用 rom_value 那个整数偏移去对；row["rom"] 是给人看的字符串。）
+            undecoded = pack_undecoded.get(row.get("rom_value"))
+            if undecoded:
+                labels = undecoded["labels"]
+                add("undecoded-fields",
+                    f"内容包里还有 {len(labels)} 个字段标着「未解字节」"
+                    f"（{undecoded['pack_id']}）：{'、'.join(labels[:6])}"
+                    + ("…" if len(labels) > 6 else ""),
+                    "把这些字节的**作用**钉死（哪段原生代码读它、读成什么宽度），"
+                    "再按仓库的命名口径给名字；原生代码不读的写「保留」并降级为只读。"
+                    "参照 notes/evidence/item-record-fields-20261022.md 与 "
+                    "tools/item_record_fields.py 的做法。",
+                    max(row["value"] - 1, 1), max(row["effort"], 2), False)
+
             if not row["writeback_usable"] and not row.get("readonly"):
                 add("writeback", GAP_TEXT["writeback"][0], GAP_TEXT["writeback"][1],
                     max(row["value"] - 1, 1), max(row["effort"], 2), True)
@@ -2367,6 +2400,39 @@ def _apply_batch_probes(spec: dict[str, Any], key: str) -> None:
         })
 
 
+def pack_undecoded_fields() -> dict[int, dict[str, Any]]:
+    """内容包里还标着「未解字节」的字段，按 ROM 偏移索引。
+
+    为什么要有这个检查（2026-10-22）
+    --------------------------------
+    上一轮提交宣称「所有语义类缺口已清零」，而那时忍具记录表（0x545BE4）
+    那 16 格在编辑器里**全是**「未解字节 +0xNN」—— 也就是说，
+    「已显式标注为未解」被当成了「已闭合」。这条路不能再走第二次：
+    这条检查直接读内容包，把「标了未解」的字段原样摊到缺口表里，
+    不依赖任何人记得在 SPECS 里补一条 unresolved。
+
+    返回 {rom_offset: {"pack_id": ..., "labels": [...]}}。
+    """
+    path = REPO / "rom-editor" / "content" / "pack.json"
+    if not path.is_file():
+        return {}
+    try:
+        pack = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    out: dict[int, dict[str, Any]] = {}
+    for structure in pack.get("structures") or []:
+        offset = structure.get("rom_offset")
+        if offset is None:
+            continue
+        labels = [str(f.get("label") or "")
+                  for f in (structure.get("fields") or [])
+                  if str(f.get("label") or "").startswith("未解字节")]
+        if labels:
+            out[int(offset)] = {"pack_id": structure.get("id"), "labels": labels}
+    return out
+
+
 def build_report() -> dict[str, Any]:
     banks = load_banks()
     registry = load_registry()
@@ -2406,6 +2472,7 @@ def build_report() -> dict[str, Any]:
         "rom_bytes": rom_bytes,
         "conflicts": (registry.get("conflicts") or {}),
         "retired": (registry.get("retired") or {}),
+        "pack_undecoded": pack_undecoded_fields(),
     }
 
     rows: list[dict[str, Any]] = []
