@@ -47,6 +47,16 @@ Expected SHA-256:
 | `scenario-41-pre-controller-after-a.ss9` | `1fbfc94cd08a89a4fbf2d806c62cb2739407780c658fb48ab8fd82bf8ddbe646` | accepted Down → unique A → 19-frame zero settle; stable pre-controller state only, not controller/player-control evidence |
 | `scenario-41-controller-entry.ss9` | `4569846c1bf2cfcc2b6ad8848266bd02d2ada332eeca7acf74456f7a762e7cd6` | accepted stable controller-entry state after two exact 224-frame zero-input replays; not player-control evidence |
 | `scenario-41-player-turn.ss9` | `ba411edee4ccf73c1b5a8392735d23dbbef6f8edce5240aef7acdcd76c436171` | accepted stable player-control boundary; reusable starting point for the first natural turn, but not MOVEDONE/victory/postbattle evidence |
+| `battle3-action61-ai-preconfirm.ss9` | `6524764b33c419077bfad8d13fff220a6d20e80b8b92c9da08c9b94d6cdcdf48` | diagnostic battle 3 end-turn confirmation before enemy action 61; one explicit `A:60:68` reaches the post-store action-selection boundary, suitable for Group 13 production A/B but not original-story reachability |
+| `battle8-round3-ai-preconfirm.ss9` | `725148ab22f82fb435c9fdfa8ef0324baee9dc977dc146c5072aeffe37b6d63b` | supplemental battle 8 round-3 end-turn confirmation with “yes” selected after two observed enemy action-64 turns; reusable for AI candidate discovery, not production Group 13 evidence |
+| `scenario-50-cross-shuriken-confirmation.ss9` | `57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139` | accepted scenario 50 Naruto ninja-tool 1 confirmation prompt; final A has not yet been pressed |
+| `scenario-47-tool67-equipped-world-map.ss9` | `ecea4dc669f4e7d8a72d6c6e28fe456ec335c3c113c8c1426ed5e7eba225e601` | accepted base-ROM world-map boundary after Naruto naturally equips ninja-tool 67 `引爆牌`; restored once and persistent slot revalidated |
+| `scenario-49-battle-14-tool67-entry.ss9` | `2c95de937efb785d537c45f39224bb3fdae319e410f6abbc3cbdfcc32fb2812c` | accepted battle 14 entry reached naturally from the equipped checkpoint; Naruto persistent template and battle-local unit slot both retain ninja-tool 67 |
+| `scenario-49-battle-14-tool67-confirmation.ss9` | `95cc6805139fa6bad2a8af3353bcc161b38db51067b558f02b6c7c1dc4764012` | accepted battle 14 `引爆牌` final confirmation with `是` selected; next input is one A and no C3 object exists yet |
+| `scenario-49-battle-14-tool67-active-c3.ss9` | `401256e00877169e98b3e6584488e732f9254b4426806ad2b6b3bdc770259939` | accepted battle 14 boundary after natural use of `引爆牌`; active object slot 3 is state 1/action `0xC3` with two turns remaining |
+| `scenario-49-battle-14-tool67-expiry-ready.ss9` | `34eb56d34d876a275546a2b6875804aa5e24c97600a9d299c0c6ba0ae165b501` | accepted battle 14 boundary with the same natural `C3` object at zero remaining turns, immediately before zero-input group-3 expiry capture |
+| `scene-visual-controller-mode0-preselector.ss9` | `6df712f69dd9cc702a77ba8ee25964d348f39cc0440a6362c7407c5321cd88cd` | accepted natural Mode-0 scene visual controller boundary; zero input reaches selector `0x0808C18C`, presentation ID 3 and tile descriptor 2 initializer after 73 frames |
+| `scenario-53-story-slideshow-command-controlled.ss9` | `65cd8b010f9c21a6d5bc93fe8ed1b84fada025136936f6a42f0d540d0f7ab0a9` | controlled script-cursor-only fixture at scenario 53 opcode `0x14` / state `0x0168`; reusable for story visual descriptor runtime experiments, but does not prove natural scenario 53 navigation |
 
 ## Scenario 41 checkpoint ledger
 
@@ -236,6 +246,17 @@ high-bit action and the one-byte skill-1 attack-power A/B (`6x3` to `7x3`).
 
 The old `/tmp/first-battle-map-stable.ss9` is deliberately excluded: it is a
 prebattle “view battlefield” false-positive and is unsafe as a combat checkpoint.
+
+`scenario-50-cross-shuriken-confirmation.ss9` is the reusable pre-effect boundary
+for natural cross-shuriken tests. A single guarded input-sequence replay replaces ten
+historical segmented runs. Its audit records the same PNG SHA as the earlier segmented
+run, but the repository does not retain both external PNGs and therefore does not treat
+their byte equality as independently reproducible. Its compact evidence file binds the
+parent, exact ten-event schedule, emulator/tool hashes,
+51.87890625 MiB peak RSS and clean process/listener teardown. The state stops at the
+“可以吗？” prompt: the next A selects ninja tool 1 → encoded action 129 → sequence 13
+→ resource group 11. It does not itself prove the post-confirmation effect; that claim
+is independently verified by `artifacts/battle-effect-group11-pixel-ab-v1/`.
 
 ## One-time setup
 

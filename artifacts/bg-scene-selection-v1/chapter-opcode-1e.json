@@ -1,0 +1,137 @@
+{
+  "schema": "bg-chapter-opcode-1e-selections-v1",
+  "pointer_tables": {
+    "primary": "0x08060C74",
+    "alternate": "0x08060D54",
+    "entry_count_each": 56,
+    "entry_zero": "null sentinel"
+  },
+  "interpreter": {
+    "entry": "0x080977B8",
+    "dispatch_table": "0x080977F4",
+    "opcode": "0x1E",
+    "handler": "0x08097CE4",
+    "record_length": 2,
+    "operand": "u8 at +1 passed to 0x0808F4D4"
+  },
+  "dynamic_opcode_06_contract": {
+    "record_length": 9,
+    "enumerated_indices": [
+      0,
+      1
+    ],
+    "runtime_index_address": "0x0200A880",
+    "runtime_bounds_check": false,
+    "caveat": "indices above 1 violate the ROM corpus invariant and can read past the two-pointer record"
+  },
+  "summary": {
+    "non_null_script_slots": 110,
+    "unique_script_roots": 98,
+    "unique_instruction_nodes": 14199,
+    "dynamic_opcode_06_nodes": 42,
+    "unique_opcode_1e_records": 6,
+    "parse_failures": []
+  },
+  "selections": [
+    {
+      "address": "0x0804435F",
+      "raw_hex": "1e00",
+      "input_id": 0,
+      "selection_rule": "battle_header",
+      "selector_address": "0x0853D92C",
+      "entry_id": 1,
+      "input_domain_valid": true,
+      "canvas": "entry-01/canvas.png",
+      "roots": [
+        {
+          "table": "primary",
+          "scenario_id": 51
+        }
+      ]
+    },
+    {
+      "address": "0x080446F0",
+      "raw_hex": "1e33",
+      "input_id": 51,
+      "selection_rule": "special_input_minus_41",
+      "selector_address": null,
+      "entry_id": 10,
+      "input_domain_valid": true,
+      "canvas": "entry-10/canvas.png",
+      "roots": [
+        {
+          "table": "primary",
+          "scenario_id": 51
+        }
+      ]
+    },
+    {
+      "address": "0x080459F4",
+      "raw_hex": "1e07",
+      "input_id": 7,
+      "selection_rule": "battle_header",
+      "selector_address": "0x0853DA0C",
+      "entry_id": 2,
+      "input_domain_valid": true,
+      "canvas": "entry-02/canvas.png",
+      "roots": [
+        {
+          "table": "primary",
+          "scenario_id": 51
+        }
+      ]
+    },
+    {
+      "address": "0x08046118",
+      "raw_hex": "1e07",
+      "input_id": 7,
+      "selection_rule": "battle_header",
+      "selector_address": "0x0853DA0C",
+      "entry_id": 2,
+      "input_domain_valid": true,
+      "canvas": "entry-02/canvas.png",
+      "roots": [
+        {
+          "table": "primary",
+          "scenario_id": 51
+        }
+      ]
+    },
+    {
+      "address": "0x08047F40",
+      "raw_hex": "1e1e",
+      "input_id": 30,
+      "selection_rule": "battle_header",
+      "selector_address": "0x0853DCEC",
+      "entry_id": 7,
+      "input_domain_valid": true,
+      "canvas": "entry-07/canvas.png",
+      "roots": [
+        {
+          "table": "primary",
+          "scenario_id": 53
+        }
+      ]
+    },
+    {
+      "address": "0x08048087",
+      "raw_hex": "1e35",
+      "input_id": 53,
+      "selection_rule": "special_input_minus_41",
+      "selector_address": null,
+      "entry_id": 12,
+      "input_domain_valid": true,
+      "canvas": "entry-12/canvas.png",
+      "roots": [
+        {
+          "table": "alternate",
+          "scenario_id": 53
+        },
+        {
+          "table": "primary",
+          "scenario_id": 53
+        }
+      ]
+    }
+  ]
+}

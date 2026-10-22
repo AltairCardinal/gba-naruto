@@ -1,0 +1,431 @@
+{
+  "answers": {
+    "advance_evidence": "199 of 199 consecutive deltas in the battle probe are exactly +1 (and 59 of 59 after the battle)",
+    "advance_per_frame": 1,
+    "battle14_entry_phase_mod_64": 44,
+    "counter_address": "IWRAM 0x03000078 (32-bit word)",
+    "initial_value": 0,
+    "initial_value_evidence": "the power-on probe reads 0 for 300 consecutive frames and the counter never decreases, so the value is inherited from the zeroed IWRAM at boot and is NOT reset when a battle starts",
+    "live_model_mismatches": 0,
+    "phase_caveat": "the counter counts from power-on, so the outline colour's phase depends on the absolute frame count since boot -- a remake has to be phase-aligned with the original at the same game moment, not merely use the same waveform",
+    "triangle_period_evidence": "the counter advances +1 per frame and the colour is v = (global & 0xF) * 2 + 1 with the falling half selected by global & 0x10, so one full up-down cycle is 64 counter steps",
+    "triangle_period_frames": 64
+  },
+  "counter_iwram_offset": 120,
+  "pram_outline_offset": 542,
+  "probes": {
+    "checkpoint-14-entry": {
+      "counter_deltas": {
+        "1": 199
+      },
+      "counter_mod_64": 44,
+      "first_counter": 998060,
+      "first_samples": [
+        {
+          "counter": 998060,
+          "counter_mod_64": 44,
+          "falling_v": 7,
+          "frame": 2,
+          "matches": true,
+          "model_v": 25,
+          "observed_v": 25,
+          "rising_v": 25
+        },
+        {
+          "counter": 998061,
+          "counter_mod_64": 45,
+          "falling_v": 5,
+          "frame": 3,
+          "matches": true,
+          "model_v": 27,
+          "observed_v": 27,
+          "rising_v": 27
+        },
+        {
+          "counter": 998062,
+          "counter_mod_64": 46,
+          "falling_v": 3,
+          "frame": 4,
+          "matches": true,
+          "model_v": 29,
+          "observed_v": 29,
+          "rising_v": 29
+        },
+        {
+          "counter": 998063,
+          "counter_mod_64": 47,
+          "falling_v": 1,
+          "frame": 5,
+          "matches": true,
+          "model_v": 31,
+          "observed_v": 31,
+          "rising_v": 31
+        },
+        {
+          "counter": 998064,
+          "counter_mod_64": 48,
+          "falling_v": 31,
+          "frame": 6,
+          "matches": true,
+          "model_v": 31,
+          "observed_v": 31,
+          "rising_v": 1
+        },
+        {
+          "counter": 998065,
+          "counter_mod_64": 49,
+          "falling_v": 29,
+          "frame": 7,
+          "matches": true,
+          "model_v": 29,
+          "observed_v": 29,
+          "rising_v": 3
+        },
+        {
+          "counter": 998066,
+          "counter_mod_64": 50,
+          "falling_v": 27,
+          "frame": 8,
+          "matches": true,
+          "model_v": 27,
+          "observed_v": 27,
+          "rising_v": 5
+        },
+        {
+          "counter": 998067,
+          "counter_mod_64": 51,
+          "falling_v": 25,
+          "frame": 9,
+          "matches": true,
+          "model_v": 25,
+          "observed_v": 25,
+          "rising_v": 7
+        },
+        {
+          "counter": 998068,
+          "counter_mod_64": 52,
+          "falling_v": 23,
+          "frame": 10,
+          "matches": true,
+          "model_v": 23,
+          "observed_v": 23,
+          "rising_v": 9
+        },
+        {
+          "counter": 998069,
+          "counter_mod_64": 53,
+          "falling_v": 21,
+          "frame": 11,
+          "matches": true,
+          "model_v": 21,
+          "observed_v": 21,
+          "rising_v": 11
+        },
+        {
+          "counter": 998070,
+          "counter_mod_64": 54,
+          "falling_v": 19,
+          "frame": 12,
+          "matches": true,
+          "model_v": 19,
+          "observed_v": 19,
+          "rising_v": 13
+        },
+        {
+          "counter": 998071,
+          "counter_mod_64": 55,
+          "falling_v": 17,
+          "frame": 13,
+          "matches": true,
+          "model_v": 17,
+          "observed_v": 17,
+          "rising_v": 15
+        }
+      ],
+      "last_counter": 998259,
+      "model": "v = (global & 0xF) * 2 + 1, falling half when global & 0x10",
+      "model_mismatches": 0,
+      "probe": "checkpoint-14-entry",
+      "samples": 200
+    },
+    "postbattle-task-menu": {
+      "counter_deltas": {
+        "1": 59
+      },
+      "counter_mod_64": 61,
+      "first_counter": 1061053,
+      "first_samples": [
+        {
+          "counter": 1061053,
+          "counter_mod_64": 61,
+          "falling_v": 5,
+          "frame": 2,
+          "matches": true,
+          "model_v": 5,
+          "observed_v": null,
+          "rising_v": 27
+        },
+        {
+          "counter": 1061054,
+          "counter_mod_64": 62,
+          "falling_v": 3,
+          "frame": 3,
+          "matches": true,
+          "model_v": 3,
+          "observed_v": null,
+          "rising_v": 29
+        },
+        {
+          "counter": 1061055,
+          "counter_mod_64": 63,
+          "falling_v": 1,
+          "frame": 4,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 31
+        },
+        {
+          "counter": 1061056,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 5,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 1061057,
+          "counter_mod_64": 1,
+          "falling_v": 29,
+          "frame": 6,
+          "matches": true,
+          "model_v": 3,
+          "observed_v": null,
+          "rising_v": 3
+        },
+        {
+          "counter": 1061058,
+          "counter_mod_64": 2,
+          "falling_v": 27,
+          "frame": 7,
+          "matches": true,
+          "model_v": 5,
+          "observed_v": null,
+          "rising_v": 5
+        },
+        {
+          "counter": 1061059,
+          "counter_mod_64": 3,
+          "falling_v": 25,
+          "frame": 8,
+          "matches": true,
+          "model_v": 7,
+          "observed_v": null,
+          "rising_v": 7
+        },
+        {
+          "counter": 1061060,
+          "counter_mod_64": 4,
+          "falling_v": 23,
+          "frame": 9,
+          "matches": true,
+          "model_v": 9,
+          "observed_v": null,
+          "rising_v": 9
+        },
+        {
+          "counter": 1061061,
+          "counter_mod_64": 5,
+          "falling_v": 21,
+          "frame": 10,
+          "matches": true,
+          "model_v": 11,
+          "observed_v": null,
+          "rising_v": 11
+        },
+        {
+          "counter": 1061062,
+          "counter_mod_64": 6,
+          "falling_v": 19,
+          "frame": 11,
+          "matches": true,
+          "model_v": 13,
+          "observed_v": null,
+          "rising_v": 13
+        },
+        {
+          "counter": 1061063,
+          "counter_mod_64": 7,
+          "falling_v": 17,
+          "frame": 12,
+          "matches": true,
+          "model_v": 15,
+          "observed_v": null,
+          "rising_v": 15
+        },
+        {
+          "counter": 1061064,
+          "counter_mod_64": 8,
+          "falling_v": 15,
+          "frame": 13,
+          "matches": true,
+          "model_v": 17,
+          "observed_v": null,
+          "rising_v": 17
+        }
+      ],
+      "last_counter": 1061112,
+      "model": "v = (global & 0xF) * 2 + 1, falling half when global & 0x10",
+      "model_mismatches": 0,
+      "probe": "postbattle-task-menu",
+      "samples": 60
+    },
+    "power-on": {
+      "counter_deltas": {
+        "0": 299
+      },
+      "counter_mod_64": 0,
+      "first_counter": 0,
+      "first_samples": [
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 2,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 3,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 4,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 5,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 6,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 7,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 8,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 9,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 10,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 11,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 12,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        },
+        {
+          "counter": 0,
+          "counter_mod_64": 0,
+          "falling_v": 31,
+          "frame": 13,
+          "matches": true,
+          "model_v": 1,
+          "observed_v": null,
+          "rising_v": 1
+        }
+      ],
+      "last_counter": 0,
+      "model": "v = (global & 0xF) * 2 + 1, falling half when global & 0x10",
+      "model_mismatches": 0,
+      "probe": "power-on",
+      "samples": 300
+    }
+  },
+  "rom": {
+    "counter_literal_in_rom": "0x0806A7D4",
+    "pram_literal_in_rom": [
+      "0x0806A7F4",
+      "0x0806A808"
+    ],
+    "pram_store": "0x0806A7EE",
+    "writer_function": "0x0806A7A0"
+  },
+  "schema": "konoha.s49-outline-triangle-counter.v1",
+  "what": "The original's unit-outline colour counter: where it lives, what it starts at, how fast it advances, and the evidence."
+}

@@ -1,0 +1,46 @@
+{
+  "frame_id": 1,
+  "definition_pointer": "0x0812ED88",
+  "definition_file_offset": 1240456,
+  "definition_raw_hex": "10000000f0fff0ff2000200000010001ff000000ffff0000",
+  "definition_sha256": "ac1f8da168f508406277ee1bbd638ea19f35995e30b1964bb15c0f49e285fce5",
+  "tile_offset": 16,
+  "x_offset": -16,
+  "y_offset": -16,
+  "width": 32,
+  "height": 32,
+  "width_tiles": 4,
+  "height_tiles": 4,
+  "definition_tail_words": [
+    256,
+    256,
+    255,
+    0,
+    65535,
+    0
+  ],
+  "animation_pointer": "0x0812EDE8",
+  "animation_file_offset": 1240552,
+  "animation_raw_hex": "01000000ffff0000",
+  "animation_sha256": "8e414ec2139eb2e6098c59fdf431949d10a8aaec545858efb78752293618bd11",
+  "animation_words": [
+    1,
+    0,
+    65535,
+    0
+  ],
+  "animation_timing_interpreted": true,
+  "duration_ticks": 0,
+  "first_expiry_update": 65536,
+  "termination_policy": "deactivate_task",
+  "playback": [
+    {
+      "frame_id": 1,
+      "start_update": 0,
+      "end_update_exclusive": 65536
+    }
+  ],
+  "animation_timeline_json": "resource_3_animation_01.json",
+  "png": "resource_3_frame_01.png",
+  "png_sha256": "5ecef9314a84dd389e0b37b620aafdb0d772f73f2fb916b27dac474bf204b201"
+}

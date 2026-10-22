@@ -1,0 +1,2437 @@
+{
+  "schema": "sprite-definition-assets-v2",
+  "rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "pair_table": {
+    "file_offset": 5501248,
+    "gba_address": "0x0853F140",
+    "entry_count": 43,
+    "entry_size": 8,
+    "sha256": "5873ae022e9b6290f876aab367b6dbe95b7a97b9b7a2f15d0861dc747196f3f8"
+  },
+  "tile_offset_table": {
+    "file_offset": 5501592,
+    "gba_address": "0x0853F298",
+    "entry_count": 43,
+    "entry_size": 2,
+    "sha256": "86d57e438c3b3e9a877ebea8d910e2782c30b5bcbf8ca4f305df1deee6d231d6"
+  },
+  "resolved_window_0x28_definition": "concat in pair-table order of ROM[D_i[0]:D_i[0]+0x28]",
+  "resolved_window_0x28_sha256": "439eb69f5ee2eadefe6fbd66b88ba27fb53c6552ac184267a803917fe8e98248",
+  "entry_count": 43,
+  "component_count": 45,
+  "multi_component_entry_ids": [
+    37,
+    38
+  ],
+  "static_resources": {
+    "graphics": {
+      "file_offset": 1241752,
+      "gba_address": "0x0812F298",
+      "compressed_size": 745,
+      "compressed_sha256": "57367318445ab783ee8b4ff4fd58deb37105e106a70f0608a531a756e9b059e2",
+      "decompressed_size": 1568,
+      "decompressed_sha256": "1472c4df7436428d41c668fd6ebb21f58c2a13b0876f372fe3f4b5d602aaa256",
+      "tile_count": 49,
+      "output_bin": "sprite-pack-4bpp.bin"
+    },
+    "palette": {
+      "file_offset": 1242500,
+      "gba_address": "0x0812F584",
+      "compressed_size": 20,
+      "compressed_sha256": "7aad1ded0576b67924b8a9e6e8f24698b226929839502a3ef16b43dd6821df69",
+      "decompressed_size": 32,
+      "decompressed_sha256": "043a3dbc0b648314d4289bea8eeca660c17085ddd1c2fb225e50ace435f95ab6",
+      "color_count": 16,
+      "transparent_index": 0,
+      "output_bin": "palette-16-bgr555.bin"
+    }
+  },
+  "sprite_pack_atlas": {
+    "png": "sprite-pack-atlas.png",
+    "width": 256,
+    "height": 16,
+    "tiles_per_row": 32,
+    "tile_count": 49,
+    "pixel_sha256": "f4cb3c979a74859d6be4b46171ed164998a50f485ef346518c6bf44b5a71ae0c",
+    "png_sha256": "863805ea10febb0b41dd847b7c41935404f389c645794f2ac5aa531205b7d13c"
+  },
+  "tile_coverage": {
+    "tile_count": 49,
+    "tile_reference_count": 49,
+    "referenced_tile_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48
+    ],
+    "missing_tile_indices": [],
+    "duplicate_tile_indices": [],
+    "all_tiles_referenced_exactly_once": true
+  },
+  "artifact_file_count": 47,
+  "artifact_files": [
+    "manifest.json",
+    "palette-16-bgr555.bin",
+    "sprite-id-00.png",
+    "sprite-id-01.png",
+    "sprite-id-02.png",
+    "sprite-id-03.png",
+    "sprite-id-04.png",
+    "sprite-id-05.png",
+    "sprite-id-06.png",
+    "sprite-id-07.png",
+    "sprite-id-08.png",
+    "sprite-id-09.png",
+    "sprite-id-10.png",
+    "sprite-id-11.png",
+    "sprite-id-12.png",
+    "sprite-id-13.png",
+    "sprite-id-14.png",
+    "sprite-id-15.png",
+    "sprite-id-16.png",
+    "sprite-id-17.png",
+    "sprite-id-18.png",
+    "sprite-id-19.png",
+    "sprite-id-20.png",
+    "sprite-id-21.png",
+    "sprite-id-22.png",
+    "sprite-id-23.png",
+    "sprite-id-24.png",
+    "sprite-id-25.png",
+    "sprite-id-26.png",
+    "sprite-id-27.png",
+    "sprite-id-28.png",
+    "sprite-id-29.png",
+    "sprite-id-30.png",
+    "sprite-id-31.png",
+    "sprite-id-32.png",
+    "sprite-id-33.png",
+    "sprite-id-34.png",
+    "sprite-id-35.png",
+    "sprite-id-36.png",
+    "sprite-id-37.png",
+    "sprite-id-38.png",
+    "sprite-id-39.png",
+    "sprite-id-40.png",
+    "sprite-id-41.png",
+    "sprite-id-42.png",
+    "sprite-pack-4bpp.bin",
+    "sprite-pack-atlas.png"
+  ],
+  "entries": [
+    {
+      "id": 0,
+      "pair_file_offset": 5501248,
+      "definition_pointer": "0x0812F5B0",
+      "animation_pointer": "0x0812F5BC",
+      "tile_base_offset": 0,
+      "component_list_pointer": "0x0812F598",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "98f5120800000100ffff0000",
+      "definition_header_sha256": "efe9fd5c2836629cacd80f25451fa470a1c612560aaa76c742ea7017b5064df7",
+      "resolved_window_0x28_sha256": "f9be78b1c46c34c576dac53b3cab96a94f11ae9c27b4f3122d7112736e8d63d8",
+      "asset": {
+        "png": "sprite-id-00.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          0
+        ],
+        "pixel_sha256": "dd60a1be580572415777c0db43f7293e4bc63f9675970fc124a9d96e310f3d89",
+        "png_sha256": "73d16ba0af7f795cd53acdb36c35bdf5afb9d8a093056c5c3b234f9f440f7dcd"
+      }
+    },
+    {
+      "id": 1,
+      "pair_file_offset": 5501256,
+      "definition_pointer": "0x0812F5D8",
+      "animation_pointer": "0x0812F5E4",
+      "tile_base_offset": 1,
+      "component_list_pointer": "0x0812F5C0",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "c0f5120800000100ffff0000",
+      "definition_header_sha256": "7a9975409c3e1a6f0bfb69796e7c610ee93402b6d673c66083e49aa063cde15c",
+      "resolved_window_0x28_sha256": "8a5f1ddc565ce9810b06158da44f02eb9f97cfc356fca2accbf6acad1aa445f9",
+      "asset": {
+        "png": "sprite-id-01.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          1
+        ],
+        "pixel_sha256": "14fc71ad50d7b750ec57acc1de4f1683058a4e4aea9cf2477f8004e5cfebadb4",
+        "png_sha256": "ceb5a4b02a63e0ceaedd6b9b8ed96e7ae8c37b03345b3e717769e11300dd5801"
+      }
+    },
+    {
+      "id": 2,
+      "pair_file_offset": 5501264,
+      "definition_pointer": "0x0812F600",
+      "animation_pointer": "0x0812F60C",
+      "tile_base_offset": 2,
+      "component_list_pointer": "0x0812F5E8",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "e8f5120800000100ffff0000",
+      "definition_header_sha256": "d9f0b5c7082056cf5785b202733cc19517652b519fb774b835b92cecfacca764",
+      "resolved_window_0x28_sha256": "a6dc603c7232699949c131ef7cc2a3e583f757a8e791d7c29f18fcee087350b0",
+      "asset": {
+        "png": "sprite-id-02.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          2
+        ],
+        "pixel_sha256": "cbfae957b8c0e4536714c10222aac35f0168a019b6af2924b5f4ae37ba6d6527",
+        "png_sha256": "a80537d38b51d090c422676c1185a30262dee4fcbddfcc37e8f96fced05ffe47"
+      }
+    },
+    {
+      "id": 3,
+      "pair_file_offset": 5501272,
+      "definition_pointer": "0x0812F628",
+      "animation_pointer": "0x0812F634",
+      "tile_base_offset": 3,
+      "component_list_pointer": "0x0812F610",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "10f6120800000100ffff0000",
+      "definition_header_sha256": "e83db35782fa070ccb85ccff3d540bdc9b5d2437a9657373e23306940ce23541",
+      "resolved_window_0x28_sha256": "74adb2c74d7525956978a3958e3dfd13ecf4aee20061ef6b69c7d69fb504bfd4",
+      "asset": {
+        "png": "sprite-id-03.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          3
+        ],
+        "pixel_sha256": "94a7f9743ec15bf77ba186967a724d99a3b344abe5061bab3d80b8d66c027302",
+        "png_sha256": "0354fd7e8b2bf76e4de618b66371ee17254124fc0ba988bce4609dc1e11d7511"
+      }
+    },
+    {
+      "id": 4,
+      "pair_file_offset": 5501280,
+      "definition_pointer": "0x0812F650",
+      "animation_pointer": "0x0812F65C",
+      "tile_base_offset": 4,
+      "component_list_pointer": "0x0812F638",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "38f6120800000100ffff0000",
+      "definition_header_sha256": "34a7063fd0ed7c6b1817f7ed1e9561573c202282737deac15cd9d4ae1e9e721c",
+      "resolved_window_0x28_sha256": "99d9c002b0e95f19cb6f4d4b28efae20b23d9b9c64839b42ebb75ec3a769986a",
+      "asset": {
+        "png": "sprite-id-04.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          4
+        ],
+        "pixel_sha256": "20dc598351b55f6f02006cbaa5f30169d3d06995b5e84bf0f444c7e9f71d7ad7",
+        "png_sha256": "f948c62b2cfa94724d692941b5475f26fe2ac9e5bb9b06477c2c8924a1c3d2e6"
+      }
+    },
+    {
+      "id": 5,
+      "pair_file_offset": 5501288,
+      "definition_pointer": "0x0812F678",
+      "animation_pointer": "0x0812F684",
+      "tile_base_offset": 5,
+      "component_list_pointer": "0x0812F660",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "60f6120800000100ffff0000",
+      "definition_header_sha256": "9212bb4c3df14c1a3b42fc1916d4e7ada3977439f4ec3f99d60e5bb8047d2fed",
+      "resolved_window_0x28_sha256": "51360f3caac11a76774c2a5b3c716b5fae17cc372e372cb253ae33dadf4736b8",
+      "asset": {
+        "png": "sprite-id-05.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          5
+        ],
+        "pixel_sha256": "c0bf9d0884fd5e58b4a9461dcc480fd96d567178d416530fa1ed2634c182b382",
+        "png_sha256": "21fd92b0c5c1cee9796825e9eced31d09ff1a8bf523cac324bb428ff8e0a0e2e"
+      }
+    },
+    {
+      "id": 6,
+      "pair_file_offset": 5501296,
+      "definition_pointer": "0x0812F6A0",
+      "animation_pointer": "0x0812F6AC",
+      "tile_base_offset": 6,
+      "component_list_pointer": "0x0812F688",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "88f6120800000100ffff0000",
+      "definition_header_sha256": "4bb27bde1438315e18c53654832333fde4b1050434efd1e2298b5fcc4d459f5d",
+      "resolved_window_0x28_sha256": "e2c45fb2f0d2728ca02235f35bc5154c64be7ec1c3a04fc2df69399a0086f7d0",
+      "asset": {
+        "png": "sprite-id-06.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          6
+        ],
+        "pixel_sha256": "5ac279a4fb85180d8177ca9afcd82c3ef1299b5b72012c29357b7475014d916d",
+        "png_sha256": "5d594a3ab9cb7bb1b5b189ffc1c6426fffc194e9bbf1b1175b020889dae128a0"
+      }
+    },
+    {
+      "id": 7,
+      "pair_file_offset": 5501304,
+      "definition_pointer": "0x0812F6C8",
+      "animation_pointer": "0x0812F6D4",
+      "tile_base_offset": 7,
+      "component_list_pointer": "0x0812F6B0",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "b0f6120800000100ffff0000",
+      "definition_header_sha256": "bce078a42eee2ec3e0437288cae4a97c6923d21a780de9ec255a862180e16543",
+      "resolved_window_0x28_sha256": "7008de17a4b0cd673e3e1c2a5d5489e665d9b32f83a589a808eb0a2da9f674a4",
+      "asset": {
+        "png": "sprite-id-07.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          7
+        ],
+        "pixel_sha256": "e5ce9682581aab364f8973dea41272eb95e08f8620e4d8f9e18a2c6a0731832f",
+        "png_sha256": "f946b2ca8c730ccf6d4a5a7e7a57e6147ca3fe7c50e54a6437b3f4bf7867af28"
+      }
+    },
+    {
+      "id": 8,
+      "pair_file_offset": 5501312,
+      "definition_pointer": "0x0812F6F0",
+      "animation_pointer": "0x0812F6FC",
+      "tile_base_offset": 8,
+      "component_list_pointer": "0x0812F6D8",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "d8f6120800000100ffff0000",
+      "definition_header_sha256": "fbe80ce693ae403ce53fdebbd8fe4c90d36a05551aaf67eee55ca64d15fbb8fb",
+      "resolved_window_0x28_sha256": "b48fd9859fe5e39a1ec59b9774d3677a3c955136f424ff714819843515a80ea0",
+      "asset": {
+        "png": "sprite-id-08.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          8
+        ],
+        "pixel_sha256": "9bc3be4d9c39806cbcb038f429b36545d5d128b6a86623f2e54e83b1b0e591b2",
+        "png_sha256": "ee3e6edecca8dc39e58b731cb31d5ee1c495a44ea7c041eefa614aedece61134"
+      }
+    },
+    {
+      "id": 9,
+      "pair_file_offset": 5501320,
+      "definition_pointer": "0x0812F718",
+      "animation_pointer": "0x0812F724",
+      "tile_base_offset": 9,
+      "component_list_pointer": "0x0812F700",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "00f7120800000100ffff0000",
+      "definition_header_sha256": "b40f733ef7b7e33dc874730b5386a409c7d07823f1745c13ec51163247662704",
+      "resolved_window_0x28_sha256": "9da4d1d8a1f9c7130c41d3ae668b68637d7d51ece867fb2dc2268e138ccc33d5",
+      "asset": {
+        "png": "sprite-id-09.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          9
+        ],
+        "pixel_sha256": "e6cb56733627bb5a69b67d1432b0f145c6857395dd4330309f321fa9df0fe43c",
+        "png_sha256": "3d68138f1a2430c6893dae71764de766f979497c3c124ebe1d84de3bdad3325d"
+      }
+    },
+    {
+      "id": 10,
+      "pair_file_offset": 5501328,
+      "definition_pointer": "0x0812F8D0",
+      "animation_pointer": "0x0812F8DC",
+      "tile_base_offset": 25,
+      "component_list_pointer": "0x0812F8B8",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "b8f8120800000100ffff0000",
+      "definition_header_sha256": "05f7244dec87bf3f93552508876a4e7ae27b94a9fadbf026b06ab9aaaf3b745e",
+      "resolved_window_0x28_sha256": "967e5a4f1b7844490a1e7697fcc618bda3f35079159f0fc2847f2adc8d977078",
+      "asset": {
+        "png": "sprite-id-10.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          25
+        ],
+        "pixel_sha256": "1d2116bc7ad34ff337085bc8665eeeb83695b0821740ad214248320f9546922c",
+        "png_sha256": "4b465252e55964edb8dd79946f2cc209104ab08335232c22893078268002d12c"
+      }
+    },
+    {
+      "id": 11,
+      "pair_file_offset": 5501336,
+      "definition_pointer": "0x0812F8F8",
+      "animation_pointer": "0x0812F904",
+      "tile_base_offset": 26,
+      "component_list_pointer": "0x0812F8E0",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "e0f8120800000100ffff0000",
+      "definition_header_sha256": "52087f06525808a3c2730ae3b8f84928af832a03be1280537eb4343b37443b81",
+      "resolved_window_0x28_sha256": "e5ad94c614dd02351e4d9fd5a373e35e5ea7605fa7f59266d25673adaf6c4759",
+      "asset": {
+        "png": "sprite-id-11.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          26
+        ],
+        "pixel_sha256": "8adbf1ad4092311383472e3a58054a2a692c5ed8d5998683242d8147c599fbd8",
+        "png_sha256": "e3a5148a4dafba055a3b49ca0bfce1a4525d660e5fdbea553c8997fc95a8c465"
+      }
+    },
+    {
+      "id": 12,
+      "pair_file_offset": 5501344,
+      "definition_pointer": "0x0812F920",
+      "animation_pointer": "0x0812F92C",
+      "tile_base_offset": 27,
+      "component_list_pointer": "0x0812F908",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "08f9120800000100ffff0000",
+      "definition_header_sha256": "c8159a66159036161c35c28674fd75d3b918091e8f7a19d65851c551085d5ac6",
+      "resolved_window_0x28_sha256": "21aaa144b5cb0e42c6eab369d3ba122de4c35b87d8d8a385a50f9f141636bac1",
+      "asset": {
+        "png": "sprite-id-12.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          27
+        ],
+        "pixel_sha256": "cd5685a1ef19364d0c465b0af4549c1e26d36ecb3239abe159bec603558225ca",
+        "png_sha256": "ff07e957569df5aa225b391d71b6e43ecb204315ea596ac8fe29809b7363799e"
+      }
+    },
+    {
+      "id": 13,
+      "pair_file_offset": 5501352,
+      "definition_pointer": "0x0812F948",
+      "animation_pointer": "0x0812F954",
+      "tile_base_offset": 28,
+      "component_list_pointer": "0x0812F930",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "30f9120800000100ffff0000",
+      "definition_header_sha256": "948577fc950ea05724b071eaac0a0be4b491ec3f1004f4416b541d2d31c53f5f",
+      "resolved_window_0x28_sha256": "07c56a700eac78ac558e453797675b61c9f06ffcfce5ee08d298f086e57b3a70",
+      "asset": {
+        "png": "sprite-id-13.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          28
+        ],
+        "pixel_sha256": "cbadba7f752529117661f1944ab5a28e69f98e3a0541247cd973b54619789f2c",
+        "png_sha256": "f2a274e133250b8119a20bcb8de45874449e1a35af76dd8feff5c555c1b648d3"
+      }
+    },
+    {
+      "id": 14,
+      "pair_file_offset": 5501360,
+      "definition_pointer": "0x0812F970",
+      "animation_pointer": "0x0812F97C",
+      "tile_base_offset": 29,
+      "component_list_pointer": "0x0812F958",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "58f9120800000100ffff0000",
+      "definition_header_sha256": "56f577cc0798871f88ab8c160210febc2ee974d417a20cbab1520f0958bf56b1",
+      "resolved_window_0x28_sha256": "d53b5af8ab09e337235c36968d9d9e287fac40a43a0811bad78785c790d29d4d",
+      "asset": {
+        "png": "sprite-id-14.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          29
+        ],
+        "pixel_sha256": "c05befa3660a6ea8dbb8f2d416780bc1d5de03ca261c241a7ec9602f54f3e8c6",
+        "png_sha256": "bc57bdaf99e9a48929a1e610ffab2c5136b5965d33dc9e333005db119e771b7f"
+      }
+    },
+    {
+      "id": 15,
+      "pair_file_offset": 5501368,
+      "definition_pointer": "0x0812F998",
+      "animation_pointer": "0x0812F9A4",
+      "tile_base_offset": 30,
+      "component_list_pointer": "0x0812F980",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "80f9120800000100ffff0000",
+      "definition_header_sha256": "40a085fe98ed9c44aca22b984301ab01b0145bb6e3b5672a99f37caeed58903a",
+      "resolved_window_0x28_sha256": "bab06ba753b000180a7a13e3f720a26906051de7acc599623add9c0f70810d27",
+      "asset": {
+        "png": "sprite-id-15.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          30
+        ],
+        "pixel_sha256": "b87418983be7afba7a3067de609966bff313fee86931e2ba2e086c80922856f0",
+        "png_sha256": "512ef3215d4c4ff842ff979b2cdcfc435a5357d30c9b51133c3eca61e296ca83"
+      }
+    },
+    {
+      "id": 16,
+      "pair_file_offset": 5501376,
+      "definition_pointer": "0x0812F9C0",
+      "animation_pointer": "0x0812F9CC",
+      "tile_base_offset": 31,
+      "component_list_pointer": "0x0812F9A8",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "a8f9120800000100ffff0000",
+      "definition_header_sha256": "daa54268f5f6e64fd08a571a7a1fa35cd88432036dcf72f1a2dcc912c99f0f53",
+      "resolved_window_0x28_sha256": "6b148ecc34a031ec61e164afbd9d7d3ac0967ccc06150a0b119a73f885713d29",
+      "asset": {
+        "png": "sprite-id-16.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          31
+        ],
+        "pixel_sha256": "c7eb8a436c6574da39870f4d8cf8747607bdff7c3a23abdd7a868bd6e6e0fa4a",
+        "png_sha256": "2f6276155da9dd80c821e42f9e901e07af60085afa0e6ab2f99799e1f4c77f1f"
+      }
+    },
+    {
+      "id": 17,
+      "pair_file_offset": 5501384,
+      "definition_pointer": "0x0812F9E8",
+      "animation_pointer": "0x0812F9F4",
+      "tile_base_offset": 32,
+      "component_list_pointer": "0x0812F9D0",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "d0f9120800000100ffff0000",
+      "definition_header_sha256": "43f94b6a7601550ddcc210270a0abdd561339a9c78a9644b583c75bacb40e0fe",
+      "resolved_window_0x28_sha256": "d42480e1ea0ca3bc87a0abd8389eb3492d50636c3a5860c87a7dd371b8e116d2",
+      "asset": {
+        "png": "sprite-id-17.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          32
+        ],
+        "pixel_sha256": "8e55b0bf2350748825b8248c850e8993d1aa8f7f6b7d8099aea331eb4fd264ff",
+        "png_sha256": "bd6e2bb0b686e47fc5105b355db4d3e90353480e9817c6156e3921b4453f0687"
+      }
+    },
+    {
+      "id": 18,
+      "pair_file_offset": 5501392,
+      "definition_pointer": "0x0812FA10",
+      "animation_pointer": "0x0812FA1C",
+      "tile_base_offset": 33,
+      "component_list_pointer": "0x0812F9F8",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "f8f9120800000100ffff0000",
+      "definition_header_sha256": "f577802d7c85c229339a25a5b4315ba210e1e93d09f698d18fb038c155abaeaa",
+      "resolved_window_0x28_sha256": "031d7ec93ca2cb192521796b2d04e102b61f9a6d15281aae8f0471982b1ba8d0",
+      "asset": {
+        "png": "sprite-id-18.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          33
+        ],
+        "pixel_sha256": "5085b55507f4da3ec23620ee3d29e2e6917fb7ba6fd6e7ba0977d3da04345dc4",
+        "png_sha256": "dcf76f5dc2baa21b1565b65eeaeff6397f63cfe08b6da8eb4b1aedbae37a2851"
+      }
+    },
+    {
+      "id": 19,
+      "pair_file_offset": 5501400,
+      "definition_pointer": "0x0812FA38",
+      "animation_pointer": "0x0812FA44",
+      "tile_base_offset": 34,
+      "component_list_pointer": "0x0812FA20",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "20fa120800000100ffff0000",
+      "definition_header_sha256": "a431be04e6efdcc28431448fa535d6dc83bbc92f13c5044887c4e89687860fb6",
+      "resolved_window_0x28_sha256": "28ff9b8875593b7e1e5464977df46f5aca197779eb94a2d815a78e2c987cb2f9",
+      "asset": {
+        "png": "sprite-id-19.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          34
+        ],
+        "pixel_sha256": "bbf0425cc272ce92728e830c762ff415aeb271a4657faf13fa9f60ca4412bb4f",
+        "png_sha256": "85bf09751d7027f8f29c01934813fd015b98014fa5beac678337e52382d5521b"
+      }
+    },
+    {
+      "id": 20,
+      "pair_file_offset": 5501408,
+      "definition_pointer": "0x0812FAB0",
+      "animation_pointer": "0x0812FABC",
+      "tile_base_offset": 37,
+      "component_list_pointer": "0x0812FA98",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "98fa120800000100ffff0000",
+      "definition_header_sha256": "09d9b5bb9c5aff2e845d6628944e7855751206a3516ec9d27f57c4360c25a4fb",
+      "resolved_window_0x28_sha256": "326b8abd412ff145a405e19d525ffbfd09e1b13a7f3b29235a96194409d05f5c",
+      "asset": {
+        "png": "sprite-id-20.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          37
+        ],
+        "pixel_sha256": "b6086dc94a0f63c5c90cb4ce9e470f03995e329f68d9053dd6f34f738a96a90b",
+        "png_sha256": "091fbd4b21d2408750a36dbf223769e35dc50b29ea0a9f62f8dcb1b1822491e1"
+      }
+    },
+    {
+      "id": 21,
+      "pair_file_offset": 5501416,
+      "definition_pointer": "0x0812FAD8",
+      "animation_pointer": "0x0812FAE4",
+      "tile_base_offset": 38,
+      "component_list_pointer": "0x0812FAC0",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "c0fa120800000100ffff0000",
+      "definition_header_sha256": "a3c3a6ba9246a05de7dd5d964deed20abe972232b55d0ee80ac94d248a90496a",
+      "resolved_window_0x28_sha256": "ebe58213e08056a695d7b61b2a28d947a1434a1b40c9c5ec5f67c2586a845bcd",
+      "asset": {
+        "png": "sprite-id-21.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          38
+        ],
+        "pixel_sha256": "8eed7381931d9b98ce96668d57f84647bc39bc3125e01b05c72b8c113723a411",
+        "png_sha256": "c0a1a07224fe2e77cdc4e4816cfa927737b45334553b5234c397351c177a8843"
+      }
+    },
+    {
+      "id": 22,
+      "pair_file_offset": 5501424,
+      "definition_pointer": "0x0812FB00",
+      "animation_pointer": "0x0812FB0C",
+      "tile_base_offset": 39,
+      "component_list_pointer": "0x0812FAE8",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "e8fa120800000100ffff0000",
+      "definition_header_sha256": "01f2dac2c4576aa9d5be4c50ee6b29c4508d5da06779ba847eb676f8ee140f37",
+      "resolved_window_0x28_sha256": "61542db2d2c33c31dd1224d3a7272f1c5bde680c08d99610746d4eb9016dfced",
+      "asset": {
+        "png": "sprite-id-22.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          39
+        ],
+        "pixel_sha256": "5660396f38b905b2a628020eb8e85c3ef575e1da479fae6d4e2fcacbc8ba8a7b",
+        "png_sha256": "e644537217dfd87045794f49d6125a5b934b5ff6b0920ea4a449b3bc2a52eb79"
+      }
+    },
+    {
+      "id": 23,
+      "pair_file_offset": 5501432,
+      "definition_pointer": "0x0812FB28",
+      "animation_pointer": "0x0812FB34",
+      "tile_base_offset": 40,
+      "component_list_pointer": "0x0812FB10",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "10fb120800000100ffff0000",
+      "definition_header_sha256": "26ba3d3b0310c872c23bd2cee0ede89e2ae1dcb283800fef8921bb4ec85a38ce",
+      "resolved_window_0x28_sha256": "72dfd73965b98f5ece13742451cc5c363ceda0d483ab2f879113c7c296a11b36",
+      "asset": {
+        "png": "sprite-id-23.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          40
+        ],
+        "pixel_sha256": "253d9bcafbcf59b04e1229f227fcb409d7c9e9f49c0aa01e62c52f2f54ee0663",
+        "png_sha256": "3d91ed4c22c4ed269d1ef8dd9431ef003c5eba0821aa3506430a7eae3f2e571f"
+      }
+    },
+    {
+      "id": 24,
+      "pair_file_offset": 5501440,
+      "definition_pointer": "0x0812FB50",
+      "animation_pointer": "0x0812FB5C",
+      "tile_base_offset": 41,
+      "component_list_pointer": "0x0812FB38",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "38fb120800000100ffff0000",
+      "definition_header_sha256": "2b55123edb852af4867a93eab3565714379537861b4792e9bbb5b464e037a29e",
+      "resolved_window_0x28_sha256": "c99341c6a3b7054b82ea93be23fb0c9e6391c973783d9e194cf5e31b16e47001",
+      "asset": {
+        "png": "sprite-id-24.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          41
+        ],
+        "pixel_sha256": "1690b0fba4d50e89d4111a02a1b7f9935ad00a715d9f1d57fca61a8677529869",
+        "png_sha256": "dcb4c8d91707e1d604f018303e4987e3f1eb39c5de8cf33623bf05cf188afffa"
+      }
+    },
+    {
+      "id": 25,
+      "pair_file_offset": 5501448,
+      "definition_pointer": "0x0812FB78",
+      "animation_pointer": "0x0812FB84",
+      "tile_base_offset": 42,
+      "component_list_pointer": "0x0812FB60",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "60fb120800000100ffff0000",
+      "definition_header_sha256": "99a619600cf509fe3e80f5ad68e1a6d0edf2b6d2cc0691763e9ba9bc00ca5ce5",
+      "resolved_window_0x28_sha256": "3103fa5fe72ecfb3bf07d6c454e29b40724e53d420ff3cb8ef2fad20e70b85ae",
+      "asset": {
+        "png": "sprite-id-25.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          42
+        ],
+        "pixel_sha256": "ea7c1dda9766c276a71a321a2f9f3e5ac7e33d711d09d8607d47d1997c6695d8",
+        "png_sha256": "7eea9c924d19b4ef20ace05296452cd0cc5e32ab6477a6f1c138411899a52ff5"
+      }
+    },
+    {
+      "id": 26,
+      "pair_file_offset": 5501456,
+      "definition_pointer": "0x0812FBA0",
+      "animation_pointer": "0x0812FBAC",
+      "tile_base_offset": 43,
+      "component_list_pointer": "0x0812FB88",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "88fb120800000100ffff0000",
+      "definition_header_sha256": "787abdf574aa1bbf884b9ecd661a860ac99d0abc17bf1193fb7b3d08317e504c",
+      "resolved_window_0x28_sha256": "262614c8fbc0099306dd6902983d0b7831ebb0a794ca3dd68565d67903ee5999",
+      "asset": {
+        "png": "sprite-id-26.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          43
+        ],
+        "pixel_sha256": "9a6fecf9b30578b265f1a6744c3cc3f129d5d6c3e7ac3ff637ac5fe62e7bc85c",
+        "png_sha256": "11471a1eb76dce6ff1d3b2491c949506a94663884cf86c9c02fa79ff838f7e0c"
+      }
+    },
+    {
+      "id": 27,
+      "pair_file_offset": 5501464,
+      "definition_pointer": "0x0812FBC8",
+      "animation_pointer": "0x0812FBD4",
+      "tile_base_offset": 44,
+      "component_list_pointer": "0x0812FBB0",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "b0fb120800000100ffff0000",
+      "definition_header_sha256": "59da1f0e7c20848b0e065d2da1b775946197906de858a7d46c5d03d05513d511",
+      "resolved_window_0x28_sha256": "3c56f348ce8a948a2d143c16ae92c8423996977c583705252deaa5b5b7dfd25c",
+      "asset": {
+        "png": "sprite-id-27.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          44
+        ],
+        "pixel_sha256": "643f4e7fc6cfc6cd1a0421fef3fa3bf4ffdfaabb64a03c391abee0aacd322771",
+        "png_sha256": "45430219a7ff3d0f4b3a4a7f4e37953a7b6acc2596e66d0814ca6dd410bd96b7"
+      }
+    },
+    {
+      "id": 28,
+      "pair_file_offset": 5501472,
+      "definition_pointer": "0x0812FBF0",
+      "animation_pointer": "0x0812FBFC",
+      "tile_base_offset": 45,
+      "component_list_pointer": "0x0812FBD8",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "d8fb120800000100ffff0000",
+      "definition_header_sha256": "da5ce8a4ec01a913bb6ae57093e934811951bfd4aadbdcba6b640b4ba3fbb35f",
+      "resolved_window_0x28_sha256": "4495724c70fc3fd804827d5a25d4e13986edcb89ec2b30976e28dbe2f7168778",
+      "asset": {
+        "png": "sprite-id-28.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          45
+        ],
+        "pixel_sha256": "5ce49670147e9a7b21c21d788fd12dca7bff19422a411053dbe7195e5851e753",
+        "png_sha256": "1d3bbc91e6ec65900e98375bc59127db01a68da3070b860f3ef53c17627aca7b"
+      }
+    },
+    {
+      "id": 29,
+      "pair_file_offset": 5501480,
+      "definition_pointer": "0x0812FC18",
+      "animation_pointer": "0x0812FC24",
+      "tile_base_offset": 46,
+      "component_list_pointer": "0x0812FC00",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "00fc120800000100ffff0000",
+      "definition_header_sha256": "5507146f886004d0b7fe68f00649fb7e7c6d82b012e576fef7a345b422f9c84f",
+      "resolved_window_0x28_sha256": "6e6cacfa0db05e43b804efd9bd0466461c0d4a83566e56dfc106a34d258d60ef",
+      "asset": {
+        "png": "sprite-id-29.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          46
+        ],
+        "pixel_sha256": "fbf91963a3445e470b396c7664903d122019128b7e4da6b6e1ac8456d7395d95",
+        "png_sha256": "6016a39d0186025c78dd76360043ce860bb1c21f4673327e0d47ae8e6f7492ea"
+      }
+    },
+    {
+      "id": 30,
+      "pair_file_offset": 5501488,
+      "definition_pointer": "0x0812F740",
+      "animation_pointer": "0x0812F74C",
+      "tile_base_offset": 10,
+      "component_list_pointer": "0x0812F728",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "28f7120800000100ffff0000",
+      "definition_header_sha256": "9d82564f5791bc158054eed17edbb8ddcb273c99db8f39b4e9422f60c8d98a96",
+      "resolved_window_0x28_sha256": "e50e7a783da3ad97a632595d35de8bcb47e173cddae6c892d5ddb5c0c3f3880f",
+      "asset": {
+        "png": "sprite-id-30.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          10
+        ],
+        "pixel_sha256": "ee6cac57be9589dff73fdb825799f0598cf3214122107f9f344ddf0b950b5602",
+        "png_sha256": "c878b6f8fd90cadb38479abadabbcdf0aef912cfbdee28576e0e1c7e7e5eca3e"
+      }
+    },
+    {
+      "id": 31,
+      "pair_file_offset": 5501496,
+      "definition_pointer": "0x0812F768",
+      "animation_pointer": "0x0812F774",
+      "tile_base_offset": 11,
+      "component_list_pointer": "0x0812F750",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "50f7120800000100ffff0000",
+      "definition_header_sha256": "c6ff846c3aeefab9054dc9ec5d3271898f93bba97448718920318440a2f0d8aa",
+      "resolved_window_0x28_sha256": "58296ac19b7fd9edcd248f94f41ae0536b47da67dc72fafb5ca045d136200f02",
+      "asset": {
+        "png": "sprite-id-31.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          11
+        ],
+        "pixel_sha256": "53e53eea95c214ac6a5607efb65789b05fe307c1b908acb6414daac0e72e1a1a",
+        "png_sha256": "bf7ead3f1998608b6b30b460e9f94b280045c2eea495bb526050c197230a042a"
+      }
+    },
+    {
+      "id": 32,
+      "pair_file_offset": 5501504,
+      "definition_pointer": "0x0812FA60",
+      "animation_pointer": "0x0812FA6C",
+      "tile_base_offset": 35,
+      "component_list_pointer": "0x0812FA48",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "48fa120800000100ffff0000",
+      "definition_header_sha256": "56ea898f88cbd1151bcc163e9dd7febcfe122c147aca0dd36e6bb5b83a8fdfb2",
+      "resolved_window_0x28_sha256": "7ce80d4eda3a1c4bdfcaa6dc7153bb3f2e0f7a7ba97f1607ee7244aac5644c6a",
+      "asset": {
+        "png": "sprite-id-32.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          35
+        ],
+        "pixel_sha256": "aa368b2396d7d46f7954f02cd7e7a570ace2dd8cf8c409350f72be2ec783a6a0",
+        "png_sha256": "cf12e968d902692899e46bee4bdfd7bfe5cc19c53e75f534af7d99cd6d5ba2ca"
+      }
+    },
+    {
+      "id": 33,
+      "pair_file_offset": 5501512,
+      "definition_pointer": "0x0812FA88",
+      "animation_pointer": "0x0812FA94",
+      "tile_base_offset": 36,
+      "component_list_pointer": "0x0812FA70",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "70fa120800000100ffff0000",
+      "definition_header_sha256": "42e6bb51b951d75cd551ce853a5679f56d0d9ea415c9d0c58d7743ffbbd2b877",
+      "resolved_window_0x28_sha256": "aa403dfd4913c66216a1c6b3311fda3e870d8ec945654176b4f74b49738bd72a",
+      "asset": {
+        "png": "sprite-id-33.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          36
+        ],
+        "pixel_sha256": "b1876a56775cf1091570b221d8e7a47f1bb80fdb211d55da43053173e0dad9d3",
+        "png_sha256": "2b5f368d45700aa2b4c19799198adb98919a0d45a30dbeb04e6e710287736424"
+      }
+    },
+    {
+      "id": 34,
+      "pair_file_offset": 5501520,
+      "definition_pointer": "0x0812FC40",
+      "animation_pointer": "0x0812FC4C",
+      "tile_base_offset": 47,
+      "component_list_pointer": "0x0812FC28",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "28fc120800000100ffff0000",
+      "definition_header_sha256": "3508f64cad773e1425446b3042a34103a89f1e51de4d8792e61d015c3e94a97b",
+      "resolved_window_0x28_sha256": "64f8cb2c78d43b36f1de0bd188f14e6b963ac287edab4ab3e316686226a641c4",
+      "asset": {
+        "png": "sprite-id-34.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          47
+        ],
+        "pixel_sha256": "b837e658b452eb2aecfbb500f9e90d59d296280c21ac234eb425d01411ba4c3e",
+        "png_sha256": "fcdd9de639faafcf18950cb70c7c8c5ade885bc7cdb15034f69f55b277c43e61"
+      }
+    },
+    {
+      "id": 35,
+      "pair_file_offset": 5501528,
+      "definition_pointer": "0x0812FC68",
+      "animation_pointer": "0x0812FC74",
+      "tile_base_offset": 48,
+      "component_list_pointer": "0x0812FC50",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "50fc120800000100ffff0000",
+      "definition_header_sha256": "8c600f5e07a957dedf2cf8745608a8204f3e88774580bc417ee9f7d990a89440",
+      "resolved_window_0x28_sha256": "c225e60457648b92e4b761284e01333494c14281a0ef930e3f9b32d870d7d9da",
+      "asset": {
+        "png": "sprite-id-35.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          48
+        ],
+        "pixel_sha256": "018f8730f8a95d7e85873ad86c2b0ca43546c63bc155de1f344e588738f707ae",
+        "png_sha256": "80bdbfd5642a01a7a583d86799a3a6d686c3ffc0e2fcb21770777e3a3f784bcf"
+      }
+    },
+    {
+      "id": 36,
+      "pair_file_offset": 5501536,
+      "definition_pointer": "0x0812F790",
+      "animation_pointer": "0x0812F79C",
+      "tile_base_offset": 12,
+      "component_list_pointer": "0x0812F778",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "78f7120800000100ffff0000",
+      "definition_header_sha256": "066068f5a09cddfa5aed370976ff0ba905b08bdacee5242f8bdf71c10ec47f09",
+      "resolved_window_0x28_sha256": "b1754606c44ba52c30bb42a051ed17d4d7c0ccbed89c235b66fab3b41b4cedba",
+      "asset": {
+        "png": "sprite-id-36.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          12
+        ],
+        "pixel_sha256": "2e9ceb0d146fa2f4dedc71f79f90ae8ab21a334af602a4e9de272156ba5756b6",
+        "png_sha256": "3663824f50145bd1410ebd81c4ea1362bfc79ba4cffba9de7adff56f823050f2"
+      }
+    },
+    {
+      "id": 37,
+      "pair_file_offset": 5501544,
+      "definition_pointer": "0x0812F7CC",
+      "animation_pointer": "0x0812F7D8",
+      "tile_base_offset": 13,
+      "component_list_pointer": "0x0812F7A0",
+      "component_count": 2,
+      "component_list_size": 44,
+      "component_list_sha256": "5b0df9a0cc4e71c50b72eac13781d4083887edb729d9699291e6ac73fb18fc91",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 32,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000200000000800080000010001ff000000"
+        },
+        {
+          "index": 1,
+          "tile_offset": 1,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 32,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "01000000000000002000080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "a0f7120800000100ffff0000",
+      "definition_header_sha256": "0543abc59cb480d10e968ad19899c28dbaf015d6d067e0fc9f9ef2c1fdc2d98f",
+      "resolved_window_0x28_sha256": "d81c99870f73a3403f68ff34252952f1ce226cd3d111a1e10d83b0b3f0870d61",
+      "asset": {
+        "png": "sprite-id-37.png",
+        "width": 40,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 40,
+          "max_y": 8
+        },
+        "tile_indices": [
+          13,
+          14,
+          15,
+          16,
+          17
+        ],
+        "pixel_sha256": "6be790ccd7476fd85d773b0bc44da6931fd898949b5750bf7c47fc0eb4fb8db7",
+        "png_sha256": "41af3e83bbd5bec86677aa30a3ad885990521473172469f02cfdc93cb4307f8e"
+      }
+    },
+    {
+      "id": 38,
+      "pair_file_offset": 5501552,
+      "definition_pointer": "0x0812F808",
+      "animation_pointer": "0x0812F814",
+      "tile_base_offset": 18,
+      "component_list_pointer": "0x0812F7DC",
+      "component_count": 2,
+      "component_list_size": 44,
+      "component_list_sha256": "5b5c4718a3a3a50c9d56c5f30f822ccff6f29d0eb0a8d4ace6ace1838534f16f",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 16,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000100000000800080000010001ff000000"
+        },
+        {
+          "index": 1,
+          "tile_offset": 1,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 16,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "01000000000000001000080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "dcf7120800000100ffff0000",
+      "definition_header_sha256": "dd981b1c8d56e11aee8d9c27da71931cce2975ae86a3b2630d64bd6e197cb8bc",
+      "resolved_window_0x28_sha256": "ba6d7219ca3fb154846338dbc4fc6ac3a5c798e5b6062c860aaf75a42427515d",
+      "asset": {
+        "png": "sprite-id-38.png",
+        "width": 24,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 24,
+          "max_y": 8
+        },
+        "tile_indices": [
+          18,
+          19,
+          20
+        ],
+        "pixel_sha256": "2edd1b145b5b857d9fa349441e3114de1e7e437a50668962c0bf2279a8bb052f",
+        "png_sha256": "58147ed37f9935b645cbd9cf6d51692df96d564936a9a19cf7bf6fa839d5a13b"
+      }
+    },
+    {
+      "id": 39,
+      "pair_file_offset": 5501560,
+      "definition_pointer": "0x0812F830",
+      "animation_pointer": "0x0812F83C",
+      "tile_base_offset": 21,
+      "component_list_pointer": "0x0812F818",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "18f8120800000100ffff0000",
+      "definition_header_sha256": "d36930d91cc93cdf70394c0abf8948657064c83d09962686cc44c3190c76fd1f",
+      "resolved_window_0x28_sha256": "ba87c4850421c02644dfc9c62d889ea27933f8edc308bf874e91136d65ce4c1e",
+      "asset": {
+        "png": "sprite-id-39.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          21
+        ],
+        "pixel_sha256": "82ddcfc72c7d487b11ab328528eaea98fd9b45fc73ce2915d5e58dfa62e09786",
+        "png_sha256": "e3002319498294298d3875a5f9575b56edccaeb30e79f06c3048b7c9d72dd325"
+      }
+    },
+    {
+      "id": 40,
+      "pair_file_offset": 5501568,
+      "definition_pointer": "0x0812F858",
+      "animation_pointer": "0x0812F864",
+      "tile_base_offset": 22,
+      "component_list_pointer": "0x0812F840",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "40f8120800000100ffff0000",
+      "definition_header_sha256": "12f1ff598243a989dfbfcfa1b6560b002dc93067c1a51fab5fe6bf52cf5b7222",
+      "resolved_window_0x28_sha256": "e890a5c260e44337f6d2df8f7c967b462185aac1d9ed65356f8256612af4e691",
+      "asset": {
+        "png": "sprite-id-40.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          22
+        ],
+        "pixel_sha256": "a109773133e7975adbda14c8053a971c8f0b5208decf92e8fb06ddd31aae6f66",
+        "png_sha256": "bcc68bd545ffcb009b838ede57ee4908f749151692455a11806126de47e32990"
+      }
+    },
+    {
+      "id": 41,
+      "pair_file_offset": 5501576,
+      "definition_pointer": "0x0812F880",
+      "animation_pointer": "0x0812F88C",
+      "tile_base_offset": 23,
+      "component_list_pointer": "0x0812F868",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "68f8120800000100ffff0000",
+      "definition_header_sha256": "8d078f25d2301fdb67a668cde38e4ac91749fd72a94bb42634537e7d49a0e2ad",
+      "resolved_window_0x28_sha256": "1cde946e1507182b3179bd7d4a2fc21e1ea0c8c1333bafb9bae28fe805d4802e",
+      "asset": {
+        "png": "sprite-id-41.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          23
+        ],
+        "pixel_sha256": "528f895cdcf1179e46741785cb7d276f511a352000d48c0d4a066f59598e59b0",
+        "png_sha256": "92acff18e850f3d1c37a803a9d634698a9eaa901d1805c8776d5955e480d4a5f"
+      }
+    },
+    {
+      "id": 42,
+      "pair_file_offset": 5501584,
+      "definition_pointer": "0x0812F8A8",
+      "animation_pointer": "0x0812F8B4",
+      "tile_base_offset": 24,
+      "component_list_pointer": "0x0812F890",
+      "component_count": 1,
+      "component_list_size": 24,
+      "component_list_sha256": "26e86932edae3c4970b4c78992dabe41b6e96d610446b0fad3f84e98cd83d199",
+      "components": [
+        {
+          "index": 0,
+          "tile_offset": 0,
+          "flag_02": 0,
+          "flag_03": 0,
+          "horizontal_position_input": 0,
+          "vertical_position_input": 0,
+          "width": 8,
+          "height": 8,
+          "transform_factor_0c": 256,
+          "transform_factor_0e": 256,
+          "unknown_10_byte": 255,
+          "oam_attribute_byte": 0,
+          "unknown_12": 0,
+          "raw_hex": "00000000000000000800080000010001ff000000"
+        }
+      ],
+      "terminator_raw_hex": "ffff0000",
+      "definition_header_raw_hex": "90f8120800000100ffff0000",
+      "definition_header_sha256": "2ccc09caee72c6b9a795f39e9bb0dc2dc1247fa664ab406604b4dcc6ed7f5867",
+      "resolved_window_0x28_sha256": "91aa302f7e6c37ab5e153c6e942656ef53d11315dd6b5cae636e08f5db1c030b",
+      "asset": {
+        "png": "sprite-id-42.png",
+        "width": 8,
+        "height": 8,
+        "source_bounds": {
+          "min_x": 0,
+          "min_y": 0,
+          "max_x": 8,
+          "max_y": 8
+        },
+        "tile_indices": [
+          24
+        ],
+        "pixel_sha256": "f175824b81a408b25bd570f29be7c1003084a749a54aa2f219928d6f28e4344f",
+        "png_sha256": "fe3f8a984f597cbe21199bc60bb3c154a238660ca24913a13d6e4551b7d4c296"
+      }
+    }
+  ],
+  "component_schema": {
+    "record_size": 20,
+    "terminator_raw_hex": "ffff0000",
+    "terminator_rule": "component +0x00 is read as s16; -1 terminates the list",
+    "field_evidence": {
+      "tile_offset": [
+        "0x080629FC",
+        "0x08063108",
+        "0x080631FE"
+      ],
+      "flag_02": [
+        "0x08062EB4..0x08062EEE"
+      ],
+      "flag_03": [
+        "0x08062EFC..0x08062F9E"
+      ],
+      "horizontal_position_input": [
+        "0x08062A26..0x08062A64"
+      ],
+      "vertical_position_input": [
+        "0x08062A2C..0x08062A7C"
+      ],
+      "width": [
+        "0x08062A50",
+        "0x08062DCA..0x08062DEC",
+        "0x0806314E"
+      ],
+      "height": [
+        "0x08062A66",
+        "0x08062DEE..0x08062EB2",
+        "0x08063150"
+      ],
+      "transform_factor_0c": [
+        "0x08062F12..0x08062F44",
+        "0x08063002..0x08063048"
+      ],
+      "transform_factor_0e": [
+        "0x08062F56..0x08062F7C",
+        "0x0806301C..0x08063060"
+      ],
+      "unknown_10_byte": [],
+      "oam_attribute_byte": [
+        "0x08062B62..0x08062B6E",
+        "0x08062DB4..0x08062DBC"
+      ],
+      "unknown_12": []
+    }
+  },
+  "runtime_chain": {
+    "static_resource_loader": "0x08080A48",
+    "graphics_loader_call": "0x08080A5C",
+    "palette_loader_call": "0x08080A6A",
+    "lz77_vram_wrapper": "0x0809C0E8",
+    "graphics_source": "0x0812F298",
+    "palette_source": "0x0812F584",
+    "pair_table_loader": "0x08080B08",
+    "sprite_task_allocator": "0x080625A4",
+    "pair_index_install": "0x08062668",
+    "component_selector": "0x0806298C",
+    "attr2_builder": "0x08063108",
+    "conditional_component_copy_path": "0x08063134 (not selected by generic task flags 0x49)",
+    "component_stride_and_terminator_check": "0x080631F6..0x08063210",
+    "tile_base_global": "0x0202CA24",
+    "palette_bank_global": "0x0202CA26",
+    "obj_vram_base": "0x06010000",
+    "obj_palette_base": "0x05000200",
+    "static_graphics_destination_formula": "0x06010000 + u16[0x0202CA24] * 32",
+    "static_palette_destination_formula": "0x05000200 + u8[0x0202CA26] * 32",
+    "task_tile_base_formula": "task.tile_base = u16[0x0202CA24] + tile_base_offset[id]",
+    "attr2_tile_formula": "attr2.tile = task.tile_base + component.tile_offset",
+    "attr2_palette_formula": "attr2.palette = u8[0x0202CA26] << 12",
+    "obj_vram_address_formula": "OBJ tile bytes begin at 0x06010000 + attr2.tile * 32",
+    "obj_palette_address_formula": "OBJ palette bytes begin at 0x05000200 + u8[0x0202CA26] * 32",
+    "code_slices": [
+      {
+        "name": "static_lz77_resource_loader",
+        "file_offset": 526920,
+        "gba_address": "0x08080A48",
+        "size": 96,
+        "sha256": "9777e932b276d5062555e38267bc256747172f491803fb228b40c8ea8804dd7f"
+      },
+      {
+        "name": "table_and_runtime_base_loader",
+        "file_offset": 527112,
+        "gba_address": "0x08080B08",
+        "size": 116,
+        "sha256": "ff28fa10e4606f706a4fd4986126d8a14fe2baf66f1cc2621c5fe6b15d2ff8c2"
+      },
+      {
+        "name": "sprite_task_allocator",
+        "file_offset": 402852,
+        "gba_address": "0x080625A4",
+        "size": 268,
+        "sha256": "e238cd1ee159265fb8b718766f336f8d5462596954f93c7805d1bf33dd6b3c54"
+      },
+      {
+        "name": "component_selector",
+        "file_offset": 403852,
+        "gba_address": "0x0806298C",
+        "size": 126,
+        "sha256": "722200eb6511a974b79fe00ee335f21e557cc0fc1898343a5eab4c7032e8ed2f"
+      },
+      {
+        "name": "attr2_and_obj_vram_path",
+        "file_offset": 405768,
+        "gba_address": "0x08063108",
+        "size": 126,
+        "sha256": "748340bb724a0fc8a4911c8879e8fb0c1152c84bac87b910cb36b3e15d790b17"
+      }
+    ]
+  },
+  "scope": {
+    "kind": "static definition/animation metadata, canonical ROM LZ77 pixels and palette, plus code-proven OBJ address chain",
+    "pixel_payload_in_pair_table": false,
+    "canonical_static_pixels_exported": true,
+    "canonical_static_palette_exported": true,
+    "runtime_capture_required_for_canonical_assets": false,
+    "scene_specific_overwrite_checked": false,
+    "animation_sequence_fully_interpreted": false
+  }
+}

@@ -1,0 +1,5356 @@
+{
+  "schema": "battle-effect-sequence-bindings-v1",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "runtime_state_sequence_table": {
+    "file_offset": 5498262,
+    "gba_address": "0x0853E596",
+    "entry_count": 256,
+    "entry_size": 1,
+    "sha256": "4c1ad8b8ac883eb301132c83258ba1e1216b2e131c9ce9866d0de62956d5a01b"
+  },
+  "active_action_slice": {
+    "start_index": 0,
+    "entry_count": 87,
+    "sha256": "373b8c02a0e768f15843be31a3f1282346986fd9bb52584be5649e3f01696b22"
+  },
+  "active_action_template_table": {
+    "file_offset": 5526616,
+    "gba_address": "0x08545458",
+    "entry_count": 87,
+    "entry_size": 16,
+    "sha256": "d36979d06334807da33a348174de6de4bb834bca762bbb3d23deb2472a2aa966"
+  },
+  "ninja_tool_selector_slice": {
+    "start_index": 128,
+    "entry_count": 94,
+    "sha256": "7b329765f680d1638a5899bfa67b3501e8c32cda6399a83b38ef88b35c21cfb4"
+  },
+  "ninja_tool_template_table": {
+    "file_offset": 5528548,
+    "gba_address": "0x08545BE4",
+    "entry_count": 94,
+    "entry_size": 16,
+    "sha256": "e586bbeeb364a14639e5062491c26c163905cb4c5501985bbafb5ed0ba3cd0fd"
+  },
+  "active_action_join_evidence": {
+    "active_action_template_table": "0x08545458",
+    "event_action_id_field": "+0x0C",
+    "runtime_state_action_id_field": "+0x770",
+    "selector_is_parallel_id_table": true,
+    "sequence_derived_from_template_fields": false
+  },
+  "ninja_tool_join_evidence": {
+    "encoded_action_high_bit": "0x80",
+    "ninja_tool_id_mask": "0x7F",
+    "ninja_tool_template_table": "0x08545BE4",
+    "event_preserves_encoded_action_id_at": "+0x0C",
+    "runtime_state_action_id_field": "+0x770",
+    "selector_is_parallel_encoded_action_id_table": true
+  },
+  "sequence_descriptor_table": {
+    "file_offset": 5500720,
+    "gba_address": "0x0853EF30",
+    "entry_count": 22,
+    "entry_size": 24,
+    "sha256": "04d83157859089ee13c559a35bb6ab2f8814c71db59ee3f6616b917011428b9f",
+    "next_structure_gba_address": "0x0853F140"
+  },
+  "runtime_state_bindings": [
+    {
+      "runtime_state_value": 0,
+      "table_entry_file_offset": 5498262,
+      "table_entry_gba_address": "0x0853E596",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 1,
+      "table_entry_file_offset": 5498263,
+      "table_entry_gba_address": "0x0853E597",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 2,
+      "table_entry_file_offset": 5498264,
+      "table_entry_gba_address": "0x0853E598",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 3,
+      "table_entry_file_offset": 5498265,
+      "table_entry_gba_address": "0x0853E599",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 4,
+      "table_entry_file_offset": 5498266,
+      "table_entry_gba_address": "0x0853E59A",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 5,
+      "table_entry_file_offset": 5498267,
+      "table_entry_gba_address": "0x0853E59B",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 6,
+      "table_entry_file_offset": 5498268,
+      "table_entry_gba_address": "0x0853E59C",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 7,
+      "table_entry_file_offset": 5498269,
+      "table_entry_gba_address": "0x0853E59D",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 8,
+      "table_entry_file_offset": 5498270,
+      "table_entry_gba_address": "0x0853E59E",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 9,
+      "table_entry_file_offset": 5498271,
+      "table_entry_gba_address": "0x0853E59F",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 10,
+      "table_entry_file_offset": 5498272,
+      "table_entry_gba_address": "0x0853E5A0",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 11,
+      "table_entry_file_offset": 5498273,
+      "table_entry_gba_address": "0x0853E5A1",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 12,
+      "table_entry_file_offset": 5498274,
+      "table_entry_gba_address": "0x0853E5A2",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 13,
+      "table_entry_file_offset": 5498275,
+      "table_entry_gba_address": "0x0853E5A3",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 14,
+      "table_entry_file_offset": 5498276,
+      "table_entry_gba_address": "0x0853E5A4",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 15,
+      "table_entry_file_offset": 5498277,
+      "table_entry_gba_address": "0x0853E5A5",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 16,
+      "table_entry_file_offset": 5498278,
+      "table_entry_gba_address": "0x0853E5A6",
+      "sequence_id": 16,
+      "sequence_descriptor_gba_address": "0x0853F0B0"
+    },
+    {
+      "runtime_state_value": 17,
+      "table_entry_file_offset": 5498279,
+      "table_entry_gba_address": "0x0853E5A7",
+      "sequence_id": 16,
+      "sequence_descriptor_gba_address": "0x0853F0B0"
+    },
+    {
+      "runtime_state_value": 18,
+      "table_entry_file_offset": 5498280,
+      "table_entry_gba_address": "0x0853E5A8",
+      "sequence_id": 16,
+      "sequence_descriptor_gba_address": "0x0853F0B0"
+    },
+    {
+      "runtime_state_value": 19,
+      "table_entry_file_offset": 5498281,
+      "table_entry_gba_address": "0x0853E5A9",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 20,
+      "table_entry_file_offset": 5498282,
+      "table_entry_gba_address": "0x0853E5AA",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 21,
+      "table_entry_file_offset": 5498283,
+      "table_entry_gba_address": "0x0853E5AB",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 22,
+      "table_entry_file_offset": 5498284,
+      "table_entry_gba_address": "0x0853E5AC",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 23,
+      "table_entry_file_offset": 5498285,
+      "table_entry_gba_address": "0x0853E5AD",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 24,
+      "table_entry_file_offset": 5498286,
+      "table_entry_gba_address": "0x0853E5AE",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 25,
+      "table_entry_file_offset": 5498287,
+      "table_entry_gba_address": "0x0853E5AF",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 26,
+      "table_entry_file_offset": 5498288,
+      "table_entry_gba_address": "0x0853E5B0",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 27,
+      "table_entry_file_offset": 5498289,
+      "table_entry_gba_address": "0x0853E5B1",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 28,
+      "table_entry_file_offset": 5498290,
+      "table_entry_gba_address": "0x0853E5B2",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 29,
+      "table_entry_file_offset": 5498291,
+      "table_entry_gba_address": "0x0853E5B3",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 30,
+      "table_entry_file_offset": 5498292,
+      "table_entry_gba_address": "0x0853E5B4",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 31,
+      "table_entry_file_offset": 5498293,
+      "table_entry_gba_address": "0x0853E5B5",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 32,
+      "table_entry_file_offset": 5498294,
+      "table_entry_gba_address": "0x0853E5B6",
+      "sequence_id": 14,
+      "sequence_descriptor_gba_address": "0x0853F080"
+    },
+    {
+      "runtime_state_value": 33,
+      "table_entry_file_offset": 5498295,
+      "table_entry_gba_address": "0x0853E5B7",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 34,
+      "table_entry_file_offset": 5498296,
+      "table_entry_gba_address": "0x0853E5B8",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 35,
+      "table_entry_file_offset": 5498297,
+      "table_entry_gba_address": "0x0853E5B9",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 36,
+      "table_entry_file_offset": 5498298,
+      "table_entry_gba_address": "0x0853E5BA",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 37,
+      "table_entry_file_offset": 5498299,
+      "table_entry_gba_address": "0x0853E5BB",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 38,
+      "table_entry_file_offset": 5498300,
+      "table_entry_gba_address": "0x0853E5BC",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 39,
+      "table_entry_file_offset": 5498301,
+      "table_entry_gba_address": "0x0853E5BD",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 40,
+      "table_entry_file_offset": 5498302,
+      "table_entry_gba_address": "0x0853E5BE",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 41,
+      "table_entry_file_offset": 5498303,
+      "table_entry_gba_address": "0x0853E5BF",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 42,
+      "table_entry_file_offset": 5498304,
+      "table_entry_gba_address": "0x0853E5C0",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 43,
+      "table_entry_file_offset": 5498305,
+      "table_entry_gba_address": "0x0853E5C1",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 44,
+      "table_entry_file_offset": 5498306,
+      "table_entry_gba_address": "0x0853E5C2",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 45,
+      "table_entry_file_offset": 5498307,
+      "table_entry_gba_address": "0x0853E5C3",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 46,
+      "table_entry_file_offset": 5498308,
+      "table_entry_gba_address": "0x0853E5C4",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 47,
+      "table_entry_file_offset": 5498309,
+      "table_entry_gba_address": "0x0853E5C5",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 48,
+      "table_entry_file_offset": 5498310,
+      "table_entry_gba_address": "0x0853E5C6",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 49,
+      "table_entry_file_offset": 5498311,
+      "table_entry_gba_address": "0x0853E5C7",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 50,
+      "table_entry_file_offset": 5498312,
+      "table_entry_gba_address": "0x0853E5C8",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 51,
+      "table_entry_file_offset": 5498313,
+      "table_entry_gba_address": "0x0853E5C9",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 52,
+      "table_entry_file_offset": 5498314,
+      "table_entry_gba_address": "0x0853E5CA",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 53,
+      "table_entry_file_offset": 5498315,
+      "table_entry_gba_address": "0x0853E5CB",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 54,
+      "table_entry_file_offset": 5498316,
+      "table_entry_gba_address": "0x0853E5CC",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 55,
+      "table_entry_file_offset": 5498317,
+      "table_entry_gba_address": "0x0853E5CD",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 56,
+      "table_entry_file_offset": 5498318,
+      "table_entry_gba_address": "0x0853E5CE",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 57,
+      "table_entry_file_offset": 5498319,
+      "table_entry_gba_address": "0x0853E5CF",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 58,
+      "table_entry_file_offset": 5498320,
+      "table_entry_gba_address": "0x0853E5D0",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 59,
+      "table_entry_file_offset": 5498321,
+      "table_entry_gba_address": "0x0853E5D1",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 60,
+      "table_entry_file_offset": 5498322,
+      "table_entry_gba_address": "0x0853E5D2",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 61,
+      "table_entry_file_offset": 5498323,
+      "table_entry_gba_address": "0x0853E5D3",
+      "sequence_id": 15,
+      "sequence_descriptor_gba_address": "0x0853F098"
+    },
+    {
+      "runtime_state_value": 62,
+      "table_entry_file_offset": 5498324,
+      "table_entry_gba_address": "0x0853E5D4",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 63,
+      "table_entry_file_offset": 5498325,
+      "table_entry_gba_address": "0x0853E5D5",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 64,
+      "table_entry_file_offset": 5498326,
+      "table_entry_gba_address": "0x0853E5D6",
+      "sequence_id": 17,
+      "sequence_descriptor_gba_address": "0x0853F0C8"
+    },
+    {
+      "runtime_state_value": 65,
+      "table_entry_file_offset": 5498327,
+      "table_entry_gba_address": "0x0853E5D7",
+      "sequence_id": 17,
+      "sequence_descriptor_gba_address": "0x0853F0C8"
+    },
+    {
+      "runtime_state_value": 66,
+      "table_entry_file_offset": 5498328,
+      "table_entry_gba_address": "0x0853E5D8",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 67,
+      "table_entry_file_offset": 5498329,
+      "table_entry_gba_address": "0x0853E5D9",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 68,
+      "table_entry_file_offset": 5498330,
+      "table_entry_gba_address": "0x0853E5DA",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 69,
+      "table_entry_file_offset": 5498331,
+      "table_entry_gba_address": "0x0853E5DB",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 70,
+      "table_entry_file_offset": 5498332,
+      "table_entry_gba_address": "0x0853E5DC",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 71,
+      "table_entry_file_offset": 5498333,
+      "table_entry_gba_address": "0x0853E5DD",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 72,
+      "table_entry_file_offset": 5498334,
+      "table_entry_gba_address": "0x0853E5DE",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 73,
+      "table_entry_file_offset": 5498335,
+      "table_entry_gba_address": "0x0853E5DF",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 74,
+      "table_entry_file_offset": 5498336,
+      "table_entry_gba_address": "0x0853E5E0",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 75,
+      "table_entry_file_offset": 5498337,
+      "table_entry_gba_address": "0x0853E5E1",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 76,
+      "table_entry_file_offset": 5498338,
+      "table_entry_gba_address": "0x0853E5E2",
+      "sequence_id": 15,
+      "sequence_descriptor_gba_address": "0x0853F098"
+    },
+    {
+      "runtime_state_value": 77,
+      "table_entry_file_offset": 5498339,
+      "table_entry_gba_address": "0x0853E5E3",
+      "sequence_id": 15,
+      "sequence_descriptor_gba_address": "0x0853F098"
+    },
+    {
+      "runtime_state_value": 78,
+      "table_entry_file_offset": 5498340,
+      "table_entry_gba_address": "0x0853E5E4",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 79,
+      "table_entry_file_offset": 5498341,
+      "table_entry_gba_address": "0x0853E5E5",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 80,
+      "table_entry_file_offset": 5498342,
+      "table_entry_gba_address": "0x0853E5E6",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 81,
+      "table_entry_file_offset": 5498343,
+      "table_entry_gba_address": "0x0853E5E7",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 82,
+      "table_entry_file_offset": 5498344,
+      "table_entry_gba_address": "0x0853E5E8",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 83,
+      "table_entry_file_offset": 5498345,
+      "table_entry_gba_address": "0x0853E5E9",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 84,
+      "table_entry_file_offset": 5498346,
+      "table_entry_gba_address": "0x0853E5EA",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 85,
+      "table_entry_file_offset": 5498347,
+      "table_entry_gba_address": "0x0853E5EB",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 86,
+      "table_entry_file_offset": 5498348,
+      "table_entry_gba_address": "0x0853E5EC",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 87,
+      "table_entry_file_offset": 5498349,
+      "table_entry_gba_address": "0x0853E5ED",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 88,
+      "table_entry_file_offset": 5498350,
+      "table_entry_gba_address": "0x0853E5EE",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 89,
+      "table_entry_file_offset": 5498351,
+      "table_entry_gba_address": "0x0853E5EF",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 90,
+      "table_entry_file_offset": 5498352,
+      "table_entry_gba_address": "0x0853E5F0",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 91,
+      "table_entry_file_offset": 5498353,
+      "table_entry_gba_address": "0x0853E5F1",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 92,
+      "table_entry_file_offset": 5498354,
+      "table_entry_gba_address": "0x0853E5F2",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 93,
+      "table_entry_file_offset": 5498355,
+      "table_entry_gba_address": "0x0853E5F3",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 94,
+      "table_entry_file_offset": 5498356,
+      "table_entry_gba_address": "0x0853E5F4",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 95,
+      "table_entry_file_offset": 5498357,
+      "table_entry_gba_address": "0x0853E5F5",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 96,
+      "table_entry_file_offset": 5498358,
+      "table_entry_gba_address": "0x0853E5F6",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 97,
+      "table_entry_file_offset": 5498359,
+      "table_entry_gba_address": "0x0853E5F7",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 98,
+      "table_entry_file_offset": 5498360,
+      "table_entry_gba_address": "0x0853E5F8",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 99,
+      "table_entry_file_offset": 5498361,
+      "table_entry_gba_address": "0x0853E5F9",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 100,
+      "table_entry_file_offset": 5498362,
+      "table_entry_gba_address": "0x0853E5FA",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 101,
+      "table_entry_file_offset": 5498363,
+      "table_entry_gba_address": "0x0853E5FB",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 102,
+      "table_entry_file_offset": 5498364,
+      "table_entry_gba_address": "0x0853E5FC",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 103,
+      "table_entry_file_offset": 5498365,
+      "table_entry_gba_address": "0x0853E5FD",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 104,
+      "table_entry_file_offset": 5498366,
+      "table_entry_gba_address": "0x0853E5FE",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 105,
+      "table_entry_file_offset": 5498367,
+      "table_entry_gba_address": "0x0853E5FF",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 106,
+      "table_entry_file_offset": 5498368,
+      "table_entry_gba_address": "0x0853E600",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 107,
+      "table_entry_file_offset": 5498369,
+      "table_entry_gba_address": "0x0853E601",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 108,
+      "table_entry_file_offset": 5498370,
+      "table_entry_gba_address": "0x0853E602",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 109,
+      "table_entry_file_offset": 5498371,
+      "table_entry_gba_address": "0x0853E603",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 110,
+      "table_entry_file_offset": 5498372,
+      "table_entry_gba_address": "0x0853E604",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 111,
+      "table_entry_file_offset": 5498373,
+      "table_entry_gba_address": "0x0853E605",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 112,
+      "table_entry_file_offset": 5498374,
+      "table_entry_gba_address": "0x0853E606",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 113,
+      "table_entry_file_offset": 5498375,
+      "table_entry_gba_address": "0x0853E607",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 114,
+      "table_entry_file_offset": 5498376,
+      "table_entry_gba_address": "0x0853E608",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 115,
+      "table_entry_file_offset": 5498377,
+      "table_entry_gba_address": "0x0853E609",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 116,
+      "table_entry_file_offset": 5498378,
+      "table_entry_gba_address": "0x0853E60A",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 117,
+      "table_entry_file_offset": 5498379,
+      "table_entry_gba_address": "0x0853E60B",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 118,
+      "table_entry_file_offset": 5498380,
+      "table_entry_gba_address": "0x0853E60C",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 119,
+      "table_entry_file_offset": 5498381,
+      "table_entry_gba_address": "0x0853E60D",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 120,
+      "table_entry_file_offset": 5498382,
+      "table_entry_gba_address": "0x0853E60E",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 121,
+      "table_entry_file_offset": 5498383,
+      "table_entry_gba_address": "0x0853E60F",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 122,
+      "table_entry_file_offset": 5498384,
+      "table_entry_gba_address": "0x0853E610",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 123,
+      "table_entry_file_offset": 5498385,
+      "table_entry_gba_address": "0x0853E611",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 124,
+      "table_entry_file_offset": 5498386,
+      "table_entry_gba_address": "0x0853E612",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 125,
+      "table_entry_file_offset": 5498387,
+      "table_entry_gba_address": "0x0853E613",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 126,
+      "table_entry_file_offset": 5498388,
+      "table_entry_gba_address": "0x0853E614",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 127,
+      "table_entry_file_offset": 5498389,
+      "table_entry_gba_address": "0x0853E615",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 128,
+      "table_entry_file_offset": 5498390,
+      "table_entry_gba_address": "0x0853E616",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 129,
+      "table_entry_file_offset": 5498391,
+      "table_entry_gba_address": "0x0853E617",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 130,
+      "table_entry_file_offset": 5498392,
+      "table_entry_gba_address": "0x0853E618",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 131,
+      "table_entry_file_offset": 5498393,
+      "table_entry_gba_address": "0x0853E619",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 132,
+      "table_entry_file_offset": 5498394,
+      "table_entry_gba_address": "0x0853E61A",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 133,
+      "table_entry_file_offset": 5498395,
+      "table_entry_gba_address": "0x0853E61B",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 134,
+      "table_entry_file_offset": 5498396,
+      "table_entry_gba_address": "0x0853E61C",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 135,
+      "table_entry_file_offset": 5498397,
+      "table_entry_gba_address": "0x0853E61D",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 136,
+      "table_entry_file_offset": 5498398,
+      "table_entry_gba_address": "0x0853E61E",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 137,
+      "table_entry_file_offset": 5498399,
+      "table_entry_gba_address": "0x0853E61F",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 138,
+      "table_entry_file_offset": 5498400,
+      "table_entry_gba_address": "0x0853E620",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 139,
+      "table_entry_file_offset": 5498401,
+      "table_entry_gba_address": "0x0853E621",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 140,
+      "table_entry_file_offset": 5498402,
+      "table_entry_gba_address": "0x0853E622",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 141,
+      "table_entry_file_offset": 5498403,
+      "table_entry_gba_address": "0x0853E623",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 142,
+      "table_entry_file_offset": 5498404,
+      "table_entry_gba_address": "0x0853E624",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 143,
+      "table_entry_file_offset": 5498405,
+      "table_entry_gba_address": "0x0853E625",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 144,
+      "table_entry_file_offset": 5498406,
+      "table_entry_gba_address": "0x0853E626",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 145,
+      "table_entry_file_offset": 5498407,
+      "table_entry_gba_address": "0x0853E627",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 146,
+      "table_entry_file_offset": 5498408,
+      "table_entry_gba_address": "0x0853E628",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 147,
+      "table_entry_file_offset": 5498409,
+      "table_entry_gba_address": "0x0853E629",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 148,
+      "table_entry_file_offset": 5498410,
+      "table_entry_gba_address": "0x0853E62A",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 149,
+      "table_entry_file_offset": 5498411,
+      "table_entry_gba_address": "0x0853E62B",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 150,
+      "table_entry_file_offset": 5498412,
+      "table_entry_gba_address": "0x0853E62C",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 151,
+      "table_entry_file_offset": 5498413,
+      "table_entry_gba_address": "0x0853E62D",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 152,
+      "table_entry_file_offset": 5498414,
+      "table_entry_gba_address": "0x0853E62E",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 153,
+      "table_entry_file_offset": 5498415,
+      "table_entry_gba_address": "0x0853E62F",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 154,
+      "table_entry_file_offset": 5498416,
+      "table_entry_gba_address": "0x0853E630",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 155,
+      "table_entry_file_offset": 5498417,
+      "table_entry_gba_address": "0x0853E631",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 156,
+      "table_entry_file_offset": 5498418,
+      "table_entry_gba_address": "0x0853E632",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 157,
+      "table_entry_file_offset": 5498419,
+      "table_entry_gba_address": "0x0853E633",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 158,
+      "table_entry_file_offset": 5498420,
+      "table_entry_gba_address": "0x0853E634",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 159,
+      "table_entry_file_offset": 5498421,
+      "table_entry_gba_address": "0x0853E635",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 160,
+      "table_entry_file_offset": 5498422,
+      "table_entry_gba_address": "0x0853E636",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 161,
+      "table_entry_file_offset": 5498423,
+      "table_entry_gba_address": "0x0853E637",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 162,
+      "table_entry_file_offset": 5498424,
+      "table_entry_gba_address": "0x0853E638",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 163,
+      "table_entry_file_offset": 5498425,
+      "table_entry_gba_address": "0x0853E639",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 164,
+      "table_entry_file_offset": 5498426,
+      "table_entry_gba_address": "0x0853E63A",
+      "sequence_id": 13,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "runtime_state_value": 165,
+      "table_entry_file_offset": 5498427,
+      "table_entry_gba_address": "0x0853E63B",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 166,
+      "table_entry_file_offset": 5498428,
+      "table_entry_gba_address": "0x0853E63C",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 167,
+      "table_entry_file_offset": 5498429,
+      "table_entry_gba_address": "0x0853E63D",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 168,
+      "table_entry_file_offset": 5498430,
+      "table_entry_gba_address": "0x0853E63E",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 169,
+      "table_entry_file_offset": 5498431,
+      "table_entry_gba_address": "0x0853E63F",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 170,
+      "table_entry_file_offset": 5498432,
+      "table_entry_gba_address": "0x0853E640",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 171,
+      "table_entry_file_offset": 5498433,
+      "table_entry_gba_address": "0x0853E641",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 172,
+      "table_entry_file_offset": 5498434,
+      "table_entry_gba_address": "0x0853E642",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 173,
+      "table_entry_file_offset": 5498435,
+      "table_entry_gba_address": "0x0853E643",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 174,
+      "table_entry_file_offset": 5498436,
+      "table_entry_gba_address": "0x0853E644",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 175,
+      "table_entry_file_offset": 5498437,
+      "table_entry_gba_address": "0x0853E645",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 176,
+      "table_entry_file_offset": 5498438,
+      "table_entry_gba_address": "0x0853E646",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 177,
+      "table_entry_file_offset": 5498439,
+      "table_entry_gba_address": "0x0853E647",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 178,
+      "table_entry_file_offset": 5498440,
+      "table_entry_gba_address": "0x0853E648",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 179,
+      "table_entry_file_offset": 5498441,
+      "table_entry_gba_address": "0x0853E649",
+      "sequence_id": 6,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "runtime_state_value": 180,
+      "table_entry_file_offset": 5498442,
+      "table_entry_gba_address": "0x0853E64A",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 181,
+      "table_entry_file_offset": 5498443,
+      "table_entry_gba_address": "0x0853E64B",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 182,
+      "table_entry_file_offset": 5498444,
+      "table_entry_gba_address": "0x0853E64C",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 183,
+      "table_entry_file_offset": 5498445,
+      "table_entry_gba_address": "0x0853E64D",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 184,
+      "table_entry_file_offset": 5498446,
+      "table_entry_gba_address": "0x0853E64E",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 185,
+      "table_entry_file_offset": 5498447,
+      "table_entry_gba_address": "0x0853E64F",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 186,
+      "table_entry_file_offset": 5498448,
+      "table_entry_gba_address": "0x0853E650",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 187,
+      "table_entry_file_offset": 5498449,
+      "table_entry_gba_address": "0x0853E651",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 188,
+      "table_entry_file_offset": 5498450,
+      "table_entry_gba_address": "0x0853E652",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 189,
+      "table_entry_file_offset": 5498451,
+      "table_entry_gba_address": "0x0853E653",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 190,
+      "table_entry_file_offset": 5498452,
+      "table_entry_gba_address": "0x0853E654",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 191,
+      "table_entry_file_offset": 5498453,
+      "table_entry_gba_address": "0x0853E655",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 192,
+      "table_entry_file_offset": 5498454,
+      "table_entry_gba_address": "0x0853E656",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 193,
+      "table_entry_file_offset": 5498455,
+      "table_entry_gba_address": "0x0853E657",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 194,
+      "table_entry_file_offset": 5498456,
+      "table_entry_gba_address": "0x0853E658",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 195,
+      "table_entry_file_offset": 5498457,
+      "table_entry_gba_address": "0x0853E659",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 196,
+      "table_entry_file_offset": 5498458,
+      "table_entry_gba_address": "0x0853E65A",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 197,
+      "table_entry_file_offset": 5498459,
+      "table_entry_gba_address": "0x0853E65B",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 198,
+      "table_entry_file_offset": 5498460,
+      "table_entry_gba_address": "0x0853E65C",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 199,
+      "table_entry_file_offset": 5498461,
+      "table_entry_gba_address": "0x0853E65D",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 200,
+      "table_entry_file_offset": 5498462,
+      "table_entry_gba_address": "0x0853E65E",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 201,
+      "table_entry_file_offset": 5498463,
+      "table_entry_gba_address": "0x0853E65F",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 202,
+      "table_entry_file_offset": 5498464,
+      "table_entry_gba_address": "0x0853E660",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 203,
+      "table_entry_file_offset": 5498465,
+      "table_entry_gba_address": "0x0853E661",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 204,
+      "table_entry_file_offset": 5498466,
+      "table_entry_gba_address": "0x0853E662",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 205,
+      "table_entry_file_offset": 5498467,
+      "table_entry_gba_address": "0x0853E663",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 206,
+      "table_entry_file_offset": 5498468,
+      "table_entry_gba_address": "0x0853E664",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 207,
+      "table_entry_file_offset": 5498469,
+      "table_entry_gba_address": "0x0853E665",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 208,
+      "table_entry_file_offset": 5498470,
+      "table_entry_gba_address": "0x0853E666",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 209,
+      "table_entry_file_offset": 5498471,
+      "table_entry_gba_address": "0x0853E667",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 210,
+      "table_entry_file_offset": 5498472,
+      "table_entry_gba_address": "0x0853E668",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 211,
+      "table_entry_file_offset": 5498473,
+      "table_entry_gba_address": "0x0853E669",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 212,
+      "table_entry_file_offset": 5498474,
+      "table_entry_gba_address": "0x0853E66A",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 213,
+      "table_entry_file_offset": 5498475,
+      "table_entry_gba_address": "0x0853E66B",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 214,
+      "table_entry_file_offset": 5498476,
+      "table_entry_gba_address": "0x0853E66C",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 215,
+      "table_entry_file_offset": 5498477,
+      "table_entry_gba_address": "0x0853E66D",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 216,
+      "table_entry_file_offset": 5498478,
+      "table_entry_gba_address": "0x0853E66E",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 217,
+      "table_entry_file_offset": 5498479,
+      "table_entry_gba_address": "0x0853E66F",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 218,
+      "table_entry_file_offset": 5498480,
+      "table_entry_gba_address": "0x0853E670",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 219,
+      "table_entry_file_offset": 5498481,
+      "table_entry_gba_address": "0x0853E671",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 220,
+      "table_entry_file_offset": 5498482,
+      "table_entry_gba_address": "0x0853E672",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 221,
+      "table_entry_file_offset": 5498483,
+      "table_entry_gba_address": "0x0853E673",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 222,
+      "table_entry_file_offset": 5498484,
+      "table_entry_gba_address": "0x0853E674",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 223,
+      "table_entry_file_offset": 5498485,
+      "table_entry_gba_address": "0x0853E675",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 224,
+      "table_entry_file_offset": 5498486,
+      "table_entry_gba_address": "0x0853E676",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 225,
+      "table_entry_file_offset": 5498487,
+      "table_entry_gba_address": "0x0853E677",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 226,
+      "table_entry_file_offset": 5498488,
+      "table_entry_gba_address": "0x0853E678",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 227,
+      "table_entry_file_offset": 5498489,
+      "table_entry_gba_address": "0x0853E679",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 228,
+      "table_entry_file_offset": 5498490,
+      "table_entry_gba_address": "0x0853E67A",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 229,
+      "table_entry_file_offset": 5498491,
+      "table_entry_gba_address": "0x0853E67B",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 230,
+      "table_entry_file_offset": 5498492,
+      "table_entry_gba_address": "0x0853E67C",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 231,
+      "table_entry_file_offset": 5498493,
+      "table_entry_gba_address": "0x0853E67D",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 232,
+      "table_entry_file_offset": 5498494,
+      "table_entry_gba_address": "0x0853E67E",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 233,
+      "table_entry_file_offset": 5498495,
+      "table_entry_gba_address": "0x0853E67F",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 234,
+      "table_entry_file_offset": 5498496,
+      "table_entry_gba_address": "0x0853E680",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 235,
+      "table_entry_file_offset": 5498497,
+      "table_entry_gba_address": "0x0853E681",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 236,
+      "table_entry_file_offset": 5498498,
+      "table_entry_gba_address": "0x0853E682",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 237,
+      "table_entry_file_offset": 5498499,
+      "table_entry_gba_address": "0x0853E683",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 238,
+      "table_entry_file_offset": 5498500,
+      "table_entry_gba_address": "0x0853E684",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 239,
+      "table_entry_file_offset": 5498501,
+      "table_entry_gba_address": "0x0853E685",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 240,
+      "table_entry_file_offset": 5498502,
+      "table_entry_gba_address": "0x0853E686",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 241,
+      "table_entry_file_offset": 5498503,
+      "table_entry_gba_address": "0x0853E687",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 242,
+      "table_entry_file_offset": 5498504,
+      "table_entry_gba_address": "0x0853E688",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 243,
+      "table_entry_file_offset": 5498505,
+      "table_entry_gba_address": "0x0853E689",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 244,
+      "table_entry_file_offset": 5498506,
+      "table_entry_gba_address": "0x0853E68A",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 245,
+      "table_entry_file_offset": 5498507,
+      "table_entry_gba_address": "0x0853E68B",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 246,
+      "table_entry_file_offset": 5498508,
+      "table_entry_gba_address": "0x0853E68C",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 247,
+      "table_entry_file_offset": 5498509,
+      "table_entry_gba_address": "0x0853E68D",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 248,
+      "table_entry_file_offset": 5498510,
+      "table_entry_gba_address": "0x0853E68E",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 249,
+      "table_entry_file_offset": 5498511,
+      "table_entry_gba_address": "0x0853E68F",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 250,
+      "table_entry_file_offset": 5498512,
+      "table_entry_gba_address": "0x0853E690",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 251,
+      "table_entry_file_offset": 5498513,
+      "table_entry_gba_address": "0x0853E691",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 252,
+      "table_entry_file_offset": 5498514,
+      "table_entry_gba_address": "0x0853E692",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 253,
+      "table_entry_file_offset": 5498515,
+      "table_entry_gba_address": "0x0853E693",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 254,
+      "table_entry_file_offset": 5498516,
+      "table_entry_gba_address": "0x0853E694",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "runtime_state_value": 255,
+      "table_entry_file_offset": 5498517,
+      "table_entry_gba_address": "0x0853E695",
+      "sequence_id": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    }
+  ],
+  "active_action_bindings": [
+    {
+      "action_id": 0,
+      "table_entry_file_offset": 5498262,
+      "table_entry_gba_address": "0x0853E596",
+      "sequence_id": 0,
+      "template_raw_hex": "00000000000000000000000000000000",
+      "display_animation_family": 0,
+      "effect_code": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 1,
+      "table_entry_file_offset": 5498263,
+      "table_entry_gba_address": "0x0853E597",
+      "sequence_id": 0,
+      "template_raw_hex": "01050204000164020100020004000100",
+      "display_animation_family": 5,
+      "effect_code": 2,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 2,
+      "table_entry_file_offset": 5498264,
+      "table_entry_gba_address": "0x0853E598",
+      "sequence_id": 0,
+      "template_raw_hex": "01040304000164030100010004000100",
+      "display_animation_family": 4,
+      "effect_code": 3,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 3,
+      "table_entry_file_offset": 5498265,
+      "table_entry_gba_address": "0x0853E599",
+      "sequence_id": 0,
+      "template_raw_hex": "01030400000164020101030004000100",
+      "display_animation_family": 3,
+      "effect_code": 4,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 4,
+      "table_entry_file_offset": 5498266,
+      "table_entry_gba_address": "0x0853E59A",
+      "sequence_id": 0,
+      "template_raw_hex": "01050503000164010103020006000100",
+      "display_animation_family": 5,
+      "effect_code": 5,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 5,
+      "table_entry_file_offset": 5498267,
+      "table_entry_gba_address": "0x0853E59B",
+      "sequence_id": 6,
+      "template_raw_hex": "020101020a0162010100000001000500",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 6,
+      "table_entry_file_offset": 5498268,
+      "table_entry_gba_address": "0x0853E59C",
+      "sequence_id": 0,
+      "template_raw_hex": "03050605140164010100000001000f00",
+      "display_animation_family": 5,
+      "effect_code": 6,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 7,
+      "table_entry_file_offset": 5498269,
+      "table_entry_gba_address": "0x0853E59D",
+      "sequence_id": 0,
+      "template_raw_hex": "01050704000164020100030004000100",
+      "display_animation_family": 5,
+      "effect_code": 7,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 8,
+      "table_entry_file_offset": 5498270,
+      "table_entry_gba_address": "0x0853E59E",
+      "sequence_id": 6,
+      "template_raw_hex": "0101810205013c010100010001000500",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 9,
+      "table_entry_file_offset": 5498271,
+      "table_entry_gba_address": "0x0853E59F",
+      "sequence_id": 0,
+      "template_raw_hex": "01050810010164000000050001000100",
+      "display_animation_family": 5,
+      "effect_code": 8,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 10,
+      "table_entry_file_offset": 5498272,
+      "table_entry_gba_address": "0x0853E5A0",
+      "sequence_id": 6,
+      "template_raw_hex": "01018102070562000000000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 11,
+      "table_entry_file_offset": 5498273,
+      "table_entry_gba_address": "0x0853E5A1",
+      "sequence_id": 6,
+      "template_raw_hex": "010101020a055f000000000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 12,
+      "table_entry_file_offset": 5498274,
+      "table_entry_gba_address": "0x0853E5A2",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010a12015f830100020004000100",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 13,
+      "table_entry_file_offset": 5498275,
+      "table_entry_gba_address": "0x0853E5A3",
+      "sequence_id": 6,
+      "template_raw_hex": "01010102140264000000000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 14,
+      "table_entry_file_offset": 5498276,
+      "table_entry_gba_address": "0x0853E5A4",
+      "sequence_id": 0,
+      "template_raw_hex": "01051e10190164000000020001000500",
+      "display_animation_family": 5,
+      "effect_code": 30,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 15,
+      "table_entry_file_offset": 5498277,
+      "table_entry_gba_address": "0x0853E5A5",
+      "sequence_id": 0,
+      "template_raw_hex": "01021000000164010001020000000000",
+      "display_animation_family": 2,
+      "effect_code": 16,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 16,
+      "table_entry_file_offset": 5498278,
+      "table_entry_gba_address": "0x0853E5A6",
+      "sequence_id": 16,
+      "template_raw_hex": "0101010a0f015f820100020001000500",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F0B0"
+    },
+    {
+      "action_id": 17,
+      "table_entry_file_offset": 5498279,
+      "table_entry_gba_address": "0x0853E5A7",
+      "sequence_id": 16,
+      "template_raw_hex": "010101022d0164000000000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F0B0"
+    },
+    {
+      "action_id": 18,
+      "table_entry_file_offset": 5498280,
+      "table_entry_gba_address": "0x0853E5A8",
+      "sequence_id": 16,
+      "template_raw_hex": "010101020a0450000000000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F0B0"
+    },
+    {
+      "action_id": 19,
+      "table_entry_file_offset": 5498281,
+      "table_entry_gba_address": "0x0853E5A9",
+      "sequence_id": 6,
+      "template_raw_hex": "020101020a035f010100500002000100",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 20,
+      "table_entry_file_offset": 5498282,
+      "table_entry_gba_address": "0x0853E5AA",
+      "sequence_id": 0,
+      "template_raw_hex": "00000000000000000000000000000000",
+      "display_animation_family": 0,
+      "effect_code": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 21,
+      "table_entry_file_offset": 5498283,
+      "table_entry_gba_address": "0x0853E5AB",
+      "sequence_id": 0,
+      "template_raw_hex": "02020a001201640100010a0001000500",
+      "display_animation_family": 2,
+      "effect_code": 10,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 22,
+      "table_entry_file_offset": 5498284,
+      "table_entry_gba_address": "0x0853E5AC",
+      "sequence_id": 0,
+      "template_raw_hex": "01050b02000164040100010004000200",
+      "display_animation_family": 5,
+      "effect_code": 11,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 23,
+      "table_entry_file_offset": 5498285,
+      "table_entry_gba_address": "0x0853E5AD",
+      "sequence_id": 0,
+      "template_raw_hex": "01050e02000146830103030006000100",
+      "display_animation_family": 5,
+      "effect_code": 14,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 24,
+      "table_entry_file_offset": 5498286,
+      "table_entry_gba_address": "0x0853E5AE",
+      "sequence_id": 0,
+      "template_raw_hex": "01050f0200014b840203030006000100",
+      "display_animation_family": 5,
+      "effect_code": 15,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 25,
+      "table_entry_file_offset": 5498287,
+      "table_entry_gba_address": "0x0853E5AF",
+      "sequence_id": 0,
+      "template_raw_hex": "01051e100f0164000000020001000500",
+      "display_animation_family": 5,
+      "effect_code": 30,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 26,
+      "table_entry_file_offset": 5498288,
+      "table_entry_gba_address": "0x0853E5B0",
+      "sequence_id": 0,
+      "template_raw_hex": "01021000000164010001020000000000",
+      "display_animation_family": 2,
+      "effect_code": 16,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 27,
+      "table_entry_file_offset": 5498289,
+      "table_entry_gba_address": "0x0853E5B1",
+      "sequence_id": 6,
+      "template_raw_hex": "0201010223015f830100320004000200",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 28,
+      "table_entry_file_offset": 5498290,
+      "table_entry_gba_address": "0x0853E5B2",
+      "sequence_id": 0,
+      "template_raw_hex": "03051100040164000000000001000100",
+      "display_animation_family": 5,
+      "effect_code": 17,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 29,
+      "table_entry_file_offset": 5498291,
+      "table_entry_gba_address": "0x0853E5B3",
+      "sequence_id": 0,
+      "template_raw_hex": "01051e10190164000000020001000500",
+      "display_animation_family": 5,
+      "effect_code": 30,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 30,
+      "table_entry_file_offset": 5498292,
+      "table_entry_gba_address": "0x0853E5B4",
+      "sequence_id": 0,
+      "template_raw_hex": "01021000000164010001020000000000",
+      "display_animation_family": 2,
+      "effect_code": 16,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 31,
+      "table_entry_file_offset": 5498293,
+      "table_entry_gba_address": "0x0853E5B5",
+      "sequence_id": 6,
+      "template_raw_hex": "020121020a015f0101030a0001000500",
+      "display_animation_family": 1,
+      "effect_code": 33,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 32,
+      "table_entry_file_offset": 5498294,
+      "table_entry_gba_address": "0x0853E5B6",
+      "sequence_id": 14,
+      "template_raw_hex": "01010102320164830100020001000200",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F080"
+    },
+    {
+      "action_id": 33,
+      "table_entry_file_offset": 5498295,
+      "table_entry_gba_address": "0x0853E5B7",
+      "sequence_id": 0,
+      "template_raw_hex": "01050704000164020100020004000100",
+      "display_animation_family": 5,
+      "effect_code": 7,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 34,
+      "table_entry_file_offset": 5498296,
+      "table_entry_gba_address": "0x0853E5B8",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010219015f830100030001000500",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 35,
+      "table_entry_file_offset": 5498297,
+      "table_entry_gba_address": "0x0853E5B9",
+      "sequence_id": 6,
+      "template_raw_hex": "0201010214025a220200280001000500",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 36,
+      "table_entry_file_offset": 5498298,
+      "table_entry_gba_address": "0x0853E5BA",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010208054b020100030005000100",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 37,
+      "table_entry_file_offset": 5498299,
+      "table_entry_gba_address": "0x0853E5BB",
+      "sequence_id": 0,
+      "template_raw_hex": "01051200140164000004030001000500",
+      "display_animation_family": 5,
+      "effect_code": 18,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 38,
+      "table_entry_file_offset": 5498300,
+      "table_entry_gba_address": "0x0853E5BC",
+      "sequence_id": 0,
+      "template_raw_hex": "01051200140164000004030001000500",
+      "display_animation_family": 5,
+      "effect_code": 18,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 39,
+      "table_entry_file_offset": 5498301,
+      "table_entry_gba_address": "0x0853E5BD",
+      "sequence_id": 0,
+      "template_raw_hex": "00000000000000000000000000000000",
+      "display_animation_family": 0,
+      "effect_code": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 40,
+      "table_entry_file_offset": 5498302,
+      "table_entry_gba_address": "0x0853E5BE",
+      "sequence_id": 0,
+      "template_raw_hex": "00000000000000000000000000000000",
+      "display_animation_family": 0,
+      "effect_code": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 41,
+      "table_entry_file_offset": 5498303,
+      "table_entry_gba_address": "0x0853E5BF",
+      "sequence_id": 6,
+      "template_raw_hex": "020101020f025f0101001e0001000300",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 42,
+      "table_entry_file_offset": 5498304,
+      "table_entry_gba_address": "0x0853E5C0",
+      "sequence_id": 6,
+      "template_raw_hex": "0201010219015f000200280001000500",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 43,
+      "table_entry_file_offset": 5498305,
+      "table_entry_gba_address": "0x0853E5C1",
+      "sequence_id": 0,
+      "template_raw_hex": "020513000101640000000a0000000000",
+      "display_animation_family": 5,
+      "effect_code": 19,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 44,
+      "table_entry_file_offset": 5498306,
+      "table_entry_gba_address": "0x0853E5C2",
+      "sequence_id": 0,
+      "template_raw_hex": "02051300020164000000140000000000",
+      "display_animation_family": 5,
+      "effect_code": 19,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 45,
+      "table_entry_file_offset": 5498307,
+      "table_entry_gba_address": "0x0853E5C3",
+      "sequence_id": 0,
+      "template_raw_hex": "020513000301640000001e0000000000",
+      "display_animation_family": 5,
+      "effect_code": 19,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 46,
+      "table_entry_file_offset": 5498308,
+      "table_entry_gba_address": "0x0853E5C4",
+      "sequence_id": 0,
+      "template_raw_hex": "02051300040164000000280000000000",
+      "display_animation_family": 5,
+      "effect_code": 19,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 47,
+      "table_entry_file_offset": 5498309,
+      "table_entry_gba_address": "0x0853E5C5",
+      "sequence_id": 0,
+      "template_raw_hex": "02051300050164000000320000000000",
+      "display_animation_family": 5,
+      "effect_code": 19,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 48,
+      "table_entry_file_offset": 5498310,
+      "table_entry_gba_address": "0x0853E5C6",
+      "sequence_id": 6,
+      "template_raw_hex": "02011402320050010100640001000500",
+      "display_animation_family": 1,
+      "effect_code": 20,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 49,
+      "table_entry_file_offset": 5498311,
+      "table_entry_gba_address": "0x0853E5C7",
+      "sequence_id": 6,
+      "template_raw_hex": "02011402500050010100c80001000500",
+      "display_animation_family": 1,
+      "effect_code": 20,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 50,
+      "table_entry_file_offset": 5498312,
+      "table_entry_gba_address": "0x0853E5C8",
+      "sequence_id": 0,
+      "template_raw_hex": "01050704000164020100030004000100",
+      "display_animation_family": 5,
+      "effect_code": 7,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 51,
+      "table_entry_file_offset": 5498313,
+      "table_entry_gba_address": "0x0853E5C9",
+      "sequence_id": 0,
+      "template_raw_hex": "01021000000164010001010000000000",
+      "display_animation_family": 2,
+      "effect_code": 16,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 52,
+      "table_entry_file_offset": 5498314,
+      "table_entry_gba_address": "0x0853E5CA",
+      "sequence_id": 0,
+      "template_raw_hex": "00000000000000000000000000000000",
+      "display_animation_family": 0,
+      "effect_code": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 53,
+      "table_entry_file_offset": 5498315,
+      "table_entry_gba_address": "0x0853E5CB",
+      "sequence_id": 6,
+      "template_raw_hex": "01011502140132030101050004000100",
+      "display_animation_family": 1,
+      "effect_code": 21,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 54,
+      "table_entry_file_offset": 5498316,
+      "table_entry_gba_address": "0x0853E5CC",
+      "sequence_id": 0,
+      "template_raw_hex": "01050704000164020100020004000100",
+      "display_animation_family": 5,
+      "effect_code": 7,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 55,
+      "table_entry_file_offset": 5498317,
+      "table_entry_gba_address": "0x0853E5CD",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010219015f830100030004000100",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 56,
+      "table_entry_file_offset": 5498318,
+      "table_entry_gba_address": "0x0853E5CE",
+      "sequence_id": 0,
+      "template_raw_hex": "01021000000164010001020000000000",
+      "display_animation_family": 2,
+      "effect_code": 16,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 57,
+      "table_entry_file_offset": 5498319,
+      "table_entry_gba_address": "0x0853E5CF",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010219015f830100030004000100",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 58,
+      "table_entry_file_offset": 5498320,
+      "table_entry_gba_address": "0x0853E5D0",
+      "sequence_id": 0,
+      "template_raw_hex": "01021000000164010001020000000000",
+      "display_animation_family": 2,
+      "effect_code": 16,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 59,
+      "table_entry_file_offset": 5498321,
+      "table_entry_gba_address": "0x0853E5D1",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010223015a008300040005000100",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 60,
+      "table_entry_file_offset": 5498322,
+      "table_entry_gba_address": "0x0853E5D2",
+      "sequence_id": 6,
+      "template_raw_hex": "010181020f014b810200030004000100",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 61,
+      "table_entry_file_offset": 5498323,
+      "table_entry_gba_address": "0x0853E5D3",
+      "sequence_id": 15,
+      "template_raw_hex": "0201010214015f0102000f0001000500",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F098"
+    },
+    {
+      "action_id": 62,
+      "table_entry_file_offset": 5498324,
+      "table_entry_gba_address": "0x0853E5D4",
+      "sequence_id": 0,
+      "template_raw_hex": "01050d00000164000005020000000000",
+      "display_animation_family": 5,
+      "effect_code": 13,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 63,
+      "table_entry_file_offset": 5498325,
+      "table_entry_gba_address": "0x0853E5D5",
+      "sequence_id": 0,
+      "template_raw_hex": "01050704000164020100030004000100",
+      "display_animation_family": 5,
+      "effect_code": 7,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 64,
+      "table_entry_file_offset": 5498326,
+      "table_entry_gba_address": "0x0853E5D6",
+      "sequence_id": 17,
+      "template_raw_hex": "0101010223015f040100030001000500",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F0C8"
+    },
+    {
+      "action_id": 65,
+      "table_entry_file_offset": 5498327,
+      "table_entry_gba_address": "0x0853E5D7",
+      "sequence_id": 17,
+      "template_raw_hex": "010101021e015a030300040001000500",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F0C8"
+    },
+    {
+      "action_id": 66,
+      "table_entry_file_offset": 5498328,
+      "table_entry_gba_address": "0x0853E5D8",
+      "sequence_id": 6,
+      "template_raw_hex": "01010102080550020100030004000100",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 67,
+      "table_entry_file_offset": 5498329,
+      "table_entry_gba_address": "0x0853E5D9",
+      "sequence_id": 6,
+      "template_raw_hex": "010101020a0564000300050005000100",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 68,
+      "table_entry_file_offset": 5498330,
+      "table_entry_gba_address": "0x0853E5DA",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010214015f850100020000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 69,
+      "table_entry_file_offset": 5498331,
+      "table_entry_gba_address": "0x0853E5DB",
+      "sequence_id": 0,
+      "template_raw_hex": "01051704000164050100020000000000",
+      "display_animation_family": 5,
+      "effect_code": 23,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 70,
+      "table_entry_file_offset": 5498332,
+      "table_entry_gba_address": "0x0853E5DC",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010214015f850100020000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 71,
+      "table_entry_file_offset": 5498333,
+      "table_entry_gba_address": "0x0853E5DD",
+      "sequence_id": 0,
+      "template_raw_hex": "01051704000164050100020000000000",
+      "display_animation_family": 5,
+      "effect_code": 23,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 72,
+      "table_entry_file_offset": 5498334,
+      "table_entry_gba_address": "0x0853E5DE",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010214015f850100020000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 73,
+      "table_entry_file_offset": 5498335,
+      "table_entry_gba_address": "0x0853E5DF",
+      "sequence_id": 0,
+      "template_raw_hex": "01051704000164050100020000000000",
+      "display_animation_family": 5,
+      "effect_code": 23,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "action_id": 74,
+      "table_entry_file_offset": 5498336,
+      "table_entry_gba_address": "0x0853E5E0",
+      "sequence_id": 6,
+      "template_raw_hex": "01010102280164450100010000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 75,
+      "table_entry_file_offset": 5498337,
+      "table_entry_gba_address": "0x0853E5E1",
+      "sequence_id": 6,
+      "template_raw_hex": "01010102280164450100010000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 76,
+      "table_entry_file_offset": 5498338,
+      "table_entry_gba_address": "0x0853E5E2",
+      "sequence_id": 15,
+      "template_raw_hex": "0201010214015f820100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F098"
+    },
+    {
+      "action_id": 77,
+      "table_entry_file_offset": 5498339,
+      "table_entry_gba_address": "0x0853E5E3",
+      "sequence_id": 15,
+      "template_raw_hex": "0201010214015f820100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F098"
+    },
+    {
+      "action_id": 78,
+      "table_entry_file_offset": 5498340,
+      "table_entry_gba_address": "0x0853E5E4",
+      "sequence_id": 6,
+      "template_raw_hex": "010101020f0250860100020000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 79,
+      "table_entry_file_offset": 5498341,
+      "table_entry_gba_address": "0x0853E5E5",
+      "sequence_id": 6,
+      "template_raw_hex": "0101010219015f820200030000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 80,
+      "table_entry_file_offset": 5498342,
+      "table_entry_gba_address": "0x0853E5E6",
+      "sequence_id": 6,
+      "template_raw_hex": "01053f02000155000302030000000000",
+      "display_animation_family": 5,
+      "effect_code": 63,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 81,
+      "table_entry_file_offset": 5498343,
+      "table_entry_gba_address": "0x0853E5E7",
+      "sequence_id": 6,
+      "template_raw_hex": "020101021e015f010100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 82,
+      "table_entry_file_offset": 5498344,
+      "table_entry_gba_address": "0x0853E5E8",
+      "sequence_id": 6,
+      "template_raw_hex": "020101021e015f010100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 83,
+      "table_entry_file_offset": 5498345,
+      "table_entry_gba_address": "0x0853E5E9",
+      "sequence_id": 6,
+      "template_raw_hex": "0201010214015f010100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 84,
+      "table_entry_file_offset": 5498346,
+      "table_entry_gba_address": "0x0853E5EA",
+      "sequence_id": 6,
+      "template_raw_hex": "020101021e015f010100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 85,
+      "table_entry_file_offset": 5498347,
+      "table_entry_gba_address": "0x0853E5EB",
+      "sequence_id": 6,
+      "template_raw_hex": "0201010214015f010100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "action_id": 86,
+      "table_entry_file_offset": 5498348,
+      "table_entry_gba_address": "0x0853E5EC",
+      "sequence_id": 6,
+      "template_raw_hex": "020101020a015f010100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    }
+  ],
+  "ninja_tool_bindings": [
+    {
+      "ninja_tool_id": 0,
+      "encoded_action_id": 128,
+      "table_entry_file_offset": 5498390,
+      "table_entry_gba_address": "0x0853E616",
+      "sequence_id": 0,
+      "template_raw_hex": "00000000000000000000000000000000",
+      "display_animation_family": 0,
+      "effect_code": 0,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 1,
+      "encoded_action_id": 129,
+      "table_entry_file_offset": 5498391,
+      "table_entry_gba_address": "0x0853E617",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010206035a830100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 2,
+      "encoded_action_id": 130,
+      "table_entry_file_offset": 5498392,
+      "table_entry_gba_address": "0x0853E618",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010206035a830200010300000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 3,
+      "encoded_action_id": 131,
+      "table_entry_file_offset": 5498393,
+      "table_entry_gba_address": "0x0853E619",
+      "sequence_id": 13,
+      "template_raw_hex": "010001020a035a830200020300000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 4,
+      "encoded_action_id": 132,
+      "table_entry_file_offset": 5498394,
+      "table_entry_gba_address": "0x0853E61A",
+      "sequence_id": 13,
+      "template_raw_hex": "010001020e035a830200031100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 5,
+      "encoded_action_id": 133,
+      "table_entry_file_offset": 5498395,
+      "table_entry_gba_address": "0x0853E61B",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010206035a840100010100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 6,
+      "encoded_action_id": 134,
+      "table_entry_file_offset": 5498396,
+      "table_entry_gba_address": "0x0853E61C",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010206035a850100050100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 7,
+      "encoded_action_id": 135,
+      "table_entry_file_offset": 5498397,
+      "table_entry_gba_address": "0x0853E61D",
+      "sequence_id": 13,
+      "template_raw_hex": "010001020a035a850100061100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 8,
+      "encoded_action_id": 136,
+      "table_entry_file_offset": 5498398,
+      "table_entry_gba_address": "0x0853E61E",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010206045a830100010200000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 9,
+      "encoded_action_id": 137,
+      "table_entry_file_offset": 5498399,
+      "table_entry_gba_address": "0x0853E61F",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010206055a830100080200000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 10,
+      "encoded_action_id": 138,
+      "table_entry_file_offset": 5498400,
+      "table_entry_gba_address": "0x0853E620",
+      "sequence_id": 13,
+      "template_raw_hex": "010001020a055a830100091100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 11,
+      "encoded_action_id": 139,
+      "table_entry_file_offset": 5498401,
+      "table_entry_gba_address": "0x0853E621",
+      "sequence_id": 13,
+      "template_raw_hex": "0100410206035a830100010400000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 12,
+      "encoded_action_id": 140,
+      "table_entry_file_offset": 5498402,
+      "table_entry_gba_address": "0x0853E622",
+      "sequence_id": 13,
+      "template_raw_hex": "010041020a035a8301000b0300000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 13,
+      "encoded_action_id": 141,
+      "table_entry_file_offset": 5498403,
+      "table_entry_gba_address": "0x0853E623",
+      "sequence_id": 13,
+      "template_raw_hex": "010041020e035a8301000c1100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 14,
+      "encoded_action_id": 142,
+      "table_entry_file_offset": 5498404,
+      "table_entry_gba_address": "0x0853E624",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010205035a83010000000d000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 15,
+      "encoded_action_id": 143,
+      "table_entry_file_offset": 5498405,
+      "table_entry_gba_address": "0x0853E625",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010208035a8301000e030d000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 16,
+      "encoded_action_id": 144,
+      "table_entry_file_offset": 5498406,
+      "table_entry_gba_address": "0x0853E626",
+      "sequence_id": 13,
+      "template_raw_hex": "010001020b035a8301000f110d000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 17,
+      "encoded_action_id": 145,
+      "table_entry_file_offset": 5498407,
+      "table_entry_gba_address": "0x0853E627",
+      "sequence_id": 13,
+      "template_raw_hex": "010001020a0164830100000002000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 18,
+      "encoded_action_id": 146,
+      "table_entry_file_offset": 5498408,
+      "table_entry_gba_address": "0x0853E628",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010218015f820100000000000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 19,
+      "encoded_action_id": 147,
+      "table_entry_file_offset": 5498409,
+      "table_entry_gba_address": "0x0853E629",
+      "sequence_id": 13,
+      "template_raw_hex": "010001021c015f820100120300000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 20,
+      "encoded_action_id": 148,
+      "table_entry_file_offset": 5498410,
+      "table_entry_gba_address": "0x0853E62A",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010220015f820100130300000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 21,
+      "encoded_action_id": 149,
+      "table_entry_file_offset": 5498411,
+      "table_entry_gba_address": "0x0853E62B",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010224015f820100141100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 22,
+      "encoded_action_id": 150,
+      "table_entry_file_offset": 5498412,
+      "table_entry_gba_address": "0x0853E62C",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010218015f830100120100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 23,
+      "encoded_action_id": 151,
+      "table_entry_file_offset": 5498413,
+      "table_entry_gba_address": "0x0853E62D",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010218015f840100160100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 24,
+      "encoded_action_id": 152,
+      "table_entry_file_offset": 5498414,
+      "table_entry_gba_address": "0x0853E62E",
+      "sequence_id": 13,
+      "template_raw_hex": "010001021e015f840100171100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 25,
+      "encoded_action_id": 153,
+      "table_entry_file_offset": 5498415,
+      "table_entry_gba_address": "0x0853E62F",
+      "sequence_id": 13,
+      "template_raw_hex": "0100410218015f820100120400000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 26,
+      "encoded_action_id": 154,
+      "table_entry_file_offset": 5498416,
+      "table_entry_gba_address": "0x0853E630",
+      "sequence_id": 13,
+      "template_raw_hex": "010041021c015f820100190300000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 27,
+      "encoded_action_id": 155,
+      "table_entry_file_offset": 5498417,
+      "table_entry_gba_address": "0x0853E631",
+      "sequence_id": 13,
+      "template_raw_hex": "0100410220015f8201001a1100000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 28,
+      "encoded_action_id": 156,
+      "table_entry_file_offset": 5498418,
+      "table_entry_gba_address": "0x0853E632",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010214015f82010000000d000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 29,
+      "encoded_action_id": 157,
+      "table_entry_file_offset": 5498419,
+      "table_entry_gba_address": "0x0853E633",
+      "sequence_id": 13,
+      "template_raw_hex": "0100010218015f8201001c030d000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 30,
+      "encoded_action_id": 158,
+      "table_entry_file_offset": 5498420,
+      "table_entry_gba_address": "0x0853E634",
+      "sequence_id": 13,
+      "template_raw_hex": "010001021c015f8201001d110d000000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 31,
+      "encoded_action_id": 159,
+      "table_entry_file_offset": 5498421,
+      "table_entry_gba_address": "0x0853E635",
+      "sequence_id": 13,
+      "template_raw_hex": "01000102050555830100000013150000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 32,
+      "encoded_action_id": 160,
+      "table_entry_file_offset": 5498422,
+      "table_entry_gba_address": "0x0853E636",
+      "sequence_id": 13,
+      "template_raw_hex": "010001020705558301001f0313150000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 33,
+      "encoded_action_id": 161,
+      "table_entry_file_offset": 5498423,
+      "table_entry_gba_address": "0x0853E637",
+      "sequence_id": 13,
+      "template_raw_hex": "01000102090555830100201113150000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 34,
+      "encoded_action_id": 162,
+      "table_entry_file_offset": 5498424,
+      "table_entry_gba_address": "0x0853E638",
+      "sequence_id": 13,
+      "template_raw_hex": "010001020505558401001f0113150000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 35,
+      "encoded_action_id": 163,
+      "table_entry_file_offset": 5498425,
+      "table_entry_gba_address": "0x0853E639",
+      "sequence_id": 13,
+      "template_raw_hex": "01000102050555850100220113150000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 36,
+      "encoded_action_id": 164,
+      "table_entry_file_offset": 5498426,
+      "table_entry_gba_address": "0x0853E63A",
+      "sequence_id": 13,
+      "template_raw_hex": "01000102070555850100231113150000",
+      "display_animation_family": 1,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853F068"
+    },
+    {
+      "ninja_tool_id": 37,
+      "encoded_action_id": 165,
+      "table_entry_file_offset": 5498427,
+      "table_entry_gba_address": "0x0853E63B",
+      "sequence_id": 0,
+      "template_raw_hex": "05000c04000164020102000000000000",
+      "display_animation_family": 5,
+      "effect_code": 12,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 38,
+      "encoded_action_id": 166,
+      "table_entry_file_offset": 5498428,
+      "table_entry_gba_address": "0x0853E63C",
+      "sequence_id": 0,
+      "template_raw_hex": "05000c04000164030102250100000000",
+      "display_animation_family": 5,
+      "effect_code": 12,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 39,
+      "encoded_action_id": 167,
+      "table_entry_file_offset": 5498429,
+      "table_entry_gba_address": "0x0853E63D",
+      "sequence_id": 0,
+      "template_raw_hex": "05000c04000164040102260100000000",
+      "display_animation_family": 5,
+      "effect_code": 12,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 40,
+      "encoded_action_id": 168,
+      "table_entry_file_offset": 5498430,
+      "table_entry_gba_address": "0x0853E63E",
+      "sequence_id": 0,
+      "template_raw_hex": "03001600000164020101000000000000",
+      "display_animation_family": 3,
+      "effect_code": 22,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 41,
+      "encoded_action_id": 169,
+      "table_entry_file_offset": 5498431,
+      "table_entry_gba_address": "0x0853E63F",
+      "sequence_id": 0,
+      "template_raw_hex": "03001600000164030101280500000000",
+      "display_animation_family": 3,
+      "effect_code": 22,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 42,
+      "encoded_action_id": 170,
+      "table_entry_file_offset": 5498432,
+      "table_entry_gba_address": "0x0853E640",
+      "sequence_id": 0,
+      "template_raw_hex": "03001600000164040101291100000000",
+      "display_animation_family": 3,
+      "effect_code": 22,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 43,
+      "encoded_action_id": 171,
+      "table_entry_file_offset": 5498433,
+      "table_entry_gba_address": "0x0853E641",
+      "sequence_id": 0,
+      "template_raw_hex": "03005600000164020101280400000000",
+      "display_animation_family": 3,
+      "effect_code": 22,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 44,
+      "encoded_action_id": 172,
+      "table_entry_file_offset": 5498434,
+      "table_entry_gba_address": "0x0853E642",
+      "sequence_id": 0,
+      "template_raw_hex": "030056000001640301012b0500000000",
+      "display_animation_family": 3,
+      "effect_code": 22,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 45,
+      "encoded_action_id": 173,
+      "table_entry_file_offset": 5498435,
+      "table_entry_gba_address": "0x0853E643",
+      "sequence_id": 0,
+      "template_raw_hex": "030056000001640401012c1100000000",
+      "display_animation_family": 3,
+      "effect_code": 22,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 46,
+      "encoded_action_id": 174,
+      "table_entry_file_offset": 5498436,
+      "table_entry_gba_address": "0x0853E644",
+      "sequence_id": 0,
+      "template_raw_hex": "030019000a0164010101280600000000",
+      "display_animation_family": 3,
+      "effect_code": 25,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 47,
+      "encoded_action_id": 175,
+      "table_entry_file_offset": 5498437,
+      "table_entry_gba_address": "0x0853E645",
+      "sequence_id": 0,
+      "template_raw_hex": "030019000f01640101012e0600000000",
+      "display_animation_family": 3,
+      "effect_code": 25,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 48,
+      "encoded_action_id": 176,
+      "table_entry_file_offset": 5498438,
+      "table_entry_gba_address": "0x0853E646",
+      "sequence_id": 0,
+      "template_raw_hex": "030019001401640101012f1100000000",
+      "display_animation_family": 3,
+      "effect_code": 25,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 49,
+      "encoded_action_id": 177,
+      "table_entry_file_offset": 5498439,
+      "table_entry_gba_address": "0x0853E647",
+      "sequence_id": 6,
+      "template_raw_hex": "050001021c0164020100280300000000",
+      "display_animation_family": 5,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "ninja_tool_id": 50,
+      "encoded_action_id": 178,
+      "table_entry_file_offset": 5498440,
+      "table_entry_gba_address": "0x0853E648",
+      "sequence_id": 6,
+      "template_raw_hex": "05000102220164020100310300000000",
+      "display_animation_family": 5,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "ninja_tool_id": 51,
+      "encoded_action_id": 179,
+      "table_entry_file_offset": 5498441,
+      "table_entry_gba_address": "0x0853E649",
+      "sequence_id": 6,
+      "template_raw_hex": "05000102280164020100321100000000",
+      "display_animation_family": 5,
+      "effect_code": 1,
+      "sequence_descriptor_gba_address": "0x0853EFC0"
+    },
+    {
+      "ninja_tool_id": 52,
+      "encoded_action_id": 180,
+      "table_entry_file_offset": 5498442,
+      "table_entry_gba_address": "0x0853E64A",
+      "sequence_id": 0,
+      "template_raw_hex": "05001d02010164020100280700000000",
+      "display_animation_family": 5,
+      "effect_code": 29,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 53,
+      "encoded_action_id": 181,
+      "table_entry_file_offset": 5498443,
+      "table_entry_gba_address": "0x0853E64B",
+      "sequence_id": 0,
+      "template_raw_hex": "05001d02020164020100340700000000",
+      "display_animation_family": 5,
+      "effect_code": 29,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 54,
+      "encoded_action_id": 182,
+      "table_entry_file_offset": 5498444,
+      "table_entry_gba_address": "0x0853E64C",
+      "sequence_id": 0,
+      "template_raw_hex": "05001d02030164020100351100000000",
+      "display_animation_family": 5,
+      "effect_code": 29,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 55,
+      "encoded_action_id": 183,
+      "table_entry_file_offset": 5498445,
+      "table_entry_gba_address": "0x0853E64D",
+      "sequence_id": 0,
+      "template_raw_hex": "05001f02190164020104280800000000",
+      "display_animation_family": 5,
+      "effect_code": 31,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 56,
+      "encoded_action_id": 184,
+      "table_entry_file_offset": 5498446,
+      "table_entry_gba_address": "0x0853E64E",
+      "sequence_id": 0,
+      "template_raw_hex": "05001f02320164020104370800000000",
+      "display_animation_family": 5,
+      "effect_code": 31,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 57,
+      "encoded_action_id": 185,
+      "table_entry_file_offset": 5498447,
+      "table_entry_gba_address": "0x0853E64F",
+      "sequence_id": 0,
+      "template_raw_hex": "05001f024b0164020104381100000000",
+      "display_animation_family": 5,
+      "effect_code": 31,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 58,
+      "encoded_action_id": 186,
+      "table_entry_file_offset": 5498448,
+      "table_entry_gba_address": "0x0853E650",
+      "sequence_id": 0,
+      "template_raw_hex": "05002102190164020104280900000000",
+      "display_animation_family": 5,
+      "effect_code": 33,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 59,
+      "encoded_action_id": 187,
+      "table_entry_file_offset": 5498449,
+      "table_entry_gba_address": "0x0853E651",
+      "sequence_id": 0,
+      "template_raw_hex": "050021023201640201043a0900000000",
+      "display_animation_family": 5,
+      "effect_code": 33,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 60,
+      "encoded_action_id": 188,
+      "table_entry_file_offset": 5498450,
+      "table_entry_gba_address": "0x0853E652",
+      "sequence_id": 0,
+      "template_raw_hex": "050021024b01640201043b1100000000",
+      "display_animation_family": 5,
+      "effect_code": 33,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 61,
+      "encoded_action_id": 189,
+      "table_entry_file_offset": 5498451,
+      "table_entry_gba_address": "0x0853E653",
+      "sequence_id": 0,
+      "template_raw_hex": "05002302190164020104280a00000000",
+      "display_animation_family": 5,
+      "effect_code": 35,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 62,
+      "encoded_action_id": 190,
+      "table_entry_file_offset": 5498452,
+      "table_entry_gba_address": "0x0853E654",
+      "sequence_id": 0,
+      "template_raw_hex": "050023023201640201043d0a00000000",
+      "display_animation_family": 5,
+      "effect_code": 35,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 63,
+      "encoded_action_id": 191,
+      "table_entry_file_offset": 5498453,
+      "table_entry_gba_address": "0x0853E655",
+      "sequence_id": 0,
+      "template_raw_hex": "050023024b01640201043e1100000000",
+      "display_animation_family": 5,
+      "effect_code": 35,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 64,
+      "encoded_action_id": 192,
+      "table_entry_file_offset": 5498454,
+      "table_entry_gba_address": "0x0853E656",
+      "sequence_id": 0,
+      "template_raw_hex": "05002502010164020104280b00000000",
+      "display_animation_family": 5,
+      "effect_code": 37,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 65,
+      "encoded_action_id": 193,
+      "table_entry_file_offset": 5498455,
+      "table_entry_gba_address": "0x0853E657",
+      "sequence_id": 0,
+      "template_raw_hex": "05002502020164020104400b00000000",
+      "display_animation_family": 5,
+      "effect_code": 37,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 66,
+      "encoded_action_id": 194,
+      "table_entry_file_offset": 5498456,
+      "table_entry_gba_address": "0x0853E658",
+      "sequence_id": 0,
+      "template_raw_hex": "05002502030164020104411100000000",
+      "display_animation_family": 5,
+      "effect_code": 37,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 67,
+      "encoded_action_id": 195,
+      "table_entry_file_offset": 5498457,
+      "table_entry_gba_address": "0x0853E659",
+      "sequence_id": 0,
+      "template_raw_hex": "05001804140164020201000000000000",
+      "display_animation_family": 5,
+      "effect_code": 24,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 68,
+      "encoded_action_id": 196,
+      "table_entry_file_offset": 5498458,
+      "table_entry_gba_address": "0x0853E65A",
+      "sequence_id": 0,
+      "template_raw_hex": "050018041a0164020201430600000000",
+      "display_animation_family": 5,
+      "effect_code": 24,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 69,
+      "encoded_action_id": 197,
+      "table_entry_file_offset": 5498459,
+      "table_entry_gba_address": "0x0853E65B",
+      "sequence_id": 0,
+      "template_raw_hex": "05001804200164020201441100000000",
+      "display_animation_family": 5,
+      "effect_code": 24,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 70,
+      "encoded_action_id": 198,
+      "table_entry_file_offset": 5498460,
+      "table_entry_gba_address": "0x0853E65C",
+      "sequence_id": 0,
+      "template_raw_hex": "05005804140164020201430400000000",
+      "display_animation_family": 5,
+      "effect_code": 24,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 71,
+      "encoded_action_id": 199,
+      "table_entry_file_offset": 5498461,
+      "table_entry_gba_address": "0x0853E65D",
+      "sequence_id": 0,
+      "template_raw_hex": "050058041a0164020201460600000000",
+      "display_animation_family": 5,
+      "effect_code": 24,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 72,
+      "encoded_action_id": 200,
+      "table_entry_file_offset": 5498462,
+      "table_entry_gba_address": "0x0853E65E",
+      "sequence_id": 0,
+      "template_raw_hex": "05005804200164020201471100000000",
+      "display_animation_family": 5,
+      "effect_code": 24,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 73,
+      "encoded_action_id": 201,
+      "table_entry_file_offset": 5498463,
+      "table_entry_gba_address": "0x0853E65F",
+      "sequence_id": 0,
+      "template_raw_hex": "05001a01280164020100000000000000",
+      "display_animation_family": 5,
+      "effect_code": 26,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 74,
+      "encoded_action_id": 202,
+      "table_entry_file_offset": 5498464,
+      "table_entry_gba_address": "0x0853E660",
+      "sequence_id": 0,
+      "template_raw_hex": "05001a01460164020100490500000000",
+      "display_animation_family": 5,
+      "effect_code": 26,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 75,
+      "encoded_action_id": 203,
+      "table_entry_file_offset": 5498465,
+      "table_entry_gba_address": "0x0853E661",
+      "sequence_id": 0,
+      "template_raw_hex": "05001a016401640201004a1100000000",
+      "display_animation_family": 5,
+      "effect_code": 26,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 76,
+      "encoded_action_id": 204,
+      "table_entry_file_offset": 5498466,
+      "table_entry_gba_address": "0x0853E662",
+      "sequence_id": 0,
+      "template_raw_hex": "05001c01030164020100490f00000000",
+      "display_animation_family": 5,
+      "effect_code": 28,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 77,
+      "encoded_action_id": 205,
+      "table_entry_file_offset": 5498467,
+      "table_entry_gba_address": "0x0853E663",
+      "sequence_id": 0,
+      "template_raw_hex": "05001c010501640201004c0f00000000",
+      "display_animation_family": 5,
+      "effect_code": 28,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 78,
+      "encoded_action_id": 206,
+      "table_entry_file_offset": 5498468,
+      "table_entry_gba_address": "0x0853E664",
+      "sequence_id": 0,
+      "template_raw_hex": "05001c010801640201004d1100000000",
+      "display_animation_family": 5,
+      "effect_code": 28,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 79,
+      "encoded_action_id": 207,
+      "table_entry_file_offset": 5498469,
+      "table_entry_gba_address": "0x0853E665",
+      "sequence_id": 0,
+      "template_raw_hex": "05001e010a0164020104490c00000000",
+      "display_animation_family": 5,
+      "effect_code": 30,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 80,
+      "encoded_action_id": 208,
+      "table_entry_file_offset": 5498470,
+      "table_entry_gba_address": "0x0853E666",
+      "sequence_id": 0,
+      "template_raw_hex": "05001e011e01640201044f0c00000000",
+      "display_animation_family": 5,
+      "effect_code": 30,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 81,
+      "encoded_action_id": 209,
+      "table_entry_file_offset": 5498471,
+      "table_entry_gba_address": "0x0853E667",
+      "sequence_id": 0,
+      "template_raw_hex": "05001e01320164020104501100000000",
+      "display_animation_family": 5,
+      "effect_code": 30,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 82,
+      "encoded_action_id": 210,
+      "table_entry_file_offset": 5498472,
+      "table_entry_gba_address": "0x0853E668",
+      "sequence_id": 0,
+      "template_raw_hex": "050020010a0164020104490300000000",
+      "display_animation_family": 5,
+      "effect_code": 32,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 83,
+      "encoded_action_id": 211,
+      "table_entry_file_offset": 5498473,
+      "table_entry_gba_address": "0x0853E669",
+      "sequence_id": 0,
+      "template_raw_hex": "050020011e0164020104520300000000",
+      "display_animation_family": 5,
+      "effect_code": 32,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 84,
+      "encoded_action_id": 212,
+      "table_entry_file_offset": 5498474,
+      "table_entry_gba_address": "0x0853E66A",
+      "sequence_id": 0,
+      "template_raw_hex": "05002001320164020104531100000000",
+      "display_animation_family": 5,
+      "effect_code": 32,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 85,
+      "encoded_action_id": 213,
+      "table_entry_file_offset": 5498475,
+      "table_entry_gba_address": "0x0853E66B",
+      "sequence_id": 0,
+      "template_raw_hex": "050022010a0164020104490d00000000",
+      "display_animation_family": 5,
+      "effect_code": 34,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 86,
+      "encoded_action_id": 214,
+      "table_entry_file_offset": 5498476,
+      "table_entry_gba_address": "0x0853E66C",
+      "sequence_id": 0,
+      "template_raw_hex": "050022011e0164020104550d00000000",
+      "display_animation_family": 5,
+      "effect_code": 34,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 87,
+      "encoded_action_id": 215,
+      "table_entry_file_offset": 5498477,
+      "table_entry_gba_address": "0x0853E66D",
+      "sequence_id": 0,
+      "template_raw_hex": "05002201320164020104561100000000",
+      "display_animation_family": 5,
+      "effect_code": 34,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 88,
+      "encoded_action_id": 216,
+      "table_entry_file_offset": 5498478,
+      "table_entry_gba_address": "0x0853E66E",
+      "sequence_id": 0,
+      "template_raw_hex": "05002401010164020104490e00000000",
+      "display_animation_family": 5,
+      "effect_code": 36,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 89,
+      "encoded_action_id": 217,
+      "table_entry_file_offset": 5498479,
+      "table_entry_gba_address": "0x0853E66F",
+      "sequence_id": 0,
+      "template_raw_hex": "05002401020164020104580e00000000",
+      "display_animation_family": 5,
+      "effect_code": 36,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 90,
+      "encoded_action_id": 218,
+      "table_entry_file_offset": 5498480,
+      "table_entry_gba_address": "0x0853E670",
+      "sequence_id": 0,
+      "template_raw_hex": "05002401030164020104591100000000",
+      "display_animation_family": 5,
+      "effect_code": 36,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 91,
+      "encoded_action_id": 219,
+      "table_entry_file_offset": 5498481,
+      "table_entry_gba_address": "0x0853E671",
+      "sequence_id": 0,
+      "template_raw_hex": "050026010a0164020104491000000000",
+      "display_animation_family": 5,
+      "effect_code": 38,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 92,
+      "encoded_action_id": 220,
+      "table_entry_file_offset": 5498482,
+      "table_entry_gba_address": "0x0853E672",
+      "sequence_id": 0,
+      "template_raw_hex": "050026011e01640201045b1000000000",
+      "display_animation_family": 5,
+      "effect_code": 38,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    },
+    {
+      "ninja_tool_id": 93,
+      "encoded_action_id": 221,
+      "table_entry_file_offset": 5498483,
+      "table_entry_gba_address": "0x0853E673",
+      "sequence_id": 0,
+      "template_raw_hex": "050026013201640201045c1100000000",
+      "display_animation_family": 5,
+      "effect_code": 38,
+      "sequence_descriptor_gba_address": "0x0853EF30"
+    }
+  ],
+  "sequences": [
+    {
+      "sequence_id": 0,
+      "table_entry_file_offset": 5500720,
+      "table_entry_gba_address": "0x0853EF30",
+      "raw_hex": "000000000000000000000000000000000000000000000000",
+      "resource_group_ids": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [],
+      "resource_pair_artifacts": [],
+      "init_once_callback_thumb": "0x00000000",
+      "init_once_callback_address": "0x00000000",
+      "tick_callback_thumb": "0x00000000",
+      "tick_callback_address": "0x00000000",
+      "runtime_state_values": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        9,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        28,
+        29,
+        30,
+        33,
+        37,
+        38,
+        39,
+        40,
+        43,
+        44,
+        45,
+        46,
+        47,
+        50,
+        51,
+        52,
+        54,
+        56,
+        58,
+        62,
+        63,
+        69,
+        71,
+        73,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99,
+        100,
+        101,
+        102,
+        103,
+        104,
+        105,
+        106,
+        107,
+        108,
+        109,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        165,
+        166,
+        167,
+        168,
+        169,
+        170,
+        171,
+        172,
+        173,
+        174,
+        175,
+        176,
+        180,
+        181,
+        182,
+        183,
+        184,
+        185,
+        186,
+        187,
+        188,
+        189,
+        190,
+        191,
+        192,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200,
+        201,
+        202,
+        203,
+        204,
+        205,
+        206,
+        207,
+        208,
+        209,
+        210,
+        211,
+        212,
+        213,
+        214,
+        215,
+        216,
+        217,
+        218,
+        219,
+        220,
+        221,
+        222,
+        223,
+        224,
+        225,
+        226,
+        227,
+        228,
+        229,
+        230,
+        231,
+        232,
+        233,
+        234,
+        235,
+        236,
+        237,
+        238,
+        239,
+        240,
+        241,
+        242,
+        243,
+        244,
+        245,
+        246,
+        247,
+        248,
+        249,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255
+      ],
+      "active_action_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        6,
+        7,
+        9,
+        14,
+        15,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        28,
+        29,
+        30,
+        33,
+        37,
+        38,
+        39,
+        40,
+        43,
+        44,
+        45,
+        46,
+        47,
+        50,
+        51,
+        52,
+        54,
+        56,
+        58,
+        62,
+        63,
+        69,
+        71,
+        73
+      ],
+      "ninja_tool_ids": [
+        0,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90,
+        91,
+        92,
+        93
+      ]
+    },
+    {
+      "sequence_id": 1,
+      "table_entry_file_offset": 5500744,
+      "table_entry_gba_address": "0x0853EF48",
+      "raw_hex": "01000000000000000000000000000000550508085d050808",
+      "resource_group_ids": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        1
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-01-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x08080555",
+      "init_once_callback_address": "0x08080554",
+      "tick_callback_thumb": "0x0808055D",
+      "tick_callback_address": "0x0808055C",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 2,
+      "table_entry_file_offset": 5500768,
+      "table_entry_gba_address": "0x0853EF60",
+      "raw_hex": "020000000000000000000000000000006106080871060808",
+      "resource_group_ids": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        2
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-02-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x08080661",
+      "init_once_callback_address": "0x08080660",
+      "tick_callback_thumb": "0x08080671",
+      "tick_callback_address": "0x08080670",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 3,
+      "table_entry_file_offset": 5500792,
+      "table_entry_gba_address": "0x0853EF78",
+      "raw_hex": "030000000000000000000000000000006106080865070808",
+      "resource_group_ids": [
+        3,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        3
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-03-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x08080661",
+      "init_once_callback_address": "0x08080660",
+      "tick_callback_thumb": "0x08080765",
+      "tick_callback_address": "0x08080764",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 4,
+      "table_entry_file_offset": 5500816,
+      "table_entry_gba_address": "0x0853EF90",
+      "raw_hex": "04000000000000000000000000000000bd080808c5080808",
+      "resource_group_ids": [
+        4,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        4
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-04-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080808C5",
+      "tick_callback_address": "0x080808C4",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 5,
+      "table_entry_file_offset": 5500840,
+      "table_entry_gba_address": "0x0853EFA8",
+      "raw_hex": "01000000000000000000000000000000bd080808c5080808",
+      "resource_group_ids": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        1
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-01-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080808C5",
+      "tick_callback_address": "0x080808C4",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 6,
+      "table_entry_file_offset": 5500864,
+      "table_entry_gba_address": "0x0853EFC0",
+      "raw_hex": "05000000000000000000000000000000bd080808c5080808",
+      "resource_group_ids": [
+        5,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        5
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-05-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080808C5",
+      "tick_callback_address": "0x080808C4",
+      "runtime_state_values": [
+        5,
+        8,
+        10,
+        11,
+        12,
+        13,
+        19,
+        27,
+        31,
+        34,
+        35,
+        36,
+        41,
+        42,
+        48,
+        49,
+        53,
+        55,
+        57,
+        59,
+        60,
+        66,
+        67,
+        68,
+        70,
+        72,
+        74,
+        75,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86,
+        177,
+        178,
+        179
+      ],
+      "active_action_ids": [
+        5,
+        8,
+        10,
+        11,
+        12,
+        13,
+        19,
+        27,
+        31,
+        34,
+        35,
+        36,
+        41,
+        42,
+        48,
+        49,
+        53,
+        55,
+        57,
+        59,
+        60,
+        66,
+        67,
+        68,
+        70,
+        72,
+        74,
+        75,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84,
+        85,
+        86
+      ],
+      "ninja_tool_ids": [
+        49,
+        50,
+        51
+      ]
+    },
+    {
+      "sequence_id": 7,
+      "table_entry_file_offset": 5500888,
+      "table_entry_gba_address": "0x0853EFD8",
+      "raw_hex": "12000000000000000000000000000000bd080808c5080808",
+      "resource_group_ids": [
+        18,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        18
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-18-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080808C5",
+      "tick_callback_address": "0x080808C4",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 8,
+      "table_entry_file_offset": 5500912,
+      "table_entry_gba_address": "0x0853EFF0",
+      "raw_hex": "06000000000000000000000000000000bd08080815090808",
+      "resource_group_ids": [
+        6,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        6
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-06-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x08080915",
+      "tick_callback_address": "0x08080914",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 9,
+      "table_entry_file_offset": 5500936,
+      "table_entry_gba_address": "0x0853F008",
+      "raw_hex": "07000000000000000000000000000000bd08080815090808",
+      "resource_group_ids": [
+        7,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        7
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-07-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x08080915",
+      "tick_callback_address": "0x08080914",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 10,
+      "table_entry_file_offset": 5500960,
+      "table_entry_gba_address": "0x0853F020",
+      "raw_hex": "08000000000000000000000000000000bd080808f5090808",
+      "resource_group_ids": [
+        8,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        8
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-08-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080809F5",
+      "tick_callback_address": "0x080809F4",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 11,
+      "table_entry_file_offset": 5500984,
+      "table_entry_gba_address": "0x0853F038",
+      "raw_hex": "09000000000000000000000000000000bd08080815090808",
+      "resource_group_ids": [
+        9,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        9
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-09-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x08080915",
+      "tick_callback_address": "0x08080914",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 12,
+      "table_entry_file_offset": 5501008,
+      "table_entry_gba_address": "0x0853F050",
+      "raw_hex": "0a000000000000000000000000000000bd080808c5080808",
+      "resource_group_ids": [
+        10,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        10
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-10-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080808C5",
+      "tick_callback_address": "0x080808C4",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 13,
+      "table_entry_file_offset": 5501032,
+      "table_entry_gba_address": "0x0853F068",
+      "raw_hex": "0b000000000000000000000000000000bd080808c5080808",
+      "resource_group_ids": [
+        11,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        11
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-11-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080808C5",
+      "tick_callback_address": "0x080808C4",
+      "runtime_state_values": [
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144,
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        159,
+        160,
+        161,
+        162,
+        163,
+        164
+      ],
+      "active_action_ids": [],
+      "ninja_tool_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ]
+    },
+    {
+      "sequence_id": 14,
+      "table_entry_file_offset": 5501056,
+      "table_entry_gba_address": "0x0853F080",
+      "raw_hex": "0c000000000000000000000000000000bd080808c5080808",
+      "resource_group_ids": [
+        12,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        12
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-12-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080808C5",
+      "tick_callback_address": "0x080808C4",
+      "runtime_state_values": [
+        32
+      ],
+      "active_action_ids": [
+        32
+      ],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 15,
+      "table_entry_file_offset": 5501080,
+      "table_entry_gba_address": "0x0853F098",
+      "raw_hex": "0d000000000000000000000000000000bd080808c5080808",
+      "resource_group_ids": [
+        13,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        13
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-13-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080808C5",
+      "tick_callback_address": "0x080808C4",
+      "runtime_state_values": [
+        61,
+        76,
+        77
+      ],
+      "active_action_ids": [
+        61,
+        76,
+        77
+      ],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 16,
+      "table_entry_file_offset": 5501104,
+      "table_entry_gba_address": "0x0853F0B0",
+      "raw_hex": "0e000000000000000000000000000000bd08080815090808",
+      "resource_group_ids": [
+        14,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        14
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-14-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x08080915",
+      "tick_callback_address": "0x08080914",
+      "runtime_state_values": [
+        16,
+        17,
+        18
+      ],
+      "active_action_ids": [
+        16,
+        17,
+        18
+      ],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 17,
+      "table_entry_file_offset": 5501128,
+      "table_entry_gba_address": "0x0853F0C8",
+      "raw_hex": "0f000000000000000000000000000000bd080808c5080808",
+      "resource_group_ids": [
+        15,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        15
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-15-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080808C5",
+      "tick_callback_address": "0x080808C4",
+      "runtime_state_values": [
+        64,
+        65
+      ],
+      "active_action_ids": [
+        64,
+        65
+      ],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 18,
+      "table_entry_file_offset": 5501152,
+      "table_entry_gba_address": "0x0853F0E0",
+      "raw_hex": "120000000000000000000000000000006106080815080808",
+      "resource_group_ids": [
+        18,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        18
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-18-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x08080661",
+      "init_once_callback_address": "0x08080660",
+      "tick_callback_thumb": "0x08080815",
+      "tick_callback_address": "0x08080814",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 19,
+      "table_entry_file_offset": 5501176,
+      "table_entry_gba_address": "0x0853F0F8",
+      "raw_hex": "10000000000000000000000000000000bd080808f5090808",
+      "resource_group_ids": [
+        16,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        16
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-16-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080809F5",
+      "tick_callback_address": "0x080809F4",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 20,
+      "table_entry_file_offset": 5501200,
+      "table_entry_gba_address": "0x0853F110",
+      "raw_hex": "11000000000000000000000000000000bd080808f5090808",
+      "resource_group_ids": [
+        17,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        17
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-17-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x080809F5",
+      "tick_callback_address": "0x080809F4",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    },
+    {
+      "sequence_id": 21,
+      "table_entry_file_offset": 5501224,
+      "table_entry_gba_address": "0x0853F128",
+      "raw_hex": "02000000000000000000000000000000bd08080865090808",
+      "resource_group_ids": [
+        2,
+        0,
+        0,
+        0
+      ],
+      "nonzero_resource_group_ids": [
+        2
+      ],
+      "resource_pair_artifacts": [
+        "artifacts/battle-effect-resource-pairs-v1/group-02-atlas.png"
+      ],
+      "init_once_callback_thumb": "0x080808BD",
+      "init_once_callback_address": "0x080808BC",
+      "tick_callback_thumb": "0x08080965",
+      "tick_callback_address": "0x08080964",
+      "runtime_state_values": [],
+      "active_action_ids": [],
+      "ninja_tool_ids": []
+    }
+  ],
+  "selector_callsites": [
+    {
+      "file_offset": 439982,
+      "gba_address": "0x0806B6AE",
+      "previous_halfword_hex": "2012",
+      "sequence_id": 18,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 440842,
+      "gba_address": "0x0806BA0A",
+      "previous_halfword_hex": "2001",
+      "sequence_id": 1,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 443834,
+      "gba_address": "0x0806C5BA",
+      "previous_halfword_hex": "2012",
+      "sequence_id": 18,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 444050,
+      "gba_address": "0x0806C692",
+      "previous_halfword_hex": "2012",
+      "sequence_id": 18,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 445274,
+      "gba_address": "0x0806CB5A",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 445416,
+      "gba_address": "0x0806CBE8",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 445580,
+      "gba_address": "0x0806CC8C",
+      "previous_halfword_hex": "2012",
+      "sequence_id": 18,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 446816,
+      "gba_address": "0x0806D160",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 468374,
+      "gba_address": "0x08072596",
+      "previous_halfword_hex": "200c",
+      "sequence_id": 12,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 506768,
+      "gba_address": "0x0807BB90",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 506856,
+      "gba_address": "0x0807BBE8",
+      "previous_halfword_hex": "200a",
+      "sequence_id": 10,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 507248,
+      "gba_address": "0x0807BD70",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 508268,
+      "gba_address": "0x0807C16C",
+      "previous_halfword_hex": "2006",
+      "sequence_id": 6,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 508452,
+      "gba_address": "0x0807C224",
+      "previous_halfword_hex": "200b",
+      "sequence_id": 11,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 508550,
+      "gba_address": "0x0807C286",
+      "previous_halfword_hex": "2009",
+      "sequence_id": 9,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 509206,
+      "gba_address": "0x0807C516",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 509442,
+      "gba_address": "0x0807C602",
+      "previous_halfword_hex": "700a",
+      "sequence_id": null,
+      "source": "r0_argument_from_effect_sequence_binder"
+    },
+    {
+      "file_offset": 510396,
+      "gba_address": "0x0807C9BC",
+      "previous_halfword_hex": "200b",
+      "sequence_id": 11,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 510500,
+      "gba_address": "0x0807CA24",
+      "previous_halfword_hex": "2009",
+      "sequence_id": 9,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 511174,
+      "gba_address": "0x0807CCC6",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 511382,
+      "gba_address": "0x0807CD96",
+      "previous_halfword_hex": "200b",
+      "sequence_id": 11,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 511546,
+      "gba_address": "0x0807CE3A",
+      "previous_halfword_hex": "200b",
+      "sequence_id": 11,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 511748,
+      "gba_address": "0x0807CF04",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 512042,
+      "gba_address": "0x0807D02A",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 512156,
+      "gba_address": "0x0807D09C",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 512388,
+      "gba_address": "0x0807D184",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 512592,
+      "gba_address": "0x0807D250",
+      "previous_halfword_hex": "2009",
+      "sequence_id": 9,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 512786,
+      "gba_address": "0x0807D312",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 512926,
+      "gba_address": "0x0807D39E",
+      "previous_halfword_hex": "2009",
+      "sequence_id": 9,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 513070,
+      "gba_address": "0x0807D42E",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 513210,
+      "gba_address": "0x0807D4BA",
+      "previous_halfword_hex": "2009",
+      "sequence_id": 9,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 513358,
+      "gba_address": "0x0807D54E",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 513494,
+      "gba_address": "0x0807D5D6",
+      "previous_halfword_hex": "2009",
+      "sequence_id": 9,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 513634,
+      "gba_address": "0x0807D662",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 513774,
+      "gba_address": "0x0807D6EE",
+      "previous_halfword_hex": "2009",
+      "sequence_id": 9,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 513928,
+      "gba_address": "0x0807D788",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 514318,
+      "gba_address": "0x0807D90E",
+      "previous_halfword_hex": "200b",
+      "sequence_id": 11,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 514472,
+      "gba_address": "0x0807D9A8",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 514736,
+      "gba_address": "0x0807DAB0",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 514950,
+      "gba_address": "0x0807DB86",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 515090,
+      "gba_address": "0x0807DC12",
+      "previous_halfword_hex": "2008",
+      "sequence_id": 8,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 515928,
+      "gba_address": "0x0807DF58",
+      "previous_halfword_hex": "2001",
+      "sequence_id": 1,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 516214,
+      "gba_address": "0x0807E076",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 516560,
+      "gba_address": "0x0807E1D0",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 516936,
+      "gba_address": "0x0807E348",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 517324,
+      "gba_address": "0x0807E4CC",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 517710,
+      "gba_address": "0x0807E64E",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 518036,
+      "gba_address": "0x0807E794",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 518348,
+      "gba_address": "0x0807E8CC",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 518660,
+      "gba_address": "0x0807EA04",
+      "previous_halfword_hex": "2002",
+      "sequence_id": 2,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 518784,
+      "gba_address": "0x0807EA80",
+      "previous_halfword_hex": "2004",
+      "sequence_id": 4,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 518956,
+      "gba_address": "0x0807EB2C",
+      "previous_halfword_hex": "2004",
+      "sequence_id": 4,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 519124,
+      "gba_address": "0x0807EBD4",
+      "previous_halfword_hex": "2004",
+      "sequence_id": 4,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 519336,
+      "gba_address": "0x0807ECA8",
+      "previous_halfword_hex": "2004",
+      "sequence_id": 4,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 519462,
+      "gba_address": "0x0807ED26",
+      "previous_halfword_hex": "2004",
+      "sequence_id": 4,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 519472,
+      "gba_address": "0x0807ED30",
+      "previous_halfword_hex": "2015",
+      "sequence_id": 21,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 519482,
+      "gba_address": "0x0807ED3A",
+      "previous_halfword_hex": "2014",
+      "sequence_id": 20,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 519766,
+      "gba_address": "0x0807EE56",
+      "previous_halfword_hex": "2004",
+      "sequence_id": 4,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 519776,
+      "gba_address": "0x0807EE60",
+      "previous_halfword_hex": "2015",
+      "sequence_id": 21,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 519786,
+      "gba_address": "0x0807EE6A",
+      "previous_halfword_hex": "2013",
+      "sequence_id": 19,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 520068,
+      "gba_address": "0x0807EF84",
+      "previous_halfword_hex": "2004",
+      "sequence_id": 4,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 520298,
+      "gba_address": "0x0807F06A",
+      "previous_halfword_hex": "2005",
+      "sequence_id": 5,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 520718,
+      "gba_address": "0x0807F20E",
+      "previous_halfword_hex": "2005",
+      "sequence_id": 5,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 520732,
+      "gba_address": "0x0807F21C",
+      "previous_halfword_hex": "2003",
+      "sequence_id": 3,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 521686,
+      "gba_address": "0x0807F5D6",
+      "previous_halfword_hex": "2001",
+      "sequence_id": 1,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 531418,
+      "gba_address": "0x08081BDA",
+      "previous_halfword_hex": "2007",
+      "sequence_id": 7,
+      "source": "immediate_movs_r0"
+    },
+    {
+      "file_offset": 532408,
+      "gba_address": "0x08081FB8",
+      "previous_halfword_hex": "2007",
+      "sequence_id": 7,
+      "source": "immediate_movs_r0"
+    }
+  ],
+  "consumer_code_slices": [
+    {
+      "name": "active_action_template_dispatch",
+      "file_offset": 480622,
+      "gba_start": "0x0807556E",
+      "gba_end": "0x08075582",
+      "sha256": "54a578a9b34ed7599cf499793ecf240d1040436e8abe1f98e1f338dc0c5682bf"
+    },
+    {
+      "name": "encoded_action_template_dispatch",
+      "file_offset": 480608,
+      "gba_start": "0x08075560",
+      "gba_end": "0x080755A4",
+      "sha256": "0cc88d94dd8c4d32225499714fa9951bf3946aacbabbb9fcb31348f4b887d15a"
+    },
+    {
+      "name": "active_action_template_index",
+      "file_offset": 448604,
+      "gba_start": "0x0806D85C",
+      "gba_end": "0x0806D88C",
+      "sha256": "575e9d12424b0931655902433e723cc36d363644c554158c5a27d75e5e07303d"
+    },
+    {
+      "name": "ninja_tool_template_index",
+      "file_offset": 448784,
+      "gba_start": "0x0806D910",
+      "gba_end": "0x0806D95E",
+      "sha256": "032c35e2fa3295e906a741e1f58a5351417686fd17826d7849af7c1959138268"
+    },
+    {
+      "name": "action_id_event_store",
+      "file_offset": 480762,
+      "gba_start": "0x080755FA",
+      "gba_end": "0x08075602",
+      "sha256": "7301adbc80a6e486987c9fb526067ebcc2782875163b1cc96ed46c6013ad4df4"
+    },
+    {
+      "name": "event_action_to_runtime_state_a",
+      "file_offset": 499914,
+      "gba_start": "0x0807A0CA",
+      "gba_end": "0x0807A0D4",
+      "sha256": "37c8adc6729c4c0a2f346be4aed1d67d2b2c9d94805bcff54937cd979c65e641"
+    },
+    {
+      "name": "event_action_to_runtime_state_b",
+      "file_offset": 500258,
+      "gba_start": "0x0807A222",
+      "gba_end": "0x0807A22C",
+      "sha256": "37c8adc6729c4c0a2f346be4aed1d67d2b2c9d94805bcff54937cd979c65e641"
+    },
+    {
+      "name": "action_sequence_lookup_and_bind",
+      "file_offset": 520444,
+      "gba_start": "0x0807F0FC",
+      "gba_end": "0x0807F110",
+      "sha256": "7b16c1004bdbf81a55ecdcfc523166059ec2a94c81161063d695e1ca59f6cc56"
+    },
+    {
+      "name": "effect_sequence_binder",
+      "file_offset": 509416,
+      "gba_start": "0x0807C5E8",
+      "gba_end": "0x0807C626",
+      "sha256": "f2bd6b80277ce5c8e33876196cb5cac25cd99036604595065ef1843af89253ee"
+    },
+    {
+      "name": "effect_sequence_selector",
+      "file_offset": 523820,
+      "gba_start": "0x0807FE2C",
+      "gba_end": "0x080800A4",
+      "sha256": "690232cbbed4b7f9d19602e91feca3299191cccb8369a10d3235b2d415751c94"
+    },
+    {
+      "name": "effect_object_spawn",
+      "file_offset": 524452,
+      "gba_start": "0x080800A4",
+      "gba_end": "0x08080108",
+      "sha256": "61b4063b4920296f1a530bd6a42e7177f892d566195c7b14674865ef7f5c7d36"
+    },
+    {
+      "name": "effect_callback_store",
+      "file_offset": 406446,
+      "gba_start": "0x080633AE",
+      "gba_end": "0x080633B8",
+      "sha256": "e52bcd357644b98d6f687a4af67b55f07bc50937d9a92f4cd7902daa48d7ac14"
+    },
+    {
+      "name": "effect_callback_dispatch",
+      "file_offset": 406622,
+      "gba_start": "0x0806345E",
+      "gba_end": "0x0806347E",
+      "sha256": "73245b505e3790cfbb01a3117a3519c7be689f9190fb11b8fafb71025beb51c1"
+    },
+    {
+      "name": "next_structure_independent_consumer",
+      "file_offset": 527112,
+      "gba_start": "0x08080B08",
+      "gba_end": "0x08080B58",
+      "sha256": "65623aec9844490260f9775f22471477e5fad7807f4cc958987c4f43c40a26e7"
+    }
+  ],
+  "boundary_evidence": {
+    "next_structure_prefix_size": 24,
+    "next_structure_prefix_sha256": "465e1087beab46a404e38f94e2cbf7aea84fd86ad2893d2d6ddb4868da5c1315",
+    "constant_selector_call_count": 66,
+    "dynamic_selector_call_count": 1,
+    "maximum_constant_sequence_id": 21
+  },
+  "scope": {
+    "runtime_state_to_sequence_mapping_complete": true,
+    "active_action_slice_join_complete": true,
+    "active_action_to_sequence_mapping_complete": true,
+    "ninja_tool_slice_join_complete": true,
+    "ninja_tool_to_sequence_mapping_complete": true,
+    "sequence_to_resource_group_mapping_complete": true,
+    "callback_pointer_identity_complete": true,
+    "callback_scheduler_role_complete": true,
+    "callback_internal_animation_semantics_complete": false,
+    "oam_composition_complete": false,
+    "frame_hold_timing_complete": false,
+    "audio_binding_complete": false
+  }
+}

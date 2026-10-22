@@ -1,6 +1,6 @@
 {
  "schema": "konoha.reverse-notes-index.v1",
- "generated_at": "2026-10-20T18:11:28.307113+00:00",
+ "generated_at": "2026-10-21T08:04:46.012780+00:00",
  "source": {
   "reverse_root": "/Users/altair/github/gba-naruto-reverse",
   "reverse_notes_dir": "/Users/altair/github/gba-naruto-reverse/notes",
@@ -10,7 +10,7 @@
  },
  "measurement": {
   "unit": "reverse note file",
-  "scanned_files": 4358,
+  "scanned_files": 4434,
   "scan_roots": [
    "butano-sequel",
    "tools",
@@ -193,7 +193,7 @@
     },
     {
      "path": "tools/automated_test.py",
-     "line": 857,
+     "line": 874,
      "kind": "code"
     },
     {
@@ -403,7 +403,7 @@
     },
     {
      "path": "tools/table_registry.py",
-     "line": 163,
+     "line": 178,
      "kind": "code"
     }
    ],
@@ -4315,6 +4315,7 @@
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/runtime-verification-gates-20260710.md",
     "doc:notes/unknown-bgm-sfx.md"
@@ -5909,8 +5910,8 @@
    "title": "Summary",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/import_chapter_scripts.py:50、tools/import_chapter_scripts.py:52）。",
-   "evidence": "tools/import_chapter_scripts.py",
+   "reason": "本树构建链引用了本条结论（tools/import_chapter_scripts.py:50、tools/import_chapter_scripts.py:52、tools/import_dialogue_var.py:158）。",
+   "evidence": "tools/import_chapter_scripts.py; tools/import_dialogue_var.py",
    "missing": "",
    "consumers": [
     {
@@ -5922,12 +5923,33 @@
      "path": "tools/import_chapter_scripts.py",
      "line": 52,
      "kind": "code"
+    },
+    {
+     "path": "tools/import_dialogue_var.py",
+     "line": 71,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_dialogue_var.py",
+     "line": 84,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_dialogue_var.py",
+     "line": 86,
+     "kind": "code"
+    },
+    {
+     "path": "tools/import_dialogue_var.py",
+     "line": 158,
+     "kind": "code"
     }
    ],
    "reference_strength": "code",
    "pre_index_status": "build",
    "pre_index_references": [
     "build:tools/import_chapter_scripts.py",
+    "build:tools/import_dialogue_var.py",
     "doc:docs/development-status.md",
     "doc:docs/web-editor-spec.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
@@ -13222,6 +13244,7 @@
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/evidence/units-offset-table-20261020.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/re-completion-audit.json"
    ],
    "material_kinds": [

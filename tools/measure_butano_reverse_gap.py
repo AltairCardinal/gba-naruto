@@ -147,6 +147,15 @@ EXCLUDED_PREFIXES = (
     "artifacts/s49-original-movegrid-frame-v1/",
     "artifacts/s49-original-banner-frame-v1/",
     "artifacts/s49-original-movegrid-mechanism-v1/",
+    # The usable-backlog receipt enumerates every family in its rows, exactly
+    # like this receipt does.  Counting it would lift every untouched family
+    # from `none`/`doc` to `local_artifact` and make a second run of this
+    # tool disagree with the first -- the same self-reference artefact the
+    # exclusions above exist to prevent.
+    "artifacts/butano-usable-backlog-v1/",
+    # The wiring-coverage receipt enumerates every family too, and it names
+    # the products as well.  Same self-reference artefact as above.
+    "artifacts/butano-wiring-coverage-v1/",
 )
 EXCLUDED_PREFIXES_OUTPUT = (
     "artifacts/reverse-results-index-v1",
@@ -162,6 +171,8 @@ EXCLUDED_PREFIXES_OUTPUT = (
     "artifacts/s49-original-movegrid-frame-v1",
     "artifacts/s49-original-banner-frame-v1",
     "artifacts/s49-original-movegrid-mechanism-v1",
+    "artifacts/butano-usable-backlog-v1",
+    "artifacts/butano-wiring-coverage-v1",
 )
 
 MAX_FILE_BYTES = 4 * 1024 * 1024

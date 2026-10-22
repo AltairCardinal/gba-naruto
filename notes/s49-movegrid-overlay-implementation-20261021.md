@@ -96,3 +96,17 @@ bash tools/butano/build.sh   # 期望 ROM 回到 02bf3573…
 ⇒ 可用的判别手段：把原版同帧收据里 BG2 的 1024 格逐格换算到屏幕坐标，
 看**非空**的格子只有哪些 ⇒ 布局图是「全图」，但**只有一部分格子在屏上被画到**
 （其余格子要么被滚出屏、要么其图块是纯背景色 256）。
+
+## 7. 第 26 轮：**施工单已重写为「屏幕地面真相」版本**（本文件前六节为第 25 轮现场记录）
+
+第 25 轮那版施工单建立在「按逻辑格索引换算」的假设上，已被实测推翻
+（原版是 8×8 像素格粒度、覆盖整屏）。第 26 轮把原版 BG2 的**屏幕地面真相**算了出来，
+并把 2,917 残差**逐族归因**，新的施工单见：
+
+- `notes/s49-overlay-screentruth-20261021.md` —— 机制闭合 + 地面真相 + 残差归因 + 半字节顺序更正
+- `artifacts/s49-overlay-plan-20261021-v1/patch-plan.md` + `capacity.json` —— 三步施工单与 VRAM 账
+- `artifacts/s49-original-overlay-screentruth-v1/` —— 导出产物（导出器 `tools/butano/export_s49_overlay_screentruth.py`）
+- 门禁 `tests/test_s49_overlay_screentruth.py`（6 项）
+
+⇒ 施工单的第 ① 步（图块换成原版的 8bpp 展开）与第 ② 步（移动/目标相位直接装原版烘焙窗口）
+**同时**解决 2,317 px 的漏画与 600 px 的粒度问题；第 ③ 步才是把烘焙图换回规则化的长线。

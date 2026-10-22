@@ -262,11 +262,19 @@ def read_tilemap(vram: bytes, offset: int = BG2_SCREEN_BASE_OFFSET) -> list[int]
 def tile_pixels(vram: bytes, tile_index: int) -> list[list[int]]:
     """Decode one 4bpp tile into an 8x8 matrix of colour indices.
 
-    GBA 4bpp stores **two pixels per byte**: the high nibble is the left
-    pixel, the low nibble the right one, and a tile row is four bytes (eight
+    GBA 4bpp stores **two pixels per byte**: the **low** nibble is the left
+    pixel, the high nibble the right one, and a tile row is four bytes (eight
     pixels).  Reading four 2-bit groups per byte instead yields sixteen
     pixels per row, which silently turns solid fills into dashed patterns
     and mis-classifies every tile family.
+
+    The nibble order is not a matter of taste: it was pinned against the
+    original's own pixels in round 26.  On the original's move-range frame
+    the blocked family's edge column is visible at screen x=46 (the "a"
+    colour) and x=47 (the "b" colour) inside one 8 px tile, which is only
+    possible when the low nibble is the left pixel -- the same convention
+    ``tools/butano/render_scenario_41_gpu.py`` already used when it rebuilt
+    a frame from a dump byte for byte.
     """
     base = BG2_CHAR_BASE_OFFSET + (tile_index & 0x3FF) * 32
     rows: list[list[int]] = []
@@ -275,8 +283,8 @@ def tile_pixels(vram: bytes, tile_index: int) -> list[list[int]]:
         row_base = base + row * 4
         for byte_index in range(4):
             byte = vram[row_base + byte_index]
-            pixels.append((byte >> 4) & 0x0F)
             pixels.append(byte & 0x0F)
+            pixels.append((byte >> 4) & 0x0F)
         rows.append(pixels)
     return rows
 

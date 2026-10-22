@@ -1,0 +1,64 @@
+{
+  "artifact_status": "accepted",
+  "boundary": {
+    "description": "scenario 50 battle, Naruto ninja-tool 1 cross-shuriken confirmation prompt before the final A",
+    "final_confirmation_pressed": false,
+    "next_input": {
+      "down_frame": 5,
+      "key": "A",
+      "up_frame": 13
+    },
+    "next_runtime_binding": {
+      "encoded_action_id": 129,
+      "resource_group_id": 11,
+      "sequence_id": 13
+    }
+  },
+  "capture_frame": 800,
+  "guard": {
+    "completion_trigger": "success-marker",
+    "degraded": false,
+    "exit_code": 0,
+    "mgba_listener_clean": true,
+    "peak_tree_rss_mib": 51.87890625,
+    "pgid_clean": true,
+    "reason": "completed"
+  },
+  "input": {
+    "path": "artifacts/runtime-checkpoints/scenario-50-battle-15-safe-intercept-turn3.ss9",
+    "sha256": "2d872689345ade80d0027dfa7bbb58adfc28cfe3028f6b13856d43c8dc7a6ba8"
+  },
+  "inputs": [
+    {"down_frame": 5, "hold_frames": 8, "key": "A", "up_frame": 13},
+    {"down_frame": 120, "hold_frames": 8, "key": "Down", "up_frame": 128},
+    {"down_frame": 165, "hold_frames": 8, "key": "A", "up_frame": 173},
+    {"down_frame": 280, "hold_frames": 8, "key": "Down", "up_frame": 288},
+    {"down_frame": 360, "hold_frames": 8, "key": "Down", "up_frame": 368},
+    {"down_frame": 440, "hold_frames": 8, "key": "Down", "up_frame": 448},
+    {"down_frame": 485, "hold_frames": 8, "key": "A", "up_frame": 493},
+    {"down_frame": 600, "hold_frames": 8, "key": "Down", "up_frame": 608},
+    {"down_frame": 645, "hold_frames": 8, "key": "A", "up_frame": 653},
+    {"down_frame": 725, "hold_frames": 8, "key": "A", "up_frame": 733}
+  ],
+  "output": {
+    "embedded_rgb_sha256": "860627bbdf8ba036c205c2d6030dbbf726604ceaa1dbf8e4b03b420077a9367d",
+    "path": "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
+    "png_sha256": "adea2d60d32636e7059aca017f95518e517b454940f0f2707d41664c457fc026",
+    "segmented_reference_png_sha256": "adea2d60d32636e7059aca017f95518e517b454940f0f2707d41664c457fc026",
+    "sha256": "57d4929ef3c8b3050fbe74f0a7898bcbc0b563b96239d1361d9df95667de4139"
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "mgba_binary_sha256": "20859087582ad16942f37e70ea973a09671b320aa0936aa72e43e9915b1ed408",
+    "mgba_build_manifest_sha256": "9da6779d7c1ac3140e512b233f98abe754c4f11f3fbc8157af147e014661cc4d",
+    "replay_script": "tools/mgba_input_sequence_replay.lua",
+    "replay_script_sha256": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196"
+  },
+  "schema": "runtime-checkpoint-input-sequence-evidence-v1",
+  "scope": {
+    "historical_segmented_reference_hash_recorded_equal": true,
+    "natural_cross_shuriken_confirmation_route": true,
+    "post_confirmation_effect_runtime": false,
+    "zero_input_stability_verified": false
+  }
+}

@@ -1,0 +1,4493 @@
+{
+  "schema": "battle-visual-runtime-timelines-v1",
+  "rom": {
+    "path": "rom/base.gba",
+    "size": 6291456,
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "source_artifact": {
+    "path": "artifacts/battle-visual-catalog-v1",
+    "manifest_sha256": "1ccbdfda751953328104c845e061074150324ca69a569330a25263e5be787bcc"
+  },
+  "code_slices": [
+    {
+      "name": "standard_consumer",
+      "start_gba_address": "0x08099BFC",
+      "end_gba_address_exclusive": "0x08099D70",
+      "sha256": "3b3d94b963029f3b0d66f498482c13e783c6429eb1c70b4564537b073b6d55a1"
+    },
+    {
+      "name": "glyph_display",
+      "start_gba_address": "0x08098EDC",
+      "end_gba_address_exclusive": "0x08098FF8",
+      "sha256": "5e132a3a72e3541b68d5f23ebadc0f463ae86b936669a91c8bf8f4016de5f449"
+    },
+    {
+      "name": "visual_task",
+      "start_gba_address": "0x0809880C",
+      "end_gba_address_exclusive": "0x08098E58",
+      "sha256": "070037f7c19a77e75498fbd666210ccca14ba42888ab27b227b7730f25b8b7d1"
+    },
+    {
+      "name": "linked_installer",
+      "start_gba_address": "0x080990BC",
+      "end_gba_address_exclusive": "0x080995C0",
+      "sha256": "ce8174138ef0466c0131d0e81316e250e101206b7b5f27769bb1d642e6b52a5e"
+    },
+    {
+      "name": "linked_update",
+      "start_gba_address": "0x080995E8",
+      "end_gba_address_exclusive": "0x08099ADE",
+      "sha256": "6748d0ebc18e537d5059d99ae09e42db60e2477da27c080069596e2b1ef6b361"
+    }
+  ],
+  "scope": {
+    "standard_consumer_intro_timing_complete": true,
+    "message_obj_geometry_complete": true,
+    "all_playable_linked_timelines_complete": true,
+    "all_callback_modes_within_standard_consumer_complete": true,
+    "flag_0100_alpha_sequence_complete": true,
+    "offline_keyframe_composites_complete": true,
+    "runtime_pixel_equivalence_complete": false,
+    "remaining_runtime_validation": [
+      "shadow_register_commit_order",
+      "window_mask_edges",
+      "representative_mgba_golden_frames"
+    ]
+  },
+  "summary": {
+    "entry_count": 79,
+    "playable_count": 75,
+    "sentinel_ids": [
+      13,
+      31,
+      32,
+      46
+    ],
+    "linked_ticks_per_playable_entry": 106,
+    "callback_mode_counts": {
+      "alpha_enable": 3,
+      "alpha_enable_and_palette": 3,
+      "common_only": 62,
+      "d_bg_flicker": 3,
+      "paired_x_shake_then_d": 1,
+      "paired_x_shake_without_d": 1,
+      "resource_swap_scroll": 1,
+      "secondary_x_motion": 1
+    }
+  },
+  "entries": [
+    {
+      "descriptor_id": 0,
+      "consumer_id": 1,
+      "playable": true,
+      "callback_mode": "paired_x_shake_without_d",
+      "descriptor_flags": "0x0002",
+      "timeline_json": "visual_00.json",
+      "timeline_json_sha256": "cceb2427cd74f1580796af734a640f8cf4ec7126394a41cadd38a4b1e80e45dd",
+      "contact_sheet_png": "visual_00_contact.png",
+      "contact_sheet_png_sha256": "0e155e444cab326f7ce4da186723fc9d8af0cddd09304d9b41974f6613411856",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 17,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 18,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 19,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 16,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 1,
+      "consumer_id": 2,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0100",
+      "timeline_json": "visual_01.json",
+      "timeline_json_sha256": "62ddd083909b6920cc123d366e79b6b1f7ba645504a43ceabe4f04b14cba4ac4",
+      "contact_sheet_png": "visual_01_contact.png",
+      "contact_sheet_png_sha256": "4878d5fb4b928b7bda26b96e07ad80e9872d93493b411e73f4430b6690ef250e",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 1,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 2,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 2,
+      "consumer_id": 3,
+      "playable": true,
+      "callback_mode": "paired_x_shake_then_d",
+      "descriptor_flags": "0x0A03",
+      "timeline_json": "visual_02.json",
+      "timeline_json_sha256": "29c32e58b1bf2de808e458837612bb1a8efe2d5727aa5dc16977fb6382264655",
+      "contact_sheet_png": "visual_02_contact.png",
+      "contact_sheet_png_sha256": "abcc22005633666aec7e76482bcbe19efb4be482813915161e948cbd8737b28d",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 6,
+        "glyph_slot_wait_frames": 35,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 120,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 20,
+            "x": 60,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 21,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 17,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 18,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 19,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 16,
+            "x": 180,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 3,
+      "consumer_id": 4,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0100",
+      "timeline_json": "visual_03.json",
+      "timeline_json_sha256": "1d3c020046816755f5a3848c6de6acbbcdbd55de1cf2eacd40ead35cae924b14",
+      "contact_sheet_png": "visual_03_contact.png",
+      "contact_sheet_png_sha256": "de3bb6360c52165d4d4e91f6a7e4c29bc7ff385d3b6261144030e2bfac491248",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 3,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 4,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 4,
+      "consumer_id": 5,
+      "playable": true,
+      "callback_mode": "resource_swap_scroll",
+      "descriptor_flags": "0x2408",
+      "timeline_json": "visual_04.json",
+      "timeline_json_sha256": "956ca58fe7325f7109a3eba8e5be6ac9c25306230cb0045322d8bcb254d8fe24",
+      "contact_sheet_png": "visual_04_contact.png",
+      "contact_sheet_png_sha256": "78b0fe089faeaf3efc0fca4ebe7333e48ceb1f667974a9ec53e7dde036426923",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 6,
+        "glyph_slot_wait_frames": 35,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 120,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 127,
+            "x": 60,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 5,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 140,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 118,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 22,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 23,
+            "x": 180,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 5,
+      "consumer_id": 6,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_05.json",
+      "timeline_json_sha256": "7c8962e52a2f1df8b7e6665597c8bba1020f84c1814ffe770d0eae4754c8130c",
+      "contact_sheet_png": "visual_05_contact.png",
+      "contact_sheet_png_sha256": "ba70d79074aa4eceb863be15bc6574590deed80e8618e3cde07ec6d7cc940c65",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 6,
+        "glyph_slot_wait_frames": 35,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 120,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 96,
+            "x": 60,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 97,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 0,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 6,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 7,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 8,
+            "x": 180,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 6,
+      "consumer_id": 7,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_06.json",
+      "timeline_json_sha256": "b8f0eba1025b684a99bca806a78960ef5ba2e8150a74f979a0726b6f3133d66e",
+      "contact_sheet_png": "visual_06_contact.png",
+      "contact_sheet_png_sha256": "e4e259c09998aaf9548066e68b3fd6e05bb9e55fc79c3236166f9ff543d7f717",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 17,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 98,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 99,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 7,
+      "consumer_id": 8,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_07.json",
+      "timeline_json_sha256": "1a0211bbebfee4e4a8cf506889bb4c9363dd06eb5a8ef3ac2c5562d17dc74efa",
+      "contact_sheet_png": "visual_07_contact.png",
+      "contact_sheet_png_sha256": "91ea636b50a6fbbd21065ca65a408efcc9bbb73273a07d4921cb9f52927e0c56",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 5,
+        "glyph_slot_wait_frames": 29,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 114,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 17,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 100,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 101,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 102,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 16,
+            "x": 168,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 8,
+      "consumer_id": 9,
+      "playable": true,
+      "callback_mode": "d_bg_flicker",
+      "descriptor_flags": "0x0001",
+      "timeline_json": "visual_08.json",
+      "timeline_json_sha256": "e727dd3844864e9ce7d4928ffef9d19b046f55cf0cefde690503f3484dd21ed7",
+      "contact_sheet_png": "visual_08_contact.png",
+      "contact_sheet_png_sha256": "093f6a729476933ccb1434e08866a111e4a1a9a008935b0343f3492f60e9e858",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 103,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 24,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 25,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 9,
+      "consumer_id": 10,
+      "playable": true,
+      "callback_mode": "alpha_enable_and_palette",
+      "descriptor_flags": "0x0806",
+      "timeline_json": "visual_09.json",
+      "timeline_json_sha256": "ccf8022613bb1dd06e68fc9420feaf0d94104f1ea247ea750746e2543bd25fbb",
+      "contact_sheet_png": "visual_09_contact.png",
+      "contact_sheet_png_sha256": "c7da3119a2dec9a3dcc6884572b7d14fa813d5cc450dabda15adf1d2152162fe",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 26,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 27,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 10,
+      "consumer_id": 11,
+      "playable": true,
+      "callback_mode": "alpha_enable_and_palette",
+      "descriptor_flags": "0x0806",
+      "timeline_json": "visual_10.json",
+      "timeline_json_sha256": "d42ec49bf5b41405d2ab0bcf66abb99931cb3310d9f0edfad44ecc993844fe17",
+      "contact_sheet_png": "visual_10_contact.png",
+      "contact_sheet_png_sha256": "9b43f812b6de5ee35ea15995890ab249b013f45efbec3d1a49ebe68206fe53c7",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 7,
+        "glyph_slot_wait_frames": 41,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 126,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 26,
+            "x": 48,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 27,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 160,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 28,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 26,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 29,
+            "x": 168,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          },
+          {
+            "slot": 6,
+            "glyph_id": 16,
+            "x": 192,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 11,
+      "consumer_id": 12,
+      "playable": true,
+      "callback_mode": "alpha_enable_and_palette",
+      "descriptor_flags": "0x0806",
+      "timeline_json": "visual_11.json",
+      "timeline_json_sha256": "d4942dcb2bdacb428808d4a1e3ad0af0feb134ffae5ba19ea60e542a8a948955",
+      "contact_sheet_png": "visual_11_contact.png",
+      "contact_sheet_png_sha256": "3ab3dc1004a5d0310166aceb63d82dcd85fbe1d5bd6a04b66d3b7faa1d574420",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 7,
+        "glyph_slot_wait_frames": 41,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 126,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 26,
+            "x": 48,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 27,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 160,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 30,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 31,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 26,
+            "x": 168,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          },
+          {
+            "slot": 6,
+            "glyph_id": 16,
+            "x": 192,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 12,
+      "consumer_id": 13,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_12.json",
+      "timeline_json_sha256": "c79bf2a5e398eeb08a6768d5f1c695b0a80f650f9a14354d6869a1ebd2c7c518",
+      "contact_sheet_png": "visual_12_contact.png",
+      "contact_sheet_png_sha256": "9f76ec25d1035e7e7d2bf1d7e983548f4b70390274369b84d915e43f7aa9280e",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 104,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 105,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 22,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 23,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 13,
+      "consumer_id": 14,
+      "playable": false,
+      "reason": "all_zero_sentinel_descriptor",
+      "timeline_json": null,
+      "contact_sheet_png": null,
+      "standard_intro": null,
+      "key_ticks": []
+    },
+    {
+      "descriptor_id": 14,
+      "consumer_id": 15,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_14.json",
+      "timeline_json_sha256": "4aa6659e9b86be3e21fe2fed96d50e9fa58f8ed18b76c058d00f84319445b06b",
+      "contact_sheet_png": "visual_14_contact.png",
+      "contact_sheet_png_sha256": "1a99dd80d253fc6dfbf67515a79d2fc8347bfee288c5ef4e2bb352fb95c1e653",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 9,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 109,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 15,
+      "consumer_id": 16,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_15.json",
+      "timeline_json_sha256": "ae1c957ae2df1c7cbb23890c720c60f73032cda84a263a92bdbbe6b0209d3905",
+      "contact_sheet_png": "visual_15_contact.png",
+      "contact_sheet_png_sha256": "215fcce078dda56e1e73d0e8de52124cb3dcfb032524c270cc39e6e23156eed4",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 1,
+        "glyph_slot_wait_frames": 5,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 90,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 110,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 16,
+      "consumer_id": 17,
+      "playable": true,
+      "callback_mode": "d_bg_flicker",
+      "descriptor_flags": "0x0001",
+      "timeline_json": "visual_16.json",
+      "timeline_json_sha256": "7740712174f89177fdc9444df10fa57c5a9e9ab7fd82c000063a91280aadd86b",
+      "contact_sheet_png": "visual_16_contact.png",
+      "contact_sheet_png_sha256": "64d342492e675bf4417595a94a4cd5f5d6137890a91c3c92e32b2902c223b091",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 10,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 0,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 111,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 32,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 17,
+      "consumer_id": 18,
+      "playable": true,
+      "callback_mode": "secondary_x_motion",
+      "descriptor_flags": "0x0004",
+      "timeline_json": "visual_17.json",
+      "timeline_json_sha256": "25eb81e850ca3e7478ce9c0738e1929d38900420fb81baeb0352add080935939",
+      "contact_sheet_png": "visual_17_contact.png",
+      "contact_sheet_png_sha256": "c740e2fa36123b9a3c4a19e7c01f49f744ce9596310a71a7d4916ddbb4dc1034",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 32,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 33,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 19,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 16,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 18,
+      "consumer_id": 19,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_18.json",
+      "timeline_json_sha256": "2bc86c38237c53db5b76693c2fa88f765f3a2b8ec4be2fda815d16bf08888cee",
+      "contact_sheet_png": "visual_18_contact.png",
+      "contact_sheet_png_sha256": "7d2ead271675bd6b7b5801bde6827d36a7079cec5308de5ebb7bbe2584c95db2",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 11,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 17,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 19,
+      "consumer_id": 20,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_19.json",
+      "timeline_json_sha256": "74879ffad79e1bc2d55c9ba726ac259582f1f64e5a6fa5c14c851cd5c81a5f62",
+      "contact_sheet_png": "visual_19_contact.png",
+      "contact_sheet_png_sha256": "44c38cf79ea11f3cb80a2aeb4093df4729f6e8c3b43f0e6b5edacba34748b525",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 36,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 37,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 20,
+      "consumer_id": 21,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_20.json",
+      "timeline_json_sha256": "2066a3a4db27f2d6d17ea59d938a1d10fcaa89deb573848e91b719edd6c56187",
+      "contact_sheet_png": "visual_20_contact.png",
+      "contact_sheet_png_sha256": "fea9b2a13b2afc4306539969ddf90150e079deecba325771198c58d331721cab",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 38,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 23,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 39,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 99,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 21,
+      "consumer_id": 22,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_21.json",
+      "timeline_json_sha256": "4ff29d052facb0cbfb3a940206ff233a381741c49a76ea22f54f1fe168f4f615",
+      "contact_sheet_png": "visual_21_contact.png",
+      "contact_sheet_png_sha256": "df08379fbeeea4855b2e9ac78acbc8db77707be5398c5717a7717ea12433dae0",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 1,
+        "glyph_slot_wait_frames": 5,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 90,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 80,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 22,
+      "consumer_id": 23,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_22.json",
+      "timeline_json_sha256": "3de539423a534893eee9f53a3b0244decc4a21f8c880e0bfde2dd111da3b8776",
+      "contact_sheet_png": "visual_22_contact.png",
+      "contact_sheet_png_sha256": "cc6b4004e1310b91403ec546940895cdd97e1d1edbcb2481993ddb6feba7f251",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 103,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 24,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 25,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 23,
+      "consumer_id": 24,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_23.json",
+      "timeline_json_sha256": "fcea4709210f3852ca859538857395df53bf8e95700bec615c5108535f2a862a",
+      "contact_sheet_png": "visual_23_contact.png",
+      "contact_sheet_png_sha256": "3558f5bee7c13d7a2e9a44c927d3c2c0bd8e7a89f91fe050398efa4f2bf89224",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 106,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 113,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 114,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 24,
+      "consumer_id": 25,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_24.json",
+      "timeline_json_sha256": "41ca328aa18361ee9f0c36930ed0d3347871537c641eaab51072b9122fef04fa",
+      "contact_sheet_png": "visual_24_contact.png",
+      "contact_sheet_png_sha256": "bddd544e8e1c780463a7fb9adee747c028910cacb8271d7f5b1d142b62b55622",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 115,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 64,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 25,
+      "consumer_id": 26,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_25.json",
+      "timeline_json_sha256": "f4639fb842209b20e16a69b608371a181723f9b70bbf77d782da35e4949690cc",
+      "contact_sheet_png": "visual_25_contact.png",
+      "contact_sheet_png_sha256": "d849d0ae7b524ca7f705101db647c1f5fca6bf3d6514570e4ea4ef96d790afe9",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 117,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 118,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 18,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 19,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 26,
+      "consumer_id": 27,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_26.json",
+      "timeline_json_sha256": "62e0fb339839581b2b6cb1d03cfc8ad099a7716b148abbbc290137ca89ac3246",
+      "contact_sheet_png": "visual_26_contact.png",
+      "contact_sheet_png_sha256": "94f490e01e5561a7988ac368c2a9a39e4cb74866d4d2312beaf0cb627cb8a499",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 53,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 119,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 27,
+      "consumer_id": 28,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_27.json",
+      "timeline_json_sha256": "0f517888e7f3a32213a8ef2ef24f8e8461925c01fc333f2a0f0c7e7a06457097",
+      "contact_sheet_png": "visual_27_contact.png",
+      "contact_sheet_png_sha256": "5a7083509125d26cf4909d7ae7106237775103ca57debd7500adf4318767d233",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 40,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 41,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 40,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 28,
+      "consumer_id": 29,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_28.json",
+      "timeline_json_sha256": "c00d3f54654989fd5297f0e30e1789febd36f0ea6380f4ccb54a60a7e650aca1",
+      "contact_sheet_png": "visual_28_contact.png",
+      "contact_sheet_png_sha256": "e7302796cd8e80faa05364c626fb646170c3a48e7a6cc10499b8fb922d605f86",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 42,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 43,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 44,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 16,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 29,
+      "consumer_id": 30,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_29.json",
+      "timeline_json_sha256": "16ab410ca3e827698c23cb08a9b1f1bae6ee96e911f3cf377c141717dfed0e9d",
+      "contact_sheet_png": "visual_29_contact.png",
+      "contact_sheet_png_sha256": "e28de92e1c55ddd9f9457d986a5d921e07f76e40f8432ebd5aab7a1676b12182",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 45,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 25,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 30,
+      "consumer_id": 31,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_30.json",
+      "timeline_json_sha256": "9064ef3c813bfa1c564eeb7a5689b856abf90b6dace6d51ab69c4587ecfb73fd",
+      "contact_sheet_png": "visual_30_contact.png",
+      "contact_sheet_png_sha256": "d86fc42ccd5e514efda174ad4ddf805c75e69d27645e0b4837472a26c59b1e61",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 45,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 25,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 31,
+      "consumer_id": 32,
+      "playable": false,
+      "reason": "all_zero_sentinel_descriptor",
+      "timeline_json": null,
+      "contact_sheet_png": null,
+      "standard_intro": null,
+      "key_ticks": []
+    },
+    {
+      "descriptor_id": 32,
+      "consumer_id": 33,
+      "playable": false,
+      "reason": "all_zero_sentinel_descriptor",
+      "timeline_json": null,
+      "contact_sheet_png": null,
+      "standard_intro": null,
+      "key_ticks": []
+    },
+    {
+      "descriptor_id": 33,
+      "consumer_id": 34,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_33.json",
+      "timeline_json_sha256": "d5946ba980e287e7fa4475a6bef1d52184a46f7d62ed0fc903876894f2761db8",
+      "contact_sheet_png": "visual_33_contact.png",
+      "contact_sheet_png_sha256": "4350cab6793981b709bd6554b39eb4dfa0ed4baa4cbfad8b1951d57807a94610",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 125,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 126,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 127,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 98,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 34,
+      "consumer_id": 35,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_34.json",
+      "timeline_json_sha256": "f59fac0c17af13484cedaf97b694a74ffc523eed9f75cf08c9242e2c7b8e06ec",
+      "contact_sheet_png": "visual_34_contact.png",
+      "contact_sheet_png_sha256": "bb88b738158a5e5c96ade2d2013131ad5d6cfda8de96b329e5ff12e0f1764f4e",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 125,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 126,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 48,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 98,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 35,
+      "consumer_id": 36,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_35.json",
+      "timeline_json_sha256": "50f1ce01f7e653fc163b52f8a4e618cc82e5f71011a5e43c10197cf3e1e96d5c",
+      "contact_sheet_png": "visual_35_contact.png",
+      "contact_sheet_png_sha256": "ad9e1d8060bdf52e8806752f7d9c46697232817da7fbd7fee1ec296ab2aba099",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 7,
+        "glyph_slot_wait_frames": 41,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 126,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 49,
+            "x": 48,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 50,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 3,
+            "glyph_id": 55,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 128,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 6,
+            "glyph_id": 55,
+            "x": 192,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 36,
+      "consumer_id": 37,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_36.json",
+      "timeline_json_sha256": "9e20a0e051641016fad012fccd40b97e51a7951fa2b52780cbb991d9809910b0",
+      "contact_sheet_png": "visual_36_contact.png",
+      "contact_sheet_png_sha256": "bf3d8df99c372d0ed646afe65c0abb516de11d024abbe1080e109ef7ca5b33ef",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 7,
+        "glyph_slot_wait_frames": 41,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 126,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 49,
+            "x": 48,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 51,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 3,
+            "glyph_id": 129,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 128,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 6,
+            "glyph_id": 55,
+            "x": 192,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 37,
+      "consumer_id": 38,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_37.json",
+      "timeline_json_sha256": "0cc00a5e3990327e6b8457b3b95b36c28002946aaedbf880e57f945c045b0cc3",
+      "contact_sheet_png": "visual_37_contact.png",
+      "contact_sheet_png_sha256": "74e208bd7939f1343249e5e21d944e560a563e93063036a72d7ca544439334b1",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 7,
+        "glyph_slot_wait_frames": 41,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 126,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 49,
+            "x": 48,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 52,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 3,
+            "glyph_id": 130,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 128,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 6,
+            "glyph_id": 55,
+            "x": 192,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 38,
+      "consumer_id": 39,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_38.json",
+      "timeline_json_sha256": "157815fef69953a2a2529a63c9025f8330864a40d7c86ce9f2cf104c2c7b50fd",
+      "contact_sheet_png": "visual_38_contact.png",
+      "contact_sheet_png_sha256": "c31c2d4432ab268ad56529c5954f8aa577d91da9389719d07ea723ca4ecddeed",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 7,
+        "glyph_slot_wait_frames": 41,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 126,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 49,
+            "x": 48,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 53,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 3,
+            "glyph_id": 131,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 128,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 6,
+            "glyph_id": 55,
+            "x": 192,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 39,
+      "consumer_id": 40,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_39.json",
+      "timeline_json_sha256": "3039373b4d7f44ee403fee8cd8ad2c2b968e33ad3c08a90d40b13c25fd4ac795",
+      "contact_sheet_png": "visual_39_contact.png",
+      "contact_sheet_png_sha256": "7d6ef4fb4835adee1b1221a49635c58983a7b85862752d7c60d3b193bb627e6a",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 7,
+        "glyph_slot_wait_frames": 41,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 126,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 49,
+            "x": 48,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 54,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 3,
+            "glyph_id": 132,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 128,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 6,
+            "glyph_id": 55,
+            "x": 192,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 40,
+      "consumer_id": 41,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_40.json",
+      "timeline_json_sha256": "57fdd695bef8a2c8818bb762b9cb2f71ec49f8762b120a0299f5211630ce3067",
+      "contact_sheet_png": "visual_40_contact.png",
+      "contact_sheet_png_sha256": "705ca25920d8bbe4da4aea6c4d73d066ce23bf0fd3194f4ec86f3287bcb6d40c",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 133,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 134,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 135,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 41,
+      "consumer_id": 42,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_41.json",
+      "timeline_json_sha256": "91d38aa3ede98dcd7933565c0d5839ed0fd28639cb3e1654e350a87ce297883d",
+      "contact_sheet_png": "visual_41_contact.png",
+      "contact_sheet_png_sha256": "2cc845fe26a2907c2a00740d17c26c222b7273038378a8452e4382e85e4d38ec",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 101,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 134,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 135,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 42,
+      "consumer_id": 43,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_42.json",
+      "timeline_json_sha256": "e284336b7387485e86bf265b3f7375c158b9b6a05aaa63b2f3f621e432f1ee22",
+      "contact_sheet_png": "visual_42_contact.png",
+      "contact_sheet_png_sha256": "256010b1e9a83c804b66362e5ffb2cedb13bf58b70400d9a4e7c99ade9d068bb",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 100,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 101,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 102,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 43,
+      "consumer_id": 44,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_43.json",
+      "timeline_json_sha256": "853166f1c7f53a24251c9c3e18804afc154d4f3081295c007d07075c97c03d63",
+      "contact_sheet_png": "visual_43_contact.png",
+      "contact_sheet_png_sha256": "4d3cd1fd7eea7b949da59e6048b0d6352c0887098faec16565139e5b44b175dd",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 12,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 13,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 44,
+      "consumer_id": 45,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_44.json",
+      "timeline_json_sha256": "28da212a8a1f8a96d6b04857e69ce10632ecb74fd4b04957d78d6828b8fd10e4",
+      "contact_sheet_png": "visual_44_contact.png",
+      "contact_sheet_png_sha256": "f0f2b4a1189bfd423aa5dfcb4d6c6e57dc3fd05b35252c8e183dd365c64cbac9",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 56,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 18,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 19,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 45,
+      "consumer_id": 46,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_45.json",
+      "timeline_json_sha256": "d8d4c723a4ed014a5860de95c5621c754df1941d9d0d4ad2914379d9c430e6a1",
+      "contact_sheet_png": "visual_45_contact.png",
+      "contact_sheet_png_sha256": "1568afd5f312a19aac6cf1e790a77a634fa7272005de27f30563a4aa146e705a",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 56,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 57,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 46,
+      "consumer_id": 47,
+      "playable": false,
+      "reason": "all_zero_sentinel_descriptor",
+      "timeline_json": null,
+      "contact_sheet_png": null,
+      "standard_intro": null,
+      "key_ticks": []
+    },
+    {
+      "descriptor_id": 47,
+      "consumer_id": 48,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_47.json",
+      "timeline_json_sha256": "c4f5252a41a6a26ea108e9ed2d6f4a2db0c61099a62f27b467675b170ba00154",
+      "contact_sheet_png": "visual_47_contact.png",
+      "contact_sheet_png_sha256": "9a969ca7b05855dac4c2cc65f2a5f4ceeccd46b2011fdf8a602c243c653fde76",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 56,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 59,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 60,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 48,
+      "consumer_id": 49,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_48.json",
+      "timeline_json_sha256": "f4befa7fc3895f3364f9d69207d8fbc5bf772f79fadba9c4f784d27a3d1c412a",
+      "contact_sheet_png": "visual_48_contact.png",
+      "contact_sheet_png_sha256": "715a01c3cff37b48d2b27d2f9760f2665a4448dc80821cdb65a1cda5c06884c3",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 61,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 62,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 49,
+      "consumer_id": 50,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_49.json",
+      "timeline_json_sha256": "da5de1ded720808ff46566a29c073d4b5cd59ec77eccb1cea96d869e4042e7af",
+      "contact_sheet_png": "visual_49_contact.png",
+      "contact_sheet_png_sha256": "eea69cf3527258d9472c3a903c06e74c2dbc370c2a2a40b2d292c30be19e8926",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 152,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 81,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 50,
+      "consumer_id": 51,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_50.json",
+      "timeline_json_sha256": "0dd4b96685625c7ba1856cce72dd45d9e4deb867af244ac29cd673acd73d87d1",
+      "contact_sheet_png": "visual_50_contact.png",
+      "contact_sheet_png_sha256": "95576255aa0d567862a86a066d295af2dcb60acc2d285037fa6887e3e8445fe5",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 63,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 136,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 137,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 51,
+      "consumer_id": 52,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_51.json",
+      "timeline_json_sha256": "f2f54e0cf39f5e4376e98a9f0786b96654a4fc81642e8949198a00c10d6931c7",
+      "contact_sheet_png": "visual_51_contact.png",
+      "contact_sheet_png_sha256": "c38df32346312cc6bbbe2f690621ce0ae62f35c259021a62113d7cfcca9c9cc9",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 63,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 136,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 138,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 137,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 52,
+      "consumer_id": 53,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_52.json",
+      "timeline_json_sha256": "9caad3acc3e5d20b17ff00cc12b05a201497487972309f3aeb54c5a461db60c4",
+      "contact_sheet_png": "visual_52_contact.png",
+      "contact_sheet_png_sha256": "149e083cc1557b916cc5e34d091885ef50698bf4aec063e1308293e770c6f3e4",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 139,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 140,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 141,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 53,
+      "consumer_id": 54,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_53.json",
+      "timeline_json_sha256": "4b60008b4368b67cf1b6cbf17f4475706ae9ef21c77d565a6dbbf55e03ebc248",
+      "contact_sheet_png": "visual_53_contact.png",
+      "contact_sheet_png_sha256": "b7c14c91194f7f5b031edf97a6802982675752ab9217b0ef6be3970a6dd5723d",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 106,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 142,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 54,
+      "consumer_id": 55,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_54.json",
+      "timeline_json_sha256": "fe00f4eaadcef2c8979559de81bd4ad8663fad3f518de41fa90cab4ce1c934d9",
+      "contact_sheet_png": "visual_54_contact.png",
+      "contact_sheet_png_sha256": "0f17c625febe1313b09d4ac855c39c957299cf14f68e843728a9076bf824fcb8",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 63,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 143,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 14,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 15,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 55,
+      "consumer_id": 56,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_55.json",
+      "timeline_json_sha256": "5c36ecb3de0dd3ae94da3344b6d46e95193d637e162cdc3d5aa9a400d7df9803",
+      "contact_sheet_png": "visual_55_contact.png",
+      "contact_sheet_png_sha256": "f1760952a7ea55ca503bc63f478509325c1c927f3e2c4c5930938a570de0f4be",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 67,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 68,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 56,
+      "consumer_id": 57,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_56.json",
+      "timeline_json_sha256": "6851c5fa41a10013d62feb7e3d0146256e8417b029e5edf6461fc84ff0bf419e",
+      "contact_sheet_png": "visual_56_contact.png",
+      "contact_sheet_png_sha256": "9925cb49c644c4f41395b1ce72b5919c81e358756eb4e9f88fb7bdada715a52a",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 145,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 18,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 19,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 16,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 57,
+      "consumer_id": 58,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_57.json",
+      "timeline_json_sha256": "84886429dbdce3cf89efc4edb8f6c336253c28ac5dee921e3ff21c69934b09a0",
+      "contact_sheet_png": "visual_57_contact.png",
+      "contact_sheet_png_sha256": "e24094aba867efa55fb5ec5e8168ee509f92d1737c1440105b0d502d457665d5",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 7,
+        "glyph_slot_wait_frames": 41,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 126,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 145,
+            "x": 48,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 27,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 160,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 145,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 69,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 23,
+            "x": 168,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          },
+          {
+            "slot": 6,
+            "glyph_id": 16,
+            "x": 192,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 58,
+      "consumer_id": 59,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_58.json",
+      "timeline_json_sha256": "cc8169f7b3fb67d2d32e55fbd4ec88b01afe2a4102dfb8d4de1b7cfe1c4d8fb8",
+      "contact_sheet_png": "visual_58_contact.png",
+      "contact_sheet_png_sha256": "a4c14b5274e0f597f9aa62b0e869d88f19f196d945ab6d42afc96bec85250625",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 7,
+        "glyph_slot_wait_frames": 41,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 126,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 145,
+            "x": 48,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 27,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 160,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 70,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 71,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 144,
+            "x": 168,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          },
+          {
+            "slot": 6,
+            "glyph_id": 16,
+            "x": 192,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 59,
+      "consumer_id": 60,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_59.json",
+      "timeline_json_sha256": "9eeeffd7abb2e6acfb79eab7fd9ab96d146bc46870dca96089c5875673ee415c",
+      "contact_sheet_png": "visual_59_contact.png",
+      "contact_sheet_png_sha256": "b1a7edfd0aa135d90b75328a26169b8e10cd235ad400d7c61cb6f1198bf86216",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 145,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 146,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 60,
+      "consumer_id": 61,
+      "playable": true,
+      "callback_mode": "alpha_enable",
+      "descriptor_flags": "0x0807",
+      "timeline_json": "visual_60.json",
+      "timeline_json_sha256": "cb64c90187b39b252956d1ce2c34ae0433b8b954945f51e3370773e9d74dffc3",
+      "contact_sheet_png": "visual_60_contact.png",
+      "contact_sheet_png_sha256": "e3e25bf2679422903869ca3c02708f5756b7db7f6fe7af8ada1cec2be11da8e2",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 106,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 114,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 145,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 147,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 61,
+      "consumer_id": 62,
+      "playable": true,
+      "callback_mode": "alpha_enable",
+      "descriptor_flags": "0x0A07",
+      "timeline_json": "visual_61.json",
+      "timeline_json_sha256": "18dbcbdda3fa5fa11ab72b91e593a59a371a06fe53138d4e1aa8f66cae08fba9",
+      "contact_sheet_png": "visual_61_contact.png",
+      "contact_sheet_png_sha256": "bc2ccb1e5fe9dddd838dec9b85bf4abfe9db8050efe117e2149de0e2cb10ff1d",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 148,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 149,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 150,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 151,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 62,
+      "consumer_id": 63,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_62.json",
+      "timeline_json_sha256": "d62452fd9cc5046c25a95ea5802f40884d4811c6fa3fab3a97e64842340dc016",
+      "contact_sheet_png": "visual_62_contact.png",
+      "contact_sheet_png_sha256": "884c679ef42e8b4fca6a5693121346a10df01e3bdda06f11929c575c85030caf",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 106,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 142,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 63,
+      "consumer_id": 64,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_63.json",
+      "timeline_json_sha256": "5779b0116f0bb9c7c4d56a4bf0b8fb12b2c99b784dab0fa5cebd74ade387f7bc",
+      "contact_sheet_png": "visual_63_contact.png",
+      "contact_sheet_png_sha256": "f25863c82e20a0f29ed0890f69548c9b774e444b255a5822c6474b6a8141ac73",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 8,
+        "glyph_slot_wait_frames": 47,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 132,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 72,
+            "x": 36,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 27,
+            "x": 60,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 160,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 72,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 73,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 74,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          },
+          {
+            "slot": 6,
+            "glyph_id": 75,
+            "x": 180,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          },
+          {
+            "slot": 7,
+            "glyph_id": 16,
+            "x": 204,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 42
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 64,
+      "consumer_id": 65,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_64.json",
+      "timeline_json_sha256": "3381375a01a5efba33ab3f7a5948f7945947b013511f81137cf1feed154ce516",
+      "contact_sheet_png": "visual_64_contact.png",
+      "contact_sheet_png_sha256": "ec9310e98a027da414d9319133c1fa2e0a5322a696db44ddc17d1378a00e3bcd",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 76,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 18,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 19,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 16,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 65,
+      "consumer_id": 66,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_65.json",
+      "timeline_json_sha256": "3dfb2135a29b0590ca7a56c644a17b7703616382ee8d296058cfa6f59834187d",
+      "contact_sheet_png": "visual_65_contact.png",
+      "contact_sheet_png_sha256": "3e0a1f4d057468e5786a0f3a01b39a0e3c1b14761fc4af28e138f33b90f4568a",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 8,
+        "glyph_slot_wait_frames": 47,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 132,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 72,
+            "x": 36,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 27,
+            "x": 60,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 160,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 72,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 73,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 74,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          },
+          {
+            "slot": 6,
+            "glyph_id": 75,
+            "x": 180,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          },
+          {
+            "slot": 7,
+            "glyph_id": 16,
+            "x": 204,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 42
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 66,
+      "consumer_id": 67,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_66.json",
+      "timeline_json_sha256": "f22b0a4232167f8e2d5e5db82ec1cec57f84204d7254887617d23249d8a86e25",
+      "contact_sheet_png": "visual_66_contact.png",
+      "contact_sheet_png_sha256": "08924f802a967e4affe48729d4a2f8a1e9898394fb9c5282a56498a53068f188",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 76,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 18,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 19,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 16,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 67,
+      "consumer_id": 68,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_67.json",
+      "timeline_json_sha256": "392aac52ed7c0e24f29f0bc08d187fa4e957f27382f9a1bba1b2e99799152148",
+      "contact_sheet_png": "visual_67_contact.png",
+      "contact_sheet_png_sha256": "6fa0c140ca06072ecf89f518af68915ed6d51534f22742a41c53444c7a0a39da",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 8,
+        "glyph_slot_wait_frames": 47,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 132,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 72,
+            "x": 36,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 27,
+            "x": 60,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 160,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 72,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 73,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          },
+          {
+            "slot": 5,
+            "glyph_id": 74,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 30
+          },
+          {
+            "slot": 6,
+            "glyph_id": 75,
+            "x": 180,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 36
+          },
+          {
+            "slot": 7,
+            "glyph_id": 16,
+            "x": 204,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 42
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 68,
+      "consumer_id": 69,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_68.json",
+      "timeline_json_sha256": "bb9c40394476e31c2032cc7218325848fccf0b2ce9aeeb074e3b02c7dbc6dbfa",
+      "contact_sheet_png": "visual_68_contact.png",
+      "contact_sheet_png_sha256": "3728849ba1c30ff6bd2692d86382422284f3a37249f8bdb6f5b9075305fb3c1a",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 76,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 18,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 19,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 16,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 69,
+      "consumer_id": 70,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x1000",
+      "timeline_json": "visual_69.json",
+      "timeline_json_sha256": "d7a33f9597e885e4ed78f71666703745903a0eb06400d4bc64621a9e20a402a0",
+      "contact_sheet_png": "visual_69_contact.png",
+      "contact_sheet_png_sha256": "f5bef0bfb94ddf087e1e5113e308396a97e88e64fc955118d4b57fe03864216f",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 77,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 78,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 79,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 152,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 70,
+      "consumer_id": 71,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x1000",
+      "timeline_json": "visual_70.json",
+      "timeline_json_sha256": "7ce5aaedfd55e441436daf0d81a099aa3ad8dec51718d68dd5ce4ff671007122",
+      "contact_sheet_png": "visual_70_contact.png",
+      "contact_sheet_png_sha256": "5cf4633bc0f196acdd5779144c91f2f8b06677aac996b98bbc57079ee2f98713",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 77,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 78,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 79,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 152,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 71,
+      "consumer_id": 72,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_71.json",
+      "timeline_json_sha256": "463f6d7111d394fb9be0604047f74d74bbfd9a4479bd64913805c923fc569617",
+      "contact_sheet_png": "visual_71_contact.png",
+      "contact_sheet_png_sha256": "24bbe3b6cb64864d58e29fb319ac8904f12fbb823534ecf9c0cd56bb3d9322af",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 153,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 154,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 72,
+      "consumer_id": 73,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_72.json",
+      "timeline_json_sha256": "12435500a9a166c8716ca4b5cd1562e34993e3534fdcc5864b3b1302a8ff231e",
+      "contact_sheet_png": "visual_72_contact.png",
+      "contact_sheet_png_sha256": "8d4bf1af28e34892b20d7043a5f9c813872eedec10d95cd386bbcd87a24fdb82",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 153,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 154,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 73,
+      "consumer_id": 74,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_73.json",
+      "timeline_json_sha256": "d7082bd015a402b6249f25f1fa9f64e7c81869fd84a54dd8d1a3f1ff531de001",
+      "contact_sheet_png": "visual_73_contact.png",
+      "contact_sheet_png_sha256": "8b31ad252660ca928cd5ce86f01ac2e8bb8480d105b0dfa82a42be5ef159af04",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 155,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 156,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 157,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 74,
+      "consumer_id": 75,
+      "playable": true,
+      "callback_mode": "alpha_enable",
+      "descriptor_flags": "0x0807",
+      "timeline_json": "visual_74.json",
+      "timeline_json_sha256": "cfa53666451772cb71745c39fc31da3cbb0f6c82f8e73d3a65d9611bee516eb2",
+      "contact_sheet_png": "visual_74_contact.png",
+      "contact_sheet_png_sha256": "8675a801f22d53e0663c9343f5544c7a1379ba643b10fb5d299680b444e9ac3e",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 98,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 27,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 75,
+      "consumer_id": 76,
+      "playable": true,
+      "callback_mode": "d_bg_flicker",
+      "descriptor_flags": "0x0001",
+      "timeline_json": "visual_75.json",
+      "timeline_json_sha256": "dd21130263f96ffaf0308f1ab256323524b7078ed968f36713f480eba5c63760",
+      "contact_sheet_png": "visual_75_contact.png",
+      "contact_sheet_png_sha256": "23a73cc4807b4f9ab44f94eff9391eea538f3240f3492b9003301ad6489905c5",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 3,
+        "glyph_slot_wait_frames": 17,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 102,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 159,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 59,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 16,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 76,
+      "consumer_id": 77,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_76.json",
+      "timeline_json_sha256": "42526dbbc43a50c1f6952c61aa1db61088abb234b528ed1cc9f4010bc4e33c13",
+      "contact_sheet_png": "visual_76_contact.png",
+      "contact_sheet_png_sha256": "333e60c253dfb5086dcdea95521dae4fc4b35f38ff5f03afbe0611b5bb1a4c76",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 5,
+        "glyph_slot_wait_frames": 29,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 114,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 82,
+            "x": 72,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 83,
+            "x": 96,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 84,
+            "x": 120,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 170,
+            "x": 144,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          },
+          {
+            "slot": 4,
+            "glyph_id": 170,
+            "x": 168,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 24
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 77,
+      "consumer_id": 78,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_77.json",
+      "timeline_json_sha256": "9b9fec5deeb5ccc251f8a71ed0c91b03434f9e57af3c2ea67108007891c22790",
+      "contact_sheet_png": "visual_77_contact.png",
+      "contact_sheet_png_sha256": "8f9ad44e5db60bdf38ca3e82adccc529b31268617eb44f343df504d7bf5230ed",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 4,
+        "glyph_slot_wait_frames": 23,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 108,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 162,
+            "x": 84,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 163,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          },
+          {
+            "slot": 2,
+            "glyph_id": 164,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 12
+          },
+          {
+            "slot": 3,
+            "glyph_id": 165,
+            "x": 156,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 18
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    },
+    {
+      "descriptor_id": 78,
+      "consumer_id": 79,
+      "playable": true,
+      "callback_mode": "common_only",
+      "descriptor_flags": "0x0000",
+      "timeline_json": "visual_78.json",
+      "timeline_json_sha256": "90d2364f10e6f29fc933c286b70ed0829d8b5888ba6616271f0a46b4a7338094",
+      "contact_sheet_png": "visual_78_contact.png",
+      "contact_sheet_png_sha256": "a69ab35dbd78336104f553aa61d7037a58dd4ad8e47f9c6417713d3864389e8e",
+      "standard_intro": {
+        "a_scroll_frames": 17,
+        "glyph_pre_delay_frames": 8,
+        "binding_slot_count": 2,
+        "glyph_slot_wait_frames": 11,
+        "glyph_hold_frames": 60,
+        "total_before_linked_installer_frames": 96,
+        "glyph_slots": [
+          {
+            "slot": 0,
+            "glyph_id": 162,
+            "x": 108,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 0
+          },
+          {
+            "slot": 1,
+            "glyph_id": 163,
+            "x": 132,
+            "y": 16,
+            "palette_bank": 13,
+            "first_slot_phase_frame": 6
+          }
+        ]
+      },
+      "key_ticks": [
+        16,
+        32,
+        50,
+        81,
+        106
+      ]
+    }
+  ]
+}

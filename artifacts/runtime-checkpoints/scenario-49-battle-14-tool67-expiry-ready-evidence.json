@@ -1,0 +1,51 @@
+{
+  "artifact_status": "accepted",
+  "guard": {
+    "completion_trigger": "success-marker",
+    "degraded": false,
+    "exit_code": 0,
+    "guard_summary_sha256": "bb7a16c01f5c6ecc5ebcfc3ad7c2c58cdcc5cc7bf78df695aa1804216777150b",
+    "mgba_listener_clean": true,
+    "peak_tree_rss_mib": 65.65625,
+    "pgid_clean": true
+  },
+  "input": {
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-active-c3.ss9",
+    "sha256": "401256e00877169e98b3e6584488e732f9254b4426806ad2b6b3bdc770259939"
+  },
+  "output": {
+    "external_png_sha256": "3f98b320ea8869b88579f480139d643f19b45de8698a97c6e841c6933c707d95",
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
+    "sha256": "34eb56d34d876a275546a2b6875804aa5e24c97600a9d299c0c6ba0ae165b501",
+    "visible_boundary": "battle 14 enemy-side presentation with the natural C3 object at zero remaining turns"
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "input_audit_sha256": "6ac885cd27ecbf1f7aaa79a56e537299b3b45667e6453c42aaeee42e7525c25f",
+    "mgba_binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "mgba_source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "replay_script_sha256": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "toolchain_profile_sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287"
+  },
+  "route": {
+    "description": "From the natural C3 checkpoint, Naruto's facing and default no-defense choice were confirmed, the remaining two player units each completed one-cell movement and the same facing/no-defense sequence, and the enemy phase then advanced without injected state changes.",
+    "explicit_inputs": ["A", "A", "A", "Up", "A", "A", "A", "A"]
+  },
+  "runtime_binding": {
+    "encoded_action": "0xC3",
+    "expiry_action": "0xE4",
+    "ninja_tool_id": 67,
+    "remaining_turns": 0,
+    "resource_group_id": 3,
+    "slot": 3,
+    "state": 1
+  },
+  "schema": "runtime-checkpoint-input-chain-evidence-v1",
+  "scope": {
+    "checkpoint_restore_verified": false,
+    "natural_action_submission_verified": true,
+    "natural_countdown_zero_verified": true,
+    "natural_expiry_handler_verified": false,
+    "natural_object_creation_verified": true
+  }
+}

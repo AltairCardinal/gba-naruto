@@ -1,9 +1,9 @@
 {
  "schema": "konoha.butano-reverse-gap.v1",
- "generated_at": "2026-10-20T18:11:32.091821+00:00",
+ "generated_at": "2026-10-21T20:03:17.673205+00:00",
  "index": {
   "path": "artifacts/reverse-results-index-v1/index.json",
-  "sha256": "1674c8542b2f188977d6b28380647c3515ebb90a31a19017246f959e00680050",
+  "sha256": "a38f7f2e81e31d6674e07499c58766bea31e7edb4a5c1dbf1f3009c88b61b89a",
   "schema": "konoha.reverse-results-index.v1",
   "reverse_root": "/Users/altair/github/gba-naruto-reverse",
   "reverse_commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375",
@@ -21,7 +21,7 @@
    "tool",
    "test"
   ],
-  "scanned_files": 4359,
+  "scanned_files": 4446,
   "scan_roots": [
    "butano-sequel",
    "tools",
@@ -44,7 +44,9 @@
    "artifacts/s49-result-settlement-v1",
    "artifacts/s49-original-movegrid-frame-v1",
    "artifacts/s49-original-banner-frame-v1",
-   "artifacts/s49-original-movegrid-mechanism-v1"
+   "artifacts/s49-original-movegrid-mechanism-v1",
+   "artifacts/butano-usable-backlog-v1",
+   "artifacts/butano-wiring-coverage-v1"
   ],
   "min_bare_identifier": 8
  },
@@ -125,11 +127,12 @@
    "schema": "git-artifact-promotion-v1",
    "status": "test",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py",
     "doc:notes/s49-needs-guard-gates-20261020.md",
     "test:tests/test_s49_needs_guard_gates.py"
    ],
-   "hit_count": 3,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -249,9 +252,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -264,10 +268,11 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -498,9 +503,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -513,9 +519,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -545,9 +552,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -579,10 +587,12 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:docs/konoha-senki/README.md",
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 2,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -627,9 +637,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -734,10 +745,11 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -1051,10 +1063,11 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -1190,11 +1203,12 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/research-receipt.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 3,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -2014,10 +2028,11 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -2061,12 +2076,13 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/research-receipt.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 4,
+   "hit_count": 5,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -2080,9 +2096,10 @@
    "status": "doc",
    "hits": [
     "doc:notes/butano-reverse-gap-verification-20261020.md",
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -2319,11 +2336,12 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/research-receipt.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 3,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -2432,10 +2450,12 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:docs/konoha-senki/README.md",
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py",
     "doc:notes/s49-reverse-open-items-20261020.md"
    ],
-   "hit_count": 2,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -2545,12 +2565,13 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/research-receipt.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 4,
+   "hit_count": 5,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -2610,10 +2631,11 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 2,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -2990,11 +3012,12 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/research-receipt.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/notes/evidence/rom-small-cfg-batch-formal-20260930-v1/formal-report.json",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 3,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -3053,9 +3076,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -3081,7 +3105,7 @@
     "build:tools/butano/export_scenario_41_combat_reference.py",
     "build:tools/butano/export_scenario_41_extended_reference.py"
    ],
-   "hit_count": 153,
+   "hit_count": 161,
    "ledger_status": "reused",
    "ledger_id": "s49-entry-savestate",
    "manifest_hint": ""
@@ -3124,9 +3148,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -3445,9 +3470,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": "One zero-input renderer transaction containing an active group 11 task, captured after rendering, submission, and acknowledgement."
@@ -3612,9 +3638,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -3693,9 +3720,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": "Group 15 controlled allocator-reset and binder-side task evidence."
@@ -3947,9 +3975,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": "Content-addressed battle-effect group/frame/component candidates reconstructed from every current tracked checkpoint plus five separately counted accepted runtime states."
@@ -4303,9 +4332,10 @@
    "schema": "git-artifact-promotion-v1",
    "status": "doc",
    "hits": [
+    "doc:notes/butano-usable-backlog-20261022.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/tools/verify_rom_fixed_renderer_script_records.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": "Natural character source-component bindings reconstructed from every tracked runtime checkpoint using exact OAM dimensions, OBJ VRAM bytes and BGR555 palette ranking."
@@ -5441,7 +5471,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 72,
+   "hit_count": 73,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -5460,12 +5490,13 @@
     "doc:docs/structure-field-semantics.md",
     "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/formula-inventory-20261018.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/repo-size-audit-20261019.md",
     "doc:notes/resource-locations.md",
     "doc:notes/unknown-bgm-sfx.md"
    ],
-   "hit_count": 10,
+   "hit_count": 11,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -6225,7 +6256,7 @@
     "build:tools/automated_test.py",
     "build:tools/battle_rules_runtime.py"
    ],
-   "hit_count": 92,
+   "hit_count": 93,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -7107,11 +7138,12 @@
     "doc:docs/sequel-roadmap.md",
     "doc:notes/dynamic-verification-audit.md",
     "doc:notes/external-konoha-workshop-gap-20261020.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/runtime-verification-gates-20260710.md",
     "doc:notes/unknown-bgm-sfx.md"
    ],
-   "hit_count": 8,
+   "hit_count": 9,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -7189,15 +7221,17 @@
    "status": "build",
    "hits": [
     "build:tools/import_chapter_scripts.py",
+    "build:tools/import_dialogue_var.py",
     "doc:docs/development-status.md",
     "doc:docs/web-editor-spec.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
     "doc:notes/free-space.md",
     "doc:notes/next-steps.md",
     "doc:notes/scan-summary.md",
-    "doc:notes/variable-dialogue-relocation-20260712.md"
+    "doc:notes/variable-dialogue-relocation-20260712.md",
+    "test:tests/test_import_dialogue_var.py"
    ],
-   "hit_count": 8,
+   "hit_count": 10,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8047,7 +8081,7 @@
     "doc:notes/legacy-table-base-correction-20261020.md",
     "doc:notes/map-format.md"
    ],
-   "hit_count": 15,
+   "hit_count": 16,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8349,7 +8383,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 72,
+   "hit_count": 73,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8375,7 +8409,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 72,
+   "hit_count": 73,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8401,7 +8435,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 72,
+   "hit_count": 73,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8427,7 +8461,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 72,
+   "hit_count": 73,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8453,7 +8487,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 72,
+   "hit_count": 73,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8479,7 +8513,7 @@
     "doc:docs/superpowers/plans/2026-07-16-project-completion-policy-alignment.md",
     "doc:docs/superpowers/plans/2026-07-17-macos-mgba-gdb-ownership.md"
    ],
-   "hit_count": 72,
+   "hit_count": 73,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -8746,10 +8780,11 @@
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/evidence/units-offset-table-20261020.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/units-unsafe-table-fix-20260711.md"
    ],
-   "hit_count": 5,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -14641,9 +14676,11 @@
    "schema": "",
    "status": "test",
    "hits": [
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/master-merge-20261021.md",
     "test:tests/test_decode_dialogue_record.py"
    ],
-   "hit_count": 1,
+   "hit_count": 3,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -15144,9 +15181,10 @@
    "schema": "",
    "status": "test",
    "hits": [
+    "doc:notes/master-merge-20261021.md",
     "test:tests/test_export_dialogue_font_atlases.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -17261,13 +17299,15 @@
    "category": "code",
    "path": "tests/test_extract_tileset.py",
    "schema": "",
-   "status": "test",
+   "status": "build",
    "hits": [
+    "build:tools/extract_scene_tilesets.py",
     "doc:notes/build-artifact-cleanup-audit-20260729.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/tileset-extraction-correction-20260712.md",
     "test:tests/test_extract_tileset.py"
    ],
-   "hit_count": 3,
+   "hit_count": 5,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -17579,10 +17619,12 @@
    "schema": "",
    "status": "test",
    "hits": [
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/variable-dialogue-relocation-20260712.md",
     "test:tests/test_import_dialogue_var.py"
    ],
-   "hit_count": 2,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -18509,9 +18551,10 @@
    "schema": "",
    "status": "test",
    "hits": [
+    "doc:notes/master-merge-20261021.md",
     "test:tests/test_overlapping_visual_table_identity.py"
    ],
-   "hit_count": 1,
+   "hit_count": 2,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -19812,10 +19855,11 @@
     "doc:notes/evidence/story-table-family-20261020.md",
     "doc:notes/evidence/writeback-paths-20261020.md",
     "doc:notes/legacy-table-base-correction-20261020.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/u32-pointer-real-writeback-20260710.md",
     "test:tests/test_u32_pointer_patches.py"
    ],
-   "hit_count": 6,
+   "hit_count": 7,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -21118,10 +21162,11 @@
     "build:tools/README.md",
     "build:tools/analyze_battle_action_template_semantics.py",
     "doc:notes/battle-system-restoration-evidence-20260723.md",
+    "doc:notes/master-merge-20261021.md",
     "test:tests/test_analyze_battle_action_template_semantics.py",
     "test:tests/test_butano_research_docs.py"
    ],
-   "hit_count": 5,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -21984,7 +22029,7 @@
     "doc:docs/web-editor-spec.md",
     "doc:notes/db-writeback-correction-20261020.md"
    ],
-   "hit_count": 28,
+   "hit_count": 29,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -22539,7 +22584,7 @@
     "doc:notes/db-writeback-correction-20261020.md",
     "doc:notes/evidence/writeback-paths-20261020.md"
    ],
-   "hit_count": 35,
+   "hit_count": 36,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -22740,7 +22785,7 @@
     "doc:docs/editor-emulator-link.md",
     "doc:docs/final-completion-report.md"
    ],
-   "hit_count": 37,
+   "hit_count": 38,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -23363,11 +23408,12 @@
     "doc:notes/dialogue-font-atlas-export-20260729.md",
     "doc:notes/dialogue-mapping-progress-20260702.md",
     "doc:notes/font-encoding.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/repo-size-audit-20261019.md",
     "doc:notes/text-writeback-migration-20261020.md",
     "test:tests/test_decode_dialogue_record.py"
    ],
-   "hit_count": 11,
+   "hit_count": 12,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -23429,7 +23475,7 @@
     "doc:notes/character-template-format-20261020.md",
     "doc:notes/evidence/char-reward-fields-20261020.md"
    ],
-   "hit_count": 23,
+   "hit_count": 24,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26352,10 +26398,12 @@
    "hits": [
     "build:tools/export_story_visual_layers.py",
     "build:tools/table_registry.py",
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/story-visual-layer-export-20260729.md",
     "test:tests/test_export_story_visual_layers.py"
    ],
-   "hit_count": 4,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26500,17 +26548,14 @@
    "schema": "",
    "status": "build",
    "hits": [
-    "build:sequel/content/cutscene-scripts/bank.json",
-    "build:sequel/content/encounter-zones/bank.json",
     "build:sequel/content/function-pointers/bank.json",
     "build:sequel/content/maps/bank.json",
-    "build:sequel/content/resource-pointers/bank.json",
     "build:sequel/content/sappy-engine/bank.json",
     "build:tools/extract_all_structures.py",
     "doc:notes/completion-audit-20261020.md",
     "doc:notes/re-methodology-improvements-20261020.md"
    ],
-   "hit_count": 9,
+   "hit_count": 6,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26533,9 +26578,10 @@
     "doc:notes/audio-engine-runtime-chain-20260712.md",
     "doc:notes/completion-audit-20261020.md",
     "doc:notes/evidence/story-table-family-20261020.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/resource-locations.md"
    ],
-   "hit_count": 11,
+   "hit_count": 12,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26626,12 +26672,13 @@
     "build:tools/extract_audio_assets.py",
     "build:tools/extract_audio_resource_sets.py",
     "build:tools/extract_graphics_resource_sets.py",
+    "build:tools/populate_bank_json.py",
     "build:tools/revoke_false_story_banks.py",
     "doc:notes/audio-engine-runtime-chain-20260712.md",
     "doc:notes/story-bank-identity-correction-20260712.md",
     "test:tests/test_extract_audio_resource_sets.py"
    ],
-   "hit_count": 7,
+   "hit_count": 8,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26737,6 +26784,7 @@
    "hits": [
     "build:sequel/content/units/bank.json",
     "build:tools/extract_character_definitions.py",
+    "build:tools/populate_bank_json.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/character-definition-source-20260711.md",
@@ -26745,7 +26793,7 @@
     "test:tests/test_character_overview_field_semantics.py",
     "test:tests/test_extract_character_definitions.py"
    ],
-   "hit_count": 9,
+   "hit_count": 10,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26841,10 +26889,11 @@
    "status": "build",
    "hits": [
     "build:tools/extract_save_descriptors.py",
+    "build:tools/populate_bank_json.py",
     "doc:notes/tutorial-victory-save-load-runtime-20260712.md",
     "test:tests/test_extract_save_descriptors.py"
    ],
-   "hit_count": 3,
+   "hit_count": 4,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -26907,10 +26956,10 @@
     "build:tools/butano/generate_battle_effect_sequence.py",
     "build:tools/butano/generate_battle_scenario_49_scenery.py",
     "build:tools/butano/generate_scenario_41_assets.py",
-    "build:tools/completion_audit.py",
-    "build:tools/export_battle_visual_runtime_timelines.py"
+    "build:tools/export_battle_visual_runtime_timelines.py",
+    "build:tools/export_bg_resource_canvases.py"
    ],
-   "hit_count": 45,
+   "hit_count": 47,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27357,6 +27406,7 @@
    "schema": "",
    "status": "build",
    "hits": [
+    "build:tools/build_db_patches.py",
     "build:tools/build_mod.py",
     "build:tools/build_relocated_chapter_runtime_probe.py",
     "build:tools/import_chapter_scripts.py",
@@ -27364,7 +27414,7 @@
     "doc:notes/chapter-script-production-writeback-20260713.md",
     "test:tests/test_import_chapter_scripts.py"
    ],
-   "hit_count": 6,
+   "hit_count": 7,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -27475,13 +27525,13 @@
     "doc:docs/web-editor-spec.md",
     "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/font-encoding.md",
+    "doc:notes/master-merge-20261021.md",
     "doc:notes/re-methodology-improvements-20261020.md",
     "doc:notes/text-writeback-migration-20261020.md",
     "doc:notes/variable-dialogue-relocation-20260712.md",
-    "test:tests/test_import_dialogue_var.py",
-    "test:tests/test_text_writeback.py"
+    "test:tests/test_import_dialogue_var.py"
    ],
-   "hit_count": 12,
+   "hit_count": 13,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -28350,18 +28400,18 @@
    "hits": [
     "build:sequel/content/battle-encounters/bank.json",
     "build:sequel/content/character-stats-b/bank.json",
-    "build:sequel/content/character-stats/bank.json",
+    "build:sequel/content/cutscene-scripts/bank.json",
     "build:sequel/content/items/bank.json",
-    "build:sequel/content/levels/bank.json",
-    "build:sequel/content/skills/bank.json",
     "build:sequel/content/story-c/bank.json",
     "build:sequel/content/story-d/bank.json",
     "build:sequel/content/story-e/bank.json",
     "build:tools/populate_bank_json.py",
     "doc:docs/final-completion-report.md",
-    "doc:docs/sequel-roadmap.md"
+    "doc:docs/sequel-roadmap.md",
+    "doc:notes/alias-conflicts-20261020.md",
+    "doc:notes/cutscene-visual-resource-consumer-20260712.md"
    ],
-   "hit_count": 21,
+   "hit_count": 20,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -28647,6 +28697,7 @@
    "status": "build",
    "hits": [
     "build:tools/butano/compare_s49_unit_silhouette.py",
+    "build:tools/butano/export_s49_movegrid_tilemap.py",
     "build:tools/butano/export_scenario_41_attack_gpu_bases.py",
     "build:tools/butano/generate_scenario_41_assets.py",
     "build:tools/butano/render_scenario_41_gpu.py",
@@ -28655,11 +28706,10 @@
     "doc:notes/s49-fidelity-handover-20261019.md",
     "doc:notes/s49-movegrid-blend-correction-20261021.md",
     "doc:notes/s49-movegrid-overlay-assets-20261020.md",
-    "test:tests/test_butano_scenario_41_assets.py",
-    "test:tests/test_butano_scenario_41_combat_reference.py",
-    "test:tests/test_butano_scenario_41_render.py"
+    "doc:notes/s49-overlay-screentruth-20261021.md",
+    "test:tests/test_butano_scenario_41_assets.py"
    ],
-   "hit_count": 14,
+   "hit_count": 16,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -29262,13 +29312,13 @@
     "build:tools/butano/capture_s49_battle_roster.py",
     "build:tools/butano/capture_s49_frame_palette.py",
     "build:tools/butano/capture_s49_gpu_state.py",
+    "build:tools/butano/capture_s49_iwram_counter.py",
     "build:tools/butano/capture_s49_pair.py",
     "build:tools/butano/start_manual_battle_observer.sh",
     "build:tools/check_comet_project_policy.py",
-    "build:tools/project_resource_guard.py",
-    "build:tools/reverse_benchmark/harness.py"
+    "build:tools/project_resource_guard.py"
    ],
-   "hit_count": 273,
+   "hit_count": 288,
    "ledger_status": null,
    "ledger_id": null,
    "manifest_hint": ""
@@ -29669,8 +29719,8 @@
    "hits": [
     "build:tools/translate_sjis_to_chinese.py",
     "doc:notes/font-encoding.md",
-    "doc:notes/text-writeback-migration-20261020.md",
-    "test:tests/test_export_dialogue_font_atlases.py"
+    "doc:notes/master-merge-20261021.md",
+    "doc:notes/text-writeback-migration-20261020.md"
    ],
    "hit_count": 4,
    "ledger_status": null,
@@ -33731,11 +33781,11 @@
  "summary": {
   "total": 2207,
   "by_status": {
-   "build": 372,
+   "build": 373,
    "doc": 512,
    "local_artifact": 3,
    "none": 1073,
-   "test": 247
+   "test": 246
   },
   "by_category": {
    "audio": {
@@ -33748,10 +33798,10 @@
     "test": 6
    },
    "code": {
-    "build": 251,
+    "build": 252,
     "doc": 131,
     "none": 849,
-    "test": 211
+    "test": 210
    },
    "map": {
     "build": 12,
@@ -33824,10 +33874,10 @@
     "test": 26
    },
    "test": {
-    "build": 1,
+    "build": 2,
     "doc": 7,
     "none": 405,
-    "test": 211
+    "test": 210
    },
    "tool": {
     "build": 250,

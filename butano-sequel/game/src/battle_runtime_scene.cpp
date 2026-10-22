@@ -2147,21 +2147,6 @@ public:
                                 in_range,
                                 legal_target,
                                 blocked);
-                // The original's BG2 is a baked battlefield layout, not a
-                // runtime rule: the move-range screen only enables it.  The
-                // layout therefore decides which tile family every slot of
-                // this grid point carries, while the remake's own state keeps
-                // driving the dynamic highlight families.
-                const battle_range_ui_layout_tiles layout =
-                        battle_range_ui_layout_for_point(
-                                move ?
-                                        battle_battlefield_overlay_tilemap_movegrid :
-                                        battle_battlefield_overlay_tilemap_field,
-                                x,
-                                y);
-                const bool state_highlight =
-                        battle_range_ui_kind_is_highlight(
-                                tile_kind);
                 const int screen_x =
                         (world_x(point) - camera.x())
                                 .integer();
@@ -2192,18 +2177,6 @@ public:
                         {
                             continue;
                         }
-                        const int slot =
-                                tile_y *
-                                        battle_range_ui_tiles_per_cell_x +
-                                tile_x;
-                        const battle_range_ui_tile_kind kind =
-                                state_highlight ?
-                                        tile_kind :
-                                        battle_range_ui_layout_kind(
-                                                layout.original[
-                                                        static_cast<
-                                                                std::size_t>(
-                                                                slot)]);
                         _cells[
                                 static_cast<std::size_t>(
                                         row * columns +
@@ -2211,7 +2184,7 @@ public:
                                 static_cast<
                                         bn::regular_bg_map_cell>(
                                                 battle_range_ui_tile_index(
-                                                        kind,
+                                                        tile_kind,
                                                         tile_x,
                                                         tile_y));
                     }

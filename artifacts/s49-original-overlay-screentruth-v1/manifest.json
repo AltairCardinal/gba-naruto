@@ -1,0 +1,45 @@
+{
+  "exporter": "tools/butano/export_s49_overlay_screentruth.py",
+  "inputs": {
+    "artifacts/s49-original-battlefield-overlay-v1/bg2-tilemap-field.bin": {
+      "bytes": 2048,
+      "sha256": "ce5dd2917f062e5ef8f868898c8f3f7aa70e49cbd93cf50eaec274755efd487e"
+    },
+    "artifacts/s49-original-battlefield-overlay-v1/bg2-tilemap-movegrid.bin": {
+      "bytes": 2048,
+      "sha256": "72dbe5858aa2fb5e8cf09208a61b26f788d8bd785a640035532f4396ed5ea230"
+    },
+    "artifacts/s49-original-battlefield-overlay-v1/manifest.json": {
+      "bytes": 8166,
+      "sha256": "d9047c7a099e9be18bd6fec4e5c342777d2fa881fc226a4d1a1ac24e82033fdf"
+    },
+    "artifacts/s49-original-battlefield-overlay-v1/visible-cells.json": {
+      "bytes": 592,
+      "sha256": "852a8fae1843de7c72d8e37b15e37a99d181be70561a548a430d5086c8100400"
+    },
+    "artifacts/s49-original-movegrid-tilemap-v1/bg2-palette.bin": {
+      "bytes": 32,
+      "sha256": "d198ec85eff147b157978bb44d1948db5b9893edb5f8f63d4d9b96b5ca7e7e84"
+    },
+    "artifacts/s49-original-movegrid-tilemap-v1/bg2-tiles-4bpp.bin": {
+      "bytes": 1024,
+      "sha256": "0f86c8032129ef1b92fb1464c516a03b1c0ca71672ac5de4d37e8b302cf6ce40"
+    }
+  },
+  "outputs": {
+    "overlay-field-screen.png": {
+      "bytes": 954,
+      "sha256": "78e2fdf2da72878ea8f185a1231c6e053899163c9a344499d8a38be4419637e7"
+    },
+    "overlay-movegrid-screen.png": {
+      "bytes": 904,
+      "sha256": "8d72a2db243cbd44adb9a9c3bfd3615b23b0cbfa9b1460fa0ef6058119e0b06e"
+    },
+    "screen-truth.json": {
+      "bytes": 27226,
+      "sha256": "598fcd482cd3f75e7bbd261b6ed3b97b770dba75f3a87c0af58b1c56e1a02c92"
+    }
+  },
+  "schema": "konoha.s49-overlay-screentruth.v1",
+  "what": "The original's battle overlay (BG2) rendered in screen space, with the remake's remaining pixel difference attributed to the original's tile families."
+}

@@ -675,3 +675,114 @@ P2 的原料是 333 条 `needs_guard`。这一轮没有去"批量转"，而是�
 **分母仍是 264**（本轮逆向树没有新成果族被晋升）。
 
 ⚠️ **第 15 轮更正**：这里原先写的「竖向虚线网格」是**解码错误**——上一轮用 2 bit/px 读了 4bpp 图块。正确的 4bpp 解码（每字节 2 像素，高/低半字节各一像素）给出的是**实心填充 + 1 px 边线**：填充色族 index 2/4/6/8/10，每族 4 个变体（无 / 上下线 / 左右+下线 / 四边），另有边件 258–261 与空白 256/257、282–287。**4.3.93.3.9 原写的「实心填充 + 1 px 边框/角」是对的**，本条更正作废。
+
+### 8.2 第 16 轮（2026-10-22）：**「能不能直接用」被单独测出来了——货架 134 族，可直接用 71 族**
+
+§8.1 那张表回答的是「**有没有被引用**」。引用 ≠ 可用：一个族可以完全可导入，
+却因为没人接线而停在 `doc`；也可以被每篇笔记提到，却只是一段控制流分析、根本不能导入。
+本轮把这个问题单独测了一遍，工具是 `tools/measure_butano_usable_backlog.py`
+（可复现脚本，TDD 20 项全绿），收据 `artifacts/butano-usable-backlog-v1/`。
+
+口径（全部脚本实测，**无人工名单**）：
+
+```
+population : index entries with kind == "artifact"        → 264
+accepted   : manifest artifact_status == "accepted"       → 201
+has_payload: 非空文件，且不是 manifest/inputs，也不是 .gz 覆盖收据
+consumed   : 差异清单 status == "build"                   →  93
+shelf      : accepted and has_payload and not consumed    → 134
+```
+
+| 层 | 族数 | 含义 |
+| --- | ---: | --- |
+| `asset-direct` | 30 | payload 就是 remake 资产管线能读的字节（像素／图块／调色板／LZ77／音频） |
+| `table-direct` | 41 | payload 是内容表，接入只需一个生成器 |
+| `analysis-only` | 51 | 控制流／覆盖分母／审计证据——约束行为，不能导入 |
+| `unclassified` | 12 | 表与结构都命中或都没命中，**有意不判定** |
+
+⇒ **可直接用于复刻 = 30 + 41 = 71 族**；notes 侧另有 **333 条 `needs_guard`**
+（原版结论已闭合、尚未转成门禁），其中 **314 条连测试都没引用**。
+
+⚠️ **「可用」≠「已闭合」**：货架里只有 **3** 个 manifest 的 `scope` 全为真，
+**69** 个明确写着未闭合声明（最常见 `runtime_reachability_complete`、
+`global_caller_denominator_complete`），**62** 个没写 `scope`。
+
+**对本 roadmap 的影响**：M5「消化 213 个无引用 notes」与 M4「补齐 5 个真正未触及的
+最终成果」都可以先从这 71 族里挑——它们**已经闭合、已经带 payload**，
+缺的只是复刻侧的一次生成器或一次复制。**复刻侧当前的主要瓶颈是接线，不是逆向覆盖。**
+
+**本轮更正与教训**（留档，见 `notes/butano-usable-backlog-20261022.md` §3）：
+分层靠**词表探针**，抽查发现三处错分（`archive`/`gaps` 被当成表键/分析键、
+覆盖记账键参与计票把音效表投成分析类）——**词表必须能被 payload 反证**，
+改完词表要回到具体族上核对，不能只看「样本抽得对」。
+
+相关：`notes/butano-usable-backlog-20261022.md`、
+`docs/reverse-results-index/notes-index.md`（notes 五桶分类）。
+
+### 8.3 第 17 轮（2026-10-22）：**接线点全量枚举——「接上了」的下界与事实差 81 族**
+
+§8.2 测的是「还有多少成果没被用掉」。本轮测的是**更前面的问题**：
+「**所有接线**到底有没有被查全」。答案是：**没有，除非两端都枚举**。
+
+工具 `tools/measure_butano_wiring_coverage.py`（TDD 6 项全绿），
+收据 `artifacts/butano-wiring-coverage-v1/`。
+
+**接线点 = （逆向族, 复刻产物）二元组。** source 侧取索引里全部 264 族，
+sink 侧取生成器声明的 `GENERATED_PRODUCTS` + 载体里的 `reverse-source` 声明
+（即 provenance 审计器已有的登记表）。
+
+| source 状态 | 族数 | 含义 |
+| --- | ---: | --- |
+| `wired-and-gated` | 2 | 产物**声明**了该族，且有测试提到该产物（上界） |
+| `wired-ungated` | 10 | 产物声明了该族，但无测试提到它 |
+| `wired-mentioned` | **81** | 构建链**提到**该族，但**无任何产物声明它** |
+| `on-shelf` | 71 | 已闭合且带 payload，**无人接** |
+| `unclassified` | 12 | 分层判不出来 |
+| `not-importable` | 51 | 控制流／覆盖分母，不是素材 |
+| `no-material` | 37 | 既没接也没材料 |
+
+⇒ **声明过的接线只有 12 族**（`4.5%`），而差异清单的 `build 93/264 = 35.2%` 是**下界**。
+**两者的差 = 81 族的灰区**：族名出现在构建链里，但按 provenance 审计器自己的契约
+（「**声明才是唯一的连接**」），那**不证明任何字节的血缘**。
+
+**sink 面盘点**：登记表只有 38 个产物；复刻侧另有 **110 手写头 / 34 内容库 /
+1819 图形资产 / 4 运行时源码**没有接线声明载体（不是它们该声明，而是**载体还没做**）。
+粒度提醒：`GENERATED_PRODUCTS` 的设计意图是**按生成器登记**，不是逐文件。
+
+**补全顺序（按成本）**：① 给 81 个 `wired-mentioned` 族补声明（最便宜，它们已经被消费了）；
+② 给 10 个 `wired-ungated` 族补门禁；③ 给内容库/图形资产补载体（结构性修复）；
+④ 71 个 `on-shelf` 族逐个决定去向——**这一步是设计判断，脚本做不了**。
+
+相关：`notes/butano-wiring-coverage-20261022.md`、`notes/butano-usable-backlog-20261022.md`。
+
+### 8.4 第 18 轮（2026-10-22）：**接线点全量枚举修正——声明有「两套载体」，接线数从 12 修正为 66**
+
+§8.3 的六态矩阵只读了 provenance 的**头注释载体**，报出「**只有 12 族有声明的接线**」。
+**这个数是错的。** 第二套载体是**两个 ROM 导入器自带的合同**
+（`tools/butano/import_rom_pixel_ab_baselines.py` / `import_rom_relocation_specs.py`
+的 `*_FAMILIES` 常量：族 + manifest SHA-256，运行期回查、逐文件重算哈希、复制进复刻树），
+**54 族**走的是这条载体（32 pixel-A/B + 22 relocation/writeback），
+产物就在 `artifacts/butano-reverse-m3-import-v1/` 下，
+且 `tests/test_rom_pixel_ab_baseline_import.py` 与 `tests/test_rom_relocation_spec_import.py`
+给这两个导入器做了门禁。
+
+⇒ **带声明的接线 = 66 族（54 导入器 + 12 provenance），且 66 族全部有门禁。**
+§8.3 那 81 族的「只是提到名字」也随之拆开：54 是真接线（导入器载体）、
+22 是 `verify_*` 当证据核对、5 是待判裸引用。
+**另有 26 族是第四种状态**：复刻侧有 exporter（用族名做 schema 标识），
+但**本地产物不在工作树里**（2026-10-19 artifacts 清理带走）——
+它们的 manifest 本地与逆向树**一个都没有**，既不是「接了」也不是「重导出了」。
+
+**最终九态（264 族全覆盖）**：`imported-and-gated` 54、`wired-and-gated` 12、
+`verified-against` 1、`local-derivation-missing` 26、`on-shelf` 71、
+`unclassified` 12、`not-importable` 51、`no-material` 37。
+
+**真正的缺口收敛成三块**：26 族本地产物缺失、71 族无人接、sink 侧无声明载体。
+
+> **教训**：「声明」这件事**先要问有几套载体**，再问有没有。
+> 漏读一套载体，数字差 **54 族（26%）**。抽查必须按「**引用方式**」分类
+> （导入器钉哈希 / verifier 证据核对 / exporter schema 标识），
+> 不能只按「有没有被引用」。
+
+**执行路线图**：见 `docs/butano-wiring-roadmap.md`（W0–W5，按成本与像素收益排序）。
+相关：`notes/butano-wiring-coverage-20261022.md`（含两处自我更正的证据）。

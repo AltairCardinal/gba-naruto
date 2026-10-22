@@ -1,0 +1,50 @@
+{
+  "accepted_child": {
+    "confirmation_parent_sha256": "95cc6805139fa6bad2a8af3353bcc161b38db51067b558f02b6c7c1dc4764012",
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-active-c3-evidence.json",
+    "sha256": "384777650c70f4153fc9e6dc3fe86e089c57cc17608f7a3537b3053e475147e6"
+  },
+  "artifact_status": "accepted",
+  "battle": {
+    "battle_id": 14,
+    "battle_local_tool": {
+      "character_id": 1,
+      "ninja_tool_id": 67,
+      "tool_slot": 0,
+      "unit_slot": 1
+    }
+  },
+  "input": {
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-entry.ss9",
+    "sha256": "2c95de937efb785d537c45f39224bb3fdae319e410f6abbc3cbdfcc32fb2812c"
+  },
+  "next_input": "A:5:13",
+  "output": {
+    "external_png_sha256": "603e97fe2440be4e45a641718874786c7d84d71fbb82446cc211fd3e680dbd29",
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-confirmation.ss9",
+    "sha256": "95cc6805139fa6bad2a8af3353bcc161b38db51067b558f02b6c7c1dc4764012",
+    "visible_boundary": "battle 14 引爆牌 target selected with 是 highlighted; final confirmation has not been pressed"
+  },
+  "route": {
+    "description": "The accepted battle-14 entry was advanced through Naruto selection, movement cancellation, 引爆牌 selection and one-cell-right targeting. The already accepted active-C3 child evidence hash-locks this exact state as its final-confirmation parent."
+  },
+  "restore_verification": {
+    "audit_sha256": "b62ba0517682346d7ebe408e829cb8edc20c8dbf023f85111ccbf4f8ab459708",
+    "capture_frame": 60,
+    "guard_summary_sha256": "edc21f2102bf5215f30df4223a75f8a35c9bb086a21b727e48e7b830b0133315",
+    "mgba_listener_clean": true,
+    "output_png_sha256": "3968516ea87361477bbb26f1e092d699a3ce635010402bac13e22cb43a9b0e0c",
+    "output_state_sha256": "1760de319f2992df2cd9a9eaf606a1a01bcf07e020eaf658e4672ab58016b41e",
+    "peak_tree_rss_mib": 65.0234375,
+    "pgid_clean": true,
+    "zero_input_verified": true
+  },
+  "schema": "runtime-checkpoint-input-chain-evidence-v1",
+  "scope": {
+    "battle_local_tool_verified": true,
+    "checkpoint_bytes_anchored_by_accepted_child": true,
+    "natural_action_submission_verified": false,
+    "natural_confirmation_screen_observed": true,
+    "natural_object_creation_verified": false
+  }
+}

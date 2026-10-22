@@ -15,7 +15,7 @@
 - 合计：**436** 个 note 文件
 - 其中不重复的 note id：398（证据包内嵌的快照与顶层同名，计数以文件为单位）
 - 逆向 commit：`821d0937e058245aa7e6d29f23f96c7fc78e7375`
-- 扫描文件数：4358
+- 扫描文件数：4434
 
 - `needs_guard` 里有 **19** 条已经在 `tests/` 被引用过，**314** 条连测试都没有引用 ⇒ P2 的真实分母是后者。⚠️ **上界不是真值**：`tests/` 里的引用可能是**文档类测试**而不是行为门禁，所以「已被引用」只能当作「可能已有门禁」的上界，逐条判定仍需人看。
 
@@ -65,7 +65,7 @@
 | `notes/dialogue-watch-vram-glyph.md` | other | `tools/mgba_trace_dialogue_writes.lua:32` | code |
 | `notes/dialogue-watch-vram-tilemap.md` | other | `tools/mgba_trace_dialogue_writes.lua:24` | code |
 | `notes/dialogue-watch-wram.md` | other | `tools/README.md:699`、`tools/README.md:701`、`tools/mgba_trace_dialogue_writes.lua:16` | code |
-| `notes/free-space.md` | other | `tools/import_chapter_scripts.py:50`、`tools/import_chapter_scripts.py:52` | code |
+| `notes/free-space.md` | other | `tools/import_chapter_scripts.py:50`、`tools/import_chapter_scripts.py:52`、`tools/import_dialogue_var.py:71` | code |
 | `notes/macos-intel-runtime-preflight-20260715.md` | other | `tools/README.md:811` | markdown-mention |
 | `notes/ninja-tool-addresses.md` | other | `sequel/content/battle-config/ninja-tool-identities.json:3` | code |
 | `notes/positions-rom-source-20260710.md` | other | `tools/extract_positions.py:4`、`tools/extract_positions.py:266` | code |

@@ -1,0 +1,124 @@
+{
+  "grid_geometry": {
+    "granularity_mismatch": true,
+    "original_logical_cell_px": [
+      16,
+      16
+    ],
+    "remake_cell_height": 16,
+    "remake_cell_width": 32,
+    "remake_map_center": [
+      256,
+      256
+    ]
+  },
+  "measured_at_rom": "02bf3573118f4b43d58189db6816a5d0d2d47190f23e0f1d3c6abd5dbb217803",
+  "original_overlay": {
+    "bpp": 4,
+    "families": {
+      "attack_cursor": [
+        266,
+        267,
+        268,
+        269
+      ],
+      "blocked": [
+        278,
+        279,
+        280,
+        281
+      ],
+      "cursor": [
+        270,
+        271,
+        272,
+        273
+      ],
+      "grid_web": [
+        258,
+        259,
+        260,
+        261
+      ],
+      "move_lens": [
+        262,
+        263,
+        264,
+        265
+      ],
+      "none": [
+        256,
+        257
+      ],
+      "target": [
+        274,
+        275,
+        276,
+        277
+      ]
+    },
+    "layer": "BG2",
+    "palette_bank": 12,
+    "scroll": {
+      "hoffs": 240,
+      "voffs": 24
+    },
+    "tilemap": {
+      "columns": 32,
+      "entries": 1024,
+      "rows": 32
+    },
+    "tiles": {
+      "bytes_4bpp": 1024,
+      "count": 32,
+      "first_index": 256
+    },
+    "visible_window": {
+      "columns": 30,
+      "rows": 20
+    }
+  },
+  "overlay_layer": {
+    "blend": {
+      "denominator": 16,
+      "matches_original": true,
+      "numerator": 10
+    },
+    "class": "battle_range_overlay (butano-sequel/game/src/battle_runtime_scene.cpp:1996)",
+    "map": {
+      "bytes": 2048,
+      "columns": 32,
+      "note": "the visible window is the top-left 30x20 of the map; the original's window is reached by rotating the index, not by scrolling",
+      "rows": 32,
+      "screen_position": [
+        0,
+        0
+      ],
+      "scroll": [
+        0,
+        0
+      ]
+    },
+    "palette_indices": [
+      225,
+      235
+    ],
+    "palette_matches_original_bank12": true,
+    "priority": 2,
+    "tiles": {
+      "bpp": 8,
+      "bytes_now": 4928,
+      "bytes_with_original_tiles": 3328,
+      "delta_bytes": -1600,
+      "logical_tiles_now": 77,
+      "note": "24 family tiles (2x2 per kind, the original's variants) + the 28 action-menu glyph tiles (25..52) = 52 logical tiles = 104 storage tiles = 3328 bytes",
+      "storage_tiles_now": 154
+    }
+  },
+  "residual_attribution": {
+    "baseline_pixels": 2917,
+    "blocked_missing": 2317,
+    "move_lens_border": 600
+  },
+  "schema": "konoha.s49-overlay-plan.v1"
+}

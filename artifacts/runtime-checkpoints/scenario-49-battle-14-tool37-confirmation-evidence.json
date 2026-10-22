@@ -1,0 +1,50 @@
+{
+  "schema": "runtime-checkpoint-input-chain-evidence-v1",
+  "artifact_status": "accepted",
+  "accepted_child": {
+    "confirmation_parent_sha256": "af37457d4cd41e180e61338fed77d6322b4aecd21386917739f2e56599708a46",
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-group17-active-evidence.json",
+    "sha256": "95af37047ce133f11d1a9bb0e8c74208b62d8a802510c73a1a2b59629513d023"
+  },
+  "battle": {
+    "battle_id": 14,
+    "battle_local_tool": {
+      "character_id": 1,
+      "ninja_tool_id": 37,
+      "tool_slot": 0,
+      "unit_slot": 1
+    }
+  },
+  "input": {
+    "path": "artifacts/runtime-checkpoints/scenario-49-post-training-task-menu.ss9",
+    "sha256": "365e15623485785bd95e5509355ca466c77b0b3e8b7e132cb8f5f9a11b687c5b"
+  },
+  "next_input": "A:5:13",
+  "output": {
+    "external_png_sha256": "9280b784a3334255060e6cf14bba2bffcc52c695c435e3b923828c98a7a32487",
+    "path": "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation.ss9",
+    "sha256": "af37457d4cd41e180e61338fed77d6322b4aecd21386917739f2e56599708a46",
+    "visible_boundary": "battle 14 ninja-tool 37 target selected with yes highlighted; final confirmation has not been pressed"
+  },
+  "route": {
+    "description": "From the accepted post-training task-menu checkpoint, tool 37 was equipped to Naruto, battle 14 was started, the existing intro route was replayed, and tool 37 was selected against the adjacent target cell. Every reusable menu, battle-entry, action-menu and final-confirmation boundary received a zero-input restore run before reuse."
+  },
+  "restore_verification": {
+    "audit_sha256": "d0cd4f69bee4333baebd4d941d389da78e24d6b5e420f2fe555a2d533e852373",
+    "capture_frame": 60,
+    "guard_summary_sha256": "fd1d5a3240743342dfd11ed2e793362a1c07b85e6533945724612eb915aa7d43",
+    "mgba_listener_clean": true,
+    "output_png_sha256": "9280b784a3334255060e6cf14bba2bffcc52c695c435e3b923828c98a7a32487",
+    "output_state_sha256": "af37457d4cd41e180e61338fed77d6322b4aecd21386917739f2e56599708a46",
+    "peak_tree_rss_mib": 65.2890625,
+    "pgid_clean": true,
+    "zero_input_verified": true
+  },
+  "scope": {
+    "battle_local_tool_verified": true,
+    "checkpoint_bytes_anchored_by_accepted_child": true,
+    "natural_action_submission_verified": false,
+    "natural_confirmation_screen_observed": true,
+    "natural_group17_creation_verified": false
+  }
+}

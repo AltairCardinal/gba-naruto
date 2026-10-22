@@ -8,7 +8,10 @@
 
 ## 2. 图块模型（已确立）
 
-GBA 4bpp = **每字节 2 像素**（高半字节 = 左像素，低半字节 = 右像素，每行 4 字节 = 8 像素）。
+GBA 4bpp = **每字节 2 像素**（**低半字节 = 左像素，高半字节 = 右像素**，每行 4 字节 = 8 像素）。
+⚠️ **第 26 轮更正**：此处原写「高半字节 = 左」，是**错的** —— 原版 movegrid 帧里同一个 8 px 图块内
+x=46 显 'a' 色、x=47 显 'b' 色，只有「低半字节在左」能同时解释；
+`tools/butano/export_s49_movegrid_tilemap.py` / `tools/butano/export_s49_overlay_screentruth.py` 已改正并重导出。
 按此解码 `artifacts/s49-original-movegrid-overlay-v1/movegrid-tiles-4bpp.bin`（1024 B = 32 块）：
 
 | 图块 | 填充色 | 边色 | 四个变体 |

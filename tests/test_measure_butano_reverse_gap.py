@@ -186,6 +186,30 @@ class GapMeasurementTest(unittest.TestCase):
         self.assertIn("roadmap-family-v1", payload["gap_families"])
         self.assertIn("theory-family-v1", payload["gap_families"])
 
+    def test_the_usable_backlog_receipt_is_not_a_reference(self) -> None:
+        """The usable-backlog receipt enumerates every family in its rows.
+
+        It is a bulk enumerator of the measured population -- a measurement of
+        the *other* measurement's question.  Counting it would lift every
+        untouched family from `none`/`doc` to `local_artifact` and make a
+        second run of this tool disagree with the first.
+        """
+        self._build_tree()
+        _write(
+            self.root / "artifacts" / "butano-usable-backlog-v1" / "backlog.json",
+            json.dumps(
+                {
+                    "shelf": [
+                        {"id": "backlog-family-v1", "tier": "asset-direct"},
+                    ]
+                }
+            ),
+        )
+        payload = self._run(_index([_family("backlog-family-v1")]))
+        row = payload["rows"][0]
+        self.assertEqual(row["status"], "none")
+        self.assertIn("backlog-family-v1", payload["gap_families"])
+
     def test_the_notes_index_is_not_a_reference(self) -> None:
         """The notes index classifies every note, so it names all of them.
 

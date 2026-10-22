@@ -1,0 +1,4735 @@
+{
+  "generated_at": "2026-10-21T20:02:52.443189+00:00",
+  "inputs": {
+    "backlog": {
+      "path": "artifacts/butano-usable-backlog-v1/backlog.json",
+      "sha256": "116b5061ba5e8a462ea6f14269cf336d3ea22c82fbcc3b41eb4e1fffbad882f4"
+    },
+    "gap": {
+      "path": "artifacts/butano-reverse-gap-v1/gap.json",
+      "sha256": "72a52f658b150f02a7dd046450d86a78f1f67bd9ec531b4ac9ed9170e3c22dc2"
+    },
+    "index": {
+      "path": "artifacts/reverse-results-index-v1/index.json",
+      "sha256": "a38f7f2e81e31d6674e07499c58766bea31e7edb4a5c1dbf1f3009c88b61b89a"
+    },
+    "reverse_root": "/Users/altair/github/gba-naruto-reverse"
+  },
+  "rules": {
+    "gated": "a test file names the product -- an UPPER BOUND, not a verdict",
+    "imported": "the family is pinned by manifest SHA-256 in a ROM importer and its files are copied into this tree -- a declared wire through the importer's own carrier",
+    "local_derivation": "a remake-side tool uses the family name as a schema tag and writes this tree's own artifacts/<family>/ -- the state says whether that copy is present and whether it still matches the reverse tree's original",
+    "no_material": "neither declared, nor mentioned by the build chain, nor carrying importable payload",
+    "not_importable": "no importable payload: control-flow / coverage analysis",
+    "shelf": "accepted, carries a payload, bound to no product",
+    "sink_declared": "product is in a generator's GENERATED_PRODUCTS and carries a declaration",
+    "sink_undeclared": "remake source or data that no generator claims and that carries no declaration",
+    "verified_against": "the family is only read as evidence by a verifier; the remake does not consume its payload",
+    "wired": "a declared product binds the family",
+    "wired_mentioned": "the build chain names the family but NO product declares it -- the gap tool's lower bound, not a proven lineage"
+  },
+  "schema": "konoha.butano-wiring-coverage.v1",
+  "sink_rows": [
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py",
+        "tests/test_s49_action_menu_glyphs.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/battle_action_menu_sprite_font.h",
+      "reasons": [
+        "the sprite font is a remake side reconstruction, not a ROM byte derivative: the glyph bitmaps in butano-sequel/graphics are cropped from original screenshots, rendered with a system font or taken from Butano's own common font atlas, the character widths come from Butano's own sprite font metrics, and the character list is the deduplicated set of the characters of the identity display names that generated_battle_identity_content.h declares plus the original scenario 41 ui text"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/battle_duel_status_sprite_font.h",
+      "reasons": [
+        "the sprite font is a remake side reconstruction, not a ROM byte derivative: the glyph bitmaps in butano-sequel/graphics are cropped from original screenshots, rendered with a system font or taken from Butano's own common font atlas, the character widths come from Butano's own sprite font metrics, and the character list is the deduplicated set of the characters of the identity display names that generated_battle_identity_content.h declares plus the original scenario 41 ui text"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/battle_identity_sprite_font.h",
+      "reasons": [
+        "the sprite font is a remake side reconstruction, not a ROM byte derivative: the glyph bitmaps in butano-sequel/graphics are cropped from original screenshots, rendered with a system font or taken from Butano's own common font atlas, the character widths come from Butano's own sprite font metrics, and the character list is the deduplicated set of the characters of the identity display names that generated_battle_identity_content.h declares plus the original scenario 41 ui text"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [
+        "rom-battle-controller-cfg-v1"
+      ],
+      "gated_by": [
+        "tests/test_battle_scene_phase_mapping.py"
+      ],
+      "generator": "tools/butano/generate_battle_original_states.py",
+      "path": "butano-sequel/game/include/konoha/battle_original_states.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/battle_preparation_sprite_font.h",
+      "reasons": [
+        "the sprite font is a remake side reconstruction, not a ROM byte derivative: the glyph bitmaps in butano-sequel/graphics are cropped from original screenshots, rendered with a system font or taken from Butano's own common font atlas, the character widths come from Butano's own sprite font metrics, and the character list is the deduplicated set of the characters of the identity display names that generated_battle_identity_content.h declares plus the original scenario 41 ui text"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/battle_result_compact_sprite_font.h",
+      "reasons": [
+        "the sprite font is a remake side reconstruction, not a ROM byte derivative: the glyph bitmaps in butano-sequel/graphics are cropped from original screenshots, rendered with a system font or taken from Butano's own common font atlas, the character widths come from Butano's own sprite font metrics, and the character list is the deduplicated set of the characters of the identity display names that generated_battle_identity_content.h declares plus the original scenario 41 ui text"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/battle_result_sprite_font.h",
+      "reasons": [
+        "the sprite font is a remake side reconstruction, not a ROM byte derivative: the glyph bitmaps in butano-sequel/graphics are cropped from original screenshots, rendered with a system font or taken from Butano's own common font atlas, the character widths come from Butano's own sprite font metrics, and the character list is the deduplicated set of the characters of the identity display names that generated_battle_identity_content.h declares plus the original scenario 41 ui text"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/battle_target_metrics_sprite_font.h",
+      "reasons": [
+        "the sprite font is a remake side reconstruction, not a ROM byte derivative: the glyph bitmaps in butano-sequel/graphics are cropped from original screenshots, rendered with a system font or taken from Butano's own common font atlas, the character widths come from Butano's own sprite font metrics, and the character list is the deduplicated set of the characters of the identity display names that generated_battle_identity_content.h declares plus the original scenario 41 ui text"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/battle_target_status_sprite_font.h",
+      "reasons": [
+        "the sprite font is a remake side reconstruction, not a ROM byte derivative: the glyph bitmaps in butano-sequel/graphics are cropped from original screenshots, rendered with a system font or taken from Butano's own common font atlas, the character widths come from Butano's own sprite font metrics, and the character list is the deduplicated set of the characters of the identity display names that generated_battle_identity_content.h declares plus the original scenario 41 ui text"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_battle_ui_font_contract.py",
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py",
+        "tests/test_s49_command_menu_chakra_glyphs.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/battle_ui_sprite_font.h",
+      "reasons": [
+        "the sprite font is a remake side reconstruction, not a ROM byte derivative: the glyph bitmaps in butano-sequel/graphics are cropped from original screenshots, rendered with a system font or taken from Butano's own common font atlas, the character widths come from Butano's own sprite font metrics, and the character list is the deduplicated set of the characters of the identity display names that generated_battle_identity_content.h declares plus the original scenario 41 ui text"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_action_05_dust_effect_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_action_05_dust_effect_items.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_action_05_effect_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_action_05_effect_items.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_action_16_fire_effect_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_action_16_fire_effect_items.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-visual-catalog-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_action_16_movie.py"
+      ],
+      "generator": "tools/butano/generate_battle_action_16_movie.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_action_16_movie_runtime_content.h",
+      "reasons": [
+        "the fire palettes and the blend weights come from the captured original gpu trace (pram and io dumps), not from a rom byte region"
+      ],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-sequence-bindings-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_action_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_action_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_action_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "map-canvases-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_runtime_assets.py"
+      ],
+      "generator": "tools/generate_butano_battle_runtime_assets.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_background_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [],
+      "gated_by": [],
+      "generator": "tools/generate_butano_battlefield_overlay.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_battlefield_overlay_content.h",
+      "reasons": [
+        "the layout was dumped from the original's VRAM at runtime into artifacts/s49-original-battlefield-overlay-v1/, which is a remake-tree runtime receipt and not a reverse-tree artifact family"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [],
+      "gated_by": [],
+      "generator": "tools/generate_butano_battlefield_overlay.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_battlefield_overlay_tiles.h",
+      "reasons": [
+        "the tiles were dumped from the original's VRAM at runtime into artifacts/s49-original-movegrid-tilemap-v1/, which is a remake-tree runtime receipt and not a reverse-tree artifact family"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [
+        "rom-battle-condition-records-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_condition_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_condition_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_condition_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "rom-fixed-consumer-text-inventory-v1"
+      ],
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_identity_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_identity_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "map-canvases-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_map_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_map_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_map_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "rom-pointer-lz77-inventory-v1"
+      ],
+      "gated_by": [
+        "tests/test_s49_movegrid_overlay_assets.py",
+        "tests/test_s49_movegrid_overlay_assets.py"
+      ],
+      "generator": "tools/generate_butano_movegrid_overlay_assets.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_movegrid_overlay_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_ninja_tool_bomb_projectile_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_ninja_tool_bomb_projectile_items.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_ninja_tool_bomb_smoke_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "battle-effect-resource-pairs-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "generator": "tools/butano/generate_battle_effect_sequence.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_ninja_tool_bomb_smoke_items.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_generate_butano_battle_passive_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_passive_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_passive_content.h",
+      "reasons": [
+        "no signed reverse manifest records the levels table 0x5459C8"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [
+        "rom-chapter-script-inventory-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_presentation_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_presentation_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_presentation_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "dialogue-font-v2"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_presentation_glyphs.py"
+      ],
+      "generator": "tools/generate_butano_battle_presentation_glyphs.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_presentation_glyph_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "menu-portraits-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_portrait_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_portrait_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_presentation_portrait_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_generate_butano_battle_result_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_result_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_result_content.h",
+      "reasons": [
+        "no signed reverse manifest records the reward table 0x59EAE0, the experience threshold table 0x59F560 or the character stats table 0x545068"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [
+        "map-canvases-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_scenario_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_scenario_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_scenario_content.h",
+      "reasons": [
+        "no signed reverse manifest records the positions table 0x5461C4"
+      ],
+      "state": "declared"
+    },
+    {
+      "families": [],
+      "gated_by": [
+        "tests/test_generate_butano_battle_unit_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_unit_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_unit_content.h",
+      "reasons": [
+        "no signed reverse manifest records the units table 0x54241C"
+      ],
+      "state": "declared-not-applicable"
+    },
+    {
+      "families": [
+        "character-battle-visuals-v1"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_unit_visual_content.py"
+      ],
+      "generator": "tools/generate_butano_battle_unit_visual_content.py",
+      "path": "butano-sequel/game/include/konoha/generated_battle_unit_visual_content.h",
+      "reasons": [],
+      "state": "declared"
+    },
+    {
+      "families": [
+        "dialogue-font-v2"
+      ],
+      "gated_by": [
+        "tests/test_generate_butano_battle_presentation_glyphs.py"
+      ],
+      "generator": "tools/generate_butano_battle_presentation_glyphs.py",
+      "path": "butano-sequel/graphics/generated_battle_presentation_glyph_content.h",
+      "reasons": [],
+      "state": "declared"
+    }
+  ],
+  "sink_surface": {
+    "_banks": [
+      "sequel/content/audio/bank.json",
+      "sequel/content/battle-config/bank.json",
+      "sequel/content/battle-encounters/bank.json",
+      "sequel/content/battle-handlers/bank.json",
+      "sequel/content/battle-presentation-scripts/bank.json",
+      "sequel/content/battle-results/bank.json",
+      "sequel/content/character-stats-b/bank.json",
+      "sequel/content/character-stats/bank.json",
+      "sequel/content/cutscene-scripts/bank.json",
+      "sequel/content/data-table-a/bank.json",
+      "sequel/content/data-table-b/bank.json",
+      "sequel/content/encounter-zones/bank.json",
+      "sequel/content/fonts/bank.json",
+      "sequel/content/function-pointers/bank.json",
+      "sequel/content/items/bank.json",
+      "sequel/content/levels/bank.json",
+      "sequel/content/map-events/bank.json",
+      "sequel/content/map-sprites/bank.json",
+      "sequel/content/maps/bank.json",
+      "sequel/content/menu-ui/bank.json",
+      "sequel/content/palettes/bank.json",
+      "sequel/content/positions/bank.json",
+      "sequel/content/resource-pointers/bank.json",
+      "sequel/content/sappy-engine/bank.json",
+      "sequel/content/save-state/bank.json",
+      "sequel/content/skills/bank.json",
+      "sequel/content/sprite-animations/bank.json",
+      "sequel/content/story-b/bank.json",
+      "sequel/content/story-c/bank.json",
+      "sequel/content/story-d/bank.json",
+      "sequel/content/story-e/bank.json",
+      "sequel/content/story/bank.json",
+      "sequel/content/tile-assets/bank.json",
+      "sequel/content/units/bank.json"
+    ],
+    "_generated": [
+      "generated_battle_action_05_dust_effect_content.h",
+      "generated_battle_action_05_dust_effect_items.h",
+      "generated_battle_action_05_effect_content.h",
+      "generated_battle_action_05_effect_items.h",
+      "generated_battle_action_16_fire_effect_content.h",
+      "generated_battle_action_16_fire_effect_items.h",
+      "generated_battle_action_16_movie_runtime_content.h",
+      "generated_battle_action_content.h",
+      "generated_battle_background_content.h",
+      "generated_battle_battlefield_overlay_content.h",
+      "generated_battle_battlefield_overlay_tiles.h",
+      "generated_battle_condition_content.h",
+      "generated_battle_identity_content.h",
+      "generated_battle_map_content.h",
+      "generated_battle_movegrid_overlay_content.h",
+      "generated_battle_ninja_tool_bomb_projectile_content.h",
+      "generated_battle_ninja_tool_bomb_projectile_items.h",
+      "generated_battle_ninja_tool_bomb_smoke_content.h",
+      "generated_battle_ninja_tool_bomb_smoke_items.h",
+      "generated_battle_passive_content.h",
+      "generated_battle_presentation_content.h",
+      "generated_battle_presentation_glyph_content.h",
+      "generated_battle_presentation_portrait_content.h",
+      "generated_battle_result_content.h",
+      "generated_battle_scenario_content.h",
+      "generated_battle_unit_content.h",
+      "generated_battle_unit_visual_content.h"
+    ],
+    "_handwritten": [
+      "battle_action_animation.h",
+      "battle_action_browser.h",
+      "battle_action_catalog.h",
+      "battle_action_combinations.h",
+      "battle_action_eligibility.h",
+      "battle_action_execution.h",
+      "battle_action_identity.h",
+      "battle_action_loadout.h",
+      "battle_action_menu_sprite_font.h",
+      "battle_action_progression.h",
+      "battle_action_system.h",
+      "battle_action_ui_map_projection.h",
+      "battle_actor_choreography.h",
+      "battle_ai.h",
+      "battle_ai_candidate_field.h",
+      "battle_ai_candidate_score.h",
+      "battle_ai_scenario_rules.h",
+      "battle_ai_secondary_command.h",
+      "battle_ai_target_index.h",
+      "battle_ai_turn_flow.h",
+      "battle_ai_utility.h",
+      "battle_arena_roster.h",
+      "battle_attributes.h",
+      "battle_audio_director.h",
+      "battle_audio_runtime.h",
+      "battle_background_stream.h",
+      "battle_campaign.h",
+      "battle_campaign_equipment_service.h",
+      "battle_campaign_inventory.h",
+      "battle_campaign_inventory_allocation.h",
+      "battle_campaign_route.h",
+      "battle_campaign_save.h",
+      "battle_campaign_scene_progression.h",
+      "battle_campaign_sram.h",
+      "battle_capture_policy.h",
+      "battle_combat_presentation.h",
+      "battle_command_blockers.h",
+      "battle_command_browser.h",
+      "battle_commands.h",
+      "battle_conditions.h",
+      "battle_content_catalog.h",
+      "battle_defense_browser.h",
+      "battle_defense_preparation.h",
+      "battle_deployment_flow.h",
+      "battle_direct_attack.h",
+      "battle_duel_status_sprite_font.h",
+      "battle_effect_sequence.h",
+      "battle_encounter_runtime.h",
+      "battle_identity_sprite_font.h",
+      "battle_map_content.h",
+      "battle_map_loader.h",
+      "battle_map_movement.h",
+      "battle_map_scenery.h",
+      "battle_map_topology_distance.h",
+      "battle_map_visual_projection.h",
+      "battle_material_pickups.h",
+      "battle_mission_objective.h",
+      "battle_mission_rules.h",
+      "battle_objectives.h",
+      "battle_original_states.h",
+      "battle_passives.h",
+      "battle_player_action_flow.h",
+      "battle_preparation_flow.h",
+      "battle_preparation_scene.h",
+      "battle_preparation_sprite_font.h",
+      "battle_presentation.h",
+      "battle_presentation_content.h",
+      "battle_presentation_portrait_renderer.h",
+      "battle_presentation_projection.h",
+      "battle_presentation_script.h",
+      "battle_presentation_text_layout.h",
+      "battle_primary_training_flow.h",
+      "battle_progression.h",
+      "battle_random.h",
+      "battle_range_ui_style.h",
+      "battle_resource_commands.h",
+      "battle_result_compact_sprite_font.h",
+      "battle_result_content.h",
+      "battle_result_policy.h",
+      "battle_result_sprite_font.h",
+      "battle_results.h",
+      "battle_runtime_grid.h",
+      "battle_runtime_result.h",
+      "battle_runtime_scene.h",
+      "battle_scenario_content.h",
+      "battle_scenario_loader.h",
+      "battle_scene_controller.h",
+      "battle_scene_presentation.h",
+      "battle_scene_presentation_event.h",
+      "battle_session.h",
+      "battle_side_start_passives.h",
+      "battle_status_policies.h",
+      "battle_status_store.h",
+      "battle_target_metrics_sprite_font.h",
+      "battle_target_set.h",
+      "battle_target_status_sprite_font.h",
+      "battle_terrain_traversal.h",
+      "battle_training_flow.h",
+      "battle_turn_flow.h",
+      "battle_ui_model.h",
+      "battle_ui_sprite_font.h",
+      "battle_unit_content.h",
+      "battle_unit_visual_animation.h",
+      "battle_visual_resource_coordinator.h",
+      "battlefield_objects.h",
+      "grid_pathfinder.h",
+      "ninja_tool_eligibility.h",
+      "ninja_tool_upgrade_service.h",
+      "scenario_41_definition.h",
+      "scenario_43_scene.h"
+    ],
+    "content_banks": 34,
+    "game_sources": 4,
+    "generated_headers": 27,
+    "graphic_assets": 1819,
+    "handwritten_headers": 110,
+    "test_modules": 373
+  },
+  "source_rows": [
+    {
+      "category": "battle",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-encounters-story-visual-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-encounters-story-visual-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "6fc7148a5ec464142ac42d058751238bb0779f7e7f5fc4e7834bbd4dcc018c63",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/map-events-e4-handler-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "map-events-e4-handler-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "35f337be0534a1b93e9acc927eac35b981f4380bec99aed79d5abbb354912e48",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/map-resource-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "map-resource-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "5c229b20e9842fc10da92b1fc64594d4766c4554ced744c9a343e0c844410d07",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/map-resource-writeback-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "map-resource-writeback-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "9c7333e7c817133738e035f32526ce1f065a6f223aeae02b87ef3ab56526439e",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/map-sprites-definition-id1-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "map-sprites-definition-id1-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "0175f0ee8ec2184e1c3a15bd192e55d99fc4e5487fdc426209d7fe758d03ab06",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/map41-primary-layout-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "map41-primary-layout-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "56dedcd21904cc65b1e3582894128a5b62fab02bbb9f1c9830b456e0d4a11d25",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/world-map-background-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "world-map-background-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "90d45034d427bedb076c53d9ab315437f2ce6e8c6634a69ab4513e7d6c5a2f39",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/world-map-page0-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "world-map-page0-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "fef4ec504187bf0f3a36862bf9a067317124e02091f1317320504041da53bea7",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "other",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/data-table-b-message0-pointer-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "data-table-b-message0-pointer-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "fc0310e3f40d493ac0502d27bf2490817659999e32fa5bcade639f0699a50e9b",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "other",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/direct-image-palette-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "direct-image-palette-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "996a9dc0dfd9174154a3cdae9bfbdafd03799fc75fad91d646b21a3e8cced3c1",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "other",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/generic-sprite-bundle-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "generic-sprite-bundle-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "775bc2ed1fa6d64e0107b5318cbfdfba7c70b07d7c29b54e3d1dac885e9aa941",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "other",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/motion-effect-parameter-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "motion-effect-parameter-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "3741e9465acc813e881493c3c91bef2101e879d6b565ecbc8e01e98b902b9abd",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/cutscene-obj-bundle-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "cutscene-obj-bundle-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "5438878f03972989ca20c302cce4a526b594208b8458399a2b0d2d2455b1868b",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/cutscene-obj-id1-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "cutscene-obj-id1-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "c31638348f1f72a9a96e5fa13865974c83420e9afd55d096d1ff7455ee51052c",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/menu-portrait-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "menu-portrait-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "c09b4784e18db4177cc44a089501ccea29699a666bcf969555ba331d916d91ae",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/menu-portrait-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "menu-portrait-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "451237d76f5208b2f36d7c7eeb29c8b86dfb051075b8aa39fccd8bfce15118ca",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/menu-portrait-writeback-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "menu-portrait-writeback-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "dbae133169f8ced45eb0893535084c5488345cfe2d3be6c6fef1611e3352278a",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/story-visual-resource-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "story-visual-resource-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "8b6de4effe5fe10da40cb60e80ad9cf713d456a6650cf5a6054ebb258cfe9846",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-lz77-graphics-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "residual-lz77-graphics-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "14b9667a6a3fada3cda3baf0c76352bd2192156c9d533da4916229d1883b2e18",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-text-bg-tilemap-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "residual-text-bg-tilemap-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "14418c429239eb953f1aefa15e12ddbcaf4b9e13adb7f44f686134440b307679",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-derived-tilemap-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "residual-wram-derived-tilemap-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "1cf450ddb482b287d62d108660443b332f988007eef07f34726fa30a218f0030",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/residual-wram-tilemap-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "residual-wram-tilemap-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "46dba8f095d1fa2f07afbd6ac9f4405a5315f5ccc050f5fb1187502fd3088c2c",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-tilemap-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "residual-wram-tilemap-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "93a767b4a81e8742e75d24943823ca3b140b056ebb67db8d7c84df039609e5c2",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group03-controlled-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group03-controlled-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "cb8e62f8de2bca8e550b0cc5704965c93d1f5d0b9d8d4f5f9c7d867502308729",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group03-natural-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group03-natural-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "1d443078e52355b11b7324e82b11fda4e115c24e92301d3fd92515c2980e3c10",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group06-controlled-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group06-controlled-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "45512206443c21500a670d7aea8ebd0c2f5678aeed096cddf0730786edbac30b",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group07-controlled-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group07-controlled-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "25c6823fec18cdd32681a8a9a004378362eb11018850206d8440724fd98815f8",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group08-controlled-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group08-controlled-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "192b608f0e3d4fb92fbe2d3fcfc8dae755253790d7c579bc24a25469bc996738",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group09-controlled-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group09-controlled-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "59d743e6ee65ed6efc0e86cf0716065ba04d1a1c512fbe1d1bdf39f7a98ebaac",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group1-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group1-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "9921f8060278ebe9227def7fa1917ce78bcc020e09d2e4e3b9ba59a23d272506",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group10-controlled-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group10-controlled-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "384ec82bd668d7ebe330c650ed0dc93ab42d7d0b65e119973fce5d8b133d9ed1",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group11-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group11-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "b955b67eb1174d1dc33e74874e12ac952b609fc34ca33c0b060e6210a3338c53",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group12-controlled-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group12-controlled-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "440606b9f367e3bfff873e436fd7afa1f29a915204ec2be1de4845de676e571f",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group13-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group13-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "41e7c9af6cee5e8008085c8cbf73c36ecd4a1b37316b5ad92e83f4af7c2111b5",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group14-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group14-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "74261b05f61b160dcbdd181eb94db56fdb6d3457716d19258394f4b6e2da2e75",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group15-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group15-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "4417d160289a72acb1d981c49063acaca9c51a498755ed95efbccdf5a36a1c6b",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group16-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group16-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "393eee18bcecc2b1ddf6afa75fa325878ee528942b28c5db1ab4d5beeddb294f",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group17-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group17-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "22763a552782012c368a31554ed6d90861f4a86d1035c97317838de63f22cb68",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group18-controlled-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group18-controlled-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "2bf6f491a1e24d0befec303cd7ba0a8a2087946ccf25b1c0ecf704caa86256e1",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group18-natural-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group18-natural-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "b74cc6e135bbb9cd3ac60e6cfe119cc3a43e75a9f28de36d676e49099f38a4b6",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group2-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group2-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "a0be99cd55c092c96f355d9a9a2efc8e08b102ec5cb864463c826f30b19462b4",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group4-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group4-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "d88126122731f83b31ee06731afb33ea4b9641e3b3a33d2e639ff0358f288c34",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group5-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "battle-effect-group5-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "74c4afb1cb0d5079236d61d09adc7778d9009b6d2eb25e1f59003c7bcce672d0",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-resource-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "battle-effect-resource-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "d1076ca1a1fc7ad4f6bc0fdc8fe0ebfc3eb51132721d5cf165237d8d3d46da9f",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-resource-writeback-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "battle-effect-resource-writeback-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "47970ba90a761de5eeb67eebaea574558b2e780b8483129e22a02dbd61d3cb3c",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/bg-resource-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "bg-resource-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "b4ce592ce1fc203a1e25943181a0e1e9b1cfd95f76537ba01dbbde0fb8b62199",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/bg-resource-writeback-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "bg-resource-writeback-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "e14e1c9f43f26ebf6dbe34b3d813d50e90480a2f197a9771f76ccab821c08728",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/character-battle-bundle-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "character-battle-bundle-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "4f51f3fa95a29b3f8328e6d67ee7a60efe85383476aefc26f864fcbb9fa9dc20",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/character-battle-graphics-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "character-battle-graphics-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "8dc56720ded15ca9e39d7cc75b2e941969ad020289c7cc2c4ffcc7fe73052a1c",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/character-battle-graphics-writeback-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "character-battle-graphics-writeback-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "a6d6aa819842e6d477111573f7d4d34608055e916dbe1126d7ff1a06fa4a41b4",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/character-battle-palette-writeback-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "character-battle-palette-writeback-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "262d1a8480cb93fe996e2c56412df0b3b559771b0c8a63c40a43fcafc6e944f0",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/character-battle-structure-writeback-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "character-battle-structure-writeback-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "e3727d069742f6dbe9bc26c9765060dfc725f61cf10f76da5de4ad1cf768e672",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/tile-asset-descriptor2-pixel-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "tile-asset-descriptor2-pixel-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "cceaa7a92507ac99fc0e9fc2abe40ba65426d4de5de03af671619510a3f1d5aa",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/tile-asset-resource-relocation-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_relocation_spec_import.py"
+      ],
+      "id": "tile-asset-resource-relocation-v1",
+      "importers": [
+        "tools/butano/import_rom_relocation_specs.py"
+      ],
+      "manifest_sha256": "d645146c230b32528accfe4dccdb495bd0fcd63e9bfd0bc87441c6c271e080c3",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "battle",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-presentation-glyphs-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_battle_presentation_glyphs.py",
+        "tools/export_battle_visual_catalog.py",
+        "tools/verify_battle_presentation_glyphs.py",
+        "tools/verify_battle_visual_catalog.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "map",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "scene-visual-packs-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_scene_visual_packs.py",
+        "tools/verify_scene_visual_packs.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "map",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "world-map-backgrounds-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_world_map_backgrounds.py",
+        "tools/export_world_map_runtime.py",
+        "tools/verify_world_map_backgrounds.py",
+        "tools/verify_world_map_runtime.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "map",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "world-map-gpu-captures",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_world_map_runtime.py",
+        "tools/verify_world_map_runtime.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "map",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "world-map-runtime-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_world_map_runtime.py",
+        "tools/verify_world_map_runtime.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "overview",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "e2e",
+      "payload_bytes": 0,
+      "references": [
+        "tools/analyze_battle_command_blockers.py",
+        "tools/analyze_battle_status_stage_policy.py",
+        "tools/build_reverse_notes_index.py",
+        "tools/build_reverse_results_index.py",
+        "tools/export_bg_scene_selection.py",
+        "tools/export_sprite_definition_runtime_chain.py",
+        "tools/export_world_map_runtime.py",
+        "tools/run_offline_e2e.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "presentation",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "cutscene-obj-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_cutscene_obj_assets.py",
+        "tools/verify_cutscene_obj_export.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "presentation",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "story-scene-layer-bindings-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_story_scene_layer_bindings.py",
+        "tools/export_story_scene_timelines.py",
+        "tools/verify_story_scene_layer_bindings.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "presentation",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "story-scene-timelines-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_story_scene_timelines.py",
+        "tools/verify_story_scene_timelines.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "presentation",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "story-visual-layers-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_story_scene_layer_bindings.py",
+        "tools/export_story_scene_timelines.py",
+        "tools/export_story_visual_layers.py",
+        "tools/verify_story_scene_layer_bindings.py",
+        "tools/verify_story_visual_layer_export.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "runtime",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "runtime-checkpoints",
+      "payload_bytes": 0,
+      "references": [
+        "tools/README.md",
+        "tools/accept_prebattle_candidate.py",
+        "tools/butano/capture_s49_battle_roster.py",
+        "tools/butano/export_scenario_41_combat_reference.py",
+        "tools/butano/export_scenario_41_extended_reference.py",
+        "tools/butano/export_scenario_41_reference.py",
+        "tools/butano/generate_battle_scenario_49_scenery.py",
+        "tools/butano/generate_battle_ui_assets.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "scenario",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "scenario-41-audio-reference-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/generate_scenario_41_audio_assets.py",
+        "tools/butano/generate_scenario_41_sfx_assets.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "scenario",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "scenario-41-combat-reference-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/generate_scenario_41_assets.py",
+        "tools/generate_butano_battle_identity_content.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "scenario",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "scenario-41-extended-reference-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/generate_scenario_41_assets.py",
+        "tools/generate_butano_battle_identity_content.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "scenario",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "scenario-41-prebattle-reference-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/generate_butano_battle_identity_content.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "scenario",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "scenario-41-reference-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/generate_scenario_41_assets.py",
+        "tools/generate_butano_battle_identity_content.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-affine-runtime-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_battle_effect_affine_runtime.py",
+        "tools/verify_battle_effect_affine_runtime.py",
+        "tools/verify_character_fbff_runtime.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-sprite-animations-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_battle_effect_affine_runtime.py",
+        "tools/export_battle_effect_sprite_animations.py",
+        "tools/verify_battle_effect_sprite_animations.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-visual-runtime-timelines-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_battle_visual_runtime_timelines.py",
+        "tools/verify_battle_visual_runtime_timelines.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "bg-resource-canvases-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_bg_resource_canvases.py",
+        "tools/export_bg_scene_selection.py",
+        "tools/verify_bg_resource_canvases.py",
+        "tools/verify_bg_scene_selection.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "bg-scene-selection-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_bg_scene_selection.py",
+        "tools/verify_bg_scene_selection.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "character-fbff-runtime-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/measure_s49_rule_fbff.py",
+        "tools/export_character_battle_visuals.py",
+        "tools/verify_character_battle_visuals.py",
+        "tools/verify_character_fbff_runtime.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "sprite-definition-animations-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_sprite_definition_animations.py",
+        "tools/verify_sprite_definition_animations.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "sprite-definition-assets-v2",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_sprite_definition_animations.py",
+        "tools/export_sprite_definition_runtime_chain.py",
+        "tools/verify_sprite_definition_animations.py",
+        "tools/verify_sprite_definition_runtime_chain.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "tile-assets-bg-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_tile_asset_bg_layers.py",
+        "tools/verify_tile_asset_bg_export.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "tile-assets-bg-v2",
+      "payload_bytes": 0,
+      "references": [
+        "tools/export_battle_visual_catalog.py",
+        "tools/export_story_scene_layer_bindings.py",
+        "tools/export_tile_asset_bg_layers.py",
+        "tools/verify_battle_visual_catalog.py",
+        "tools/verify_story_scene_layer_bindings.py",
+        "tools/verify_tile_asset_bg_export.py"
+      ],
+      "scope_closed": null,
+      "state": "local-derivation-missing",
+      "tier": "local-output-absent"
+    },
+    {
+      "category": "audio",
+      "consumers": [],
+      "consumption_status": "test",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "audio",
+      "payload_bytes": 0,
+      "references": [
+        "tools/README.md",
+        "tools/audio_song_headers.py",
+        "tools/audit_re_completion.py",
+        "tools/build_audio_runtime_probe.py",
+        "tools/build_controlled_audio_runtime_probe.py",
+        "tools/build_cross_player_cgb_probe.py",
+        "tools/build_db_patches.py",
+        "tools/build_delayed_audio_retrigger_probe.py"
+      ],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-battle-condition-result-text-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-battle-message-text-inventory-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-boot-framebuffers-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-boot-interwork-continuation-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-boot-interwork-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-inventory-v2",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "test",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-inventory-v3",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v17-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v18-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v2",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v3",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v4",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v5",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v6",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v7",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v8",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-seeds-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cgb-audio-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-chapter-script-consumer-roots-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-chapter-script-unbound-tail-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-fast-audit-four-packet-baseline-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-m4a-byte-inventory-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-m4a-initializer-chain-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-mp2k-dispatcher-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-mp2k-note-allocator-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-positions-aux-dispatch-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-post-story-dependency-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-profile-text-inventory-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-scene-source-four-packet-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-selector-text-bindings-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "none",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-story-callback-dependency-closures-precoverage-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-training-text-script-inventory-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-value-range-text-inventory-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "scenario",
+      "consumers": [],
+      "consumption_status": "test",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "scenario-41-attack-animation-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "sprite-definition-runtime-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "no-material",
+      "tier": "no-payload"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-battle-controller-consumed-literals-v1",
+      "payload_bytes": 56966,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-battle-distance-dispatcher-cfg-v1",
+      "payload_bytes": 10498,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-battle-status-bar-caller-slice-v1",
+      "payload_bytes": 14507,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-boot-interwork-continuation-v1",
+      "payload_bytes": 105718,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-boot-register-init-dependency-cfg-v1",
+      "payload_bytes": 31413,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-boot-state-dispatcher-cfg-v1",
+      "payload_bytes": 21757,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-boot-thumb-handoff-cfg-v1",
+      "payload_bytes": 748503,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-batch-consumed-literals-v1",
+      "payload_bytes": 172757,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v10",
+      "payload_bytes": 220851,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v11",
+      "payload_bytes": 456466,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v12",
+      "payload_bytes": 327605,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v13",
+      "payload_bytes": 312804,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v16",
+      "payload_bytes": 19750,
+      "references": [],
+      "scope_closed": true,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v17",
+      "payload_bytes": 13478,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v18",
+      "payload_bytes": 10940,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v19",
+      "payload_bytes": 9633,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v20",
+      "payload_bytes": 20820,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v21",
+      "payload_bytes": 12782,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v9",
+      "payload_bytes": 99730,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-v1-consumed-literals-v1",
+      "payload_bytes": 137316,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-v2-consumed-literals-v1",
+      "payload_bytes": 666483,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-v2-shadowed-consumed-literals-v1",
+      "payload_bytes": 35476,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-v3-consumed-literals-v1",
+      "payload_bytes": 116592,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-v6-consumed-literals-v1",
+      "payload_bytes": 270829,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-chapter-selector-code-slice-v1",
+      "payload_bytes": 5785,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-event-handler-cfg-v1",
+      "payload_bytes": 34133,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-legacy-acceptance-20260905-v1",
+      "payload_bytes": 434402,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-m4a-initializer-chain-v1",
+      "payload_bytes": 429116,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-mp2k-note-allocator-v1",
+      "payload_bytes": 763478,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-mplaymain-scheduler-v1",
+      "payload_bytes": 336741,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-parser-bound-zero-padding-v1",
+      "payload_bytes": 236847,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-prebattle-menu-controller-cfg-v1",
+      "payload_bytes": 18044,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-profile-selector-code-slices-v1",
+      "payload_bytes": 7706,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-referenced-text-slot-padding-v1",
+      "payload_bytes": 98185,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-scene-source-closures-v1",
+      "payload_bytes": 104695,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-scene-visual-source-ranges-v1",
+      "payload_bytes": 69328,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-selector-code-windows-v1",
+      "payload_bytes": 49653,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-soundmain-relocated-cfg-v1",
+      "payload_bytes": 353858,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-sprite-loader-tail-v1",
+      "payload_bytes": 5675,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-story-callback-dependency-closures-v1",
+      "payload_bytes": 31998,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-story-next-dependency-cfg-v1",
+      "payload_bytes": 32054,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-story-selector-dependency-cfg-v1",
+      "payload_bytes": 10027,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-story-state-callback-cfg-v1",
+      "payload_bytes": 16837,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-story-state-entry-c4cc-v1",
+      "payload_bytes": 5351,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-task-callback-078e38-closure-v1",
+      "payload_bytes": 19489,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-task-scheduler-core-v1",
+      "payload_bytes": 226748,
+      "references": [],
+      "scope_closed": false,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-text-bg-loop-continuation-v1",
+      "payload_bytes": 6593,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-v17-v18-helper-cfg-v1",
+      "payload_bytes": 31523,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-controlled-runtime-v1",
+      "payload_bytes": 13451375,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-direct-spawn-runtime-v1",
+      "payload_bytes": 1363015,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-group15-allocator-side-runtime-v1",
+      "payload_bytes": 2069377,
+      "references": [],
+      "scope_closed": null,
+      "state": "not-importable",
+      "tier": "analysis-only"
+    },
+    {
+      "category": "battle",
+      "consumers": [],
+      "consumption_status": "test",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-status-bars-v1",
+      "payload_bytes": 159706,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "map",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "map41-visual-resource-matrix-v1",
+      "payload_bytes": 687545,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "map",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "scene-visual-composites-v1",
+      "payload_bytes": 166835,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "map",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "scene-visual-transition-timelines-v1",
+      "payload_bytes": 11812893,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "other",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "initializer-resource-pack-v1",
+      "payload_bytes": 1157583,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "other",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "levels-status-per-level-ab-v1",
+      "payload_bytes": 389319,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "other",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "lz77-palette-runtime-v1",
+      "payload_bytes": 673139,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "other",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "sappy-engine-master-enable-ab-v1",
+      "payload_bytes": 45015,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "overview",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "overview-gradient-overlay-v1",
+      "payload_bytes": 26201,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "presentation",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "cutscene-obj-id1-primary-ptr-ab-v1",
+      "payload_bytes": 311095,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "presentation",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "portrait-palette-producers-v1",
+      "payload_bytes": 324088,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "presentation",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "story-visual-resource-sources-v1",
+      "payload_bytes": 138833,
+      "references": [],
+      "scope_closed": true,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "residual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "residual-text-bg-tilemap-resource-ownership-v1",
+      "payload_bytes": 5365,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "residual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "residual-wram-crop-tilemap-runtime-v1",
+      "payload_bytes": 274856,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "residual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "residual-wram-tilemap-abi-v1",
+      "payload_bytes": 7018,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "residual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "residual-wram-tilemap-resource-ownership-v1",
+      "payload_bytes": 20525,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "residual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "residual-wram-tilemap-runtime-v1",
+      "payload_bytes": 253008,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "residual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "residual-wram-tilemap-runtime-v2",
+      "payload_bytes": 268562,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "residual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "residual-wram-transformed-tilemap-runtime-v1",
+      "payload_bytes": 1802294,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "residual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "residual-wram-visual-metadata-abi-v2",
+      "payload_bytes": 18240,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-alternate-dialogue-table-v1",
+      "payload_bytes": 99750,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-animation-descriptor-pool-v2",
+      "payload_bytes": 35254,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-battle-sound-selector-v1",
+      "payload_bytes": 38941,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-boot-copy-sources-v1",
+      "payload_bytes": 5587,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-bounded-index-u16-pair-table-v1",
+      "payload_bytes": 4762,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v14",
+      "payload_bytes": 73816,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cutscene-obj-source-ranges-v1",
+      "payload_bytes": 41363,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-dialogue-text-inventory-v1",
+      "payload_bytes": 758312,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-direct-cpuset-gpu-inventory-v1",
+      "payload_bytes": 43211,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-direct-dma-gpu-inventory-v1",
+      "payload_bytes": 16701,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-directsound-pitch-lookup-v1",
+      "payload_bytes": 8035,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-display-text-delta-v1",
+      "payload_bytes": 94550,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-expansion-profile-v1",
+      "payload_bytes": 33737,
+      "references": [],
+      "scope_closed": true,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-fixed-animation-descriptor-groups-v1",
+      "payload_bytes": 9341,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-fixed-index-u8-tail-v1",
+      "payload_bytes": 4312,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-fixed-pair-tables-v1",
+      "payload_bytes": 10639,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-fixed-renderer-script-records-v1",
+      "payload_bytes": 32401,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-gpu-copy-queue-inventory-v1",
+      "payload_bytes": 22622,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-low-script-delta-v1",
+      "payload_bytes": 5213,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-menu-portrait-palette-inventory-v1",
+      "payload_bytes": 269703,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-pointer-lz77-graphics-v1",
+      "payload_bytes": 81066,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-psg-frequency-lookup-v1",
+      "payload_bytes": 14102,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-renderer-records-delta-v1",
+      "payload_bytes": 35709,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-renderer-script-pointer-pool-records-v1",
+      "payload_bytes": 12030,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-renderer-text-inventory-v1",
+      "payload_bytes": 276204,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-selector-direct-source-records-v1",
+      "payload_bytes": 37999,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-staged-gpu-copy-inventory-v1",
+      "payload_bytes": 8160,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-u8-indexed-u16-pair-lookup-v1",
+      "payload_bytes": 138414,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-u8-indexed-u8-triplet-lookup-v1",
+      "payload_bytes": 13475,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "runtime",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "runtime-bg-composites-v1",
+      "payload_bytes": 3684999,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "runtime",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "runtime-font-tile-provenance-v1",
+      "payload_bytes": 3779809,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "runtime",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "runtime-layer-static-provenance-v1",
+      "payload_bytes": 1573057,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "runtime",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "runtime-screen-composites-v1",
+      "payload_bytes": 1999346,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-group1-v1",
+      "payload_bytes": 733930,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-group14-v1",
+      "payload_bytes": 617081,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-group16-natural-v1",
+      "payload_bytes": 622356,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-group17-natural-v1",
+      "payload_bytes": 621642,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-group18-natural-sequence-v1",
+      "payload_bytes": 703391,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-group2-v1",
+      "payload_bytes": 629081,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-group3-natural-v1",
+      "payload_bytes": 609254,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-group4-natural-v1",
+      "payload_bytes": 617500,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-group5-v1",
+      "payload_bytes": 599576,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-frame-phase-v1",
+      "payload_bytes": 617477,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-group12-ai-observer-v1",
+      "payload_bytes": 53686,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-group13-natural-runtime-v1",
+      "payload_bytes": 58186,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-group18-natural-checkpoint-v1",
+      "payload_bytes": 531920,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-runtime-oam-bindings-v1",
+      "payload_bytes": 152524,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-runtime-oam-task-bindings-v1",
+      "payload_bytes": 252937,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "character-battle-visual-resource-matrix-v1",
+      "payload_bytes": 528206,
+      "references": [],
+      "scope_closed": false,
+      "state": "on-shelf",
+      "tier": "asset-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "character-runtime-oam-bindings-v1",
+      "payload_bytes": 2471308,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "character-runtime-oam-task-bindings-v1",
+      "payload_bytes": 408877,
+      "references": [],
+      "scope_closed": null,
+      "state": "on-shelf",
+      "tier": "table-direct"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v15",
+      "payload_bytes": 57245,
+      "references": [],
+      "scope_closed": false,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v16-consumed-literals-v1",
+      "payload_bytes": 65851,
+      "references": [],
+      "scope_closed": false,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cgb-helper-bounded-cfg-v1",
+      "payload_bytes": 42334,
+      "references": [],
+      "scope_closed": null,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cgbsound-bounded-cfg-v1",
+      "payload_bytes": 179635,
+      "references": [],
+      "scope_closed": null,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-dialogue-padding-inventory-v1",
+      "payload_bytes": 804757,
+      "references": [],
+      "scope_closed": false,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-mp2k-dispatcher-v1",
+      "payload_bytes": 411032,
+      "references": [],
+      "scope_closed": false,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-small-cfg-dependency-batch-v1",
+      "payload_bytes": 203761,
+      "references": [],
+      "scope_closed": null,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-sprite-component-source-v1",
+      "payload_bytes": 45928,
+      "references": [],
+      "scope_closed": false,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-text-bg-task-closure-v1",
+      "payload_bytes": 20175,
+      "references": [],
+      "scope_closed": null,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-unbound-lz77-inventory-v1",
+      "payload_bytes": 70309,
+      "references": [],
+      "scope_closed": false,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-group15-natural-runtime-v1",
+      "payload_bytes": 1189632,
+      "references": [],
+      "scope_closed": null,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "doc",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "battle-effect-observed-frame-phases-v1",
+      "payload_bytes": 10327,
+      "references": [],
+      "scope_closed": null,
+      "state": "unclassified",
+      "tier": "unclassified"
+    },
+    {
+      "category": "visual",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "character-runtime-unit-oam-bindings-v1",
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/verify_s49_battle_roster.py"
+      ],
+      "scope_closed": null,
+      "state": "verified-against",
+      "tier": "verified-against"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_map_content.h",
+        "butano-sequel/game/include/konoha/generated_battle_background_content.h",
+        "butano-sequel/game/include/konoha/generated_battle_scenario_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_generate_butano_battle_map_content.py",
+        "tests/test_generate_butano_battle_runtime_assets.py",
+        "tests/test_generate_butano_battle_scenario_content.py"
+      ],
+      "id": "map-canvases-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "other",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_presentation_glyph_content.h",
+        "butano-sequel/graphics/generated_battle_presentation_glyph_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_generate_butano_battle_presentation_glyphs.py",
+        "tests/test_generate_butano_battle_presentation_glyphs.py"
+      ],
+      "id": "dialogue-font-v2",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_presentation_portrait_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_generate_butano_battle_portrait_content.py"
+      ],
+      "id": "menu-portraits-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_condition_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_generate_butano_battle_condition_content.py"
+      ],
+      "id": "rom-battle-condition-records-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "butano-sequel/game/include/konoha/battle_original_states.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_battle_scene_phase_mapping.py"
+      ],
+      "id": "rom-battle-controller-cfg-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_presentation_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_generate_butano_battle_presentation_content.py"
+      ],
+      "id": "rom-chapter-script-inventory-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_identity_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_butano_battle_result_original_ui.py",
+        "tests/test_butano_map_interaction_wiring.py",
+        "tests/test_generate_butano_battle_identity_content.py"
+      ],
+      "id": "rom-fixed-consumer-text-inventory-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_movegrid_overlay_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_s49_movegrid_overlay_assets.py",
+        "tests/test_s49_movegrid_overlay_assets.py"
+      ],
+      "id": "rom-pointer-lz77-inventory-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_action_05_effect_content.h",
+        "butano-sequel/game/include/konoha/generated_battle_action_05_effect_items.h",
+        "butano-sequel/game/include/konoha/generated_battle_action_05_dust_effect_content.h",
+        "butano-sequel/game/include/konoha/generated_battle_action_05_dust_effect_items.h",
+        "butano-sequel/game/include/konoha/generated_battle_action_16_fire_effect_content.h",
+        "butano-sequel/game/include/konoha/generated_battle_action_16_fire_effect_items.h",
+        "butano-sequel/game/include/konoha/generated_battle_ninja_tool_bomb_projectile_content.h",
+        "butano-sequel/game/include/konoha/generated_battle_ninja_tool_bomb_projectile_items.h",
+        "butano-sequel/game/include/konoha/generated_battle_ninja_tool_bomb_smoke_content.h",
+        "butano-sequel/game/include/konoha/generated_battle_ninja_tool_bomb_smoke_items.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_generate_butano_battle_effect_sequence.py",
+        "tests/test_generate_butano_battle_effect_sequence.py",
+        "tests/test_generate_butano_battle_effect_sequence.py",
+        "tests/test_generate_butano_battle_effect_sequence.py",
+        "tests/test_generate_butano_battle_effect_sequence.py",
+        "tests/test_generate_butano_battle_effect_sequence.py",
+        "tests/test_generate_butano_battle_effect_sequence.py",
+        "tests/test_generate_butano_battle_effect_sequence.py",
+        "tests/test_generate_butano_battle_effect_sequence.py",
+        "tests/test_generate_butano_battle_effect_sequence.py"
+      ],
+      "id": "battle-effect-resource-pairs-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_action_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_generate_butano_battle_action_content.py"
+      ],
+      "id": "battle-effect-sequence-bindings-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_action_16_movie_runtime_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_generate_butano_battle_action_16_movie.py"
+      ],
+      "id": "battle-visual-catalog-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "butano-sequel/game/include/konoha/generated_battle_unit_visual_content.h"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_generate_butano_battle_unit_visual_content.py"
+      ],
+      "id": "character-battle-visuals-v1",
+      "payload_bytes": 0,
+      "references": [],
+      "scope_closed": null,
+      "state": "wired-and-gated",
+      "tier": "declared-consumer"
+    }
+  ],
+  "summary": {
+    "families_bound": 12,
+    "families_imported": 54,
+    "products_gated_upper_bound": 36,
+    "sink_by_state": {
+      "declared": 24,
+      "declared-not-applicable": 14
+    },
+    "sink_surface": {
+      "content_banks": 34,
+      "game_sources": 4,
+      "generated_headers": 27,
+      "graphic_assets": 1819,
+      "handwritten_headers": 110,
+      "test_modules": 373
+    },
+    "sink_total": 38,
+    "source_by_state": {
+      "imported-and-gated": 54,
+      "local-derivation-missing": 26,
+      "no-material": 37,
+      "not-importable": 51,
+      "on-shelf": 71,
+      "unclassified": 12,
+      "verified-against": 1,
+      "wired-and-gated": 12
+    },
+    "source_total": 264
+  }
+}

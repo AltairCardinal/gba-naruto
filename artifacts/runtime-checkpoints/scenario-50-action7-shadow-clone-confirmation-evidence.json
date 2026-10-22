@@ -1,0 +1,111 @@
+{
+  "schema": "battle-effect-hardcoded-action-confirmation-v1",
+  "verified": true,
+  "action": {
+    "action_id": 7,
+    "display_name": "影分身术",
+    "handler_start": "0x0807E1C8",
+    "pair_slot": "primary",
+    "hardcoded_selector_callsite": "0x0807E1D0",
+    "hardcoded_sequence_id": 2,
+    "resource_group_id": 2,
+    "dynamic_action_sequence_id": 0
+  },
+  "parent": {
+    "path": "artifacts/runtime-checkpoints/scenario-50-battle-15-safe-intercept-turn3.ss9",
+    "sha256": "2d872689345ade80d0027dfa7bbb58adfc28cfe3028f6b13856d43c8dc7a6ba8"
+  },
+  "route": {
+    "capture_frame": 700,
+    "inputs": [
+      {
+        "key": "A",
+        "down_frame": 5,
+        "up_frame": 13,
+        "hold_frames": 8
+      },
+      {
+        "key": "Down",
+        "down_frame": 120,
+        "up_frame": 128,
+        "hold_frames": 8
+      },
+      {
+        "key": "A",
+        "down_frame": 165,
+        "up_frame": 173,
+        "hold_frames": 8
+      },
+      {
+        "key": "Down",
+        "down_frame": 255,
+        "up_frame": 263,
+        "hold_frames": 8
+      },
+      {
+        "key": "A",
+        "down_frame": 355,
+        "up_frame": 363,
+        "hold_frames": 8
+      },
+      {
+        "key": "Left",
+        "down_frame": 455,
+        "up_frame": 463,
+        "hold_frames": 8
+      },
+      {
+        "key": "A",
+        "down_frame": 510,
+        "up_frame": 518,
+        "hold_frames": 8
+      },
+      {
+        "key": "A",
+        "down_frame": 605,
+        "up_frame": 613,
+        "hold_frames": 8
+      }
+    ],
+    "automatic_inputs": [],
+    "recovery_inputs": []
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
+    "sha256": "2b800fe1609923966c7e3898cc8bc81c67e106e3f04a93afed919ed950e5ae71",
+    "png": "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.png",
+    "png_sha256": "dea3a03eaff51248eff324edb9c46e2ec40ae9d63c45937ed82939e90d7b5a4a",
+    "boundary": "final_yes_no_confirmation_before_execution",
+    "next_input": {
+      "key": "A",
+      "down_frame": 5,
+      "up_frame": 13
+    }
+  },
+  "provenance": {
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "toolchain_profile": "artifacts/rom-expansion-profile-v1/profile.json",
+    "toolchain_profile_sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "mgba_binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "mgba_source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68",
+    "replay_script": "tools/mgba_input_sequence_replay.lua",
+    "replay_script_sha256": "28b7e0662d0377d75e063d05a1544846c257046947ef30e47560c1bcd9ffb196",
+    "source_audit_sha256": "02549955a19d035e3ae9646f24b58d4df9c0de5db8a3771df2a669b126c6737a",
+    "source_guard_sha256": "68097f507ead3f773177e46568e608d8eccac87a166d7d6642cdfd1c24a8849a"
+  },
+  "guard": {
+    "reason": "completed",
+    "exit_code": 0,
+    "degraded": false,
+    "peak_tree_rss_mib": 65.640625,
+    "pgid_clean": true,
+    "mgba_listener_clean": true,
+    "staged_save_removed": true
+  },
+  "scope": {
+    "natural_player_action_route": true,
+    "hardcoded_handler_link_static": true,
+    "modified_resource_runtime": false,
+    "physical_gba_verified": false
+  }
+}
