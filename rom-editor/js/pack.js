@@ -55,6 +55,16 @@ export class ContentPack {
      * `structures` / `texts` / `patches`, because `rom.js` only writes those.
      */
     this.derived = data.derived || null;
+    /**
+     * Battle-map asset descriptors (cell size, tile counts, block offsets …).
+     *
+     * Like `derived`, these are **read-only** facts about the ROM's map
+     * graphics — the pixels themselves live in a separate binary
+     * (`content/maps/maps.bin.gz`) that the map view fetches on demand, so
+     * that the editor still works without loading the ROM.  Nothing here is
+     * written back: `rom.js` only writes `structures` / `texts` / `patches`.
+     */
+    this.map_assets = data.map_assets || null;
   }
 
   /**

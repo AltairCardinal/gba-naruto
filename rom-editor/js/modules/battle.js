@@ -1,20 +1,18 @@
 // 战斗：战场布置 / 角色出生点 / 战斗中的剧情与角色出生 / 战斗目标
 import { el, clear, formatOffset, toast } from '../ui.js';
-import { renderDomainIndex, renderPanel, summaryTable, operandInput, openInTable } from './common.js';
+import {
+  renderDomainIndex, renderPanel, summaryTable, operandInput, openInTable,
+  sideCell, stageChangeCount, BATTLE_LAYOUT,
+} from './common.js';
 import { fieldControl } from '../fields.js';
+import { renderBattleMap } from './battle-map.js';
 
-const STAGE_COUNT = 47;
-const VARIANT_COUNT = 3;
-const GROUP_STRIDE = 0x1aac;
-const VARIANT_STRIDE = 0x8e4;
-const SLOT_STRIDE = 0xb8;
-const ACTORS_BASE = 0x5461c4;
-const MAP_BASE = 0x53d910;
-const RULES_BASE = 0x594758;
-const RULE_STAGE_STRIDE = 0xcc;
-const RULE_SUB_STRIDE = 0x44;
-const OBJECT_OFFSET = 0x8a4;
-const OBJECT_COUNT = 16;
+// 战斗域几张表的布局常量只有一处真相（common.js），这里只是取个短名。
+const {
+  STAGE_COUNT, VARIANT_COUNT, GROUP_STRIDE, VARIANT_STRIDE, SLOT_STRIDE,
+  ACTORS_BASE, MAP_BASE, RULES_BASE, RULE_STAGE_STRIDE, RULE_SUB_STRIDE,
+  OBJECT_OFFSET, OBJECT_COUNT,
+} = BATTLE_LAYOUT;
 
 /**
  * 条件类型的原版语义。
@@ -54,11 +52,16 @@ export function renderBattle(container, ctx) {
     if (panel.kind === 'stage') {
       return renderStage(container, ctx, panel.params.stage, panel.params.variant);
     }
+    if (panel.kind === 'map') {
+      return renderBattleMap(container, ctx, panel.params.stage, panel.params.variant);
+    }
     const { kind, id, params } = panel;
     return renderPanel(container, ctx, kind, id, params);
   }
 
   const pack = ctx.pack;
+  // 域首页卡片里的「打开战场地图」跟着上面的关卡下拉走。
+  let pickedStage = 1;
   // 推荐入口：按关卡看一整关的四件套（这才是作者真正会走的路）。
   const primary = el('div', { class: 'stat entry-card' }, [
     el('div', { class: 'stat-label', text: '按关卡改' }),
@@ -68,7 +71,15 @@ export function renderBattle(container, ctx) {
       text: '一屏看全：战场布置、角色出生点、战场物件、战斗目标、战斗中的剧情。' +
         '出生点与战斗目标可以就地改。',
     }),
-    stagePicker(ctx),
+    stagePicker(ctx, (stage) => { pickedStage = stage; }),
+    el('div', { class: 'entry-actions' }, [
+      el('button', {
+        class: 'btn btn-ghost',
+        text: '打开战场地图',
+        title: '看这一关的战场长什么样，并在地图上直接布置物件与角色',
+        onclick: () => ctx.openPanel('map', 'map', { stage: pickedStage, variant: 0 }),
+      }),
+    ]),
   ]);
 
   renderDomainIndex(container, ctx, {
@@ -91,12 +102,14 @@ export function renderBattle(container, ctx) {
   });
 }
 
-function stagePicker(ctx) {
+function stagePicker(ctx, onPick) {
   const select = el('select', {
     class: 'search',
     onchange: (e) => {
+      const stage = Number(e.target.value);
+      if (onPick) onPick(stage);
       ctx.openPanel('stage', 'stage', {
-        stage: Number(e.target.value),
+        stage,
         variant: 0,
       });
     },
@@ -158,7 +171,15 @@ export function renderStage(container, ctx, stage, variant) {
         }),
       ]),
     ]),
-    el('div', { class: 'panel-tools' }, [stageSelect, variantSelect]),
+    el('div', { class: 'panel-tools' }, [
+      stageSelect, variantSelect,
+      el('button', {
+        class: 'btn btn-ghost',
+        text: '战场地图 →',
+        title: '看这一关的战场长什么样，并在地图上直接布置物件与角色',
+        onclick: () => ctx.openPanel('map', 'map', { stage, variant }),
+      }),
+    ]),
   ]));
 
   // --- 战场布置 --------------------------------------------------------
@@ -400,42 +421,6 @@ function section(title, structureId, rows) {
 }
 
 /**
- * How many records of this stage (and variant) have been changed.
- *
- * The count comes from the **byte** comparison, so "changed and changed back"
- * does not count — and it is the same judgement the generic table editor
- * makes, so the two views never disagree.
- */
-function stageChangeCount(ctx, stage, variant) {
-  const pack = ctx.pack;
-  let n = 0;
-  const actorBase = ACTORS_BASE + stage * GROUP_STRIDE + variant * VARIANT_STRIDE + 4;
-  const objectBase = actorBase - 4 + OBJECT_OFFSET;
-  const ruleOffset = RULES_BASE + stage * RULE_STAGE_STRIDE + variant * RULE_SUB_STRIDE;
-  for (const [id, offsets] of [
-    ['battle_actors', Array.from({ length: 12 }, (_, s) => actorBase + s * SLOT_STRIDE)],
-    ['battle_map_objects', Array.from({ length: OBJECT_COUNT }, (_, o) => objectBase + o * 4)],
-    ['battle_rules', [ruleOffset]],
-  ]) {
-    const structure = pack.structure(id);
-    if (!structure) continue;
-    const changed = new Set(pack.changedStructureRecords(structure).map((r) => r.rom_offset));
-    for (const offset of offsets) {
-      if (changed.has(offset)) n += 1;
-    }
-  }
-  const objectives = pack.textTable('battle_objectives');
-  if (objectives) {
-    const changed = new Set(pack.changedTextRecords(objectives).map((r) => r.id));
-    for (const binding of objectives.bindings || []) {
-      if (binding.rule !== stage * VARIANT_COUNT + variant) continue;
-      if (changed.has(binding.text_id)) n += 1;
-    }
-  }
-  return n;
-}
-
-/**
  * One condition parameter: the raw byte plus what that byte means here.
  */
 function paramCell(value, meaning) {
@@ -470,31 +455,6 @@ function numCell(ctx, structure, record, key, value) {
       toast(`已改写 ${structure.label} · ${key}`);
     },
   });
-}
-
-/**
- * The camp of one battle slot.
- *
- * The camp is bit 0 of `unit_flags` — the byte at +0x01 is *not* read by the
- * formation path, so this control rewrites the flag instead.
- */
-function sideCell(ctx, structure, record, values) {
-  if (!structure || !record) return String(values.unit_flags & 1);
-  const flags = values.unit_flags >>> 0;
-  const select = el('select', {
-    class: 'search',
-    style: { width: '76px' },
-    onchange: (e) => {
-      const bit = e.target.value === '敌方' ? 1 : 0;
-      ctx.pack.setValue(structure, record, 'unit_flags', (flags & ~1) | bit);
-      ctx.onChange();
-      toast(`已改写 ${structure.label} · 阵营`);
-    },
-  }, [
-    el('option', { value: '我方', text: '我方', selected: (flags & 1) === 0 }),
-    el('option', { value: '敌方', text: '敌方', selected: (flags & 1) === 1 }),
-  ]);
-  return select;
 }
 
 /**

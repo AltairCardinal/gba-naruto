@@ -1,0 +1,148 @@
+/* 战场地图视图的样式。
+ *
+ * 依据 notes/specs/battle-map-editor.md §3（版面 / 缩放 / 网格）与 §3.4（标记的画法）。
+ * 颜色沿用 styles.css 的变量，不另起一套。
+ */
+
+/* ---------- 顶栏信息行 ---------- */
+.map-info {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline;
+  margin: 8px 0; font-size: 12px; color: var(--fg);
+}
+.map-info .stat-hint { flex-basis: 100%; }
+
+/* ---------- 素材缺失提示条 ---------- */
+.map-notice-host:empty { display: none; }
+.map-asset-notice {
+  display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  border: 1px solid var(--bad); border-radius: 8px;
+  background: rgba(224, 90, 90, .12);
+  padding: 8px 12px; margin: 8px 0; font-size: 12px;
+}
+.map-asset-notice-text { color: #f0b4b4; }
+
+/* ---------- 左右分栏 ---------- */
+.map-left {
+  flex: 1 1 0; min-width: 0;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.map-right { flex: 0 0 auto; min-width: 0; }
+.map-side {
+  flex: 0 0 var(--split-right, 420px);
+  max-width: var(--split-right, 420px);
+  background: var(--bg-2);
+  border: 1px solid var(--line); border-radius: 8px; padding: 14px;
+  max-height: calc(100vh - 190px); overflow-y: auto; position: sticky; top: 0;
+}
+.map-section { margin-bottom: 18px; }
+.map-section h3 { margin: 0 0 8px; font-size: 13px; }
+.map-side-foot { display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+
+/* ---------- 工具条 ---------- */
+.map-toolbar {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  padding: 6px 8px; background: var(--bg-2);
+  border: 1px solid var(--line); border-radius: 8px;
+}
+.map-zoom-label { font-family: var(--mono); font-size: 11px; color: var(--fg-dim); }
+.map-toggle { display: flex; align-items: center; gap: 4px; font-size: 11.5px; color: var(--fg-dim); }
+
+/* ---------- 画布区 ---------- */
+.map-scroll {
+  overflow: auto;
+  border: 1px solid var(--line); border-radius: 8px;
+  background: #0d0f14;
+  min-height: 320px; max-height: calc(100vh - 320px);
+  position: relative;
+}
+.map-frame { position: relative; }
+.map-stage {
+  position: absolute; top: 0; left: 0;
+  transform-origin: 0 0;
+  background: #0d0f14;
+}
+.map-canvas {
+  display: block;
+  image-rendering: pixelated;
+  background: #0d0f14;
+}
+/* 素材没到时的格线底图：纯 CSS 网格，每 32×16 像素一格 */
+.map-grid-fallback {
+  position: absolute; inset: 0;
+  pointer-events: none;
+  display: none;
+  background-image:
+    repeating-linear-gradient(to right, rgba(255, 255, 255, .15) 0 1px, transparent 1px 32px),
+    repeating-linear-gradient(to bottom, rgba(255, 255, 255, .15) 0 1px, transparent 1px 16px);
+}
+.map-grid-fallback.on { display: block; }
+
+/* ---------- 悬停 / 选中的格 ---------- */
+.map-cell-hover, .map-cell-selected {
+  position: absolute;
+  display: none;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.map-cell-hover { border: 1px solid #ffe34c; }
+.map-cell-selected { border: 2px solid #ffda64; }
+
+/* ---------- 标记 ---------- */
+.map-marker {
+  position: absolute;
+  display: grid; place-items: center;
+  border-radius: 3px;
+  font-family: var(--mono); font-size: 9px; line-height: 1;
+  cursor: grab; user-select: none;
+  box-sizing: border-box;
+}
+.map-marker-object {
+  background: #ffdb79; color: #513509;
+  border: 1px solid transparent;
+}
+.map-marker-actor.ally { background: #275a3b; color: #fff; }
+.map-marker-actor.enemy { background: #a74636; color: #fff; }
+.map-marker.selected { border: 2px solid #ffda64; }
+.map-marker.dragging { cursor: grabbing; border-color: #ffda64; box-shadow: 0 0 0 1px #ffda64; }
+/* 改过的（本次会话内）：1px 内描边 + 角标小圆点 */
+.map-marker.changed { box-shadow: inset 0 0 0 1px #e8ff79; }
+.map-marker.changed::after {
+  content: ''; position: absolute; right: 1px; top: 1px;
+  width: 3px; height: 3px; border-radius: 50%;
+  background: #e8ff79;
+}
+.map-scroll.panning { cursor: grabbing; }
+
+/* ---------- 状态行 ---------- */
+.map-status {
+  font-family: var(--mono); font-size: 11.5px; color: var(--fg-dim);
+  min-height: 18px;
+}
+
+/* ---------- 图例 ---------- */
+.map-legend {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  font-size: 11px; color: var(--fg-dim);
+}
+.map-legend-item { display: inline-flex; align-items: center; gap: 5px; }
+.map-legend-swatch {
+  width: 12px; height: 10px; border-radius: 2px;
+  border: 1px solid transparent; display: inline-block;
+}
+
+/* ---------- 右侧的小表 ---------- */
+table.map-table { font-size: 11.5px; }
+table.map-table th { font-size: 10.5px; padding: 4px 6px; }
+table.map-table td { padding: 3px 6px; vertical-align: middle; }
+table.map-table .map-cell { font-family: var(--mono); color: var(--fg-dim); }
+.map-cell-select { width: 100%; min-width: 92px; padding: 3px 6px; font-size: 11px; }
+
+/* ---------- 剧情底图 ---------- */
+.map-background { margin: 10px 0; }
+.map-bg-head { display: flex; gap: 8px; align-items: center; margin-bottom: 6px; font-size: 12px; }
+.map-bg-preview {
+  display: block; width: 240px; height: 80px;
+  image-rendering: pixelated;
+  border: 1px solid var(--line); border-radius: 6px;
+  background: repeating-conic-gradient(#1b1f28 0% 25%, #232833 0% 50%) 50% / 16px 16px;
+}

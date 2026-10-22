@@ -397,6 +397,117 @@ export function openInModule(ctx, moduleId, kind, id, params, label) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// 战斗域共用的常量与工具
+// ---------------------------------------------------------------------------
+
+/**
+ * 战斗域几张表的布局常量。
+ *
+ * 关卡视图与战场地图视图读的是同一批记录（编成矩阵 / 战场物件 / 战场布置），
+ * 所以偏移量只留**这一处**真相：两边各写一份，迟早会漂。
+ */
+export const BATTLE_LAYOUT = {
+  STAGE_COUNT: 47,
+  VARIANT_COUNT: 3,
+  GROUP_STRIDE: 0x1aac,
+  VARIANT_STRIDE: 0x8e4,
+  SLOT_STRIDE: 0xb8,
+  ACTORS_BASE: 0x5461c4,
+  MAP_BASE: 0x53d910,
+  RULES_BASE: 0x594758,
+  RULE_STAGE_STRIDE: 0xcc,
+  RULE_SUB_STRIDE: 0x44,
+  OBJECT_OFFSET: 0x8a4,
+  OBJECT_COUNT: 16,
+};
+
+/**
+ * How many records of this stage (and variant) have been changed.
+ *
+ * The count comes from the **byte** comparison, so "changed and changed back"
+ * does not count — and it is the same judgement the generic table editor
+ * makes, so the two views never disagree.
+ */
+export function stageChangeCount(ctx, stage, variant) {
+  const pack = ctx.pack;
+  let n = 0;
+  const actorBase = BATTLE_LAYOUT.ACTORS_BASE + stage * BATTLE_LAYOUT.GROUP_STRIDE +
+    variant * BATTLE_LAYOUT.VARIANT_STRIDE + 4;
+  const objectBase = actorBase - 4 + BATTLE_LAYOUT.OBJECT_OFFSET;
+  const ruleOffset = BATTLE_LAYOUT.RULES_BASE + stage * BATTLE_LAYOUT.RULE_STAGE_STRIDE +
+    variant * BATTLE_LAYOUT.RULE_SUB_STRIDE;
+  for (const [id, offsets] of [
+    ['battle_actors', Array.from({ length: 12 }, (_, s) => actorBase + s * BATTLE_LAYOUT.SLOT_STRIDE)],
+    ['battle_map_objects', Array.from({ length: BATTLE_LAYOUT.OBJECT_COUNT },
+      (_, o) => objectBase + o * 4)],
+    ['battle_rules', [ruleOffset]],
+  ]) {
+    const structure = pack.structure(id);
+    if (!structure) continue;
+    const changed = new Set(pack.changedStructureRecords(structure).map((r) => r.rom_offset));
+    for (const offset of offsets) {
+      if (changed.has(offset)) n += 1;
+    }
+  }
+  const objectives = pack.textTable('battle_objectives');
+  if (objectives) {
+    const changed = new Set(pack.changedTextRecords(objectives).map((r) => r.id));
+    for (const binding of objectives.bindings || []) {
+      if (binding.rule !== stage * BATTLE_LAYOUT.VARIANT_COUNT + variant) continue;
+      if (changed.has(binding.text_id)) n += 1;
+    }
+  }
+  return n;
+}
+
+/**
+ * The camp of one battle slot.
+ *
+ * The camp is bit 0 of `unit_flags` — the byte at +0x01 is *not* read by the
+ * formation path, so this control rewrites the flag instead.
+ *
+ * 关卡视图与战场地图视图共用这一个控件：阵营只有一处真相。
+ */
+export function sideCell(ctx, structure, record, values) {
+  if (!structure || !record) return String(values.unit_flags & 1);
+  const flags = values.unit_flags >>> 0;
+  const select = el('select', {
+    class: 'search',
+    style: { width: '76px' },
+    onchange: (e) => {
+      const bit = e.target.value === '敌方' ? 1 : 0;
+      ctx.pack.setValue(structure, record, 'unit_flags', (flags & ~1) | bit);
+      ctx.onChange();
+      toast(`已改写 ${structure.label} · 阵营`);
+    },
+  }, [
+    el('option', { value: '我方', text: '我方', selected: (flags & 1) === 0 }),
+    el('option', { value: '敌方', text: '敌方', selected: (flags & 1) === 1 }),
+  ]);
+  return select;
+}
+
+/**
+ * 战场地图的素材缺失提示条。
+ *
+ * 素材是**只读上下文**：缺了它，地图视图照常打开（只显示格线与标记），
+ * 编辑功能一条不少（物件 / 角色 / 底图 id 都在内容包里）。
+ */
+export function mapAssetNotice(message, file, onRetry) {
+  return el('div', { class: 'map-asset-notice' }, [
+    el('span', { class: 'map-asset-notice-text', text: message }),
+    file ? el('span', { class: 'stat-hint', text: `素材文件：${file}` }) : null,
+    onRetry
+      ? el('button', {
+        class: 'btn btn-tiny',
+        text: '重新载入素材',
+        onclick: onRetry,
+      })
+      : null,
+  ]);
+}
+
 /** A small read-only summary table used by several domains. */
 export function summaryTable(rows) {
   const table = el('table', { class: 'grid' });
