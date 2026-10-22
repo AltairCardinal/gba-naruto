@@ -125,7 +125,7 @@ class JutsuView {
       {
         id: 'record',
         label: '记录',
-        hint: '标志位与那些语义未证的字节',
+        hint: '类别 / 等级 / 消耗 / 标志位，以及标「保留」的那些字节',
         badge: () => this.recordBadge(),
         render: () => this.renderFields('记录'),
       },
