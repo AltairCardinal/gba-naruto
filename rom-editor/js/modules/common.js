@@ -6,7 +6,7 @@
 // the content pack's own metadata, a structure becomes editable the moment
 // the exporter describes it — no per-domain UI code.
 
-import { el, clear, formatOffset, toast } from '../ui.js';
+import { el, clear, formatOffset, toast, clickableArea } from '../ui.js';
 import { StructureEditor, TextTableEditor } from '../editors.js';
 
 export function backButton(ctx, label) {
@@ -187,7 +187,14 @@ function domainTableRows(ctx, options) {
       n + (m.fields ? 0 : (m.count || 0)), 0);
     const changed = members.reduce((n, m) =>
       n + (m.fields ? pack.changedCountIn(m) : pack.changedCountInTable(m)), 0);
-    rows.push(el('tr', { class: changed ? 'changed' : '' }, [
+    const open = () => {
+      if (group.onPick) {
+        group.onPick(ctx);
+        return;
+      }
+      ctx.openPanel(group.kind, group.id || group.kind, group.params || {});
+    };
+    const row = el('tr', { class: changed ? 'changed' : '' }, [
       el('td', {}, [
         el('div', { text: group.label }),
         el('div', {
@@ -211,22 +218,20 @@ function domainTableRows(ctx, options) {
       el('td', {}, [el('button', {
         class: 'btn btn-tiny',
         text: group.action || '打开',
-        onclick: () => {
-          if (group.onPick) {
-            group.onPick(ctx);
-            return;
-          }
-          ctx.openPanel(group.kind, group.id || group.kind, group.params || {});
-        },
+        onclick: open,
       })]),
-    ]));
+    ]);
+    // 整行都能进 —— 不用瞄准那个小按钮。
+    clickableArea(row, open);
+    rows.push(row);
   }
 
   for (const structure of structures) {
     const known = (structure.fields || []).filter((f) => f.type !== 'hex').length;
     const filler = (structure.fields || []).length - known;
     const changed = pack.changedCountIn(structure);
-    rows.push(el('tr', { class: changed ? 'changed' : '' }, [
+    const open = () => ctx.openPanel('structure', structure.id);
+    const row = el('tr', { class: changed ? 'changed' : '' }, [
       el('td', { text: structure.label || structure.id }),
       el('td', { class: 'col-num', text: String(structure.entry_count) }),
       el('td', { class: 'text-cell', text: `${known} 已知${filler ? ` + ${filler} 原始字节` : ''}` }),
@@ -241,13 +246,16 @@ function domainTableRows(ctx, options) {
       el('td', {}, [el('button', {
         class: 'btn btn-tiny',
         text: '编辑',
-        onclick: () => ctx.openPanel('structure', structure.id),
+        onclick: open,
       })]),
-    ]));
+    ]);
+    clickableArea(row, open);
+    rows.push(row);
   }
   for (const table of texts) {
     const changed = pack.changedCountInTable(table);
-    rows.push(el('tr', { class: changed ? 'changed' : '' }, [
+    const open = () => ctx.openPanel('text', table.id);
+    const row = el('tr', { class: changed ? 'changed' : '' }, [
       el('td', { text: table.label || table.id }),
       el('td', { class: 'col-num', text: String(table.count) }),
       el('td', { class: 'text-cell', text: `${table.count} 条文本` }),
@@ -259,9 +267,11 @@ function domainTableRows(ctx, options) {
       el('td', {}, [el('button', {
         class: 'btn btn-tiny',
         text: '编辑',
-        onclick: () => ctx.openPanel('text', table.id),
+        onclick: open,
       })]),
-    ]));
+    ]);
+    clickableArea(row, open);
+    rows.push(row);
   }
   return rows;
 }

@@ -8,7 +8,7 @@
 //
 // 写回只走 pack.setValue；原始字节那一侧不碰。
 
-import { el, clear, formatOffset } from '../ui.js';
+import { el, clear, formatOffset, clickableArea } from '../ui.js';
 import { entryCard, renderPanel } from './common.js';
 import { SUBVIEW_LABELS } from '../routing.js';
 import {
@@ -211,7 +211,11 @@ function renderEditableTable(ctx) {
     const changed = pack.changedCountIn(structure);
     const view = assetViewKind(structure);
     const entry = view ? VIEW_ENTRY[view] : null;
-    rows.push(el('tr', { class: changed ? 'changed' : '' }, [
+    const open = () => {
+      if (entry) openSubView(ctx, entry.kind);
+      else if (ctx.openPanel) ctx.openPanel('structure', structure.id);
+    };
+    const row = el('tr', { class: changed ? 'changed' : '' }, [
       el('td', { text: structure.label || structure.id }),
       el('td', { class: 'col-num', text: String((structure.records || []).length) }),
       el('td', { class: 'text-cell', text: `${known} 已知${filler ? ` + ${filler} 原始字节` : ''}` }),
@@ -226,12 +230,12 @@ function renderEditableTable(ctx) {
       el('td', {}, [el('button', {
         class: 'btn btn-tiny',
         text: entry ? entry.label : '编辑',
-        onclick: () => {
-          if (entry) openSubView(ctx, entry.kind);
-          else if (ctx.openPanel) ctx.openPanel('structure', structure.id);
-        },
+        onclick: open,
       })]),
-    ]));
+    ]);
+    // 整行都能进 —— 不用瞄准那个小按钮。
+    clickableArea(row, open);
+    rows.push(row);
   }
   section.appendChild(el('div', { class: 'table-wrap' }, [
     el('table', { class: 'grid domain-tables' }, [

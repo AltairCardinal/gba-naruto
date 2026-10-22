@@ -188,6 +188,8 @@ table.grid tbody tr { cursor: pointer; }
 table.grid tbody tr:hover { background: var(--bg-3); }
 table.grid tbody tr.selected { background: #2c3547; }
 table.grid tbody tr.changed td:first-child { box-shadow: inset 3px 0 0 var(--warn); }
+/* 整块可点（js/ui.js::clickableArea）：行/卡片本身就是入口，鼠标要像按按钮那样。 */
+.area-clickable { cursor: pointer; }
 table.grid .col-id { font-family: var(--mono); color: var(--fg-dim); width: 1%; }
 table.grid .col-num { text-align: right; font-family: var(--mono); }
 table.grid .col-actions { text-align: right; width: 1%; }

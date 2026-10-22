@@ -173,7 +173,8 @@ head('\n5) 快速跳转：点列表那一行，舞台就换到那一句');
     check('点第 10 行之后，舞台上的正文换成了那一句',
       text.includes('第 10 /'), text.match(/第 \d+ \/ \d+ 句/) ? text.match(/第 \d+ \/ \d+ 句/)[0] : '');
     check('当前那一句在列表里被标出来了',
-      host.descendants().some((n) => String(n.className).includes('dlg-row current')));
+      host.descendants().some((n) => n.classList && n.classList.contains('current')
+        && n.classList.contains('dlg-row')));
   }
 }
 
@@ -316,6 +317,48 @@ head('\n9) 与 mGBA 真机画面逐像素比对（这是最强的一条）');
     check('整幅画面与真机画面的一致率在 80% 以上（差的是过场人物与框的花纹）',
       same / (same + diff) > 0.8, `${(100 * same / (same + diff)).toFixed(2)}%`);
   }
+}
+
+head('\n10) 整块可点：点行里的任何地方都能选中，但输入框不抢');
+{
+  const host = new (globalThis.document.createElement('div').constructor)('div');
+  renderDialogueView(host, ctx, { root: 'before', scene: 54 });
+  const rows = host.descendants().filter((n) => n.dataset && n.dataset.dlgLine !== undefined);
+  const row = rows[4];
+  check('对白列表的每一行都标了「整块可点」',
+    rows.every((r) => r.classList && r.classList.contains('area-clickable')),
+    `${rows.length} 行`);
+
+  // 找一个**不在按钮里**的普通元素 —— 行头那颗按钮里的文字点下去
+  // 当然是「点那颗按钮」，不算「点行的空白处」。
+  const plain = (() => {
+    for (const node of row.descendants()) {
+      if (String(node.tagName).toUpperCase() !== 'SPAN') continue;
+      if (String(node.className || '').includes('xref-link')) continue;
+      let up = node;
+      let insideButton = false;
+      while (up && up !== row) {
+        if (String(up.tagName).toUpperCase() === 'BUTTON') { insideButton = true; break; }
+        up = up.parentNode;
+      }
+      if (!insideButton) return node;
+    }
+    return null;
+  })();
+  const input = row.descendants().find((n) => String(n.tagName).toUpperCase() === 'INPUT');
+  check('行里有一个普通元素可点（不在按钮里，也不是输入框）', !!plain && !!input);
+
+  // 点行里的普通元素 → 选中这一句。
+  row.listeners.click[0]({ target: plain });
+  check('点行里的普通元素就选中这一句',
+    host.textContent.includes('第 5 /'), (host.textContent.match(/第 \d+ \/ \d+ 句/) || [''])[0]);
+
+  // 点正文输入框 → 不抢（那是编辑，不是选中）。
+  const before = (host.textContent.match(/第 (\d+) \/ \d+ 句/) || [])[1];
+  row.listeners.click[0]({ target: input });
+  const after = (host.textContent.match(/第 (\d+) \/ \d+ 句/) || [])[1];
+  check('点正文输入框不会切换当前句（那里是编辑，不是选中）', before === after,
+    `第 ${before} 句 → 第 ${after} 句`);
 }
 
 const summary = failures === 0

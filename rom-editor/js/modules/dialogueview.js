@@ -17,7 +17,7 @@
 //   * `notes/evidence/story-background-chain-20261022.md`（背景）
 //   * `notes/evidence/dialogue-font-render-20261022.md`（对白字形）
 
-import { el, clear, toast } from '../ui.js';
+import { el, clear, toast, clickableArea } from '../ui.js';
 import {
   buildDialogueModel, jumpTo, stepDelayMs, DEFAULT_STEP_MS,
   STAGE_W, STAGE_H, ROOT_LABELS,
@@ -342,17 +342,19 @@ function listPanel(ctx, model, state, stage) {
     const row = el('div', {
       class: 'dlg-row',
       dataset: { dlgLine: String(line.index) },
+      title: '点这一行的任何地方都能跳到这一句（正文输入框和「跳到原始字节」除外）',
     });
+    const select = () => {
+      state.playing = false;
+      state.index = line.index;
+      stage.paint();
+      stage.onIndexChanged(line.index);
+    };
     const head = el('button', {
       class: 'dlg-row-head',
       type: 'button',
       title: '跳到这一句',
-      onclick: () => {
-        state.playing = false;
-        state.index = line.index;
-        stage.paint();
-        stage.onIndexChanged(line.index);
-      },
+      onclick: select,
     }, [
       el('span', { class: 'dlg-row-no', text: `#${line.index + 1}` }),
       el('span', { class: 'dlg-row-speaker', text: line.speakerName || '（无名牌）' }),
@@ -364,6 +366,8 @@ function listPanel(ctx, model, state, stage) {
     }
     row.appendChild(head);
     row.appendChild(body);
+    // 整张卡都能点 —— 只有正文输入框和「跳到原始字节」保留自己的动作。
+    clickableArea(row, select);
     list.appendChild(row);
   }
 

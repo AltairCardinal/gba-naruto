@@ -21,7 +21,7 @@
 // 语义只从内容包取（记录表的字段表、奖励表的 enum 与 relation、
 // 任务索引表给出的关卡归属）。
 
-import { el, clear, toast } from '../ui.js';
+import { el, clear, toast, clickableArea } from '../ui.js';
 import { base64ToBytes, bytesToBase64 } from '../bytes.js';
 import { fieldControl, enumLabel } from '../fields.js';
 import { arraysIn, renderArrayTable } from '../slots.js';
@@ -670,7 +670,13 @@ class ItemView {
     for (const row of rows) {
       const values = row.record.values || {};
       const category = enumLabel(row.categoryField, values[row.categoryField.key]);
-      body.appendChild(el('tr', {}, [
+      // 整行的动作 = 「跳到这条奖励」；另一个链接（在奖励表里打开）保留自己的动作。
+      const openReward = () => {
+        // 先记住落点：hash 往返会把面板参数冲掉。
+        lastRewardId = row.record.id;
+        ctx.openPanel('reward', '奖励', { recordId: row.record.id });
+      };
+      const tr = el('tr', {}, [
         el('td', { class: 'col-id', text: String(row.index + 1) }),
         el('td', { class: 'text-cell', text: rewardOwnerText(owners, row.record.id) }),
         el('td', { text: category === null ? String(values[row.categoryField.key]) : category }),
@@ -679,11 +685,7 @@ class ItemView {
           el('span', {
             class: 'xref-link',
             text: '跳到这条奖励 →',
-            onclick: () => {
-              // 先记住落点：hash 往返会把面板参数冲掉。
-              lastRewardId = row.record.id;
-              ctx.openPanel('reward', '奖励', { recordId: row.record.id });
-            },
+            onclick: openReward,
           }),
           el('span', {
             class: 'xref-link',
@@ -697,7 +699,10 @@ class ItemView {
             }),
           }),
         ]),
-      ]));
+      ]);
+      // 整行都能跳到这条奖励 —— 不用瞄准那个链接。
+      clickableArea(tr, openReward);
+      body.appendChild(tr);
     }
     table.appendChild(body);
     block.appendChild(el('div', { class: 'table-wrap' }, [table]));

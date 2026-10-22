@@ -187,6 +187,7 @@ try {
 }
 
 const statuses = [];
+const opened = [];
 // A synthetic canvas that mirrors the real ROM's shape: zeroed, with the
 // 0xFF free region at 0x5DFBEC that the text rewriter allocates from.
 const base = new Uint8Array(0x600000);
@@ -197,7 +198,7 @@ const ctx = {
   baseRom: base,
   state: { view: { panel: null } },
   onChange() {},
-  openPanel() {},
+  openPanel(kind, id, params) { opened.push({ kind, id, params }); },
   render() {},
   setStatus(message) { statuses.push(message); },
 };
@@ -743,6 +744,37 @@ console.log('\n8) 域首页：每张表都够得着 + 带可编辑性信息');
         : `覆盖 ${covered || tables.length} 张表（应 ≥ ${expected}）· ${tables.length} 行`);
     check(`${label}：不再是纯卡片墙`, cards.length <= 5,
       `${cards.length} 张卡片`);
+  }
+
+  // 整块可点：域首页「本域可编辑内容」那一列的入口以前是个小按钮，
+  // 现在**整行都能进** —— 点行里别的地方，打开的是同一个地方。
+  {
+    const host = new StubNode('div');
+    ctx.state.view = { panel: null };
+    renderStory(host, ctx);
+    const table = host.descendants().find((n) => n.className === 'grid domain-tables');
+    // 表头那一行没有入口，也不该有 —— 只看数据行。
+    const rows = table ? table.descendants().filter((n) => n.tagName === 'TR'
+      && !n.descendants().some((c) => c.tagName === 'TH')) : [];
+    const withButton = rows.filter((r) => r.descendants().some((n) => n.tagName === 'BUTTON'));
+    check('域首页的表清单每一行都有入口按钮', withButton.length === rows.length && rows.length > 0,
+      `${withButton.length} / ${rows.length} 行`);
+    check('域首页的表清单每一行都是「整块可点」',
+      rows.every((r) => r.listeners.click && r.listeners.click.length > 0),
+      `${rows.filter((r) => r.listeners.click && r.listeners.click.length > 0).length} / ${rows.length} 行`);
+    const row = withButton[0];
+    if (row) {
+      const button = row.descendants().find((n) => n.tagName === 'BUTTON');
+      const plain = row.descendants().find((n) => n.tagName === 'TD');
+      opened.length = 0;
+      button.listeners.click[0]({ target: button });
+      const viaButton = JSON.stringify(opened[0] || null);
+      opened.length = 0;
+      row.listeners.click[0]({ target: plain });
+      const viaRow = JSON.stringify(opened[0] || null);
+      check('点整行与点那个入口按钮，打开的是同一个地方',
+        !!viaRow && viaRow === viaButton, `${viaRow}　vs　${viaButton}`);
+    }
   }
 
   // 战斗域的 7 张表以前在首页根本够不着

@@ -98,9 +98,52 @@ export function formatOffset(value) {
   return '0x' + (value >>> 0).toString(16).toUpperCase();
 }
 
+/**
+ * 让**整块**（一整行 / 一整张卡）都能触发同一个动作。
+ *
+ * 但**自带别的功能的地方不抢点击**：按钮、链接、输入框、下拉框、标签，
+ * 以及标了 `data-no-area-click` 的元素 —— 点它们走它们自己的动作。
+ *
+ * 为什么要有它：入口做成一个小按钮，作者得**瞄准**才能点到；
+ * 列表里一长串「打开」「编辑」尤其费眼。整块可点就没有瞄准的负担。
+ * 键盘用户不受影响 —— 块里那个真正的按钮仍然可以 Tab 到。
+ */
+export function clickableArea(node, action) {
+  // 有些无头自检的 DOM 桩没有 classList —— 加不上类名也不能崩。
+  if (node.classList && typeof node.classList.add === 'function') {
+    node.classList.add('area-clickable');
+  }
+  node.addEventListener('click', (event) => {
+    if (hasOwnAction(event && event.target)) return;
+    action(event);
+  });
+  return node;
+}
+
+/** 自带功能的标签（点它们不该触发外层的动作）。 */
+const OWN_ACTION_TAGS = new Set([
+  'BUTTON', 'A', 'INPUT', 'TEXTAREA', 'SELECT', 'OPTION', 'LABEL',
+]);
+
+/** 「自己就是入口」的标记类 —— 点它走它自己的动作。 */
+const OWN_ACTION_CLASSES = ['xref-link'];
+
+/** 从点的地方往上找：有没有自带功能的元素？ */
+function hasOwnAction(target) {
+  let node = target;
+  while (node) {
+    const tag = String(node.tagName || '').toUpperCase();
+    if (OWN_ACTION_TAGS.has(tag)) return true;
+    if (node.classList && typeof node.classList.contains === 'function'
+        && OWN_ACTION_CLASSES.some((name) => node.classList.contains(name))) return true;
+    if (node.dataset && node.dataset.noAreaClick !== undefined) return true;
+    node = node.parentNode;
+  }
+  return false;
+}
+
 /** A labelled read-only statistic. */
-export function stat(label, value, hint) {
-  return el('div', { class: 'stat' }, [
+export function stat(label, value, hint) {  return el('div', { class: 'stat' }, [
     el('div', { class: 'stat-label', text: label }),
     el('div', { class: 'stat-value', text: String(value) }),
     hint ? el('div', { class: 'stat-hint', text: hint }) : null,

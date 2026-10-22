@@ -69,6 +69,9 @@
   background: var(--bg-1);
 }
 .dlg-row.current { border-color: var(--accent-2); background: #1b2230; }
+/* 整张卡都能点（跳到这一句）—— 悬停时给点反馈。 */
+.dlg-row.area-clickable:hover { background: #1b2230; }
+.dlg-row.area-clickable:hover .dlg-row-no { color: var(--accent-2); }
 .dlg-row-head {
   display: flex; gap: 8px; align-items: baseline; width: 100%;
   background: transparent; border: 0; padding: 2px 0; cursor: pointer;
