@@ -20,7 +20,12 @@ class StubNode {
     this.parentNode = null;
     this.attributes = {};
     this.dataset = {};
-    this.style = {};
+    // style 得有 setProperty / getPropertyValue —— splitPane() 会写
+    // --split-right 这个 CSS 变量（列表 / 详情两栏的宽度）。
+    this.style = {
+      setProperty() {},
+      getPropertyValue() { return ''; },
+    };
     this.listeners = {};
     this._text = '';
     this._className = '';
@@ -113,7 +118,7 @@ const { renderStory } = await import('../js/modules/story.js');
 const { renderItems } = await import('../js/modules/items.js');
 const { renderCharacters } = await import('../js/modules/characters.js');
 const { renderNinjutsu } = await import('../js/modules/ninjutsu.js');
-const { renderBattle, renderStage } = await import('../js/modules/battle.js');
+const { renderBattle } = await import('../js/modules/battle.js');
 const routeModule = await import('../js/modules/route.js');
 const renderRoute = routeModule.renderRoute;
 const renderRouteStage = routeModule.renderStage;
@@ -128,6 +133,20 @@ let failures = 0;
 function check(name, ok, detail = '') {
   if (!ok) failures += 1;
   console.log(`  [${ok ? 'PASS' : 'FAIL'}] ${name}${detail ? ' — ' + detail : ''}`);
+}
+
+/**
+ * 切到右侧面板的某个页签（内容按需渲染，要拿某一页得先切过去）。
+ */
+function switchTab(host, label) {
+  const btn = host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-btn'))
+    .find((n) => String(n.textContent || '').includes(label));
+  if (!btn) return false;
+  const click = btn.listeners && btn.listeners.click && btn.listeners.click[0];
+  if (!click) return false;
+  click();
+  return true;
 }
 
 const packData = JSON.parse(readFileSync(join(root, 'content', 'pack.json'), 'utf8'));
@@ -181,22 +200,39 @@ for (const [label, render] of MODULES) {
     error ? String(error.message) : `${text.length} 字符`);
 }
 
-console.log('\n2) 战斗：第 40 关的视图');
+console.log('\n2) 战斗：第 40 关的战场地图（主界面）与右侧页签');
 {
   const host = new StubNode('div');
   let error = null;
   let text = '';
   try {
-    renderStage(host, ctx, 40, 0);
+    ctx.state.view = { panel: { kind: 'map', id: 'map', params: { stage: 40, variant: 0 } } };
+    renderBattle(host, ctx);
     text = host.textContent;
   } catch (err) {
     error = err;
   }
   check('战斗视图渲染成功', !error && text.length > 200,
     error ? String(error.message) : `${text.length} 字符`);
-  for (const needle of ['战场布置', '角色出生点', '战斗目标', '战场物件', '战场事件']) {
-    check(`战斗视图含「${needle}」`, text.includes(needle));
+
+  // 右侧面板是分页签的：五类配置各占一页。
+  const tabLabels = host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-btn'))
+    .map((n) => n.textContent);
+  check('战斗视图有页签条', tabLabels.length >= 5, tabLabels.join(' / '));
+  for (const needle of ['战场布置', '战场物件', '角色出生点', '胜负条件', '剧情触发']) {
+    check(`战斗视图的页签里有「${needle}」`, tabLabels.some((t) => t.includes(needle)));
   }
+  // 地图是主界面：画布在
+  check('战斗视图画出了地图', host.descendants().some((n) => n.className === 'map-canvas'));
+
+  // 切到「胜负条件」那一页
+  switchTab(host, '胜负条件');
+  const rulesText = host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-body'))
+    .map((n) => n.textContent).join('');
+  check('胜负条件那一页里有胜利与失败', rulesText.includes('胜利') && rulesText.includes('失败'));
+  check('胜负条件那一页里有回合上限', rulesText.includes('回合上限'));
 
   // 说明文字必须显示成原文，而不是只有指针
   const rules = pack.structure('battle_rules');
@@ -219,16 +255,16 @@ console.log('\n2) 战斗：第 40 关的视图');
   check('说明文字是可编辑的输入框', !!sample && values.includes(sample),
     `输入框 ${inputs.length} 个，样例「${sample}」${values.includes(sample) ? '在其中' : '不在其中'}`);
   // 输入框下面还要标出字节用量与地址
-  check('说明文字标出字节用量与地址', /\d+ \/ \d+ 字节 · 0x[0-9A-F]+/.test(text),
-    (text.match(/\d+ \/ \d+ 字节 · 0x[0-9A-F]+/) || ['没有'])[0]);
+  check('说明文字标出字节用量与地址', /\d+ \/ \d+ 字节 · 0x[0-9A-F]+/.test(rulesText),
+    (rulesText.match(/\d+ \/ \d+ 字节 · 0x[0-9A-F]+/) || ['没有'])[0]);
 
   // 类型 2 的语义必须与原生行为一致
-  check('类型 2 标注为「回合用尽」', text.includes('回合用尽'),
-    text.includes('回合用尽') ? '已标注' : '没有标注');
-  check('不再声称类型 2 是「指定角色仍在场」', !text.includes('指定角色仍在场上'));
+  check('类型 2 标注为「回合用尽」', rulesText.includes('回合用尽'),
+    rulesText.includes('回合用尽') ? '已标注' : '没有标注');
+  check('不再声称类型 2 是「指定角色仍在场」', !rulesText.includes('指定角色仍在场上'));
 
   // 参数含义要写出来
-  check('参数含义被标注', text.includes('角色 id') || text.includes('道具序号'));
+  check('参数含义被标注', rulesText.includes('角色 id') || rulesText.includes('道具序号'));
 
   // 战斗目标的条件类型应当是**下拉**（语义取自内容包的 enum，只有这一处真相）
   const battleSelects = host.descendants().filter((n) => n.tagName === 'SELECT');
@@ -240,13 +276,21 @@ console.log('\n2) 战斗：第 40 关的视图');
   // 「本关剧情脚本里可改的操作数」以前永远是空的（筛选排除了有操作数的剧本）
   const hasOperands = (pack.scripts || []).some(
     (s) => s.scene === 40 && (s.operands || []).length);
+  switchTab(host, '剧情触发');
+  const scriptText = host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-body'))
+    .map((n) => n.textContent).join('');
   check('本关剧本的操作数小节不再是空的',
-    !hasOperands || text.includes('本关剧情脚本里可改的操作数'),
+    !hasOperands || scriptText.includes('本关剧情脚本里可改的操作数'),
     hasOperands ? '有操作数，必须显示出来' : '本关确实没有操作数');
+  check('剧情触发那一页列出四个剧本入口',
+    ['战前剧情', '战后剧情', '战场事件逻辑', '战场事件表']
+      .every((name) => scriptText.includes(name)));
 
   // 每一行都能跳到通用表格的同一条记录
+  switchTab(host, '战场物件');
   const jumpLinks = host.descendants().filter((n) => n.textContent === '↗');
-  check('关卡视图能跳到通用表格的同一条记录', jumpLinks.length > 0,
+  check('战场物件能跳到通用表格的同一条记录', jumpLinks.length > 0,
     `${jumpLinks.length} 个跳转`);
 
   // 本关改动数
@@ -255,17 +299,29 @@ console.log('\n2) 战斗：第 40 关的视图');
     (text.match(/本关[^，。]{0,8}/) || [''])[0]);
 
   // --- 就地编辑：改一个出生点的 X，落点必须正确 -------------------------
+  switchTab(host, '角色出生点');
   const actors = pack.structure('battle_actors');
   const slot0 = actors.records.find(
     (r) => r.rom_offset === 0x5461c4 + 40 * 0x1aac + 4);
-  const allInputs = host.descendants().filter((n) => n.tagName === 'INPUT');
-  // 每行 5 个输入框：角色 id / X / Y / 朝向 / 等级
-  const xInput = allInputs[1];
+  // 出生点表：槽 / 角色 / 阵营 / X / Y / 朝向 / 等级 / ↗
+  //   —— X 是第 4 列（从 0 数）。
+  const actorTable = host.descendants().find((n) => n.tagName === 'TABLE');
+  const actorRow = actorTable
+    ? (actorTable.children.find((n) => n.tagName === 'TBODY') || { children: [] }).children
+      .find((n) => n.tagName === 'TR')
+    : null;
+  const xInput = actorRow
+    ? actorRow.children.filter((n) => n.tagName === 'TD')[3]
+      .descendants().find((n) => n.tagName === 'INPUT')
+    : null;
   check('出生点表格里 X 是可编辑输入框', !!xInput && xInput.value === String(slot0.values.x),
     `X=${xInput ? xInput.value : '没有输入框'}（原生 ${slot0.values.x}）`);
   if (xInput) {
-    xInput.listeners.change[0]({ target: { value: '9' } });
-    const changed = slot0.values.x === 9;
+    // 地图视图的坐标框有**越界拦截**（第 40 关的地图只有 9 列），
+    // 所以这里用一个合法值 —— 越界的那条由 verify_battle_map 单独验。
+    const originalX = slot0.values.x;
+    xInput.listeners.change[0]({ target: { value: '5' } });
+    const changed = slot0.values.x === 5;
     check('改出生点的 X 立刻写回内容包', changed,
       `x = ${slot0.values.x}`);
     // 构建后必须只动那一个字节
@@ -275,11 +331,42 @@ console.log('\n2) 战斗：第 40 关的视图');
     const out = buildRom(pack, rom);
     const offset = slot0.rom_offset + 0x02;   // x 在记录里的偏移
     check('改出生点的 X 只动那一个字节',
-      out.report.errors.length === 0 && out.bytes[offset] === 9,
+      out.report.errors.length === 0 && out.bytes[offset] === 5,
       out.report.errors.join('; ') ||
       `@0x${offset.toString(16)} = ${out.bytes[offset]}`);
     // 复原，避免影响后面的断言
-    slot0.values.x = slot0.original_x ?? slot0.values.x;
+    slot0.values.x = originalX;
+  }
+}
+
+console.log('\n2b) 忍术域：记录表与名表合成一个忍术来改');
+{
+  const { renderJutsu } = await import('../js/modules/jutsu.js');
+  const host = new StubNode('div');
+  let error = null;
+  try {
+    renderJutsu(host, ctx, {});
+  } catch (err) {
+    error = err;
+  }
+  const text = host.textContent || '';
+  check('忍术视图渲染成功', !error && text.length > 200,
+    error ? String(error.message) : `${text.length} 字符`);
+  check('忍术视图是「一个忍具一个对象」的说法',
+    text.includes('忍术记录表') && text.includes('忍术名表'));
+  // 左边列出 87 个忍术
+  const rows = host.descendants().filter((n) => n.tagName === 'TR').length;
+  check('左边按忍术 id 列出', rows >= 87, `${rows} 行`);
+
+  // 名字页签能改名字（名字表由指针表驱动，可变长）
+  const tabBtn = host.descendants()
+    .find((n) => String(n.className || '').split(/\s+/).includes('tab-btn')
+      && n.textContent.includes('名字'));
+  check('有「名字」页签', !!tabBtn);
+  if (tabBtn) {
+    tabBtn.listeners.click[0]();
+    const input = host.descendants().find((n) => n.tagName === 'INPUT');
+    check('名字那一页有输入框', !!input, input ? `值「${input.value}」` : '没有');
   }
 }
 
@@ -646,7 +733,9 @@ console.log('\n9) 导航：URL 可寻址 + 跨域引用可点');
   const cases = [
     ['#overview', 'overview', null],
     ['#battle', 'battle', null],
-    ['#battle/stage/40/0', 'battle', 'stage'],
+    // 战斗域的关卡视图已经并进战场地图：老地址仍然能开，开的是地图。
+    ['#battle/stage/40/0', 'battle', 'map'],
+    ['#battle/map/40/0', 'battle', 'map'],
     ['#characters/structure/character_template/1', 'characters', 'structure'],
     ['#characters/text/dialogue_slots/12', 'characters', 'text'],
   ];
@@ -1042,6 +1131,295 @@ console.log('\n15) 复合键 / 大表行数上限 / 空记录隐藏 / 原生不�
   check('忍术槽能跳到「忍术记录表」',
     jutsuLinks.some((l) => String(l.textContent || '').includes('忍术记录表')),
     jutsuLinks.map((l) => l.textContent).join(' / '));
+}
+
+console.log('\n17) 剧情路线 · 任务视图：右侧面板分页签');
+{
+  const { renderMission } = await import('../js/modules/mission.js');
+  const host = new StubNode('div');
+  let error = null;
+  try {
+    renderMission(host, ctx, { stage: 40 });
+  } catch (err) {
+    error = err;
+  }
+  check('任务视图渲染成功', !error, error ? String(error.message) : '');
+
+  // --- 页签条：五个页签各管一类 -------------------------------------------
+  const tabButtons = host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-btn'));
+  check('任务视图右侧面板有页签条', tabButtons.length === 5,
+    `${tabButtons.length} 个页签`);
+  const tabLabels = tabButtons.map((n) => String(n.textContent || ''));
+  for (const needle of ['基址', '标题', '说明', '提示', '奖励']) {
+    check(`任务视图的页签里有「${needle}」`,
+      tabLabels.some((t) => t.includes(needle)), tabLabels.join(' / '));
+  }
+
+  // --- 头部留在页签外面 ---------------------------------------------------
+  const head = host.descendants().find((n) => n.className === 'detail-head');
+  const sub = host.descendants().find((n) => n.className === 'detail-sub');
+  check('头部留在页签外面（第几关）',
+    !!head && String(head.textContent || '').includes('第 40 关'),
+    head ? String(head.textContent || '') : '没有头部');
+  check('头部标出索引表第几条与基址',
+    !!sub && String(sub.textContent || '').includes('索引表第 40 条')
+      && String(sub.textContent || '').includes('基址 #'),
+    sub ? String(sub.textContent || '') : '没有副标题');
+
+  // --- 切页签：这一页在 DOM 里，切走之后不在 ------------------------------
+  const tabBodies = () => host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-body'));
+  const bodyInputs = () => tabBodies().flatMap((n) => n.descendants())
+    .filter((n) => n.tagName === 'INPUT');
+
+  const index = pack.structure('mission_index');
+  const base = index.records[40].values.value;
+  const titles = pack.textTable('mission_titles');
+  const descs = pack.textTable('mission_descriptions');
+  const hints = pack.textTable('mission_hints');
+  const titleText = titles.records[base].text;
+  const descText = descs.records[base].text;
+  const hintText = hints.records[base].text;
+
+  check('默认停在「基址」页：标题页的内容还不在 DOM 里',
+    !bodyInputs().some((n) => n.value === titleText),
+    `槽 ${base}`);
+  switchTab(host, '标题');
+  check('切到「标题」后这一页的内容在 DOM 里',
+    bodyInputs().some((n) => n.value === titleText),
+    `${bodyInputs().length} 个输入框`);
+  check('「标题」页里不混着「说明」页的文案',
+    !bodyInputs().some((n) => n.value === descText),
+    descText === titleText ? '两页文案本来就一样' : '');
+  switchTab(host, '说明');
+  check('切走之后「标题」页的内容不在 DOM 里',
+    !bodyInputs().some((n) => n.value === titleText));
+  check('切到「说明」后这一页的内容在 DOM 里',
+    bodyInputs().some((n) => n.value === descText));
+  check('「说明」页里不混着「提示」页的文案',
+    !bodyInputs().some((n) => n.value === hintText));
+
+  // --- 每一页装的是不是它该装的东西 --------------------------------------
+  switchTab(host, '基址');
+  const baseText = tabBodies().map((n) => String(n.textContent || '')).join('');
+  check('「基址」页里是索引表那一格',
+    baseText.includes('本关的基址（索引表）'), baseText.slice(0, 40));
+  switchTab(host, '奖励');
+  const rewardText = tabBodies().map((n) => String(n.textContent || '')).join('');
+  check('「奖励」页里是本关的三份奖励',
+    rewardText.includes('金币') && rewardText.includes('强化点')
+      && rewardText.includes('等级门槛') && rewardText.includes('掉落位'),
+    rewardText.slice(0, 40));
+
+  // --- 角标：这一类改了几处 ----------------------------------------------
+  switchTab(host, '标题');
+  const titleInput = bodyInputs().find((n) => n.value === titleText);
+  const changedBefore = pack.changedCount();
+  if (!titleInput) {
+    check('找到标题输入框', false, '没有');
+  } else {
+    titleInput.listeners.change[0]({ target: { value: '宝箱得到！' } });
+    check('改过的标题写回内容包', titles.records[base].text === '宝箱得到！',
+      `「${titles.records[base].text}」`);
+    check('改动计数 +1', pack.changedCount() === changedBefore + 1,
+      `${changedBefore} → ${pack.changedCount()}`);
+    const badges = host.descendants()
+      .filter((n) => String(n.className || '').split(/\s+/).includes('tab-badge'))
+      .map((n) => String(n.textContent || '').trim());
+    check('改过之后「标题」页签上有角标', badges.includes('1'),
+      badges.length ? badges.join(' / ') : '没有角标');
+    // 复原
+    titles.records[base].text = titleText;
+    titles.records[base].original_text = titleText;
+    delete titles.records[base].text_changed;
+    titles.records[base].tokens = null;
+  }
+
+  // --- 换关卡：头部跟着换，页签面板不被重建 ------------------------------
+  switchTab(host, '提示');
+  const rows = host.descendants()
+    .filter((n) => n.tagName === 'TR' && n.listeners && n.listeners.click);
+  const otherRow = rows.find((n) => !String(n.textContent || '').includes('第 40 关'));
+  if (!otherRow) {
+    check('左边列表能点别的关卡', false, '没有可点的行');
+  } else {
+    otherRow.listeners.click[0]();
+    const head2 = host.descendants().find((n) => n.className === 'detail-head');
+    check('换关卡后头部跟着换',
+      !!head2 && !String(head2.textContent || '').includes('第 40 关'),
+      head2 ? String(head2.textContent || '') : '没有头部');
+    const active = host.descendants()
+      .filter((n) => String(n.className || '').split(/\s+/).includes('tab-btn'))
+      .filter((n) => String(n.className || '').split(/\s+/).includes('active'));
+    check('换关卡后还停在原来那一页（页签面板没被重建）',
+      active.length === 1 && String(active[0].textContent || '').includes('提示'),
+      active.map((n) => String(n.textContent || '')).join(' / '));
+  }
+}
+
+console.log('\n18) 素材与资源：接线表与 EWRAM 内存图的右侧面板分页签');
+{
+  /** 某个宿主里当前页签页签体的文字。 */
+  const tabBodyText = (host) => host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-body'))
+    .map((n) => String(n.textContent || '')).join('');
+  /** 某个宿主里当前页签页签体里的控件。 */
+  const tabBodyControls = (host) => host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-body'))
+    .flatMap((n) => n.descendants())
+    .filter((n) => ['INPUT', 'SELECT', 'TEXTAREA'].includes(n.tagName));
+  const tabButtons = (host) => host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-btn'));
+
+  // --- 接线表（#assets/wiring） --------------------------------------------
+  // 同一文件里的兄弟视图（#assets/records）本轮没改，但别被改坏。
+  const recordsHost = new StubNode('div');
+  let recordsError = null;
+  try {
+    ctx.state.view = { panel: { kind: 'records', id: '资源记录表', params: {} } };
+    renderAssets(recordsHost, ctx);
+  } catch (err) {
+    recordsError = err;
+  }
+  check('资源记录表视图仍能渲染（同一文件的兄弟视图）', !recordsError,
+    recordsError ? String(recordsError.message) : `${recordsHost.textContent.length} 字符`);
+
+  const wiringHost = new StubNode('div');
+  let wiringError = null;
+  try {
+    ctx.state.view = { panel: { kind: 'wiring', id: '接线表', params: {} } };
+    renderAssets(wiringHost, ctx);
+  } catch (err) {
+    wiringError = err;
+  }
+  check('接线表视图渲染成功', !wiringError,
+    wiringError ? String(wiringError.message) : '');
+
+  const wiringBars = wiringHost.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-bar'));
+  check('接线表右侧面板有页签条', wiringBars.length === 1, `${wiringBars.length} 条`);
+
+  const wiringLabels = tabButtons(wiringHost).map((n) => String(n.textContent || ''));
+  check('接线表有三个页签', wiringLabels.length === 3, wiringLabels.join(' / '));
+  for (const needle of ['指向哪', '换成哪一份', '改动后果']) {
+    check(`接线表的页签里有「${needle}」`,
+      wiringLabels.some((t) => t.includes(needle)), wiringLabels.join(' / '));
+  }
+
+  // 头部留在页签外面
+  const wiringHead = wiringHost.descendants().find((n) => n.className === 'detail-head');
+  const insideBody = wiringHost.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-body'))
+    .some((n) => n.descendants().includes(wiringHead));
+  check('接线表的头部留在页签外面',
+    !!wiringHead && !insideBody,
+    wiringHead ? String(wiringHead.textContent || '') : '没有头部');
+
+  // 默认停在「指向哪」：指针框在，别的两页不在
+  check('接线表默认停在「指向哪」：指针输入框在 DOM 里',
+    tabBodyControls(wiringHost).some((n) => n.tagName === 'INPUT'),
+    `${tabBodyControls(wiringHost).length} 个控件`);
+  check('接线表默认那一页里没有「从本表其它项复制…」',
+    !tabBodyText(wiringHost).includes('从本表其它项复制'));
+  switchTab(wiringHost, '换成哪一份');
+  check('切到「换成哪一份」后这一页的内容在 DOM 里',
+    tabBodyText(wiringHost).includes('从本表其它项复制')
+      && tabBodyText(wiringHost).includes('从另一张指针表复制'),
+    tabBodyText(wiringHost).slice(0, 40));
+  check('「换成哪一份」那一页里没有指针输入框',
+    !tabBodyControls(wiringHost).some((n) => n.tagName === 'INPUT'),
+    `${tabBodyControls(wiringHost).length} 个控件`);
+  switchTab(wiringHost, '改动后果');
+  check('切到「改动后果」后这一页的内容在 DOM 里',
+    tabBodyText(wiringHost).includes('这一项改动的后果'),
+    tabBodyText(wiringHost).slice(0, 40));
+  check('切走之后「换成哪一份」的内容不在 DOM 里',
+    !tabBodyText(wiringHost).includes('从本表其它项复制'));
+  switchTab(wiringHost, '指向哪');
+  check('切回「指向哪」后指针输入框又回来了',
+    tabBodyControls(wiringHost).some((n) => n.tagName === 'INPUT'));
+
+  // 角标：改了这一格之后页签上有角标（按字节判定，自动跟上）
+  const ptrTable = pack.structure('data_pointer_table_a');
+  const ptrRecord = ptrTable.records[0];
+  const ptrBefore = ptrRecord.values.ptr;
+  pack.setValue(ptrTable, ptrRecord, 'ptr', (ptrBefore ^ 0xff) >>> 0);
+  const wiringBadges = wiringHost.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-badge'))
+    .map((n) => String(n.textContent || '').trim());
+  check('改过之后「指向哪」页签上有角标', wiringBadges.includes('1'),
+    wiringBadges.length ? wiringBadges.join(' / ') : '没有角标');
+  pack.setValue(ptrTable, ptrRecord, 'ptr', ptrBefore);
+
+  // --- EWRAM 内存图（#assets/memory） ---------------------------------------
+  const memoryHost = new StubNode('div');
+  let memoryError = null;
+  try {
+    ctx.state.view = { panel: { kind: 'memory', id: 'EWRAM 内存图', params: {} } };
+    renderAssets(memoryHost, ctx);
+  } catch (err) {
+    memoryError = err;
+  }
+  check('EWRAM 内存图视图渲染成功', !memoryError,
+    memoryError ? String(memoryError.message) : '');
+
+  const memoryBars = memoryHost.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-bar'));
+  check('EWRAM 内存图右侧面板有页签条', memoryBars.length === 1, `${memoryBars.length} 条`);
+
+  const memoryLabels = tabButtons(memoryHost).map((n) => String(n.textContent || ''));
+  check('EWRAM 内存图有两个页签', memoryLabels.length === 2, memoryLabels.join(' / '));
+  for (const needle of ['内存分配', '邻接关系']) {
+    check(`EWRAM 内存图的页签里有「${needle}」`,
+      memoryLabels.some((t) => t.includes(needle)), memoryLabels.join(' / '));
+  }
+
+  const memoryHead = memoryHost.descendants().find((n) => n.className === 'detail-head');
+  const memoryHeadInside = memoryHost.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-body'))
+    .some((n) => n.descendants().includes(memoryHead));
+  check('EWRAM 内存图的头部留在页签外面',
+    !!memoryHead && !memoryHeadInside,
+    memoryHead ? String(memoryHead.textContent || '') : '没有头部');
+
+  // 默认停在「内存分配」：地址与大小两个输入框在
+  check('EWRAM 内存图默认停在「内存分配」：地址与大小输入框在 DOM 里',
+    tabBodyControls(memoryHost).filter((n) => n.tagName === 'INPUT').length === 2,
+    `${tabBodyControls(memoryHost).length} 个控件`);
+  check('EWRAM 内存图默认那一页里没有邻接告警',
+    !tabBodyText(memoryHost).includes('下一段：'));
+  switchTab(memoryHost, '邻接关系');
+  check('切到「邻接关系」后这一页的内容在 DOM 里',
+    tabBodyText(memoryHost).includes('下一段：')
+      || tabBodyText(memoryHost).includes('这是最后一段：'),
+    tabBodyText(memoryHost).slice(0, 40));
+  check('切走之后「内存分配」那一页的输入框不在 DOM 里',
+    !tabBodyControls(memoryHost).some((n) => n.tagName === 'INPUT'));
+  switchTab(memoryHost, '内存分配');
+  check('切回「内存分配」后地址与大小输入框又回来了',
+    tabBodyControls(memoryHost).filter((n) => n.tagName === 'INPUT').length === 2);
+
+  // 角标：改了这一行之后页签上有角标
+  const wram = pack.structure('wram_allocation');
+  const wramRecord = wram.records[0];
+  const sizeBefore = wramRecord.values.alloc_size;
+  const sizeInput = tabBodyControls(memoryHost)
+    .find((n) => n.tagName === 'INPUT' && n.className === 'num-input wram-size');
+  if (!sizeInput) {
+    check('找到大小输入框', false, '没有');
+  } else {
+    sizeInput.listeners.change[0]({ target: { value: String(sizeBefore - 16) } });
+    const memoryBadges = memoryHost.descendants()
+      .filter((n) => String(n.className || '').split(/\s+/).includes('tab-badge'))
+      .map((n) => String(n.textContent || '').trim());
+    check('改过之后「内存分配」页签上有角标', memoryBadges.includes('1'),
+      memoryBadges.length ? memoryBadges.join(' / ') : '没有角标');
+    check('改过之后大小写回了内容包',
+      wramRecord.values.alloc_size === sizeBefore - 16,
+      `${sizeBefore} → ${wramRecord.values.alloc_size}`);
+    pack.setValue(wram, wramRecord, 'alloc_size', sizeBefore);
+  }
 }
 
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);

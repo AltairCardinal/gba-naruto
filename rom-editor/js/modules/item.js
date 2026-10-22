@@ -28,6 +28,7 @@ import { arraysIn, renderArrayTable } from '../slots.js';
 import { missionIndexOwners, ownerLabel } from '../xref.js';
 import { idSpace } from '../idspace.js';
 import { splitPane } from '../split.js';
+import { TabPanel } from '../tabs.js';
 import { backButton, summaryTable } from './common.js';
 
 // ---------------------------------------------------------------------------
@@ -46,6 +47,27 @@ export function recordChanged(pack, structure, record) {
 export function textChanged(table, id) {
   const record = table && (table.records || [])[id];
   return !!(record && record.text !== undefined && record.text !== record.original_text);
+}
+
+/**
+ * 这个**字段**的字节现在和原版不一样吗（改了又改回来不算改动）。
+ *
+ * 判定口径与通用表格编辑器同一套：拿重新编码后的字节和原始字节比，
+ * 这里只看这个字段占的那几个字节 —— 所以一页里改了金币，
+ * 只有「金币」那一页亮角标，别的一页不亮。
+ */
+export function fieldChanged(pack, structure, record, field) {
+  if (!pack || !structure || !record || !field) return false;
+  const offset = field.offset;
+  if (offset === undefined || offset === null) return false;
+  const size = field.size || 1;
+  const now = pack.recordBytes(structure, record);
+  const raw = base64ToBytes(record.raw || '');
+  if (now.length < offset + size || raw.length < offset + size) return false;
+  for (let i = 0; i < size; i += 1) {
+    if (now[offset + i] !== raw[offset + i]) return true;
+  }
+  return false;
 }
 
 /**
@@ -210,6 +232,8 @@ class ItemView {
     this.records = this.pack.structure('item_record');
     this.names = itemNameTable(this.pack);
     this.id = this.pickId(params);
+    this.tabs = null;
+    this.tabsMounted = false;
   }
 
   pickId(params) {
@@ -262,15 +286,44 @@ class ItemView {
     ]));
     container.appendChild(el('p', { class: 'section-note', text:
       '左边按道具/忍具记录表列出（一行 = 一个忍具）；' +
-      '右边是它的名字、它自己的那串未解字节，以及它在哪几关掉落' +
-      '（奖励表里引用它的那些行，点一下就跳过去 —— 掉落关系改在奖励那一侧）。' }));
+      '右边分三个页签：名字（忍具名表）、未解字节（记录表那串尚未证明语义的字节）、' +
+      '掉落位置（奖励表里引用它的那些行，点一下就跳过去 —— 掉落关系改在奖励那一侧）。' }));
 
     this.listWrap = el('div', { class: 'table-wrap' });
     this.detailWrap = el('div', { class: 'detail-panel' });
+    // 头部每次重画；页签面板常驻在另一个容器里 —— clear() 不到它，
+    // 所以切页签、换忍具时页签选择都还在。
+    this.detailHead = el('div', { class: 'detail-head-area' });
+    this.detailTabs = el('div', { class: 'detail-tab-area' });
+    this.detailWrap.appendChild(this.detailHead);
+    this.detailWrap.appendChild(this.detailTabs);
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.item',
       wide: true,
     }));
+    this.tabs = new TabPanel([
+      {
+        id: 'name',
+        label: '名字',
+        hint: '忍具名表里的那一条文本',
+        badge: () => this.nameBadge(),
+        render: () => this.renderName(this.currentRecord()),
+      },
+      {
+        id: 'bytes',
+        label: '未解字节',
+        hint: '记录表里那串字节：字段语义尚未证明，只能按原始字节改',
+        badge: () => this.bytesBadge(),
+        render: () => this.renderRecord(this.currentRecord()),
+      },
+      {
+        id: 'drops',
+        label: '掉落位置',
+        hint: '奖励表里引用它的那些行（掉落关系改在奖励那一侧）',
+        badge: () => this.dropsBadge(),
+        render: () => this.renderDrops(this.currentRecord()),
+      },
+    ], { key: 'editor.item', pack: this.pack });
     this.renderList();
     this.renderDetail();
   }
@@ -317,45 +370,95 @@ class ItemView {
     wrap.appendChild(table);
   }
 
-  /** 右边：这个忍具。 */
+  /** 现在看的那条记录。 */
+  currentRecord() {
+    return ((this.records && this.records.records) || [])
+      .find((r) => r.id === this.id) || null;
+  }
+
+  /** 页签面板常驻在 detailTabs 里 —— 它自己管内容，这里只管挂不挂。 */
+  mountTabs() {
+    if (this.tabsMounted) return;
+    this.detailTabs.appendChild(this.tabs.element);
+    this.tabsMounted = true;
+  }
+
+  /** 找不到记录时把页签收起来（下次有记录了再挂回去）。 */
+  unmountTabs() {
+    if (!this.tabsMounted) return;
+    clear(this.detailTabs);
+    this.tabsMounted = false;
+  }
+
+  /** 右边：这个忍具。头部在外面，内容按类分页签。 */
   renderDetail() {
-    const host = this.detailWrap;
-    clear(host);
-    const record = ((this.records && this.records.records) || [])
-      .find((r) => r.id === this.id);
+    const record = this.currentRecord();
+    clear(this.detailHead);
     if (!record) {
-      host.appendChild(el('div', { class: 'empty', text: '找不到这个忍具。' }));
+      this.detailHead.appendChild(el('div', { class: 'empty', text: '找不到这个忍具。' }));
+      this.unmountTabs();
       return;
     }
     const name = itemName(this.names, record.id);
     const bytes = this.byteFields().length;
 
-    host.appendChild(el('div', { class: 'detail-head' }, [
+    this.detailHead.appendChild(el('div', { class: 'detail-head' }, [
       el('h3', { text: name ? `${name}（#${record.id}）` : `忍具 #${record.id}` }),
     ]));
-    host.appendChild(el('div', { class: 'detail-sub' }, [
+    this.detailHead.appendChild(el('div', { class: 'detail-sub' }, [
       el('span', { text: `记录表第 ${record.id} 条` }),
       el('span', { text: this.names ? `名表第 ${record.id} 条` : '没有忍具名表' }),
       el('span', { text: `${bytes} 字节语义未证` }),
     ]));
 
-    this.renderName(host, record);
-    this.renderRecord(host, record);
-    this.renderDrops(host, record);
+    this.mountTabs();
+    this.tabs.refresh();
+  }
+
+  /** 名字这一类改了几处（按字节判定：文本与原文不同）。 */
+  nameBadge() {
+    const record = this.currentRecord();
+    if (!record) return null;
+    return textChanged(this.names, record.id) ? 1 : null;
+  }
+
+  /** 未解字节这一类改了几处（按字节判定：记录字节与原版不同）。 */
+  bytesBadge() {
+    const record = this.currentRecord();
+    if (!record) return null;
+    return recordChanged(this.pack, this.records, record) ? 1 : null;
+  }
+
+  /** 掉落位置这一类：引用它的那些奖励行里有几条被改过。 */
+  dropsBadge() {
+    const record = this.currentRecord();
+    if (!record) return null;
+    const rewards = this.pack.structure('reward_table');
+    if (!rewards) return null;
+    const changed = new Set(
+      this.pack.changedStructureRecords(rewards).map((r) => r.rom_offset));
+    let n = 0;
+    for (const row of this.dropIndex().get(record.id) || []) {
+      if (changed.has(row.record.rom_offset)) n += 1;
+    }
+    return n || null;
   }
 
   /** 名字（忍具名表里的那条文本）。 */
-  renderName(host, record) {
+  renderName(record) {
     const ctx = this.ctx;
     const block = el('div', { class: 'item-block' });
+    if (!record) {
+      block.appendChild(el('div', { class: 'stat-hint', text: '找不到这个忍具。' }));
+      return block;
+    }
     block.appendChild(el('div', { class: 'field-label' }, [
       el('span', { text: '名字（忍具名表）' }),
     ]));
     const textRecord = this.names && (this.names.records || [])[record.id];
     if (!textRecord) {
       block.appendChild(el('div', { class: 'stat-hint', text: '名表里没有这一条。' }));
-      host.appendChild(block);
-      return;
+      return block;
     }
     const preview = el('div', { class: 'field-hint' });
     const update = () => {
@@ -408,17 +511,21 @@ class ItemView {
         }),
       }),
     ]));
-    host.appendChild(block);
+    return block;
   }
 
   /** 这个忍具自己的记录：语义未证的那串字节。 */
-  renderRecord(host, record) {
+  renderRecord(record) {
     const ctx = this.ctx;
     const fields = this.byteFields();
+    const block = el('div', { class: 'item-block' });
+    if (!record) {
+      block.appendChild(el('div', { class: 'stat-hint', text: '找不到这个忍具。' }));
+      return block;
+    }
     const values = record.values || {};
     const original = fields.map((f) => String(values[f.key] || '')).join('');
 
-    const block = el('div', { class: 'item-block' });
     block.appendChild(el('div', { class: 'field-label' }, [
       el('span', { text: '这个忍具的记录（未解字节）' }),
     ]));
@@ -454,13 +561,17 @@ class ItemView {
       el('summary', { text: `逐字节看（${fields.length} 字节，语义未证）` }),
       summaryTable(rows),
     ]));
-    host.appendChild(block);
+    return block;
   }
 
   /** 它在哪几关掉落（奖励表里引用它的那些行）。 */
-  renderDrops(host, record) {
+  renderDrops(record) {
     const ctx = this.ctx;
     const block = el('div', { class: 'item-block' });
+    if (!record) {
+      block.appendChild(el('div', { class: 'stat-hint', text: '找不到这个忍具。' }));
+      return block;
+    }
     block.appendChild(el('div', { class: 'field-label' }, [
       el('span', { text: '它在哪几关掉落' }),
     ]));
@@ -470,8 +581,7 @@ class ItemView {
         class: 'stat-hint',
         text: '奖励表里没有哪一行掉这个忍具 —— 它的 id 没出现在任何掉落位里。',
       }));
-      host.appendChild(block);
-      return;
+      return block;
     }
     const owners = missionIndexOwners(this.pack);
     const table = el('table', { class: 'grid' });
@@ -521,7 +631,7 @@ class ItemView {
       class: 'item-note',
       text: '掉落关系改在奖励那一侧：掉落位与金币都改在奖励表里。',
     }));
-    host.appendChild(block);
+    return block;
   }
 }
 
@@ -543,6 +653,8 @@ class RewardView {
     this.goldField = this.numbers[0] || null;
     this.id = this.pickId(params);
     this.refreshers = [];
+    this.tabs = null;
+    this.tabsMounted = false;
   }
 
   pickId(params) {
@@ -579,14 +691,40 @@ class RewardView {
     ]));
     container.appendChild(el('p', { class: 'section-note', text:
       '左边按奖励表列出（一行 = 一条奖励）；' +
-      '右边是这一条的金币 / 强化点 / 等级门槛与 8 个掉落位（类别 + 物品），全部就地改。' }));
+      '右边分几个页签：金币 / 强化点 / 等级门槛各一页，掉落位（类别 + 物品）一页，' +
+      '全部就地改。' }));
 
     this.listWrap = el('div', { class: 'table-wrap' });
     this.detailWrap = el('div', { class: 'detail-panel' });
+    // 头部与脚注每次重画；页签面板常驻在另一个容器里 —— clear() 不到它，
+    // 所以切页签、换奖励时页签选择都还在。
+    this.detailHead = el('div', { class: 'detail-head-area' });
+    this.detailTabs = el('div', { class: 'detail-tab-area' });
+    this.detailFoot = el('div', { class: 'detail-foot-area' });
+    this.detailWrap.appendChild(this.detailHead);
+    this.detailWrap.appendChild(this.detailTabs);
+    this.detailWrap.appendChild(this.detailFoot);
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.reward',
       wide: true,
     }));
+    this.tabs = new TabPanel([
+      // 三个数字字段各占一页：它们是这张表里唯一不是重复槽的定宽数字字段。
+      ...this.numbers.map((field) => ({
+        id: field.key,
+        label: field.label || field.key,
+        hint: field.desc || (field.label || field.key),
+        badge: () => this.numberBadge(field),
+        render: () => this.tabContent(() => this.renderNumberField(field)),
+      })),
+      {
+        id: 'slots',
+        label: '掉落位',
+        hint: '8 个掉落位：类别 + 物品（物品 id 写成 0 表示列表结束）',
+        badge: () => this.slotsBadge(),
+        render: () => this.tabContent(() => this.renderSlots()),
+      },
+    ], { key: 'editor.reward', pack: this.pack });
     this.renderList();
     this.renderDetail();
   }
@@ -635,59 +773,117 @@ class RewardView {
     wrap.appendChild(table);
   }
 
-  /** 右边：这一条奖励。 */
-  renderDetail() {
-    const host = this.detailWrap;
-    clear(host);
+  /** 现在看的那条奖励。 */
+  currentRecord() {
+    return ((this.rewards && this.rewards.records) || [])
+      .find((r) => r.id === this.id) || null;
+  }
+
+  /** 页签面板常驻在 detailTabs 里 —— 它自己管内容，这里只管挂不挂。 */
+  mountTabs() {
+    if (this.tabsMounted) return;
+    this.detailTabs.appendChild(this.tabs.element);
+    this.tabsMounted = true;
+  }
+
+  /** 找不到记录时把页签收起来（下次有记录了再挂回去）。 */
+  unmountTabs() {
+    if (!this.tabsMounted) return;
+    clear(this.detailTabs);
+    this.tabsMounted = false;
+  }
+
+  /** 页签内容：每次渲染前把「改完要重画」的回调清空。 */
+  tabContent(fn) {
     this.refreshers = [];
-    const record = ((this.rewards && this.rewards.records) || [])
-      .find((r) => r.id === this.id);
+    return fn();
+  }
+
+  /** 右边：这一条奖励。头部在外面，内容按类分页签。 */
+  renderDetail() {
+    const record = this.currentRecord();
+    clear(this.detailHead);
+    clear(this.detailFoot);
     if (!record) {
-      host.appendChild(el('div', { class: 'empty', text: '找不到这条奖励。' }));
+      this.detailHead.appendChild(el('div', { class: 'empty', text: '找不到这条奖励。' }));
+      this.unmountTabs();
       return;
     }
     const owners = this.owners.get(record.id) || [];
 
-    host.appendChild(el('div', { class: 'detail-head' }, [
+    this.detailHead.appendChild(el('div', { class: 'detail-head' }, [
       el('h3', { text: `奖励 #${record.id}` }),
     ]));
-    host.appendChild(el('div', { class: 'detail-sub' }, [
+    this.detailHead.appendChild(el('div', { class: 'detail-sub' }, [
       el('span', { text: owners.length ? rewardOwnerText(this.owners, record.id) : '没有被关卡引用' }),
       el('span', { text: `奖励表第 ${record.id} 条` }),
     ]));
 
-    this.renderNumbers(host, record);
-    this.renderDrops(host, record);
-    this.renderFoot(host, record, owners);
+    this.mountTabs();
+    this.tabs.refresh();
+    this.detailFoot.appendChild(this.renderFoot(record, owners));
   }
 
-  /** 金币 / 强化点 / 等级门槛。 */
-  renderNumbers(host, record) {
+  /** 这个数字字段改了几处（按字节判定）。 */
+  numberBadge(field) {
+    const record = this.currentRecord();
+    if (!record) return null;
+    return fieldChanged(this.pack, this.rewards, record, field) ? 1 : null;
+  }
+
+  /** 掉落位这一类改了几处（按字节判定，一个字段算一处）。 */
+  slotsBadge() {
+    const record = this.currentRecord();
+    if (!record) return null;
+    const array = rewardSlotArray(this.rewards);
+    if (!array) return null;
+    let n = 0;
+    for (const row of array.rows.values()) {
+      for (const field of Object.values(row)) {
+        if (fieldChanged(this.pack, this.rewards, record, field)) n += 1;
+      }
+    }
+    return n || null;
+  }
+
+  /** 一个数字字段（金币 / 强化点 / 等级门槛）—— 一页一个。 */
+  renderNumberField(field) {
+    const record = this.currentRecord();
     const block = el('div', { class: 'item-block' });
     block.appendChild(el('div', { class: 'field-label' }, [
-      el('span', { text: '这一条给什么' }),
+      el('span', { text: field.label || field.key }),
     ]));
-    const row = el('div', { class: 'item-numbers' });
-    for (const field of this.numbers) {
-      const { node, hint } = fieldControl(this.fieldCtx(), this.rewards, record, field);
-      const cell = el('div', { class: 'item-number' }, [
-        el('span', { class: 'operand-label', text: field.label || field.key }),
-        node,
-      ]);
-      if (hint && hint.length) {
-        cell.appendChild(el('div', { class: 'field-hint', text: hint.join(' · ') }));
-      }
-      row.appendChild(cell);
+    if (!record) {
+      block.appendChild(el('div', { class: 'stat-hint', text: '找不到这条奖励。' }));
+      return block;
     }
+    const row = el('div', { class: 'item-numbers' });
+    const { node, hint } = fieldControl(this.fieldCtx(), this.rewards, record, field);
+    const cell = el('div', { class: 'item-number' }, [
+      el('span', { class: 'operand-label', text: field.label || field.key }),
+      node,
+    ]);
+    if (hint && hint.length) {
+      cell.appendChild(el('div', { class: 'field-hint', text: hint.join(' · ') }));
+    }
+    row.appendChild(cell);
     block.appendChild(row);
-    host.appendChild(block);
+    return block;
   }
 
   /** 8 个掉落位（类别 + 物品）。 */
-  renderDrops(host, record) {
+  renderSlots() {
+    const record = this.currentRecord();
     const array = rewardSlotArray(this.rewards);
-    if (!array) return;
     const block = el('div', { class: 'item-block' });
+    if (!record) {
+      block.appendChild(el('div', { class: 'stat-hint', text: '找不到这条奖励。' }));
+      return block;
+    }
+    if (!array) {
+      block.appendChild(el('div', { class: 'stat-hint', text: '奖励表里没有掉落位。' }));
+      return block;
+    }
     block.appendChild(el('div', { class: 'field-label' }, [
       el('span', { text: '掉落位（0 表示列表结束）' }),
     ]));
@@ -718,11 +914,11 @@ class RewardView {
         ...links,
       ]));
     }
-    host.appendChild(block);
+    return block;
   }
 
   /** 归属脚注：这一条是哪几关的奖励。 */
-  renderFoot(host, record, owners) {
+  renderFoot(record, owners) {
     const parts = [];
     if (owners.length) {
       parts.push(`这一条是 ${ownerLabel(owners[0])} 的奖励。`);
@@ -734,7 +930,7 @@ class RewardView {
     } else {
       parts.push('没有哪一关用这一条 —— 它在 ROM 里是备着的。');
     }
-    host.appendChild(el('div', { class: 'item-note', text: parts.join('') }));
+    return el('div', { class: 'item-note', text: parts.join('') });
   }
 
   /** 字段控件的上下文：改完类别要把物品下拉重画一次。 */
@@ -748,10 +944,18 @@ class RewardView {
       onCommit: (structure, record, field) => {
         for (const fn of this.refreshers) fn();
         if (field && typeof field.key === 'string' && field.key.endsWith('_category')) {
+          // 类别变了：掉落位那一页要整个重画（物品下拉的候选换了）。
           this.renderDetail();
+        } else {
+          this.refreshTabs();
         }
         this.renderList();
       },
     };
+  }
+
+  /** 重建当前这一页的内容与角标。 */
+  refreshTabs() {
+    if (this.tabs) this.tabs.refresh();
   }
 }

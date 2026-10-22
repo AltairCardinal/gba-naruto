@@ -11,6 +11,17 @@
   outline: none;
 }
 
+/* ---------- 主界面 / 右侧页签 ---------- */
+/* 左边是这一关的路线走向（常驻），右边是页签：任务文案 / 本关奖励。 */
+.route-main { flex: 1 1 0; min-width: 0; }
+.route-side {
+  flex: 0 0 var(--split-right, 460px); max-width: var(--split-right, 460px);
+  background: var(--bg-2);
+  border: 1px solid var(--line); border-radius: 8px; padding: 14px;
+  max-height: calc(100vh - 190px); overflow-y: auto; position: sticky; top: 0;
+}
+.route-side .section:last-child { margin-bottom: 0; }
+
 /* ---------- 关卡条 ---------- */
 .stage-bar {
   display: flex;

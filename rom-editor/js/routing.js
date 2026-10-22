@@ -34,6 +34,7 @@ export const SUBVIEW_LABELS = {
   scene: '场景',
   font: '字库',
   character: '角色',
+  jutsu: '忍术',
 };
 
 /**
@@ -49,11 +50,14 @@ export function parseHash(hash) {
   if (parts[1] === 'stage') {
     const stage = Number(parts[2]);
     const variant = Number(parts[3]);
+    // 战斗域的「关卡视图」已经并进战场地图：老深链 `#battle/stage/40/0`
+    // 仍然能开，但要开的是**地图**（战场地图是战斗域的主界面）。
+    const kind = module === 'battle' ? 'map' : 'stage';
     return {
       module,
       panel: {
-        kind: 'stage',
-        id: 'stage',
+        kind,
+        id: kind,
         // 以前写的是 `Number(parts[2]) || 1`：第 0 关会被解析成第 1 关。
         params: {
           stage: Number.isFinite(stage) ? stage : 1,
@@ -137,6 +141,8 @@ export function hashFor(view) {
   if (!panel) return `#${module}`;
   if (panel.kind === 'stage') {
     const { stage, variant } = panel.params || {};
+    // 战斗域的关卡视图已经并进战场地图，地址统一成 `#battle/map/…`。
+    if (module === 'battle') return `#${module}/map/${stage ?? 1}/${variant || 0}`;
     return `#${module}/stage/${stage}/${variant || 0}`;
   }
   if (panel.kind === 'structure' || panel.kind === 'text') {

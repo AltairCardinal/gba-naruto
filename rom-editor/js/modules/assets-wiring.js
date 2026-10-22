@@ -16,6 +16,7 @@ import { backReferencesByPointer } from '../xref.js';
 import { valueMatches } from '../editors.js';
 import { backButton } from './common.js';
 import { splitPane } from '../split.js';
+import { TabPanel } from '../tabs.js';
 
 export const PTR_TABLE_A = 'data_pointer_table_a';
 export const PTR_TABLE_B = 'data_pointer_table_b';
@@ -192,6 +193,19 @@ class WiringView {
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.assets.wiring', wide: true,
     }));
+    // 右侧面板：头部（哪一格 / 改没改）留在页签外面，内容按类分三页签。
+    // 页签面板要活过 renderDetail() 的 clear()：头部与页签分装在两个容器里，
+    // clear 只清头部那一个。页签面板**只建一次** —— 换一条记录只 refresh，
+    // 页签选择与记住的页签都还在。
+    this.detailTop = el('div', { class: 'detail-top' });
+    this.detailTabs = el('div', { class: 'detail-tabs' });
+    this.detailWrap.appendChild(this.detailTop);
+    this.detailWrap.appendChild(this.detailTabs);
+    this.tabs = new TabPanel(this.tabSpecs(), {
+      key: 'editor.assets.wiring',
+      pack: this.pack,
+    });
+    this.detailTabs.appendChild(this.tabs.element);
     this.renderList();
     this.renderDetail();
   }
@@ -270,23 +284,25 @@ class WiringView {
     return `${where}（全包 ${refs.length} 处）`;
   }
 
+  /**
+   * 右边：头部（哪一格 / 改没改）留在页签外面，内容在页签里。
+   *
+   * clear() 只清头部那一个容器 —— 页签面板在另一个容器里，不会被清掉。
+   */
   renderDetail() {
-    clear(this.detailWrap);
+    const host = this.detailTop;
+    clear(host);
     const sel = this.selected;
     if (!sel) {
-      this.detailWrap.appendChild(el('div', {
-        class: 'empty',
-        text: '在左边点一行：这一格指向哪、改它会动到谁',
-      }));
+      // 没选中：提示放在页签内容里（tabContent 认得这个情况）。
+      this.tabs.refresh();
       return;
     }
     const table = sel.table;
     const record = sel.record;
-    const field = pointerField(table);
-    const value = record.values[field.key];
     const consumers = (table.consumers || []).map((c) => String(c).toUpperCase());
 
-    this.detailWrap.appendChild(el('div', { class: 'detail-head' }, [
+    host.appendChild(el('div', { class: 'detail-head' }, [
       el('h3', { text: `${table.label} · #${record.id}` }),
       el('div', { class: 'detail-nav' }, [
         el('button', {
@@ -308,7 +324,7 @@ class WiringView {
       ]),
     ]));
 
-    this.detailWrap.appendChild(el('div', { class: 'detail-sub' }, [
+    host.appendChild(el('div', { class: 'detail-sub' }, [
       el('span', { text: `ROM ${formatOffset(record.rom_offset)}` }),
       el('span', { text: `第 ${record.id + 1} / ${(table.records || []).length} 条` }),
       consumers.length ? el('span', { text: `原生读者 ${consumers.join(' / ')}` }) : null,
@@ -317,11 +333,76 @@ class WiringView {
         : null,
     ]));
 
+    // 内容在页签里：换一条记录只重建当前那一页，
+    // 页签选择与记住的页签都还在。
+    this.tabs.refresh();
+  }
+
+  /**
+   * 右侧面板的三个页签。
+   *
+   * 这一格指针的三个侧面：它指向哪 / 怎么换成另一份 / 改了会动到谁。
+   * 页签 id 用英文，label 用中文；key 记住上次停在哪一页。
+   */
+  tabSpecs() {
+    return [
+      {
+        id: 'target',
+        label: '指向哪',
+        hint: '这一格的指针值、它指向的资源、原值与恢复',
+        badge: () => this.pointerChanged(),
+        render: () => this.tabContent(() => this.renderTargetTab()),
+      },
+      {
+        id: 'replace',
+        label: '换成哪一份',
+        hint: '从本表 / 另一张指针表复制一个地址过来，或手动填',
+        badge: () => this.pointerChanged(),
+        render: () => this.tabContent(() => this.renderReplaceTab()),
+      },
+      {
+        id: 'impact',
+        label: '改动后果',
+        hint: '改这一格会动到谁：全包里指向同一个地址的指针有几处',
+        render: () => this.tabContent(() => this.renderImpactTab()),
+      },
+    ];
+  }
+
+  /** 页签内容：没选中记录时给一句提示，选中了才建那一页。 */
+  tabContent(build) {
+    if (!this.selected) {
+      return el('div', { class: 'empty', text: '在左边点一行：这一格指向哪、改它会动到谁' });
+    }
+    return build();
+  }
+
+  /**
+   * 这一格改没改（按字节判定，与通用表格编辑器同一套）。
+   *
+   * 走 pack.changedStructureRecords 的 rom_offset 集合 ——
+   * 改过又改回去不算改。
+   */
+  pointerChanged() {
+    const sel = this.selected;
+    if (!sel) return null;
+    const changed = new Set(
+      this.pack.changedStructureRecords(sel.table).map((r) => r.rom_offset));
+    return changed.has(sel.record.rom_offset) ? '1' : null;
+  }
+
+  /** 「指向哪」那一页：指针框 + 目标摘要 + 原值 + 恢复 / 跳原始字节。 */
+  renderTargetTab() {
+    const sel = this.selected;
+    const table = sel.table;
+    const record = sel.record;
+    const field = pointerField(table);
     const control = fieldControl(this.fieldCtx(), table, record, field);
     this.input = control.node;
     this.targetLine = el('div', { class: 'field-hint' });
     this.originLine = el('div', { class: 'field-hint' });
-    this.detailWrap.appendChild(el('div', { class: 'group' }, [
+
+    const group = el('div', { class: 'group' }, [
       el('div', { class: 'group-head' }, [
         el('span', { class: 'group-name', text: '指向哪' }),
       ]),
@@ -341,13 +422,19 @@ class WiringView {
           }),
           el('button', {
             class: 'btn btn-tiny', text: '跳到原始字节',
-            onclick: () => jumpToRaw(this.ctx, value),
+            // 跳的是**现在**这一格指向的地址 —— 改过之后别跳到旧地址。
+            onclick: () => jumpToRaw(this.ctx, record.values[field.key]),
           }),
         ]),
       ]),
-    ]));
+    ]);
+    this.refreshTargetLines();
+    return group;
+  }
 
-    this.detailWrap.appendChild(el('div', { class: 'group' }, [
+  /** 「换成哪一份」那一页：从本表 / 另一张指针表复制，或手动填地址。 */
+  renderReplaceTab() {
+    return el('div', { class: 'group' }, [
       el('div', { class: 'group-head' }, [
         el('span', { class: 'group-name', text: '改成' }),
       ]),
@@ -357,7 +444,11 @@ class WiringView {
           this.copySelect('other'),
           el('button', {
             class: 'btn btn-tiny', text: '手动填地址',
-            onclick: () => { if (this.input && this.input.focus) this.input.focus(); },
+            // 指针框在「指向哪」那一页：先切过去再聚焦。
+            onclick: () => {
+              this.tabs.setActive('target');
+              if (this.input && this.input.focus) this.input.focus();
+            },
           }),
         ]),
         el('div', {
@@ -365,21 +456,43 @@ class WiringView {
           text: '复制过来的是「用哪一份资源」；载荷本身仍然动不了。',
         }),
       ]),
-    ]));
+    ]);
+  }
 
-    this.consequence = el('div', { class: 'consequence' });
-    this.detailWrap.appendChild(el('div', { class: 'group' }, [
+  /** 「改动后果」那一页：改这一格会动到谁。 */
+  renderImpactTab() {
+    const sel = this.selected;
+    const record = sel.record;
+    const field = pointerField(sel.table);
+    const value = record.values[field.key];
+    const consequence = el('div', { class: 'consequence' });
+    const lines = [];
+    if (value) {
+      lines.push(`原来指向 ${hex32(value)}，改它等于换一份资源；载荷本身一个字节都不会变。`);
+      const refs = pointerRefs(this.pack, value);
+      if (refs.length > 1) {
+        lines.push(`全包有 ${refs.length} 处指向这个地址，改一处，那几处会一起变。`);
+      }
+      const payload = this.pack.pointerTarget ? this.pack.pointerTarget(value) : null;
+      if (!payload) {
+        lines.push('这个地址不在任何已知资源块的起点上（内容包判定不到载荷），接上去很可能花屏。');
+      }
+    } else {
+      lines.push('这一格原版就是空的，改成任何地址都是新增一个指向。');
+    }
+    for (const line of lines) {
+      consequence.appendChild(el('div', { class: 'consequence-line', text: line }));
+    }
+    return el('div', { class: 'group' }, [
       el('div', { class: 'group-head' }, [
         el('span', { class: 'group-name', text: '这一项改动的后果' }),
       ]),
-      el('div', { class: 'group-body' }, [this.consequence]),
-    ]));
-
-    this.refreshDetail();
+      el('div', { class: 'group-body' }, [consequence]),
+    ]);
   }
 
-  /** 改完之后只刷新会变的那几行，不重建整个详情（输入框保持焦点）。 */
-  refreshDetail() {
+  /** 改完之后只刷新指针框下面那两行（输入框不重建，焦点不丢）。 */
+  refreshTargetLines() {
     const sel = this.selected;
     if (!sel) return;
     const table = sel.table;
@@ -398,26 +511,6 @@ class WiringView {
           ? `原值 ${hex32(original)}`
           : `原值 ${hex32(original)} → 现在 ${hex32(value)}`);
     }
-    if (this.consequence) {
-      this.consequence.textContent = '';
-      const lines = [];
-      if (value) {
-        lines.push(`原来指向 ${hex32(value)}，改它等于换一份资源；载荷本身一个字节都不会变。`);
-        const refs = pointerRefs(this.pack, value);
-        if (refs.length > 1) {
-          lines.push(`全包有 ${refs.length} 处指向这个地址，改一处，那几处会一起变。`);
-        }
-        const payload = this.pack.pointerTarget ? this.pack.pointerTarget(value) : null;
-        if (!payload) {
-          lines.push('这个地址不在任何已知资源块的起点上（内容包判定不到载荷），接上去很可能花屏。');
-        }
-      } else {
-        lines.push('这一格原版就是空的，改成任何地址都是新增一个指向。');
-      }
-      for (const line of lines) {
-        this.consequence.appendChild(el('div', { class: 'consequence-line', text: line }));
-      }
-    }
   }
 
   /** 指针字段的控件上下文：提交后刷新列表与结论。 */
@@ -430,7 +523,7 @@ class WiringView {
       onCommit: () => {
         clearPointerCache();
         this.renderList();
-        this.refreshDetail();
+        this.refreshTargetLines();
       },
       registerRefresh: (fn) => { this.refreshers.push(fn); },
     };
@@ -484,7 +577,7 @@ class WiringView {
     clearPointerCache();
     if (this.input) this.input.value = hex32(next);
     this.renderList();
-    this.refreshDetail();
+    this.refreshTargetLines();
     toast(`已改：${table.label} #${record.id} 的指针`);
   }
 
@@ -500,7 +593,7 @@ class WiringView {
     clearPointerCache();
     if (this.input) this.input.value = hex32(original);
     this.renderList();
-    this.refreshDetail();
+    this.refreshTargetLines();
     toast(`已恢复 ${table.label} #${record.id} 的原值`);
   }
 

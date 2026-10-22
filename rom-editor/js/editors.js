@@ -22,6 +22,7 @@ import {
 } from './fields.js';
 import { arraysIn, renderArrayTable, columnLabel, arrayFields } from './slots.js';
 import { splitPane } from './split.js';
+import { TabPanel } from './tabs.js';
 import { backReferences, recordSources } from './xref.js';
 import { indexKey, isEmptyRecord, visibleRecords } from './indexkey.js';
 
@@ -219,6 +220,14 @@ export class StructureEditor {
     this.visible = null;
     this.openDefaultGroups(structure);
     this.jumpTo = '';
+    /**
+     * 右侧的页签面板：**一个编辑器只建一个**。
+     *
+     * 打开另一条记录时换的是规格（`setTabs`），不是面板 ——
+     * 面板要订阅内容包的变更（角标），每建一个就多一个订阅者，
+     * 反复建会漏。
+     */
+    this.tabs = new TabPanel([], { key: 'editor.structure', pack });
   }
 
   /**
@@ -519,26 +528,41 @@ export class StructureEditor {
       this.isDirty(record) ? el('span', { class: 'tag tag-warn', text: '已改动' }) : null,
     ]));
 
-    // 谁引用了这条记录 —— 改了它会动到谁。
-    // 每条记录都显示这个块：没有来源也要说清楚「没有」，
-    // 空着会让作者以为功能坏了。
-    this.detail.appendChild(renderSourcesBlock(
-      this.options.onJump,
-      recordSources(this.pack, {
-        kind: 'structure', id: structure.id, recordId: record.id,
-      }),
-      { structure },
-    ));
-
-    const form = el('div', { class: 'field-list' });
-    if (isRawOnly(structure)) {
-      form.appendChild(this.renderRawRecord(record));
-    } else {
-      for (const group of this.groups) {
-        form.appendChild(this.renderGroup(group, record));
-      }
-    }
-    this.detail.appendChild(form);
+    // 右侧分两页：**字段**（作者来看的）与**来源**（改了会动到谁）。
+    //
+    // 来源块有时很长（一条记录能被六条路径指到）——
+    // 放在字段前面会把要改的字段顶出屏幕，所以分开。
+    this.tabs.setTabs([
+      {
+        id: 'fields',
+        label: '字段',
+        hint: '这条记录的各个字段（按内容包的分组折叠）',
+        render: () => {
+          const form = el('div', { class: 'field-list' });
+          if (isRawOnly(structure)) {
+            form.appendChild(this.renderRawRecord(record));
+          } else {
+            for (const group of this.groups) {
+              form.appendChild(this.renderGroup(group, record));
+            }
+          }
+          return form;
+        },
+      },
+      {
+        id: 'sources',
+        label: '来源',
+        hint: '谁引用了这条记录：改了它会动到谁',
+        render: () => renderSourcesBlock(
+          this.options.onJump,
+          recordSources(this.pack, {
+            kind: 'structure', id: structure.id, recordId: record.id,
+          }),
+          { structure },
+        ),
+      },
+    ]);
+    this.detail.appendChild(this.tabs.element);
 
     this.detail.appendChild(el('div', { class: 'detail-actions' }, [
       el('button', {
@@ -796,6 +820,9 @@ export class TextTableEditor {
     this.limit = 200;          // 大表默认只渲染前 200 行
     this.showOwned = false;     // 是否显示「已被其它表拥有」的条目
     this.grouped = false;      // 是否按「空指针分隔」分组显示
+    // 右侧的页签面板：一个编辑器只建一个（换记录时换规格，不换面板 ——
+    // 面板要订阅内容包的变更，反复建会漏订阅）。
+    this.tabs = new TabPanel([], { key: 'editor.text', pack });
   }
 
   /**
@@ -1150,52 +1177,30 @@ export class TextTableEditor {
       ]));
     }
 
-    // 谁在用这段文字 —— 文本表也必须有来源，不能只有结构表有。
-    this.detail.appendChild(renderSourcesBlock(
-      this.options.onJump,
-      recordSources(this.pack, {
-        kind: 'text', id: table.id, recordId: record.id,
-      }),
-      { table },
-    ));
-
-    // 控制码分段条：文本框里看不见控制码，但它们决定新文字落在哪。
-    this.detail.appendChild(this.renderSegments(record));
-
-    const writable = record.text_offset !== null && record.text_offset !== undefined;
-    const area = el('textarea', {
-      class: 'text-input',
-      rows: 8,
-      spellcheck: 'false',
-      value: record.text ?? '',
-      disabled: !writable,
-      oninput: (e) => this.updateCount(record, counter, e.target.value),
-      onchange: (e) => this.commit(record, area, e.target.value, counter),
-    });
-
-    const counter = el('div', { class: 'text-counter' });
-    this.detail.appendChild(el('div', { class: 'field' }, [
-      el('label', { class: 'field-label' }, [
-        el('span', { text: '文本' }),
-        el('span', { class: 'field-offset', text: '改完失焦即保存（Ctrl+Enter 也可以）' }),
-      ]),
-      area,
-      counter,
-    ]));
-    this.updateCount(record, counter);
-
-    if (record.original_text !== undefined) {
-      this.detail.appendChild(el('div', { class: 'field' }, [
-        el('label', { class: 'field-label' }, [el('span', { text: '原版文本' })]),
-        el('div', { class: 'text-original', text: record.original_text || '（空）' }),
-      ]));
-    }
-
-    this.detail.appendChild(el('div', { class: 'field-hint' }, [
-      '文本在 ROM 里是字形码流；控制码 0x01/0x02 带着换行/分页的排版含义，',
-      '文本框里看不到它们，但写回时会按原位置保留（走 token 流，不用纯字符串编码）。',
-      '要改控制码本身，请用「原始字节」模块。',
-    ]));
+    // 右侧分两页：**文本**（作者来改的）与**来源**（谁在用这段字）。
+    //
+    // 来源块有时很长 —— 放在文本框前面会把要改的东西顶出屏幕，所以分开。
+    this.tabs.setTabs([
+      {
+        id: 'text',
+        label: '文本',
+        hint: '这一条文本、它的控制码与原版文本',
+        render: () => this.renderTextTab(record),
+      },
+      {
+        id: 'sources',
+        label: '来源',
+        hint: '谁在用这段文字：文本表也必须有来源，不能只有结构表有',
+        render: () => renderSourcesBlock(
+          this.options.onJump,
+          recordSources(this.pack, {
+            kind: 'text', id: table.id, recordId: record.id,
+          }),
+          { table },
+        ),
+      },
+    ]);
+    this.detail.appendChild(this.tabs.element);
 
     this.detail.appendChild(el('div', { class: 'detail-actions' }, [
       el('button', {
@@ -1212,6 +1217,49 @@ export class TextTableEditor {
         },
       }),
     ]));
+  }
+
+  /** 「文本」那一页：控制码分段条 + 文本框 + 原版文本。 */
+  renderTextTab(record) {
+    const host = el('div', { class: 'field-list' });
+
+    // 控制码分段条：文本框里看不见控制码，但它们决定新文字落在哪。
+    host.appendChild(this.renderSegments(record));
+
+    const writable = record.text_offset !== null && record.text_offset !== undefined;
+    const area = el('textarea', {
+      class: 'text-input',
+      rows: 8,
+      spellcheck: 'false',
+      value: record.text ?? '',
+      disabled: !writable,
+      oninput: (e) => this.updateCount(record, counter, e.target.value),
+      onchange: (e) => this.commit(record, area, e.target.value, counter),
+    });
+
+    const counter = el('div', { class: 'text-counter' });
+    host.appendChild(el('div', { class: 'field' }, [
+      el('label', { class: 'field-label' }, [
+        el('span', { text: '文本' }),
+        el('span', { class: 'field-offset', text: '改完失焦即保存（Ctrl+Enter 也可以）' }),
+      ]),
+      area,
+      counter,
+    ]));
+    this.updateCount(record, counter);
+
+    if (record.original_text !== undefined) {
+      host.appendChild(el('div', { class: 'field' }, [
+        el('label', { class: 'field-label' }, [el('span', { text: '原版文本' })]),
+        el('div', { class: 'text-original', text: record.original_text || '（空）' }),
+      ]));
+    }
+    host.appendChild(el('div', { class: 'field-hint' }, [
+      '文本在 ROM 里是字形码流；控制码 0x01/0x02 带着换行/分页的排版含义，',
+      '文本框里看不到它们，但写回时会按原位置保留（走 token 流，不用纯字符串编码）。',
+      '要改控制码本身，请用「原始字节」模块。',
+    ]));
+    return host;
   }
 
   /** Move to the previous / next record. */

@@ -2,10 +2,13 @@
 //
 // 对应 notes/story-scene-font-view-20261022.md 的验收标准：
 //   1. 场景视图能渲染，左边列表的行数 = 场景数（按根表槽数算）；
-//   2. 详情里有四个剧本指针的字段；
-//   3. 字库视图能渲染，详情里有字宽表（256 行）；
+//   2. 详情里有四个剧本指针的字段（现在分在四个页签里，一页一路）；
+//   3. 字库视图能渲染，字宽表在「字宽」页里（256 行）；
 //   4. 改一个字段后 pack.changedCount() +1，改回原值后回落；
 //   5. 域首页的「本域可编辑内容」里，四张根表合成了一行、字形段表与字宽表合成了一行。
+//
+// 第 8 组是页签化的验收：右侧面板有页签条、页签标签是预期的那些、
+// 切到某一页后那一页的内容在 DOM 里、切走后不在，角标只出现在改过的那一页上。
 //
 // 用法：node rom-editor/tools/verify_scene_view.mjs
 import { readFileSync } from 'node:fs';
@@ -167,6 +170,54 @@ function tableByClass(host, name) {
   return byClass(host, name).find((n) => n.tagName === 'TABLE') || null;
 }
 
+/**
+ * 切到右侧面板的某个页签（内容按需渲染，要拿某一页得先切过去）。
+ */
+function switchTab(host, label) {
+  const btn = host.descendants()
+    .filter((n) => String(n.className || '').split(/\s+/).includes('tab-btn'))
+    .find((n) => String(n.textContent || '').includes(label));
+  if (!btn) return false;
+  const click = btn.listeners && btn.listeners.click && btn.listeners.click[0];
+  if (!click) return false;
+  click();
+  return true;
+}
+
+/** 页签条上的标签（按顺序）。 */
+function tabLabels(host) {
+  const bar = byClass(host, 'tab-bar')[0];
+  if (!bar) return [];
+  return bar.children.map((btn) => {
+    const label = btn.descendants()
+      .find((n) => String(n.className || '').split(/\s+/).includes('tab-btn-label'));
+    return label ? label.textContent : btn.textContent;
+  });
+}
+
+/** 页签角标：标签 → 角标文字（没有角标就是空串）。 */
+function tabBadges(host) {
+  const out = {};
+  const bar = byClass(host, 'tab-bar')[0];
+  if (!bar) return out;
+  for (const btn of bar.children) {
+    const label = btn.descendants()
+      .find((n) => String(n.className || '').split(/\s+/).includes('tab-btn-label'));
+    const badge = btn.descendants()
+      .find((n) => String(n.className || '').split(/\s+/).includes('tab-badge'));
+    if (label) out[label.textContent] = badge ? badge.textContent : '';
+  }
+  return out;
+}
+
+/** 剧本指针块上的根表名（field-label 的第一格）。 */
+function ptrLabel(node) {
+  const label = node ? byClass(node, 'field-label')[0] : null;
+  if (!label) return '';
+  const span = label.children.find((n) => n.tagName === 'SPAN');
+  return span ? span.textContent : label.textContent;
+}
+
 // ---------------------------------------------------------------------------
 // 期望值：全部从内容包算，不写死数字。
 // ---------------------------------------------------------------------------
@@ -191,36 +242,56 @@ console.log('\n1) 场景视图：左边列表的行数 = 场景数');
   check('页面文本里没有字面星号', !host.textContent.includes('**'));
 }
 
-console.log('\n2) 场景视图：详情里有四个剧本指针的字段');
+console.log('\n2) 场景视图：四个剧本入口各占一页签，每页一个指针字段');
 {
   const host = render(renderScene);
   const detail = byClass(host, 'scene-detail')[0];
-  const ptrs = byClass(detail || host, 'scene-ptr');
-  check('四个剧本指针字段', ptrs.length === 4, `${ptrs.length} 个`);
+  const labels = tabLabels(detail);
+  check('场景视图右侧有页签条', byClass(detail, 'tab-bar').length === 1);
+  check('页签是 战前 / 战后 / 逻辑 / 事件',
+    labels.join(',') === '战前,战后,逻辑,事件', labels.join('、'));
+
+  const ptrs = [];
+  for (const label of labels) {
+    switchTab(host, label);
+    const one = byClass(detail, 'scene-ptr');
+    check(`「${label}」页里有一个剧本指针`, one.length === 1, `${one.length} 个`);
+    if (one.length === 1) ptrs.push(one[0]);
+  }
+  check('四个剧本指针字段（四页合起来）', ptrs.length === 4, `${ptrs.length} 个`);
   const inputs = ptrs.flatMap((p) => p.descendants().filter((n) => n.tagName === 'INPUT'));
   check('四个指针都是可编辑的十六进制框', inputs.length === 4 && inputs.every((n) => n.value.startsWith('0x')),
     inputs.map((n) => n.value).join('、'));
-  const links = (detail || host).descendants()
-    .filter((n) => n.textContent.includes('的剧本 →') && n.listeners.click && n.listeners.click.length);
-  check('有「看这个场景的剧本」的链接', links.length >= 1, `${links.length} 条`);
-  if (links.length) {
-    links[0].listeners.click[0]({ target: {} });
+
+  // 每一页都有「看这个场景的剧本」的链接，而且分别跳到四张根表。
+  const roots = [];
+  for (const label of labels) {
+    switchTab(host, label);
+    const page = byClass(detail, 'scene-ptr')[0];
+    const link = page && page.descendants()
+      .find((n) => n.textContent.includes('的剧本 →') && n.listeners.click && n.listeners.click.length);
+    check(`「${label}」页有「看这个场景的剧本」的链接`, !!link);
+    if (!link) continue;
+    link.listeners.click[0]({ target: {} });
     const jump = jumps[jumps.length - 1];
-    check('链接跳到剧本查看器（#story/script/<root>/<scene>）',
+    check(`「${label}」的链接跳到剧本查看器（#story/script/<root>/<scene>）`,
       !!jump && jump.module === 'story' && jump.kind === 'script' &&
       ['before', 'after', 'logic', 'events'].includes(jump.params.root) &&
       typeof jump.params.scene === 'number',
       jump ? `${jump.params.root}/${jump.params.scene}` : '没有跳转');
+    if (jump) roots.push(jump.params.root);
   }
+  check('四页分别跳到四张根表', new Set(roots).size === 4, roots.join('、'));
 }
 
-console.log('\n3) 字库视图：详情里有字宽表（256 行）');
+console.log('\n3) 字库视图：字宽表在「字宽」页里（256 行）');
 {
   const host = render(renderFont);
   const list = byClass(host, 'font-list')[0];
   const listRows = bodyRows(list && list.children.find((n) => n.tagName === 'TABLE'));
   check('字库视图渲染出来了', host.textContent.length > 100, `${host.textContent.length} 字符`);
   check(`左边列表 ${segmentCount} 行（字形段表）`, listRows.length === segmentCount, `${listRows.length} 行`);
+  switchTab(host, '字宽');
   const widthTable = tableByClass(host, 'font-width-table');
   const widthRows = bodyRows(widthTable);
   check(`字宽表 ${widthCount} 行`, widthRows.length === widthCount, `${widthRows.length} 行`);
@@ -239,6 +310,7 @@ console.log('\n4) 改一个字段：写回 +1，改回原值后回落');
   const base = pack.changedCount();
 
   const host = render(renderFont);
+  switchTab(host, '字宽');
   const widthTable = tableByClass(host, 'font-width-table');
   const firstRow = bodyRows(widthTable)[0];
   const input = firstRow.descendants().find((n) => n.tagName === 'INPUT');
@@ -322,9 +394,16 @@ console.log('\n7) 交互：点场景行换详情 / 点字形段换段 / 按字�
   const detail = byClass(host, 'scene-detail')[0];
   check('点第 3 行后详情是「场景 3」', detail.textContent.includes('场景 3'),
     (detail.textContent.match(/场景 \d+/) || [''])[0]);
+  const labels = tabLabels(detail);
+  check('换场景后页签还在', labels.join(',') === '战前,战后,逻辑,事件', labels.join('、'));
+  let ptrCount = 0;
+  for (const label of labels) {
+    switchTab(host, label);
+    ptrCount += byClass(detail, 'scene-ptr').length;
+  }
   check('详情里仍然是四个剧本指针',
-    byClass(detail, 'scene-ptr').length === 4,
-    `${byClass(detail, 'scene-ptr').length} 个`);
+    ptrCount === 4,
+    `${ptrCount} 个`);
 
   // 7b. 字库：点第 2 段 → 详情换成那一段的字段
   const fontHost = render(renderFont);
@@ -338,22 +417,103 @@ console.log('\n7) 交互：点场景行换详情 / 点字形段换段 / 按字�
   check('这一段的字段都是可改的控件', segFields.length >= 3 &&
     segFields.every((f) => f.descendants().some((n) => n.tagName === 'INPUT')),
     `${segFields.length} 个字段`);
+  switchTab(fontHost, '字宽');
   check('字宽表仍然在详情里', !!tableByClass(fontHost, 'font-width-table'));
 
   // 7c. 「按字符码查字宽」：填一个码位 → 详情里出现那一码的字宽
   const lookup = byClass(fontHost, 'font-lookup')[0];
-  const lookupInput = lookup.descendants().find((n) => n.tagName === 'INPUT');
-  const lookupBtn = lookup.descendants().find((n) => n.tagName === 'BUTTON');
+  check('「字宽」页里有「按字符码查字宽」的入口', !!lookup);
+  const lookupInput = lookup && lookup.descendants().find((n) => n.tagName === 'INPUT');
+  const lookupBtn = lookup && lookup.descendants().find((n) => n.tagName === 'BUTTON');
   check('有「按字符码查字宽」的入口', !!lookupInput && !!lookupBtn);
-  lookupInput.value = '64';
-  lookupBtn.listeners.click[0]({ target: { value: '64' } });
-  const after = byClass(fontHost, 'font-detail')[0];
-  check('查得到那一码并给出它的字宽',
-    after.textContent.includes('字符码 64 的字宽'),
-    (after.textContent.match(/字符码 \d+ 的字宽/) || ['没有'])[0]);
-  const hit = bodyRows(tableByClass(fontHost, 'font-width-table'))
-    .filter((tr) => (tr.className || '').includes('lookup-hit'));
-  check('字宽表里那一行被标出来', hit.length === 1, `${hit.length} 行`);
+  if (lookupInput && lookupBtn) {
+    lookupInput.value = '64';
+    lookupBtn.listeners.click[0]({ target: { value: '64' } });
+    const after = byClass(fontHost, 'font-detail')[0];
+    check('查得到那一码并给出它的字宽',
+      after.textContent.includes('字符码 64 的字宽'),
+      (after.textContent.match(/字符码 \d+ 的字宽/) || ['没有'])[0]);
+    const hit = bodyRows(tableByClass(fontHost, 'font-width-table'))
+      .filter((tr) => (tr.className || '').includes('lookup-hit'));
+    check('字宽表里那一行被标出来', hit.length === 1, `${hit.length} 行`);
+  }
+}
+
+console.log('\n8) 页签化：右侧有页签条 / 标签对 / 内容进页签 / 切走后不在 / 角标只挂在改过的那一页');
+{
+  // 8a. 场景视图
+  const host = render(renderScene);
+  const detail = byClass(host, 'scene-detail')[0];
+  check('场景视图右侧有页签条', byClass(detail, 'tab-bar').length === 1);
+  const labels = tabLabels(detail);
+  check('场景视图的页签是 战前 / 战后 / 逻辑 / 事件',
+    labels.join(',') === '战前,战后,逻辑,事件', labels.join('、'));
+  check('默认页（战前）里只有那一个剧本指针',
+    byClass(detail, 'scene-ptr').length === 1 &&
+    ptrLabel(byClass(detail, 'scene-ptr')[0]) === '战前剧情',
+    ptrLabel(byClass(detail, 'scene-ptr')[0]));
+  switchTab(host, '战后');
+  const after = byClass(detail, 'scene-ptr');
+  check('切到「战后」后那一页的内容在 DOM 里',
+    after.length === 1 && ptrLabel(after[0]) === '战后剧情',
+    after.length ? ptrLabel(after[0]) : '没有');
+  switchTab(host, '战前');
+  const back = byClass(detail, 'scene-ptr');
+  check('切走后那一页的内容不在 DOM 里',
+    back.length === 1 && ptrLabel(back[0]) === '战前剧情',
+    back.length ? ptrLabel(back[0]) : '没有');
+
+  // 8b. 场景视图的角标：改了哪一路，哪一页签上出现角标
+  const base = pack.changedCount();
+  const ptrInput = byClass(detail, 'scene-ptr')[0].descendants().find((n) => n.tagName === 'INPUT');
+  const original = ptrInput.value;
+  ptrInput.listeners.change[0]({ target: { value: '0x08001234' } });
+  const badges = tabBadges(detail);
+  check('改过的那一路页签上有角标', badges['战前'] === '1', JSON.stringify(badges));
+  check('没改过的页签没有角标', !badges['战后'], JSON.stringify(badges));
+  check('写回后改动数 +1', pack.changedCount() === base + 1,
+    `${base} → ${pack.changedCount()}`);
+  ptrInput.listeners.change[0]({ target: { value: original } });
+  check('改回原值后角标消失', !tabBadges(detail)['战前'], JSON.stringify(tabBadges(detail)));
+  check('改回原值后改动数回到基线', pack.changedCount() === base,
+    `${pack.changedCount()}（基线 ${base}）`);
+
+  // 8c. 字库视图
+  const fontHost = render(renderFont);
+  const fontDetail = byClass(fontHost, 'font-detail')[0];
+  check('字库视图右侧有页签条', byClass(fontDetail, 'tab-bar').length === 1);
+  const fontLabels = tabLabels(fontDetail);
+  check('字库视图的页签是 字形段 / 字宽',
+    fontLabels.join(',') === '字形段,字宽', fontLabels.join('、'));
+  check('默认页（字形段）里有这一段的字段',
+    byClass(fontDetail, 'font-seg-field').length >= 3,
+    `${byClass(fontDetail, 'font-seg-field').length} 个字段`);
+  check('默认页里没有字宽表', !tableByClass(fontDetail, 'font-width-table'));
+  switchTab(fontHost, '字宽');
+  check('切到「字宽」后字宽表在 DOM 里', !!tableByClass(fontDetail, 'font-width-table'));
+  check('切到「字宽」后字形段的字段不在 DOM 里',
+    byClass(fontDetail, 'font-seg-field').length === 0,
+    `${byClass(fontDetail, 'font-seg-field').length} 个字段`);
+  switchTab(fontHost, '字形段');
+  check('切走后字宽表不在 DOM 里', !tableByClass(fontDetail, 'font-width-table'));
+  check('切回来后字形段的字段又在了',
+    byClass(fontDetail, 'font-seg-field').length >= 3,
+    `${byClass(fontDetail, 'font-seg-field').length} 个字段`);
+
+  // 8d. 字库视图的角标：改了字宽，字宽页签上有角标
+  const fontBase = pack.changedCount();
+  switchTab(fontHost, '字宽');
+  const widthInput = bodyRows(tableByClass(fontHost, 'font-width-table'))[0]
+    .descendants().find((n) => n.tagName === 'INPUT');
+  const widthValue = Number(widthInput.value);
+  widthInput.listeners.change[0]({ target: { value: String((widthValue + 1) % 256) } });
+  const fontBadges = tabBadges(fontDetail);
+  check('改过字宽后「字宽」页签上有角标', fontBadges['字宽'] === '1', JSON.stringify(fontBadges));
+  check('没改过的「字形段」页签没有角标', !fontBadges['字形段'], JSON.stringify(fontBadges));
+  widthInput.listeners.change[0]({ target: { value: String(widthValue) } });
+  check('改回原值后角标消失', !tabBadges(fontDetail)['字宽'], JSON.stringify(tabBadges(fontDetail)));
+  check('改回原值后改动数回到基线', pack.changedCount() === fontBase,
+    `${pack.changedCount()}（基线 ${fontBase}）`);
 }
 
 console.log(`\n${failures ? `${failures} 项未通过` : '全部通过'}`);

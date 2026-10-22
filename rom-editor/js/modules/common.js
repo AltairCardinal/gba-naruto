@@ -363,6 +363,33 @@ export function operandInput(ctx, operand) {
 }
 
 /**
+ * 剧情脚本的一个定宽操作数改过没有。
+ *
+ * `operand.value` 是**就地改**的当前值，原值留在 `before_hex` 里 ——
+ * 所以判定方式是「当前值编码出来的字节」与 `before_hex` 比。
+ * 「改过又改回去」不算改。
+ *
+ * @param {object} operand
+ * @returns {boolean}
+ */
+export function operandChanged(operand) {
+  if (!operand) return false;
+  const before = String(operand.before_hex || '').toLowerCase();
+  if (!before) return false;
+  let after;
+  if (operand.size === 1) {
+    after = (Number(operand.value) & 0xff).toString(16).padStart(2, '0');
+  } else if (operand.size === 2) {
+    const v = Number(operand.value) & 0xffff;
+    after = (v & 0xff).toString(16).padStart(2, '0')
+      + ((v >> 8) & 0xff).toString(16).padStart(2, '0');
+  } else {
+    after = String(operand.value).replace(/[^0-9a-fA-F]/g, '').toLowerCase();
+  }
+  return after !== before;
+}
+
+/**
  * A link that opens the same item in the generic table editor.
  *
  * The stage view and the table view are two roads to the same data; the link

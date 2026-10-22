@@ -140,6 +140,19 @@ function all(node, predicate) {
   return node.descendants().filter(predicate);
 }
 
+/**
+ * 切到右侧面板的某个页签（内容按需渲染，要拿某一页得先切过去）。
+ */
+function switchTab(host, label) {
+  const btn = all(host, (n) => String(n.className || '').split(/\s+/).includes('tab-btn'))
+    .find((n) => String(n.textContent || '').includes(label));
+  if (!btn) return false;
+  const click = btn.listeners && btn.listeners.click && btn.listeners.click[0];
+  if (!click) return false;
+  click();
+  return true;
+}
+
 // --- 1) 路线边按关卡过滤 ---------------------------------------------------
 console.log('1) 路线边按关卡过滤');
 {
@@ -242,6 +255,8 @@ console.log('\n4) 奖励可就地改');
   const rewards = pack.structure('reward_table');
   const base40 = pack.structure('mission_index').records[40].values.value;
   const record = rewards.records[base40];
+  // 奖励在右侧「本关奖励」页签里 —— 先切过去。
+  switchTab(host, '本关奖励');
   const blocks = all(host, (n) => n.className === 'route-reward');
   const block = blocks[0];
   const goldInput = all(block, (n) => n.tagName === 'INPUT')
@@ -281,8 +296,11 @@ console.log('\n5) 跨关共用显式告知');
   check('任务文案行写出「同时是第 41 关子 1」', text.includes('同时是第 41 关子 1'));
   check('任务文案行写出文本表下标', /文本表下标 #\d+/.test(text),
     (text.match(/文本表下标 #\d+/) || ['没有'])[0]);
-  check('奖励行写出「奖励表 #」与归属', /奖励表 #\d+/.test(text) && text.includes('同时是第 41 关子 1'),
-    (text.match(/奖励表 #\d+/) || ['没有'])[0]);
+  // 奖励在另一个页签里 —— 切过去再看。
+  switchTab(host, '本关奖励');
+  const rewardText = host.textContent;
+  check('奖励行写出「奖励表 #」与归属', /奖励表 #\d+/.test(rewardText) && rewardText.includes('同时是第 41 关子 1'),
+    (rewardText.match(/奖励表 #\d+/) || ['没有'])[0]);
   check('共用的一格写出「被 N 处共用」', /被 \d+ 处共用/.test(text),
     (text.match(/被 \d+ 处共用[^，]*/) || ['没有'])[0]);
   // 真正共用同一段字节的槽位（第 1 关的第 2 个子任务落在共用组里）
@@ -381,6 +399,47 @@ console.log('\n7) 整条路线总览、域首页与其余按键');
   rootNode.listeners.keydown[0]({ key: 'Escape', target: rootNode });
   check('按 Esc 回剧情路线域首页', calls.some((c) => c.module === 'route'),
     JSON.stringify(calls));
+}
+
+// --- 8) 右侧页签 ------------------------------------------------------------
+console.log('\n8) 右侧页签：主界面是路线走向，其它配置按类分页');
+{
+  const host = renderStage(40);
+  const tabLabels = all(host, (n) => String(n.className || '').split(/\s+/).includes('tab-btn'))
+    .map((n) => n.textContent);
+  check('工作台右侧有页签条', tabLabels.length >= 2, tabLabels.join(' / '));
+  check('页签里有「任务文案」', tabLabels.some((t) => t.includes('任务文案')));
+  check('页签里有「本关奖励」', tabLabels.some((t) => t.includes('本关奖励')));
+
+  // 路线走向是**主界面**：它在左边常驻，不在页签里。
+  const main = all(host, (n) => n.className === 'route-main')[0];
+  check('左边是路线走向（主界面）', !!main && main.textContent.includes('路线走向'),
+    main ? '有' : '没有');
+  check('路线走向不在页签里', !tabLabels.some((t) => t.includes('路线走向')));
+
+  // 任务文案那一页在，奖励那一页不在。
+  const rewardBlocks = () => all(host, (n) => n.className === 'route-reward').length;
+  check('默认页签是任务文案（奖励不在 DOM 里）', rewardBlocks() === 0,
+    `${rewardBlocks()} 个奖励块`);
+  check('切到「本关奖励」后奖励出现了', switchTab(host, '本关奖励') && rewardBlocks() === 3,
+    `${rewardBlocks()} 个奖励块`);
+  check('切走后任务文案也不在了', switchTab(host, '任务文案') && rewardBlocks() === 0,
+    `${rewardBlocks()} 个奖励块`);
+
+  // 角标：改一处任务文案，「任务文案」那一页要有角标。
+  const titles = pack.textTable('mission_titles');
+  const base40 = pack.structure('mission_index').records[40].values.value;
+  const before = titles.records[base40].text;
+  pack.setText(titles, titles.records[base40], '改一下');
+  switchTab(host, '任务文案');
+  const badge = all(host, (n) => String(n.className || '').split(/\s+/).includes('tab-badge'))
+    .map((n) => n.textContent);
+  check('改过的任务文案在页签上有角标', badge.includes('1'), badge.join(' / ') || '没有角标');
+  pack.setText(titles, titles.records[base40], before);
+  switchTab(host, '任务文案');
+  const badge2 = all(host, (n) => String(n.className || '').split(/\s+/).includes('tab-badge'))
+    .map((n) => n.textContent);
+  check('改回原值后角标消失', !badge2.includes('1'), badge2.join(' / ') || '没有角标');
 }
 
 console.log(failures === 0 ? '\n全部通过' : `\n${failures} 项失败`);

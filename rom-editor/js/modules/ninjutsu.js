@@ -1,11 +1,13 @@
 // 忍术
 import { el } from '../ui.js';
 import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
+import { renderJutsu } from './jutsu.js';
 
 export function renderNinjutsu(container, ctx) {
   const panel = ctx.state.view.panel;
   if (panel) {
     const { kind, id, params } = panel;
+    if (kind === 'jutsu') return renderJutsu(container, ctx, params || {});
     return renderPanel(container, ctx, kind, id, params);
   }
 
@@ -46,7 +48,7 @@ export function renderNinjutsu(container, ctx) {
     headline: '87 条忍术记录',
     desc: '忍术记录表与忍术名表同号空间：下标就是忍术 id。' +
       '角色定义表里的忍术槽引用的就是这张表的 id。',
-    panel: { kind: 'structure', id: 'jutsu_record' },
+    panel: { kind: 'jutsu', id: '忍术' },
     actionLabel: '去改忍术',
   });
 
@@ -62,7 +64,15 @@ export function renderNinjutsu(container, ctx) {
       '忍术记录每条 16 字节：六个随等级成长的字节属性 + 一个成长目标选择子 + 每级成长量。' +
       '名表由指针表驱动，改名可以改变长度。',
     extra,
-    structures: ['jutsu_record'],
-    texts: ['jutsu_names'],
+    // 记录表与名表是**同一个 id 空间** —— 合成一个入口，
+    // 分成两行摆着会让人以为要分别进两张表。
+    groups: [{
+      label: '忍术（记录表 + 名表）',
+      tables: ['jutsu_record', 'jutsu_names'],
+      method: '按忍术改',
+      strategy: '定宽写回 + 名字可重定位',
+      action: '打开忍术',
+      onPick: (c) => c.openPanel('jutsu', '忍术', {}),
+    }],
   });
 }

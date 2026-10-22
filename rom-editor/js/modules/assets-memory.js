@@ -9,6 +9,7 @@ import { base64ToBytes, bytesToBase64 } from '../bytes.js';
 import { originalValue } from '../fields.js';
 import { backButton } from './common.js';
 import { splitPane } from '../split.js';
+import { TabPanel } from '../tabs.js';
 import { WRAM_ALLOCATION, hex32 } from './assets-wiring.js';
 
 /** EWRAM 的合法范围（GBA 的 EWRAM 是 0x02000000–0x0203FFFF）。 */
@@ -163,6 +164,19 @@ class MemoryView {
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.assets.memory', wide: true,
     }));
+    // 右侧面板：头部（哪一行 / 改没改）留在页签外面，内容按类分两页签。
+    // 页签面板要活过 renderDetail() 的 clear()：头部与页签分装在两个容器里，
+    // clear 只清头部那一个。页签面板**只建一次** —— 换一行只 refresh，
+    // 页签选择与记住的页签都还在。
+    this.detailTop = el('div', { class: 'detail-top' });
+    this.detailTabs = el('div', { class: 'detail-tabs' });
+    this.detailWrap.appendChild(this.detailTop);
+    this.detailWrap.appendChild(this.detailTabs);
+    this.tabs = new TabPanel(this.tabSpecs(), {
+      key: 'editor.assets.memory',
+      pack: this.pack,
+    });
+    this.detailTabs.appendChild(this.tabs.element);
     this.renderList();
     this.renderDetail();
   }
@@ -303,19 +317,23 @@ class MemoryView {
 
   // --- 右详情 ------------------------------------------------------------
 
+  /**
+   * 右边：头部（哪一行 / 改没改）留在页签外面，内容在页签里。
+   *
+   * clear() 只清头部那一个容器 —— 页签面板在另一个容器里，不会被清掉。
+   */
   renderDetail() {
-    clear(this.detailWrap);
+    const host = this.detailTop;
+    clear(host);
     const record = this.selected;
     if (!record) {
-      this.detailWrap.appendChild(el('div', { class: 'empty', text: '在左边点一行，或点条带上的一段' }));
+      // 没选中：提示放在页签内容里（tabContent 认得这个情况）。
+      this.tabs.refresh();
       return;
     }
     const records = this.table.records || [];
-    const addr = record.values[ADDR_FIELD];
-    const size = record.values[SIZE_FIELD];
-    const segment = this.segmentOf(record);
 
-    this.detailWrap.appendChild(el('div', { class: 'detail-head' }, [
+    host.appendChild(el('div', { class: 'detail-head' }, [
       el('h3', { text: `${this.table.label} · #${record.id}` }),
       el('div', { class: 'detail-nav' }, [
         el('button', {
@@ -337,7 +355,7 @@ class MemoryView {
       ]),
     ]));
 
-    this.detailWrap.appendChild(el('div', { class: 'detail-sub' }, [
+    host.appendChild(el('div', { class: 'detail-sub' }, [
       el('span', { text: `ROM ${formatOffset(record.rom_offset)}` }),
       el('span', { text: `第 ${record.id + 1} / ${records.length} 条` }),
       el('span', { text: this.recordName(record) }),
@@ -346,7 +364,63 @@ class MemoryView {
         : null,
     ]));
 
-    // --- 内存分配 ---
+    // 内容在页签里：换一行只重建当前那一页，
+    // 页签选择与记住的页签都还在。
+    this.tabs.refresh();
+  }
+
+  /**
+   * 右侧面板的两个页签。
+   *
+   * 这一行内存的两个侧面：它占哪一段（地址 + 大小）/ 它与前后两段挨不挨着。
+   * 页签 id 用英文，label 用中文；key 记住上次停在哪一页。
+   */
+  tabSpecs() {
+    return [
+      {
+        id: 'allocation',
+        label: '内存分配',
+        hint: '这一行的起始地址与分配大小，以及原值',
+        badge: () => this.rowChanged(),
+        render: () => this.tabContent(() => this.renderAllocationTab()),
+      },
+      {
+        id: 'neighbors',
+        label: '邻接关系',
+        hint: '这一段与下一段挨不挨着、会不会压到、是不是同一块',
+        render: () => this.tabContent(() => this.renderNeighborsTab()),
+      },
+    ];
+  }
+
+  /** 页签内容：没选中记录时给一句提示，选中了才建那一页。 */
+  tabContent(build) {
+    if (!this.selected) {
+      return el('div', { class: 'empty', text: '在左边点一行，或点条带上的一段' });
+    }
+    return build();
+  }
+
+  /**
+   * 这一行改没改（按字节判定，与通用表格编辑器同一套）。
+   *
+   * 走 pack.changedStructureRecords 的 rom_offset 集合 ——
+   * 改过又改回去不算改。
+   */
+  rowChanged() {
+    const record = this.selected;
+    if (!record) return null;
+    const changed = new Set(
+      this.pack.changedStructureRecords(this.table).map((r) => r.rom_offset));
+    return changed.has(record.rom_offset) ? '1' : null;
+  }
+
+  /** 「内存分配」那一页：起始地址 + 分配大小 + 结束地址 + 原值。 */
+  renderAllocationTab() {
+    const record = this.selected;
+    const addr = record.values[ADDR_FIELD];
+    const size = record.values[SIZE_FIELD];
+
     this.sizeInput = el('input', {
       class: 'num-input wram-size',
       type: 'text',
@@ -393,9 +467,8 @@ class MemoryView {
 
     this.endLine = el('div', { class: 'field-hint' });
     this.originLine = el('div', { class: 'field-hint' });
-    this.warnBox = el('div', { class: 'consequence' });
 
-    this.detailWrap.appendChild(el('div', { class: 'group' }, [
+    const group = el('div', { class: 'group' }, [
       el('div', { class: 'group-head' }, [
         el('span', { class: 'group-name', text: '内存分配' }),
       ]),
@@ -426,28 +499,33 @@ class MemoryView {
           }),
         ]),
       ]),
-    ]));
+    ]);
+    this.updateAllocationLines(size);
+    return group;
+  }
 
-    this.detailWrap.appendChild(el('div', { class: 'group' }, [
+  /** 「邻接关系」那一页：这一段与下一段挨不挨着、会不会压到。 */
+  renderNeighborsTab() {
+    const record = this.selected;
+    this.warnBox = el('div', { class: 'consequence' });
+    const group = el('div', { class: 'group' }, [
       el('div', { class: 'group-head' }, [
         el('span', { class: 'group-name', text: '这一段的邻接关系' }),
       ]),
       el('div', { class: 'group-body' }, [this.warnBox]),
-    ]));
-
-    this.updateWarnings(size);
+    ]);
+    this.updateNeighborWarnings(record.values[SIZE_FIELD]);
+    return group;
   }
 
-  /** 结束地址 / 原值 / 邻接与覆盖告警。 */
-  updateWarnings(size) {
+  /** 结束地址 / 原值。 */
+  updateAllocationLines(size) {
     const record = this.selected;
     if (!record) return;
     const addr = record.values[ADDR_FIELD];
-    const segment = this.segmentOf(record);
-    const end = addr + size;
 
     if (this.endLine) {
-      this.endLine.textContent = `结束地址 ${hex32(end)}`;
+      this.endLine.textContent = `结束地址 ${hex32(addr + size)}`;
     }
     if (this.originLine) {
       const originalSize = record.values[SIZE_FIELD];
@@ -456,7 +534,15 @@ class MemoryView {
         ? `原值 ${hex32(originalAddr)} / ${originalSize} 字节`
         : `原值 ${hex32(originalAddr)} / ${originalSize} 字节 → 现在 ${hex32(addr)} / ${size} 字节`;
     }
-    if (!this.warnBox) return;
+  }
+
+  /** 邻接与覆盖告警。 */
+  updateNeighborWarnings(size) {
+    const record = this.selected;
+    if (!record || !this.warnBox) return;
+    const addr = record.values[ADDR_FIELD];
+    const segment = this.segmentOf(record);
+    const end = addr + size;
 
     this.warnBox.textContent = '';
     const lines = [];
@@ -495,6 +581,12 @@ class MemoryView {
     for (const line of lines) {
       this.warnBox.appendChild(el('div', { class: 'consequence-line', text: line }));
     }
+  }
+
+  /** 结束地址 / 原值 / 邻接与覆盖告警。 */
+  updateWarnings(size) {
+    this.updateAllocationLines(size);
+    this.updateNeighborWarnings(size);
   }
 
   commitSize(size) {

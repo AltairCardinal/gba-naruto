@@ -10,17 +10,22 @@
 //
 // 所以：
 //   左边列表 = 任务索引表的每一条（一行 = 一关，含它的标题摘要）
-//   右边详情 = 这一关的 3 个子任务，每个子任务 = 标题 / 说明 / 提示 + 奖励
+//   右边详情 = 头部（第几关 / 基址）留在页签外面，
+//              内容按类分五页签：基址 / 标题 / 说明 / 提示 / 奖励
+//
+// 以前右边是一条长面板：基址 → 三个子任务（标题 / 说明 / 提示 + 奖励），
+// 改「说明」得先滚过基址与三张标题。现在一类一页，页签上的角标是
+// 「这一类改了几处」（按字节判定，与通用表格编辑器同一套口径）。
 //
 // 写回仍然只走内容包已有的通路（pack.setText / pack.setValue），
 // 语义只从内容包取（mission_index 的基址、文本表的容量、奖励表的字段）。
 
 import { el, clear, toast } from '../ui.js';
-import { base64ToBytes, bytesToBase64 } from '../bytes.js';
 import { fieldControl } from '../fields.js';
 import { arraysIn, renderArrayTable } from '../slots.js';
 import { missionIndexOwners } from '../xref.js';
 import { splitPane } from '../split.js';
+import { TabPanel } from '../tabs.js';
 import { backButton } from './common.js';
 
 /** 任务文本表：标题 / 说明 / 提示。 */
@@ -179,8 +184,8 @@ class MissionView {
       ]),
     ]));
     container.appendChild(el('p', { class: 'section-note', text: [
-      '左边按**任务索引表**列出（一行 = 一关）；右边是这一关的 3 个子任务，',
-      '每个子任务的标题 / 说明 / 提示 与奖励都在这里直接改。',
+      '左边按**任务索引表**列出（一行 = 一关）；右边是这一关的头部，',
+      '内容按类分五页签：基址 / 标题 / 说明 / 提示 / 奖励。',
       'ROM 里它们确实是四张表（索引表给基址，三张文本表各存一段话），',
       '但改的时候它们是一个东西。',
     ] }));
@@ -190,6 +195,13 @@ class MissionView {
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.mission',
     }));
+    // 右侧面板：头部（第几关 / 基址）留在页签外面，
+    // 内容按类分五页签 —— 一类一页，不用在一条长面板里上下找。
+    // 页签面板**只建一次**：换关卡时只 refresh，页签选择与记住的页签都还在。
+    this.headHost = el('div', { class: 'mission-detail-head' });
+    this.detailWrap.appendChild(this.headHost);
+    this.tabs = new TabPanel(this.missionTabs(), { key: 'editor.mission', pack: this.pack });
+    this.detailWrap.appendChild(this.tabs.element);
     this.renderList();
     this.renderDetail();
   }
@@ -238,41 +250,124 @@ class MissionView {
     wrap.appendChild(table);
   }
 
-  /** 这一关改了几处（文本 + 奖励）。 */
+  /**
+   * 这一关改了几处（文本 + 奖励）。
+   *
+   * 与页签角标用的是同一套判定 —— 左边列表的总数 = 三个文本页签 + 奖励页签之和。
+   */
   stageChanged(stage) {
-    const base = missionBase(this.pack, stage);
-    if (base === null) return 0;
     let n = 0;
     for (const [, id] of MISSION_TEXTS) {
-      const table = this.pack.textTable(id);
-      if (!table) continue;
-      const record = table.records[base];
-      if (!record) continue;
-      for (let u = 0; u < MISSION_SUBS; u++) {
-        const r = table.records[base + u];
-        if (r && r.text !== undefined && r.text !== r.original_text) n += 1;
-      }
+      n += this.textChanged(id, stage) || 0;
     }
-    if (this.rewards) {
-      for (let u = 0; u < MISSION_SUBS; u++) {
-        const record = (this.rewards.records || []).find((r) => r.id === base + u);
-        if (record && this.isChanged(record)) n += 1;
-      }
-    }
+    n += this.rewardChanged(stage) || 0;
     return n;
   }
 
-  isChanged(record) {
-    const bytes = this.pack.recordBytes(this.rewards, record);
-    const raw = base64ToBytes(record.raw || '');
-    return bytesToBase64(bytes) !== bytesToBase64(raw);
+  /**
+   * 这张结构表里改过的记录（rom_offset 集合）。
+   *
+   * 判定走 pack.changedStructureRecords —— 与通用表格编辑器同一套口径
+   * （按字节比，改过又改回去不算改）。
+   */
+  changedOffsets(structure) {
+    const out = new Set();
+    if (!structure) return out;
+    for (const record of this.pack.changedStructureRecords(structure)) {
+      out.add(record.rom_offset);
+    }
+    return out;
   }
 
-  /** 右边：这一关的 3 个子任务。 */
+  /** 基址那一页改了几处（索引表里这一关的那一格）。 */
+  baseChanged(stage = this.stage) {
+    const record = this.index ? (this.index.records || [])[stage] : null;
+    if (!record) return null;
+    return this.changedOffsets(this.index).has(record.rom_offset) ? '1' : null;
+  }
+
+  /** 文本表这一页改了几处（这一关的三个槽）。 */
+  textChanged(tableId, stage = this.stage) {
+    const base = missionBase(this.pack, stage);
+    if (base === null) return null;
+    const table = this.pack.textTable(tableId);
+    if (!table) return null;
+    const changed = new Set(this.pack.changedTextRecords(table).map((r) => r.id));
+    let n = 0;
+    for (let u = 0; u < MISSION_SUBS; u++) {
+      if (changed.has(base + u)) n += 1;
+    }
+    return n || null;
+  }
+
+  /** 奖励这一页改了几处（这一关的三份奖励）。 */
+  rewardChanged(stage = this.stage) {
+    const base = missionBase(this.pack, stage);
+    if (base === null || !this.rewards) return null;
+    const changed = this.changedOffsets(this.rewards);
+    let n = 0;
+    for (let u = 0; u < MISSION_SUBS; u++) {
+      const record = (this.rewards.records || []).find((r) => r.id === base + u);
+      if (!record) continue;
+      if (changed.has(record.rom_offset)) n += 1;
+    }
+    return n || null;
+  }
+
+  /**
+   * 右侧的五个页签：基址 / 标题 / 说明 / 提示 / 奖励。
+   *
+   * 一关 = 基址 + 三张文本表 + 三份奖励。以前这些全堆在一条长面板里，
+   * 改「说明」得先滚过基址与三张标题 —— 现在一类一页，
+   * 页签上的角标是「这一类改了几处」。
+   */
+  missionTabs() {
+    return [
+      {
+        id: 'base',
+        label: '基址',
+        hint: '本关的基址（任务索引表那一格）—— 改它会换掉整关的任务与奖励',
+        badge: () => this.baseChanged(),
+        render: () => this.renderBaseTab(),
+      },
+      {
+        id: 'titles',
+        label: '标题',
+        hint: '任务标题表：三个子任务的标题',
+        badge: () => this.textChanged('mission_titles'),
+        render: () => this.renderTextTab('标题', 'mission_titles'),
+      },
+      {
+        id: 'descriptions',
+        label: '说明',
+        hint: '任务说明表：三个子任务的说明',
+        badge: () => this.textChanged('mission_descriptions'),
+        render: () => this.renderTextTab('说明', 'mission_descriptions'),
+      },
+      {
+        id: 'hints',
+        label: '提示',
+        hint: '任务提示表：三个子任务的提示',
+        badge: () => this.textChanged('mission_hints'),
+        render: () => this.renderTextTab('提示', 'mission_hints'),
+      },
+      {
+        id: 'rewards',
+        label: '奖励',
+        hint: '本关的三份奖励：金币 / 强化点 / 等级门槛 + 8 个掉落位',
+        badge: () => this.rewardChanged(),
+        render: () => this.renderRewardTab(),
+      },
+    ];
+  }
+
+  /** 右边：头部（第几关 / 基址）留在页签外面，内容在页签里。 */
   renderDetail() {
-    const ctx = this.ctx;
-    const host = this.detailWrap;
+    const host = this.headHost;
     clear(host);
+    // 页签内容是懒渲染的：每次重画都从零开始收（刷新器与标题输入框）。
+    this.refreshers = [];
+    this.titleInputs = [];
     const stage = this.stage;
     const base = missionBase(this.pack, stage);
 
@@ -284,61 +379,91 @@ class MissionView {
       el('span', { text: base === null ? '没有基址' : `基址 #${base}` }),
     ]));
 
-    // --- 索引本身（改它会换掉整关的任务与奖励） --------------------------
-    const indexRecord = this.index ? (this.index.records || [])[stage] : null;
-    if (indexRecord) {
-      const field = (this.index.fields || []).find((f) => f.key === 'value');
-      const { node } = fieldControl(this.fieldCtx(), this.index, indexRecord, field);
-      host.appendChild(el('div', { class: 'mission-index' }, [
-        el('div', { class: 'field-label' }, [
-          el('span', { text: '本关的基址（索引表）' }),
-        ]),
-        node,
-        el('div', {
-          class: 'shared-note',
-          text: '改这一格，这一关就会改用新的三组文本与三份奖励。',
-        }),
-      ]));
-    }
+    this.tabs.refresh();
+    // refresh() 重建页签条时不会把「当前页」标回去（tabs.js 那边的小口子），
+    // 补一次 setActive：同一个 id 不会重建内容，只把高亮标回来。
+    this.tabs.setActive(this.tabs.active);
+  }
 
+  /** 基址那一页：索引表里这一关的那一格。 */
+  renderBaseTab() {
+    const indexRecord = this.index ? (this.index.records || [])[this.stage] : null;
+    if (!indexRecord) {
+      return el('div', { class: 'empty', text: '内容包里没有任务索引表。' });
+    }
+    const field = (this.index.fields || []).find((f) => f.key === 'value');
+    if (!field) {
+      return el('div', { class: 'empty', text: '任务索引表里没有「基址」这一格。' });
+    }
+    const { node } = fieldControl(this.fieldCtx(), this.index, indexRecord, field);
+    return el('div', { class: 'mission-index' }, [
+      el('div', { class: 'field-label' }, [
+        el('span', { text: '本关的基址（索引表）' }),
+      ]),
+      node,
+      el('div', {
+        class: 'shared-note',
+        text: '改这一格，这一关就会改用新的三组文本与三份奖励。',
+      }),
+    ]);
+  }
+
+  /**
+   * 三张任务文本表各一页：这一页装三个子任务的这张表的文案。
+   */
+  renderTextTab(label, tableId) {
+    const stage = this.stage;
+    const base = missionBase(this.pack, stage);
     if (base === null) {
-      host.appendChild(el('div', { class: 'empty', text: '任务索引表里没有这一关。' }));
-      return;
+      return el('div', { class: 'empty', text: '任务索引表里没有这一关。' });
     }
-
-    // --- 3 个子任务 -------------------------------------------------------
+    const table = this.pack.textTable(tableId);
+    const wrap = el('div', { class: 'mission-texts' });
     for (let u = 0; u < MISSION_SUBS; u++) {
       const slot = base + u;
-      const block = el('div', { class: 'mission-sub' });
-      block.appendChild(el('h4', { class: 'route-sub', text: `子任务 ${u + 1}` }));
-
-      const grid = el('div', { class: 'mission-texts' });
-      for (const [label, id] of MISSION_TEXTS) {
-        const table = this.pack.textTable(id);
-        const cell = missionTextCell(ctx, table, slot, label, this.owners, stage, u, {
-          isTitle: id === 'mission_titles',
-          titleInputs: this.titleInputs,
-          onChanged: () => this.renderList(),
-        });
-        grid.appendChild(el('div', { class: 'mission-text-field' }, [
+      const cell = missionTextCell(this.ctx, table, slot, label, this.owners, stage, u, {
+        isTitle: tableId === 'mission_titles',
+        titleInputs: this.titleInputs,
+        onChanged: () => {
+          this.renderList();
+          this.refreshBadges();
+        },
+      });
+      wrap.appendChild(el('div', { class: 'mission-sub' }, [
+        el('h4', { class: 'route-sub', text: `子任务 ${u + 1}` }),
+        el('div', { class: 'mission-text-field' }, [
           el('span', { class: 'operand-label', text: label }),
           cell,
-        ]));
-      }
-      block.appendChild(grid);
-
-      this.renderReward(block, slot, stage, u);
-      host.appendChild(block);
+        ]),
+      ]));
     }
+    return wrap;
+  }
+
+  /** 奖励那一页：三个子任务各一份奖励。 */
+  renderRewardTab() {
+    const stage = this.stage;
+    const base = missionBase(this.pack, stage);
+    if (base === null) {
+      return el('div', { class: 'empty', text: '任务索引表里没有这一关。' });
+    }
+    const wrap = el('div', { class: 'mission-rewards' });
+    for (let u = 0; u < MISSION_SUBS; u++) {
+      const block = el('div', { class: 'mission-sub' });
+      block.appendChild(el('h4', { class: 'route-sub', text: `子任务 ${u + 1}` }));
+      const reward = this.renderReward(base + u, stage, u);
+      if (reward) block.appendChild(reward);
+      wrap.appendChild(block);
+    }
+    return wrap;
   }
 
   /** 子任务的奖励：金币 / 强化点 / 等级门槛 + 8 个掉落位。 */
-  renderReward(block, slot, stage, sub) {
-    const ctx = this.ctx;
+  renderReward(slot, stage, sub) {
     const rewards = this.rewards;
-    if (!rewards) return;
+    if (!rewards) return null;
     const record = (rewards.records || []).find((r) => r.id === slot);
-    if (!record) return;
+    if (!record) return null;
 
     const fieldCtx = this.fieldCtx();
     const numbers = el('div', { class: 'route-reward-numbers' });
@@ -351,25 +476,39 @@ class MissionView {
         node,
       ]));
     }
-    block.appendChild(el('div', { class: 'route-reward' }, [
+    const node = el('div', { class: 'route-reward' }, [
       el('div', { class: 'route-sub', text: '奖励' }),
       numbers,
-    ]));
+    ]);
 
     const arrays = arraysIn(rewards.fields || []);
     const slotArray = arrays.find((a) => a.name === 'slots') || null;
     if (slotArray) {
-      block.appendChild(el('div', { class: 'route-reward-drops' }, [
+      node.appendChild(el('div', { class: 'route-reward-drops' }, [
         el('div', { class: 'route-sub', text: '掉落位（8 位，0 表示列表结束）' }),
         renderArrayTable(fieldCtx, rewards, record, slotArray),
       ]));
     }
-    block.appendChild(el('div', { class: 'route-reward-foot' }, [
+    node.appendChild(el('div', { class: 'route-reward-foot' }, [
       el('span', {
         class: 'shared-note',
         text: slotFootnote('奖励表', slot, this.owners, stage, sub, null),
       }),
     ]));
+    return node;
+  }
+
+  /**
+   * 只重画页签条上的角标，不重建页签内容。
+   *
+   * 文本改完不能整页重建 —— 重建会把作者正在编辑的输入框换掉（焦点就没了）。
+   * setBadge(id, null) 清掉角标覆盖并重画页签条，角标于是按当前数据重算。
+   */
+  refreshBadges() {
+    if (!this.tabs) return;
+    for (const tab of this.tabs.tabs) this.tabs.setBadge(tab.id, null);
+    // setBadge 重画了页签条，高亮要重新标回去（同一个 id 不重建内容）。
+    this.tabs.setActive(this.tabs.active);
   }
 
   /** 字段控件的上下文：改完类别要把物品下拉重画一次。 */
@@ -382,10 +521,16 @@ class MissionView {
       registerRefresh: (fn) => this.refreshers.push(fn),
       onCommit: (structure, record, field) => {
         for (const fn of this.refreshers) fn();
-        if (field && typeof field.key === 'string' && field.key.endsWith('_category')) {
-          this.renderDetail();
-        }
+        // 先重画左边（已改数与角标都从这里的数据来）。
         this.renderList();
+        const key = field && typeof field.key === 'string' ? field.key : '';
+        // 改基址会换掉整关的任务与奖励；改道具类别要重画物品下拉 ——
+        // 这两种都得整页重画，其余只更新角标（免得输入框被换掉、焦点就没了）。
+        if (structure === this.index || key.endsWith('_category')) {
+          this.renderDetail();
+        } else {
+          this.refreshBadges();
+        }
       },
     };
   }

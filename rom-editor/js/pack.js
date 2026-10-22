@@ -65,6 +65,40 @@ export class ContentPack {
      * written back: `rom.js` only writes `structures` / `texts` / `patches`.
      */
     this.map_assets = data.map_assets || null;
+    /**
+     * 谁关心「内容包变了」。
+     *
+     * `onChange()`（app.js 那个）只标脏，**不重绘** —— 所以靠它刷新界面是不行的。
+     * 页签的角标（「这一类改了几处」）需要在每次写入后立刻跟上，
+     * 这里给一条通知通路：写完就通知，界面自己决定要不要重画。
+     */
+    this.changeListeners = [];
+  }
+
+  /**
+   * 订阅「内容包变了」。
+   *
+   * @param {() => void} fn
+   * @returns {() => void} 退订函数
+   */
+  onChange(fn) {
+    if (typeof fn !== 'function') return () => {};
+    this.changeListeners.push(fn);
+    return () => {
+      const at = this.changeListeners.indexOf(fn);
+      if (at >= 0) this.changeListeners.splice(at, 1);
+    };
+  }
+
+  /** 通知所有订阅者（写完之后调）。 */
+  notifyChanged() {
+    for (const fn of this.changeListeners.slice()) {
+      try {
+        fn();
+      } catch (err) {
+        /* 订阅者出错不许影响写回 */
+      }
+    }
   }
 
   /**
@@ -143,6 +177,7 @@ export class ContentPack {
         this.dirty.delete(`patch.${entry.offset.toString(16)}`);
       }
     }
+    this.notifyChanged();
     return true;
   }
 
@@ -218,6 +253,7 @@ export class ContentPack {
     });
     record.values[key] = value;
     this.dirty.add(`${structure.id}#${record.id}`);
+    this.notifyChanged();
   }
 
   /**
@@ -260,6 +296,7 @@ export class ContentPack {
       other.text_changed = true;
       this.dirty.add(`${table.id}#${other.id}`);
     }
+    this.notifyChanged();
   }
 
   /** The other records of `table` that live at the same ROM address. */
@@ -305,6 +342,7 @@ export class ContentPack {
       delete other.text_changed;
       this.dirty.add(`${table.id}#${other.id}`);
     }
+    this.notifyChanged();
   }
 
   /** The original token stream of a text record (control codes included). */
@@ -385,6 +423,7 @@ export class ContentPack {
       });
     }
     operand.value = value;
+    this.notifyChanged();
     return patch;
   }
 
@@ -412,6 +451,7 @@ export class ContentPack {
       previousAfter,
       offset,
     });
+    this.notifyChanged();
     return patch;
   }
 

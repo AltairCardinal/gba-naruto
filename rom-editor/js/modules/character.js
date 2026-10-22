@@ -16,6 +16,11 @@
 //   左边列表 = 角色定义表的每一条（一行 = 一个角色）
 //   右边详情 = 这个角色的各个侧面，每一段都能直接改
 //
+// 右边是**页签**：头部（角色名 / 来自哪张表 / 已改几处 / 跳转条）留在页签外面，
+// 内容按类分页 —— 属性 / 成长 / 特性 / 忍术槽 / 技能槽 / 道具槽 / 头像。
+// 以前这七段竖着堆在一起，是一条看不到头的长滚动：改「头像」得先滚过「忍术槽」。
+// 每个页签有角标：这一类改了几处（按字节判定，改了又改回去不算）。
+//
 // 写回仍然只走内容包已有的通路（pack.setValue），
 // 语义只从内容包取：id 关系来自 structure.id_relation，
 // 字段取值域来自 field.enum / field.relation，名字来自 textTable。
@@ -24,6 +29,7 @@ import { el, clear, toast } from '../ui.js';
 import { fieldControl, fieldHint, originalValue, idRelationName } from '../fields.js';
 import { arraysIn, arrayFields, renderArrayTable } from '../slots.js';
 import { splitPane } from '../split.js';
+import { TabPanel } from '../tabs.js';
 import { backButton } from './common.js';
 
 /** 一个角色由哪几张表构成（表 id 都在内容包里）。 */
@@ -96,6 +102,7 @@ class CharacterView {
     this.arrays = this.template ? arraysIn(this.template.fields) : [];
     this.refreshers = [];
     this.changedCache = null;
+    this.tabs = null;
     this.pick = this.pickCharacter(params);
   }
 
@@ -142,6 +149,12 @@ class CharacterView {
 
     this.listWrap = el('div', { class: 'table-wrap' });
     this.detailWrap = el('div', { class: 'detail-panel' });
+    // 页签面板要活过 renderDetail() 的 clear()：头部与页签分装在两个容器里，
+    // clear 只清头部那一个。
+    this.detailTop = el('div', { class: 'detail-top' });
+    this.detailTabs = el('div', { class: 'detail-tabs' });
+    this.detailWrap.appendChild(this.detailTop);
+    this.detailWrap.appendChild(this.detailTabs);
     container.appendChild(splitPane(this.listWrap, this.detailWrap, {
       key: 'editor.character',
       wide: true,
@@ -243,33 +256,237 @@ class CharacterView {
   // --- 右边：这个角色的各个侧面 -------------------------------------------
 
   renderDetail() {
-    const host = this.detailWrap;
-    clear(host);
-    this.refreshers = [];
-    const record = this.records().find((r) => r.id === this.pick);
+    const record = this.pickRecord();
     if (!record) {
-      host.appendChild(el('div', { class: 'empty', text: '内容包里没有角色定义表。' }));
+      clear(this.detailTop);
+      this.detailTop.appendChild(el('div', { class: 'empty', text: '内容包里没有角色定义表。' }));
       return;
     }
-    host.appendChild(el('div', { class: 'detail-head' }, [
+    this.renderHead(record);
+
+    // 内容进页签。页签面板只装一次：换角色只 refresh，
+    // 这样「停在哪一页」与记住的页签都还在。
+    if (!this.tabs) {
+      this.tabs = new TabPanel(this.tabSpecs(), { key: 'editor.character', pack: this.pack });
+      this.detailTabs.appendChild(this.tabs.element);
+    } else {
+      this.refreshTabs();
+    }
+  }
+
+  /** 头部：角色名 / 来自哪张表 / 改了几处 / 跳转条（留在页签外面）。 */
+  renderHead(record) {
+    const top = this.detailTop;
+    clear(top);
+    if (!record) return;
+    top.appendChild(el('div', { class: 'detail-head' }, [
       el('h3', { text: characterName(this.pack, this.template, record) }),
     ]));
-    host.appendChild(el('div', { class: 'detail-sub' }, [
+    top.appendChild(el('div', { class: 'detail-sub' }, [
       el('span', { text: `角色定义表 #${record.id}` }),
       el('span', { text: `已改 ${this.characterChanged(record.id)} 处` }),
     ]));
-    host.appendChild(this.jumpBar(record));
+    top.appendChild(this.jumpBar(record));
+  }
 
-    this.renderAttributes(host, record);
-    this.renderGrowth(host, record);
-    this.renderPerks(host, record);
-    this.renderSlots(host, record, 'jutsu', '忍术列表',
-      '角色定义表里的忍术槽：忍术 id / 等级值 / 解锁等级。忍术 id 就是忍术名表的下标。');
-    this.renderSlots(host, record, 'training', '技能列表',
-      '角色定义表里的技能槽：技能 id / 等级值 / 解锁等级。技能 id 就是技能名表与角色特性表的下标。');
-    this.renderSlots(host, record, 'items', '道具槽',
-      '角色定义表里的忍具槽：每一格是一个忍具 id（0 是空槽）。');
-    this.renderPortrait(host, record);
+  /** 当前选中的那个角色（记录）。 */
+  pickRecord() {
+    return this.records().find((r) => r.id === this.pick) || null;
+  }
+
+  /**
+   * 右侧面板的页签。
+   *
+   * 内容按类分 —— 属性 / 成长 / 特性 / 忍术槽 / 技能槽 / 道具槽 / 头像。
+   * 页签 id 用英文，label 用中文；key 记住上次停在哪一页。
+   */
+  tabSpecs() {
+    return [
+      {
+        id: 'attributes',
+        label: '属性',
+        hint: '角色定义表的头 12 字节：六项属性、副属性与体力基础',
+        badge: () => this.badgeAttributes(),
+        render: () => this.tabContent(() => this.renderAttributes(this.pickRecord())),
+      },
+      {
+        id: 'growth',
+        label: '成长',
+        hint: '逐角色成长表里同号的那一条：每一级涨多少',
+        badge: () => this.badgeGrowth(),
+        render: () => this.tabContent(() => this.renderGrowth(this.pickRecord())),
+      },
+      {
+        id: 'perks',
+        label: '特性',
+        hint: '这个角色用到的每个技能，在角色特性表里的参数',
+        badge: () => this.badgePerks(),
+        render: () => this.tabContent(() => this.renderPerks(this.pickRecord())),
+      },
+      {
+        id: 'jutsu',
+        label: '忍术槽',
+        hint: '角色定义表里的忍术槽：忍术 id / 等级值 / 解锁等级',
+        badge: () => this.badgeSlots('jutsu'),
+        render: () => this.tabContent(() => this.renderSlots(this.pickRecord(), 'jutsu', '忍术列表',
+          '角色定义表里的忍术槽：忍术 id / 等级值 / 解锁等级。忍术 id 就是忍术名表的下标。')),
+      },
+      {
+        id: 'training',
+        label: '技能槽',
+        hint: '角色定义表里的技能槽：技能 id / 等级值 / 解锁等级',
+        badge: () => this.badgeSlots('training'),
+        render: () => this.tabContent(() => this.renderSlots(this.pickRecord(), 'training', '技能列表',
+          '角色定义表里的技能槽：技能 id / 等级值 / 解锁等级。技能 id 就是技能名表与角色特性表的下标。')),
+      },
+      {
+        id: 'items',
+        label: '道具槽',
+        hint: '角色定义表里的忍具槽：每一格是一个忍具 id',
+        badge: () => this.badgeSlots('items'),
+        render: () => this.tabContent(() => this.renderSlots(this.pickRecord(), 'items', '道具槽',
+          '角色定义表里的忍具槽：每一格是一个忍具 id（0 是空槽）。')),
+      },
+      {
+        id: 'portrait',
+        label: '头像',
+        hint: '头像指针表里同号的那一条 + 头像拼块表',
+        badge: () => this.badgePortrait(),
+        render: () => this.tabContent(() => this.renderPortrait(this.pickRecord())),
+      },
+    ];
+  }
+
+  /** 页签内容：重建时把「刷新器」清一遍（上一页的已经不在 DOM 里了）。 */
+  tabContent(build) {
+    this.refreshers = [];
+    return build();
+  }
+
+  /** 刷新当前页签（内容 + 角标）—— 换角色 / 恢复原值后调。 */
+  refreshTabs() {
+    if (!this.tabs) return;
+    const host = this.detailWrap;
+    const top = host && Number.isFinite(host.scrollTop) ? host.scrollTop : 0;
+    this.tabs.refresh();
+    // 内容是重建的，滚动位置放回去 —— 改一格不用从头滚。
+    if (host && Number.isFinite(host.scrollTop)) host.scrollTop = top;
+  }
+
+  /**
+   * 只重算角标，不重建内容。
+   *
+   * 内容重建会把作者正在编辑的输入框换掉（焦点就没了）——
+   * 所以改完一格只重画页签条：setBadge(id, null) 清掉角标覆盖，
+   * 角标于是按当前数据重算。
+   */
+  refreshBadges() {
+    if (!this.tabs) return;
+    for (const tab of this.tabs.tabs) this.tabs.setBadge(tab.id, null);
+    // 页签条重画了，高亮要标回去（同一个 id，不重建内容）。
+    this.tabs.setActive(this.tabs.active);
+  }
+
+  // --- 页签角标：这一类改了几处 -------------------------------------------
+
+  /**
+   * 角标：这一类改了几处。
+   *
+   * 判定按**字节**来：`changedIds()` 里的集合来自
+   * `pack.changedStructureRecords()`（比较记录的原始字节），
+   * 所以「改了又改回去」不算数。
+   *
+   * 属性 / 忍术槽 / 技能槽 / 道具槽 都在角色定义表的**同一条记录**里
+   * （rom_offset 相同），所以再按字段细一次 ——
+   * 否则改一项属性会让四个页签一起亮。
+   */
+
+  /** 属性那一类。 */
+  badgeAttributes() {
+    const record = this.pickRecord();
+    if (!record) return null;
+    if (!this.changedIds().template.has(record.id)) return null;
+    const { head, rest } = this.headFields();
+    return this.fieldsChanged(this.template, record, head.concat(rest)) || null;
+  }
+
+  /** 成长那一类（逐角色成长表里同号的那一条）。 */
+  badgeGrowth() {
+    const record = this.pickRecord();
+    if (!record || !this.growth) return null;
+    if (!this.changedIds().growth.has(record.id)) return null;
+    const target = (this.growth.records || []).find((r) => r.id === record.id);
+    if (!target) return null;
+    return this.fieldsChanged(this.growth, target, substantiveFields(this.growth.fields)) || null;
+  }
+
+  /** 特性那一类（这个角色用到的每个技能）。 */
+  badgePerks() {
+    const record = this.pickRecord();
+    if (!record || !this.perks) return null;
+    const changed = this.changedIds();
+    const fields = substantiveFields(this.perks.fields);
+    let n = 0;
+    for (const skillId of this.skillIds(record.id)) {
+      if (!changed.perks.has(skillId)) continue;
+      const perk = (this.perks.records || []).find((r) => r.id === skillId);
+      if (!perk) continue;
+      if (this.fieldsChanged(this.perks, perk, fields)) n += 1;
+    }
+    return n || null;
+  }
+
+  /** 槽位那一类（忍术 / 技能 / 道具 —— 都在角色定义表的那一条记录里）。 */
+  badgeSlots(name) {
+    const record = this.pickRecord();
+    if (!record) return null;
+    if (!this.changedIds().template.has(record.id)) return null;
+    return this.fieldsChanged(this.template, record, this.arrayFieldsOf(name)) || null;
+  }
+
+  /** 头像那一类（头像指针表同号的那一条 + 所有角色共用的拼块）。 */
+  badgePortrait() {
+    const record = this.pickRecord();
+    if (!record) return null;
+    const changed = this.changedIds();
+    let n = 0;
+    if (this.portrait && changed.portrait.has(record.id)) {
+      const target = (this.portrait.records || []).find((r) => r.id === record.id);
+      if (target && this.fieldsChanged(this.portrait, target, this.portrait.fields || [])) n += 1;
+    }
+    if (this.pieces) {
+      // 拼块是所有角色共用的一份，改一处全体生效 —— 也算在头像这一页。
+      for (const piece of this.pieces.records || []) {
+        if (changed.pieces.has(piece.id)) n += 1;
+      }
+    }
+    return n || null;
+  }
+
+  /** 这几个字段里有几处改了（和记录里的原始字节比）。 */
+  fieldsChanged(structure, record, fields) {
+    if (!structure || !record) return 0;
+    const values = record.values || {};
+    let n = 0;
+    for (const field of fields || []) {
+      const original = originalValue(structure, record, field);
+      if (JSON.stringify(original) !== JSON.stringify(values[field.key])) n += 1;
+    }
+    return n;
+  }
+
+  /** 角色定义表里某个重复槽位组的字段（去掉恒为 0 的填充字节）。 */
+  arrayFieldsOf(name) {
+    const array = this.arrayOf(name);
+    if (!array) return [];
+    const out = [];
+    for (const row of array.rows.values()) {
+      for (const [item, field] of Object.entries(row)) {
+        if (item === 'pad') continue;
+        out.push(field);
+      }
+    }
+    return out;
   }
 
   /** 跳到同一份数据的通用表格视图（改名字、逐表核对）。 */
@@ -306,7 +523,7 @@ class CharacterView {
   }
 
   /** ① 属性：角色定义表的 12 字节头。 */
-  renderAttributes(host, record) {
+  renderAttributes(record) {
     const section = this.section('属性',
       '角色定义表的头 12 字节：六项属性、副属性与体力基础（两个恒定的标志字节也在里头）。');
     const { head, rest } = this.headFields();
@@ -323,7 +540,7 @@ class CharacterView {
         section.appendChild(this.renderField(this.template, record, field));
       }
     }
-    host.appendChild(section);
+    return section;
   }
 
   /**
@@ -355,41 +572,37 @@ class CharacterView {
   }
 
   /** ② 成长：逐角色成长表里同号的那一条。 */
-  renderGrowth(host, record) {
+  renderGrowth(record) {
     const section = this.section('成长',
       '逐角色成长表里与这个角色同号的那一条：每一级涨多少。');
     if (!this.growth) {
       section.appendChild(el('div', { class: 'empty', text: '内容包里没有逐角色成长表。' }));
-      host.appendChild(section);
-      return;
+      return section;
     }
     const target = (this.growth.records || []).find((r) => r.id === record.id);
     if (!target) {
       section.appendChild(el('div', { class: 'empty', text: '成长表里没有这个角色。' }));
-      host.appendChild(section);
-      return;
+      return section;
     }
     for (const field of substantiveFields(this.growth.fields)) {
       section.appendChild(this.renderField(this.growth, target, field));
     }
-    host.appendChild(section);
+    return section;
   }
 
   /** ③ 特性（技能）：这个角色用到的每个技能，在特性表里的参数。 */
-  renderPerks(host, record) {
+  renderPerks(record) {
     const section = this.section('特性（技能）',
       '技能的参数（效果类型 / 基础值 / 次要值 / 每级成长 / 附加属性）住在角色特性表里，' +
       '它的 id 与技能名表同号 —— 这里列的是这个角色用到的每个技能。');
     if (!this.perks) {
       section.appendChild(el('div', { class: 'empty', text: '内容包里没有角色特性表。' }));
-      host.appendChild(section);
-      return;
+      return section;
     }
     const skills = this.skillIds(record.id);
     if (!skills.length) {
       section.appendChild(el('div', { class: 'empty', text: '这个角色的技能槽是空的。' }));
-      host.appendChild(section);
-      return;
+      return section;
     }
     const fields = substantiveFields(this.perks.fields);
     const table = el('table', { class: 'grid grid-slots char-perks' });
@@ -411,39 +624,36 @@ class CharacterView {
     }
     table.appendChild(body);
     section.appendChild(el('div', { class: 'slot-table' }, [table]));
-    host.appendChild(section);
+    return section;
   }
 
   /** ④⑤⑥ 槽位：忍术 / 技能 / 道具（重复槽位成表，不是一堆输入框）。 */
-  renderSlots(host, record, name, title, note) {
+  renderSlots(record, name, title, note) {
     const section = this.section(title, note);
     const array = this.arrayOf(name);
     if (!array) {
       section.appendChild(el('div', { class: 'empty', text: `这张表里没有${title}。` }));
-      host.appendChild(section);
-      return;
+      return section;
     }
     section.appendChild(el('div', { class: 'slot-block' }, [
       el('div', { class: 'slot-caption', text: `${title}（${array.rows.size} 槽，每槽另有 1 字节填充，已省略）` }),
       renderArrayTable(this.fieldCtx(), this.template, record, withoutPadding(array)),
     ]));
-    host.appendChild(section);
+    return section;
   }
 
   /** ⑦ 头像：头像指针表里同号的那一条 + 头像拼块表。 */
-  renderPortrait(host, record) {
+  renderPortrait(record) {
     const section = this.section('头像',
       '头像指针表里与这个角色同号的那一条：5 个表情，每个表情一张图 + 一张调色板。');
     if (!this.portrait) {
       section.appendChild(el('div', { class: 'empty', text: '内容包里没有头像指针表。' }));
-      host.appendChild(section);
-      return;
+      return section;
     }
     const target = (this.portrait.records || []).find((r) => r.id === record.id);
     if (!target) {
       section.appendChild(el('div', { class: 'empty', text: '头像指针表里没有这个角色。' }));
-      host.appendChild(section);
-      return;
+      return section;
     }
     const expr = arraysIn(this.portrait.fields).find((a) => a.name === 'expr');
     if (!expr) {
@@ -455,7 +665,7 @@ class CharacterView {
       ]));
     }
     this.renderPieces(section);
-    host.appendChild(section);
+    return section;
   }
 
   /** 头像拼块表：所有角色共用这一份拼块，改一处全体生效。 */
@@ -570,7 +780,7 @@ class CharacterView {
     return this.arrays.find((a) => a.name === name) || null;
   }
 
-  /** 字段控件的上下文：改完要刷新说明行与左边的已改计数。 */
+  /** 字段控件的上下文：改完要刷新说明行、左边的已改计数与页签角标。 */
   fieldCtx() {
     return {
       pack: this.pack,
@@ -579,6 +789,10 @@ class CharacterView {
       registerRefresh: (fn) => this.refreshers.push(fn),
       onCommit: () => {
         this.changedCache = null;
+        // 头部（「已改 N 处」）与页签角标都要跟上这次改动 ——
+        // 但**不重建页签内容**：重建会把作者正在编辑的输入框换掉，焦点就没了。
+        this.renderHead(this.pickRecord());
+        this.refreshBadges();
         for (const fn of this.refreshers) fn();
         this.renderList();
       },

@@ -14,8 +14,10 @@
 import { el, clear, toast, modal } from '../ui.js';
 import { splitPane } from '../split.js';
 import {
-  sideCell, stageChangeCount, mapAssetNotice, BATTLE_LAYOUT,
+  sideCell, stageChangeCount, mapAssetNotice, operandChanged, openInTable, BATTLE_LAYOUT,
 } from './common.js';
+import { renderRulesTab, renderScriptsTab } from './battle-sections.js';
+import { TabPanel } from '../tabs.js';
 import { fetchMaybeGzip } from '../romsource.js';
 import { editorUrl } from '../loader.js';
 import {
@@ -260,8 +262,9 @@ export function renderBattleMap(container, ctx, stage, variant) {
     el('div', { class: 'panel-tools' }, [
       el('button', {
         class: 'btn btn-ghost',
-        text: '← 返回关卡',
-        onclick: () => ctx.openPanel('stage', 'stage', { stage, variant }),
+        text: '← 返回战斗',
+        title: '回到战斗域首页',
+        onclick: () => { ctx.state.view.panel = null; ctx.render(); },
       }),
       stageSelect, variantSelect, mapSelect,
     ]),
@@ -702,27 +705,113 @@ export function renderBattleMap(container, ctx, stage, variant) {
   }
 
   // =========================================================================
-  // 右侧面板
+  // 右侧面板：这一关的全部配置，按类分页签
   // =========================================================================
+  //
+  // 地图是主界面；**这一关的其它配置**挂在右侧的页签上：
+  // 战场布置 / 战场物件 / 角色出生点 / 胜负条件 / 剧情触发。
+  // 以前这些散在「关卡视图」那一长条页面里，作者要在两个页面之间来回跳。
+
+  const tabs = new TabPanel([
+    {
+      id: 'setup',
+      label: '战场布置',
+      hint: '这张地图的尺寸、剧情底图与六个 LZ77 资源指针',
+      badge: () => changedCount(['map_table'], [layout.MAP_BASE + stage * 32]),
+      render: () => battleSetupSection(),
+    },
+    {
+      id: 'objects',
+      label: '战场物件',
+      hint: '16 个物件槽：类别 / 触发目标 / 格坐标',
+      badge: () => changedCount(['battle_map_objects'], objectOffsets()),
+      render: () => objectSection(),
+    },
+    {
+      id: 'actors',
+      label: '角色出生点',
+      hint: '12 个角色槽：角色 / 阵营 / 格坐标 / 朝向 / 等级',
+      badge: () => changedCount(['battle_actors'], actorOffsets()),
+      render: () => actorSection(),
+    },
+    {
+      id: 'rules',
+      label: '胜负条件',
+      hint: '回合上限 + 4 个胜利条件 + 4 个失败条件（与给玩家看的说明文字）',
+      badge: () => rulesChanged(),
+      render: () => renderRulesTab(ctx, stage, variant),
+    },
+    {
+      id: 'scripts',
+      label: '剧情触发',
+      hint: '这一关在战斗里会触发的四个剧本与可改的操作数',
+      badge: () => scriptsChanged(),
+      render: () => renderScriptsTab(ctx, stage),
+    },
+  ], { key: 'battle.map', pack });
+
+  // 页签条只挂一次；换页签 / 刷新内容都在 TabPanel 内部做。
+  side.appendChild(tabs.element);
 
   function refreshPanel() {
-    clear(side);
-    side.appendChild(battleSetupSection());
-    side.appendChild(objectSection());
-    side.appendChild(actorSection());
-    side.appendChild(el('div', { class: 'map-side-foot' }, [
-      el('button', {
-        class: 'btn btn-tiny',
-        text: '战斗目标在关卡视图里 →',
-        title: '战斗条件与地图没有空间关系，留在关卡视图里改',
-        onclick: () => ctx.openPanel('stage', 'stage', { stage, variant }),
-      }),
-      el('div', {
-        class: 'stat-hint',
-        text: '战斗条件（回合数、胜负判定）里的参数没有一个是地图坐标，' +
-          '所以它不进地图视图，要改请到关卡视图。',
-      }),
-    ]));
+    tabs.refresh();
+  }
+
+  /** 这些偏移上的记录有几条被改过（按字节判定，与通用表格同一套）。 */
+  function changedCount(structureIds, offsets) {
+    let n = 0;
+    for (const id of structureIds) {
+      const structure = pack.structure(id);
+      if (!structure) continue;
+      const changed = new Set(pack.changedStructureRecords(structure).map((r) => r.rom_offset));
+      for (const offset of offsets) {
+        if (changed.has(offset)) n += 1;
+      }
+    }
+    return n || null;
+  }
+
+  function actorOffsets() {
+    const base = layout.ACTORS_BASE + stage * layout.GROUP_STRIDE + variant * layout.VARIANT_STRIDE + 4;
+    return Array.from({ length: 12 }, (_, s) => base + s * layout.SLOT_STRIDE);
+  }
+
+  function objectOffsets() {
+    const base = layout.ACTORS_BASE + stage * layout.GROUP_STRIDE + variant * layout.VARIANT_STRIDE +
+      layout.OBJECT_OFFSET;
+    return Array.from({ length: layout.OBJECT_COUNT }, (_, o) => base + o * 4);
+  }
+
+  /** 胜负条件这一页改了几处（记录本身 + 给玩家看的说明文字）。 */
+  function rulesChanged() {
+    const structure = pack.structure('battle_rules');
+    let n = 0;
+    if (structure) {
+      const offset = layout.RULES_BASE + stage * layout.RULE_STAGE_STRIDE + variant * layout.RULE_SUB_STRIDE;
+      const changed = new Set(pack.changedStructureRecords(structure).map((r) => r.rom_offset));
+      if (changed.has(offset)) n += 1;
+    }
+    const objectives = pack.textTable('battle_objectives');
+    if (objectives) {
+      const changed = new Set(pack.changedTextRecords(objectives).map((r) => r.id));
+      for (const binding of objectives.bindings || []) {
+        if (binding.rule !== stage * layout.VARIANT_COUNT + variant) continue;
+        if (changed.has(binding.text_id)) n += 1;
+      }
+    }
+    return n || null;
+  }
+
+  /** 剧情触发这一页改了几处（脚本操作数是补丁，按操作数算）。 */
+  function scriptsChanged() {
+    let n = 0;
+    for (const script of pack.scripts || []) {
+      if (script.scene !== stage) continue;
+      for (const operand of script.operands || []) {
+        if (operandChanged(operand)) n += 1;
+      }
+    }
+    return n || null;
   }
 
   function battleSetupSection() {
@@ -829,7 +918,7 @@ export function renderBattleMap(container, ctx, stage, variant) {
     for (let slot = 0; slot < objects.records.length; slot++) {
       const record = objects.records[slot];
       if (!record) {
-        rows.push([`#${slot + 1}`, '（缺记录）', '—', '—', '—']);
+        rows.push([`#${slot + 1}`, '（缺记录）', '—', '—', '—', '—']);
         continue;
       }
       const v = record.values;
@@ -840,6 +929,7 @@ export function renderBattleMap(container, ctx, stage, variant) {
         objectTargetSelect(record, v),
         empty ? '—' : coordInput(objects.structure, record, 'x', v.x),
         empty ? '—' : coordInput(objects.structure, record, 'y', v.y),
+        openInTable(ctx, 'battle_map_objects', record.id, '↗'),
       ]);
     }
     return el('div', { class: 'map-section' }, [
@@ -851,8 +941,9 @@ export function renderBattleMap(container, ctx, stage, variant) {
         '（类别 4）可能不会生成，所以后面的编号会往前挪。',
         '机关名来自第三方编辑器（其作者在游戏里逐个验证过），本仓库未收录这张表 —— ' +
         '名字仅供参考，写回的仍是编号。',
+        '每行末尾的 ↗ 可以在通用表格里打开同一条记录。',
       ]),
-      mapTable(['槽', '类别', '内容', 'X', 'Y'], rows),
+      mapTable(['槽', '类别', '内容', 'X', 'Y', '↗'], rows),
     ]);
   }
 
@@ -861,7 +952,7 @@ export function renderBattleMap(container, ctx, stage, variant) {
     for (let slot = 0; slot < actors.records.length; slot++) {
       const record = actors.records[slot];
       if (!record) {
-        rows.push([`#${slot + 1}`, '（缺记录）', '—', '—', '—', '—', '—']);
+        rows.push([`#${slot + 1}`, '（缺记录）', '—', '—', '—', '—', '—', '—']);
         continue;
       }
       const v = record.values;
@@ -873,6 +964,7 @@ export function renderBattleMap(container, ctx, stage, variant) {
         coordInput(actors.structure, record, 'y', v.y),
         facingSelect(record, v),
         levelInput(record, v),
+        openInTable(ctx, 'battle_actors', record.id, '↗'),
       ]);
     }
     return el('div', { class: 'map-section' }, [
@@ -883,8 +975,9 @@ export function renderBattleMap(container, ctx, stage, variant) {
         '本仓库未独立复核。',
         '换角色不会把角色模板（属性与技能）拷进槽位 —— 槽内那 168 字节在内容包里是未解字节，' +
         '所以换角色时会有一次确认。',
+        '每行末尾的 ↗ 可以在通用表格里打开同一条记录。',
       ]),
-      mapTable(['槽', '角色', '阵营', 'X', 'Y', '朝向', '等级'], rows),
+      mapTable(['槽', '角色', '阵营', 'X', 'Y', '朝向', '等级', '↗'], rows),
     ]);
   }
 

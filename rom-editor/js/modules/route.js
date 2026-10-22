@@ -1,9 +1,9 @@
 // 剧情路线：一屏一关的「路线工作台」。
 //
-// 一屏里改完一关的三样东西：
-//   ① 路线走向 —— 本关的出边、谁会跳到本关、「下一场景 id」与「相位标志」
-//   ② 任务文案 —— 3 个子任务的标题 / 说明 / 提示，就地可改
-//   ③ 本关奖励 —— 金币 / 强化点 / 等级门槛 + 8 个掉落位，就地可改
+// 主界面是**这一关的路线走向**（左边），这一关的其它配置收在**右侧页签**里：
+//   ① 任务文案 —— 3 个子任务的标题 / 说明 / 提示，就地可改
+//   ② 本关奖励 —— 金币 / 强化点 / 等级门槛 + 8 个掉落位，就地可改
+// 路线走向留在左边常驻：它是这一关的骨架，不该被藏进页签。
 //
 // 写回通路全在内容包里（pack.setText / pack.setValue / pack.setScriptOperand），
 // 所以作者不用跳去别的域再自己算下标。语义只从内容包取：路线边来自
@@ -15,6 +15,8 @@ import {
   renderDomainIndex, renderPanel, summaryTable,
   openInModule,
 } from './common.js';
+import { splitPane } from '../split.js';
+import { TabPanel } from '../tabs.js';
 import { missionIndexOwners, ownerLabel } from '../xref.js';
 import { arraysIn, renderArrayTable } from '../slots.js';
 import { fieldControl } from '../fields.js';
@@ -145,23 +147,46 @@ export function renderStage(container, ctx, stage) {
   const root = el('div', { class: 'route-workbench', tabindex: '-1' });
   container.appendChild(root);
 
-  // 工作台自己维护的少量状态：标题输入框（键盘 1/2/3 要聚焦）、奖励区宿主。
-  const view = { titleInputs: [], rewardHost: null };
+  // 工作台自己维护的少量状态：标题输入框（键盘 1/2/3 要聚焦）、页签面板。
+  const view = { titleInputs: [], tabs: null };
 
+  // 右侧页签：这一关的其它配置按类分开放。
+  //
+  // 改完奖励要重画奖励那一页（改类别会让物品下拉换一批选项）。
   const paintRewards = () => {
-    if (!view.rewardHost) return;
-    rewardSection(view.rewardHost, ctx, stage, view, paintRewards);
+    if (view.tabs) view.tabs.refresh();
   };
+
+  const tabs = new TabPanel([
+    {
+      id: 'mission',
+      label: '任务文案',
+      hint: '3 个子任务的标题 / 说明 / 提示',
+      badge: () => missionChanged(ctx, stage),
+      render: () => missionSection(ctx, stage, view),
+    },
+    {
+      id: 'reward',
+      label: '本关奖励',
+      hint: '金币 / 强化点 / 等级门槛 + 8 个掉落位',
+      badge: () => rewardChanged(ctx, stage),
+      render: () => rewardSection(ctx, stage, view, paintRewards),
+    },
+  ], { key: 'editor.route.stage', pack: ctx.pack });
+  view.tabs = tabs;
 
   const paint = () => {
     clear(root);
     view.titleInputs = [];
     root.appendChild(stageBar(ctx, stage));
-    root.appendChild(routeSection(ctx, stage));
-    root.appendChild(missionSection(ctx, stage, view));
-    view.rewardHost = el('div', { class: 'section' });
-    root.appendChild(view.rewardHost);
-    paintRewards();
+    // 左边是主界面：这一关的路线走向常驻可见。
+    // 右边是页签：任务文案与本关奖励。
+    root.appendChild(splitPane(
+      el('div', { class: 'route-main' }, [routeSection(ctx, stage)]),
+      el('div', { class: 'route-side' }, [tabs.element]),
+      { key: 'editor.route.stage', defaultWidth: 460 }
+    ));
+    tabs.refresh();
   };
   paint();
 
@@ -170,6 +195,41 @@ export function renderStage(container, ctx, stage) {
   root.addEventListener('keydown', onKey);
   installContainerKey(container, root, ctx, onKey);
   if (typeof root.focus === 'function') root.focus();
+}
+
+/**
+ * 这一关的任务文案改了几处（按字节判定）。
+ */
+function missionChanged(ctx, stage) {
+  const pack = ctx.pack;
+  const base = missionBase(pack, stage);
+  if (base === null) return null;
+  let n = 0;
+  for (const [, id] of MISSION_TEXTS) {
+    const table = pack.textTable(id);
+    if (!table) continue;
+    const changed = new Set(pack.changedTextRecords(table).map((r) => r.id));
+    for (let u = 0; u < 3; u += 1) {
+      if (changed.has(base + u)) n += 1;
+    }
+  }
+  return n || null;
+}
+
+/**
+ * 这一关的奖励改了几处（按字节判定）。
+ */
+function rewardChanged(ctx, stage) {
+  const pack = ctx.pack;
+  const base = missionBase(pack, stage);
+  const rewards = pack.structure('reward_table');
+  if (base === null || !rewards) return null;
+  const changed = new Set(pack.changedStructureRecords(rewards).map((r) => r.id));
+  let n = 0;
+  for (let u = 0; u < 3; u += 1) {
+    if (changed.has(base + u)) n += 1;
+  }
+  return n || null;
 }
 
 /**
@@ -246,6 +306,8 @@ function handleKey(e, ctx, stage, view) {
   }
   if (key === '1' || key === '2' || key === '3') {
     swallow(e);
+    // 标题输入框在「任务文案」那一页 —— 先把那一页切出来再聚焦。
+    if (view.tabs) view.tabs.setActive('mission');
     const input = view.titleInputs[Number(key) - 1];
     if (input && typeof input.focus === 'function') input.focus();
   }
@@ -587,6 +649,10 @@ function missionSection(ctx, stage, view) {
   const base = missionBase(pack, stage);
   const owners = missionIndexOwners(pack);
 
+  // 页签是懒渲染的：这一页每次被构建时，标题输入框要重新收集一遍
+  // （键盘 1/2/3 靠它聚焦）。
+  view.titleInputs = [];
+
   const section = el('div', { class: 'section' });
   section.appendChild(el('h3', { text: '任务文案（标题 / 说明 / 提示）' }));
   section.appendChild(el('p', { class: 'section-note', text: [
@@ -703,13 +769,13 @@ function displayText(text) {
 // ③ 本关奖励
 // ---------------------------------------------------------------------------
 
-function rewardSection(host, ctx, stage, view, paintRewards) {
+function rewardSection(ctx, stage, view, paintRewards) {
   const pack = ctx.pack;
   const base = missionBase(pack, stage);
   const rewards = pack.structure('reward_table');
   const owners = missionIndexOwners(pack);
 
-  clear(host);
+  const host = el('div', { class: 'section' });
   host.appendChild(el('h3', { text: '本关奖励' }));
   host.appendChild(el('p', { class: 'section-note', text: [
     '任务索引表给出该关三个奖励在奖励表里的下标起点。',
@@ -718,7 +784,7 @@ function rewardSection(host, ctx, stage, view, paintRewards) {
 
   if (base === null || !rewards) {
     host.appendChild(el('div', { class: 'empty', text: '没有这一关的奖励。' }));
-    return;
+    return host;
   }
 
   // 字段控件的上下文：改完类别要把物品下拉重画一次。
@@ -774,6 +840,7 @@ function rewardSection(host, ctx, stage, view, paintRewards) {
     ]));
     host.appendChild(block);
   }
+  return host;
 }
 
 // ---------------------------------------------------------------------------

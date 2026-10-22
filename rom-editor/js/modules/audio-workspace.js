@@ -8,6 +8,9 @@
 //   * structure.ptr_relation.options  描述符地址 → 标签 / 轨道数 / 共用数
 //   * derived.sound_stats             通道分布、函数指针表每个槽「是什么」
 //
+// 右侧详情面板按类分页签（描述符 / 谁指向它 / 播放入口）—— 见
+// notes/specs/tabbed-side-panels.md。头部留在页签外面，内容进页签。
+//
 // 写回只有一条路：pack.setValue。
 
 import { el, clear, formatOffset, toast } from '../ui.js';
@@ -16,6 +19,7 @@ import { backReferencesByPointer } from '../xref.js';
 import { arraysIn, renderArrayTable, columnLabel } from '../slots.js';
 import { bytesToHex, base64ToBytes, ROM_BASE } from '../bytes.js';
 import { splitPane } from '../split.js';
+import { TabPanel } from '../tabs.js';
 
 const KIND_TEXT = {
   song: '乐曲',
@@ -102,6 +106,117 @@ function openRawAt(ctx, offset) {
 function copyToClipboard(text) {
   if (typeof navigator === 'undefined' || !navigator.clipboard) return;
   navigator.clipboard.writeText(text);
+}
+
+/**
+ * 这张结构表里哪些记录改过了（rom_offset 集合）。
+ *
+ * 判定走 `pack.changedStructureRecords` —— 与通用表格编辑器同一套口径
+ * （按字节比，改过又改回去不算改）。
+ */
+function changedOffsets(pack, structure) {
+  const out = new Set();
+  if (!structure) return out;
+  for (const record of pack.changedStructureRecords(structure)) {
+    out.add(record.rom_offset);
+  }
+  return out;
+}
+
+/** 这几个字段里有几处改了（和记录里的原始字节比）。 */
+function fieldsChanged(structure, record, fields) {
+  const values = record.values || {};
+  let n = 0;
+  for (const field of fields || []) {
+    if (!field) continue;
+    const original = originalValue(structure, record, field);
+    if (JSON.stringify(original) !== JSON.stringify(values[field.key])) n += 1;
+  }
+  return n;
+}
+
+/**
+ * 函数指针表里与这些音效号对应的播放入口槽。
+ *
+ * 1..11 槽是「movs r0,#k」的播放 thunk；k 与音效号的对应是**静态推定**
+ * （notes/audio-ux-redesign-20261021.md §4.4）。
+ */
+function playEntrySlots(pack, soundIds) {
+  const stats = (pack.derived && pack.derived.sound_stats) || {};
+  const slots = stats.function_pointer_slots || {};
+  const wanted = (soundIds || []).map((id) => Number(id));
+  const out = [];
+  for (const key of Object.keys(slots)) {
+    const slot = slots[key];
+    if (!slot || slot.kind !== 'play_entry') continue;
+    if (!wanted.includes(Number(slot.sound_id))) continue;
+    out.push({ ...slot, id: Number(key) });
+  }
+  return out;
+}
+
+/** 播放入口在函数指针表里的那条记录（原始字节位置用）。 */
+function playEntryRecord(pack, slotId) {
+  const table = pack.structure('function_pointer_table');
+  if (!table) return null;
+  return (table.records || []).find((r) => r.id === slotId) || null;
+}
+
+/** 函数指针表覆盖的音效号范围（写成人话）。 */
+function playEntryRange(pack) {
+  const stats = (pack.derived && pack.derived.sound_stats) || {};
+  const slots = stats.function_pointer_slots || {};
+  const ids = [];
+  for (const key of Object.keys(slots)) {
+    const slot = slots[key];
+    if (!slot || slot.kind !== 'play_entry') continue;
+    ids.push(Number(slot.sound_id));
+  }
+  if (!ids.length) return '（没有）';
+  const min = Math.min(...ids);
+  const max = Math.max(...ids);
+  return min === max ? `#${min}` : `#${min} 到 #${max}`;
+}
+
+/**
+ * 「播放入口（推定）」块。
+ *
+ * @param {object} ctx
+ * @param {Array} slots       playEntrySlots() 的结果
+ * @param {string} emptyText  没有对应槽时写什么
+ */
+function renderPlayEntryBlock(ctx, slots, emptyText) {
+  const block = el('div', { class: 'xref-block audio-play-entry' }, [
+    el('div', { class: 'xref-title', text: '播放入口（推定）' }),
+  ]);
+  if (!slots.length) {
+    block.appendChild(el('div', { class: 'xref-hint', text: emptyText }));
+    return block;
+  }
+  block.appendChild(el('div', {
+    class: 'xref-hint',
+    text: '槽里的 thunk 与音效号的对应是静态推定，尚未由运行时证据闭环。',
+  }));
+  for (const slot of slots) {
+    block.appendChild(el('div', { class: 'xref-row' }, [
+      el('span', { text: `槽 ${slot.id} · 音效 #${slot.sound_id}` }),
+      el('span', { class: 'audio-estimate', text: '静态推定' }),
+    ]));
+    block.appendChild(el('div', { class: 'xref-row' }, [
+      el('span', { text: `代码 ${slot.code} → 目标 ${slot.target}` }),
+    ]));
+    const record = playEntryRecord(ctx.pack, slot.id);
+    if (record) {
+      block.appendChild(el('div', { class: 'xref-row' }, [
+        el('button', {
+          class: 'btn btn-tiny',
+          text: '在原始字节里看这一段',
+          onclick: () => openRawAt(ctx, record.rom_offset),
+        }),
+      ]));
+    }
+  }
+  return block;
 }
 
 /**
@@ -309,6 +424,24 @@ class AudioSoundTable {
     const tableWrap = el('div', { class: 'table-wrap' });
     const detail = el('div', { class: 'detail-panel hidden' });
 
+    // 右侧详情：头部留在页签外面，内容进页签。
+    //
+    // 页签面板挂在**自己的容器**里（tabHost），openDetail() 只重画
+    // 头部 / 摘要 / 动作与页签内容 —— 页签条本身不重建，
+    // 这样「停在哪一页」与记住的页签都还在。
+    this.detailHead = el('div', { class: 'detail-head' });
+    this.detailSub = el('div', { class: 'detail-sub' });
+    this.tabHost = el('div', { class: 'detail-tabs' });
+    this.detailActions = el('div', { class: 'detail-actions' });
+    detail.appendChild(this.detailHead);
+    detail.appendChild(this.detailSub);
+    detail.appendChild(this.tabHost);
+    detail.appendChild(this.detailActions);
+
+    // 页签面板只建一次：换音效只 refresh，页签条与记住的页签都还在。
+    this.tabs = new TabPanel(this.tabSpecs(), { key: 'editor.audio', pack: this.pack });
+    this.tabHost.appendChild(this.tabs.element);
+
     container.appendChild(head);
     container.appendChild(el('div', { class: 'rule-note' }, [
       el('span', { class: 'rule-title', text: '这一层能改什么' }),
@@ -376,36 +509,36 @@ class AudioSoundTable {
 
   openDetail(record) {
     this.selected = record;
-    clear(this.detail);
     this.detail.classList.remove('hidden');
     const structure = this.structure;
     const ctx = this.ctx;
     const info = this.descriptorOf(record);
     const values = record.values || {};
 
-    this.detail.appendChild(el('div', { class: 'detail-head' }, [
-      el('h3', { text: `音效 #${record.id} · ${info.label}` }),
-      el('div', { class: 'detail-nav' }, [
-        el('button', {
-          class: 'btn btn-tiny', text: '← 上一条',
-          onclick: () => this.step(-1),
-        }),
-        el('button', {
-          class: 'btn btn-tiny', text: '下一条 →',
-          onclick: () => this.step(1),
-        }),
-        el('button', {
-          class: 'btn btn-ghost', text: '✕',
-          onclick: () => {
-            this.detail.classList.add('hidden');
-            this.selected = null;
-            this.renderTable();
-          },
-        }),
-      ]),
+    // --- 头部（留在页签外面） ---------------------------------------------
+    clear(this.detailHead);
+    this.detailHead.appendChild(el('h3', { text: `音效 #${record.id} · ${info.label}` }));
+    this.detailHead.appendChild(el('div', { class: 'detail-nav' }, [
+      el('button', {
+        class: 'btn btn-tiny', text: '← 上一条',
+        onclick: () => this.step(-1),
+      }),
+      el('button', {
+        class: 'btn btn-tiny', text: '下一条 →',
+        onclick: () => this.step(1),
+      }),
+      el('button', {
+        class: 'btn btn-ghost', text: '✕',
+        onclick: () => {
+          this.detail.classList.add('hidden');
+          this.selected = null;
+          this.renderTable();
+        },
+      }),
     ]));
 
-    this.detail.appendChild(el('div', { class: 'detail-sub' }, [
+    clear(this.detailSub);
+    for (const node of [
       el('span', { text: `ROM ${formatOffset(record.rom_offset)}` }),
       el('span', { text: `音效 id ${record.id}` }),
       el('span', { text: `${structure.entry_size} 字节/行` }),
@@ -413,80 +546,224 @@ class AudioSoundTable {
       el('span', { text: info.tracks === null ? '轨道 —' : `轨道 ${info.tracks}` }),
       el('span', { text: KIND_TEXT[info.kind] || info.kind }),
       this.isDirty(record) ? el('span', { class: 'tag tag-warn', text: '已改动' }) : null,
-    ]));
+    ]) {
+      if (node) this.detailSub.appendChild(node);
+    }
 
-    // --- 字段区 ----------------------------------------------------------
-    const form = el('div', { class: 'field-list' });
-    const group = el('div', { class: 'group' }, [
+    // --- 内容（进页签） ---------------------------------------------------
+    // 页签面板在 render() 里就建好了，这里只重画当前页的内容。
+    this.tabs.refresh();
+
+    // --- 动作（留在页签外面） ---------------------------------------------
+    clear(this.detailActions);
+    this.detailActions.appendChild(el('button', {
+      class: 'btn btn-ghost',
+      text: '恢复原值',
+      onclick: () => {
+        for (const field of structure.fields || []) {
+          this.pack.setValue(structure, record, field.key,
+            originalValue(structure, record, field));
+        }
+        this.openDetail(record);
+        this.renderTable();
+        ctx.onChange();
+      },
+    }));
+    this.detailActions.appendChild(el('button', {
+      class: 'btn btn-ghost',
+      text: '复制十六进制',
+      onclick: () => {
+        const bytes = this.pack.recordBytes(structure, record);
+        copyToClipboard(bytesToHex(bytes));
+        toast('已复制该记录的十六进制字节');
+      },
+    }));
+    this.detailActions.appendChild(el('button', {
+      class: 'btn btn-ghost',
+      text: '在原始字节里看这一行',
+      onclick: () => openRawAt(ctx, record.rom_offset),
+    }));
+  }
+
+  // --- 右侧面板的页签 -------------------------------------------------------
+
+  /**
+   * 右侧面板的页签。
+   *
+   * 内容按类分 —— 描述符 / 谁指向它 / 播放入口。
+   * 页签 id 用英文，label 用中文；key 记住上次停在哪一页。
+   *
+   * render() 里的内容函数不缓存节点：切走的那一页不在 DOM 里
+   * （TabPanel 的约定，见 rom-editor/js/tabs.js）。
+   */
+  tabSpecs() {
+    return [
+      {
+        id: 'descriptor',
+        label: '描述符',
+        hint: '这个音效指向哪个 m4a 描述符：指针、轨道数与共用情况',
+        badge: () => this.badgeDescriptor(),
+        render: () => this.renderDescriptorTab(),
+      },
+      {
+        id: 'refs',
+        label: '谁指向它',
+        hint: '反向引用：哪些音效共用这个描述符',
+        badge: () => this.badgeRefs(),
+        render: () => this.renderRefsTab(),
+      },
+      {
+        id: 'playback',
+        label: '播放入口',
+        hint: '播放通道与播放配置，以及推定出来的播放入口',
+        badge: () => this.badgePlayback(),
+        render: () => this.renderPlaybackTab(),
+      },
+    ];
+  }
+
+  /** 一个分组框（折叠组的头 + 体）。 */
+  groupBox(name, count, body) {
+    return el('div', { class: 'group' }, [
       el('div', { class: 'group-head' }, [
         el('span', { class: 'group-caret', text: '▾' }),
-        el('span', { class: 'group-name', text: '声音' }),
-        el('span', { class: 'group-count', text: '3 项' }),
+        el('span', { class: 'group-name', text: name }),
+        el('span', { class: 'group-count', text: count }),
       ]),
+      body,
     ]);
+  }
+
+  /** 「描述符」这一页：这个音效指向哪个描述符。 */
+  renderDescriptorTab() {
+    const record = this.selected;
+    if (!record) return el('div', { class: 'empty', text: '没有选中的音效。' });
+    const structure = this.structure;
+    const field = structure.fields.find((f) => f.key === 'descriptor_ptr');
     const body = el('div', { class: 'group-body' });
-
-    const descriptorField = structure.fields.find((f) => f.key === 'descriptor_ptr');
-    const channelField = structure.fields.find((f) => f.key === 'player_index');
-    const configField = structure.fields.find((f) => f.key === 'player_config');
-
-    if (descriptorField) {
-      body.appendChild(renderField(ctx, structure, record, descriptorField, {
+    if (field) {
+      body.appendChild(renderField(this.ctx, structure, record, field, {
         node: this.descriptorControl(record),
         hint: () => this.descriptorHint(record),
       }));
       body.appendChild(this.customAddressRow(record));
     }
+    return el('div', { class: 'field-list' }, [
+      this.groupBox('描述符', '1 项', body),
+    ]);
+  }
+
+  /** 「谁指向它」这一页：反向引用（共用这个描述符的音效）。 */
+  renderRefsTab() {
+    const record = this.selected;
+    if (!record) return el('div', { class: 'empty', text: '没有选中的音效。' });
+    return this.pointerBlock(record);
+  }
+
+  /** 「播放入口」这一页：播放通道 / 播放配置 + 推定出来的播放入口。 */
+  renderPlaybackTab() {
+    const record = this.selected;
+    if (!record) return el('div', { class: 'empty', text: '没有选中的音效。' });
+    const structure = this.structure;
+    const channelField = structure.fields.find((f) => f.key === 'player_index');
+    const configField = structure.fields.find((f) => f.key === 'player_config');
+    const body = el('div', { class: 'group-body' });
+    let count = 0;
     if (channelField) {
-      body.appendChild(renderField(ctx, structure, record, channelField, {
+      count += 1;
+      body.appendChild(renderField(this.ctx, structure, record, channelField, {
         node: this.enumControl(record, channelField),
         hint: () => fieldHint(this.pack, structure, record, channelField),
       }));
     }
     if (configField) {
-      body.appendChild(renderField(ctx, structure, record, configField, {
+      count += 1;
+      body.appendChild(renderField(this.ctx, structure, record, configField, {
         node: this.configControl(record, configField),
         hint: () => this.configHint(record, configField),
       }));
     }
-    group.appendChild(body);
-    form.appendChild(group);
+    const wrap = el('div', { class: 'field-list' }, [
+      this.groupBox('播放', `${count} 项`, body),
+    ]);
+    wrap.appendChild(this.playEntryBlock(record));
+    return wrap;
+  }
 
-    // --- 谁指向这个描述符 -------------------------------------------------
-    // 放在字段区**前面**：作者改描述符之前先看影响面。
-    this.detail.appendChild(this.pointerBlock(record));
-    this.detail.appendChild(form);
+  /**
+   * 推定出来的播放入口。
+   *
+   * 函数指针表的 1..11 槽是「movs r0,#k」的播放 thunk；k 与音效号的对应
+   * 是**静态推定**（notes/audio-ux-redesign-20261021.md §4.4）。
+   * 这里把同号的那一槽摆出来，并明确标成推定。
+   */
+  playEntryBlock(record) {
+    const slots = playEntrySlots(this.pack, [record.id]);
+    return renderPlayEntryBlock(this.ctx, slots,
+      `函数指针表只覆盖音效 ${playEntryRange(this.pack)}，这个音效没有对应的入口槽。`);
+  }
 
-    // --- 动作 -------------------------------------------------------------
-    this.detail.appendChild(el('div', { class: 'detail-actions' }, [
-      el('button', {
-        class: 'btn btn-ghost',
-        text: '恢复原值',
-        onclick: () => {
-          for (const field of structure.fields || []) {
-            this.pack.setValue(structure, record, field.key,
-              originalValue(structure, record, field));
-          }
-          this.openDetail(record);
-          this.renderTable();
-          ctx.onChange();
-        },
-      }),
-      el('button', {
-        class: 'btn btn-ghost',
-        text: '复制十六进制',
-        onclick: () => {
-          const bytes = this.pack.recordBytes(structure, record);
-          copyToClipboard(bytesToHex(bytes));
-          toast('已复制该记录的十六进制字节');
-        },
-      }),
-      el('button', {
-        class: 'btn btn-ghost',
-        text: '在原始字节里看这一行',
-        onclick: () => openRawAt(ctx, record.rom_offset),
-      }),
-    ]));
+  /** 函数指针表里与这个音效同号的播放入口槽（推定）。 */
+  playEntrySlot(record) {
+    return playEntrySlots(this.pack, [record.id])[0] || null;
+  }
+
+  // --- 页签角标：这一类改了几处 -------------------------------------------
+
+  /**
+   * 这张结构表里哪些记录改过了（rom_offset 集合）。
+   *
+   * 判定走 pack.changedStructureRecords —— 与通用表格编辑器同一套口径
+   * （按字节比，改过又改回去不算改）。
+   */
+  changedOffsets(structure) {
+    return changedOffsets(this.pack, structure);
+  }
+
+  /** 这几个字段里有几处改了（和记录里的原始字节比）。 */
+  fieldsChanged(record, fields) {
+    return fieldsChanged(this.structure, record, fields);
+  }
+
+  /** 角标：描述符那一类改了几处（描述符指针）。 */
+  badgeDescriptor() {
+    const record = this.selected;
+    if (!record) return null;
+    if (!this.changedOffsets(this.structure).has(record.rom_offset)) return null;
+    const field = this.structure.fields.find((f) => f.key === 'descriptor_ptr');
+    return this.fieldsChanged(record, [field]) || null;
+  }
+
+  /** 角标：谁指向它 —— 共用这个描述符的音效里，除了本条以外改过几条。 */
+  badgeRefs() {
+    const record = this.selected;
+    if (!record) return null;
+    const address = record.values.descriptor_ptr >>> 0;
+    const changed = this.changedOffsets(this.structure);
+    let n = 0;
+    for (const other of this.structure.records || []) {
+      if (other === record) continue;
+      if ((other.values.descriptor_ptr >>> 0) !== address) continue;
+      if (changed.has(other.rom_offset)) n += 1;
+    }
+    return n || null;
+  }
+
+  /** 角标：播放入口 —— 播放通道 / 播放配置改了几处，外加入口槽本身。 */
+  badgePlayback() {
+    const record = this.selected;
+    if (!record) return null;
+    let n = 0;
+    if (this.changedOffsets(this.structure).has(record.rom_offset)) {
+      const fields = this.structure.fields
+        .filter((f) => f.key === 'player_index' || f.key === 'player_config');
+      n += this.fieldsChanged(record, fields);
+    }
+    const entry = this.playEntrySlot(record);
+    const slot = entry ? playEntryRecord(this.pack, entry.id) : null;
+    const table = this.pack.structure('function_pointer_table');
+    if (slot && table && this.changedOffsets(table).has(slot.rom_offset)) n += 1;
+    return n || null;
   }
 
   /** 描述符下拉：81 个已导出的描述符，一个选项一个地址。 */
@@ -749,87 +1026,130 @@ function renderSongDescriptor(container, ctx, structure, params) {
   ]));
 
   // 谁指向这个描述符
-  const block = el('div', { class: 'xref-block' }, [
-    el('div', { class: 'xref-title', text: `被谁引用（${users.length} 处）` }),
-  ]);
-  if (!users.length) {
-    block.appendChild(el('div', { class: 'xref-hint', text: '没有音效指向这个描述符。' }));
-  } else {
-    block.appendChild(el('div', { class: 'xref-hint', text: '这些音效用的是这首曲子。' }));
-    for (const ref of users.slice(0, 12)) {
-      block.appendChild(el('div', { class: 'xref-row' }, [
-        el('span', { text: ref.label }),
-        el('button', {
-          class: 'btn btn-tiny',
-          text: '跳过去',
-          onclick: () => {
-            if (!ctx.onJump) return;
-            ctx.onJump({
-              module: ref.module,
-              kind: 'structure',
-              id: ref.structureId,
-              recordId: ref.recordId,
-              label: ref.structure.label,
-            });
-          },
-        }),
+  const refsSection = () => {
+    const block = el('div', { class: 'xref-block' }, [
+      el('div', { class: 'xref-title', text: `被谁引用（${users.length} 处）` }),
+    ]);
+    if (!users.length) {
+      block.appendChild(el('div', { class: 'xref-hint', text: '没有音效指向这个描述符。' }));
+    } else {
+      block.appendChild(el('div', { class: 'xref-hint', text: '这些音效用的是这首曲子。' }));
+      for (const ref of users.slice(0, 12)) {
+        block.appendChild(el('div', { class: 'xref-row' }, [
+          el('span', { text: ref.label }),
+          el('button', {
+            class: 'btn btn-tiny',
+            text: '跳过去',
+            onclick: () => {
+              if (!ctx.onJump) return;
+              ctx.onJump({
+                module: ref.module,
+                kind: 'structure',
+                id: ref.structureId,
+                recordId: ref.recordId,
+                label: ref.structure.label,
+              });
+            },
+          }),
+        ]));
+      }
+    }
+    const wrap = el('div', {}, [block]);
+    if (descriptor && descriptor.sound_ids.length) {
+      wrap.appendChild(el('div', { class: 'section-note' }, [
+        `音效 #${descriptor.sound_ids.join('、#')} 指向这个描述符。`,
       ]));
     }
-  }
-  container.appendChild(block);
+    return wrap;
+  };
 
-  const form = el('div', { class: 'field-list' });
-  const headerFields = (structure.fields || [])
-    .filter((f) => !f.array);
-  const headerGroup = el('div', { class: 'group' }, [
-    el('div', { class: 'group-head' }, [
-      el('span', { class: 'group-caret', text: '▾' }),
-      el('span', { class: 'group-name', text: '歌曲头' }),
-      el('span', { class: 'group-count', text: `${headerFields.length} 项` }),
-    ]),
-  ]);
-  const headerBody = el('div', { class: 'group-body' });
-  for (const field of headerFields) {
-    const control = fieldControl(
-      { pack, onChange: ctx.onChange, onJump: ctx.onJump },
-      structure, record, field);
-    headerBody.appendChild(renderField(ctx, structure, record, field, control));
-  }
-  headerGroup.appendChild(headerBody);
-  form.appendChild(headerGroup);
-
-  // 轨道：一张 N 行的表（导出器给了 array/index/item）
-  const trackFields = (structure.fields || []).filter((f) => f.array === 'tracks');
-  const arrays = arraysIn(trackFields);
-  const trackGroup = el('div', { class: 'group' }, [
-    el('div', { class: 'group-head' }, [
-      el('span', { class: 'group-caret', text: '▾' }),
-      el('span', { class: 'group-name', text: '轨道' }),
-      el('span', { class: 'group-count', text: `${tracks} 条` }),
-    ]),
-  ]);
-  const trackBody = el('div', { class: 'group-body' });
-  if (arrays.length) {
-    for (const array of arrays) {
-      trackBody.appendChild(el('div', { class: 'slot-block' }, [
-        el('div', {
-          class: 'slot-caption',
-          text: `${columnLabel(array.name, 'id')}列表（${array.rows.size} 项）`,
-        }),
-        renderArrayTable(
-          { pack, onChange: ctx.onChange, onJump: ctx.onJump },
-          structure, record, array),
-      ]));
+  // 描述符本身：歌曲头 + 轨道
+  const descriptorSection = () => {
+    const form = el('div', { class: 'field-list' });
+    const headerFields = (structure.fields || [])
+      .filter((f) => !f.array);
+    const headerGroup = el('div', { class: 'group' }, [
+      el('div', { class: 'group-head' }, [
+        el('span', { class: 'group-caret', text: '▾' }),
+        el('span', { class: 'group-name', text: '歌曲头' }),
+        el('span', { class: 'group-count', text: `${headerFields.length} 项` }),
+      ]),
+    ]);
+    const headerBody = el('div', { class: 'group-body' });
+    for (const field of headerFields) {
+      const control = fieldControl(
+        { pack, onChange: ctx.onChange, onJump: ctx.onJump },
+        structure, record, field);
+      headerBody.appendChild(renderField(ctx, structure, record, field, control));
     }
-  } else {
-    trackBody.appendChild(el('div', {
-      class: 'field-hint',
-      text: '这个描述符没有轨道（track_count = 0）：它是「没有声音」的空哨兵。',
-    }));
-  }
-  trackGroup.appendChild(trackBody);
-  form.appendChild(trackGroup);
-  container.appendChild(form);
+    headerGroup.appendChild(headerBody);
+    form.appendChild(headerGroup);
+
+    // 轨道：一张 N 行的表（导出器给了 array/index/item）
+    const trackFields = (structure.fields || []).filter((f) => f.array === 'tracks');
+    const arrays = arraysIn(trackFields);
+    const trackGroup = el('div', { class: 'group' }, [
+      el('div', { class: 'group-head' }, [
+        el('span', { class: 'group-caret', text: '▾' }),
+        el('span', { class: 'group-name', text: '轨道' }),
+        el('span', { class: 'group-count', text: `${tracks} 条` }),
+      ]),
+    ]);
+    const trackBody = el('div', { class: 'group-body' });
+    if (arrays.length) {
+      for (const array of arrays) {
+        trackBody.appendChild(el('div', { class: 'slot-block' }, [
+          el('div', {
+            class: 'slot-caption',
+            text: `${columnLabel(array.name, 'id')}列表（${array.rows.size} 项）`,
+          }),
+          renderArrayTable(
+            { pack, onChange: ctx.onChange, onJump: ctx.onJump },
+            structure, record, array),
+        ]));
+      }
+    } else {
+      trackBody.appendChild(el('div', {
+        class: 'field-hint',
+        text: '这个描述符没有轨道（track_count = 0）：它是「没有声音」的空哨兵。',
+      }));
+    }
+    trackGroup.appendChild(trackBody);
+    form.appendChild(trackGroup);
+    return form;
+  };
+
+  // --- 内容进页签 ---------------------------------------------------------
+  // 描述符（歌曲头 + 轨道）/ 谁指向它（反查）/ 播放入口（推定的 thunk）。
+  const soundIds = descriptor ? descriptor.sound_ids.map((id) => Number(id)) : [];
+  const entrySlots = playEntrySlots(pack, soundIds);
+
+  const tabs = new TabPanel([
+    {
+      id: 'descriptor',
+      label: '描述符',
+      hint: '这个 m4a 描述符的字段：歌曲头与轨道指针',
+      badge: () => fieldsChanged(structure, record, structure.fields || []) || null,
+      render: () => descriptorSection(),
+    },
+    {
+      id: 'refs',
+      label: '谁指向它',
+      hint: '反向引用：哪些音效用的是这首曲子',
+      badge: () => songRefsChanged(pack, users),
+      render: () => refsSection(),
+    },
+    {
+      id: 'playback',
+      label: '播放入口',
+      hint: '函数指针表里与这些音效对应的播放 thunk（静态推定）',
+      badge: () => playEntriesChanged(pack, entrySlots),
+      render: () => renderPlayEntryBlock(ctx, entrySlots,
+        `函数指针表只覆盖音效 ${playEntryRange(pack)}，`
+        + (soundIds.length ? '这些音效没有对应的入口槽。' : '这个描述符还没有音效在用。')),
+    },
+  ], { key: 'editor.audio', pack });
+  container.appendChild(tabs.element);
 
   container.appendChild(el('div', { class: 'detail-actions' }, [
     el('button', {
@@ -847,12 +1167,35 @@ function renderSongDescriptor(container, ctx, structure, params) {
       },
     }),
   ]));
+}
 
-  if (descriptor && descriptor.sound_ids.length) {
-    container.appendChild(el('div', { class: 'section-note' }, [
-      `音效 #${descriptor.sound_ids.join('、#')} 指向这个描述符。`,
-    ]));
+/** 角标：引用这个描述符的音效里改过几条（按字节判定）。 */
+function songRefsChanged(pack, users) {
+  const sets = new Map();
+  let n = 0;
+  for (const ref of users || []) {
+    let set = sets.get(ref.structure.id);
+    if (!set) {
+      set = changedOffsets(pack, ref.structure);
+      sets.set(ref.structure.id, set);
+    }
+    if (set.has(ref.record.rom_offset)) n += 1;
   }
+  return n || null;
+}
+
+/** 角标：这些播放入口槽本身改过几条（按字节判定）。 */
+function playEntriesChanged(pack, slots) {
+  if (!slots || !slots.length) return null;
+  const table = pack.structure('function_pointer_table');
+  if (!table) return null;
+  const changed = changedOffsets(pack, table);
+  let n = 0;
+  for (const slot of slots) {
+    const record = playEntryRecord(pack, slot.id);
+    if (record && changed.has(record.rom_offset)) n += 1;
+  }
+  return n || null;
 }
 
 // --------------------------------------------------------------------------
