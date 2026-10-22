@@ -118,17 +118,78 @@ export function renderDomainIndex(container, ctx, options) {
  *
  * The module's own list comes first (it knows what matters), and every
  * remaining table of the domain is appended — nothing is left unreachable.
+ *
+ * `options.groups` 让几张表**合成一行**：它们本来就是同一个「主对象」的
+ * 几个侧面（任务 = 索引表 + 标题表 + 说明表 + 提示表），
+ * 分成四行摆着会让作者以为要分别进四张表 —— 那是细碎，不是清楚。
  */
 function domainTableRows(ctx, options) {
   const pack = ctx.pack;
   const module = options.module;
+  const grouped = options.groups || [];
+  const groupedIds = new Set();
+  for (const group of grouped) {
+    for (const id of group.tables || []) groupedIds.add(id);
+  }
   const wanted = new Set(options.structures || []);
   const structures = pack.structures.filter((s) =>
-    wanted.has(s.id) || (module && s.module === module));
+    !groupedIds.has(s.id) &&
+    (wanted.has(s.id) || (module && s.module === module)));
   const texts = pack.texts.filter((t) =>
-    (options.texts || []).includes(t.id) || (module && t.module === module));
+    !groupedIds.has(t.id) &&
+    ((options.texts || []).includes(t.id) || (module && t.module === module)));
 
   const rows = [];
+
+  // --- 分组行：几张表合成一个「主对象」视图 ------------------------------
+  for (const group of grouped) {
+    const members = [
+      ...pack.structures.filter((s) => (group.tables || []).includes(s.id)),
+      ...pack.texts.filter((t) => (group.tables || []).includes(t.id)),
+    ];
+    if (!members.length) continue;
+    const count = members.reduce((n, m) => n + (m.entry_count || m.count || 0), 0);
+    const known = members.reduce((n, m) =>
+      n + (m.fields || []).filter((f) => f.type !== 'hex').length, 0);
+    const texts = members.reduce((n, m) =>
+      n + (m.fields ? 0 : (m.count || 0)), 0);
+    const changed = members.reduce((n, m) =>
+      n + (m.fields ? pack.changedCountIn(m) : pack.changedCountInTable(m)), 0);
+    rows.push(el('tr', { class: changed ? 'changed' : '' }, [
+      el('td', {}, [
+        el('div', { text: group.label }),
+        el('div', {
+          class: 'stat-hint',
+          text: `由 ${members.map((m) => m.label || m.id).join(' / ')} 合成`,
+        }),
+      ]),
+      el('td', { class: 'col-num', text: String(count) }),
+      el('td', {
+        class: 'text-cell',
+        text: `${known} 个字段${texts ? ` / ${texts} 条文本` : ''} / ${members.length} 张表`,
+      }),
+      el('td', {}, [el('span', {
+        class: 'pill pill-edit',
+        text: group.method || '按主对象改',
+      })]),
+      el('td', { text: group.strategy || '定宽写回' }),
+      el('td', { class: 'col-num' }, [changed
+        ? el('span', { class: 'pill pill-changed', text: `● ${changed}` })
+        : el('span', { class: 'pill', text: '—' })]),
+      el('td', {}, [el('button', {
+        class: 'btn btn-tiny',
+        text: group.action || '打开',
+        onclick: () => {
+          if (group.onPick) {
+            group.onPick(ctx);
+            return;
+          }
+          ctx.openPanel(group.kind, group.id || group.kind, group.params || {});
+        },
+      })]),
+    ]));
+  }
+
   for (const structure of structures) {
     const known = (structure.fields || []).filter((f) => f.type !== 'hex').length;
     const filler = (structure.fields || []).length - known;

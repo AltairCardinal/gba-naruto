@@ -15,6 +15,7 @@ import { arraysIn, columnLabel } from '../slots.js';
 import { backReferencesByPointer } from '../xref.js';
 import { valueMatches } from '../editors.js';
 import { backButton } from './common.js';
+import { splitPane } from '../split.js';
 
 export const PTR_TABLE_A = 'data_pointer_table_a';
 export const PTR_TABLE_B = 'data_pointer_table_b';
@@ -188,7 +189,9 @@ class WiringView {
 
     this.listWrap = el('div', { class: 'table-wrap' });
     this.detailWrap = el('div', { class: 'detail-panel wide' });
-    container.appendChild(el('div', { class: 'split' }, [this.listWrap, this.detailWrap]));
+    container.appendChild(splitPane(this.listWrap, this.detailWrap, {
+      key: 'editor.assets.wiring', wide: true,
+    }));
     this.renderList();
     this.renderDetail();
   }
@@ -679,7 +682,9 @@ class RecordsView {
 
     this.listWrap = el('div', { class: 'table-wrap' });
     this.detailWrap = el('div', { class: 'detail-panel wide' });
-    container.appendChild(el('div', { class: 'split' }, [this.listWrap, this.detailWrap]));
+    container.appendChild(splitPane(this.listWrap, this.detailWrap, {
+      key: 'editor.assets.wiring', wide: true,
+    }));
     this.renderList();
     this.renderDetail();
   }

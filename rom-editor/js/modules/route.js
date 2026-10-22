@@ -18,6 +18,7 @@ import {
 import { missionIndexOwners, ownerLabel } from '../xref.js';
 import { arraysIn, renderArrayTable } from '../slots.js';
 import { fieldControl } from '../fields.js';
+import { renderMission } from './mission.js';
 import {
   renderRouteGraph, STAGE_COUNT, MAX_SCENE, OP_AFTER, OP_CURSOR,
   afterSceneSet, collectEdges, scriptLabel, edgeTable,
@@ -48,6 +49,9 @@ export function renderRoute(container, ctx) {
     }
     if (panel.kind === 'graph') {
       return renderRouteGraph(container, ctx);
+    }
+    if (panel.kind === 'mission') {
+      return renderMission(container, ctx, panel.params || {});
     }
     const { kind, id, params } = panel;
     return renderPanel(container, ctx, kind, id, params);
@@ -101,8 +105,18 @@ export function renderRoute(container, ctx) {
       '按关卡打开工作台，任务文案与奖励都能就地改。',
     primary,
     secondary,
-    structures: ['mission_index', 'story_before_root', 'story_after_root'],
-    texts: ['mission_titles', 'mission_descriptions', 'mission_hints'],
+    // 任务：索引表 + 标题表 + 说明表 + 提示表 **合成一个「任务」视图**。
+    // 分成四行摆着，作者会以为要分别进四张表 —— 那是细碎，不是清楚。
+    groups: [{
+      label: '任务（索引表 + 标题表 + 说明表 + 提示表）',
+      tables: ['mission_index', 'mission_titles', 'mission_descriptions', 'mission_hints'],
+      method: '按关卡改（一个任务一起改）',
+      strategy: '文本可重定位 / 奖励定宽写回',
+      action: '打开任务',
+      onPick: (c) => c.openPanel('mission', '任务', {}),
+    }],
+    structures: ['story_before_root', 'story_after_root'],
+    texts: [],
   });
 }
 

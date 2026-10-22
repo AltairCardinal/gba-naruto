@@ -15,6 +15,7 @@ import { fieldControl, fieldHint, originalValue } from '../fields.js';
 import { backReferencesByPointer } from '../xref.js';
 import { arraysIn, renderArrayTable, columnLabel } from '../slots.js';
 import { bytesToHex, base64ToBytes, ROM_BASE } from '../bytes.js';
+import { splitPane } from '../split.js';
 
 const KIND_TEXT = {
   song: '乐曲',
@@ -316,7 +317,7 @@ class AudioSoundTable {
           + '音频采样本体是压缩载荷，不在这些表里；改采样要走 m4a 导入流程。',
       }),
     ]));
-    container.appendChild(el('div', { class: 'split' }, [tableWrap, detail]));
+    container.appendChild(splitPane(tableWrap, detail, { key: 'editor.audio' }));
     this.tableWrap = tableWrap;
     this.detail = detail;
     this.renderTable();

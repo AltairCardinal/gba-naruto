@@ -130,10 +130,21 @@ body { display: flex; flex-direction: column; }
   background: var(--bg-3); border: 1px solid var(--line); color: var(--fg);
   border-radius: 6px; padding: 5px 10px; width: 220px; font-size: 12px; font-family: inherit;
 }
-.split { display: flex; gap: 16px; align-items: flex-start; }
-.table-wrap { flex: 1 1 auto; min-width: 0; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
+.split { display: flex; gap: 0; align-items: flex-start; }
+/* 列表 / 详情之间的可拖动分隔条 */
+.split-handle {
+  flex: 0 0 12px; align-self: stretch; cursor: col-resize; position: relative;
+  background: transparent; touch-action: none;
+}
+.split-handle::after {
+  content: ''; position: absolute; inset: 0 5px; border-radius: 3px;
+  background: var(--line); transition: background .12s ease;
+}
+.split-handle:hover::after, .split-handle.dragging::after { background: var(--accent-2); }
+.table-wrap { flex: 1 1 0; min-width: 0; overflow: auto; border: 1px solid var(--line); border-radius: 8px; }
 .detail-panel {
-  flex: 0 0 380px; max-width: 380px; background: var(--bg-2);
+  flex: 0 0 var(--split-right, 380px); max-width: var(--split-right, 380px);
+  background: var(--bg-2);
   border: 1px solid var(--line); border-radius: 8px; padding: 14px;
   max-height: calc(100vh - 190px); overflow-y: auto; position: sticky; top: 0;
 }

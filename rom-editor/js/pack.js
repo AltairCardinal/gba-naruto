@@ -120,6 +120,18 @@ export class ContentPack {
         }
       }
       this.dirty.delete(`operand.${entry.operand.rom_offset.toString(16)}`);
+    } else if (entry.kind === 'patch') {
+      // 显式补丁的撤销：把 after_hex 恢复回去（补丁仍在，但不再算改动）。
+      if (entry.patch) {
+        if (entry.previousAfter === null || entry.previousAfter === undefined) {
+          this.removePatch(entry.patch);
+        } else {
+          entry.patch.after_hex = entry.previousAfter;
+        }
+      }
+      if (entry.offset !== undefined) {
+        this.dirty.delete(`patch.${entry.offset.toString(16)}`);
+      }
     }
     return true;
   }
@@ -366,9 +378,35 @@ export class ContentPack {
     return patch;
   }
 
+  /**
+   * Write bytes at an address as an explicit patch (with undo).
+   *
+   * 剧情脚本里的对白是**内联在脚本字节流里**的：改它就是改那一段字节。
+   * 脚本里的分支目标是**绝对地址**，所以改长改短都会让后面的指令移位、
+   * 分支全部失效 —— 调用方必须保证新旧字节数**一样**（原地写）。
+   *
+   * @param {number} offset      文件偏移
+   * @param {string} beforeHex   改之前的字节（十六进制）
+   * @param {string} afterHex    改之后的字节（十六进制），长度必须与 before 相同
+   * @param {string} label       补丁清单上显示的名字
+   */
+  setBytesAt(offset, beforeHex, afterHex, label) {
+    const patch = this.ensurePatch(offset, hexToBytes(beforeHex || ''));
+    const previousAfter = patch.after_hex;
+    patch.after_hex = afterHex;
+    if (label) patch.label = label;
+    this.dirty.add(`patch.${offset.toString(16)}`);
+    this.pushUndo({
+      kind: 'patch',
+      patch,
+      previousAfter,
+      offset,
+    });
+    return patch;
+  }
+
   /** Find or create the explicit patch covering `offset`. */
-  ensurePatch(offset, beforeBytes) {
-    for (const patch of this.patches) {
+  ensurePatch(offset, beforeBytes) {    for (const patch of this.patches) {
       const after = hexToBytes(patch.after_hex || '');
       if (offset >= patch.offset && offset < patch.offset + after.length) return patch;
     }

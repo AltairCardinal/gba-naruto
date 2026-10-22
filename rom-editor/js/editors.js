@@ -21,6 +21,7 @@ import {
   resolveRelation, resolveByCategory, enumLabel,
 } from './fields.js';
 import { arraysIn, renderArrayTable, columnLabel, arrayFields } from './slots.js';
+import { splitPane } from './split.js';
 import { backReferences, recordSources } from './xref.js';
 import { indexKey, isEmptyRecord, visibleRecords } from './indexkey.js';
 
@@ -346,7 +347,7 @@ export class StructureEditor {
         el('span', { text: plainText(structure.note) }),
       ]));
     }
-    container.appendChild(el('div', { class: 'split' }, [tableWrap, detail]));
+    container.appendChild(splitPane(tableWrap, detail, { key: 'editor.structure' }));
     this.tableWrap = tableWrap;
     this.detail = detail;
     this.renderTable();
@@ -891,7 +892,7 @@ export class TextTableEditor {
 
     const wrap = el('div', { class: 'table-wrap' });
     const detail = el('div', { class: 'detail-panel hidden' });
-    container.appendChild(el('div', { class: 'split' }, [wrap, detail]));
+    container.appendChild(splitPane(wrap, detail, { key: 'editor.text' }));
     this.wrap = wrap;
     this.detail = detail;
     this.renderTable();

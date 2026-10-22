@@ -1974,6 +1974,9 @@ def build_scripts(rom: bytes) -> list[dict[str, Any]]:
     wanted = {
         0x16: {"scene": (1, 1)},
         0x1A: {"scene": (1, 1), "flag": (2, 1)},
+        # 0x1B「播音乐」：第 2 字节是曲目 id（原生 1..18 共 18 首），
+        # 第 3 字节恒为 0。第三方编辑器（木叶工房）就是靠这条指令回写曲目的。
+        0x1B: {"music": (1, 1)},
         0x1E: {"map": (1, 1)},
         0x1F: {"config": (1, 1)},
         0x23: {"member_a": (1, 1), "member_b": (2, 1)},
@@ -1981,6 +1984,7 @@ def build_scripts(rom: bytes) -> list[dict[str, Any]]:
     labels = {
         "scene": "下一场景 id",
         "flag": "相位标志",
+        "music": "音乐曲目 id",
         "map": "地图 id",
         "config": "子配置 id",
         "member_a": "队员 A",

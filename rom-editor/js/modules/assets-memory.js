@@ -8,6 +8,7 @@ import { el, clear, formatOffset, toast } from '../ui.js';
 import { base64ToBytes, bytesToBase64 } from '../bytes.js';
 import { originalValue } from '../fields.js';
 import { backButton } from './common.js';
+import { splitPane } from '../split.js';
 import { WRAM_ALLOCATION, hex32 } from './assets-wiring.js';
 
 /** EWRAM 的合法范围（GBA 的 EWRAM 是 0x02000000–0x0203FFFF）。 */
@@ -159,7 +160,9 @@ class MemoryView {
 
     this.listWrap = el('div', { class: 'table-wrap' });
     this.detailWrap = el('div', { class: 'detail-panel wide' });
-    container.appendChild(el('div', { class: 'split' }, [this.listWrap, this.detailWrap]));
+    container.appendChild(splitPane(this.listWrap, this.detailWrap, {
+      key: 'editor.assets.memory', wide: true,
+    }));
     this.renderList();
     this.renderDetail();
   }

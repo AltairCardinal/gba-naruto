@@ -28,6 +28,7 @@ export const SUBVIEW_LABELS = {
   records: '资源记录表',
   memory: 'EWRAM 内存图',
   overview: '指针接线总表',
+  mission: '任务',
 };
 
 /**
