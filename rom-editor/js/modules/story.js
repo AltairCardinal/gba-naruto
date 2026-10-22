@@ -2,12 +2,14 @@
 import { el, formatOffset } from '../ui.js';
 import { renderDomainIndex, renderPanel, summaryTable, entryCard } from './common.js';
 import { renderScriptView } from './scriptview.js';
+import { renderDialogueView } from './dialogueview.js';
 import { renderScene, renderFont } from './scene.js';
 
 export function renderStory(container, ctx) {
   if (ctx.state.view.panel) {
     const { kind, id, params } = ctx.state.view.panel;
     if (kind === 'script') return renderScriptView(container, ctx);
+    if (kind === 'dialogue') return renderDialogueView(container, ctx, params);
     if (kind === 'scene') return renderScene(container, ctx, params);
     if (kind === 'font') return renderFont(container, ctx, params);
     return renderPanel(container, ctx, kind, id, params);
@@ -30,6 +32,16 @@ export function renderStory(container, ctx) {
   ]);
 
   const primary = entryCard(ctx, {
+    title: '看对白画面 · 改对白',
+    headline: '可视化对白编辑器',
+    desc: '把一场剧情脚本画成游戏里的画面：背景、立绘、对白框、正文。' +
+      '左边是画面，右边是这一场的每一句对白 —— 点一下就跳到那一句，' +
+      '也可以连续播放；正文能就地改（必须等长）。',
+    panel: { kind: 'dialogue', id: '对白' },
+    actionLabel: '打开对白编辑器',
+  });
+
+  const secondary = entryCard(ctx, {
     title: '按对白改',
     headline: '305 组对白（1 道题 + 3 个选项）',
     desc: '对白指针表 0x461CE8：305 组，每组 4 条 + 1 个空指针分隔。' +
@@ -38,7 +50,7 @@ export function renderStory(container, ctx) {
     actionLabel: '去改对白',
   });
 
-  const secondary = entryCard(ctx, {
+  const tertiary = entryCard(ctx, {
     title: '看某个场景的剧情脚本',
     headline: `${scripts} 个剧本`,
     desc: '剧情 VM 的字节码反汇编：指令、文本、分支目标。' +
@@ -50,6 +62,7 @@ export function renderStory(container, ctx) {
   renderDomainIndex(container, ctx, {
     primary,
     secondary,
+    tertiary,
     module: 'story',
     title: '剧情与对白',
     subtitle: [

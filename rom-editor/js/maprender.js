@@ -433,3 +433,81 @@ function readU32(bytes, offset) {
   return (bytes[offset] | (bytes[offset + 1] << 8) | (bytes[offset + 2] << 16) |
     (bytes[offset + 3] << 24)) >>> 0;
 }
+
+/**
+ * 剧情场景的**整幅背景**：240×160。
+ *
+ * 与 `renderBackgroundImage`（那张「画本身」，240×80，4bpp）是两回事：
+ *
+ *   * 底图自带的 tilemap 是 **32 列 × 10 行 = 256×80 像素**（不是 240×80）；
+ *   * 加载器把它放进 BG0 的 **32×32 屏幕块**（256×256），
+ *     余下的行用**填充图块**补上（4bpp 填图块 0、8bpp 填图块 30）；
+ *   * `BG0VOFS = 0xFFF8（-8）` 把整张图**往下挪 8 像素**，
+ *     所以真正的画面落在屏幕 **y = 8..87**，
+ *     上面 y=0..7、下面 y=88..159 是填充图块；
+ *   * 底图表条目 `+0x0C` 的 `bpp_flag`：0 = 4bpp，非 0 = **8bpp**。
+ *     8bpp 的调色板下标就是像素值本身（0..255），4bpp 是「色卡号×16 + 像素值」。
+ *
+ * 依据：notes/evidence/story-background-chain-20261022.md（含地址证据链与像素级比对）。
+ *
+ * @param {Uint8Array} rom
+ * @param {number} id 底图 id（剧情底图表的下标）
+ * @returns {{width:number, height:number, pixels:Uint8ClampedArray}|null}
+ */
+export function renderSceneBackground(rom, id) {
+  if (!rom) return null;
+  const base = BACKGROUND_TABLE_OFFSET + id * 16;
+  if (base + 16 > rom.length) return null;
+  const eightBit = readU32(rom, base + 12) !== 0;
+  const load = (delta) => {
+    const ptr = readU32(rom, base + delta);
+    if (!ptr || ptr < ROM_BASE || ptr - ROM_BASE >= rom.length) return null;
+    return lz77Decompress(rom, ptr - ROM_BASE);
+  };
+  const gfx = load(0);
+  const palette = load(4);
+  const tilemap = load(8);
+  if (!gfx || !palette || !tilemap) return null;
+
+  const TILE = 8;
+  const MAP_COLS = 32;          // 一个屏幕块宽 32 格
+  const REAL_ROWS = 10;         // 真实画面 10 行（320 项 tilemap）
+  const FILLER_TILE = eightBit ? 30 : 0;
+  const width = 240;
+  const height = 160;
+  const pixels = new Uint8ClampedArray(width * height * 4);
+
+  for (let y = 0; y < height; y++) {
+    // BG0VOFS = -8 ⇒ 屏幕 y 对应地图的像素行 y - 8（越界回绕到 248..255）
+    let mapY = y - 8;
+    if (mapY < 0) mapY += 256;
+    const mapRow = Math.floor(mapY / 8);      // 图块行
+    const inTileRow = mapY & 7;              // 图块内的行
+    for (let x = 0; x < width; x++) {
+      let tile;
+      let paletteBase = 0;
+      if (mapRow < REAL_ROWS) {
+        const entry = readU16(tilemap, (mapRow * MAP_COLS + (x >> 3)) * 2);
+        tile = entry & 0x3ff;
+        if (!eightBit) paletteBase = (entry >>> 12) * 16;
+      } else {
+        tile = FILLER_TILE;
+      }
+      const inTile = inTileRow * TILE + (x & 7);
+      // 图块字节数：4bpp = 32 字节/图块，8bpp = 64 字节/图块。
+      const at = tile * (eightBit ? 64 : 32) + (eightBit ? inTile : (inTile >> 1));
+      if (at < 0 || at >= gfx.length) continue;
+      const byte = gfx[at];
+      const value = eightBit ? byte : ((x & 1) ? (byte >> 4) : (byte & 0x0f));
+      if (!value) continue;
+      const rgb = paletteColor(palette, paletteBase + value);
+      const out = (y * width + x) * 4;
+      pixels[out] = rgb[0];
+      pixels[out + 1] = rgb[1];
+      pixels[out + 2] = rgb[2];
+      pixels[out + 3] = 255;
+    }
+  }
+  return { width, height, pixels };
+}
+

@@ -126,6 +126,17 @@ export function parseHash(hash) {
       },
     };
   }
+  if (parts[1] === 'dialogue' && parts[2]) {
+    // 可视化对白编辑器：#story/dialogue/<before|after|logic|events>/<场景>
+    return {
+      module,
+      panel: {
+        kind: 'dialogue',
+        id: '对白',
+        params: { root: parts[2], scene: Number(parts[3]) || 1 },
+      },
+    };
+  }
   return { module, panel: null };
 }
 
@@ -153,6 +164,10 @@ export function hashFor(view) {
   if (panel.kind === 'script') {
     const { root, scene } = panel.params || {};
     return `#${module}/script/${root || 'before'}/${scene || 1}`;
+  }
+  if (panel.kind === 'dialogue') {
+    const { root, scene } = panel.params || {};
+    return `#${module}/dialogue/${root || 'before'}/${scene || 1}`;
   }
   if (panel.kind === 'graph') {
     return `#${module}/graph`;

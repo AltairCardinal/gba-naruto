@@ -1,0 +1,82 @@
+/* 可视化对白编辑器（剧情与对白域的「对白」视图）。
+ *
+ * 版面：左边舞台（240×160 按比例放大），右边对白列表。
+ * 舞台内部一律用**游戏坐标**（240×160）写尺寸，外面再放大 ——
+ * 这样背景的像素、框的位置、字的行距都按游戏的比例，
+ * 放大的是整幅画面，不会把比例弄歪。
+ */
+
+/* ---------- 版面 ---------- */
+.dlg-layout { display: flex; gap: 16px; align-items: flex-start; margin-top: 12px; }
+.dlg-left { flex: 1 1 auto; min-width: 0; }
+.dlg-side {
+  flex: 0 0 420px; max-width: 420px;
+  display: flex; flex-direction: column; gap: 6px;
+  background: var(--bg-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px;
+  max-height: calc(100vh - 190px); position: sticky; top: 0;
+}
+
+/* ---------- 舞台 ---------- */
+.dlg-stage-wrap { display: flex; justify-content: center; padding: 8px 0; }
+.dlg-stage {
+  width: 480px; height: 320px;           /* 240×160 的两倍 */
+  background: #0d0f14; border: 1px solid var(--line); border-radius: 6px;
+  overflow: hidden;
+}
+.dlg-screen {
+  width: 240px; height: 160px;
+  position: relative; transform: scale(2); transform-origin: top left;
+}
+.dlg-canvas {
+  width: 240px; height: 160px; display: block;
+  image-rendering: pixelated; image-rendering: crisp-edges;
+}
+
+/* 对白框、名牌、正文都画在**画布**里（原字形渲染）——
+   所以 DOM 里那几个节点只留着给屏幕阅读器与自动化检查用。 */
+.dlg-box { display: none; }
+.dlg-name, .dlg-text {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap;
+}
+
+/* ---------- 播放条 ---------- */
+.dlg-controls {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  padding: 6px 8px; background: var(--bg-2);
+  border: 1px solid var(--line); border-radius: 8px;
+}
+.dlg-sep { width: 1px; height: 18px; background: var(--line); }
+.dlg-delay-label { font-size: 11.5px; color: var(--fg-dim); }
+.dlg-progress { font-size: 11.5px; color: var(--fg-dim); font-family: var(--mono); }
+.dlg-position {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline;
+  margin-top: 6px; font-size: 11.5px; color: var(--fg-dim);
+}
+.dlg-state { font-family: var(--mono); }
+
+/* ---------- 对白列表 ---------- */
+.dlg-list-head {
+  display: flex; gap: 10px; align-items: baseline; justify-content: space-between;
+  font-size: 12px; color: var(--fg);
+}
+.dlg-list {
+  flex: 1 1 auto; min-height: 0; overflow-y: auto;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.dlg-row {
+  border: 1px solid transparent; border-radius: 6px; padding: 3px 5px;
+  background: var(--bg-1);
+}
+.dlg-row.current { border-color: var(--accent-2); background: #1b2230; }
+.dlg-row-head {
+  display: flex; gap: 8px; align-items: baseline; width: 100%;
+  background: transparent; border: 0; padding: 2px 0; cursor: pointer;
+  color: var(--fg); font-size: 11.5px; text-align: left;
+}
+.dlg-row-head:hover { color: var(--accent-2); }
+.dlg-row-no { font-family: var(--mono); color: var(--fg-dim); white-space: nowrap; }
+.dlg-row-speaker { color: #f0a8f0; white-space: nowrap; }
+.dlg-row-addr { margin-left: auto; font-family: var(--mono); color: var(--fg-dim); font-size: 10.5px; }
+.dlg-row-body { margin-top: 2px; }
+.dlg-row-body .script-text-run { margin-bottom: 2px; }

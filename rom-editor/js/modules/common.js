@@ -77,9 +77,11 @@ export function renderDomainIndex(container, ctx, options) {
 
   // --- 1. 推荐入口 ------------------------------------------------------
   if (options.primary) {
+    // primary / secondary / tertiary —— 三个格子（向后兼容：只给前两个也行）。
+    const cards = [options.primary, options.secondary, options.tertiary].filter(Boolean);
     container.appendChild(el('div', { class: 'section' }, [
       el('h3', { text: '推荐入口' }),
-      el('div', { class: 'card-grid' }, [options.primary, options.secondary].filter(Boolean)),
+      el('div', { class: 'card-grid' }, cards),
     ]));
   }
 

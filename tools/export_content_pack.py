@@ -189,7 +189,15 @@ DIALOGUE_SLOT_COUNT = 1524      # 305 组 × (4 条 + 1 个 NULL 分隔)
 DIALOGUE_GROUP_SIZE = 4
 SPEAKER_NAME_BASE = 0x5A57C4
 SPEAKER_NAME_STRIDE = 12
-SPEAKER_NAME_COUNT = 32        # 记录数未确证；按 32 条呈现
+# 记录数：**64 条**（id 0..63），已实测确证 ——
+#   * id 0..62 是有效的角色名（鸣人/佐助/…/岸本），剧情 VM 的 0x08 指令就按这个 id 取名；
+#   * id 63 是「没有」（与 id 0 同值，像是「无名」的哨兵）；
+#   * id 64 起（0x5A5AC4）已经是别的数据，不是这张表。
+# 以前这里写 32（"记录数未确证"），于是**第 32 条之后的 31 个角色名
+# （伊鲁卡 44 / 阿斯玛 45 / 红 46 / 阿凯 47 / 惠比斯 48 / 伊那里 49 /
+#  卡多 50 / 红豆 51 / 伊比喜 52 / 手内 53 / 志治 54 / 蜜蜂 55 / 津美 56 …）
+# 在编辑器里根本查不到名字**。2026-10-22 由可视化对白编辑器暴露。
+SPEAKER_NAME_COUNT = 64
 FONT_SEGMENT_BASE = 0x53D644
 FONT_SEGMENT_COUNT = 31
 FONT_SEGMENT_STRIDE = 8
@@ -1962,7 +1970,8 @@ def build_text_tables(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any
         rom, mapping, "speaker_names", "story", "说话人名表（内联）",
         SPEAKER_NAME_BASE, SPEAKER_NAME_COUNT, SPEAKER_NAME_STRIDE,
         note="剧情 VM 的 0x08 指令按 id 指向这张表：每条 12 字节，"
-             "字形码直接写在里面（不是指针表）。记录总数尚未确证。\n"
+             "字形码直接写在里面（不是指针表）。共 64 条（id 0..63），"
+             "id 0..62 是角色名，id 63 是「没有」。\n"
              "**同一批字节还有第二种读法**：`tools/table_registry.py` 把它登记成"
              "「调色板源表」（每条 = 一个 u32 色值 + 8 字节 0，12 个原生读者）。"
              "两种读法描述的是同一片地址，按说话人名表呈现。",
