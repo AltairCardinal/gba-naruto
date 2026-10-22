@@ -1,5 +1,44 @@
 # Tools
 
+## 字段普查与完成度核对（2026-10-22）
+
+### `audit_claims.py`（**门禁**）
+
+**文档的完成度宣称必须与机器事实一致。** 内容包里凡还标着
+「未解字节 / 未知NN / 字节NN」的字段，只要文档里出现
+「**语义 / 字段类缺口已清零**」这类断言，**退出码就是 1**。
+
+```powershell
+python tools\audit_claims.py
+```
+
+它存在的理由：上一轮提交写「所有语义类缺口已清零」，而同一时刻
+忍具记录表那 16 格在编辑器里**全是**「未解字节」—— 用户一眼就看出来了。
+
+### `field_semantics_census.py`
+
+全包字段清单 + 文档里的完成度宣称清单。**按字段定义去重**：
+90 张音频表共用同两个字段，不该算成 180 条。
+
+```powershell
+python tools\field_semantics_census.py
+python tools\field_semantics_census.py --json build\field-census.json
+```
+
+### `table_reader_census.py`
+
+任意表的「谁读哪一格」普查：扫出所有装载该表基址的指令（读者入口），
+并列出这些函数里带立即数偏移的 load。
+
+```powershell
+python tools\table_reader_census.py --table 0x545458 --stride 16 --window 0x100
+```
+
+> **两个坑**：① 16 位 Thumb 的 `LDR(literal)` 在 `r1..r7` 时 **imm8 要乘 4**；
+> ② 工具给出的偏移是**候选**，每一条都要回反汇编确认基址寄存器是不是记录指针。
+
+证据：`notes/evidence/field-census-20261022.md`。
+
 ## 逐字节字段取证（2026-10-22）
 
 ### `item_record_fields.py`

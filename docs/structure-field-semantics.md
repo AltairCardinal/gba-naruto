@@ -202,23 +202,32 @@ game state changes.
 
 ---
 
-## 13. Items (0x546100)
+## 13. Items (0x545BE4)
 
-**Format:** u16[8] × 12 — 12 item/technique entries (same table as Skills)  
-**Entry Size:** 16 bytes  
-**Semantics:** In this tactical RPG, items share the skill table. Each entry
-defines a technique/item with type, effect, cost, and flags. The item_id
-field is the primary key for editor integration.
+**Format:** 16 bytes × 94 records (下标 = 忍具 id，与忍具名表 `0x08599634` 同空间)
 
-| Field | Type | Description |
-|-------|------|-------------|
-| padding | u32 | Always 0 |
-| count | u16 | Usage count (typically 5) |
-| type_id | u16 | Item/technique type (0x0120, 0x0122) |
-| skill_id | u16 | Skill/technique ID |
-| value | u16 | Effect value (often 612) |
-| flags | u16 | Item flags (0x0401) |
-| extra_id | u16 | Extra identifier |
+> **2026-10-22 更新**：旧版这里写的是错位窗口 `0x546100` 的读法，字段名全部作废。
+> 现在这张表的 16 格**逐字节定案**了 —— 见
+> [`notes/evidence/item-record-fields-20261022.md`](../notes/evidence/item-record-fields-20261022.md)
+> 与工具 `tools/item_record_fields.py`（逐条读指令核对，对不上就 exit 1）。
+>
+> | 偏移 | 字段 | 说明 |
+> |---|---|---|
+> | +0x00 | 忍具类别 | 1=投掷类 / 3=烟弹火弹 / 5=卷轴弹牌丸；`(类别−1)*4+20` 索引分类表 |
+> | +0x01 | 保留 | 恒为 0，无原生读者 |
+> | +0x02..03 | 效果 id (u16) | 低字节 = 忍具族 id（0x40 位 = 毒属性），高字节 = 类别 |
+> | +0x04 | 效果数值 | 0..100；唯一会被成长改写并夹在 ≤99 的数值 |
+> | +0x05 | 投掷数量（推定） | 只到取值分布 |
+> | +0x06 | 命中率 %（推定） | 只到取值分布 |
+> | +0x07 | 动画 id | 投掷类 130..134，其余 1..4 |
+> | +0x08 | 变体号（推定） | 只到取值分布 |
+> | +0x09 | 效果标记（推定） | 只到取值分布 |
+> | +0x0A | 特效分类 id | 逐条比对全表挑记录 |
+> | +0x0B | 特效槽键 | 在 4 字节节点表里找槽位 |
+> | +0x0C..0D | 分类匹配字节 | 逐字节比对定位记录 |
+> | +0x0E..0F | 保留 | 恒为 0，无原生读者 |
+
+**写回**：`rom-editor` 构建线（`rom.js::applyStructures`）会原样写回。
 
 ---
 
@@ -397,23 +406,27 @@ save (mode 0) and load (mode 1).
 
 ---
 
-## 24. Skills (0x546100)
+## 24. Skills (0x545458)
 
-**Format:** u16[8] × 12 — 12 skill/technique entries  
-**Entry Size:** 16 bytes  
-**Semantics:** Skill/technique definitions. Referenced from battle init code
-at 0x06E6D2 (LDR R1, =0x085461C4). The pointer 0x5461C4 is the base for
-indexing into this table.
+**Format:** 16 bytes × 87 records (下标 = 忍术 id，与忍术名表 `0x0859937C` 同空间)
 
-| Field | Type | Description |
-|-------|------|-------------|
-| padding | u32 | Always 0 |
-| count | u16 | Usage count (typically 5) |
-| type_id | u16 | Skill type (0x0120=normal, 0x0122=special) |
-| skill_id | u16 | Unique skill identifier |
-| value | u16 | Skill power/effect value (often 612) |
-| flags | u16 | Skill flags (0x0401) |
-| extra_id | u16 | Extra identifier |
+> **2026-10-22 更新**：`+0x00 / +0x01 / +0x0A` 已定案；
+> `+0x0B / +0x0D / +0x0F` 证明为**保留**（87 条恒为 0，无消费者）。
+> 依据：`notes/evidence/field-census-20261022.md`。
+
+| 偏移 | 字段 | 说明 |
+|---|---|---|
+| +0x00 | 类别 | 1/2/3；搬进「已习得忍术」表项 +0x04（`0x08094582`） |
+| +0x01 | 等级 | 1..5；搬进表项 +0x05（`0x08094592`）；业务名待证 |
+| +0x02 | 标志位 (u16) | `&0x1800>>5` → 0..0xC0 档位/点数；其余位未证 |
+| +0x03 | — | 未定 |
+| +0x04..09 | 成长目标 1..6 | 随等级成长的六个数值 |
+| +0x0A | 消耗（费用） | 槽位 +0x0A 参与「累计 vs 上限」比较（`0x080713B4`） |
+| +0x0B | 保留 | 恒为 0，无消费者 |
+| +0x0C | 成长目标 | 0/7 = 不成长；1..6 = 成长 +0x04..+0x09 中的一格 |
+| +0x0D | 保留 | 恒为 0，无消费者 |
+| +0x0E | 每级成长量 (u16) | 成长量 = (等级−1) × 本值 |
+| +0x0F | 保留 | 恒为 0，无消费者 |
 
 ---
 

@@ -86,8 +86,15 @@ check('属性 A 的说明写了「第三方逆向」与运行时偏移',
 
 console.log('\n5) 未解码的字节说得诚实');
 const rawLabels = [];
+const keepLabels = [];
 for (const s of pack.structures) {
   for (const f of s.fields) {
+    // 「保留」是第三种说法：**已证明原生代码不读**（读者普查 + 恒为 0），
+    // 与「未解」不同 —— 它不需要叫「未解字节」，但必须标成只读。
+    if (/^保留/.test(String(f.label || ''))) {
+      if (!f.not_read) keepLabels.push(`${s.id}.${f.key} = ${f.label}（没标 not_read）`);
+      continue;
+    }
     if (f.type !== 'hex') continue;
     if (!/未解|原始字节/.test(String(f.label || ''))) {
       rawLabels.push(`${s.id}.${f.key} = ${f.label}`);
@@ -96,6 +103,8 @@ for (const s of pack.structures) {
 }
 check('未解码的字节统一叫「未解字节 +0xNN」', rawLabels.length === 0,
   rawLabels.length ? `${rawLabels.length} 个：${rawLabels.slice(0, 6).join('、')}` : '全部统一');
+check('标「保留」的字段都标了 not_read（界面只读）', keepLabels.length === 0,
+  keepLabels.length ? `${keepLabels.length} 个：${keepLabels.slice(0, 6).join('、')}` : '全部只读');
 
 console.log('\n6) 记录级标签也说得清');
 const hexLabels = [];

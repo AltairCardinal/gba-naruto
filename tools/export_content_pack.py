@@ -66,6 +66,11 @@ JUTSU_NAMES_BASE = 0x59937C
 JUTSU_NAMES_COUNT = 87
 NINJUTSU_NAMES_BASE = 0x599634        # 忍具名表
 NINJUTSU_NAMES_COUNT = 94
+
+# 2026-10-22 起：凡标「保留」的字段，说明里都要写清**读者普查**的出处 ——
+# 「原生代码不读」是一个结论，不是「还没查到」。
+CENSUS = ("读者普查（tools/table_reader_census.py，2026-10-22）："
+          "notes/evidence/field-census-20261022.md")
 MATERIAL_NAMES_BASE = 0x5A7E8C
 MATERIAL_NAMES_COUNT = 18
 TRAINING_NAMES_BASE = 0x5A7060
@@ -674,9 +679,10 @@ def make_structure(
 
 def character_template_fields() -> list[dict[str, Any]]:
     fields = [
-        F("flag_00", 0x00, 1, "u8", "标志 00",
-          "恒为 1；4 个消费者都不读它（notes/character-template-format-20261020.md 未解项 1）",
-          "头部"),
+        F("reserved_00", 0x00, 1, "u8", "保留 +0x00",
+          "62 条恒为 1（id 0 的空槽为 0）；4 个原生消费者（0x0806D4A0 / 0x0806D964 / "
+          "0x080899EC / 0x08092694）**都不读它**。" + CENSUS,
+          "保留", not_read=True),
         # 这六格以前叫「属性A~F」—— 界面上作者根本看不出是什么。
         # 仓库自己的指令级分析证明了它们进运行时实例的哪个偏移
         # （notes/character-template-format-20261020.md §2.2 的拷贝表），
@@ -700,15 +706,19 @@ def character_template_fields() -> list[dict[str, Any]]:
         F("stat_f", 0x06, 1, "u8", "查克拉",
           "运行时实例 +0x08。第三方逆向记作『查克拉』。上限 9",
           "基础属性"),
-        F("flag_07", 0x07, 1, "u8", "标志 07",
-          "恒为 0；4 个消费者都不读它（未解项 2）",
-          "头部"),
+        F("reserved_07", 0x07, 1, "u8", "保留 +0x07",
+          "63 条恒为 0；4 个原生消费者都不读它。" + CENSUS,
+          "保留", not_read=True),
         F("aux_stat", 0x08, 2, "u16", "副属性",
           "运行时实例 +0x0A，u16 整体拷贝。第三方逆向观察到它与手印数相同。上限 999",
           "基础属性"),
         F("hp_base", 0x0A, 2, "u16", "体力（HP）基础",
           "运行时实例 +0x0E = 体力上限；每级加 成长×(等级−1)÷100。上限 999",
           "基础属性"),
+        F("reserved_b1", 0xB1, 3, "hex", "保留 +0xB1..+0xB3",
+          "道具列表（+0xA8..+0xB0，9 个忍具 id）之后的 3 个字节；63 条恒为 0，"
+          "4 个原生消费者都不读它们。" + CENSUS,
+          "保留", not_read=True),
     ]
     for i in range(15):
         base = 0x0C + i * 4
@@ -1036,14 +1046,27 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
     ))
 
     perk_fields = [
-        F("kind", 0x00, 1, "u8", "特性类型", "决定效果分支（0x0D..0x13 出现过），语义未解", "特性"),
-        F("unused_01", 0x01, 1, "u8", "未使用 +0x01", "恒为 0", "特性"),
+        F("kind", 0x00, 1, "u8", "特性类型",
+          "决定效果分支，0x0D..0x13 出现过。已定案的分支："
+          "0x0E 属性C 按百分比成长、0x0D/0x0F/0x11 属性C 绝对成长、"
+          "0x12 同 0x0D 但要求 (属性C & 0x3F) == 0x1A、0x13 属性E 绝对成长"
+          "（notes/character-template-format-20261020.md §4.4）。"
+          "**类型码本身的业务名仍未证实**。",
+          "特性"),
+        F("reserved_01", 0x01, 1, "u8", "保留 +0x01",
+          "45 条恒为 0；6 个原生读者里没有一条读它。" + CENSUS,
+          "保留", not_read=True),
         F("base", 0x02, 2, "u16", "基础值", "特性基础数值", "特性"),
         F("secondary", 0x04, 2, "u16", "次要值", "原生 0x0806DDF6 读取", "特性"),
         F("growth", 0x06, 2, "u16", "每级成长", "总成长 = 基础 + 成长×(等级值−1)", "特性"),
         F("extra_stat", 0x08, 2, "u16", "附加属性",
-          "语义未解（notes/completion-audit-20261020.md 未解项 8）", "特性"),
-        F("unused_0a", 0x0A, 2, "u16", "未使用 +0x0A", "恒为 0", "特性"),
+          "45 条里 43 条为 0，另有 0x32 与 0x05 各一条。原生在 0x0F / 0x11 分支"
+          "把它与常量 0x0101 / 0x0105 比较（notes/character-template-format-20261020.md §4.4）。"
+          "**它对应角色的哪一项，仍未证实**。",
+          "特性"),
+        F("reserved_0a", 0x0A, 2, "u16", "保留 +0x0A",
+          "45 条恒为 0；6 个原生读者里没有一条读它。" + CENSUS,
+          "保留", not_read=True),
     ]
     out.append(make_structure(
         "character_perks", "characters", "角色特性表（技能）",
@@ -1083,6 +1106,16 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         F("y", 0x06, 2, "u16", "目标 Y", "这块拼在头像的哪个 Y 位置（像素）", "拼块"),
         F("w", 0x08, 2, "u16", "宽度（像素）", "这块占多宽", "拼块"),
         F("h", 0x0A, 2, "u16", "高度（像素）", "这块占多高", "拼块"),
+        F("reserved_0c", 0x0C, 1, "u8", "保留 +0x0C",
+          "6 块拼块这一字节恒为 0；拼块被读的是 tile/X/Y/宽/高 五项"
+          "（notes/portrait-writeback-20261021.md 的 120 字节逐字节回读）。" + CENSUS,
+          "保留", not_read=True),
+        F("raw_0d", 0x0D, 7, "hex", "未解字节 +0x0D",
+          "6 块拼块这一段的值完全相同：+0x0D=1、+0x0E=0、+0x0F=1、+0x10=0xFF、"
+          "+0x11=0x20、+0x12=0、+0x13=0。**它有数据，读法未证**"
+          "（+0x10 的 0xFF 像结束标记、+0x11 的 0x20 像 32 像素边长，"
+          "但没有一条原生指令能对上）。",
+          "原始字节"),
     ]
     out.append(make_structure(
         "portrait_pieces", "characters", "头像拼块表",
@@ -1097,8 +1130,16 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
 
     # ---- 忍术 -----------------------------------------------------------
     jutsu_fields = [
-        F("unknown_00", 0x00, 1, "u8", "未解字节 +0x00", "复制到已习得忍术记录 +0x04，语义未解", "记录"),
-        F("unknown_01", 0x01, 1, "u8", "未解字节 +0x01", "复制到已习得忍术记录 +0x05，语义未解", "记录"),
+        F("jutsu_kind", 0x00, 1, "u8", "类别",
+          "取值 1 / 2 / 3（87 条里 0 出现 5 次、1 出现 56 次、2 出现 24 次、3 出现 2 次）。"
+          "原生把它搬进「已习得忍术」表项 +0x04（0x08094582），"
+          "表项另一格是 +0x01。**这两个格在游戏里代表什么，仍未证实**。",
+          "记录"),
+        F("jutsu_rank", 0x01, 1, "u8", "等级",
+          "取值 1..5（5 出现 28 次、1 出现 45 次）。"
+          "原生把它搬进「已习得忍术」表项 +0x05（0x08094592）。"
+          "**它对应游戏的哪一项，仍未证实**（数值范围像「档位/阶级」）。",
+          "记录"),
         F("flags", 0x02, 2, "u16", "标志位",
           "&0x1800>>5 → 0..0xC0 等级/点数；高字节在仓库里另被标为「未解」", "记录"),
     ]
@@ -1110,23 +1151,32 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
                               f"字节 +0x{0x04 + i:02X}：随等级成长的初值；"
                               f"由下面的「成长目标」字段选中（1..6 指到这里）", "成长"))
     jutsu_fields += [
-        F("unknown_0a", 0x0A, 1, "u8", "未解字节 +0x0A",
-          "语义未解（notes/completion-audit-20261020.md 未解项 8）", "记录"),
-        F("unknown_0b", 0x0B, 1, "u8", "未解字节 +0x0B",
-          "语义未解（未解项 8）", "记录"),
+        F("cost", 0x0A, 1, "u8", "消耗（费用）",
+          "记录被整条搬进单位的「忍术槽」（16 字节，unit + 0x354 + 16×槽号）。"
+          "槽位 +0x0A 是**累计费用**：选招时把它加到累计值上并与上限比较，"
+          "超了就不让选（0x080713B4 / 0x08071548，tag=1 时只取低字节）。"
+          "0x0806D85C 把整条记录原样搬进槽位，所以这一格就是「用这一招要花多少」。",
+          "记录"),
+        F("reserved_0b", 0x0B, 1, "u8", "保留 +0x0B",
+          "87 条恒为 0；8 个原生读者与槽位消费者都没有读它。" + CENSUS,
+          "保留", not_read=True),
         F("growth_type", 0x0C, 1, "u8", "成长目标",
           "0/7 = 不成长；1..6 指向上面的成长目标1..6", "成长",
           enum={0: "不成长", 7: "不成长", 1: "成长目标1（+0x04）",
                 2: "成长目标2（+0x05）", 3: "成长目标3（+0x06）",
                 4: "成长目标4（+0x07）", 5: "成长目标5（+0x08）",
                 6: "成长目标6（+0x09）"}),
-        F("unknown_0d", 0x0D, 1, "u8", "未解字节 +0x0D",
-          "语义未解（未解项 8）", "记录"),
+        F("reserved_0d", 0x0D, 1, "u8", "保留 +0x0D",
+          "87 条恒为 0；没有消费者读它（槽位 +0x0D 的唯一候选读点 0x08065BA4 "
+          "经核对是字面量池，不是读指令）。" + CENSUS,
+          "保留", not_read=True),
         F("growth_amount", 0x0E, 1, "u8", "每级成长量",
           "值 = (等级−1) × 本值；实测 87 条记录中 +0x0F 恒为 0，"
           "所以本字段是单字节（仓库里把 +0x0E 记成 u16 属高字节恒零的等价写法）",
           "成长"),
-        F("pad_0f", 0x0F, 1, "u8", "填充 +0x0F", "实测 87 条记录恒为 0", "记录"),
+        F("reserved_0f", 0x0F, 1, "u8", "保留 +0x0F",
+          "87 条恒为 0；8 个原生读者与槽位消费者都没有读它。" + CENSUS,
+          "保留", not_read=True),
     ]
     out.append(make_structure(
         "jutsu_record", "ninjutsu", "忍术记录表",
@@ -1253,8 +1303,10 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
                         "categories": REWARD_CATEGORY_TABLES}),
         ]
     reward_fields += [
-        F("reserved_16", 0x16, 1, "u8", "保留 +0x16", "恒为 0，没有消费者读它", "保留"),
-        F("reserved_17", 0x17, 1, "u8", "保留 +0x17", "恒为 0，没有消费者读它", "保留"),
+        F("reserved_16", 0x16, 1, "u8", "保留 +0x16", "112 条恒为 0，没有消费者读它",
+          "保留", not_read=True),
+        F("reserved_17", 0x17, 1, "u8", "保留 +0x17", "112 条恒为 0，没有消费者读它",
+          "保留", not_read=True),
     ]
     out.append(make_structure(
         "reward_table", "items", "奖励表",
@@ -1278,6 +1330,15 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         F("terrain_ptr", 0x18, 4, "ptr", "通行值表", "LZ77，每格 u16", "资源指针"),
         F("background_id", 0x1C, 1, "u8", "剧情底图ID", "指向底图表 0x59903C", "底图",
           relation={"table": "background_table", "kind": "structure", "label": "底图"}),
+        F("reserved_1e", 0x1E, 2, "hex", "保留 +0x1E..+0x1F",
+          "47 条关卡这两字节恒为 0；8 个原生读者都没有读它们。" + CENSUS,
+          "保留", not_read=True),
+        F("param_pick", 0x1D, 1, "u8", "参数选择位",
+          "0 = 用默认参数，非 0 = 用另一个参数。三处消费者写法一致："
+          "读这一格，为 0 就取默认常量，否则取另一个常量，然后写进 WRAM 0x0300004E"
+          "（0x0806922A / 0x08080686 / 0x08080976）。"
+          "47 张关卡里只有第 7、8 张为 1。**被选中的是哪个参数，业务名未证**。",
+          "底图"),
     ]
     out.append(make_structure(
         "map_table", "battle", "战场布置描述符",
@@ -1298,10 +1359,23 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         F("x", 0x02, 1, "u8", "出生 X", "初始 X 坐标（格）", "出生点"),
         F("y", 0x03, 1, "u8", "出生 Y", "初始 Y 坐标（格）", "出生点"),
         F("facing", 0x04, 1, "u8", "朝向/参数", "写入 unit+0xC9", "出生点"),
+        F("reserved_05", 0x05, 3, "hex", "保留 +0x05..+0x07",
+          "1692 条里 1657 条为 0，另有 1 / 3 / 9 / 0x0F 各若干条；"
+          "26 个原生读者里**没有一条**用立即数偏移读这一段。"
+          "**取值非零说明它有数据，但读它的路径还没找到** —— 需要运行期证据。",
+          "保留", not_read=True),
         F("unit_flags", 0x08, 4, "u32", "单位标志",
           "bit0 = 阵营（**这个才是生效的**）；unit+0xC0 = flags|side|0x10", "角色",
           bits=[{"mask": 1, "label": "阵营", "enum": {"0": "我方", "1": "敌方"}}]),
+        F("reserved_0c", 0x0C, 3, "hex", "保留 +0x0C..+0x0E",
+          "1692 条里 1625 条为 0；26 个原生读者里没有一条用立即数偏移读这一段。"
+          "**取值非零说明它有数据，但读它的路径还没找到** —— 需要运行期证据。",
+          "保留", not_read=True),
         F("level", 0x0F, 1, "u8", "等级", "unit+0x0F", "角色"),
+        F("reserved_10", 0x10, 4, "hex", "保留 +0x10..+0x13",
+          "1692 条里 1633 条为 0；26 个原生读者里没有一条用立即数偏移读这一段。"
+          "**取值非零说明它有数据，但读它的路径还没找到** —— 需要运行期证据。",
+          "保留", not_read=True),
     ]
     actor_offsets = []
     actor_labels: dict[int, str] = {}
@@ -1349,7 +1423,13 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         verification="L1 结构已证明 · 编辑器构建线会写回（仓库里没有专用导入工具）",
     ))
 
-    rule_fields = [F("turn_limit", 0x00, 1, "u8", "回合上限", "0 = 无限制", "回合")]
+    rule_fields = [
+        F("turn_limit", 0x00, 1, "u8", "回合上限", "0 = 无限制", "回合"),
+        F("reserved_01", 0x01, 3, "hex", "保留 +0x01..+0x03",
+          "141 条记录全为 0；两个原生读者只读 +0x00（回合上限）与 +0x04 起的条件组"
+          "（0x080751BE / 0x08077856），**没有一条读这一段**。" + CENSUS,
+          "保留", not_read=True),
+    ]
     for group in range(2):
         label = "胜利条件" if group == 0 else "失败条件"
         for k in range(4):
@@ -1780,15 +1860,24 @@ def build_structures(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any]
         ))
 
     asset_fields = [
-        F("head", 0x00, 12, "hex", "未解头部 +0x00", "未解码的 12 字节，原样保留", "资源记录"),
+        F("head", 0x00, 1, "u8", "标志字节 +0x00",
+          "取值 0x00 / 0x03 / 0x10 / 0x20（79 条里 0 出现 66 次、0x10 出现 8 次、"
+          "0x20 出现 3 次、0x03 出现 2 次）。原生代码用 ldrb 读它"
+          "（0x08098816 / 0x08098A8A / 0x08098EE6），**各位的业务含义未证**。"
+          "其后 11 字节（+0x01..+0x0B）没有读者读。",
+          "资源记录"),
+        F("head_reserved", 0x01, 11, "hex", "保留 +0x01..+0x0B",
+          "11 个字节在 10 个原生读者里都没有被读；79 条记录里除 +0x00 外这一段全为 0。",
+          "保留", not_read=True),
     ]
     for t in range(6):
         asset_fields.append(F(f"tile_ptr_{t}", 0x0C + t * 4, 4, "ptr",
                                f"图块指针 {t + 1}",
                                "指向一份图块资源（载荷不可改，改的是「用哪一份」）", "图块",
                                array="gfx", index=t, item="ptr"))
-    asset_fields.append(F("mid", 0x24, 4, "hex", "未解中段 +0x24",
-                          "未解码的 4 字节，原样保留", "资源记录"))
+    asset_fields.append(F("mid", 0x24, 4, "hex", "保留 +0x24..+0x27",
+                          "4 个字节在 10 个原生读者里都没有被读（普查没有命中）；"
+                          "取值 0x00 / 0x0D / 0x0E / 0x10。", "保留", not_read=True))
     for s in range(3):
         asset_fields.append(F(f"script_ptr_{s}", 0x28 + s * 4, 4, "ptr",
                                f"脚本指针 {s + 1}",

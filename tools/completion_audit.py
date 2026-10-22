@@ -2411,6 +2411,12 @@ def pack_undecoded_fields() -> dict[int, dict[str, Any]]:
     这条检查直接读内容包，把「标了未解」的字段原样摊到缺口表里，
     不依赖任何人记得在 SPECS 里补一条 unresolved。
 
+    口径（2026-10-22 补）：**标签**说「不知道这是什么」的才算缺口；
+    标签有名字、只是说明里写了「某一部分没证实」的**不算**缺口
+    （那是「已知的部分 + 诚实的边界」，仓库的口径一贯如此）。
+    所以这里只按标签判定，说明口径的另见
+    `tools/field_semantics_census.py` 的「部分未证」清单。
+
     返回 {rom_offset: {"pack_id": ..., "labels": [...]}}。
     """
     path = REPO / "rom-editor" / "content" / "pack.json"
@@ -2427,10 +2433,18 @@ def pack_undecoded_fields() -> dict[int, dict[str, Any]]:
             continue
         labels = [str(f.get("label") or "")
                   for f in (structure.get("fields") or [])
-                  if str(f.get("label") or "").startswith("未解字节")]
+                  if _is_unknown_label(str(f.get("label") or ""))]
         if labels:
             out[int(offset)] = {"pack_id": structure.get("id"), "labels": labels}
     return out
+
+
+# 「这个字段是什么我不知道」的标签写法（仓库口径：诚实，但确实是个缺口）
+UNKNOWN_LABEL = re.compile(r"^(未解字节|未知\w*|字节\d)")
+
+
+def _is_unknown_label(label: str) -> bool:
+    return bool(UNKNOWN_LABEL.match(label))
 
 
 def build_report() -> dict[str, Any]:
