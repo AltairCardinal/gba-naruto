@@ -6,18 +6,18 @@
 
 | 桶 | 含义 | 条数 | 占比 |
 | --- | --- | ---: | ---: |
-| `implemented_in_code` | 本树构建链已引用，附消费文件与行号 | 28 | 6.4% |
+| `implemented_in_code` | 本树构建链已引用，附消费文件与行号 | 29 | 6.7% |
 | `not_applicable` | 与本复刻无关，附理由 | 43 | 9.9% |
 | `missing_evidence` | 证据未闭合，回逆向侧补齐 | 19 | 4.4% |
-| `needs_guard` | 已给出原版结论，尚未转成门禁——M1/M2 的原料 | 333 | 76.4% |
+| `needs_guard` | 已给出原版结论，尚未转成门禁——M1/M2 的原料 | 332 | 76.1% |
 | `needs_human_review` | 自动判读不了，附原因 | 13 | 3.0% |
 
 - 合计：**436** 个 note 文件
 - 其中不重复的 note id：398（证据包内嵌的快照与顶层同名，计数以文件为单位）
 - 逆向 commit：`821d0937e058245aa7e6d29f23f96c7fc78e7375`
-- 扫描文件数：4434
+- 扫描文件数：4774
 
-- `needs_guard` 里有 **19** 条已经在 `tests/` 被引用过，**314** 条连测试都没有引用 ⇒ P2 的真实分母是后者。⚠️ **上界不是真值**：`tests/` 里的引用可能是**文档类测试**而不是行为门禁，所以「已被引用」只能当作「可能已有门禁」的上界，逐条判定仍需人看。
+- `needs_guard` 里有 **19** 条已经在 `tests/` 被引用过，**313** 条连测试都没有引用 ⇒ P2 的真实分母是后者。⚠️ **上界不是真值**：`tests/` 里的引用可能是**文档类测试**而不是行为门禁，所以「已被引用」只能当作「可能已有门禁」的上界，逐条判定仍需人看。
 
 ## 索引前的引用状态
 
@@ -25,10 +25,10 @@
 
 | 索引前状态 | 条数 |
 | --- | ---: |
-| `build` | 28 |
+| `build` | 29 |
 | `local_artifact` | 3 |
 | `test` | 26 |
-| `doc` | 169 |
+| `doc` | 168 |
 | `none` | 210 |
 
 ## 按类别 × 桶
@@ -45,40 +45,41 @@
 | rom | 1 | 14 | 15 | 93 | 0 | 123 |
 | runtime | 1 | 0 | 0 | 7 | 0 | 8 |
 | scenario | 3 | 0 | 0 | 14 | 0 | 17 |
-| visual | 2 | 0 | 0 | 58 | 0 | 60 |
+| visual | 3 | 0 | 0 | 57 | 0 | 60 |
 
-## `implemented_in_code`（28）
+## `implemented_in_code`（29）
 
 | note | 类别 | 消费指针 | 引用强度 |
 | --- | --- | --- | --- |
-| `notes/addresses.md` | other | `sequel/content/battle-config/ninja-tool-identities.json:3`、`sequel/content/items/bank.json:56`、`sequel/content/story-c/bank.json:128` | code |
-| `notes/battle-config-format.md` | battle | `tools/import_battle_config.py:23`、`tools/import_battle_config.py:68`、`tools/import_battle_config.py:165` | code |
-| `notes/battle-config-unsafe-template-fix-20260710.md` | battle | `tools/completion_audit.py:716` | code |
+| `notes/addresses.md` | other | `sequel/content/battle-config/ninja-tool-identities.json:3`、`sequel/content/battle-handlers/bank.json:66`、`sequel/content/data-table-b/bank.json:62` | code |
+| `notes/battle-config-format.md` | battle | `tools/export_content_pack.py:1374`、`tools/import_battle_config.py:23`、`tools/import_battle_config.py:68` | code |
+| `notes/battle-config-unsafe-template-fix-20260710.md` | battle | `tools/completion_audit.py:1007` | code |
 | `notes/battle-system-restoration-evidence-20260723.md` | battle | `sequel/content/battle_controller_states.json:431`、`sequel/content/battle_controller_states.json:1413`、`sequel/content/battle_controller_transitions.json:627` | code |
 | `notes/character-definition-source-20260711.md` | visual | `sequel/content/units/bank.json:19984`、`tools/extract_character_definitions.py:4`、`tools/extract_character_definitions.py:190` | code |
 | `notes/character-runtime-unit-oam-bindings-20260730.md` | visual | `tools/butano/measure_s49_rule_ai_facing.py:26` | code |
-| `notes/dialogue-font-table-discovery-20260703.md` | other | `sequel/content/fonts/bank.json:10` | code |
-| `notes/dialogue-format.md` | other | `tools/konoha_font.py:7` | code |
+| `notes/character-stats-addresses.md` | visual | `tools/export_content_pack.py:676`、`tools/export_content_pack.py:992`、`tools/export_content_pack.py:1025` | code |
+| `notes/dialogue-format.md` | other | `tools/export_content_pack.py:428`、`tools/konoha_font.py:7` | code |
 | `notes/dialogue-render-analysis.md` | other | `tools/analyze_dialogue_render.py:29` | code |
 | `notes/dialogue-watch-record-bank.md` | other | `tools/mgba_trace_dialogue_writes.lua:48` | code |
 | `notes/dialogue-watch-sb-struct.md` | other | `tools/mgba_trace_dialogue_writes.lua:40` | code |
 | `notes/dialogue-watch-vram-glyph.md` | other | `tools/mgba_trace_dialogue_writes.lua:32` | code |
 | `notes/dialogue-watch-vram-tilemap.md` | other | `tools/mgba_trace_dialogue_writes.lua:24` | code |
-| `notes/dialogue-watch-wram.md` | other | `tools/README.md:699`、`tools/README.md:701`、`tools/mgba_trace_dialogue_writes.lua:16` | code |
+| `notes/dialogue-watch-wram.md` | other | `tools/README.md:866`、`tools/README.md:868`、`tools/mgba_trace_dialogue_writes.lua:16` | code |
 | `notes/free-space.md` | other | `tools/import_chapter_scripts.py:50`、`tools/import_chapter_scripts.py:52`、`tools/import_dialogue_var.py:71` | code |
-| `notes/macos-intel-runtime-preflight-20260715.md` | other | `tools/README.md:811` | markdown-mention |
+| `notes/macos-intel-runtime-preflight-20260715.md` | other | `tools/README.md:978` | markdown-mention |
 | `notes/ninja-tool-addresses.md` | other | `sequel/content/battle-config/ninja-tool-identities.json:3` | code |
 | `notes/positions-rom-source-20260710.md` | other | `tools/extract_positions.py:4`、`tools/extract_positions.py:266` | code |
 | `notes/re-completion-audit.md` | other | `tools/audit_re_completion.py:292`、`tools/audit_re_completion.py:293`、`tools/completion_audit.py:6` | code |
-| `notes/resource-locations.md` | other | `tools/README.md:138`、`tools/completion_audit.py:131`、`tools/completion_audit.py:132` | code |
+| `notes/resource-locations.md` | other | `tools/README.md:305`、`tools/completion_audit.py:143`、`tools/completion_audit.py:144` | code |
 | `notes/rom-gpu-copy-queue-inventory-20260730.md` | rom | `tools/export_rom_pram_halfword_writes.py:9` | code |
-| `notes/runtime-verification-gates-20260710.md` | runtime | `tools/completion_audit.py:16`、`tools/mgba_probe/navigate.py:5`、`tools/mgba_probe/runtime_probe.py:6` | code |
+| `notes/runtime-verification-gates-20260710.md` | runtime | `tools/completion_audit.py:16`、`tools/l2_runtime_capture.py:6`、`tools/mgba_probe/l3_evidence_sweep.py:6` | code |
 | `notes/scenario-45-safe-resume-20260719.md` | scenario | `sequel/content/battle_controller_transitions.json:437`、`sequel/content/battle_controller_transitions.json:439`、`sequel/content/battle_controller_transitions.json:465` | code |
 | `notes/scenario-49-battle-14-runtime-20260720.md` | scenario | `butano-sequel/benchmark/tests/test_battle_result_settlement.cpp:5`、`tools/butano/verify_s49_battle_roster.py:103`、`tools/butano/verify_s49_battle_roster.py:113` | code |
 | `notes/scenario-50-battle-15-runtime-20260720.md` | scenario | `tools/analyze_battle_resource_command_rules.py:235` | code |
-| `notes/similar-tables.md` | other | `tools/README.md:652` | markdown-mention |
+| `notes/similar-tables.md` | other | `tools/README.md:819` | markdown-mention |
 | `notes/u32-pointer-real-writeback-20260710.md` | other | `tools/table_registry.py:10` | code |
-| `notes/wasm-formation-probe-result-20260710.md` | other | `tools/completion_audit.py:517` | code |
+| `notes/units-unsafe-table-fix-20260711.md` | other | `tools/export_content_pack.py:424` | code |
+| `notes/wasm-formation-probe-result-20260710.md` | other | `tools/completion_audit.py:729` | code |
 
 ## `not_applicable`（43）
 
@@ -152,7 +153,7 @@
 | `notes/rom-renderer-handler-context-preflight-20260930.md` | rom | 未晋升 | 本条自述为开放工作项（预检/计划/缺口清单，或明写结论未成立），证据尚未闭合，需回到逆向侧补齐。 |
 | `notes/rom-task-callback-alignment-gap-candidate-20260905.md` | rom | 仅候选 | 本条自述为开放工作项（预检/计划/缺口清单，或明写结论未成立），证据尚未闭合，需回到逆向侧补齐。 |
 
-## `needs_guard`（333）
+## `needs_guard`（332）
 
 | note | 类别 | 可转门禁的材料 | 理由 |
 | --- | --- | --- | --- |
@@ -231,7 +232,6 @@
 | `notes/character-growth-runtime-chain-20260711.md` | visual | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（47 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/character-runtime-oam-bindings-20260730.md` | visual | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（8 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/character-runtime-oam-task-bindings-20260730.md` | visual | guard_condition、defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（64 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/character-stats-addresses.md` | visual | data_contract | 已给出原版行为的可核验结论（21 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/codex-reentry-audit-20260712.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（2 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/current-re-progress-20260711.md` | other | guard_condition、data_contract | 已给出原版行为的可核验结论（24 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/cutscene-obj-bundle-relocation-20260731.md` | presentation | guard_condition、tick_cadence、data_contract | 已给出原版行为的可核验结论（8 处 ROM 地址、2 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -242,6 +242,7 @@
 | `notes/debugging-record.md` | other | defect_semantics、tick_cadence、data_contract | 已给出原版行为的可核验结论（47 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-caller-runtime.md` | other | tick_cadence | 已给出原版行为的可核验结论（54 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-font-atlas-export-20260729.md` | other | guard_condition、defect_semantics、data_contract | 已给出原版行为的可核验结论（50 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
+| `notes/dialogue-font-table-discovery-20260703.md` | other | data_contract | 已给出原版行为的可核验结论（65 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-function-analysis.md` | other | tick_cadence、data_contract | 已给出原版行为的可核验结论（80 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-mapping-blocker-20260702.md` | other | defect_semantics、data_contract | 已给出原版行为的可核验结论（23 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/dialogue-mapping-decoder-20260702.md` | other | guard_condition、data_contract | 已给出原版行为的可核验结论（19 处 ROM 地址、1 个产物目录），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -473,7 +474,6 @@
 | `notes/tutorial-victory-save-load-runtime-20260712.md` | other | data_contract | 已给出原版行为的可核验结论（9 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/unit-id-mapping-analysis.md` | other | data_contract | 已给出原版行为的可核验结论（22 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/unit-skill-addresses.md` | other | data_contract | 已给出原版行为的可核验结论（20 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
-| `notes/units-unsafe-table-fix-20260711.md` | other | guard_condition、data_contract | 已给出原版行为的可核验结论（23 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/unknown-bgm-sfx.md` | other | data_contract | 已给出原版行为的可核验结论（5 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/unknown-item-inventory.md` | other | — | 已给出原版行为的可核验结论（18 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
 | `notes/unknown-random-encounter.md` | other | data_contract | 已给出原版行为的可核验结论（8 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。 |
@@ -599,7 +599,7 @@
 | `notes/character-runtime-oam-bindings-20260730.md` | `needs_guard` | `none` | visual |
 | `notes/character-runtime-oam-task-bindings-20260730.md` | `needs_guard` | `none` | visual |
 | `notes/character-runtime-unit-oam-bindings-20260730.md` | `implemented_in_code` | `build` | visual |
-| `notes/character-stats-addresses.md` | `needs_guard` | `doc` | visual |
+| `notes/character-stats-addresses.md` | `implemented_in_code` | `build` | visual |
 | `notes/codex-reentry-audit-20260712.md` | `needs_guard` | `doc` | other |
 | `notes/current-re-progress-20260711.md` | `needs_guard` | `doc` | other |
 | `notes/cutscene-obj-bundle-relocation-20260731.md` | `needs_guard` | `none` | presentation |
@@ -610,7 +610,7 @@
 | `notes/debugging-record.md` | `needs_guard` | `doc` | other |
 | `notes/dialogue-caller-runtime.md` | `needs_guard` | `doc` | other |
 | `notes/dialogue-font-atlas-export-20260729.md` | `needs_guard` | `doc` | other |
-| `notes/dialogue-font-table-discovery-20260703.md` | `implemented_in_code` | `build` | other |
+| `notes/dialogue-font-table-discovery-20260703.md` | `needs_guard` | `doc` | other |
 | `notes/dialogue-format.md` | `implemented_in_code` | `build` | other |
 | `notes/dialogue-function-analysis.md` | `needs_guard` | `doc` | other |
 | `notes/dialogue-mapping-blocker-20260702.md` | `needs_guard` | `doc` | other |
@@ -931,7 +931,7 @@
 | `notes/u32-pointer-real-writeback-20260710.md` | `implemented_in_code` | `build` | other |
 | `notes/unit-id-mapping-analysis.md` | `needs_guard` | `doc` | other |
 | `notes/unit-skill-addresses.md` | `needs_guard` | `doc` | other |
-| `notes/units-unsafe-table-fix-20260711.md` | `needs_guard` | `doc` | other |
+| `notes/units-unsafe-table-fix-20260711.md` | `implemented_in_code` | `build` | other |
 | `notes/unknown-bgm-sfx.md` | `needs_guard` | `doc` | other |
 | `notes/unknown-item-inventory.md` | `needs_guard` | `doc` | other |
 | `notes/unknown-random-encounter.md` | `needs_guard` | `doc` | other |

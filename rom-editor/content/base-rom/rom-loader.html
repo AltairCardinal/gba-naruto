@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>原版 ROM 载入器</title>
+</head>
+<body>
+<script>
+// Loads a slice of the base ROM and posts it back to the editor.
+//
+// Why a separate document, and why in slices: some embedded browsers cap how
+// much a single document may download (measured: roughly 1 MB per document
+// in the desktop FilePanel browser).  The ROM is 2.7 MB compressed, so the
+// parent asks for it in several slices, each fetched by its own document.
+//
+// Why retries with an abort: when a body stalls the connection is stuck.
+// Aborting releases it and the retry usually succeeds.
+(function () {
+  const CHUNK_TIMEOUT_MS = 4000;
+  const MAX_ATTEMPTS = 8;
+
+  function report(state, payload) {
+    if (window.parent === window) return;
+    // payload is the raw ArrayBuffer of the ROM; the parent knows the size.
+    window.parent.postMessage({ source: 'rom-loader', state, payload }, '*');
+  }
+
+  async function gunzip(buffer) {
+    if (typeof DecompressionStream !== 'function') return buffer;
+    const stream = new Response(buffer).body.pipeThrough(new DecompressionStream('gzip'));
+    return await new Response(stream).arrayBuffer();
+  }
+
+  /**
+   * fetch with a timeout that really fires, retrying on stall.
+   *
+   * The timeout is a *race* against a rejecting timer, not only an abort:
+   * some browsers never reject a stalled response body when the abort signal
+   * fires, so an abort-only timeout would never fire.
+   */
+  async function fetchWithRetry(url, asText) {
+    let lastError = null;
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      const controller = new AbortController();
+      let timer = null;
+      const guard = new Promise((_, reject) => {
+        timer = setTimeout(() => {
+          controller.abort();
+          reject(new Error(url + ' 超时'));
+        }, CHUNK_TIMEOUT_MS);
+      });
+      try {
+        const request = fetch(url, { cache: 'no-cache', signal: controller.signal })
+          .then(async (response) => {
+            if (!response.ok) throw new Error(url + ': HTTP ' + response.status);
+            return asText ? await response.text() : await response.arrayBuffer();
+          });
+        return await Promise.race([request, guard]);
+      } catch (err) {
+        lastError = err;
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    throw new Error(url + ': ' + (lastError && lastError.message ? lastError.message : lastError));
+  }
+
+  // The parent tells us which slice to fetch with a postMessage rather than
+  // a query string: in some embedded browsers the query string does not
+  // reach the embedded document at all.
+  window.addEventListener('message', (event) => {
+    const data = event.data;
+    if (!data || data.type !== 'rom-slice') return;
+    load(data.from, data.count);
+  });
+
+  async function load(from, count) {
+    try {
+      console.log('[rom-loader] fetching…');
+      // The whole ROM as one gzip file.  It is the *first* request this
+      // document makes, which is the case that reliably completes everywhere
+      // we tried.
+      const whole = await fetchWithRetry('base-rom.bin.gz', false);
+      const rom = new Uint8Array(await gunzip(whole));
+      if (rom.byteLength < 0x100000) {
+        throw new Error(`解出来的 ROM 只有 ${rom.byteLength} 字节`);
+      }
+      console.log('[rom-loader] got ' + rom.byteLength + ' bytes, posting…');
+      report('ok', rom.buffer);
+    } catch (err) {
+      console.log('[rom-loader] failed: ' + (err && err.message ? err.message : err));
+      report('error', String(err && err.message ? err.message : err));
+    }
+  }
+})();
+</script>
+</body>
+</html>

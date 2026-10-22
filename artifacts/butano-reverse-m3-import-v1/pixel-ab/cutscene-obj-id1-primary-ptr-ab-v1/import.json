@@ -1,0 +1,62 @@
+{
+  "applicability": "local-anchor-found",
+  "artifact_schema": "cutscene-obj-id1-primary-ptr-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "cutscene-obj-id1-primary-ptr-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/baseline.png",
+      "sha256": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "cutscene-obj-id1-primary-ptr-ab-v1/evidence.json",
+    "reverse_path": "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/evidence.json",
+    "sha256": "8247a8666365dca8e124a00509ac6f7e113b6954606da5fe00d3ef6d2dbedbe6"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": "051162ea4f830febd94823d2e87d75ad474223f352867e63fa0965912dbe7bc8",
+    "bbox": [
+      42,
+      49,
+      197,
+      110
+    ],
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": "cf8f61412fd1dfa5defd75fa52cd580c6f788972c62f8a0b0fc6caf02a1895d4",
+    "changed_pixel_count": 4032,
+    "source_path": "pixels"
+  },
+  "family": "cutscene-obj-id1-primary-ptr-ab-v1",
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9"
+  ],
+  "manifest": "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/manifest.json",
+  "manifest_sha256": "a7b998184a757f3f8bebdb57a6bc9965ade0e7775a29c5e074905072a208fdb9",
+  "reverse_file_hashes": {
+    "baseline.png": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+    "candidate.png": "e4955c26831d3f60eb1330dd6427b49e44d58c5ad9537a395069e3f2905aa651",
+    "evidence.json": "8247a8666365dca8e124a00509ac6f7e113b6954606da5fe00d3ef6d2dbedbe6",
+    "raw.tar": "3afedc6c2f84d051e241358e24577751d46a748b866777998fa7c1fd45002de3"
+  },
+  "scope": {},
+  "unavailable_local_inputs": [
+    "tools/mgba_single_input_replay.lua"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_cutscene_obj_primary_ptr_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/cutscene-obj-id1-primary-ptr-ab-v1"
+    ],
+    "exit_code": 0
+  }
+}

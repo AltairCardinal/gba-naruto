@@ -205,6 +205,77 @@ class WiringCoverageTest(unittest.TestCase):
         row = payload["source_rows"][0]
         self.assertEqual(row["state"], "local-rederived-diverged")
 
+    def test_a_local_copy_with_the_same_manifest_but_a_changed_payload_is_diverged(self) -> None:
+        """A manifest hash only proves the description matches.
+
+        The payload is the evidence.  A local copy that keeps the manifest and
+        changes a data file is a broken wire, so the state has to be decided
+        on the content of the tree.
+        """
+        local = self.root / "artifacts" / "rom-f-v1"
+        local.mkdir(parents=True)
+        (local / "manifest.json").write_text('{"a": 1}\n')
+        (local / "payload.bin").write_bytes(b"\x01")
+        reverse = self.root / "reverse" / "artifacts" / "rom-f-v1"
+        reverse.mkdir(parents=True)
+        (reverse / "manifest.json").write_text('{"a": 1}\n')
+        (reverse / "payload.bin").write_bytes(b"\x02")
+        payload = self._run(
+            _index(["rom-f-v1"]),
+            {"rom-f-v1": "build"},
+            [],
+        )
+        row = payload["source_rows"][0]
+        self.assertEqual(row["state"], "local-rederived-diverged")
+        self.assertEqual(row["local_copy"]["local_manifest_sha256"], row["local_copy"]["reverse_manifest_sha256"])
+        self.assertNotEqual(row["local_copy"]["local_tree_sha256"], row["local_copy"]["reverse_tree_sha256"])
+
+    def test_a_family_without_a_manifest_twin_is_decided_by_its_content(self) -> None:
+        """Capture families have no manifest at all.
+
+        They still have a twin, so the state must be decided by the bytes:
+        a copy that matches is identical, a copy that does not is diverged.
+        """
+        local = self.root / "artifacts" / "rom-g-v1"
+        local.mkdir(parents=True)
+        (local / "state.ss9").write_bytes(b"same")
+        reverse = self.root / "reverse" / "artifacts" / "rom-g-v1"
+        reverse.mkdir(parents=True)
+        (reverse / "state.ss9").write_bytes(b"same")
+        payload = self._run(
+            _index(["rom-g-v1"]),
+            {"rom-g-v1": "build"},
+            [],
+        )
+        row = payload["source_rows"][0]
+        self.assertEqual(row["state"], "local-rederived-identical")
+        self.assertIsNone(row["local_copy"]["local_manifest_sha256"])
+
+        (local / "state.ss9").write_bytes(b"other")
+        payload = self._run(
+            _index(["rom-g-v1"]),
+            {"rom-g-v1": "build"},
+            [],
+        )
+        row = payload["source_rows"][0]
+        self.assertEqual(row["state"], "local-rederived-diverged")
+
+    def test_a_local_copy_with_a_different_file_set_is_diverged(self) -> None:
+        local = self.root / "artifacts" / "rom-h-v1"
+        local.mkdir(parents=True)
+        (local / "manifest.json").write_text("{}\n")
+        (local / "extra.bin").write_bytes(b"x")
+        reverse = self.root / "reverse" / "artifacts" / "rom-h-v1"
+        reverse.mkdir(parents=True)
+        (reverse / "manifest.json").write_text("{}\n")
+        payload = self._run(
+            _index(["rom-h-v1"]),
+            {"rom-h-v1": "build"},
+            [],
+        )
+        row = payload["source_rows"][0]
+        self.assertEqual(row["state"], "local-rederived-diverged")
+
     def test_a_family_with_no_material_and_no_consumer_is_reported(self) -> None:
         payload = self._run(
             _index(["rom-c-v1"]),
@@ -274,3 +345,38 @@ class WiringCoverageTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class DeclaredCoverageTest(unittest.TestCase):
+    """The coverage assertion W3 asks for.
+
+    *What the auditor can see as a declared wire* must equal *what the matrix
+    counts as wired*.  The auditor reads two carriers -- the provenance
+    header comment and the ROM importers' own constants -- so a wire that
+    only one of them can see shows up as a difference instead of as a silent
+    understatement.
+    """
+
+    def test_the_real_tree_has_no_difference(self) -> None:
+        wiring_path = (
+            ROOT / "artifacts" / "butano-wiring-coverage-v1" / "wiring.json"
+        )
+        if not wiring_path.is_file():
+            self.skipTest("no wiring receipt in this tree")
+        payload = json.loads(wiring_path.read_text(encoding="utf-8"))
+        coverage = payload["summary"]["declared_coverage"]
+        self.assertEqual(coverage["difference"], 0, coverage)
+        self.assertEqual(
+            coverage["declared_by_auditor"], coverage["declared_by_matrix"]
+        )
+
+    def test_the_auditor_and_the_matrix_see_the_same_families(self) -> None:
+        sys.path.insert(0, str(ROOT))
+        from tools.audit_butano_reverse_provenance import audit
+
+        report = audit(ROOT, "/Users/altair/github/gba-naruto-reverse")
+        header = {family for _product, family in report.mapping}
+        importer = {wire.family for wire in report.importer_wires}
+        self.assertTrue(header, "the header carrier must declare families")
+        self.assertTrue(importer, "the importer carrier must declare families")
+        self.assertEqual(report.declared_family_count, len(header | importer))

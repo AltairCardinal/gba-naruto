@@ -1,5 +1,5 @@
 {
-  "applicability": "no-local-anchor-in-this-tree",
+  "applicability": "local-anchor-found",
   "artifact_schema": "data-table-b-message0-pointer-pixel-ab-artifact-v1",
   "artifact_status": "accepted",
   "base_rom_sha256": null,
@@ -28,7 +28,9 @@
     "source_path": "runtime_effect"
   },
   "family": "data-table-b-message0-pointer-pixel-ab-v1",
-  "local_anchors": [],
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9"
+  ],
   "manifest": "artifacts/data-table-b-message0-pointer-pixel-ab-v1/manifest.json",
   "manifest_sha256": "fc0310e3f40d493ac0502d27bf2490817659999e32fa5bcade639f0699a50e9b",
   "reverse_file_hashes": {
@@ -39,7 +41,6 @@
   },
   "scope": {},
   "unavailable_local_inputs": [
-    "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
     "tools/mgba_input_sequence_replay.lua"
   ],
   "verifier": {

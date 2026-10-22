@@ -94,12 +94,11 @@ class GapMeasurementTest(unittest.TestCase):
             json.dumps({"entries": [{"id": "hidden-family-v1"}]}),
         )
 
-    def _run(self, index: dict) -> dict:
+    def _run(self, index: dict, reverse_root: str | None = None) -> dict:
         index_path = self.root / "artifacts" / "reverse-results-index-v1" / "index.json"
         _write(index_path, json.dumps(index))
         out_dir = self.root / "artifacts" / "butano-reverse-gap-v1"
-        proc = subprocess.run(
-            [
+        command = [
                 sys.executable,
                 str(SCRIPT),
                 "--root",
@@ -108,7 +107,11 @@ class GapMeasurementTest(unittest.TestCase):
                 str(index_path),
                 "--out-dir",
                 str(out_dir),
-            ],
+        ]
+        if reverse_root is not None:
+            command += ["--reverse-root", reverse_root]
+        proc = subprocess.run(
+            command,
             capture_output=True,
             text=True,
         )
@@ -209,6 +212,58 @@ class GapMeasurementTest(unittest.TestCase):
         row = payload["rows"][0]
         self.assertEqual(row["status"], "none")
         self.assertIn("backlog-family-v1", payload["gap_families"])
+
+    def test_a_byte_identical_reverse_copy_is_not_a_consumption(self) -> None:
+        """A local copy of a reverse family names other families inside it.
+
+        The copy *is* the reverse result, so a reference inside it says nothing
+        about the remake.  The tool therefore excludes a local artifact
+        directory whose content digest equals the reverse tree's digest for
+        the same family -- the same rule that keeps the imported copies under
+        ``artifacts/butano-reverse-m3-import-v1/`` out of the scan.
+        """
+        reverse = self.root / "reverse"
+        _write(
+            reverse / "artifacts" / "copy-family-v1" / "payload.md",
+            "mentions rom-quoted-family-v1\n",
+        )
+        _write(
+            self.root / "artifacts" / "copy-family-v1" / "payload.md",
+            "mentions rom-quoted-family-v1\n",
+        )
+        payload = self._run(
+            _index([_family("copy-family-v1"), _family("rom-quoted-family-v1")]),
+            reverse_root=str(reverse),
+        )
+        quoted = {row["id"]: row for row in payload["rows"]}["rom-quoted-family-v1"]
+        self.assertEqual(quoted["status"], "none")
+        self.assertEqual(
+            payload["measurement"]["reverse_copy_prefixes"],
+            ["artifacts/copy-family-v1/"],
+        )
+
+    def test_a_local_copy_that_differs_from_the_reverse_twin_is_still_scanned(self) -> None:
+        """The exclusion is content-based, not name-based.
+
+        A local artifact directory that is *not* a byte-identical copy is the
+        remake's own result, so what it names is a real reference.
+        """
+        reverse = self.root / "reverse"
+        _write(
+            reverse / "artifacts" / "copy-family-v1" / "payload.md",
+            "reverse bytes\n",
+        )
+        _write(
+            self.root / "artifacts" / "copy-family-v1" / "payload.md",
+            "mentions rom-quoted-family-v1\n",
+        )
+        payload = self._run(
+            _index([_family("copy-family-v1"), _family("rom-quoted-family-v1")]),
+            reverse_root=str(reverse),
+        )
+        quoted = {row["id"]: row for row in payload["rows"]}["rom-quoted-family-v1"]
+        self.assertEqual(quoted["status"], "local_artifact")
+        self.assertEqual(payload["measurement"]["reverse_copy_prefixes"], [])
 
     def test_the_notes_index_is_not_a_reference(self) -> None:
         """The notes index classifies every note, so it names all of them.

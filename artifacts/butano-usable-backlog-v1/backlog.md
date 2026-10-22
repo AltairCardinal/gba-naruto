@@ -8,7 +8,7 @@
 ## 输入
 
 - 索引：`artifacts/reverse-results-index-v1/index.json`（SHA-256 `a38f7f2e81e31d66…`）
-- 差异清单：`artifacts/butano-reverse-gap-v1/gap.json`（SHA-256 `72a52f658b150f02…`）
+- 差异清单：`artifacts/butano-reverse-gap-v1/gap.json`（SHA-256 `7bc86fbada4146c9…`）
 - 逆向 commit：`821d0937e058245aa7e6d29f23f96c7fc78e7375`（工作树 dirty=False）
 - ROM SHA-256：`1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`
 
@@ -30,13 +30,13 @@
 | --- | ---: |
 | 成果族总数 | 264 |
 | 其中 `accepted` | 201 |
-| 其中已被构建链消费 | 93 |
+| 其中已被构建链消费 | 96 |
 | `accepted` 且带 payload | 192 |
-| **未被使用的货架（shelf）** | **134** |
-| 货架 payload 总量 | 69,840,365 字节 |
+| **未被使用的货架（shelf）** | **131** |
+| 货架 payload 总量 | 69,094,936 字节 |
 | 货架里 scope **全部闭合**的族 | 3 |
 | 货架里 scope 仍有未闭合声明的族 | 69 |
-| 货架里 manifest 没写 scope 的族 | 62 |
+| 货架里 manifest 没写 scope 的族 | 59 |
 | 台账 `missing` | 0 |
 
 ### 货架分层
@@ -44,7 +44,7 @@
 | 层 | 含义 | 族数 |
 | --- | --- | ---: |
 | `analysis-only`（仅判读） | payload 是控制流／覆盖分母／审计证据——约束行为，但不能导入 | 51 |
-| `asset-direct`（资产直取） | payload 是 remake 资产管线能直接读的字节（像素／图块／调色板／LZ77／音频） | 30 |
+| `asset-direct`（资产直取） | payload 是 remake 资产管线能直接读的字节（像素／图块／调色板／LZ77／音频） | 27 |
 | `table-direct`（一次生成器） | payload 是内容表，接入只需一个生成器 | 41 |
 | `unclassified`（待判定） | 两类词表都命中或都没命中，不强行归类 | 12 |
 
@@ -61,7 +61,7 @@
 
 ## 货架明细
 
-### `asset-direct`（资产直取）— 30 族
+### `asset-direct`（资产直取）— 27 族
 
 | 族 | 类别 | payload | 字节 | 判定证据 | scope |
 | --- | --- | --- | ---: | --- | --- |
@@ -69,11 +69,8 @@
 | `map41-visual-resource-matrix-v1` | map | `baseline/audit.json`, `baseline/frame80.png`, `baseline/frame80.ss9`, `baseline/guard.json` | 687,545 | .png | scope 未闭合: al |
 | `scene-visual-composites-v1` | map | `exit/mode-1-obj-pack-08-over-pack-08.png`, `main/mode-0-pack-00.png`, `main/mode-0-pack-01.png`, `main/mode-0-pack-02.png` | 166,835 | .png | scope 未闭合: na |
 | `initializer-resource-pack-v1` | other | `bg-graphics-atlas.png`, `bg-graphics.bin`, `bg-graphics.lz77.bin`, `bg-palette.bin` | 1,157,583 | .png | manifest 无 scope |
-| `levels-status-per-level-ab-v1` | other | `baseline.png`, `candidate.png`, `evidence.json`, `raw.tar` | 389,319 | .png；baseline: baseline.png, candidate.png | manifest 无 scope |
 | `lz77-palette-runtime-v1` | other | `evidence.json`, `inputs/profile-title-menu.png`, `inputs/profile-title-menu.ss9`, `inputs/scenario-41-target-select-tutorial-dismissed.png` | 673,139 | .png | scope 未闭合: ge |
-| `sappy-engine-master-enable-ab-v1` | other | `baseline.png`, `candidate.png`, `evidence.json`, `raw.tar` | 45,015 | .png；baseline: baseline.png, candidate.png | manifest 无 scope |
 | `overview-gradient-overlay-v1` | overview | `generated-palette.bgr555.bin`, `generated-tilemap-30x20.bin`, `generated-tiles.4bpp.bin`, `overview-gradient-overlay.json` | 26,201 | .png | manifest 无 scope |
-| `cutscene-obj-id1-primary-ptr-ab-v1` | presentation | `baseline.png`, `candidate.png`, `evidence.json`, `raw.tar` | 311,095 | .png；baseline: baseline.png, candidate.png | manifest 无 scope |
 | `portrait-palette-producers-v1` | presentation | `portrait-palette-producers.json`, `raw/control/audit.json`, `raw/control/guard.json`, `raw/control/scratch.bin` | 324,088 | .png | scope 未闭合: al |
 | `residual-wram-crop-tilemap-runtime-v1` | residual | `audit.json`, `crop-consumer.ss9`, `crop-load.ss9`, `done.json` | 274,856 | .png | scope 未闭合: ex |
 | `residual-wram-tilemap-runtime-v1` | residual | `audit.json`, `final-queue.bin`, `final.png`, `final.ss9` | 253,008 | .png | scope 未闭合: ex |

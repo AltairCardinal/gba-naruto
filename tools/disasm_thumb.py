@@ -6,6 +6,8 @@ import os
 import sys
 from pathlib import Path
 
+import capstone_loader
+
 ROOT = Path(__file__).resolve().parent.parent
 VENDOR = ROOT / "tools" / "_vendor"
 CAPSTONE_PYTHON_PATH = os.environ.get("CAPSTONE_PYTHON_PATH")
@@ -13,8 +15,15 @@ if CAPSTONE_PYTHON_PATH:
     sys.path.insert(0, CAPSTONE_PYTHON_PATH)
 elif str(VENDOR) not in sys.path:
     sys.path.insert(0, str(VENDOR))
+if str(ROOT / "tools") not in sys.path:
+    sys.path.insert(0, str(ROOT / "tools"))
 
-from capstone import CS_ARCH_ARM, CS_MODE_THUMB, Cs  # type: ignore
+# The vendored capstone wheel cannot load its native library on this host;
+# `capstone_loader` finds the copy that works (see the module docstring).
+_capstone = capstone_loader.load_capstone()
+CS_ARCH_ARM = _capstone.CS_ARCH_ARM
+CS_MODE_THUMB = _capstone.CS_MODE_THUMB
+Cs = _capstone.Cs
 
 ROM_BASE = 0x08000000
 

@@ -1,5 +1,5 @@
 {
-  "applicability": "no-local-anchor-in-this-tree",
+  "applicability": "local-anchor-found",
   "artifact_schema": "natural-delayed-battle-effect-pixel-ab-runtime-v1",
   "artifact_status": "accepted",
   "base_rom_sha256": null,
@@ -33,7 +33,10 @@
     "source_path": "runtime"
   },
   "family": "battle-effect-group03-natural-pixel-ab-v1",
-  "local_anchors": [],
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9"
+  ],
   "manifest": "artifacts/battle-effect-group03-natural-pixel-ab-v1/manifest.json",
   "manifest_sha256": "1d443078e52355b11b7324e82b11fda4e115c24e92301d3fd92515c2980e3c10",
   "reverse_file_hashes": {
@@ -44,8 +47,6 @@
   },
   "scope": {},
   "unavailable_local_inputs": [
-    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
-    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
     "sequel/content/battle-effect-natural-pixel-ab/group-03-tool67-expiry.json"
   ],
   "verifier": {

@@ -1,5 +1,5 @@
 {
-  "applicability": "no-local-anchor-in-this-tree",
+  "applicability": "local-anchor-found",
   "artifact_schema": "map-events-e4-handler-pixel-ab-artifact-v1",
   "artifact_status": "accepted",
   "base_rom_sha256": null,
@@ -33,7 +33,9 @@
     "source_path": "pixels"
   },
   "family": "map-events-e4-handler-pixel-ab-v1",
-  "local_anchors": [],
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9"
+  ],
   "manifest": "artifacts/map-events-e4-handler-pixel-ab-v1/manifest.json",
   "manifest_sha256": "35f337be0534a1b93e9acc927eac35b981f4380bec99aed79d5abbb354912e48",
   "reverse_file_hashes": {
@@ -46,9 +48,7 @@
     "not_proved": "This run resumes after the C3-to-E4 event was queued and does not re-hit 0x08081D74; source checkpoint and static-chain artifacts bind that upstream route. It does not prove secondary handlers, all 256 entries, full animation semantics, or physical-GBA output.",
     "proved": "Natural zero-input recovery reaches E4 primary_handler_ptr through 0x0807FD36 and 0x0809C114; the baseline enters 0x0807F208 and renders group 3, while the isolated bx-lr candidate does neither and changes 37,436 final pixels."
   },
-  "unavailable_local_inputs": [
-    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9"
-  ],
+  "unavailable_local_inputs": [],
   "verifier": {
     "command": [
       "python3",

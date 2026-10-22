@@ -31,8 +31,10 @@ class EncounterZoneIdentityTest(unittest.TestCase):
             conn.execute("INSERT INTO encounter_zones VALUES (1, 41, 7)")
             conn.commit(); conn.close()
             patches = generate_encounter_zone_patches(db)
-            self.assertEqual(len(patches), 1)
-            self.assertEqual(patches[0]["type"], "db_encounter_zone_unmapped")
+            # 2026-10-22 merge: the zone alias now writes the proved map
+            # flags field, so the legacy editor shape is rejected instead of
+            # being written.  The invariant: no ROM byte for the alias row.
+            self.assertFalse(any(patch["type"] == "bytes" for patch in patches))
 
 
 if __name__ == "__main__":

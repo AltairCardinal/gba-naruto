@@ -1,6 +1,6 @@
 {
  "schema": "konoha.reverse-notes-index.v1",
- "generated_at": "2026-10-21T08:04:46.012780+00:00",
+ "generated_at": "2026-10-22T02:39:58.003882+00:00",
  "source": {
   "reverse_root": "/Users/altair/github/gba-naruto-reverse",
   "reverse_notes_dir": "/Users/altair/github/gba-naruto-reverse/notes",
@@ -10,7 +10,7 @@
  },
  "measurement": {
   "unit": "reverse note file",
-  "scanned_files": 4434,
+  "scanned_files": 4774,
   "scan_roots": [
    "butano-sequel",
    "tools",
@@ -34,6 +34,9 @@
    "artifacts/s49-original-movegrid-frame-v1/",
    "artifacts/s49-original-banner-frame-v1/",
    "artifacts/s49-original-movegrid-mechanism-v1/",
+   "artifacts/butano-usable-backlog-v1/",
+   "artifacts/butano-wiring-coverage-v1/",
+   "artifacts/butano-local-derivations-v1/",
    "artifacts/reverse-notes-index-v1/",
    "docs/reverse-results-index/notes-index.md",
    "tools/build_reverse_notes_index.py"
@@ -43,21 +46,21 @@
  "summary": {
   "total": 436,
   "by_bucket": {
-   "implemented_in_code": 28,
+   "implemented_in_code": 29,
    "not_applicable": 43,
    "missing_evidence": 19,
-   "needs_guard": 333,
+   "needs_guard": 332,
    "needs_human_review": 13
   },
   "by_pre_index_status": {
-   "build": 28,
+   "build": 29,
    "local_artifact": 3,
    "test": 26,
-   "doc": 169,
+   "doc": 168,
    "none": 210
   },
   "needs_guard_already_referenced_from_tests": 19,
-  "needs_guard_without_any_test_reference": 314,
+  "needs_guard_without_any_test_reference": 313,
   "by_category": {
    "audio": {
     "needs_guard": 4
@@ -100,8 +103,8 @@
     "needs_guard": 14
    },
    "visual": {
-    "implemented_in_code": 2,
-    "needs_guard": 58
+    "implemented_in_code": 3,
+    "needs_guard": 57
    }
   }
  },
@@ -112,13 +115,23 @@
    "title": "Confirmed",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（sequel/content/battle-config/ninja-tool-identities.json:3、sequel/content/items/bank.json:56、sequel/content/story-c/bank.json:128）。",
-   "evidence": "sequel/content/battle-config/ninja-tool-identities.json; sequel/content/items/bank.json; sequel/content/story-c/bank.json; sequel/content/story-d/bank.json; sequel/content/story-e/bank.json; sequel/content/text/sjis-to-tile-addr-20260703.json",
+   "reason": "本树构建链引用了本条结论（sequel/content/battle-config/ninja-tool-identities.json:3、sequel/content/battle-handlers/bank.json:66、sequel/content/data-table-b/bank.json:62）。",
+   "evidence": "sequel/content/battle-config/ninja-tool-identities.json; sequel/content/battle-handlers/bank.json; sequel/content/data-table-b/bank.json; sequel/content/items/bank.json; sequel/content/story-c/bank.json; sequel/content/story-d/bank.json",
    "missing": "",
    "consumers": [
     {
      "path": "sequel/content/battle-config/ninja-tool-identities.json",
      "line": 3,
+     "kind": "code"
+    },
+    {
+     "path": "sequel/content/battle-handlers/bank.json",
+     "line": 66,
+     "kind": "code"
+    },
+    {
+     "path": "sequel/content/data-table-b/bank.json",
+     "line": 62,
      "kind": "code"
     },
     {
@@ -148,27 +161,27 @@
     },
     {
      "path": "tools/README.md",
-     "line": 46,
+     "line": 213,
      "kind": "markdown"
     },
     {
      "path": "tools/README.md",
-     "line": 72,
+     "line": 239,
      "kind": "markdown"
     },
     {
      "path": "tools/README.md",
-     "line": 479,
+     "line": 646,
      "kind": "markdown"
     },
     {
      "path": "tools/README.md",
-     "line": 1015,
+     "line": 1182,
      "kind": "markdown"
     },
     {
      "path": "tools/README.md",
-     "line": 1308,
+     "line": 1475,
      "kind": "markdown"
     },
     {
@@ -192,8 +205,18 @@
      "kind": "code"
     },
     {
+     "path": "tools/audio_song_export.py",
+     "line": 14,
+     "kind": "code"
+    },
+    {
+     "path": "tools/audio_song_export.py",
+     "line": 29,
+     "kind": "code"
+    },
+    {
      "path": "tools/automated_test.py",
-     "line": 874,
+     "line": 879,
      "kind": "code"
     },
     {
@@ -207,13 +230,28 @@
      "kind": "code"
     },
     {
-     "path": "tools/completion_audit.py",
-     "line": 118,
+     "path": "tools/closure_pitch_probe.py",
+     "line": 39,
+     "kind": "code"
+    },
+    {
+     "path": "tools/closure_scene_sweep.py",
+     "line": 9,
+     "kind": "code"
+    },
+    {
+     "path": "tools/closure_scene_sweep.py",
+     "line": 117,
      "kind": "code"
     },
     {
      "path": "tools/completion_audit.py",
-     "line": 530,
+     "line": 130,
+     "kind": "code"
+    },
+    {
+     "path": "tools/completion_audit.py",
+     "line": 748,
      "kind": "code"
     },
     {
@@ -223,12 +261,12 @@
     },
     {
      "path": "tools/consumer_locate.py",
-     "line": 233,
+     "line": 249,
      "kind": "code"
     },
     {
      "path": "tools/consumer_locate.py",
-     "line": 981,
+     "line": 1063,
      "kind": "code"
     },
     {
@@ -244,6 +282,36 @@
     {
      "path": "tools/decode_dialogue_record.py",
      "line": 54,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 2183,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 2191,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 2194,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 2455,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 2458,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 2459,
      "kind": "code"
     },
     {
@@ -322,6 +390,76 @@
      "kind": "code"
     },
     {
+     "path": "tools/l2_batch2.py",
+     "line": 185,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_batch2.py",
+     "line": 245,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_batch2.py",
+     "line": 249,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_literal.py",
+     "line": 47,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_literal.py",
+     "line": 52,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_pointer_search.py",
+     "line": 24,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_runtime_capture.py",
+     "line": 529,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_runtime_capture.py",
+     "line": 1081,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_runtime_capture.py",
+     "line": 3406,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_runtime_capture.py",
+     "line": 3414,
+     "kind": "code"
+    },
+    {
+     "path": "tools/m4a_block_table.py",
+     "line": 34,
+     "kind": "code"
+    },
+    {
+     "path": "tools/m4a_block_table.py",
+     "line": 78,
+     "kind": "code"
+    },
+    {
+     "path": "tools/m4a_block_table.py",
+     "line": 234,
+     "kind": "code"
+    },
+    {
+     "path": "tools/m4a_block_table.py",
+     "line": 585,
+     "kind": "code"
+    },
+    {
      "path": "tools/mechanism_map.py",
      "line": 147,
      "kind": "code"
@@ -329,6 +467,31 @@
     {
      "path": "tools/mgba-headless-snapshot.py",
      "line": 175,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/l3_evidence_sweep.py",
+     "line": 100,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/l4_battle_matrix.py",
+     "line": 89,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/l4_battle_matrix.py",
+     "line": 115,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/l4_battle_matrix.py",
+     "line": 631,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/l4_playthrough.py",
+     "line": 24,
      "kind": "code"
     },
     {
@@ -349,6 +512,11 @@
     {
      "path": "tools/probe_external_re_claims.py",
      "line": 26,
+     "kind": "code"
+    },
+    {
+     "path": "tools/rebase_resolve.py",
+     "line": 107,
      "kind": "code"
     },
     {
@@ -403,7 +571,7 @@
     },
     {
      "path": "tools/table_registry.py",
-     "line": 178,
+     "line": 223,
      "kind": "code"
     }
    ],
@@ -411,13 +579,13 @@
    "pre_index_status": "build",
    "pre_index_references": [
     "build:sequel/content/battle-config/ninja-tool-identities.json",
+    "build:sequel/content/battle-handlers/bank.json",
+    "build:sequel/content/data-table-b/bank.json",
     "build:sequel/content/items/bank.json",
     "build:sequel/content/story-c/bank.json",
     "build:sequel/content/story-d/bank.json",
     "build:sequel/content/story-e/bank.json",
-    "build:sequel/content/text/sjis-to-tile-addr-20260703.json",
-    "build:tools/README.md",
-    "build:tools/analyze_battle_condition_interpreter.py"
+    "build:sequel/content/text/sjis-to-tile-addr-20260703.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -712,10 +880,15 @@
    "title": "Status",
    "category": "battle",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/import_battle_config.py:165、tools/import_battle_config.py:209、tools/import_battle_config.py:23）。",
-   "evidence": "tools/import_battle_config.py; tools/mgba_trace_chapter_init.lua",
+   "reason": "本树构建链引用了本条结论（tools/export_content_pack.py:1374、tools/import_battle_config.py:165、tools/import_battle_config.py:209）。",
+   "evidence": "tools/export_content_pack.py; tools/import_battle_config.py; tools/mgba_trace_chapter_init.lua",
    "missing": "",
    "consumers": [
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 1374,
+     "kind": "code"
+    },
     {
      "path": "tools/import_battle_config.py",
      "line": 23,
@@ -750,14 +923,14 @@
    "reference_strength": "code",
    "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/export_content_pack.py",
     "build:tools/import_battle_config.py",
     "build:tools/mgba_trace_chapter_init.lua",
     "doc:docs/sequel-roadmap.md",
+    "doc:notes/assets-domain-implementation-20261022.md",
     "doc:notes/battle-config-format.md",
     "doc:notes/battle-tables.md",
-    "doc:notes/chapter-entry-points.md",
-    "doc:notes/chapter-flow-format.md",
-    "doc:notes/evidence/mechanism-sprite-background-20261020.md"
+    "doc:notes/chapter-entry-points.md"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -779,13 +952,13 @@
    "title": "尝试内容",
    "category": "battle",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/completion_audit.py:716）。",
+   "reason": "本树构建链引用了本条结论（tools/completion_audit.py:1007）。",
    "evidence": "tools/completion_audit.py",
    "missing": "",
    "consumers": [
     {
      "path": "tools/completion_audit.py",
-     "line": 716,
+     "line": 1007,
      "kind": "code"
     }
    ],
@@ -3166,17 +3339,36 @@
    "path": "notes/character-stats-addresses.md",
    "title": "角色 1 数据块（首地址：`0x02022EF0`）",
    "category": "visual",
-   "bucket": "needs_guard",
-   "reason": "已给出原版行为的可核验结论（21 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。",
-   "evidence": "notes/character-stats-addresses.md",
+   "bucket": "implemented_in_code",
+   "reason": "本树构建链引用了本条结论（tools/export_content_pack.py:1025、tools/export_content_pack.py:676、tools/export_content_pack.py:992）。",
+   "evidence": "tools/export_content_pack.py",
    "missing": "",
-   "consumers": [],
-   "reference_strength": "",
-   "pre_index_status": "doc",
+   "consumers": [
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 676,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 992,
+     "kind": "code"
+    },
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 1025,
+     "kind": "code"
+    }
+   ],
+   "reference_strength": "code",
+   "pre_index_status": "build",
    "pre_index_references": [
-    "doc:notes/character-stats-addresses.md",
+    "build:tools/export_content_pack.py",
+    "doc:docs/rom-editor.md",
+    "doc:docs/sequel-roadmap.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/re-completion-audit.json",
+    "doc:notes/rom-editor-20261021.md",
     "doc:notes/s49-post-battle-exp-rule-20261020.md"
    ],
    "material_kinds": [
@@ -3499,23 +3691,15 @@
    "path": "notes/dialogue-font-table-discovery-20260703.md",
    "title": "THE KEY FINDING",
    "category": "other",
-   "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（sequel/content/fonts/bank.json:10）。",
-   "evidence": "sequel/content/fonts/bank.json",
+   "bucket": "needs_guard",
+   "reason": "已给出原版行为的可核验结论（65 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。",
+   "evidence": "notes/dialogue-font-table-discovery-20260703.md",
    "missing": "",
-   "consumers": [
-    {
-     "path": "sequel/content/fonts/bank.json",
-     "line": 10,
-     "kind": "code"
-    }
-   ],
-   "reference_strength": "code",
-   "pre_index_status": "build",
+   "consumers": [],
+   "reference_strength": "",
+   "pre_index_status": "doc",
    "pre_index_references": [
-    "build:sequel/content/fonts/bank.json",
-    "doc:notes/dialogue-font-table-discovery-20260703.md",
-    "test:tests/test_remaining_static_identity.py"
+    "doc:notes/dialogue-font-table-discovery-20260703.md"
    ],
    "material_kinds": [
     "data_contract"
@@ -3536,10 +3720,15 @@
    "title": "权威基线",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/konoha_font.py:7）。",
-   "evidence": "tools/konoha_font.py",
+   "reason": "本树构建链引用了本条结论（tools/export_content_pack.py:428、tools/konoha_font.py:7）。",
+   "evidence": "tools/export_content_pack.py; tools/konoha_font.py",
    "missing": "",
    "consumers": [
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 428,
+     "kind": "code"
+    },
     {
      "path": "tools/konoha_font.py",
      "line": 7,
@@ -3549,6 +3738,7 @@
    "reference_strength": "code",
    "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/export_content_pack.py",
     "build:tools/konoha_font.py",
     "doc:notes/dialogue-format.md",
     "doc:notes/dialogue-mapping-blocker-20260702.md",
@@ -3937,18 +4127,18 @@
    "title": "Top PCs",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/README.md:699、tools/README.md:701、tools/mgba_trace_dialogue_writes.lua:16）。",
+   "reason": "本树构建链引用了本条结论（tools/README.md:866、tools/README.md:868、tools/mgba_trace_dialogue_writes.lua:16）。",
    "evidence": "tools/README.md; tools/mgba_trace_dialogue_writes.lua",
    "missing": "",
    "consumers": [
     {
      "path": "tools/README.md",
-     "line": 699,
+     "line": 866,
      "kind": "markdown"
     },
     {
      "path": "tools/README.md",
-     "line": 701,
+     "line": 868,
      "kind": "markdown"
     },
     {
@@ -4316,9 +4506,9 @@
     "doc:docs/sequel-roadmap.md",
     "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/master-merge-20261021.md",
+    "doc:notes/master-merge-20261022.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/runtime-verification-gates-20260710.md",
-    "doc:notes/unknown-bgm-sfx.md"
+    "doc:notes/runtime-verification-gates-20260710.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -4637,13 +4827,13 @@
    "pre_index_status": "test",
    "pre_index_references": [
     "doc:docs/butano-reverse-results-guide.md",
+    "doc:docs/butano-wiring-roadmap.md",
     "doc:docs/codex-goal-comet-governance.md",
     "doc:docs/development-status.md",
     "doc:docs/final-completion-report.md",
+    "doc:docs/re-completion-criteria.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
-    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
-    "doc:docs/superpowers/plans/2026-07-14-reverse-engineering-resource-safety.md",
-    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md"
+    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -4879,13 +5069,13 @@
    "pre_index_status": "test",
    "pre_index_references": [
     "doc:docs/butano-reverse-results-guide.md",
+    "doc:docs/butano-wiring-roadmap.md",
     "doc:docs/codex-goal-comet-governance.md",
     "doc:docs/development-status.md",
     "doc:docs/final-completion-report.md",
+    "doc:docs/re-completion-criteria.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
-    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
-    "doc:docs/superpowers/plans/2026-07-14-reverse-engineering-resource-safety.md",
-    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md"
+    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -5121,13 +5311,13 @@
    "pre_index_status": "test",
    "pre_index_references": [
     "doc:docs/butano-reverse-results-guide.md",
+    "doc:docs/butano-wiring-roadmap.md",
     "doc:docs/codex-goal-comet-governance.md",
     "doc:docs/development-status.md",
     "doc:docs/final-completion-report.md",
+    "doc:docs/re-completion-criteria.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
-    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
-    "doc:docs/superpowers/plans/2026-07-14-reverse-engineering-resource-safety.md",
-    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md"
+    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -5305,13 +5495,13 @@
    "pre_index_status": "test",
    "pre_index_references": [
     "doc:docs/butano-reverse-results-guide.md",
+    "doc:docs/butano-wiring-roadmap.md",
     "doc:docs/codex-goal-comet-governance.md",
     "doc:docs/development-status.md",
     "doc:docs/final-completion-report.md",
+    "doc:docs/re-completion-criteria.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
-    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
-    "doc:docs/superpowers/plans/2026-07-14-reverse-engineering-resource-safety.md",
-    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md"
+    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -5489,13 +5679,13 @@
    "pre_index_status": "test",
    "pre_index_references": [
     "doc:docs/butano-reverse-results-guide.md",
+    "doc:docs/butano-wiring-roadmap.md",
     "doc:docs/codex-goal-comet-governance.md",
     "doc:docs/development-status.md",
     "doc:docs/final-completion-report.md",
+    "doc:docs/re-completion-criteria.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
-    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
-    "doc:docs/superpowers/plans/2026-07-14-reverse-engineering-resource-safety.md",
-    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md"
+    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -5706,13 +5896,13 @@
    "pre_index_status": "test",
    "pre_index_references": [
     "doc:docs/butano-reverse-results-guide.md",
+    "doc:docs/butano-wiring-roadmap.md",
     "doc:docs/codex-goal-comet-governance.md",
     "doc:docs/development-status.md",
     "doc:docs/final-completion-report.md",
+    "doc:docs/re-completion-criteria.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
-    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
-    "doc:docs/superpowers/plans/2026-07-14-reverse-engineering-resource-safety.md",
-    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md"
+    "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -5911,7 +6101,7 @@
    "category": "other",
    "bucket": "implemented_in_code",
    "reason": "本树构建链引用了本条结论（tools/import_chapter_scripts.py:50、tools/import_chapter_scripts.py:52、tools/import_dialogue_var.py:158）。",
-   "evidence": "tools/import_chapter_scripts.py; tools/import_dialogue_var.py",
+   "evidence": "tools/import_chapter_scripts.py; tools/import_dialogue_var.py; tools/m4a_block_table.py",
    "missing": "",
    "consumers": [
     {
@@ -5943,6 +6133,11 @@
      "path": "tools/import_dialogue_var.py",
      "line": 158,
      "kind": "code"
+    },
+    {
+     "path": "tools/m4a_block_table.py",
+     "line": 83,
+     "kind": "code"
     }
    ],
    "reference_strength": "code",
@@ -5950,12 +6145,12 @@
    "pre_index_references": [
     "build:tools/import_chapter_scripts.py",
     "build:tools/import_dialogue_var.py",
+    "build:tools/m4a_block_table.py",
     "doc:docs/development-status.md",
     "doc:docs/web-editor-spec.md",
+    "doc:notes/evidence/m4a-block-table-20261021.md",
     "doc:notes/evidence/remaining-reverse-plan-20260930-v2/source-snapshots/AGENTS.md",
-    "doc:notes/next-steps.md",
-    "doc:notes/scan-summary.md",
-    "doc:notes/variable-dialogue-relocation-20260712.md"
+    "doc:notes/next-steps.md"
    ],
    "material_kinds": [
     "data_contract"
@@ -6621,13 +6816,13 @@
    "title": "Outcome and boundary",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/README.md:811）。",
+   "reason": "本树构建链引用了本条结论（tools/README.md:978）。",
    "evidence": "tools/README.md",
    "missing": "",
    "consumers": [
     {
      "path": "tools/README.md",
-     "line": 811,
+     "line": 978,
      "kind": "markdown"
     }
    ],
@@ -7727,12 +7922,12 @@
    "pre_index_references": [
     "build:tools/audit_re_completion.py",
     "build:tools/completion_audit.py",
+    "doc:docs/re-completion-criteria.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md",
     "doc:notes/completion-audit-20261020.md",
-    "doc:notes/current-re-progress-20260711.md",
-    "doc:notes/why-external-editor-shipped-20261020.md"
+    "doc:notes/current-re-progress-20260711.md"
    ],
    "material_kinds": [
     "guard_condition",
@@ -8074,38 +8269,38 @@
    "title": "Battle Map Tilesets",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/README.md:138、tools/completion_audit.py:131、tools/completion_audit.py:132）。",
+   "reason": "本树构建链引用了本条结论（tools/README.md:305、tools/completion_audit.py:143、tools/completion_audit.py:144）。",
    "evidence": "tools/README.md; tools/completion_audit.py",
    "missing": "",
    "consumers": [
     {
      "path": "tools/README.md",
-     "line": 138,
+     "line": 305,
      "kind": "markdown"
     },
     {
      "path": "tools/completion_audit.py",
-     "line": 131,
+     "line": 143,
      "kind": "code"
     },
     {
      "path": "tools/completion_audit.py",
-     "line": 132,
+     "line": 144,
      "kind": "code"
     },
     {
      "path": "tools/completion_audit.py",
-     "line": 166,
+     "line": 192,
      "kind": "code"
     },
     {
      "path": "tools/completion_audit.py",
-     "line": 167,
+     "line": 193,
      "kind": "code"
     },
     {
      "path": "tools/completion_audit.py",
-     "line": 335,
+     "line": 475,
      "kind": "code"
     }
    ],
@@ -8117,9 +8312,9 @@
     "doc:docs/development-status.md",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/completion-audit-20261020.md",
+    "doc:notes/evidence/runtime-closures-20261021.md",
     "doc:notes/evidence/story-table-family-20261020.md",
-    "doc:notes/evidence/text-encoding-l3-20261020.md",
-    "doc:notes/external-konoha-workshop-gap-20261020.md"
+    "doc:notes/evidence/text-encoding-l3-20261020.md"
    ],
    "material_kinds": [
     "data_contract"
@@ -11581,13 +11776,33 @@
    "title": "目的与结论",
    "category": "runtime",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/completion_audit.py:16、tools/mgba_probe/navigate.py:5、tools/mgba_probe/runtime_probe.py:6）。",
-   "evidence": "tools/completion_audit.py; tools/mgba_probe/navigate.py; tools/mgba_probe/runtime_probe.py; tools/mgba_probe/sample_l2.py",
+   "reason": "本树构建链引用了本条结论（tools/completion_audit.py:16、tools/l2_runtime_capture.py:6、tools/mgba_probe/l3_evidence_sweep.py:6）。",
+   "evidence": "tools/completion_audit.py; tools/l2_runtime_capture.py; tools/mgba_probe/l3_evidence_sweep.py; tools/mgba_probe/l4_battle_matrix.py; tools/mgba_probe/l4_playthrough_flow.py; tools/mgba_probe/navigate.py",
    "missing": "",
    "consumers": [
     {
      "path": "tools/completion_audit.py",
      "line": 16,
+     "kind": "code"
+    },
+    {
+     "path": "tools/l2_runtime_capture.py",
+     "line": 6,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/l3_evidence_sweep.py",
+     "line": 6,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/l4_battle_matrix.py",
+     "line": 6,
+     "kind": "code"
+    },
+    {
+     "path": "tools/mgba_probe/l4_playthrough_flow.py",
+     "line": 6,
      "kind": "code"
     },
     {
@@ -11610,13 +11825,13 @@
    "pre_index_status": "build",
    "pre_index_references": [
     "build:tools/completion_audit.py",
+    "build:tools/l2_runtime_capture.py",
+    "build:tools/mgba_probe/l3_evidence_sweep.py",
+    "build:tools/mgba_probe/l4_battle_matrix.py",
+    "build:tools/mgba_probe/l4_playthrough_flow.py",
     "build:tools/mgba_probe/navigate.py",
     "build:tools/mgba_probe/runtime_probe.py",
-    "build:tools/mgba_probe/sample_l2.py",
-    "doc:docs/reverse-engineering-handoff-20260711.md",
-    "doc:docs/sequel-roadmap.md",
-    "doc:notes/ai-cost-of-native-port-projects-20261020.md",
-    "doc:notes/alias-conflicts-20261020.md"
+    "build:tools/mgba_probe/sample_l2.py"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12456,13 +12671,13 @@
    "title": "2026-08-09 strict-proof rescan",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/README.md:652）。",
+   "reason": "本树构建链引用了本条结论（tools/README.md:819）。",
    "evidence": "tools/README.md",
    "missing": "",
    "consumers": [
     {
      "path": "tools/README.md",
-     "line": 652,
+     "line": 819,
      "kind": "markdown"
     }
    ],
@@ -13233,14 +13448,21 @@
    "path": "notes/units-unsafe-table-fix-20260711.md",
    "title": "尝试",
    "category": "other",
-   "bucket": "needs_guard",
-   "reason": "已给出原版行为的可核验结论（23 处 ROM 地址），本树尚未把它变成门禁，是 M1/M2 的原料。",
-   "evidence": "notes/units-unsafe-table-fix-20260711.md",
+   "bucket": "implemented_in_code",
+   "reason": "本树构建链引用了本条结论（tools/export_content_pack.py:424）。",
+   "evidence": "tools/export_content_pack.py",
    "missing": "",
-   "consumers": [],
-   "reference_strength": "",
-   "pre_index_status": "doc",
+   "consumers": [
+    {
+     "path": "tools/export_content_pack.py",
+     "line": 424,
+     "kind": "code"
+    }
+   ],
+   "reference_strength": "code",
+   "pre_index_status": "build",
    "pre_index_references": [
+    "build:tools/export_content_pack.py",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/evidence/units-offset-table-20261020.md",
@@ -13500,13 +13722,13 @@
    "title": "证据修正",
    "category": "other",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（tools/completion_audit.py:517）。",
+   "reason": "本树构建链引用了本条结论（tools/completion_audit.py:729）。",
    "evidence": "tools/completion_audit.py",
    "missing": "",
    "consumers": [
     {
      "path": "tools/completion_audit.py",
-     "line": 517,
+     "line": 729,
      "kind": "code"
     }
    ],

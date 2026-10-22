@@ -664,7 +664,7 @@ P2 的原料是 333 条 `needs_guard`。这一轮没有去"批量转"，而是�
 
 ### 8.1 第 15 轮当次读数（当次收据 `artifacts/butano-reverse-gap-v1/gap.json`，两次连跑一致）
 
-索引条目 **2204**；成果族分母 **264**；成果族 `build` **93/264 = 35.2%**、
+索引条目 **2204**；成果族分母 **264**；成果族 `build` **96/264 = 36.4%**、
 `doc` 157、`test` 4、`none` 10（`none` 全部为 `precoverage` 中间产物）；
 条目口径 `build` **365**、`doc` **507**、`local_artifact` **3**、`none` **1081**、`test` **248**；
 台账 **29** 条，`ledger_problems` `[]`，`missing` **0**。
@@ -741,7 +741,7 @@ sink 侧取生成器声明的 `GENERATED_PRODUCTS` + 载体里的 `reverse-sourc
 | `not-importable` | 51 | 控制流／覆盖分母，不是素材 |
 | `no-material` | 37 | 既没接也没材料 |
 
-⇒ **声明过的接线只有 12 族**（`4.5%`），而差异清单的 `build 93/264 = 35.2%` 是**下界**。
+⇒ **声明过的接线只有 12 族**（`4.5%`），而差异清单的 `build 96/264 = 36.4%` 是**下界**。
 **两者的差 = 81 族的灰区**：族名出现在构建链里，但按 provenance 审计器自己的契约
 （「**声明才是唯一的连接**」），那**不证明任何字节的血缘**。
 
@@ -786,3 +786,71 @@ sink 侧取生成器声明的 `GENERATED_PRODUCTS` + 载体里的 `reverse-sourc
 
 **执行路线图**：见 `docs/butano-wiring-roadmap.md`（W0–W5，按成本与像素收益排序）。
 相关：`notes/butano-wiring-coverage-20261022.md`（含两处自我更正的证据）。
+
+### 8.5 第 19 轮（2026-10-22）：**W1 补回 26 族本地产物——`local-derivation-missing` 归零**
+
+§8.4 记下的第四种状态（26 族「线断在工作树里」）已由
+`docs/butano-wiring-roadmap.md` 的 **W1** 闭合。
+
+**做法**：逐族跑复刻侧 producer，产出进 staging，逐字节与逆向树比对后才落地。
+**26 族全部逐字节相同**：`local-derivation-missing` **26 → 0**，
+转为 `local-rederived-identical` 26。其中 **16 族是复刻侧自己的 producer 复现的**
+（含解码器），**9 族从逆向树导入**（抓取／verifier 证据／本地 producer 的 schema 已迭代），
+**0 分叉**。
+
+**本轮顺带收紧了两处旧判定**——它们是 W1 得以成立的前提，不是附带功能：
+
+1. **接线审计器从「只比 manifest」改成「比整棵目录树」**。
+   manifest 哈希只证明**描述**一致，不证明**载荷**一致；保持 manifest、换掉数据文件的
+   本地产物原本会被判成「一致」。另有 4 个两侧都没有 manifest 的抓取族
+   （`e2e`／`runtime-checkpoints`／`world-map-gpu-captures`／`scenario-41-audio-reference-v1`），
+   原判定永远给不出「一致」，现由树摘要裁决。
+2. **差异清单按内容排除「逆向成果的本地副本」**。
+   还原后 `artifacts/runtime-checkpoints/` 里有一份 JSON 提到 `rom-expansion-profile-v1`，
+   把它从 `doc` 抬成 `local_artifact`——**副本内部的引用不是消费**，副本本身就是逆向成果。
+   这与 `artifacts/butano-reverse-m3-import-v1/` 被排除是同一条理由。
+   规则**按内容判定**（本地树摘要 == 逆向树树摘要才排除，本轮命中 30 个目录），
+   不是手维护的名单；一旦本地副本与逆向树分叉，它立刻重新参与扫描。
+   同时把新收据 `artifacts/butano-local-derivations-v1/` 加进静态排除表
+   （它逐族点名全体，是**总体枚举**不是消费）——这是本仓库第 4 次踩自指坑。
+
+**当次读数**（收据 `artifacts/butano-reverse-gap-v1/gap.json`，本轮末尾）：
+条目口径 `build` **377**、`doc` **510**、`local_artifact` **0**、`none` **1073**、`test` **247**；
+成果族分母仍是 **264**；`build` **96/264 = 36.4%**（本轮 +3：三个 `-ab-v1` 族接进导入器载体）。
+
+> **`local_artifact` 3 → 0 不是「复刻侧变强了」**，而是**旧读数本来就不干净**：
+> 那 3 条是逆向成果的本地副本内部的自指命中。排除规则是量出来的，不是手工删的。
+
+**相关**：`notes/butano-local-derivations-20261022.md`（含「producer 不能只扫字面量」
+与「producer 之间有依赖、必须按拓扑序补齐」两条踩坑）、
+`tools/restore_butano_local_derivations.py`、`tools/verify_butano_local_derivations.py`。
+
+### 8.6 第 20 轮（2026-10-22）：**W4 第一片——三个 `-ab-v1` 族接进导入器载体；其中两个并不是像素族**
+
+W4 的 71 族「按子系统接线」里，唯一**可脚本化**的一片是像素 A/B 族：
+导入器 `tools/butano/import_rom_pixel_ab_baselines.py` 现成（族 + manifest 哈希钉死、
+运行期回查、逐文件复哈希、复制进复刻树），门禁现成。
+
+⇒ 接进 **3 族**：`cutscene-obj-id1-primary-ptr-ab-v1`（真像素族，4032 像素差）、
+`levels-status-per-level-ab-v1`、`sappy-engine-master-enable-ab-v1`。
+**带声明的接线 66 → 69，`on-shelf` 71 → 68，覆盖率断言差仍 = 0。**
+
+⚠️ **但货架笔记的「同一形态」判断只对了一族**：
+`notes/butano-usable-backlog-20261022.md` §4 把这三族连同已导入的 32 族一起写成
+「`baseline.png` + `candidate.png`，与已导入的 32 个 pixel-A/B 族同一形态」。
+**文件布局确实一样，但「编辑的是什么」不一样**：
+
+| 族 | 编辑对象 | 像素期望 | 验收方式 |
+| --- | --- | --- | --- |
+| `cutscene-obj-id1-primary-ptr-ab-v1` | 一处指针 | **4032 像素** | 像素差分（原有规则） |
+| `levels-status-per-level-ab-v1` | ROM **数据字节**（`0x545BE4` 表的第 21 条） | **无** | **内容等价**：本树 base ROM 该字节仍等于记录的基线值 |
+| `sappy-engine-master-enable-ab-v1` | ROM **代码半字**（`0x0809AE76`） | **无** | **内容等价**：本树 base ROM 该半字仍等于 `0x208F` |
+
+⇒ 导入器新增 `rom_anchor`（记录 ROM 编辑锚点）与 `check_rom_anchor()`；
+门禁对**没有像素期望**的族改用内容等价验收，并配一条**变异测试**
+（改掉锚点处的一个字节 ⇒ 必须被拒绝）。
+
+> **教训**：「文件布局一样」不等于「验收方式一样」。
+> 载体是**按验收方式**分的，不是按文件清单分的。
+> 把数据/代码字节编辑的族塞进像素载体，会让像素门禁静默失效——
+> **除非载体自己声明了它没有像素期望，并给出另一种验收。**

@@ -93,8 +93,11 @@ class OverlappingVisualTableIdentityTest(unittest.TestCase):
         schemas = (
             ("rom_palettes", "palette_ptr", 0x53F138, generate_palette_patches,
              "db_palette_unmapped"),
+            # 2026-10-22 merge: the map-sprite writer now targets the
+            # adjudicated base 0x53F140 through the shared u32 helper, so a
+            # legacy row is rejected with the uniform db_pointer_table_error.
             ("rom_map_sprites", "sprite_ptr", 0x53F1DC, generate_map_sprite_patches,
-             "db_map_sprite_unmapped"),
+             "db_pointer_table_error"),
             # 2026-10-21 merge: `sprite-animations` now writes the *proved*
             # action table 0x596CCC, and its writer expects the four
             # pointer columns (frames / animations / gfx / palette).  The

@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-10-21T20:02:52.443189+00:00",
+  "generated_at": "2026-10-22T01:51:21.789352+00:00",
   "inputs": {
     "backlog": {
       "path": "artifacts/butano-usable-backlog-v1/backlog.json",
-      "sha256": "116b5061ba5e8a462ea6f14269cf336d3ea22c82fbcc3b41eb4e1fffbad882f4"
+      "sha256": "51f977fdb571776ba07c5debf7132a70ea6da434b884c85cc076fba6755e6477"
     },
     "gap": {
       "path": "artifacts/butano-reverse-gap-v1/gap.json",
-      "sha256": "72a52f658b150f02a7dd046450d86a78f1f67bd9ec531b4ac9ed9170e3c22dc2"
+      "sha256": "7bc86fbada4146c9e06ba697a2f26469941e1244780c17503b23a548e729e5f7"
     },
     "index": {
       "path": "artifacts/reverse-results-index-v1/index.json",
@@ -694,7 +694,7 @@
     "generated_headers": 27,
     "graphic_assets": 1819,
     "handwritten_headers": 110,
-    "test_modules": 373
+    "test_modules": 374
   },
   "source_rows": [
     {
@@ -920,6 +920,26 @@
     {
       "category": "other",
       "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/levels-status-per-level-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "levels-status-per-level-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "717a9910e783e6a596b0aa2b7be7912aaf411fcdbf9f2e2bd41918cd3e6763f0",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "other",
+      "consumers": [
         "artifacts/butano-reverse-m3-import-v1/pixel-ab/motion-effect-parameter-pixel-ab-v1"
       ],
       "consumption_status": "build",
@@ -932,6 +952,26 @@
         "tools/butano/import_rom_pixel_ab_baselines.py"
       ],
       "manifest_sha256": "3741e9465acc813e881493c3c91bef2101e879d6b565ecbc8e01e98b902b9abd",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "other",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/sappy-engine-master-enable-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "sappy-engine-master-enable-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "62b97082417cc7d049b62bbb0bacfc92271e9924f674b13d6d5ee0fd8864fde8",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -972,6 +1012,26 @@
         "tools/butano/import_rom_pixel_ab_baselines.py"
       ],
       "manifest_sha256": "c31638348f1f72a9a96e5fa13865974c83420e9afd55d096d1ff7455ee51052c",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/pixel-ab/cutscene-obj-id1-primary-ptr-ab-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_pixel_ab_baseline_import.py"
+      ],
+      "id": "cutscene-obj-id1-primary-ptr-ab-v1",
+      "importers": [
+        "tools/butano/import_rom_pixel_ab_baselines.py"
+      ],
+      "manifest_sha256": "a7b998184a757f3f8bebdb57a6bc9965ade0e7775a29c5e074905072a208fdb9",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -1784,6 +1844,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-presentation-glyphs-v1",
+      "local_copy": {
+        "local_manifest_sha256": "ecc44fde0d886b75397d34181112f5b86dbb791b09e3b85797e9b4013f4e74a7",
+        "local_tree_sha256": "6e2ca88c69530672b1485e1fdb13ed8c57905cbbc80b01a6b676f48d72db753f",
+        "reverse_manifest_sha256": "ecc44fde0d886b75397d34181112f5b86dbb791b09e3b85797e9b4013f4e74a7",
+        "reverse_tree_sha256": "6e2ca88c69530672b1485e1fdb13ed8c57905cbbc80b01a6b676f48d72db753f"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_battle_presentation_glyphs.py",
@@ -1792,8 +1858,8 @@
         "tools/verify_battle_visual_catalog.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "map",
@@ -1802,14 +1868,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "scene-visual-packs-v1",
+      "local_copy": {
+        "local_manifest_sha256": "4bb40dff9ac2e5641b5e13f46b1dc90bdaa28b9b5615deab7e2a914ae002d5f4",
+        "local_tree_sha256": "a585e4142779b84ec2506fa060b0f81590750d4f156ce2ce62dcdd30a3f48cee",
+        "reverse_manifest_sha256": "4bb40dff9ac2e5641b5e13f46b1dc90bdaa28b9b5615deab7e2a914ae002d5f4",
+        "reverse_tree_sha256": "a585e4142779b84ec2506fa060b0f81590750d4f156ce2ce62dcdd30a3f48cee"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_scene_visual_packs.py",
         "tools/verify_scene_visual_packs.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "map",
@@ -1818,6 +1890,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "world-map-backgrounds-v1",
+      "local_copy": {
+        "local_manifest_sha256": "b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3",
+        "local_tree_sha256": "4cc0453a7062aa3ff5b92be5dc2712e24e9b11388ebe5e5a708accf20836a232",
+        "reverse_manifest_sha256": "b9b879841b7605af80e143a9f2f9bbe2e64754d6390b708033f92cc831bd4dd3",
+        "reverse_tree_sha256": "4cc0453a7062aa3ff5b92be5dc2712e24e9b11388ebe5e5a708accf20836a232"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_world_map_backgrounds.py",
@@ -1826,8 +1904,8 @@
         "tools/verify_world_map_runtime.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "map",
@@ -1836,14 +1914,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "world-map-gpu-captures",
+      "local_copy": {
+        "local_manifest_sha256": null,
+        "local_tree_sha256": "5af8a707e7273960fc830013bdf6edd2a633e9a672634dac99da7d4f15de96e2",
+        "reverse_manifest_sha256": null,
+        "reverse_tree_sha256": "5af8a707e7273960fc830013bdf6edd2a633e9a672634dac99da7d4f15de96e2"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_world_map_runtime.py",
         "tools/verify_world_map_runtime.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "map",
@@ -1852,14 +1936,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "world-map-runtime-v1",
+      "local_copy": {
+        "local_manifest_sha256": "83a49eb6b8c65e0c29c3b47edf7217313ce34e96fbe40a10efed612b9643cda7",
+        "local_tree_sha256": "d3e89cd00e89b5b5fbb4cc6bdad947224bd0ed70fc6a7782a5eea4d7fdfe4a2d",
+        "reverse_manifest_sha256": "83a49eb6b8c65e0c29c3b47edf7217313ce34e96fbe40a10efed612b9643cda7",
+        "reverse_tree_sha256": "d3e89cd00e89b5b5fbb4cc6bdad947224bd0ed70fc6a7782a5eea4d7fdfe4a2d"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_world_map_runtime.py",
         "tools/verify_world_map_runtime.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "overview",
@@ -1868,6 +1958,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "e2e",
+      "local_copy": {
+        "local_manifest_sha256": null,
+        "local_tree_sha256": "dcdb86bef6e560415de778a807c54db28b5c734362d7ec528d392e5587741cf2",
+        "reverse_manifest_sha256": null,
+        "reverse_tree_sha256": "dcdb86bef6e560415de778a807c54db28b5c734362d7ec528d392e5587741cf2"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/analyze_battle_command_blockers.py",
@@ -1880,8 +1976,8 @@
         "tools/run_offline_e2e.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "presentation",
@@ -1890,14 +1986,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "cutscene-obj-v1",
+      "local_copy": {
+        "local_manifest_sha256": "b8e1341172decef9f07080879cd8369bc5308274d84383d5c706de72a0b781e7",
+        "local_tree_sha256": "4fc3b0d751975d0559d61e6885c45913ad0398d945c72fccad7bd4c628af3fe5",
+        "reverse_manifest_sha256": "b8e1341172decef9f07080879cd8369bc5308274d84383d5c706de72a0b781e7",
+        "reverse_tree_sha256": "4fc3b0d751975d0559d61e6885c45913ad0398d945c72fccad7bd4c628af3fe5"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_cutscene_obj_assets.py",
         "tools/verify_cutscene_obj_export.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "presentation",
@@ -1906,6 +2008,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "story-scene-layer-bindings-v1",
+      "local_copy": {
+        "local_manifest_sha256": "36d8803e6a7c0380ccfdc253f7d2d37220fb7da7e9c6973ff01aecc4fdb2fc2e",
+        "local_tree_sha256": "bc52865cc3cdfc7c0de12a4378dd3350222ca750c91f0eb5e4245803523f8fff",
+        "reverse_manifest_sha256": "36d8803e6a7c0380ccfdc253f7d2d37220fb7da7e9c6973ff01aecc4fdb2fc2e",
+        "reverse_tree_sha256": "bc52865cc3cdfc7c0de12a4378dd3350222ca750c91f0eb5e4245803523f8fff"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_story_scene_layer_bindings.py",
@@ -1913,8 +2021,8 @@
         "tools/verify_story_scene_layer_bindings.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "presentation",
@@ -1923,14 +2031,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "story-scene-timelines-v1",
+      "local_copy": {
+        "local_manifest_sha256": "e847b88035dc73423f32c7fe5227a9565e0b71d843f8b3908a9b84428448adaa",
+        "local_tree_sha256": "6cbfda207d6f628d88b39ff3dafd349dd9b531d13301a503a67c6fc4fdce6ccd",
+        "reverse_manifest_sha256": "e847b88035dc73423f32c7fe5227a9565e0b71d843f8b3908a9b84428448adaa",
+        "reverse_tree_sha256": "6cbfda207d6f628d88b39ff3dafd349dd9b531d13301a503a67c6fc4fdce6ccd"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_story_scene_timelines.py",
         "tools/verify_story_scene_timelines.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "presentation",
@@ -1939,6 +2053,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "story-visual-layers-v1",
+      "local_copy": {
+        "local_manifest_sha256": "556a7319ce57699e2542c578ce0bd1331b93efda58fde1f364271f12f5052fd8",
+        "local_tree_sha256": "78fed826904d53688d0f89db1baeeb93495703f17e4fd02b36098669e8710622",
+        "reverse_manifest_sha256": "556a7319ce57699e2542c578ce0bd1331b93efda58fde1f364271f12f5052fd8",
+        "reverse_tree_sha256": "78fed826904d53688d0f89db1baeeb93495703f17e4fd02b36098669e8710622"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_story_scene_layer_bindings.py",
@@ -1948,8 +2068,8 @@
         "tools/verify_story_visual_layer_export.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "runtime",
@@ -1958,6 +2078,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "runtime-checkpoints",
+      "local_copy": {
+        "local_manifest_sha256": null,
+        "local_tree_sha256": "c2e1ef0e0a3394419d47bf4c130cb14227087a872cb8ee3881fd3051e9db77fe",
+        "reverse_manifest_sha256": null,
+        "reverse_tree_sha256": "c2e1ef0e0a3394419d47bf4c130cb14227087a872cb8ee3881fd3051e9db77fe"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/README.md",
@@ -1970,8 +2096,8 @@
         "tools/butano/generate_battle_ui_assets.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "scenario",
@@ -1980,14 +2106,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "scenario-41-audio-reference-v1",
+      "local_copy": {
+        "local_manifest_sha256": null,
+        "local_tree_sha256": "b123e447ea2254ff8efa77b425e601dc4a3ffb7ec9020a3d807da0a85d47d370",
+        "reverse_manifest_sha256": null,
+        "reverse_tree_sha256": "b123e447ea2254ff8efa77b425e601dc4a3ffb7ec9020a3d807da0a85d47d370"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/butano/generate_scenario_41_audio_assets.py",
         "tools/butano/generate_scenario_41_sfx_assets.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "scenario",
@@ -1996,14 +2128,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "scenario-41-combat-reference-v1",
+      "local_copy": {
+        "local_manifest_sha256": "8d4b6571bda88780be55b4d2603c93ba215de4d5cca53932e23ca0134ce30380",
+        "local_tree_sha256": "62ec995c546d5c9b8644000d01f895032df4c759490cbe4c8b79e8e8bf3b26b2",
+        "reverse_manifest_sha256": "8d4b6571bda88780be55b4d2603c93ba215de4d5cca53932e23ca0134ce30380",
+        "reverse_tree_sha256": "62ec995c546d5c9b8644000d01f895032df4c759490cbe4c8b79e8e8bf3b26b2"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/butano/generate_scenario_41_assets.py",
         "tools/generate_butano_battle_identity_content.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "scenario",
@@ -2012,14 +2150,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "scenario-41-extended-reference-v1",
+      "local_copy": {
+        "local_manifest_sha256": "68aa17ba7fff7dca0501153bae97fa75357c4f91408a729628984cc21fc2f8d8",
+        "local_tree_sha256": "d7cc6166c4fd739b80fd4f4ab605b9c1a16d92b89b1d44eab43999d52ba39904",
+        "reverse_manifest_sha256": "68aa17ba7fff7dca0501153bae97fa75357c4f91408a729628984cc21fc2f8d8",
+        "reverse_tree_sha256": "d7cc6166c4fd739b80fd4f4ab605b9c1a16d92b89b1d44eab43999d52ba39904"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/butano/generate_scenario_41_assets.py",
         "tools/generate_butano_battle_identity_content.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "scenario",
@@ -2028,13 +2172,19 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "scenario-41-prebattle-reference-v1",
+      "local_copy": {
+        "local_manifest_sha256": "10dab63d827bf5dacd4c94b276b8459b5ceb7772625e1143a896f82936247a86",
+        "local_tree_sha256": "445f4b4eaad7e00d7c1e1e1f4dc5d55bcc54ef3c6425db6f8465515f02ae8eeb",
+        "reverse_manifest_sha256": "10dab63d827bf5dacd4c94b276b8459b5ceb7772625e1143a896f82936247a86",
+        "reverse_tree_sha256": "445f4b4eaad7e00d7c1e1e1f4dc5d55bcc54ef3c6425db6f8465515f02ae8eeb"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/generate_butano_battle_identity_content.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "scenario",
@@ -2043,14 +2193,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "scenario-41-reference-v1",
+      "local_copy": {
+        "local_manifest_sha256": "acde9319697c246cc5ab7f1a0ec248fcf42e9b6cbd57f109f0b1979794fda9e8",
+        "local_tree_sha256": "bf7d83b8f9694f2db771d55ca51c51aab88f576487faa25b7adad0c2c5605a96",
+        "reverse_manifest_sha256": "acde9319697c246cc5ab7f1a0ec248fcf42e9b6cbd57f109f0b1979794fda9e8",
+        "reverse_tree_sha256": "bf7d83b8f9694f2db771d55ca51c51aab88f576487faa25b7adad0c2c5605a96"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/butano/generate_scenario_41_assets.py",
         "tools/generate_butano_battle_identity_content.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2059,15 +2215,22 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-affine-runtime-v1",
+      "local_copy": {
+        "local_manifest_sha256": "73635d4a42be064888819f7cec75aca2a295ddd7df590941b26655381ee7dd7c",
+        "local_tree_sha256": "75b6b4e66393bc6129f8f78a35aaa813a9b2f39c899a67fb281d984d21f4e4bc",
+        "reverse_manifest_sha256": "73635d4a42be064888819f7cec75aca2a295ddd7df590941b26655381ee7dd7c",
+        "reverse_tree_sha256": "75b6b4e66393bc6129f8f78a35aaa813a9b2f39c899a67fb281d984d21f4e4bc"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_battle_effect_affine_runtime.py",
+        "tools/restore_butano_local_derivations.py",
         "tools/verify_battle_effect_affine_runtime.py",
         "tools/verify_character_fbff_runtime.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2076,6 +2239,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-sprite-animations-v1",
+      "local_copy": {
+        "local_manifest_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+        "local_tree_sha256": "73c958bf05eea27a539ab10735a0d89dee4c83c2420fae091483c02edfeaaeea",
+        "reverse_manifest_sha256": "46403c9f070c20561862b5f4ec572a7c511aa199eb3b7b7edae37e97f4877848",
+        "reverse_tree_sha256": "73c958bf05eea27a539ab10735a0d89dee4c83c2420fae091483c02edfeaaeea"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_battle_effect_affine_runtime.py",
@@ -2083,8 +2252,8 @@
         "tools/verify_battle_effect_sprite_animations.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2093,14 +2262,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-visual-runtime-timelines-v1",
+      "local_copy": {
+        "local_manifest_sha256": "7a3fd143f76a72f9f996029cef6aca218aa4bed5e2f2f16e63a6b7a76c55250b",
+        "local_tree_sha256": "f5bf0812b746ed7c8c477c45ddc18109554968ca19d0fec8ef1705482e857939",
+        "reverse_manifest_sha256": "7a3fd143f76a72f9f996029cef6aca218aa4bed5e2f2f16e63a6b7a76c55250b",
+        "reverse_tree_sha256": "f5bf0812b746ed7c8c477c45ddc18109554968ca19d0fec8ef1705482e857939"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_battle_visual_runtime_timelines.py",
         "tools/verify_battle_visual_runtime_timelines.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2109,6 +2284,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "bg-resource-canvases-v1",
+      "local_copy": {
+        "local_manifest_sha256": "27096c9129823cc7d4f98aeb1fde304419a1c6abfadaf1cff6e13b80bf2fa99e",
+        "local_tree_sha256": "923af55bb8aac1402d5aafa13ee761d274eb13c1dec854a5a960ae2437000029",
+        "reverse_manifest_sha256": "27096c9129823cc7d4f98aeb1fde304419a1c6abfadaf1cff6e13b80bf2fa99e",
+        "reverse_tree_sha256": "923af55bb8aac1402d5aafa13ee761d274eb13c1dec854a5a960ae2437000029"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_bg_resource_canvases.py",
@@ -2117,8 +2298,8 @@
         "tools/verify_bg_scene_selection.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2127,14 +2308,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "bg-scene-selection-v1",
+      "local_copy": {
+        "local_manifest_sha256": "907e5bdd540b0a0a99fc5843274bd641355b827fcc3876665e55359f18a9812d",
+        "local_tree_sha256": "de25760189ded9b9fadc4a71708f4cad2e39793477411cb3ce36d96020bb4404",
+        "reverse_manifest_sha256": "907e5bdd540b0a0a99fc5843274bd641355b827fcc3876665e55359f18a9812d",
+        "reverse_tree_sha256": "de25760189ded9b9fadc4a71708f4cad2e39793477411cb3ce36d96020bb4404"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_bg_scene_selection.py",
         "tools/verify_bg_scene_selection.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2143,6 +2330,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "character-fbff-runtime-v1",
+      "local_copy": {
+        "local_manifest_sha256": "280b1333b6a2fdf73463b9aabd2762eb16ce2fb211608a99aeff042e6e8ee20c",
+        "local_tree_sha256": "753b8b1fa0afb75cc8ecc1e67add72c205b293d24df22891e37254129060d055",
+        "reverse_manifest_sha256": "280b1333b6a2fdf73463b9aabd2762eb16ce2fb211608a99aeff042e6e8ee20c",
+        "reverse_tree_sha256": "753b8b1fa0afb75cc8ecc1e67add72c205b293d24df22891e37254129060d055"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/butano/measure_s49_rule_fbff.py",
@@ -2151,8 +2344,8 @@
         "tools/verify_character_fbff_runtime.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2161,14 +2354,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "sprite-definition-animations-v1",
+      "local_copy": {
+        "local_manifest_sha256": "e432003728c8ea28b95723eeb4f68f9a8cf95b74185eb39fdd6075c71c16b583",
+        "local_tree_sha256": "3dc51cb5022bad7f9468fa77b58f1c480432f335aae212aba00d8fa5d1f78d1f",
+        "reverse_manifest_sha256": "e432003728c8ea28b95723eeb4f68f9a8cf95b74185eb39fdd6075c71c16b583",
+        "reverse_tree_sha256": "3dc51cb5022bad7f9468fa77b58f1c480432f335aae212aba00d8fa5d1f78d1f"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_sprite_definition_animations.py",
         "tools/verify_sprite_definition_animations.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2177,6 +2376,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "sprite-definition-assets-v2",
+      "local_copy": {
+        "local_manifest_sha256": "ee36523b6a02edb4b803f1835da3dd0d5e460102fc18507b121854d43b882e68",
+        "local_tree_sha256": "cbf18f0c06c1ba1372d2e4c84ea6211327e5ff7fe37a317f51de061848bce672",
+        "reverse_manifest_sha256": "ee36523b6a02edb4b803f1835da3dd0d5e460102fc18507b121854d43b882e68",
+        "reverse_tree_sha256": "cbf18f0c06c1ba1372d2e4c84ea6211327e5ff7fe37a317f51de061848bce672"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_sprite_definition_animations.py",
@@ -2185,8 +2390,8 @@
         "tools/verify_sprite_definition_runtime_chain.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2195,14 +2400,20 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "tile-assets-bg-v1",
+      "local_copy": {
+        "local_manifest_sha256": "ac72a25f412fbcc72d3f29c438a2b13070425cf39cd28ae6cf9e2a66e47e0063",
+        "local_tree_sha256": "8569a043ca09710ab1803295ecef8c65b653d930f58a62466d1092f63255305f",
+        "reverse_manifest_sha256": "ac72a25f412fbcc72d3f29c438a2b13070425cf39cd28ae6cf9e2a66e47e0063",
+        "reverse_tree_sha256": "8569a043ca09710ab1803295ecef8c65b653d930f58a62466d1092f63255305f"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_tile_asset_bg_layers.py",
         "tools/verify_tile_asset_bg_export.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "visual",
@@ -2211,6 +2422,12 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "tile-assets-bg-v2",
+      "local_copy": {
+        "local_manifest_sha256": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749",
+        "local_tree_sha256": "3c874121d71f5912c80d310f6a0b1f1e399fb4af3a4ff15402cab98f2374e469",
+        "reverse_manifest_sha256": "1df63cf6cf49079115e997c6f0f33c57578e517dbe22dc16c15f64c4d218a749",
+        "reverse_tree_sha256": "3c874121d71f5912c80d310f6a0b1f1e399fb4af3a4ff15402cab98f2374e469"
+      },
       "payload_bytes": 0,
       "references": [
         "tools/export_battle_visual_catalog.py",
@@ -2221,8 +2438,8 @@
         "tools/verify_tile_asset_bg_export.py"
       ],
       "scope_closed": null,
-      "state": "local-derivation-missing",
-      "tier": "local-output-absent"
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
     },
     {
       "category": "audio",
@@ -2231,16 +2448,17 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "audio",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [
         "tools/README.md",
+        "tools/audio_song_export.py",
         "tools/audio_song_headers.py",
         "tools/audit_re_completion.py",
         "tools/build_audio_runtime_probe.py",
         "tools/build_controlled_audio_runtime_probe.py",
         "tools/build_cross_player_cgb_probe.py",
-        "tools/build_db_patches.py",
-        "tools/build_delayed_audio_retrigger_probe.py"
+        "tools/build_db_patches.py"
       ],
       "scope_closed": null,
       "state": "no-material",
@@ -2253,6 +2471,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-battle-condition-result-text-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2266,6 +2485,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-battle-message-text-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2279,6 +2499,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-boot-framebuffers-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2292,6 +2513,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-boot-interwork-continuation-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2305,6 +2527,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-boot-interwork-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2318,6 +2541,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-inventory-v2",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2331,6 +2555,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-inventory-v3",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2344,6 +2569,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2357,6 +2583,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v17-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2370,6 +2597,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v18-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2383,6 +2611,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v2",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2396,6 +2625,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v3",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2409,6 +2639,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v4",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2422,6 +2653,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v5",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2435,6 +2667,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v6",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2448,6 +2681,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v7",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2461,6 +2695,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v8",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2474,6 +2709,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-seeds-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2487,6 +2723,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cgb-audio-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2500,6 +2737,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-chapter-script-consumer-roots-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2513,6 +2751,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-chapter-script-unbound-tail-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2526,6 +2765,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-fast-audit-four-packet-baseline-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2539,6 +2779,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-m4a-byte-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2552,6 +2793,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-m4a-initializer-chain-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2565,6 +2807,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-mp2k-dispatcher-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2578,6 +2821,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-mp2k-note-allocator-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2591,6 +2835,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-positions-aux-dispatch-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2604,6 +2849,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-post-story-dependency-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2617,6 +2863,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-profile-text-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2630,6 +2877,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-scene-source-four-packet-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2643,6 +2891,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-selector-text-bindings-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2656,6 +2905,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-story-callback-dependency-closures-precoverage-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2669,6 +2919,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-training-text-script-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2682,6 +2933,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-value-range-text-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2695,6 +2947,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "scenario-41-attack-animation-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2708,6 +2961,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "sprite-definition-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -2721,6 +2975,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-battle-controller-consumed-literals-v1",
+      "local_copy": {},
       "payload_bytes": 56966,
       "references": [],
       "scope_closed": false,
@@ -2734,6 +2989,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-battle-distance-dispatcher-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 10498,
       "references": [],
       "scope_closed": null,
@@ -2747,6 +3003,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-battle-status-bar-caller-slice-v1",
+      "local_copy": {},
       "payload_bytes": 14507,
       "references": [],
       "scope_closed": null,
@@ -2760,6 +3017,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-boot-interwork-continuation-v1",
+      "local_copy": {},
       "payload_bytes": 105718,
       "references": [],
       "scope_closed": false,
@@ -2773,6 +3031,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-boot-register-init-dependency-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 31413,
       "references": [],
       "scope_closed": false,
@@ -2786,6 +3045,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-boot-state-dispatcher-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 21757,
       "references": [],
       "scope_closed": null,
@@ -2799,6 +3059,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-boot-thumb-handoff-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 748503,
       "references": [],
       "scope_closed": false,
@@ -2812,6 +3073,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-batch-consumed-literals-v1",
+      "local_copy": {},
       "payload_bytes": 172757,
       "references": [],
       "scope_closed": false,
@@ -2825,6 +3087,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v10",
+      "local_copy": {},
       "payload_bytes": 220851,
       "references": [],
       "scope_closed": false,
@@ -2838,6 +3101,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v11",
+      "local_copy": {},
       "payload_bytes": 456466,
       "references": [],
       "scope_closed": false,
@@ -2851,6 +3115,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v12",
+      "local_copy": {},
       "payload_bytes": 327605,
       "references": [],
       "scope_closed": false,
@@ -2864,6 +3129,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v13",
+      "local_copy": {},
       "payload_bytes": 312804,
       "references": [],
       "scope_closed": false,
@@ -2877,6 +3143,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v16",
+      "local_copy": {},
       "payload_bytes": 19750,
       "references": [],
       "scope_closed": true,
@@ -2890,6 +3157,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v17",
+      "local_copy": {},
       "payload_bytes": 13478,
       "references": [],
       "scope_closed": false,
@@ -2903,6 +3171,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v18",
+      "local_copy": {},
       "payload_bytes": 10940,
       "references": [],
       "scope_closed": false,
@@ -2916,6 +3185,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v19",
+      "local_copy": {},
       "payload_bytes": 9633,
       "references": [],
       "scope_closed": false,
@@ -2929,6 +3199,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v20",
+      "local_copy": {},
       "payload_bytes": 20820,
       "references": [],
       "scope_closed": false,
@@ -2942,6 +3213,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v21",
+      "local_copy": {},
       "payload_bytes": 12782,
       "references": [],
       "scope_closed": null,
@@ -2955,6 +3227,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v9",
+      "local_copy": {},
       "payload_bytes": 99730,
       "references": [],
       "scope_closed": false,
@@ -2968,6 +3241,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-v1-consumed-literals-v1",
+      "local_copy": {},
       "payload_bytes": 137316,
       "references": [],
       "scope_closed": false,
@@ -2981,6 +3255,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-v2-consumed-literals-v1",
+      "local_copy": {},
       "payload_bytes": 666483,
       "references": [],
       "scope_closed": false,
@@ -2994,6 +3269,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-v2-shadowed-consumed-literals-v1",
+      "local_copy": {},
       "payload_bytes": 35476,
       "references": [],
       "scope_closed": false,
@@ -3007,6 +3283,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-v3-consumed-literals-v1",
+      "local_copy": {},
       "payload_bytes": 116592,
       "references": [],
       "scope_closed": false,
@@ -3020,6 +3297,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-v6-consumed-literals-v1",
+      "local_copy": {},
       "payload_bytes": 270829,
       "references": [],
       "scope_closed": false,
@@ -3033,6 +3311,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-chapter-selector-code-slice-v1",
+      "local_copy": {},
       "payload_bytes": 5785,
       "references": [],
       "scope_closed": null,
@@ -3046,6 +3325,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-event-handler-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 34133,
       "references": [],
       "scope_closed": false,
@@ -3059,6 +3339,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-legacy-acceptance-20260905-v1",
+      "local_copy": {},
       "payload_bytes": 434402,
       "references": [],
       "scope_closed": false,
@@ -3072,6 +3353,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-m4a-initializer-chain-v1",
+      "local_copy": {},
       "payload_bytes": 429116,
       "references": [],
       "scope_closed": false,
@@ -3085,6 +3367,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-mp2k-note-allocator-v1",
+      "local_copy": {},
       "payload_bytes": 763478,
       "references": [],
       "scope_closed": false,
@@ -3098,6 +3381,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-mplaymain-scheduler-v1",
+      "local_copy": {},
       "payload_bytes": 336741,
       "references": [],
       "scope_closed": false,
@@ -3111,6 +3395,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-parser-bound-zero-padding-v1",
+      "local_copy": {},
       "payload_bytes": 236847,
       "references": [],
       "scope_closed": false,
@@ -3124,6 +3409,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-prebattle-menu-controller-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 18044,
       "references": [],
       "scope_closed": null,
@@ -3137,6 +3423,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-profile-selector-code-slices-v1",
+      "local_copy": {},
       "payload_bytes": 7706,
       "references": [],
       "scope_closed": null,
@@ -3150,6 +3437,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-referenced-text-slot-padding-v1",
+      "local_copy": {},
       "payload_bytes": 98185,
       "references": [],
       "scope_closed": false,
@@ -3163,6 +3451,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-scene-source-closures-v1",
+      "local_copy": {},
       "payload_bytes": 104695,
       "references": [],
       "scope_closed": null,
@@ -3176,6 +3465,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-scene-visual-source-ranges-v1",
+      "local_copy": {},
       "payload_bytes": 69328,
       "references": [],
       "scope_closed": false,
@@ -3189,6 +3479,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-selector-code-windows-v1",
+      "local_copy": {},
       "payload_bytes": 49653,
       "references": [],
       "scope_closed": false,
@@ -3202,6 +3493,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-soundmain-relocated-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 353858,
       "references": [],
       "scope_closed": false,
@@ -3215,6 +3507,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-sprite-loader-tail-v1",
+      "local_copy": {},
       "payload_bytes": 5675,
       "references": [],
       "scope_closed": null,
@@ -3228,6 +3521,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-story-callback-dependency-closures-v1",
+      "local_copy": {},
       "payload_bytes": 31998,
       "references": [],
       "scope_closed": null,
@@ -3241,6 +3535,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-story-next-dependency-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 32054,
       "references": [],
       "scope_closed": false,
@@ -3254,6 +3549,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-story-selector-dependency-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 10027,
       "references": [],
       "scope_closed": false,
@@ -3267,6 +3563,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-story-state-callback-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 16837,
       "references": [],
       "scope_closed": null,
@@ -3280,6 +3577,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-story-state-entry-c4cc-v1",
+      "local_copy": {},
       "payload_bytes": 5351,
       "references": [],
       "scope_closed": null,
@@ -3293,6 +3591,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-task-callback-078e38-closure-v1",
+      "local_copy": {},
       "payload_bytes": 19489,
       "references": [],
       "scope_closed": null,
@@ -3306,6 +3605,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-task-scheduler-core-v1",
+      "local_copy": {},
       "payload_bytes": 226748,
       "references": [],
       "scope_closed": false,
@@ -3319,6 +3619,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-text-bg-loop-continuation-v1",
+      "local_copy": {},
       "payload_bytes": 6593,
       "references": [],
       "scope_closed": null,
@@ -3332,6 +3633,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-v17-v18-helper-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 31523,
       "references": [],
       "scope_closed": null,
@@ -3345,6 +3647,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-controlled-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 13451375,
       "references": [],
       "scope_closed": null,
@@ -3358,6 +3661,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-direct-spawn-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 1363015,
       "references": [],
       "scope_closed": null,
@@ -3371,6 +3675,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-group15-allocator-side-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 2069377,
       "references": [],
       "scope_closed": null,
@@ -3384,6 +3689,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-status-bars-v1",
+      "local_copy": {},
       "payload_bytes": 159706,
       "references": [],
       "scope_closed": null,
@@ -3397,6 +3703,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "map41-visual-resource-matrix-v1",
+      "local_copy": {},
       "payload_bytes": 687545,
       "references": [],
       "scope_closed": false,
@@ -3410,6 +3717,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "scene-visual-composites-v1",
+      "local_copy": {},
       "payload_bytes": 166835,
       "references": [],
       "scope_closed": false,
@@ -3423,6 +3731,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "scene-visual-transition-timelines-v1",
+      "local_copy": {},
       "payload_bytes": 11812893,
       "references": [],
       "scope_closed": false,
@@ -3436,6 +3745,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "initializer-resource-pack-v1",
+      "local_copy": {},
       "payload_bytes": 1157583,
       "references": [],
       "scope_closed": null,
@@ -3448,36 +3758,11 @@
       "consumption_status": "doc",
       "gate_upper_bound": false,
       "gated_by": [],
-      "id": "levels-status-per-level-ab-v1",
-      "payload_bytes": 389319,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "other",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
       "id": "lz77-palette-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 673139,
       "references": [],
       "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "other",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "sappy-engine-master-enable-ab-v1",
-      "payload_bytes": 45015,
-      "references": [],
-      "scope_closed": null,
       "state": "on-shelf",
       "tier": "asset-direct"
     },
@@ -3488,6 +3773,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "overview-gradient-overlay-v1",
+      "local_copy": {},
       "payload_bytes": 26201,
       "references": [],
       "scope_closed": null,
@@ -3500,20 +3786,8 @@
       "consumption_status": "doc",
       "gate_upper_bound": false,
       "gated_by": [],
-      "id": "cutscene-obj-id1-primary-ptr-ab-v1",
-      "payload_bytes": 311095,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "presentation",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
       "id": "portrait-palette-producers-v1",
+      "local_copy": {},
       "payload_bytes": 324088,
       "references": [],
       "scope_closed": false,
@@ -3527,6 +3801,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "story-visual-resource-sources-v1",
+      "local_copy": {},
       "payload_bytes": 138833,
       "references": [],
       "scope_closed": true,
@@ -3540,6 +3815,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "residual-text-bg-tilemap-resource-ownership-v1",
+      "local_copy": {},
       "payload_bytes": 5365,
       "references": [],
       "scope_closed": false,
@@ -3553,6 +3829,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "residual-wram-crop-tilemap-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 274856,
       "references": [],
       "scope_closed": false,
@@ -3566,6 +3843,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "residual-wram-tilemap-abi-v1",
+      "local_copy": {},
       "payload_bytes": 7018,
       "references": [],
       "scope_closed": false,
@@ -3579,6 +3857,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "residual-wram-tilemap-resource-ownership-v1",
+      "local_copy": {},
       "payload_bytes": 20525,
       "references": [],
       "scope_closed": false,
@@ -3592,6 +3871,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "residual-wram-tilemap-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 253008,
       "references": [],
       "scope_closed": false,
@@ -3605,6 +3885,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "residual-wram-tilemap-runtime-v2",
+      "local_copy": {},
       "payload_bytes": 268562,
       "references": [],
       "scope_closed": false,
@@ -3618,6 +3899,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "residual-wram-transformed-tilemap-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 1802294,
       "references": [],
       "scope_closed": false,
@@ -3631,6 +3913,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "residual-wram-visual-metadata-abi-v2",
+      "local_copy": {},
       "payload_bytes": 18240,
       "references": [],
       "scope_closed": false,
@@ -3644,6 +3927,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-alternate-dialogue-table-v1",
+      "local_copy": {},
       "payload_bytes": 99750,
       "references": [],
       "scope_closed": null,
@@ -3657,6 +3941,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-animation-descriptor-pool-v2",
+      "local_copy": {},
       "payload_bytes": 35254,
       "references": [],
       "scope_closed": null,
@@ -3670,6 +3955,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-battle-sound-selector-v1",
+      "local_copy": {},
       "payload_bytes": 38941,
       "references": [],
       "scope_closed": false,
@@ -3683,6 +3969,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-boot-copy-sources-v1",
+      "local_copy": {},
       "payload_bytes": 5587,
       "references": [],
       "scope_closed": null,
@@ -3696,6 +3983,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-bounded-index-u16-pair-table-v1",
+      "local_copy": {},
       "payload_bytes": 4762,
       "references": [],
       "scope_closed": null,
@@ -3709,6 +3997,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v14",
+      "local_copy": {},
       "payload_bytes": 73816,
       "references": [],
       "scope_closed": false,
@@ -3722,6 +4011,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cutscene-obj-source-ranges-v1",
+      "local_copy": {},
       "payload_bytes": 41363,
       "references": [],
       "scope_closed": false,
@@ -3735,6 +4025,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-dialogue-text-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 758312,
       "references": [],
       "scope_closed": false,
@@ -3748,6 +4039,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-direct-cpuset-gpu-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 43211,
       "references": [],
       "scope_closed": false,
@@ -3761,6 +4053,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-direct-dma-gpu-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 16701,
       "references": [],
       "scope_closed": false,
@@ -3774,6 +4067,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-directsound-pitch-lookup-v1",
+      "local_copy": {},
       "payload_bytes": 8035,
       "references": [],
       "scope_closed": false,
@@ -3787,6 +4081,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-display-text-delta-v1",
+      "local_copy": {},
       "payload_bytes": 94550,
       "references": [],
       "scope_closed": null,
@@ -3800,6 +4095,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-expansion-profile-v1",
+      "local_copy": {},
       "payload_bytes": 33737,
       "references": [],
       "scope_closed": true,
@@ -3813,6 +4109,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-fixed-animation-descriptor-groups-v1",
+      "local_copy": {},
       "payload_bytes": 9341,
       "references": [],
       "scope_closed": null,
@@ -3826,6 +4123,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-fixed-index-u8-tail-v1",
+      "local_copy": {},
       "payload_bytes": 4312,
       "references": [],
       "scope_closed": null,
@@ -3839,6 +4137,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-fixed-pair-tables-v1",
+      "local_copy": {},
       "payload_bytes": 10639,
       "references": [],
       "scope_closed": null,
@@ -3852,6 +4151,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-fixed-renderer-script-records-v1",
+      "local_copy": {},
       "payload_bytes": 32401,
       "references": [],
       "scope_closed": null,
@@ -3865,6 +4165,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-gpu-copy-queue-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 22622,
       "references": [],
       "scope_closed": false,
@@ -3878,6 +4179,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-low-script-delta-v1",
+      "local_copy": {},
       "payload_bytes": 5213,
       "references": [],
       "scope_closed": null,
@@ -3891,6 +4193,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-menu-portrait-palette-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 269703,
       "references": [],
       "scope_closed": false,
@@ -3904,6 +4207,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-pointer-lz77-graphics-v1",
+      "local_copy": {},
       "payload_bytes": 81066,
       "references": [],
       "scope_closed": false,
@@ -3917,6 +4221,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-psg-frequency-lookup-v1",
+      "local_copy": {},
       "payload_bytes": 14102,
       "references": [],
       "scope_closed": false,
@@ -3930,6 +4235,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-renderer-records-delta-v1",
+      "local_copy": {},
       "payload_bytes": 35709,
       "references": [],
       "scope_closed": null,
@@ -3943,6 +4249,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-renderer-script-pointer-pool-records-v1",
+      "local_copy": {},
       "payload_bytes": 12030,
       "references": [],
       "scope_closed": null,
@@ -3956,6 +4263,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-renderer-text-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 276204,
       "references": [],
       "scope_closed": false,
@@ -3969,6 +4277,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-selector-direct-source-records-v1",
+      "local_copy": {},
       "payload_bytes": 37999,
       "references": [],
       "scope_closed": false,
@@ -3982,6 +4291,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-staged-gpu-copy-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 8160,
       "references": [],
       "scope_closed": false,
@@ -3995,6 +4305,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-u8-indexed-u16-pair-lookup-v1",
+      "local_copy": {},
       "payload_bytes": 138414,
       "references": [],
       "scope_closed": false,
@@ -4008,6 +4319,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-u8-indexed-u8-triplet-lookup-v1",
+      "local_copy": {},
       "payload_bytes": 13475,
       "references": [],
       "scope_closed": false,
@@ -4021,6 +4333,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "runtime-bg-composites-v1",
+      "local_copy": {},
       "payload_bytes": 3684999,
       "references": [],
       "scope_closed": null,
@@ -4034,6 +4347,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "runtime-font-tile-provenance-v1",
+      "local_copy": {},
       "payload_bytes": 3779809,
       "references": [],
       "scope_closed": null,
@@ -4047,6 +4361,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "runtime-layer-static-provenance-v1",
+      "local_copy": {},
       "payload_bytes": 1573057,
       "references": [],
       "scope_closed": null,
@@ -4060,6 +4375,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "runtime-screen-composites-v1",
+      "local_copy": {},
       "payload_bytes": 1999346,
       "references": [],
       "scope_closed": null,
@@ -4073,6 +4389,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-group1-v1",
+      "local_copy": {},
       "payload_bytes": 733930,
       "references": [],
       "scope_closed": null,
@@ -4086,6 +4403,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-group14-v1",
+      "local_copy": {},
       "payload_bytes": 617081,
       "references": [],
       "scope_closed": null,
@@ -4099,6 +4417,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-group16-natural-v1",
+      "local_copy": {},
       "payload_bytes": 622356,
       "references": [],
       "scope_closed": null,
@@ -4112,6 +4431,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-group17-natural-v1",
+      "local_copy": {},
       "payload_bytes": 621642,
       "references": [],
       "scope_closed": null,
@@ -4125,6 +4445,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-group18-natural-sequence-v1",
+      "local_copy": {},
       "payload_bytes": 703391,
       "references": [],
       "scope_closed": null,
@@ -4138,6 +4459,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-group2-v1",
+      "local_copy": {},
       "payload_bytes": 629081,
       "references": [],
       "scope_closed": null,
@@ -4151,6 +4473,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-group3-natural-v1",
+      "local_copy": {},
       "payload_bytes": 609254,
       "references": [],
       "scope_closed": null,
@@ -4164,6 +4487,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-group4-natural-v1",
+      "local_copy": {},
       "payload_bytes": 617500,
       "references": [],
       "scope_closed": null,
@@ -4177,6 +4501,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-group5-v1",
+      "local_copy": {},
       "payload_bytes": 599576,
       "references": [],
       "scope_closed": null,
@@ -4190,6 +4515,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-frame-phase-v1",
+      "local_copy": {},
       "payload_bytes": 617477,
       "references": [],
       "scope_closed": null,
@@ -4203,6 +4529,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-group12-ai-observer-v1",
+      "local_copy": {},
       "payload_bytes": 53686,
       "references": [],
       "scope_closed": null,
@@ -4216,6 +4543,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-group13-natural-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 58186,
       "references": [],
       "scope_closed": null,
@@ -4229,6 +4557,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-group18-natural-checkpoint-v1",
+      "local_copy": {},
       "payload_bytes": 531920,
       "references": [],
       "scope_closed": false,
@@ -4242,6 +4571,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-runtime-oam-bindings-v1",
+      "local_copy": {},
       "payload_bytes": 152524,
       "references": [],
       "scope_closed": null,
@@ -4255,6 +4585,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-runtime-oam-task-bindings-v1",
+      "local_copy": {},
       "payload_bytes": 252937,
       "references": [],
       "scope_closed": null,
@@ -4268,6 +4599,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "character-battle-visual-resource-matrix-v1",
+      "local_copy": {},
       "payload_bytes": 528206,
       "references": [],
       "scope_closed": false,
@@ -4281,6 +4613,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "character-runtime-oam-bindings-v1",
+      "local_copy": {},
       "payload_bytes": 2471308,
       "references": [],
       "scope_closed": null,
@@ -4294,6 +4627,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "character-runtime-oam-task-bindings-v1",
+      "local_copy": {},
       "payload_bytes": 408877,
       "references": [],
       "scope_closed": null,
@@ -4307,6 +4641,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v15",
+      "local_copy": {},
       "payload_bytes": 57245,
       "references": [],
       "scope_closed": false,
@@ -4320,6 +4655,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cfg-proven-roots-v16-consumed-literals-v1",
+      "local_copy": {},
       "payload_bytes": 65851,
       "references": [],
       "scope_closed": false,
@@ -4333,6 +4669,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cgb-helper-bounded-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 42334,
       "references": [],
       "scope_closed": null,
@@ -4346,6 +4683,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-cgbsound-bounded-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 179635,
       "references": [],
       "scope_closed": null,
@@ -4359,6 +4697,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-dialogue-padding-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 804757,
       "references": [],
       "scope_closed": false,
@@ -4372,6 +4711,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-mp2k-dispatcher-v1",
+      "local_copy": {},
       "payload_bytes": 411032,
       "references": [],
       "scope_closed": false,
@@ -4385,6 +4725,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-small-cfg-dependency-batch-v1",
+      "local_copy": {},
       "payload_bytes": 203761,
       "references": [],
       "scope_closed": null,
@@ -4398,6 +4739,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-sprite-component-source-v1",
+      "local_copy": {},
       "payload_bytes": 45928,
       "references": [],
       "scope_closed": false,
@@ -4411,6 +4753,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-text-bg-task-closure-v1",
+      "local_copy": {},
       "payload_bytes": 20175,
       "references": [],
       "scope_closed": null,
@@ -4424,6 +4767,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "rom-unbound-lz77-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 70309,
       "references": [],
       "scope_closed": false,
@@ -4437,6 +4781,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-group15-natural-runtime-v1",
+      "local_copy": {},
       "payload_bytes": 1189632,
       "references": [],
       "scope_closed": null,
@@ -4450,6 +4795,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "battle-effect-observed-frame-phases-v1",
+      "local_copy": {},
       "payload_bytes": 10327,
       "references": [],
       "scope_closed": null,
@@ -4463,6 +4809,7 @@
       "gate_upper_bound": false,
       "gated_by": [],
       "id": "character-runtime-unit-oam-bindings-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [
         "tools/butano/verify_s49_battle_roster.py"
@@ -4486,6 +4833,7 @@
         "tests/test_generate_butano_battle_scenario_content.py"
       ],
       "id": "map-canvases-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4505,6 +4853,7 @@
         "tests/test_generate_butano_battle_presentation_glyphs.py"
       ],
       "id": "dialogue-font-v2",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4522,6 +4871,7 @@
         "tests/test_generate_butano_battle_portrait_content.py"
       ],
       "id": "menu-portraits-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4539,6 +4889,7 @@
         "tests/test_generate_butano_battle_condition_content.py"
       ],
       "id": "rom-battle-condition-records-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4556,6 +4907,7 @@
         "tests/test_battle_scene_phase_mapping.py"
       ],
       "id": "rom-battle-controller-cfg-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4573,6 +4925,7 @@
         "tests/test_generate_butano_battle_presentation_content.py"
       ],
       "id": "rom-chapter-script-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4592,6 +4945,7 @@
         "tests/test_generate_butano_battle_identity_content.py"
       ],
       "id": "rom-fixed-consumer-text-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4610,6 +4964,7 @@
         "tests/test_s49_movegrid_overlay_assets.py"
       ],
       "id": "rom-pointer-lz77-inventory-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4645,6 +5000,7 @@
         "tests/test_generate_butano_battle_effect_sequence.py"
       ],
       "id": "battle-effect-resource-pairs-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4662,6 +5018,7 @@
         "tests/test_generate_butano_battle_action_content.py"
       ],
       "id": "battle-effect-sequence-bindings-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4679,6 +5036,7 @@
         "tests/test_generate_butano_battle_action_16_movie.py"
       ],
       "id": "battle-visual-catalog-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4696,6 +5054,7 @@
         "tests/test_generate_butano_battle_unit_visual_content.py"
       ],
       "id": "character-battle-visuals-v1",
+      "local_copy": {},
       "payload_bytes": 0,
       "references": [],
       "scope_closed": null,
@@ -4704,8 +5063,15 @@
     }
   ],
   "summary": {
+    "declared_coverage": {
+      "declared_by_auditor": 69,
+      "declared_by_matrix": 69,
+      "difference": 0,
+      "only_in_auditor": [],
+      "only_in_matrix": []
+    },
     "families_bound": 12,
-    "families_imported": 54,
+    "families_imported": 57,
     "products_gated_upper_bound": 36,
     "sink_by_state": {
       "declared": 24,
@@ -4717,15 +5083,15 @@
       "generated_headers": 27,
       "graphic_assets": 1819,
       "handwritten_headers": 110,
-      "test_modules": 373
+      "test_modules": 374
     },
     "sink_total": 38,
     "source_by_state": {
-      "imported-and-gated": 54,
-      "local-derivation-missing": 26,
+      "imported-and-gated": 57,
+      "local-rederived-identical": 26,
       "no-material": 37,
       "not-importable": 51,
-      "on-shelf": 71,
+      "on-shelf": 68,
       "unclassified": 12,
       "verified-against": 1,
       "wired-and-gated": 12

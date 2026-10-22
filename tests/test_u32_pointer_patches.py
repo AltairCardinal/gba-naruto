@@ -13,7 +13,9 @@ from tools.build_db_patches import (
     generate_data_table_a_patches,
     generate_data_table_b_patches,
     generate_function_pointer_patches,
+    generate_map_sprite_patches,
     generate_menu_ui_patches,
+    generate_palette_patches,
     generate_resource_pointer_patches,
     generate_sprite_animation_patches,
     generate_tile_asset_patches,
@@ -41,6 +43,59 @@ class U32PointerPatchTests(unittest.TestCase):
             db, table="rom_test", index_column="_idx", pointer_column="ptr",
             table_offset=0x100, entry_count=count, pointer_kind=kind,
         )
+
+    def make_editor_db(self) -> Path:
+        """A synthetic editor.db with the real tables and the real bases.
+
+        ``sequel/editor.db`` is gitignored, so the wrappers must be tested
+        against a database built here.  Every ``_rom_offset`` is the address
+        the wrapper is supposed to write, which is exactly what the wrappers
+        cross-check before they emit a patch.
+        """
+        tmp = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
+        tmp.close()
+        path = Path(tmp.name)
+        conn = sqlite3.connect(path)
+        # (table, column, base, count, stride, pointer)
+        #
+        # The bases are the **adjudicated** ones (the legacy bases were
+        # skewed windows): see notes/evidence/legacy-rebase-final-20261021.md.
+        # The column names come from the banks' `entry_format.fields`.
+        tables = [
+            ("rom_data_table_a", "rom_ptr", 0x5A143C, 46, 4, 0x0812F000),
+            ("rom_data_table_b", "rom_ptr", 0x5A2034, 90, 4, 0x0812F100),
+            ("rom_function_pointers", "slot_value", 0x53D5F0, 13, 4, 0x08001235),
+            ("rom_menu_ui", "expr0_ptr_0", 0x5A4DEC, 63, 40, 0x0812F200),
+            ("rom_tile_assets", "tile_ptr_0", 0x5A320C, 79, 68, 0x0812F300),
+            ("rom_map_sprites", "sprite_ptr", 0x53F140, 86, 4, 0x0812F400),
+            ("rom_palettes", "palette_ptr", 0x53F138, 88, 4, 0x0812F500),
+            ("rom_resource_pointers", "resource_ptr", 0x596F0C, 20, 4, 0x0812F600),
+        ]
+        for table, column, base, count, stride, pointer in tables:
+            conn.execute(
+                f'CREATE TABLE "{table}" (_idx INTEGER PRIMARY KEY, '
+                f'_rom_offset INTEGER NOT NULL, "{column}" INTEGER NOT NULL)'
+            )
+            conn.executemany(
+                f'INSERT INTO "{table}" VALUES (?, ?, ?)',
+                [(i, base + i * stride, pointer + i * stride)
+                 for i in range(count)],
+            )
+        # the sprite action table: 16-byte records, four pointer columns
+        conn.execute(
+            "CREATE TABLE rom_sprite_animations (_idx INTEGER PRIMARY KEY, "
+            "_rom_offset INTEGER NOT NULL, frames_ptr INTEGER, "
+            "animations_ptr INTEGER, gfx_ptr INTEGER, palette_ptr INTEGER)"
+        )
+        conn.executemany(
+            "INSERT INTO rom_sprite_animations VALUES (?, ?, ?, ?, ?, ?)",
+            [(i, 0x596CCC + i * 16, 0x0812F700, 0x0812F800,
+              0x0812F900, 0x0812FA00) for i in range(2)],
+        )
+        conn.commit()
+        conn.close()
+        self.addCleanup(path.unlink, missing_ok=True)
+        return path
 
     def test_valid_thumb_pointer_writes_real_table_slot(self):
         patches = self.generate(self.make_db([(1, 0x104, 0x08001235)]))
@@ -77,74 +132,44 @@ class U32PointerPatchTests(unittest.TestCase):
         )[0]
         self.assertEqual(patch["type"], "bytes")
 
-    def test_function_pointer_wrapper_still_covers_declared_real_table(self):
-        db = self.make_pointer_db(
-            "rom_function_pointers", "func_ptr", 11, 0x53D5F4, 0x08001235
-        )
-        patches = generate_function_pointer_patches(db)
-        self.assertEqual(len(patches), 11)
-        self.assertTrue(all(p["type"] == "bytes" for p in patches))
-        self.assertEqual(patches[0]["offset"], 0x53D5F4)
-        self.assertEqual(patches[-1]["offset"], 0x53D61C)
+    def test_second_batch_wrappers_cover_declared_real_tables(self):
+        """Each wrapper must write to the table the repo actually proved.
 
-    def test_corrected_partial_views_are_diagnostic_only(self):
+        The old version of this test read ``sequel/editor.db`` -- a file that
+        is gitignored, so on a clean checkout it asserted nothing at all
+        (7 failing subtests) and, worse, it pinned the **falsified**
+        address ``0x53F200`` for the sprite animations.  The tables are now
+        built synthetically so the assertion runs everywhere, and the
+        addresses come from the adjudicated bases.
+        """
+        db = self.make_editor_db()
         cases = [
-            (generate_data_table_a_patches, "rom_data_table_a", "data_ptr", 20,
-             0x5A14A4, "db_data_table_a_unmapped"),
-            (generate_data_table_b_patches, "rom_data_table_b", "data_ptr", 20,
-             0x5A2120, "db_data_table_b_unmapped"),
-            (generate_menu_ui_patches, "rom_menu_ui", "ui_ptr", 20,
-             0x5A5774, "db_menu_ui_unmapped"),
-            (generate_resource_pointer_patches, "rom_resource_pointers", "resource_ptr", 20,
-             0x596F0C, "db_resource_pointer_unmapped"),
-            # 2026-10-21 merge: `sprite-animations` is no longer the
-            # falsified 0x53F200 window -- it now points at the **proved**
-            # sprite action table 0x596CCC, so its generator writes there
-            # instead of refusing.  See
-            # test_sprite_animation_wrapper_writes_the_real_action_table.
-            (generate_tile_asset_patches, "rom_tile_assets", "tile_ptr", 6,
-             0x5A3218, "db_tile_asset_unmapped"),
+            (generate_data_table_a_patches, "rom_data_table_a", 46,
+             0x5A143C, 0x5A143C + 45 * 4, "data"),
+            (generate_data_table_b_patches, "rom_data_table_b", 90,
+             0x5A2034, 0x5A2034 + 89 * 4, "data"),
+            (generate_function_pointer_patches, "rom_function_pointers", 13,
+             0x53D5F0, 0x53D5F0 + 12 * 4, "raw"),
+            # the portrait table: 40-byte rows, the written pointer is the
+            # first expression slot of the row
+            (generate_menu_ui_patches, "rom_menu_ui", 63,
+             0x5A4DEC, 0x5A4DEC + 62 * 40, "data"),
+            # the tile-asset table: 68-byte records, the written pointer is
+            # the record's +0x0C field
+            (generate_tile_asset_patches, "rom_tile_assets", 79,
+             0x5A320C + 12, 0x5A320C + 78 * 68 + 12, "data"),
+            # adjudicated base: 0x53F1DC is item 39 of the array at 0x53F140
+            (generate_map_sprite_patches, "rom_map_sprites", 86,
+             0x53F140, 0x53F140 + 85 * 4, "data"),
         ]
-        for generator, table, pointer_column, count, first, diagnostic_type in cases:
+        for generator, table, count, first, last, kind in cases:
             with self.subTest(generator=generator.__name__):
-                db = self.make_pointer_db(table, pointer_column, count, first, 0x08010000)
                 patches = generator(db)
                 self.assertEqual(len(patches), count)
-                self.assertTrue(all(p["type"] == diagnostic_type for p in patches))
-                self.assertFalse(any(p["type"] == "bytes" for p in patches))
-
-    def make_pointer_db(
-        self,
-        table: str,
-        pointer_column: str,
-        count: int,
-        table_offset: int,
-        pointer: int,
-    ) -> Path:
-        tmp = tempfile.NamedTemporaryFile(suffix=".db", delete=False)
-        tmp.close()
-        path = Path(tmp.name)
-        conn = sqlite3.connect(path)
-        conn.execute(
-            f"CREATE TABLE {table} (_idx INTEGER PRIMARY KEY, "
-            f"_rom_offset INTEGER NOT NULL, {pointer_column} INTEGER NOT NULL)"
-        )
-        rows = [
-            (index, table_offset + index * 4, pointer)
-            for index in range(count)
-        ]
-        conn.executemany(
-            f"INSERT INTO {table} VALUES (?, ?, ?)",
-            rows,
-        )
-        conn.commit()
-        conn.close()
-        self.addCleanup(path.unlink, missing_ok=True)
-        return path
-
-
-if __name__ == "__main__":
-    unittest.main()
+                self.assertTrue(all(p["type"] == "bytes" for p in patches))
+                self.assertEqual(patches[0]["offset"], first)
+                self.assertEqual(patches[-1]["offset"], last)
+                self.assertEqual(patches[0]["db_table"], table)
 
     def test_sprite_animation_wrapper_writes_the_real_action_table(self):
         """The sprite action table is 0x596CCC with a 16-byte stride."""
@@ -154,7 +179,6 @@ if __name__ == "__main__":
         self.assertEqual(patches[0]["offset"], 0x596CCC)
         self.assertEqual(patches[-1]["offset"], 0x596CCC + 16 + 12)
         self.assertNotIn(0x53F200, {p["offset"] for p in patches})
-
 
     def test_falsified_alias_writers_refuse_instead_of_corrupting(self):
         """0x53F138 and 0x596F0C are windows, not table bases."""
@@ -170,3 +194,5 @@ if __name__ == "__main__":
                 self.assertNotIn("bytes", {p["type"] for p in patches})
 
 
+if __name__ == "__main__":
+    unittest.main()

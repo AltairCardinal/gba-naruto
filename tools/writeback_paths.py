@@ -341,6 +341,61 @@ def case_reward_table(base: bytes) -> dict[str, Any]:
     }
 
 
+# --- m4a track block (inside a SongHeader) --------------------------------
+
+def case_audio_block(sound_id: int):
+    """Build the round-trip case for one m4a **track block**.
+
+    The block format is proved (`tools/m4a_block_table.py`: decode -> encode
+    is byte-identical for all 45 native blocks), so a *new* block can be
+    authored.  The case rewrites the block in place, reads it back and
+    requires the ROM to decode to exactly the requested commands.
+    """
+
+    def run(base: bytes) -> dict[str, Any]:
+        from m4a_block_table import decode_song
+
+        rom = bytearray(base)
+        song = decode_song(bytes(rom), sound_id)
+        block = song["blocks"][0]
+        commands = [
+            {"opcode": c["opcode"], "name": c["name"],
+             "implicit": c.get("implicit", False), "value": c.get("value"),
+             "args": c.get("args") or [], "count": c.get("count"),
+             "target": c.get("target"), "key": c.get("key")}
+            for c in block["commands"]
+        ]
+        # author change: drop the second command so the bytes really move
+        changed = [commands[0]] + commands[2:]
+        applied = ias.write_song_track_block(rom, sound_id, 0, changed)
+        after = decode_song(bytes(rom), sound_id)
+        read_back = after["blocks"][0]
+        problems = [
+            _mismatch("command count", len(changed), len(read_back["commands"])),
+            _mismatch("first opcode", changed[0]["opcode"],
+                       read_back["commands"][0]["opcode"]),
+        ]
+        if len(read_back["commands"]) == len(block["commands"]):
+            problems.append("the author change did not modify the block")
+        # only the block's own span may move
+        off = block["offset"]
+        size = block["size"]
+        problems += _untouched_diff(bytes(base[off:off + size]),
+                                   bytes(rom[off:off + size]),
+                                   set(range(size)))
+        return {
+            "author": {"commands": len(changed),
+                       "first_opcode": f"0x{changed[0]['opcode']:02X}"},
+            "read_back": {"commands": len(read_back["commands"]),
+                          "first_opcode": f"0x{read_back['commands'][0]['opcode']:02X}",
+                          "new_size": applied["new_size"],
+                          "padding": applied["padding"]},
+            "problems": [p for p in problems if p],
+        }
+
+    return run
+
+
 # --- scene object descriptor table (0x53F140, "map-sprites") ---------------
 
 def case_map_sprites(base: bytes) -> dict[str, Any]:
@@ -509,6 +564,59 @@ def case_units(base: bytes) -> dict[str, Any]:
     }
 
 
+# --- portrait table (0x5A4DEC) --------------------------------------------
+
+def case_portrait_table(base: bytes) -> dict[str, Any]:
+    """Round-trip one portrait: graphics + palette through the ROM.
+
+    The portrait assets are BIOS LZ77 streams (`svc 0x11`) plus a raw
+    128-byte BGR555 palette.  The write-back re-encodes the graphics and
+    copies the palette; the read-back decompresses the stream again and
+    must equal the author's bytes.
+    """
+    from tools import export_content_pack as ecp
+    from tools.lib import lz77
+
+    entries = ecp.portrait_entries(base)
+    budget = ecp.portrait_budget(base, entries)
+    assets = ecp.portrait_assets(base, entries, budget)
+    asset = next(a for a in assets if a["budget"] > 0)
+    graphics = bytearray(asset["graphics"])
+    palette = bytearray(asset["palette"])
+    # author change: flip one byte of the graphics and one palette entry
+    graphics[0] ^= 0xFF
+    palette[0] ^= 0xFF
+    patched, changed = ecp.import_portrait(
+        base, asset, bytes(graphics), bytes(palette), asset["budget"])
+
+    read_graphics = lz77.decompress(patched, asset["gfx_offset"])
+    read_palette = patched[asset["palette_offset"]:
+                           asset["palette_offset"] + ecp.PORTRAIT_PALETTE_BYTES]
+    problems = [
+        _mismatch("graphics", bytes(graphics), read_graphics),
+        _mismatch("palette", bytes(palette), read_palette),
+    ]
+    # Only the two declared ranges may move.
+    allowed: set[int] = set()
+    for lo, hi in changed:
+        allowed.update(range(lo, hi))
+    for i in range(len(base)):
+        if base[i] != patched[i] and i not in allowed:
+            problems.append(f"unknown byte 0x{i:06X} changed "
+                            f"(outside the LZ77 stream and the palette)")
+            break
+    if base == patched:
+        problems.append("the author change did not modify any byte")
+    return {
+        "author": {"id": asset["id"], "expression": asset["expression"],
+                   "graphics[0]": graphics[0], "palette[0]": palette[0]},
+        "read_back": {"graphics[0]": read_graphics[0],
+                      "palette[0]": read_palette[0],
+                      "graphics_len": len(read_graphics)},
+        "problems": [p for p in problems if p],
+    }
+
+
 CASES: list[Case] = [
     Case("story-vm-roots", "0x060C74", "剧情脚本 VM 四根表", case_story_vm_roots),
     Case("character-template", "0x54241C", "角色定义表", case_character_template),
@@ -532,6 +640,10 @@ CASES: list[Case] = [
     Case("cutscene-scripts", "0x53DF70", "关卡数据指针表", case_cutscene_scripts),
     Case("save-state", "0x53D848", "WRAM 分配表", case_save_state),
     Case("units", "0x53F298", "u16 偏移表", case_units),
+    Case("portrait-table", "0x5A4DEC", "头像表（LZ77 图形 + 调色板）",
+         case_portrait_table),
+    Case("audio-block-1", "0x536368", "m4a 轨道 block（sound id 1 的 track 0）",
+         case_audio_block(1)),
 ]
 
 

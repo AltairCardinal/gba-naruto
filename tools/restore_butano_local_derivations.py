@@ -672,13 +672,32 @@ class Restorer:
 # receipt
 
 
+#: The wiring receipt's states that mean "this family lives in the local
+#: derivation branch": the remake's build chain names it and a remake-side
+#: tool is supposed to write it into this tree.  These are the families the
+#: W1 milestone is about -- before the restore they read
+#: ``local-derivation-missing``, after it ``local-rederived-identical``.
+LOCAL_DERIVATION_STATES = (
+    "local-derivation-missing",
+    "local-rederived-identical",
+    "local-rederived-diverged",
+)
+
+
 def candidate_families(wiring_path: Path) -> list[str]:
+    """The families in the local-derivation branch, read from the wiring receipt.
+
+    The set is *measured*, never hand-kept: it is exactly the families the
+    wiring matrix puts in the local-derivation branch.  Reading the
+    ``local-derivation-missing`` state alone would work only until the
+    milestone closes -- the tool would then have nothing to verify.
+    """
     payload = json.loads(wiring_path.read_text(encoding="utf-8"))
     rows = payload.get("source_rows") or []
     return sorted(
         str(row["id"])
         for row in rows
-        if row.get("state") == "local-derivation-missing"
+        if row.get("state") in LOCAL_DERIVATION_STATES
     )
 
 
@@ -692,7 +711,12 @@ def render_markdown(payload: dict[str, Any]) -> str:
     lines.append("| 项 | 值 |")
     lines.append("| --- | ---: |")
     for key in (
-        "candidate_families",
+        "tracked_families",
+        "acceptance_families",
+        "candidates_rederived",
+        "candidates_imported",
+        "candidates_already_identical",
+        "candidates_byte_identical",
         "rederived",
         "imported",
         "already_identical",
@@ -770,11 +794,6 @@ def main(argv: list[str] | None = None) -> int:
         print(f"reverse tree not found: {reverse_root}", file=sys.stderr)
         return EXIT_INPUT_ERROR
 
-    families = candidate_families(wiring_path)
-    if args.only:
-        wanted = set(args.only)
-        families = [f for f in families if f in wanted]
-
     before = snapshot_artifacts(root)
     out_dir = args.out_dir if args.out_dir.is_absolute() else root / args.out_dir
     provenance_path = out_dir / "provenance.json"
@@ -784,6 +803,20 @@ def main(argv: list[str] | None = None) -> int:
             known = json.loads(provenance_path.read_text(encoding="utf-8")).get("families", {})
         except (json.JSONDecodeError, OSError):
             known = {}
+
+    # The candidate set is the union of two measured lists: the families the
+    # wiring receipt still reports as missing, and the families this tool has
+    # already restored (recorded in the provenance file).  Without the second
+    # half the tool would go blank the moment the milestone closes -- and a
+    # gate that stops verifying anything is not a gate.
+    # The acceptance set: the families the wiring matrix puts in the
+    # local-derivation branch.  It is measured from the wiring receipt, so
+    # it does not decay when the milestone closes.
+    acceptance = candidate_families(wiring_path)
+    families = sorted(set(acceptance) | set(known))
+    if args.only:
+        wanted = set(args.only)
+        families = [f for f in families if f in wanted]
     restorer = Restorer(root, reverse_root, dry_run=args.dry_run, provenance=known)
     for family in families:
         try:
@@ -799,8 +832,20 @@ def main(argv: list[str] | None = None) -> int:
     added = sorted(set(after) - set(before))
 
     rows = [restorer.rows[f] for f in sorted(restorer.rows)]
+    acceptance_set = set(acceptance)
+    for row in rows:
+        # A family the wiring receipt still reports as missing is the
+        # milestone's acceptance set; the others are prerequisite families
+        # that had to be restored for them to be reproducible.
+        # Once a family has been restored it is no longer reported as
+        # missing -- but it *was* the milestone's acceptance set, and the
+        # receipt has to keep saying so.
+        row["acceptance_family"] = row["family"] in acceptance_set or bool(
+            known.get(row["family"], {}).get("acceptance_family")
+        )
     summary = {
-        "candidate_families": len(families),
+        "tracked_families": len(families),
+        "acceptance_families": len(acceptance),
         "rederived": sum(1 for r in rows if r.get("mode") == "rederived"),
         "imported": sum(1 for r in rows if r.get("mode") == "imported"),
         "already_identical": sum(1 for r in rows if r.get("mode") == "already-identical"),
@@ -812,6 +857,22 @@ def main(argv: list[str] | None = None) -> int:
         "error": sum(1 for r in rows if r.get("mode") == "error"),
     }
     summary["byte_identical"] = sum(1 for r in rows if r.get("mode") in DONE_MODES)
+    summary["candidates_rederived"] = sum(
+        1 for r in rows if r.get("acceptance_family") and r.get("mode") == "rederived"
+    )
+    summary["candidates_imported"] = sum(
+        1 for r in rows if r.get("acceptance_family") and r.get("mode") == "imported"
+    )
+    summary["candidates_already_identical"] = sum(
+        1
+        for r in rows
+        if r.get("acceptance_family") and r.get("mode") == "already-identical"
+    )
+    summary["candidates_byte_identical"] = sum(
+        1
+        for r in rows
+        if r.get("acceptance_family") and r.get("mode") in DONE_MODES
+    )
 
     payload = {
         "schema": RECEIPT_SCHEMA,
@@ -860,6 +921,7 @@ def main(argv: list[str] | None = None) -> int:
             continue
         families_record[row["family"]] = {
             "mode": row.get("mode"),
+            "acceptance_family": bool(row.get("acceptance_family")),
             "producer": row.get("producer"),
             "reason": row.get("reason"),
             "local_digest": row.get("local_digest"),

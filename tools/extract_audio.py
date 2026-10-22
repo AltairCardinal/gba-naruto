@@ -225,20 +225,32 @@ def collect_tones(rom: bytes, entries: list[dict]) -> tuple[list[dict], dict[int
 # ---------------------------------------------------------------------------
 
 def decode_track(raw: bytes, base_offset: int) -> list[dict]:
-    """Structurally decode one m4a track's bytecode."""
+    """Structurally decode one m4a track's bytecode.
+
+    The **running opcode** rule (proved from this ROM's own engine at
+    ``0x0809A4F8 cmp r1, #0xbd`` / ``0x0809A4FC strb r1, [r5, #7]``):
+    a byte below ``0x80`` is a *continuation* byte -- an operand of the
+    running opcode -- and the running opcode is refreshed for **every**
+    opcode ``>= 0xBD``, not only for notes.  Getting that wrong turns a
+    ``MOD`` parameter into a phantom key-0 note.
+    """
     commands: list[dict] = []
     cursor = 0
-    running_note: int | None = None
+    running_opcode: int | None = None
     while cursor < len(raw):
         start = cursor
         opcode = raw[cursor]
         explicit = opcode >= 0x80
         if explicit:
             cursor += 1
-        elif running_note is not None:
-            opcode = running_note
+            if opcode >= 0xBD:
+                # the engine refreshes the running opcode for every opcode
+                # from 0xBD upwards (not notes only)
+                running_opcode = opcode
+        elif running_opcode is not None:
+            opcode = running_opcode
         else:
-            raise DecodeError(f"parameter 0x{raw[cursor]:02X} without running note at "
+            raise DecodeError(f"parameter 0x{raw[cursor]:02X} without running opcode at "
                               f"0x{base_offset + cursor:06X}")
 
         item: dict = {"offset": base_offset + start, "opcode": opcode}
@@ -287,7 +299,6 @@ def decode_track(raw: bytes, base_offset: int) -> list[dict]:
                 cursor += 1
         elif opcode == 0xCF or opcode in NOTE_NAMES:
             item["name"] = "TIE" if opcode == 0xCF else NOTE_NAMES[opcode]
-            running_note = opcode
             args = []
             while cursor < len(raw) and raw[cursor] < 0x80 and len(args) < 3:
                 args.append(raw[cursor])

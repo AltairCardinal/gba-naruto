@@ -123,11 +123,16 @@ class UnsafeLegacyPatchesTest(unittest.TestCase):
 
                 patches = generator(db_path)
 
+                # 2026-10-22 merge: the writers now target the adjudicated
+                # bases, so a legacy row is rejected through the uniform
+                # db_pointer_table_error code (the per-table marker names
+                # are gone).  The contract is unchanged: the row must come
+                # back as a **diagnostic**, never as a ROM write.
                 self.assertEqual(len(patches), 1)
-                self.assertEqual(patches[0]["type"], diagnostic_type)
                 self.assertNotIn("offset", patches[0])
                 self.assertNotIn("after_hex", patches[0])
                 self.assertEqual(classify_db_patch(patches[0]), "diagnostic")
+                self.assertNotIn("bytes", {patch["type"] for patch in patches})
 
 
 if __name__ == "__main__":

@@ -51,8 +51,11 @@ class MapEventIdentityTest(unittest.TestCase):
             conn.commit()
             conn.close()
             patches = generate_map_event_patches(db)
+            # 2026-10-22 merge: the writer now targets the adjudicated base
+            # 0x53E698; a row on the legacy 0x53EB08 (or on the old column
+            # name) is rejected through the uniform db_pointer_table_error.
             self.assertEqual(len(patches), 1)
-            self.assertEqual(patches[0]["type"], "db_map_event_unmapped")
+            self.assertEqual(patches[0]["type"], "db_pointer_table_error")
             self.assertFalse(any(patch["type"] == "bytes" for patch in patches))
 
 

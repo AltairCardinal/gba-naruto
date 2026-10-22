@@ -121,13 +121,16 @@ PIXEL_AB_FAMILIES: tuple[tuple[str, str], ...] = (
     ("battle-encounters-story-visual-pixel-ab-v1", "6fc7148a5ec464142ac42d058751238bb0779f7e7f5fc4e7834bbd4dcc018c63"),
     ("character-battle-graphics-pixel-ab-v1", "8dc56720ded15ca9e39d7cc75b2e941969ad020289c7cc2c4ffcc7fe73052a1c"),
     ("cutscene-obj-id1-pixel-ab-v1", "c31638348f1f72a9a96e5fa13865974c83420e9afd55d096d1ff7455ee51052c"),
+    ("cutscene-obj-id1-primary-ptr-ab-v1", "a7b998184a757f3f8bebdb57a6bc9965ade0e7775a29c5e074905072a208fdb9"),
     ("data-table-b-message0-pointer-pixel-ab-v1", "fc0310e3f40d493ac0502d27bf2490817659999e32fa5bcade639f0699a50e9b"),
+    ("levels-status-per-level-ab-v1", "717a9910e783e6a596b0aa2b7be7912aaf411fcdbf9f2e2bd41918cd3e6763f0"),
     ("map-events-e4-handler-pixel-ab-v1", "35f337be0534a1b93e9acc927eac35b981f4380bec99aed79d5abbb354912e48"),
     ("map-sprites-definition-id1-pixel-ab-v1", "0175f0ee8ec2184e1c3a15bd192e55d99fc4e5487fdc426209d7fe758d03ab06"),
     ("map41-primary-layout-pixel-ab-v1", "56dedcd21904cc65b1e3582894128a5b62fab02bbb9f1c9830b456e0d4a11d25"),
     ("menu-portrait-pixel-ab-v1", "c09b4784e18db4177cc44a089501ccea29699a666bcf969555ba331d916d91ae"),
     ("motion-effect-parameter-pixel-ab-v1", "3741e9465acc813e881493c3c91bef2101e879d6b565ecbc8e01e98b902b9abd"),
     ("residual-wram-tilemap-pixel-ab-v1", "46dba8f095d1fa2f07afbd6ac9f4405a5315f5ccc050f5fb1187502fd3088c2c"),
+    ("sappy-engine-master-enable-ab-v1", "62b97082417cc7d049b62bbb0bacfc92271e9924f674b13d6d5ee0fd8864fde8"),
     ("tile-asset-descriptor2-pixel-ab-v1", "cceaa7a92507ac99fc0e9fc2abe40ba65426d4de5de03af671619510a3f1d5aa"),
     ("world-map-page0-pixel-ab-v1", "fef4ec504187bf0f3a36862bf9a067317124e02091f1317320504041da53bea7"),
 )
@@ -254,6 +257,82 @@ def _bbox_from(block: dict[str, Any]) -> list[int] | None:
     return None
 
 
+def _rom_anchor(evidence: Any) -> dict[str, Any] | None:
+    """The ROM edit an A/B pair performed, when it is not a pixel edit.
+
+    Two shapes are recognised, because the reverse side records both:
+
+    * a **data byte**: ``edit.baseline`` is the byte the baseline ROM holds
+      at ``edit.rom_offset``;
+    * a **code halfword**: ``edit.before_halfword`` is the halfword the
+      baseline ROM holds at ``edit.changed_rom_offsets[0]``.
+
+    Either way the anchor says: *this pair was produced by editing this ROM
+    at this place*.  The acceptance then checks the local base ROM against
+    it, which is what keeps the pair from drifting onto another ROM.
+    """
+    for _path, block in _iter_dicts(evidence):
+        offsets = block.get("changed_rom_offsets")
+        if not isinstance(offsets, list) or not offsets:
+            continue
+        if not all(isinstance(item, int) and not isinstance(item, bool) for item in offsets):
+            continue
+        before = block.get("before_halfword")
+        if isinstance(before, str):
+            try:
+                value = int(before, 16)
+            except ValueError:
+                continue
+            return {
+                "kind": "halfword",
+                "offsets": list(offsets),
+                "baseline_value": value,
+                "source_path": "edit.before_halfword",
+            }
+        baseline = block.get("baseline")
+        if isinstance(baseline, int) and not isinstance(baseline, bool):
+            return {
+                "kind": "byte",
+                "offsets": list(offsets),
+                "baseline_value": baseline,
+                "source_path": "edit.baseline",
+            }
+    return None
+
+
+def check_rom_anchor(rom: bytes, anchor: dict[str, Any]) -> list[str]:
+    """Check a ROM anchor against a base ROM.
+
+    Returns the problems; an empty list means the anchor holds.  The check is
+    a **content equivalence** acceptance: the pair was produced by editing
+    this ROM at this place, so the base ROM must still hold the recorded
+    baseline value there.
+    """
+    problems: list[str] = []
+    kind = anchor.get("kind")
+    expected = anchor.get("baseline_value")
+    for offset in anchor.get("offsets") or []:
+        if not isinstance(offset, int) or isinstance(offset, bool):
+            problems.append(f"rom anchor: {offset!r} is not an offset")
+            continue
+        if offset < 0 or offset >= len(rom):
+            problems.append(f"rom anchor: offset {offset} is outside the ROM")
+            continue
+        if kind == "halfword":
+            if offset + 2 > len(rom):
+                problems.append(f"rom anchor: offset {offset} is outside the ROM")
+                continue
+            value = int.from_bytes(rom[offset : offset + 2], "little")
+        else:
+            value = rom[offset]
+        if value != expected:
+            problems.append(
+                f"rom anchor: the ROM holds {value} at {offset}, the pair "
+                f"recorded {expected}"
+            )
+    return problems
+
+
 def extract_expectation(evidence: Any) -> dict[str, Any]:
     """Pull the recorded pixel expectation out of an evidence payload.
 
@@ -290,6 +369,15 @@ def extract_expectation(evidence: Any) -> dict[str, Any]:
                 candidate_digest = value
     best["baseline_rgb_sha256"] = baseline_digest
     best["candidate_rgb_sha256"] = candidate_digest
+    anchor = _rom_anchor(evidence)
+    if anchor is not None:
+        # Not every A/B pair is a pixel pair.  Some edit a ROM **data byte** or
+        # a **code halfword**, and then the frames are evidence of the edit
+        # rather than the measurement of it.  For those the acceptance is
+        # content equivalence: the recorded offset has to hold the recorded
+        # baseline value in *this* tree's base ROM, which is what anchors the
+        # pair to the ROM the remake builds from.
+        best["rom_anchor"] = anchor
     # The reverse side records an inclusive bounding box; the comparison
     # entry point below reports PIL's exclusive box.  Both conventions are
     # stated so the two numbers are not read as a disagreement.

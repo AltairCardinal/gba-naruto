@@ -69,7 +69,6 @@ Usage::
 from __future__ import annotations
 
 import argparse
-import ast
 import collections
 import datetime
 import hashlib
@@ -80,7 +79,10 @@ from typing import Any
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from tools.audit_butano_reverse_provenance import audit  # noqa: E402
+from tools.audit_butano_reverse_provenance import (  # noqa: E402
+    audit,
+    read_importer_specs,
+)
 
 WIRING_SCHEMA = "konoha.butano-wiring-coverage.v1"
 
@@ -130,6 +132,65 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1 << 20), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _tree_digest(directory: Path) -> str:
+    """Digest a whole artifact directory: relative path + per-file SHA-256.
+
+    A manifest hash only proves the *description* matches.  A local copy that
+    keeps the manifest but changes a payload byte is still a broken wire, so
+    the local-derivation state is decided on the content of the tree, not on
+    the manifest alone.
+    """
+    rolling = hashlib.sha256()
+    for path in sorted(p for p in directory.rglob("*") if p.is_file()):
+        rolling.update(path.relative_to(directory).as_posix().encode("utf-8"))
+        rolling.update(b"\0")
+        rolling.update(_sha256(path).encode("ascii"))
+        rolling.update(b"\n")
+    return rolling.hexdigest()
+
+
+def _local_copy_state(
+    root: Path,
+    reverse_root: Path,
+    family_id: str,
+) -> tuple[str, str, dict[str, Any]]:
+    """Classify the local copy of a family against its reverse twin.
+
+    Returns ``(state, tier, evidence)``.  The four states are:
+
+    ``local-derivation-missing``
+        the local copy is absent (or the family has no reverse twin at all);
+    ``local-rederived-identical``
+        the local copy is byte-identical to the reverse twin;
+    ``local-rederived-diverged``
+        the local copy exists but differs -- a divergence, not a version bump.
+    """
+    local_dir = root / "artifacts" / family_id
+    reverse_dir = reverse_root / "artifacts" / family_id
+    local_manifest = local_dir / "manifest.json"
+    reverse_manifest = reverse_dir / "manifest.json"
+    evidence: dict[str, Any] = {
+        "local_manifest_sha256": _sha256(local_manifest) if local_manifest.is_file() else None,
+        "reverse_manifest_sha256": (
+            _sha256(reverse_manifest) if reverse_manifest.is_file() else None
+        ),
+    }
+    if not local_dir.is_dir():
+        return STATE_LOCAL_MISSING, "local-output-absent", evidence
+    if not reverse_dir.is_dir():
+        return STATE_LOCAL_MISSING, "local-only-no-reverse-twin", evidence
+    evidence["local_tree_sha256"] = _tree_digest(local_dir)
+    evidence["reverse_tree_sha256"] = _tree_digest(reverse_dir)
+    manifest_mismatch = (
+        evidence["local_manifest_sha256"] is not None
+        and evidence["reverse_manifest_sha256"] is not None
+        and evidence["local_manifest_sha256"] != evidence["reverse_manifest_sha256"]
+    )
+    if manifest_mismatch or evidence["local_tree_sha256"] != evidence["reverse_tree_sha256"]:
+        return STATE_LOCAL_DIVERGED, "local-copy-diverged", evidence
+    return STATE_LOCAL_IDENTICAL, "local-copy-byte-identical", evidence
 
 
 def _read_json(path: Path) -> Any:
@@ -217,51 +278,10 @@ _PRODUCT_PATHS: list[str] = []
 _PRODUCT_GENERATORS: dict[str, str] = {}
 
 
-def _read_importer_specs(root: Path) -> dict[str, dict[str, Any]]:
-    """The families the importers pin by manifest SHA-256.
-
-    The provenance carrier (a ``reverse-source`` header comment) is not the
-    only way this tree binds a product to a reverse family.  The two ROM
-    importers carry their own contract: a family plus the SHA-256 of its
-    manifest, checked at run time, with the files copied into this tree.
-    That is a declared wire too -- and it is the contract that put the 32
-    pixel-A/B baselines and the 22 relocation specs here in the first place.
-
-    Reading only the header carrier would report those 54 families as
-    "mentioned but not declared", which understates what is actually wired.
-    """
-    specs: dict[str, dict[str, Any]] = {}
-    for relative in (
-        "tools/butano/import_rom_pixel_ab_baselines.py",
-        "tools/butano/import_rom_relocation_specs.py",
-    ):
-        path = root / relative
-        if not path.is_file():
-            continue
-        try:
-            tree = ast.parse(path.read_text(encoding="utf-8"))
-        except (OSError, SyntaxError):  # pragma: no cover - defensive
-            continue
-        for node in tree.body:
-            if not isinstance(node, ast.AnnAssign) or not isinstance(
-                node.target, ast.Name
-            ):
-                continue
-            if not node.target.id.endswith("_FAMILIES"):
-                continue
-            try:
-                value = ast.literal_eval(node.value)
-            except (ValueError, SyntaxError):
-                continue
-            for family, manifest_sha256 in value:
-                specs.setdefault(
-                    family,
-                    {
-                        "manifest_sha256": manifest_sha256,
-                        "importers": [],
-                    },
-                )["importers"].append(relative)
-    return specs
+# The importer carrier is read by the provenance auditor, which owns the
+# carrier's contract.  Reading it here as well would be a second copy of the
+# same rule -- and two copies drift.  The roadmap's W3 asks for exactly one
+# reader: "the auditor's visible wires must equal the real ones".
 
 
 def _census_sinks(root: Path) -> dict[str, Any]:
@@ -336,7 +356,7 @@ def measure(
 
     tests = _collect_text_files(root)
     gates = _gate_evidence(tests)
-    imported = _read_importer_specs(root)
+    imported, _importer_problems = read_importer_specs(root)
 
     # -- source side ---------------------------------------------------
     source_rows: list[dict[str, Any]] = []
@@ -356,6 +376,7 @@ def measure(
 
     for family_id, category in sorted(families.items()):
         consumers = bound_families.get(family_id, [])
+        local_evidence: dict[str, Any] = {}
         # The gate evidence is keyed by product; the receipt wants the test
         # files that provide it, not the product path.
         gated = [test for path in consumers for test in gates.get(path, [])]
@@ -423,20 +444,8 @@ def measure(
                 # here -- and whether it still matches the reverse tree's
                 # original -- decides whether the remake re-derived the
                 # result or merely left a tool that would.
-                local_manifest = root / "artifacts" / family_id / "manifest.json"
-                reverse_manifest = reverse_root / "artifacts" / family_id / "manifest.json"
-                if not local_manifest.is_file():
-                    state = STATE_LOCAL_MISSING
-                    tier = "local-output-absent"
-                elif not reverse_manifest.is_file():
-                    state = STATE_LOCAL_MISSING
-                    tier = "local-only-no-reverse-twin"
-                elif _sha256(local_manifest) == _sha256(reverse_manifest):
-                    state = STATE_LOCAL_IDENTICAL
-                    tier = "local-rederived"
-                else:
-                    state = STATE_LOCAL_DIVERGED
-                    tier = "local-rederived"
+                state, tier, evidence = _local_copy_state(root, reverse_root, family_id)
+                local_evidence = evidence
             scope_closed = None
             payload_bytes = 0
         elif shelf_row is not None:
@@ -467,6 +476,7 @@ def measure(
                 "gate_upper_bound": bool(gated),
                 "consumption_status": gap_status.get(family_id, "none"),
                 "references": reference_kinds.get(family_id, [])[:8],
+                "local_copy": local_evidence,
             }
         )
 
@@ -490,6 +500,27 @@ def measure(
     census = _census_sinks(root)
     sinks_by_state = collections.Counter(row["state"] for row in sink_rows)
     source_by_state = collections.Counter(row["state"] for row in source_rows)
+
+    # The coverage assertion W3 asks for: what the auditor can see as a
+    # declared wire must equal what this matrix counts as wired.  The auditor
+    # reads **both** carriers now (the header comment and the importers'
+    # own constants), so a wire that only one of them can see shows up here
+    # as a difference instead of as a silent understatement.
+    declared_here = {
+        row["id"]
+        for row in source_rows
+        if row["state"] in (STATE_WIRED_GATED, STATE_WIRED_UNGATED, STATE_IMPORTED_GATED, STATE_IMPORTED_UNGATED)
+    }
+    declared_by_auditor = {
+        family for _product, family in report.mapping
+    } | {wire.family for wire in report.importer_wires}
+    coverage_gap = {
+        "declared_by_auditor": len(declared_by_auditor),
+        "declared_by_matrix": len(declared_here),
+        "difference": len(declared_by_auditor ^ declared_here),
+        "only_in_auditor": sorted(declared_by_auditor - declared_here),
+        "only_in_matrix": sorted(declared_here - declared_by_auditor),
+    }
 
     return {
         "schema": WIRING_SCHEMA,
@@ -537,6 +568,7 @@ def measure(
         "summary": {
             "source_total": len(source_rows),
             "source_by_state": dict(sorted(source_by_state.items())),
+            "declared_coverage": coverage_gap,
             "sink_total": len(sink_rows),
             "sink_by_state": dict(sorted(sinks_by_state.items())),
             "families_bound": len(bound_families),
@@ -616,6 +648,21 @@ def render_markdown(payload: dict[str, Any]) -> str:
     lines.append(f"| 运行时源码（`game/src/*.cpp`） | {surface['game_sources']} | ❌ 无载体 |")
     lines.append(f"| 门禁（`tests/test_*.py`） | {surface['test_modules']} | — |")
     lines.append("")
+    coverage = summary.get("declared_coverage") or {}
+    if coverage:
+        lines.append("## 带声明接线的覆盖率断言")
+        lines.append("")
+        lines.append(
+            "**审计器看得见的带声明接线，必须等于这张矩阵数出来的带声明接线。**"
+            "断言成立时差 = 0；差不为 0 说明有接线只被一套载体看见。"
+        )
+        lines.append("")
+        lines.append("| 项 | 值 |")
+        lines.append("| --- | ---: |")
+        lines.append(f"| 审计器可见（两套载体合计） | {coverage.get('declared_by_auditor')} |")
+        lines.append(f"| 矩阵数出的带声明接线 | {coverage.get('declared_by_matrix')} |")
+        lines.append(f"| **差** | **{coverage.get('difference')}** |")
+        lines.append("")
     lines.append("## 未接线的族（on-shelf，按类别）")
     lines.append("")
     shelf = [row for row in payload["source_rows"] if row["state"] == STATE_SHELF]

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>内容包载入器</title>
+</head>
+<body>
+<script>
+// Loads the content pack and hands it to the editor.
+//
+// Why a separate document: browsers cap how much a single document may
+// download (measured: ~6 MB in the desktop FilePanel browser).  The editor
+// needs two large payloads — the content pack and the base ROM — so each is
+// fetched by a document of its own.
+(function () {
+  function report(state, payload) {
+    if (window.parent === window) return;
+    window.parent.postMessage({ source: 'pack-loader', state, payload }, '*');
+  }
+
+  async function gunzip(buffer) {
+    if (typeof DecompressionStream !== 'function') return null;
+    const stream = new Response(buffer).body.pipeThrough(new DecompressionStream('gzip'));
+    return await new Response(stream).arrayBuffer();
+  }
+
+  /**
+   * fetch with a timeout that really fires.
+   *
+   * The timeout is a *race* against a rejecting timer, not only an abort:
+   * some browsers never reject a stalled response body when the abort signal
+   * fires, so an abort-only timeout would never fire.
+   */
+  async function fetchWithTimeout(url, gzipped) {
+    let lastError = null;
+    for (let attempt = 1; attempt <= 4; attempt++) {
+      const controller = new AbortController();
+      let timer = null;
+      const guard = new Promise((_, reject) => {
+        timer = setTimeout(() => {
+          controller.abort();
+          reject(new Error(url + ' 超时'));
+        }, 8000);
+      });
+      try {
+        const request = fetch(url, { cache: 'no-cache', signal: controller.signal })
+          .then(async (response) => {
+            if (!response.ok) throw new Error(url + ': HTTP ' + response.status);
+            if (gzipped) {
+              const raw = await response.arrayBuffer();
+              if (response.headers.get('content-encoding') === 'gzip') {
+                return new TextDecoder().decode(raw);
+              }
+              const plain = await gunzip(raw);
+              return plain ? new TextDecoder().decode(plain) : null;
+            }
+            return await response.text();
+          });
+        const text = await Promise.race([request, guard]);
+        if (text !== null) return text;
+        lastError = new Error(url + ' 解压失败');
+      } catch (err) {
+        lastError = err;
+        console.log('[pack-loader] ' + url + ' failed: ' + err.message);
+      } finally {
+        clearTimeout(timer);
+      }
+    }
+    throw new Error(url + ': ' + (lastError && lastError.message ? lastError.message : lastError));
+  }
+
+  (async function () {
+    try {
+      let text = null;
+      for (const url of ['pack.min.json.gz', 'pack.json']) {
+        try {
+          text = await fetchWithTimeout(url, url.endsWith('.gz'));
+          break;
+        } catch (err) {
+          console.log('[pack-loader] ' + url + ' failed: ' + err.message);
+        }
+      }
+      if (text === null) throw new Error('内容包取不到');
+      report('ok', text);
+    } catch (err) {
+      report('error', String(err && err.message ? err.message : err));
+    }
+  })();
+})();
+</script>
+</body>
+</html>

@@ -22,11 +22,11 @@
 
 | 状态 | 族数 |
 | --- | ---: |
-| `imported-and-gated` | 54 |
-| `local-derivation-missing` | 26 |
+| `imported-and-gated` | 57 |
+| `local-rederived-identical` | 26 |
 | `no-material` | 37 |
 | `not-importable` | 51 |
-| `on-shelf` | 71 |
+| `on-shelf` | 68 |
 | `unclassified` | 12 |
 | `verified-against` | 1 |
 | `wired-and-gated` | 12 |
@@ -47,7 +47,17 @@
 | 内容库（`sequel/content/*/bank.json`） | 34 | ❌ 无载体 |
 | 图形资产（`butano-sequel/graphics/`） | 1819 | ❌ 无载体 |
 | 运行时源码（`game/src/*.cpp`） | 4 | ❌ 无载体 |
-| 门禁（`tests/test_*.py`） | 373 | — |
+| 门禁（`tests/test_*.py`） | 374 | — |
+
+## 带声明接线的覆盖率断言
+
+**审计器看得见的带声明接线，必须等于这张矩阵数出来的带声明接线。**断言成立时差 = 0；差不为 0 说明有接线只被一套载体看见。
+
+| 项 | 值 |
+| --- | ---: |
+| 审计器可见（两套载体合计） | 69 |
+| 矩阵数出的带声明接线 | 69 |
+| **差** | **0** |
 
 ## 未接线的族（on-shelf，按类别）
 
@@ -55,9 +65,9 @@
 | --- | ---: | --- |
 | battle | 1 | `battle-status-bars-v1` |
 | map | 3 | `map41-visual-resource-matrix-v1`, `scene-visual-composites-v1`, `scene-visual-transition-timelines-v1` |
-| other | 4 | `initializer-resource-pack-v1`, `levels-status-per-level-ab-v1`, `lz77-palette-runtime-v1`, `sappy-engine-master-enable-ab-v1` |
+| other | 2 | `initializer-resource-pack-v1`, `lz77-palette-runtime-v1` |
 | overview | 1 | `overview-gradient-overlay-v1` |
-| presentation | 3 | `cutscene-obj-id1-primary-ptr-ab-v1`, `portrait-palette-producers-v1`, `story-visual-resource-sources-v1` |
+| presentation | 2 | `portrait-palette-producers-v1`, `story-visual-resource-sources-v1` |
 | residual | 8 | `residual-text-bg-tilemap-resource-ownership-v1`, `residual-wram-crop-tilemap-runtime-v1`, `residual-wram-tilemap-abi-v1`, `residual-wram-tilemap-resource-ownership-v1`, `residual-wram-tilemap-runtime-v1`, `residual-wram-tilemap-runtime-v2`, `residual-wram-transformed-tilemap-runtime-v1`, `residual-wram-visual-metadata-abi-v2` |
 | rom | 29 | `rom-alternate-dialogue-table-v1`, `rom-animation-descriptor-pool-v2`, `rom-battle-sound-selector-v1`, `rom-boot-copy-sources-v1`, `rom-bounded-index-u16-pair-table-v1`, `rom-cfg-proven-roots-v14`, `rom-cutscene-obj-source-ranges-v1`, `rom-dialogue-text-inventory-v1`, `rom-direct-cpuset-gpu-inventory-v1`, `rom-direct-dma-gpu-inventory-v1`, `rom-directsound-pitch-lookup-v1`, `rom-display-text-delta-v1` … |
 | runtime | 4 | `runtime-bg-composites-v1`, `runtime-font-tile-provenance-v1`, `runtime-layer-static-provenance-v1`, `runtime-screen-composites-v1` |

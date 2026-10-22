@@ -79,6 +79,23 @@ DEFAULT_REVERSE_ROOT = Path("/Users/altair/github/gba-naruto-reverse")
 #: which convention this tree uses without reading this file.
 CARRIER = "c-header-comment"
 
+#: The **second** carrier.  The header comment is not the only way this tree
+#: binds a product to a reverse family: the ROM importers carry their own
+#: contract -- a family plus the SHA-256 of its manifest, checked at run time,
+#: with the files copied into this tree.  That is a declared wire too.
+#:
+#: Reading only one carrier understates what is wired, and the gap is large:
+#: the header carrier declares 12 families, the importer carrier 54.
+IMPORTER_CARRIER = "importer-constant"
+
+#: The importers that carry the second carrier.  Each one declares its own
+#: families in a module level ``*_FAMILIES`` constant, which the auditor reads
+#: through the abstract syntax tree -- the importers are never executed.
+IMPORTER_MODULES = (
+    "tools/butano/import_rom_pixel_ab_baselines.py",
+    "tools/butano/import_rom_relocation_specs.py",
+)
+
 #: The module level constant a generator uses to register the products it
 #: writes.  The value has to be a literal list of repository relative paths
 #: so that the auditor can read it without executing the generator.
@@ -238,6 +255,26 @@ class OutOfScopeProduct:
 
 
 @dataclass(frozen=True)
+class ImporterWire:
+    """One family an importer pins by manifest SHA-256.
+
+    The importer's own contract is the carrier: the family name and the hash
+    of its manifest are read from the importer's source, the manifest is
+    re-hashed in the reverse work tree, and the files are copied into this
+    tree under the importer's output directory.
+    """
+
+    family: str
+    importer: str
+    declared_sha256: str
+    manifest_path: str
+    actual_sha256: str | None = None
+    manifest_status: str = "unknown"
+    notes: tuple[str, ...] = ()
+    problems: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
 class GeneratorRegistry:
     """One generator and the products it registered."""
 
@@ -255,6 +292,7 @@ class AuditReport:
     registry: list[GeneratorRegistry] = field(default_factory=list)
     products: list[ProductAudit] = field(default_factory=list)
     families: list[FamilyAudit] = field(default_factory=list)
+    importer_wires: list[ImporterWire] = field(default_factory=list)
     out_of_scope: list[OutOfScopeProduct] = field(default_factory=list)
     unattributed: list[OutOfScopeProduct] = field(default_factory=list)
     problems: list[tuple[int, str]] = field(default_factory=list)
@@ -278,6 +316,19 @@ class AuditReport:
                 pairs.append((product.path, family))
         return pairs
 
+    @property
+    def declared_family_count(self) -> int:
+        """How many families are bound by **any** carrier.
+
+        The header carrier is not the only one.  The ROM importers carry
+        their own contract (family plus manifest SHA-256, checked at run
+        time), and those families are declared too -- counting one carrier
+        and calling it the total understates what is wired.
+        """
+        header = {family for _product, family in self.mapping}
+        importer = {wire.family for wire in self.importer_wires}
+        return len(header | importer)
+
     def summary(self) -> str:
         """A human readable report of the audit."""
         lines = [
@@ -291,6 +342,10 @@ class AuditReport:
             f"  declared:     {self.declared_product_count}",
             f"  with family:  {len(self.mapping)}",
             "",
+            f"declared families (any carrier): {self.declared_family_count}",
+            f"  header carrier:    {len({f for _p, f in self.mapping})}",
+            f"  importer carrier:  {len({w.family for w in self.importer_wires})}",
+            "",
         ]
         if self.registry:
             lines.append("generator registry")
@@ -303,6 +358,16 @@ class AuditReport:
             lines.append("generated product -> artifact family")
             for product, family in self.mapping:
                 lines.append(f"  {product} -> {family}")
+            lines.append("")
+        if self.importer_wires:
+            lines.append(
+                f"importer -> artifact family ({IMPORTER_CARRIER})"
+            )
+            for wire in self.importer_wires:
+                lines.append(
+                    f"  {wire.importer} -> {wire.family} "
+                    f"(manifest {wire.manifest_status})"
+                )
             lines.append("")
         for family in self.families:
             lines.append(
@@ -346,6 +411,21 @@ class AuditReport:
             "carrier": self.carrier,
             "exit_code": self.exit_code,
             "declared_product_count": self.declared_product_count,
+            "declared_family_count": self.declared_family_count,
+            "importer_carrier": IMPORTER_CARRIER,
+            "importer_wires": [
+                {
+                    "family": wire.family,
+                    "importer": wire.importer,
+                    "manifest": wire.manifest_path,
+                    "declared_sha256": wire.declared_sha256,
+                    "actual_sha256": wire.actual_sha256,
+                    "manifest_status": wire.manifest_status,
+                    "notes": list(wire.notes),
+                    "problems": list(wire.problems),
+                }
+                for wire in self.importer_wires
+            ],
             "registry": [
                 {
                     "generator": entry.generator,
@@ -816,6 +896,115 @@ def _verify_family(
     )
 
 
+def read_importer_specs(root: Path | str) -> tuple[dict[str, dict[str, Any]], list[str]]:
+    """Read the second carrier: the families the ROM importers pin.
+
+    The provenance header comment is not the only way this tree binds a
+    product to a reverse family.  The two ROM importers carry their own
+    contract: a family plus the SHA-256 of its manifest, re-checked at run
+    time, with the files copied into this tree.  That is a declared wire --
+    and it is the contract that put the 32 pixel-A/B baselines and the 22
+    relocation specs here in the first place.
+
+    Reading only the header carrier reports those families as "mentioned but
+    not declared", which understates what is actually wired.
+
+    The constants are read through the abstract syntax tree, so the importers
+    are never executed and no file name pattern is guessed.
+    """
+    root = Path(root)
+    specs: dict[str, dict[str, Any]] = {}
+    problems: list[str] = []
+    for relative in IMPORTER_MODULES:
+        path = root / relative
+        if not path.is_file():
+            # A tree without the importers simply has no importer-carrier
+            # wire.  That is not an error -- it is a different tree.
+            continue
+        try:
+            tree = ast.parse(path.read_text(encoding="utf-8"), filename=relative)
+        except (OSError, SyntaxError) as exc:
+            problems.append(
+                f"importer carrier: {relative} cannot be parsed, so the "
+                f"families it pins cannot be read ({exc})"
+            )
+            continue
+        for node in tree.body:
+            if not isinstance(node, ast.AnnAssign) or not isinstance(
+                node.target, ast.Name
+            ):
+                continue
+            if not node.target.id.endswith("_FAMILIES"):
+                continue
+            try:
+                value = ast.literal_eval(node.value)
+            except (ValueError, SyntaxError):
+                problems.append(
+                    f"importer carrier: {relative} declares "
+                    f"{node.target.id} that is not a literal list of "
+                    "(family, manifest sha256) pairs"
+                )
+                continue
+            for family, manifest_sha256 in value:
+                entry = specs.setdefault(
+                    family,
+                    {"manifest_sha256": manifest_sha256, "importers": []},
+                )
+                if entry["manifest_sha256"] != manifest_sha256:
+                    problems.append(
+                        f"importer carrier: {family} is pinned with two "
+                        f"different manifest hashes ({entry['manifest_sha256']} "
+                        f"and {manifest_sha256})"
+                    )
+                entry["importers"].append(relative)
+    return specs, problems
+
+
+def _attach_importer_wires(
+    report: AuditReport,
+    root: Path,
+    reverse_root: Path,
+    families: dict[str, FamilyAudit],
+    superseded: dict[str, str],
+) -> None:
+    """Resolve the families the ROM importers pin.
+
+    The header carrier is not the whole registry.  The importers bind their
+    own families by manifest SHA-256, and those families are declared too --
+    so they are resolved against the reverse work tree with the same manifest
+    gate as the header carrier.
+
+    The step runs even when the generator registry is empty: a tree without
+    generators still has importer-carrier wires, and reporting only the first
+    carrier is exactly the understatement this step exists to remove.
+    """
+    importer_specs, importer_problems = read_importer_specs(root)
+    for message in importer_problems:
+        report.problems.append((EXIT_REGISTRY, message))
+    if not (Path(reverse_root) / "artifacts").is_dir():
+        return
+    for family, spec in sorted(importer_specs.items()):
+        if family not in families:
+            families[family] = _verify_family(
+                reverse_root, family, spec["manifest_sha256"], superseded
+            )
+        family_audit = families[family]
+        report.importer_wires.append(
+            ImporterWire(
+                family=family,
+                importer=", ".join(spec["importers"]),
+                declared_sha256=spec["manifest_sha256"],
+                manifest_path=family_audit.manifest_path,
+                actual_sha256=family_audit.actual_sha256,
+                manifest_status=family_audit.manifest_status,
+                notes=family_audit.notes,
+                problems=family_audit.problems,
+            )
+        )
+        for problem in family_audit.problems:
+            report.problems.append((_problem_code(problem), problem))
+
+
 def audit(root: Path | str, reverse_root: Path | str) -> AuditReport:
     """Audit every generated product against the reverse work tree."""
     root = Path(root)
@@ -872,6 +1061,7 @@ def audit(root: Path | str, reverse_root: Path | str) -> AuditReport:
                 f"declares {REGISTRY_CONSTANT}, so no product is audited",
             )
         )
+        _attach_importer_wires(report, root, reverse_root, {}, {})
         return report
     if not products:
         report.problems.append(
@@ -881,6 +1071,7 @@ def audit(root: Path | str, reverse_root: Path | str) -> AuditReport:
                 "declaration can be audited",
             )
         )
+        _attach_importer_wires(report, root, reverse_root, {}, {})
         return report
     if not (reverse_root / "artifacts").is_dir():
         report.problems.append(
@@ -890,6 +1081,7 @@ def audit(root: Path | str, reverse_root: Path | str) -> AuditReport:
                 "directory, so no declaration can be resolved",
             )
         )
+        _attach_importer_wires(report, root, reverse_root, {}, {})
         return report
     rom_path = root / ROM_PATH
     rom: bytes | None = None
@@ -1001,6 +1193,9 @@ def audit(root: Path | str, reverse_root: Path | str) -> AuditReport:
         for problem in product_problems:
             code = _problem_code(problem)
             report.problems.append((code, problem))
+    report.families = [families[name] for name in sorted(families)]
+
+    _attach_importer_wires(report, root, reverse_root, families, superseded)
     report.families = [families[name] for name in sorted(families)]
     return report
 

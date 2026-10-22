@@ -1,5 +1,5 @@
 {
-  "applicability": "no-local-anchor-in-this-tree",
+  "applicability": "local-anchor-found",
   "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
   "artifact_status": "accepted",
   "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -33,7 +33,9 @@
     "source_path": "runtime.pixels"
   },
   "family": "battle-effect-group17-pixel-ab-v1",
-  "local_anchors": [],
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation.ss9"
+  ],
   "manifest": "artifacts/battle-effect-group17-pixel-ab-v1/manifest.json",
   "manifest_sha256": "22763a552782012c368a31554ed6d90861f4a86d1035c97317838de63f22cb68",
   "reverse_file_hashes": {
@@ -64,7 +66,6 @@
     "single_group_single_frame_single_pixel": true
   },
   "unavailable_local_inputs": [
-    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation.ss9",
     "sequel/content/battle-effect-pixel-ab/group-17-tool37-smoke.json"
   ],
   "verifier": {

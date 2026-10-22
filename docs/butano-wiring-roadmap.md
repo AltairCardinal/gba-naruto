@@ -15,20 +15,23 @@
 **明确不在本路线图范围内**：铺关卡数量、补功能面（技能／忍具／宝箱／胜负分支／音频）。
 它们由 `docs/sequel-roadmap.md` 负责；本图只保证**接线的机制与存量**。
 
-## 起点读数（2026-10-22 当轮实测）
+## 起点读数（2026-10-22 当轮实测；W1 闭合后已刷新）
 
-| 项 | 值 | 出处 |
-| --- | ---: | --- |
-| 逆向成果族 | 264 | 索引 |
-| 带声明的接线（全部有门禁） | **66** | 54 导入器载体 + 12 provenance 载体 |
-| 本地产物缺失（有 exporter，产物不在树里） | **26** | 2026-10-19 artifacts 清理带走 |
-| 已闭合带 payload、**无人接** | **71** | 资产直取 30 + 一次生成器 41 |
-| 其中 `scope` 全部闭合 | 3 | 逆向 manifest 的 `scope` 块 |
-| 其中 `scope` 有未闭合声明 | 69 | 多为 `runtime_reachability_complete` |
-| sink 侧未登记面 | 110 手写头 / 34 内容库 / 1819 图形资产 / 4 运行时源码 | 无声明载体 |
-| notes `needs_guard`（未转门禁） | 333（314 连测试都没引用） | notes 索引五桶 |
-| S49 像素残差 | **2,917 @ step-20** | `tools/butano/measure_s49_movegrid_baseline.py` |
-| 复刻关卡数 | 3 / 47 | 场景 41/43/49 vs map header 表 47 条 |
+| 项 | W1 前 | **当前** | 出处 |
+| --- | ---: | ---: | --- |
+| 逆向成果族 | 264 | 264 | 索引 |
+| 带声明的接线（全部有门禁） | **66** | **66** | 54 导入器载体 + 12 provenance 载体 |
+| 本地产物缺失（有 exporter，产物不在树里） | **26** | **0** ✅ | W1 补回，26 族逐字节相同 |
+| └ 其中复刻侧 producer **自己复现**的 | — | **16** | `rederived`：含解码器的强结论 |
+| └ 其中从逆向树**导入**的 | — | **9** | `imported`：抓取／verifier 证据／schema 已迭代 |
+| 已闭合带 payload、**无人接** | **71** | **71** | 资产直取 30 + 一次生成器 41 |
+| 其中 `scope` 全部闭合 | 3 | 3 | 逆向 manifest 的 `scope` 块 |
+| 其中 `scope` 有未闭合声明 | 69 | 69 | 多为 `runtime_reachability_complete` |
+| sink 侧未登记面 | 110 手写头 / 34 内容库 / 1819 图形资产 / 4 运行时源码 | 同左 | 无声明载体 |
+| notes `needs_guard`（未转门禁） | 333（314 连测试都没引用） | 333（314） | notes 索引五桶 |
+| 差异清单 `local_artifact` | 3 | **0** | 逆向成果的本地副本不再被当成消费 |
+| S49 像素残差 | **2,917 @ step-20** | **2,917 @ step-20** | `tools/butano/measure_s49_movegrid_baseline.py` |
+| 复刻关卡数 | 3 / 47 | 3 / 47 | 场景 41/43/49 vs map header 表 47 条 |
 
 ## 里程碑
 
@@ -45,7 +48,7 @@
 
 ---
 
-### W1 · 补回 26 族缺失的本地产物（先做：最便宜，且是 W3 的前置）
+### W1 · 补回 26 族缺失的本地产物（✅ 已完成，2026-10-22）
 
 **为什么先做**：这 26 族的 exporter 还在复刻树里，**产物却不在**。
 它们不是「没接线」，是**线断在工作树里**。补回来比新接 26 个族便宜一个数量级。
@@ -58,9 +61,31 @@
 | 依赖 | 无 |
 | 风险 | 本地 exporter 用的解码器与逆向树不同 ⇒ 会分叉。**分叉必须报错，不许「就近取一个」** |
 
+**本轮结果（`notes/butano-local-derivations-20261022.md`）**：
+
+| 模式 | 族数 | 含义 |
+| --- | ---: | --- |
+| `rederived` | **16** | 复刻侧 producer 复现了逆向树字节（**含解码器**）——强结论 |
+| `imported` | **9** | 复刻侧无 producer 能复现（抓取／verifier 证据／schema 已迭代），按 reverse commit + 逐文件摘要导入——弱结论 |
+| `already-identical` | **1** | 还原前已存在且逐字节一致 |
+| `diverged` | **0** | 无分叉 |
+
+> **产物**：`tools/restore_butano_local_derivations.py`（还原器）+ `tools/verify_butano_local_derivations.py`（独立复核，**不 import** 还原器）
+> **收据**：`artifacts/butano-local-derivations-v1/{local.json,local.md,provenance.json}`
+> **门禁**：`tests/test_restore_butano_local_derivations.py`（13 项，全绿）
+
+**本轮顺带收紧了两处旧判定**（不是新功能，是旧判定不够严）：
+
+1. **接线审计器从「只比 manifest」改成「比整棵目录树」**——manifest 只证明描述一致，
+   不证明载荷一致；4 个两侧都没有 manifest 的抓取族此前永远判不出「一致」。
+2. **差异清单按内容排除「逆向成果的本地副本」**——副本内部的引用不是消费
+   （与 `artifacts/butano-reverse-m3-import-v1/` 同理由），本轮命中 30 个目录。
+   规则是量出来的：本地摘要**等于**逆向树摘要才排除，一旦分叉立刻重新参与扫描。
+
 > ⚠️ 这 26 族本地产物在 2026-10-19 的 artifacts 清理里被带走
 > （`notes/s49-fidelity-handover-20261019.md` §1 记录了 8,124 个被跟踪文件整体缺失）。
 > **它们大概率可以重跑出来**——工具还在。
+> ⇒ **已证实**：16 族确实重跑出来了，9 族确实没有能重跑的工具。
 
 ---
 
@@ -81,7 +106,7 @@
 
 ---
 
-### W3 · 让接线审计器覆盖两套载体，并给 sink 面补载体（结构性）
+### W3 · 让接线审计器覆盖两套载体，并给 sink 面补载体（🟡 动作 1 已完成，动作 2 待逐条判定）
 
 | 项 | 内容 |
 | --- | --- |
@@ -94,6 +119,27 @@
 
 **这一步是「以后不再产生灰区」的结构性修复。** 每一铺一关都要重接一遍线，
 先建机制比先接一关更省。
+
+**动作 1 已完成**（`notes/butano-wiring-carriers-20261022.md`）：
+
+| 项 | 之前 | 现在 |
+| --- | ---: | ---: |
+| 审计器可见的带声明接线 | **12**（只读头注释载体） | **66**（头注释 12 + 导入器 54） |
+| **覆盖率断言 `difference`** | 不可比 | **0** ✅ |
+| 导入器载体读取器 | 测量器私有副本 | **审计器持有**，测量器 import 它 |
+
+> **载体规则只能有一份实现。** 上一轮是「测量器自己补一份读取」，登记表本身没动，
+> 于是同一棵树有两个不一致的登记表（12 vs 66）——**那不是修好了，是把灰区从一处搬到另一处**。
+
+**动作 2 的两个分母实测下来不可脚本化**（不是判断，是试过的）：
+
+| 尝试 | 结果 |
+| --- | --- |
+| 用内容库 `table_offset` 反查逆向树 259 份 family manifest 的同址/近址 | 32 个有地址的内容库**只中 2 个** ⇒ **地址不是可用的连接键** |
+| 用内容库自带的 `extraction`/`discovered_by`/`notes` 反查来源 | 这些字段记的是「逆向侧当时怎么提取的」，**不是**「哪一族闭合了它」 |
+| 扫 37 个生成器源码里字面出现的图形资产名 | 1819 个图形资产里**只 174 个**被点名，其余由循环/模板生成 |
+
+⇒ 动作 2 与 **W5 同类**：**逐条判定**，先给分母与缺口清单，再逐族/逐生成器落地。
 
 ---
 
@@ -155,9 +201,9 @@ W1 处理的是**复刻树本地副本缺失**的那 26 族。两条线可以并
 | 里程碑 | 验收分母 | 门禁 | 状态 |
 | --- | --- | --- | --- |
 | W0 | 264 族九态全覆盖 | 29 项 | ✅ |
-| W1 | 26 族本地产物齐全且与逆向树逐字节相同 | `local-derivation-missing` = 0 | ⬜ |
+| W1 | 26 族本地产物齐全且与逆向树逐字节相同 | `local-derivation-missing` = 0 | ✅ |
 | W2 | step-20 残差 ≤ 2,917 且无帧变差 | `measure_s49_movegrid_baseline.py` 逐帧报告 | ⬜ |
-| W3 | 审计器可见接线 = 实际接线；34 内容库 + 图形 sidecar 齐全 | provenance 审计 exit 0 | ⬜ |
+| W3 | 审计器可见接线 = 实际接线（差 = 0）；34 内容库 + 图形 sidecar 齐全 | provenance 审计 exit 0 | 🟡 动作 1 ✅ / 动作 2 ⬜ |
 | W4 | 71 族逐族接线 + 门禁 | `on-shelf` 计数归零 | ⬜ |
 | W5 | `needs_guard` 333 → 逐条降 | notes 索引重新生成 | ⬜ |
 
@@ -184,10 +230,12 @@ W1 处理的是**复刻树本地副本缺失**的那 26 族。两条线可以并
 
 ## 相关
 
+- `notes/butano-local-derivations-20261022.md`（W1 还原：16 复现 / 9 导入 / 0 分叉）
 - `notes/butano-wiring-coverage-20261022.md`（接线点枚举 + 两处自我更正）
 - `notes/butano-usable-backlog-20261022.md`（存量分诊 + 词表探针的三处错分）
 - `docs/butano-reverse-gap-roadmap.md`（差异清单与 M0–M7）
 - `docs/sequel-roadmap.md`（铺关卡与功能面）
 - `notes/s49-fidelity-handover-20261019.md`（S49 工作交接，第 26 轮末）
-- `tools/measure_butano_usable_backlog.py`、`tools/measure_butano_wiring_coverage.py`、
+- `tools/restore_butano_local_derivations.py`、`tools/verify_butano_local_derivations.py`、
+  `tools/measure_butano_usable_backlog.py`、`tools/measure_butano_wiring_coverage.py`、
   `tools/audit_butano_reverse_provenance.py`、`tools/measure_butano_reverse_gap.py`

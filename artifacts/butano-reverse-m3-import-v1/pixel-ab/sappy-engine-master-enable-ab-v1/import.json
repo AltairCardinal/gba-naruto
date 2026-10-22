@@ -1,0 +1,63 @@
+{
+  "applicability": "no-local-anchor-in-this-tree",
+  "artifact_schema": "sappy-engine-master-enable-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "sappy-engine-master-enable-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/sappy-engine-master-enable-ab-v1/baseline.png",
+      "sha256": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "sappy-engine-master-enable-ab-v1/evidence.json",
+    "reverse_path": "artifacts/sappy-engine-master-enable-ab-v1/evidence.json",
+    "sha256": "e05ef3ef627ffb3273467942616689a7093e9b9c9bd12ed8d84f5453ec8a01dc"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": null,
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": null,
+    "rom_anchor": {
+      "baseline_value": 8335,
+      "kind": "halfword",
+      "offsets": [
+        634486
+      ],
+      "source_path": "edit.before_halfword"
+    }
+  },
+  "family": "sappy-engine-master-enable-ab-v1",
+  "local_anchors": [],
+  "manifest": "artifacts/sappy-engine-master-enable-ab-v1/manifest.json",
+  "manifest_sha256": "62b97082417cc7d049b62bbb0bacfc92271e9924f674b13d6d5ee0fd8864fde8",
+  "reverse_file_hashes": {
+    "baseline.png": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+    "candidate.png": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+    "evidence.json": "e05ef3ef627ffb3273467942616689a7093e9b9c9bd12ed8d84f5453ec8a01dc",
+    "raw.tar": "c3555a7770f2942970c309e6518a7a942d0250a4a0b70b9621dbf10c68ee3939"
+  },
+  "scope": {},
+  "unavailable_local_inputs": [
+    "artifacts/audio/mgba-sound101-full-differential.json",
+    "tools/mgba_sappy_engine_master_enable_trace.lua"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_sappy_engine_master_enable_ab.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/sappy-engine-master-enable-ab-v1",
+      "--binary",
+      "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+    ],
+    "exit_code": 0
+  }
+}

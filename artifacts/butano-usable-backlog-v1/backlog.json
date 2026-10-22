@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-21T19:17:00.552189+00:00",
+  "generated_at": "2026-10-22T01:51:15.100445+00:00",
   "inputs": {
     "gap": {
       "path": "artifacts/butano-reverse-gap-v1/gap.json",
-      "sha256": "72a52f658b150f02a7dd046450d86a78f1f67bd9ec531b4ac9ed9170e3c22dc2"
+      "sha256": "7bc86fbada4146c9e06ba697a2f26469941e1244780c17503b23a548e729e5f7"
     },
     "index": {
       "path": "artifacts/reverse-results-index-v1/index.json",
@@ -3148,8 +3148,8 @@
       "accepted": true,
       "artifact_status": "accepted",
       "category": "other",
-      "consumed": false,
-      "consumption_status": "doc",
+      "consumed": true,
+      "consumption_status": "build",
       "evidence": {
         "asset_files": [
           "baseline.png",
@@ -3278,8 +3278,8 @@
       "accepted": true,
       "artifact_status": "accepted",
       "category": "other",
-      "consumed": false,
-      "consumption_status": "doc",
+      "consumed": true,
+      "consumption_status": "build",
       "evidence": {
         "asset_files": [
           "baseline.png",
@@ -3403,8 +3403,8 @@
       "accepted": true,
       "artifact_status": "accepted",
       "category": "presentation",
-      "consumed": false,
-      "consumption_status": "doc",
+      "consumed": true,
+      "consumption_status": "build",
       "evidence": {
         "asset_files": [
           "baseline.png",
@@ -12800,44 +12800,6 @@
       "consumption_status": "doc",
       "evidence": {
         "asset_files": [
-          "baseline.png",
-          "candidate.png"
-        ],
-        "asset_suffixes": [
-          ".png"
-        ],
-        "baseline_files": [
-          "baseline.png",
-          "candidate.png"
-        ]
-      },
-      "has_payload": true,
-      "id": "levels-status-per-level-ab-v1",
-      "json_payloads": [
-        "evidence.json"
-      ],
-      "manifest_error": null,
-      "path": "artifacts/levels-status-per-level-ab-v1",
-      "payload_bytes": 389319,
-      "payload_file_count": 4,
-      "payload_files": [
-        "baseline.png",
-        "candidate.png",
-        "evidence.json",
-        "raw.tar"
-      ],
-      "scope_closed": null,
-      "scope_open_claims": [],
-      "tier": "asset-direct"
-    },
-    {
-      "accepted": true,
-      "artifact_status": "accepted",
-      "category": "other",
-      "consumed": false,
-      "consumption_status": "doc",
-      "evidence": {
-        "asset_files": [
           "inputs/profile-title-menu.png",
           "inputs/scenario-41-target-select-tutorial-dismissed.png",
           "runs/profile-browser-init/final.png",
@@ -12887,44 +12849,6 @@
     {
       "accepted": true,
       "artifact_status": "accepted",
-      "category": "other",
-      "consumed": false,
-      "consumption_status": "doc",
-      "evidence": {
-        "asset_files": [
-          "baseline.png",
-          "candidate.png"
-        ],
-        "asset_suffixes": [
-          ".png"
-        ],
-        "baseline_files": [
-          "baseline.png",
-          "candidate.png"
-        ]
-      },
-      "has_payload": true,
-      "id": "sappy-engine-master-enable-ab-v1",
-      "json_payloads": [
-        "evidence.json"
-      ],
-      "manifest_error": null,
-      "path": "artifacts/sappy-engine-master-enable-ab-v1",
-      "payload_bytes": 45015,
-      "payload_file_count": 4,
-      "payload_files": [
-        "baseline.png",
-        "candidate.png",
-        "evidence.json",
-        "raw.tar"
-      ],
-      "scope_closed": null,
-      "scope_open_claims": [],
-      "tier": "asset-direct"
-    },
-    {
-      "accepted": true,
-      "artifact_status": "accepted",
       "category": "overview",
       "consumed": false,
       "consumption_status": "doc",
@@ -12952,44 +12876,6 @@
         "generated-tiles.4bpp.bin",
         "overview-gradient-overlay.json",
         "overview-gradient-overlay.png"
-      ],
-      "scope_closed": null,
-      "scope_open_claims": [],
-      "tier": "asset-direct"
-    },
-    {
-      "accepted": true,
-      "artifact_status": "accepted",
-      "category": "presentation",
-      "consumed": false,
-      "consumption_status": "doc",
-      "evidence": {
-        "asset_files": [
-          "baseline.png",
-          "candidate.png"
-        ],
-        "asset_suffixes": [
-          ".png"
-        ],
-        "baseline_files": [
-          "baseline.png",
-          "candidate.png"
-        ]
-      },
-      "has_payload": true,
-      "id": "cutscene-obj-id1-primary-ptr-ab-v1",
-      "json_payloads": [
-        "evidence.json"
-      ],
-      "manifest_error": null,
-      "path": "artifacts/cutscene-obj-id1-primary-ptr-ab-v1",
-      "payload_bytes": 311095,
-      "payload_file_count": 4,
-      "payload_files": [
-        "baseline.png",
-        "candidate.png",
-        "evidence.json",
-        "raw.tar"
       ],
       "scope_closed": null,
       "scope_open_claims": [],
@@ -15934,7 +15820,7 @@
   "summary": {
     "families_accepted": 201,
     "families_accepted_with_payload": 192,
-    "families_consumed": 93,
+    "families_consumed": 96,
     "families_total": 264,
     "ledger_missing": 0,
     "notes": {
@@ -15952,14 +15838,14 @@
     },
     "shelf_by_tier": {
       "analysis-only": 51,
-      "asset-direct": 30,
+      "asset-direct": 27,
       "table-direct": 41,
       "unclassified": 12
     },
-    "shelf_no_scope": 62,
-    "shelf_payload_bytes": 69840365,
+    "shelf_no_scope": 59,
+    "shelf_payload_bytes": 69094936,
     "shelf_scope_closed": 3,
     "shelf_scope_open": 69,
-    "shelf_total": 134
+    "shelf_total": 131
   }
 }

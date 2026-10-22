@@ -36,6 +36,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from tools.butano.import_rom_pixel_ab_baselines import (  # noqa: E402
+    check_rom_anchor,
     PIXEL_AB_FAMILIES,
     compare_against_import,
     compare_frames,
@@ -250,6 +251,20 @@ class PixelAbImportTest(unittest.TestCase):
         self.assertEqual(caught.exception.exit_code, EXIT_FAMILY_FILE_MISMATCH)
         self.assertIn(BASELINE_REL, str(caught.exception))
 
+    def test_a_tampered_rom_anchor_is_rejected(self) -> None:
+        """The content-equivalence acceptance has to bite.
+
+        A pair that was produced by editing this ROM at this place must stop
+        being accepted the moment the ROM at that place changes.
+        """
+        rom = bytearray((ROOT / "rom" / "base.gba").read_bytes())
+        anchor = {"kind": "byte", "offsets": [5528266], "baseline_value": 1}
+        self.assertEqual(check_rom_anchor(bytes(rom), anchor), [])
+        rom[5528266] = 2
+        problems = check_rom_anchor(bytes(rom), anchor)
+        self.assertTrue(problems)
+        self.assertIn("5528266", problems[0])
+
     def test_unaccepted_status_fails_closed(self) -> None:
         for status in ("candidate", "disproved", "superseded"):
             with self.subTest(status=status):
@@ -343,7 +358,7 @@ class PixelAbImportTest(unittest.TestCase):
         if not REVERSE_ROOT.is_dir():
             self.skipTest(f"reverse work tree not present: {REVERSE_ROOT}")
         specs = as_specs(PIXEL_AB_FAMILIES)
-        self.assertEqual(len(specs), 32)
+        self.assertEqual(len(specs), 35)
         for spec in specs:
             with self.subTest(family=spec.family):
                 _path, manifest = load_verified_manifest(REVERSE_ROOT, spec)
@@ -374,12 +389,35 @@ class PixelAbImportTest(unittest.TestCase):
             if not candidates:
                 continue
             with self.subTest(family=family):
+                expectation = entry["expectation"]
+                count = expectation.get("changed_pixel_count")
+                if count is None:
+                    # Not every A/B pair is a pixel pair.  Some edit a ROM
+                    # data byte or a code halfword, and then the frames are
+                    # evidence of the edit rather than its measurement.  The
+                    # acceptance is content equivalence: the recorded offset
+                    # must still hold the recorded baseline value in *this*
+                    # tree's base ROM, which anchors the pair to the ROM the
+                    # remake builds from.
+                    anchor = expectation.get("rom_anchor")
+                    self.assertIsNotNone(
+                        anchor,
+                        f"{family}: no pixel expectation and no ROM anchor, so "
+                        f"the pair has no acceptance at all")
+                    rom = (ROOT / "rom" / "base.gba").read_bytes()
+                    problems = check_rom_anchor(rom, anchor)
+                    self.assertEqual(
+                        problems, [],
+                        f"{family}: the base ROM does not hold the recorded "
+                        f"baseline value at the recorded offset")
+                    checked += 1
+                    continue
                 baseline = self.out_dir / entry["baseline_images"][0]["path"]
                 result = compare_frames(
                     baseline, REVERSE_ROOT / "artifacts" / family / candidates[0])
                 self.assertEqual(
                     result["different_pixels"],
-                    entry["expectation"]["changed_pixel_count"],
+                    count,
                     f"{family}: the imported baseline does not reproduce the "
                     f"recorded pixel difference")
                 checked += 1

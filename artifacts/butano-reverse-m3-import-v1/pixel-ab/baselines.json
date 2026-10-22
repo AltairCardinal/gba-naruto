@@ -61,7 +61,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "natural-delayed-battle-effect-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": null,
@@ -95,7 +95,10 @@
         "source_path": "runtime"
       },
       "family": "battle-effect-group03-natural-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9"
+      ],
       "manifest": "artifacts/battle-effect-group03-natural-pixel-ab-v1/manifest.json",
       "manifest_sha256": "1d443078e52355b11b7324e82b11fda4e115c24e92301d3fd92515c2980e3c10",
       "reverse_file_hashes": {
@@ -106,8 +109,6 @@
       },
       "scope": {},
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
-        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
         "sequel/content/battle-effect-natural-pixel-ab/group-03-tool67-expiry.json"
       ],
       "verifier": {
@@ -509,7 +510,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -543,7 +544,9 @@
         "source_path": "runtime.pixels"
       },
       "family": "battle-effect-group11-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9"
+      ],
       "manifest": "artifacts/battle-effect-group11-pixel-ab-v1/manifest.json",
       "manifest_sha256": "b955b67eb1174d1dc33e74874e12ac952b609fc34ca33c0b060e6210a3338c53",
       "reverse_file_hashes": {
@@ -574,7 +577,6 @@
         "single_group_single_frame_single_pixel": true
       },
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
         "sequel/content/battle-effect-pixel-ab/group-11-cross-shuriken.json"
       ],
       "verifier": {
@@ -654,7 +656,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -688,7 +690,9 @@
         "source_path": "runtime.pixels"
       },
       "family": "battle-effect-group13-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/battle3-action61-ai-preconfirm.ss9"
+      ],
       "manifest": "artifacts/battle-effect-group13-pixel-ab-v1/manifest.json",
       "manifest_sha256": "41e7c9af6cee5e8008085c8cbf73c36ecd4a1b37316b5ad92e83f4af7c2111b5",
       "reverse_file_hashes": {
@@ -719,7 +723,6 @@
         "single_group_single_frame_single_pixel": true
       },
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/battle3-action61-ai-preconfirm.ss9",
         "sequel/content/battle-effect-pixel-ab/group-13-action61-execution.json"
       ],
       "verifier": {
@@ -739,7 +742,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -773,7 +776,9 @@
         "source_path": "runtime.pixels"
       },
       "family": "battle-effect-group14-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-47-fire-action16-confirmation.ss9"
+      ],
       "manifest": "artifacts/battle-effect-group14-pixel-ab-v1/manifest.json",
       "manifest_sha256": "74261b05f61b160dcbdd181eb94db56fdb6d3457716d19258394f4b6e2da2e75",
       "reverse_file_hashes": {
@@ -804,7 +809,6 @@
         "single_group_single_frame_single_pixel": true
       },
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-47-fire-action16-confirmation.ss9",
         "sequel/content/battle-effect-pixel-ab/group-14-fire-action.json"
       ],
       "verifier": {
@@ -824,7 +828,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -858,7 +862,9 @@
         "source_path": "runtime.pixels"
       },
       "family": "battle-effect-group15-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/battle8-action64-ai-preconfirm.ss9"
+      ],
       "manifest": "artifacts/battle-effect-group15-pixel-ab-v1/manifest.json",
       "manifest_sha256": "4417d160289a72acb1d981c49063acaca9c51a498755ed95efbccdf5a36a1c6b",
       "reverse_file_hashes": {
@@ -889,7 +895,6 @@
         "single_group_single_frame_single_pixel": true
       },
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/battle8-action64-ai-preconfirm.ss9",
         "sequel/content/battle-effect-pixel-ab/group-15-action64-water-dragon.json"
       ],
       "verifier": {
@@ -909,7 +914,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -943,7 +948,9 @@
         "source_path": "runtime.pixels"
       },
       "family": "battle-effect-group16-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-confirmation.ss9"
+      ],
       "manifest": "artifacts/battle-effect-group16-pixel-ab-v1/manifest.json",
       "manifest_sha256": "393eee18bcecc2b1ddf6afa75fa325878ee528942b28c5db1ab4d5beeddb294f",
       "reverse_file_hashes": {
@@ -974,7 +981,6 @@
         "single_group_single_frame_single_pixel": true
       },
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-confirmation.ss9",
         "sequel/content/battle-effect-pixel-ab/group-16-tool67-tag.json"
       ],
       "verifier": {
@@ -994,7 +1000,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -1028,7 +1034,9 @@
         "source_path": "runtime.pixels"
       },
       "family": "battle-effect-group17-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation.ss9"
+      ],
       "manifest": "artifacts/battle-effect-group17-pixel-ab-v1/manifest.json",
       "manifest_sha256": "22763a552782012c368a31554ed6d90861f4a86d1035c97317838de63f22cb68",
       "reverse_file_hashes": {
@@ -1059,7 +1067,6 @@
         "single_group_single_frame_single_pixel": true
       },
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool37-confirmation.ss9",
         "sequel/content/battle-effect-pixel-ab/group-17-tool37-smoke.json"
       ],
       "verifier": {
@@ -1201,7 +1208,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -1235,7 +1242,9 @@
         "source_path": "runtime.pixels"
       },
       "family": "battle-effect-group2-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9"
+      ],
       "manifest": "artifacts/battle-effect-group2-pixel-ab-v1/manifest.json",
       "manifest_sha256": "a0be99cd55c092c96f355d9a9a2efc8e08b102ec5cb864463c826f30b19462b4",
       "reverse_file_hashes": {
@@ -1266,7 +1275,6 @@
         "single_group_single_frame_single_pixel": true
       },
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
         "sequel/content/battle-effect-pixel-ab/group-02-action7-shadow-clone.json"
       ],
       "verifier": {
@@ -1286,7 +1294,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "battle-effect-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
@@ -1320,7 +1328,9 @@
         "source_path": "runtime.pixels"
       },
       "family": "battle-effect-group4-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9"
+      ],
       "manifest": "artifacts/battle-effect-group4-pixel-ab-v1/manifest.json",
       "manifest_sha256": "d88126122731f83b31ee06731afb33ea4b9641e3b3a33d2e639ff0358f288c34",
       "reverse_file_hashes": {
@@ -1351,7 +1361,6 @@
         "single_group_single_frame_single_pixel": true
       },
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-50-cross-shuriken-confirmation.ss9",
         "sequel/content/battle-effect-pixel-ab/group-04-tool1-projectile.json"
       ],
       "verifier": {
@@ -1490,7 +1499,8 @@
       },
       "family": "battle-encounters-story-visual-pixel-ab-v1",
       "local_anchors": [
-        "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-8.ss9"
+        "artifacts/runtime-checkpoints/scenario-41-postbattle-dialogue-8.ss9",
+        "artifacts/runtime-checkpoints/scenario-53-story-slideshow-command-controlled.ss9"
       ],
       "manifest": "artifacts/battle-encounters-story-visual-pixel-ab-v1/manifest.json",
       "manifest_sha256": "6fc7148a5ec464142ac42d058751238bb0779f7e7f5fc4e7834bbd4dcc018c63",
@@ -1502,7 +1512,6 @@
       },
       "scope": {},
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-53-story-slideshow-command-controlled.ss9",
         "tools/mgba_battle_encounters_story_visual_trace.lua"
       ],
       "verifier": {
@@ -1701,7 +1710,69 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
+      "artifact_schema": "cutscene-obj-id1-primary-ptr-ab-artifact-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "cutscene-obj-id1-primary-ptr-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/baseline.png",
+          "sha256": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "cutscene-obj-id1-primary-ptr-ab-v1/evidence.json",
+        "reverse_path": "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/evidence.json",
+        "sha256": "8247a8666365dca8e124a00509ac6f7e113b6954606da5fe00d3ef6d2dbedbe6"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": "051162ea4f830febd94823d2e87d75ad474223f352867e63fa0965912dbe7bc8",
+        "bbox": [
+          42,
+          49,
+          197,
+          110
+        ],
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": "cf8f61412fd1dfa5defd75fa52cd580c6f788972c62f8a0b0fc6caf02a1895d4",
+        "changed_pixel_count": 4032,
+        "source_path": "pixels"
+      },
+      "family": "cutscene-obj-id1-primary-ptr-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-combat-popup.ss9"
+      ],
+      "manifest": "artifacts/cutscene-obj-id1-primary-ptr-ab-v1/manifest.json",
+      "manifest_sha256": "a7b998184a757f3f8bebdb57a6bc9965ade0e7775a29c5e074905072a208fdb9",
+      "reverse_file_hashes": {
+        "baseline.png": "d0820a70644a4363c78cad2c358aac8d99c9647d7ef457d979dc8f1e63eb08a6",
+        "candidate.png": "e4955c26831d3f60eb1330dd6427b49e44d58c5ad9537a395069e3f2905aa651",
+        "evidence.json": "8247a8666365dca8e124a00509ac6f7e113b6954606da5fe00d3ef6d2dbedbe6",
+        "raw.tar": "3afedc6c2f84d051e241358e24577751d46a748b866777998fa7c1fd45002de3"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "tools/mgba_single_input_replay.lua"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_cutscene_obj_primary_ptr_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/cutscene-obj-id1-primary-ptr-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
       "artifact_schema": "data-table-b-message0-pointer-pixel-ab-artifact-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": null,
@@ -1730,7 +1801,9 @@
         "source_path": "runtime_effect"
       },
       "family": "data-table-b-message0-pointer-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9"
+      ],
       "manifest": "artifacts/data-table-b-message0-pointer-pixel-ab-v1/manifest.json",
       "manifest_sha256": "fc0310e3f40d493ac0502d27bf2490817659999e32fa5bcade639f0699a50e9b",
       "reverse_file_hashes": {
@@ -1741,7 +1814,6 @@
       },
       "scope": {},
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-50-action7-shadow-clone-confirmation.ss9",
         "tools/mgba_input_sequence_replay.lua"
       ],
       "verifier": {
@@ -1756,7 +1828,68 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
+      "artifact_schema": "levels-status-per-level-ab-artifact-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "levels-status-per-level-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/levels-status-per-level-ab-v1/baseline.png",
+          "sha256": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "levels-status-per-level-ab-v1/evidence.json",
+        "reverse_path": "artifacts/levels-status-per-level-ab-v1/evidence.json",
+        "sha256": "471e31ea84f0fae5a194b1b459a4c80b41c2017306fd4f8291572c7e557a29d3"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "rom_anchor": {
+          "baseline_value": 1,
+          "kind": "byte",
+          "offsets": [
+            5528266
+          ],
+          "source_path": "edit.baseline"
+        }
+      },
+      "family": "levels-status-per-level-ab-v1",
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-41-action-menu-0.ss9"
+      ],
+      "manifest": "artifacts/levels-status-per-level-ab-v1/manifest.json",
+      "manifest_sha256": "717a9910e783e6a596b0aa2b7be7912aaf411fcdbf9f2e2bd41918cd3e6763f0",
+      "reverse_file_hashes": {
+        "baseline.png": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+        "candidate.png": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+        "evidence.json": "471e31ea84f0fae5a194b1b459a4c80b41c2017306fd4f8291572c7e557a29d3",
+        "raw.tar": "3585cce0dd13111ef394e2e6dfa690e8c2829c17e029c793346e4244c6289a59"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "tools/mgba_input_sequence_replay.lua"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_levels_status_per_level_ab.py",
+          "artifacts/levels-status-per-level-ab-v1",
+          "--binary",
+          "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
       "artifact_schema": "map-events-e4-handler-pixel-ab-artifact-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": null,
@@ -1790,7 +1923,9 @@
         "source_path": "pixels"
       },
       "family": "map-events-e4-handler-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9"
+      ],
       "manifest": "artifacts/map-events-e4-handler-pixel-ab-v1/manifest.json",
       "manifest_sha256": "35f337be0534a1b93e9acc927eac35b981f4380bec99aed79d5abbb354912e48",
       "reverse_file_hashes": {
@@ -1803,9 +1938,7 @@
         "not_proved": "This run resumes after the C3-to-E4 event was queued and does not re-hit 0x08081D74; source checkpoint and static-chain artifacts bind that upstream route. It does not prove secondary handlers, all 256 entries, full animation semantics, or physical-GBA output.",
         "proved": "Natural zero-input recovery reaches E4 primary_handler_ptr through 0x0807FD36 and 0x0809C114; the baseline enters 0x0807F208 and renders group 3, while the isolated bx-lr candidate does neither and changes 37,436 final pixels."
       },
-      "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9"
-      ],
+      "unavailable_local_inputs": [],
       "verifier": {
         "command": [
           "python3",
@@ -2050,7 +2183,7 @@
       }
     },
     {
-      "applicability": "no-local-anchor-in-this-tree",
+      "applicability": "local-anchor-found",
       "artifact_schema": "motion-effect-parameter-pixel-ab-runtime-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": null,
@@ -2084,7 +2217,10 @@
         "source_path": "runtime"
       },
       "family": "motion-effect-parameter-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
+        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9"
+      ],
       "manifest": "artifacts/motion-effect-parameter-pixel-ab-v1/manifest.json",
       "manifest_sha256": "3741e9465acc813e881493c3c91bef2101e879d6b565ecbc8e01e98b902b9abd",
       "reverse_file_hashes": {
@@ -2095,8 +2231,6 @@
       },
       "scope": {},
       "unavailable_local_inputs": [
-        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
-        "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
         "sequel/content/motion-effect-parameter-pixel-ab/group-03-record-00-y-offset.json",
         "sequel/content/palettes/bank.json"
       ],
@@ -2204,6 +2338,69 @@
     },
     {
       "applicability": "no-local-anchor-in-this-tree",
+      "artifact_schema": "sappy-engine-master-enable-ab-artifact-v1",
+      "artifact_status": "accepted",
+      "base_rom_sha256": null,
+      "baseline_images": [
+        {
+          "path": "sappy-engine-master-enable-ab-v1/baseline/baseline.png",
+          "reverse_path": "artifacts/sappy-engine-master-enable-ab-v1/baseline.png",
+          "sha256": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+          "size": [
+            240,
+            160
+          ]
+        }
+      ],
+      "evidence": {
+        "path": "sappy-engine-master-enable-ab-v1/evidence.json",
+        "reverse_path": "artifacts/sappy-engine-master-enable-ab-v1/evidence.json",
+        "sha256": "e05ef3ef627ffb3273467942616689a7093e9b9c9bd12ed8d84f5453ec8a01dc"
+      },
+      "expectation": {
+        "baseline_rgb_sha256": null,
+        "bbox_convention": "inclusive",
+        "candidate_rgb_sha256": null,
+        "rom_anchor": {
+          "baseline_value": 8335,
+          "kind": "halfword",
+          "offsets": [
+            634486
+          ],
+          "source_path": "edit.before_halfword"
+        }
+      },
+      "family": "sappy-engine-master-enable-ab-v1",
+      "local_anchors": [],
+      "manifest": "artifacts/sappy-engine-master-enable-ab-v1/manifest.json",
+      "manifest_sha256": "62b97082417cc7d049b62bbb0bacfc92271e9924f674b13d6d5ee0fd8864fde8",
+      "reverse_file_hashes": {
+        "baseline.png": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+        "candidate.png": "3d8eea0c6ad28a0ba8660178a9a559b60fa1e8fcbfca421b041530b54612dc99",
+        "evidence.json": "e05ef3ef627ffb3273467942616689a7093e9b9c9bd12ed8d84f5453ec8a01dc",
+        "raw.tar": "c3555a7770f2942970c309e6518a7a942d0250a4a0b70b9621dbf10c68ee3939"
+      },
+      "scope": {},
+      "unavailable_local_inputs": [
+        "artifacts/audio/mgba-sound101-full-differential.json",
+        "tools/mgba_sappy_engine_master_enable_trace.lua"
+      ],
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_sappy_engine_master_enable_ab.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/sappy-engine-master-enable-ab-v1",
+          "--binary",
+          "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "applicability": "local-anchor-found",
       "artifact_schema": "tile-asset-descriptor-pixel-ab-artifact-v1",
       "artifact_status": "accepted",
       "base_rom_sha256": null,
@@ -2237,7 +2434,9 @@
         "source_path": "pixels"
       },
       "family": "tile-asset-descriptor2-pixel-ab-v1",
-      "local_anchors": [],
+      "local_anchors": [
+        "artifacts/runtime-checkpoints/scene-visual-controller-mode0-preselector.ss9"
+      ],
       "manifest": "artifacts/tile-asset-descriptor2-pixel-ab-v1/manifest.json",
       "manifest_sha256": "cceaa7a92507ac99fc0e9fc2abe40ba65426d4de5de03af671619510a3f1d5aa",
       "reverse_file_hashes": {
@@ -2254,8 +2453,7 @@
         "physical_gba_verified": false
       },
       "unavailable_local_inputs": [
-        "artifacts/residual-wram-tilemap-runtime-v2/scene-panel-setup.ss9",
-        "artifacts/runtime-checkpoints/scene-visual-controller-mode0-preselector.ss9"
+        "artifacts/residual-wram-tilemap-runtime-v2/scene-panel-setup.ss9"
       ],
       "verifier": {
         "command": [
@@ -2356,11 +2554,11 @@
       }
     }
   ],
-  "family_count": 32,
+  "family_count": 35,
   "schema": "konoha.butano-pixel-ab-baseline-import.v1",
   "source": {
     "accepted_status_required": "accepted",
-    "reverse_commit": "b4da99dfae5493c1318907f76a283fc0dd182fcb",
+    "reverse_commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375",
     "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
   }
 }

@@ -51,5 +51,10 @@
     },
     "note": "详见 notes/alias-conflicts-20261020.md"
   },
-  "notes": "【2026-10-20 裁决后】本 bank 的结论作废，仅保留 entries 里的 32 字节原始码字供追溯；0x079668 是代码区而不是数据表，因此本 bank 没有自己的基址。"
+  "notes": "【2026-10-20 裁决后】本 bank 的结论作废，仅保留 entries 里的 32 字节原始码字供追溯；0x079668 是代码区而不是数据表，因此本 bank 没有自己的基址。\n\n【2026-10-21 已退役】身份作废：0x08079668 是文本/消息对象分派函数，不是 Sappy 音频分发器。真正的 sound-ID 表在 0x465B70（见 sound-id-table）",
+  "retired": true,
+  "retired_reason": "身份作废：0x08079668 是文本/消息对象分派函数，不是 Sappy 音频分发器。真正的 sound-ID 表在 0x465B70（见 sound-id-table）",
+  "corrections": [
+    "2026-10-21: 本 bank 已从内容目录退役（tools/table_registry.py::RETIRED）—— 身份作废：0x08079668 是文本/消息对象分派函数，不是 Sappy 音频分发器。真正的 sound-ID 表在 0x465B70（见 sound-id-table）"
+  ]
 }

@@ -156,6 +156,10 @@ EXCLUDED_PREFIXES = (
     # The wiring-coverage receipt enumerates every family too, and it names
     # the products as well.  Same self-reference artefact as above.
     "artifacts/butano-wiring-coverage-v1/",
+    # The local-derivation receipt names every family it restored, and its
+    # provenance record names every family it kept.  Both are enumerations of
+    # the measured population, not consumptions of it.
+    "artifacts/butano-local-derivations-v1/",
 )
 EXCLUDED_PREFIXES_OUTPUT = (
     "artifacts/reverse-results-index-v1",
@@ -173,6 +177,7 @@ EXCLUDED_PREFIXES_OUTPUT = (
     "artifacts/s49-original-movegrid-mechanism-v1",
     "artifacts/butano-usable-backlog-v1",
     "artifacts/butano-wiring-coverage-v1",
+    "artifacts/butano-local-derivations-v1",
 )
 
 MAX_FILE_BYTES = 4 * 1024 * 1024
@@ -195,7 +200,52 @@ def _is_excluded(rel: str) -> bool:
     return any(rel.startswith(prefix) for prefix in EXCLUDED_PREFIXES)
 
 
-def _collect_text_files(root: Path) -> list[tuple[str, str]]:
+def _tree_digest(directory: Path) -> str:
+    """Digest a whole artifact directory: relative path + per-file SHA-256."""
+    rolling = hashlib.sha256()
+    for path in sorted(p for p in directory.rglob("*") if p.is_file()):
+        rolling.update(path.relative_to(directory).as_posix().encode("utf-8"))
+        rolling.update(b"\0")
+        rolling.update(_sha256(path).encode("ascii"))
+        rolling.update(b"\n")
+    return rolling.hexdigest()
+
+
+def _reverse_copy_prefixes(
+    root: Path,
+    reverse_root: Path,
+    entries: list[dict],
+) -> tuple[str, ...]:
+    """Local artifact directories that are byte-identical copies of a reverse family.
+
+    A reference *inside* a copy is not a consumption: the copy **is** the
+    reverse result, so naming it inside proves nothing about the remake.  This
+    is the same reasoning that keeps ``artifacts/butano-reverse-m3-import-v1/``
+    out of the scan -- it is the imported copy of reverse payloads too.
+
+    The list is measured, never hand-kept: a directory qualifies only when
+    its content digest equals the reverse tree's digest for the same family.
+    """
+    prefixes: list[str] = []
+    for entry in entries:
+        if entry.get("kind") != "artifact":
+            continue
+        family = str(entry.get("id") or "")
+        if not family:
+            continue
+        local = root / "artifacts" / family
+        reverse = reverse_root / "artifacts" / family
+        if not local.is_dir() or not reverse.is_dir():
+            continue
+        if _tree_digest(local) == _tree_digest(reverse):
+            prefixes.append(f"artifacts/{family}/")
+    return tuple(sorted(prefixes))
+
+
+def _collect_text_files(
+    root: Path,
+    extra_excludes: tuple[str, ...] = (),
+) -> list[tuple[str, str]]:
     """Return every scannable text file as ``(relative path, text)``."""
     found: list[tuple[str, str]] = []
     for scan_root, _status in SCAN_ROOTS:
@@ -214,7 +264,7 @@ def _collect_text_files(root: Path) -> list[tuple[str, str]]:
             if path.suffix.lower() not in TEXT_SUFFIXES:
                 continue
             rel = "/".join(rel_parts)
-            if _is_excluded(rel):
+            if _is_excluded(rel) or rel.startswith(extra_excludes):
                 continue
             try:
                 if path.stat().st_size > MAX_FILE_BYTES:
@@ -339,7 +389,8 @@ def measure(root: Path, index_path: Path, reverse_root: Path) -> dict[str, Any]:
     entries = list(index.get("entries") or [])
     ledger = list(index.get("ledger") or [])
 
-    files = _collect_text_files(root)
+    reverse_copies = _reverse_copy_prefixes(root, reverse_root, entries)
+    files = _collect_text_files(root, reverse_copies)
     token_map, path_pattern, path_map = _build_matchers(entries)
 
     # One pass over the tree: tokenise every file once, then intersect.
@@ -435,6 +486,7 @@ def measure(root: Path, index_path: Path, reverse_root: Path) -> dict[str, Any]:
             "machinery_kinds": list(MACHINERY_KINDS),
             "scanned_files": len(files),
             "scan_roots": [name for name, _ in SCAN_ROOTS],
+            "reverse_copy_prefixes": list(reverse_copies),
             "excluded_prefixes": list(EXCLUDED_PREFIXES_OUTPUT),
             "min_bare_identifier": MIN_BARE_IDENTIFIER,
         },

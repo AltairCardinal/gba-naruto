@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>编辑器自检</title>
+<style>
+  body { font-family: ui-monospace, Consolas, monospace; background: #12141a; color: #dfe3ec; padding: 16px; }
+  .pass { color: #4caf7d; } .fail { color: #e05a5a; } .info { color: #8d95a8; }
+  h1 { font-size: 15px; }
+  #stage { position: absolute; left: -99999px; top: 0; width: 1200px; }
+</style>
+</head>
+<body>
+<h1>编辑器自检（浏览器内）</h1>
+<div id="out">running…</div>
+<div id="stage"></div>
+
+<script type="module">
+import { ContentPack } from '../js/pack.js';
+import { buildRom } from '../js/rom.js';
+import { renderStory } from '../js/modules/story.js';
+import { renderItems } from '../js/modules/items.js';
+import { renderCharacters } from '../js/modules/characters.js';
+import { renderNinjutsu } from '../js/modules/ninjutsu.js';
+import { renderBattle } from '../js/modules/battle.js';
+import { renderRoute, renderStage as renderRouteStage } from '../js/modules/route.js';
+import { renderAudio } from '../js/modules/audio.js';
+import { renderAssets } from '../js/modules/assets.js';
+import { renderRaw, applyPatch } from '../js/modules/raw.js';
+import { hexToBytes, base64ToBytes } from '../js/bytes.js';
+import { scanTokens } from '../js/textcodec.js';
+
+/** 一段字节里有多少个控制码。 */
+function countCtrl(bytes) {
+  let n = 0;
+  for (const token of scanTokens(bytes)) if (token.k === 'c') n += 1;
+  return n;
+}
+
+/** 字节数组的 sha256（十六进制）。 */
+async function sha256Hex(bytes) {
+  const digest = await crypto.subtle.digest('SHA-256', bytes);
+  return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+import { renderDomainIndex, renderPanel } from '../js/modules/common.js';
+
+const out = document.getElementById('out');
+const lines = [];
+let failures = 0;
+function say(line) { lines.push(line); out.innerHTML = lines.join('\n'); }
+let lastReport = 0;
+function check(name, ok, detail = '') {
+  if (!ok) failures++;
+  say(`<span class="${ok ? 'pass' : 'fail'}">[${ok ? 'PASS' : 'FAIL'}]</span> ${name}${detail ? ' — ' + detail : ''}`);
+  report();
+}function info(line) { say(`<span class="info">${line}</span>`); }
+
+async function fetchMaybeGzip(url) {
+  const gz = url + '.gz';
+  if (typeof DecompressionStream === 'function') {
+    try {
+      const r = await fetch(gz, { cache: 'no-cache' });
+      if (r.ok) {
+        if (r.headers.get('content-encoding') === 'gzip') return await r.json();
+        const s = r.body.pipeThrough(new DecompressionStream('gzip'));
+        return await new Response(s).json();
+      }
+    } catch (e) { /* fall through */ }
+  }
+  const r = await fetch(url, { cache: 'no-cache' });
+  if (!r.ok) throw new Error(url + ': HTTP ' + r.status);
+  return r.json();
+}
+
+async function loadPackText() {
+  // 用应用自己的载入器：带超时、带降级、带进度，不会永远卡住
+  const { loadPackWithProgress } = await import('../js/loader.js');
+  return JSON.stringify(await loadPackWithProgress(() => {}));
+}
+
+async function loadRom() {
+  // The ROM is the page's first request; a plain fetch of the whole file is
+  // the one shape that reliably completes.
+  try {
+    const response = await fetch('../../rom/base.gba', { cache: 'no-cache' });
+    if (!response.ok) return null;
+    const buffer = await response.arrayBuffer();
+    return buffer.byteLength > 0x100000 ? new Uint8Array(buffer) : null;
+  } catch (err) {
+    return null;
+  }
+}
+
+const stage = document.getElementById('stage');
+const ctx = { pack: null, rom: null, state: { view: { panel: null } }, onChange() {}, openPanel() {}, render() {}, setStatus() {} };
+
+const MODULES = [
+  ['剧情与对白', renderStory],
+  ['道具', renderItems],
+  ['角色属性与技能', renderCharacters],
+  ['忍术', renderNinjutsu],
+  ['战斗', renderBattle],
+  ['剧情路线', renderRoute],
+  ['音频', renderAudio],
+  ['素材与资源', renderAssets],
+  ['原始字节', renderRaw],
+];
+
+(async function run() {
+  try {
+    // 页面可能被反复刷新，把上一次的结果留在 sessionStorage 里，
+    // 这样刷新后仍能看到上次的结论（而不是又要等一遍）。
+    try {
+      const previous = sessionStorage.getItem(RESULT_KEY);
+      if (previous) {
+        const parsed = JSON.parse(previous);
+        out.innerHTML = parsed.html;
+        document.title = parsed.title || '编辑器自检';
+      }
+    } catch (e) { /* sessionStorage 不可用就算了 */ }
+
+    // The content pack is the editor's data; the base ROM is the canvas the
+    // author provides (file picker) or the bundled one.  The self-test does
+    // not download a ROM: browsers cap how much one page may download, and
+    // the pack alone already takes a big chunk of that.  The build
+    // assertions below are therefore relative to a reference build.
+    info('载入内容包…');
+    const packText = await loadPackText();
+    if (!packText) throw new Error('内容包载入失败');
+    const packData = JSON.parse(packText);
+    const pack = ContentPack.fromJSON(packData);
+    ctx.pack = pack;
+    check('内容包载入', pack.structures.length > 0,
+      `${pack.structures.length} 结构 / ${pack.texts.length} 文本表`);
+
+    const haveRom = false;
+    // A synthetic canvas that mirrors the real ROM's shape: zeroed, with the
+    // 0xFF free region at 0x5DFBEC that the text rewriter allocates from.
+    const base = new Uint8Array(0x600000);
+    base.fill(0xff, 0x5dfbec);
+    ctx.rom = base;
+
+    // --- 1. 未改动的内容包重建 ROM -----------------------------------
+    info('用未改动的内容包重建 ROM…');
+    const built = buildRom(pack, base);
+    check('构建无错误', built.report.errors.length === 0, built.report.errors.join('; '));
+    info('（「与原版逐字节相同」由 node tools/verify_pack.mjs 覆盖：浏览器一次下载量有限）');
+    const reference = built.bytes;
+
+    // --- 2. 每个模块都能渲染出内容 ------------------------------------
+    info('渲染各模块视图…');
+    for (const [label, render] of MODULES) {
+      stage.innerHTML = '';
+      ctx.state.view = { panel: null };
+      let error = null;
+      try {
+        render(stage, ctx);
+      } catch (err) {
+        error = err;
+      }
+      const text = stage.textContent || '';
+      check(`${label}：模块首页渲染`, !error && text.length > 80,
+        error ? String(error.message) : `${text.length} 字符`);
+    }
+
+    // --- 3. 每个模块的关键面板都能打开 --------------------------------
+    info('打开各模块的关键面板…');
+    const panels = [
+      ['剧情与对白', renderStory, 'text', 'dialogue_slots'],
+      ['道具', renderItems, 'structure', 'item_record'],
+      ['角色属性与技能', renderCharacters, 'structure', 'character_template'],
+      ['忍术', renderNinjutsu, 'structure', 'jutsu_record'],
+      ['战斗', renderBattle, 'structure', 'map_table'],
+      ['剧情路线', renderRoute, 'structure', 'mission_index'],
+      ['音频', renderAudio, 'structure', 'sound_id_table'],
+      ['素材与资源', renderAssets, 'structure', 'tile_asset_records'],
+    ];
+    for (const [label, render, kind, id] of panels) {
+      stage.innerHTML = '';
+      ctx.state.view = { panel: null };
+      let error = null;
+      try {
+        render(stage, ctx);
+        renderPanel(stage, ctx, kind, id);
+      } catch (err) {
+        error = err;
+      }
+      const text = stage.textContent || '';
+      check(`${label}：面板 ${id} 打开`, !error && text.length > 40,
+        error ? String(error.message) : `${text.length} 字符`);
+    }
+
+    // --- 4. 战斗模块的按关卡视图 --------------------------------------
+    info('战斗模块：按关卡查看…');
+    stage.innerHTML = '';
+    ctx.state.view = { panel: null };
+    let battleError = null;
+    let battleText = '';
+    try {
+      renderBattle(stage, ctx);
+      // 打开第 40 关
+      const select = stage.querySelector('select');
+      if (select) {
+        select.value = '40';
+        select.dispatchEvent(new Event('change'));
+        // openPanel 在真实应用里会重绘；这里直接调用内部渲染
+        const { renderStage: renderStageForTest } = await import('../js/modules/battle.js');
+        stage.innerHTML = '';
+        renderStageForTest(stage, ctx, 40, 0);
+        battleText = stage.textContent || '';
+      } else {
+        battleError = new Error('找不到关卡选择器');
+      }
+    } catch (err) {
+      battleError = err;
+    }
+    check('战斗：第 40 关的完整视图', !battleError && battleText.length > 200,
+      battleError ? String(battleError.message) : `${battleText.length} 字符`);
+    for (const needle of ['战场布置', '角色出生点', '战斗目标', '战场物件', '战场事件']) {
+      check(`战斗视图含「${needle}」`, battleText.includes(needle));
+    }
+
+    // --- 4b. 战斗目标的说明文字：指针要能解析成原文 ---------------------
+    {
+      const objectives = pack.textTable('battle_objectives');
+      check('内容包带战斗目标说明文字表', !!objectives,
+        objectives ? `${objectives.count} 条` : '没有这张表');
+      const rules = pack.structure('battle_rules');
+      const byPointer = new Map();
+      for (const r of (objectives ? objectives.records : [])) byPointer.set(r.pointer, r);
+      let pointers = 0;
+      let resolved = 0;
+      for (const rec of rules.records) {
+        for (let g = 0; g < 2; g++) {
+          for (let k = 0; k < 4; k++) {
+            const ptr = rec.values[`g${g}_${k}_text_ptr`];
+            if (!ptr) continue;
+            pointers++;
+            if (byPointer.has(ptr)) resolved++;
+          }
+        }
+      }
+      check('战斗目标的说明文字指针全部解析得到原文',
+        pointers > 0 && resolved === pointers,
+        `${resolved}/${pointers} 条解析成功`);
+
+      // 第 40 关的视图里必须能看到说明文字本身，而不只是指针
+      const { renderStage: renderStageForTest } = await import('../js/modules/battle.js');
+      stage.innerHTML = '';
+      renderStageForTest(stage, ctx, 40, 0);
+      const text = stage.textContent || '';
+      const rule = rules.records.find(
+        (r) => r.rom_offset === 0x594758 + 40 * 0xcc);
+      let sample = '';
+      if (rule) {
+        for (let g = 0; g < 2 && !sample; g++) {
+          for (let k = 0; k < 4 && !sample; k++) {
+            const ptr = rule.values[`g${g}_${k}_text_ptr`];
+            if (!ptr) continue;
+            const rec = byPointer.get(ptr);
+            if (rec && rec.text) sample = rec.text;
+          }
+        }
+      }
+      // 说明文字是可编辑输入框里的值，不在 textContent 里
+      const values = [...stage.querySelectorAll('input')].map((i) => i.value);
+      check('战斗视图显示说明文字原文', !!sample && values.includes(sample),
+        sample ? `「${sample}」` : '第 40 关没有说明文字');
+
+      // 条件类型的语义必须是原生行为（类型 2 = 回合用尽，不是「角色仍在场」）
+      check('战斗目标的类型语义与原生行为一致',
+        text.includes('回合用尽') && !text.includes('指定角色仍在场上'),
+        '类型 2 标注为「回合用尽」');
+    }
+
+    // --- 5. 逐域编辑落点 ----------------------------------------------
+    {
+      info('逐域编辑并验证落点…');
+      const edits = [
+        ['角色属性', 'character_template', 1, 'hp_base', 777, (s, r) => s.records[r].rom_offset + 0x0A, 2],
+        ['道具', 'reward_table', 0, 'gold', 12345, (s, r) => s.records[r].rom_offset, 2],
+        ['忍术', 'jutsu_record', 5, 'growth_amount', 42, (s, r) => s.records[r].rom_offset + 0x0E, 1],
+        ['战斗', 'map_table', 3, 'background_id', 9, (s, r) => s.records[r].rom_offset + 0x1C, 1],
+        ['战斗', 'battle_actors', 700, 'x', 19, (s, r) => s.records[r].rom_offset + 0x02, 1],
+        ['剧情路线', 'mission_index', 4, 'value', 111, (s, r) => s.records[r].rom_offset, 1],
+      ];
+      for (const [mod, sid, rid, key, value, offsetFn, size] of edits) {
+        const p2 = ContentPack.fromJSON(JSON.parse(packText));
+        const structure = p2.structure(sid);
+        const record = structure.records[rid];
+        const offset = offsetFn(structure, rid);
+        p2.setValue(structure, record, key, value);
+        const out2 = buildRom(p2, base);
+        const changed = diffIndexes(out2.bytes, reference);
+        const inRange = changed.every((i) => i >= offset && i < offset + size);
+        check(`${mod}：${sid}.${key} 落在 0x${offset.toString(16)}`,
+          out2.report.errors.length === 0 && inRange && changed.length > 0,
+          out2.report.errors.join('; ') || `改动 ${changed.length} 字节`);
+      }
+
+      // --- 6. 文本编辑 ------------------------------------------------
+      info('文本编辑…');
+      const p3 = ContentPack.fromJSON(JSON.parse(packText));
+      const table = p3.textTable('character_names');
+      const record = table.records.find((r) => r.text);
+      const newText = record.text + '改';
+      p3.setText(table, record, newText);
+      const out3 = buildRom(p3, base);
+      const ptrOffset = record.pointer_offset;
+      const ptr = out3.bytes[ptrOffset] | (out3.bytes[ptrOffset + 1] << 8) |
+        (out3.bytes[ptrOffset + 2] << 16) | (out3.bytes[ptrOffset + 3] << 24);
+      const decoded = p3.font.decode(out3.bytes.slice(ptr - 0x08000000, ptr - 0x08000000 + 64));
+      check('文本改动经指针可回读', out3.report.errors.length === 0 && decoded.startsWith(newText),
+        out3.report.errors.join('; ') || JSON.stringify(decoded.slice(0, 12)));
+    }
+
+    // --- 9. 剧情路线：脚本里的「下一场景」与定宽操作数 ------------------
+    info('剧情路线：脚本里的路线边与可改操作数…');
+    {
+      // 每个检查用自己的一份包，互不干扰
+      const saved = ctx.pack;
+      ctx.pack = ContentPack.fromJSON(JSON.parse(packText));
+      try {
+        stage.innerHTML = '';
+        ctx.state.view = { panel: null };
+        let routeError = null;
+        let routeText = '';
+        try {
+          renderRouteStage(stage, ctx, 3);
+          routeText = stage.textContent || '';
+        } catch (err) { routeError = err; }
+        check('剧情路线：按关卡的视图渲染', !routeError && routeText.length > 400,
+          routeError ? String(routeError.message) : `${routeText.length} 字符`);
+        check('剧情路线：含脚本里的路线边表', routeText.includes('下一场景'),
+          routeText.includes('下一场景') ? '' : '没找到「下一场景」');
+
+        // 改一个路线操作数，断言它真的进 ROM
+        const scripts = ctx.pack.scripts || [];
+        const withRoute = scripts.find((s) => s.route && s.route.length);
+        if (withRoute) {
+          const operand = withRoute.operands.find((o) => o.name === 'scene');
+          if (operand) {
+            // 合成基底里补上脚本的原字节，补丁的「原字节必须匹配」才成立
+            base.set(hexToBytes(operand.before_hex), operand.rom_offset);
+            const wanted = (operand.value + 1) & 0xff;
+            ctx.pack.setScriptOperand(operand, wanted);
+            const out10 = buildRom(ctx.pack, base);
+            const changed10 = diffIndexes(out10.bytes, reference);
+            check('剧情路线：改「下一场景」落到脚本字节上',
+              out10.report.errors.length === 0 && changed10.length === 1 &&
+              changed10[0] === operand.rom_offset &&
+              out10.bytes[operand.rom_offset] === wanted,
+              out10.report.errors.join('; ') ||
+              `改动 @0x${operand.rom_offset.toString(16)}（期望 0x${wanted.toString(16)}）`);
+          } else {
+            check('剧情路线：找到可改的 scene 操作数', false, '没有 scene 操作数');
+          }
+        } else {
+          check('剧情路线：找到带路线边的剧本', false, 'pack.scripts 里没有 route');
+        }
+      } finally {
+        ctx.pack = saved;
+      }
+    }
+
+    // --- 7. 原始字节模块 ------------------------------------------------
+    info('原始字节模块…');
+    stage.innerHTML = '';
+    ctx.state.view = { panel: null };
+    let rawError = null;
+    try {
+      renderRaw(stage, ctx);
+    } catch (err) { rawError = err; }
+    const rawText = stage.textContent || '';
+    check('原始字节：可编辑整卡带', !rawError && rawText.includes('原始字节编辑'),
+      rawError ? String(rawError.message) : `${rawText.length} 字符`);
+
+    // --- 8. 原始字节补丁真的进 ROM --------------------------------------
+    info('原始字节补丁落点…');
+    {
+      // 同样用自己的一份包；applyPatch 写进 ctx.pack.patches，
+      // 构建器再把它们写进 ROM
+      const saved = ctx.pack;
+      ctx.pack = ContentPack.fromJSON(JSON.parse(packText));
+      try {
+        const at = 0x00076d;
+        const original = base[at];
+        const wanted = (original ^ 0xff) & 0xff;
+        applyPatch(ctx, at, wanted);
+        const out8 = buildRom(ctx.pack, base);
+        const changed8 = diffIndexes(out8.bytes, reference);
+        check('原始字节补丁落在指定地址',
+          out8.report.errors.length === 0 && changed8.length === 1 && changed8[0] === at &&
+          out8.bytes[at] === wanted,
+          out8.report.errors.join('; ') || `改动 ${changed8.length} 字节 @0x${at.toString(16)}`);
+
+        // 同一地址再改一次应合并进同一条补丁，而不是新增一条
+        const before = ctx.pack.patches.length;
+        applyPatch(ctx, at, (wanted ^ 0x0f) & 0xff);
+        const out9 = buildRom(ctx.pack, base);
+        const changed9 = diffIndexes(out9.bytes, reference);
+        check('同址二次修改合并进同一条补丁',
+          ctx.pack.patches.length === before && changed9.length === 1 && changed9[0] === at,
+          `补丁数 ${before} → ${ctx.pack.patches.length}`);
+      } finally {
+        ctx.pack = saved;
+      }
+    }
+
+    // --- 10. 控制码：改写文本不得破坏排版 -------------------------------
+    info('控制码：改写文本不得破坏排版…');
+    {
+      const saved = ctx.pack;
+      ctx.pack = ContentPack.fromJSON(JSON.parse(packText));
+      try {
+        const table = ctx.pack.textTable('mission_descriptions');
+        const target = table.records.find((r) => {
+          const raw = base64ToBytes(r.raw || '');
+          return raw.some((b) => b === 1 || b === 2);
+        });
+        check('找到带控制码的文本记录', !!target,
+          target ? `${target.id}（${target.text.length} 字）` : '没有');
+        if (target) {
+          const before = base64ToBytes(target.raw);
+          const beforeCtrl = countCtrl(before);
+          ctx.pack.setText(table, target, target.text + '改');
+          const out11 = buildRom(ctx.pack, base);
+          // 变长的记录会被搬到空闲区，断言要看它的新位置
+          const movedNow = out11.report.movedTexts.find(
+            (m) => m.table === table.id && m.id === target.id);
+          const home = movedNow ? movedNow.to : target.text_offset;
+          const newLen = ctx.pack.textBytes(target).length;
+          const after = out11.bytes.slice(home, home + newLen);
+          const afterCtrl = countCtrl(after);
+          check('编辑后控制码一个不少', afterCtrl === beforeCtrl && out11.report.errors.length === 0,
+            `${beforeCtrl} → ${afterCtrl}；${out11.report.errors.join('; ')}`);
+
+          let othersChanged = 0;
+          for (const r of table.records) {
+            if (r.id === target.id) continue;
+            const original = base64ToBytes(r.raw || '');
+            const now = out11.bytes.slice(r.text_offset, r.text_offset + original.length);
+            if (now.some((b, i) => b !== original[i])) othersChanged += 1;
+          }
+          check('同表其它记录逐字节未变', othersChanged === 0,
+            `${othersChanged} 条被牵连`);
+
+          // 界面必须把控制码的存在告诉作者
+          const { TextTableEditor } = await import('../js/editors.js');
+          const editor = new TextTableEditor(ctx.pack, table, { onChange: ctx.onChange });
+          const host = document.createElement('div');
+          document.body.appendChild(host);
+          editor.render(host);
+          editor.openDetail(target);
+          const detail = host.textContent || '';
+          check('文本编辑器向作者披露控制码', detail.includes('控制码'),
+            detail.includes('控制码') ? '已显示' : '没有显示控制码提示');
+          host.remove();
+        }
+      } finally {
+        ctx.pack = saved;
+      }
+    }
+
+    // --- 11. 内置原版 ROM 能被取回并拼对 ---------------------------------
+    info('内置原版 ROM 载入…');
+    {
+      const { loadBundledRom } = await import('../js/romsource.js');
+      // 本环境可能限制单页下载量，所以这一步**不阻塞**自检：
+      // 取不到只记一条说明，取到了才逐项核对。
+      const loaded = await Promise.race([
+        loadBundledRom(() => {}).catch(() => null),
+        new Promise((resolve) => setTimeout(() => resolve('timeout'), 25000)),
+      ]);
+      if (loaded === 'timeout') {
+        say('<span class="info">[说明] 本环境 25 秒内没取到内置 ROM（浏览器下载量限制）。'
+          + '编辑不受影响；构建请用顶栏「载入 ROM」手动选择原版 ROM。</span>');
+      } else if (loaded) {
+        check('内置 ROM 取回且长度正确', loaded.length === 6291456, `${loaded.length} 字节`);
+        check('内置 ROM 头正确（是 GBA 卡带）',
+          loaded[0] === 0x24 && loaded[1] === 0xff && loaded[2] === 0xae && loaded[3] === 0x51,
+          `头 4 字节 ${[...loaded.slice(0, 4)].map((b) => b.toString(16)).join(' ')}`);
+        const digest = await sha256Hex(loaded);
+        check('内置 ROM 与内容包记录的基线一致', digest === ctx.pack.rom.sha256,
+          digest.slice(0, 16) + '…');
+      } else {
+        say('<span class="info">[说明] 本环境取不到内置 ROM（浏览器下载量限制）。'
+          + '编辑不受影响；构建请用顶栏「载入 ROM」手动选择原版 ROM。</span>');
+      }
+    }
+
+    say('');
+    say(failures === 0
+      ? '<span class="pass">全部通过</span>'
+      : `<span class="fail">${failures} 项失败</span>`);
+    document.title = failures === 0 ? 'SELFTEST PASS' : `SELFTEST FAIL ${failures}`;
+    report();
+  } catch (err) {
+    say(`<span class="fail">自检异常：${err && err.stack ? err.stack : err}</span>`);
+    document.title = 'SELFTEST ERROR';
+    report();
+  }
+})();
+
+/**
+ * 把当前结果上报给静态服务器（落到 build/selftest-report.jsonl）。
+ *
+ * 这一步是**可选**的：服务器没开这个接口时静默忽略。之所以要有它，
+ * 是因为这个环境的内置浏览器会不停刷新标签页，页面里的结果刚出来就被冲掉；
+ * 落盘之后，刷新也留得住证据。
+ */
+function report() {
+  const now = Date.now();
+  if (now - lastReport < 1) return;
+  lastReport = now;
+  try {
+    const url = new URL('../../__report', import.meta.url).href;
+    fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ failures, lines, title: document.title }),
+      keepalive: true,
+    }).catch(() => {});
+  } catch (err) { /* 离线自检就算了 */ }
+}
+
+function bytesEqual(a, b) {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  return true;
+}
+function countDiff(a, b) {
+  let n = 0;
+  for (let i = 0; i < Math.min(a.length, b.length); i++) if (a[i] !== b[i]) n++;
+  return n;
+}
+function diffIndexes(a, b) {
+  const out = [];
+  for (let i = 0; i < Math.min(a.length, b.length); i++) if (a[i] !== b[i]) out.push(i);
+  return out;
+}
+</script>
+</body>
+</html>

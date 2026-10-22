@@ -4,27 +4,36 @@
 
 | 项 | 值 |
 | --- | ---: |
-| candidate_families | 26 |
-| rederived | 16 |
+| tracked_families | 30 |
+| acceptance_families | 26 |
+| candidates_rederived | 16 |
+| candidates_imported | 9 |
+| candidates_already_identical | 1 |
+| candidates_byte_identical | 26 |
+| rederived | 20 |
 | imported | 9 |
 | already_identical | 1 |
 | imported_prerequisite | 0 |
 | diverged | 0 |
 | unavailable | 0 |
-| byte_identical | 26 |
+| byte_identical | 30 |
 
 ## 逐族结果
 
 | 族 | 模式 | producer | 与逆向树逐字节相同 | manifest sha |
 | --- | --- | --- | --- | --- |
 | `battle-effect-affine-runtime-v1` | rederived | `tools/export_battle_effect_affine_runtime.py` | ✅ | 73635d4a42be0648 |
+| `battle-effect-resource-pairs-v1` | rederived | `tools/export_battle_effect_resource_pairs.py` | ✅ | 716ac58032607712 |
+| `battle-effect-sequence-bindings-v1` | rederived | `tools/export_battle_effect_sequence_bindings.py` | ✅ | ec8f41571bb13257 |
 | `battle-effect-sprite-animations-v1` | rederived | `tools/export_battle_effect_sprite_animations.py` | ✅ | 46403c9f070c2056 |
 | `battle-presentation-glyphs-v1` | rederived | `tools/export_battle_presentation_glyphs.py` | ✅ | ecc44fde0d886b75 |
+| `battle-visual-catalog-v1` | rederived | `tools/export_battle_visual_catalog.py` | ✅ | 1ccbdfda75195332 |
 | `battle-visual-runtime-timelines-v1` | rederived | `tools/export_battle_visual_runtime_timelines.py` | ✅ | 7a3fd143f76a72f9 |
 | `bg-resource-canvases-v1` | rederived | `tools/export_bg_resource_canvases.py` | ✅ | 27096c9129823cc7 |
 | `bg-scene-selection-v1` | rederived | `tools/export_bg_scene_selection.py` | ✅ | 907e5bdd540b0a0a |
 | `character-fbff-runtime-v1` | already-identical | — | ✅ | 280b1333b6a2fdf7 |
 | `cutscene-obj-v1` | rederived | `tools/export_cutscene_obj_assets.py` | ✅ | b8e1341172decef9 |
+| `dialogue-font-v2` | rederived | `tools/export_dialogue_font_atlases.py` | ✅ | 818684d7533ae44b |
 | `e2e` | imported | — | ✅ | — |
 | `runtime-checkpoints` | imported | — | ✅ | — |
 | `scenario-41-audio-reference-v1` | imported | — | ✅ | — |

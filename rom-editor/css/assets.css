@@ -1,0 +1,189 @@
+/* 素材与资源域的样式。
+ *
+ * 这一域有三种自己的东西：接线表的分段列表、指针接线总表、EWRAM 内存条带。
+ * 全部沿用编辑器既有的配色变量，不另起一套。
+ */
+
+/* --- 域首页 ------------------------------------------------------------- */
+
+.assets-banner {
+  margin-bottom: 16px;
+  line-height: 1.7;
+}
+
+.assets-banner .rule-title {
+  margin-right: 8px;
+}
+
+/* --- 接线表 ------------------------------------------------------------- */
+
+.wiring-section {
+  padding: 6px 0 10px;
+  border-bottom: 1px solid var(--line);
+}
+
+.wiring-section:last-child {
+  border-bottom: none;
+}
+
+.wiring-section .slot-caption {
+  padding: 4px 10px 2px;
+}
+
+table.grid td.mono {
+  font-family: var(--mono);
+  color: var(--fg);
+}
+
+.detail-panel.wide {
+  flex: 0 0 560px;
+  max-width: 560px;
+}
+
+.copy-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.copy-select {
+  min-width: 210px;
+  max-width: 260px;
+}
+
+.field-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.consequence {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+.consequence-line {
+  color: var(--fg-dim);
+}
+
+.consequence-line:first-child {
+  color: var(--fg);
+}
+
+.group-filter {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: var(--fg-dim);
+  background: var(--bg-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.raw-bytes > summary {
+  cursor: pointer;
+  padding: 8px 12px;
+  font-size: 11.5px;
+  color: var(--fg-dim);
+  font-family: var(--mono);
+}
+
+.raw-bytes > summary:hover {
+  color: var(--fg);
+}
+
+/* --- EWRAM 内存条带 ----------------------------------------------------- */
+
+.wram-band {
+  margin-bottom: 14px;
+  padding: 10px 12px 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.wram-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  color: var(--fg-dim);
+  font-family: var(--mono);
+  margin-bottom: 6px;
+}
+
+.wram-track {
+  position: relative;
+  height: 34px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.wram-seg,
+.wram-gap {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9.5px;
+  font-family: var(--mono);
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 1px solid var(--line);
+}
+
+.wram-seg {
+  min-width: 3px;
+  background: rgba(74, 157, 224, .28);
+  color: #b7d4f2;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.wram-seg:hover {
+  background: rgba(74, 157, 224, .42);
+}
+
+/* 几行其实是同一块内存：叠在一起的那几行标成同一段。 */
+.wram-seg.dup {
+  background: rgba(79, 173, 124, .3);
+  color: #a8ddc4;
+}
+
+/* 被下一段压住了：变红。 */
+.wram-seg.overlap {
+  background: rgba(224, 90, 90, .38);
+  color: #f0b3b3;
+}
+
+.wram-gap {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(141, 149, 168, .10) 0 6px,
+    rgba(141, 149, 168, .02) 6px 12px
+  );
+  color: var(--fg-dim);
+  padding: 0 2px;
+}
+
+.wram-addr {
+  width: 140px;
+  font-family: var(--mono);
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.wram-size {
+  width: 110px;
+  font-family: var(--mono);
+}

@@ -1,5 +1,5 @@
 {
-  "applicability": "no-local-anchor-in-this-tree",
+  "applicability": "local-anchor-found",
   "artifact_schema": "motion-effect-parameter-pixel-ab-runtime-v1",
   "artifact_status": "accepted",
   "base_rom_sha256": null,
@@ -33,7 +33,10 @@
     "source_path": "runtime"
   },
   "family": "motion-effect-parameter-pixel-ab-v1",
-  "local_anchors": [],
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
+    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9"
+  ],
   "manifest": "artifacts/motion-effect-parameter-pixel-ab-v1/manifest.json",
   "manifest_sha256": "3741e9465acc813e881493c3c91bef2101e879d6b565ecbc8e01e98b902b9abd",
   "reverse_file_hashes": {
@@ -44,8 +47,6 @@
   },
   "scope": {},
   "unavailable_local_inputs": [
-    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready-evidence.json",
-    "artifacts/runtime-checkpoints/scenario-49-battle-14-tool67-expiry-ready.ss9",
     "sequel/content/motion-effect-parameter-pixel-ab/group-03-record-00-y-offset.json",
     "sequel/content/palettes/bank.json"
   ],

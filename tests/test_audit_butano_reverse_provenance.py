@@ -742,3 +742,87 @@ class RepositoryIntegrationTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ImporterCarrierTests(unittest.TestCase):
+    """The header comment is not the only carrier.
+
+    The two ROM importers bind their own families with a family name and the
+    SHA-256 of its manifest, checked at run time.  Reading only the header
+    carrier reports those families as "mentioned but not declared", which
+    understates what is wired -- by 54 families in this tree.
+    """
+
+    def setUp(self):
+        self._temporary = tempfile.TemporaryDirectory()
+        self.root = Path(self._temporary.name) / "repo"
+        self.reverse_root = Path(self._temporary.name) / "reverse"
+        (self.root / "tools" / "butano").mkdir(parents=True)
+        (self.root / "rom").mkdir(parents=True)
+        (self.root / "rom" / "base.gba").write_bytes(_rom_bytes())
+        (self.reverse_root / "artifacts").mkdir(parents=True)
+
+    def tearDown(self):
+        self._temporary.cleanup()
+
+    def _write_importer(self, family: str, manifest_sha256: str) -> None:
+        path = self.root / "tools" / "butano" / "import_rom_pixel_ab_baselines.py"
+        path.write_text(
+            "from __future__ import annotations\n"
+            "\n"
+            "PIXEL_AB_FAMILIES: tuple[tuple[str, str], ...] = (\n"
+            f'    ("{family}", "{manifest_sha256}"),\n'
+            ")\n",
+            encoding="utf-8",
+        )
+
+    def test_the_importer_carrier_binds_a_family(self):
+        manifest = _write_family(
+            self.reverse_root, FAMILY, region_digest=_region_digest(_rom_bytes())
+        )
+        self._write_importer(FAMILY, _sha256(manifest.read_bytes()))
+        report = audit(self.root, self.reverse_root)
+        self.assertEqual([wire.family for wire in report.importer_wires], [FAMILY])
+        self.assertEqual(report.declared_family_count, 1)
+        self.assertEqual(report.importer_wires[0].manifest_status, "accepted")
+        # The tree has no generator registry, which is its own problem -- but
+        # no problem may be raised against the importer-carrier family.
+        self.assertEqual(report.importer_wires[0].problems, ())
+        self.assertFalse(
+            [message for _code, message in report.problems if FAMILY in message]
+        )
+
+    def test_an_importer_pin_with_a_moved_manifest_fails_closed(self):
+        _write_family(
+            self.reverse_root, FAMILY, region_digest=_region_digest(_rom_bytes())
+        )
+        self._write_importer(FAMILY, "c" * 64)
+        report = audit(self.root, self.reverse_root)
+        self.assertNotEqual(report.exit_code, 0)
+        self.assertIn(FAMILY, report.summary())
+        self.assertTrue(report.importer_wires)
+        self.assertTrue(report.importer_wires[0].problems)
+
+    def test_a_tree_without_importers_has_no_importer_wire(self):
+        """A missing importer is a different tree, not an error."""
+        _write_family(
+            self.reverse_root, FAMILY, region_digest=_region_digest(_rom_bytes())
+        )
+        report = audit(self.root, self.reverse_root)
+        self.assertEqual(report.importer_wires, [])
+
+
+class RepositoryImporterCarrierTests(unittest.TestCase):
+    """The real tree declares 66 families across the two carriers."""
+
+    def test_the_real_tree_declares_both_carriers(self):
+        report = audit(REPO_ROOT, REVERSE_ROOT)
+        header = {family for _product, family in report.mapping}
+        importer = {wire.family for wire in report.importer_wires}
+        self.assertTrue(header, "the header carrier must declare families")
+        self.assertTrue(importer, "the importer carrier must declare families")
+        self.assertEqual(
+            report.declared_family_count,
+            len(header | importer),
+        )
+        self.assertEqual(report.exit_code, 0, report.summary())

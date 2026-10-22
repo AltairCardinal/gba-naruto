@@ -1,0 +1,12 @@
+{
+  "name": "naruto-konoha-rom-editor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "离线 ROM 编辑器：火影忍者 · 木叶战记",
+  "scripts": {
+    "serve": "node tools/serve.mjs",
+    "verify": "node tools/verify_pack.mjs",
+    "test": "node tools/verify_pack.mjs"
+  }
+}

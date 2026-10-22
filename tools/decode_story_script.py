@@ -229,7 +229,7 @@ def main() -> None:
     print(f"font: {len(mapping)} codes, {font_report['catalog_segments_matched']}"
           f"/{font_report['catalog_segments_total']} segments matched", file=sys.stderr)
 
-    scenes = range(1, STORY_SCENES + 1) if args.all else [args.scene]
+    scenes = range(1, STORY_SCENES + 1) if (args.all or args.scene is None) else [args.scene]
     report: dict = {"rom": rom_path.name, "font": font_report, "scenes": {}}
     all_issues: list[str] = []
     hist: dict[str, int] = {}

@@ -1,5 +1,5 @@
 {
-  "applicability": "no-local-anchor-in-this-tree",
+  "applicability": "local-anchor-found",
   "artifact_schema": "tile-asset-descriptor-pixel-ab-artifact-v1",
   "artifact_status": "accepted",
   "base_rom_sha256": null,
@@ -33,7 +33,9 @@
     "source_path": "pixels"
   },
   "family": "tile-asset-descriptor2-pixel-ab-v1",
-  "local_anchors": [],
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scene-visual-controller-mode0-preselector.ss9"
+  ],
   "manifest": "artifacts/tile-asset-descriptor2-pixel-ab-v1/manifest.json",
   "manifest_sha256": "cceaa7a92507ac99fc0e9fc2abe40ba65426d4de5de03af671619510a3f1d5aa",
   "reverse_file_hashes": {
@@ -50,8 +52,7 @@
     "physical_gba_verified": false
   },
   "unavailable_local_inputs": [
-    "artifacts/residual-wram-tilemap-runtime-v2/scene-panel-setup.ss9",
-    "artifacts/runtime-checkpoints/scene-visual-controller-mode0-preselector.ss9"
+    "artifacts/residual-wram-tilemap-runtime-v2/scene-panel-setup.ss9"
   ],
   "verifier": {
     "command": [

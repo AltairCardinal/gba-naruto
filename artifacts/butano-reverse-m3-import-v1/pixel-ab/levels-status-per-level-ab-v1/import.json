@@ -1,0 +1,61 @@
+{
+  "applicability": "local-anchor-found",
+  "artifact_schema": "levels-status-per-level-ab-artifact-v1",
+  "artifact_status": "accepted",
+  "base_rom_sha256": null,
+  "baseline_images": [
+    {
+      "path": "levels-status-per-level-ab-v1/baseline/baseline.png",
+      "reverse_path": "artifacts/levels-status-per-level-ab-v1/baseline.png",
+      "sha256": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+      "size": [
+        240,
+        160
+      ]
+    }
+  ],
+  "evidence": {
+    "path": "levels-status-per-level-ab-v1/evidence.json",
+    "reverse_path": "artifacts/levels-status-per-level-ab-v1/evidence.json",
+    "sha256": "471e31ea84f0fae5a194b1b459a4c80b41c2017306fd4f8291572c7e557a29d3"
+  },
+  "expectation": {
+    "baseline_rgb_sha256": null,
+    "bbox_convention": "inclusive",
+    "candidate_rgb_sha256": null,
+    "rom_anchor": {
+      "baseline_value": 1,
+      "kind": "byte",
+      "offsets": [
+        5528266
+      ],
+      "source_path": "edit.baseline"
+    }
+  },
+  "family": "levels-status-per-level-ab-v1",
+  "local_anchors": [
+    "artifacts/runtime-checkpoints/scenario-41-action-menu-0.ss9"
+  ],
+  "manifest": "artifacts/levels-status-per-level-ab-v1/manifest.json",
+  "manifest_sha256": "717a9910e783e6a596b0aa2b7be7912aaf411fcdbf9f2e2bd41918cd3e6763f0",
+  "reverse_file_hashes": {
+    "baseline.png": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+    "candidate.png": "fc99716c41cb1c7044405ac2f9f53ae6014290a8db45639af8cb37081fe3d02f",
+    "evidence.json": "471e31ea84f0fae5a194b1b459a4c80b41c2017306fd4f8291572c7e557a29d3",
+    "raw.tar": "3585cce0dd13111ef394e2e6dfa690e8c2829c17e029c793346e4244c6289a59"
+  },
+  "scope": {},
+  "unavailable_local_inputs": [
+    "tools/mgba_input_sequence_replay.lua"
+  ],
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_levels_status_per_level_ab.py",
+      "artifacts/levels-status-per-level-ab-v1",
+      "--binary",
+      "/Users/altair/github/mgba-build-c16/qt/mGBA.app/Contents/MacOS/mGBA"
+    ],
+    "exit_code": 0
+  }
+}
