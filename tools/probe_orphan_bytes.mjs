@@ -385,7 +385,7 @@ if (!below.some((t) => t.base >= spanStart)) {
     + '（四张剧情根表在 0x060C74..0x060FAC，落在剧本区**之后**）。');
 }
 say(`* 任务书里提到的表在哪儿：`);
-for (const name of ['portrait_table', 'palette_source_table', 'character_names']) {
+for (const name of ['portrait_table', 'speaker_short_name_table', 'character_names']) {
   const t = knownTables.find((x) => x.name === name);
   if (!t) continue;
   say(`  * ${name} = 文件偏移 ${hex(t.base)}（ROM ${hex(t.base + ROM_BASE, 8)}）`

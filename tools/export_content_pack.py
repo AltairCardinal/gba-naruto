@@ -198,6 +198,24 @@ SPEAKER_NAME_STRIDE = 12
 #  卡多 50 / 红豆 51 / 伊比喜 52 / 手内 53 / 志治 54 / 蜜蜂 55 / 津美 56 …）
 # 在编辑器里根本查不到名字**。2026-10-22 由可视化对白编辑器暴露。
 SPEAKER_NAME_COUNT = 64
+# --- 说话人**全名表**与**地点名表**（2026-10-23 进内容包） --------------------
+#
+# 两张表都是**定长内联槽**（字形码直接写在槽里，没有指针），
+# 而且**三处「没有」共用同一批字节**（ROM 作者刻意的存储别名，不是 bug）：
+#
+#   说话人简称表 id 63  ==  说话人全名表 id 0   @ 0x5A5AB8
+#   说话人全名表 id 63  ==  地点名表   id 0     @ 0x5A5F65
+#
+# 另外：全名表 id 63 的**最后一个字节 0x5A5F77** 是地点名表 id 1 的
+# **第一个字形码**（0x8a = 「村」）—— 同一批字节被两张表按不同步长解释。
+# 依据：notes/evidence/speaker-name-id63-20261023.md
+#      notes/evidence/speaker-name-registry-20261023.md
+SPEAKER_FULL_NAME_BASE = 0x5A5AB8
+SPEAKER_FULL_NAME_STRIDE = 19
+SPEAKER_FULL_NAME_COUNT = 64       # 64 × 19 = 1216 字节 → 0x5A5AB8..0x5A5F77
+LOCATION_NAME_BASE = 0x5A5F65
+LOCATION_NAME_STRIDE = 18
+LOCATION_NAME_COUNT = 55           # 55 × 18 =  990 字节 → 0x5A5F65..0x5A5F76
 FONT_SEGMENT_BASE = 0x53D644
 FONT_SEGMENT_COUNT = 31
 FONT_SEGMENT_STRIDE = 8
@@ -1976,11 +1994,50 @@ def build_text_tables(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any
              "**可以变长**：整张表可以转换成「指针表 + 变长串池」"
              "（转换要改 ROM 里的 12 个读者，见 `pack.conversions.speaker_names`；"
              "只有改了名字才会转换，没改过的内容包重建仍与原版逐字节相同）。\n"
-             "**同一批字节还有第二种读法**：`tools/table_registry.py` 把它登记成"
-             "「调色板源表」（每条 = 一个 u32 色值 + 8 字节 0，12 个原生读者）"
-             "—— **那一处登记是误分类**：那 12 个读者**全是取名读者**"
-             "（见 notes/evidence/speaker-name-table-20261023.md）。"
-             "两种读法描述的是同一片地址，按说话人名表呈现。",
+             "**登记名**：`tools/table_registry.py` 里的**规范名**是 "
+             "`speaker_short_name_table`（说话人简称表）。旧名「调色板源表」"
+             "（`palette_source_table`）只在 registry 的「已裁决旧名」段里"
+             "留作**别名条目**留着 —— 那一处登记早已被证伪：那 12 个原生读者"
+             "**全是取名读者**，不是调色板消费者"
+             "（见 notes/evidence/speaker-name-registry-20261023.md）。\n"
+             "**地址别名**：本表的 id 63（0x5A57C4 + 63×12 = 0x5A5AB8）"
+             "与「说话人全名表」的 id 0 是**同一批字节** —— 见那张表的说明。",
+    ))
+
+    out.append(build_inline_text_table(
+        rom, mapping, "speaker_full_names", "story", "说话人全名表（内联）",
+        SPEAKER_FULL_NAME_BASE, SPEAKER_FULL_NAME_COUNT, SPEAKER_FULL_NAME_STRIDE,
+        id_prefix="全名",
+        note="角色的**完整名字**：每条 19 字节的字形码内联槽，"
+             "**64 条（id 0..63）**，占 0x5A5AB8..0x5A5F77。\n"
+             "3 个原生读者（0x08077EE2 / 0x0808B036 / 0x080939D6，步长 19，"
+             "机器验证）读的全是这张表；它们的 id 来自角色/队伍记录，"
+             "不是剧情脚本。\n"
+             "**地址别名（ROM 作者刻意的存储别名，不是 bug）**：\n"
+             "  · 本表 id 0（0x5A5AB8）= 说话人简称表 id 63 = 同一批字节；\n"
+             "  · 本表 id 63（0x5A5F65）= 地点名表 id 0 = 同一批字节；\n"
+             "  · 本表 id 63 的**最后一个字节 0x5A5F77** 是地点名表 id 1 的"
+             "第一个字形码（0x8a = 「村」）—— 同一批字节被两张表按不同步长解释。\n"
+             "⇒ **改一处会影响另一处**：改本表 id 0，简称表 id 63 那一格也跟着变"
+             "（除非简称表被转换成指针表、那一格搬走）；"
+             "改本表 id 63，地点名表 id 0 也跟着变。\n"
+             "⇒ 本表 id 63 的**可写长度只有 18 字节**（第 19 字节归地点名表 id 1）"
+             "—— 详见记录上的 `writable_bytes`。\n"
+             "依据：notes/evidence/speaker-name-id63-20261023.md",
+    ))
+
+    out.append(build_inline_text_table(
+        rom, mapping, "location_names", "story", "地点名表（内联）",
+        LOCATION_NAME_BASE, LOCATION_NAME_COUNT, LOCATION_NAME_STRIDE,
+        id_prefix="地点",
+        note="**地图地名**：每条 18 字节的字形码内联槽，"
+             "**55 条（id 0..54）**，占 0x5A5F65..0x5A5F76。\n"
+             "1 个原生读者 0x0808CD8E（步长 18，机器验证；"
+             "地图记录里的地图 id 索引它）。\n"
+             "**地址别名**：本表 id 0（0x5A5F65）= 说话人全名表 id 63 = 同一批字节；"
+             "本表 id 1 的**第一个字节 0x5A5F77** 又落在说话人全名表 id 63 的"
+             "槽里 ⇒ **改一处会影响另一处**。\n"
+             "依据：notes/evidence/speaker-name-id63-20261023.md",
     ))
 
     objectives, objective_offsets = build_battle_objectives(rom, mapping)
@@ -2102,11 +2159,17 @@ def build_inline_text_table(
     stride: int,
     note: str = "",
     convert: str = "",
+    id_prefix: str = "说话人",
 ) -> dict[str, Any]:
     """A table whose records hold the font codes *inline* (no pointer).
 
     The speaker-name table at 0x5A57C4 works this way: each record is a
     fixed-size slot with the codes written straight into it.
+
+    The same shape is used by the speaker **full-name** table (0x5A5AB8,
+    19 bytes per slot) and the **location** name table (0x5A5F65, 18 bytes
+    per slot) — see the constants above for the address aliasing between
+    them.
     """
     records = []
     for i in range(count):
@@ -2118,7 +2181,7 @@ def build_inline_text_table(
         text = decode_text(raw[:end], mapping)
         records.append({
             "id": i,
-            "label": f"说话人{i}",
+            "label": f"{id_prefix}{i}",
             "pointer_offset": None,
             "pointer": None,
             "text_offset": offset,
@@ -2501,6 +2564,82 @@ def build_conversions(rom: bytes) -> dict[str, Any]:
     }
 
 
+def annotate_slot_aliases(texts: list[dict[str, Any]]) -> None:
+    """把「同一段字节被好几张表共用」这件事**如实写进内容包**。
+
+    ROM 里三处「没有」**共用同一批字节**（作者刻意的存储别名，不是 bug）：
+
+        说话人简称表 id 63  ==  说话人全名表 id 0   @ 0x5A5AB8
+        说话人全名表 id 63  ==  地点名表   id 0     @ 0x5A5F65
+
+    另外，说话人全名表 id 63 的**最后一个字节 0x5A5F77** 是地点名表 id 1 的
+    **第一个字形码**（0x8a = 「村」）—— 同一批字节被两张表按不同步长解释。
+
+    两件事必须落到内容包里，否则构建器会写坏 ROM：
+
+      1. `aliased_with` —— 这条记录与**别的表**的哪几条共用同一段字节。
+         改一处 ⇒ 另一处跟着变（这是 ROM 的事实，不是编辑器的 bug）。
+      2. `writable_bytes` —— 这条记录**能写**多少字节。
+         槽长（`capacity`）是槽的大小；**可写长度可能更短** ——
+         末尾几字节属于**另一张表**的内容，写过去就把那条表改坏了。
+
+    依据：notes/evidence/speaker-name-id63-20261023.md
+         notes/evidence/speaker-name-registry-20261023.md
+    """
+    # 每条记录的**内容区**：从 text_offset 到第一个 NUL（含 NUL）。
+    regions: list[tuple[str, dict[str, Any], int, int]] = []
+    for table in texts:
+        for record in table.get("records", []):
+            offset = record.get("text_offset")
+            raw = record.get("raw")
+            if offset is None or not raw:
+                continue
+            data = base64.b64decode(raw)
+            end = data.find(b"\x00")
+            content_len = len(data) if end < 0 else end + 1
+            if content_len <= 0:
+                continue
+            regions.append((table["id"], record, offset, offset + content_len))
+
+    for table in texts:
+        for record in table.get("records", []):
+            offset = record.get("text_offset")
+            raw = record.get("raw")
+            if offset is None or not raw:
+                continue
+            data = base64.b64decode(raw)
+            slot_len = len(data)
+            own_end = offset + (data.find(b"\x00") + 1 if data.find(b"\x00") >= 0 else slot_len)
+
+            # 1) 跨表共用同一段字节的记录。
+            aliases = sorted(
+                f"{tid}#{rec['id']}"
+                for (tid, rec, start, _end) in regions
+                if tid != table["id"] and rec is not record and start == offset
+            )
+            if aliases:
+                record["aliased_with"] = aliases
+
+            # 2) 可写长度：不能写进**别的表**的内容字节。
+            capacity = record.get("capacity") or slot_len
+            writable = capacity
+            for (tid, rec, start, end) in regions:
+                if tid == table["id"] or rec is record:
+                    continue
+                # 同一段内容（别名组）不限制 —— 写的就是同一批字节。
+                if start == offset and end == own_end:
+                    continue
+                if end <= offset or start >= offset + slot_len:
+                    continue          # 与本槽不相交
+                # 相交：外来的内容字节落在本槽里。
+                if start > offset:
+                    writable = min(writable, start - offset)
+                else:
+                    writable = 0      # 外来的内容从本槽前面就开始了
+            if writable < capacity:
+                record["writable_bytes"] = writable
+
+
 def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
     rom = rom_path.read_bytes()
     mapping, report = text_codec.load_mapping(rom_path)
@@ -2539,6 +2678,9 @@ def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
             if len(shared) > 1:
                 record["shared_with"] = [i for i in shared if i != record["id"]]
 
+    # **跨表**的地址别名（说话人全名表 / 地点名表 / 说话人简称表共用同一批字节）。
+    annotate_slot_aliases(texts)
+
     # The encoder must emit the *canonical* code for a character: eight
     # characters are spelled by two codes and only the base-run spelling is
     # canonical (tools/text_codec.py::build_canonical_reverse_mapping).
@@ -2573,7 +2715,10 @@ def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
         "notes": [
             "本包由 tools/export_content_pack.py 从 rom/base.gba 导出。",
             "每个结构的字段列表精确铺满整条记录，未解码的字节以 hex 字段原样保留。",
-            "文本表分两类：指针表驱动（可重定位、可变长）与绝对地址引用（只能等长改写）。",
+            "文本表分四种形态：指针表驱动（可重定位、可变长）、"
+            "可转换的定长内联槽（说话人名表 —— 改了名字才转换成指针表 + 变长串池）、"
+            "定长内联槽（说话人全名表 / 地点名表 —— 只能等长改写）与"
+            "绝对地址引用（同样只能等长改写）。",
         ],
     }
 

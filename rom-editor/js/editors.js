@@ -929,7 +929,7 @@ export class TextTableEditor {
               + '改 ROM 里的 12 个取名读者（指令数与字节数都不变），在原表的位置上放指针表，'
               + '名字搬到空闲区。没改过的内容包重建出来仍与原版逐字节相同。'
             : kind === 'fixed'
-              ? '这条文本写在一个定长内联槽里（槽的大小写死在表里），长度不能变 —— 没有指针可以改。改长了构建会拒绝，不会静默截断。'
+              ? '这条文本写在一个定长内联槽里（槽的大小写死在表里），长度不能变 —— 没有指针可以改。改长了构建会拒绝，不会静默截断。写回时**整槽原样**：槽里的填充、以及别的表共用的字节，一个都不动。'
               : '这条文本被代码用绝对地址引用，长度不能变。改长了构建会拒绝，不会静默截断。',
       }),
     ]));
@@ -1136,6 +1136,14 @@ export class TextTableEditor {
         title: `这段字有 ${record.shared_with.length + 1} 个位置共用（同一个字符串），改一处会一起变。`,
       });
     }
+    if (record.aliased_with && record.aliased_with.length) {
+      marks.push({
+        cls: 'mark-shared',
+        text: `别名 ×${record.aliased_with.length}`,
+        title: `这段字节被**别的表**共用：${record.aliased_with.join('、')}。`
+          + 'ROM 里它们是同一批字节（作者刻意的存储别名）—— 改这里，另一张表那一格也跟着变。',
+      });
+    }
     const ctrl = this.controlCodeCount(record);
     if (ctrl > 0) {
       marks.push({ cls: 'mark-ctrl', text: `控制码 ×${ctrl}`, title: '控制码带着换行/分页的排版含义，写回时按原位保留。' });
@@ -1197,6 +1205,16 @@ export class TextTableEditor {
           text: `这段字有 ${record.shared_with.length + 1} 个位置共用（同一个字符串）：` +
             `本表 #${record.shared_with.slice(0, 8).join(' #')}` +
             `${record.shared_with.length > 8 ? ' …' : ''}。改这里会一起变。`,
+        }),
+      ]));
+    }
+    if (record.aliased_with && record.aliased_with.length) {
+      this.detail.appendChild(el('div', { class: 'rule-note rule-warn' }, [
+        el('span', { class: 'rule-title', text: '地址别名' }),
+        el('span', {
+          text: `这段字节被**别的表**共用：${record.aliased_with.join('、')}。`
+            + 'ROM 里它们是同一批字节（作者刻意的存储别名，不是 bug）—— '
+            + '改这里，另一张表那一格也跟着变；两处都改成不同的字时构建会报错。',
         }),
       ]));
     }
@@ -1363,9 +1381,16 @@ export class TextTableEditor {
     if (!this.table.relocatable && !this.table.convert && record.capacity) {
       const nul = this.table.nul_terminated === false ? 0 : 1;
       const bytes = this.pack.font.encodedLength(value);
-      if (bytes + nul > record.capacity) {
+      // 判的是**可写长度**（`writable_bytes`），不是槽长 —— 槽的末尾几字节
+      // 可能属于**另一张表**（说话人全名表 id 63 的槽最后一个字节是
+      // 地点名表 id 1 的第一个字形码）⇒ 界面必须与构建器判得一样。
+      const writable = record.writable_bytes ?? record.capacity;
+      if (bytes + nul > writable) {
         toast(
-          `这条只有 ${record.capacity} 字节的定长槽，放不下（需要 ${bytes + nul} 字节）。` +
+          `这条只有 ${writable} 字节的定长槽，放不下（需要 ${bytes + nul} 字节）。` +
+          (writable !== record.capacity
+            ? `（槽位共 ${record.capacity} 字节，末尾 ${record.capacity - writable} 字节属于别的表）`
+            : '') +
           `（${this.slotReason(record)}）请改成短一点的文字。`,
           'error'
         );
@@ -1390,7 +1415,11 @@ export class TextTableEditor {
     counter.appendChild(el('span', { text: `编码后 ${bytes} 字节` }));
     if (record.capacity && record.text_offset !== null && record.text_offset !== undefined) {
       const nul = this.table.nul_terminated === false ? 0 : 1;
-      const over = bytes + nul > record.capacity;
+      // 判的是**可写长度**（`writable_bytes`），不是槽长（`capacity`）：
+      // 定长槽的末尾几字节可能属于**另一张表**（说话人全名表 id 63 的槽
+      // 最后一个字节是地点名表 id 1 的第一个字形码）⇒ 写过去就把那条表改坏了。
+      const writable = record.writable_bytes ?? record.capacity;
+      const over = bytes + nul > writable;
       const convertible = !!this.table.convert;
       counter.appendChild(el('span', {
         class: over ? (convertible ? 'warn' : 'bad') : 'ok',
@@ -1406,9 +1435,13 @@ export class TextTableEditor {
             : convertible
               ? ` · 变长 ${bytes + nul} 字节（槽位 ${record.capacity}）：写得进去，` +
                 '构建时会把整张表转换成指针表'
-              : ` · 放不下：写回需要 ${bytes + nul} 字节，槽位只有 ${record.capacity} 字节` +
+              : ` · 放不下：写回需要 ${bytes + nul} 字节，可写长度只有 ${writable} 字节` +
+                (writable !== record.capacity
+                  ? `（槽位共 ${record.capacity} 字节，末尾 ${record.capacity - writable} 字节属于别的表）`
+                  : '') +
                 `（${this.slotReason(record)}）`)
           : ` · 槽位 ${record.capacity} 字节` +
+            (writable !== record.capacity ? `（可写 ${writable} 字节，末尾归别的表）` : '') +
             (this.table.relocatable ? '（放得下，变长会重定位）'
               : convertible ? '（放得下，变长会转换成指针表）' : '（放得下）'),
       }));

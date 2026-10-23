@@ -72,12 +72,33 @@ export function renderStory(container, ctx) {
     ],
     intro:
       '对白文本在 ROM 里是字形码流（每个汉字 2 字节，lead 0x80–0x9F），不是 Shift-JIS。' +
-      '指针表驱动的文本（对白槽位表、任务表、名字表）可以改变长度——构建时会重定位到空闲区并改写指针；' +
-      '定长内联槽（说话人名表）与被代码用绝对地址引用的文本只能等长改写。' +
+      '指针表驱动的文本（对白槽位表、任务表、战斗目标表）可以改变长度——构建时会重定位到空闲区并改写指针；' +
+      '说话人名表是定长内联槽，但可以转换成指针表 + 变长串池；' +
+      '说话人全名表与地点名表也是定长内联槽，结构上只能等长改写。' +
       '对白指针表 0x461CE8 共 1524 个槽位 = 305 组 ×（4 条 + 1 个 NULL 分隔），' +
       '每组 4 条是「一道题 + 三个选项」；第 g 组的 4 条落在槽 5g..5g+3。',
     extra,
-    texts: ['dialogue_slots', 'speaker_names', 'rom_text_index'],
+    // 本域的文本表 —— 这是**策展顺序**，不是可达性清单：
+    // `common.js::domainTableRows()` 会把内容包里 `module === 'story'` 的表
+    // **自动追加**到本列表末尾，所以两张新表本来就够得着；写进这里是为了让作者
+    // 在**一屏之内**看到「说话人简称 / 说话人全名 / 地点名」这三张同属剧情侧的名字表，
+    // 而不是散在自动追加的尾巴里。
+    //
+    // 归属的依据（不是拍脑袋）：
+    //  · `speaker_full_names`（说话人全名表，19 B × 64）与 `speaker_names`
+    //    （说话人名表 = 简称，12 B × 64）是**同一批说话人的两种形态** ——
+    //    简称表本来就在这一域，全名表是它的邻居；
+    //  · `location_names`（地点名表，18 B × 55）唯一的原生读者 `fn 0x0808CD40`
+    //    是被**剧情状态机** `fn 0x0808F190` 调用的（`0x0808F40C`；同一个函数
+    //    还 `bl 0x0808F4D4` 派发场景）⇒ 它是**剧情侧**的数据，不是战斗/地图侧的；
+    //  · 内容包自己也这么标：两张表的 `module` 都是 `story`。
+    texts: [
+      'dialogue_slots',
+      'speaker_names',
+      'speaker_full_names',
+      'location_names',
+      'rom_text_index',
+    ],
     structures: [
       'story_before_root', 'story_after_root',
       'story_logic_root', 'story_events_root',

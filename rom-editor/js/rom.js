@@ -16,7 +16,7 @@
 import { bytesToHex, hexToBytes, base64ToBytes, offsetToPointer, isRomPointer } from './bytes.js';
 import { scanTokens, encodeTokens, countControlCodes } from './textcodec.js';
 import { scriptComponents, planRelocation, ROM_BASE } from './storyvm.js';
-import { patchOriginalExtent } from './pack.js';
+import { patchOriginalExtent, textSlotKind } from './pack.js';
 
 /**
  * 空闲区的上界（**不含**）。
@@ -71,6 +71,17 @@ function bytesEqual(a, b) {
   if (a.length !== b.length) return false;
   for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
   return true;
+}
+
+/**
+ * 一段槽字节里的**正文**（到第一个 NUL 为止，不含 NUL）。
+ *
+ * 定长内联槽的 `raw` = 正文 + NUL + 填充；判断「有没有改过」要比**正文**，
+ * 不能拿填充去比 —— 填充可能属于**别的表**（见 `rebuildTextTable`）。
+ */
+function textContent(bytes) {
+  const end = bytes.indexOf(0);
+  return end < 0 ? bytes : bytes.subarray(0, end);
 }
 
 export class BuildError extends Error {}
@@ -423,11 +434,114 @@ export class RomBuilder {
   }
 
   applyTextTables() {
+    // 先查「两张表抢同一段字节」—— 查出来的和写下去的必须是同一份计算，
+    // 所以这一步要在真正写之前做（见 `checkTextWriteConflicts`）。
+    this.checkTextWriteConflicts();
     for (const table of this.pack.texts || []) {
       const result = this.rebuildTextTable(table);
       if (result) this.report.textsChanged += 1;
       this.report.texts += 1;
     }
+  }
+
+  /**
+   * 两张表写**同一段字节**、内容还不一样 ⇒ 有一处改动会**凭空消失**。
+   *
+   * ROM 里确实有这种表：说话人简称表 id 63、全名表 id 0、地点名表 id 0
+   * 三处「没有」**共用同一批字节**（作者刻意的存储别名，见
+   * `notes/evidence/speaker-name-id63-20261023.md`）。只改一处 ⇒ 另一处跟着变
+   * （同一批字节）；**两处都改成不同的字** ⇒ 后写的覆盖先写的 ⇒
+   * 有一处改动凭空消失。构建器必须把它**报出来**，不能让它悄悄发生。
+   *
+   * 只有「原地写」的表会抢字节：指针表驱动的写不到原位（正文搬到空闲区），
+   * 「可转换」的转成指针表之后也不写原位。
+   */
+  checkTextWriteConflicts() {
+    const claims = new Map();      // ROM 偏移 → { table, id, byte }
+    for (const table of this.pack.texts || []) {
+      if (table.relocatable || table.convert) continue;
+      for (const record of table.records || []) {
+        const offset = record.text_offset;
+        if (offset === null || offset === undefined) continue;
+        // 这段字节归别的表了（内容包已标明归属）—— 写回时会跳过，不抢。
+        if (record.owned_by) continue;
+        const original = record.raw ? base64ToBytes(record.raw) : new Uint8Array(0);
+        if (!original.length) continue;
+        for (const [at, value] of this.inlineWriteClaims(table, record)) {
+          // 写的是原值 ⇒ 这一笔不改动任何字节，不算抢。
+          if (this.base[at] === value) continue;
+          const prev = claims.get(at);
+          if (prev && prev.byte !== value) {
+            this.report.errors.push(
+              `${table.id}#${record.id} 与 ${prev.table}#${prev.id} 要写同一段字节`
+              + `（0x${at.toString(16).toUpperCase()}）但内容不同 —— `
+              + '同一段字节只能有一个值，两处都改会让其中一处凭空消失。请只改一处。'
+            );
+            return false;
+          }
+          claims.set(at, { table: table.id, id: record.id, byte: value });
+        }
+      }
+    }
+    return true;
+  }
+
+  /**
+   * 一条「原地写」的记录会写哪些字节、写成什么样。
+   *
+   * 两种形态的写回规则不同：
+   *   * `fixed`（定长内联槽）—— **整槽原样写回**：正文 + NUL + 槽填充
+   *     （填充**原样保留**：它可能是**别的表**的内容）；
+   *   * `absolute`（绝对地址引用）—— 正文 + NUL，旧尾巴清零。
+   *
+   * 冲突检查与真正的写**必须用同一份计算** —— 否则查出来的和写下去的
+   * 不是一回事，检查就白做了。
+   *
+   * @returns {Array<[number, number]>} [ROM 偏移, 字节值]
+   */
+  inlineWriteClaims(table, record) {
+    const offset = record.text_offset;
+    const original = record.raw ? base64ToBytes(record.raw) : new Uint8Array(0);
+    const content = this.pack.textContentBytes(record);
+    const nul = table.nul_terminated !== false ? 1 : 0;
+    const claims = [];
+    if (textSlotKind(table, record) === 'fixed') {
+      const slot = this.fixedSlotBytes(record, content, original, nul);
+      for (let i = 0; i < slot.length; i++) claims.push([offset + i, slot[i]]);
+      return claims;
+    }
+    for (let i = 0; i < content.length; i++) claims.push([offset + i, content[i]]);
+    if (nul) claims.push([offset + content.length, 0]);
+    for (let k = content.length + nul; k < original.length; k++) claims.push([offset + k, 0]);
+    return claims;
+  }
+
+  /**
+   * 定长内联槽**原样写回**时要写的字节。
+   *
+   * 定长槽的语义是「整槽原样读出、原样写回」：
+   *   · 新正文写在前头；
+   *   · 后面跟一个 NUL；
+   *   · **槽填充原样保留**（它可能是**别的表**的内容）。
+   *
+   * ⚠️ 早先这里把尾巴**清零**（那是「绝对地址引用」的老做法），对定长槽是错的：
+   * ROM 里说话人全名表 id 63 的槽（19 字节）与地点名表 id 0 的槽（18 字节）
+   * **完全重合**，而它最后一个字节 `0x5A5F77` 是地点名表 id 1 的第一个字形码
+   * （0x8a = 「村」）—— 清零会把「村」抹掉。
+   *
+   * 旧正文多出来的残字节**要清零**（字符串以 NUL 结束，后面的残字节不该留着），
+   * 但**只清到旧正文结尾为止** —— 旧正文之后是槽的填充，原样保留。
+   */
+  fixedSlotBytes(record, content, original, nul) {
+    const slot = new Uint8Array(original.length);
+    slot.set(original, 0);
+    const n = Math.min(content.length, original.length);
+    slot.set(content.subarray(0, n), 0);
+    if (nul && n < original.length) slot[n] = 0;
+    const oldTextEnd = original.indexOf(0);
+    const limit = oldTextEnd < 0 ? original.length : oldTextEnd + 1;
+    for (let k = n + nul; k < limit; k++) slot[k] = 0;
+    return slot;
   }
 
   /**
@@ -458,7 +572,15 @@ export class RomBuilder {
     const encoded = records.map((record) => {
       const bytes = pack.textBytes(record);
       const original = record.raw ? base64ToBytes(record.raw) : new Uint8Array(0);
-      const changed = bytes.length !== original.length || !bytesEqual(bytes, original);
+      // 定长内联槽比的是**正文**，不是「正文 + 零填充」。
+      //
+      // ⚠️ 槽的填充**不一定是零**：说话人全名表 id 63 的槽最后一个字节
+      // （0x5A5F77）是地点名表 id 1 的第一个字形码（0x8a = 「村」）。
+      // 拿零填充去比，会把「一个字都没改」误判成「改过」⇒ 未改过的内容包
+      // 也会被重写一遍（字节碰巧一样，但报告会说「文本表被改了」）。
+      const changed = textSlotKind(table, record) === 'fixed'
+        ? !bytesEqual(pack.textContentBytes(record), textContent(original))
+        : bytes.length !== original.length || !bytesEqual(bytes, original);
       return { record, bytes, original, changed };
     });
 
@@ -525,21 +647,28 @@ export class RomBuilder {
         }
         // 容量判定必须用**内容长度**：写回时字节会被补齐到槽位大小，
         // 拿补齐后的长度去比容量，会把「4 字节的字 + 12 字节的槽」误判成超长。
+        //
+        // ⚠️ 判的是**可写长度**（`writable_bytes`），不是槽长（`capacity`）：
+        // 定长槽的末尾几字节可能属于**另一张表**（说话人全名表 id 63 的槽
+        // 最后一个字节是地点名表 id 1 的第一个字形码）⇒ 写过去就把那条表改坏了。
         const content = pack.textContentBytes(e.record);
-        if (content.length + (nulTerminated ? 1 : 0) > capacity) {
+        const writable = e.record.writable_bytes ?? capacity;
+        if (content.length + (nulTerminated ? 1 : 0) > writable) {
           this.report.errors.push(
             `${table.id}#${e.record.id} 文本超长：` +
               `写回需要 ${content.length + (nulTerminated ? 1 : 0)} 字节，` +
-              `槽位只有 ${capacity} 字节（该表不可重定位，只能等长改写）`
+              `可写长度只有 ${writable} 字节（该表不可重定位，只能等长改写）` +
+              (writable !== capacity
+                ? `（槽位共 ${capacity} 字节，但末尾 ${capacity - writable} 字节属于别的表）`
+                : '')
           );
           continue;
         }
         if (!e.changed) continue;
-        this.bytes.set(content, e.record.text_offset);
-        if (nulTerminated) this.bytes[e.record.text_offset + content.length] = 0;
-        // 把旧文本多出来的尾巴清零：字符串以 NUL 结束，后面的残字节不该留着。
-        for (let k = content.length + (nulTerminated ? 1 : 0); k < e.original.length; k++) {
-          this.bytes[e.record.text_offset + k] = 0;
+        // 写回规则与冲突检查**同源**（`inlineWriteClaims`）：
+        // 定长槽整槽原样写回（填充保留），绝对地址引用写内容 + NUL + 清零尾巴。
+        for (const [at, value] of this.inlineWriteClaims(table, e.record)) {
+          this.bytes[at] = value;
         }
       }
       return true;

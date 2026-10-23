@@ -77,7 +77,9 @@ TABLES: dict[str, tuple[int, bool, str]] = {
                        "共 **63 行（id 0..62，只有 1..62 有效 = 310 条表情）**。"
                        "**2026-10-22 订正**：紧跟着的「行 63」**不是垃圾指针**，"
                        "它是**说话人名表**（`0x5A4DEC + 63*40 = 0x5A57C4`，"
-                       "每条 12 字节 = 最多 3 个双字节字形码 + 填充）；"
+                       "每条 12 字节 = 最多 5 个双字节字形码 + 填充；"
+                       "**2026-10-23 订正**：那张表的规范名是 speaker_short_name_table，"
+                       "它不是「调色板源表」）；"
                        "旧笔记把名字的字形码当指针读，才得出「行 63 是垃圾」的结论。"
                        "见 notes/evidence/portrait-render-chain-20261022.md §2.1"),
     "portrait_pieces": (0x4643C0, True,
@@ -204,9 +206,40 @@ TABLES: dict[str, tuple[int, bool, str]] = {
                            "用 'ldrb' 取 8 位索引后按 idx*17*4 = idx*68 定位；"
                            "表尾 0x5A320C + 79*68 = 0x5A4708 处结构干净断裂"
                            "（前后是指针块结构变了），再往后是 16 字节步长的另一张表"),
-    "palette_source_table": (0x5A57C4, True,
-                             "调色板源表 12 字节/条（每条 = 一个 u32 色值 + 8 字节 0）；"
-                             "12 个原生读者；正好接在头像表 0x5A4DEC + 63*40 之后"),
+    # 2026-10-23 订正：0x5A57C4 **不是**「调色板源表」—— 它是**说话人简称表**
+    # （每条 12 字节的字形码串，不是「u32 色值 + 8 字节 0」）。那 12 个原生读者
+    # **全是取名读者**。依据：notes/evidence/speaker-name-table-20261023.md
+    # （12 个读者逐个反汇编）+ notes/evidence/speaker-name-id63-20261023.md
+    # （id 63 借用全名表 id 0 的存储）。旧名保留为别名条目，见下面
+    # 「adjudicated legacy banks」段里的 palette_source_table。
+    "speaker_short_name_table": (0x5A57C4, True,
+                                 "说话人简称表 12 字节/条（每条 = 最多 5 个双字节字形码 + NUL + 填充）；"
+                                 "ROM 里实存 **63 条（id 0..62）**；id 63 那一格没有自己的字节，"
+                                 "它借用全名表 id 0 的存储（0x5A57C4 + 63*12 = 0x5A5AB8，"
+                                 "见 CONFLICTS['0x5a5ab8']）；"
+                                 "12 个原生读者全是取名读者（0x0807908C / 0x080811D2 / 0x0808123E / "
+                                 "0x08086048 / 0x08088814 / 0x08088DB2 / 0x08089362 / "
+                                 "0x0808D29A / 0x08090152 / 0x08095514 / 0x08095CF6 / 0x08097A12，"
+                                 "步长 12，机器验证）；"
+                                 "正好接在头像表 0x5A4DEC + 63*40 之后"),
+    # 2026-10-23：紧挨着简称表的第二张表 —— 说话人**全名表**（角色 id 空间的
+    # 完整名字）。它的 id 0 与简称表 id 63 同址（同一个「没有」字节块）。
+    "speaker_full_name_table": (0x5A5AB8, True,
+                                "说话人全名表 19 字节/条，**64 条（id 0..63）**，"
+                                "占 0x5A5AB8..0x5A5F77（表尾 0x5A5AB8 + 64*19 = 0x5A5F78）；"
+                                "3 个原生读者 0x08077EE2 / 0x0808B036 / 0x080939D6（步长 19，"
+                                "机器验证；id 来自角色/队伍记录，不是剧情脚本）；"
+                                "**地址别名**：id 0 与说话人简称表 id 63 同址（0x5A5AB8，"
+                                "见 CONFLICTS['0x5a5ab8']）；id 63 与地点名表 id 0 同址"
+                                "（0x5A5F65，见 CONFLICTS['0x5a5f65']）"),
+    # 2026-10-23：第三张表 —— 地点名表（地图地名），读者 0x0808CD8E，步长 18。
+    "location_name_table": (0x5A5F65, True,
+                            "地点名表（地图地名）18 字节/条，**55 条（id 0..54）**，"
+                            "占 0x5A5F65..0x5A6342（表尾 0x5A5F65 + 55*18 = 0x5A6343）；"
+                            "1 个原生读者 0x0808CD8E（步长 18，机器验证；"
+                            "地图记录里的地图 id 索引）；"
+                            "**地址别名**：id 0 与说话人全名表 id 63 同址（0x5A5F65，"
+                            "见 CONFLICTS['0x5a5f65']）"),
     "function_pointer_table": (0x53D5F0, True,
                                "函数指针表 13 槽 u32：槽 0 与槽 12 是 FFFFFFFF 哨兵，"
                                "槽 1..11 是 11 个代码指针（0x08061C8D 起每槽 +12 字节等距）；"
@@ -287,6 +320,16 @@ TABLES: dict[str, tuple[int, bool, str]] = {
     "legacy_menu_ui": (0x5A5774, False,
                        "已裁决：旧基址 0x5A5774 是头像表 0x5A4DEC 的第 61..62 行"
                        "（每行 40 字节），不是独立的菜单 UI 表"),
+    # 2026-10-23：旧名保留为**别名**，不删 —— 免得历史文档/外部引用悬空。
+    # 但它的身份**已被证伪**：0x5A57C4 起是说话人**简称表**，不是调色板源表。
+    "palette_source_table": (0x5A57C4, False,
+                             "已裁决（2026-10-23）：**别名**，不是调色板源表。"
+                             "0x5A57C4 起是『说话人简称表』—— 每条 12 字节的字形码串"
+                             "（最多 5 个双字节字形码 + NUL + 填充），"
+                             "**不是**「一个 u32 色值 + 8 字节 0」；"
+                             "那 12 个原生读者**全是取名读者**（不是调色板消费者）。"
+                             "规范名见 speaker_short_name_table；"
+                             "依据 notes/evidence/speaker-name-table-20261023.md"),
     "legacy_save_state": (0x53D848, False, "存档描述符表"),
     "legacy_story": (0x53636C, False, "旧剧情表（与剧情 VM 的根表不是同一张）"),
     "legacy_story_b": (0x536BC8, False, "旧剧情表 b"),
@@ -844,6 +887,103 @@ CONFLICTS: dict[str, dict] = {
              "why": "0x0809881E 必须读 0x085A320C（图块资源记录表）"},
             {"kind": "reader", "address": 0x5A320C, "at": 0x0809845C,
              "why": "0x0809845C 必须读 0x085A320C（同一张表的第二处读取）"},
+        ],
+    },
+    # ------------------------------------------------------------------
+    # 2026-10-23: the **address aliases** inside 0x5A57C4..0x5A6342.
+    #
+    # Three tables share that stretch of ROM:
+    #
+    #   说话人简称表  0x5A57C4  12 字节/条  id 0..62（实存 63 条）
+    #   说话人全名表  0x5A5AB8  19 字节/条  id 0..63（64 条）
+    #   地点名表      0x5A5F65  18 字节/条  id 0..54（55 条）
+    #
+    # Two of the three "没有" records are **deliberately** stored in the
+    # same bytes -- that is the ROM author's space-saving trick, not a
+    # bug, and it is adjudicated here instead of being hidden:
+    #
+    #   简称表 id 63  ==  全名表 id 0    @ 0x5A5AB8
+    #   全名表 id 63  ==  地点名表 id 0  @ 0x5A5F65
+    #
+    # The `checks` below are re-derived from the ROM by
+    # `tools/alias_audit.py` (whole-ROM literal index + disassembly), so
+    # these two entries cannot rot: if a reader stops reading the base
+    # address, the check fails.
+    # ------------------------------------------------------------------
+    "0x5a5ab8": {
+        "banks": ["speaker_short_name_table", "speaker_full_name_table"],
+        "verdict": "merge",
+        "base_status": "native-reader-alias",
+        "canonical_bank": "speaker_full_name_table",
+        "canonical_address": 0x5A5AB8,
+        "dispositions": {
+            "speaker_short_name_table": (
+                "canonical-table-elsewhere: 说话人简称表基址 0x5A57C4（12 字节/条，"
+                "ROM 里实存 63 条 = id 0..62）；它的 **id 63 那一格没有自己的字节**，"
+                "借用 0x5A5AB8（= 0x5A57C4 + 63*12）的存储"),
+            "speaker_full_name_table": (
+                "canonical-table-here: 说话人全名表基址 0x5A5AB8（19 字节/条 × 64 条）；"
+                "它的 **id 0** 与简称表 id 63 共用同一批 12 字节"),
+        },
+        "evidence": (
+            "0x085A5AB8 被两处当成记录起点用："
+            "（a）简称表 0x5A57C4 + 63*12（12 个取名读者，步长 12）；"
+            "（b）全名表 0x5A5AB8（3 个读者 0x08077EE2 / 0x0808B036 / 0x080939D6，步长 19）。"
+            "两处读到的是同一批字节 `92 59 9a 9a 00` + 零填充 —— 字符串「没有」。"
+            "这是 ROM 作者**刻意的存储别名**（省空间），不是 bug："
+            "全 ROM 没有任何代码把名字指针与 0x085A5AB8 做相等比较，"
+            "剧情 VM 也从不用 id 63（`op 0x08` 用过的 49 个 id 全在 1..61）。"
+            "详见 notes/evidence/speaker-name-id63-20261023.md"
+        ),
+        "falsifiable_test": (
+            "0x085A5AB8 起 12 字节必须仍是 `92 59 9a 9a 00` + 零填充；"
+            "0x085A57C4 必须仍有 12 个取名读者；"
+            "0x0808B036 / 0x080939D6 必须仍读 0x085A5AB8。"
+            "若其中任一条不成立，别名判定作废。"
+        ),
+        "checks": [
+            {"kind": "reader", "address": 0x5A57C4, "min": 12,
+             "why": "说话人简称表基址 0x085A57C4 必须有 12 个原生读者（全是取名读者）"},
+            {"kind": "reader", "address": 0x5A5AB8, "at": 0x0808B036,
+             "why": "全名表读者 0x0808B036 必须读 0x085A5AB8（步长 19）"},
+            {"kind": "reader", "address": 0x5A5AB8, "at": 0x080939D6,
+             "why": "全名表读者 0x080939D6 必须读 0x085A5AB8（步长 19）"},
+        ],
+    },
+    "0x5a5f65": {
+        "banks": ["speaker_full_name_table", "location_name_table"],
+        "verdict": "merge",
+        "base_status": "native-reader-alias",
+        "canonical_bank": "location_name_table",
+        "canonical_address": 0x5A5F65,
+        "dispositions": {
+            "speaker_full_name_table": (
+                "canonical-table-elsewhere: 说话人全名表基址 0x5A5AB8（19 字节/条 × 64 条）；"
+                "它的 **id 63**（= 0x5A5AB8 + 63*19 = 0x5A5F65）与地点名表 id 0 共用同一批字节"),
+            "location_name_table": (
+                "canonical-table-here: 地点名表基址 0x5A5F65（18 字节/条 × 55 条 = id 0..54）；"
+                "它的 **id 0**（也就是全名表 id 63 的位置）就是「没有」"),
+        },
+        "evidence": (
+            "0x085A5F65 被两处当成记录起点用："
+            "（a）全名表 0x5A5AB8 + 63*19（3 个读者，步长 19）；"
+            "（b）地点名表 0x5A5F65（1 个读者 0x0808CD8E，步长 18）。"
+            "两处读到的是同一批字节 `92 59 9a 9a 00` + 零填充 —— 字符串「没有」。"
+            "全名表 id 63 的**最后一个字节 0x085A5F77** 已经是地点名表 id 1 的第一个字形码"
+            "（0x8a = 「村」）—— 同一批字节被两张表按不同步长解释。"
+            "详见 notes/evidence/speaker-name-id63-20261023.md"
+        ),
+        "falsifiable_test": (
+            "0x085A5F65 起 18 字节必须仍是 `92 59 9a 9a 00` + 零填充；"
+            "0x0808CD8E 必须仍读 0x085A5F65 并按 id*18 定位；"
+            "0x085A5F78 起按 19 字节步长必须解不出合法人名（表到 id 63 为止）。"
+            "若其中任一条不成立，别名判定作废。"
+        ),
+        "checks": [
+            {"kind": "reader", "address": 0x5A5F65, "at": 0x0808CD8E,
+             "why": "地点名表读者 0x0808CD8E 必须读 0x085A5F65（步长 18）"},
+            {"kind": "reader", "address": 0x5A5AB8, "min": 3,
+             "why": "说话人全名表基址 0x085A5AB8 必须有 3 个原生读者"},
         ],
     },
 }

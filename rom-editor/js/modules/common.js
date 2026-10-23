@@ -13,9 +13,10 @@ import { textSlotKind } from '../pack.js';
 /**
  * 一张文本表的**长度策略**（人话）。
  *
- * 11 张表里 9 张是**指针表驱动**的 —— 可变长（构建时正文搬到空闲区、指针改掉）；
- * `speaker_names` 是**定长内联槽**、`battle_objectives` 是**绝对地址引用** ——
- * 这两张**结构上就变不了**，界面上要让人看得出区别。
+ * 13 张表里 10 张是**指针表驱动**的 —— 可变长（构建时正文搬到空闲区、指针改掉）；
+ * `speaker_names` 是**定长内联槽但可转换**（构建时转成指针表 + 变长串池）；
+ * `speaker_full_names`（说话人全名表）与 `location_names`（地点名表）是
+ * **定长内联槽且不可转换** —— 这两张**结构上就变不了**，界面上要让人看得出区别。
  */
 export function lengthStrategyLabel(table) {
   if (table.relocatable) return '可重定位（可变长）';

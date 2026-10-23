@@ -978,7 +978,11 @@ AUDIT_TABLES: dict[str, int] = {
     "data_pointer_table_a": 0x5A143C,
     "data_pointer_table_b": 0x5A2034,
     "tile_asset_records": 0x5A320C,
-    "palette_source_table": 0x5A57C4,
+    # 2026-10-23 订正：0x5A57C4 **不是**「调色板源表」，是说话人简称表
+    # （旧名 palette_source_table 在 registry 里保留为别名条目）。
+    "speaker_short_name_table": 0x5A57C4,
+    "speaker_full_name_table": 0x5A5AB8,
+    "location_name_table": 0x5A5F65,
     # --- legacy banks (see notes/legacy-table-base-correction-20261020.md) ---
     "legacy_audio_or_palettes": 0x53F138,
     "legacy_battle_encounters": 0x542384,
