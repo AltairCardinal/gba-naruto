@@ -16,7 +16,16 @@ export function renderRaw(container, ctx) {
   const rom = ctx.rom || ctx.baseRom;
 
   if (!rom) {
-    container.appendChild(el('div', { class: 'empty', text: '请先载入原版 ROM' }));
+    // 这个域改的就是 ROM 里的字节 —— 没有 ROM 就没什么可改的。
+    // 直接给一个能升起门禁的按钮，不要只丢一句「请先载入原版 ROM」。
+    container.appendChild(el('div', { class: 'empty' }, [
+      el('p', { text: '原始字节视图要改的就是 ROM 里的字节 —— 先载入一份原版 ROM。' }),
+      el('button', {
+        class: 'btn btn-primary',
+        text: '载入 ROM',
+        onclick: () => ctx.requestRom('原始字节视图改的就是 ROM 里的字节，需要原版 ROM 当基底。'),
+      }),
+    ]));
     return;
   }
 

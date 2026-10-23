@@ -5,13 +5,18 @@
 //   * the base ROM      (../rom/base.gba — the bytes everything is written into)
 // Both are fetched relative to this page, so serving the repository root is
 // enough:  python -m http.server 8000   →   http://localhost:8000/rom-editor/
-// A ROM can also be supplied by hand with the 载入 ROM button, which makes
-// the editor usable straight from a file:// URL.
+//
+// 载入 ROM 是**编辑器的前置操作**（notes/specs/rom-gate-20261023.md）：
+// 内容包装好之后门禁就升起来，作者必须先给一份原版 ROM
+// （内置的或本地的）才能继续 —— 门禁不可关，下面的内容也点不到。
+// 载入状态条（loadbar）是**状态**显示（载入后显示 √ 与卸载按钮）；
+// 门禁是**入口**（没载入时拦住不让往下走）。两者分工，不重复。
 
 import { ContentPack } from './pack.js';
 import { parsePackFromRom } from './parsepack.js';
 import { buildRom } from './rom.js';
 import { loadBundledRom } from './romsource.js';
+import { openRomGate } from './romgate.js';
 import { loadPackWithProgress, loadPackInFrame } from './loader.js';
 import { ensureTextIndex } from './textindex.js';
 import { parseHash as parseHashRaw, hashFor } from './routing.js';
@@ -243,6 +248,7 @@ function context() {
     goModule,
     setStatus,
     onJump,
+    requestRom,
   };
 }
 
@@ -472,8 +478,9 @@ async function exportAndUnloadRom() {
 
 async function doBuild() {
   if (!state.rom) {
-    toast('请先载入原版 ROM', 'error');
-    return;
+    // 没有 ROM 就先把门禁升起来 —— 这一步不能跳过。
+    await requestRom('构建 ROM 需要原版 ROM 当基底：改动要写进这份 ROM 里。');
+    if (!state.rom) return;
   }
   const button = dom.buildButton;
   button.disabled = true;
@@ -581,17 +588,7 @@ async function importPackFile(file) {
 async function loadRomFile(file) {
   try {
     const bytes = await readFile(file);
-    state.baseRom = bytes;
-    state.rom = bytes;
-    state.romSource = 'file';
-    state.romName = file.name || 'base.gba';
-    try {
-      state.romSha = await sha256Hex(bytes);
-    } catch (err) {
-      state.romSha = null;
-    }
-    // 载入 ROM 之后**默认先从 ROM 解析出内容包**。
-    await parsePackFromCurrentRom();
+    await applyRom(bytes, 'file', file.name || 'base.gba');
     if (state.pack && state.pack.rom.sha256 && state.romSha
         && state.pack.rom.sha256 !== state.romSha) {
       toast('载入的 ROM 与内容包记录的基线不同 —— '
@@ -599,11 +596,6 @@ async function loadRomFile(file) {
     } else {
       toast(`原版 ROM 已载入（${state.romName}）`, 'ok');
     }
-    setRomStatus();
-    renderLoadBar();
-    markDirty();
-    setStatus('就绪');
-    render();
   } catch (err) {
     toast(`读取失败：${err.message}`, 'error');
   }
@@ -811,10 +803,79 @@ async function boot() {
   setRomStatus();
   renderLoadBar();
   markDirty();
-  setStatus('内容包已载入（编辑器自带）—— 载入 ROM 后会默认从 ROM 重新解析一份');
+  setStatus('内容包已载入（编辑器自带）—— 请载入原版 ROM');
   state.view = parseHash();
   render();
   trace('first render done');
+
+  // 载入 ROM 是**前置操作**：门禁在这里升起来。
+  // 门禁不可关 ⇒ 下面那一层（顶栏 / 载入条 / 侧边栏 / 内容）在载入成功之前点不到。
+  await requestRom('原版 ROM 是编辑器的前置操作：构建 ROM、原始字节视图都要用它当基底。');
+  trace('rom gate done');
+}
+
+/**
+ * 取内置原版 ROM 的字节（**不写状态**）。
+ *
+ * 门禁与载入条都要用它。分开的原因是：门禁升起时顶栏的进度条在外壳里，
+ * 被置了 inert ⇒ 看不见 ⇒ **错误必须显示在门禁窗口里**，
+ * 所以取字节这一步要能把失败**抛出来**，而不是就地画一条进度条。
+ */
+async function fetchBundledRom(onProgress) {
+  const rom = await loadBundledRom((msg) => {
+    console.log('[editor] rom progress: ' + msg);
+    if (onProgress) onProgress(msg);
+  });
+  if (!rom) {
+    throw new Error(
+      '内置 ROM 取不到 —— 浏览器可能限制了单页下载量。\n'
+      + '请改用「上传本地 ROM」选一个 rom/base.gba（文件选择不走网络，一定能成功）。');
+  }
+  return rom;
+}
+
+/**
+ * 收下一份 ROM：写状态 + 从 ROM 解析内容包 + 刷新界面。
+ *
+ * 载入条与门禁走的是同一条路 —— 区别只在**谁来调它**。
+ */
+async function applyRom(bytes, source, name) {
+  state.baseRom = bytes;
+  state.rom = bytes;
+  state.romSource = source;
+  state.romName = name;
+  try {
+    state.romSha = await sha256Hex(bytes);
+  } catch (err) {
+    state.romSha = null;
+  }
+  // 载入 ROM 之后**默认先从 ROM 解析出内容包**。
+  await parsePackFromCurrentRom();
+  setRomStatus();
+  renderLoadBar();
+  markDirty();
+  setStatus('就绪');
+  render();
+}
+
+/**
+ * 升起载入 ROM 的门禁。
+ *
+ * 载入 ROM 是**前置操作**：需要 ROM 时窗口**不可关**（没有 ×、Esc 无效、
+ * 点遮罩无效），下面的内容也点不到（应用外壳被置 inert）。
+ * 载入条负责「已载入」之后的状态显示（√ / 卸载 / 换一份）。
+ */
+function requestRom(reason) {
+  return openRomGate({
+    reason,
+    closable: false,
+    loadBundled: (onProgress) => fetchBundledRom(onProgress),
+    loadFile: async (file) => {
+      const bytes = await readFile(file);
+      await applyRom(bytes, 'file', file.name || 'base.gba');
+      return bytes;
+    },
+  });
 }
 
 /** Fetch the bundled base ROM on demand. */
@@ -826,38 +887,10 @@ async function loadBundledRomAction() {
   console.log('[editor] loading bundled rom…');
   showProgress({ stage: 'download', label: '正在载入内置原版 ROM…', percent: undefined });
   try {
-    const rom = await loadBundledRom((msg) => {
-      console.log('[editor] rom progress: ' + msg);
+    const rom = await fetchBundledRom((msg) => {
       showProgress({ stage: 'download', label: msg, percent: undefined });
     });
-    if (!rom) {
-      console.log('[editor] bundled rom unavailable');
-      showProgress({
-        error: true,
-        label: '内置 ROM 载入失败 —— 浏览器可能限制了单页下载量。\n' +
-          '请用「在本地浏览上传」手动选择 rom/base.gba（文件选择不走网络，一定能成功）。',
-      });
-      setStatus('内置 ROM 载入失败 —— 请用「在本地浏览上传」手动选择');
-      return;
-    }
-    console.log('[editor] bundled rom ok: ' + rom.length + ' bytes');
-    state.rom = rom;
-    state.baseRom = rom;
-    state.romSource = 'bundled';
-    state.romName = 'base.gba';
-    try {
-      state.romSha = await sha256Hex(rom);
-    } catch (err) {
-      state.romSha = null;
-    }
-    hideProgress();
-    // 载入 ROM 之后**默认先从 ROM 解析出内容包**。
-    await parsePackFromCurrentRom();
-    setRomStatus();
-    renderLoadBar();
-    markDirty();
-    setStatus('就绪');
-    render();
+    await applyRom(rom, 'bundled', 'base.gba');
     toast('内置原版 ROM 已载入', 'ok');
   } catch (err) {
     showProgress({ error: true, label: `内置 ROM 载入失败：${err.message}` });

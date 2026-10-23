@@ -25,6 +25,13 @@ html, body {
 
 body { display: flex; flex-direction: column; }
 
+/* 应用外壳。载入 ROM 门禁升起时，这一整块会被置 inert ——
+   不可聚焦、不可点击、Tab 也进不去。 */
+#app-shell {
+  display: flex; flex-direction: column;
+  flex: 1 1 auto; min-height: 0;
+}
+
 /* ---------- top bar ---------- */
 .topbar {
   display: flex; align-items: center; justify-content: space-between;
@@ -424,6 +431,39 @@ table.grid-slots .num-input { min-width: 68px; }
 .modal-title { font-size: 14px; font-weight: 600; margin-bottom: 10px; }
 .modal-body { margin-bottom: 14px; }
 .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+/* ---------- 载入 ROM 门禁 ----------
+   载入 ROM 是编辑器的前置操作：这个窗口升起之后，下面的内容就点不到。
+   遮罩盖满整个视口（点它只会落到遮罩上），应用外壳同时被置 inert。
+   它与载入状态条（loadbar）分工：条是**状态**（载入后显示 √ / 卸载），
+   门禁是**入口**（没载入时拦住不让往下走）。 */
+.rom-gate-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(8, 10, 15, .9);
+  display: grid; place-items: center;
+}
+.rom-gate {
+  background: var(--bg-2); border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px; padding: 20px 22px;
+  min-width: 420px; max-width: 84vw;
+  box-shadow: 0 22px 60px rgba(0, 0, 0, .6);
+  outline: none;
+}
+.rom-gate-title { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+.rom-gate-note { font-size: 12.5px; color: var(--fg); margin-bottom: 6px; }
+.rom-gate-hint { font-size: 11.5px; color: var(--fg-dim); margin-bottom: 14px; }
+.rom-gate-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.rom-gate-status {
+  margin-top: 12px; font-size: 11.5px; color: var(--fg-dim);
+  font-family: var(--mono); min-height: 16px; white-space: pre-wrap;
+}
+.rom-gate-error {
+  margin-top: 8px; padding: 8px 10px; border-radius: 6px;
+  background: rgba(224, 90, 90, .12); border: 1px solid rgba(224, 90, 90, .4);
+  color: var(--bad); font-size: 11.5px; white-space: pre-wrap;
+}
+.rom-gate-file { display: none; }
 .toast {
   position: fixed; right: 18px; bottom: 40px; z-index: 60;
   background: var(--bg-3); border: 1px solid var(--line); border-left: 3px solid var(--accent-2);

@@ -16,6 +16,10 @@
 <link rel="stylesheet" href="css/battle-map.css">
 </head>
 <body>
+<!-- 应用外壳。载入 ROM 门禁升起时，这一整块会被置 inert：
+     不可聚焦、不可点击、Tab 也进不去（见 js/romgate.js）。
+     文件选择器**留在外壳之外** —— inert 子树里的 input.click() 会被浏览器吞掉。 -->
+<div id="app-shell">
 <header class="topbar">
   <div class="brand">
     <span class="brand-mark">木叶</span>
@@ -54,6 +58,7 @@
   <span class="spacer"></span>
   <span id="status-hint"></span>
 </div>
+</div><!-- /app-shell -->
 
 <!-- 文件选择器藏在底部：载入状态条上的「在本地浏览上传」是 label，指向它们。 -->
 <input type="file" id="rom-file" accept=".gba" hidden>
