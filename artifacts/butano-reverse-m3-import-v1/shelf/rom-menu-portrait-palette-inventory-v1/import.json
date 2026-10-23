@@ -1,0 +1,52 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-menu-portrait-palette-inventory-v1",
+  "file_count": 2,
+  "files": {
+    "rom-menu-portrait-palette-inventory.json": "ac263fc071b6c6ad4b94b649df38560c180f2b2fd350212cc3875055146d908d",
+    "rom-menu-portrait-palettes.bin": "d5d80e37d88000ec81501d9549b4c6038c42e6ec172614127821213d9dbcdccc"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-menu-portrait-palette-inventory-v1/manifest.json",
+  "manifest_sha256": "8a8675c2724131a6caa9b956825d74280fa26fe99447470b3cc3810688e6f88b",
+  "scope": {
+    "adjacent_gaps_classified": false,
+    "arbitrary_image_writeback": false,
+    "dynamic_caller_input_domain_complete": false,
+    "fixed_length_palette_writeback_verified": true,
+    "fixed_palette_byte_inventory_complete": true,
+    "graphics_bytes_classified_here": false,
+    "natural_gameplay_all_logical_outputs_proven": false,
+    "pointer_rewrite_complete": false,
+    "relocation_complete": false,
+    "runtime_pixel_equivalence": false,
+    "safe_free_space_claimed": false,
+    "source_resource_aliases_complete": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_menu_portrait_palette_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-menu-portrait-palette-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "alias_group_count": 1,
+      "aliased_resource_count": 5,
+      "bundle_sha256": "d5d80e37d88000ec81501d9549b4c6038c42e6ec172614127821213d9dbcdccc",
+      "errors": [],
+      "logical_output_count": 311,
+      "packed_bytes": 8960,
+      "palette_bytes": 8960,
+      "range_overlap_bytes": 0,
+      "range_vector_sha256": "84e8b9f99a51f94e1b9e0b972d6458c883428443aa173a9f739beaf601b4e338",
+      "schema": "rom-menu-portrait-palette-inventory-verification-v1",
+      "source_resource_count": 74,
+      "unique_palette_count": 70,
+      "verified": true
+    },
+    "verifier_sha256": "63d60ffe786841d910b0655de31cbb4a3d52178b433fc1a40b24729f683cda46"
+  }
+}

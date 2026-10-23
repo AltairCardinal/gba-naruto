@@ -1,0 +1,53 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "lz77-palette-runtime-v1",
+  "file_count": 25,
+  "files": {
+    "evidence.json": "d73fa7147eb7aa0b6a221cca73182d763c6321c70121067625368705f0b50967",
+    "inputs/profile-title-menu.png": "0e7201205e49e92eaf3982a36a2067f6533faaf293dca7201ee8134aef893802",
+    "inputs/profile-title-menu.ss9": "a74490563f98da0b2edae484a858a433f292af9475dce7126db6bec742d7aa6f",
+    "inputs/scenario-41-target-select-tutorial-dismissed.png": "86d569b47a722412e71c54053d8c106dacc0391598ea5fbf50b790127abe1b23",
+    "inputs/scenario-41-target-select-tutorial-dismissed.ss9": "db2f1306f71c494876643ea252844b827d521343941bafe9bd764071065c5555",
+    "runs/profile-browser-init/audit.json": "0b3b708a89cf09df1ac1d6a1bc1cbfa6d0abc9c7eddb7bb18641d509e1ab1c90",
+    "runs/profile-browser-init/final.png": "a254af3ebb72320bb55405c978a08b8f5465ff0f3184dd2767b69c70dd841e48",
+    "runs/profile-browser-init/final.ss9": "8f83646de3903113cc86eaf297b3b33feceeb0766552b8566d8345d4a32e3080",
+    "runs/profile-browser-init/guard.json": "2e572e27a6e8961e7392439f6612ed33889ef2b6cd4db9b3ab9ff0f4b54aede1",
+    "runs/profile-browser-init/hit.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+    "runs/profile-browser-init/hit.ss9": "ad2d215c2054e694d67fdd40e22c0aff99fe930466126a2823129ab34e33570c",
+    "runs/profile-browser-init/oam.bin": "0950c045b2cf0af0e2e4c7a46784a453bb149a76e897e3b3bd23cf0c0c647b10",
+    "runs/profile-browser-init/pram.bin": "725c3d5569b632a736d4285ddd6ccef4b1057367219fa32466f01de7e8befc69",
+    "runs/profile-browser-init/shadow-oam.bin": "0950c045b2cf0af0e2e4c7a46784a453bb149a76e897e3b3bd23cf0c0c647b10",
+    "runs/profile-browser-init/vram.bin": "c74d4855352eca1fcedbcca05ea84c57ec13ebee6c480253ffd672245b13c0ac",
+    "runs/scenario-41-target-confirmation/audit.json": "b075af46c2033de3707c3a679421611a3b0d4457dcd3aae28054503d5d758445",
+    "runs/scenario-41-target-confirmation/final.png": "9b423cb12b61bfa567b23ac950593d076be55996cdfb7955c73387b8debfcb40",
+    "runs/scenario-41-target-confirmation/final.ss9": "47f0e04220adf1b7dd321ada0c21618efa87463ebd39461f546e88f9b45c8313",
+    "runs/scenario-41-target-confirmation/guard.json": "08d0f68533a1b9ab1b32860b0397b7ca7da3d7c94f38f682de08c77ba19d43ae",
+    "runs/scenario-41-target-confirmation/hit.png": "1773ae0732127667203bb5e11e86819299a2d18ae7c6a46de1b357c890bbf5a4",
+    "runs/scenario-41-target-confirmation/hit.ss9": "f186989548e1e46ae09935d295c397745e17ca0ad212020ce6c7ce7f69ad655c",
+    "runs/scenario-41-target-confirmation/oam.bin": "aa463117d5dd0e28cb8e8386e1adb0e9abb546b174a800c44d39393ca6974daa",
+    "runs/scenario-41-target-confirmation/pram.bin": "2cd55ff18efd5a29236842c6fa15f9b89d358f847ef34969ed881ea80cae8d8e",
+    "runs/scenario-41-target-confirmation/shadow-oam.bin": "aa463117d5dd0e28cb8e8386e1adb0e9abb546b174a800c44d39393ca6974daa",
+    "runs/scenario-41-target-confirmation/vram.bin": "195be8a313caf2c03d835b6bc605b4633a8fc5d468577668632b114729c05b37"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/lz77-palette-runtime-v1/manifest.json",
+  "manifest_sha256": "d363310303d8b51d0cc6f64014489297071882859c547694b3db91f7c11c52bf",
+  "scope": {
+    "candidate_palette_bytes_uniquely_located_in_rom": true,
+    "exact_payload_at_hit_verified": true,
+    "generic_image_writeback_complete": false,
+    "hardware_and_shadow_oam_watched_for_240_post_hit_frames": true,
+    "natural_load_boundaries_runtime_verified": true,
+    "palette_binding_promoted": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_lz77_palette_runtime.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/lz77-palette-runtime-v1"
+    ],
+    "exit_code": 0
+  }
+}

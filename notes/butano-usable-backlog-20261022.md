@@ -26,6 +26,8 @@ ROM SHA-256 `1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`
 已经闭合、可以立刻接线的成果有 71 个；S49 当前缺的那几样（覆盖层图块、状态栏、
 对白表、调色板、场景合成）全都在这 71 个里面。**
 
+> **2026-10-22 合并后重算**（合并 `14b8381e` + W1 闭合后）：货架 **131**（资产直取 **27** + 一次生成器 **41** + 仅判读 51 + 待判 12）；接线矩阵里带声明的接线 **69** 族、**`local-derivation-missing` = 0**、**`on-shelf` = 68**；notes `needs_guard` **332**（313 无测试引用）。详细读数见 `docs/butano-wiring-roadmap.md` 的起点读数表。
+
 ## 1. 与既有测量的区别（不要混用两个数字）
 
 | 测量 | 工具 | 回答的问题 | 本轮读数 |
@@ -104,7 +106,7 @@ shelf      : accepted and has_payload and not consumed                → 134
 | 战斗特效帧 | `battle-effect-frame-phase-group{1,2,3,4,5,14,16,17,18}-v1` + `battle-effect-frame-phase-v1`（10 族，各带 `capture.png` 240×160 + VRAM/OAM/PRAM dump + `.ss9`），另有 `battle-effect-group12-ai-observer-v1`、`group13-natural-runtime-v1`、`group18-natural-checkpoint-v1` | **像素基准 + 硬件状态**，可直接当 1:1 验收基准 |
 | OAM／精灵绑定 | `character-runtime-oam-bindings-v1`（2.4 MB）、`battle-effect-runtime-oam-bindings-v1` 等 4 族 | 精灵/特效的运行时绑定关系 |
 | 音频 | `rom-battle-sound-selector-v1`、`rom-directsound-pitch-lookup-v1`、`rom-psg-frequency-lookup-v1` | 音效 ID 与音高/频率表 |
-| 像素基准（A/B） | `levels-status-per-level-ab-v1`、`cutscene-obj-id1-primary-ptr-ab-v1`、`sappy-engine-master-enable-ab-v1` | `baseline.png` + `candidate.png`，与已导入的 32 个 pixel-A/B 族同一形态 |
+| 像素基准（A/B） | `cutscene-obj-id1-primary-ptr-ab-v1`、`levels-status-per-level-ab-v1`、`sappy-engine-master-enable-ab-v1` | `baseline.png` + `candidate.png`。⚠️ **2026-10-22 更正**：**三族不是同一形态**——只有 `cutscene-obj-id1-primary-ptr-ab-v1` 是真像素族（4032 像素差）；另两族改的是 ROM **数据字节**／**代码半字**，**没有像素期望**，须走内容等价验收（`rom_anchor`）。三族已接进导入器载体，见 `notes/butano-w4-pixel-ab-20261022.md` |
 
 ## 5. 与 S49 当前在飞工作的关系
 

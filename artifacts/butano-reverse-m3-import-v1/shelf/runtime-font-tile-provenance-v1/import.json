@@ -1,0 +1,30 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "runtime-font-tile-provenance-v1",
+  "file_count": 1,
+  "files": {
+    "runtime-font-tile-provenance.json": "4787d0049a7d7b92e106b7eb560e0893271dcf979739031f06ad16f5714d6d5a"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-font-tile-provenance-v1/manifest.json",
+  "manifest_sha256": "ad74f08c107a5326dc75c003614fcaff6fe1b0218087da80781d3d2316780375",
+  "scope": {},
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_runtime_font_tile_provenance.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/runtime-font-tile-provenance-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "layer_count": 61,
+      "ordered_sjis_pair_count": 1050,
+      "schema": "runtime-font-tile-provenance-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "57259a2210d1a4604249ba75e23f50310aeebc013fe8891593d88fbae7e8c592"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "konoha.butano-graphic-asset-sidecar.v1",
+  "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py",
+  "asset_count": 10,
+  "assets": [
+    "battle_action_16_cutin_dialogue.bmp",
+    "battle_action_16_cutin_dialogue.json",
+    "battle_action_16_cutin_portrait.bmp",
+    "battle_action_16_cutin_portrait.json",
+    "battle_action_16_movie_title_0.bmp",
+    "battle_action_16_movie_title_0.json",
+    "battle_action_16_movie_title_1.bmp",
+    "battle_action_16_movie_title_1.json",
+    "battle_action_16_movie_title_2.bmp",
+    "battle_action_16_movie_title_2.json"
+  ],
+  "attribution_rules": {
+    "battle_action_16_cutin_dialogue.bmp": "constant",
+    "battle_action_16_cutin_dialogue.json": "constant",
+    "battle_action_16_cutin_portrait.bmp": "constant",
+    "battle_action_16_cutin_portrait.json": "constant",
+    "battle_action_16_movie_title_0.bmp": "pattern",
+    "battle_action_16_movie_title_0.json": "pattern",
+    "battle_action_16_movie_title_1.bmp": "pattern",
+    "battle_action_16_movie_title_1.json": "pattern",
+    "battle_action_16_movie_title_2.bmp": "pattern",
+    "battle_action_16_movie_title_2.json": "pattern"
+  },
+  "name_patterns": [
+    "battle_action_16_movie_title_{index}",
+    "gpu-frame-{CUTIN_REFERENCE_FRAME:04d}",
+    "gpu-frame-{REFERENCE_FRAME:04d}",
+    "{stem}.bmp",
+    "{stem}.json"
+  ],
+  "reverse_family": null,
+  "declared_families": [],
+  "reverse_family_reason": "the generator declares no reverse-source family"
+}

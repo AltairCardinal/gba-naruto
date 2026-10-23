@@ -1,0 +1,21 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-selector-direct-source-records-v1",
+  "file_count": 2,
+  "files": {
+    "rom-selector-direct-source-records.bin": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+    "rom-selector-direct-source-records.json": "adc03bd5e29e956c208698fedc733e305ea87e519e17dfa405ff813939149430"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-selector-direct-source-records-v1/manifest.json",
+  "manifest_sha256": "094dbb593b2b8e09849ea795f4a09155598936cd3a1bc0b36e2eda6a413cf789",
+  "scope": {
+    "allocatable_space_claimed": false,
+    "byte_2_to_19_semantics_proven": false,
+    "complete_63_slot_text_table": false,
+    "editing_or_writeback_safety_proven": false,
+    "fixed_46_source_record_denominator_complete": true,
+    "natural_gameplay_all_rows_reached": false,
+    "unicode_decoding_complete": false
+  },
+  "verifier": {}
+}

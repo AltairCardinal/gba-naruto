@@ -1,0 +1,259 @@
+{
+  "schema": "konoha.butano-graphic-asset-provenance.v1",
+  "generated_at": "2026-10-22T18:53:18.430925+00:00",
+  "summary": {
+    "assets": 1818,
+    "generators": 66,
+    "groups": 16,
+    "attributed": 1807,
+    "ambiguous": 11,
+    "unattributed": 0,
+    "generators_with_declared_family": 3,
+    "generators_without_declared_family": 13
+  },
+  "groups": [
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_battle_action_16_movie.json",
+      "asset_count": 10,
+      "rules": {
+        "constant": 4,
+        "pattern": 6
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_duel_components.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_battle_duel_components.json",
+      "asset_count": 4,
+      "rules": {
+        "constant": 2,
+        "literal": 2
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_effect_sequence.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_battle_effect_sequence.json",
+      "asset_count": 122,
+      "rules": {
+        "constant": 122
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_scenario_49_scenery.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_battle_scenario_49_scenery.json",
+      "asset_count": 4,
+      "rules": {
+        "literal": 4
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_select_prompt.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_battle_select_prompt.json",
+      "asset_count": 2,
+      "rules": {
+        "literal": 2
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_turn_banner.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_battle_turn_banner.json",
+      "asset_count": 2,
+      "rules": {
+        "literal": 2
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_ui_assets.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_battle_ui_assets.json",
+      "asset_count": 109,
+      "rules": {
+        "literal": 95,
+        "pattern": 12,
+        "prefix": 2
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_dialogue_advance_icon.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_dialogue_advance_icon.json",
+      "asset_count": 2,
+      "rules": {
+        "literal": 2
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_scenario_41_assets.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_scenario_41_assets.json",
+      "asset_count": 185,
+      "rules": {
+        "literal": 37,
+        "pattern": 148
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_unit_dimmed_palette.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_unit_dimmed_palette.json",
+      "asset_count": 2,
+      "rules": {
+        "literal": 2
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/generate_butano_battle_identity_content.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_butano_battle_identity_content.json",
+      "asset_count": 18,
+      "rules": {
+        "literal": 18
+      },
+      "reverse_family": null,
+      "declared_families": [
+        {
+          "family": "rom-fixed-consumer-text-inventory-v1",
+          "manifest_sha256": "560464a6fed43de1a77c6339362dc2ef28534a7374ff976df572d05a9bad6b94"
+        }
+      ]
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/generate_butano_battle_presentation_glyphs.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_butano_battle_presentation_glyphs.json",
+      "asset_count": 3,
+      "rules": {
+        "literal": 3
+      },
+      "reverse_family": null,
+      "declared_families": [
+        {
+          "family": "dialogue-font-v2",
+          "manifest_sha256": "818684d7533ae44bbe4f56b4b6df9a6d6f69612a43ae041dfb5a7b0b0698e69c"
+        }
+      ]
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/generate_butano_battle_runtime_assets.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_butano_battle_runtime_assets.json",
+      "asset_count": 148,
+      "rules": {
+        "literal": 3,
+        "pattern": 145
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/generate_butano_battle_unit_content.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_butano_battle_unit_content.json",
+      "asset_count": 1192,
+      "rules": {
+        "prefix": 1192
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/generate_butano_battlefield_object_effect_content.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_butano_battlefield_object_effect_content.json",
+      "asset_count": 2,
+      "rules": {
+        "literal": 2
+      },
+      "reverse_family": null,
+      "declared_families": []
+    },
+    {
+      "generator": "/Users/altair/github/gba-naruto/tools/generate_butano_movegrid_overlay_assets.py",
+      "sidecar": "artifacts/butano-graphic-asset-provenance-v1/sidecars/generate_butano_movegrid_overlay_assets.json",
+      "asset_count": 2,
+      "rules": {
+        "literal": 2
+      },
+      "reverse_family": null,
+      "declared_families": [
+        {
+          "family": "rom-pointer-lz77-inventory-v1",
+          "manifest_sha256": "d4afca9d19c3b764ce40f460d9c73d7c19f908bf25c197d4b082bd6bc5c4bb33"
+        }
+      ]
+    }
+  ],
+  "ambiguous": [
+    {
+      "asset": "battle_action_16_movie_actor.bmp",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_action_content.py"
+    },
+    {
+      "asset": "battle_action_16_movie_actor.json",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_action_content.py"
+    },
+    {
+      "asset": "battle_action_16_movie_dialogue.bmp",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_action_content.py"
+    },
+    {
+      "asset": "battle_action_16_movie_dialogue.json",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_action_content.py"
+    },
+    {
+      "asset": "battle_action_16_movie_fire.bmp",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_action_content.py"
+    },
+    {
+      "asset": "battle_action_16_movie_fire.json",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_action_content.py"
+    },
+    {
+      "asset": "battle_action_16_movie_streaks.bmp",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_action_content.py"
+    },
+    {
+      "asset": "battle_action_16_movie_streaks.json",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_action_content.py"
+    },
+    {
+      "asset": "battle_ui_result_panel.bmp",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_turn_banner.py, /Users/altair/github/gba-naruto/tools/butano/generate_battle_ui_assets.py"
+    },
+    {
+      "asset": "battle_unit_visual_catalog.json",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_unit_dimmed_palette.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_unit_visual_content.py"
+    },
+    {
+      "asset": "scenario_41_map.bmp",
+      "candidates": "/Users/altair/github/gba-naruto/tools/butano/generate_scenario_41_assets.py, /Users/altair/github/gba-naruto/tools/generate_butano_battle_runtime_assets.py"
+    }
+  ],
+  "unattributed": [],
+  "declaration_gap": [
+    "/Users/altair/github/gba-naruto/tools/butano/generate_battle_action_16_movie.py",
+    "/Users/altair/github/gba-naruto/tools/butano/generate_battle_duel_components.py",
+    "/Users/altair/github/gba-naruto/tools/butano/generate_battle_effect_sequence.py",
+    "/Users/altair/github/gba-naruto/tools/butano/generate_battle_scenario_49_scenery.py",
+    "/Users/altair/github/gba-naruto/tools/butano/generate_battle_select_prompt.py",
+    "/Users/altair/github/gba-naruto/tools/butano/generate_battle_turn_banner.py",
+    "/Users/altair/github/gba-naruto/tools/butano/generate_battle_ui_assets.py",
+    "/Users/altair/github/gba-naruto/tools/butano/generate_dialogue_advance_icon.py",
+    "/Users/altair/github/gba-naruto/tools/butano/generate_scenario_41_assets.py",
+    "/Users/altair/github/gba-naruto/tools/butano/generate_unit_dimmed_palette.py",
+    "/Users/altair/github/gba-naruto/tools/generate_butano_battle_runtime_assets.py",
+    "/Users/altair/github/gba-naruto/tools/generate_butano_battle_unit_content.py",
+    "/Users/altair/github/gba-naruto/tools/generate_butano_battlefield_object_effect_content.py"
+  ]
+}

@@ -2821,5 +2821,20 @@
       "base_threshold": 0,
       "raw_hex": "05000000"
     }
-  ]
+  ],
+  "_provenance": {
+    "rom": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "offset": null,
+      "size": null,
+      "entry_count": null,
+      "entry_size": null
+    },
+    "extractor": null,
+    "reverse_family": null,
+    "reverse_family_candidates": [],
+    "reverse_family_state": "none",
+    "reverse_evidence": [],
+    "unattributed_reason": "the table's bytes come from the base ROM at offset None (size None); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+  }
 }

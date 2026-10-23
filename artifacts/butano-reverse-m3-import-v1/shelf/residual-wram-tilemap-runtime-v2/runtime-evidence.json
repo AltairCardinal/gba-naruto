@@ -1,0 +1,175 @@
+{
+  "bridge": {
+    "audit_sha256": "1d8b8a1b2c4396967d841015fd09603857b86ed7ea495a3a6d7fba9abbd63c04",
+    "guard_sha256": "b7b152d6c8302b642093380ddcc68745e4584864e53c0b61d2cf2ef30b35d7f3",
+    "input_checkpoint": {
+      "path": "artifacts/residual-wram-tilemap-runtime-v1/final.ss9",
+      "sha256": "fbfd4b5aa0ceda8e239ae0d965c05429e1edc64e9bd7dfba9567f968460348ff"
+    },
+    "inputs": [
+      {
+        "down_frame": 18,
+        "hold_frames": 2,
+        "key": "B",
+        "up_frame": 20
+      }
+    ],
+    "peak_tree_rss_mib": 111.28515625,
+    "run_id": "scene-panel-v1-parent-b-bridge-20260731",
+    "scene_panel_setup_hit": {
+      "frame": 28,
+      "lr": "0x0808F819",
+      "pc": "0x0808BAB2",
+      "target": "0x0808BAB0"
+    },
+    "setup_checkpoint_sha256": "6fed9fe8db43646a5a5a53901a5f0edf1c743ba5e682fd842d3fd19b12776000"
+  },
+  "emulator": {
+    "binary_sha256": "4856a8f95a32d0d2d97e0141a4dbe33c162abf27295a8f85ed8fb3c17a42ea72",
+    "source_commit": "c16c3ff55585e71bee83c95539c2ecde15d728c8"
+  },
+  "parent_runtime_v1": {
+    "artifact": "artifacts/residual-wram-tilemap-runtime-v1",
+    "evidence_sha256": "cf2ccff3159ac28a4300f94fcf40498c805de8351ba0b180a840648025470e62",
+    "manifest_sha256": "1cde045d1fb0e06028760371514cfe2ac47e1623e1d9605a00489e763a460f5f",
+    "verified_source_pointer": "0x0834928C"
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "schema": "residual-wram-tilemap-runtime-evidence-v2",
+  "scope": {
+    "all_direct_queue_sources_runtime_verified": true,
+    "exact_natural_language_identity_verified": false,
+    "exclusive_writer_causality_verified": false,
+    "final_vram_rows_equal_rom_tilemaps": true,
+    "modified_rom_pixel_equivalence_verified": false,
+    "natural_base_rom_reachability_verified": true,
+    "queue_status_transition_3_to_2_verified": true,
+    "single_input_bridge_verified": true,
+    "zero_input_checkpoint_continuation_verified": true
+  },
+  "source_artifacts": {
+    "abi": {
+      "path": "artifacts/residual-wram-tilemap-abi-v1/residual-wram-tilemap-abi.json",
+      "sha256": "07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc"
+    },
+    "ownership": {
+      "path": "artifacts/residual-wram-tilemap-resource-ownership-v1/resource-ownership.json",
+      "sha256": "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7"
+    }
+  },
+  "summary": {
+    "direct_queue_tilemap_denominator": 3,
+    "remaining_runtime_count": 0,
+    "runtime_verified_count": 3,
+    "verified_source_pointers": [
+      "0x0834928C",
+      "0x083F1C98",
+      "0x085B67E0"
+    ]
+  },
+  "tilemaps": [
+    {
+      "decompressed_sha256": "8661e87accb82f8d07b4102c70203fe19093710d794b0cdde0f1d8ae96db2790",
+      "decompressed_size": 576,
+      "height_entries": 12,
+      "load_hit": {
+        "frame": 2,
+        "lr": "0x0808BBD5",
+        "pc": "0x0808BBDA",
+        "registers": {
+          "r0": "0x083F1C98",
+          "r1": "0x02002B78",
+          "r2": "0x01000400",
+          "r3": "0x00000000"
+        },
+        "target": "0x0808BBD8"
+      },
+      "queue_flush": {
+        "changed_byte_count": 473,
+        "final_equals_source": true,
+        "final_rows_sha256": "8661e87accb82f8d07b4102c70203fe19093710d794b0cdde0f1d8ae96db2790",
+        "preflush_equals_source": false,
+        "preflush_rows_sha256": "1a0295f4bf5986c5f74eca9153a6a4cb10b073a01a76ba4a457fd862c78966a4",
+        "slot_at_first_consumer": {
+          "destination": "0x0600F810",
+          "row_count": 12,
+          "slot_index": 0,
+          "source": "0x02002B78",
+          "source_stride_halfwords": 24,
+          "status": 3
+        },
+        "status_at_final": 2
+      },
+      "source_pointer": "0x083F1C98",
+      "width_entries": 24
+    },
+    {
+      "decompressed_sha256": "2c841501108a1892a34aa8d877eee414fe2eed9f0bb0dce1e8700332a7726675",
+      "decompressed_size": 138,
+      "height_entries": 3,
+      "load_hit": {
+        "frame": 2,
+        "lr": "0x0808BBF3",
+        "pc": "0x0808BBFE",
+        "registers": {
+          "r0": "0x085B67E0",
+          "r1": "0x02002DB8",
+          "r2": "0x00000000",
+          "r3": "0x03005BBC"
+        },
+        "target": "0x0808BBFC"
+      },
+      "queue_flush": {
+        "changed_byte_count": 134,
+        "final_equals_source": true,
+        "final_rows_sha256": "2c841501108a1892a34aa8d877eee414fe2eed9f0bb0dce1e8700332a7726675",
+        "preflush_equals_source": false,
+        "preflush_rows_sha256": "486a8212c0d6860840d883981ca52daaad3bf3b2ab5be56cdc47ed9b42daba22",
+        "slot_at_first_consumer": {
+          "destination": "0x0600FC4E",
+          "row_count": 3,
+          "slot_index": 1,
+          "source": "0x02002DB8",
+          "source_stride_halfwords": 23,
+          "status": 3
+        },
+        "status_at_final": 2
+      },
+      "source_pointer": "0x085B67E0",
+      "width_entries": 23
+    }
+  ],
+  "zero_run": {
+    "audit_sha256": "340de74d5d2f151cdc1086ab07e1caf2c35c689d544a05a4e2b420857e16c2fd",
+    "capture_frames": 5,
+    "consumer_events": [
+      {
+        "address": "0x0806365C",
+        "frame": 3,
+        "lr": "0x080614C7",
+        "pc": "0x0806365E"
+      },
+      {
+        "address": "0x0806365C",
+        "frame": 4,
+        "lr": "0x080614C7",
+        "pc": "0x0806365E"
+      }
+    ],
+    "final_queue_snapshot_sha256": "2299b783127b333297a56823ad651b93c6b986acdf355f2f8555a722f69bac77",
+    "final_vram_sha256": "599f71c8d40cbcb3308eae97a1a5ea72aee682d83e52eca6627a1d1cbc831b4a",
+    "first_consumer_frame": 3,
+    "guard_sha256": "0f7fe5e642ad8fb5667bef6f86b077651679716ca940d12ad0ad9c26f4f5197c",
+    "input_checkpoint_sha256": "6fed9fe8db43646a5a5a53901a5f0edf1c743ba5e682fd842d3fd19b12776000",
+    "inputs": [],
+    "peak_tree_rss_mib": 107.046875,
+    "preflush_vram_sha256": "15f7bfb95822aa550520bc9c5945ff41b0d54c496d5f253f00aa8a02f79691eb",
+    "queue_consumer_hit_count": 2,
+    "queue_snapshot_sha256": "5c885f8b7eed3cf80e9d6873a6f1464bc979f1afc59d457897a41d7d758c6ffb",
+    "run_id": "scene-panel-v1-parent-direct-sources-zero5-20260731",
+    "second_consumer_frame": 4
+  }
+}

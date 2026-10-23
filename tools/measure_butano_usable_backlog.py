@@ -396,6 +396,16 @@ def measure(
         for row in (gap.get("rows") or [])
         if row.get("id")
     }
+    # Which files carried each family's reference.  A family that is only
+    # named by a verifier is **verified against**, not consumed: the verifier
+    # checks the result's identity, the remake does not use its payload.
+    # Without this, a tool that merely mentions a family in its source would
+    # move that family off the shelf and inflate the consumed count.
+    gap_hits = {
+        str(row.get("id")): [str(hit) for hit in (row.get("hits") or [])]
+        for row in (gap.get("rows") or [])
+        if row.get("id")
+    }
 
     rows: list[dict[str, Any]] = []
     for entry in index.get("entries") or []:
@@ -441,7 +451,13 @@ def measure(
         json_keys, json_sources = _json_top_level_keys(reverse_root, family_path)
         status = gap_status.get(family_id, "none")
         accepted = artifact_status == "accepted"
-        consumed = status == "build"
+        hits = gap_hits.get(family_id, [])
+        build_hits = [hit for hit in hits if hit.startswith("build:")]
+        evidence_only = bool(build_hits) and all(
+            "/verify_" in hit or hit.startswith("build:tests/")
+            for hit in build_hits
+        )
+        consumed = status == "build" and not evidence_only
 
         if not payload:
             tier, evidence = TIER_NO_PAYLOAD, {}
@@ -457,6 +473,7 @@ def measure(
                 "accepted": accepted,
                 "consumed": consumed,
                 "consumption_status": status,
+                "consumption_evidence": "verifier-only" if evidence_only else status,
                 "has_payload": bool(payload),
                 "payload_bytes": sum(item["bytes"] for item in payload),
                 "payload_files": [item["name"] for item in payload][:12],
@@ -532,7 +549,10 @@ def measure(
             "has_payload": "at least one non-empty file that is not manifest.json/inputs.json and not a "
             + ", ".join(sorted(RECEIPT_SUFFIXES))
             + " receipt",
-            "consumed": "gap receipt status == build",
+            "consumed": (
+                "gap receipt status == build and the build hits are not "
+                "verifier-only references"
+            ),
             "shelf": "accepted and has_payload and not consumed",
             "tier_asset": "payload has a file with suffix in " + ", ".join(sorted(ASSET_SUFFIXES)),
             "tier_table": "JSON top-level keys hit the table vocabulary and no structural marker",

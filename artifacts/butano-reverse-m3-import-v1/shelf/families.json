@@ -1,0 +1,3084 @@
+{
+  "families": [
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-group1-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "92507004a8ee4a5327b4037493901ab08870ab8d0bcb242ecaff984651f4750a",
+        "raw/ack-post/capture-active-count.bin": "f299791cddd3d6664f6670842812ef6053eb6501bd6282a476bbbf3ee91e750c",
+        "raw/ack-post/capture-active-pointers.bin": "4a978f77ce7a9c923b04ac00255d2f36d9ba58d0b222a7ca81afd794dfb13682",
+        "raw/ack-post/capture-hardware-oam.bin": "697caa1ccc0c42aa7bd5476f1906fc4002c32a0b778c9cc746e5224c0a20b631",
+        "raw/ack-post/capture-io.bin": "6d7e04df5f87621a4877eb5664b4acca78c5efa9c10dab4b485d0ca3f5dde816",
+        "raw/ack-post/capture-phase.json": "4581a239441cf3c6f061be6bedc566d9dc1e89eae0647a561ca4a47b4dc36a9f",
+        "raw/ack-post/capture-pram.bin": "1aadf9e3c5ed6c998cd2830413edd0bd38a5e04f952a36c2009aa83fbeb388d5",
+        "raw/ack-post/capture-runtime-offsets.bin": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+        "raw/ack-post/capture-shadow-oam.bin": "697caa1ccc0c42aa7bd5476f1906fc4002c32a0b778c9cc746e5224c0a20b631",
+        "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/ack-post/capture-task-pool.bin": "74c1606ddbdd01a963fe9c05df9b2b9592636876d09525544e6c72837bc7b650",
+        "raw/ack-post/capture-vram.bin": "501fc7380b211df0e5259aa873bb73299cc0fe1af1e01949eebf6f09a4597225",
+        "raw/ack-post/capture.png": "e98bfa9b87db95cf6cfbbaae6bfa78fbf1433f2465edc57539101ce3437f9dc6",
+        "raw/ack-post/capture.ss9": "d212c4e3418395286789a94ddfee80da36c377344049c053a2350bbdb322d895",
+        "raw/renderer-post/capture-active-count.bin": "f299791cddd3d6664f6670842812ef6053eb6501bd6282a476bbbf3ee91e750c",
+        "raw/renderer-post/capture-active-pointers.bin": "4a978f77ce7a9c923b04ac00255d2f36d9ba58d0b222a7ca81afd794dfb13682",
+        "raw/renderer-post/capture-hardware-oam.bin": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+        "raw/renderer-post/capture-io.bin": "d45b582c21e0ba478ab1cb93d12b9854aa2174da97a5afa56fabf4f2eb09f083",
+        "raw/renderer-post/capture-phase.json": "2286826f0b425e45a1b3a809380e84940bc21af49f4f82b0774cdcc72dd63941",
+        "raw/renderer-post/capture-pram.bin": "1aadf9e3c5ed6c998cd2830413edd0bd38a5e04f952a36c2009aa83fbeb388d5",
+        "raw/renderer-post/capture-runtime-offsets.bin": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+        "raw/renderer-post/capture-shadow-oam.bin": "697caa1ccc0c42aa7bd5476f1906fc4002c32a0b778c9cc746e5224c0a20b631",
+        "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "raw/renderer-post/capture-task-pool.bin": "74c1606ddbdd01a963fe9c05df9b2b9592636876d09525544e6c72837bc7b650",
+        "raw/renderer-post/capture-vram.bin": "501fc7380b211df0e5259aa873bb73299cc0fe1af1e01949eebf6f09a4597225",
+        "raw/renderer-post/capture.png": "e98bfa9b87db95cf6cfbbaae6bfa78fbf1433f2465edc57539101ce3437f9dc6",
+        "raw/renderer-post/capture.ss9": "01b4ece372965db3cfb65ce3b2f08d1a50c1d14986cc8db0d3c14647ece28d67",
+        "raw/submit-post/capture-active-count.bin": "f299791cddd3d6664f6670842812ef6053eb6501bd6282a476bbbf3ee91e750c",
+        "raw/submit-post/capture-active-pointers.bin": "4a978f77ce7a9c923b04ac00255d2f36d9ba58d0b222a7ca81afd794dfb13682",
+        "raw/submit-post/capture-hardware-oam.bin": "1c71abb649d6c2ec146feb8fedac49ee2b99a51e492c341fa3f0f6c05c12d8f5",
+        "raw/submit-post/capture-io.bin": "5e35f61efec9012d514d361c1e13a779d334f6f0723e005db9152dd2effae001",
+        "raw/submit-post/capture-phase.json": "9a83d632b03bc51190d7c4469c16a196a091a8234f3e01948b4324e8d8f00d36",
+        "raw/submit-post/capture-pram.bin": "1aadf9e3c5ed6c998cd2830413edd0bd38a5e04f952a36c2009aa83fbeb388d5",
+        "raw/submit-post/capture-runtime-offsets.bin": "f74b6d44b8e20654f0dcfdcee45b9023e5a69f84298d53408f35f8049c010a40",
+        "raw/submit-post/capture-shadow-oam.bin": "697caa1ccc0c42aa7bd5476f1906fc4002c32a0b778c9cc746e5224c0a20b631",
+        "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+        "raw/submit-post/capture-task-pool.bin": "74c1606ddbdd01a963fe9c05df9b2b9592636876d09525544e6c72837bc7b650",
+        "raw/submit-post/capture-vram.bin": "501fc7380b211df0e5259aa873bb73299cc0fe1af1e01949eebf6f09a4597225",
+        "raw/submit-post/capture.png": "e98bfa9b87db95cf6cfbbaae6bfa78fbf1433f2465edc57539101ce3437f9dc6",
+        "raw/submit-post/capture.ss9": "22d34135074079373b5185c29ee28163042fd012ec5d31736862032482c1d23c",
+        "runtime-audit.json": "687e8f663738e06b187ba0003cb237226087b4495c5d7c139b47032642bc9eb2"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-group1-v1/manifest.json",
+      "manifest_sha256": "fadf6b9d541589b8bd758839de91c1433f81e81cdcc3d4f5ac2387cf02e79526",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-group1-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 1,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            12,
+            12,
+            12
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-group14-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "fbb7347b232b26ee0f0b2f6a019162f9495603e07f0aba4d3145525eed15aa89",
+        "raw/ack-post/capture-active-count.bin": "e77b9a9ae9e30b0dbdb6f510a264ef9de781501d7b6b92ae89eb059c5ab743db",
+        "raw/ack-post/capture-active-pointers.bin": "a5da1ef34e7a237af80505d3ae52036344d6de5b5d8a3988eff2482f37821f4d",
+        "raw/ack-post/capture-hardware-oam.bin": "4dbb054184ff8ddaa0c7c4883e51b872c5a130a654b2873dcb4b8cd4d4e33eb0",
+        "raw/ack-post/capture-io.bin": "635a5252ff7069c582aec4e8c0d7658fe791f2607daa974d992fe9c00bf3c67e",
+        "raw/ack-post/capture-phase.json": "7eda546678ebe3292b16215d48381808dec41029d1bf4d704980b5dda8bac14f",
+        "raw/ack-post/capture-pram.bin": "5cc958a5837613014e649509f39b45107cce1e842d83cdad22e030af8728f055",
+        "raw/ack-post/capture-runtime-offsets.bin": "1cd35ff3ecb327d98d9178710a76a6fee07f8cd4a0816dae989a032b405cefa1",
+        "raw/ack-post/capture-shadow-oam.bin": "4dbb054184ff8ddaa0c7c4883e51b872c5a130a654b2873dcb4b8cd4d4e33eb0",
+        "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/ack-post/capture-task-pool.bin": "6294f193ce605580fe652b28fa5dab1f4fe5c97cfa2b4568e289fc554932e591",
+        "raw/ack-post/capture-vram.bin": "7cf100ec9128fc16f5db020edd40575727766c69b7d3ec296d2c3f7545def527",
+        "raw/ack-post/capture.png": "3ea4a6c329c90c6121efe1c1011ba09d34e9a6bddc2e19c82f98f36b3a195492",
+        "raw/ack-post/capture.ss9": "27dd3ecb42ab02671b1855d72285fd88fdd40024af52d2cc924a34065f6c5fa6",
+        "raw/renderer-post/capture-active-count.bin": "e77b9a9ae9e30b0dbdb6f510a264ef9de781501d7b6b92ae89eb059c5ab743db",
+        "raw/renderer-post/capture-active-pointers.bin": "a5da1ef34e7a237af80505d3ae52036344d6de5b5d8a3988eff2482f37821f4d",
+        "raw/renderer-post/capture-hardware-oam.bin": "85a9a428c5507ff94317ebe55cdd7cf782674e444c50b77fb15414f258ce556c",
+        "raw/renderer-post/capture-io.bin": "71d35180b96f569acc46a1addab0a494a11e9afd1693473651a79dd1ff6783ae",
+        "raw/renderer-post/capture-phase.json": "924ef93d9a03d348173f2e523f4d9ef6bad2dfe61cba3e2bdb8ddb10c54e47b2",
+        "raw/renderer-post/capture-pram.bin": "5cc958a5837613014e649509f39b45107cce1e842d83cdad22e030af8728f055",
+        "raw/renderer-post/capture-runtime-offsets.bin": "1cd35ff3ecb327d98d9178710a76a6fee07f8cd4a0816dae989a032b405cefa1",
+        "raw/renderer-post/capture-shadow-oam.bin": "4dbb054184ff8ddaa0c7c4883e51b872c5a130a654b2873dcb4b8cd4d4e33eb0",
+        "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "raw/renderer-post/capture-task-pool.bin": "6294f193ce605580fe652b28fa5dab1f4fe5c97cfa2b4568e289fc554932e591",
+        "raw/renderer-post/capture-vram.bin": "8d662b3d9923ca71ac0580300df8c97b95421aa4b4c3f43e46fa567ec16594b1",
+        "raw/renderer-post/capture.png": "03ff0e6d1b1d320e93bc0e2b09e1bea6512cc890fb83a94a67b1c168e0fa702e",
+        "raw/renderer-post/capture.ss9": "6a65a1e0975e12b38385ec419f179e15ca871182ab94e341a1ca073c7d413ecf",
+        "raw/submit-post/capture-active-count.bin": "e77b9a9ae9e30b0dbdb6f510a264ef9de781501d7b6b92ae89eb059c5ab743db",
+        "raw/submit-post/capture-active-pointers.bin": "a5da1ef34e7a237af80505d3ae52036344d6de5b5d8a3988eff2482f37821f4d",
+        "raw/submit-post/capture-hardware-oam.bin": "85a9a428c5507ff94317ebe55cdd7cf782674e444c50b77fb15414f258ce556c",
+        "raw/submit-post/capture-io.bin": "84efabb955d8b87a024b35af1d63debf1ba59d11e021227730fb4f84aa29253b",
+        "raw/submit-post/capture-phase.json": "f331e921b714fc82984d40d5e0507019b8d22fadfe44ffd93599687a1250eef9",
+        "raw/submit-post/capture-pram.bin": "5cc958a5837613014e649509f39b45107cce1e842d83cdad22e030af8728f055",
+        "raw/submit-post/capture-runtime-offsets.bin": "1cd35ff3ecb327d98d9178710a76a6fee07f8cd4a0816dae989a032b405cefa1",
+        "raw/submit-post/capture-shadow-oam.bin": "4dbb054184ff8ddaa0c7c4883e51b872c5a130a654b2873dcb4b8cd4d4e33eb0",
+        "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+        "raw/submit-post/capture-task-pool.bin": "6294f193ce605580fe652b28fa5dab1f4fe5c97cfa2b4568e289fc554932e591",
+        "raw/submit-post/capture-vram.bin": "8d662b3d9923ca71ac0580300df8c97b95421aa4b4c3f43e46fa567ec16594b1",
+        "raw/submit-post/capture.png": "03ff0e6d1b1d320e93bc0e2b09e1bea6512cc890fb83a94a67b1c168e0fa702e",
+        "raw/submit-post/capture.ss9": "63ed9e4cb763873d4b4083ab6c5c4eedd914c53f6430bc8ab03a9e39bfeac84d",
+        "runtime-audit.json": "7e4a8b4320a9dec98d0076c879d669b8ef89177776fb861a98484b692f67a2d5"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-group14-v1/manifest.json",
+      "manifest_sha256": "a862bd09bb7c8bd417c8b0651036a99357a2cd5bc7ce852d50dcff4c98e3a46d",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-group14-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 14,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            2,
+            2,
+            2
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-group16-natural-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "c03fa37d51a1d18460c281ccf7277af54abe828d1c51fcd12a3116466c6741b7",
+        "raw/ack-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/ack-post/capture-active-pointers.bin": "c4ba3c65731f93b0ac87659efdc29d0ea2a9417c8fb005d091d676b19740781f",
+        "raw/ack-post/capture-hardware-oam.bin": "15ed7379f7d43e479cdc875ab6dbde044cf3af9a1f16dd246a088ca24cdf3ddd",
+        "raw/ack-post/capture-io.bin": "328f72d9e3ea910ecbd06d248dc7e289036486cefa170491b797439fc79180e7",
+        "raw/ack-post/capture-phase.json": "b0f9afc44e6f961102b6ec26ce95d62c6ca5ff6eee2137d9473774379102fcd3",
+        "raw/ack-post/capture-pram.bin": "b6a09080a5ef341d77c3d3cf07f467f6f7480e1bef37dbd27290846a452b5af2",
+        "raw/ack-post/capture-runtime-offsets.bin": "6c9e8bce613c52fa6f464b8007152d1faaeeb22e5bec8d1edc844bfaa7a6ad98",
+        "raw/ack-post/capture-shadow-oam.bin": "15ed7379f7d43e479cdc875ab6dbde044cf3af9a1f16dd246a088ca24cdf3ddd",
+        "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/ack-post/capture-task-pool.bin": "a5baa7f305a1b920b4fb2fabc121fce0ebcd47d4db011735b016338c1829b2ee",
+        "raw/ack-post/capture-vram.bin": "a06ec0cdb5922fc5ba4766872ce8ece7af9f90fcf2e664a52970ac88d90c4c6e",
+        "raw/ack-post/capture.png": "6602e7c6b9aba6934da64742d4e18c54b24597f6473920895717f86daed9f0de",
+        "raw/ack-post/capture.ss9": "b98fb2dbd546d51b788f8450c9a56400900263c50489fbe2f69bd5c4ea4ab04a",
+        "raw/renderer-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/renderer-post/capture-active-pointers.bin": "c4ba3c65731f93b0ac87659efdc29d0ea2a9417c8fb005d091d676b19740781f",
+        "raw/renderer-post/capture-hardware-oam.bin": "9c11ae1602e13fe8a8c0c1f05e788a2edd49bee68820e5cd44574fa5a815860f",
+        "raw/renderer-post/capture-io.bin": "89dcbfe76566c0260f069a2876f2e8381e5bde86f0fe158f0564fce636d0ee5f",
+        "raw/renderer-post/capture-phase.json": "1ce5acd26022c80312b8498c94487f0815e3da3bfd397cff6c6052fbca556bed",
+        "raw/renderer-post/capture-pram.bin": "b6a09080a5ef341d77c3d3cf07f467f6f7480e1bef37dbd27290846a452b5af2",
+        "raw/renderer-post/capture-runtime-offsets.bin": "6c9e8bce613c52fa6f464b8007152d1faaeeb22e5bec8d1edc844bfaa7a6ad98",
+        "raw/renderer-post/capture-shadow-oam.bin": "15ed7379f7d43e479cdc875ab6dbde044cf3af9a1f16dd246a088ca24cdf3ddd",
+        "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "raw/renderer-post/capture-task-pool.bin": "a5baa7f305a1b920b4fb2fabc121fce0ebcd47d4db011735b016338c1829b2ee",
+        "raw/renderer-post/capture-vram.bin": "a06ec0cdb5922fc5ba4766872ce8ece7af9f90fcf2e664a52970ac88d90c4c6e",
+        "raw/renderer-post/capture.png": "6602e7c6b9aba6934da64742d4e18c54b24597f6473920895717f86daed9f0de",
+        "raw/renderer-post/capture.ss9": "8e528788bb2f97ba73bf81918eafa70967b5607f5f4559a0f54d89632ac4a903",
+        "raw/submit-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/submit-post/capture-active-pointers.bin": "c4ba3c65731f93b0ac87659efdc29d0ea2a9417c8fb005d091d676b19740781f",
+        "raw/submit-post/capture-hardware-oam.bin": "9c11ae1602e13fe8a8c0c1f05e788a2edd49bee68820e5cd44574fa5a815860f",
+        "raw/submit-post/capture-io.bin": "dbe936f3e804e7b6e9b88f5aa646ecb8031c82f90682082c32993a80b55cd3f1",
+        "raw/submit-post/capture-phase.json": "48d769b920894a503c3bd3522564b43cf0a9e887891cbedc0310f687fbbc539a",
+        "raw/submit-post/capture-pram.bin": "b6a09080a5ef341d77c3d3cf07f467f6f7480e1bef37dbd27290846a452b5af2",
+        "raw/submit-post/capture-runtime-offsets.bin": "6c9e8bce613c52fa6f464b8007152d1faaeeb22e5bec8d1edc844bfaa7a6ad98",
+        "raw/submit-post/capture-shadow-oam.bin": "15ed7379f7d43e479cdc875ab6dbde044cf3af9a1f16dd246a088ca24cdf3ddd",
+        "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+        "raw/submit-post/capture-task-pool.bin": "a5baa7f305a1b920b4fb2fabc121fce0ebcd47d4db011735b016338c1829b2ee",
+        "raw/submit-post/capture-vram.bin": "a06ec0cdb5922fc5ba4766872ce8ece7af9f90fcf2e664a52970ac88d90c4c6e",
+        "raw/submit-post/capture.png": "6602e7c6b9aba6934da64742d4e18c54b24597f6473920895717f86daed9f0de",
+        "raw/submit-post/capture.ss9": "e8e02dddc2bcbd7daf207783a9079f6fde2c1330dc28af22765ec8a0627e4a14",
+        "runtime-audit.json": "ba1b026033bff54ff4f8010e5846555fb938419385c3f247ff62811a64355acd"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-group16-natural-v1/manifest.json",
+      "manifest_sha256": "f211669fe29bbc391b87083eca66226e4a49220489d7cbd56dc71b33a831bb8e",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-group16-natural-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 16,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            2,
+            2,
+            2
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-group17-natural-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "7194d798a6be1fc3fe4451e6056605373c3d3370781a83432609f5eaa28b6214",
+        "raw/ack-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/ack-post/capture-active-pointers.bin": "c4ba3c65731f93b0ac87659efdc29d0ea2a9417c8fb005d091d676b19740781f",
+        "raw/ack-post/capture-hardware-oam.bin": "574b8472011216703e61324396c0238605dafad643ef3f6ce604b0b87f6bbbbb",
+        "raw/ack-post/capture-io.bin": "ecfcdfe81ada8c9fd16a2173f75b914d0d957724023fc9326b0b94f3f9f220b7",
+        "raw/ack-post/capture-phase.json": "b62914d41e5f71edbaf08e705d7f1c1d64120baec090143109c55d32a8f1527e",
+        "raw/ack-post/capture-pram.bin": "b6a09080a5ef341d77c3d3cf07f467f6f7480e1bef37dbd27290846a452b5af2",
+        "raw/ack-post/capture-runtime-offsets.bin": "6c9e8bce613c52fa6f464b8007152d1faaeeb22e5bec8d1edc844bfaa7a6ad98",
+        "raw/ack-post/capture-shadow-oam.bin": "574b8472011216703e61324396c0238605dafad643ef3f6ce604b0b87f6bbbbb",
+        "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/ack-post/capture-task-pool.bin": "da6b07823d8e14fca938fa2931abb38b372abd5aed237360b63a48257524771e",
+        "raw/ack-post/capture-vram.bin": "3e97540a5a9eaf13356c511ee932cb7dad439c2cf6d1e8a46e57fe74bbb1541f",
+        "raw/ack-post/capture.png": "c10efe98830ecab25857e68b74e535a586bbdf91c48754fbf280f11fe800fdb2",
+        "raw/ack-post/capture.ss9": "f7870c876b12dc40c78836572a0c7ca80c8e0f098234992fc33155e4ecc8f54e",
+        "raw/renderer-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/renderer-post/capture-active-pointers.bin": "c4ba3c65731f93b0ac87659efdc29d0ea2a9417c8fb005d091d676b19740781f",
+        "raw/renderer-post/capture-hardware-oam.bin": "9c11ae1602e13fe8a8c0c1f05e788a2edd49bee68820e5cd44574fa5a815860f",
+        "raw/renderer-post/capture-io.bin": "5ab6c8d9c870bac3fa7be1ba52092903a1eab04381dc8ba7925336ff1a9a8c6b",
+        "raw/renderer-post/capture-phase.json": "e3155c7649f7d591d904f8bfc8d163a59dc84d648334260034c7530c19a13a7b",
+        "raw/renderer-post/capture-pram.bin": "b6a09080a5ef341d77c3d3cf07f467f6f7480e1bef37dbd27290846a452b5af2",
+        "raw/renderer-post/capture-runtime-offsets.bin": "6c9e8bce613c52fa6f464b8007152d1faaeeb22e5bec8d1edc844bfaa7a6ad98",
+        "raw/renderer-post/capture-shadow-oam.bin": "574b8472011216703e61324396c0238605dafad643ef3f6ce604b0b87f6bbbbb",
+        "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "raw/renderer-post/capture-task-pool.bin": "da6b07823d8e14fca938fa2931abb38b372abd5aed237360b63a48257524771e",
+        "raw/renderer-post/capture-vram.bin": "3e97540a5a9eaf13356c511ee932cb7dad439c2cf6d1e8a46e57fe74bbb1541f",
+        "raw/renderer-post/capture.png": "c10efe98830ecab25857e68b74e535a586bbdf91c48754fbf280f11fe800fdb2",
+        "raw/renderer-post/capture.ss9": "5a37f70549715b738e300da1964472778950963dd6955a03fb64034b5e9745a8",
+        "raw/submit-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/submit-post/capture-active-pointers.bin": "c4ba3c65731f93b0ac87659efdc29d0ea2a9417c8fb005d091d676b19740781f",
+        "raw/submit-post/capture-hardware-oam.bin": "9c11ae1602e13fe8a8c0c1f05e788a2edd49bee68820e5cd44574fa5a815860f",
+        "raw/submit-post/capture-io.bin": "91dcacb43a79b4cd03fe44dadcba5f631d9e2f28196455f8a8eb1aaae7615638",
+        "raw/submit-post/capture-phase.json": "1b38b5b46fafcac16a9821b2920d9c3e29f505328b7af5e3df248a44039cbb7b",
+        "raw/submit-post/capture-pram.bin": "b6a09080a5ef341d77c3d3cf07f467f6f7480e1bef37dbd27290846a452b5af2",
+        "raw/submit-post/capture-runtime-offsets.bin": "6c9e8bce613c52fa6f464b8007152d1faaeeb22e5bec8d1edc844bfaa7a6ad98",
+        "raw/submit-post/capture-shadow-oam.bin": "574b8472011216703e61324396c0238605dafad643ef3f6ce604b0b87f6bbbbb",
+        "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+        "raw/submit-post/capture-task-pool.bin": "da6b07823d8e14fca938fa2931abb38b372abd5aed237360b63a48257524771e",
+        "raw/submit-post/capture-vram.bin": "3e97540a5a9eaf13356c511ee932cb7dad439c2cf6d1e8a46e57fe74bbb1541f",
+        "raw/submit-post/capture.png": "c10efe98830ecab25857e68b74e535a586bbdf91c48754fbf280f11fe800fdb2",
+        "raw/submit-post/capture.ss9": "023b84928f0724da93e5ae37e7a512028702990daa8b37d4f6d564e7dc69d05e",
+        "runtime-audit.json": "bc006236c2cf7739f1e5c636cb9669e8d2c320c937c33e8eeec07860c90c95ac"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-group17-natural-v1/manifest.json",
+      "manifest_sha256": "03b075b52d2e6ebbcbfe66f64c47bbea7d93cc2bff59d876de138356a96f0e91",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-group17-natural-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 17,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            2,
+            2,
+            2
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-group18-natural-sequence-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "bab0dbed5f3d887fd65c70eb9c24d0c4c9cf8d9e1b7eebad9e9e244d4fcc4694",
+        "raw/ack-post/capture-active-count.bin": "4d7b3ef7300acf70c892d8327db8272f54434adbc61a4e130a563cb59a0d0f47",
+        "raw/ack-post/capture-active-pointers.bin": "b6a3fe2b36af5c39d204cd760effb08604a1d54158614f5fda81046cf53b4cfb",
+        "raw/ack-post/capture-hardware-oam.bin": "b7617bc0c7d36675c8e0593b4e93ca17b7158b502ecbb4188fb2777399c5e896",
+        "raw/ack-post/capture-io.bin": "008146c551aa34cf85a4e60d41958482cda7e1275fd9caf30bded3561293ca20",
+        "raw/ack-post/capture-phase.json": "9d394c9f73ae3723f5e816b00532e271b062209cd6375d22d714349aa463b468",
+        "raw/ack-post/capture-pram.bin": "5e645c8ac8dbeec5145059a9f3eb7ac0634bc3436fe0139d68d24e6637f7039e",
+        "raw/ack-post/capture-runtime-offsets.bin": "5fc9a9bc826c31625084d1887605fb07c97f9aed3cac9d43db42ea96389cbae1",
+        "raw/ack-post/capture-shadow-oam.bin": "b7617bc0c7d36675c8e0593b4e93ca17b7158b502ecbb4188fb2777399c5e896",
+        "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/ack-post/capture-task-pool.bin": "fb1956c36011fe042ada7b0d275b8f1501fc3bee91a05413d9e41897af8b722b",
+        "raw/ack-post/capture-vram.bin": "1fafaa96e243e190122b029ef1be7e7f455c7b5618199735cf178d4713cf2c64",
+        "raw/ack-post/capture.png": "93ea2100255d0157edc2560ab7e7c1a2c38391a7e864edbac869d133fccfac52",
+        "raw/ack-post/capture.ss9": "ae5225ea8c335e75f57c28618f3f1cad3af8aaff70aaf3811b745ce11925ded7",
+        "raw/renderer-post/capture-active-count.bin": "4d7b3ef7300acf70c892d8327db8272f54434adbc61a4e130a563cb59a0d0f47",
+        "raw/renderer-post/capture-active-pointers.bin": "b6a3fe2b36af5c39d204cd760effb08604a1d54158614f5fda81046cf53b4cfb",
+        "raw/renderer-post/capture-hardware-oam.bin": "7ad609340bebd4a89c6cfc8137d40652645b77eb123988bdcd71ffae86dbfd62",
+        "raw/renderer-post/capture-io.bin": "17efbfed610f9dfba483598de951e42df023495145cc35040d18cc123fbc9508",
+        "raw/renderer-post/capture-phase.json": "007afd60e73d892a6230cce9b9bf335e8d5e43b0bcfe2d629fdc38e9c4d98877",
+        "raw/renderer-post/capture-pram.bin": "5e645c8ac8dbeec5145059a9f3eb7ac0634bc3436fe0139d68d24e6637f7039e",
+        "raw/renderer-post/capture-runtime-offsets.bin": "5fc9a9bc826c31625084d1887605fb07c97f9aed3cac9d43db42ea96389cbae1",
+        "raw/renderer-post/capture-shadow-oam.bin": "b7617bc0c7d36675c8e0593b4e93ca17b7158b502ecbb4188fb2777399c5e896",
+        "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "raw/renderer-post/capture-task-pool.bin": "fb1956c36011fe042ada7b0d275b8f1501fc3bee91a05413d9e41897af8b722b",
+        "raw/renderer-post/capture-vram.bin": "1fafaa96e243e190122b029ef1be7e7f455c7b5618199735cf178d4713cf2c64",
+        "raw/renderer-post/capture.png": "93ea2100255d0157edc2560ab7e7c1a2c38391a7e864edbac869d133fccfac52",
+        "raw/renderer-post/capture.ss9": "fac691aaddec19db7ccc9b92052aa5ac3bd01eb9ac28328a7dedf69f11a23238",
+        "raw/submit-post/capture-active-count.bin": "4d7b3ef7300acf70c892d8327db8272f54434adbc61a4e130a563cb59a0d0f47",
+        "raw/submit-post/capture-active-pointers.bin": "b6a3fe2b36af5c39d204cd760effb08604a1d54158614f5fda81046cf53b4cfb",
+        "raw/submit-post/capture-hardware-oam.bin": "7ad609340bebd4a89c6cfc8137d40652645b77eb123988bdcd71ffae86dbfd62",
+        "raw/submit-post/capture-io.bin": "8fc8ca38f1c4128a379b99d418f876bfb9ce8af7a66fbf957d0bbc8e046ee438",
+        "raw/submit-post/capture-phase.json": "5c1b11abcb8bd8723e60df9a0da98a1d60d66e91b9af2a64b922e12d9b49452e",
+        "raw/submit-post/capture-pram.bin": "5e645c8ac8dbeec5145059a9f3eb7ac0634bc3436fe0139d68d24e6637f7039e",
+        "raw/submit-post/capture-runtime-offsets.bin": "5fc9a9bc826c31625084d1887605fb07c97f9aed3cac9d43db42ea96389cbae1",
+        "raw/submit-post/capture-shadow-oam.bin": "b7617bc0c7d36675c8e0593b4e93ca17b7158b502ecbb4188fb2777399c5e896",
+        "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+        "raw/submit-post/capture-task-pool.bin": "fb1956c36011fe042ada7b0d275b8f1501fc3bee91a05413d9e41897af8b722b",
+        "raw/submit-post/capture-vram.bin": "1fafaa96e243e190122b029ef1be7e7f455c7b5618199735cf178d4713cf2c64",
+        "raw/submit-post/capture.png": "93ea2100255d0157edc2560ab7e7c1a2c38391a7e864edbac869d133fccfac52",
+        "raw/submit-post/capture.ss9": "13ec596c9c005bc6182fd3f4c2d288cfd044f66e159b740727d86458f16d6a10",
+        "runtime-audit.json": "620a3a4a9772f19768257304f758efc0dd3ec589f3054d9241ec97f3568c7904"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-group18-natural-sequence-v1/manifest.json",
+      "manifest_sha256": "e87b9b6035334ec29bf420529d5f541d72f76b07f36328470845ef0718c3768e",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-group18-natural-sequence-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 18,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            7,
+            7,
+            7
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-group2-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "bc7de05dd4cccf8769e54148e04dc15fbe5e5f3cb0bce82b59fa29555d2982c2",
+        "raw/ack-post/capture-active-count.bin": "beead77994cf573341ec17b58bbf7eb34d2711c993c1d976b128b3188dc1829a",
+        "raw/ack-post/capture-active-pointers.bin": "462e165cc4a868483c88762cad750d784c7961d14e0bfbddaa1c88be3af955f0",
+        "raw/ack-post/capture-hardware-oam.bin": "5f97b612b9520727f75d9dd8635363ffa242fa526a4dde7dd2e619f6ac32a4f4",
+        "raw/ack-post/capture-io.bin": "d8e502a9da2483817cee187732b773d5fa3e367a474d725d94bfd348c81a129d",
+        "raw/ack-post/capture-phase.json": "94cf716669f88425076ebc1e64e0638ca70531b713a5e315102ac2c96a51ae4f",
+        "raw/ack-post/capture-pram.bin": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+        "raw/ack-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+        "raw/ack-post/capture-shadow-oam.bin": "5f97b612b9520727f75d9dd8635363ffa242fa526a4dde7dd2e619f6ac32a4f4",
+        "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/ack-post/capture-task-pool.bin": "4c48018d982e2f38f5be6e3f9cc376c81d88fa4a4824c069a01b80645c714809",
+        "raw/ack-post/capture-vram.bin": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a",
+        "raw/ack-post/capture.png": "54713f2dfc43195aad93adc57344a0e325f543c985d6d07f4639ddfda24602d5",
+        "raw/ack-post/capture.ss9": "44780200742b102be8b90bb5f36b5d8dc365be44847b442a53e33f0a21fd27ba",
+        "raw/renderer-post/capture-active-count.bin": "beead77994cf573341ec17b58bbf7eb34d2711c993c1d976b128b3188dc1829a",
+        "raw/renderer-post/capture-active-pointers.bin": "462e165cc4a868483c88762cad750d784c7961d14e0bfbddaa1c88be3af955f0",
+        "raw/renderer-post/capture-hardware-oam.bin": "8836ef98597dd670c76069c500fa8020e4af973041b58cdc73e06f34d4aeb294",
+        "raw/renderer-post/capture-io.bin": "a1d35f3bbd05192166a43b20c04693199125157c6b7b740010d83a573ca1eb00",
+        "raw/renderer-post/capture-phase.json": "58fc8d0192365bc359e75a204fd85b5dcd468a243c0f5e33853027f9d49b6ff4",
+        "raw/renderer-post/capture-pram.bin": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+        "raw/renderer-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+        "raw/renderer-post/capture-shadow-oam.bin": "5f97b612b9520727f75d9dd8635363ffa242fa526a4dde7dd2e619f6ac32a4f4",
+        "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "raw/renderer-post/capture-task-pool.bin": "4c48018d982e2f38f5be6e3f9cc376c81d88fa4a4824c069a01b80645c714809",
+        "raw/renderer-post/capture-vram.bin": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a",
+        "raw/renderer-post/capture.png": "54713f2dfc43195aad93adc57344a0e325f543c985d6d07f4639ddfda24602d5",
+        "raw/renderer-post/capture.ss9": "fe76a96da4bd6b2ad8b4e6528b5c2d945b276a3c728f01f3bc5e2cb0b28a52a2",
+        "raw/submit-post/capture-active-count.bin": "beead77994cf573341ec17b58bbf7eb34d2711c993c1d976b128b3188dc1829a",
+        "raw/submit-post/capture-active-pointers.bin": "462e165cc4a868483c88762cad750d784c7961d14e0bfbddaa1c88be3af955f0",
+        "raw/submit-post/capture-hardware-oam.bin": "8836ef98597dd670c76069c500fa8020e4af973041b58cdc73e06f34d4aeb294",
+        "raw/submit-post/capture-io.bin": "a0b567a6d0e701e58498b83e938ecf3ae9f28113d768edb67fe5aba7b0eab8f6",
+        "raw/submit-post/capture-phase.json": "7189a0e6eab19de9786fe41e93c958953cc280a2e90f9a7147f2829af3dd25d0",
+        "raw/submit-post/capture-pram.bin": "b7a396594ceb245563c14a1237e186e42db7e0204a663d5ba3e2f98b779e3ce3",
+        "raw/submit-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+        "raw/submit-post/capture-shadow-oam.bin": "5f97b612b9520727f75d9dd8635363ffa242fa526a4dde7dd2e619f6ac32a4f4",
+        "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+        "raw/submit-post/capture-task-pool.bin": "4c48018d982e2f38f5be6e3f9cc376c81d88fa4a4824c069a01b80645c714809",
+        "raw/submit-post/capture-vram.bin": "4057913232ccf218b707b935f3b034e6c2f66e309b66df91308db8121c91797a",
+        "raw/submit-post/capture.png": "54713f2dfc43195aad93adc57344a0e325f543c985d6d07f4639ddfda24602d5",
+        "raw/submit-post/capture.ss9": "f6cad461e3638593b162818d6eb32bd9a7a2ed6c1075c275be6cc59e842f88c4",
+        "runtime-audit.json": "47c7a46b396d37a5e21c11a09556eea2c025699659997fe49a2470f8508fe5fb"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-group2-v1/manifest.json",
+      "manifest_sha256": "0babb563f167448ec924eb7647aa948110b1d7bf02e1e8a6752a7a79c4e5d68c",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-group2-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 2,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            0,
+            0,
+            0
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-group3-natural-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "08af1ffb1b8aa050d0867be375e296f40fd2cedf8f4aeb7ab79fe92dce607aa9",
+        "raw/ack-post/capture-active-count.bin": "dbc1b4c900ffe48d575b5da5c638040125f65db0fe3e24494b76ea986457d986",
+        "raw/ack-post/capture-active-pointers.bin": "845eb9a93d711bc640fb8337a144edad476cd1fdc9d06bca46da50ce59efd8ce",
+        "raw/ack-post/capture-hardware-oam.bin": "d0c2a41dc2b240bd31f8fc167e10a8a6b36f4937682f8210841ecb968b38424e",
+        "raw/ack-post/capture-io.bin": "6d1f862a94b6075a2c8038a38905902a661e63a663fc7adcf68124c3cce0e028",
+        "raw/ack-post/capture-phase.json": "42cc92959b390a24baafc9ac812572f785c38460a0dac643cb74415e727bd6f6",
+        "raw/ack-post/capture-pram.bin": "e392b651b31ed2fc2f25da270ca51d7657b7770a04dab1468087cbfcf91cbb4e",
+        "raw/ack-post/capture-runtime-offsets.bin": "6c9e8bce613c52fa6f464b8007152d1faaeeb22e5bec8d1edc844bfaa7a6ad98",
+        "raw/ack-post/capture-shadow-oam.bin": "d0c2a41dc2b240bd31f8fc167e10a8a6b36f4937682f8210841ecb968b38424e",
+        "raw/ack-post/capture-submission.bin": "fcf0a6c700dd13e274b6fba8deea8dd9b26e4eedde3495717cac8408c9c5177f",
+        "raw/ack-post/capture-task-pool.bin": "bd67c16fc06389c4045736174c694d83eb03353a00ebecfc01f91bde75968c58",
+        "raw/ack-post/capture-vram.bin": "9b301d47ae43ffbc17df2d8bcbd17d8be6b8886e20eede78cfe6a473e8f97e10",
+        "raw/ack-post/capture.png": "05cdd7f0ae5a0a726cf03ff7e14e86ebde9ec97e5cb42735bb7cd64c20d32ee3",
+        "raw/ack-post/capture.ss9": "e9913b2dfcd1bc177b51553d77be2001eaa005aa1a5441014262c5f4b0eac1bd",
+        "raw/renderer-post/capture-active-count.bin": "dbc1b4c900ffe48d575b5da5c638040125f65db0fe3e24494b76ea986457d986",
+        "raw/renderer-post/capture-active-pointers.bin": "845eb9a93d711bc640fb8337a144edad476cd1fdc9d06bca46da50ce59efd8ce",
+        "raw/renderer-post/capture-hardware-oam.bin": "73680856565cd58877337330c5d4e63dbd566852dcf9f2999a2f747a9ef09623",
+        "raw/renderer-post/capture-io.bin": "71440ac5f188509bab6f83fc90f95ec443f81a7a8b52d2cec8fc2a8a5a21855d",
+        "raw/renderer-post/capture-phase.json": "e48b01359d9827ac7d49fc0e4f08030f241982167bc92faa514f332f90ef0045",
+        "raw/renderer-post/capture-pram.bin": "e392b651b31ed2fc2f25da270ca51d7657b7770a04dab1468087cbfcf91cbb4e",
+        "raw/renderer-post/capture-runtime-offsets.bin": "6c9e8bce613c52fa6f464b8007152d1faaeeb22e5bec8d1edc844bfaa7a6ad98",
+        "raw/renderer-post/capture-shadow-oam.bin": "d0c2a41dc2b240bd31f8fc167e10a8a6b36f4937682f8210841ecb968b38424e",
+        "raw/renderer-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/renderer-post/capture-task-pool.bin": "bd67c16fc06389c4045736174c694d83eb03353a00ebecfc01f91bde75968c58",
+        "raw/renderer-post/capture-vram.bin": "9e12db7d8792876cbd801cb6362779cc8daeb7b97e830d458aa6880a0d53e2f3",
+        "raw/renderer-post/capture.png": "05cdd7f0ae5a0a726cf03ff7e14e86ebde9ec97e5cb42735bb7cd64c20d32ee3",
+        "raw/renderer-post/capture.ss9": "3645e5f9213f25e2318929e237191e1841ce8bc9c4864c8e96b259d60b0c1637",
+        "raw/submit-post/capture-active-count.bin": "dbc1b4c900ffe48d575b5da5c638040125f65db0fe3e24494b76ea986457d986",
+        "raw/submit-post/capture-active-pointers.bin": "845eb9a93d711bc640fb8337a144edad476cd1fdc9d06bca46da50ce59efd8ce",
+        "raw/submit-post/capture-hardware-oam.bin": "73680856565cd58877337330c5d4e63dbd566852dcf9f2999a2f747a9ef09623",
+        "raw/submit-post/capture-io.bin": "9361934e341fafaf86d865752fb2f1a3991b301a61840c9df9bfbe13de758039",
+        "raw/submit-post/capture-phase.json": "9e9b7b62812877c0e69451c1eaa5ab50475a154a84f1f6ef5119f7469452f463",
+        "raw/submit-post/capture-pram.bin": "e392b651b31ed2fc2f25da270ca51d7657b7770a04dab1468087cbfcf91cbb4e",
+        "raw/submit-post/capture-runtime-offsets.bin": "6c9e8bce613c52fa6f464b8007152d1faaeeb22e5bec8d1edc844bfaa7a6ad98",
+        "raw/submit-post/capture-shadow-oam.bin": "d0c2a41dc2b240bd31f8fc167e10a8a6b36f4937682f8210841ecb968b38424e",
+        "raw/submit-post/capture-submission.bin": "9dcf97a184f32623d11a73124ceb99a5709b083721e878a16d78f596718ba7b2",
+        "raw/submit-post/capture-task-pool.bin": "bd67c16fc06389c4045736174c694d83eb03353a00ebecfc01f91bde75968c58",
+        "raw/submit-post/capture-vram.bin": "9e12db7d8792876cbd801cb6362779cc8daeb7b97e830d458aa6880a0d53e2f3",
+        "raw/submit-post/capture.png": "05cdd7f0ae5a0a726cf03ff7e14e86ebde9ec97e5cb42735bb7cd64c20d32ee3",
+        "raw/submit-post/capture.ss9": "ba369b318771da3c7ed93ebefbc234a52d97cd19565fc910b2c6892a1429ac7c",
+        "runtime-audit.json": "45f582ce8a06ba28790685918a6f14a3081d4f32b54c7d90255dfd968f11b96b"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-group3-natural-v1/manifest.json",
+      "manifest_sha256": "b4a0ace388f1af08e9699df4c6ff593c711ee923ead56197a85c09e313c17f5a",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-group3-natural-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 3,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            0,
+            0,
+            0
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-group4-natural-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "c3d35cb28bd0c1b273b0ce68c85c549057799ec9a5432f34ab1873c3dbdb0fb1",
+        "raw/ack-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/ack-post/capture-active-pointers.bin": "866cfcb2b1c938da0a96e367e0850c6c9b81076fe8c5189edb4d41d698d78a71",
+        "raw/ack-post/capture-hardware-oam.bin": "3fdec4fe83f21c75c340249f0e5046d6c923d8bfe8b98a145af72ff0137380f4",
+        "raw/ack-post/capture-io.bin": "ac5fffc8d58e2b3629421f4a275a9f3518ed3e859595eda3556aa007749a6e2e",
+        "raw/ack-post/capture-phase.json": "93d03939617b417662c8908f791459c866b5a558a2bbed22e9b613667e633d5f",
+        "raw/ack-post/capture-pram.bin": "2656a403915a6e5e5790d521f0d45719af064e28d0a260fd783612045c19581e",
+        "raw/ack-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+        "raw/ack-post/capture-shadow-oam.bin": "3fdec4fe83f21c75c340249f0e5046d6c923d8bfe8b98a145af72ff0137380f4",
+        "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/ack-post/capture-task-pool.bin": "8e50b0ba978d2203b2c3ba879b95cec0f37e2e04424512a0a83db37669bb45c6",
+        "raw/ack-post/capture-vram.bin": "0c1068f3a37e935bd8682049f7465d1e899188f7d2fba0a55662646f4755296c",
+        "raw/ack-post/capture.png": "7ae82a2c657ac379a16a394ff8a22013d6ca1e4adf3066d93eaefad3082c7ba0",
+        "raw/ack-post/capture.ss9": "a685f8b6c35de2ba5476950416007e1b4f1694f582e576feaeeddc4e4391f548",
+        "raw/renderer-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/renderer-post/capture-active-pointers.bin": "866cfcb2b1c938da0a96e367e0850c6c9b81076fe8c5189edb4d41d698d78a71",
+        "raw/renderer-post/capture-hardware-oam.bin": "e0aa339b21c6b4f5c5baccd4adbddde9cadba8d7741e336a903c97b8ac8f32af",
+        "raw/renderer-post/capture-io.bin": "6aa2427f5e6d62da87bc84099c6b531261bc56a7bd209f80c698a946504828e6",
+        "raw/renderer-post/capture-phase.json": "c7ed19ae50a13010bd209fe599dbcd004aab98007d11ee1526325d04f22869aa",
+        "raw/renderer-post/capture-pram.bin": "2656a403915a6e5e5790d521f0d45719af064e28d0a260fd783612045c19581e",
+        "raw/renderer-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+        "raw/renderer-post/capture-shadow-oam.bin": "3fdec4fe83f21c75c340249f0e5046d6c923d8bfe8b98a145af72ff0137380f4",
+        "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "raw/renderer-post/capture-task-pool.bin": "8e50b0ba978d2203b2c3ba879b95cec0f37e2e04424512a0a83db37669bb45c6",
+        "raw/renderer-post/capture-vram.bin": "069b022dfd99c3903ebcb64997e4be080b161052bd4e219f357ae33e7cc4f865",
+        "raw/renderer-post/capture.png": "7ae82a2c657ac379a16a394ff8a22013d6ca1e4adf3066d93eaefad3082c7ba0",
+        "raw/renderer-post/capture.ss9": "99b683cecd767012e26a13e466cedb2ad32f8d192eae36a09524384a4d119b7c",
+        "raw/submit-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/submit-post/capture-active-pointers.bin": "866cfcb2b1c938da0a96e367e0850c6c9b81076fe8c5189edb4d41d698d78a71",
+        "raw/submit-post/capture-hardware-oam.bin": "e0aa339b21c6b4f5c5baccd4adbddde9cadba8d7741e336a903c97b8ac8f32af",
+        "raw/submit-post/capture-io.bin": "1d1bd58b000708dcc33904249c9dbf05789f58aef51b55ba7f84ae6f548f8d3f",
+        "raw/submit-post/capture-phase.json": "f45800dbcc4db1050e40c5300051387e46f0e84ff1ed7ee7aafbac1be181b728",
+        "raw/submit-post/capture-pram.bin": "2656a403915a6e5e5790d521f0d45719af064e28d0a260fd783612045c19581e",
+        "raw/submit-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+        "raw/submit-post/capture-shadow-oam.bin": "3fdec4fe83f21c75c340249f0e5046d6c923d8bfe8b98a145af72ff0137380f4",
+        "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+        "raw/submit-post/capture-task-pool.bin": "8e50b0ba978d2203b2c3ba879b95cec0f37e2e04424512a0a83db37669bb45c6",
+        "raw/submit-post/capture-vram.bin": "069b022dfd99c3903ebcb64997e4be080b161052bd4e219f357ae33e7cc4f865",
+        "raw/submit-post/capture.png": "7ae82a2c657ac379a16a394ff8a22013d6ca1e4adf3066d93eaefad3082c7ba0",
+        "raw/submit-post/capture.ss9": "046bb910a055242eb2b72a9bb86f1ea4f0808b93f09958bc589b6e3cc2c73bb7",
+        "runtime-audit.json": "60808ca80d2f7408dd6c539837c2c2cf0c008210a828f79176a6f7f6bfb81eb9"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-group4-natural-v1/manifest.json",
+      "manifest_sha256": "53485b25271cb565828c0461818f996fc5708b6348e5f3df4fca647da0e85493",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-group4-natural-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 4,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            0,
+            0,
+            0
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-group5-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "256d00faf574be18ec47319d42412cf81dcf0d92fe8749addd1a63ff0c6177d3",
+        "raw/ack-post/capture-active-count.bin": "e77b9a9ae9e30b0dbdb6f510a264ef9de781501d7b6b92ae89eb059c5ab743db",
+        "raw/ack-post/capture-active-pointers.bin": "66aed5c7ff138a60cad569e89ab38324bf421b3af706f393665a905d5192efd6",
+        "raw/ack-post/capture-hardware-oam.bin": "6c99a14298829286b218c860d37cdb0b84e99d3c5bc08b4b44902486b68f48dc",
+        "raw/ack-post/capture-io.bin": "9223d0173aeeac081c06a6d3a87cc24cd9705fe2c0cf7bd9d6f12e347e665148",
+        "raw/ack-post/capture-phase.json": "d0908d336a481d90de88a86d4a32ab0e035528f72134a393bdda9261a03c0e56",
+        "raw/ack-post/capture-pram.bin": "9477fcde50219b29a3e5b408e82e7221cd21856d2a2485b7093e73ed511cbadc",
+        "raw/ack-post/capture-runtime-offsets.bin": "438a507ea656111163bc58168deed3d78e98f1682ba4bb62432f2d7b93972670",
+        "raw/ack-post/capture-shadow-oam.bin": "6c99a14298829286b218c860d37cdb0b84e99d3c5bc08b4b44902486b68f48dc",
+        "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/ack-post/capture-task-pool.bin": "b97f1b9334db672e84bc3a152325f55074db3eb58df63567c41425e75877dc8f",
+        "raw/ack-post/capture-vram.bin": "db588ee214647766e145133088227f1e0601c65535532f1b5db66567cb4c6d54",
+        "raw/ack-post/capture.png": "08f8402826eff537f08d927de875a2c325a9f8f2592e56b9e7be66274d96581f",
+        "raw/ack-post/capture.ss9": "f150600db95a7d463bd47d1fe3a9a1a348d2ad9fd13d475e01e0a3d8c5f2d611",
+        "raw/renderer-post/capture-active-count.bin": "e77b9a9ae9e30b0dbdb6f510a264ef9de781501d7b6b92ae89eb059c5ab743db",
+        "raw/renderer-post/capture-active-pointers.bin": "66aed5c7ff138a60cad569e89ab38324bf421b3af706f393665a905d5192efd6",
+        "raw/renderer-post/capture-hardware-oam.bin": "fd68fdb339143a1c815a1bc359907844f9fff4ef1dc83b4f860c7189b5769e93",
+        "raw/renderer-post/capture-io.bin": "d160343096aff23ea04e217e9e72cfb65c92375a67be0537de36922053d48d32",
+        "raw/renderer-post/capture-phase.json": "f18c4292852ce7a6a0e52c7cedb5b8c4328f26b4a3ec07ca7d3c3b3311e360a3",
+        "raw/renderer-post/capture-pram.bin": "9477fcde50219b29a3e5b408e82e7221cd21856d2a2485b7093e73ed511cbadc",
+        "raw/renderer-post/capture-runtime-offsets.bin": "438a507ea656111163bc58168deed3d78e98f1682ba4bb62432f2d7b93972670",
+        "raw/renderer-post/capture-shadow-oam.bin": "6c99a14298829286b218c860d37cdb0b84e99d3c5bc08b4b44902486b68f48dc",
+        "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "raw/renderer-post/capture-task-pool.bin": "b97f1b9334db672e84bc3a152325f55074db3eb58df63567c41425e75877dc8f",
+        "raw/renderer-post/capture-vram.bin": "bc79444490823eedf629b06b90810ba51405d1e3547b473c554ba5f4c5df53a2",
+        "raw/renderer-post/capture.png": "1dd423319e533f4c35f80614662889c02a7874defb405a575727b4e0cc94269a",
+        "raw/renderer-post/capture.ss9": "abd10af9e1a2b41321417cd870c02acc5bb604df3fc0205bfdea73579aab727a",
+        "raw/submit-post/capture-active-count.bin": "e77b9a9ae9e30b0dbdb6f510a264ef9de781501d7b6b92ae89eb059c5ab743db",
+        "raw/submit-post/capture-active-pointers.bin": "66aed5c7ff138a60cad569e89ab38324bf421b3af706f393665a905d5192efd6",
+        "raw/submit-post/capture-hardware-oam.bin": "fd68fdb339143a1c815a1bc359907844f9fff4ef1dc83b4f860c7189b5769e93",
+        "raw/submit-post/capture-io.bin": "a0dc1e37f71fb73861b0701c7c46dc1442fde85574c8259eb3f32e919ea34a1d",
+        "raw/submit-post/capture-phase.json": "dc115c6ae2bb9df9c8e9be3a65c4f0a54bc069226ec014500690643581c7ddd9",
+        "raw/submit-post/capture-pram.bin": "9477fcde50219b29a3e5b408e82e7221cd21856d2a2485b7093e73ed511cbadc",
+        "raw/submit-post/capture-runtime-offsets.bin": "438a507ea656111163bc58168deed3d78e98f1682ba4bb62432f2d7b93972670",
+        "raw/submit-post/capture-shadow-oam.bin": "6c99a14298829286b218c860d37cdb0b84e99d3c5bc08b4b44902486b68f48dc",
+        "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+        "raw/submit-post/capture-task-pool.bin": "b97f1b9334db672e84bc3a152325f55074db3eb58df63567c41425e75877dc8f",
+        "raw/submit-post/capture-vram.bin": "bc79444490823eedf629b06b90810ba51405d1e3547b473c554ba5f4c5df53a2",
+        "raw/submit-post/capture.png": "1dd423319e533f4c35f80614662889c02a7874defb405a575727b4e0cc94269a",
+        "raw/submit-post/capture.ss9": "b3077944af34779fbd0a23fc3a77b17299c2e462a1d1ac21127a0dbe46854853",
+        "runtime-audit.json": "315defe2c8d37b37516233991c38aca1ddf08fd362e9b05a0f3046673829ead7"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-group5-v1/manifest.json",
+      "manifest_sha256": "bac4d5c3cd7c4c31fb88fdf31856548e03206467e7bf33b1203ccf8a0477e086",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-group5-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 5,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            2,
+            2,
+            2
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-frame-phase-v1",
+      "file_count": 41,
+      "files": {
+        "guard-summary.json": "7393f64f167f0520a9acd8ec60249366b2a17c9ccff6fde147981c8ddac33ba8",
+        "raw/ack-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/ack-post/capture-active-pointers.bin": "b87c2c89fc9f9fa925c65813d659a095ec0b19f07642c23df14be673bf9301b7",
+        "raw/ack-post/capture-hardware-oam.bin": "692b2b5a5dc85aab5bc2b34b1203d44f8805dbfc5b4d1bad4a6d882387cb89df",
+        "raw/ack-post/capture-io.bin": "d162fe246f7c39b883a56a9dba788bf29bf1d3a6a3ba2fa46667f37460d8b4c4",
+        "raw/ack-post/capture-phase.json": "d56822a7a96210f30a7612555378fbe73395da5cf28d342e5365623540f88d06",
+        "raw/ack-post/capture-pram.bin": "dd0e9eded373c97bac664159520f7f8cd0d64106c4f66bb83af0f4ad24598669",
+        "raw/ack-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+        "raw/ack-post/capture-shadow-oam.bin": "692b2b5a5dc85aab5bc2b34b1203d44f8805dbfc5b4d1bad4a6d882387cb89df",
+        "raw/ack-post/capture-submission.bin": "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2",
+        "raw/ack-post/capture-task-pool.bin": "15b24116975375b9d41b4f41a17f95b2a6b714c1bcf22c0ca4e10c49b6effabe",
+        "raw/ack-post/capture-vram.bin": "a9332066c58af0444f28e1e604b125f04d499b4cc134493f659930552fe9989a",
+        "raw/ack-post/capture.png": "ad1e1ad9b77b7dbfa64c95b4a138f13849a0459d65f32b4ef2359f96b6882016",
+        "raw/ack-post/capture.ss9": "28536f834180cb282006337330b35603044a2e3cfbee6a15977d28468923891a",
+        "raw/renderer-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/renderer-post/capture-active-pointers.bin": "b87c2c89fc9f9fa925c65813d659a095ec0b19f07642c23df14be673bf9301b7",
+        "raw/renderer-post/capture-hardware-oam.bin": "4be4cd6f43cc612bdee87bad33c56a339ea5ec99260b7de3d96d4494c95e70f2",
+        "raw/renderer-post/capture-io.bin": "e46cb020c0b7cfb19a89f60a8e6a54848a47eb5319ed9e96facb16cb30ad73b1",
+        "raw/renderer-post/capture-phase.json": "8461ff6f22ecea644ca1f1092c6d8027b92a8c226d8a23f4fa99479bdfd7d360",
+        "raw/renderer-post/capture-pram.bin": "dd0e9eded373c97bac664159520f7f8cd0d64106c4f66bb83af0f4ad24598669",
+        "raw/renderer-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+        "raw/renderer-post/capture-shadow-oam.bin": "692b2b5a5dc85aab5bc2b34b1203d44f8805dbfc5b4d1bad4a6d882387cb89df",
+        "raw/renderer-post/capture-submission.bin": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "raw/renderer-post/capture-task-pool.bin": "15b24116975375b9d41b4f41a17f95b2a6b714c1bcf22c0ca4e10c49b6effabe",
+        "raw/renderer-post/capture-vram.bin": "a7924e8604d8687c7a4a9328950e0cc2fc9e9b332d82434f5ea864a3241070e9",
+        "raw/renderer-post/capture.png": "c97ee113753c85db9233e433bf0cd52aec2fa11d80149e80f501cc576e10355d",
+        "raw/renderer-post/capture.ss9": "6bcf1f690b06f9edd6798305dcc88d4cd6872882a88d297fb49c974b27bfcc46",
+        "raw/submit-post/capture-active-count.bin": "084fed08b978af4d7d196a7446a86b58009e636b611db16211b65a9aadff29c5",
+        "raw/submit-post/capture-active-pointers.bin": "b87c2c89fc9f9fa925c65813d659a095ec0b19f07642c23df14be673bf9301b7",
+        "raw/submit-post/capture-hardware-oam.bin": "4be4cd6f43cc612bdee87bad33c56a339ea5ec99260b7de3d96d4494c95e70f2",
+        "raw/submit-post/capture-io.bin": "aca5437bb2cee3a7d9e098546cf5d2125e307f6765acbdf4abe5a78809c39e11",
+        "raw/submit-post/capture-phase.json": "6b7b804d061d47f2b675ca8576544df4b1f8bb0f9184c0375a3c7be4fa322698",
+        "raw/submit-post/capture-pram.bin": "dd0e9eded373c97bac664159520f7f8cd0d64106c4f66bb83af0f4ad24598669",
+        "raw/submit-post/capture-runtime-offsets.bin": "3492b287acb5dc2d93223011b5e9724a53552ca233a1d00ebdfd686aac721754",
+        "raw/submit-post/capture-shadow-oam.bin": "692b2b5a5dc85aab5bc2b34b1203d44f8805dbfc5b4d1bad4a6d882387cb89df",
+        "raw/submit-post/capture-submission.bin": "47dc540c94ceb704a23875c11273e16bb0b8a87aed84de911f2133568115f254",
+        "raw/submit-post/capture-task-pool.bin": "15b24116975375b9d41b4f41a17f95b2a6b714c1bcf22c0ca4e10c49b6effabe",
+        "raw/submit-post/capture-vram.bin": "a7924e8604d8687c7a4a9328950e0cc2fc9e9b332d82434f5ea864a3241070e9",
+        "raw/submit-post/capture.png": "c97ee113753c85db9233e433bf0cd52aec2fa11d80149e80f501cc576e10355d",
+        "raw/submit-post/capture.ss9": "46e0a758974f7710f56f0b1506c3d72a1fedf4b9a364043731a052cef8ce54d4",
+        "runtime-audit.json": "b9a83d75a3c90c67eddb4bf712c5c2e95aaab94fdb958dec98a5afb5d4736af9"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-frame-phase-v1/manifest.json",
+      "manifest_sha256": "d42a325efb3498d43be7b22e0c070b43608d54265d3ba93db975bac2127362a5",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_frame_phase.py",
+          "--artifact",
+          "artifacts/battle-effect-frame-phase-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "ack_shadow_matches_hardware": true,
+          "breakpoint_addresses": [
+            "0x08063328",
+            "0x08061126",
+            "0x080612AA"
+          ],
+          "errors": [],
+          "group_id": 11,
+          "non_state_equivalent_dumps": [
+            "io.bin"
+          ],
+          "pending_sequence": [
+            0,
+            1,
+            0
+          ],
+          "renderer_shadow_differs_from_hardware": true,
+          "target_dispatch_ordinals": [
+            0,
+            0,
+            0
+          ],
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-group12-ai-observer-v1",
+      "file_count": 5,
+      "files": {
+        "audit.json": "d5b42e57888b0eb8d0f493f9bea1426c889384610faf50c5630abfca5cd4982d",
+        "guard-summary.json": "946f45802852fb1f7b2d7437be69363cec8a88e7e56c78780ba6b3f0fc8b27c8",
+        "guard-summary.json.done.json": "680b854407925a057aaad84cf8b7890c7b043686f0448a043017cdf9d169ec6e",
+        "selection.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+        "selection.ss9": "8b6a1acc81dfb6d8f5ae6c17b29c64743d659eb47c1221edd0397c7ae70daa1c"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-group12-ai-observer-v1/manifest.json",
+      "manifest_sha256": "ddd212d475192f5c3c94d75e662164beabdc8b5159a7bccbe8b7fae36fe579b8",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_group12_ai_observer.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/battle-effect-group12-ai-observer-v1"
+        ],
+        "exit_code": 0,
+        "note": "verifier will be created/registered; current run uses run_macos_mgba_battle_ai_action_observer guard summary as evidence.",
+        "stdout_tail": "verified=true, action_id=61 selected (斩首大刀 Group 13), action 32 absent"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-group13-natural-runtime-v1",
+      "file_count": 6,
+      "files": {
+        "evidence.json": "cb78d4c554a26c18c36541118627dd896af0e9147a6401b264d141f6d6c4c4f4",
+        "raw/observer-audit.json": "68c1771207b5c84bafd1a1fa0319d76e2bcaff38c538958ef0d9ad660e5a769d",
+        "raw/observer-done.json": "d3a2307732f6586748a96704726dc57309b58b5f6a5fda6414890500538b61db",
+        "raw/observer-guard.json": "e0d0ae679c537f42b8292e97f0b8acd25d30ff9566b0ea6ab14d4abc0518db31",
+        "raw/observer-selection.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+        "raw/observer-selection.ss9": "d006183f1781d8d18209e993dfc76789820c34a1d57ec7e5b69ac7ece71b387f"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-group13-natural-runtime-v1/manifest.json",
+      "manifest_sha256": "f3347c73888f33b7f8b753a91490dd524583710c268a220a712fad65324808e2",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_pixel_ab_evidence.py",
+          "--artifact",
+          "artifacts/battle-effect-group13-pixel-ab-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-group18-natural-checkpoint-v1",
+      "file_count": 18,
+      "files": {
+        "raw/expiry-ready-check.json": "e4e5c818036e05adbbdeffe912bb5df5661a36d0f2f427a6acfa3e6ce5e00053",
+        "raw/expiry-ready.png": "93ea2100255d0157edc2560ab7e7c1a2c38391a7e864edbac869d133fccfac52",
+        "raw/expiry-ready.ss9": "f55690e4b2f543f72accbad996a8e3944066dda6ab07450418c53ba065e298d4",
+        "raw/expiry-route-audit.json": "2148c79b3348cfd0436b5aa0124582fe1737373561c728b29f905ab6958304f8",
+        "raw/expiry-route-guard.json": "76e8aa348818e93ec576a892e8f740eaa83627a8f66cfcca86531b1ad1b8b111",
+        "raw/object-created-check.json": "dcf04794fb44ec7987af2be5620a1c055f3e84c4ff5357d60b07192a7db32745",
+        "raw/object-created.ss9": "603616525d7cd55bef9460ff5e7bc25dc7defbd9fe4cdfc29b281c3864a2785b",
+        "raw/object-creation-audit.json": "2a75c9301abb9735fec6b9fc05213777953fc68e1b88456081f5e5445b640625",
+        "raw/object-creation-guard.json": "1ec3f7dd5a93e5eba7d76409b4ed37ea6c68900a6094510a21426423b1a98535",
+        "raw/static-producers.json": "14f6c450025deb2b74fffa31ac93191c7c71dbb859aa0bc1faf7a84b0d9ebb6c",
+        "raw/target-right2.ss9": "a4d255809ff1ea19b8cee8a7d11521cffef972f8c76a0f37ddf9add43682c35b",
+        "raw/target-route-audit.json": "b2479117295fdd9a8dcaa01fa5dcd418d53bab927b6a92facf9bb0198eb1cbf9",
+        "raw/target-route-guard.json": "7c221e976dbb914e4d22e2752bc984d52157c0b31bea864dc682dd6d33b91155",
+        "raw/tool-submission-audit.json": "c5baf4e26f488c2f7b4a08996b1bfa868e1524be36ea96ec7ef47610636faad1",
+        "raw/tool-submission-guard.json": "3430e434293bb99a8dbc793bea31e6a9489e3cee7e507331a8e8006f22bbdc36",
+        "raw/tool-submit.ss9": "6fb61cfd7fd4a1b0a7e1679aaae5064bf109af89051303e4d2dfe9a1430f9be4",
+        "raw/tool-submitted-check.json": "56033ec23e364f2d644ee08da7d3f7e26ef6b598d5556f66d3d4a139363bdb5f",
+        "raw/tool-target-confirm.ss9": "42b61e5fa849c900dfbb074f91adcd4a59b963938801b392b9f6076e1cb17bab"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-group18-natural-checkpoint-v1/manifest.json",
+      "manifest_sha256": "779a8df2df1cb8d9ccf6674d8ac93897f653615f7770c80c449406fd6aecbd16",
+      "scope": {
+        "modified_rom_pixel_ab_verified": false,
+        "natural_countdown_zero_verified": true,
+        "natural_expiry_runtime_verified": true,
+        "natural_object_creation_verified": true,
+        "natural_tool_submission_verified": true,
+        "static_zero_event_expiry_route_verified": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_natural_checkpoint.py",
+          "artifacts/battle-effect-group18-natural-checkpoint-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-runtime-oam-bindings-v1",
+      "file_count": 1,
+      "files": {
+        "bindings.json": "853571d06d0303ed0164bcc7717a0b640a34bd1965108a41052cc3eb7cec8240"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-runtime-oam-bindings-v1/manifest.json",
+      "manifest_sha256": "6e8b7a06038cc06ed39f78d3ea05beb102ae32cea53ddbcd78110364c154825b",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_runtime_oam_bindings.py",
+          "--root",
+          ".",
+          "--bindings",
+          "artifacts/battle-effect-runtime-oam-bindings-v1/bindings.json"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "observed_group_ids": [
+            1,
+            2,
+            5,
+            11,
+            14
+          ],
+          "supplemental_matches": 9,
+          "supplemental_states": 5,
+          "tracked_checkpoints": 93,
+          "tracked_matches": 3,
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-effect-runtime-oam-task-bindings-v1",
+      "file_count": 1,
+      "files": {
+        "bindings.json": "bd88a29d7ac96d0f32644cbcf19a5267bbd2e70ec0b5dedc5c7e7e76a4eeb74c"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-runtime-oam-task-bindings-v1/manifest.json",
+      "manifest_sha256": "bc00e8e41610b09b84637a80a0262ba2ef883aac7e7a8ccdd862f2fbd28000af",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_effect_runtime_oam_task_bindings.py",
+          "--root",
+          ".",
+          "--bindings",
+          "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json"
+        ],
+        "exit_code": 0,
+        "result": {
+          "accepted_bindings": 3,
+          "errors": [],
+          "observed_group_ids": [
+            1,
+            2,
+            5,
+            11,
+            14
+          ],
+          "recognized_effect_tasks": 12,
+          "supplemental_states": 5,
+          "tracked_checkpoints": 93,
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "battle-status-bars-v1",
+      "file_count": 5,
+      "files": {
+        "battle-status-bars.json": "c8ff2c231c5a0ac111f10c7ca545d285cde0e23c4fca706815ee40277086d4eb",
+        "battle-status-bars.png": "03533e8d5d6305f1f09a9722bef453f198f2d17079e18df2cf7eb18e66b8b2dc",
+        "generated-family.4bpp.bin": "f85290faaf0a17266405d1d3f7d2d723296093a753b4f3cc05af477deb4c862c",
+        "runtime-palette-bank13.bgr555.bin": "82f1c93a86b077a17e05e44c28d7f6522ff69542a6356487ce25a45b61a8a9d2",
+        "source-templates.4bpp.bin": "6c00fd92b8abda7133be37a8305b36e6613ed542c765e7981d3a6b8aea527bbc"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-status-bars-v1/manifest.json",
+      "manifest_sha256": "d88242fa88213b96d8fe48430a0758a3bb79adf7dd6bb6d22e7d00da9711c0d0",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_battle_status_bars.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/battle-status-bars-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "errors": [],
+          "exact_generated_unknown_cell_count": 181,
+          "schema": "battle-status-bars-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "53202cb452c25c762ff6fbface0705c31bb01392177d66f168628919c8b77d32"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "character-battle-visual-resource-matrix-v1",
+      "file_count": 30,
+      "files": {
+        "baseline/audit.json": "d31723168d68686f178924574ff7376caa65a8430ad3b897b9cfb36e2b046288",
+        "baseline/bundle.bin": "10b78ae7a78d886531b49b3d4810008f191bea11eadc62f364ad873bd79d636d",
+        "baseline/frame80.png": "8977b9c1215df7577cb013d26f300806a650c2174edc96799cbdbc1dd49f6464",
+        "baseline/frame80.ss9": "50d432bd95f2a73de5004efcf6728f7fbe03ea259b5c85f346c1196ccc3c81e8",
+        "baseline/guard.json": "a08b09e635ac9f7d71fddad1865790699acdc7884d5970ffca78413d0d17f6e0",
+        "baseline/outer-guard.json": "f02df4d37c0071c21673f1bb439e21d5dc62bc015855f4ffb3bfa5f0dcfb635b",
+        "baseline/sentinel.json": "d31723168d68686f178924574ff7376caa65a8430ad3b897b9cfb36e2b046288",
+        "build-manifest.json": "bf11c3dcceaef651377387bd4647059ffbb9b718a4ba3bcb8e568ce28d5256ae",
+        "component/audit.json": "d8b0db5fa733f5778d701d14b84f6d014d805c53918b0640bf9cbdaa00bbf996",
+        "component/bundle.bin": "7c6c6331f8a41b5131d1201cdaf68b330bf625c0c8ad086640faf90426185a26",
+        "component/frame80.png": "9356848679a1468dc079b6337e2ef698826b6273b0d5b0d4ea8f8e9b6251cc7a",
+        "component/frame80.ss9": "6b4110480bf7f9c945d010e84d9259ac2aa6a904a99fdf7aa7b14dad8ab3b71c",
+        "component/guard.json": "d2b7331951ac5016bd8e05f07cc7370cc0b2e7740a167e8d610dd0115ef88716",
+        "component/outer-guard.json": "869ae74699653ae70acff1ac92566999c855938ba4e7bcc4f146b1479b5c6753",
+        "component/sentinel.json": "d8b0db5fa733f5778d701d14b84f6d014d805c53918b0640bf9cbdaa00bbf996",
+        "palette/audit.json": "42ae4d80dd956097c2b1135d8308bc455226de9d630905c26ddb6263f32074c5",
+        "palette/bundle.bin": "9c40959228c19ea0bc32a2846b1986e05e944d76c34e7c23c4a576833e2b44bc",
+        "palette/frame80.png": "2a3d2f0e885abb4f1ec9bef968a8dad024034e0c9b2081567aa5dde91d975e37",
+        "palette/frame80.ss9": "8b537ed650f323b1be6fcdadc7c75ad73030e207197aa2d9e399825230cd5da6",
+        "palette/guard.json": "788dd4d814a463e506c89941549b1ca67376733d66d2560614d87d562fee3d31",
+        "palette/outer-guard.json": "777948c750b4055b2c92f413f2ff8bfcf1845ee4982ff934901a83fc3587affa",
+        "palette/sentinel.json": "42ae4d80dd956097c2b1135d8308bc455226de9d630905c26ddb6263f32074c5",
+        "runtime-evidence.json": "88afd86c541bc9e98508501d46ea3383983ff24897cc96f731bb60af24c06ab8",
+        "timeline/audit.json": "1e81978df24fa7f34fd73247a66366002f5d57c716c952e2ffd98f52b7cffd69",
+        "timeline/bundle.bin": "1ec398095b78fa0d3d7a8e953bc93db71555b1e0e67004a49c7d186f60634603",
+        "timeline/frame80.png": "087dc1463e31c6db33b721a97b88dc41d08e233b0f7ad7ca25746648af44988b",
+        "timeline/frame80.ss9": "caf6f6b8d9cba2fd5f1aa657fc880a7bf5d772dfca2c9ceb63f1ad430a4ea8ce",
+        "timeline/guard.json": "b8dbceb9d0031e950661e9407c45b949acdc7c3d34900a9cd548ba064a5af5bb",
+        "timeline/outer-guard.json": "3a9ccfce706d10de8940efdf74eb51f9b5f67ab8e6b402ef65922de6b08d58f9",
+        "timeline/sentinel.json": "1e81978df24fa7f34fd73247a66366002f5d57c716c952e2ffd98f52b7cffd69"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/character-battle-visual-resource-matrix-v1/manifest.json",
+      "manifest_sha256": "41baf4a2f087723e1d51de2629e1065958bd1d7ddd655f3157dbb0de41966fdb",
+      "scope": {
+        "all_250_resources_runtime_verified": false,
+        "all_character_slots_runtime_verified": false,
+        "camera_blend_transform_verified": false,
+        "full_animation_timing_verified": false,
+        "natural_entry": true,
+        "physical_gba_verified": false,
+        "resource_0_component_geometry_pixel_ab": true,
+        "resource_0_palette_pixel_ab": true,
+        "resource_0_relocated_bundle_route_verified": true,
+        "resource_0_timeline_frame_selection_pixel_ab": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_character_battle_visual_resource_matrix_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/character-battle-visual-resource-matrix-v1"
+        ],
+        "exit_code": 0,
+        "result": {
+          "errors": [],
+          "memory_differences": {
+            "component": {
+              "OAM": [
+                2
+              ]
+            },
+            "palette": {
+              "PRAM": [
+                514
+              ]
+            },
+            "timeline": {
+              "VRAM": [
+                65695,
+                65702,
+                65705,
+                65706,
+                65707,
+                65709,
+                65710,
+                65711,
+                65712,
+                65713,
+                65714,
+                65715,
+                65716,
+                65717,
+                65718,
+                65719,
+                65720,
+                65721,
+                65722,
+                65723,
+                65724,
+                65725,
+                65727,
+                65732,
+                65736,
+                65738,
+                65740,
+                65741,
+                65742,
+                65744,
+                65745,
+                65746,
+                65748,
+                65749,
+                65750,
+                65753,
+                65754,
+                65755,
+                65758,
+                65759,
+                65784,
+                65794,
+                65795,
+                65799,
+                65803,
+                65811,
+                65815,
+                65824,
+                65825,
+                65828,
+                65830,
+                65832,
+                65833,
+                65834,
+                65835,
+                65836,
+                65837,
+                65838,
+                65839,
+                65840,
+                65841,
+                65842,
+                65843,
+                65844,
+                65845,
+                65846,
+                65847,
+                65848,
+                65849,
+                65850,
+                65851,
+                65852,
+                65853,
+                65854,
+                65862,
+                65863,
+                65868,
+                65871,
+                65872,
+                65874,
+                65875,
+                65876,
+                65877,
+                65878,
+                65879,
+                65880,
+                65882,
+                65883,
+                65884,
+                65885,
+                65886,
+                65887,
+                65892,
+                65900,
+                65904,
+                65908,
+                65923,
+                65927,
+                65931,
+                65952,
+                65953,
+                65955,
+                65956,
+                65957,
+                65958,
+                65959,
+                65960,
+                65961,
+                65962,
+                65963,
+                65964,
+                65965,
+                65966,
+                65967,
+                65968,
+                65969,
+                65970,
+                65971,
+                65973,
+                65975,
+                65976,
+                65977,
+                65978,
+                65979,
+                65981,
+                65982,
+                65983,
+                65984,
+                65985,
+                65986,
+                65987,
+                65988,
+                65989,
+                65990,
+                65991,
+                65992,
+                65993,
+                65994,
+                65996,
+                65997,
+                65998,
+                65999,
+                66000,
+                66001,
+                66002,
+                66003,
+                66004,
+                66005,
+                66006,
+                66007,
+                66008,
+                66009,
+                66010,
+                66012,
+                66013,
+                66015,
+                66032,
+                66036,
+                66040,
+                66041,
+                66044,
+                66045,
+                66063,
+                66067,
+                66070,
+                66071,
+                66074,
+                66075,
+                66079,
+                66080,
+                66081,
+                66082,
+                66083,
+                66085,
+                66086,
+                66088,
+                66089,
+                66090,
+                66092,
+                66093,
+                66094,
+                66095,
+                66096,
+                66097,
+                66098,
+                66099,
+                66100,
+                66101,
+                66102,
+                66103,
+                66104,
+                66105,
+                66106,
+                66107,
+                66108,
+                66109,
+                66111,
+                66112,
+                66113,
+                66114,
+                66117,
+                66118,
+                66119,
+                66121,
+                66122,
+                66124,
+                66125,
+                66126,
+                66128,
+                66129,
+                66130,
+                66132,
+                66133,
+                66134,
+                66135,
+                66136,
+                66137,
+                66138,
+                66140,
+                66144,
+                66145,
+                66149,
+                66150,
+                66152,
+                66153,
+                66154,
+                66156,
+                66157,
+                66158,
+                66160,
+                66161,
+                66162,
+                66164,
+                66165,
+                66166,
+                66168,
+                66169,
+                66170,
+                66173,
+                66174,
+                66179,
+                66183,
+                66186,
+                66187,
+                66191,
+                66194,
+                66195,
+                66197,
+                66198,
+                66199,
+                66201,
+                66202,
+                66203,
+                66205,
+                66206,
+                66207,
+                66208,
+                66209,
+                66211,
+                66212,
+                66213,
+                66214,
+                66215,
+                66216,
+                66218,
+                66219,
+                66220,
+                66221,
+                66223,
+                66224,
+                66225,
+                66226,
+                66227,
+                66228,
+                66229,
+                66230,
+                66231,
+                66232,
+                66235,
+                66236,
+                66238,
+                66239,
+                66240,
+                66242,
+                66246,
+                66247,
+                66248,
+                66250,
+                66251,
+                66252,
+                66253,
+                66254,
+                66256,
+                66259,
+                66260,
+                66262,
+                66263,
+                66264,
+                66266,
+                66267,
+                66268,
+                66271,
+                66277,
+                66280,
+                66281,
+                66284,
+                66285,
+                66288,
+                66289,
+                66292,
+                66293,
+                66296,
+                66297,
+                66305,
+                66306,
+                66307,
+                66310,
+                66311,
+                66315,
+                66319,
+                66323,
+                66327,
+                66330,
+                66331,
+                66334,
+                66335,
+                66336,
+                66338,
+                66341,
+                66342,
+                66343,
+                66344,
+                66345,
+                66346,
+                66347,
+                66348,
+                66350,
+                66351,
+                66353,
+                66354,
+                66355,
+                66356,
+                66357,
+                66358,
+                66360,
+                66361,
+                66362,
+                66366,
+                66367,
+                66368,
+                66371,
+                66372,
+                66373,
+                66374,
+                66375,
+                66376,
+                66377,
+                66378,
+                66379,
+                66380,
+                66381,
+                66382,
+                66384,
+                66385,
+                66386,
+                66388,
+                66389,
+                66390,
+                66391,
+                66394,
+                66395,
+                66398,
+                66399,
+                66400,
+                66401,
+                66402,
+                66404,
+                66409,
+                66413,
+                66414,
+                66420,
+                66421,
+                66424,
+                66425,
+                66428,
+                66435,
+                66439,
+                66464,
+                66465,
+                66466,
+                66467,
+                66468,
+                66469,
+                66470
+              ]
+            }
+          },
+          "pixel_change_counts": {
+            "component": 634,
+            "palette": 268,
+            "timeline": 616
+          },
+          "selected_frame_ids": {
+            "baseline": 3,
+            "component": 3,
+            "palette": 3,
+            "timeline": 4
+          },
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "character-runtime-oam-bindings-v1",
+      "file_count": 1,
+      "files": {
+        "bindings.json": "d13782ef403d49c32668c6692c67f826df518dee3619e9cebdae21d94bd86ddf"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/character-runtime-oam-bindings-v1/manifest.json",
+      "manifest_sha256": "98d84e6ce9a75b9d47be3efc4e1d7a14924729b3605dfde6b65d4b370f3fdce6",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_character_runtime_oam_bindings.py",
+          "--root",
+          ".",
+          "--bindings",
+          "artifacts/character-runtime-oam-bindings-v1/bindings.json"
+        ],
+        "exit_code": 0,
+        "result": {
+          "checkpoints": 91,
+          "errors": [],
+          "matches": 222,
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "character-runtime-oam-task-bindings-v1",
+      "file_count": 1,
+      "files": {
+        "bindings.json": "8930a32d0b72c5ea61b2cf66f1493fcac25fd98a8d75f4ddb488013bcc53771a"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/character-runtime-oam-task-bindings-v1/manifest.json",
+      "manifest_sha256": "df2fc83e3322c0584c9410f6b23c798e6dfd400f6a21377552395756152cddfc",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_character_runtime_oam_task_bindings.py",
+          "--root",
+          ".",
+          "--bindings",
+          "artifacts/character-runtime-oam-task-bindings-v1/bindings.json"
+        ],
+        "exit_code": 0,
+        "report": {
+          "binding_count": 53,
+          "checkpoint_count": 91,
+          "errors": [],
+          "schema": "character-runtime-oam-task-bindings-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "7d63146f71d7870ebcc6e052bea924d99966f917f46d2351606a8e71edb29512"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "initializer-resource-pack-v1",
+      "file_count": 11,
+      "files": {
+        "bg-graphics-atlas.png": "7ab70fd7361a212dd34459681907dbd3591caba6279a0d905122ec427cbf0d85",
+        "bg-graphics.bin": "d2338ea2e8d155029010b4dfac8f72e01e73a74e9ccccc8998f62ec0ba81909e",
+        "bg-graphics.lz77.bin": "65ec75afff379ad740b3e0e4d73b5c9b6d51289c1dbb0ea80264a93a09166103",
+        "bg-palette.bin": "f20fc5a725aba48ad552db95ec211c78b1bef25732c8978324a6bf72e64d72e5",
+        "bg-palette.lz77.bin": "4c657dea384298a2607427dddbf49e58dc0b70579617e7b64f56497e33eb2f49",
+        "initializer-resource-pack.json": "c096e70c033f804548446272c47d43bfefa72eed173841e152c630c5436efba8",
+        "obj-graphics-atlas.png": "6ccbd8d854fe8f0abc709213a87dbeaf9c5f1f5d665cff238c6bf9ccb7e8f516",
+        "obj-graphics.bin": "be06481834463afa0226757f897601ef07291106257bc716ef42bf4572df1848",
+        "obj-graphics.lz77.bin": "9ad033484a1970f11f0ed37df58c894f7a093505ecb6b12ff364a787e4cb539b",
+        "obj-palette.bin": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+        "obj-palette.lz77.bin": "cf94ad002a6878cb393843f9a6dcbe63ef05fbe514f0280f85c42ac8a25af7e1"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/initializer-resource-pack-v1/manifest.json",
+      "manifest_sha256": "8fc7c3ea449b480c5065a97e70d0f6c5c0fa30a0dc3f942931f6be86264337a4",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_initializer_resource_pack.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/initializer-resource-pack-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "errors": [],
+          "nonfont_cell_count": 59611,
+          "resource_count": 4,
+          "runtime_layer_count": 61,
+          "schema": "initializer-resource-pack-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "ad86214120aaa37ebb1996897b5cc8dbb0105028e1f957c01a05e978ee6c1cd2"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "lz77-palette-runtime-v1",
+      "file_count": 25,
+      "files": {
+        "evidence.json": "d73fa7147eb7aa0b6a221cca73182d763c6321c70121067625368705f0b50967",
+        "inputs/profile-title-menu.png": "0e7201205e49e92eaf3982a36a2067f6533faaf293dca7201ee8134aef893802",
+        "inputs/profile-title-menu.ss9": "a74490563f98da0b2edae484a858a433f292af9475dce7126db6bec742d7aa6f",
+        "inputs/scenario-41-target-select-tutorial-dismissed.png": "86d569b47a722412e71c54053d8c106dacc0391598ea5fbf50b790127abe1b23",
+        "inputs/scenario-41-target-select-tutorial-dismissed.ss9": "db2f1306f71c494876643ea252844b827d521343941bafe9bd764071065c5555",
+        "runs/profile-browser-init/audit.json": "0b3b708a89cf09df1ac1d6a1bc1cbfa6d0abc9c7eddb7bb18641d509e1ab1c90",
+        "runs/profile-browser-init/final.png": "a254af3ebb72320bb55405c978a08b8f5465ff0f3184dd2767b69c70dd841e48",
+        "runs/profile-browser-init/final.ss9": "8f83646de3903113cc86eaf297b3b33feceeb0766552b8566d8345d4a32e3080",
+        "runs/profile-browser-init/guard.json": "2e572e27a6e8961e7392439f6612ed33889ef2b6cd4db9b3ab9ff0f4b54aede1",
+        "runs/profile-browser-init/hit.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+        "runs/profile-browser-init/hit.ss9": "ad2d215c2054e694d67fdd40e22c0aff99fe930466126a2823129ab34e33570c",
+        "runs/profile-browser-init/oam.bin": "0950c045b2cf0af0e2e4c7a46784a453bb149a76e897e3b3bd23cf0c0c647b10",
+        "runs/profile-browser-init/pram.bin": "725c3d5569b632a736d4285ddd6ccef4b1057367219fa32466f01de7e8befc69",
+        "runs/profile-browser-init/shadow-oam.bin": "0950c045b2cf0af0e2e4c7a46784a453bb149a76e897e3b3bd23cf0c0c647b10",
+        "runs/profile-browser-init/vram.bin": "c74d4855352eca1fcedbcca05ea84c57ec13ebee6c480253ffd672245b13c0ac",
+        "runs/scenario-41-target-confirmation/audit.json": "b075af46c2033de3707c3a679421611a3b0d4457dcd3aae28054503d5d758445",
+        "runs/scenario-41-target-confirmation/final.png": "9b423cb12b61bfa567b23ac950593d076be55996cdfb7955c73387b8debfcb40",
+        "runs/scenario-41-target-confirmation/final.ss9": "47f0e04220adf1b7dd321ada0c21618efa87463ebd39461f546e88f9b45c8313",
+        "runs/scenario-41-target-confirmation/guard.json": "08d0f68533a1b9ab1b32860b0397b7ca7da3d7c94f38f682de08c77ba19d43ae",
+        "runs/scenario-41-target-confirmation/hit.png": "1773ae0732127667203bb5e11e86819299a2d18ae7c6a46de1b357c890bbf5a4",
+        "runs/scenario-41-target-confirmation/hit.ss9": "f186989548e1e46ae09935d295c397745e17ca0ad212020ce6c7ce7f69ad655c",
+        "runs/scenario-41-target-confirmation/oam.bin": "aa463117d5dd0e28cb8e8386e1adb0e9abb546b174a800c44d39393ca6974daa",
+        "runs/scenario-41-target-confirmation/pram.bin": "2cd55ff18efd5a29236842c6fa15f9b89d358f847ef34969ed881ea80cae8d8e",
+        "runs/scenario-41-target-confirmation/shadow-oam.bin": "aa463117d5dd0e28cb8e8386e1adb0e9abb546b174a800c44d39393ca6974daa",
+        "runs/scenario-41-target-confirmation/vram.bin": "195be8a313caf2c03d835b6bc605b4633a8fc5d468577668632b114729c05b37"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/lz77-palette-runtime-v1/manifest.json",
+      "manifest_sha256": "d363310303d8b51d0cc6f64014489297071882859c547694b3db91f7c11c52bf",
+      "scope": {
+        "candidate_palette_bytes_uniquely_located_in_rom": true,
+        "exact_payload_at_hit_verified": true,
+        "generic_image_writeback_complete": false,
+        "hardware_and_shadow_oam_watched_for_240_post_hit_frames": true,
+        "natural_load_boundaries_runtime_verified": true,
+        "palette_binding_promoted": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_lz77_palette_runtime.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/lz77-palette-runtime-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "map41-visual-resource-matrix-v1",
+      "file_count": 22,
+      "files": {
+        "baseline/audit.json": "ab5d07bbe72ecefe0a5e31124dd776888f205f35c85d910ddbd2207a5f89a973",
+        "baseline/frame80.png": "b01457740fae63310e60b2bd14099dd4e8e5e1a20b051c8f69937fdf751707de",
+        "baseline/frame80.ss9": "87b7a7fcdff1c3650a2b2e9d41a0d422c8a6f88bf15778543ed89692569f6f4b",
+        "baseline/guard.json": "d04ee6736b195b7fa9462b2af846550238fcd798472a1022b2e6594f9672d6b4",
+        "baseline/sentinel.json": "ab5d07bbe72ecefe0a5e31124dd776888f205f35c85d910ddbd2207a5f89a973",
+        "bg_palette/audit.json": "932189a6163e99ec9f53ad6707f41e67690dc3f6aead53d788f880691ed283b1",
+        "bg_palette/frame80.png": "ae3ac3726d89070deb8f1076cd4ad6968306c7bb2463a27679c11b1a06336999",
+        "bg_palette/frame80.ss9": "3f49ef09670e9eee74502a8e93a9da8410a5d0feb2b8545470d70063dcceae07",
+        "bg_palette/guard.json": "25300f5596b3c70400a87860a67ef5da3ef9863b241b556ede7a05841fceb7b7",
+        "bg_palette/sentinel.json": "932189a6163e99ec9f53ad6707f41e67690dc3f6aead53d788f880691ed283b1",
+        "build-manifest.json": "eacb05f101962b1e2082e06282657c3060b5fb5c6d588c5c78cadee7bd493bab",
+        "metatile_definitions/audit.json": "1812a42627e696026594210739dcb942aecba1f9bd8f585d14fec064beabe731",
+        "metatile_definitions/frame80.png": "1726b29b39de32fef97567f9e76a72f4c43208ef4d8ac5e06a41789cf14a5134",
+        "metatile_definitions/frame80.ss9": "4cbe170d04a0f45143d82648ff0a79eb96cade0d8313baed0e402c54e6350e22",
+        "metatile_definitions/guard.json": "632cff2ce7a44ef5fa65565e6cbd5a295872ebd73520848ec2a97ddc9ccedac0",
+        "metatile_definitions/sentinel.json": "1812a42627e696026594210739dcb942aecba1f9bd8f585d14fec064beabe731",
+        "runtime-evidence.json": "30305ea29d9b1caf26c0ac92eaf53603d537b9f4ca55dfd602d7486e5b460a26",
+        "tile_graphics/audit.json": "0d8ec3f7539286e80abdc764e98c517153682cf7735fe77c9f1f20155869a0c6",
+        "tile_graphics/frame80.png": "c0bf9c1ac65fa3c701d3e11cae599f21d95a36a8afc6b0aeed7cae16e5297378",
+        "tile_graphics/frame80.ss9": "8946e574d4494919aae7bbb17d071d84b54319d00225ba561377df7fe0ddc9ff",
+        "tile_graphics/guard.json": "a0f9030d77af27066dde203c36639101729b630b9d157ed86f11368c1630040e",
+        "tile_graphics/sentinel.json": "0d8ec3f7539286e80abdc764e98c517153682cf7735fe77c9f1f20155869a0c6"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/map41-visual-resource-matrix-v1/manifest.json",
+      "manifest_sha256": "196aa07481b9aeb75ebae59de9214bc8893eb9bc913e29f9441897cd7590ec42",
+      "scope": {
+        "all_maps_all_resources": false,
+        "collision_gameplay": false,
+        "map41_bg_palette_pixel_ab": true,
+        "map41_metatile_definitions_pixel_ab": true,
+        "map41_tile_graphics_pixel_ab": true,
+        "natural_entry": true,
+        "physical_gba_verified": false,
+        "preserved_aliases": true,
+        "shared_patch_topology": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_map41_visual_resource_matrix_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/map41-visual-resource-matrix-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "portrait-palette-producers-v1",
+      "file_count": 19,
+      "files": {
+        "portrait-palette-producers.json": "ba48a33158343bc775ed5014c1e52d85a66495b2a0f1ce0bc7022c10d221dcd1",
+        "raw/control/audit.json": "1ad5c8dfc65e203586d3e4f189d0cec50b289cadf1403126667256a09bb1da85",
+        "raw/control/guard.json": "0341888deedcbe6ee1df81e86dd75dbf3d014faf38423ef4728eb91db6d42c78",
+        "raw/control/scratch.bin": "8c87fe73b486bbdf888660f7d15528d7c70e8b1cfbfcf0d5460b4037b6ce17e1",
+        "raw/control/startup.json": "abcd26ff4d7160a7c71497e9bd5039d98a2784de6d77f377e655a10cde04025d",
+        "raw/control/timeout.png": "ddda820a1d370d51afa603b746adc030c1ca5ca929b7c59045386b5e06110ac2",
+        "raw/control/timeout.ss9": "7f9798f7ee69b11d96d78962e40cdf911cfdf37d98943b23141fd18bb4884ec5",
+        "raw/control/trace.json": "c6ddff782c4b43a5f363b9bd96a4dba51cdc8b6f0a55342ea6f56b2f874f3d2b",
+        "raw/control/writes.json": "9bf17f599949d424e4e7135a3bb7b8050a3c7e51596a518d41ffc0ae1a47aaa2",
+        "raw/input/mode0-cursor.ss9": "69c1d96d4077b67f1b7594f234191b6f6a0956db53a1f62b4bf4ca635df11805",
+        "raw/positive/audit.json": "6cd235cb1df68721d7551c3ded4b196978174ce8302527eb6b88cb257c8191e9",
+        "raw/positive/guard.json": "3963011487d4309e4cad5dd4f63d4c9bdab278dcd547ea3724eebc8564e2bab6",
+        "raw/positive/hit.png": "d174a6a96b061763ef1d1d7613f02731efdcaaddf3b8675fc8843da3e789ed2f",
+        "raw/positive/hit.ss9": "87ab930f3f012f792d2abd4968676d034b44112b3c56ff2ed8c8c2dfe86cfc6f",
+        "raw/positive/portrait-state.bin": "9e3da62abda6b92f66eae6ee87482efdba4a8e7f32bfbe59a31ded672462c7b7",
+        "raw/positive/scratch.bin": "4dc290d7b33dd76b5b123533b0c3959b86fee8ea95f7b4863385be109743d084",
+        "raw/positive/startup.json": "b087ec6a1c5478f4478faabf3ad4eaa19b37c20779c346eb721f497bf3aeb8bb",
+        "raw/positive/trace.json": "480b96993199c1a2b2dcafbf1f190cf15bd1d87ce05d0d0862a0342b6136baff",
+        "raw/positive/writes.json": "5f8fcd17ad0f57804f5c691782372692d9057a97941c0939e6ba0241cb00753d"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/portrait-palette-producers-v1/manifest.json",
+      "manifest_sha256": "5714056ed70d0510727d7b612bc89e90b7d0159c68e9a743c6af4815a0ebd361",
+      "scope": {
+        "all_portrait_palette_runtime_paths_complete": false,
+        "all_scratch_02002880_producers_complete": false,
+        "chapter_opcode_17_mode_denominator_complete": true,
+        "dim_transform_runtime_complete": false,
+        "dim_transform_static_complete": true,
+        "generic_palette_writeback_complete": false,
+        "mode_0_fill_runtime_complete": true,
+        "mode_0_fill_static_complete": true,
+        "mode_0_zero_input_control_complete": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_portrait_palette_producers.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/portrait-palette-producers-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "errors": [],
+          "opcode_17_records": 161,
+          "schema": "portrait-palette-producers-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "79163d5466ea1495189b40064485c5062878ec2ce3a7315442be43a4ce6623d4"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "residual-text-bg-tilemap-resource-ownership-v1",
+      "file_count": 1,
+      "files": {
+        "resource-ownership.json": "95c4baf0febd70151d68c08d276bb694daa1f544035466f9b078f73e538d8741"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-text-bg-tilemap-resource-ownership-v1/manifest.json",
+      "manifest_sha256": "a4db6c9ecfb5bf1d4a408630900a1d6b061f0a04aa30191479522904a71b8ccc",
+      "scope": {
+        "bg_control_ownership_complete": true,
+        "exact_natural_language_screen_identity_complete": false,
+        "final_screen_pixel_and_timing_equivalence_complete": false,
+        "graphics_and_palette_ownership_complete": true,
+        "remaining_screenblock_rows_complete": false,
+        "runtime_order_against_vram_reusers_complete": false,
+        "runtime_reachability_complete": false,
+        "static_natural_caller_chain_complete": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_text_bg_tilemap_resource_ownership.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-text-bg-tilemap-resource-ownership-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "residual-wram-crop-tilemap-runtime-v1",
+      "file_count": 11,
+      "files": {
+        "audit.json": "c363f3710d2e1cae274f28eb93de4788376b95a8e435cf003cb3f2213c7f5c5b",
+        "crop-consumer.ss9": "df68206aeaf2b1b818af4fe57be8ddf847e4c1bd79f3f737ed50bb5e5b2fea4a",
+        "crop-load.ss9": "73842f7222e9f29a81c44aa37af66775f8cdd3be85d35ea6b3151ed5a2ac78ee",
+        "done.json": "c363f3710d2e1cae274f28eb93de4788376b95a8e435cf003cb3f2213c7f5c5b",
+        "final.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+        "final.ss9": "370547490831eee5fe578a933a1fa7c0cac744fcbb9f2e4eb93bddfaed220ed2",
+        "guard.json": "b1677143406ceb92c658b7c2b194f500ab7a9302f8705829df3157b1cec5a8e8",
+        "runtime-evidence.json": "04813063491aaf5acd20f8930f042d013a97fb2e753b5093cada477096fc774c",
+        "vram-at-consumer.bin": "688c884f16c460ade320f15957f1ac265dd1a6bbd1c90ae245f56a21dc817e14",
+        "vram-final.bin": "599f71c8d40cbcb3308eae97a1a5ea72aee682d83e52eca6627a1d1cbc831b4a",
+        "wram-at-consumer.bin": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-crop-tilemap-runtime-v1/manifest.json",
+      "manifest_sha256": "9580db8094ea06cd249b22307c440aea46a01ec141df2d7418d2ec890598341e",
+      "scope": {
+        "crop_consumer_entry_verified": true,
+        "exclusive_writer_causality_verified": false,
+        "final_vram_crop_equals_rom_source_verified": true,
+        "modified_rom_pixel_equivalence_verified": false,
+        "natural_base_rom_reachability_verified": true,
+        "zero_input_checkpoint_continuation_verified": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_crop_tilemap_runtime_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-crop-tilemap-runtime-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "residual-wram-tilemap-abi-v1",
+      "file_count": 2,
+      "files": {
+        "residual-wram-tilemap-abi.json": "07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc",
+        "tilemaps.bin": "add4a6bfbf3bce1fe800a9e6954e862e939f1d70bcb85f95b652c799e5f17f24"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-tilemap-abi-v1/manifest.json",
+      "manifest_sha256": "8f74053ffda705e0a1aac0c761bd561905afbb03d5203745ce6c54910a222412",
+      "scope": {
+        "all_pointer_reachable_wram_visual_metadata_enumerated": true,
+        "direct_local_lz77_to_strided_queue_routes_complete": true,
+        "final_screen_pixel_and_timing_equivalence_complete": false,
+        "generic_wram_visual_metadata_writeback_complete": false,
+        "natural_language_screen_identity_complete": false,
+        "remaining_four_wram_payload_abis_complete": false,
+        "runtime_reachability_complete": false,
+        "three_tilemap_payload_shapes_and_gpu_destinations_proved": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_tilemap_abi.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-tilemap-abi-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "residual-wram-tilemap-resource-ownership-v1",
+      "file_count": 1,
+      "files": {
+        "resource-ownership.json": "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-tilemap-resource-ownership-v1/manifest.json",
+      "manifest_sha256": "57e04df8c14ac9ee0b34a5102e42b1d9761e168343e3671b8e396fe938123ab5",
+      "scope": {
+        "bg_control_ownership_complete": true,
+        "exact_natural_language_menu_identity_complete": false,
+        "final_screen_pixel_and_timing_equivalence_complete": false,
+        "graphics_and_palette_ownership_complete": true,
+        "queue_slot_and_natural_flush_complete": false,
+        "runtime_reachability_complete": false,
+        "static_natural_caller_chain_complete": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_tilemap_resource_ownership.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-tilemap-resource-ownership-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "residual-wram-tilemap-runtime-v1",
+      "file_count": 10,
+      "files": {
+        "audit.json": "4d01d7eb4734265bca12fed4c89750733fb2a3359f8a80e22eb3c1dcbd959ddc",
+        "final-queue.bin": "b68e066491517dfceaa3dd27cdde79b5e0c69e9af3aef9054a48551ccb1e7398",
+        "final.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+        "final.ss9": "fbfd4b5aa0ceda8e239ae0d965c05429e1edc64e9bd7dfba9567f968460348ff",
+        "guard.json": "54f4085ff2ed6b3307d7125c8ef97b5e5f09edd689ce548dee86e3e5cd17a5b7",
+        "hit.ss9": "b946057c5de600c5d856031ea93119718e6bb14aaffdf086ac61a4b68b18a768",
+        "queue-at-consumer.bin": "409038a84b409a60554f83cf8d244e0bccfd7eb199b27b450ec24da83602f687",
+        "runtime-evidence.json": "cf2ccff3159ac28a4300f94fcf40498c805de8351ba0b180a840648025470e62",
+        "vram-at-consumer.bin": "62ed48913082503bc7caf73f2a881e2fc036fe6d6d1fabd7e6c8533781fe9935",
+        "vram-final.bin": "d4aafaeae376abea0a3726fd8f02c77d3e62fca6ec26d5750f4fe7ec93161105"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-tilemap-runtime-v1/manifest.json",
+      "manifest_sha256": "1cde045d1fb0e06028760371514cfe2ac47e1623e1d9605a00489e763a460f5f",
+      "scope": {
+        "exact_natural_language_identity_verified": false,
+        "exclusive_writer_causality_verified": false,
+        "final_vram_rows_equal_rom_tilemap": true,
+        "modified_rom_pixel_equivalence_verified": false,
+        "natural_base_rom_reachability_verified": true,
+        "natural_queue_consumer_flush_verified": true,
+        "other_two_direct_queue_sources_runtime_verified": false,
+        "post_consumer_queue_retirement_verified": true,
+        "queue_slot_status3_verified": true,
+        "zero_input_checkpoint_continuation_verified": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_tilemap_runtime_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-tilemap-runtime-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "residual-wram-tilemap-runtime-v2",
+      "file_count": 14,
+      "files": {
+        "bridge-audit.json": "1d8b8a1b2c4396967d841015fd09603857b86ed7ea495a3a6d7fba9abbd63c04",
+        "bridge-done.json": "1d8b8a1b2c4396967d841015fd09603857b86ed7ea495a3a6d7fba9abbd63c04",
+        "bridge-guard.json": "b7b152d6c8302b642093380ddcc68745e4584864e53c0b61d2cf2ef30b35d7f3",
+        "final-queue.bin": "2299b783127b333297a56823ad651b93c6b986acdf355f2f8555a722f69bac77",
+        "final.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+        "final.ss9": "2edda36267e671e7ed07d2d58d6e974381d7dea2cd9df2ae2b538c56a356edcc",
+        "queue-at-consumer.bin": "5c885f8b7eed3cf80e9d6873a6f1464bc979f1afc59d457897a41d7d758c6ffb",
+        "runtime-evidence.json": "38698c15b03141659fe83359106454bc2157befce2bdcfd3cd4881f6f1cec617",
+        "scene-panel-setup.ss9": "6fed9fe8db43646a5a5a53901a5f0edf1c743ba5e682fd842d3fd19b12776000",
+        "vram-at-consumer.bin": "15f7bfb95822aa550520bc9c5945ff41b0d54c496d5f253f00aa8a02f79691eb",
+        "vram-final.bin": "599f71c8d40cbcb3308eae97a1a5ea72aee682d83e52eca6627a1d1cbc831b4a",
+        "zero-audit.json": "340de74d5d2f151cdc1086ab07e1caf2c35c689d544a05a4e2b420857e16c2fd",
+        "zero-done.json": "340de74d5d2f151cdc1086ab07e1caf2c35c689d544a05a4e2b420857e16c2fd",
+        "zero-guard.json": "0f7fe5e642ad8fb5667bef6f86b077651679716ca940d12ad0ad9c26f4f5197c"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-tilemap-runtime-v2/manifest.json",
+      "manifest_sha256": "73eb055798b1c93a59d9fc6c9bab16525933d2ea9ccfab066fe4b70b6d65d1f7",
+      "scope": {
+        "all_direct_queue_sources_runtime_verified": true,
+        "exact_natural_language_identity_verified": false,
+        "exclusive_writer_causality_verified": false,
+        "final_vram_rows_equal_rom_tilemaps": true,
+        "modified_rom_pixel_equivalence_verified": false,
+        "natural_base_rom_reachability_verified": true,
+        "queue_status_transition_3_to_2_verified": true,
+        "single_input_bridge_verified": true,
+        "zero_input_checkpoint_continuation_verified": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_tilemap_runtime_v2.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-tilemap-runtime-v2"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "residual-wram-transformed-tilemap-runtime-v1",
+      "file_count": 62,
+      "files": {
+        "entry/choice-screen-entry.ss9": "1fefd560c5a97ba3a15b1f330cfee5aeaba5017da46e01fb5695906412da6027",
+        "entry/choice-state3.ss9": "dc5a1c1847600bd9719f6e6f4dbfa6237110426f0f942cb74568cdfefd6c0864",
+        "entry/state3-audit.json": "a59d888a6818389df927146c3daa68ddbabc14502ddb0a68612f471dc08361e8",
+        "entry/state3-done.marker": "a59d888a6818389df927146c3daa68ddbabc14502ddb0a68612f471dc08361e8",
+        "entry/state3-guard.json": "679c04cc987c9f80a6c76e597f33db725c917feaae91aca0bcbb05f22eabcffa",
+        "entry/unlock-audit.json": "e4e0c767d0ccfd02d8a6c22ea752afd90b9163845538acd6299626dd294084b5",
+        "entry/unlock-done.marker": "e4e0c767d0ccfd02d8a6c22ea752afd90b9163845538acd6299626dd294084b5",
+        "entry/unlock-guard.json": "f1c8500e8275dd6b5d9ffd0225d2012c1e7db6100c973d420913b6b6775be781",
+        "entry/unlock-parent.ss9": "78db5e103f5fc471bad2d7cb8628b3964d46791ccbf733266c0754d497dfd2bc",
+        "runs/phase-a/audit.json": "9b23b26b149079dedaee2c3f98a90cb5e9ec10a6aec12b8a444f8d160b64daba",
+        "runs/phase-a/done.marker": "9b23b26b149079dedaee2c3f98a90cb5e9ec10a6aec12b8a444f8d160b64daba",
+        "runs/phase-a/final.png": "6db489afd147af953f957d08c9397e361b844d89f3035e6f14a2e8abb5774794",
+        "runs/phase-a/final.ss9": "48f19ab91c3f5b1240cd14970a37a74b3edf1921f76552651e8d74e8417af100",
+        "runs/phase-a/guard.json": "8a7dcadeaa10ded6ec0e8b319b44f72cb1ef9508454b94d4456388d9ab850a89",
+        "runs/phase-b/audit.json": "529a21448ba78738d28dddf85133301cc1d01fcf84088b2b21f4a701fb095624",
+        "runs/phase-b/done.marker": "529a21448ba78738d28dddf85133301cc1d01fcf84088b2b21f4a701fb095624",
+        "runs/phase-b/final.png": "7241a28546e8851fc2ff4792b17d5088d4f35b803c69beb46fdd14f20b317cb6",
+        "runs/phase-b/final.ss9": "37b8f81368aebec5946e5e0968033cc9f240bdc6304e348fecd4ba1ec1331228",
+        "runs/phase-b/guard.json": "853267cfe719cb2bf67d26003c290e7b2300d109ac93bbbb8bcfdb66caad12b2",
+        "runtime-evidence.json": "69a8b97955f0218ce5dc00e2a93acaf1e032ae318c69a8de6494120b8d47c7d7",
+        "sources/084634B8/load-post.ss9": "0f5959229ef11da0f7cdfffb28f1b63cf886e97023b29a3c8bf2e90b1bbfbb4b",
+        "sources/084634B8/load.ss9": "e4fb491c1225c5905cffa41bb47f8666ed71020db29fa8c9a434d66ea66050ac",
+        "sources/084634B8/output-rows.bin": "de60dc47af81209eeb06392e262f6c2d28751ddb3a4783c7ab94a47253f89217",
+        "sources/084634B8/post-vram-rows.bin": "de60dc47af81209eeb06392e262f6c2d28751ddb3a4783c7ab94a47253f89217",
+        "sources/084634B8/post-vram.bin": "2b70808efbf305a36ff4eb3e53282fb12c96719368b09c9f9546039214833a56",
+        "sources/084634B8/pre-vram-rows.bin": "4d94b43a846816411322b9d036c160c6a4d85d515cd9c297fc70b50f7013c215",
+        "sources/084634B8/pre-vram.bin": "518c7b621aa89bd8b69fddd06c5ee4fc870c7b9d4cc55bb745247b94153df249",
+        "sources/084634B8/queue-post.bin": "41e32d88e4e60a2561e89a193846e59aaa67c8a684d22d2bdfdb5ebe2fef4708",
+        "sources/084634B8/queue-post.png": "7f50e347ea2e253364867bcd3631f6b62dc955474282d70d27f0750ad6c0b979",
+        "sources/084634B8/queue-post.ss9": "f5bf35fc6901962bd1f7777061609a61b15175461f46bb78c2a715fcce431deb",
+        "sources/084634B8/queue-pre.bin": "8dcbbec692e49b43157a084989662cfde5968c4a1dca6b38b2f3833773aa6ab0",
+        "sources/084634B8/queue-pre.png": "7f50e347ea2e253364867bcd3631f6b62dc955474282d70d27f0750ad6c0b979",
+        "sources/084634B8/queue-pre.ss9": "130d3187864de64e871ae204c04b2c17fae8aa2f38e72418f652512e6beff645",
+        "sources/084634B8/staging.bin": "dd3ab008ef8b1f7851c30880db3866ef23606d754ee3cc5bcb48ad9e5ea1daef",
+        "sources/0846356C/load-post.ss9": "9c048b43b8f805e53b60d18653b9a45598661c04ff16669dd370a63730c7dc3b",
+        "sources/0846356C/load.ss9": "62ee97594142efeaa8bfbb7bb9801ae70509ae73a2e5f3c35c58d159ad0cafc7",
+        "sources/0846356C/output-rows.bin": "ab16ad246f73fd99f78e3a31a5bf404b24b655144b203f2c659066648f5688d6",
+        "sources/0846356C/post-vram-rows.bin": "ab16ad246f73fd99f78e3a31a5bf404b24b655144b203f2c659066648f5688d6",
+        "sources/0846356C/post-vram.bin": "f9df42ae30128834a1791d86330f03645bf3184574c45f70d259a7a79e8da53a",
+        "sources/0846356C/pre-vram-rows.bin": "4d94b43a846816411322b9d036c160c6a4d85d515cd9c297fc70b50f7013c215",
+        "sources/0846356C/pre-vram.bin": "9846f10ed0a747b898c23b06e725e6367d6d5851cfad64321526f7f9b43e770e",
+        "sources/0846356C/queue-post.bin": "48a1724e028fe7ffa8602fe8e715c27bc81c7b304f77ece21bedc5cf80a55058",
+        "sources/0846356C/queue-post.png": "7f50e347ea2e253364867bcd3631f6b62dc955474282d70d27f0750ad6c0b979",
+        "sources/0846356C/queue-post.ss9": "19e2918b859e532dbe7639c15cbd77ffe00f56558f09f38fdc98fa0324bf9829",
+        "sources/0846356C/queue-pre.bin": "cb0412ca519d071fea9ebd6730d05a33cb4a8dda7c311bbdcc146f076b71ce91",
+        "sources/0846356C/queue-pre.png": "7f50e347ea2e253364867bcd3631f6b62dc955474282d70d27f0750ad6c0b979",
+        "sources/0846356C/queue-pre.ss9": "27e3ebe7d1930f4f0119558a72bc9e8845d94b2da1f137c0fe1d87c364e9b1b3",
+        "sources/0846356C/staging.bin": "9761b7fb5e5b2fd50784ff98b352bd246b947ab3663e12e52ccefe12206aad32",
+        "sources/084635D8/load-post.ss9": "22a917ceced94a2b0ee5c32538640f0604c70eecb6796effb881c6ac20529ccc",
+        "sources/084635D8/load.ss9": "fe664b750690538b6fe3c16f2243f10eaf84310f62f7d0fe35c58f1c3137f312",
+        "sources/084635D8/output-rows.bin": "f0b3be10528b7264373fc5efbbe80813063953bcf89e0d19242ed44ce52dbe79",
+        "sources/084635D8/post-vram-rows.bin": "f0b3be10528b7264373fc5efbbe80813063953bcf89e0d19242ed44ce52dbe79",
+        "sources/084635D8/post-vram.bin": "39b4b425832bbe73664298f49422f09edd99ff27f63df9e5f87436bae946b3e6",
+        "sources/084635D8/pre-vram-rows.bin": "f2bf3c62e818121e2ccfca1c1800c1a12ad7089b26d1337ee499e9d94488b1db",
+        "sources/084635D8/pre-vram.bin": "46aa101b650cd7c10153995d0db01d226b322d7ea20c862685da126dddd0efa3",
+        "sources/084635D8/queue-post.bin": "b66222d7a98fbaf05a7ffd98e1a8baf3de97f25b01a4fc1364e2d1ed5fcb89a4",
+        "sources/084635D8/queue-post.png": "66278416a61bd5d2720a45ba8c1c74633fda02bf9763331782b7800b611f003f",
+        "sources/084635D8/queue-post.ss9": "ffd4a2a67a52a8368ad8bd8979816042d9d8dd755d3f74b4736b491bea502003",
+        "sources/084635D8/queue-pre.bin": "79e9348a92426dc75d65acf042792f203e22f978a468f6901ff0397a22414574",
+        "sources/084635D8/queue-pre.png": "66278416a61bd5d2720a45ba8c1c74633fda02bf9763331782b7800b611f003f",
+        "sources/084635D8/queue-pre.ss9": "592fa8b2ece986f75cf6f65ae70455aa81f60ac29081c4808bc5cf176ab1785d",
+        "sources/084635D8/staging.bin": "e4184823135e047462d356aa95f690e94b9104b5e8772d58093efba251d3c640"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-transformed-tilemap-runtime-v1/manifest.json",
+      "manifest_sha256": "eee86b030e588cc5f336a09c51f036064cedd94efa7fd83b043d0e5f2db181bc",
+      "scope": {
+        "all_three_transformed_sources_runtime_verified": true,
+        "controlled_entry_base_rom_runtime_verified": true,
+        "final_screen_timing_equivalence_verified": false,
+        "modified_rom_pixel_equivalence_verified": false,
+        "natural_entry_reachability_verified": false,
+        "queue_status_3_to_2_verified": true,
+        "staging_source_identity_verified": true,
+        "strided_post_vram_equals_transformed_output_verified": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_transformed_tilemap_runtime_evidence.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-transformed-tilemap-runtime-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "residual-wram-visual-metadata-abi-v2",
+      "file_count": 2,
+      "files": {
+        "residual-wram-visual-metadata-abi.json": "4cee47ab097986d50ed0d3b3017fc4fd429037405ee247876022dfd08beac260",
+        "tilemap-sources.bin": "62ee8249d04e5b00aaf8b9ba3ef2619a766dd2c9b60109867245db4b538dee8d"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-visual-metadata-abi-v2/manifest.json",
+      "manifest_sha256": "ba1c878911f5541007bacc0092e0da852ff6f991203b834e50d461b8188ef54e",
+      "scope": {
+        "all_pointer_reachable_wram_visual_metadata_enumerated": true,
+        "all_seven_source_abis_complete": true,
+        "final_screen_pixel_and_timing_equivalence_complete": false,
+        "generic_wram_visual_metadata_writeback_complete": false,
+        "graphics_and_palette_ownership_complete": false,
+        "natural_language_screen_identity_complete": false,
+        "queue_slot_and_natural_flush_complete": false,
+        "remaining_unresolved_source_abis": false,
+        "runtime_reachability_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_residual_wram_visual_metadata_abi.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/residual-wram-visual-metadata-abi-v2"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-alternate-dialogue-table-v1",
+      "file_count": 2,
+      "files": {
+        "alternate-dialogue-table.json": "62576a9d495fb143575f1a9be43816d78806910ea3840db8305e05f4050f696e",
+        "alternate-dialogue-text.bin": "256d059e355d1a4a5af65416f40680bcb2eacdb397e1c71b6d5353522bf954a5"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-alternate-dialogue-table-v1/manifest.json",
+      "manifest_sha256": "f7ded383f1c7334d714337768867496d083a85db051a69688fea121023f121b0",
+      "scope": {},
+      "verifier": {}
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-battle-sound-selector-v1",
+      "file_count": 2,
+      "files": {
+        "battle-sound-selector.bin": "2f77582ae5eea1711b079fc8ce67d36e95ec68bf0e2bd0a3d5780eb3d9819b5d",
+        "battle-sound-selector.json": "266f76afe82de66308661d28d15da001e84a68dacef4cb59965c23d53ba76ba2"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-battle-sound-selector-v1/manifest.json",
+      "manifest_sha256": "eb30940a42f9d2c0e7ece5f18939eb4c0b1fbb06c9d51bc756ad853bc13d8807",
+      "scope": {
+        "coverage_classification_performed": false,
+        "direct_literal_consumer_denominator_complete": true,
+        "non_claims": {
+          "all_battle_audio_exhausted_claimed": false,
+          "all_direct_paths_naturally_reached_claimed": false,
+          "all_indices_naturally_reached_claimed": false,
+          "all_selector_consumers_exhausted_claimed": false,
+          "allocatable_space_claimed": false,
+          "computed_or_ram_consumers_exhausted_claimed": false,
+          "editing_safety_claimed": false,
+          "free_space_claimed": false,
+          "index_to_gameplay_semantics_claimed": false,
+          "left_neighbor_structure_claimed": false,
+          "nonzero_value_business_semantics_claimed": false,
+          "play_routine_full_behavior_claimed": false,
+          "relocation_safety_claimed": false,
+          "right_neighbor_business_relation_claimed": false,
+          "sound_playback_success_claimed": false,
+          "writeback_safety_claimed": false,
+          "zero_value_business_semantics_claimed": false
+        },
+        "physical_selector_table_complete": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_battle_sound_selector.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "build/experiments/active/battle-sound-selector/luna-r1-20260822/candidate"
+        ],
+        "exit_code": 0,
+        "receipt": {
+          "path": "guard-candidate-verify.json",
+          "sha256": "40b5c03cd51f6d0507613f4b59c70a55854094d1f1b8d304d4dbe89c3dad667c"
+        },
+        "report": {
+          "path": "candidate-verify.report.json",
+          "sha256": "5adbedfd3c22a6fb2fd22c8c0962a8c91607a33ed6d8dcbd1bcf1306c3c448e2"
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-cutscene-obj-source-ranges-v1",
+      "file_count": 2,
+      "files": {
+        "rom-cutscene-obj-source-ranges.bin": "a8a881804ae016cfad1f031ac5b080cd51bb7823416ff48c7db4ed1ed4e48d8c",
+        "rom-cutscene-obj-source-ranges.json": "6d25034640799621d9adcfb8b8f2a553757f6d9fb2988216b426d0777559a2dc"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-cutscene-obj-source-ranges-v1/manifest.json",
+      "manifest_sha256": "a0e97ec43858a145a7c26dc71c5b89dfe8c4d9a5d6074ccad88c4ae56e03afd5",
+      "scope": {
+        "all_scene_or_cutscene_sources": false,
+        "definition_unknown_field_semantics": false,
+        "editing_writeback_or_relocation_safety": false,
+        "final_pixels": false,
+        "fixed_frame_counts": [
+          2,
+          2,
+          2,
+          4
+        ],
+        "fixed_resource_ids": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "free_space": false,
+        "graphics_or_palette_expansion": false,
+        "natural_all_id_or_frame_reachability": false,
+        "source_records_and_pointer_tables_only": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_cutscene_obj_source_ranges.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "build/experiments/active/cutscene-obj-source-ranges/r5/final"
+        ],
+        "exit_code": 0,
+        "report": {
+          "artifact_schema": "rom-cutscene-obj-source-ranges-v1",
+          "bundle_sha256": "a8a881804ae016cfad1f031ac5b080cd51bb7823416ff48c7db4ed1ed4e48d8c",
+          "byte_count": 400,
+          "errors": [],
+          "range_count": 28,
+          "range_vector_sha256": "5ffcd048916c21a3cd46a7baf5421c2db7812a4c5cf0d73edd83efb9eb03ab43",
+          "schema": "rom-cutscene-obj-source-ranges-verification-v1",
+          "verified": true
+        },
+        "schema": "rom-cutscene-obj-source-ranges-verification-v1",
+        "verifier_sha256": "a1075b8885378fe2c26c1c262126ad8098bb81c171a805cb3e08ed0d8217c446"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-dialogue-text-inventory-v1",
+      "file_count": 3,
+      "files": {
+        "dialogue-text-inventory.json": "b25734be4eaed46aa199792d98e7e998389942cba914d38e2790533a558b3952",
+        "direct-nul-targets.bin": "7509a63b2f892ea9f2892ed4cc703da72457247df148a1435edbbee8b2d95569",
+        "pointer-table.bin": "5b36c67620030d5ccc8795a2a260aca604d90fad4a49f7c7cb9d4c7cdc63c73f"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-dialogue-text-inventory-v1/manifest.json",
+      "manifest_sha256": "0e8f3276ff5eac20c089299174abeac36b930fd71e368b16cc97e0cce22e4d7d",
+      "scope": {
+        "all_rows_runtime_reachability_complete": false,
+        "consumer_and_nul_protocol_bound": true,
+        "direct_target_extraction_complete": true,
+        "fixed_table_structure_complete": true,
+        "label_selector_upstream_bounds_complete": false,
+        "natural_language_decoding_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_dialogue_text_inventory.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-dialogue-text-inventory-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "direct_pointer_slot_count": 1220,
+          "direct_target_bytes": 18207,
+          "direct_target_count": 1220,
+          "duplicate_target_count": 0,
+          "errors": [],
+          "newline_count": 203,
+          "newline_target_count": 170,
+          "overlapping_target_range_count": 0,
+          "schema": "rom-dialogue-text-inventory-verification-v1",
+          "sentinel_count": 305,
+          "table_byte_count": 6100,
+          "table_row_count": 305,
+          "target_payload_bytes": 16987,
+          "unique_target_count": 1220,
+          "verified": true
+        },
+        "verifier_sha256": "ac74891c2fc7807d727aa9de7b4fcb11a2e6dc622dc769bf3cd166b8c5481377"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-direct-cpuset-gpu-inventory-v1",
+      "file_count": 2,
+      "files": {
+        "new-raw-sources.bin": "1d8631857bc9c71f880773e8628ec45feda6a0b8b685f39b5ac6ce3b442578de",
+        "rom-direct-cpuset-gpu-inventory.json": "724f47ddced0ff9271d74c81395df6d0939b86642e1c40ffe1d9951fd49891e3"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-direct-cpuset-gpu-inventory-v1/manifest.json",
+      "manifest_sha256": "ed886e717b54b0ec78af5eb4941d677095286290a5ad2ed2a01b033f4520d246",
+      "scope": {
+        "all_static_direct_bl_encodings_audited": true,
+        "cross_function_dataflow_complete": false,
+        "custom_copy_loops_complete": false,
+        "dma_transfers_complete": false,
+        "generic_image_writeback_complete": false,
+        "indirect_calls_complete": false,
+        "literal_seeded_32_byte_rule_applied_to_full_rom": true,
+        "new_raw_sources_losslessly_exported": true,
+        "raw_palettes_complete": false,
+        "raw_uncompressed_graphics_complete": false,
+        "runtime_reachability_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_direct_cpuset_gpu_inventory.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-direct-cpuset-gpu-inventory-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "direct_call_count": 146,
+          "errors": [],
+          "new_source_count": 3,
+          "schema": "rom-direct-cpuset-gpu-inventory-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "4e8f394803873a96db2dfb2d7b5b7ec6750a2ead33cdc1bb8e08676c203f678b"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-direct-dma-gpu-inventory-v1",
+      "file_count": 1,
+      "files": {
+        "rom-direct-dma-gpu-inventory.json": "c6f5a00ce343203ad7afb57a0fb90c3543a1350a361c688d6f9de5e6b491dd38"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-direct-dma-gpu-inventory-v1/manifest.json",
+      "manifest_sha256": "84bc8f927047d7356e6779d6550d2ff74e342929da4b9228fc2c8102585324d1",
+      "scope": {
+        "all_thumb_shaped_dma_register_literal_users_audited": true,
+        "cross_function_dataflow_complete": false,
+        "custom_copy_loops_complete": false,
+        "generic_image_writeback_complete": false,
+        "indirect_dma_wrappers_complete": false,
+        "literal_seeded_96_byte_rule_applied_to_full_rom": true,
+        "non_literal_dma_base_derivations_complete": false,
+        "raw_uncompressed_graphics_complete": false,
+        "runtime_reachability_complete": false,
+        "two_stage_copies_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_direct_dma_gpu_inventory.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-direct-dma-gpu-inventory-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "constant_rom_gpu_transfer_count": 0,
+          "dma_register_literal_user_count": 21,
+          "errors": [],
+          "schema": "rom-direct-dma-gpu-inventory-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "ae2362e6f0e39ea359b39b2cca60065f2c8c879f99b4832b66fe7e05b2ddea84"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-expansion-profile-v1",
+      "file_count": 9,
+      "files": {
+        "boot-frame-60.png": "018f0c0bfbe41fe3db7307363376fa5244bd66a75240cd6887233f4d85aff6b6",
+        "boot-frame-60.ss9": "7ea3e16d1dce80253353f42f783ba791d9158e49aceb37afae768b507e410cbe",
+        "build-manifest.json": "843566597af9251f4450dcda22d69aaa644f3fa9832e8f1d9506a22c32719563",
+        "guard-summary.json": "c3097006796dc2b3fc892958221735a9f023a20e20bd765c7c72c530e69ce740",
+        "profile.json": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+        "restore-evidence.json": "b0337ae2bc62e78067bad34ec25c69c1c8fffac0b14b14194d6ba79dabb9ff8e",
+        "restore-frame-30.png": "018f0c0bfbe41fe3db7307363376fa5244bd66a75240cd6887233f4d85aff6b6",
+        "restore-guard-summary.json": "dbe2073167fc139dcaff49fdcd178903f95a6621be94e41098c10aacf085b4b9",
+        "runtime-evidence.json": "462cb89341336771ff3b5d508254cbc6e2fadf833e882136b3adc1f7dee07b08"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-expansion-profile-v1/manifest.json",
+      "manifest_sha256": "75a056e0d82b24af30e59a713910a3e5d6a9073bb28ee079409689eba92dc7cc",
+      "scope": {
+        "boundary": "This proves standard GBA addressability, mGBA CPU execution/data reads in the first expanded partition, and continued original-game boot. It does not by itself prove every address through 16 MiB, a specific flash cartridge implementation, or any relocated game resource."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_expansion_profile.py",
+          "--root",
+          ".",
+          "--manifest",
+          "artifacts/rom-expansion-profile-v1/manifest.json"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-gpu-copy-queue-inventory-v1",
+      "file_count": 1,
+      "files": {
+        "rom-gpu-copy-queue-inventory.json": "798b72cbeb69cae522f77f586794cd0bf9d1775d57d590479daf89e808ca23bf"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-gpu-copy-queue-inventory-v1/manifest.json",
+      "manifest_sha256": "3a3f4d06f27560dfcf2674c13802e2fbcc551246e5de121b1f62747a09f32a95",
+      "scope": {
+        "all_async_transfer_queues_complete": false,
+        "all_game_visual_states_complete": false,
+        "dialogue_tilemap_submit_complete": false,
+        "direct_caller_resource_classification_complete": true,
+        "direct_thumb_bl_callers_complete": true,
+        "generic_image_writeback_complete": false,
+        "indirect_enqueue_callers_complete": false,
+        "queue_status_1_abi_complete": true,
+        "queue_status_3_enqueue_shape_complete": true,
+        "queue_status_3_lifecycle_complete": false,
+        "raw_uncompressed_graphics_complete": false,
+        "runtime_reachability_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_gpu_copy_queue_inventory.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-gpu-copy-queue-inventory-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "direct_caller_count": 14,
+          "errors": [],
+          "new_rom_source_count": 0,
+          "schema": "rom-gpu-copy-queue-inventory-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "7314eef6758b055a9a30dc5778e1d001b1328a9c65a1435306f44759b52f2ce0"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-menu-portrait-palette-inventory-v1",
+      "file_count": 2,
+      "files": {
+        "rom-menu-portrait-palette-inventory.json": "ac263fc071b6c6ad4b94b649df38560c180f2b2fd350212cc3875055146d908d",
+        "rom-menu-portrait-palettes.bin": "d5d80e37d88000ec81501d9549b4c6038c42e6ec172614127821213d9dbcdccc"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-menu-portrait-palette-inventory-v1/manifest.json",
+      "manifest_sha256": "8a8675c2724131a6caa9b956825d74280fa26fe99447470b3cc3810688e6f88b",
+      "scope": {
+        "adjacent_gaps_classified": false,
+        "arbitrary_image_writeback": false,
+        "dynamic_caller_input_domain_complete": false,
+        "fixed_length_palette_writeback_verified": true,
+        "fixed_palette_byte_inventory_complete": true,
+        "graphics_bytes_classified_here": false,
+        "natural_gameplay_all_logical_outputs_proven": false,
+        "pointer_rewrite_complete": false,
+        "relocation_complete": false,
+        "runtime_pixel_equivalence": false,
+        "safe_free_space_claimed": false,
+        "source_resource_aliases_complete": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_menu_portrait_palette_inventory.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-menu-portrait-palette-inventory-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "alias_group_count": 1,
+          "aliased_resource_count": 5,
+          "bundle_sha256": "d5d80e37d88000ec81501d9549b4c6038c42e6ec172614127821213d9dbcdccc",
+          "errors": [],
+          "logical_output_count": 311,
+          "packed_bytes": 8960,
+          "palette_bytes": 8960,
+          "range_overlap_bytes": 0,
+          "range_vector_sha256": "84e8b9f99a51f94e1b9e0b972d6458c883428443aa173a9f739beaf601b4e338",
+          "schema": "rom-menu-portrait-palette-inventory-verification-v1",
+          "source_resource_count": 74,
+          "unique_palette_count": 70,
+          "verified": true
+        },
+        "verifier_sha256": "63d60ffe786841d910b0655de31cbb4a3d52178b433fc1a40b24729f683cda46"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-pointer-lz77-graphics-v1",
+      "file_count": 37,
+      "files": {
+        "graphics-catalog.json": "9c3088165fb65004dbeaa124a800d65795395e37b2dcfb90f2d2eedfdd6cf37d",
+        "previews/080b9e94-080b9f5c-bank-00.png": "f8b3c157f624ea28a431537e44c6f03b2b0a908c6e51c7a32686803798ff9709",
+        "previews/0812c8b0-08457ea8-bank-00.png": "8e73e61d93c1f870610ce2ceb2f229d70eee19c4b13ccb2ebc108a63be959f3e",
+        "previews/0812d134-08457ea8-bank-00.png": "e9f80e3f63ce31679ea09323a951d9845214118cc28d3880d08f03fa14b6de99",
+        "previews/0812d2f0-index-only.png": "a568194f034014d1284da087c16e61d64e39673a7204e44774dc0239b761ea0f",
+        "previews/083481e0-08348668-bank-00.png": "3dd57d37079c6b86260c205f82795f6bede662b2ef730b8aa4a40fd249ff39a7",
+        "previews/08348a3c-08348be4-bank-00.png": "209b1206b1edc3071430d5f723f25305e8e307b85ba432d28a5678d92bf5826f",
+        "previews/08348f00-0834941c-bank-00.png": "e449992353c0e685138d26eebbcd8740d37dafd32e426d4c66a969d567f7686d",
+        "previews/0834943c-083496b0-bank-00.png": "354980baf492069cbd3b19fcc5c5c7a0e2814f9f422970f49298f2e32d9a0d3e",
+        "previews/083496f8-index-only.png": "35553d25eb4748459a5e73db4b9beb777680e188a0e5e7d25e5edfe56e4ccca4",
+        "previews/083f00c8-083f0ac8-bank-00.png": "d891989c682715209fbfb11a9c177fd393bff7dd74a3cc899a4de02768b7d585",
+        "previews/083f08f4-083f0ac8-bank-00.png": "9bca93755518363ffda705abebc9f3c7228b67036169467021668ebe3b90035d",
+        "previews/083f21e4-083f2794-bank-00.png": "ca8250bb13a99447647e6e8b244bd0da073c73006580bc8c1ddde7dff5e16fc6",
+        "previews/083f2a18-083f2cb0-bank-00.png": "3f72da0184dd717ea7edd105e231a69017866bf7cab72f036696d09b2e5ed4ad",
+        "previews/08405ea4-08405ff0-bank-00.png": "38064d1ff784d255d88160ae908e9319c88a3e2eea472504ec970f1dea532793",
+        "previews/08405ea4-08405ff0-bank-01.png": "39b036427cb4001ae5ab2b36a2ad5b9c121f4cf01e03ca0ca1592558c892bd83",
+        "previews/08405ea4-08405ff0-bank-02.png": "f69535790718178473188a76f074093e18420fa4e834ab4029a60fd49201fc3c",
+        "previews/08405ea4-08405ff0-bank-03.png": "9a503e98cb539b3bb6b3c66bcc311b627f67dbee64655f0975fd5ceb57bbe65d",
+        "previews/08405ea4-08405ff0-bank-04.png": "26ea5f5b64b9713f1bdfbf0ffa6ea8809227e073b827b61dbd456a7917ea6b2d",
+        "previews/08405ea4-08405ff0-bank-05.png": "efc6b57405bd2c595a5cc859f07cad9f4a9b90699681a7cc6f71ef4ea70c6777",
+        "previews/08405ea4-08405ff0-bank-06.png": "de05be34db6fdd7cdd8a2d37f976f8d0c31d390a91dc7bf8e4855df49fe8acd5",
+        "previews/08405ea4-08405ff0-bank-07.png": "a11180f91d47a18297de37eccbc04f5d415c8f333d4a78012910e101464ddd64",
+        "previews/08405f10-08405ff0-bank-00.png": "ff5e234ac7bde218d81328a752f90de295170a0c9360beb28470754afa74eb6a",
+        "previews/08405f10-08405ff0-bank-01.png": "2e09d2e0945901f29f588eb2585cc90b67bdc4e9b4830d3e76865dd5f94e7669",
+        "previews/08405f10-08405ff0-bank-02.png": "704afb31701877c295a4f7ee23cee1e6c316104d091d6731f6854f4a55b2e964",
+        "previews/08405f10-08405ff0-bank-03.png": "85a34141f7d5f6d7ce4d5a0f46dcde90f04414306521f047935861785ad87f51",
+        "previews/08405f10-08405ff0-bank-04.png": "466b5a082c8e890cc694b49ed694bbf070c2352b4592767119bb948f8f4beed9",
+        "previews/08405f10-08405ff0-bank-05.png": "ede26b63f7a1a2530256604699cbd67cf7ba33f98c271edc28f0d4413db65108",
+        "previews/08405f10-08405ff0-bank-06.png": "d9d786f25e6310b8b18af46bb4d8e97a59791ffe5bdf43be2b740b84584e897b",
+        "previews/08405f10-08405ff0-bank-07.png": "5533fe993a18e225e4d58246e3ca8c8207f869056b9b07c82046333f40800248",
+        "previews/08457d3c-08457ea8-bank-00.png": "7acf1e3e92c97d9eeecc3952b1b198f32b1c0daaf6d80c5228bb0103a0e313f5",
+        "previews/084580c8-0845830c-bank-00.png": "d82d2c39ed8d65538f6142389eeb1339089711702ef7d7b525d5fcce8d816822",
+        "previews/08463688-084638d4-bank-00.png": "b2c46de67529a389e91ad3e7fcd7bd088cf369decde38d586ba962e605a8d3a3",
+        "previews/08463688-084638f4-bank-00.png": "9e34cde1b258f444fdab3b24e99abeef005f2fb82498d61823ae17db52377341",
+        "previews/085b6000-08463ffc-bank-00.png": "2f4a28b5310814a3ff8e46593f779bc7cfa992dc31101c72dd37b6b898220342",
+        "previews/085b6880-083f0af0-bank-00.png": "b7cad5de14aec779dd980396faebeb8a07c1cbd6617f0f48fbd7ea6c0f67bad8",
+        "raw-palettes.bgr555.bin": "96b38fa8c0ffdb0bdf6c0af788a99db6c0994921d9e7d6977fe4ed01d31d6d64"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-pointer-lz77-graphics-v1/manifest.json",
+      "manifest_sha256": "17a93ff1f8779a0da50d8e7022adf9c9a7656811884b32db3db3e54f13fd495d",
+      "scope": {
+        "all_game_visual_states_complete": false,
+        "all_previews_are_final_visible_images": false,
+        "all_raw_graphics_complete": false,
+        "generic_image_writeback_complete": false,
+        "new_pointer_reachable_graphics_records_cataloged": true,
+        "source_palette_bound_subset_previewed": true,
+        "tilemap_or_oam_composition_complete": false,
+        "unresolved_palette_records_index_previewed": true
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_pointer_lz77_graphics.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-pointer-lz77-graphics-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "errors": [],
+          "graphics_record_count": 20,
+          "preview_file_count": 35,
+          "schema": "rom-pointer-lz77-graphics-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "69ba1fd76605d1a178ea36e1aa67f5a58d867c31aa7d641fe7a27eb48ca5b173"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-renderer-text-inventory-v1",
+      "file_count": 2,
+      "files": {
+        "renderer-text-inventory.json": "75be06e4b1c38d81d9a229dd1134177709706aa470a3d533bef07253079bfdbb",
+        "renderer-text-targets.bin": "28c999f31b51fe2727f66e295ad259920d2d472042d81ff98673c58e51c28cf5"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-renderer-text-inventory-v1/manifest.json",
+      "manifest_sha256": "43b723061e4c5f8f82b50326a4e851bec722fb0f42c0782005ddc3c1a683ad04",
+      "scope": {
+        "consumer_typed_target_set_complete": true,
+        "fixed_pointer_table_denominator_complete": true,
+        "natural_gameplay_index_coverage_complete": false,
+        "renderer_consumed_byte_union_complete": true,
+        "unicode_decoding_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_renderer_text_inventory.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-renderer-text-inventory-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "errors": [],
+          "packed_text_bytes": 22588,
+          "parse_failure_count": 0,
+          "pointer_slot_count": 704,
+          "pointer_table_count": 11,
+          "renderer_consumed_bytes": 22588,
+          "renderer_record_count": 625,
+          "schema": "rom-renderer-text-inventory-verification-v1",
+          "target_overlap_bytes": 0,
+          "unique_target_count": 625,
+          "verified": true
+        },
+        "verifier_sha256": "dedee49b3bfa3c4326fef8b70a56b48543455c2fb0ab9636ae0f0c64592ed446"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-selector-direct-source-records-v1",
+      "file_count": 2,
+      "files": {
+        "rom-selector-direct-source-records.bin": "a11475d1eea2ce15968ac2dc52addabcfa59354ccf80b702f922e2af548a4b56",
+        "rom-selector-direct-source-records.json": "adc03bd5e29e956c208698fedc733e305ea87e519e17dfa405ff813939149430"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-selector-direct-source-records-v1/manifest.json",
+      "manifest_sha256": "094dbb593b2b8e09849ea795f4a09155598936cd3a1bc0b36e2eda6a413cf789",
+      "scope": {
+        "allocatable_space_claimed": false,
+        "byte_2_to_19_semantics_proven": false,
+        "complete_63_slot_text_table": false,
+        "editing_or_writeback_safety_proven": false,
+        "fixed_46_source_record_denominator_complete": true,
+        "natural_gameplay_all_rows_reached": false,
+        "unicode_decoding_complete": false
+      },
+      "verifier": {}
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-staged-gpu-copy-inventory-v1",
+      "file_count": 1,
+      "files": {
+        "rom-staged-gpu-copy-inventory.json": "1e8a2f17ca7b839a627967938ffa544ba59e4cb4d366bbe1db2aee53d7de6b63"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-staged-gpu-copy-inventory-v1/manifest.json",
+      "manifest_sha256": "ff634185ab977d0f99c5eab0e893149ad9ac28fcecc2e0d2df70bf3ac30c0f39",
+      "scope": {
+        "all_ram_to_gpu_consumers_complete": false,
+        "all_rom_to_ram_producers_complete": false,
+        "all_two_stage_copies_complete": false,
+        "allowlisted_ram_slots_classified": true,
+        "custom_copy_loops_complete": false,
+        "dialogue_tilemap_submit_complete": false,
+        "generic_image_writeback_complete": false,
+        "hash_bound_allowlisted_consumer_families_complete": true,
+        "indirect_transfer_queue_abi_complete": false,
+        "procedural_and_metadata_false_sources_excluded": true,
+        "raw_uncompressed_graphics_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_staged_gpu_copy_inventory.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-staged-gpu-copy-inventory-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "accepted_raw_source_count": 0,
+          "consumer_family_count": 3,
+          "errors": [],
+          "schema": "rom-staged-gpu-copy-inventory-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "6ccddd68e24617b95ff2c4b4c11338ed88a3e4781374e23199c4c9fb9263c442"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "rom-u8-indexed-u16-pair-lookup-v1",
+      "file_count": 2,
+      "files": {
+        "rom-u8-indexed-u16-pair-lookup.bin": "adaa3da39ee951908263186ab1587a95f827b3041b4a59055da9fb54eb7cdf53",
+        "rom-u8-indexed-u16-pair-lookup.json": "40d08a678b7e5dcc13afb02f50f6def28787c1a72a245dbaaf2d117efabda90c"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-u8-indexed-u16-pair-lookup-v1/manifest.json",
+      "manifest_sha256": "926c2df1b1154181b28dcb65369471f87cdb35c986ce9d0c15a942a3e6fef81a",
+      "scope": {
+        "allocatable": false,
+        "current_unknown_primary_projection_only": true,
+        "existing_owner_overlap_is_provenance_only": true,
+        "logical_view_complete": true,
+        "non_claims": {
+          "business_field_semantics": false,
+          "computed_or_indirect_calls_exhausted": false,
+          "consumer_completeness": false,
+          "cross_owner_cell_62_bug_or_natural_must": false,
+          "editing_relocation_writeback_safety": false,
+          "independent_physical_bank": false,
+          "natural_gameplay_all_256_indices": false,
+          "natural_reachability_all_256": false,
+          "physical_22_or_63_entry_table": false,
+          "safe_relocation_or_editability": false,
+          "selector_primary_owners_0_to_43_revoked": false
+        },
+        "reclassifies_existing_owner_overlap": false,
+        "revokes_existing_selector_owners": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_rom_u8_indexed_u16_pair_lookup.py",
+          "--root",
+          ".",
+          "--artifact-dir",
+          "artifacts/rom-u8-indexed-u16-pair-lookup-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "artifact_schema": "rom-u8-indexed-u16-pair-lookup-v1",
+          "base_literal_occurrence_count": 3,
+          "bin_sha256": "adaa3da39ee951908263186ab1587a95f827b3041b4a59055da9fb54eb7cdf53",
+          "consumer_count": 3,
+          "current_unknown_primary_bytes": 144,
+          "errors": [],
+          "existing_owner_overlap_bytes": 880,
+          "implementation": {
+            "exporter": {
+              "path": "tools/export_rom_u8_indexed_u16_pair_lookup.py",
+              "sha256": "568e96a8ab58329f60d38db876f0845ada7ad433c1104c736a9465fe222d3654"
+            },
+            "tests": {
+              "path": "tests/test_export_rom_u8_indexed_u16_pair_lookup.py",
+              "sha256": "103dfb3f5017d84b1c1e5da8b97fac5f9ecdef503dd08506249ff4326343b735"
+            },
+            "verifier": {
+              "path": "tools/verify_rom_u8_indexed_u16_pair_lookup.py",
+              "sha256": "d14a0784008a61ea8770fc28cf6bcfe5e9b3a6def56382e363f2ebde6da54f76"
+            }
+          },
+          "json_sha256": "40d08a678b7e5dcc13afb02f50f6def28787c1a72a245dbaaf2d117efabda90c",
+          "logical_bytes": 1024,
+          "logical_cell_count": 256,
+          "logical_sha256": "adaa3da39ee951908263186ab1587a95f827b3041b4a59055da9fb54eb7cdf53",
+          "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+          "schema": "rom-u8-indexed-u16-pair-lookup-verification-v1",
+          "verified": true
+        }
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "runtime-bg-composites-v1",
+      "file_count": 2,
+      "files": {
+        "layers.zip": "9c853090614c7f63c8e6c01273520ccfc2ad4722a69eabe4fe7d157b3ca452d9",
+        "runtime-bg-composites.json": "5b17ca198949a3cfaa3e1baa0c86602801ee934e133952a70824f31df7d391e7"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-bg-composites-v1/manifest.json",
+      "manifest_sha256": "fdb681d5fb3f86784208803301d97602642d70f21e76ddaa04a36dd552efa098",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_runtime_bg_composites.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/runtime-bg-composites-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "checkpoint_count": 91,
+          "errors": [],
+          "schema": "runtime-bg-composites-verification-v1",
+          "state_count": 89,
+          "verified": true
+        },
+        "verifier_sha256": "af1442375f20aa53816bbc8486f021cbf9c40166a85895201afe7108b0f7caaf"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "runtime-font-tile-provenance-v1",
+      "file_count": 1,
+      "files": {
+        "runtime-font-tile-provenance.json": "4787d0049a7d7b92e106b7eb560e0893271dcf979739031f06ad16f5714d6d5a"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-font-tile-provenance-v1/manifest.json",
+      "manifest_sha256": "ad74f08c107a5326dc75c003614fcaff6fe1b0218087da80781d3d2316780375",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_runtime_font_tile_provenance.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/runtime-font-tile-provenance-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "errors": [],
+          "layer_count": 61,
+          "ordered_sjis_pair_count": 1050,
+          "schema": "runtime-font-tile-provenance-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "57259a2210d1a4604249ba75e23f50310aeebc013fe8891593d88fbae7e8c592"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "runtime-layer-static-provenance-v1",
+      "file_count": 1,
+      "files": {
+        "runtime-layer-static-provenance.json": "4ba73a257695af886e939dd2dd2aff506a4fc4d0f952401f36f9dc408cc48578"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-layer-static-provenance-v1/manifest.json",
+      "manifest_sha256": "6a24b443bea94177c8a017a1099cfb343b4d61bed765f6a4d7400cf738a16704",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_runtime_layer_static_provenance.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/runtime-layer-static-provenance-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "checkpoint_count": 91,
+          "errors": [],
+          "layer_count": 196,
+          "schema": "runtime-layer-static-provenance-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "3847d008103ca67ecff2ec470ad6fdfaa5254850f07cfc00a1c990e76c4b9e4b"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "runtime-screen-composites-v1",
+      "file_count": 2,
+      "files": {
+        "frames.zip": "be64b4868bd9bb3bd5db1892f930f8e959507c88fdcbef41fee7ad054ab8027c",
+        "runtime-screen-composites.json": "9ea1b85836db1f03cb57f0d1f4b64d582f06a43e12d74a0c7e76522fec8f9366"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-screen-composites-v1/manifest.json",
+      "manifest_sha256": "f31ca8e7e21de6b930fcdb487359e63e30b08b140e74c1e7791a1a3ec619624c",
+      "scope": {},
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_runtime_screen_composites.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/runtime-screen-composites-v1"
+        ],
+        "exit_code": 0,
+        "report": {
+          "checkpoint_count": 91,
+          "errors": [],
+          "exact_rgb_count": 89,
+          "schema": "runtime-screen-composites-verification-v1",
+          "verified": true
+        },
+        "verifier_sha256": "0b40b9722312f25baaa0cd598916371f46b61e53fe472ca6b95e2f116f5a70df"
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "scene-visual-composites-v1",
+      "file_count": 10,
+      "files": {
+        "exit/mode-1-obj-pack-08-over-pack-08.png": "004eaa617196423d62bf73142cf7f53e8e14abbc9e0508ed769d8aebe2c1ec85",
+        "main/mode-0-pack-00.png": "59575379baf4a833a05323861ebbf5eb8c295b72a0e1fe60a70b1d5afe5d9496",
+        "main/mode-0-pack-01.png": "e5eef725a5d0048f33b9b088f1bea83829d7543db86d17cbd082d82252e8e262",
+        "main/mode-0-pack-02.png": "3b346a8c435ff3565dcfffb0754d3ca32b092c278457ca510cfdb20e765ffdd2",
+        "main/mode-0-pack-03.png": "0d8fbf70faded2560c4787382dc32023bc4f28dcea7b25eb0fb8a73ad227d501",
+        "main/mode-1-pack-04.png": "38ef95256c445b89aa799c238fe4c072c7e6b44d784f960eb76cf30331658219",
+        "main/mode-1-pack-05.png": "458fef8ead44f979031949f95734c3f2440cd52c38efe8fcb71937b76eb50e0e",
+        "main/mode-1-pack-06.png": "0a94740f2fd71077f6c63c897f91f9bc8de034d0d12ba0eeb6a9209f08137095",
+        "main/mode-1-pack-07.png": "91120d20c9edecdc0fdbe3bb95484d014fcb82fd51dd1e0e55159ac5e2008afe",
+        "scene-visual-composites.json": "0aded5f95a1cda0f2ee0bc778ab699cf4bc6d95a316f9f2d712eef668f78b71e"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/scene-visual-composites-v1/manifest.json",
+      "manifest_sha256": "bfa901135f416e48ee5e646d88c1b6669ab8c36d4817b24f2e3664cf00be0da2",
+      "scope": {
+        "all_nine_source_packs_represented": true,
+        "bg_obj_priority_order_complete": true,
+        "controller_direct_call_modes_complete": true,
+        "controller_mode_pack_routes_complete": true,
+        "natural_language_identity_complete": false,
+        "presentation_overlay_composition_complete": false,
+        "runtime_pixel_equivalence": false,
+        "stable_pack_row_bg_obj_layouts_complete": true,
+        "transition_intermediate_frames_complete": false,
+        "window_blend_mosaic_runtime_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_scene_visual_composites.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/scene-visual-composites-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "scene-visual-transition-timelines-v1",
+      "file_count": 2,
+      "files": {
+        "frames.zip": "39812e9a2e065cf5ac1c43e50abb63be8cf4125edab7493f03a304c2c0f16d0f",
+        "scene-visual-transition-timelines.json": "24ab82165144c34b3e751c7dccb211c9bfb40b4eee5f20b9b3691119043f9e8c"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/scene-visual-transition-timelines-v1/manifest.json",
+      "manifest_sha256": "47952417ec6219866b3256d63a2136d0c9c98ad4cbdc0fe643641d97a3929514",
+      "scope": {
+        "background_pre_spawn_order_complete": true,
+        "cross_task_scheduler_order_complete": false,
+        "finite_task_position_writes_complete": true,
+        "full_controller_timeline_complete": false,
+        "natural_language_identity_complete": false,
+        "presentation_overlay_composition_complete": false,
+        "runtime_pixel_equivalence": false,
+        "stable_endpoint_spatial_context_reconciled": true,
+        "state_2_and_state_20_counter_bounds_complete": true,
+        "state_3_external_wait_timing_complete": false,
+        "vblank_or_wall_frame_timing_complete": false,
+        "window_blend_mosaic_runtime_complete": false
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_scene_visual_transition_timelines.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/scene-visual-transition-timelines-v1"
+        ],
+        "exit_code": 0
+      }
+    },
+    {
+      "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+      "family": "story-visual-resource-sources-v1",
+      "file_count": 50,
+      "files": {
+        "graphics/0b07fe8227f92a1ee99d0e2b5059265b18320ce5258b10cfb400faa176ea6347.4bpp.bin": "0b07fe8227f92a1ee99d0e2b5059265b18320ce5258b10cfb400faa176ea6347",
+        "graphics/0bbeb4fe314a823ef4b5b73a4ae8cff407689412d4d78d213d8a2fa7df0d057a.4bpp.bin": "0bbeb4fe314a823ef4b5b73a4ae8cff407689412d4d78d213d8a2fa7df0d057a",
+        "graphics/127b3b92ac19fb83b687249f348e0773f08bef3a54058df8b50b04de5b9c71d4.4bpp.bin": "127b3b92ac19fb83b687249f348e0773f08bef3a54058df8b50b04de5b9c71d4",
+        "graphics/12e6ed9845dd95c282d57dd8cf53a42d355110bfb063dfd54c895797763de2ca.4bpp.bin": "12e6ed9845dd95c282d57dd8cf53a42d355110bfb063dfd54c895797763de2ca",
+        "graphics/21a338a37b972c92d8152df0fea7e51489026c4ac5d58c1b62d9c086c2c92486.4bpp.bin": "21a338a37b972c92d8152df0fea7e51489026c4ac5d58c1b62d9c086c2c92486",
+        "graphics/24af7849dbfb5ebc8192d0abece1009cee58fed413a14e1f8ab8913dc8957ccd.4bpp.bin": "24af7849dbfb5ebc8192d0abece1009cee58fed413a14e1f8ab8913dc8957ccd",
+        "graphics/2508dc1894d94213d923dc42702c0bc1e8d24254fec4581c6417962948f13ba3.4bpp.bin": "2508dc1894d94213d923dc42702c0bc1e8d24254fec4581c6417962948f13ba3",
+        "graphics/3510922615eef68331934a7fd021cc617433db74fc25b1b691ba53f771c16e54.4bpp.bin": "3510922615eef68331934a7fd021cc617433db74fc25b1b691ba53f771c16e54",
+        "graphics/3be76585d84d3e4c9ba4142698a31a3f00788ec304ba23a93fb919b2e5f17b8c.4bpp.bin": "3be76585d84d3e4c9ba4142698a31a3f00788ec304ba23a93fb919b2e5f17b8c",
+        "graphics/3ec2f257de9725764ca70a9c58d8ef1453e4c770eb8388f7181085fe13eecbe9.4bpp.bin": "3ec2f257de9725764ca70a9c58d8ef1453e4c770eb8388f7181085fe13eecbe9",
+        "graphics/51eb2ca969a8e4cfd8c3133317a19fe7f2260861db054783e54d275249d643ed.4bpp.bin": "51eb2ca969a8e4cfd8c3133317a19fe7f2260861db054783e54d275249d643ed",
+        "graphics/5ca2d1bf62617e8f7c8ef6d5dbe1e08d0282c207b47ce6125889febb15d8fab1.4bpp.bin": "5ca2d1bf62617e8f7c8ef6d5dbe1e08d0282c207b47ce6125889febb15d8fab1",
+        "graphics/80b110243f443bfc34cd37b6bdd7c786322c3c619d4d4e33a3f8e63dc753e9ed.4bpp.bin": "80b110243f443bfc34cd37b6bdd7c786322c3c619d4d4e33a3f8e63dc753e9ed",
+        "graphics/826ad76b16021de3d77c4e2cf6bf15a1a386f89a97ddae63c21c9a9f3282f375.4bpp.bin": "826ad76b16021de3d77c4e2cf6bf15a1a386f89a97ddae63c21c9a9f3282f375",
+        "graphics/83340aa1afd72c5eaa8ef5e23dbc984ed54e548680c3c21335d131dd4f4325a7.4bpp.bin": "83340aa1afd72c5eaa8ef5e23dbc984ed54e548680c3c21335d131dd4f4325a7",
+        "graphics/8997bcd4bc71a96a40caf92b30057fab58ad080d0e68be8d1c4766c2b331819c.4bpp.bin": "8997bcd4bc71a96a40caf92b30057fab58ad080d0e68be8d1c4766c2b331819c",
+        "graphics/9455c6ae6de51bdc84d5ef8930157dce72295e8af044c14f3712b0b7b44d9df3.4bpp.bin": "9455c6ae6de51bdc84d5ef8930157dce72295e8af044c14f3712b0b7b44d9df3",
+        "graphics/a1cb81fe84167cc6b6ed27f9a05ebd38223068dd4cbc0f79a71ad34d99a5423d.4bpp.bin": "a1cb81fe84167cc6b6ed27f9a05ebd38223068dd4cbc0f79a71ad34d99a5423d",
+        "graphics/af8794baca9e41309785571f8cd75f623fbeab86f7677be41aee782a30b0cd0f.4bpp.bin": "af8794baca9e41309785571f8cd75f623fbeab86f7677be41aee782a30b0cd0f",
+        "graphics/cd05d084edb32ac5051517e60dc2275f3ea56852ac77a3b5fb55da9f5aa78d20.4bpp.bin": "cd05d084edb32ac5051517e60dc2275f3ea56852ac77a3b5fb55da9f5aa78d20",
+        "graphics/e949cec416aa3dce0083bb0afefc6b449f4c28deb73967ebbf5604e3a3268b24.4bpp.bin": "e949cec416aa3dce0083bb0afefc6b449f4c28deb73967ebbf5604e3a3268b24",
+        "graphics/eebb3c181bd2c146fcdab6d46aea34cb1765409c9d15cc282715dafd3b128399.4bpp.bin": "eebb3c181bd2c146fcdab6d46aea34cb1765409c9d15cc282715dafd3b128399",
+        "graphics/f2bb17743698f2c8cd5b85a9abeff333e2a102b556d0f61ecc8cf32644ae6ea6.4bpp.bin": "f2bb17743698f2c8cd5b85a9abeff333e2a102b556d0f61ecc8cf32644ae6ea6",
+        "graphics/fb851da4dfbb222a0c3fd200bd7bc4ea86e717f60525683e3df8245216c3c85c.4bpp.bin": "fb851da4dfbb222a0c3fd200bd7bc4ea86e717f60525683e3df8245216c3c85c",
+        "palette/5b4a67a7354e94cd7f8f99541ceaf43bdf2a978d5783b77b0d9c46c91432ce35.bgr555.bin": "5b4a67a7354e94cd7f8f99541ceaf43bdf2a978d5783b77b0d9c46c91432ce35",
+        "source-catalog.json": "8b8d07777832498c4cf63c8c986ba1667becd3fd3a6738d0d027998ee61f2a61",
+        "tilemap/0d67a5681a8e05c9c527c0ee9122871732fb0a44e59f218faef6095889fd98ff.u16le.bin": "0d67a5681a8e05c9c527c0ee9122871732fb0a44e59f218faef6095889fd98ff",
+        "tilemap/195562c29d15806dd87c85f641c13b57d8065ce689ecae94cd5a5d41133a4149.u16le.bin": "195562c29d15806dd87c85f641c13b57d8065ce689ecae94cd5a5d41133a4149",
+        "tilemap/3165f04f8e8967942a5e9549f3c0d220d54a675a1c829c3696fbd18692815630.u16le.bin": "3165f04f8e8967942a5e9549f3c0d220d54a675a1c829c3696fbd18692815630",
+        "tilemap/34e21ba29b59c7ead31c0426575e6967890dae8f47dada29aa0972f1bc75ee5f.u16le.bin": "34e21ba29b59c7ead31c0426575e6967890dae8f47dada29aa0972f1bc75ee5f",
+        "tilemap/43cb0267cd46566dd33dd3e04e269a81ead525d448664cc8193ba03d63be2f10.u16le.bin": "43cb0267cd46566dd33dd3e04e269a81ead525d448664cc8193ba03d63be2f10",
+        "tilemap/4f5be8e10cac6a42edbec045791ab88a4788fe5ffd76807462de184fadef2bda.u16le.bin": "4f5be8e10cac6a42edbec045791ab88a4788fe5ffd76807462de184fadef2bda",
+        "tilemap/5371154c962920d46b3d5c3d64fd5634a99b67326090529b7568c98182c4ce4b.u16le.bin": "5371154c962920d46b3d5c3d64fd5634a99b67326090529b7568c98182c4ce4b",
+        "tilemap/5632f29b7a840739ca91fd8a6ade36cae1da33bbfadfe51e05b9f49165f371c1.u16le.bin": "5632f29b7a840739ca91fd8a6ade36cae1da33bbfadfe51e05b9f49165f371c1",
+        "tilemap/59d43322b13c2b9519688ac7cdc0ba5fe9ab4935b23f41b6e22fd854fa950bbe.u16le.bin": "59d43322b13c2b9519688ac7cdc0ba5fe9ab4935b23f41b6e22fd854fa950bbe",
+        "tilemap/59deae68338f5387aa1075505b56991909ba8cff281f2f59f22977a2d62563c6.u16le.bin": "59deae68338f5387aa1075505b56991909ba8cff281f2f59f22977a2d62563c6",
+        "tilemap/6b379a0abeea661efc98a5870c164515c138382bd4600612cedea8d710170692.u16le.bin": "6b379a0abeea661efc98a5870c164515c138382bd4600612cedea8d710170692",
+        "tilemap/754e25b1cce7e57194b62528c1043f663f72a7cc9f25f77d1e3c5c6ba67fbf42.u16le.bin": "754e25b1cce7e57194b62528c1043f663f72a7cc9f25f77d1e3c5c6ba67fbf42",
+        "tilemap/7b1f7df0d1a5d97351622aa01c0f886463322c7c75554a6e7fe6b99ea89c64dc.u16le.bin": "7b1f7df0d1a5d97351622aa01c0f886463322c7c75554a6e7fe6b99ea89c64dc",
+        "tilemap/7d5a774b71f95dd39f8f0461e16988ee7139ecedf37629767b2d45aabf487f02.u16le.bin": "7d5a774b71f95dd39f8f0461e16988ee7139ecedf37629767b2d45aabf487f02",
+        "tilemap/811b496c9f6f7bbc56b05b7113ab2ac4069b0c5532b01945c06528c54f58086d.u16le.bin": "811b496c9f6f7bbc56b05b7113ab2ac4069b0c5532b01945c06528c54f58086d",
+        "tilemap/8356aaa3dddc6fa93b1810d6c1572c213181d8290950baa86f97ee32bc216a05.u16le.bin": "8356aaa3dddc6fa93b1810d6c1572c213181d8290950baa86f97ee32bc216a05",
+        "tilemap/849081c9e7370b5e26aa73d16ecf745e0c5e2c3ae76ce69926156549e8715cdf.u16le.bin": "849081c9e7370b5e26aa73d16ecf745e0c5e2c3ae76ce69926156549e8715cdf",
+        "tilemap/85b92fd69500a1a2ba952762c2be96574775a86b97e28f2934f4ff63ba98ced4.u16le.bin": "85b92fd69500a1a2ba952762c2be96574775a86b97e28f2934f4ff63ba98ced4",
+        "tilemap/9b757a424a8ce0f89664226b4fc084645135a3bcded305d2aaf99dc7acc4126b.u16le.bin": "9b757a424a8ce0f89664226b4fc084645135a3bcded305d2aaf99dc7acc4126b",
+        "tilemap/a4c02916c0f3d4a0b883d769f1996cece5d0d7922dda1e4a2c9d40c70ebe6f25.u16le.bin": "a4c02916c0f3d4a0b883d769f1996cece5d0d7922dda1e4a2c9d40c70ebe6f25",
+        "tilemap/a72dd85cbe2c455f72e7df226f3c9ab33cabf5934a29bc629759493226f76fff.u16le.bin": "a72dd85cbe2c455f72e7df226f3c9ab33cabf5934a29bc629759493226f76fff",
+        "tilemap/bb611579b091e2106da64a01fa0e8c24bf00d216dbc1b9e3b9b6fccaca98bb2b.u16le.bin": "bb611579b091e2106da64a01fa0e8c24bf00d216dbc1b9e3b9b6fccaca98bb2b",
+        "tilemap/d7aef53758995f0b3a8bb86e5b02201edbc5b532734e8736e0e79beb17f127d7.u16le.bin": "d7aef53758995f0b3a8bb86e5b02201edbc5b532734e8736e0e79beb17f127d7",
+        "tilemap/e677c1c5f86378d58d4c831882173c0fccd802986a79b57596704d440559ae8b.u16le.bin": "e677c1c5f86378d58d4c831882173c0fccd802986a79b57596704d440559ae8b"
+      },
+      "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/story-visual-resource-sources-v1/manifest.json",
+      "manifest_sha256": "6a6aebe1cc1b9a37b8651309d461550cb13d36e319b587a8dbf657ebcc1ea1cc",
+      "scope": {
+        "editable": "The raw graphics, palette and tilemap files are authoring inputs for the guarded story visual relocation importer.",
+        "not_proved": "Modified-resource runtime pixel equivalence, alternate BG3 geometry, scroll/window/blend timing or cartridge behavior.",
+        "proved": "All 49 deduplicated story-layer source payloads are exported from the fixed base ROM and retain all 72 physical payload and descriptor-pointer provenance records."
+      },
+      "verifier": {
+        "command": [
+          "python3",
+          "tools/verify_story_visual_resource_relocation_audit.py",
+          "--root",
+          ".",
+          "--artifact",
+          "artifacts/story-visual-resource-relocation-v1"
+        ],
+        "exit_code": 0
+      }
+    }
+  ],
+  "family_count": 52,
+  "file_count": 794,
+  "not_imported_inconsistent": [
+    "rom-animation-descriptor-pool-v2",
+    "rom-boot-copy-sources-v1",
+    "rom-bounded-index-u16-pair-table-v1",
+    "rom-cfg-proven-roots-v14",
+    "rom-directsound-pitch-lookup-v1",
+    "rom-display-text-delta-v1",
+    "rom-fixed-animation-descriptor-groups-v1",
+    "rom-fixed-index-u8-tail-v1",
+    "rom-fixed-pair-tables-v1",
+    "rom-fixed-renderer-script-records-v1",
+    "rom-low-script-delta-v1",
+    "rom-psg-frequency-lookup-v1",
+    "rom-renderer-records-delta-v1",
+    "rom-renderer-script-pointer-pool-records-v1",
+    "rom-u8-indexed-u8-triplet-lookup-v1"
+  ],
+  "reverse_commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375",
+  "reverse_root": "/Users/altair/github/gba-naruto-reverse",
+  "schema": "konoha.butano-shelf-family-import.v1"
+}

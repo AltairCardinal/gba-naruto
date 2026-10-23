@@ -1,0 +1,28 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "character-runtime-oam-bindings-v1",
+  "file_count": 1,
+  "files": {
+    "bindings.json": "d13782ef403d49c32668c6692c67f826df518dee3619e9cebdae21d94bd86ddf"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/character-runtime-oam-bindings-v1/manifest.json",
+  "manifest_sha256": "98d84e6ce9a75b9d47be3efc4e1d7a14924729b3605dfde6b65d4b370f3fdce6",
+  "scope": {},
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_character_runtime_oam_bindings.py",
+      "--root",
+      ".",
+      "--bindings",
+      "artifacts/character-runtime-oam-bindings-v1/bindings.json"
+    ],
+    "exit_code": 0,
+    "result": {
+      "checkpoints": 91,
+      "errors": [],
+      "matches": 222,
+      "verified": true
+    }
+  }
+}

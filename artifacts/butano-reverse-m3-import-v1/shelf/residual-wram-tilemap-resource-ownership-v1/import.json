@@ -1,0 +1,30 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "residual-wram-tilemap-resource-ownership-v1",
+  "file_count": 1,
+  "files": {
+    "resource-ownership.json": "1eea02442ad5ad7e717d450433404c3e9cac2fe21214c79be83a37aa90b5ced7"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-tilemap-resource-ownership-v1/manifest.json",
+  "manifest_sha256": "57e04df8c14ac9ee0b34a5102e42b1d9761e168343e3671b8e396fe938123ab5",
+  "scope": {
+    "bg_control_ownership_complete": true,
+    "exact_natural_language_menu_identity_complete": false,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "graphics_and_palette_ownership_complete": true,
+    "queue_slot_and_natural_flush_complete": false,
+    "runtime_reachability_complete": false,
+    "static_natural_caller_chain_complete": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_tilemap_resource_ownership.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-tilemap-resource-ownership-v1"
+    ],
+    "exit_code": 0
+  }
+}

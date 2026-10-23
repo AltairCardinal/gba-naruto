@@ -6053,5 +6053,20 @@
       "resource_cost_u16": 0,
       "resource_cost_value": 0
     }
-  ]
+  ],
+  "_provenance": {
+    "rom": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "offset": 5526616,
+      "size": 1392,
+      "entry_count": 87,
+      "entry_size": 16
+    },
+    "extractor": null,
+    "reverse_family": null,
+    "reverse_family_candidates": [],
+    "reverse_family_state": "none",
+    "reverse_evidence": [],
+    "unattributed_reason": "the table's bytes come from the base ROM at offset 5526616 (size 1392); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+  }
 }

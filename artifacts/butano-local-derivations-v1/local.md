@@ -4,19 +4,19 @@
 
 | 项 | 值 |
 | --- | ---: |
-| tracked_families | 30 |
-| acceptance_families | 26 |
+| tracked_families | 45 |
+| acceptance_families | 41 |
 | candidates_rederived | 16 |
-| candidates_imported | 9 |
+| candidates_imported | 24 |
 | candidates_already_identical | 1 |
-| candidates_byte_identical | 26 |
+| candidates_byte_identical | 41 |
 | rederived | 20 |
-| imported | 9 |
+| imported | 24 |
 | already_identical | 1 |
 | imported_prerequisite | 0 |
 | diverged | 0 |
 | unavailable | 0 |
-| byte_identical | 30 |
+| byte_identical | 45 |
 
 ## 逐族结果
 
@@ -35,6 +35,21 @@
 | `cutscene-obj-v1` | rederived | `tools/export_cutscene_obj_assets.py` | ✅ | b8e1341172decef9 |
 | `dialogue-font-v2` | rederived | `tools/export_dialogue_font_atlases.py` | ✅ | 818684d7533ae44b |
 | `e2e` | imported | — | ✅ | — |
+| `rom-animation-descriptor-pool-v2` | imported | — | ✅ | 81a4e698d523a0e7 |
+| `rom-boot-copy-sources-v1` | imported | — | ✅ | 040e009cccf97088 |
+| `rom-bounded-index-u16-pair-table-v1` | imported | — | ✅ | d909fed886e1779a |
+| `rom-cfg-proven-roots-v14` | imported | — | ✅ | 666772f43529a557 |
+| `rom-directsound-pitch-lookup-v1` | imported | — | ✅ | 61f58bd4309d3b63 |
+| `rom-display-text-delta-v1` | imported | — | ✅ | c63319575c27969f |
+| `rom-fixed-animation-descriptor-groups-v1` | imported | — | ✅ | 83e526c51214bc0e |
+| `rom-fixed-index-u8-tail-v1` | imported | — | ✅ | 4e8bbe70226849ce |
+| `rom-fixed-pair-tables-v1` | imported | — | ✅ | 3a704a55d005496a |
+| `rom-fixed-renderer-script-records-v1` | imported | — | ✅ | 5616962b7f925589 |
+| `rom-low-script-delta-v1` | imported | — | ✅ | ce78ac8a710b1b1c |
+| `rom-psg-frequency-lookup-v1` | imported | — | ✅ | 4fffbcc7e2525958 |
+| `rom-renderer-records-delta-v1` | imported | — | ✅ | 7191a579d0995fef |
+| `rom-renderer-script-pointer-pool-records-v1` | imported | — | ✅ | 342310e1eb551270 |
+| `rom-u8-indexed-u8-triplet-lookup-v1` | imported | — | ✅ | 54dacd5ceb13025b |
 | `runtime-checkpoints` | imported | — | ✅ | — |
 | `scenario-41-audio-reference-v1` | imported | — | ✅ | — |
 | `scenario-41-combat-reference-v1` | imported | — | ✅ | 8d4b6571bda88780 |

@@ -1,0 +1,57 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "portrait-palette-producers-v1",
+  "file_count": 19,
+  "files": {
+    "portrait-palette-producers.json": "ba48a33158343bc775ed5014c1e52d85a66495b2a0f1ce0bc7022c10d221dcd1",
+    "raw/control/audit.json": "1ad5c8dfc65e203586d3e4f189d0cec50b289cadf1403126667256a09bb1da85",
+    "raw/control/guard.json": "0341888deedcbe6ee1df81e86dd75dbf3d014faf38423ef4728eb91db6d42c78",
+    "raw/control/scratch.bin": "8c87fe73b486bbdf888660f7d15528d7c70e8b1cfbfcf0d5460b4037b6ce17e1",
+    "raw/control/startup.json": "abcd26ff4d7160a7c71497e9bd5039d98a2784de6d77f377e655a10cde04025d",
+    "raw/control/timeout.png": "ddda820a1d370d51afa603b746adc030c1ca5ca929b7c59045386b5e06110ac2",
+    "raw/control/timeout.ss9": "7f9798f7ee69b11d96d78962e40cdf911cfdf37d98943b23141fd18bb4884ec5",
+    "raw/control/trace.json": "c6ddff782c4b43a5f363b9bd96a4dba51cdc8b6f0a55342ea6f56b2f874f3d2b",
+    "raw/control/writes.json": "9bf17f599949d424e4e7135a3bb7b8050a3c7e51596a518d41ffc0ae1a47aaa2",
+    "raw/input/mode0-cursor.ss9": "69c1d96d4077b67f1b7594f234191b6f6a0956db53a1f62b4bf4ca635df11805",
+    "raw/positive/audit.json": "6cd235cb1df68721d7551c3ded4b196978174ce8302527eb6b88cb257c8191e9",
+    "raw/positive/guard.json": "3963011487d4309e4cad5dd4f63d4c9bdab278dcd547ea3724eebc8564e2bab6",
+    "raw/positive/hit.png": "d174a6a96b061763ef1d1d7613f02731efdcaaddf3b8675fc8843da3e789ed2f",
+    "raw/positive/hit.ss9": "87ab930f3f012f792d2abd4968676d034b44112b3c56ff2ed8c8c2dfe86cfc6f",
+    "raw/positive/portrait-state.bin": "9e3da62abda6b92f66eae6ee87482efdba4a8e7f32bfbe59a31ded672462c7b7",
+    "raw/positive/scratch.bin": "4dc290d7b33dd76b5b123533b0c3959b86fee8ea95f7b4863385be109743d084",
+    "raw/positive/startup.json": "b087ec6a1c5478f4478faabf3ad4eaa19b37c20779c346eb721f497bf3aeb8bb",
+    "raw/positive/trace.json": "480b96993199c1a2b2dcafbf1f190cf15bd1d87ce05d0d0862a0342b6136baff",
+    "raw/positive/writes.json": "5f8fcd17ad0f57804f5c691782372692d9057a97941c0939e6ba0241cb00753d"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/portrait-palette-producers-v1/manifest.json",
+  "manifest_sha256": "5714056ed70d0510727d7b612bc89e90b7d0159c68e9a743c6af4815a0ebd361",
+  "scope": {
+    "all_portrait_palette_runtime_paths_complete": false,
+    "all_scratch_02002880_producers_complete": false,
+    "chapter_opcode_17_mode_denominator_complete": true,
+    "dim_transform_runtime_complete": false,
+    "dim_transform_static_complete": true,
+    "generic_palette_writeback_complete": false,
+    "mode_0_fill_runtime_complete": true,
+    "mode_0_fill_static_complete": true,
+    "mode_0_zero_input_control_complete": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_portrait_palette_producers.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/portrait-palette-producers-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "opcode_17_records": 161,
+      "schema": "portrait-palette-producers-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "79163d5466ea1495189b40064485c5062878ec2ce3a7315442be43a4ce6623d4"
+  }
+}

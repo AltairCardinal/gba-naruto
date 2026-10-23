@@ -1,0 +1,42 @@
+{
+  "artifact_schema": "rom-fixed-renderer-script-records-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-fixed-renderer-script-records.json": {
+      "sha256": "7b56a9a05d8ea7d78bddd68dba874f0c7cae2ae3fa5d1aa6c2ab3a3949ec7698",
+      "size": 32401
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "1d0e785c87e0c5c71869ceffeecb54ef052f43d03a542c369ce66ced790dce21",
+    "test_sha256": "f3d5c118db3eac3ed359ad3a93ea035f9725862b3e456ddc535e36fa247e732f",
+    "verifier_sha256": "c7f3eeaabc4a6755c7974838084aa7495f866924e40fd4ea2bb072d5db7f3927"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_fixed_renderer_script_records.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-fixed-renderer-script-records-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "accepted_site_count": 36,
+    "consumer_site_count": 41,
+    "promotion_bytes": 1124,
+    "record_count": 30
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_fixed_renderer_script_records.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-fixed-renderer-script-records-v1"
+    ]
+  }
+}

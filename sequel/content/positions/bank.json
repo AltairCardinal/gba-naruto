@@ -466734,5 +466734,22 @@
     }
   ],
   "verification": "static_verified",
-  "evidence": "notes/positions-rom-source-20260710.md"
+  "evidence": "notes/positions-rom-source-20260710.md",
+  "_provenance": {
+    "rom": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "offset": 5530052,
+      "size": 317952,
+      "entry_count": 1728,
+      "entry_size": 184
+    },
+    "extractor": null,
+    "reverse_family": null,
+    "reverse_family_candidates": [],
+    "reverse_family_state": "none",
+    "reverse_evidence": [
+      "notes/positions-rom-source-20260710.md"
+    ],
+    "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/positions-rom-source-20260710.md)"
+  }
 }

@@ -278,7 +278,12 @@ def suite_manifest(runner: TestRunner) -> None:
     def test_enabled_patches_only() -> None:
         # All enabled patches should have valid types
         manifest = load_manifest()
-        valid_types = {"bytes", "dialogue", "pointer_redirect", "map", "battle_config", "dialogue_var"}
+        # ``chapter_script`` is handled by build_mod.resolve_chapter_script_patch;
+        # the list has to name every type the builder can actually apply.
+        valid_types = {
+            "bytes", "dialogue", "pointer_redirect", "map", "battle_config",
+            "dialogue_var", "chapter_script",
+        }
         errors = []
         for patch in manifest["patches"]:
             if not patch.get("enabled", True):
@@ -407,6 +412,22 @@ FALSIFIED_ALIAS_GENERATORS = {
     "rom_resource_pointers": "generate_resource_pointer_patches",
 }
 
+#: Generators that must **refuse** rather than write, for a reason other
+#: than a falsified identity.  ``rom_battle_encounters`` is the corrected
+#: visual-descriptor mirror: the merge re-based it to 0x54229C and the
+#: generator deliberately keeps it read-only ("diagnostic-only visual
+#: descriptor mirror").  A check that demands byte patches from it is
+#: asking the generator to write what it was designed never to write.
+READ_ONLY_GENERATORS = {
+    "rom_battle_encounters": "generate_battle_encounter_patches",
+    # The story-C/D/E mirrors were disproved: 0x538FF0 is a resource
+    # descriptor slice, not story data.  The generators refuse them on
+    # purpose; a check must not demand byte patches from them.
+    "rom_story_c": "generate_story_c_patches",
+    "rom_story_d": "generate_story_d_patches",
+    "rom_story_e": "generate_story_e_patches",
+}
+
 # Schema of the synthetic editor database used by
 # ``test_populated_rom_tables_have_generator_output``.  ``sequel/editor.db``
 # is gitignored, so the real database is not available in a clean checkout;
@@ -416,34 +437,49 @@ FALSIFIED_ALIAS_GENERATORS = {
 # kind: "thumb" -> odd ROM pointer, "data" -> even ROM pointer,
 #       "raw"   -> any ROM pointer, "byte" -> 0..255, "word" -> 0..65535
 SYNTHETIC_ROM_TABLES: tuple[tuple[str, list[tuple[str, str]], int, int, int], ...] = (
-    ("rom_battle_encounters", [("entry", "raw")], 0x542384, 38, 4),
-    ("rom_battle_handlers", [("handler_ptr", "thumb")], 0x53E6D8, 14, 4),
-    ("rom_character_stats_b", [("hp", "word"), ("padding1", "byte"),
-                               ("padding2", "byte"), ("padding3", "byte"),
-                               ("max_value", "word"), ("char_type", "byte"),
-                               ("attack", "word"), ("defense", "word")],
-     0x545200, 18, 16),
-    ("rom_cutscene_scripts", [("gfx_ptr", "data"), ("palette_ptr", "data")],
-     0x53DF70, 4, 8),
-    ("rom_data_table_a", [("data_ptr", "data")], 0x5A14A4, 20, 4),
-    ("rom_data_table_b", [("data_ptr", "data")], 0x5A2120, 20, 4),
-    ("rom_fonts", [("char_width", "byte")], 0x53E5B4, 256, 1),
-    ("rom_function_pointers", [("func_ptr", "thumb")], 0x53D5F4, 11, 4),
-    ("rom_map_events", [("handler_ptr", "thumb")], 0x53EB08, 47, 4),
+    # The geometry and the column names below are the **generator's own
+    # contract** (its ``table_offset`` / ``entry_count`` / ``pointer_column``
+    # / ``record_stride``), not a copy of the banks.  The two used to be
+    # assumed identical, and the 2026-10-22 merge re-based 16 banks while
+    # the editor's mirror tables kept their own identity -- ``rom_story_b``
+    # is still the m4a SongHeader at 0x536BC4 even though the ``story-b``
+    # bank now points at the story VM root at 0x60D54.  Copying the banks
+    # here made every generator reject the synthetic database as a stale
+    # editor schema, and the check below misread that refusal as a silent
+    # no-op.  Read the contract from the generator, not from the bank.
+    ("rom_battle_encounters",
+     [("gfx_lz_ptr", "raw"), ("palette_lz_ptr", "raw"),
+      ("tilemap_lz_ptr", "raw"), ("config_id", "word")],
+     0x54229C, 24, 16),
+    ("rom_battle_handlers",
+     [("code_ptr_0", "thumb"), ("code_ptr_1", "thumb")], 0x53E698, 256, 8),
+    ("rom_character_stats_b",
+     [(f"field_{i}", "word") for i in range(8)], 0x545068, 63, 16),
+    ("rom_cutscene_scripts",
+     [("gfx_ptr", "data"), ("palette_ptr", "data")], 0x53DF70, 8, 8),
+    ("rom_data_table_a", [("rom_ptr", "data")], 0x5A143C, 46, 4),
+    ("rom_data_table_b", [("rom_ptr", "data")], 0x5A2034, 90, 4),
+    ("rom_fonts", [("char_width", "byte")], 0x53E596, 256, 1),
+    ("rom_function_pointers", [("slot_value", "raw")], 0x53D5F0, 13, 4),
+    ("rom_map_events",
+     [("code_ptr_0", "thumb"), ("code_ptr_1", "thumb")], 0x53E698, 256, 8),
     ("rom_map_sprites", [("sprite_ptr", "data")], 0x53F140, 86, 4),
-    ("rom_menu_ui", [("ui_ptr", "data")], 0x5A5774, 20, 4),
-    ("rom_palettes", [("palette_ptr", "data")], 0x53F138, 88, 4),
-    ("rom_resource_pointers", [("resource_ptr", "data")], 0x596F0C, 20, 4),
-    ("rom_save_state", [("ewram_buffer", "word"), ("sram_offset_field", "word")],
-     0x53D848, 10, 8),
-    ("rom_sprite_animations", [("frames_ptr", "data"), ("animations_ptr", "data"),
-                               ("gfx_ptr", "data"), ("palette_ptr", "data")],
-     0x596CCC, 576, 16),
-    ("rom_story_b", [("chapter_ptr", "rom")], 0x536BC8, 11, 4),
+    ("rom_menu_ui", [("expr0_ptr_0", "data")], 0x5A4DEC, 63, 40),
+    ("rom_palettes", [("palette_ptr", "data")], 0x53EE98, 15, 10),
+    ("rom_resource_pointers", [("resource_ptr", "data")], 0x596F0C, 5, 16),
+    # The generator reads ``alloc_size`` and falls back to the legacy
+    # ``sram_offset_field``; the synthetic table has to carry both.
+    ("rom_save_state",
+     [("ewram_buffer", "raw"), ("alloc_size", "word"),
+      ("sram_offset_field", "word")], 0x53D848, 10, 8),
+    ("rom_sprite_animations",
+     [("frames_ptr", "data"), ("animations_ptr", "data"),
+      ("gfx_ptr", "data"), ("palette_ptr", "data")], 0x596CCC, 576, 16),
+    ("rom_story_b", [("voicegroup_ptr", "rom")], 0x536BC4, 1, 4),
     ("rom_story_c", [("chapter_ptr", "rom")], 0x538FF0, 11, 4),
     ("rom_story_d", [("chapter_ptr", "rom")], 0x53AB78, 11, 4),
     ("rom_story_e", [("chapter_ptr", "rom")], 0x53C3C0, 9, 4),
-    ("rom_tile_assets", [("tile_ptr", "data")], 0x5A3218, 6, 4),
+    ("rom_tile_assets", [("tile_ptr_0", "data")], 0x5A320C, 79, 68),
 )
 
 
@@ -526,7 +562,7 @@ def suite_db_integrity(runner: TestRunner) -> None:
                     generator = getattr(build_db_patches, generator_name)
                     patches = generator(db_path)
                     byte_patches = [p for p in patches if p.get("type") == "bytes"]
-                    if table in FALSIFIED_ALIAS_GENERATORS:
+                    if table in FALSIFIED_ALIAS_GENERATORS or table in READ_ONLY_GENERATORS:
                         # A falsified identity must refuse, never write.
                         if byte_patches:
                             errors.append(
@@ -552,7 +588,7 @@ def suite_db_integrity(runner: TestRunner) -> None:
                     generator = getattr(build_db_patches, generator_name)
                     patches = generator(synthetic)
                     byte_patches = [p for p in patches if p.get("type") == "bytes"]
-                    if table in FALSIFIED_ALIAS_GENERATORS:
+                    if table in FALSIFIED_ALIAS_GENERATORS or table in READ_ONLY_GENERATORS:
                         if byte_patches:
                             errors.append(
                                 f"{generator_name}: wrote {len(byte_patches)} byte "

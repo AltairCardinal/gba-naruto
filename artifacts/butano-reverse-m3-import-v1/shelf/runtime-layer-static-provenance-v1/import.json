@@ -1,0 +1,30 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "runtime-layer-static-provenance-v1",
+  "file_count": 1,
+  "files": {
+    "runtime-layer-static-provenance.json": "4ba73a257695af886e939dd2dd2aff506a4fc4d0f952401f36f9dc408cc48578"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-layer-static-provenance-v1/manifest.json",
+  "manifest_sha256": "6a24b443bea94177c8a017a1099cfb343b4d61bed765f6a4d7400cf738a16704",
+  "scope": {},
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_runtime_layer_static_provenance.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/runtime-layer-static-provenance-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "checkpoint_count": 91,
+      "errors": [],
+      "layer_count": 196,
+      "schema": "runtime-layer-static-provenance-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "3847d008103ca67ecff2ec470ad6fdfaa5254850f07cfc00a1c990e76c4b9e4b"
+  }
+}

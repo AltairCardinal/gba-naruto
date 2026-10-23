@@ -1,0 +1,43 @@
+{
+  "artifact_schema": "rom-low-script-delta-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-low-script-delta.json": {
+      "sha256": "40a1e64ff14be455fc1d12121d55a5dce81a4cf6ab058509569152ab9acf4b5e",
+      "size": 5213
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "6e424f4703dc2cfa58c6081d61b4563ab21e032e80bb1cd8297996233afc8298",
+    "test_sha256": "65c2bd77a44c088464373e814bcfaf81f48891a50755f2768b373734ba968aad",
+    "verifier_sha256": "c2cd5664d6569ae88bd44be37e39a1ac4adfedaa035aa5a6fa41cc91ff7a70fc"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_low_script_delta.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-low-script-delta-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "accepted_site_count": 4,
+    "consumer_site_count": 6,
+    "promotion_bytes": 12,
+    "record_count": 2
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_low_script_delta.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-low-script-delta-v1"
+    ],
+    "exit_code": 0
+  }
+}

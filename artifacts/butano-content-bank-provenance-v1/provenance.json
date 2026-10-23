@@ -1,0 +1,381 @@
+{
+  "schema": "konoha.butano-content-bank-provenance.v1",
+  "generated_at": "2026-10-22T15:18:48.226372+00:00",
+  "mode": "write",
+  "summary": {
+    "banks": 34,
+    "with_reverse_family": 2,
+    "with_reverse_evidence": 13,
+    "with_extractor": 15,
+    "without_any_source": 19
+  },
+  "rows": [
+    {
+      "bank": "sequel/content/audio/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 4610928,
+      "rom_size": 640,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 4610928 (size 640); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/battle-config/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5526616,
+      "rom_size": 1392,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5526616 (size 1392); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/battle-encounters/bank.json",
+      "reverse_family": "story-visual-layers-v1",
+      "reverse_family_state": "unique",
+      "reverse_evidence": [],
+      "extractor": "tools/populate_bank_json.py",
+      "rom_offset": 5513884,
+      "rom_size": 384,
+      "unattributed_reason": null
+    },
+    {
+      "bank": "sequel/content/battle-handlers/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/evidence/legacy-rebase-final-20261021.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5498520,
+      "rom_size": 2048,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/evidence/legacy-rebase-final-20261021.md)"
+    },
+    {
+      "bank": "sequel/content/battle-presentation-scripts/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": null,
+      "rom_size": null,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset None (size None); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/battle-results/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": null,
+      "rom_size": null,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset None (size None); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/character-stats/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5525608,
+      "rom_size": 1008,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5525608 (size 1008); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/character-stats-b/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/evidence/legacy-rebase-nearby-20261020.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5525608,
+      "rom_size": 1008,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/evidence/legacy-rebase-nearby-20261020.md)"
+    },
+    {
+      "bank": "sequel/content/cutscene-scripts/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": "tools/populate_bank_json.py",
+      "rom_offset": 5496688,
+      "rom_size": 64,
+      "unattributed_reason": "the table was extracted straight from the ROM by tools/populate_bank_json.py; no reverse family and no note claims it"
+    },
+    {
+      "bank": "sequel/content/data-table-a/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5903420,
+      "rom_size": 184,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5903420 (size 184); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/data-table-b/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/evidence/legacy-rebase-final-20261021.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5906484,
+      "rom_size": 360,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/evidence/legacy-rebase-final-20261021.md)"
+    },
+    {
+      "bank": "sequel/content/encounter-zones/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5495056,
+      "rom_size": 0,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5495056 (size 0); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/fonts/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/evidence/legacy-rebase-final-20261021.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5498262,
+      "rom_size": 256,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/evidence/legacy-rebase-final-20261021.md)"
+    },
+    {
+      "bank": "sequel/content/function-pointers/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/evidence/legacy-rebase-final-20261021.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5494256,
+      "rom_size": 52,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/evidence/legacy-rebase-final-20261021.md)"
+    },
+    {
+      "bank": "sequel/content/items/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/alias-conflicts-20261020.md",
+        "notes/evidence/legacy-rebase-nearby-20261020.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5528548,
+      "rom_size": 1504,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/alias-conflicts-20261020.md, notes/evidence/legacy-rebase-nearby-20261020.md)"
+    },
+    {
+      "bank": "sequel/content/levels/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5528008,
+      "rom_size": 540,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5528008 (size 540); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/map-events/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5498520,
+      "rom_size": 2048,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5498520 (size 2048); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/map-sprites/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5501248,
+      "rom_size": 344,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5501248 (size 344); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/maps/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5495056,
+      "rom_size": 1504,
+      "unattributed_reason": "the table was extracted straight from the ROM by tools/extract_all_structures.py; no reverse family and no note claims it"
+    },
+    {
+      "bank": "sequel/content/menu-ui/bank.json",
+      "reverse_family": "menu-portraits-v1",
+      "reverse_family_state": "unique",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5918188,
+      "rom_size": 2520,
+      "unattributed_reason": null
+    },
+    {
+      "bank": "sequel/content/palettes/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5500568,
+      "rom_size": 150,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5500568 (size 150); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/positions/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/positions-rom-source-20260710.md"
+      ],
+      "extractor": null,
+      "rom_offset": 5530052,
+      "rom_size": 317952,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/positions-rom-source-20260710.md)"
+    },
+    {
+      "bank": "sequel/content/resource-pointers/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5861132,
+      "rom_size": 80,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5861132 (size 80); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/sappy-engine/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/alias-conflicts-20261020.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 497256,
+      "rom_size": 32,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/alias-conflicts-20261020.md)"
+    },
+    {
+      "bank": "sequel/content/save-state/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5494856,
+      "rom_size": 80,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5494856 (size 80); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/skills/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5528548,
+      "rom_size": 1504,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 5528548 (size 1504); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/sprite-animations/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/sprite-frame-format-20261020.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5860556,
+      "rom_size": 9216,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/sprite-frame-format-20261020.md)"
+    },
+    {
+      "bank": "sequel/content/story/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 396404,
+      "rom_size": 224,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 396404 (size 224); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/story-b/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 396628,
+      "rom_size": 224,
+      "unattributed_reason": "the table's bytes come from the base ROM at offset 396628 (size 224); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+    },
+    {
+      "bank": "sequel/content/story-c/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/evidence/story-table-family-20261020.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5476332,
+      "rom_size": 44,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/evidence/story-table-family-20261020.md)"
+    },
+    {
+      "bank": "sequel/content/story-d/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/evidence/story-table-family-20261020.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5483380,
+      "rom_size": 48,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/evidence/story-table-family-20261020.md)"
+    },
+    {
+      "bank": "sequel/content/story-e/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/evidence/story-table-family-20261020.md"
+      ],
+      "extractor": "tools/extract_all_structures.py",
+      "rom_offset": 5489596,
+      "rom_size": 40,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/evidence/story-table-family-20261020.md)"
+    },
+    {
+      "bank": "sequel/content/tile-assets/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "ambiguous",
+      "reverse_evidence": [],
+      "extractor": null,
+      "rom_offset": 5911052,
+      "rom_size": 5372,
+      "unattributed_reason": "several reverse families declare the same table address (tile-assets-bg-v1, tile-assets-bg-v2); the bank is not attributed to any one of them"
+    },
+    {
+      "bank": "sequel/content/units/bank.json",
+      "reverse_family": null,
+      "reverse_family_state": "none",
+      "reverse_evidence": [
+        "notes/character-definition-source-20260711.md"
+      ],
+      "extractor": "tools/extract_character_definitions.py",
+      "rom_offset": 5514268,
+      "rom_size": 11340,
+      "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/character-definition-source-20260711.md)"
+    }
+  ]
+}

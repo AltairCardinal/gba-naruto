@@ -2013,5 +2013,23 @@
     "extracted_count": 94,
     "rom_offset": 5528548,
     "rom_offset_hex": "0x545BE4"
+  },
+  "_provenance": {
+    "rom": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "offset": 5528548,
+      "size": 1504,
+      "entry_count": 94,
+      "entry_size": 16
+    },
+    "extractor": "tools/extract_all_structures.py",
+    "reverse_family": null,
+    "reverse_family_candidates": [],
+    "reverse_family_state": "none",
+    "reverse_evidence": [
+      "notes/alias-conflicts-20261020.md",
+      "notes/evidence/legacy-rebase-nearby-20261020.md"
+    ],
+    "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/alias-conflicts-20261020.md, notes/evidence/legacy-rebase-nearby-20261020.md)"
   }
 }

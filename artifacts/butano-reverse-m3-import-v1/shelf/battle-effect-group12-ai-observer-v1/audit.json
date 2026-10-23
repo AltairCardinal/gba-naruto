@@ -1,0 +1,93 @@
+{
+  "automatic_inputs": [],
+  "binary_sha256": "953572b3575b5e3eee9e30ccd0ba62a78dd4628d1034c24bc6356358e4ba2667",
+  "capture_frame_limit": 1800,
+  "child_pgid": 70224,
+  "completion_marker_sha256": "680b854407925a057aaad84cf8b7890c7b043686f0448a043017cdf9d169ec6e",
+  "events": [
+    {
+      "action_address": "0x02027428",
+      "action_id": 61,
+      "address": "0x0807A22C",
+      "candidate_pointer": "0x0202681C",
+      "cycle": "6571059643",
+      "r5": "0x0202680C",
+      "runtime_pointer": "0x02026CB8",
+      "source_action_address": "0x02026828",
+      "source_action_id": 61
+    }
+  ],
+  "frame": 447,
+  "guard_command": [
+    "/private/tmp/mgba-build/build/qt/mGBA.app/Contents/MacOS/mGBA",
+    "--script",
+    "/Users/altair/github/gba-naruto-reverse/tools/mgba_battle_ai_action_observer.lua",
+    "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group12-ai-observer-staged-rom.gba"
+  ],
+  "guard_summary_sha256": "946f45802852fb1f7b2d7437be69363cec8a88e7e56c78780ba6b3f0fc8b27c8",
+  "input_state_sha256": "725148ab22f82fb435c9fdfa8ef0324baee9dc977dc146c5072aeffe37b6d63b",
+  "inputs": [
+    {
+      "down_frame": 60,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 68
+    }
+  ],
+  "output_png_sha256": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+  "output_state_sha256": "8b6a1acc81dfb6d8f5ae6c17b29c64743d659eb47c1221edd0397c7ae70daa1c",
+  "peak_tree_rss_mib": 56.3984375,
+  "pgid_clean": true,
+  "recovery_inputs": [],
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "run_id": "8cd6ddfaa9b517027f4a68187d063819",
+  "runtime_residue": {
+    "checked_at": "2026-08-06T17:29:36.680374Z",
+    "checked_pgid": 70224,
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ]
+  },
+  "schema": "battle-ai-action-observer-v4",
+  "script_sha256": "79a6204f1d24bf62e7c8d801f1dfcfdd0f72fb9f6337f8accd201507bd9b3425",
+  "selection": {
+    "action_address": "0x02027428",
+    "action_id": 61,
+    "address": "0x0807A22C",
+    "candidate_pointer": "0x0202681C",
+    "cycle": "6571059643",
+    "r5": "0x0202680C",
+    "runtime_pointer": "0x02026CB8",
+    "source_action_address": "0x02026828",
+    "source_action_id": 61
+  },
+  "skipped_action_ids": [
+    0
+  ],
+  "staged_rom": "/Users/altair/github/gba-naruto-reverse/build/experiments/active/group12-ai-observer-staged-rom.gba",
+  "staged_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "patch_sha256": null,
+    "path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  }
+}

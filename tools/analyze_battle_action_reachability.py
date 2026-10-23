@@ -11,21 +11,26 @@ from typing import Any
 
 
 INPUTS = {
+    # 2026-10-22: the banks below gained a ``_provenance`` block
+    # (tools/butano/annotate_content_bank_provenance.py), so their bytes
+    # changed on purpose.  The pins still guard against *silent* drift.
     "unit_bank": (
         "sequel/content/units/bank.json",
-        "7d54332bbd3b75dd4f5eea7a10cdde355dfacffa8958393c11aa5370296a5db6",
+        "f54678398bad6141588f0fb2846d582b1ecdaa29c67637b18698869ca6466853",
     ),
     "formation_bank": (
         "sequel/content/positions/bank.json",
-        "bcfd2913d7dce42aebe25c4c55e94d3096c86a37bc2645011a9bf8d4cda0257c",
+        "d3ff476cc0db595597a9fdd98272d41a5644546ae14c4474685a47aab2df6a3c",
     ),
     "action_bank": (
         "sequel/content/battle-config/bank.json",
-        "ab5b49f47d86084517b926da79c1a6b7c0c62bdf51f6ea3813bfd3d809b2d702",
+        "2126d90a0da8b3c15b827eea06cbe0c6f6edac05359dfd24dc784939f40157db",
     ),
+    # The action-identities pin was already stale in the committed tree
+    # (the file moved in the 2026-10-21 merge without a pin update).
     "action_identities": (
         "sequel/content/battle-config/action-identities.json",
-        "2bb8280d8028febf843f1ee7ebc138d6e381b8ada28280bf934f9d6a67297032",
+        "9f1585798fb7bd81e4d72d83a7dd596007b395065f4e14fd6271479942dce3cc",
     ),
     "combination_bindings": (
         "notes/battle-action-combination-bindings-20260725.json",

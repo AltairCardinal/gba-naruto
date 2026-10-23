@@ -222,6 +222,14 @@ def apply_pointer_redirect_patch(
         "id": patch["id"],
         "type": "pointer_redirect",
         "pointer_table_offset": ptr_offset,
+        # The change-radius check derives the declared ranges from the
+        # applied patches' own ``offset``/``length``.  A pointer redirect
+        # writes 4 bytes at the pointer slot, so it has to declare them --
+        # otherwise the write looks "undeclared" and the radius check
+        # rejects the build.  Declaring the real range does not weaken the
+        # check: a write outside the slot would still be caught.
+        "offset": ptr_offset,
+        "length": 4,
         "new_pointer_hex": patch["new_pointer_hex"],
         "expected_pointer_hex": patch["expected_pointer_hex"],
         "patch_class": "game_effective",
@@ -285,7 +293,8 @@ def resolve_dialogue_var_patch(ctx_roots: tuple[Path, Path], patch: dict) -> lis
         from build_db_patches import generate_editor_dialogue_overrides
         overrides = generate_editor_dialogue_overrides(db_path)
     return import_dialogue_variable(
-        bank, content, free_start, free_end,
+        bank, content, free_start,
+        free_space_end=free_end,
         rom=(ROOT / "rom/base.gba").read_bytes(), overrides=overrides,
     )
 

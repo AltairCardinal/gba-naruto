@@ -6,6 +6,14 @@
 > ① 范围是否写死并可枚举；② 每一项是否有**独立证据**（不是"看起来合理"）；
 > ③ 结论是否带**明确的边界**（明确不宣称什么）。
 >
+> ⚠️ **2026-10-22 核对**：本文 §4／§5 的「实测」读数**已过期**，且声明自带的
+> `completion_audit.py --check` 闸门**当前为红**（退出码 1，4 个失败探针；
+> 4 个结构的 L3 证据依赖一个写在 gitignore 目录 `build/` 下、现已丢失的探针）。
+> 工具实算 49 结构 / `none` = 5 / 阻塞缺口 = 3 / 写回可用 = 23，
+> 与 §5 的 47 / 3 / 0 / 24 不一致 ⇒ **P1 与 P3 当前不成立，P2 成立**。
+> 逐条核对见 `notes/re-completion-claim-verification-20261022.md`。
+> 合并前（`b35351db`）该闸门同样是红的，**不是合并引入的回归**。
+>
 > 权威审计数据：`notes/completion-audit-20261020.md`（由 `tools/completion_audit.py` 生成）。
 > 证据分级：`notes/runtime-verification-gates-20260710.md` §四级证据分级。
 > 方法论来源：`notes/re-methodology-improvements-20261020.md`。

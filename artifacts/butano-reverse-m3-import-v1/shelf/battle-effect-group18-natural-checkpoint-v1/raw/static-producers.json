@@ -1,0 +1,101 @@
+{
+  "counts": {
+    "direct_allocator_calls": 7,
+    "direct_type_2_calls": 0,
+    "immediate_type_calls": 7
+  },
+  "direct_allocator_calls": [
+    {
+      "allocator": "0x08081024",
+      "callsite": "0x0806E892",
+      "callsite_window_sha256": "d55d3baf7880892ced7754747abe074abca4d03cb24df6d3ea271903db1a3947",
+      "object_type": 3,
+      "type_load": "0x0806E88E"
+    },
+    {
+      "allocator": "0x08081024",
+      "callsite": "0x0806E8F2",
+      "callsite_window_sha256": "8f7eb6129c0cb65344d6d44fb4589a3fec8248f343efafef80ec1302324dea89",
+      "object_type": 3,
+      "type_load": "0x0806E8EE"
+    },
+    {
+      "allocator": "0x08081024",
+      "callsite": "0x0806E906",
+      "callsite_window_sha256": "74f454acde0f45682964ec36b0ee5e3c75f3a5c02745eb36e0573208bda1aa9d",
+      "object_type": 4,
+      "type_load": "0x0806E902"
+    },
+    {
+      "allocator": "0x08081024",
+      "callsite": "0x0806E91E",
+      "callsite_window_sha256": "5c78dada2fe0dcac55c38806aebddac35362f24e635c71857111e72094331fde",
+      "object_type": 5,
+      "type_load": "0x0806E91A"
+    },
+    {
+      "allocator": "0x08081024",
+      "callsite": "0x0806E932",
+      "callsite_window_sha256": "87b39fa2805646856202018c2d688ca16dc0517b421695081592fbe9517b3f33",
+      "object_type": 4,
+      "type_load": "0x0806E92E"
+    },
+    {
+      "allocator": "0x08081024",
+      "callsite": "0x0806E940",
+      "callsite_window_sha256": "4a5977e0abba22ac5654a00cee5dd7f59865026b9511fc390f643fbee8693dd1",
+      "object_type": 6,
+      "type_load": "0x0806E93C"
+    },
+    {
+      "allocator": "0x08081024",
+      "callsite": "0x0807752C",
+      "callsite_window_sha256": "ac707a6cee8c022d9a04a2a4c9e7af6e000aa922acada8a97c56f1ccac4b1d45",
+      "object_type": 1,
+      "type_load": "0x08077528"
+    }
+  ],
+  "direct_object_types": [
+    1,
+    3,
+    4,
+    5,
+    6
+  ],
+  "group_18_selector_paths": [
+    {
+      "selector_callsite": "0x0806C5BA",
+      "sequence_id": 18,
+      "source": "natural hardcoded selector path",
+      "spawn_callsite": "0x0806C5D8"
+    },
+    {
+      "selector_callsite": "0x08081BDA",
+      "sequence_id": 7,
+      "source": "type-2 battlefield-object expiry branch",
+      "spawn_callsite": "0x08081BF4"
+    },
+    {
+      "selector_callsite": "0x08081FB8",
+      "sequence_id": 7,
+      "source": "type-1 battlefield-object expiry zero-event branch",
+      "spawn_callsite": "0x08081FD2"
+    }
+  ],
+  "schema": "battlefield-object-producers-v1",
+  "scope": {
+    "direct_allocator_call_denominator_complete": true,
+    "direct_type_2_producer_found": false,
+    "indirect_or_post_allocation_type_2_producer_proven_absent": false,
+    "modified_rom_pixel_ab_proven": false,
+    "natural_group_18_route_proven": false
+  },
+  "sources": {
+    "object_allocator": "0x08081024",
+    "rom": {
+      "path": "rom/base.gba",
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+    }
+  },
+  "type_2_direct_producers": []
+}

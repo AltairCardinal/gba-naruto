@@ -1,0 +1,41 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-direct-dma-gpu-inventory-v1",
+  "file_count": 1,
+  "files": {
+    "rom-direct-dma-gpu-inventory.json": "c6f5a00ce343203ad7afb57a0fb90c3543a1350a361c688d6f9de5e6b491dd38"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-direct-dma-gpu-inventory-v1/manifest.json",
+  "manifest_sha256": "84bc8f927047d7356e6779d6550d2ff74e342929da4b9228fc2c8102585324d1",
+  "scope": {
+    "all_thumb_shaped_dma_register_literal_users_audited": true,
+    "cross_function_dataflow_complete": false,
+    "custom_copy_loops_complete": false,
+    "generic_image_writeback_complete": false,
+    "indirect_dma_wrappers_complete": false,
+    "literal_seeded_96_byte_rule_applied_to_full_rom": true,
+    "non_literal_dma_base_derivations_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false,
+    "two_stage_copies_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_direct_dma_gpu_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-direct-dma-gpu-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "constant_rom_gpu_transfer_count": 0,
+      "dma_register_literal_user_count": 21,
+      "errors": [],
+      "schema": "rom-direct-dma-gpu-inventory-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "ae2362e6f0e39ea359b39b2cca60065f2c8c879f99b4832b66fe7e05b2ddea84"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "battle-effect-active-action-runtime-v1",
+  "verified": true,
+  "route": {
+    "kind": "diagnostic-chapter-battle-id",
+    "battle_id": 3,
+    "base_rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "route_rom_sha256": "3569189c489ae1bc92c85d6afd7fc09a8ac97d102bad554323b897d28c911905",
+    "difference_file_offset": "0x00031071",
+    "before": 40,
+    "after": 3
+  },
+  "checkpoint": {
+    "path": "artifacts/runtime-checkpoints/battle3-action61-ai-preconfirm.ss9",
+    "sha256": "6524764b33c419077bfad8d13fff220a6d20e80b8b92c9da08c9b94d6cdcdf48",
+    "png": "artifacts/runtime-checkpoints/battle3-action61-ai-preconfirm.png",
+    "png_sha256": "d2636dff87145b322f81e4d184bfb24497b91ac995d92400e25dc2883c1d70ea"
+  },
+  "execution": {
+    "action_id": 61,
+    "sequence_id": 15,
+    "group_id": 13,
+    "input": {
+      "key": "A",
+      "down_frame": 60,
+      "up_frame": 68,
+      "hold_frames": 8
+    },
+    "automatic_inputs": [],
+    "recovery_inputs": [],
+    "selection_frame": 179,
+    "selection": {
+      "address": "0x0807A22C",
+      "candidate_pointer": "0x0202681C",
+      "source_action_address": "0x02026828",
+      "source_action_id": 61,
+      "runtime_pointer": "0x02026CB8",
+      "action_address": "0x02027428",
+      "action_id": 61,
+      "r5": "0x0202680C"
+    }
+  },
+  "observer": {
+    "audit": "artifacts/battle-effect-group13-natural-runtime-v1/raw/observer-audit.json",
+    "audit_sha256": "68c1771207b5c84bafd1a1fa0319d76e2bcaff38c538958ef0d9ad660e5a769d",
+    "guard": "artifacts/battle-effect-group13-natural-runtime-v1/raw/observer-guard.json",
+    "guard_sha256": "e0d0ae679c537f42b8292e97f0b8acd25d30ff9566b0ea6ab14d4abc0518db31",
+    "done": "artifacts/battle-effect-group13-natural-runtime-v1/raw/observer-done.json",
+    "done_sha256": "d3a2307732f6586748a96704726dc57309b58b5f6a5fda6414890500538b61db",
+    "output_state": "artifacts/battle-effect-group13-natural-runtime-v1/raw/observer-selection.ss9",
+    "output_state_sha256": "d006183f1781d8d18209e993dfc76789820c34a1d57ec7e5b69ac7ece71b387f",
+    "output_png": "artifacts/battle-effect-group13-natural-runtime-v1/raw/observer-selection.png",
+    "output_png_sha256": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+    "script": "tools/mgba_battle_ai_action_observer.lua",
+    "script_sha256": "79a6204f1d24bf62e7c8d801f1dfcfdd0f72fb9f6337f8accd201507bd9b3425"
+  },
+  "toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "profile": "artifacts/rom-expansion-profile-v1/profile.json",
+    "profile_sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  },
+  "scope": {
+    "natural_ai_action_selection": true,
+    "diagnostic_battle_route": true,
+    "original_story_reachability": false,
+    "modified_resource_runtime": false,
+    "physical_gba_verified": false
+  }
+}

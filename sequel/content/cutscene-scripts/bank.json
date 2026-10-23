@@ -8,8 +8,18 @@
   "entry_format": {
     "description": "Eight contiguous pointer pairs. Records 0..3 are LZ77 graphics/palette pairs; records 4..7 are sprite-definition/animation pairs for the same IDs.",
     "fields": [
-      {"offset": 0, "size": 4, "name": "primary_ptr", "type": "u32"},
-      {"offset": 4, "size": 4, "name": "secondary_ptr", "type": "u32"}
+      {
+        "offset": 0,
+        "size": 4,
+        "name": "primary_ptr",
+        "type": "u32"
+      },
+      {
+        "offset": 4,
+        "size": 4,
+        "name": "secondary_ptr",
+        "type": "u32"
+      }
     ]
   },
   "verification": "code_verified",
@@ -17,14 +27,106 @@
   "former_claim": "16 independent cutscene script pointers",
   "notes": "The first four primary and secondary targets have GBA LZ77 header 0x10. The second four pairs are a distinct, adjacent sprite descriptor table. The historical cutscene-scripts slug and legacy editor column names are retained only for migration compatibility.",
   "entries": [
-    {"_index": 0, "_raw_offset": 5496688, "pair_kind": "compressed_gfx_palette", "resource_id": 0, "primary_ptr": 135453156, "primary_ptr_hex": "e4d91208", "secondary_ptr": 135454436, "secondary_ptr_hex": "e4de1208"},
-    {"_index": 1, "_raw_offset": 5496696, "pair_kind": "compressed_gfx_palette", "resource_id": 1, "primary_ptr": 135454540, "primary_ptr_hex": "4cdf1208", "secondary_ptr": 135455788, "secondary_ptr_hex": "2ce41208"},
-    {"_index": 2, "_raw_offset": 5496704, "pair_kind": "compressed_gfx_palette", "resource_id": 2, "primary_ptr": 135455892, "primary_ptr_hex": "94e41208", "secondary_ptr": 135457096, "secondary_ptr_hex": "48e91208"},
-    {"_index": 3, "_raw_offset": 5496712, "pair_kind": "compressed_gfx_palette", "resource_id": 3, "primary_ptr": 135457200, "primary_ptr_hex": "b0e91208", "secondary_ptr": 135458136, "secondary_ptr_hex": "58ed1208"},
-    {"_index": 4, "_raw_offset": 5496720, "pair_kind": "sprite_definition_animation", "resource_id": 0, "primary_ptr": 135454508, "primary_ptr_hex": "2cdf1208", "secondary_ptr": 135454532, "secondary_ptr_hex": "44df1208"},
-    {"_index": 5, "_raw_offset": 5496728, "pair_kind": "sprite_definition_animation", "resource_id": 1, "primary_ptr": 135455860, "primary_ptr_hex": "74e41208", "secondary_ptr": 135455884, "secondary_ptr_hex": "8ce41208"},
-    {"_index": 6, "_raw_offset": 5496736, "pair_kind": "sprite_definition_animation", "resource_id": 2, "primary_ptr": 135457168, "primary_ptr_hex": "90e91208", "secondary_ptr": 135457192, "secondary_ptr_hex": "a8e91208"},
-    {"_index": 7, "_raw_offset": 5496744, "pair_kind": "sprite_definition_animation", "resource_id": 3, "primary_ptr": 135458256, "primary_ptr_hex": "d0ed1208", "secondary_ptr": 135458304, "secondary_ptr_hex": "00ee1208"}
+    {
+      "_index": 0,
+      "_raw_offset": 5496688,
+      "pair_kind": "compressed_gfx_palette",
+      "resource_id": 0,
+      "primary_ptr": 135453156,
+      "primary_ptr_hex": "e4d91208",
+      "secondary_ptr": 135454436,
+      "secondary_ptr_hex": "e4de1208"
+    },
+    {
+      "_index": 1,
+      "_raw_offset": 5496696,
+      "pair_kind": "compressed_gfx_palette",
+      "resource_id": 1,
+      "primary_ptr": 135454540,
+      "primary_ptr_hex": "4cdf1208",
+      "secondary_ptr": 135455788,
+      "secondary_ptr_hex": "2ce41208"
+    },
+    {
+      "_index": 2,
+      "_raw_offset": 5496704,
+      "pair_kind": "compressed_gfx_palette",
+      "resource_id": 2,
+      "primary_ptr": 135455892,
+      "primary_ptr_hex": "94e41208",
+      "secondary_ptr": 135457096,
+      "secondary_ptr_hex": "48e91208"
+    },
+    {
+      "_index": 3,
+      "_raw_offset": 5496712,
+      "pair_kind": "compressed_gfx_palette",
+      "resource_id": 3,
+      "primary_ptr": 135457200,
+      "primary_ptr_hex": "b0e91208",
+      "secondary_ptr": 135458136,
+      "secondary_ptr_hex": "58ed1208"
+    },
+    {
+      "_index": 4,
+      "_raw_offset": 5496720,
+      "pair_kind": "sprite_definition_animation",
+      "resource_id": 0,
+      "primary_ptr": 135454508,
+      "primary_ptr_hex": "2cdf1208",
+      "secondary_ptr": 135454532,
+      "secondary_ptr_hex": "44df1208"
+    },
+    {
+      "_index": 5,
+      "_raw_offset": 5496728,
+      "pair_kind": "sprite_definition_animation",
+      "resource_id": 1,
+      "primary_ptr": 135455860,
+      "primary_ptr_hex": "74e41208",
+      "secondary_ptr": 135455884,
+      "secondary_ptr_hex": "8ce41208"
+    },
+    {
+      "_index": 6,
+      "_raw_offset": 5496736,
+      "pair_kind": "sprite_definition_animation",
+      "resource_id": 2,
+      "primary_ptr": 135457168,
+      "primary_ptr_hex": "90e91208",
+      "secondary_ptr": 135457192,
+      "secondary_ptr_hex": "a8e91208"
+    },
+    {
+      "_index": 7,
+      "_raw_offset": 5496744,
+      "pair_kind": "sprite_definition_animation",
+      "resource_id": 3,
+      "primary_ptr": 135458256,
+      "primary_ptr_hex": "d0ed1208",
+      "secondary_ptr": 135458304,
+      "secondary_ptr_hex": "00ee1208"
+    }
   ],
-  "extraction": {"tool": "tools/populate_bank_json.py", "extracted_count": 8, "rom_offset": 5496688, "rom_offset_hex": "0x53DF70"}
+  "extraction": {
+    "tool": "tools/populate_bank_json.py",
+    "extracted_count": 8,
+    "rom_offset": 5496688,
+    "rom_offset_hex": "0x53DF70"
+  },
+  "_provenance": {
+    "rom": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "offset": 5496688,
+      "size": 64,
+      "entry_count": 8,
+      "entry_size": 8
+    },
+    "extractor": "tools/populate_bank_json.py",
+    "reverse_family": null,
+    "reverse_family_candidates": [],
+    "reverse_family_state": "none",
+    "reverse_evidence": [],
+    "unattributed_reason": "the table was extracted straight from the ROM by tools/populate_bank_json.py; no reverse family and no note claims it"
+  }
 }

@@ -1,0 +1,56 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-cutscene-obj-source-ranges-v1",
+  "file_count": 2,
+  "files": {
+    "rom-cutscene-obj-source-ranges.bin": "a8a881804ae016cfad1f031ac5b080cd51bb7823416ff48c7db4ed1ed4e48d8c",
+    "rom-cutscene-obj-source-ranges.json": "6d25034640799621d9adcfb8b8f2a553757f6d9fb2988216b426d0777559a2dc"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-cutscene-obj-source-ranges-v1/manifest.json",
+  "manifest_sha256": "a0e97ec43858a145a7c26dc71c5b89dfe8c4d9a5d6074ccad88c4ae56e03afd5",
+  "scope": {
+    "all_scene_or_cutscene_sources": false,
+    "definition_unknown_field_semantics": false,
+    "editing_writeback_or_relocation_safety": false,
+    "final_pixels": false,
+    "fixed_frame_counts": [
+      2,
+      2,
+      2,
+      4
+    ],
+    "fixed_resource_ids": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "free_space": false,
+    "graphics_or_palette_expansion": false,
+    "natural_all_id_or_frame_reachability": false,
+    "source_records_and_pointer_tables_only": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_cutscene_obj_source_ranges.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "build/experiments/active/cutscene-obj-source-ranges/r5/final"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-cutscene-obj-source-ranges-v1",
+      "bundle_sha256": "a8a881804ae016cfad1f031ac5b080cd51bb7823416ff48c7db4ed1ed4e48d8c",
+      "byte_count": 400,
+      "errors": [],
+      "range_count": 28,
+      "range_vector_sha256": "5ffcd048916c21a3cd46a7baf5421c2db7812a4c5cf0d73edd83efb9eb03ab43",
+      "schema": "rom-cutscene-obj-source-ranges-verification-v1",
+      "verified": true
+    },
+    "schema": "rom-cutscene-obj-source-ranges-verification-v1",
+    "verifier_sha256": "a1075b8885378fe2c26c1c262126ad8098bb81c171a805cb3e08ed0d8217c446"
+  }
+}

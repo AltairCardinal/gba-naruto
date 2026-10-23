@@ -1,0 +1,53 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "map41-visual-resource-matrix-v1",
+  "file_count": 22,
+  "files": {
+    "baseline/audit.json": "ab5d07bbe72ecefe0a5e31124dd776888f205f35c85d910ddbd2207a5f89a973",
+    "baseline/frame80.png": "b01457740fae63310e60b2bd14099dd4e8e5e1a20b051c8f69937fdf751707de",
+    "baseline/frame80.ss9": "87b7a7fcdff1c3650a2b2e9d41a0d422c8a6f88bf15778543ed89692569f6f4b",
+    "baseline/guard.json": "d04ee6736b195b7fa9462b2af846550238fcd798472a1022b2e6594f9672d6b4",
+    "baseline/sentinel.json": "ab5d07bbe72ecefe0a5e31124dd776888f205f35c85d910ddbd2207a5f89a973",
+    "bg_palette/audit.json": "932189a6163e99ec9f53ad6707f41e67690dc3f6aead53d788f880691ed283b1",
+    "bg_palette/frame80.png": "ae3ac3726d89070deb8f1076cd4ad6968306c7bb2463a27679c11b1a06336999",
+    "bg_palette/frame80.ss9": "3f49ef09670e9eee74502a8e93a9da8410a5d0feb2b8545470d70063dcceae07",
+    "bg_palette/guard.json": "25300f5596b3c70400a87860a67ef5da3ef9863b241b556ede7a05841fceb7b7",
+    "bg_palette/sentinel.json": "932189a6163e99ec9f53ad6707f41e67690dc3f6aead53d788f880691ed283b1",
+    "build-manifest.json": "eacb05f101962b1e2082e06282657c3060b5fb5c6d588c5c78cadee7bd493bab",
+    "metatile_definitions/audit.json": "1812a42627e696026594210739dcb942aecba1f9bd8f585d14fec064beabe731",
+    "metatile_definitions/frame80.png": "1726b29b39de32fef97567f9e76a72f4c43208ef4d8ac5e06a41789cf14a5134",
+    "metatile_definitions/frame80.ss9": "4cbe170d04a0f45143d82648ff0a79eb96cade0d8313baed0e402c54e6350e22",
+    "metatile_definitions/guard.json": "632cff2ce7a44ef5fa65565e6cbd5a295872ebd73520848ec2a97ddc9ccedac0",
+    "metatile_definitions/sentinel.json": "1812a42627e696026594210739dcb942aecba1f9bd8f585d14fec064beabe731",
+    "runtime-evidence.json": "30305ea29d9b1caf26c0ac92eaf53603d537b9f4ca55dfd602d7486e5b460a26",
+    "tile_graphics/audit.json": "0d8ec3f7539286e80abdc764e98c517153682cf7735fe77c9f1f20155869a0c6",
+    "tile_graphics/frame80.png": "c0bf9c1ac65fa3c701d3e11cae599f21d95a36a8afc6b0aeed7cae16e5297378",
+    "tile_graphics/frame80.ss9": "8946e574d4494919aae7bbb17d071d84b54319d00225ba561377df7fe0ddc9ff",
+    "tile_graphics/guard.json": "a0f9030d77af27066dde203c36639101729b630b9d157ed86f11368c1630040e",
+    "tile_graphics/sentinel.json": "0d8ec3f7539286e80abdc764e98c517153682cf7735fe77c9f1f20155869a0c6"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/map41-visual-resource-matrix-v1/manifest.json",
+  "manifest_sha256": "196aa07481b9aeb75ebae59de9214bc8893eb9bc913e29f9441897cd7590ec42",
+  "scope": {
+    "all_maps_all_resources": false,
+    "collision_gameplay": false,
+    "map41_bg_palette_pixel_ab": true,
+    "map41_metatile_definitions_pixel_ab": true,
+    "map41_tile_graphics_pixel_ab": true,
+    "natural_entry": true,
+    "physical_gba_verified": false,
+    "preserved_aliases": true,
+    "shared_patch_topology": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_map41_visual_resource_matrix_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/map41-visual-resource-matrix-v1"
+    ],
+    "exit_code": 0
+  }
+}

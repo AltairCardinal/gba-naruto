@@ -1,0 +1,34 @@
+{
+  "schema": "konoha.butano-graphic-asset-sidecar.v1",
+  "generator": "/Users/altair/github/gba-naruto/tools/generate_butano_movegrid_overlay_assets.py",
+  "asset_count": 2,
+  "assets": [
+    "battle_movegrid_overlay_tiles.bmp",
+    "battle_movegrid_overlay_tiles.json"
+  ],
+  "attribution_rules": {
+    "battle_movegrid_overlay_tiles.bmp": "literal",
+    "battle_movegrid_overlay_tiles.json": "literal"
+  },
+  "name_patterns": [
+    "ROM SHA-256 mismatch for {rom_path}: got {rom_sha256}, expected ",
+    "ROM not found: {rom_path}",
+    "bmp        {result['bmp']}  {result['bmp_bytes']} B",
+    "header     {result['header']}  {result['header_bytes']} B",
+    "palette    0x{PALETTE_ROM_ADDRESS:08X} -> {PALETTE_DECOMPRESSED_BYTES} B  ",
+    "sha256={result['palette_sha256']}",
+    "sha256={result['tiles_sha256']}",
+    "sidecar    {result['json']}  {result['json_bytes']} B",
+    "the palette payload at 0x{PALETTE_ROM_ADDRESS:08X} hashes to ",
+    "the tile payload at 0x{TILES_ROM_ADDRESS:08X} hashes to ",
+    "tiles      0x{TILES_ROM_ADDRESS:08X} -> {TILES_DECOMPRESSED_BYTES} B  "
+  ],
+  "reverse_family": null,
+  "declared_families": [
+    {
+      "family": "rom-pointer-lz77-inventory-v1",
+      "manifest_sha256": "d4afca9d19c3b764ce40f460d9c73d7c19f908bf25c197d4b082bd6bc5c4bb33"
+    }
+  ],
+  "reverse_family_reason": "the generator declares no reverse-source family"
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "konoha.butano-graphic-asset-sidecar.v1",
+  "generator": "/Users/altair/github/gba-naruto/tools/generate_butano_battle_presentation_glyphs.py",
+  "asset_count": 3,
+  "assets": [
+    "battle_presentation_glyphs.bmp",
+    "battle_presentation_glyphs.json",
+    "generated_battle_presentation_glyph_content.h"
+  ],
+  "attribution_rules": {
+    "battle_presentation_glyphs.bmp": "literal",
+    "battle_presentation_glyphs.json": "literal",
+    "generated_battle_presentation_glyph_content.h": "literal"
+  },
+  "name_patterns": [
+    "expected {FONT_TABLE_SHA256}, got {actual}",
+    "expected {ROM_SHA256}, got {actual_rom_hash}"
+  ],
+  "reverse_family": null,
+  "declared_families": [
+    {
+      "family": "dialogue-font-v2",
+      "manifest_sha256": "818684d7533ae44bbe4f56b4b6df9a6d6f69612a43ae041dfb5a7b0b0698e69c"
+    }
+  ],
+  "reverse_family_reason": "the generator declares no reverse-source family"
+}

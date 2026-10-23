@@ -1,0 +1,211 @@
+{
+  "schema": "konoha.s49-overlay-preconditions.v1",
+  "generated_at": "2026-10-23T09:22:37.647140+00:00",
+  "inputs": {
+    "tilemap_receipt": {
+      "path": "artifacts/s49-original-movegrid-tilemap-v1",
+      "tiles_4bpp_sha256": "0f86c8032129ef1b92fb1464c516a03b1c0ca71672ac5de4d37e8b302cf6ce40"
+    },
+    "content_header": {
+      "path": "butano-sequel/game/include/konoha/generated_battle_battlefield_overlay_content.h",
+      "sha256": "fd670c31f729c5c633d37292e1cf41e621ad9f30b31223aa08d59e58f0c3f8c8"
+    },
+    "tiles_header": {
+      "path": "butano-sequel/game/include/konoha/generated_battle_battlefield_overlay_tiles.h",
+      "sha256": "181f04777c8b093538d210edf043889638090a7edd0dd91921dc42a452c50824"
+    },
+    "plan": {
+      "path": "artifacts/s49-overlay-plan-20261021-v1/capacity.json",
+      "sha256": "1fcfdab1ef405a70a1f871d2a9c586fa5720a306f047563626f1b5df3fa819c0"
+    },
+    "reverse_family_json": {
+      "path": "/Users/altair/github/gba-naruto-reverse/artifacts/overview-gradient-overlay-v1/overview-gradient-overlay.json",
+      "sha256": "b4ac97c3bc534d6932b9d189d58a31fe7986c5c9f3557f590fba0fdd839a8b6d"
+    }
+  },
+  "checks": [
+    {
+      "check": "tiles",
+      "ok": true,
+      "blocks_compared": 32,
+      "original_bytes": 1024,
+      "expanded_bytes": 2048,
+      "expansion_rule": "v==0 -> 0, 1<=v<=11 -> 224+v, v>11 -> 0",
+      "problems": []
+    },
+    {
+      "check": "visible_window",
+      "ok": true,
+      "scroll": {
+        "hoffs": 240,
+        "voffs": 24
+      },
+      "formula": "entry[(row + 3) % 32][(column + 30) % 32]",
+      "states": {
+        "banner-frame-v1": {
+          "scroll": {
+            "hoffs": 240,
+            "voffs": 24
+          },
+          "declared_matches_formula": true,
+          "palette_banks": [
+            12
+          ],
+          "tile_indices": [
+            256,
+            257,
+            258,
+            259,
+            260,
+            261,
+            262,
+            263,
+            264,
+            265,
+            278,
+            279,
+            280,
+            281
+          ],
+          "distinct_tiles": 14,
+          "lit_entries": 580
+        },
+        "field-frame-v1": {
+          "scroll": {
+            "hoffs": 240,
+            "voffs": 24
+          },
+          "declared_matches_formula": true,
+          "palette_banks": [
+            12
+          ],
+          "tile_indices": [
+            256,
+            257,
+            258,
+            259,
+            260,
+            261,
+            262,
+            263,
+            264,
+            265,
+            278,
+            279,
+            280,
+            281
+          ],
+          "distinct_tiles": 14,
+          "lit_entries": 580
+        },
+        "grid16-frame-v1": {
+          "scroll": {
+            "hoffs": 152,
+            "voffs": 40
+          },
+          "declared_matches_formula": true,
+          "palette_banks": [
+            12
+          ],
+          "tile_indices": [
+            256,
+            257,
+            258,
+            259,
+            260,
+            261,
+            262,
+            263,
+            264,
+            265,
+            270,
+            272,
+            278,
+            279,
+            280,
+            281
+          ],
+          "distinct_tiles": 16,
+          "lit_entries": 573
+        },
+        "movegrid-frame-v1": {
+          "scroll": {
+            "hoffs": 240,
+            "voffs": 24
+          },
+          "declared_matches_formula": true,
+          "palette_banks": [
+            12
+          ],
+          "tile_indices": [
+            256,
+            257,
+            258,
+            259,
+            260,
+            261,
+            262,
+            263,
+            264,
+            265,
+            278,
+            279,
+            280,
+            281
+          ],
+          "distinct_tiles": 14,
+          "lit_entries": 580
+        }
+      },
+      "problems": []
+    },
+    {
+      "check": "source_identity",
+      "ok": true,
+      "finding": "the S49 battle overlay's closed original side is the remake tree's own runtime receipt, not a reverse family; the reverse family overview-gradient-overlay-v1 is the character overview gradient overlay on BG0",
+      "consequence": "W2 is not blocked on a missing reverse family -- but W4's 'the original side is already closed' premise must be read as 'the closed side is in this tree, in a runtime receipt'",
+      "facts": {
+        "reverse_family": {
+          "id": "overview-gradient-overlay-v1",
+          "layer": "BG0",
+          "palette_bank": 13,
+          "tile_count": 11,
+          "tilemap_dimensions": [
+            30,
+            20
+          ],
+          "checkpoint": "artifacts/runtime-checkpoints/alternate-character-overview.ss9",
+          "controller": "0x0808DCE0"
+        },
+        "s49_overlay_source": {
+          "id": "artifacts/s49-original-movegrid-tilemap-v1",
+          "layer": "BG2",
+          "palette_bank": 12,
+          "tile_count": 32,
+          "tilemap_dimensions": [
+            32,
+            32
+          ],
+          "checkpoint": "artifacts/s49-remake-walk-20261021-v1",
+          "controller": "the S49 battle controller"
+        }
+      },
+      "problems": []
+    },
+    {
+      "check": "upload",
+      "ok": true,
+      "logical_tiles_now": 77,
+      "logical_tiles_new": 52,
+      "bytes_now": 4928,
+      "bytes_new": 3328,
+      "delta_bytes": -1600,
+      "tile_pages_now": 3,
+      "tile_pages_new": 2,
+      "map_bytes": 2048,
+      "base_alignment_bytes": 64,
+      "problems": []
+    }
+  ],
+  "ok": true
+}

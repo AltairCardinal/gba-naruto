@@ -1,0 +1,43 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-gpu-copy-queue-inventory-v1",
+  "file_count": 1,
+  "files": {
+    "rom-gpu-copy-queue-inventory.json": "798b72cbeb69cae522f77f586794cd0bf9d1775d57d590479daf89e808ca23bf"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-gpu-copy-queue-inventory-v1/manifest.json",
+  "manifest_sha256": "3a3f4d06f27560dfcf2674c13802e2fbcc551246e5de121b1f62747a09f32a95",
+  "scope": {
+    "all_async_transfer_queues_complete": false,
+    "all_game_visual_states_complete": false,
+    "dialogue_tilemap_submit_complete": false,
+    "direct_caller_resource_classification_complete": true,
+    "direct_thumb_bl_callers_complete": true,
+    "generic_image_writeback_complete": false,
+    "indirect_enqueue_callers_complete": false,
+    "queue_status_1_abi_complete": true,
+    "queue_status_3_enqueue_shape_complete": true,
+    "queue_status_3_lifecycle_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_gpu_copy_queue_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-gpu-copy-queue-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "direct_caller_count": 14,
+      "errors": [],
+      "new_rom_source_count": 0,
+      "schema": "rom-gpu-copy-queue-inventory-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "7314eef6758b055a9a30dc5778e1d001b1328a9c65a1435306f44759b52f2ce0"
+  }
+}

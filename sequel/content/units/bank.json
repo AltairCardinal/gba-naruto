@@ -19987,5 +19987,22 @@
     "extracted_count": 63,
     "rom_offset": 5514268,
     "rom_offset_hex": "0x54241C"
+  },
+  "_provenance": {
+    "rom": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "offset": 5514268,
+      "size": 11340,
+      "entry_count": 63,
+      "entry_size": 180
+    },
+    "extractor": "tools/extract_character_definitions.py",
+    "reverse_family": null,
+    "reverse_family_candidates": [],
+    "reverse_family_state": "none",
+    "reverse_evidence": [
+      "notes/character-definition-source-20260711.md"
+    ],
+    "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/character-definition-source-20260711.md)"
   }
 }

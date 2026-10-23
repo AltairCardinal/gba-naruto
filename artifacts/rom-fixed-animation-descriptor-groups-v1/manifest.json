@@ -1,0 +1,41 @@
+{
+  "artifact_schema": "rom-fixed-animation-descriptor-groups-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-fixed-animation-descriptor-groups.json": {
+      "sha256": "8afa72be44e60892c85a16c037052ea6a02dd078b0864227ebef436ba3ae5e3b",
+      "size": 9341
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "309c7915b0fc07d54780e66f43ea82984f35538da750ba5852bce8a411bf5a94",
+    "test_sha256": "0aa3981a80d073618eef67245f9eaeeb12ab4d7767547037ba85cc365aa8bf34",
+    "verifier_sha256": "9555d5bf37c1b19fdb1b5e8dada5fad5aaa32eabbcaa9c803e96b6037896e529"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_fixed_animation_descriptor_groups.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-fixed-animation-descriptor-groups-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "descriptor_count": 12,
+    "group_count": 4,
+    "promotion_bytes": 1136
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_fixed_animation_descriptor_groups.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-fixed-animation-descriptor-groups-v1"
+    ]
+  }
+}

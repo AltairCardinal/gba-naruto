@@ -22,13 +22,12 @@
 
 | 状态 | 族数 |
 | --- | ---: |
-| `imported-and-gated` | 57 |
-| `local-rederived-identical` | 26 |
+| `imported-and-gated` | 109 |
+| `local-rederived-identical` | 41 |
 | `no-material` | 37 |
 | `not-importable` | 51 |
-| `on-shelf` | 68 |
 | `unclassified` | 12 |
-| `verified-against` | 1 |
+| `verified-against` | 2 |
 | `wired-and-gated` | 12 |
 
 ## sink 侧（复刻产物）
@@ -47,7 +46,7 @@
 | 内容库（`sequel/content/*/bank.json`） | 34 | ❌ 无载体 |
 | 图形资产（`butano-sequel/graphics/`） | 1819 | ❌ 无载体 |
 | 运行时源码（`game/src/*.cpp`） | 4 | ❌ 无载体 |
-| 门禁（`tests/test_*.py`） | 374 | — |
+| 门禁（`tests/test_*.py`） | 381 | — |
 
 ## 带声明接线的覆盖率断言
 
@@ -55,23 +54,14 @@
 
 | 项 | 值 |
 | --- | ---: |
-| 审计器可见（两套载体合计） | 69 |
-| 矩阵数出的带声明接线 | 69 |
+| 审计器可见（两套载体合计） | 121 |
+| 矩阵数出的带声明接线 | 121 |
 | **差** | **0** |
 
 ## 未接线的族（on-shelf，按类别）
 
 | 类别 | 族数 | 族 |
 | --- | ---: | --- |
-| battle | 1 | `battle-status-bars-v1` |
-| map | 3 | `map41-visual-resource-matrix-v1`, `scene-visual-composites-v1`, `scene-visual-transition-timelines-v1` |
-| other | 2 | `initializer-resource-pack-v1`, `lz77-palette-runtime-v1` |
-| overview | 1 | `overview-gradient-overlay-v1` |
-| presentation | 2 | `portrait-palette-producers-v1`, `story-visual-resource-sources-v1` |
-| residual | 8 | `residual-text-bg-tilemap-resource-ownership-v1`, `residual-wram-crop-tilemap-runtime-v1`, `residual-wram-tilemap-abi-v1`, `residual-wram-tilemap-resource-ownership-v1`, `residual-wram-tilemap-runtime-v1`, `residual-wram-tilemap-runtime-v2`, `residual-wram-transformed-tilemap-runtime-v1`, `residual-wram-visual-metadata-abi-v2` |
-| rom | 29 | `rom-alternate-dialogue-table-v1`, `rom-animation-descriptor-pool-v2`, `rom-battle-sound-selector-v1`, `rom-boot-copy-sources-v1`, `rom-bounded-index-u16-pair-table-v1`, `rom-cfg-proven-roots-v14`, `rom-cutscene-obj-source-ranges-v1`, `rom-dialogue-text-inventory-v1`, `rom-direct-cpuset-gpu-inventory-v1`, `rom-direct-dma-gpu-inventory-v1`, `rom-directsound-pitch-lookup-v1`, `rom-display-text-delta-v1` … |
-| runtime | 4 | `runtime-bg-composites-v1`, `runtime-font-tile-provenance-v1`, `runtime-layer-static-provenance-v1`, `runtime-screen-composites-v1` |
-| visual | 18 | `battle-effect-frame-phase-group1-v1`, `battle-effect-frame-phase-group14-v1`, `battle-effect-frame-phase-group16-natural-v1`, `battle-effect-frame-phase-group17-natural-v1`, `battle-effect-frame-phase-group18-natural-sequence-v1`, `battle-effect-frame-phase-group2-v1`, `battle-effect-frame-phase-group3-natural-v1`, `battle-effect-frame-phase-group4-natural-v1`, `battle-effect-frame-phase-group5-v1`, `battle-effect-frame-phase-v1`, `battle-effect-group12-ai-observer-v1`, `battle-effect-group13-natural-runtime-v1` … |
 
 ## 已接线但无门禁的族
 

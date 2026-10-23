@@ -1,0 +1,54 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-battle-sound-selector-v1",
+  "file_count": 2,
+  "files": {
+    "battle-sound-selector.bin": "2f77582ae5eea1711b079fc8ce67d36e95ec68bf0e2bd0a3d5780eb3d9819b5d",
+    "battle-sound-selector.json": "266f76afe82de66308661d28d15da001e84a68dacef4cb59965c23d53ba76ba2"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-battle-sound-selector-v1/manifest.json",
+  "manifest_sha256": "eb30940a42f9d2c0e7ece5f18939eb4c0b1fbb06c9d51bc756ad853bc13d8807",
+  "scope": {
+    "coverage_classification_performed": false,
+    "direct_literal_consumer_denominator_complete": true,
+    "non_claims": {
+      "all_battle_audio_exhausted_claimed": false,
+      "all_direct_paths_naturally_reached_claimed": false,
+      "all_indices_naturally_reached_claimed": false,
+      "all_selector_consumers_exhausted_claimed": false,
+      "allocatable_space_claimed": false,
+      "computed_or_ram_consumers_exhausted_claimed": false,
+      "editing_safety_claimed": false,
+      "free_space_claimed": false,
+      "index_to_gameplay_semantics_claimed": false,
+      "left_neighbor_structure_claimed": false,
+      "nonzero_value_business_semantics_claimed": false,
+      "play_routine_full_behavior_claimed": false,
+      "relocation_safety_claimed": false,
+      "right_neighbor_business_relation_claimed": false,
+      "sound_playback_success_claimed": false,
+      "writeback_safety_claimed": false,
+      "zero_value_business_semantics_claimed": false
+    },
+    "physical_selector_table_complete": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_battle_sound_selector.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "build/experiments/active/battle-sound-selector/luna-r1-20260822/candidate"
+    ],
+    "exit_code": 0,
+    "receipt": {
+      "path": "guard-candidate-verify.json",
+      "sha256": "40b5c03cd51f6d0507613f4b59c70a55854094d1f1b8d304d4dbe89c3dad667c"
+    },
+    "report": {
+      "path": "candidate-verify.report.json",
+      "sha256": "5adbedfd3c22a6fb2fd22c8c0962a8c91607a33ed6d8dcbd1bcf1306c3c448e2"
+    }
+  }
+}

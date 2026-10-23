@@ -1,0 +1,72 @@
+{
+  "schema": "lz77-palette-runtime-evidence-v1",
+  "date": "2026-07-30",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b"
+  },
+  "emulator": {
+    "version": "mGBA 0.11.0 c16c3ff55585e71bee83c95539c2ecde15d728c8",
+    "binary_sha256": "4856a8f95a32d0d2d97e0141a4dbe33c162abf27295a8f85ed8fb3c17a42ea72"
+  },
+  "probe": {
+    "path": "tools/mgba_lz77_palette_probe.lua",
+    "sha256": "37bce6fecaee641a14c84f0345702dc590dd1804c09611fb582266fdec104b9b",
+    "test": "tests/test_mgba_lz77_palette_probe_script.py",
+    "test_sha256": "7cdaa58360228fed89491da64aa5241e8935e56596a291d681219f50dcd0796a",
+    "post_hit_watch_frames": 240
+  },
+  "entries": [
+    {
+      "graphics_address": "0x0812D2F0",
+      "destination": "0x06016400",
+      "decompressed_size": 1344,
+      "decompressed_sha256": "4659a40fdf0430232e594f3f8ac3a544e749c6e7de35a5d1d5805567556c0e15",
+      "route": "scenario-41-target-confirmation",
+      "input_state": "inputs/scenario-41-target-select-tutorial-dismissed.ss9",
+      "input_state_sha256": "db2f1306f71c494876643ea252844b827d521343941bafe9bd764071065c5555",
+      "target_pc": "0x08071BD0",
+      "hit_frame": 114,
+      "target_tiles": [800, 841],
+      "payload_exact_at_hit": true,
+      "hardware_oam_reference_at_hit": false,
+      "shadow_oam_reference_at_hit": false,
+      "post_hit_oam_reference_observed": false,
+      "candidate_palette_bank": 15,
+      "candidate_palette_sha256": "dc72a37cfa3893bc9979d1801b80c9e356b04990751d4bf525e2879fa6e52393",
+      "candidate_unique_rom_source": "0x08457EA8",
+      "palette_binding_status": "unresolved",
+      "audit": "runs/scenario-41-target-confirmation/audit.json",
+      "audit_sha256": "b075af46c2033de3707c3a679421611a3b0d4457dcd3aae28054503d5d758445",
+      "guard_sha256": "08d0f68533a1b9ab1b32860b0397b7ca7da3d7c94f38f682de08c77ba19d43ae"
+    },
+    {
+      "graphics_address": "0x083496F8",
+      "destination": "0x06017580",
+      "decompressed_size": 128,
+      "decompressed_sha256": "0b079699856f54d695ce3190cae2cda5e74a17dcc2456813bc716b4f12cd375b",
+      "route": "profile-browser-init",
+      "input_state": "inputs/profile-title-menu.ss9",
+      "input_state_sha256": "a74490563f98da0b2edae484a858a433f292af9475dce7126db6bec742d7aa6f",
+      "target_pc": "0x0808B5EE",
+      "hit_frame": 54,
+      "target_tiles": [940, 943],
+      "payload_exact_at_hit": true,
+      "hardware_oam_reference_at_hit": false,
+      "shadow_oam_reference_at_hit": false,
+      "post_hit_oam_reference_observed": false,
+      "candidate_palette_bank": 14,
+      "candidate_palette_sha256": "ea3242236994abb7dd34e690f17a4257a7166f2586acd55c7743f0224b0dd3dd",
+      "candidate_unique_rom_source": "0x083496B0",
+      "palette_binding_status": "unresolved",
+      "audit": "runs/profile-browser-init/audit.json",
+      "audit_sha256": "0b3b708a89cf09df1ac1d6a1bc1cbfa6d0abc9c7eddb7bb18641d509e1ab1c90",
+      "guard_sha256": "2e572e27a6e8961e7392439f6612ed33889ef2b6cd4db9b3ab9ff0f4b54aede1"
+    }
+  ],
+  "conclusion": {
+    "load_boundaries_runtime_verified": 2,
+    "palette_bindings_promoted": 0,
+    "reason": "Both payloads were exact at their natural load return, but neither hardware nor shadow OAM selected the target tile range at the hit or in samples whose frame delta from the hit was at most 240. Adjacent unique palette bytes remain candidates, not bindings."
+  }
+}

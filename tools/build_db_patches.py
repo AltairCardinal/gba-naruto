@@ -1107,8 +1107,7 @@ def generate_character_stats_b_patches(db_path: Path) -> list[dict[str, Any]]:
         # before the re-base still carries the old column names, and the
         # whole table must not vanish silently because of that.
         rows = conn.execute(
-            "SELECT _idx, _rom_offset FROM rom_character_stats_b "
-            "ORDER BY _idx"
+            "SELECT * FROM rom_character_stats_b ORDER BY _idx"
         ).fetchall()
     except sqlite3.OperationalError:
         conn.close()

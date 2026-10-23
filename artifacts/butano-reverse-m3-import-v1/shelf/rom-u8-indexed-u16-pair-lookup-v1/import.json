@@ -1,0 +1,73 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-u8-indexed-u16-pair-lookup-v1",
+  "file_count": 2,
+  "files": {
+    "rom-u8-indexed-u16-pair-lookup.bin": "adaa3da39ee951908263186ab1587a95f827b3041b4a59055da9fb54eb7cdf53",
+    "rom-u8-indexed-u16-pair-lookup.json": "40d08a678b7e5dcc13afb02f50f6def28787c1a72a245dbaaf2d117efabda90c"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-u8-indexed-u16-pair-lookup-v1/manifest.json",
+  "manifest_sha256": "926c2df1b1154181b28dcb65369471f87cdb35c986ce9d0c15a942a3e6fef81a",
+  "scope": {
+    "allocatable": false,
+    "current_unknown_primary_projection_only": true,
+    "existing_owner_overlap_is_provenance_only": true,
+    "logical_view_complete": true,
+    "non_claims": {
+      "business_field_semantics": false,
+      "computed_or_indirect_calls_exhausted": false,
+      "consumer_completeness": false,
+      "cross_owner_cell_62_bug_or_natural_must": false,
+      "editing_relocation_writeback_safety": false,
+      "independent_physical_bank": false,
+      "natural_gameplay_all_256_indices": false,
+      "natural_reachability_all_256": false,
+      "physical_22_or_63_entry_table": false,
+      "safe_relocation_or_editability": false,
+      "selector_primary_owners_0_to_43_revoked": false
+    },
+    "reclassifies_existing_owner_overlap": false,
+    "revokes_existing_selector_owners": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_u8_indexed_u16_pair_lookup.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-u8-indexed-u16-pair-lookup-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-u8-indexed-u16-pair-lookup-v1",
+      "base_literal_occurrence_count": 3,
+      "bin_sha256": "adaa3da39ee951908263186ab1587a95f827b3041b4a59055da9fb54eb7cdf53",
+      "consumer_count": 3,
+      "current_unknown_primary_bytes": 144,
+      "errors": [],
+      "existing_owner_overlap_bytes": 880,
+      "implementation": {
+        "exporter": {
+          "path": "tools/export_rom_u8_indexed_u16_pair_lookup.py",
+          "sha256": "568e96a8ab58329f60d38db876f0845ada7ad433c1104c736a9465fe222d3654"
+        },
+        "tests": {
+          "path": "tests/test_export_rom_u8_indexed_u16_pair_lookup.py",
+          "sha256": "103dfb3f5017d84b1c1e5da8b97fac5f9ecdef503dd08506249ff4326343b735"
+        },
+        "verifier": {
+          "path": "tools/verify_rom_u8_indexed_u16_pair_lookup.py",
+          "sha256": "d14a0784008a61ea8770fc28cf6bcfe5e9b3a6def56382e363f2ebde6da54f76"
+        }
+      },
+      "json_sha256": "40d08a678b7e5dcc13afb02f50f6def28787c1a72a245dbaaf2d117efabda90c",
+      "logical_bytes": 1024,
+      "logical_cell_count": 256,
+      "logical_sha256": "adaa3da39ee951908263186ab1587a95f827b3041b4a59055da9fb54eb7cdf53",
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "schema": "rom-u8-indexed-u16-pair-lookup-verification-v1",
+      "verified": true
+    }
+  }
+}

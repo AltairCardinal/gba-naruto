@@ -1,0 +1,59 @@
+{
+  "schema": "konoha.butano-graphic-asset-sidecar.v1",
+  "generator": "/Users/altair/github/gba-naruto/tools/generate_butano_battle_identity_content.py",
+  "asset_count": 18,
+  "assets": [
+    "battle_action_menu_font.bmp",
+    "battle_action_menu_font.json",
+    "battle_duel_status_font.bmp",
+    "battle_duel_status_font.json",
+    "battle_identity_font.bmp",
+    "battle_identity_font.json",
+    "battle_preparation_font.bmp",
+    "battle_preparation_font.json",
+    "battle_result_compact_font.bmp",
+    "battle_result_compact_font.json",
+    "battle_result_font.bmp",
+    "battle_result_font.json",
+    "battle_target_metrics_font.bmp",
+    "battle_target_metrics_font.json",
+    "battle_target_status_font.bmp",
+    "battle_target_status_font.json",
+    "battle_ui_font.bmp",
+    "battle_ui_font.json"
+  ],
+  "attribution_rules": {
+    "battle_action_menu_font.bmp": "literal",
+    "battle_action_menu_font.json": "literal",
+    "battle_duel_status_font.bmp": "literal",
+    "battle_duel_status_font.json": "literal",
+    "battle_identity_font.bmp": "literal",
+    "battle_identity_font.json": "literal",
+    "battle_preparation_font.bmp": "literal",
+    "battle_preparation_font.json": "literal",
+    "battle_result_compact_font.bmp": "literal",
+    "battle_result_compact_font.json": "literal",
+    "battle_result_font.bmp": "literal",
+    "battle_result_font.json": "literal",
+    "battle_target_metrics_font.bmp": "literal",
+    "battle_target_metrics_font.json": "literal",
+    "battle_target_status_font.bmp": "literal",
+    "battle_target_status_font.json": "literal",
+    "battle_ui_font.bmp": "literal",
+    "battle_ui_font.json": "literal"
+  },
+  "name_patterns": [
+    "Chinese font is missing: {font_path}",
+    "ninja-tool identity {expected_id} has invalid confidence",
+    "ninja-tool identity {expected_id} has no ROM provenance",
+    "ninja-tool identity {expected_id} has no name"
+  ],
+  "reverse_family": null,
+  "declared_families": [
+    {
+      "family": "rom-fixed-consumer-text-inventory-v1",
+      "manifest_sha256": "560464a6fed43de1a77c6339362dc2ef28534a7374ff976df572d05a9bad6b94"
+    }
+  ],
+  "reverse_family_reason": "the generator declares no reverse-source family"
+}

@@ -56,5 +56,22 @@
   "retired_reason": "身份作废：0x08079668 是文本/消息对象分派函数，不是 Sappy 音频分发器。真正的 sound-ID 表在 0x465B70（见 sound-id-table）",
   "corrections": [
     "2026-10-21: 本 bank 已从内容目录退役（tools/table_registry.py::RETIRED）—— 身份作废：0x08079668 是文本/消息对象分派函数，不是 Sappy 音频分发器。真正的 sound-ID 表在 0x465B70（见 sound-id-table）"
-  ]
+  ],
+  "_provenance": {
+    "rom": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "offset": 497256,
+      "size": 32,
+      "entry_count": 1,
+      "entry_size": 32
+    },
+    "extractor": "tools/extract_all_structures.py",
+    "reverse_family": null,
+    "reverse_family_candidates": [],
+    "reverse_family_state": "none",
+    "reverse_evidence": [
+      "notes/alias-conflicts-20261020.md"
+    ],
+    "unattributed_reason": "no reverse family declares this table's address; the bank's provenance rests on its own note (notes/alias-conflicts-20261020.md)"
+  }
 }

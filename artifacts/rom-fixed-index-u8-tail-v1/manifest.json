@@ -1,0 +1,43 @@
+{
+  "artifact_schema": "rom-fixed-index-u8-tail-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-fixed-index-u8-tail.json": {
+      "sha256": "25c49e182f4e08366afcc4326c21488ae6d5657ff64fcfc37e946ed7d1d42666",
+      "size": 4312
+    }
+  },
+  "implementation": {
+    "contract_sha256": "9f849470cdeb91681e336e3a7333368b03adf1a3ff04ea18d394533e696e40cd",
+    "exporter_sha256": "e7282ddc52d914c4bd4b270c4b7aa9df5d820bb23672381fc77b7cc0e13e0369",
+    "test_sha256": "de97c7a51a2c3f134cbf296d6c5ca8ded6bac185337e5ac7691a228493dc5468",
+    "verifier_sha256": "ab5ee9ab06ec8c2f41a3cbae0466f31a176ec512e24e8066f20b2548daf9a11f"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_fixed_index_u8_tail.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-fixed-index-u8-tail-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "claim_count": 1,
+    "fixed_caller_count": 4,
+    "promotion_bytes": 4,
+    "target_limited_bl_count": 13
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_fixed_index_u8_tail.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-fixed-index-u8-tail-v1"
+    ]
+  }
+}

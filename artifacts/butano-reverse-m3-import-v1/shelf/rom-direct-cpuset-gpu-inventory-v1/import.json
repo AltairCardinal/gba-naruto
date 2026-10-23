@@ -1,0 +1,43 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-direct-cpuset-gpu-inventory-v1",
+  "file_count": 2,
+  "files": {
+    "new-raw-sources.bin": "1d8631857bc9c71f880773e8628ec45feda6a0b8b685f39b5ac6ce3b442578de",
+    "rom-direct-cpuset-gpu-inventory.json": "724f47ddced0ff9271d74c81395df6d0939b86642e1c40ffe1d9951fd49891e3"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-direct-cpuset-gpu-inventory-v1/manifest.json",
+  "manifest_sha256": "ed886e717b54b0ec78af5eb4941d677095286290a5ad2ed2a01b033f4520d246",
+  "scope": {
+    "all_static_direct_bl_encodings_audited": true,
+    "cross_function_dataflow_complete": false,
+    "custom_copy_loops_complete": false,
+    "dma_transfers_complete": false,
+    "generic_image_writeback_complete": false,
+    "indirect_calls_complete": false,
+    "literal_seeded_32_byte_rule_applied_to_full_rom": true,
+    "new_raw_sources_losslessly_exported": true,
+    "raw_palettes_complete": false,
+    "raw_uncompressed_graphics_complete": false,
+    "runtime_reachability_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_direct_cpuset_gpu_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-direct-cpuset-gpu-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "direct_call_count": 146,
+      "errors": [],
+      "new_source_count": 3,
+      "schema": "rom-direct-cpuset-gpu-inventory-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "4e8f394803873a96db2dfb2d7b5b7ec6750a2ead33cdc1bb8e08676c203f678b"
+  }
+}

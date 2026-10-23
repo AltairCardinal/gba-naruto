@@ -1,0 +1,31 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "runtime-bg-composites-v1",
+  "file_count": 2,
+  "files": {
+    "layers.zip": "9c853090614c7f63c8e6c01273520ccfc2ad4722a69eabe4fe7d157b3ca452d9",
+    "runtime-bg-composites.json": "5b17ca198949a3cfaa3e1baa0c86602801ee934e133952a70824f31df7d391e7"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-bg-composites-v1/manifest.json",
+  "manifest_sha256": "fdb681d5fb3f86784208803301d97602642d70f21e76ddaa04a36dd552efa098",
+  "scope": {},
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_runtime_bg_composites.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/runtime-bg-composites-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "checkpoint_count": 91,
+      "errors": [],
+      "schema": "runtime-bg-composites-verification-v1",
+      "state_count": 89,
+      "verified": true
+    },
+    "verifier_sha256": "af1442375f20aa53816bbc8486f021cbf9c40166a85895201afe7108b0f7caaf"
+  }
+}

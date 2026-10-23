@@ -1,0 +1,612 @@
+{
+  "consumer_contract": {
+    "identity_ranges": [
+      {
+        "bytes_sha256": "48e9363eeae7ca589654a66b5f963af9e4f4868facfc95cce8b2b878fedf882f",
+        "range": [
+          463568,
+          463696
+        ]
+      },
+      {
+        "bytes_sha256": "211812743de17ef5158ef63bd52deb3271c962b9119bf74f1bbd458b6bec96dd",
+        "range": [
+          422232,
+          426862
+        ]
+      },
+      {
+        "bytes_sha256": "b7bdea4f0af2836fcc4b3c18a6b54ad019a5e06da62bf110b88779a445e4c9be",
+        "range": [
+          418412,
+          419638
+        ]
+      },
+      {
+        "bytes_sha256": "10bff7abebc963193e5490fd876a3f11f294ca89f2918856746ce76f5990e1b1",
+        "range": [
+          5494340,
+          5494588
+        ]
+      },
+      {
+        "bytes_sha256": "bc6ed5847e9ae46dece7f4e309c0dcaf02fcfd6ab0159e36ca8072bb010f8cd2",
+        "range": [
+          3271,
+          3306
+        ]
+      },
+      {
+        "bytes_sha256": "3ce42db81ef9c29faa251029044baca89172709af872513b4629e4b0b225f4bb",
+        "range": [
+          4848,
+          4858
+        ]
+      }
+    ],
+    "index_domain_guard": null,
+    "interpreter_call_site": 463680,
+    "interpreter_call_target": 422232,
+    "literal_load_site": 463598,
+    "literal_occurrence_denominator": {
+      "0x0853DF00": [
+        463696
+      ]
+    },
+    "literal_pool_site": 463696,
+    "literal_value": 139714304,
+    "row_index_source": "ram 6-byte row field"
+  },
+  "pointer_table": {
+    "bytes_sha256": "f18680f6e461a60f54373e7377c580e9966e7f9be9966a9ab1d1a0eefa7451bc",
+    "null_slot": 0,
+    "range": [
+      5496576,
+      5496688
+    ],
+    "slot_count": 28,
+    "slot_to_record_index": {
+      "1": 0,
+      "10": 9,
+      "11": 10,
+      "12": 11,
+      "13": 12,
+      "14": 13,
+      "15": 14,
+      "16": 15,
+      "17": 16,
+      "18": 17,
+      "19": 18,
+      "2": 1,
+      "20": 19,
+      "21": 20,
+      "22": 21,
+      "23": 22,
+      "24": 23,
+      "25": 24,
+      "26": 25,
+      "27": 26,
+      "3": 2,
+      "4": 3,
+      "5": 4,
+      "6": 5,
+      "7": 6,
+      "8": 7,
+      "9": 8
+    },
+    "slots": [
+      0,
+      134221034,
+      134221098,
+      134221152,
+      134221214,
+      134221264,
+      134221324,
+      134221380,
+      134221438,
+      134221496,
+      134221552,
+      134221604,
+      134221660,
+      134221712,
+      134221768,
+      134221820,
+      134221876,
+      134221928,
+      134221980,
+      134222038,
+      134222094,
+      134222152,
+      134222204,
+      134222266,
+      134222328,
+      134222386,
+      134222448,
+      134222512
+    ]
+  },
+  "promotion": {
+    "claim_count": 1,
+    "claims": [
+      {
+        "bytes_sha256": "1730e92b4cc9ace8f484b61aedcbd2e670b45b522bd5807bdf72fd9cc03595cf",
+        "claim_kind": "fixed_cfg_consumer_renderer_command_script_bytes",
+        "id": "renderer-script-pointer-pool-0cea",
+        "primary_class": "fixed_cfg_consumer_renderer_command_script",
+        "range": [
+          3306,
+          4848
+        ]
+      }
+    ],
+    "promoted_from_primary_class": "unknown",
+    "promotion_batch": "rom-renderer-script-pointer-pool-records-v1",
+    "promotion_bytes": 1542
+  },
+  "records": {
+    "bytes_sha256": "1730e92b4cc9ace8f484b61aedcbd2e670b45b522bd5807bdf72fd9cc03595cf",
+    "items": [
+      {
+        "bytes_sha256": "2b3168479735a3199d51fd38fae184dbfc4c5989416e21e639b2f4d07047d877",
+        "index": 0,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3306,
+          3370
+        ]
+      },
+      {
+        "bytes_sha256": "cc6dd655bbd5a23fb1665eada5981fcb7be08937c9aeb8a5319203fb71ee5918",
+        "index": 1,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3370,
+          3424
+        ]
+      },
+      {
+        "bytes_sha256": "148fde488fe0526d0d44a133aa5988242ccb20c65281b3811444378b06aaf611",
+        "index": 2,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3424,
+          3486
+        ]
+      },
+      {
+        "bytes_sha256": "0c0052efe01ca7280b78a15786d2bcb79092deb8264fb808c9b3f952b9ba0e89",
+        "index": 3,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3486,
+          3536
+        ]
+      },
+      {
+        "bytes_sha256": "350e7c8f62e464d45454f9a28c48e332e4a480cdb63a81961de6fca82dfd66c1",
+        "index": 4,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3536,
+          3596
+        ]
+      },
+      {
+        "bytes_sha256": "9ced9c24c99f067c7974b130ede1500733ecbd29796f7801cd21ed6ca5375131",
+        "index": 5,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3596,
+          3652
+        ]
+      },
+      {
+        "bytes_sha256": "280fabbe116118e04c0488a67030419aff70026022c08a1684a102e41ddb227f",
+        "index": 6,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3652,
+          3710
+        ]
+      },
+      {
+        "bytes_sha256": "a12871d0ff4eb47bd3cf24f21bddc0f87515771159c90163dac59b6f4f5a633a",
+        "index": 7,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3710,
+          3768
+        ]
+      },
+      {
+        "bytes_sha256": "e68aaa8f41772685dcd29cb88c0ae1db65bbf6773c2b46a175899dc092f9b14a",
+        "index": 8,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3768,
+          3824
+        ]
+      },
+      {
+        "bytes_sha256": "5e423ebc40d3dcde9a026a7e1e711a341babd36c52f04983142f6220364b49bd",
+        "index": 9,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3824,
+          3876
+        ]
+      },
+      {
+        "bytes_sha256": "f0e04dad269d054cc08161dfb9a390a8f779dc3b3711d5b9989e63615dc8992b",
+        "index": 10,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3876,
+          3932
+        ]
+      },
+      {
+        "bytes_sha256": "5ac1cad604186b903f5350475f08240e01d5afaa360427c645c4805a7bd0715e",
+        "index": 11,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3932,
+          3984
+        ]
+      },
+      {
+        "bytes_sha256": "6c8fb8981d30e7f06948e06eaf1ef6c8b3c65ea2e3bd545ae2fcba1b020e0ac2",
+        "index": 12,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          3984,
+          4040
+        ]
+      },
+      {
+        "bytes_sha256": "2384106bb52437b6c94378d76f903186a2a319a602e3239e86d3538caacf8487",
+        "index": 13,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4040,
+          4092
+        ]
+      },
+      {
+        "bytes_sha256": "89e434d50f12e0d50c58d9236545d15aaa4c374ec00b7db8e2e82c5c3a0fcb8a",
+        "index": 14,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4092,
+          4148
+        ]
+      },
+      {
+        "bytes_sha256": "25d2454c6c584ce983a7b385fcaee9a362bee3e857fba672bd1f53ceccae9ceb",
+        "index": 15,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4148,
+          4200
+        ]
+      },
+      {
+        "bytes_sha256": "7dbd07c7a83e7dbf3429150ad2f45fc456e77b5e3794585770a3dd0196990fe3",
+        "index": 16,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4200,
+          4252
+        ]
+      },
+      {
+        "bytes_sha256": "881c92df1b19b8665b389abbb20d1660f5a0ebd8b9fd82c0bd9ec26de99bbedd",
+        "index": 17,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4252,
+          4310
+        ]
+      },
+      {
+        "bytes_sha256": "c8540bd02cd490327a19489de066bd1531a89f0863a91e549bb0af4349cceff7",
+        "index": 18,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4310,
+          4366
+        ]
+      },
+      {
+        "bytes_sha256": "17f43b73c89f2a74c29b85b574ffe3e5b7fd9ff791fd2bee61fd460f9d7a790b",
+        "index": 19,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4366,
+          4424
+        ]
+      },
+      {
+        "bytes_sha256": "3003e45c17239ba34dcc56fc799ffc083d8e3c6c7892f7f9f9e2eb4886cd2fd3",
+        "index": 20,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4424,
+          4476
+        ]
+      },
+      {
+        "bytes_sha256": "f0cbbac310a56b116373ca12d44a41c03bfe6aa7c3d8a6e8686ab7e3018a9ca3",
+        "index": 21,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4476,
+          4538
+        ]
+      },
+      {
+        "bytes_sha256": "248e6a981f907f8327853562bb3bc598b955709e7ab2ba9f7e71429124bc6eb4",
+        "index": 22,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4538,
+          4600
+        ]
+      },
+      {
+        "bytes_sha256": "efceb3167a92fd237e06d6f1f06611f8fe31a78f8d2151f98230690b745f5811",
+        "index": 23,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4600,
+          4658
+        ]
+      },
+      {
+        "bytes_sha256": "b6d2d7d9b6f0f11e8e20c6683be57c9109225f2c342f82a196044d68a42e9afc",
+        "index": 24,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4658,
+          4720
+        ]
+      },
+      {
+        "bytes_sha256": "af0cb45869ab48afee14561e36ef8b34154c134fbd32864674f6101f98bd766c",
+        "index": 25,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4720,
+          4784
+        ]
+      },
+      {
+        "bytes_sha256": "f8d80009abdb4b4ec653d7081f621ee51aa1e8fa502a7a1f268b2217bd92742a",
+        "index": 26,
+        "opcodes": [
+          1,
+          5,
+          4,
+          12,
+          3,
+          0
+        ],
+        "range": [
+          4784,
+          4848
+        ]
+      }
+    ],
+    "opcode_sequence": [
+      1,
+      5,
+      4,
+      12,
+      3,
+      0
+    ],
+    "range": [
+      3306,
+      4848
+    ],
+    "record_bytes": 1542,
+    "record_count": 27,
+    "root": 3306,
+    "terminator_offset": 4848
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "rom-renderer-script-pointer-pool-records-v1",
+  "scope": {
+    "all_consumer_sites_closed": false,
+    "index_domain_closed": false,
+    "natural_runtime_reachability": false,
+    "null_slot_semantics_closed": false,
+    "row_writer_lifecycle_closed": false
+  }
+}

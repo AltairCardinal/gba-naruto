@@ -94,6 +94,7 @@ IMPORTER_CARRIER = "importer-constant"
 IMPORTER_MODULES = (
     "tools/butano/import_rom_pixel_ab_baselines.py",
     "tools/butano/import_rom_relocation_specs.py",
+    "tools/butano/import_rom_shelf_families.py",
 )
 
 #: The module level constant a generator uses to register the products it

@@ -1,0 +1,297 @@
+{
+  "artifact_schema": "rom-directsound-pitch-lookup-v1",
+  "artifact_status": "accepted",
+  "coverage_baseline": {
+    "all_promotion_bytes_unknown": true,
+    "claim_count": 14466,
+    "classified_bytes": 6121280,
+    "path": "sequel/rom-byte-coverage.json",
+    "primary_overlap_bytes": 0,
+    "promotion_bytes": 344,
+    "schema": "rom-byte-coverage-v1",
+    "segment_count": 16577,
+    "sha256": "5c3c9bcaa90a4d55a2de5ef37effbd9947502aff75f01b73738b90aa704b0d9f",
+    "unknown_bytes": 170176,
+    "unknown_promotion_bytes": 344
+  },
+  "coverage_projection": {
+    "byte_count": 344,
+    "claim_count": 5,
+    "claim_denominator_sha256": "f25847bcf93a12887928a5528533b465930a22e3d176c3430ee019706714dd02",
+    "claims": [
+      {
+        "artifact_kind": "directsound_pitch_high32_interwork_code",
+        "claim_kind": "directsound_pitch_high32_interwork_instruction_bytes",
+        "id": "directsound-pitch-high32-interwork-099d7c",
+        "mode": null,
+        "primary_class": "armv4t_directsound_pitch_high32_interwork_code",
+        "range": [
+          630140,
+          630156
+        ]
+      },
+      {
+        "artifact_kind": "directsound_pitch_consumer_code",
+        "claim_kind": "directsound_pitch_consumer_instruction_bytes",
+        "id": "directsound-pitch-consumer-09a998",
+        "mode": "thumb",
+        "primary_class": "armv4t_directsound_pitch_consumer_thumb_code",
+        "range": [
+          633240,
+          633332
+        ]
+      },
+      {
+        "artifact_kind": "directsound_pitch_table_literals",
+        "claim_kind": "directsound_pitch_consumed_literal_bytes",
+        "id": "directsound-pitch-literals-09a9f4",
+        "mode": null,
+        "primary_class": "directsound_pitch_table_pointer_literals",
+        "range": [
+          633332,
+          633340
+        ]
+      },
+      {
+        "artifact_kind": "directsound_pitch_scale_table",
+        "claim_kind": "directsound_pitch_scale_descriptor_bytes",
+        "id": "directsound-pitch-scale-table-4645c4",
+        "mode": null,
+        "primary_class": "directsound_pitch_scale_descriptor_table",
+        "range": [
+          4605380,
+          4605560
+        ]
+      },
+      {
+        "artifact_kind": "directsound_pitch_frequency_table",
+        "claim_kind": "directsound_pitch_frequency_u32_bytes",
+        "id": "directsound-pitch-frequency-table-464678",
+        "mode": null,
+        "primary_class": "directsound_pitch_frequency_u32_table",
+        "range": [
+          4605560,
+          4605608
+        ]
+      }
+    ],
+    "range_vector_sha256": "ac877e8eec80edbdab3d1b6f3991fc8a93dfc497a66c298dc9ee0c29034431bd"
+  },
+  "files": {
+    "rom-directsound-pitch-lookup.bin": {
+      "sha256": "cdf62999570f66a283667ed85f535da4e04f8cbf5ea8a33ef66d1bee8ab0e850",
+      "size": 344
+    },
+    "rom-directsound-pitch-lookup.json": {
+      "sha256": "ea54c37199704e58f4fcfb0c7dccf3227a23c6363692a4f238ebd807a8003d85",
+      "size": 7691
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_directsound_pitch_lookup.py",
+      "sha256": "57cdbc859f70c483a78ef6226a47dfc528927096ce88a5fbb6202c3780eb845e"
+    },
+    "exporter_test": {
+      "path": "tests/test_export_rom_directsound_pitch_lookup.py",
+      "sha256": "562cbecec47e0b35f80d48f1bc26c28c92e13c119e99b703bdd9d07c45f34177"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_directsound_pitch_lookup.py",
+      "sha256": "d4947c8e3081374122b2e7fcd78be3caf3586e892a557965c19e2054986d8250"
+    },
+    "verifier_test": {
+      "path": "tests/test_verify_rom_directsound_pitch_lookup.py",
+      "sha256": "a3afe0faf31a02c11787d079720ed7c36c1613fbc104bfc889865e6005eddcc9"
+    }
+  },
+  "limitations": [
+    "This packet classifies exactly the 344 frozen bytes in its five semantic ranges: one mixed Thumb/ARM high32 helper, one bounded Thumb consumer, two consumed pointer literals, 180 scale descriptors, and twelve little-endian u32 frequencies.",
+    "The two target-limited raw BL producers are provenance only because their enclosing source-instruction membership is not independently proven; their eight bytes remain outside this promotion.",
+    "Natural runtime reachability, global caller/code/indirect-target completeness, business meaning beyond the exact pitch formula, editing, relocation, writeback safety, and allocatable free space remain unclaimed."
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_directsound_pitch_lookup.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-directsound-pitch-lookup-v1"
+    ],
+    "implementation": {
+      "exporter": {
+        "path": "tools/export_rom_directsound_pitch_lookup.py",
+        "sha256": "57cdbc859f70c483a78ef6226a47dfc528927096ce88a5fbb6202c3780eb845e"
+      },
+      "exporter_test": {
+        "path": "tests/test_export_rom_directsound_pitch_lookup.py",
+        "sha256": "562cbecec47e0b35f80d48f1bc26c28c92e13c119e99b703bdd9d07c45f34177"
+      },
+      "verifier": {
+        "path": "tools/verify_rom_directsound_pitch_lookup.py",
+        "sha256": "d4947c8e3081374122b2e7fcd78be3caf3586e892a557965c19e2054986d8250"
+      },
+      "verifier_test": {
+        "path": "tests/test_verify_rom_directsound_pitch_lookup.py",
+        "sha256": "a3afe0faf31a02c11787d079720ed7c36c1613fbc104bfc889865e6005eddcc9"
+      }
+    }
+  },
+  "promotion": {
+    "byte_count": 344,
+    "packed_bytes_sha256": "cdf62999570f66a283667ed85f535da4e04f8cbf5ea8a33ef66d1bee8ab0e850",
+    "range_count": 5,
+    "range_vector_sha256": "ac877e8eec80edbdab3d1b6f3991fc8a93dfc497a66c298dc9ee0c29034431bd",
+    "ranges": [
+      [
+        630140,
+        630156
+      ],
+      [
+        633240,
+        633332
+      ],
+      [
+        633332,
+        633340
+      ],
+      [
+        4605380,
+        4605560
+      ],
+      [
+        4605560,
+        4605608
+      ]
+    ],
+    "semantic_ranges": [
+      {
+        "kind": "directsound_pitch_high32_interwork_code",
+        "range": [
+          630140,
+          630156
+        ],
+        "sha256": "1addb8be644cbaa9421a91f6cd6d91407907e9c92320f56ae49804b98fc29a81"
+      },
+      {
+        "kind": "directsound_pitch_consumer_code",
+        "range": [
+          633240,
+          633332
+        ],
+        "sha256": "d04cce3da22f96b569d80a5fea059633e43b5daec754ffa268bf95ecbbddff40"
+      },
+      {
+        "kind": "directsound_pitch_table_literals",
+        "range": [
+          633332,
+          633340
+        ],
+        "sha256": "c46d5afc346f36454cfdedf489cfeafc148e4f952887b63f8738339ea6fe1deb"
+      },
+      {
+        "kind": "directsound_pitch_scale_table",
+        "range": [
+          4605380,
+          4605560
+        ],
+        "sha256": "52e19ba195ffad7aa82ac71bf26543d912f3e3a763e40c755ce0e71b674ef9e7"
+      },
+      {
+        "kind": "directsound_pitch_frequency_table",
+        "range": [
+          4605560,
+          4605608
+        ],
+        "sha256": "6b73747d3fb29635eeda13481d08a06e5371958ee746967aa892fa5390509404"
+      }
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "allocatable_free_space_proven": false,
+    "consumer_cfg_closed": true,
+    "editing_relocation_writeback_safe": false,
+    "global_caller_denominator_complete": false,
+    "global_code_denominator_complete": false,
+    "global_indirect_target_denominator_complete": false,
+    "helper_interwork_closed": true,
+    "natural_runtime_reachability_complete": false,
+    "producer_bytes_promoted": false,
+    "producer_source_instruction_membership_complete": false,
+    "table_index_domain_complete_for_all_u8_inputs": true,
+    "target_limited_raw_bl_denominator_complete": true
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_directsound_pitch_lookup.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-directsound-pitch-lookup-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-directsound-pitch-lookup-v1",
+      "artifact_status": "accepted",
+      "consumer_block_count": 5,
+      "consumer_frontier_count": 0,
+      "consumer_instruction_count": 44,
+      "coverage_baseline_sha256": "5c3c9bcaa90a4d55a2de5ef37effbd9947502aff75f01b73738b90aa704b0d9f",
+      "coverage_contract_verified": true,
+      "errors": [],
+      "helper_instruction_count": 5,
+      "producer_count": 2,
+      "promotion_bytes": 344,
+      "promotion_claim_count": 5,
+      "promotion_packed_sha256": "cdf62999570f66a283667ed85f535da4e04f8cbf5ea8a33ef66d1bee8ab0e850",
+      "promotion_range_count": 5,
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "schema": "rom-directsound-pitch-lookup-verification-v1",
+      "verified": true,
+      "verifier_sha256": "d4947c8e3081374122b2e7fcd78be3caf3586e892a557965c19e2054986d8250"
+    },
+    "schema": "rom-directsound-pitch-lookup-verification-v1",
+    "verifier_sha256": "d4947c8e3081374122b2e7fcd78be3caf3586e892a557965c19e2054986d8250"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_directsound_pitch_lookup.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-directsound-pitch-lookup-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-directsound-pitch-lookup-v1",
+      "artifact_status": "accepted",
+      "consumer_block_count": 5,
+      "consumer_frontier_count": 0,
+      "consumer_instruction_count": 44,
+      "coverage_baseline_sha256": "5c3c9bcaa90a4d55a2de5ef37effbd9947502aff75f01b73738b90aa704b0d9f",
+      "coverage_contract_verified": true,
+      "errors": [],
+      "helper_instruction_count": 5,
+      "producer_count": 2,
+      "promotion_bytes": 344,
+      "promotion_claim_count": 5,
+      "promotion_packed_sha256": "cdf62999570f66a283667ed85f535da4e04f8cbf5ea8a33ef66d1bee8ab0e850",
+      "promotion_range_count": 5,
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "schema": "rom-directsound-pitch-lookup-verification-v1",
+      "verified": true,
+      "verifier_sha256": "d4947c8e3081374122b2e7fcd78be3caf3586e892a557965c19e2054986d8250"
+    },
+    "schema": "rom-directsound-pitch-lookup-verification-v1",
+    "verifier_sha256": "d4947c8e3081374122b2e7fcd78be3caf3586e892a557965c19e2054986d8250"
+  }
+}

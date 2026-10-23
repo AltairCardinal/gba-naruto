@@ -9,7 +9,7 @@
   "entry_count": 94,
   "entry_size": 16,
   "verification": "runtime_verified",
-  "verification_method": "Literals at 0x0806D960 and six other sites point to 0x08545BE4. A natural Naruto technique-list route selected high-bit ninja-tool ID 1 (\u5341\u5b57\u624b\u91cc\u5251) under \u5fcd\u8005\u7ec4\u5408\u62f3, hit the 0x08070906 initializer call, and copied row 0x545BF4 to EWRAM. Changing only source +4 from 6 to 7 changed the visible attack-power value from 6x3 to 7x3. Source +0 copies to runtime +1, source +1 is skipped, and source +2..+9 copy to matching runtime offsets. The preparation relationship scan at 0x0808FF7C/0x0808FF88 consumes source +A as parent tool and +B as material ID; the confirmed branch at 0x0808EBC0 subtracts that material from 0x02024033 + ID before replacing the parent tool.",
+  "verification_method": "Literals at 0x0806D960 and six other sites point to 0x08545BE4. A natural Naruto technique-list route selected high-bit ninja-tool ID 1 (十字手里剑) under 忍者组合拳, hit the 0x08070906 initializer call, and copied row 0x545BF4 to EWRAM. Changing only source +4 from 6 to 7 changed the visible attack-power value from 6x3 to 7x3. Source +0 copies to runtime +1, source +1 is skipped, and source +2..+9 copy to matching runtime offsets. The preparation relationship scan at 0x0808FF7C/0x0808FF88 consumes source +A as parent tool and +B as material ID; the confirmed branch at 0x0808EBC0 subtracts that material from 0x02024033 + ID before replacing the parent tool.",
   "entry_format": {
     "fields": [
       {
@@ -6839,5 +6839,20 @@
       "target_policy": 1,
       "target_flags": 0
     }
-  ]
+  ],
+  "_provenance": {
+    "rom": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "offset": 5528548,
+      "size": 1504,
+      "entry_count": 94,
+      "entry_size": 16
+    },
+    "extractor": null,
+    "reverse_family": null,
+    "reverse_family_candidates": [],
+    "reverse_family_state": "none",
+    "reverse_evidence": [],
+    "unattributed_reason": "the table's bytes come from the base ROM at offset 5528548 (size 1504); the bank records neither a reverse family, a note nor an extracting tool, so no further source is known"
+  }
 }

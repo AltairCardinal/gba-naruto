@@ -1,0 +1,39 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "residual-wram-crop-tilemap-runtime-v1",
+  "file_count": 11,
+  "files": {
+    "audit.json": "c363f3710d2e1cae274f28eb93de4788376b95a8e435cf003cb3f2213c7f5c5b",
+    "crop-consumer.ss9": "df68206aeaf2b1b818af4fe57be8ddf847e4c1bd79f3f737ed50bb5e5b2fea4a",
+    "crop-load.ss9": "73842f7222e9f29a81c44aa37af66775f8cdd3be85d35ea6b3151ed5a2ac78ee",
+    "done.json": "c363f3710d2e1cae274f28eb93de4788376b95a8e435cf003cb3f2213c7f5c5b",
+    "final.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+    "final.ss9": "370547490831eee5fe578a933a1fa7c0cac744fcbb9f2e4eb93bddfaed220ed2",
+    "guard.json": "b1677143406ceb92c658b7c2b194f500ab7a9302f8705829df3157b1cec5a8e8",
+    "runtime-evidence.json": "04813063491aaf5acd20f8930f042d013a97fb2e753b5093cada477096fc774c",
+    "vram-at-consumer.bin": "688c884f16c460ade320f15957f1ac265dd1a6bbd1c90ae245f56a21dc817e14",
+    "vram-final.bin": "599f71c8d40cbcb3308eae97a1a5ea72aee682d83e52eca6627a1d1cbc831b4a",
+    "wram-at-consumer.bin": "093f55d5337807bf3692331a2ff55eebc4f392cc3190af4c51272b9c36c6d7bc"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-crop-tilemap-runtime-v1/manifest.json",
+  "manifest_sha256": "9580db8094ea06cd249b22307c440aea46a01ec141df2d7418d2ec890598341e",
+  "scope": {
+    "crop_consumer_entry_verified": true,
+    "exclusive_writer_causality_verified": false,
+    "final_vram_crop_equals_rom_source_verified": true,
+    "modified_rom_pixel_equivalence_verified": false,
+    "natural_base_rom_reachability_verified": true,
+    "zero_input_checkpoint_continuation_verified": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_crop_tilemap_runtime_evidence.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-crop-tilemap-runtime-v1"
+    ],
+    "exit_code": 0
+  }
+}

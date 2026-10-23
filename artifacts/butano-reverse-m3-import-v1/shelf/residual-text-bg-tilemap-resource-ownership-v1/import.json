@@ -1,0 +1,31 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "residual-text-bg-tilemap-resource-ownership-v1",
+  "file_count": 1,
+  "files": {
+    "resource-ownership.json": "95c4baf0febd70151d68c08d276bb694daa1f544035466f9b078f73e538d8741"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-text-bg-tilemap-resource-ownership-v1/manifest.json",
+  "manifest_sha256": "a4db6c9ecfb5bf1d4a408630900a1d6b061f0a04aa30191479522904a71b8ccc",
+  "scope": {
+    "bg_control_ownership_complete": true,
+    "exact_natural_language_screen_identity_complete": false,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "graphics_and_palette_ownership_complete": true,
+    "remaining_screenblock_rows_complete": false,
+    "runtime_order_against_vram_reusers_complete": false,
+    "runtime_reachability_complete": false,
+    "static_natural_caller_chain_complete": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_text_bg_tilemap_resource_ownership.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-text-bg-tilemap-resource-ownership-v1"
+    ],
+    "exit_code": 0
+  }
+}

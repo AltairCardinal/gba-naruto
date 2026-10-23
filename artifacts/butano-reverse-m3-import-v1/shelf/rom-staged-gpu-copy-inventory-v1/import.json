@@ -1,0 +1,42 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-staged-gpu-copy-inventory-v1",
+  "file_count": 1,
+  "files": {
+    "rom-staged-gpu-copy-inventory.json": "1e8a2f17ca7b839a627967938ffa544ba59e4cb4d366bbe1db2aee53d7de6b63"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-staged-gpu-copy-inventory-v1/manifest.json",
+  "manifest_sha256": "ff634185ab977d0f99c5eab0e893149ad9ac28fcecc2e0d2df70bf3ac30c0f39",
+  "scope": {
+    "all_ram_to_gpu_consumers_complete": false,
+    "all_rom_to_ram_producers_complete": false,
+    "all_two_stage_copies_complete": false,
+    "allowlisted_ram_slots_classified": true,
+    "custom_copy_loops_complete": false,
+    "dialogue_tilemap_submit_complete": false,
+    "generic_image_writeback_complete": false,
+    "hash_bound_allowlisted_consumer_families_complete": true,
+    "indirect_transfer_queue_abi_complete": false,
+    "procedural_and_metadata_false_sources_excluded": true,
+    "raw_uncompressed_graphics_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_staged_gpu_copy_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-staged-gpu-copy-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "accepted_raw_source_count": 0,
+      "consumer_family_count": 3,
+      "errors": [],
+      "schema": "rom-staged-gpu-copy-inventory-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "6ccddd68e24617b95ff2c4b4c11338ed88a3e4781374e23199c4c9fb9263c442"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "artifact_schema": "rom-renderer-script-pointer-pool-records-v1",
+  "artifact_status": "accepted",
+  "files": {
+    "rom-renderer-script-pointer-pool-records.json": {
+      "sha256": "60cbe250ff5d1d9f8f260df0149fbc52e2b90c10338e19aeb64b9194caf6f79c",
+      "size": 12030
+    }
+  },
+  "implementation": {
+    "exporter_sha256": "cc5cdfc867658afa5a98375b23e80da1a314fc9605f5f5dd600a03cf65d32bfc",
+    "test_sha256": "45247ac1a17ceccdefd7f6ea5a512c8d866af864facc3fed69e004c85c183f77",
+    "verifier_sha256": "e17a3ee6ceba86310b1a8e1dd1a3e5b807e32030059e4fb5b19f4cf9f2656eb4"
+  },
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_renderer_script_pointer_pool_records.py",
+      "--root",
+      ".",
+      "--output",
+      "artifacts/rom-renderer-script-pointer-pool-records-v1"
+    ]
+  },
+  "schema": "git-artifact-promotion-v1",
+  "summary": {
+    "pointer_table_slots": 28,
+    "promotion_bytes": 1542,
+    "record_count": 27
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_renderer_script_pointer_pool_records.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/rom-renderer-script-pointer-pool-records-v1"
+    ]
+  }
+}

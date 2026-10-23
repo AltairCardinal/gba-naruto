@@ -146,6 +146,14 @@ expected failures=5**（基线 `build/full-suite-r29.log` 为 2139/23/115/27/5�
 仓库已知：必须重建索引而非放宽门禁）。另有 1 条
 `test_ask_antigravity_gemini` 是一次**真实模型调用**，天然不稳定。
 
+### 5.2 末轮回归（`build/full-suite-w1c.log`）
+
+**Ran 2243，failures=20 / errors=81 / skipped=27 / expected failures=5**，
+去重后问题数 **123 → 101**。与本会话上一轮比：**新增 0 条**，**转绿 22 条**
+（并发会话已把内容库断言改成 90 条口径，另有 notes 索引漂移与真实模型调用两项恢复）。
+
+⇒ **本轮（W1 + W3 动作 1 + W4 第 1 片）没有引入任何一条回归。**
+
 ## 6. 复现
 
 ```bash

@@ -1,0 +1,28 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "battle-effect-group12-ai-observer-v1",
+  "file_count": 5,
+  "files": {
+    "audit.json": "d5b42e57888b0eb8d0f493f9bea1426c889384610faf50c5630abfca5cd4982d",
+    "guard-summary.json": "946f45802852fb1f7b2d7437be69363cec8a88e7e56c78780ba6b3f0fc8b27c8",
+    "guard-summary.json.done.json": "680b854407925a057aaad84cf8b7890c7b043686f0448a043017cdf9d169ec6e",
+    "selection.png": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+    "selection.ss9": "8b6a1acc81dfb6d8f5ae6c17b29c64743d659eb47c1221edd0397c7ae70daa1c"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-group12-ai-observer-v1/manifest.json",
+  "manifest_sha256": "ddd212d475192f5c3c94d75e662164beabdc8b5159a7bccbe8b7fae36fe579b8",
+  "scope": {},
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_group12_ai_observer.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/battle-effect-group12-ai-observer-v1"
+    ],
+    "exit_code": 0,
+    "note": "verifier will be created/registered; current run uses run_macos_mgba_battle_ai_action_observer guard summary as evidence.",
+    "stdout_tail": "verified=true, action_id=61 selected (斩首大刀 Group 13), action 32 absent"
+  }
+}

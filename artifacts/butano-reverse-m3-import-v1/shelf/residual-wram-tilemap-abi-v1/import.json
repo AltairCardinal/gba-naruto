@@ -1,0 +1,32 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "residual-wram-tilemap-abi-v1",
+  "file_count": 2,
+  "files": {
+    "residual-wram-tilemap-abi.json": "07e1f89b5aaff938184d5d31bea4174e995f96d10b8ffbee56bff0f609a27dfc",
+    "tilemaps.bin": "add4a6bfbf3bce1fe800a9e6954e862e939f1d70bcb85f95b652c799e5f17f24"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-tilemap-abi-v1/manifest.json",
+  "manifest_sha256": "8f74053ffda705e0a1aac0c761bd561905afbb03d5203745ce6c54910a222412",
+  "scope": {
+    "all_pointer_reachable_wram_visual_metadata_enumerated": true,
+    "direct_local_lz77_to_strided_queue_routes_complete": true,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "generic_wram_visual_metadata_writeback_complete": false,
+    "natural_language_screen_identity_complete": false,
+    "remaining_four_wram_payload_abis_complete": false,
+    "runtime_reachability_complete": false,
+    "three_tilemap_payload_shapes_and_gpu_destinations_proved": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_tilemap_abi.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-tilemap-abi-v1"
+    ],
+    "exit_code": 0
+  }
+}

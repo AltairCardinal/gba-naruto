@@ -1,0 +1,43 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "battle-effect-group18-natural-checkpoint-v1",
+  "file_count": 18,
+  "files": {
+    "raw/expiry-ready-check.json": "e4e5c818036e05adbbdeffe912bb5df5661a36d0f2f427a6acfa3e6ce5e00053",
+    "raw/expiry-ready.png": "93ea2100255d0157edc2560ab7e7c1a2c38391a7e864edbac869d133fccfac52",
+    "raw/expiry-ready.ss9": "f55690e4b2f543f72accbad996a8e3944066dda6ab07450418c53ba065e298d4",
+    "raw/expiry-route-audit.json": "2148c79b3348cfd0436b5aa0124582fe1737373561c728b29f905ab6958304f8",
+    "raw/expiry-route-guard.json": "76e8aa348818e93ec576a892e8f740eaa83627a8f66cfcca86531b1ad1b8b111",
+    "raw/object-created-check.json": "dcf04794fb44ec7987af2be5620a1c055f3e84c4ff5357d60b07192a7db32745",
+    "raw/object-created.ss9": "603616525d7cd55bef9460ff5e7bc25dc7defbd9fe4cdfc29b281c3864a2785b",
+    "raw/object-creation-audit.json": "2a75c9301abb9735fec6b9fc05213777953fc68e1b88456081f5e5445b640625",
+    "raw/object-creation-guard.json": "1ec3f7dd5a93e5eba7d76409b4ed37ea6c68900a6094510a21426423b1a98535",
+    "raw/static-producers.json": "14f6c450025deb2b74fffa31ac93191c7c71dbb859aa0bc1faf7a84b0d9ebb6c",
+    "raw/target-right2.ss9": "a4d255809ff1ea19b8cee8a7d11521cffef972f8c76a0f37ddf9add43682c35b",
+    "raw/target-route-audit.json": "b2479117295fdd9a8dcaa01fa5dcd418d53bab927b6a92facf9bb0198eb1cbf9",
+    "raw/target-route-guard.json": "7c221e976dbb914e4d22e2752bc984d52157c0b31bea864dc682dd6d33b91155",
+    "raw/tool-submission-audit.json": "c5baf4e26f488c2f7b4a08996b1bfa868e1524be36ea96ec7ef47610636faad1",
+    "raw/tool-submission-guard.json": "3430e434293bb99a8dbc793bea31e6a9489e3cee7e507331a8e8006f22bbdc36",
+    "raw/tool-submit.ss9": "6fb61cfd7fd4a1b0a7e1679aaae5064bf109af89051303e4d2dfe9a1430f9be4",
+    "raw/tool-submitted-check.json": "56033ec23e364f2d644ee08da7d3f7e26ef6b598d5556f66d3d4a139363bdb5f",
+    "raw/tool-target-confirm.ss9": "42b61e5fa849c900dfbb074f91adcd4a59b963938801b392b9f6076e1cb17bab"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-group18-natural-checkpoint-v1/manifest.json",
+  "manifest_sha256": "779a8df2df1cb8d9ccf6674d8ac93897f653615f7770c80c449406fd6aecbd16",
+  "scope": {
+    "modified_rom_pixel_ab_verified": false,
+    "natural_countdown_zero_verified": true,
+    "natural_expiry_runtime_verified": true,
+    "natural_object_creation_verified": true,
+    "natural_tool_submission_verified": true,
+    "static_zero_event_expiry_route_verified": true
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_natural_checkpoint.py",
+      "artifacts/battle-effect-group18-natural-checkpoint-v1"
+    ],
+    "exit_code": 0
+  }
+}

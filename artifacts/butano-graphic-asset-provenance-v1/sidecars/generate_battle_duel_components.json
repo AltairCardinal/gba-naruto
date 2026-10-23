@@ -1,0 +1,26 @@
+{
+  "schema": "konoha.butano-graphic-asset-sidecar.v1",
+  "generator": "/Users/altair/github/gba-naruto/tools/butano/generate_battle_duel_components.py",
+  "asset_count": 4,
+  "assets": [
+    "battle_duel_forest.bmp",
+    "battle_duel_forest.json",
+    "battle_duel_hud_shell.bmp",
+    "battle_duel_hud_shell.json"
+  ],
+  "attribution_rules": {
+    "battle_duel_forest.bmp": "constant",
+    "battle_duel_forest.json": "constant",
+    "battle_duel_hud_shell.bmp": "literal",
+    "battle_duel_hud_shell.json": "literal"
+  },
+  "name_patterns": [
+    "palette bank {palette_bank}",
+    "tilemap references tile {tile_index}, outside ",
+    "{OUTPUT_STEM}.bmp",
+    "{OUTPUT_STEM}.json"
+  ],
+  "reverse_family": null,
+  "declared_families": [],
+  "reverse_family_reason": "the generator declares no reverse-source family"
+}

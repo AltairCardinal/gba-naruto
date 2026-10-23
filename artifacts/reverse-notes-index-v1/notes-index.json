@@ -1,6 +1,6 @@
 {
  "schema": "konoha.reverse-notes-index.v1",
- "generated_at": "2026-10-22T02:39:58.003882+00:00",
+ "generated_at": "2026-10-23T09:13:54.487389+00:00",
  "source": {
   "reverse_root": "/Users/altair/github/gba-naruto-reverse",
   "reverse_notes_dir": "/Users/altair/github/gba-naruto-reverse/notes",
@@ -10,7 +10,7 @@
  },
  "measurement": {
   "unit": "reverse note file",
-  "scanned_files": 4774,
+  "scanned_files": 4863,
   "scan_roots": [
    "butano-sequel",
    "tools",
@@ -54,13 +54,13 @@
   },
   "by_pre_index_status": {
    "build": 29,
-   "local_artifact": 3,
-   "test": 26,
-   "doc": 168,
+   "local_artifact": 125,
+   "test": 10,
+   "doc": 62,
    "none": 210
   },
-  "needs_guard_already_referenced_from_tests": 19,
-  "needs_guard_without_any_test_reference": 313,
+  "needs_guard_already_referenced_from_tests": 18,
+  "needs_guard_without_any_test_reference": 314,
   "by_category": {
    "audio": {
     "needs_guard": 4
@@ -216,7 +216,7 @@
     },
     {
      "path": "tools/automated_test.py",
-     "line": 879,
+     "line": 915,
      "kind": "code"
     },
     {
@@ -227,6 +227,36 @@
     {
      "path": "tools/battle_rules_runtime.py",
      "line": 143,
+     "kind": "code"
+    },
+    {
+     "path": "tools/butano/annotate_content_bank_provenance.py",
+     "line": 12,
+     "kind": "code"
+    },
+    {
+     "path": "tools/butano/annotate_content_bank_provenance.py",
+     "line": 77,
+     "kind": "code"
+    },
+    {
+     "path": "tools/butano/snapshot_note_rom_claims.py",
+     "line": 6,
+     "kind": "code"
+    },
+    {
+     "path": "tools/butano/snapshot_note_rom_claims.py",
+     "line": 16,
+     "kind": "code"
+    },
+    {
+     "path": "tools/butano/snapshot_note_rom_claims.py",
+     "line": 74,
+     "kind": "code"
+    },
+    {
+     "path": "tools/butano/snapshot_note_rom_claims.py",
+     "line": 92,
      "kind": "code"
     },
     {
@@ -615,6 +645,7 @@
    "pre_index_references": [
     "doc:notes/codex-reentry-audit-20260712.md",
     "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "local_artifact:artifacts/runtime-checkpoints/README.md"
    ],
    "material_kinds": [
@@ -641,11 +672,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/current-re-progress-20260711.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -673,13 +705,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/audio-engine-runtime-chain-20260712.md",
     "doc:notes/audio-palette-identity-correction-20260711.md",
     "doc:notes/current-re-progress-20260711.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/resource-locations.md"
+    "doc:notes/resource-locations.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence",
@@ -706,11 +738,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/audio-palette-identity-correction-20260711.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -850,12 +882,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-results-index/ledger.json",
     "doc:notes/re-completion-audit.json",
     "doc:notes/remaining-runtime-bank-probes-20260713.md",
     "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_s49_needs_guard_gates.py"
    ],
    "material_kinds": [
@@ -1804,10 +1837,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/s49-needs-guard-gates-20261020.md"
+    "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence",
@@ -1951,9 +1985,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:docs/sequel-roadmap.md"
+    "doc:docs/sequel-roadmap.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence",
@@ -1982,11 +2017,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/s49-needs-guard-gates-20261020.md"
+    "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -2017,11 +2053,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/battle-effect-template-consumer-20260711.md",
     "doc:notes/current-re-progress-20260711.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -2075,13 +2111,14 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-results-index/ledger.json",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/addresses.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_s49_needs_guard_gates.py"
    ],
    "material_kinds": [
@@ -2110,7 +2147,7 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-results-index/ledger.json",
     "doc:docs/sequel-roadmap.md",
@@ -2119,7 +2156,7 @@
     "doc:notes/re-completion-audit.json",
     "doc:notes/s49-needs-guard-gates-20261020.md",
     "doc:notes/unit-skill-addresses.md",
-    "test:tests/test_s49_needs_guard_gates.py"
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence",
@@ -2146,7 +2183,7 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-results-index/ledger.json",
     "doc:docs/sequel-roadmap.md",
@@ -2154,6 +2191,7 @@
     "doc:notes/memory-incident-root-cause-20260714.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_s49_needs_guard_gates.py"
    ],
    "material_kinds": [
@@ -2272,12 +2310,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-results-index/ledger.json",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_s49_needs_guard_gates.py"
    ],
    "material_kinds": [
@@ -2306,12 +2345,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-results-index/ledger.json",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_s49_needs_guard_gates.py"
    ],
    "material_kinds": [
@@ -2371,10 +2411,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/formula-inventory-20261018.md"
+    "doc:notes/formula-inventory-20261018.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -2454,12 +2495,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/bg-resource-canvases-export-20260729.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/s49-needs-guard-gates-20261020.md"
+    "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -2743,13 +2785,14 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/butano-konoha-systems-cost.md",
     "doc:docs/butano-scenario-41-battle.md",
     "doc:docs/sequel-roadmap.md",
     "doc:docs/superpowers/plans/2026-07-22-butano-battle-system-implementation.md",
     "doc:notes/butano-scenario-41-runtime-20260721.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_butano_research_docs.py"
    ],
    "material_kinds": [
@@ -2812,11 +2855,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/chapter-entry-points.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -2843,14 +2887,15 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/battle-config-format.md",
     "doc:notes/chapter-entry-points.md",
     "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/mgba-probe-build-20261020.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -2876,12 +2921,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/chapter-entry-points.md",
     "doc:notes/current-re-progress-20260711.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/story-bank-identity-correction-20260712.md"
+    "doc:notes/story-bank-identity-correction-20260712.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -2909,10 +2955,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/chapter-script-observed-subset-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -2940,10 +2986,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/chapter-script-production-writeback-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -3118,16 +3164,16 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-results-index/ledger.json",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/s49-field-frame-order-20261020.md",
     "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_s49_needs_guard_gates.py",
     "test:tests/test_s49_rule_fbff.py",
-    "test:tests/test_s49_rule_idle_sequence.py",
-    "test:tests/test_s49_rule_move_grid.py"
+    "test:tests/test_s49_rule_idle_sequence.py"
    ],
    "material_kinds": [
     "guard_condition",
@@ -3151,13 +3197,23 @@
    "title": "结论",
    "category": "visual",
    "bucket": "implemented_in_code",
-   "reason": "本树构建链引用了本条结论（sequel/content/units/bank.json:19984、tools/extract_character_definitions.py:190、tools/extract_character_definitions.py:4）。",
+   "reason": "本树构建链引用了本条结论（sequel/content/units/bank.json:19984、sequel/content/units/bank.json:20004、sequel/content/units/bank.json:20006）。",
    "evidence": "sequel/content/units/bank.json; tools/extract_character_definitions.py",
    "missing": "",
    "consumers": [
     {
      "path": "sequel/content/units/bank.json",
      "line": 19984,
+     "kind": "code"
+    },
+    {
+     "path": "sequel/content/units/bank.json",
+     "line": 20004,
+     "kind": "code"
+    },
+    {
+     "path": "sequel/content/units/bank.json",
+     "line": 20006,
      "kind": "code"
     },
     {
@@ -3209,7 +3265,7 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/final-completion-report.md",
     "doc:docs/sequel-roadmap.md",
@@ -3395,10 +3451,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/codex-reentry-audit-20260712.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -3426,11 +3482,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:notes/codex-reentry-audit-20260712.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -3485,10 +3542,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/cutscene-obj-export-20260729.md",
-    "doc:notes/formula-inventory-20261018.md"
+    "doc:notes/formula-inventory-20261018.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -3516,11 +3573,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:docs/structure-field-semantics.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -3603,10 +3661,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/debugging-record.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -3634,13 +3692,14 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/debugging-record.md",
     "doc:notes/dialogue-function-analysis.md",
     "doc:notes/dynamic-verification-audit.md",
     "doc:notes/headless-workflow.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence"
@@ -3666,10 +3725,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/dialogue-font-atlas-export-20260729.md",
-    "doc:notes/formula-inventory-20261018.md"
+    "doc:notes/formula-inventory-20261018.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -3697,9 +3756,9 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/dialogue-font-table-discovery-20260703.md"
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -3771,12 +3830,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/debugging-record.md",
     "doc:notes/dialogue-format.md",
     "doc:notes/dialogue-write-path.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence",
@@ -3803,11 +3863,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/dialogue-mapping-blocker-20260702.md",
     "doc:notes/gba-static-recomp-baseline-eval-20261020.md",
-    "doc:notes/gba-static-recomp-feasibility-20261020.md"
+    "doc:notes/gba-static-recomp-feasibility-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -3836,10 +3896,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/dialogue-mapping-decoder-20260702.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -3866,10 +3926,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/dialogue-mapping-progress-20260702.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -3895,10 +3955,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/debugging-record.md",
-    "doc:notes/headless-workflow.md"
+    "doc:notes/headless-workflow.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "defect_semantics"
@@ -3924,10 +3985,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/debugging-record.md",
-    "doc:notes/dialogue-function-analysis.md"
+    "doc:notes/dialogue-function-analysis.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence",
@@ -4180,11 +4242,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/debugging-record.md",
     "doc:notes/dialogue-format.md",
-    "doc:notes/dynamic-verification-audit.md"
+    "doc:notes/dynamic-verification-audit.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence"
@@ -4210,10 +4273,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/debugging-record.md",
-    "doc:notes/dialogue-format.md"
+    "doc:notes/dialogue-format.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -4239,9 +4303,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/dialogue-memory-analysis.md"
+    "doc:notes/dialogue-memory-analysis.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -4265,9 +4330,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/dialogue-memory-analysis.md"
+    "doc:notes/dialogue-memory-analysis.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -4291,9 +4357,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/dialogue-memory-analysis.md"
+    "doc:notes/dialogue-memory-analysis.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -4317,9 +4384,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/dialogue-memory-analysis.md"
+    "doc:notes/dialogue-memory-analysis.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -4371,12 +4439,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/directsound-envelope-20260713.md",
     "doc:notes/directsound-volume-pan-20260713.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -4404,12 +4472,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/audio-engine-runtime-chain-20260712.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/m4a-soundmain-scheduler-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -4437,11 +4506,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/audio-engine-runtime-chain-20260712.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -4469,11 +4539,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/directsound-envelope-20260713.md",
     "doc:notes/directsound-pitch-step-20260713.md",
-    "doc:notes/formula-inventory-20261018.md"
+    "doc:notes/formula-inventory-20261018.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -4499,7 +4570,7 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/final-completion-report.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
@@ -4536,10 +4607,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/build-api-ownership-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -6043,13 +6115,14 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-results-index/ledger.json",
     "doc:docs/sequel-roadmap.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/s49-needs-guard-gates-20261020.md",
     "doc:notes/save-descriptor-layout-correction-20260712.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_s49_needs_guard_gates.py"
    ],
    "material_kinds": [
@@ -6176,10 +6249,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/function-pointer-runtime-probe-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -6297,10 +6370,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/next-action-plan.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence"
@@ -6412,13 +6486,14 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/konoha-senki/01-battle-s49.md",
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/s49-fidelity-handover-20261019.md",
     "doc:notes/s49-post-battle-exp-rule-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_s49_result_settlement.py"
    ],
    "material_kinds": [
@@ -6537,10 +6612,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/m4a-channel-allocation-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -6595,11 +6670,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/m4a-full-song-render-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -6627,11 +6703,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/audio-engine-runtime-chain-20260712.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -6662,10 +6739,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/m4a-player-slot-control-flow-20260713.md",
-    "doc:notes/m4a-player-slot-runtime-differential-20260713.md"
+    "doc:notes/m4a-player-slot-runtime-differential-20260713.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -6693,14 +6770,15 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/current-re-progress-20260711.md",
     "doc:notes/m4a-emulator-differential-20260713.md",
     "doc:notes/m4a-full-song-render-20260713.md",
     "doc:notes/m4a-player-slot-control-flow-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "defect_semantics",
@@ -6730,10 +6808,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/audio-engine-runtime-chain-20260712.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -6761,12 +6840,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/audio-engine-runtime-chain-20260712.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/s49-reverse-open-items-20261020.md"
+    "doc:notes/s49-reverse-open-items-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence"
@@ -6859,11 +6939,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/map-format.md"
+    "doc:notes/map-format.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -6889,9 +6970,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:docs/sequel-roadmap.md"
+    "doc:docs/sequel-roadmap.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -6946,7 +7028,7 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/rom-sequel-plan.md",
     "doc:docs/sequel-roadmap.md",
@@ -6981,10 +7063,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/map-position-pc-probe-20260710.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -7155,13 +7237,14 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:notes/battle-config-format.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/tile-asset-rules-20261020.md"
+    "doc:notes/tile-asset-rules-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -7189,10 +7272,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/superpowers/plans/2026-07-14-reverse-engineering-resource-safety.md",
-    "doc:docs/superpowers/specs/2026-07-14-reverse-engineering-resource-safety-design.md"
+    "doc:docs/superpowers/specs/2026-07-14-reverse-engineering-resource-safety-design.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -7221,10 +7305,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/addresses.md",
-    "doc:notes/s49-needs-guard-gates-20261020.md"
+    "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -7389,11 +7474,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/superpowers/plans/2026-07-27-butano-scenario-45-campaign-completion.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/skill-template-consumer-semantics-20260713.md"
+    "doc:notes/skill-template-consumer-semantics-20260713.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -7564,9 +7650,9 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/offline-e2e-smoke-20260713.md"
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -7594,10 +7680,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/overlapping-visual-tables-audit-20260712.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -7677,11 +7763,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/final-completion-report.md",
     "doc:docs/phase3-final-status.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -7705,11 +7792,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/final-completion-report.md",
     "doc:docs/phase3-final-status.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -7735,13 +7823,14 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/re-completion-audit.json",
     "doc:notes/resource-locations.md",
-    "doc:notes/unknown-bgm-sfx.md"
+    "doc:notes/unknown-bgm-sfx.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -7815,7 +7904,9 @@
     "doc:notes/addresses.md",
     "doc:notes/formula-inventory-20261018.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/runtime-and-object-tables-20261020.md"
+    "doc:notes/runtime-and-object-tables-20261020.md",
+    "local_artifact:artifacts/butano-content-bank-provenance-v1/provenance.json",
+    "local_artifact:artifacts/butano-content-bank-provenance-v1/provenance.md"
    ],
    "material_kinds": [
     "data_contract"
@@ -7841,10 +7932,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/profile-text-runtime-probe-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -7872,11 +7963,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/audio-engine-runtime-chain-20260712.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence"
@@ -8367,9 +8459,9 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/resource-table-596F98.md"
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -11658,9 +11750,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -11747,10 +11840,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/mgba-c-api-probe-plan-20261020.md",
-    "doc:notes/runtime-verification-gates-20260710.md"
+    "doc:notes/runtime-verification-gates-20260710.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -11887,10 +11981,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/current-re-progress-20260711.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence",
@@ -11917,10 +12012,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -11950,9 +12046,9 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/scan-summary.md"
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -11978,12 +12074,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:docs/superpowers/specs/2026-07-21-butano-scenario-41-battle-design.md",
     "doc:notes/levels-runtime-probe-20260713.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12013,12 +12110,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
     "doc:docs/sequel-roadmap.md",
     "doc:docs/superpowers/plans/2026-07-18-direct-reverse-engineering-critical-path.md",
     "doc:docs/superpowers/specs/2026-07-21-butano-scenario-41-battle-design.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_scenario41_completion_persistence.py"
    ],
    "material_kinds": [
@@ -12051,6 +12149,7 @@
    "pre_index_references": [
     "doc:docs/superpowers/plans/2026-07-15-scenario-41-controller-path-probe.md",
     "doc:notes/scenario-41-player-control-runtime-20260715.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "local_artifact:artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json"
    ],
    "material_kinds": [
@@ -12079,11 +12178,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/superpowers/plans/2026-07-18-direct-reverse-engineering-critical-path.md",
     "doc:docs/superpowers/specs/2026-07-21-butano-scenario-41-battle-design.md",
     "doc:notes/butano-battle-ui-state-projection-20260729.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_scenario41_first_movedone_facing_persistence.py",
     "test:tests/test_scenario41_first_turn_technique_menu_persistence.py",
     "test:tests/test_scenario41_turn1_complete_persistence.py"
@@ -12114,12 +12214,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md",
     "doc:docs/superpowers/plans/2026-07-15-scenario-41-controller-path-probe.md",
     "doc:docs/superpowers/plans/2026-07-17-scenario-41-active-current-unit-observer.md",
-    "doc:notes/s49-needs-guard-gates-20261020.md"
+    "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12151,9 +12252,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md"
+    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12180,9 +12282,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md"
+    "doc:docs/superpowers/plans/2026-07-15-scenario-41-battle-runtime.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12214,6 +12317,7 @@
    "pre_index_references": [
     "doc:docs/reverse-engineering-handoff-20260711.md",
     "doc:notes/scenario-41-player-control-runtime-20260715.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "local_artifact:artifacts/runtime-checkpoints/scenario-41-player-control-evidence.json"
    ],
    "material_kinds": [
@@ -12242,9 +12346,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_scenario42_progression_persistence.py"
    ],
    "material_kinds": [
@@ -12276,9 +12381,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_scenario43_progression_persistence.py"
    ],
    "material_kinds": [
@@ -12309,11 +12415,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-engineering-macos-intel-handoff-20260715.md",
     "doc:docs/superpowers/plans/2026-07-27-butano-scenario-44-campaign-completion.md",
     "doc:notes/butano-battle-scenario-44-objective-runtime-20260727.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_scenario44_progression_persistence.py"
    ],
    "material_kinds": [
@@ -12399,10 +12506,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/butano-battle-scenario-46-capture-runtime-20260727.md",
-    "doc:notes/s49-post-battle-exp-rule-20261020.md"
+    "doc:notes/s49-post-battle-exp-rule-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12434,9 +12542,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/butano-battle-scenario-47-runtime-20260727.md"
+    "doc:notes/butano-battle-scenario-47-runtime-20260727.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12615,10 +12724,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/formula-inventory-20261018.md"
+    "doc:notes/formula-inventory-20261018.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12713,9 +12823,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence",
@@ -12742,9 +12853,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -12770,9 +12882,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -12798,11 +12911,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/s49-needs-guard-gates-20261020.md"
+    "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "tick_cadence",
@@ -12829,12 +12943,13 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:docs/structure-field-semantics.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/s49-field-frame-order-20261020.md"
+    "doc:notes/s49-field-frame-order-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12888,9 +13003,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -12916,9 +13032,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -12944,10 +13061,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/formula-inventory-20261018.md"
+    "doc:notes/formula-inventory-20261018.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -12975,11 +13093,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/formula-inventory-20261018.md",
-    "doc:notes/s49-needs-guard-gates-20261020.md"
+    "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -13009,9 +13128,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -13037,9 +13157,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/formula-inventory-20261018.md"
+    "doc:notes/formula-inventory-20261018.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -13093,9 +13214,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:docs/sequel-roadmap.md"
+    "doc:docs/sequel-roadmap.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -13119,11 +13241,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "test",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/reverse-results-index/ledger.json",
     "doc:notes/re-completion-audit.json",
     "doc:notes/s49-needs-guard-gates-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json",
     "test:tests/test_s49_needs_guard_gates.py"
    ],
    "material_kinds": [
@@ -13150,11 +13273,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:notes/gba-static-recomp-feasibility-20261020.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/recomp-modification-surfaces-20261020.md"
+    "doc:notes/recomp-modification-surfaces-20261020.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -13236,9 +13360,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:docs/sequel-roadmap.md"
+    "doc:docs/sequel-roadmap.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -13294,9 +13419,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition"
@@ -13322,13 +13448,14 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/current-re-progress-20260711.md",
     "doc:notes/first-battle-savestate-checkpoints-20260712.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/save-descriptor-layout-correction-20260712.md"
+    "doc:notes/save-descriptor-layout-correction-20260712.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -13392,10 +13519,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/battle-config-format.md"
+    "doc:notes/battle-config-format.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -13421,14 +13549,15 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
     "doc:notes/battle-config-format.md",
     "doc:notes/chapter-flow-format.md",
     "doc:notes/character-stats-addresses.md",
     "doc:notes/ninja-tool-addresses.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -13494,13 +13623,14 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/rom-reverse-engineering-results.md",
     "doc:notes/external-konoha-workshop-gap-20261020.md",
     "doc:notes/patch-generator-audit.md",
     "doc:notes/re-completion-audit.json",
-    "doc:notes/resource-locations.md"
+    "doc:notes/resource-locations.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -13526,10 +13656,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/rom-reverse-engineering-results.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -13553,10 +13684,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/rom-reverse-engineering-results.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"
@@ -13582,11 +13714,12 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/rom-reverse-engineering-results.md",
     "doc:notes/evidence/writeback-paths-20261020.md",
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [],
    "open_headings": [],
@@ -13639,9 +13772,9 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/variable-dialogue-relocation-20260712.md"
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -13696,9 +13829,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -13770,9 +13904,10 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/re-completion-audit.json"
+    "doc:notes/re-completion-audit.json",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -13830,10 +13965,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/formula-inventory-20261018.md"
+    "doc:notes/formula-inventory-20261018.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -13919,10 +14055,11 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
     "doc:docs/sequel-roadmap.md",
-    "doc:notes/world-map-background-export-20260729.md"
+    "doc:notes/world-map-background-export-20260729.md",
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "guard_condition",
@@ -13952,9 +14089,9 @@
    "missing": "",
    "consumers": [],
    "reference_strength": "",
-   "pre_index_status": "doc",
+   "pre_index_status": "local_artifact",
    "pre_index_references": [
-    "doc:notes/writeback-experiment-00076D.md"
+    "local_artifact:artifacts/butano-note-rom-claims-v1/claims.json"
    ],
    "material_kinds": [
     "data_contract"

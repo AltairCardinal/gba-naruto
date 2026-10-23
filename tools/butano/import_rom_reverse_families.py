@@ -163,6 +163,39 @@ def load_verified_manifest(
     return path, manifest
 
 
+def declared_sha256(entry: Any) -> str | None:
+    """The SHA-256 a manifest file entry declares, or ``None``.
+
+    The reverse tree uses **two** signed shapes for a manifest's ``files``
+    entries and both are legitimate:
+
+    * ``"ab12..."`` -- the bare digest;
+    * ``{"sha256": "ab12...", "size": 4096}`` -- the digest plus the size.
+
+    An importer that only understands the first shape rejects every family
+    written in the second one.  That is not a defect of those families: 98 of
+    the reverse tree's file entries use the object shape and all of them match
+    their own bytes.  Rejecting them would silently shrink the shelf and make
+    the importer's failure look like a property of the source.
+    """
+    if isinstance(entry, str):
+        return entry
+    if isinstance(entry, dict):
+        value = entry.get("sha256")
+        if isinstance(value, str):
+            return value
+    return None
+
+
+def declared_size(entry: Any) -> int | None:
+    """The byte size a manifest file entry declares, when it declares one."""
+    if isinstance(entry, dict):
+        value = entry.get("size")
+        if isinstance(value, int) and not isinstance(value, bool):
+            return value
+    return None
+
+
 def verify_family_files(
     family_dir: Path,
     spec: FamilySpec,
@@ -172,6 +205,9 @@ def verify_family_files(
 
     Returns the verified ``{relative path: sha256}`` map.  A file that is
     missing or whose bytes moved is a hard failure naming the family.
+
+    Both manifest entry shapes are accepted (see :func:`declared_sha256`), and
+    an entry that declares a size must have that size too.
     """
     family_dir = Path(family_dir)
     files = manifest.get("files")
@@ -181,7 +217,12 @@ def verify_family_files(
             family=spec.family, exit_code=EXIT_INPUT_ERROR)
     verified: dict[str, str] = {}
     for relative in sorted(files):
-        expected = files[relative]
+        entry = files[relative]
+        expected = declared_sha256(entry)
+        if expected is None:
+            raise FamilyImportError(
+                f"{spec.family}: manifest file {relative} declares no sha256",
+                family=spec.family, exit_code=EXIT_FAMILY_FILE_MISMATCH)
         path = family_dir / relative
         if not path.is_file():
             raise FamilyImportError(
@@ -193,6 +234,14 @@ def verify_family_files(
                 f"{spec.family}: file {relative} sha256 mismatch "
                 f"(manifest {expected}, actual {actual})",
                 family=spec.family, exit_code=EXIT_FAMILY_FILE_MISMATCH)
+        expected_size = declared_size(entry)
+        if expected_size is not None:
+            actual_size = path.stat().st_size
+            if actual_size != expected_size:
+                raise FamilyImportError(
+                    f"{spec.family}: file {relative} size mismatch "
+                    f"(manifest {expected_size}, actual {actual_size})",
+                    family=spec.family, exit_code=EXIT_FAMILY_FILE_MISMATCH)
         verified[relative] = actual
     return verified
 

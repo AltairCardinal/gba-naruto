@@ -25,6 +25,7 @@ This test pins down the rules that make that number trustworthy:
 
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -398,3 +399,120 @@ class UsableBacklogTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class VerifierOnlyReferenceTest(unittest.TestCase):
+    """A family that only a verifier names is **verified against**, not consumed.
+
+    A tool that reads a family's manifest to check its identity proves the
+    result is real; it does not make the remake use the payload.  Counting
+    that as consumption moves the family off the shelf and inflates the
+    consumed count, so the rule has to be pinned.
+    """
+
+    def test_a_verifier_only_reference_does_not_consume_the_family(self) -> None:
+        payload = {
+            "schema": "konoha.butano-usable-backlog.v1",
+            "shelf": [],
+            "summary": {},
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            _write(
+                root / "artifacts" / "butano-usable-backlog-v1" / "backlog.json",
+                json.dumps(payload),
+            )
+            _write(
+                root / "artifacts" / "butano-reverse-gap-v1" / "gap.json",
+                json.dumps(
+                    {
+                        "rows": [
+                            {
+                                "id": "rom-demo-v1",
+                                "status": "build",
+                                "hits": [
+                                    "build:tools/verify_rom_demo.py",
+                                ],
+                            },
+                            {
+                                "id": "rom-used-v1",
+                                "status": "build",
+                                "hits": [
+                                    "build:tools/generate_demo_content.py",
+                                ],
+                            },
+                        ]
+                    }
+                ),
+            )
+            index = {
+                "schema": "konoha.reverse-results-index.v1",
+                "source": {"reverse_root": str(root / "reverse")},
+                "entries": [
+                    {
+                        "id": "rom-demo-v1",
+                        "kind": "artifact",
+                        "category": "rom",
+                        "path": "artifacts/rom-demo-v1",
+                        "manifest": "artifacts/rom-demo-v1/manifest.json",
+                    },
+                    {
+                        "id": "rom-used-v1",
+                        "kind": "artifact",
+                        "category": "rom",
+                        "path": "artifacts/rom-used-v1",
+                        "manifest": "artifacts/rom-used-v1/manifest.json",
+                    },
+                ],
+            }
+            _write(
+                root / "artifacts" / "reverse-results-index-v1" / "index.json",
+                json.dumps(index),
+            )
+            reverse = root / "reverse"
+            for family in ("rom-demo-v1", "rom-used-v1"):
+                artifact = reverse / "artifacts" / family
+                artifact.mkdir(parents=True)
+                # A table-shaped payload so the family lands on the shelf, and
+                # the manifest has to hash it correctly or the artifact is
+                # not accepted at all.
+                payload = json.dumps({"table": [1, 2]})
+                _write(artifact / "payload.json", payload)
+                _write(
+                    artifact / "manifest.json",
+                    json.dumps(
+                        {
+                            "artifact_status": "accepted",
+                            "files": {
+                                "payload.json": hashlib.sha256(
+                                    payload.encode("utf-8")
+                                ).hexdigest()
+                            },
+                        }
+                    ),
+                )
+            out = root / "out"
+            proc = subprocess.run(
+                [
+                    sys.executable,
+                    str(SCRIPT),
+                    "--root",
+                    str(root),
+                    "--index",
+                    str(root / "artifacts" / "reverse-results-index-v1" / "index.json"),
+                    "--gap",
+                    str(root / "artifacts" / "butano-reverse-gap-v1" / "gap.json"),
+                    "--out-dir",
+                    str(out),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(proc.returncode, 0, proc.stderr)
+            result = json.loads(
+                (out / "backlog.json").read_text(encoding="utf-8")
+            )
+            rows = {row["id"]: row for row in result["shelf"]}
+            self.assertIn("rom-demo-v1", rows)
+            self.assertEqual(rows["rom-demo-v1"]["consumption_evidence"], "verifier-only")
+            self.assertNotIn("rom-used-v1", rows)

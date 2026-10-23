@@ -1,0 +1,31 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "runtime-screen-composites-v1",
+  "file_count": 2,
+  "files": {
+    "frames.zip": "be64b4868bd9bb3bd5db1892f930f8e959507c88fdcbef41fee7ad054ab8027c",
+    "runtime-screen-composites.json": "9ea1b85836db1f03cb57f0d1f4b64d582f06a43e12d74a0c7e76522fec8f9366"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/runtime-screen-composites-v1/manifest.json",
+  "manifest_sha256": "f31ca8e7e21de6b930fcdb487359e63e30b08b140e74c1e7791a1a3ec619624c",
+  "scope": {},
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_runtime_screen_composites.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/runtime-screen-composites-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "checkpoint_count": 91,
+      "errors": [],
+      "exact_rgb_count": 89,
+      "schema": "runtime-screen-composites-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "0b40b9722312f25baaa0cd598916371f46b61e53fe472ca6b95e2f116f5a70df"
+  }
+}

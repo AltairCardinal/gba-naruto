@@ -1,36 +1,52 @@
 {
   "schema": "konoha.butano-local-derivations.v1",
-  "generated_at": "2026-10-22T01:30:21.722849+00:00",
+  "generated_at": "2026-10-23T09:12:15.455240+00:00",
   "inputs": {
     "wiring": {
       "path": "artifacts/butano-wiring-coverage-v1/wiring.json",
-      "sha256": "cc95456e6a613edbf582cc265d45a0a454115dee032e811007f195b986847712"
+      "sha256": "b66f28812e175fb133fa0a456c04edd57e61c3cc802d5826be29a330d5abb185"
     },
     "reverse_root": "/Users/altair/github/gba-naruto-reverse",
     "reverse_commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375"
   },
   "mode": "apply",
   "summary": {
-    "tracked_families": 30,
-    "acceptance_families": 26,
+    "tracked_families": 45,
+    "acceptance_families": 41,
     "rederived": 20,
-    "imported": 9,
+    "imported": 24,
     "already_identical": 1,
     "imported_prerequisite": 0,
     "diverged": 0,
     "unavailable": 0,
     "error": 0,
-    "byte_identical": 30,
+    "byte_identical": 45,
     "candidates_rederived": 16,
-    "candidates_imported": 9,
+    "candidates_imported": 24,
     "candidates_already_identical": 1,
-    "candidates_byte_identical": 26
+    "candidates_byte_identical": 41
   },
   "collateral": {
     "modified_existing": [],
     "removed_existing": [],
-    "added_count": 0,
-    "added_families": []
+    "added_count": 33,
+    "added_families": [
+      "rom-animation-descriptor-pool-v2",
+      "rom-boot-copy-sources-v1",
+      "rom-bounded-index-u16-pair-table-v1",
+      "rom-cfg-proven-roots-v14",
+      "rom-directsound-pitch-lookup-v1",
+      "rom-display-text-delta-v1",
+      "rom-fixed-animation-descriptor-groups-v1",
+      "rom-fixed-index-u8-tail-v1",
+      "rom-fixed-pair-tables-v1",
+      "rom-fixed-renderer-script-records-v1",
+      "rom-low-script-delta-v1",
+      "rom-psg-frequency-lookup-v1",
+      "rom-renderer-records-delta-v1",
+      "rom-renderer-script-pointer-pool-records-v1",
+      "rom-u8-indexed-u8-triplet-lookup-v1"
+    ]
   },
   "rows": [
     {
@@ -45,7 +61,7 @@
       "local_schema": "battle-effect-affine-runtime-v1",
       "reverse_schema": "battle-effect-affine-runtime-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -60,7 +76,7 @@
       "local_schema": "battle-effect-resource-pairs-v1",
       "reverse_schema": "battle-effect-resource-pairs-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": false
     },
     {
@@ -75,7 +91,7 @@
       "local_schema": "battle-effect-sequence-bindings-v1",
       "reverse_schema": "battle-effect-sequence-bindings-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": false
     },
     {
@@ -90,7 +106,7 @@
       "local_schema": "battle-effect-sprite-animations-v1",
       "reverse_schema": "battle-effect-sprite-animations-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -105,7 +121,7 @@
       "local_schema": "battle-presentation-glyphs-v1",
       "reverse_schema": "battle-presentation-glyphs-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -120,7 +136,7 @@
       "local_schema": "battle-visual-catalog-v1",
       "reverse_schema": "battle-visual-catalog-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": false
     },
     {
@@ -135,7 +151,7 @@
       "local_schema": "battle-visual-runtime-timelines-v1",
       "reverse_schema": "battle-visual-runtime-timelines-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -150,7 +166,7 @@
       "local_schema": "bg-resource-canvases-v1",
       "reverse_schema": "bg-resource-canvases-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -165,7 +181,7 @@
       "local_schema": "bg-scene-selection-v1",
       "reverse_schema": "bg-scene-selection-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -180,7 +196,7 @@
       "local_schema": "character-fbff-runtime-v1",
       "reverse_schema": "character-fbff-runtime-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -195,7 +211,7 @@
       "local_schema": "cutscene-obj-export-v1",
       "reverse_schema": "cutscene-obj-export-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -210,7 +226,7 @@
       "local_schema": "dialogue-font-atlas-v2",
       "reverse_schema": "dialogue-font-atlas-v2",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": false
     },
     {
@@ -225,7 +241,202 @@
       "local_schema": null,
       "reverse_schema": null,
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-animation-descriptor-pool-v2",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "40bcf9c0b413a81736ea356174c25eea29e58b2cb04aa7211b53bd214f7f3f4a",
+      "reverse_digest": "40bcf9c0b413a81736ea356174c25eea29e58b2cb04aa7211b53bd214f7f3f4a",
+      "identical": true,
+      "local_manifest_sha": "81a4e698d523a0e78c379a2c0dbb8bed48cdeec726b11fb096cf8b7a70befffa",
+      "reverse_manifest_sha": "81a4e698d523a0e78c379a2c0dbb8bed48cdeec726b11fb096cf8b7a70befffa",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-boot-copy-sources-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "b21879c9e3f204732099cb86182b6d0fb14e0c4b51d7276bc55fd1dd60cdc2d3",
+      "reverse_digest": "b21879c9e3f204732099cb86182b6d0fb14e0c4b51d7276bc55fd1dd60cdc2d3",
+      "identical": true,
+      "local_manifest_sha": "040e009cccf97088b89f47161898797f2cc72790116d1c18cd2861edee85a464",
+      "reverse_manifest_sha": "040e009cccf97088b89f47161898797f2cc72790116d1c18cd2861edee85a464",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-bounded-index-u16-pair-table-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "0969e5e9fcc941abaac4d2a00cb03c5f49f11b188fe3e3c0616e8c0aa3185dd7",
+      "reverse_digest": "0969e5e9fcc941abaac4d2a00cb03c5f49f11b188fe3e3c0616e8c0aa3185dd7",
+      "identical": true,
+      "local_manifest_sha": "d909fed886e1779ae8db16a04dbcce7471d74a9a808ad17f6afd7372a0cb8d04",
+      "reverse_manifest_sha": "d909fed886e1779ae8db16a04dbcce7471d74a9a808ad17f6afd7372a0cb8d04",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-cfg-proven-roots-v14",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "2166738c68157737b3426c76b52940f6df76caa652573af97cc1f76df5bc2260",
+      "reverse_digest": "2166738c68157737b3426c76b52940f6df76caa652573af97cc1f76df5bc2260",
+      "identical": true,
+      "local_manifest_sha": "666772f43529a5578414c5b749e16ea8733a755a0a818e86cea81bd86d57091d",
+      "reverse_manifest_sha": "666772f43529a5578414c5b749e16ea8733a755a0a818e86cea81bd86d57091d",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-directsound-pitch-lookup-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "7d81ea3427c0e10870e5f719db4471767faf021551e0ab92a00533f6a195f138",
+      "reverse_digest": "7d81ea3427c0e10870e5f719db4471767faf021551e0ab92a00533f6a195f138",
+      "identical": true,
+      "local_manifest_sha": "61f58bd4309d3b63389bdd09ddd62281dee6fe6ce91bcce0c351ce703012805d",
+      "reverse_manifest_sha": "61f58bd4309d3b63389bdd09ddd62281dee6fe6ce91bcce0c351ce703012805d",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-display-text-delta-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "5a4d9c75daddb2e0b85047f3819813f6743c358338d7943b97f45625b4e0c901",
+      "reverse_digest": "5a4d9c75daddb2e0b85047f3819813f6743c358338d7943b97f45625b4e0c901",
+      "identical": true,
+      "local_manifest_sha": "c63319575c27969f9c0bbeb271a436cd4195f32f946b26bda62f64dbf0cbc69d",
+      "reverse_manifest_sha": "c63319575c27969f9c0bbeb271a436cd4195f32f946b26bda62f64dbf0cbc69d",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-fixed-animation-descriptor-groups-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "5c208b71fa452ad614d8cc4d351b732c9cc728909a0fdcd8202ba729013c87c8",
+      "reverse_digest": "5c208b71fa452ad614d8cc4d351b732c9cc728909a0fdcd8202ba729013c87c8",
+      "identical": true,
+      "local_manifest_sha": "83e526c51214bc0e42f31f8906b7633e4b94a0762a630c643f0134fad974ff05",
+      "reverse_manifest_sha": "83e526c51214bc0e42f31f8906b7633e4b94a0762a630c643f0134fad974ff05",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-fixed-index-u8-tail-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "3ff229ca4802ee77877898c08cd8bb1539c9252f6fb4584b694ea8584a93422c",
+      "reverse_digest": "3ff229ca4802ee77877898c08cd8bb1539c9252f6fb4584b694ea8584a93422c",
+      "identical": true,
+      "local_manifest_sha": "4e8bbe70226849ce64a5e892bfbbcea88465e45528a61ec588c0ebadd724fa88",
+      "reverse_manifest_sha": "4e8bbe70226849ce64a5e892bfbbcea88465e45528a61ec588c0ebadd724fa88",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-fixed-pair-tables-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "8e2021cabac54d68e1ecd43057c7567f08af903bc2419498e8e4ca3f543c5551",
+      "reverse_digest": "8e2021cabac54d68e1ecd43057c7567f08af903bc2419498e8e4ca3f543c5551",
+      "identical": true,
+      "local_manifest_sha": "3a704a55d005496ad9c534108bc86fe8e6e6c07ab4c0e021afd8f264943d4d9f",
+      "reverse_manifest_sha": "3a704a55d005496ad9c534108bc86fe8e6e6c07ab4c0e021afd8f264943d4d9f",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-fixed-renderer-script-records-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "072feae2656876dede8d2a3c420dbfb085c09559a385900f4b53c005a6d0af92",
+      "reverse_digest": "072feae2656876dede8d2a3c420dbfb085c09559a385900f4b53c005a6d0af92",
+      "identical": true,
+      "local_manifest_sha": "5616962b7f9255899797530b381dd537141afad1bff775747bcbbde24cadadd0",
+      "reverse_manifest_sha": "5616962b7f9255899797530b381dd537141afad1bff775747bcbbde24cadadd0",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-low-script-delta-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "47c4c63194f76a4d4692ab823086307edd31264c53aaf890fe2930bb314d721c",
+      "reverse_digest": "47c4c63194f76a4d4692ab823086307edd31264c53aaf890fe2930bb314d721c",
+      "identical": true,
+      "local_manifest_sha": "ce78ac8a710b1b1cd32f85932f38e50d22ddf14dda1224a0b498dd8d5745587f",
+      "reverse_manifest_sha": "ce78ac8a710b1b1cd32f85932f38e50d22ddf14dda1224a0b498dd8d5745587f",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-psg-frequency-lookup-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "607f159ed85623aabded0adb50fc1f0e7bc2c37285f62014a100666241ac0cc4",
+      "reverse_digest": "607f159ed85623aabded0adb50fc1f0e7bc2c37285f62014a100666241ac0cc4",
+      "identical": true,
+      "local_manifest_sha": "4fffbcc7e252595834adb368d10b3ce8f13323aee18cc518d98e0ff9c519575f",
+      "reverse_manifest_sha": "4fffbcc7e252595834adb368d10b3ce8f13323aee18cc518d98e0ff9c519575f",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-renderer-records-delta-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "4f260e6ae5bba52e03ff2483e38b4b69d96be2c06530c4e2bc991ca0b6d993c4",
+      "reverse_digest": "4f260e6ae5bba52e03ff2483e38b4b69d96be2c06530c4e2bc991ca0b6d993c4",
+      "identical": true,
+      "local_manifest_sha": "7191a579d0995fef7c55b41af2488abf02a882e8d22c06dd5489d0e4b0d2c72e",
+      "reverse_manifest_sha": "7191a579d0995fef7c55b41af2488abf02a882e8d22c06dd5489d0e4b0d2c72e",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-renderer-script-pointer-pool-records-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "5a98624703c80bf92de81eb92b42ef723242d0f479a50aa28614d876f0b64b04",
+      "reverse_digest": "5a98624703c80bf92de81eb92b42ef723242d0f479a50aa28614d876f0b64b04",
+      "identical": true,
+      "local_manifest_sha": "342310e1eb5512707cced533ecacb49c5da0bee48ff7b021b380aab56a750ce1",
+      "reverse_manifest_sha": "342310e1eb5512707cced533ecacb49c5da0bee48ff7b021b380aab56a750ce1",
+      "attempts": [],
+      "acceptance_family": true
+    },
+    {
+      "family": "rom-u8-indexed-u8-triplet-lookup-v1",
+      "mode": "imported",
+      "reason": "no remake-side producer reproduces this family (capture / verifier evidence / superseded schema)",
+      "producer": null,
+      "local_digest": "9060e0de49e390aca34eb964ed3deb0b2f30c6791fdb8d735374f7d5e7f6d6f4",
+      "reverse_digest": "9060e0de49e390aca34eb964ed3deb0b2f30c6791fdb8d735374f7d5e7f6d6f4",
+      "identical": true,
+      "local_manifest_sha": "54dacd5ceb13025b7878b90961016bb67cc5d8cacbf1a8408be4faae4efa933c",
+      "reverse_manifest_sha": "54dacd5ceb13025b7878b90961016bb67cc5d8cacbf1a8408be4faae4efa933c",
+      "attempts": [],
       "acceptance_family": true
     },
     {
@@ -240,7 +451,7 @@
       "local_schema": null,
       "reverse_schema": null,
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -255,7 +466,7 @@
       "local_schema": null,
       "reverse_schema": null,
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -270,7 +481,7 @@
       "local_schema": null,
       "reverse_schema": null,
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -285,7 +496,7 @@
       "local_schema": null,
       "reverse_schema": null,
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -300,7 +511,7 @@
       "local_schema": null,
       "reverse_schema": null,
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -315,7 +526,7 @@
       "local_schema": null,
       "reverse_schema": null,
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -330,7 +541,7 @@
       "local_schema": "scene-visual-packs-v1",
       "reverse_schema": "scene-visual-packs-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -345,7 +556,7 @@
       "local_schema": "sprite-definition-animations-v1",
       "reverse_schema": "sprite-definition-animations-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -360,7 +571,7 @@
       "local_schema": "sprite-definition-assets-v2",
       "reverse_schema": "sprite-definition-assets-v2",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -375,7 +586,7 @@
       "local_schema": "story-scene-layer-bindings-v1",
       "reverse_schema": "story-scene-layer-bindings-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -390,7 +601,7 @@
       "local_schema": "story-scene-timelines-v1",
       "reverse_schema": "story-scene-timelines-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -405,7 +616,7 @@
       "local_schema": "story-visual-layer-export-v1",
       "reverse_schema": "story-visual-layer-export-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -420,7 +631,7 @@
       "local_schema": "tile-assets-bg-export-v1",
       "reverse_schema": "tile-assets-bg-export-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -435,7 +646,7 @@
       "local_schema": "tile-assets-bg-export-v2",
       "reverse_schema": "tile-assets-bg-export-v2",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -450,7 +661,7 @@
       "local_schema": "world-map-backgrounds-v1",
       "reverse_schema": "world-map-backgrounds-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -465,7 +676,7 @@
       "local_schema": null,
       "reverse_schema": null,
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     },
     {
@@ -480,7 +691,7 @@
       "local_schema": "world-map-runtime-v1",
       "reverse_schema": "world-map-runtime-v1",
       "identical": true,
-      "provenance_recorded_at": "2026-10-22T01:30:11.405960+00:00",
+      "provenance_recorded_at": "2026-10-22T01:30:21.776998+00:00",
       "acceptance_family": true
     }
   ]

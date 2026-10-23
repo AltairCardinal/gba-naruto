@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-22T01:51:21.789352+00:00",
+  "generated_at": "2026-10-23T09:12:46.654618+00:00",
   "inputs": {
     "backlog": {
       "path": "artifacts/butano-usable-backlog-v1/backlog.json",
-      "sha256": "51f977fdb571776ba07c5debf7132a70ea6da434b884c85cc076fba6755e6477"
+      "sha256": "adf8cb7f94e484bbbd17a556843f3fd6b25a8b9cf38e90e600d01a13a913174d"
     },
     "gap": {
       "path": "artifacts/butano-reverse-gap-v1/gap.json",
-      "sha256": "7bc86fbada4146c9e06ba697a2f26469941e1244780c17503b23a548e729e5f7"
+      "sha256": "d06641655dd0e492d7e3287900f61ef50eaf34f67114b26f2b11c436efd9db39"
     },
     "index": {
       "path": "artifacts/reverse-results-index-v1/index.json",
-      "sha256": "a38f7f2e81e31d6674e07499c58766bea31e7edb4a5c1dbf1f3009c88b61b89a"
+      "sha256": "48117e653c72263ed23475251b9408fc23aac32550b370d29e3bb940e8dee475"
     },
     "reverse_root": "/Users/altair/github/gba-naruto-reverse"
   },
@@ -694,7 +694,7 @@
     "generated_headers": 27,
     "graphic_assets": 1819,
     "handwritten_headers": 110,
-    "test_modules": 374
+    "test_modules": 381
   },
   "source_rows": [
     {
@@ -712,6 +712,26 @@
         "tools/butano/import_rom_pixel_ab_baselines.py"
       ],
       "manifest_sha256": "6fc7148a5ec464142ac42d058751238bb0779f7e7f5fc4e7834bbd4dcc018c63",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "battle",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-status-bars-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-status-bars-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "d88242fa88213b96d8fe48430a0758a3bb79adf7dd6bb6d22e7d00da9711c0d0",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -820,6 +840,66 @@
     {
       "category": "map",
       "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/map41-visual-resource-matrix-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "map41-visual-resource-matrix-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "196aa07481b9aeb75ebae59de9214bc8893eb9bc913e29f9441897cd7590ec42",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/scene-visual-composites-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "scene-visual-composites-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "bfa901135f416e48ee5e646d88c1b6669ab8c36d4817b24f2e3664cf00be0da2",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/scene-visual-transition-timelines-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "scene-visual-transition-timelines-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "47952417ec6219866b3256d63a2136d0c9c98ad4cbdc0fe643641d97a3929514",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "map",
+      "consumers": [
         "artifacts/butano-reverse-m3-import-v1/relocation/world-map-background-relocation-v1"
       ],
       "consumption_status": "build",
@@ -920,6 +1000,26 @@
     {
       "category": "other",
       "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/initializer-resource-pack-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "initializer-resource-pack-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "8fc7c3ea449b480c5065a97e70d0f6c5c0fa30a0dc3f942931f6be86264337a4",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "other",
+      "consumers": [
         "artifacts/butano-reverse-m3-import-v1/pixel-ab/levels-status-per-level-ab-v1"
       ],
       "consumption_status": "build",
@@ -932,6 +1032,26 @@
         "tools/butano/import_rom_pixel_ab_baselines.py"
       ],
       "manifest_sha256": "717a9910e783e6a596b0aa2b7be7912aaf411fcdbf9f2e2bd41918cd3e6763f0",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "other",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/lz77-palette-runtime-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "lz77-palette-runtime-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "d363310303d8b51d0cc6f64014489297071882859c547694b3db91f7c11c52bf",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -1100,6 +1220,26 @@
     {
       "category": "presentation",
       "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/portrait-palette-producers-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "portrait-palette-producers-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "5714056ed70d0510727d7b612bc89e90b7d0159c68e9a743c6af4815a0ebd361",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
         "artifacts/butano-reverse-m3-import-v1/relocation/story-visual-resource-relocation-v1"
       ],
       "consumption_status": "build",
@@ -1112,6 +1252,26 @@
         "tools/butano/import_rom_relocation_specs.py"
       ],
       "manifest_sha256": "8b6de4effe5fe10da40cb60e80ad9cf713d456a6650cf5a6054ebb258cfe9846",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "presentation",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/story-visual-resource-sources-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "story-visual-resource-sources-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "6a6aebe1cc1b9a37b8651309d461550cb13d36e319b587a8dbf657ebcc1ea1cc",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -1160,6 +1320,46 @@
     {
       "category": "residual",
       "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-text-bg-tilemap-resource-ownership-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "residual-text-bg-tilemap-resource-ownership-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "a4db6c9ecfb5bf1d4a408630900a1d6b061f0a04aa30191479522904a71b8ccc",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-crop-tilemap-runtime-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "residual-wram-crop-tilemap-runtime-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "9580db8094ea06cd249b22307c440aea46a01ec141df2d7418d2ec890598341e",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
         "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-derived-tilemap-relocation-v1"
       ],
       "consumption_status": "build",
@@ -1172,6 +1372,26 @@
         "tools/butano/import_rom_relocation_specs.py"
       ],
       "manifest_sha256": "1cf450ddb482b287d62d108660443b332f988007eef07f34726fa30a218f0030",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-tilemap-abi-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "residual-wram-tilemap-abi-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "8f74053ffda705e0a1aac0c761bd561905afbb03d5203745ce6c54910a222412",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -1212,6 +1432,666 @@
         "tools/butano/import_rom_relocation_specs.py"
       ],
       "manifest_sha256": "93a767b4a81e8742e75d24943823ca3b140b056ebb67db8d7c84df039609e5c2",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-tilemap-resource-ownership-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "residual-wram-tilemap-resource-ownership-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "57e04df8c14ac9ee0b34a5102e42b1d9761e168343e3671b8e396fe938123ab5",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-tilemap-runtime-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "residual-wram-tilemap-runtime-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "1cde045d1fb0e06028760371514cfe2ac47e1623e1d9605a00489e763a460f5f",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-tilemap-runtime-v2"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "residual-wram-tilemap-runtime-v2",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "73eb055798b1c93a59d9fc6c9bab16525933d2ea9ccfab066fe4b70b6d65d1f7",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-transformed-tilemap-runtime-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "residual-wram-transformed-tilemap-runtime-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "eee86b030e588cc5f336a09c51f036064cedd94efa7fd83b043d0e5f2db181bc",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "residual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/residual-wram-visual-metadata-abi-v2"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "residual-wram-visual-metadata-abi-v2",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "ba1c878911f5541007bacc0092e0da852ff6f991203b834e50d461b8188ef54e",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-alternate-dialogue-table-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-alternate-dialogue-table-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "f7ded383f1c7334d714337768867496d083a85db051a69688fea121023f121b0",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-battle-sound-selector-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-battle-sound-selector-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "eb30940a42f9d2c0e7ece5f18939eb4c0b1fbb06c9d51bc756ad853bc13d8807",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-cutscene-obj-source-ranges-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-cutscene-obj-source-ranges-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "a0e97ec43858a145a7c26dc71c5b89dfe8c4d9a5d6074ccad88c4ae56e03afd5",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-dialogue-text-inventory-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-dialogue-text-inventory-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "0e8f3276ff5eac20c089299174abeac36b930fd71e368b16cc97e0cce22e4d7d",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-direct-cpuset-gpu-inventory-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-direct-cpuset-gpu-inventory-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "ed886e717b54b0ec78af5eb4941d677095286290a5ad2ed2a01b033f4520d246",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-direct-dma-gpu-inventory-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-direct-dma-gpu-inventory-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "84bc8f927047d7356e6779d6550d2ff74e342929da4b9228fc2c8102585324d1",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-expansion-profile-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-expansion-profile-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "75a056e0d82b24af30e59a713910a3e5d6a9073bb28ee079409689eba92dc7cc",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-gpu-copy-queue-inventory-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-gpu-copy-queue-inventory-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "3a3f4d06f27560dfcf2674c13802e2fbcc551246e5de121b1f62747a09f32a95",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-menu-portrait-palette-inventory-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-menu-portrait-palette-inventory-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "8a8675c2724131a6caa9b956825d74280fa26fe99447470b3cc3810688e6f88b",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-pointer-lz77-graphics-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-pointer-lz77-graphics-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "17a93ff1f8779a0da50d8e7022adf9c9a7656811884b32db3db3e54f13fd495d",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-renderer-text-inventory-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-renderer-text-inventory-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "43b723061e4c5f8f82b50326a4e851bec722fb0f42c0782005ddc3c1a683ad04",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-selector-direct-source-records-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-selector-direct-source-records-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "094dbb593b2b8e09849ea795f4a09155598936cd3a1bc0b36e2eda6a413cf789",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-staged-gpu-copy-inventory-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-staged-gpu-copy-inventory-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "ff634185ab977d0f99c5eab0e893149ad9ac28fcecc2e0d2df70bf3ac30c0f39",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "rom",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/rom-u8-indexed-u16-pair-lookup-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "rom-u8-indexed-u16-pair-lookup-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "926c2df1b1154181b28dcb65369471f87cdb35c986ce9d0c15a942a3e6fef81a",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "runtime",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/runtime-bg-composites-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "runtime-bg-composites-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "fdb681d5fb3f86784208803301d97602642d70f21e76ddaa04a36dd552efa098",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "runtime",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/runtime-font-tile-provenance-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "runtime-font-tile-provenance-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "ad74f08c107a5326dc75c003614fcaff6fe1b0218087da80781d3d2316780375",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "runtime",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/runtime-layer-static-provenance-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "runtime-layer-static-provenance-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "6a24b443bea94177c8a017a1099cfb343b4d61bed765f6a4d7400cf738a16704",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "runtime",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/runtime-screen-composites-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "runtime-screen-composites-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "f31ca8e7e21de6b930fcdb487359e63e30b08b140e74c1e7791a1a3ec619624c",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-group1-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-group1-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "fadf6b9d541589b8bd758839de91c1433f81e81cdcc3d4f5ac2387cf02e79526",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-group14-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-group14-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "a862bd09bb7c8bd417c8b0651036a99357a2cd5bc7ce852d50dcff4c98e3a46d",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-group16-natural-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-group16-natural-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "f211669fe29bbc391b87083eca66226e4a49220489d7cbd56dc71b33a831bb8e",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-group17-natural-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-group17-natural-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "03b075b52d2e6ebbcbfe66f64c47bbea7d93cc2bff59d876de138356a96f0e91",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-group18-natural-sequence-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-group18-natural-sequence-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "e87b9b6035334ec29bf420529d5f541d72f76b07f36328470845ef0718c3768e",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-group2-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-group2-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "0babb563f167448ec924eb7647aa948110b1d7bf02e1e8a6752a7a79c4e5d68c",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-group3-natural-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-group3-natural-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "b4a0ace388f1af08e9699df4c6ff593c711ee923ead56197a85c09e313c17f5a",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-group4-natural-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-group4-natural-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "53485b25271cb565828c0461818f996fc5708b6348e5f3df4fca647da0e85493",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-group5-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-group5-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "bac4d5c3cd7c4c31fb88fdf31856548e03206467e7bf33b1203ccf8a0477e086",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-frame-phase-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-frame-phase-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "d42a325efb3498d43be7b22e0c070b43608d54265d3ba93db975bac2127362a5",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -1400,6 +2280,26 @@
     {
       "category": "visual",
       "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-group12-ai-observer-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-group12-ai-observer-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "ddd212d475192f5c3c94d75e662164beabdc8b5159a7bccbe8b7fae36fe579b8",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
         "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group12-controlled-pixel-ab-v1"
       ],
       "consumption_status": "build",
@@ -1412,6 +2312,26 @@
         "tools/butano/import_rom_pixel_ab_baselines.py"
       ],
       "manifest_sha256": "440606b9f367e3bfff873e436fd7afa1f29a915204ec2be1de4845de676e571f",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-group13-natural-runtime-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-group13-natural-runtime-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "f3347c73888f33b7f8b753a91490dd524583710c268a220a712fad65324808e2",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -1540,6 +2460,26 @@
     {
       "category": "visual",
       "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-group18-natural-checkpoint-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-group18-natural-checkpoint-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "779a8df2df1cb8d9ccf6674d8ac93897f653615f7770c80c449406fd6aecbd16",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
         "artifacts/butano-reverse-m3-import-v1/pixel-ab/battle-effect-group18-natural-pixel-ab-v1"
       ],
       "consumption_status": "build",
@@ -1652,6 +2592,46 @@
         "tools/butano/import_rom_relocation_specs.py"
       ],
       "manifest_sha256": "47970ba90a761de5eeb67eebaea574558b2e780b8483129e22a02dbd61d3cb3c",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-runtime-oam-bindings-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-runtime-oam-bindings-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "6e8b7a06038cc06ed39f78d3ea05beb102ae32cea53ddbcd78110364c154825b",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/battle-effect-runtime-oam-task-bindings-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "battle-effect-runtime-oam-task-bindings-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "bc00e8e41610b09b84637a80a0262ba2ef883aac7e7a8ccdd862f2fbd28000af",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -1792,6 +2772,66 @@
         "tools/butano/import_rom_relocation_specs.py"
       ],
       "manifest_sha256": "e3727d069742f6dbe9bc26c9765060dfc725f61cf10f76da5de4ad1cf768e672",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/character-battle-visual-resource-matrix-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "character-battle-visual-resource-matrix-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "41baf4a2f087723e1d51de2629e1065958bd1d7ddd655f3157dbb0de41966fdb",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/character-runtime-oam-bindings-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "character-runtime-oam-bindings-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "98d84e6ce9a75b9d47be3efc4e1d7a14924729b3605dfde6b65d4b370f3fdce6",
+      "payload_bytes": 0,
+      "scope_closed": null,
+      "state": "imported-and-gated",
+      "tier": "importer-pinned"
+    },
+    {
+      "category": "visual",
+      "consumers": [
+        "artifacts/butano-reverse-m3-import-v1/relocation/character-runtime-oam-task-bindings-v1"
+      ],
+      "consumption_status": "build",
+      "gate_upper_bound": true,
+      "gated_by": [
+        "tests/test_rom_shelf_family_import.py"
+      ],
+      "id": "character-runtime-oam-task-bindings-v1",
+      "importers": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "manifest_sha256": "df2fc83e3322c0584c9410f6b23c798e6dfd400f6a21377552395756152cddfc",
       "payload_bytes": 0,
       "scope_closed": null,
       "state": "imported-and-gated",
@@ -1970,10 +3010,10 @@
         "tools/analyze_battle_status_stage_policy.py",
         "tools/build_reverse_notes_index.py",
         "tools/build_reverse_results_index.py",
+        "tools/butano/import_rom_shelf_families.py",
         "tools/export_bg_scene_selection.py",
         "tools/export_sprite_definition_runtime_chain.py",
-        "tools/export_world_map_runtime.py",
-        "tools/run_offline_e2e.py"
+        "tools/export_world_map_runtime.py"
       ],
       "scope_closed": null,
       "state": "local-rederived-identical",
@@ -2065,7 +3105,323 @@
         "tools/export_story_scene_timelines.py",
         "tools/export_story_visual_layers.py",
         "tools/verify_story_scene_layer_bindings.py",
-        "tools/verify_story_visual_layer_export.py"
+        "tools/verify_story_visual_layer_export.py",
+        "sequel/content/battle-encounters/bank.json"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-animation-descriptor-pool-v2",
+      "local_copy": {
+        "local_manifest_sha256": "81a4e698d523a0e78c379a2c0dbb8bed48cdeec726b11fb096cf8b7a70befffa",
+        "local_tree_sha256": "40bcf9c0b413a81736ea356174c25eea29e58b2cb04aa7211b53bd214f7f3f4a",
+        "reverse_manifest_sha256": "81a4e698d523a0e78c379a2c0dbb8bed48cdeec726b11fb096cf8b7a70befffa",
+        "reverse_tree_sha256": "40bcf9c0b413a81736ea356174c25eea29e58b2cb04aa7211b53bd214f7f3f4a"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-boot-copy-sources-v1",
+      "local_copy": {
+        "local_manifest_sha256": "040e009cccf97088b89f47161898797f2cc72790116d1c18cd2861edee85a464",
+        "local_tree_sha256": "b21879c9e3f204732099cb86182b6d0fb14e0c4b51d7276bc55fd1dd60cdc2d3",
+        "reverse_manifest_sha256": "040e009cccf97088b89f47161898797f2cc72790116d1c18cd2861edee85a464",
+        "reverse_tree_sha256": "b21879c9e3f204732099cb86182b6d0fb14e0c4b51d7276bc55fd1dd60cdc2d3"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-bounded-index-u16-pair-table-v1",
+      "local_copy": {
+        "local_manifest_sha256": "d909fed886e1779ae8db16a04dbcce7471d74a9a808ad17f6afd7372a0cb8d04",
+        "local_tree_sha256": "0969e5e9fcc941abaac4d2a00cb03c5f49f11b188fe3e3c0616e8c0aa3185dd7",
+        "reverse_manifest_sha256": "d909fed886e1779ae8db16a04dbcce7471d74a9a808ad17f6afd7372a0cb8d04",
+        "reverse_tree_sha256": "0969e5e9fcc941abaac4d2a00cb03c5f49f11b188fe3e3c0616e8c0aa3185dd7"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-cfg-proven-roots-v14",
+      "local_copy": {
+        "local_manifest_sha256": "666772f43529a5578414c5b749e16ea8733a755a0a818e86cea81bd86d57091d",
+        "local_tree_sha256": "2166738c68157737b3426c76b52940f6df76caa652573af97cc1f76df5bc2260",
+        "reverse_manifest_sha256": "666772f43529a5578414c5b749e16ea8733a755a0a818e86cea81bd86d57091d",
+        "reverse_tree_sha256": "2166738c68157737b3426c76b52940f6df76caa652573af97cc1f76df5bc2260"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-directsound-pitch-lookup-v1",
+      "local_copy": {
+        "local_manifest_sha256": "61f58bd4309d3b63389bdd09ddd62281dee6fe6ce91bcce0c351ce703012805d",
+        "local_tree_sha256": "7d81ea3427c0e10870e5f719db4471767faf021551e0ab92a00533f6a195f138",
+        "reverse_manifest_sha256": "61f58bd4309d3b63389bdd09ddd62281dee6fe6ce91bcce0c351ce703012805d",
+        "reverse_tree_sha256": "7d81ea3427c0e10870e5f719db4471767faf021551e0ab92a00533f6a195f138"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-display-text-delta-v1",
+      "local_copy": {
+        "local_manifest_sha256": "c63319575c27969f9c0bbeb271a436cd4195f32f946b26bda62f64dbf0cbc69d",
+        "local_tree_sha256": "5a4d9c75daddb2e0b85047f3819813f6743c358338d7943b97f45625b4e0c901",
+        "reverse_manifest_sha256": "c63319575c27969f9c0bbeb271a436cd4195f32f946b26bda62f64dbf0cbc69d",
+        "reverse_tree_sha256": "5a4d9c75daddb2e0b85047f3819813f6743c358338d7943b97f45625b4e0c901"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-fixed-animation-descriptor-groups-v1",
+      "local_copy": {
+        "local_manifest_sha256": "83e526c51214bc0e42f31f8906b7633e4b94a0762a630c643f0134fad974ff05",
+        "local_tree_sha256": "5c208b71fa452ad614d8cc4d351b732c9cc728909a0fdcd8202ba729013c87c8",
+        "reverse_manifest_sha256": "83e526c51214bc0e42f31f8906b7633e4b94a0762a630c643f0134fad974ff05",
+        "reverse_tree_sha256": "5c208b71fa452ad614d8cc4d351b732c9cc728909a0fdcd8202ba729013c87c8"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-fixed-index-u8-tail-v1",
+      "local_copy": {
+        "local_manifest_sha256": "4e8bbe70226849ce64a5e892bfbbcea88465e45528a61ec588c0ebadd724fa88",
+        "local_tree_sha256": "3ff229ca4802ee77877898c08cd8bb1539c9252f6fb4584b694ea8584a93422c",
+        "reverse_manifest_sha256": "4e8bbe70226849ce64a5e892bfbbcea88465e45528a61ec588c0ebadd724fa88",
+        "reverse_tree_sha256": "3ff229ca4802ee77877898c08cd8bb1539c9252f6fb4584b694ea8584a93422c"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-fixed-pair-tables-v1",
+      "local_copy": {
+        "local_manifest_sha256": "3a704a55d005496ad9c534108bc86fe8e6e6c07ab4c0e021afd8f264943d4d9f",
+        "local_tree_sha256": "8e2021cabac54d68e1ecd43057c7567f08af903bc2419498e8e4ca3f543c5551",
+        "reverse_manifest_sha256": "3a704a55d005496ad9c534108bc86fe8e6e6c07ab4c0e021afd8f264943d4d9f",
+        "reverse_tree_sha256": "8e2021cabac54d68e1ecd43057c7567f08af903bc2419498e8e4ca3f543c5551"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-fixed-renderer-script-records-v1",
+      "local_copy": {
+        "local_manifest_sha256": "5616962b7f9255899797530b381dd537141afad1bff775747bcbbde24cadadd0",
+        "local_tree_sha256": "072feae2656876dede8d2a3c420dbfb085c09559a385900f4b53c005a6d0af92",
+        "reverse_manifest_sha256": "5616962b7f9255899797530b381dd537141afad1bff775747bcbbde24cadadd0",
+        "reverse_tree_sha256": "072feae2656876dede8d2a3c420dbfb085c09559a385900f4b53c005a6d0af92"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-low-script-delta-v1",
+      "local_copy": {
+        "local_manifest_sha256": "ce78ac8a710b1b1cd32f85932f38e50d22ddf14dda1224a0b498dd8d5745587f",
+        "local_tree_sha256": "47c4c63194f76a4d4692ab823086307edd31264c53aaf890fe2930bb314d721c",
+        "reverse_manifest_sha256": "ce78ac8a710b1b1cd32f85932f38e50d22ddf14dda1224a0b498dd8d5745587f",
+        "reverse_tree_sha256": "47c4c63194f76a4d4692ab823086307edd31264c53aaf890fe2930bb314d721c"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-psg-frequency-lookup-v1",
+      "local_copy": {
+        "local_manifest_sha256": "4fffbcc7e252595834adb368d10b3ce8f13323aee18cc518d98e0ff9c519575f",
+        "local_tree_sha256": "607f159ed85623aabded0adb50fc1f0e7bc2c37285f62014a100666241ac0cc4",
+        "reverse_manifest_sha256": "4fffbcc7e252595834adb368d10b3ce8f13323aee18cc518d98e0ff9c519575f",
+        "reverse_tree_sha256": "607f159ed85623aabded0adb50fc1f0e7bc2c37285f62014a100666241ac0cc4"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-renderer-records-delta-v1",
+      "local_copy": {
+        "local_manifest_sha256": "7191a579d0995fef7c55b41af2488abf02a882e8d22c06dd5489d0e4b0d2c72e",
+        "local_tree_sha256": "4f260e6ae5bba52e03ff2483e38b4b69d96be2c06530c4e2bc991ca0b6d993c4",
+        "reverse_manifest_sha256": "7191a579d0995fef7c55b41af2488abf02a882e8d22c06dd5489d0e4b0d2c72e",
+        "reverse_tree_sha256": "4f260e6ae5bba52e03ff2483e38b4b69d96be2c06530c4e2bc991ca0b6d993c4"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-renderer-script-pointer-pool-records-v1",
+      "local_copy": {
+        "local_manifest_sha256": "342310e1eb5512707cced533ecacb49c5da0bee48ff7b021b380aab56a750ce1",
+        "local_tree_sha256": "5a98624703c80bf92de81eb92b42ef723242d0f479a50aa28614d876f0b64b04",
+        "reverse_manifest_sha256": "342310e1eb5512707cced533ecacb49c5da0bee48ff7b021b380aab56a750ce1",
+        "reverse_tree_sha256": "5a98624703c80bf92de81eb92b42ef723242d0f479a50aa28614d876f0b64b04"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
+      "scope_closed": null,
+      "state": "local-rederived-identical",
+      "tier": "local-copy-byte-identical"
+    },
+    {
+      "category": "rom",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "rom-u8-indexed-u8-triplet-lookup-v1",
+      "local_copy": {
+        "local_manifest_sha256": "54dacd5ceb13025b7878b90961016bb67cc5d8cacbf1a8408be4faae4efa933c",
+        "local_tree_sha256": "9060e0de49e390aca34eb964ed3deb0b2f30c6791fdb8d735374f7d5e7f6d6f4",
+        "reverse_manifest_sha256": "54dacd5ceb13025b7878b90961016bb67cc5d8cacbf1a8408be4faae4efa933c",
+        "reverse_tree_sha256": "9060e0de49e390aca34eb964ed3deb0b2f30c6791fdb8d735374f7d5e7f6d6f4"
+      },
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
       ],
       "scope_closed": null,
       "state": "local-rederived-identical",
@@ -2409,7 +3765,8 @@
       "payload_bytes": 0,
       "references": [
         "tools/export_tile_asset_bg_layers.py",
-        "tools/verify_tile_asset_bg_export.py"
+        "tools/verify_tile_asset_bg_export.py",
+        "sequel/content/tile-assets/bank.json"
       ],
       "scope_closed": null,
       "state": "local-rederived-identical",
@@ -2435,7 +3792,8 @@
         "tools/export_tile_asset_bg_layers.py",
         "tools/verify_battle_visual_catalog.py",
         "tools/verify_story_scene_layer_bindings.py",
-        "tools/verify_tile_asset_bg_export.py"
+        "tools/verify_tile_asset_bg_export.py",
+        "sequel/content/tile-assets/bank.json"
       ],
       "scope_closed": null,
       "state": "local-rederived-identical",
@@ -2571,7 +3929,9 @@
       "id": "rom-cfg-proven-roots-v1",
       "local_copy": {},
       "payload_bytes": 0,
-      "references": [],
+      "references": [
+        "tools/butano/import_rom_shelf_families.py"
+      ],
       "scope_closed": null,
       "state": "no-material",
       "tier": "no-payload"
@@ -3683,958 +5043,6 @@
       "tier": "analysis-only"
     },
     {
-      "category": "battle",
-      "consumers": [],
-      "consumption_status": "test",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-status-bars-v1",
-      "local_copy": {},
-      "payload_bytes": 159706,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "map",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "map41-visual-resource-matrix-v1",
-      "local_copy": {},
-      "payload_bytes": 687545,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "map",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "scene-visual-composites-v1",
-      "local_copy": {},
-      "payload_bytes": 166835,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "map",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "scene-visual-transition-timelines-v1",
-      "local_copy": {},
-      "payload_bytes": 11812893,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "other",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "initializer-resource-pack-v1",
-      "local_copy": {},
-      "payload_bytes": 1157583,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "other",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "lz77-palette-runtime-v1",
-      "local_copy": {},
-      "payload_bytes": 673139,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "overview",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "overview-gradient-overlay-v1",
-      "local_copy": {},
-      "payload_bytes": 26201,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "presentation",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "portrait-palette-producers-v1",
-      "local_copy": {},
-      "payload_bytes": 324088,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "presentation",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "story-visual-resource-sources-v1",
-      "local_copy": {},
-      "payload_bytes": 138833,
-      "references": [],
-      "scope_closed": true,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "residual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "residual-text-bg-tilemap-resource-ownership-v1",
-      "local_copy": {},
-      "payload_bytes": 5365,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "residual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "residual-wram-crop-tilemap-runtime-v1",
-      "local_copy": {},
-      "payload_bytes": 274856,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "residual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "residual-wram-tilemap-abi-v1",
-      "local_copy": {},
-      "payload_bytes": 7018,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "residual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "residual-wram-tilemap-resource-ownership-v1",
-      "local_copy": {},
-      "payload_bytes": 20525,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "residual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "residual-wram-tilemap-runtime-v1",
-      "local_copy": {},
-      "payload_bytes": 253008,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "residual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "residual-wram-tilemap-runtime-v2",
-      "local_copy": {},
-      "payload_bytes": 268562,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "residual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "residual-wram-transformed-tilemap-runtime-v1",
-      "local_copy": {},
-      "payload_bytes": 1802294,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "residual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "residual-wram-visual-metadata-abi-v2",
-      "local_copy": {},
-      "payload_bytes": 18240,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-alternate-dialogue-table-v1",
-      "local_copy": {},
-      "payload_bytes": 99750,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-animation-descriptor-pool-v2",
-      "local_copy": {},
-      "payload_bytes": 35254,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-battle-sound-selector-v1",
-      "local_copy": {},
-      "payload_bytes": 38941,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-boot-copy-sources-v1",
-      "local_copy": {},
-      "payload_bytes": 5587,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-bounded-index-u16-pair-table-v1",
-      "local_copy": {},
-      "payload_bytes": 4762,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-cfg-proven-roots-v14",
-      "local_copy": {},
-      "payload_bytes": 73816,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-cutscene-obj-source-ranges-v1",
-      "local_copy": {},
-      "payload_bytes": 41363,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-dialogue-text-inventory-v1",
-      "local_copy": {},
-      "payload_bytes": 758312,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-direct-cpuset-gpu-inventory-v1",
-      "local_copy": {},
-      "payload_bytes": 43211,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-direct-dma-gpu-inventory-v1",
-      "local_copy": {},
-      "payload_bytes": 16701,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-directsound-pitch-lookup-v1",
-      "local_copy": {},
-      "payload_bytes": 8035,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-display-text-delta-v1",
-      "local_copy": {},
-      "payload_bytes": 94550,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-expansion-profile-v1",
-      "local_copy": {},
-      "payload_bytes": 33737,
-      "references": [],
-      "scope_closed": true,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-fixed-animation-descriptor-groups-v1",
-      "local_copy": {},
-      "payload_bytes": 9341,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-fixed-index-u8-tail-v1",
-      "local_copy": {},
-      "payload_bytes": 4312,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-fixed-pair-tables-v1",
-      "local_copy": {},
-      "payload_bytes": 10639,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-fixed-renderer-script-records-v1",
-      "local_copy": {},
-      "payload_bytes": 32401,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-gpu-copy-queue-inventory-v1",
-      "local_copy": {},
-      "payload_bytes": 22622,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-low-script-delta-v1",
-      "local_copy": {},
-      "payload_bytes": 5213,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-menu-portrait-palette-inventory-v1",
-      "local_copy": {},
-      "payload_bytes": 269703,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-pointer-lz77-graphics-v1",
-      "local_copy": {},
-      "payload_bytes": 81066,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-psg-frequency-lookup-v1",
-      "local_copy": {},
-      "payload_bytes": 14102,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-renderer-records-delta-v1",
-      "local_copy": {},
-      "payload_bytes": 35709,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-renderer-script-pointer-pool-records-v1",
-      "local_copy": {},
-      "payload_bytes": 12030,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-renderer-text-inventory-v1",
-      "local_copy": {},
-      "payload_bytes": 276204,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-selector-direct-source-records-v1",
-      "local_copy": {},
-      "payload_bytes": 37999,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-staged-gpu-copy-inventory-v1",
-      "local_copy": {},
-      "payload_bytes": 8160,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-u8-indexed-u16-pair-lookup-v1",
-      "local_copy": {},
-      "payload_bytes": 138414,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "rom",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "rom-u8-indexed-u8-triplet-lookup-v1",
-      "local_copy": {},
-      "payload_bytes": 13475,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "runtime",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "runtime-bg-composites-v1",
-      "local_copy": {},
-      "payload_bytes": 3684999,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "runtime",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "runtime-font-tile-provenance-v1",
-      "local_copy": {},
-      "payload_bytes": 3779809,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "runtime",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "runtime-layer-static-provenance-v1",
-      "local_copy": {},
-      "payload_bytes": 1573057,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "runtime",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "runtime-screen-composites-v1",
-      "local_copy": {},
-      "payload_bytes": 1999346,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-group1-v1",
-      "local_copy": {},
-      "payload_bytes": 733930,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-group14-v1",
-      "local_copy": {},
-      "payload_bytes": 617081,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-group16-natural-v1",
-      "local_copy": {},
-      "payload_bytes": 622356,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-group17-natural-v1",
-      "local_copy": {},
-      "payload_bytes": 621642,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-group18-natural-sequence-v1",
-      "local_copy": {},
-      "payload_bytes": 703391,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-group2-v1",
-      "local_copy": {},
-      "payload_bytes": 629081,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-group3-natural-v1",
-      "local_copy": {},
-      "payload_bytes": 609254,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-group4-natural-v1",
-      "local_copy": {},
-      "payload_bytes": 617500,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-group5-v1",
-      "local_copy": {},
-      "payload_bytes": 599576,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-frame-phase-v1",
-      "local_copy": {},
-      "payload_bytes": 617477,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-group12-ai-observer-v1",
-      "local_copy": {},
-      "payload_bytes": 53686,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-group13-natural-runtime-v1",
-      "local_copy": {},
-      "payload_bytes": 58186,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-group18-natural-checkpoint-v1",
-      "local_copy": {},
-      "payload_bytes": 531920,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-runtime-oam-bindings-v1",
-      "local_copy": {},
-      "payload_bytes": 152524,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "battle-effect-runtime-oam-task-bindings-v1",
-      "local_copy": {},
-      "payload_bytes": 252937,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "character-battle-visual-resource-matrix-v1",
-      "local_copy": {},
-      "payload_bytes": 528206,
-      "references": [],
-      "scope_closed": false,
-      "state": "on-shelf",
-      "tier": "asset-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "character-runtime-oam-bindings-v1",
-      "local_copy": {},
-      "payload_bytes": 2471308,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
-      "category": "visual",
-      "consumers": [],
-      "consumption_status": "doc",
-      "gate_upper_bound": false,
-      "gated_by": [],
-      "id": "character-runtime-oam-task-bindings-v1",
-      "local_copy": {},
-      "payload_bytes": 408877,
-      "references": [],
-      "scope_closed": null,
-      "state": "on-shelf",
-      "tier": "table-direct"
-    },
-    {
       "category": "rom",
       "consumers": [],
       "consumption_status": "doc",
@@ -4801,6 +5209,22 @@
       "scope_closed": null,
       "state": "unclassified",
       "tier": "unclassified"
+    },
+    {
+      "category": "overview",
+      "consumers": [],
+      "consumption_status": "build",
+      "gate_upper_bound": false,
+      "gated_by": [],
+      "id": "overview-gradient-overlay-v1",
+      "local_copy": {},
+      "payload_bytes": 0,
+      "references": [
+        "tools/butano/verify_s49_overlay_preconditions.py"
+      ],
+      "scope_closed": null,
+      "state": "verified-against",
+      "tier": "verified-against"
     },
     {
       "category": "visual",
@@ -5064,14 +5488,14 @@
   ],
   "summary": {
     "declared_coverage": {
-      "declared_by_auditor": 69,
-      "declared_by_matrix": 69,
+      "declared_by_auditor": 121,
+      "declared_by_matrix": 121,
       "difference": 0,
       "only_in_auditor": [],
       "only_in_matrix": []
     },
     "families_bound": 12,
-    "families_imported": 57,
+    "families_imported": 109,
     "products_gated_upper_bound": 36,
     "sink_by_state": {
       "declared": 24,
@@ -5083,17 +5507,16 @@
       "generated_headers": 27,
       "graphic_assets": 1819,
       "handwritten_headers": 110,
-      "test_modules": 374
+      "test_modules": 381
     },
     "sink_total": 38,
     "source_by_state": {
-      "imported-and-gated": 57,
-      "local-rederived-identical": 26,
+      "imported-and-gated": 109,
+      "local-rederived-identical": 41,
       "no-material": 37,
       "not-importable": 51,
-      "on-shelf": 68,
       "unclassified": 12,
-      "verified-against": 1,
+      "verified-against": 2,
       "wired-and-gated": 12
     },
     "source_total": 264

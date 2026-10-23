@@ -1,0 +1,91 @@
+{
+  "automatic_inputs": [],
+  "binary_sha256": "c1135d28ec17def50c6cea0ef635bf1c4902290a4d2e9ba4a5376c300da642c8",
+  "capture_frame_limit": 1800,
+  "child_pgid": 80544,
+  "completion_marker_sha256": "d3a2307732f6586748a96704726dc57309b58b5f6a5fda6414890500538b61db",
+  "events": [
+    {
+      "action_address": "0x02027428",
+      "action_id": 61,
+      "address": "0x0807A22C",
+      "candidate_pointer": "0x0202681C",
+      "cycle": "8291560426",
+      "r5": "0x0202680C",
+      "runtime_pointer": "0x02026CB8",
+      "source_action_address": "0x02026828",
+      "source_action_id": 61
+    }
+  ],
+  "frame": 179,
+  "guard_command": [
+    "mGBA",
+    "--script",
+    "tools/mgba_battle_ai_action_observer.lua",
+    "runtime-only/staged/battle3.gba"
+  ],
+  "guard_summary_sha256": "e0d0ae679c537f42b8292e97f0b8acd25d30ff9566b0ea6ab14d4abc0518db31",
+  "input_state_sha256": "6524764b33c419077bfad8d13fff220a6d20e80b8b92c9da08c9b94d6cdcdf48",
+  "inputs": [
+    {
+      "down_frame": 60,
+      "hold_frames": 8,
+      "key": "A",
+      "up_frame": 68
+    }
+  ],
+  "output_png_sha256": "47fbde60709a27683035d7b385f06dd1447f68c6548272758e15a335cf3bc15e",
+  "output_state_sha256": "d006183f1781d8d18209e993dfc76789820c34a1d57ec7e5b69ac7ece71b387f",
+  "peak_tree_rss_mib": 65.546875,
+  "pgid_clean": true,
+  "recovery_inputs": [],
+  "rom_sha256": "3569189c489ae1bc92c85d6afd7fc09a8ac97d102bad554323b897d28c911905",
+  "run_id": "3f0db9004940804737013582e3690253",
+  "runtime_residue": {
+    "checked_at": "2026-08-02T02:47:41.008343Z",
+    "checked_pgid": 80544,
+    "lsof_command": [
+      "lsof",
+      "-nP",
+      "-iTCP",
+      "-sTCP:LISTEN",
+      "-a",
+      "-c",
+      "mGBA",
+      "-Fpcn"
+    ],
+    "lsof_exit_code": 1,
+    "mgba_listener_clean": true,
+    "mgba_listener_rows": [],
+    "pgid_clean": true,
+    "pgid_matching_rows": [],
+    "ps_command": [
+      "ps",
+      "-axo",
+      "pid=,pgid=,comm="
+    ]
+  },
+  "schema": "battle-ai-action-observer-v4",
+  "script_sha256": "79a6204f1d24bf62e7c8d801f1dfcfdd0f72fb9f6337f8accd201507bd9b3425",
+  "selection": {
+    "action_address": "0x02027428",
+    "action_id": 61,
+    "address": "0x0807A22C",
+    "candidate_pointer": "0x0202681C",
+    "cycle": "8291560426",
+    "r5": "0x0202680C",
+    "runtime_pointer": "0x02026CB8",
+    "source_action_address": "0x02026828",
+    "source_action_id": 61
+  },
+  "skipped_action_ids": [],
+  "staged_rom": "runtime-only/staged/battle3.gba",
+  "staged_rom_sha256": "3569189c489ae1bc92c85d6afd7fc09a8ac97d102bad554323b897d28c911905",
+  "toolchain": {
+    "kind": "current-desktop-runtime-profile",
+    "patch_sha256": null,
+    "path": "artifacts/rom-expansion-profile-v1/profile.json",
+    "sha256": "e21d375914dda3c20b05ccec45c39406db310609e69ee19d04dfa342f4b70287",
+    "source_commit": "d8bad14b4540f9114246c0281d74985cf81adc68"
+  }
+}

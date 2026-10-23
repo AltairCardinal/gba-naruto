@@ -1116,7 +1116,12 @@
     "map_id": 41,
     "row_file_offset": "0x53DE30",
     "battle_id": 41,
-    "dimensions": [36, 44, 9, 22],
+    "dimensions": [
+      36,
+      44,
+      9,
+      22
+    ],
     "strict_battle_arrival": true,
     "vram_buffer_index": 1,
     "resource_checks": {
@@ -1134,5 +1139,20 @@
     "extracted_count": 47,
     "rom_offset": 5495056,
     "rom_offset_hex": "0x53D910"
+  },
+  "_provenance": {
+    "rom": {
+      "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "offset": 5495056,
+      "size": 1504,
+      "entry_count": 47,
+      "entry_size": 32
+    },
+    "extractor": "tools/extract_all_structures.py",
+    "reverse_family": null,
+    "reverse_family_candidates": [],
+    "reverse_family_state": "none",
+    "reverse_evidence": [],
+    "unattributed_reason": "the table was extracted straight from the ROM by tools/extract_all_structures.py; no reverse family and no note claims it"
   }
 }

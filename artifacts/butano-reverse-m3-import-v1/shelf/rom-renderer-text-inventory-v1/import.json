@@ -1,0 +1,43 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-renderer-text-inventory-v1",
+  "file_count": 2,
+  "files": {
+    "renderer-text-inventory.json": "75be06e4b1c38d81d9a229dd1134177709706aa470a3d533bef07253079bfdbb",
+    "renderer-text-targets.bin": "28c999f31b51fe2727f66e295ad259920d2d472042d81ff98673c58e51c28cf5"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-renderer-text-inventory-v1/manifest.json",
+  "manifest_sha256": "43b723061e4c5f8f82b50326a4e851bec722fb0f42c0782005ddc3c1a683ad04",
+  "scope": {
+    "consumer_typed_target_set_complete": true,
+    "fixed_pointer_table_denominator_complete": true,
+    "natural_gameplay_index_coverage_complete": false,
+    "renderer_consumed_byte_union_complete": true,
+    "unicode_decoding_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_renderer_text_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-renderer-text-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "packed_text_bytes": 22588,
+      "parse_failure_count": 0,
+      "pointer_slot_count": 704,
+      "pointer_table_count": 11,
+      "renderer_consumed_bytes": 22588,
+      "renderer_record_count": 625,
+      "schema": "rom-renderer-text-inventory-verification-v1",
+      "target_overlap_bytes": 0,
+      "unique_target_count": 625,
+      "verified": true
+    },
+    "verifier_sha256": "dedee49b3bfa3c4326fef8b70a56b48543455c2fb0ab9636ae0f0c64592ed446"
+  }
+}

@@ -1,0 +1,302 @@
+{
+  "artifact_schema": "rom-psg-frequency-lookup-v1",
+  "artifact_status": "accepted",
+  "coverage_baseline": {
+    "all_promotion_bytes_unknown": true,
+    "claim_count": 14471,
+    "classified_bytes": 6121624,
+    "path": "sequel/rom-byte-coverage.json",
+    "primary_overlap_bytes": 0,
+    "promotion_bytes": 226,
+    "schema": "rom-byte-coverage-v1",
+    "segment_count": 16582,
+    "sha256": "922e06e9b195a31ae6a8ab8c03cb06159aee7218bc4268ac56e22c729b740de6",
+    "unknown_bytes": 169832,
+    "unknown_promotion_bytes": 226
+  },
+  "coverage_projection": {
+    "byte_count": 226,
+    "claim_count": 5,
+    "claim_denominator_sha256": "9508324c06369c26fe360da0d91832f873e2d6b54d22e194fa29477124742d5c",
+    "claims": [
+      {
+        "artifact_kind": "psg_frequency_consumer_thumb_code",
+        "claim_kind": "psg_frequency_lookup_instruction_bytes",
+        "id": "psg-frequency-code-a-09b494",
+        "mode": "thumb",
+        "primary_class": "armv4t_psg_frequency_lookup_thumb_code",
+        "range": [
+          636052,
+          636102
+        ]
+      },
+      {
+        "artifact_kind": "psg_frequency_consumed_pointer_literal",
+        "claim_kind": "psg_frequency_lookup_consumed_pointer_literal_bytes",
+        "id": "psg-frequency-noise-literal-09b4c8",
+        "mode": null,
+        "primary_class": "psg_frequency_lookup_consumed_pointer_literals",
+        "range": [
+          636104,
+          636108
+        ]
+      },
+      {
+        "artifact_kind": "psg_frequency_consumer_thumb_code",
+        "claim_kind": "psg_frequency_lookup_instruction_bytes",
+        "id": "psg-frequency-code-b-09b4cc",
+        "mode": "thumb",
+        "primary_class": "armv4t_psg_frequency_lookup_thumb_code",
+        "range": [
+          636108,
+          636212
+        ]
+      },
+      {
+        "artifact_kind": "psg_frequency_consumed_pointer_literal",
+        "claim_kind": "psg_frequency_lookup_consumed_pointer_literal_bytes",
+        "id": "psg-frequency-nonnoise-literals-09b534",
+        "mode": null,
+        "primary_class": "psg_frequency_lookup_consumed_pointer_literals",
+        "range": [
+          636212,
+          636220
+        ]
+      },
+      {
+        "artifact_kind": "psg_noise_register_descriptor_table",
+        "claim_kind": "psg_noise_register_descriptor_bytes",
+        "id": "psg-noise-register-table-46475c",
+        "mode": null,
+        "primary_class": "psg_noise_register_descriptor_table",
+        "range": [
+          4605788,
+          4605848
+        ]
+      }
+    ],
+    "range_vector_sha256": "5247ee79350c15d6292e52a5e1ef58bd7b7555f50a70bc157e3e936b8ffa0080",
+    "semantic_range_vector_sha256": "6683ef2206af27246bc97abb750a02023ea18909611b7dbda9e1987419e515eb"
+  },
+  "files": {
+    "rom-psg-frequency-lookup.bin": {
+      "sha256": "e625a5fcc208a971a1ec98723f12b863a707fa9dd3ba8442f7f6d86b3099623b",
+      "size": 226
+    },
+    "rom-psg-frequency-lookup.json": {
+      "sha256": "d2631b1a65a2e9fa0114dbd76a4e2c89853e3b2f402a491fdbc466e79dacd733",
+      "size": 13876
+    }
+  },
+  "implementation": {
+    "exporter": {
+      "path": "tools/export_rom_psg_frequency_lookup.py",
+      "sha256": "c2b8accf0faf9cb1afaba6c7cf55053a1fd1996f3cafb20a5efb66c21498e2d4"
+    },
+    "verifier": {
+      "path": "tools/verify_rom_psg_frequency_lookup.py",
+      "sha256": "c87ab33b067a35a0105e21967dc0caad5fe91368942f34baf91218d69258f616"
+    }
+  },
+  "limitations": [
+    "The PSG frequency lookup artifact classifies exactly 226 frozen bytes: 154 bytes in two bounded Thumb code ranges, twelve bytes in three consumed pointer literals, and a 60-byte channel-4 noise register descriptor table. The two-byte 0x09B4C6..0x09B4C8 alignment gap remains unknown. Entry proof is limited to one fixed initializer-to-logical-SoundInfo+0x30-to-BX-r3 chain; global RAM/computed producers, writers, indirect callers, natural runtime reachability, the two non-noise target-table semantics, playback, editing, writeback, relocation, and allocatable space remain unclaimed."
+  ],
+  "producer": {
+    "command": [
+      "python3",
+      "tools/export_rom_psg_frequency_lookup.py",
+      "--root",
+      ".",
+      "--output-dir",
+      "artifacts/rom-psg-frequency-lookup-v1"
+    ],
+    "implementation": {
+      "exporter": {
+        "path": "tools/export_rom_psg_frequency_lookup.py",
+        "sha256": "c2b8accf0faf9cb1afaba6c7cf55053a1fd1996f3cafb20a5efb66c21498e2d4"
+      },
+      "verifier": {
+        "path": "tools/verify_rom_psg_frequency_lookup.py",
+        "sha256": "c87ab33b067a35a0105e21967dc0caad5fe91368942f34baf91218d69258f616"
+      }
+    }
+  },
+  "promotion": {
+    "byte_count": 226,
+    "packed_bytes_sha256": "e625a5fcc208a971a1ec98723f12b863a707fa9dd3ba8442f7f6d86b3099623b",
+    "range_count": 5,
+    "range_vector_sha256": "5247ee79350c15d6292e52a5e1ef58bd7b7555f50a70bc157e3e936b8ffa0080",
+    "ranges": [
+      [
+        636052,
+        636102
+      ],
+      [
+        636104,
+        636108
+      ],
+      [
+        636108,
+        636212
+      ],
+      [
+        636212,
+        636220
+      ],
+      [
+        4605788,
+        4605848
+      ]
+    ],
+    "semantic_range_vector_sha256": "6683ef2206af27246bc97abb750a02023ea18909611b7dbda9e1987419e515eb",
+    "semantic_ranges": [
+      {
+        "claim_kind": "psg_frequency_lookup_instruction_bytes",
+        "id": "psg-frequency-code-a-09b494",
+        "kind": "psg_frequency_consumer_thumb_code",
+        "mode": "thumb",
+        "range": [
+          636052,
+          636102
+        ],
+        "semantic_class": "armv4t_psg_frequency_lookup_thumb_code",
+        "sha256": "969892b0f481afc4872493396ed034c0a696cd3c56ca07d4c0b5d68369e7365d"
+      },
+      {
+        "claim_kind": "psg_frequency_lookup_consumed_pointer_literal_bytes",
+        "id": "psg-frequency-noise-literal-09b4c8",
+        "kind": "psg_frequency_consumed_pointer_literal",
+        "mode": null,
+        "range": [
+          636104,
+          636108
+        ],
+        "semantic_class": "psg_frequency_lookup_consumed_pointer_literals",
+        "sha256": "73cbc760a9346eacd3a16553ac98763cb1a6ee27dbf7d5fa1bfafdb4ce74d9b5"
+      },
+      {
+        "claim_kind": "psg_frequency_lookup_instruction_bytes",
+        "id": "psg-frequency-code-b-09b4cc",
+        "kind": "psg_frequency_consumer_thumb_code",
+        "mode": "thumb",
+        "range": [
+          636108,
+          636212
+        ],
+        "semantic_class": "armv4t_psg_frequency_lookup_thumb_code",
+        "sha256": "3c3471021d4b57c4d7708443ae8bd180d3b9919dbc049c7e10a41fecd3038e60"
+      },
+      {
+        "claim_kind": "psg_frequency_lookup_consumed_pointer_literal_bytes",
+        "id": "psg-frequency-nonnoise-literals-09b534",
+        "kind": "psg_frequency_consumed_pointer_literal",
+        "mode": null,
+        "range": [
+          636212,
+          636220
+        ],
+        "semantic_class": "psg_frequency_lookup_consumed_pointer_literals",
+        "sha256": "89bce1ab76458db38f3a7d995c13f06abad02b6ab3ab8ba9ed7ecc53f913a6c0"
+      },
+      {
+        "claim_kind": "psg_noise_register_descriptor_bytes",
+        "id": "psg-noise-register-table-46475c",
+        "kind": "psg_noise_register_descriptor_table",
+        "mode": null,
+        "range": [
+          4605788,
+          4605848
+        ],
+        "semantic_class": "psg_noise_register_descriptor_table",
+        "sha256": "197f0679262884d48dd459dcfe690c0a41e8a73cf76cb62838119fc9cb0e7ab6"
+      }
+    ]
+  },
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456
+  },
+  "schema": "git-artifact-promotion-v1",
+  "scope": {
+    "allocatable_free_space_proven": false,
+    "editing_relocation_writeback_safe": false,
+    "global_caller_denominator_complete": false,
+    "global_indirect_caller_denominator_complete": false,
+    "global_ram_or_computed_producer_denominator_complete": false,
+    "global_writer_denominator_complete": false,
+    "initializer_entry_proof_complete": true,
+    "lookup_domain_complete_for_all_u8_inputs": true,
+    "natural_runtime_reachability_complete": false,
+    "non_noise_target_table_semantics_complete": false,
+    "playback_behavior_proven": false,
+    "producer_bytes_promoted": false,
+    "producer_source_instruction_membership_complete": false,
+    "target_consumer_cfg_closed": true,
+    "target_limited_raw_branch_denominator_complete": true
+  },
+  "verification": {
+    "command": [
+      "python3",
+      "tools/verify_rom_psg_frequency_lookup.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-psg-frequency-lookup-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-psg-frequency-lookup-v1",
+      "artifact_status": "accepted",
+      "consumer_block_count": 12,
+      "consumer_frontier_count": 0,
+      "consumer_instruction_count": 77,
+      "coverage_baseline_sha256": "922e06e9b195a31ae6a8ab8c03cb06159aee7218bc4268ac56e22c729b740de6",
+      "coverage_contract_verified": true,
+      "errors": [],
+      "producer_count": 0,
+      "promotion_bytes": 226,
+      "promotion_claim_count": 5,
+      "promotion_packed_sha256": "e625a5fcc208a971a1ec98723f12b863a707fa9dd3ba8442f7f6d86b3099623b",
+      "promotion_range_count": 5,
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "schema": "rom-psg-frequency-lookup-verification-v1",
+      "verified": true,
+      "verifier_sha256": "c87ab33b067a35a0105e21967dc0caad5fe91368942f34baf91218d69258f616"
+    },
+    "schema": "rom-psg-frequency-lookup-verification-v1",
+    "verifier_sha256": "c87ab33b067a35a0105e21967dc0caad5fe91368942f34baf91218d69258f616"
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_psg_frequency_lookup.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-psg-frequency-lookup-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "artifact_schema": "rom-psg-frequency-lookup-v1",
+      "artifact_status": "accepted",
+      "consumer_block_count": 12,
+      "consumer_frontier_count": 0,
+      "consumer_instruction_count": 77,
+      "coverage_baseline_sha256": "922e06e9b195a31ae6a8ab8c03cb06159aee7218bc4268ac56e22c729b740de6",
+      "coverage_contract_verified": true,
+      "errors": [],
+      "producer_count": 0,
+      "promotion_bytes": 226,
+      "promotion_claim_count": 5,
+      "promotion_packed_sha256": "e625a5fcc208a971a1ec98723f12b863a707fa9dd3ba8442f7f6d86b3099623b",
+      "promotion_range_count": 5,
+      "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+      "schema": "rom-psg-frequency-lookup-verification-v1",
+      "verified": true,
+      "verifier_sha256": "c87ab33b067a35a0105e21967dc0caad5fe91368942f34baf91218d69258f616"
+    },
+    "schema": "rom-psg-frequency-lookup-verification-v1",
+    "verifier_sha256": "c87ab33b067a35a0105e21967dc0caad5fe91368942f34baf91218d69258f616"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "battle-status-bars-v1",
+  "file_count": 5,
+  "files": {
+    "battle-status-bars.json": "c8ff2c231c5a0ac111f10c7ca545d285cde0e23c4fca706815ee40277086d4eb",
+    "battle-status-bars.png": "03533e8d5d6305f1f09a9722bef453f198f2d17079e18df2cf7eb18e66b8b2dc",
+    "generated-family.4bpp.bin": "f85290faaf0a17266405d1d3f7d2d723296093a753b4f3cc05af477deb4c862c",
+    "runtime-palette-bank13.bgr555.bin": "82f1c93a86b077a17e05e44c28d7f6522ff69542a6356487ce25a45b61a8a9d2",
+    "source-templates.4bpp.bin": "6c00fd92b8abda7133be37a8305b36e6613ed542c765e7981d3a6b8aea527bbc"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-status-bars-v1/manifest.json",
+  "manifest_sha256": "d88242fa88213b96d8fe48430a0758a3bb79adf7dd6bb6d22e7d00da9711c0d0",
+  "scope": {},
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_status_bars.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/battle-status-bars-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "errors": [],
+      "exact_generated_unknown_cell_count": 181,
+      "schema": "battle-status-bars-verification-v1",
+      "verified": true
+    },
+    "verifier_sha256": "53202cb452c25c762ff6fbface0705c31bb01392177d66f168628919c8b77d32"
+  }
+}

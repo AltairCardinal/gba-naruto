@@ -1,0 +1,37 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "battle-effect-runtime-oam-task-bindings-v1",
+  "file_count": 1,
+  "files": {
+    "bindings.json": "bd88a29d7ac96d0f32644cbcf19a5267bbd2e70ec0b5dedc5c7e7e76a4eeb74c"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/battle-effect-runtime-oam-task-bindings-v1/manifest.json",
+  "manifest_sha256": "bc00e8e41610b09b84637a80a0262ba2ef883aac7e7a8ccdd862f2fbd28000af",
+  "scope": {},
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_battle_effect_runtime_oam_task_bindings.py",
+      "--root",
+      ".",
+      "--bindings",
+      "artifacts/battle-effect-runtime-oam-task-bindings-v1/bindings.json"
+    ],
+    "exit_code": 0,
+    "result": {
+      "accepted_bindings": 3,
+      "errors": [],
+      "observed_group_ids": [
+        1,
+        2,
+        5,
+        11,
+        14
+      ],
+      "recognized_effect_tasks": 12,
+      "supplemental_states": 5,
+      "tracked_checkpoints": 93,
+      "verified": true
+    }
+  }
+}

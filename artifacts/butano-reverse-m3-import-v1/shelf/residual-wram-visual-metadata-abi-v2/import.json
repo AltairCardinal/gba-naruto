@@ -1,0 +1,33 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "residual-wram-visual-metadata-abi-v2",
+  "file_count": 2,
+  "files": {
+    "residual-wram-visual-metadata-abi.json": "4cee47ab097986d50ed0d3b3017fc4fd429037405ee247876022dfd08beac260",
+    "tilemap-sources.bin": "62ee8249d04e5b00aaf8b9ba3ef2619a766dd2c9b60109867245db4b538dee8d"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/residual-wram-visual-metadata-abi-v2/manifest.json",
+  "manifest_sha256": "ba1c878911f5541007bacc0092e0da852ff6f991203b834e50d461b8188ef54e",
+  "scope": {
+    "all_pointer_reachable_wram_visual_metadata_enumerated": true,
+    "all_seven_source_abis_complete": true,
+    "final_screen_pixel_and_timing_equivalence_complete": false,
+    "generic_wram_visual_metadata_writeback_complete": false,
+    "graphics_and_palette_ownership_complete": false,
+    "natural_language_screen_identity_complete": false,
+    "queue_slot_and_natural_flush_complete": false,
+    "remaining_unresolved_source_abis": false,
+    "runtime_reachability_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_residual_wram_visual_metadata_abi.py",
+      "--root",
+      ".",
+      "--artifact",
+      "artifacts/residual-wram-visual-metadata-abi-v2"
+    ],
+    "exit_code": 0
+  }
+}

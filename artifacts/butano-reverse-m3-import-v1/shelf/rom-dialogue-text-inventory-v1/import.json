@@ -1,0 +1,49 @@
+{
+  "acceptance": "content equivalence: every copied file's SHA-256 equals the hash the reverse side's manifest records",
+  "family": "rom-dialogue-text-inventory-v1",
+  "file_count": 3,
+  "files": {
+    "dialogue-text-inventory.json": "b25734be4eaed46aa199792d98e7e998389942cba914d38e2790533a558b3952",
+    "direct-nul-targets.bin": "7509a63b2f892ea9f2892ed4cc703da72457247df148a1435edbbee8b2d95569",
+    "pointer-table.bin": "5b36c67620030d5ccc8795a2a260aca604d90fad4a49f7c7cb9d4c7cdc63c73f"
+  },
+  "manifest_path": "/Users/altair/github/gba-naruto-reverse/artifacts/rom-dialogue-text-inventory-v1/manifest.json",
+  "manifest_sha256": "0e8f3276ff5eac20c089299174abeac36b930fd71e368b16cc97e0cce22e4d7d",
+  "scope": {
+    "all_rows_runtime_reachability_complete": false,
+    "consumer_and_nul_protocol_bound": true,
+    "direct_target_extraction_complete": true,
+    "fixed_table_structure_complete": true,
+    "label_selector_upstream_bounds_complete": false,
+    "natural_language_decoding_complete": false
+  },
+  "verifier": {
+    "command": [
+      "python3",
+      "tools/verify_rom_dialogue_text_inventory.py",
+      "--root",
+      ".",
+      "--artifact-dir",
+      "artifacts/rom-dialogue-text-inventory-v1"
+    ],
+    "exit_code": 0,
+    "report": {
+      "direct_pointer_slot_count": 1220,
+      "direct_target_bytes": 18207,
+      "direct_target_count": 1220,
+      "duplicate_target_count": 0,
+      "errors": [],
+      "newline_count": 203,
+      "newline_target_count": 170,
+      "overlapping_target_range_count": 0,
+      "schema": "rom-dialogue-text-inventory-verification-v1",
+      "sentinel_count": 305,
+      "table_byte_count": 6100,
+      "table_row_count": 305,
+      "target_payload_bytes": 16987,
+      "unique_target_count": 1220,
+      "verified": true
+    },
+    "verifier_sha256": "ac74891c2fc7807d727aa9de7b4fcb11a2e6dc622dc769bf3cd166b8c5481377"
+  }
+}

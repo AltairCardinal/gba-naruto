@@ -1,0 +1,28 @@
+{
+  "schema": "konoha.s49-overlay-experiment.v1",
+  "experiment": "w2-baked-window-20261022",
+  "status": "failed-rolled-back",
+  "recorded_at": "2026-10-22T13:12:29.879418+00:00",
+  "rom_sha256": "dc956cd97559df44e063356776301a22a1b476a7e15a2fcb97199359d9352877",
+  "baseline_rom_sha256": "02bf3573116f4b43d58189db6816a5d0d2d47190f23e0f1d3c6abd5dbb217803",
+  "baseline_residual": {
+    "walk": "artifacts/s49-remake-walk-20261021-v1",
+    "step": "step-20-A.png",
+    "pixels": 2917
+  },
+  "experiment_residual": {
+    "walk": "artifacts/s49-remake-walk-20261022-overlay-v1",
+    "step": "step-20-A.png",
+    "pixels": 19213,
+    "minimum": 12122,
+    "minimum_step": "step-29-A.png"
+  },
+  "verdict": "worse: 2917 -> 19213 at the acceptance step; code rolled back, receipts kept",
+  "cause": "the original's battle overlay is computed per frame from the game state, so a captured window is the wrong game moment: the captured movegrid state has the lens at the top left while S49 step-20 has it around the character",
+  "evidence": [
+    "build/w2-overlay-compare.png",
+    "build/w2-overlay-measure.json",
+    "notes/s49-overlay-preconditions-20261022.md"
+  ],
+  "rollback": "git checkout -- butano-sequel/game/include/konoha/battle_range_ui_style.h butano-sequel/game/src/battle_runtime_scene.cpp; ROM rebuilt to the baseline hash"
+}
