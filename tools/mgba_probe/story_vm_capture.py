@@ -183,7 +183,7 @@ def arm(probe: Probe, address: int) -> int | None:
     return None
 
 
-def capture(probe: Probe, regs: dict[str, int], address: int) -> dict:
+def capture(probe: Probe, regs: dict[str, int], address: int, script_bytes: int = 8) -> dict:
     """Everything the capture knows about the paused state."""
     entry: dict = {
         "breakpoint": f"0x{address:08X}",
@@ -191,7 +191,7 @@ def capture(probe: Probe, regs: dict[str, int], address: int) -> dict:
     }
     script = regs.get("r7")
     if script is not None:
-        raw = probe.read_bytes(script, 8)
+        raw = probe.read_bytes(script, script_bytes)
         entry["script_address"] = f"0x{script:08X}"
         entry["script_bytes"] = raw.hex(" ")
         if len(raw) >= 4:
@@ -226,6 +226,9 @@ def main() -> int:
                          "where KEY*N repeats the item N times "
                          "(e.g. 'START,A:30*4,B:8*400')")
     ap.add_argument("--max-steps", type=int, default=40)
+    ap.add_argument("--script-bytes", type=int, default=8,
+                    help="每个命中读多少字节的脚本正文（默认 8；"
+                         "要读整句正文就调大）")
     ap.add_argument("--frames-per-step", type=int, default=30)
     ap.add_argument("--gap-frames", type=int, default=6,
                     help="frames with no key pressed after a breakpoint hit; the "
@@ -295,7 +298,7 @@ def main() -> int:
             # registers at the breakpoint are the arguments the handler
             # passed to the helper.
             regs = probe.registers()
-            entry = capture(probe, regs, hit)
+            entry = capture(probe, regs, hit, args.script_bytes)
             entry["step"] = step
             entry["key"] = key
             hits.append(entry)
