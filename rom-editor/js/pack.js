@@ -24,6 +24,47 @@ export const FIELD_TYPES = {
   hex: { size: null, label: '原始字节' },
 };
 
+/**
+ * A font code, as the content pack spells it: four upper-case hex digits,
+ * no `0x` prefix ("8140").
+ *
+ * Same shape as the Python exporter writes
+ * (`tools/export_content_pack.py`: `f"{code:04X}"`), so a pack that went
+ * through the editor and a pack straight from the exporter look alike.
+ */
+function fontCodeHex(code) {
+  return code.toString(16).toUpperCase().padStart(4, '0');
+}
+
+/**
+ * Turn a `FontCodec`'s two maps into the pack's two font tables.
+ *
+ * ⚠️ The maps inside `FontCodec` are keyed/valued by **numbers**
+ * (`0x8140`), but a content pack spells the very same codes as
+ * **hex strings** ("8140") — `FontCodec` parses them back with
+ * `parseInt(code, 16)`.
+ *
+ * `Object.fromEntries(map)` on its own therefore produces **decimal**
+ * strings ("33088"), and `parseInt("33088", 16)` is a *different* number
+ * (0x33088) ⇒ **every single lookup misses**: decoding yields
+ * `{字XXXX}` for every glyph and encoding writes a whole sentence of
+ * garbage bytes.  So the conversion has to be explicit, and it has to
+ * happen on **both** tables (keys *and* values).
+ *
+ * @param {FontCodec} font
+ * @returns {{code_to_char: Object<string,string>, char_to_code: Object<string,string>}}
+ */
+export function fontTablesToJson(font) {
+  const codeToChar = (font && font.codeToChar) || new Map();
+  const charToCode = (font && font.charToCode) || new Map();
+  return {
+    code_to_char: Object.fromEntries(
+      [...codeToChar].map(([code, ch]) => [fontCodeHex(code), ch])),
+    char_to_code: Object.fromEntries(
+      [...charToCode].map(([ch, code]) => [ch, fontCodeHex(code)])),
+  };
+}
+
 export class ContentPack {
   constructor(data) {
     this.format = data.format || 'naruto-konoha-content-pack';
@@ -202,10 +243,7 @@ export class ContentPack {
       version: this.version,
       generated: this.generated,
       rom: this.rom,
-      font: {
-        code_to_char: Object.fromEntries(this.font.codeToChar),
-        char_to_code: Object.fromEntries(this.font.charToCode),
-      },
+      font: fontTablesToJson(this.font),
       structures: this.structures,
       texts: this.texts,
       scripts: this.scripts,

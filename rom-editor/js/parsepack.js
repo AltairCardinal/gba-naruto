@@ -13,7 +13,7 @@
 // 剧本的「可改操作数 / 路线边 / 头像引用」三样元信息。
 
 import { bytesToBase64, bytesToHex, base64ToBytes } from './bytes.js';
-import { readField, textSlotKind } from './pack.js';
+import { readField, textSlotKind, fontTablesToJson } from './pack.js';
 import { scanTokens } from './textcodec.js';
 import { scanScript, ROM_BASE } from './storyvm.js';
 
@@ -376,8 +376,13 @@ export function parsePackFromRom(template, rom, options = {}) {
       sha256: options.sha256 || '',
     },
     font: {
-      code_to_char: Object.fromEntries(template.font.codeToChar),
-      char_to_code: Object.fromEntries(template.font.charToCode),
+      // 字库的两张表**必须**是「无 0x 的十六进制字符串」键/值 ——
+      // `FontCodec` 是拿 `parseInt(code, 16)` 读它们的。
+      // 直接 `Object.fromEntries(font.codeToChar)` 会把数字键变成**十进制**
+      // 字符串（`0x8140` ⇒ `"33088"`），再 `parseInt("33088", 16)` 就成了
+      // 另一个数字 ⇒ **每一次查表都对不上**（解码全是 `{字XXXX}`、
+      // 编码整句乱码）。转换见 `pack.js::fontTablesToJson`。
+      ...fontTablesToJson(template.font),
       coverage: template.font.coverage,
       segments_total: template.font.segmentsTotal,
       duplicate_characters: template.font.duplicateCharacters,
