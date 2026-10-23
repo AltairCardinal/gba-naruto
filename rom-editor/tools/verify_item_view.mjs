@@ -4,7 +4,7 @@
 // 将其他表的内容都作为字段呈现」—— 道具域照着做了一遍，这里验一遍。
 //
 // 右侧面板是**卡片**（见 notes/specs/human-readable-cards-20261022.md）：
-//   忍具 = 名字 / 记录字段 / 掉落位置
+//   忍具 = 名字 / 记录字段 / 出现在哪里
 //   奖励 = 金币 / 强化点 / 等级门槛 / 掉落位
 // 卡片**不互斥**：所有卡片的内容同时在 DOM 里（这是与页签最大的不同）。
 //
@@ -120,6 +120,7 @@ const { ContentPack } = await import('../js/pack.js');
 const { renderItems } = await import('../js/modules/items.js');
 const {
   rewardRowsForItem, rewardNumberFields, rewardSlotArray, itemNameTable,
+  droppedItemCounts, characterSlotsForItem,
 } = await import('../js/modules/item.js');
 
 let failures = 0;
@@ -334,10 +335,11 @@ console.log('\n6) 忍具详情：它在哪几关掉落，且能跳过去');
 {
   const host = renderPanel({ kind: 'item', id: '忍具', params: {} });
   const detail = panes(host).detail;
-  // 掉落位置在「掉落位置」那张卡片里。
-  const dropsCard = cardByTitle(detail, '掉落位置');
+  // 「出现在哪里」在「出现在哪里」那张卡片里。
+  const dropsCard = cardByTitle(detail, '出现在哪里');
   const text = dropsCard ? dropsCard.textContent : '';
   check('详情里有「它在哪几关掉落」', text.includes('它在哪几关掉落'), '');
+  check('这一页还摆出「谁装备着它」那一半', text.includes('谁装备着它'), '');
   // 默认落在真的掉在某一关的那个忍具上。
   let picked = null;
   for (const record of items.records) {
@@ -367,6 +369,66 @@ console.log('\n6) 忍具详情：它在哪几关掉落，且能跳过去');
   check('hash 往返之后仍落在同一条奖励上',
     !!selected && selected.children[0].textContent === String(targetId),
     selected ? `选中 #${selected.children[0].textContent}（应为 ${targetId}）` : '没有选中行');
+}
+
+console.log('\n6b) 掉不出任何奖励的忍具：把话说清楚 + 角色装备那一半');
+{
+  const { droppedItemCounts: countsOf, characterSlotsForItem: slotsOf } =
+    await import('../js/modules/item.js');
+  const droppable = countsOf(pack);
+  const total = items.records.length;
+
+  // --- 掉不出任何奖励的忍具：说明白「为什么」，而不是像数据坏了 ---
+  const noDrop = items.records.find((r) => !rewardRowsForItem(pack, r.id).length);
+  check('确实有不掉任何奖励的忍具（这是绝大多数）', !!noDrop,
+    `${total - droppable.size} / ${total} 个`);
+  const host = renderPanel({ kind: 'item', id: '忍具', params: { itemId: noDrop.id } });
+  const detail = panes(host).detail;
+  const card = cardByTitle(detail, '出现在哪里');
+  const text = card ? card.textContent : '';
+  check('空状态不再说「id 没出现在任何掉落位里」（那句话读起来像数据坏了）',
+    !text.includes('没出现在任何掉落位里'));
+  check('空状态说清楚「原版没这么发」', text.includes('原版没这么发'));
+  check('空状态写明 94 个里只有几个会作为奖励掉出来',
+    text.includes(`只有 ${droppable.size} 个会作为奖励掉出来`),
+    `期望「只有 ${droppable.size} 个」`);
+  check('空状态点名了那些会掉出来的忍具',
+    [...droppable.keys()].every((id) => {
+      const name = (names.records[id] && names.records[id].text) || '';
+      return !name || text.includes(name);
+    }));
+  check('空状态告诉作者「要让它掉出来」该怎么做',
+    text.includes('要让它掉出来'));
+  check('这一页也摆出「谁装备着它」那一半', text.includes('谁装备着它'));
+
+  // --- 装备着它的角色（另一个引用它的地方） ---
+  const equipped = items.records.find((r) => slotsOf(pack, r.id).length);
+  check('确实有被角色装备的忍具', !!equipped,
+    equipped ? `#${equipped.id}` : '一个都没有');
+  const host2 = renderPanel({ kind: 'item', id: '忍具', params: { itemId: equipped.id } });
+  const detail2 = panes(host2).detail;
+  const card2 = cardByTitle(detail2, '出现在哪里');
+  const links = card2
+    ? byClass(card2, 'xref-link').filter((n) => n.textContent.includes('跳到这个角色'))
+    : [];
+  check('装备着它的角色能跳过去', links.length > 0, `${links.length} 个跳转`);
+  const charNames = pack.textTable('character_names');
+  const charName = charNames && charNames.records[equipped.id]
+    ? (charNames.records[equipped.id].text || '') : '';
+  check('那一行写的是角色名（不是编号）',
+    !charName || (card2 && card2.textContent.includes(charName)),
+    charName || '名表里没有名字');
+  jumps.length = 0;
+  links[0].listeners.click[0]({ target: {} });
+  check('跳过去的是角色视图', jumps.length === 1 && jumps[0].module === 'characters' &&
+    jumps[0].kind === 'character', JSON.stringify(jumps[0] || {}));
+
+  // --- 左边的列表多一列「装备」 ---
+  const host3 = renderPanel({ kind: 'item', id: '忍具', params: {} });
+  const head = byClass(panes(host3).list, 'grid').length
+    ? panes(host3).list.descendants().filter((n) => n.tagName === 'TH').map((n) => n.textContent)
+    : [];
+  check('列表里有一列「装备」', head.includes('装备'), head.join(' / '));
 }
 
 console.log('\n7) 奖励 → 忍具 的反向跳转');
@@ -417,7 +479,7 @@ console.log('\n10) 右侧面板卡片化：卡片堆、卡片头、所有卡片�
     `${cardStacks(detail).length} 个`);
   const labels = cardsOf(detail).map(cardTitle);
   check('忍具视图的卡片就是那三张（依次）',
-    JSON.stringify(labels) === JSON.stringify(['名字', '记录字段', '掉落位置']),
+    JSON.stringify(labels) === JSON.stringify(['名字', '记录字段', '出现在哪里']),
     labels.join(' / '));
 
   // 卡片不互斥：三张卡片的内容**同时**在 DOM 里。
@@ -425,12 +487,12 @@ console.log('\n10) 右侧面板卡片化：卡片堆、卡片头、所有卡片�
     cardText(detail, '名字').includes('名字（忍具名表）'));
   check('「记录字段」那张卡片的内容同时在 DOM 里',
     cardText(detail, '记录字段').includes('逐字节看'));
-  check('「掉落位置」那张卡片的内容同时在 DOM 里',
-    cardText(detail, '掉落位置').includes('它在哪几关掉落'));
+  check('「出现在哪里」那张卡片的内容同时在 DOM 里',
+    cardText(detail, '出现在哪里').includes('它在哪几关掉落'));
   check('三张卡片的内容都在（不再互斥）',
     cardText(detail, '名字').includes('名字（忍具名表）')
     && cardText(detail, '记录字段').includes('逐字节看')
-    && cardText(detail, '掉落位置').includes('它在哪几关掉落'));
+    && cardText(detail, '出现在哪里').includes('它在哪几关掉落'));
 
   // --- 奖励视图 ---
   const host2 = renderPanel({ kind: 'reward', id: '奖励', params: {} });
@@ -535,7 +597,7 @@ console.log('\n13) 忍具记录字段：改一格能走完整条写回通路（�
     check('改完之后三张卡片的内容还在 DOM 里',
       cardsOf(detail).length === 3
       && cardText(detail, '记录字段').includes('逐字节看')
-      && cardText(detail, '掉落位置').includes('它在哪几关掉落'));
+      && cardText(detail, '出现在哪里').includes('它在哪几关掉落'));
   }
 }
 

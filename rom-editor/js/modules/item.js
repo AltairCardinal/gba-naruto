@@ -6,7 +6,8 @@
 //
 // 道具域有两个「主对象」：
 //
-//   忍具 = 记录表的一行 + 忍具名表里的名字 + 它在哪几关掉落（奖励表引用它）
+//   忍具 = 记录表的一行 + 忍具名表里的名字 + 它出现在哪里
+//          （奖励表里哪几关掉它 + 哪些角色装备它）
 //   奖励 = 奖励表的一行 = 某一关的某一个子奖励
 //
 // ROM 里它们分开放：忍具本体在道具/忍具记录表（16 字节），名字在忍具名表，
@@ -30,6 +31,7 @@ import { idSpace } from '../idspace.js';
 import { splitPane } from '../split.js';
 import { CardStack } from '../cards.js';
 import { backButton, summaryTable } from './common.js';
+import { characterName } from './character.js';
 
 // ---------------------------------------------------------------------------
 // 从内容包读出来的事实
@@ -147,18 +149,17 @@ export function categoryForTable(rewards, tableId) {
 }
 
 /**
- * 奖励表里所有**引用了这个忍具**的行。
+ * 奖励表里所有**类别是忍具**的掉落位（非零、非「列表结束」）。
  *
- * 掉落位是「类别 + 物品 id」：类别决定这个 id 该去哪张名字表查名字。
- * 哪一类表示忍具，从内容包的 relation.categories 里读，不写死。
+ * 这是一次全表扫描 —— 94 个忍具逐个查会扫 94 遍，
+ * 而奖励表只有 112 行 × 8 个掉落位，一次扫完再分桶更快。
  */
-export function rewardRowsForItem(pack, itemId) {
+export function itemDropSlots(pack) {
   const rewards = pack.structure('reward_table');
   const names = itemNameTable(pack);
   if (!rewards || !names) return [];
   const array = rewardSlotArray(rewards);
   if (!array) return [];
-
   const category = categoryForTable(rewards, names.id);
   if (category === null) return [];
 
@@ -171,11 +172,73 @@ export function rewardRowsForItem(pack, itemId) {
       const idField = fields.find((f) => f.relation && f.relation.kind === 'by_category');
       if (!catField || !idField) continue;
       if (values[catField.key] !== category) continue;
-      if (values[idField.key] !== itemId) continue;
-      // 列表结束的那一格不是掉落。
+      const itemId = values[idField.key];
+      // 列表结束的那一格不是掉落；0 是占位。
       const end = dropEndMarker(idField);
-      if (end !== null && values[idField.key] === end) continue;
-      out.push({ record, index, categoryField: catField, itemField: idField });
+      if (end !== null && itemId === end) continue;
+      if (!itemId) continue;
+      out.push({ record, index, categoryField: catField, itemField: idField, itemId });
+    }
+  }
+  return out;
+}
+
+/**
+ * 奖励表里所有**引用了这个忍具**的行。
+ *
+ * 掉落位是「类别 + 物品 id」：类别决定这个 id 该去哪张名字表查名字。
+ * 哪一类表示忍具，从内容包的 relation.categories 里读，不写死。
+ */
+export function rewardRowsForItem(pack, itemId) {
+  return itemDropSlots(pack)
+    .filter((row) => row.itemId === itemId)
+    .map((row) => ({
+      record: row.record,
+      index: row.index,
+      categoryField: row.categoryField,
+      itemField: row.itemField,
+    }));
+}
+
+/**
+ * 会作为奖励掉出来的忍具（id → 掉落的处数）。
+ *
+ * 用来说明「为什么大多数忍具没有掉落」——
+ * 94 个忍具里只有 8 个真的会被奖励发出去，
+ * 其余的**不是数据缺失**，是原版就这么设计的。
+ */
+export function droppedItemCounts(pack) {
+  const counts = new Map();
+  for (const row of itemDropSlots(pack)) {
+    counts.set(row.itemId, (counts.get(row.itemId) || 0) + 1);
+  }
+  return counts;
+}
+
+/**
+ * 谁装备着这个忍具（角色定义表的道具槽）。
+ *
+ * 依据内容包里字段的 relation：relation.table 指到忍具名表的那一格，
+ * 就是「这个角色带着这个忍具」。不按字段名硬找。
+ *
+ * 0 要排除两次：忍具名表第 0 条是占位（不是一个真的忍具），
+ * 道具槽里的 0 是**空槽**（字段说明写着「0 = 空」）——
+ * 不排除的话，每个角色的 9 个空槽都会算成「装备了 0 号忍具」。
+ */
+export function characterSlotsForItem(pack, itemId) {
+  if (!itemId) return [];
+  const chars = pack.structure('character_template');
+  const names = itemNameTable(pack);
+  if (!chars || !names) return [];
+  const slots = (chars.fields || []).filter((f) =>
+    f.relation && f.relation.table === names.id && f.item === 'id');
+  const out = [];
+  for (const record of chars.records || []) {
+    const values = record.values || {};
+    for (const field of slots) {
+      const value = values[field.key];
+      if (!value || value !== itemId) continue;
+      out.push({ record, field });
     }
   }
   return out;
@@ -307,7 +370,8 @@ class ItemView {
     container.appendChild(el('p', { class: 'section-note', text:
       '左边按道具/忍具记录表列出（一行 = 一个忍具）；' +
       '右边是三张卡片：名字（忍具名表）、记录字段（记录表那 16 个字节，每格都有原生代码依据）、' +
-      '掉落位置（奖励表里引用它的那些行，点一下就跳过去 —— 掉落关系改在奖励那一侧）。' +
+      '出现在哪里（奖励表里掉它的地方 + 装备着它的角色，点一下就跳过去 —— ' +
+      '掉落关系改在奖励那一侧，装备关系改在角色那一侧）。' +
       '三张卡片都在页面上，往下滚就是全部。' }));
 
     this.listWrap = el('div', { class: 'table-wrap' });
@@ -340,8 +404,8 @@ class ItemView {
       },
       {
         id: 'drops',
-        label: '掉落位置',
-        hint: '奖励表里引用它的那些行（掉落关系改在奖励那一侧）',
+        label: '出现在哪里',
+        hint: '奖励表里掉它的地方 + 装备着它的角色（两个地方的改动都在这一页里数）',
         badge: () => this.dropsBadge(),
         render: () => this.cardContent('drops', () => this.renderDrops(this.currentRecord())),
       },
@@ -363,6 +427,7 @@ class ItemView {
       el('th', { class: 'col-id', text: '#' }),
       el('th', { text: '忍具名' }),
       el('th', { class: 'col-num', text: '掉落' }),
+      el('th', { class: 'col-num', text: '装备' }),
       el('th', { class: 'col-num', text: '已改' }),
     ])]));
     const body = el('tbody');
@@ -370,6 +435,7 @@ class ItemView {
     for (const record of this.records.records || []) {
       const name = itemName(this.names, record.id);
       const dropRows = drops.get(record.id) || [];
+      const equipped = characterSlotsForItem(this.pack, record.id);
       let changes = 0;
       if (recordChanged(this.pack, this.records, record)) changes += 1;
       if (textChanged(this.names, record.id)) changes += 1;
@@ -385,6 +451,7 @@ class ItemView {
         el('td', { class: 'col-id', text: String(record.id) }),
         el('td', { class: 'text-cell', text: name || '（空）' }),
         el('td', { class: 'col-num', text: dropRows.length ? `${dropRows.length} 处` : '—' }),
+        el('td', { class: 'col-num', text: equipped.length ? `${equipped.length} 人` : '—' }),
         el('td', { class: 'col-num', text: changes ? `● ${changes}` : '—' }),
       ]));
     }
@@ -487,7 +554,11 @@ class ItemView {
     return recordChanged(this.pack, this.records, record) ? 1 : null;
   }
 
-  /** 掉落位置这一类：引用它的那些奖励行里有几条被改过。 */
+  /**
+   * 「出现在哪里」这一类：引用它的那些奖励行 / 那些角色里有几条被改过。
+   *
+   * 两个地方都算 —— 这一页摆的就是它们两个。
+   */
   dropsBadge() {
     const record = this.currentRecord();
     if (!record) return null;
@@ -498,6 +569,14 @@ class ItemView {
     let n = 0;
     for (const row of this.dropIndex().get(record.id) || []) {
       if (changed.has(row.record.rom_offset)) n += 1;
+    }
+    const chars = this.pack.structure('character_template');
+    if (chars) {
+      const changedChars = new Set(
+        this.pack.changedStructureRecords(chars).map((r) => r.rom_offset));
+      for (const slot of characterSlotsForItem(this.pack, record.id)) {
+        if (changedChars.has(slot.record.rom_offset)) n += 1;
+      }
     }
     return n || null;
   }
@@ -638,7 +717,14 @@ class ItemView {
     return block;
   }
 
-  /** 它在哪几关掉落（奖励表里引用它的那些行）。 */
+  /**
+   * 它在 ROM 里被谁引用：**奖励掉落** + **角色装备**。
+   *
+   * 以前这一页只有掉落那一半，于是 94 个忍具里有 86 个显示
+   * 「奖励表里没有哪一行掉这个忍具」—— 读起来像数据坏了，
+   * 其实原版就是这么设计的（只有 8 个忍具会被奖励发出去）。
+   * 现在把「谁装备着它」也摆出来：一个忍具的全部出现位置一目了然。
+   */
   renderDrops(record) {
     const ctx = this.ctx;
     const block = el('div', { class: 'item-block' });
@@ -646,71 +732,157 @@ class ItemView {
       block.appendChild(el('div', { class: 'stat-hint', text: '找不到这个忍具。' }));
       return block;
     }
+
+    // --- 一、奖励掉落 ------------------------------------------------------
     block.appendChild(el('div', { class: 'field-label' }, [
       el('span', { text: '它在哪几关掉落' }),
     ]));
     const rows = this.dropIndex().get(record.id) || [];
     if (!rows.length) {
+      block.appendChild(this.noDropsNote(record));
+    } else {
+      const owners = missionIndexOwners(this.pack);
+      const table = el('table', { class: 'grid' });
+      table.appendChild(el('thead', {}, [el('tr', {}, [
+        el('th', { class: 'col-id', text: '槽' }),
+        el('th', { text: '第几关' }),
+        el('th', { text: '类别' }),
+        el('th', { text: '物品 id' }),
+        el('th', { text: '跳过去' }),
+      ])]));
+      const body = el('tbody');
+      for (const row of rows) {
+        const values = row.record.values || {};
+        const category = enumLabel(row.categoryField, values[row.categoryField.key]);
+        // 整行的动作 = 「跳到这条奖励」；另一个链接（在奖励表里打开）保留自己的动作。
+        const openReward = () => {
+          // 先记住落点：hash 往返会把面板参数冲掉。
+          lastRewardId = row.record.id;
+          ctx.openPanel('reward', '奖励', { recordId: row.record.id });
+        };
+        const tr = el('tr', {}, [
+          el('td', { class: 'col-id', text: String(row.index + 1) }),
+          el('td', { class: 'text-cell', text: rewardOwnerText(owners, row.record.id) }),
+          el('td', { text: category === null ? String(values[row.categoryField.key]) : category }),
+          el('td', { text: String(values[row.itemField.key]) }),
+          el('td', {}, [
+            el('span', {
+              class: 'xref-link',
+              text: '跳到这条奖励 →',
+              onclick: openReward,
+            }),
+            el('span', {
+              class: 'xref-link',
+              text: '在奖励表里打开 →',
+              onclick: () => ctx.onJump({
+                module: 'items',
+                kind: 'structure',
+                id: 'reward_table',
+                recordId: row.record.id,
+                label: '奖励表',
+              }),
+            }),
+          ]),
+        ]);
+        // 整行都能跳到这条奖励 —— 不用瞄准那个链接。
+        clickableArea(tr, openReward);
+        body.appendChild(tr);
+      }
+      table.appendChild(body);
+      block.appendChild(el('div', { class: 'table-wrap' }, [table]));
+      block.appendChild(el('div', {
+        class: 'item-note',
+        text: '掉落关系改在奖励那一侧：掉落位与金币都改在奖励表里。',
+      }));
+    }
+
+    // --- 二、角色装备 ------------------------------------------------------
+    block.appendChild(el('div', { class: 'field-label' }, [
+      el('span', { text: '谁装备着它' }),
+    ]));
+    const equipped = characterSlotsForItem(this.pack, record.id);
+    if (!equipped.length) {
       block.appendChild(el('div', {
         class: 'stat-hint',
-        text: '奖励表里没有哪一行掉这个忍具 —— 它的 id 没出现在任何掉落位里。',
+        text: '没有角色带着它 —— 角色定义表的 9 个道具槽里没有它。',
       }));
-      return block;
-    }
-    const owners = missionIndexOwners(this.pack);
-    const table = el('table', { class: 'grid' });
-    table.appendChild(el('thead', {}, [el('tr', {}, [
-      el('th', { class: 'col-id', text: '槽' }),
-      el('th', { text: '第几关' }),
-      el('th', { text: '类别' }),
-      el('th', { text: '物品 id' }),
-      el('th', { text: '跳过去' }),
-    ])]));
-    const body = el('tbody');
-    for (const row of rows) {
-      const values = row.record.values || {};
-      const category = enumLabel(row.categoryField, values[row.categoryField.key]);
-      // 整行的动作 = 「跳到这条奖励」；另一个链接（在奖励表里打开）保留自己的动作。
-      const openReward = () => {
-        // 先记住落点：hash 往返会把面板参数冲掉。
-        lastRewardId = row.record.id;
-        ctx.openPanel('reward', '奖励', { recordId: row.record.id });
-      };
-      const tr = el('tr', {}, [
-        el('td', { class: 'col-id', text: String(row.index + 1) }),
-        el('td', { class: 'text-cell', text: rewardOwnerText(owners, row.record.id) }),
-        el('td', { text: category === null ? String(values[row.categoryField.key]) : category }),
-        el('td', { text: String(values[row.itemField.key]) }),
-        el('td', {}, [
-          el('span', {
-            class: 'xref-link',
-            text: '跳到这条奖励 →',
-            onclick: openReward,
-          }),
-          el('span', {
-            class: 'xref-link',
-            text: '在奖励表里打开 →',
-            onclick: () => ctx.onJump({
-              module: 'items',
-              kind: 'structure',
-              id: 'reward_table',
-              recordId: row.record.id,
-              label: '奖励表',
+    } else {
+      const chars = this.pack.structure('character_template');
+      const table = el('table', { class: 'grid' });
+      table.appendChild(el('thead', {}, [el('tr', {}, [
+        el('th', { text: '角色' }),
+        el('th', { class: 'col-id', text: '道具槽' }),
+        el('th', { text: '跳过去' }),
+      ])]));
+      const body = el('tbody');
+      for (const slot of equipped) {
+        const openCharacter = () => ctx.onJump({
+          module: 'characters',
+          kind: 'character',
+          id: '角色',
+          params: { character: slot.record.id },
+          label: '角色',
+        });
+        const tr = el('tr', {}, [
+          el('td', { class: 'text-cell', text: characterName(this.pack, chars, slot.record) }),
+          el('td', { class: 'col-id', text: slot.field.label || slot.field.key }),
+          el('td', {}, [
+            el('span', {
+              class: 'xref-link',
+              text: '跳到这个角色 →',
+              onclick: openCharacter,
             }),
-          }),
-        ]),
-      ]);
-      // 整行都能跳到这条奖励 —— 不用瞄准那个链接。
-      clickableArea(tr, openReward);
-      body.appendChild(tr);
+          ]),
+        ]);
+        clickableArea(tr, openCharacter);
+        body.appendChild(tr);
+      }
+      table.appendChild(body);
+      block.appendChild(el('div', { class: 'table-wrap' }, [table]));
+      block.appendChild(el('div', {
+        class: 'item-note',
+        text: '装备关系改在角色那一侧：道具槽改在角色定义表里。',
+      }));
     }
-    table.appendChild(body);
-    block.appendChild(el('div', { class: 'table-wrap' }, [table]));
-    block.appendChild(el('div', {
-      class: 'item-note',
-      text: '掉落关系改在奖励那一侧：掉落位与金币都改在奖励表里。',
-    }));
     return block;
+  }
+
+  /**
+   * 「它不掉在任何奖励里」这件事要说清楚**为什么**、以及**要做什么**。
+   *
+   * 以前这里只丢一句「奖励表里没有哪一行掉这个忍具 —— 它的 id 没出现在
+   * 任何掉落位里」，读起来像数据坏了；其实 94 个忍具里只有 8 个会被
+   * 奖励发出去，其余 86 个原版就是这么设计的。
+   */
+  noDropsNote(record) {
+    const counts = this.droppedCounts();
+    const total = ((this.records && this.records.records) || []).length;
+    const names = [];
+    for (const [id, n] of [...counts.entries()].sort((a, b) => a[0] - b[0])) {
+      const name = itemName(this.names, id);
+      names.push(name ? `${name}（${n} 处）` : `#${id}（${n} 处）`);
+    }
+    const equipped = characterSlotsForItem(this.pack, record.id).length;
+    const parts = [
+      '奖励表里没有任何一条奖励掉它。',
+      `${total} 个忍具里只有 ${counts.size} 个会作为奖励掉出来：`
+        + `${names.join('、')} —— 其余的原版就不作为奖励下发，不是数据缺失。`,
+    ];
+    if (!equipped) {
+      parts.push('它也没有被任何角色装备 —— 整个内容包里没有一处引用它。');
+    }
+    parts.push('要让它掉出来：到「奖励」那一侧，在某条奖励的掉落位里选它。');
+    return el('div', { class: 'rule-note rule-warn' }, [
+      el('span', { class: 'rule-title', text: '原版没这么发' }),
+      el('span', { text: parts.join('') }),
+    ]);
+  }
+
+  /** 会作为奖励掉出来的那些忍具（id → 处数）。 */
+  droppedCounts() {
+    if (this.drops) return this.drops;
+    this.drops = droppedItemCounts(this.pack);
+    return this.drops;
   }
 }
 
