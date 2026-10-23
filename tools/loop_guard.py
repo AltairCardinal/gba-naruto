@@ -212,20 +212,31 @@ def analyse(msgs, window=40):
                 "fresh_files": sorted(fresh_paths)[:6],
             }
 
-    # ---- R2 空转回合（最近一段里「一条工具都没调」的回合占多数） ----------
-    recent_turns = turns[-15:]
-    zero_turns = [i for i, th, tx, calls in recent_turns if not calls]
-    if len(recent_turns) >= 8 and len(zero_turns) >= 3:
-        rate = len(zero_turns) / len(recent_turns)
-        if rate >= 0.2:
-            hits.append("R2")
-            detail["R2"] = {
-                "zero_tool_turns": len(zero_turns),
-                "of_recent": len(recent_turns),
-                "rate": round(rate, 3),
-                "indices": zero_turns[:10],
-                "note": "这些回合等于什么都没做 —— Goal 续跑提示的燃料",
-            }
+    # ---- R2 空转回合（**连续**的一串「一条工具都没调」的助手回合） ----------
+    # ⚠️ 2026-10-23 修正：原先统计的是「最近 15 条里有几条没调工具」，
+    # 结果把**汇总输出**的空转回合也算成循环（实测误报一次：
+    # 一个工人在写报告的空转回合之间夹着真实工作，被判成循环）。
+    # ⇒ 正确口径是「**连续**的空转回合有多长」——
+    #    真循环是一串接一串的空转（Goal 续跑提示夹在中间也是连续）；
+    #    空转之后又接着干活的，不算。
+    run = 0
+    max_run = 0
+    zero_run_idx = []
+    for i, th, tx, calls in turns:
+        if not calls:
+            run += 1
+            zero_run_idx.append(i)
+            max_run = max(max_run, run)
+        else:
+            run = 0
+            zero_run_idx = []
+    if max_run >= 3:
+        hits.append("R2")
+        detail["R2"] = {
+            "max_consecutive_zero_tool_turns": max_run,
+            "recent": len(turns),
+            "note": "连续这么多回合一条工具都没调 —— Goal 续跑提示的燃料（或纯空转）",
+        }
 
     # ---- R3 原地推演（相邻思考相似且在变长） ------------------------------
     ths = [(idx, th) for idx, th, tx, calls in turns if th]
