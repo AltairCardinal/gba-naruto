@@ -9,8 +9,10 @@
 //       a. ROM 里的 **12 个取名读者**真的被改了（逐字节比对补丁清单）；
 //       b. **指针表**落在原表的位置上（`0x085A57C4`），64 个槽都是合法指针；
 //       c. **64 条名字**搬到了空闲区（串池），内容逐字节等于新文本；
-//       d. 全名表 `0x085A5AB8`（**另一个 12 字节槽**的 id 63、另有 3 个读者）
-//          **一个字节都没动**；
+//       d. 保护区里的**两张表合起来**（说话人全名表 `0x085A5AB8..0x085A5F77`
+//          + 地点名表 `0x085A5F65..0x085A6342`，两者在 `0x085A5F65` 处重叠 19 字节）
+//          **一个字节都没动** —— 断言按**并集**算，并且断「清单里的保护区」
+//          与这两张表的并集完全相等（范围写小一个字节就红）；
 //   S3 转换后「指针表 + 串池」能被**解析回来**（`parsepack.js` 认得转换后的形态）；
 //      S3a 已转换形态的槽元数据没被解析坏：`capacity` = 名字长度 + 1、`pointer` 有值。
 //   S4 转换**前**的形态（定长内联槽，每条 12 字节）能被**解析回来** ——
@@ -163,14 +165,65 @@ head('\n4) 指针表落在原表的位置上，64 个槽都是合法指针');
     `0x${(SPEAKER_BASE + 64 * 4).toString(16).toUpperCase()} < 0x${FULLNAME_BASE.toString(16).toUpperCase()}`);
 }
 
-head('\n5) 全名表（保护区）一个字节都没动');
+head('\n5) 保护区：**说话人全名表 + 地点名表**两张表合起来逐字节未动');
 {
   const out = built;
-  const size = 0x200;
-  const before = rom.subarray(FULLNAME_BASE, FULLNAME_BASE + size);
-  const after = out.bytes.subarray(FULLNAME_BASE, FULLNAME_BASE + size);
-  check(`0x${FULLNAME_BASE.toString(16).toUpperCase()} 起 ${size} 字节逐字节相同`,
+
+  // 两张表的**声明范围**（文件偏移，[lo, hi) 口径）——
+  //   说话人全名表 0x5A5AB8 起，19 字节/条 × 64 条（id 0..63）⇒ [0x5A5AB8, 0x5A5F78)
+  //   地点名表     0x5A5F65 起，18 字节/条 × 55 条（id 0..54）⇒ [0x5A5F65, 0x5A6343)
+  //
+  // 两者在 0x5A5F65..0x5A5F77 这 19 字节上**重叠**（全名表 id 63 与地点名表 id 0
+  // 是同一批「没有」字节），所以并集必须**按并集算**，不能相加、也不能漏。
+  const FULLNAME_TABLE = { lo: 0x5a5ab8, hi: 0x5a5f78 };
+  const LOCATION_TABLE = { lo: 0x5a5f65, hi: 0x5a6343 };
+  const unionLo = Math.min(FULLNAME_TABLE.lo, LOCATION_TABLE.lo);
+  const unionHi = Math.max(FULLNAME_TABLE.hi, LOCATION_TABLE.hi);
+
+  // 清单（`tools/data/speaker_name_code_patches.json`）里的保护区是**唯一口径** ——
+  // 门禁断它与上面两张表的并集**完全相等**（不多不少）。
+  // ⚠️ 这条断言是护栏的**牙齿**：保护区范围写小一个字节（无论改清单还是改这里
+  // 的表范围），它立刻变红。
+  const manifestRegion = (patchData.table && patchData.table.protected_region_file_offset) || [];
+  const mLo = parseInt(String(manifestRegion[0]), 0);
+  const mHi = parseInt(String(manifestRegion[1]), 0);
+  check(`清单里的保护区 = 两张表的并集（0x${unionLo.toString(16).toUpperCase()}..`
+    + `0x${unionHi.toString(16).toUpperCase()}，${unionHi - unionLo} 字节）`,
+    mLo === unionLo && mHi === unionHi,
+    `清单 0x${mLo.toString(16).toUpperCase()}..0x${mHi.toString(16).toUpperCase()}`);
+
+  // 两张表**合起来**（并集）逐字节未动。
+  const before = rom.subarray(unionLo, unionHi);
+  const after = out.bytes.subarray(unionLo, unionHi);
+  check(`0x${unionLo.toString(16).toUpperCase()}..0x${(unionHi - 1).toString(16).toUpperCase()}`
+    + `（${unionHi - unionLo} 字节）逐字节相同`,
     bytesToHex(before) === bytesToHex(after));
+
+  // ⚠️ 上面那条「逐字节相同」**单靠自己没有牙齿**：转换根本不写保护区，
+  // 所以哪怕保护区范围写错了它照样绿。⇒ **变异对照**：故意改掉保护区里的
+  // 一个字节，比较必须能发现（首字节 = 全名表 id 0，末字节 = 地点名表 id 54）。
+  const mutantHead = Uint8Array.from(out.bytes);
+  mutantHead[unionLo] ^= 0xff;
+  check('变异对照：保护区**首字节**被改 ⇒ 比较能发现（断言不是空转）',
+    bytesToHex(rom.subarray(unionLo, unionHi))
+      !== bytesToHex(mutantHead.subarray(unionLo, unionHi)));
+
+  const mutantTail = Uint8Array.from(out.bytes);
+  mutantTail[unionHi - 1] ^= 0xff;
+  check('变异对照：保护区**末字节**被改 ⇒ 比较能发现（断言不是空转）',
+    bytesToHex(rom.subarray(unionLo, unionHi))
+      !== bytesToHex(mutantTail.subarray(unionLo, unionHi)));
+
+  // 保护区**两端**必须正好是两张表的边界（不是随便一段）：
+  // 首字节是「没有」（全名表 id 0 = 简称表 id 63），末字节是地点名表 id 54 的填充。
+  const headBytes = rom.subarray(unionLo, unionLo + 5);
+  check('保护区首字节 = 「没有」（92 59 9a 9a 00）—— 全名表 id 0 = 简称表 id 63',
+    bytesToHex(headBytes) === '92599a9a00',
+    bytesToHex(headBytes));
+  const tailBytes = rom.subarray(unionHi - 1, unionHi);
+  check('保护区末字节 = 地点名表 id 54 的填充 0x00',
+    bytesToHex(tailBytes) === '00',
+    bytesToHex(tailBytes));
 }
 
 head('\n6) 串池里的名字逐字节等于新文本');

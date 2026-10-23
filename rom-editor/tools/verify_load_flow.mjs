@@ -149,7 +149,7 @@ head('\n4) 从 ROM 解析出的内容包：原版 ROM（说话人名表**未转�
     JSON.stringify(template.scripts) === JSON.stringify(pack.scripts),
     `${report.scripts} 条`);
 
-  // 文本表：**11 张整表**必须一模一样 ——
+  // 文本表：**13 张整表**必须一模一样 ——
   //
   // （曾经误解过：「`speaker_names` 现在是『可转换』的表 ⇒ 解析回来时
   //  `raw`/`capacity` 会按『槽里 NUL 之前的内容』重算 ⇒ 整表 JSON 不可能再相同」。
@@ -158,7 +158,10 @@ head('\n4) 从 ROM 解析出的内容包：原版 ROM（说话人名表**未转�
   //  整槽读回来 ⇒ `raw`（内容 + NUL + 填充）与 `capacity`（12）都与内容包里
   //  记的逐字段相同。形态一旦判错，`capacity` 会变成「名字长度 + 1」、
   //  `raw` 会少掉 NUL 与填充 ⇒ 下面这条断言立刻红。）
-  check('11 张文本表整表 JSON 相同（解析没有改动任何一格）',
+  //
+  // （2026-10-23 起是 13 张：说话人全名表与地点名表也进了包，
+  //  两张都是**定长内联槽** ⇒ 同样走「整槽读回」这条路。）
+  check('13 张文本表整表 JSON 相同（解析没有改动任何一格）',
     JSON.stringify(template.texts) === JSON.stringify(pack.texts),
     `${report.texts} 张表`);
 
@@ -192,7 +195,7 @@ head('\n4) 从 ROM 解析出的内容包：原版 ROM（说话人名表**未转�
   const readCounts = template.texts
     .map((tt) => `${tt.id}:${(report.textsRead || {})[tt.id]}/${slotsWithText(tt)}`)
     .join(' ');
-  check('11 张文本表都把有内容的槽读了一遍',
+  check('13 张文本表都把有内容的槽读了一遍',
     template.texts.every((tt) =>
       (report.textsRead || {})[tt.id] === slotsWithText(tt)),
     readCounts);

@@ -629,11 +629,14 @@ console.log('\n6) 写回安全性：越界拒绝 / 有符号原值 / 指针解�
 
 // --- 门禁用的测试表 ---------------------------------------------------------
 //
-// 转换完成后，当前内容包（`content/pack.json`）里 11 张文本表**没有一张**
-// 是 `fixed` / `absolute`：10 张 `pointer` + 1 张 `convertible`（`speaker_names`）。
-// 这两种形态对**真实内容包**已经不可达，但它们是**产品行为**
-// （`editors.js` 里那两条分支不能删）—— 覆盖不能因为内容包变了就丢，
-// 所以门禁自己造一张表把它们测回来。
+// 当前内容包（`content/pack.json`）里 13 张文本表：10 张 `pointer`
+// + 1 张 `convertible`（`speaker_names`）+ **2 张 `fixed`**
+// （说话人全名表 / 地点名表，2026-10-23 进包 —— 见
+// notes/evidence/speaker-name-contentpack-20261023.md）。
+//
+// `fixed` 现在**有真实表格**了，但 `absolute` 仍然只对**真实内容包**不可达。
+// 这两种形态都是**产品行为**（`editors.js` 里那两条分支不能删）——
+// 覆盖不能因为内容包变了就丢，所以门禁自己造一张表把它们测回来。
 //
 // 形态由 `pack.js::textSlotKind` 判定，判定顺序：
 //   1. `table.convert` 有值              → `convertible`（定长槽，但能转成指针表）

@@ -16,8 +16,8 @@ import { gunzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-import { ContentPack } from '../js/pack.js';
-import { buildRom } from '../js/rom.js';
+import { ContentPack, textSlotKind } from '../js/pack.js';
+import { buildRom, RomBuilder } from '../js/rom.js';
 import { scanTokens, encodeTokens } from '../js/textcodec.js';
 import { base64ToBytes, hexToBytes } from '../js/bytes.js';
 
@@ -675,6 +675,158 @@ console.log('\n10) 原始字节补丁：能落在结构表里生效，被结构�
   check('结构化改动本身仍然生效',
     out2.bytes[first2.rom_offset + 0x02] === 7,
     `x = ${out2.bytes[first2.rom_offset + 0x02]}`);
+}
+
+console.log('\n11) 定长内联槽：两张新表进包后的写回规则（整槽原样 / 放不下就拒 / 别名不抢字节）');
+{
+  // 「定长内联槽」这条形态的分支在产品里**从来没被真实表格走到过**
+  // （2026-10-23 之前 11 张文本表里没有一张是 `fixed`）。
+  // 说话人全名表（19 字节/条）与地点名表（18 字节/条）进包之后，
+  // 这条分支第一次被**真实数据**覆盖 —— 而且这三张表之间还有
+  // **地址别名**（三处「没有」共用同一批字节），所以这一节验的是：
+  //   11a 两张表在包里，形态 / 步长 / 条数对得上；
+  //   11b 地址别名已**如实建模**（不是假装它们互不相干）；
+  //   11c 写回是「**整槽原样**」：不是我们的字节（填充、别的表的内容）一个都不动；
+  //   11d 放不下的改动必须**被拒**（不能悄悄截断、也不能写坏别处）；
+  //   11e 两处别名改成**不同的**字必须**报错**（不能悄悄丢一处）；
+  //   11f 变异对照：把写回改回「清零尾巴」的旧行为，11c 必须能发现。
+  const p13 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  const full = p13.textTable('speaker_full_names');
+  const loc = p13.textTable('location_names');
+
+  // 11a. 两张表在包里，形态对得上
+  check('说话人全名表在包里（64 条 × 19 字节定长内联槽）',
+    !!full && full.records.length === 64 &&
+    full.records.every((r) => r.capacity === 19 && r.pointer_offset === null) &&
+    textSlotKind(full, full.records[0]) === 'fixed',
+    full ? `${full.records.length} 条，capacity=${full.records[0].capacity}` : '没有这张表');
+  check('地点名表在包里（55 条 × 18 字节定长内联槽）',
+    !!loc && loc.records.length === 55 &&
+    loc.records.every((r) => r.capacity === 18 && r.pointer_offset === null) &&
+    textSlotKind(loc, loc.records[0]) === 'fixed',
+    loc ? `${loc.records.length} 条，capacity=${loc.records[0].capacity}` : '没有这张表');
+
+  // 11b. 地址别名如实建模
+  const aliasPairs = [
+    ['speaker_names', 63, 'speaker_full_names', 0],
+    ['speaker_full_names', 63, 'location_names', 0],
+  ];
+  let aliasOk = true;
+  let aliasDetail = '';
+  for (const [ta, ia, tb, ib] of aliasPairs) {
+    const a = p13.textTable(ta).records.find((r) => r.id === ia);
+    const b = p13.textTable(tb).records.find((r) => r.id === ib);
+    const want = `${tb}#${ib}`;
+    if (!a || !b || a.text_offset !== b.text_offset ||
+        !(a.aliased_with || []).includes(want) || !(b.aliased_with || []).includes(`${ta}#${ia}`)) {
+      aliasOk = false;
+      aliasDetail = `${ta}#${ia} ↔ ${tb}#${ib}`;
+      break;
+    }
+  }
+  check('三处「没有」的地址别名已如实建模（aliased_with）', aliasOk,
+    aliasOk ? '简称表#63 ≡ 全名表#0，全名表#63 ≡ 地点名表#0' : aliasDetail);
+
+  // 11c. 全名表 id 63 的槽（19 字节）最后一个字节是地点名表 id 1 的第一个字形码
+  const f63 = full.records.find((r) => r.id === 63);
+  const l1 = loc.records.find((r) => r.id === 1);
+  const foreignAt = f63.text_offset + 18;          // 0x5A5F77
+  check('全名表 id 63 的第 19 字节是地点名表 id 1 的第一个字形码',
+    foreignAt === l1.text_offset && rom[foreignAt] === 0x8a && f63.writable_bytes === 18,
+    `0x${foreignAt.toString(16)} = 0x${rom[foreignAt].toString(16)}，可写长度 ${f63.writable_bytes}/19`);
+
+  // 11d. 写回是「整槽原样」：改一个字，别人的字节一个都不动
+  const p14 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+  const f63b = p14.textTable('speaker_full_names').records.find((r) => r.id === 63);
+  p14.setText(p14.textTable('speaker_full_names'), f63b, '鸣人');
+  const out14 = safeBuild(p14, rom);
+  const bytes14 = out14.bytes || rom;
+  let tailSame = true;
+  for (let i = 5; i < 19; i++) {                   // 正文 + NUL 之后是槽的填充
+    if (bytes14[f63b.text_offset + i] !== rom[f63b.text_offset + i]) { tailSame = false; break; }
+  }
+  const loc1After = p14.font.decode(bytes14.slice(l1.text_offset, l1.text_offset + 16));
+  check('定长槽写回是「整槽原样」（填充与别人的字节一个都没动）',
+    out14.ok && out14.report.errors.length === 0 && tailSame && bytes14[foreignAt] === 0x8a,
+    out14.report.errors.join('; ') ||
+    `0x${foreignAt.toString(16)} = 0x${bytes14[foreignAt].toString(16)}（原 0x${rom[foreignAt].toString(16)}）`);
+  check('地点名表 id 1 仍读得出「村边的森林」（没被邻居的改动踩坏）',
+    loc1After.startsWith('村边的森林'), JSON.stringify(loc1After.slice(0, 10)));
+  check('共用同一段字节的两张表确实一起变了（改一处会影响另一处）',
+    p14.font.decode(bytes14.slice(f63b.text_offset, f63b.text_offset + 19)).startsWith('鸣人') &&
+    loc.records.find((r) => r.id === 0).text === '没有',
+    '全名表 id 63 改了 ⇒ 地点名表 id 0 读到的那批字节也变了'
+    + '（包里那一格的值会过期 —— ROM 的存储别名，改一处就是改两处）');
+
+  // 11e. 放不下的改动必须被拒
+  {
+    const p15 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+    const table = p15.textTable('speaker_full_names');
+    const record = table.records.find((r) => r.id === 63);
+    let long = '';
+    while (p15.font.encodedLength(long) + 1 <= record.writable_bytes) long += '涡';
+    p15.setText(table, record, long);
+    // 直接用 builder：构建报错时也能拿到它写了一半的字节，验证「一个字节都没动」。
+    const builder = new RomBuilder(rom, p15);
+    let error15 = null;
+    try {
+      builder.build();
+    } catch (err) {
+      error15 = err;
+    }
+    const message15 = error15 ? String(error15.message || error15) : '';
+    let unchanged = true;
+    for (let i = 0; i < rom.length; i++) {
+      if (builder.bytes[i] !== rom[i]) { unchanged = false; break; }
+    }
+    check('超过可写长度的改动被构建器拒绝（ROM 一个字节都没动）',
+      !!error15 && /超长|放不下/.test(message15) && unchanged,
+      message15.slice(0, 90) ||
+      `可写 ${record.writable_bytes} 字节，写了 ${p15.font.encodedLength(long) + 1} 字节`);
+  }
+
+  // 11f. 两处别名改成不同的字 ⇒ 必须报错（不能悄悄丢一处）
+  {
+    const p16 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+    const fa = p16.textTable('speaker_full_names');
+    const la = p16.textTable('location_names');
+    p16.setText(fa, fa.records.find((r) => r.id === 63), '鸣人');
+    p16.setText(la, la.records.find((r) => r.id === 0), '森林');
+    const out16 = safeBuild(p16, rom);
+    check('两处别名改成不同的字时构建器报错（不悄悄丢一处）',
+      !out16.ok && /同一段字节/.test(out16.report.errors.join(';')),
+      out16.report.errors.join('; ').slice(0, 110) || '没有报错');
+  }
+
+  // 11g. 变异对照：把写回改回「清零尾巴」的旧行为，11d 必须能发现
+  {
+    const p17 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
+    const table = p17.textTable('speaker_full_names');
+    const record = table.records.find((r) => r.id === 63);
+    p17.setText(table, record, '鸣人');
+    const original = RomBuilder.prototype.inlineWriteClaims;
+    // 旧行为：把旧正文之后的尾巴**一律清零**（那是「绝对地址引用」的老做法）。
+    RomBuilder.prototype.inlineWriteClaims = function (tbl, rec) {
+      const offset = rec.text_offset;
+      const raw = rec.raw ? base64ToBytes(rec.raw) : new Uint8Array(0);
+      const content = this.pack.textContentBytes(rec);
+      const claims = [];
+      for (let i = 0; i < content.length; i++) claims.push([offset + i, content[i]]);
+      claims.push([offset + content.length, 0]);
+      for (let k = content.length + 1; k < raw.length; k++) claims.push([offset + k, 0]);
+      return claims;
+    };
+    let mutated;
+    try {
+      mutated = safeBuild(p17, rom);
+    } finally {
+      RomBuilder.prototype.inlineWriteClaims = original;
+    }
+    const mutatedBytes = mutated.bytes || rom;
+    check('变异对照：旧写法（清零尾巴）会抹掉别人的字节 —— 11d 的断言不是空转',
+      mutatedBytes[foreignAt] === 0x00 && mutatedBytes[foreignAt] !== rom[foreignAt],
+      `变异后 0x${foreignAt.toString(16)} = 0x${mutatedBytes[foreignAt].toString(16)}（原 0x${rom[foreignAt].toString(16)}）`);
+  }
 }
 
 console.log(`\n${failures === 0 ? '全部通过' : failures + ' 项失败'}`);

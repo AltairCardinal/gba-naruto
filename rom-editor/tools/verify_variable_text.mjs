@@ -367,13 +367,15 @@ head('\n10) 撤销之后内容包回到未改状态');
   check('撤销后不再搬迁', out.report.movedScripts.length === 0);
 }
 
-head('\n11) 别的文本表：11 张**全部**能变长（没有「结构上变不了」的表了）');
+head('\n11) 别的文本表：13 张的形态逐张对得上（「结构上改不了」的那两张是真的改不了）');
 {
-  // 11 张表逐张过一遍：
+  // 13 张表逐张过一遍：
   //   指针表驱动的 → 变长后搬到空闲区、指针改掉；
   //   「可转换」的（说话人名表）→ 整张表转成指针表 + 串池（转换本身由
   //   `verify_speaker_conversion.mjs` 逐条验收）；
-  //   定长内联槽 / 绝对地址引用的 → 结构上只能等长 —— **这一档现在是空的**。
+  //   定长内联槽（说话人全名表 / 地点名表）→ 结构上只能等长 —— **这一档
+  //   现在有两张**（2026-10-23 起这两张表进了内容包，见
+  //   notes/evidence/speaker-name-contentpack-20261023.md）。
   const kinds = new Map();
   for (const table of packData.texts) {
     const record = (table.records || [])[0];
@@ -381,7 +383,7 @@ head('\n11) 别的文本表：11 张**全部**能变长（没有「结构上变�
     const kind = textSlotKind(table, record);
     kinds.set(table.id, kind);
   }
-  check('11 张文本表都在', kinds.size === 11, `${kinds.size} 张`);
+  check('13 张文本表都在', kinds.size === 13, `${kinds.size} 张`);
   const pointerTables = [...kinds.entries()].filter(([, k]) => k === 'pointer').map(([id]) => id);
   const convertibleTables = [...kinds.entries()].filter(([, k]) => k === 'convertible').map(([id]) => id);
   const fixedTables = [...kinds.entries()].filter(([, k]) => k === 'fixed').map(([id]) => id);
@@ -391,8 +393,8 @@ head('\n11) 别的文本表：11 张**全部**能变长（没有「结构上变�
     pointerTables.includes('battle_objectives'), pointerTables.join('、'));
   check('说话人名表是「可转换」（定长内联槽 → 指针表 + 串池）',
     convertibleTables.join('、') === 'speaker_names', convertibleTables.join('、'));
-  check('没有「定长内联槽」形态的表了（说话人名表已可转换）',
-    fixedTables.length === 0, fixedTables.join('、'));
+  check('2 张是「定长内联槽」（说话人全名表 / 地点名表）',
+    fixedTables.join('、') === 'speaker_full_names、location_names', fixedTables.join('、'));
   check('没有「绝对地址引用」形态的表了（战斗目标说明已改成指针槽）',
     absoluteTables.length === 0, absoluteTables.join('、'));
 
@@ -451,12 +453,20 @@ head('\n11) 别的文本表：11 张**全部**能变长（没有「结构上变�
     }
   }
 
-  // 剩下还有「结构上真的不行」的表时，变长必须**被拒**（构建时报错），不能悄悄写坏。
+  // 剩下还有「结构上真的不行」的表时，**放不下**的改动必须**被拒**
+  // （构建时报错），不能悄悄写坏。
   for (const id of [...fixedTables, ...absoluteTables]) {
     const pack = freshPack();
     const table = pack.textTable(id);
     const record = (table.records || [])[0];
-    pack.setText(table, record, `${record.text ?? ''}测试测试`);
+    // ⚠️ 这次改动必须**真的放不下**才算数。
+    // 定长槽里的第一条常常很短（「没有」只有 4 字节），随便加两个字
+    // **反而放得下** ⇒ 那样证明不了「超长会被拒」（早先这里就误判过一次）。
+    const writable = record.writable_bytes ?? record.capacity ?? 0;
+    const nul = table.nul_terminated === false ? 0 : 1;
+    let text = record.text ?? '';
+    while (pack.font.encodedLength(text) + nul <= writable) text += '测';
+    pack.setText(table, record, text);
     let error = null;
     try {
       buildRom(pack, rom);
@@ -464,7 +474,7 @@ head('\n11) 别的文本表：11 张**全部**能变长（没有「结构上变�
       error = err;
     }
     const message = error ? String(error.message || error) : '';
-    check(`${id}：变长被构建器拒绝`,
+    check(`${id}：放不下的改动被构建器拒绝`,
       !!error && /超长|放不下/.test(message),
       message.slice(0, 80) || '没有报错');
   }
