@@ -38,6 +38,26 @@ const ROOT_STRUCTURES = new Set([
   'story_events_root',
 ]);
 
+/**
+ * 一条文本记录被**哪些槽**指向。
+ *
+ * 绝大多数表一条记录一个槽（`pointer_offset`）；
+ * 但战斗目标说明表里一句说明可能被**好几条战斗目标共用**
+ * （`pointer_offsets` 是全部的槽）—— 漏改一个，共用它的那条战斗目标
+ * 就还指着旧地址，界面上看到的和游戏里跑的就对不上了。
+ *
+ * @returns {?number[]} 槽的文件偏移；没有指针槽时返回 null
+ */
+function pointerSlotsOf(record) {
+  if (Array.isArray(record.pointer_offsets) && record.pointer_offsets.length) {
+    return record.pointer_offsets;
+  }
+  if (record.pointer_offset !== null && record.pointer_offset !== undefined) {
+    return [record.pointer_offset];
+  }
+  return null;
+}
+
 /** 一组剧本的人话描述（错误信息里用）。 */
 function describeComponent(component) {
   const list = component.roots
@@ -74,6 +94,7 @@ export class RomBuilder {
       freeRegionsUsed: [],
       movedTexts: [],
       movedScripts: [],
+      conversions: [],
       warnings: [],
       errors: [],
     };
@@ -297,6 +318,89 @@ export class RomBuilder {
     return { consumed, failed };
   }
 
+  /**
+   * 把一张「定长内联槽」的文本表转换成**指针表 + 变长串池**。
+   *
+   * 目前只有说话人名表（`0x085A57C4`，每条 12 字节）。它「结构上改不了长度」：
+   * 槽的大小写死在表里，没有指针可以改。
+   *
+   * 事实依据：`notes/evidence/speaker-name-table-20261023.md`
+   * —— 12 个原生读者**全是取名读者**（不是取色），而且**全都按「读到 0x00
+   * 为止」消费** ⇒ **变长在读者层面本来就支持**，缺的只是「槽的定长结构」。
+   *
+   * 转换做三件事：
+   *   1. **改 ROM 里的 12 个读者**：它们按 `基址 + id*12` 取名字（步长 12 是
+   *      `(id*2+id)*4` 三条指令算出来的），改成 `基址 + id*4` 再解引用。
+   *      **指令数与字节数都不变** ⇒ 不挪动任何后续代码。
+   *   2. 在**原表自己的位置**上放那张指针表（64 × 4 字节）——
+   *      读者的基址常量一个字都不用改。
+   *   3. 把 64 条名字搬到空闲区（一个「串池」），指针表指向它们。
+   *
+   * ⚠️ 指针表会盖住原表的前 256 字节 ⇒ 名字**必须全部搬走**。
+   * ⚠️ `基址 + 63*12 = 0x085A5AB8` 是**说话人全名表**的第 0 条（另有 3 个读者）
+   * —— 指针表只占 `0x085A57C4..0x085A58C3`，**碰不到它** ✓。
+   *
+   * @param {object} table      内容包里的文本表
+   * @param {Array} encoded     `rebuildTextTable` 算好的每条记录
+   * @param {object} conversion 内容包 `conversions[table.convert]`
+   * @returns {boolean} 是否成功
+   */
+  applyInlineToPointer(table, encoded, conversion) {
+    const pack = this.pack;
+
+    // 1. 读者补丁：原始字节必须与 ROM 对得上，否则会打歪。
+    for (const patch of conversion.code_patches || []) {
+      const before = hexToBytes(patch.before_hex || '');
+      const actual = this.bytes.subarray(patch.offset, patch.offset + before.length);
+      if (bytesToHex(actual) !== bytesToHex(before)) {
+        this.report.errors.push(
+          `${table.id}：转换补丁「${patch.label || patch.offset}」的原始字节不匹配`
+          + '（ROM 与内容包对不上）');
+        return false;
+      }
+      const after = hexToBytes(patch.after_hex || '');
+      if (after.length !== before.length) {
+        this.report.errors.push(
+          `${table.id}：转换补丁「${patch.label || patch.offset}」长度变了`
+          + '（那会挪动后续代码）');
+        return false;
+      }
+      this.bytes.set(after, patch.offset);
+    }
+
+    // 2. 串池：64 条名字一次性分配（指针表要指向它们）。
+    const contents = encoded.map((e) => pack.textContentBytes(e.record));
+    let size = 0;
+    for (const content of contents) size += content.length + 1;
+    const pool = this.allocate(size);
+    if (pool === null) {
+      this.report.errors.push(
+        `${table.id}：转换需要 ${size} 字节空闲空间，但 ROM 里找不到足够大的空闲区`);
+      return false;
+    }
+
+    // 3. 写串池 + 写指针表。
+    const base = conversion.base;
+    let cursor = pool;
+    for (let i = 0; i < encoded.length; i++) {
+      const e = encoded[i];
+      const content = contents[i];
+      this.bytes.set(content, cursor);
+      this.bytes[cursor + content.length] = 0;
+      this.writeU32(base + i * 4, offsetToPointer(cursor));
+      this.report.movedTexts.push({
+        table: table.id,
+        id: e.record.id,
+        from: e.record.text_offset,
+        to: cursor,
+        bytes: content.length,
+        slots: 1,
+      });
+      cursor += content.length + 1;
+    }
+    return true;
+  }
+
   applyStructures() {
     for (const structure of this.pack.structures || []) {
       this.report.structures += 1;
@@ -373,6 +477,28 @@ export class RomBuilder {
 
     const sizes = encoded.map((e) => e.bytes.length + (nulTerminated ? 1 : 0));
     const total = sizes.reduce((a, b) => a + b, 0);
+
+    // --- 可选的结构转换（说话人名表：定长内联槽 → 指针表） -------------------
+    // 「结构上改不了长度」的表可以在**作者改了它之后**转成能改的形态。
+    // 没改过 ⇒ 上面的 `return false` 已经先走了 ⇒ 重建仍与原版逐字节相同。
+    if (table.convert) {
+      const conversion = (this.pack.conversions || {})[table.convert];
+      if (!conversion) {
+        this.report.errors.push(
+          `${table.id} 要转换成「${table.convert}」，但内容包里没有这个转换的描述`);
+        return false;
+      }
+      const ok = this.applyInlineToPointer(table, encoded, conversion);
+      if (ok) {
+        this.report.conversions.push({
+          table: table.id,
+          kind: conversion.kind,
+          base: conversion.base,
+          records: encoded.length,
+        });
+      }
+      return ok;
+    }
 
     if (!table.relocatable) {
       for (let i = 0; i < encoded.length; i++) {
@@ -464,8 +590,11 @@ export class RomBuilder {
       if (nulTerminated) this.bytes[offset + e.bytes.length] = 0;
       const pointer = offsetToPointer(offset);
       for (const item of group) {
-        if (item.record.pointer_offset !== null && item.record.pointer_offset !== undefined) {
-          this.writeU32(item.record.pointer_offset, pointer);
+        // 一条文字可能被**好几个槽**指向（战斗目标说明：一句被多条战斗目标共用）。
+        // 槽都要改 —— 漏一个，共用它的那条战斗目标就还指着旧地址。
+        const slots = pointerSlotsOf(item.record);
+        if (slots) {
+          for (const slot of slots) this.writeU32(slot, pointer);
         } else {
           item.record.pointer = pointer;
         }
@@ -477,6 +606,7 @@ export class RomBuilder {
           from: item.record.text_offset,
           to: offset,
           bytes: e.bytes.length,
+          slots: slots ? slots.length : 0,
         });
       }
       // 旧槽位空出来了，可以给别的记录用

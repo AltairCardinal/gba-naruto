@@ -34,6 +34,17 @@ export class ContentPack {
     this.texts = data.texts || [];
     this.scripts = data.scripts || [];
     this.patches = data.patches || [];
+    /**
+     * **可选的结构转换**（`conversions`）。
+     *
+     * 有些表「结构上」改不了长度 —— 说话人名表就是：每条 12 字节的定长内联槽，
+     * 槽的大小写死在表里，没有指针可以改。
+     *
+     * 但它**可以转换成能改的形态**（整张表转成「指针表 + 变长串池」，
+     * 要改 ROM 里的 12 个取名读者）。转换是**可选**的：只有作者改了那张表，
+     * 构建时才转换 —— 没改过的内容包重建出来仍与原版逐字节相同。
+     */
+    this.conversions = data.conversions || {};
     this.font = new FontCodec(
       (data.font && data.font.code_to_char) || {},
       (data.font && data.font.char_to_code) || null
@@ -198,6 +209,7 @@ export class ContentPack {
       structures: this.structures,
       texts: this.texts,
       scripts: this.scripts,
+      conversions: this.conversions,
       patches: this.patches,
       notes: this.notes,
     };
@@ -560,6 +572,8 @@ export class ContentPack {
  *
  *   * `pointer` —— **指针表驱动**：正文在别处，靠一个指针指过去。
  *     这种**可以变长**：构建时正文搬到空闲区、指针改掉（`rom.js::rebuildTextTable`）。
+ *   * `convertible` —— **定长内联槽，但可以转换成能变长的形态**
+ *     （说话人名表：整张表转成「指针表 + 变长串池」，要改 ROM 里的 12 个读者）。
  *   * `fixed` —— **定长内联槽**：正文写死在表里一个固定大小的槽中（说话人名表
  *     12 字节一条）。**结构上就放不下更长的字** —— 没有指针可以改。
  *   * `absolute` —— **绝对地址引用**：地址是**代码里写死的**（战斗目标说明文字）。
@@ -570,6 +584,9 @@ export class ContentPack {
  * @returns {'pointer'|'fixed'|'absolute'}
  */
 export function textSlotKind(table, record) {
+  // 「可转换」的表：现在是定长内联槽，但**能转换成能变长的形态**
+  //（说话人名表 → 指针表 + 变长串池，见 `pack.conversions`）。
+  if (table && table.convert) return 'convertible';
   if (record.pointer_offset !== null && record.pointer_offset !== undefined) {
     return 'pointer';
   }

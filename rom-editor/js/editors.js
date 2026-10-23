@@ -29,8 +29,13 @@ import { indexKey, isEmptyRecord, visibleRecords } from './indexkey.js';
 const MAX_COLUMNS = 6;
 
 /**
- * The pack's notes are written with markdown emphasis; the editor does not
- * render markdown, so the asterisks would show up literally.
+ * The pack's notes are written with markdown emphasis.  The editor does not
+ * render markdown, so the asterisks must not reach the screen.
+ *
+ * Both call sites put the note inside a `rule-note` — a **prose** container —
+ * and `ui.js::el()` already strips the stars out of a prose subtree.  So this
+ * is a second, explicit belt-and-braces strip: the rule stays true even if a
+ * note is ever rendered outside a prose container.
  */
 export function plainText(text) {
   return String(text || '').replace(/\*\*/g, '');
@@ -884,8 +889,9 @@ export class TextTableEditor {
           el('span', { text: `${(table.records || []).length} 条` }),
           el('span', {
             text: kind === 'pointer' ? '可重定位（可变长）'
-              : kind === 'fixed' ? '定长内联槽（等长）'
-                : '绝对地址引用（等长）',
+              : kind === 'convertible' ? '定长内联槽（可转换成指针表）'
+                : kind === 'fixed' ? '定长内联槽（等长）'
+                  : '绝对地址引用（等长）',
           }),
           table.pointer_table_offset !== undefined && table.pointer_table_offset !== null
             ? el('span', { text: `指针表 ${formatOffset(table.pointer_table_offset)}` })
@@ -907,14 +913,24 @@ export class TextTableEditor {
     ]));
 
     // 写回规则：这条文本改了会怎样，必须在动手前就说清楚。
+    //
+    // ⚠️ 这张卡是 `rule-note` —— **prose 容器**（`ui.js` 的 `PROSE_CLASSES` 里有它）
+    // ⇒ `el()` 会把子树里的 `**` **剥掉**再显示。所以这里写不写 `**`，
+    // **用户在界面上都看不到星号**；写成裸的「可以变长」只是**可读性**更好
+    // （源码里一眼看出这是重点），**不是**在修什么 bug。
     container.appendChild(el('div', { class: 'rule-note' }, [
       el('span', { class: 'rule-title', text: '写回规则' }),
       el('span', {
         text: kind === 'pointer'
           ? '这条文本被指针表指向，长度可变。改短原地不动（指针不变）；改长会搬到 ROM 空闲区，并只改写它自己的指针。'
-          : kind === 'fixed'
-            ? '这条文本写在一个定长内联槽里（槽的大小写死在表里），长度不能变 —— 没有指针可以改。改长了构建会拒绝，不会静默截断。'
-            : '这条文本被代码用绝对地址引用，长度不能变。改长了构建会拒绝，不会静默截断。',
+          : kind === 'convertible'
+            ? '这张表现在是定长内联槽（每条 12 字节，字形码直接写在里面），但可以变长：'
+              + '改了名字之后，构建时会把整张表转换成「指针表 + 变长串池」——'
+              + '改 ROM 里的 12 个取名读者（指令数与字节数都不变），在原表的位置上放指针表，'
+              + '名字搬到空闲区。没改过的内容包重建出来仍与原版逐字节相同。'
+            : kind === 'fixed'
+              ? '这条文本写在一个定长内联槽里（槽的大小写死在表里），长度不能变 —— 没有指针可以改。改长了构建会拒绝，不会静默截断。'
+              : '这条文本被代码用绝对地址引用，长度不能变。改长了构建会拒绝，不会静默截断。',
       }),
     ]));
     // 表说明（分组规则、内联槽、同址另一种读法…）以前界面上一个字都看不到。
@@ -1343,7 +1359,8 @@ export class TextTableEditor {
       return;
     }
     // 等长表超长**当场拦**：以前只在构建时才炸，界面上照样说「已保存」。
-    if (!this.table.relocatable && record.capacity) {
+    // 「可转换」的表（说话人名表）**不拦** —— 它变长时整张表会转成指针表。
+    if (!this.table.relocatable && !this.table.convert && record.capacity) {
       const nul = this.table.nul_terminated === false ? 0 : 1;
       const bytes = this.pack.font.encodedLength(value);
       if (bytes + nul > record.capacity) {
@@ -1374,20 +1391,26 @@ export class TextTableEditor {
     if (record.capacity && record.text_offset !== null && record.text_offset !== undefined) {
       const nul = this.table.nul_terminated === false ? 0 : 1;
       const over = bytes + nul > record.capacity;
+      const convertible = !!this.table.convert;
       counter.appendChild(el('span', {
-        class: over ? 'bad' : 'ok',
+        class: over ? (convertible ? 'warn' : 'bad') : 'ok',
         // 可重定位的表**写得进去**（超长会搬到空闲区并改写指针），
         // 以前这里一律说「放不下」，作者于是白白把字删短。
-        // 放不下的那两张表（定长内联槽 / 绝对地址引用）**结构上就放不下** ——
+        // 「可转换」的表也写得进去 —— 变长时整张表会转成指针表。
+        // 放不下的那些表（定长内联槽 / 绝对地址引用）**结构上就放不下** ——
         // 说清楚原因，作者才知道这不是编辑器偷懒。
         text: over
           ? (this.table.relocatable
             ? ` · 变长 ${bytes + nul} 字节（槽位 ${record.capacity}）：写得进去，` +
               '构建时会搬到空闲区并改写指针'
-            : ` · 放不下：写回需要 ${bytes + nul} 字节，槽位只有 ${record.capacity} 字节` +
-              `（${this.slotReason(record)}）`)
+            : convertible
+              ? ` · 变长 ${bytes + nul} 字节（槽位 ${record.capacity}）：写得进去，` +
+                '构建时会把整张表转换成指针表'
+              : ` · 放不下：写回需要 ${bytes + nul} 字节，槽位只有 ${record.capacity} 字节` +
+                `（${this.slotReason(record)}）`)
           : ` · 槽位 ${record.capacity} 字节` +
-            (this.table.relocatable ? '（放得下，变长会重定位）' : '（放得下）'),
+            (this.table.relocatable ? '（放得下，变长会重定位）'
+              : convertible ? '（放得下，变长会转换成指针表）' : '（放得下）'),
       }));
     }
     const missing = this.pack.font.missingCharacters(value);
@@ -1420,13 +1443,15 @@ export class TextTableEditor {
   /**
    * 这张表是**哪一种形态** —— 决定它能不能变长，以及为什么。
    *
-   * 三种（`pack.js::textSlotKind`）：
+   * 四种（`pack.js::textSlotKind`）：
    *   * `pointer` —— 指针表驱动，**可变长**（构建时搬到空闲区并改指针）；
+   *   * `convertible` —— 定长内联槽，但**能转换成能变长的形态**（说话人名表）；
    *   * `fixed` —— 定长内联槽，**结构上放不下更长的字**；
    *   * `absolute` —— 绝对地址引用，**搬不动**。
    */
   tableKind() {
     if (this.table.relocatable) return 'pointer';
+    if (this.table.convert) return 'convertible';
     const record = (this.table.records || [])[0];
     if (!record) return 'absolute';
     return textSlotKind(this.table, record);
@@ -1435,12 +1460,13 @@ export class TextTableEditor {
   /**
    * 这条为什么**只能等长** —— 一句人话。
    *
-   * 11 张文本表里 9 张是**指针表驱动**的：正文在别处，靠指针指过去，
-   * 变长了就搬到空闲区、把指针改掉 ⇒ **可变长**。
+   * 只在「结构上就变不了」的两种形态下用得上：
+   *   * `fixed` —— 定长内联槽，槽的大小写死在表里；
+   *   * `absolute` —— 绝对地址引用，地址在代码里写死。
    *
-   * 剩下两张**结构上就变不了**：
-   *   * `speaker_names` —— **定长内联槽**（12 字节一条，写死在表里）；
-   *   * `battle_objectives` —— **绝对地址引用**（地址在代码里写死）。
+   * ⚠️ `convertible`（说话人名表）**走不到这里**：两个调用点都在
+   * `!relocatable && !convert` 之后 ⇒ 变长是合法的，不该被说成「只能等长」。
+   * （早先这里有个 `convertible` 分支 —— 它永远走不到，留着只会骗人。）
    *
    * 这不是编辑器偷懒，是 ROM 的结构决定的 —— 说清楚，作者才知道该怎么办。
    */

@@ -2,6 +2,100 @@
  "format": "naruto-konoha-content-pack",
  "version": 1,
  "generated": null,
+ "conversions": {
+  "speaker_names": {
+   "kind": "inline_to_pointer",
+   "base": 5920708,
+   "count": 64,
+   "code_patches": [
+    {
+     "offset": 495750,
+     "before_hex": "7800c01980001e494018",
+     "after_hex": "b8001f4940180068c046",
+     "label": "说话人名表读者 1（battle_msg_name）"
+    },
+    {
+     "offset": 528844,
+     "before_hex": "48004018800014494018",
+     "after_hex": "8800154940180068c046",
+     "label": "说话人名表读者 2（cmd_msg_name）"
+    },
+    {
+     "offset": 528952,
+     "before_hex": "41000918890005480918",
+     "after_hex": "8100064809180968c046",
+     "label": "说话人名表读者 3（cmd_msg_name_copy）"
+    },
+    {
+     "offset": 548930,
+     "before_hex": "4100091889001d480918",
+     "after_hex": "81001e4809180968c046",
+     "label": "说话人名表读者 4（battle_log_name）"
+    },
+    {
+     "offset": 559118,
+     "before_hex": "4100091889001b480918",
+     "after_hex": "81001c4809180968c046",
+     "label": "说话人名表读者 5（battle_log_name_2）"
+    },
+    {
+     "offset": 560556,
+     "before_hex": "41000918890026480918",
+     "after_hex": "8100274809180968c046",
+     "label": "说话人名表读者 6（cmd_msg_name_copy_2）"
+    },
+    {
+     "offset": 562012,
+     "before_hex": "60000019800075494018",
+     "after_hex": "a000764940180068c046",
+     "label": "说话人名表读者 7（name_cell_count）"
+    },
+    {
+     "offset": 578196,
+     "before_hex": "480040188000274d4019",
+     "after_hex": "8800284d40190068c046",
+     "label": "说话人名表读者 8（name_len）"
+    },
+    {
+     "offset": 578230,
+     "before_hex": "4800401880004019",
+     "after_hex": "880040190068c046",
+     "label": "说话人名表读者 8（name_draw）"
+    },
+    {
+     "offset": 590156,
+     "before_hex": "41000918890005480918",
+     "after_hex": "8100064809180968c046",
+     "label": "说话人名表读者 9（cmd_msg_name_copy_3）"
+    },
+    {
+     "offset": 611598,
+     "before_hex": "7800c019800020494018",
+     "after_hex": "b800214940180068c046",
+     "label": "说话人名表读者 10（battle_msg_name_2）"
+    },
+    {
+     "offset": 613616,
+     "before_hex": "4100091889003e480918",
+     "after_hex": "81003f4809180968c046",
+     "label": "说话人名表读者 11（cmd_msg_name_append）"
+    },
+    {
+     "offset": 621068,
+     "before_hex": "4100091889000b4c0919",
+     "after_hex": "81000c4c09190968c046",
+     "label": "说话人名表读者 12（vm_0x08）"
+    },
+    {
+     "offset": 621098,
+     "before_hex": "4100091889000919",
+     "after_hex": "810009190968c046",
+     "label": "说话人名表读者 12（vm_0x0E_second_name）"
+    }
+   ],
+   "note": "把「定长内联槽」的说话人名表转换成「指针表 + 变长串池」：改 ROM 里的 12 个读者（指令数与字节数不变），在原表的位置上放指针表，64 条名字搬到空闲区。只有作者改了名字时才转换 —— 没改过的内容包重建仍与原版逐字节相同。"
+  }
+ },
  "rom": {
   "name": "base.gba",
   "size": 6291456,
@@ -156259,7 +156353,8 @@
      "raw": "klmamgAAAAAAAAAA"
     }
    ],
-   "note": "剧情 VM 的 0x08 指令按 id 指向这张表：每条 12 字节，字形码直接写在里面（不是指针表）。共 64 条（id 0..63），id 0..62 是角色名，id 63 是「没有」。\n**同一批字节还有第二种读法**：`tools/table_registry.py` 把它登记成「调色板源表」（每条 = 一个 u32 色值 + 8 字节 0，12 个原生读者）。两种读法描述的是同一片地址，按说话人名表呈现。",
+   "convert": "speaker_names",
+   "note": "剧情 VM 的 0x08 指令按 id 指向这张表：每条 12 字节，字形码直接写在里面（不是指针表）。共 64 条（id 0..63），id 0..62 是角色名，id 63 是「没有」。\n**可以变长**：整张表可以转换成「指针表 + 变长串池」（转换要改 ROM 里的 12 个读者，见 `pack.conversions.speaker_names`；只有改了名字才会转换，没改过的内容包重建仍与原版逐字节相同）。\n**同一批字节还有第二种读法**：`tools/table_registry.py` 把它登记成「调色板源表」（每条 = 一个 u32 色值 + 8 字节 0，12 个原生读者）—— **那一处登记是误分类**：那 12 个读者**全是取名读者**（见 notes/evidence/speaker-name-table-20261023.md）。两种读法描述的是同一片地址，按说话人名表呈现。",
    "consumers": [
     "0x0807908C",
     "0x080811D2",
@@ -156281,14 +156376,18 @@
    "label": "战斗目标说明文字",
    "pointer_table_offset": null,
    "count": 219,
-   "relocatable": false,
+   "relocatable": true,
    "nul_terminated": true,
-   "note": "胜负条件表里每条条件都带一个绝对地址指针，指向游戏内「条件」页显示的那句话（例：「打败业头・冥头了」）。\n**只能等长改写**：这些地址被 ROM 里的代码写死，改长了没有地方放。\n这些句子不在「全 ROM 文本索引」里，以免同一段字节有两个归属。",
+   "note": "胜负条件表里每条条件都带一个绝对地址指针，指向游戏内「条件」页显示的那句话（例：「打败业头・冥头了」）。\n**可以变长**：那些指针就躺在胜负条件表的数据区里（4 字节对齐的u32 槽），改长了就把正文搬到空闲区、把槽改掉即可 —— 不用动代码。\n这些句子不在「全 ROM 文本索引」里，以免同一段字节有两个归属。",
    "records": [
     {
      "id": 0,
      "label": "第1关 · 变体0 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5851180,
+     "pointer_offsets": [
+      5851180,
+      5851248
+     ],
      "pointer": 134250269,
      "text_offset": 32541,
      "capacity": 17,
@@ -156299,7 +156398,10 @@
     {
      "id": 1,
      "label": "第1关 · 变体0 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5851188,
+     "pointer_offsets": [
+      5851188
+     ],
      "pointer": 134250294,
      "text_offset": 32566,
      "capacity": 13,
@@ -156310,7 +156412,11 @@
     {
      "id": 2,
      "label": "第1关 · 变体0 · 失败条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5851212,
+     "pointer_offsets": [
+      5851212,
+      5851280
+     ],
      "pointer": 134250317,
      "text_offset": 32589,
      "capacity": 17,
@@ -156321,7 +156427,10 @@
     {
      "id": 3,
      "label": "第1关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5851220,
+     "pointer_offsets": [
+      5851220
+     ],
      "pointer": 134250346,
      "text_offset": 32618,
      "capacity": 15,
@@ -156332,7 +156441,10 @@
     {
      "id": 4,
      "label": "第1关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851316,
+     "pointer_offsets": [
+      5851316
+     ],
      "pointer": 134250377,
      "text_offset": 32649,
      "capacity": 17,
@@ -156343,7 +156455,10 @@
     {
      "id": 5,
      "label": "第1关 · 变体2 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5851324,
+     "pointer_offsets": [
+      5851324
+     ],
      "pointer": 134250402,
      "text_offset": 32674,
      "capacity": 13,
@@ -156354,7 +156469,10 @@
     {
      "id": 6,
      "label": "第1关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851348,
+     "pointer_offsets": [
+      5851348
+     ],
      "pointer": 134250425,
      "text_offset": 32697,
      "capacity": 13,
@@ -156365,7 +156483,10 @@
     {
      "id": 7,
      "label": "第1关 · 变体2 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5851356,
+     "pointer_offsets": [
+      5851356
+     ],
      "pointer": 134250454,
      "text_offset": 32726,
      "capacity": 19,
@@ -156376,7 +156497,10 @@
     {
      "id": 8,
      "label": "第2关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851384,
+     "pointer_offsets": [
+      5851384
+     ],
      "pointer": 134250485,
      "text_offset": 32757,
      "capacity": 17,
@@ -156387,7 +156511,10 @@
     {
      "id": 9,
      "label": "第2关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851416,
+     "pointer_offsets": [
+      5851416
+     ],
      "pointer": 134250516,
      "text_offset": 32788,
      "capacity": 17,
@@ -156398,7 +156525,10 @@
     {
      "id": 10,
      "label": "第2关 · 变体1 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851452,
+     "pointer_offsets": [
+      5851452
+     ],
      "pointer": 134250545,
      "text_offset": 32817,
      "capacity": 17,
@@ -156409,7 +156539,10 @@
     {
      "id": 11,
      "label": "第2关 · 变体1 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851484,
+     "pointer_offsets": [
+      5851484
+     ],
      "pointer": 134250576,
      "text_offset": 32848,
      "capacity": 17,
@@ -156420,7 +156553,10 @@
     {
      "id": 12,
      "label": "第2关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851520,
+     "pointer_offsets": [
+      5851520
+     ],
      "pointer": 134250605,
      "text_offset": 32877,
      "capacity": 17,
@@ -156431,7 +156567,10 @@
     {
      "id": 13,
      "label": "第2关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851552,
+     "pointer_offsets": [
+      5851552
+     ],
      "pointer": 134250636,
      "text_offset": 32908,
      "capacity": 17,
@@ -156442,7 +156581,11 @@
     {
      "id": 14,
      "label": "第3关 · 变体0 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5851588,
+     "pointer_offsets": [
+      5851588,
+      5851636
+     ],
      "pointer": 134250665,
      "text_offset": 32937,
      "capacity": 25,
@@ -156453,7 +156596,10 @@
     {
      "id": 15,
      "label": "第3关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851620,
+     "pointer_offsets": [
+      5851620
+     ],
      "pointer": 134250696,
      "text_offset": 32968,
      "capacity": 17,
@@ -156464,7 +156610,10 @@
     {
      "id": 16,
      "label": "第3关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5851628,
+     "pointer_offsets": [
+      5851628
+     ],
      "pointer": 134250725,
      "text_offset": 32997,
      "capacity": 19,
@@ -156475,7 +156624,11 @@
     {
      "id": 17,
      "label": "第3关 · 变体1 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5851656,
+     "pointer_offsets": [
+      5851656,
+      5851704
+     ],
      "pointer": 134250756,
      "text_offset": 33028,
      "capacity": 25,
@@ -156486,7 +156639,10 @@
     {
      "id": 18,
      "label": "第3关 · 变体1 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851688,
+     "pointer_offsets": [
+      5851688
+     ],
      "pointer": 134250787,
      "text_offset": 33059,
      "capacity": 17,
@@ -156497,7 +156653,10 @@
     {
      "id": 19,
      "label": "第3关 · 变体1 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5851696,
+     "pointer_offsets": [
+      5851696
+     ],
      "pointer": 134250816,
      "text_offset": 33088,
      "capacity": 19,
@@ -156508,7 +156667,11 @@
     {
      "id": 20,
      "label": "第3关 · 变体2 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5851724,
+     "pointer_offsets": [
+      5851724,
+      5851772
+     ],
      "pointer": 134250847,
      "text_offset": 33119,
      "capacity": 25,
@@ -156519,7 +156682,10 @@
     {
      "id": 21,
      "label": "第3关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851756,
+     "pointer_offsets": [
+      5851756
+     ],
      "pointer": 134250878,
      "text_offset": 33150,
      "capacity": 17,
@@ -156530,7 +156696,10 @@
     {
      "id": 22,
      "label": "第3关 · 变体2 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5851764,
+     "pointer_offsets": [
+      5851764
+     ],
      "pointer": 134250907,
      "text_offset": 33179,
      "capacity": 19,
@@ -156541,7 +156710,10 @@
     {
      "id": 23,
      "label": "第4关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851792,
+     "pointer_offsets": [
+      5851792
+     ],
      "pointer": 134250938,
      "text_offset": 33210,
      "capacity": 17,
@@ -156552,7 +156724,10 @@
     {
      "id": 24,
      "label": "第4关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851824,
+     "pointer_offsets": [
+      5851824
+     ],
      "pointer": 134250969,
      "text_offset": 33241,
      "capacity": 17,
@@ -156563,7 +156738,10 @@
     {
      "id": 25,
      "label": "第4关 · 变体1 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851860,
+     "pointer_offsets": [
+      5851860
+     ],
      "pointer": 134250998,
      "text_offset": 33270,
      "capacity": 17,
@@ -156574,7 +156752,10 @@
     {
      "id": 26,
      "label": "第4关 · 变体1 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851892,
+     "pointer_offsets": [
+      5851892
+     ],
      "pointer": 134251029,
      "text_offset": 33301,
      "capacity": 17,
@@ -156585,7 +156766,10 @@
     {
      "id": 27,
      "label": "第4关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851928,
+     "pointer_offsets": [
+      5851928
+     ],
      "pointer": 134251058,
      "text_offset": 33330,
      "capacity": 17,
@@ -156596,7 +156780,10 @@
     {
      "id": 28,
      "label": "第4关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851960,
+     "pointer_offsets": [
+      5851960
+     ],
      "pointer": 134251089,
      "text_offset": 33361,
      "capacity": 17,
@@ -156607,7 +156794,10 @@
     {
      "id": 29,
      "label": "第5关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5851996,
+     "pointer_offsets": [
+      5851996
+     ],
      "pointer": 134251118,
      "text_offset": 33390,
      "capacity": 17,
@@ -156618,7 +156808,10 @@
     {
      "id": 30,
      "label": "第5关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852028,
+     "pointer_offsets": [
+      5852028
+     ],
      "pointer": 134251143,
      "text_offset": 33415,
      "capacity": 13,
@@ -156629,7 +156822,10 @@
     {
      "id": 31,
      "label": "第5关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852132,
+     "pointer_offsets": [
+      5852132
+     ],
      "pointer": 134251172,
      "text_offset": 33444,
      "capacity": 17,
@@ -156640,7 +156836,10 @@
     {
      "id": 32,
      "label": "第5关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852164,
+     "pointer_offsets": [
+      5852164
+     ],
      "pointer": 134251197,
      "text_offset": 33469,
      "capacity": 17,
@@ -156651,7 +156850,10 @@
     {
      "id": 33,
      "label": "第6关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852200,
+     "pointer_offsets": [
+      5852200
+     ],
      "pointer": 134251226,
      "text_offset": 33498,
      "capacity": 17,
@@ -156662,7 +156864,10 @@
     {
      "id": 34,
      "label": "第6关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852232,
+     "pointer_offsets": [
+      5852232
+     ],
      "pointer": 134251257,
      "text_offset": 33529,
      "capacity": 23,
@@ -156673,7 +156878,10 @@
     {
      "id": 35,
      "label": "第6关 · 变体1 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852268,
+     "pointer_offsets": [
+      5852268
+     ],
      "pointer": 134251294,
      "text_offset": 33566,
      "capacity": 17,
@@ -156684,7 +156892,10 @@
     {
      "id": 36,
      "label": "第6关 · 变体1 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852300,
+     "pointer_offsets": [
+      5852300
+     ],
      "pointer": 134251325,
      "text_offset": 33597,
      "capacity": 17,
@@ -156695,7 +156906,10 @@
     {
      "id": 37,
      "label": "第6关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852336,
+     "pointer_offsets": [
+      5852336
+     ],
      "pointer": 134251354,
      "text_offset": 33626,
      "capacity": 17,
@@ -156706,7 +156920,10 @@
     {
      "id": 38,
      "label": "第6关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852368,
+     "pointer_offsets": [
+      5852368
+     ],
      "pointer": 134251385,
      "text_offset": 33657,
      "capacity": 17,
@@ -156717,7 +156934,10 @@
     {
      "id": 39,
      "label": "第7关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852404,
+     "pointer_offsets": [
+      5852404
+     ],
      "pointer": 134251414,
      "text_offset": 33686,
      "capacity": 9,
@@ -156728,7 +156948,10 @@
     {
      "id": 40,
      "label": "第7关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852436,
+     "pointer_offsets": [
+      5852436
+     ],
      "pointer": 134251431,
      "text_offset": 33703,
      "capacity": 23,
@@ -156739,7 +156962,10 @@
     {
      "id": 41,
      "label": "第7关 · 变体1 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852472,
+     "pointer_offsets": [
+      5852472
+     ],
      "pointer": 134251468,
      "text_offset": 33740,
      "capacity": 9,
@@ -156750,7 +156976,10 @@
     {
      "id": 42,
      "label": "第7关 · 变体1 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852504,
+     "pointer_offsets": [
+      5852504
+     ],
      "pointer": 134251485,
      "text_offset": 33757,
      "capacity": 17,
@@ -156761,7 +156990,10 @@
     {
      "id": 43,
      "label": "第7关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852540,
+     "pointer_offsets": [
+      5852540
+     ],
      "pointer": 134251514,
      "text_offset": 33786,
      "capacity": 9,
@@ -156772,7 +157004,10 @@
     {
      "id": 44,
      "label": "第7关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852572,
+     "pointer_offsets": [
+      5852572
+     ],
      "pointer": 134251531,
      "text_offset": 33803,
      "capacity": 17,
@@ -156783,7 +157018,10 @@
     {
      "id": 45,
      "label": "第8关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852608,
+     "pointer_offsets": [
+      5852608
+     ],
      "pointer": 134251560,
      "text_offset": 33832,
      "capacity": 13,
@@ -156794,7 +157032,10 @@
     {
      "id": 46,
      "label": "第8关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852640,
+     "pointer_offsets": [
+      5852640
+     ],
      "pointer": 134251581,
      "text_offset": 33853,
      "capacity": 19,
@@ -156805,7 +157046,10 @@
     {
      "id": 47,
      "label": "第8关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852744,
+     "pointer_offsets": [
+      5852744
+     ],
      "pointer": 134251610,
      "text_offset": 33882,
      "capacity": 13,
@@ -156816,7 +157060,10 @@
     {
      "id": 48,
      "label": "第8关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852776,
+     "pointer_offsets": [
+      5852776
+     ],
      "pointer": 134251631,
      "text_offset": 33903,
      "capacity": 17,
@@ -156827,7 +157074,10 @@
     {
      "id": 49,
      "label": "第9关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852812,
+     "pointer_offsets": [
+      5852812
+     ],
      "pointer": 134251660,
      "text_offset": 33932,
      "capacity": 11,
@@ -156838,7 +157088,10 @@
     {
      "id": 50,
      "label": "第9关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852844,
+     "pointer_offsets": [
+      5852844
+     ],
      "pointer": 134251679,
      "text_offset": 33951,
      "capacity": 17,
@@ -156849,7 +157102,10 @@
     {
      "id": 51,
      "label": "第9关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852948,
+     "pointer_offsets": [
+      5852948
+     ],
      "pointer": 134251708,
      "text_offset": 33980,
      "capacity": 11,
@@ -156860,7 +157116,10 @@
     {
      "id": 52,
      "label": "第9关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5852980,
+     "pointer_offsets": [
+      5852980
+     ],
      "pointer": 134251727,
      "text_offset": 33999,
      "capacity": 17,
@@ -156871,7 +157130,11 @@
     {
      "id": 53,
      "label": "第10关 · 变体0 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5853016,
+     "pointer_offsets": [
+      5853016,
+      5853056
+     ],
      "pointer": 134251756,
      "text_offset": 34028,
      "capacity": 17,
@@ -156882,7 +157145,10 @@
     {
      "id": 54,
      "label": "第10关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853048,
+     "pointer_offsets": [
+      5853048
+     ],
      "pointer": 134251781,
      "text_offset": 34053,
      "capacity": 17,
@@ -156893,7 +157159,11 @@
     {
      "id": 55,
      "label": "第10关 · 变体2 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5853152,
+     "pointer_offsets": [
+      5853152,
+      5853192
+     ],
      "pointer": 134251810,
      "text_offset": 34082,
      "capacity": 11,
@@ -156904,7 +157174,10 @@
     {
      "id": 56,
      "label": "第10关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853184,
+     "pointer_offsets": [
+      5853184
+     ],
      "pointer": 134251831,
      "text_offset": 34103,
      "capacity": 17,
@@ -156915,7 +157188,10 @@
     {
      "id": 57,
      "label": "第11关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853220,
+     "pointer_offsets": [
+      5853220
+     ],
      "pointer": 134251860,
      "text_offset": 34132,
      "capacity": 15,
@@ -156926,7 +157202,10 @@
     {
      "id": 58,
      "label": "第11关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853252,
+     "pointer_offsets": [
+      5853252
+     ],
      "pointer": 134251885,
      "text_offset": 34157,
      "capacity": 17,
@@ -156937,7 +157216,10 @@
     {
      "id": 59,
      "label": "第11关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853356,
+     "pointer_offsets": [
+      5853356
+     ],
      "pointer": 134251914,
      "text_offset": 34186,
      "capacity": 15,
@@ -156948,7 +157230,10 @@
     {
      "id": 60,
      "label": "第11关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853388,
+     "pointer_offsets": [
+      5853388
+     ],
      "pointer": 134251939,
      "text_offset": 34211,
      "capacity": 17,
@@ -156959,7 +157244,10 @@
     {
      "id": 61,
      "label": "第12关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853424,
+     "pointer_offsets": [
+      5853424
+     ],
      "pointer": 134251968,
      "text_offset": 34240,
      "capacity": 11,
@@ -156970,7 +157258,10 @@
     {
      "id": 62,
      "label": "第12关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853456,
+     "pointer_offsets": [
+      5853456
+     ],
      "pointer": 134251987,
      "text_offset": 34259,
      "capacity": 17,
@@ -156981,7 +157272,10 @@
     {
      "id": 63,
      "label": "第12关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853560,
+     "pointer_offsets": [
+      5853560
+     ],
      "pointer": 134252016,
      "text_offset": 34288,
      "capacity": 11,
@@ -156992,7 +157286,10 @@
     {
      "id": 64,
      "label": "第12关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853592,
+     "pointer_offsets": [
+      5853592
+     ],
      "pointer": 134252035,
      "text_offset": 34307,
      "capacity": 17,
@@ -157003,7 +157300,10 @@
     {
      "id": 65,
      "label": "第13关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853628,
+     "pointer_offsets": [
+      5853628
+     ],
      "pointer": 134252064,
      "text_offset": 34336,
      "capacity": 15,
@@ -157014,7 +157314,10 @@
     {
      "id": 66,
      "label": "第13关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853660,
+     "pointer_offsets": [
+      5853660
+     ],
      "pointer": 134252093,
      "text_offset": 34365,
      "capacity": 17,
@@ -157025,7 +157328,10 @@
     {
      "id": 67,
      "label": "第13关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853764,
+     "pointer_offsets": [
+      5853764
+     ],
      "pointer": 134252122,
      "text_offset": 34394,
      "capacity": 15,
@@ -157036,7 +157342,10 @@
     {
      "id": 68,
      "label": "第13关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853796,
+     "pointer_offsets": [
+      5853796
+     ],
      "pointer": 134252151,
      "text_offset": 34423,
      "capacity": 17,
@@ -157047,7 +157356,11 @@
     {
      "id": 69,
      "label": "第14关 · 变体0 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5853832,
+     "pointer_offsets": [
+      5853832,
+      5853840
+     ],
      "pointer": 134252180,
      "text_offset": 34452,
      "capacity": 11,
@@ -157058,7 +157371,10 @@
     {
      "id": 70,
      "label": "第14关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5853864,
+     "pointer_offsets": [
+      5853864
+     ],
      "pointer": 134252201,
      "text_offset": 34473,
      "capacity": 17,
@@ -157069,7 +157385,10 @@
     {
      "id": 71,
      "label": "第14关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5853872,
+     "pointer_offsets": [
+      5853872
+     ],
      "pointer": 134252230,
      "text_offset": 34502,
      "capacity": 23,
@@ -157080,7 +157399,11 @@
     {
      "id": 72,
      "label": "第14关 · 变体2 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5853968,
+     "pointer_offsets": [
+      5853968,
+      5853976
+     ],
      "pointer": 134252263,
      "text_offset": 34535,
      "capacity": 11,
@@ -157091,7 +157414,10 @@
     {
      "id": 73,
      "label": "第14关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854000,
+     "pointer_offsets": [
+      5854000
+     ],
      "pointer": 134252284,
      "text_offset": 34556,
      "capacity": 17,
@@ -157102,7 +157428,10 @@
     {
      "id": 74,
      "label": "第14关 · 变体2 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5854008,
+     "pointer_offsets": [
+      5854008
+     ],
      "pointer": 134252313,
      "text_offset": 34585,
      "capacity": 23,
@@ -157113,7 +157442,11 @@
     {
      "id": 75,
      "label": "第15关 · 变体0 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5854036,
+     "pointer_offsets": [
+      5854036,
+      5854044
+     ],
      "pointer": 134252346,
      "text_offset": 34618,
      "capacity": 15,
@@ -157124,7 +157457,10 @@
     {
      "id": 76,
      "label": "第15关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854068,
+     "pointer_offsets": [
+      5854068
+     ],
      "pointer": 134252371,
      "text_offset": 34643,
      "capacity": 17,
@@ -157135,7 +157471,10 @@
     {
      "id": 77,
      "label": "第15关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5854076,
+     "pointer_offsets": [
+      5854076
+     ],
      "pointer": 134252400,
      "text_offset": 34672,
      "capacity": 23,
@@ -157146,7 +157485,11 @@
     {
      "id": 78,
      "label": "第15关 · 变体2 · 胜利条件0 等 2 处",
-     "pointer_offset": null,
+     "pointer_offset": 5854172,
+     "pointer_offsets": [
+      5854172,
+      5854180
+     ],
      "pointer": 134252433,
      "text_offset": 34705,
      "capacity": 15,
@@ -157157,7 +157500,10 @@
     {
      "id": 79,
      "label": "第15关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854204,
+     "pointer_offsets": [
+      5854204
+     ],
      "pointer": 134252458,
      "text_offset": 34730,
      "capacity": 17,
@@ -157168,7 +157514,10 @@
     {
      "id": 80,
      "label": "第15关 · 变体2 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5854212,
+     "pointer_offsets": [
+      5854212
+     ],
      "pointer": 134252487,
      "text_offset": 34759,
      "capacity": 23,
@@ -157179,7 +157528,10 @@
     {
      "id": 81,
      "label": "第16关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854240,
+     "pointer_offsets": [
+      5854240
+     ],
      "pointer": 134252520,
      "text_offset": 34792,
      "capacity": 15,
@@ -157190,7 +157542,10 @@
     {
      "id": 82,
      "label": "第16关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854272,
+     "pointer_offsets": [
+      5854272
+     ],
      "pointer": 134252545,
      "text_offset": 34817,
      "capacity": 17,
@@ -157201,7 +157556,10 @@
     {
      "id": 83,
      "label": "第16关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854376,
+     "pointer_offsets": [
+      5854376
+     ],
      "pointer": 134252574,
      "text_offset": 34846,
      "capacity": 15,
@@ -157212,7 +157570,10 @@
     {
      "id": 84,
      "label": "第16关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854408,
+     "pointer_offsets": [
+      5854408
+     ],
      "pointer": 134252599,
      "text_offset": 34871,
      "capacity": 17,
@@ -157223,7 +157584,10 @@
     {
      "id": 85,
      "label": "第17关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854444,
+     "pointer_offsets": [
+      5854444
+     ],
      "pointer": 134252628,
      "text_offset": 34900,
      "capacity": 13,
@@ -157234,7 +157598,10 @@
     {
      "id": 86,
      "label": "第17关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854476,
+     "pointer_offsets": [
+      5854476
+     ],
      "pointer": 134252653,
      "text_offset": 34925,
      "capacity": 17,
@@ -157245,7 +157612,10 @@
     {
      "id": 87,
      "label": "第17关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854580,
+     "pointer_offsets": [
+      5854580
+     ],
      "pointer": 134252682,
      "text_offset": 34954,
      "capacity": 13,
@@ -157256,7 +157626,10 @@
     {
      "id": 88,
      "label": "第17关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854612,
+     "pointer_offsets": [
+      5854612
+     ],
      "pointer": 134252707,
      "text_offset": 34979,
      "capacity": 17,
@@ -157267,7 +157640,10 @@
     {
      "id": 89,
      "label": "第18关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854648,
+     "pointer_offsets": [
+      5854648
+     ],
      "pointer": 134252736,
      "text_offset": 35008,
      "capacity": 13,
@@ -157278,7 +157654,10 @@
     {
      "id": 90,
      "label": "第18关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854680,
+     "pointer_offsets": [
+      5854680
+     ],
      "pointer": 134252765,
      "text_offset": 35037,
      "capacity": 17,
@@ -157289,7 +157668,10 @@
     {
      "id": 91,
      "label": "第18关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854784,
+     "pointer_offsets": [
+      5854784
+     ],
      "pointer": 134252794,
      "text_offset": 35066,
      "capacity": 13,
@@ -157300,7 +157682,10 @@
     {
      "id": 92,
      "label": "第18关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854816,
+     "pointer_offsets": [
+      5854816
+     ],
      "pointer": 134252823,
      "text_offset": 35095,
      "capacity": 17,
@@ -157311,7 +157696,10 @@
     {
      "id": 93,
      "label": "第19关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854852,
+     "pointer_offsets": [
+      5854852
+     ],
      "pointer": 134252852,
      "text_offset": 35124,
      "capacity": 9,
@@ -157322,7 +157710,10 @@
     {
      "id": 94,
      "label": "第19关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854884,
+     "pointer_offsets": [
+      5854884
+     ],
      "pointer": 134252877,
      "text_offset": 35149,
      "capacity": 17,
@@ -157333,7 +157724,10 @@
     {
      "id": 95,
      "label": "第19关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5854988,
+     "pointer_offsets": [
+      5854988
+     ],
      "pointer": 134252906,
      "text_offset": 35178,
      "capacity": 9,
@@ -157344,7 +157738,10 @@
     {
      "id": 96,
      "label": "第19关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855020,
+     "pointer_offsets": [
+      5855020
+     ],
      "pointer": 134252931,
      "text_offset": 35203,
      "capacity": 17,
@@ -157355,7 +157752,10 @@
     {
      "id": 97,
      "label": "第20关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855056,
+     "pointer_offsets": [
+      5855056
+     ],
      "pointer": 134252960,
      "text_offset": 35232,
      "capacity": 23,
@@ -157366,7 +157766,10 @@
     {
      "id": 98,
      "label": "第20关 · 变体0 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5855064,
+     "pointer_offsets": [
+      5855064
+     ],
      "pointer": 134252999,
      "text_offset": 35271,
      "capacity": 15,
@@ -157377,7 +157780,10 @@
     {
      "id": 99,
      "label": "第20关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855088,
+     "pointer_offsets": [
+      5855088
+     ],
      "pointer": 134253026,
      "text_offset": 35298,
      "capacity": 17,
@@ -157388,7 +157794,10 @@
     {
      "id": 100,
      "label": "第20关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5855096,
+     "pointer_offsets": [
+      5855096
+     ],
      "pointer": 134253055,
      "text_offset": 35327,
      "capacity": 21,
@@ -157399,7 +157808,10 @@
     {
      "id": 101,
      "label": "第20关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855192,
+     "pointer_offsets": [
+      5855192
+     ],
      "pointer": 134253090,
      "text_offset": 35362,
      "capacity": 23,
@@ -157410,7 +157822,10 @@
     {
      "id": 102,
      "label": "第20关 · 变体2 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5855200,
+     "pointer_offsets": [
+      5855200
+     ],
      "pointer": 134253129,
      "text_offset": 35401,
      "capacity": 15,
@@ -157421,7 +157836,10 @@
     {
      "id": 103,
      "label": "第20关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855224,
+     "pointer_offsets": [
+      5855224
+     ],
      "pointer": 134253156,
      "text_offset": 35428,
      "capacity": 17,
@@ -157432,7 +157850,10 @@
     {
      "id": 104,
      "label": "第20关 · 变体2 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5855232,
+     "pointer_offsets": [
+      5855232
+     ],
      "pointer": 134253185,
      "text_offset": 35457,
      "capacity": 21,
@@ -157443,7 +157864,10 @@
     {
      "id": 105,
      "label": "第21关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855260,
+     "pointer_offsets": [
+      5855260
+     ],
      "pointer": 134253220,
      "text_offset": 35492,
      "capacity": 13,
@@ -157454,7 +157878,10 @@
     {
      "id": 106,
      "label": "第21关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855292,
+     "pointer_offsets": [
+      5855292
+     ],
      "pointer": 134253243,
      "text_offset": 35515,
      "capacity": 17,
@@ -157465,7 +157892,10 @@
     {
      "id": 107,
      "label": "第21关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855396,
+     "pointer_offsets": [
+      5855396
+     ],
      "pointer": 134253272,
      "text_offset": 35544,
      "capacity": 13,
@@ -157476,7 +157906,10 @@
     {
      "id": 108,
      "label": "第21关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855428,
+     "pointer_offsets": [
+      5855428
+     ],
      "pointer": 134253295,
      "text_offset": 35567,
      "capacity": 17,
@@ -157487,7 +157920,10 @@
     {
      "id": 109,
      "label": "第22关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855464,
+     "pointer_offsets": [
+      5855464
+     ],
      "pointer": 134253324,
      "text_offset": 35596,
      "capacity": 13,
@@ -157498,7 +157934,10 @@
     {
      "id": 110,
      "label": "第22关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855496,
+     "pointer_offsets": [
+      5855496
+     ],
      "pointer": 134253347,
      "text_offset": 35619,
      "capacity": 17,
@@ -157509,7 +157948,10 @@
     {
      "id": 111,
      "label": "第22关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855600,
+     "pointer_offsets": [
+      5855600
+     ],
      "pointer": 134253376,
      "text_offset": 35648,
      "capacity": 13,
@@ -157520,7 +157962,10 @@
     {
      "id": 112,
      "label": "第22关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855632,
+     "pointer_offsets": [
+      5855632
+     ],
      "pointer": 134253399,
      "text_offset": 35671,
      "capacity": 17,
@@ -157531,7 +157976,10 @@
     {
      "id": 113,
      "label": "第23关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855668,
+     "pointer_offsets": [
+      5855668
+     ],
      "pointer": 134253428,
      "text_offset": 35700,
      "capacity": 15,
@@ -157542,7 +157990,10 @@
     {
      "id": 114,
      "label": "第23关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855700,
+     "pointer_offsets": [
+      5855700
+     ],
      "pointer": 134253459,
      "text_offset": 35731,
      "capacity": 17,
@@ -157553,7 +158004,10 @@
     {
      "id": 115,
      "label": "第23关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855804,
+     "pointer_offsets": [
+      5855804
+     ],
      "pointer": 134253488,
      "text_offset": 35760,
      "capacity": 15,
@@ -157564,7 +158018,10 @@
     {
      "id": 116,
      "label": "第23关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855836,
+     "pointer_offsets": [
+      5855836
+     ],
      "pointer": 134253519,
      "text_offset": 35791,
      "capacity": 17,
@@ -157575,7 +158032,10 @@
     {
      "id": 117,
      "label": "第24关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855872,
+     "pointer_offsets": [
+      5855872
+     ],
      "pointer": 134253548,
      "text_offset": 35820,
      "capacity": 11,
@@ -157586,7 +158046,10 @@
     {
      "id": 118,
      "label": "第24关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5855904,
+     "pointer_offsets": [
+      5855904
+     ],
      "pointer": 134253569,
      "text_offset": 35841,
      "capacity": 17,
@@ -157597,7 +158060,10 @@
     {
      "id": 119,
      "label": "第24关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856008,
+     "pointer_offsets": [
+      5856008
+     ],
      "pointer": 134253598,
      "text_offset": 35870,
      "capacity": 11,
@@ -157608,7 +158074,10 @@
     {
      "id": 120,
      "label": "第24关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856040,
+     "pointer_offsets": [
+      5856040
+     ],
      "pointer": 134253619,
      "text_offset": 35891,
      "capacity": 17,
@@ -157619,7 +158088,10 @@
     {
      "id": 121,
      "label": "第25关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856076,
+     "pointer_offsets": [
+      5856076
+     ],
      "pointer": 134253648,
      "text_offset": 35920,
      "capacity": 23,
@@ -157630,7 +158102,10 @@
     {
      "id": 122,
      "label": "第25关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856108,
+     "pointer_offsets": [
+      5856108
+     ],
      "pointer": 134253687,
      "text_offset": 35959,
      "capacity": 17,
@@ -157641,7 +158116,10 @@
     {
      "id": 123,
      "label": "第25关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856212,
+     "pointer_offsets": [
+      5856212
+     ],
      "pointer": 134253716,
      "text_offset": 35988,
      "capacity": 23,
@@ -157652,7 +158130,10 @@
     {
      "id": 124,
      "label": "第25关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856244,
+     "pointer_offsets": [
+      5856244
+     ],
      "pointer": 134253755,
      "text_offset": 36027,
      "capacity": 17,
@@ -157663,7 +158144,10 @@
     {
      "id": 125,
      "label": "第26关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856280,
+     "pointer_offsets": [
+      5856280
+     ],
      "pointer": 134253784,
      "text_offset": 36056,
      "capacity": 21,
@@ -157674,7 +158158,10 @@
     {
      "id": 126,
      "label": "第26关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856312,
+     "pointer_offsets": [
+      5856312
+     ],
      "pointer": 134253817,
      "text_offset": 36089,
      "capacity": 17,
@@ -157685,7 +158172,10 @@
     {
      "id": 127,
      "label": "第26关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856416,
+     "pointer_offsets": [
+      5856416
+     ],
      "pointer": 134253846,
      "text_offset": 36118,
      "capacity": 21,
@@ -157696,7 +158186,10 @@
     {
      "id": 128,
      "label": "第26关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856448,
+     "pointer_offsets": [
+      5856448
+     ],
      "pointer": 134253879,
      "text_offset": 36151,
      "capacity": 17,
@@ -157707,7 +158200,10 @@
     {
      "id": 129,
      "label": "第27关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856484,
+     "pointer_offsets": [
+      5856484
+     ],
      "pointer": 134253908,
      "text_offset": 36180,
      "capacity": 21,
@@ -157718,7 +158214,10 @@
     {
      "id": 130,
      "label": "第27关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856516,
+     "pointer_offsets": [
+      5856516
+     ],
      "pointer": 134253943,
      "text_offset": 36215,
      "capacity": 17,
@@ -157729,7 +158228,10 @@
     {
      "id": 131,
      "label": "第27关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856620,
+     "pointer_offsets": [
+      5856620
+     ],
      "pointer": 134253972,
      "text_offset": 36244,
      "capacity": 21,
@@ -157740,7 +158242,10 @@
     {
      "id": 132,
      "label": "第27关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856652,
+     "pointer_offsets": [
+      5856652
+     ],
      "pointer": 134254007,
      "text_offset": 36279,
      "capacity": 17,
@@ -157751,7 +158256,10 @@
     {
      "id": 133,
      "label": "第28关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856688,
+     "pointer_offsets": [
+      5856688
+     ],
      "pointer": 134254036,
      "text_offset": 36308,
      "capacity": 15,
@@ -157762,7 +158270,10 @@
     {
      "id": 134,
      "label": "第28关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856720,
+     "pointer_offsets": [
+      5856720
+     ],
      "pointer": 134254059,
      "text_offset": 36331,
      "capacity": 17,
@@ -157773,7 +158284,10 @@
     {
      "id": 135,
      "label": "第28关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856824,
+     "pointer_offsets": [
+      5856824
+     ],
      "pointer": 134254088,
      "text_offset": 36360,
      "capacity": 15,
@@ -157784,7 +158298,10 @@
     {
      "id": 136,
      "label": "第28关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856856,
+     "pointer_offsets": [
+      5856856
+     ],
      "pointer": 134254111,
      "text_offset": 36383,
      "capacity": 17,
@@ -157795,7 +158312,10 @@
     {
      "id": 137,
      "label": "第29关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856892,
+     "pointer_offsets": [
+      5856892
+     ],
      "pointer": 134254140,
      "text_offset": 36412,
      "capacity": 21,
@@ -157806,7 +158326,10 @@
     {
      "id": 138,
      "label": "第29关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5856924,
+     "pointer_offsets": [
+      5856924
+     ],
      "pointer": 134254173,
      "text_offset": 36445,
      "capacity": 21,
@@ -157817,7 +158340,10 @@
     {
      "id": 139,
      "label": "第29关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857028,
+     "pointer_offsets": [
+      5857028
+     ],
      "pointer": 134254208,
      "text_offset": 36480,
      "capacity": 21,
@@ -157828,7 +158354,10 @@
     {
      "id": 140,
      "label": "第29关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857060,
+     "pointer_offsets": [
+      5857060
+     ],
      "pointer": 134254241,
      "text_offset": 36513,
      "capacity": 17,
@@ -157839,7 +158368,10 @@
     {
      "id": 141,
      "label": "第30关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857096,
+     "pointer_offsets": [
+      5857096
+     ],
      "pointer": 134254270,
      "text_offset": 36542,
      "capacity": 19,
@@ -157850,7 +158382,10 @@
     {
      "id": 142,
      "label": "第30关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857128,
+     "pointer_offsets": [
+      5857128
+     ],
      "pointer": 134254297,
      "text_offset": 36569,
      "capacity": 17,
@@ -157861,7 +158396,10 @@
     {
      "id": 143,
      "label": "第30关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857232,
+     "pointer_offsets": [
+      5857232
+     ],
      "pointer": 134254326,
      "text_offset": 36598,
      "capacity": 19,
@@ -157872,7 +158410,10 @@
     {
      "id": 144,
      "label": "第30关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857264,
+     "pointer_offsets": [
+      5857264
+     ],
      "pointer": 134254353,
      "text_offset": 36625,
      "capacity": 17,
@@ -157883,7 +158424,10 @@
     {
      "id": 145,
      "label": "第31关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857300,
+     "pointer_offsets": [
+      5857300
+     ],
      "pointer": 134254382,
      "text_offset": 36654,
      "capacity": 9,
@@ -157894,7 +158438,10 @@
     {
      "id": 146,
      "label": "第31关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857332,
+     "pointer_offsets": [
+      5857332
+     ],
      "pointer": 134254401,
      "text_offset": 36673,
      "capacity": 17,
@@ -157905,7 +158452,10 @@
     {
      "id": 147,
      "label": "第31关 · 变体1 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857368,
+     "pointer_offsets": [
+      5857368
+     ],
      "pointer": 134254430,
      "text_offset": 36702,
      "capacity": 15,
@@ -157916,7 +158466,10 @@
     {
      "id": 148,
      "label": "第31关 · 变体1 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5857376,
+     "pointer_offsets": [
+      5857376
+     ],
      "pointer": 134254457,
      "text_offset": 36729,
      "capacity": 22,
@@ -157927,7 +158480,10 @@
     {
      "id": 149,
      "label": "第31关 · 变体1 · 胜利条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5857384,
+     "pointer_offsets": [
+      5857384
+     ],
      "pointer": 134254497,
      "text_offset": 36769,
      "capacity": 28,
@@ -157938,7 +158494,10 @@
     {
      "id": 150,
      "label": "第31关 · 变体1 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857400,
+     "pointer_offsets": [
+      5857400
+     ],
      "pointer": 134254547,
      "text_offset": 36819,
      "capacity": 17,
@@ -157949,7 +158508,10 @@
     {
      "id": 151,
      "label": "第31关 · 变体1 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5857408,
+     "pointer_offsets": [
+      5857408
+     ],
      "pointer": 134254576,
      "text_offset": 36848,
      "capacity": 22,
@@ -157960,7 +158522,10 @@
     {
      "id": 152,
      "label": "第31关 · 变体1 · 失败条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5857416,
+     "pointer_offsets": [
+      5857416
+     ],
      "pointer": 134254620,
      "text_offset": 36892,
      "capacity": 32,
@@ -157971,7 +158536,10 @@
     {
      "id": 153,
      "label": "第31关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857436,
+     "pointer_offsets": [
+      5857436
+     ],
      "pointer": 134254676,
      "text_offset": 36948,
      "capacity": 9,
@@ -157982,7 +158550,10 @@
     {
      "id": 154,
      "label": "第31关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857468,
+     "pointer_offsets": [
+      5857468
+     ],
      "pointer": 134254695,
      "text_offset": 36967,
      "capacity": 17,
@@ -157993,7 +158564,10 @@
     {
      "id": 155,
      "label": "第32关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857504,
+     "pointer_offsets": [
+      5857504
+     ],
      "pointer": 134254724,
      "text_offset": 36996,
      "capacity": 15,
@@ -158004,7 +158578,10 @@
     {
      "id": 156,
      "label": "第32关 · 变体0 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5857512,
+     "pointer_offsets": [
+      5857512
+     ],
      "pointer": 134254751,
      "text_offset": 37023,
      "capacity": 24,
@@ -158015,7 +158592,10 @@
     {
      "id": 157,
      "label": "第32关 · 变体0 · 胜利条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5857520,
+     "pointer_offsets": [
+      5857520
+     ],
      "pointer": 134254791,
      "text_offset": 37063,
      "capacity": 30,
@@ -158026,7 +158606,10 @@
     {
      "id": 158,
      "label": "第32关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857536,
+     "pointer_offsets": [
+      5857536
+     ],
      "pointer": 134254841,
      "text_offset": 37113,
      "capacity": 17,
@@ -158037,7 +158620,10 @@
     {
      "id": 159,
      "label": "第32关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5857544,
+     "pointer_offsets": [
+      5857544
+     ],
      "pointer": 134254870,
      "text_offset": 37142,
      "capacity": 24,
@@ -158048,7 +158634,10 @@
     {
      "id": 160,
      "label": "第32关 · 变体0 · 失败条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5857552,
+     "pointer_offsets": [
+      5857552
+     ],
      "pointer": 134254914,
      "text_offset": 37186,
      "capacity": 34,
@@ -158059,7 +158648,10 @@
     {
      "id": 161,
      "label": "第33关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857708,
+     "pointer_offsets": [
+      5857708
+     ],
      "pointer": 134254970,
      "text_offset": 37242,
      "capacity": 15,
@@ -158070,7 +158662,10 @@
     {
      "id": 162,
      "label": "第33关 · 变体0 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5857716,
+     "pointer_offsets": [
+      5857716
+     ],
      "pointer": 134254997,
      "text_offset": 37269,
      "capacity": 22,
@@ -158081,7 +158676,10 @@
     {
      "id": 163,
      "label": "第33关 · 变体0 · 胜利条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5857724,
+     "pointer_offsets": [
+      5857724
+     ],
      "pointer": 134255037,
      "text_offset": 37309,
      "capacity": 30,
@@ -158092,7 +158690,10 @@
     {
      "id": 164,
      "label": "第33关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857740,
+     "pointer_offsets": [
+      5857740
+     ],
      "pointer": 134255087,
      "text_offset": 37359,
      "capacity": 17,
@@ -158103,7 +158704,10 @@
     {
      "id": 165,
      "label": "第33关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5857748,
+     "pointer_offsets": [
+      5857748
+     ],
      "pointer": 134255116,
      "text_offset": 37388,
      "capacity": 22,
@@ -158114,7 +158718,10 @@
     {
      "id": 166,
      "label": "第33关 · 变体0 · 失败条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5857756,
+     "pointer_offsets": [
+      5857756
+     ],
      "pointer": 134255160,
      "text_offset": 37432,
      "capacity": 34,
@@ -158125,7 +158732,10 @@
     {
      "id": 167,
      "label": "第34关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857912,
+     "pointer_offsets": [
+      5857912
+     ],
      "pointer": 134255216,
      "text_offset": 37488,
      "capacity": 15,
@@ -158136,7 +158746,10 @@
     {
      "id": 168,
      "label": "第34关 · 变体0 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5857920,
+     "pointer_offsets": [
+      5857920
+     ],
      "pointer": 134255243,
      "text_offset": 37515,
      "capacity": 22,
@@ -158147,7 +158760,10 @@
     {
      "id": 169,
      "label": "第34关 · 变体0 · 胜利条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5857928,
+     "pointer_offsets": [
+      5857928
+     ],
      "pointer": 134255283,
      "text_offset": 37555,
      "capacity": 30,
@@ -158158,7 +158774,10 @@
     {
      "id": 170,
      "label": "第34关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5857944,
+     "pointer_offsets": [
+      5857944
+     ],
      "pointer": 134255333,
      "text_offset": 37605,
      "capacity": 17,
@@ -158169,7 +158788,10 @@
     {
      "id": 171,
      "label": "第34关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5857952,
+     "pointer_offsets": [
+      5857952
+     ],
      "pointer": 134255362,
      "text_offset": 37634,
      "capacity": 24,
@@ -158180,7 +158802,10 @@
     {
      "id": 172,
      "label": "第34关 · 变体0 · 失败条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5857960,
+     "pointer_offsets": [
+      5857960
+     ],
      "pointer": 134255406,
      "text_offset": 37678,
      "capacity": 34,
@@ -158191,7 +158816,10 @@
     {
      "id": 173,
      "label": "第35关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858116,
+     "pointer_offsets": [
+      5858116
+     ],
      "pointer": 134255462,
      "text_offset": 37734,
      "capacity": 15,
@@ -158202,7 +158830,10 @@
     {
      "id": 174,
      "label": "第35关 · 变体0 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5858124,
+     "pointer_offsets": [
+      5858124
+     ],
      "pointer": 134255489,
      "text_offset": 37761,
      "capacity": 24,
@@ -158213,7 +158844,10 @@
     {
      "id": 175,
      "label": "第35关 · 变体0 · 胜利条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5858132,
+     "pointer_offsets": [
+      5858132
+     ],
      "pointer": 134255529,
      "text_offset": 37801,
      "capacity": 30,
@@ -158224,7 +158858,10 @@
     {
      "id": 176,
      "label": "第35关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858148,
+     "pointer_offsets": [
+      5858148
+     ],
      "pointer": 134255579,
      "text_offset": 37851,
      "capacity": 17,
@@ -158235,7 +158872,10 @@
     {
      "id": 177,
      "label": "第35关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5858156,
+     "pointer_offsets": [
+      5858156
+     ],
      "pointer": 134255608,
      "text_offset": 37880,
      "capacity": 24,
@@ -158246,7 +158886,10 @@
     {
      "id": 178,
      "label": "第35关 · 变体0 · 失败条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5858164,
+     "pointer_offsets": [
+      5858164
+     ],
      "pointer": 134255652,
      "text_offset": 37924,
      "capacity": 34,
@@ -158257,7 +158900,10 @@
     {
      "id": 179,
      "label": "第36关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858320,
+     "pointer_offsets": [
+      5858320
+     ],
      "pointer": 134255708,
      "text_offset": 37980,
      "capacity": 15,
@@ -158268,7 +158914,10 @@
     {
      "id": 180,
      "label": "第36关 · 变体0 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5858328,
+     "pointer_offsets": [
+      5858328
+     ],
      "pointer": 134255735,
      "text_offset": 38007,
      "capacity": 24,
@@ -158279,7 +158928,10 @@
     {
      "id": 181,
      "label": "第36关 · 变体0 · 胜利条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5858336,
+     "pointer_offsets": [
+      5858336
+     ],
      "pointer": 134255775,
      "text_offset": 38047,
      "capacity": 30,
@@ -158290,7 +158942,10 @@
     {
      "id": 182,
      "label": "第36关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858352,
+     "pointer_offsets": [
+      5858352
+     ],
      "pointer": 134255825,
      "text_offset": 38097,
      "capacity": 17,
@@ -158301,7 +158956,10 @@
     {
      "id": 183,
      "label": "第36关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5858360,
+     "pointer_offsets": [
+      5858360
+     ],
      "pointer": 134255854,
      "text_offset": 38126,
      "capacity": 24,
@@ -158312,7 +158970,10 @@
     {
      "id": 184,
      "label": "第36关 · 变体0 · 失败条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5858368,
+     "pointer_offsets": [
+      5858368
+     ],
      "pointer": 134255898,
      "text_offset": 38170,
      "capacity": 34,
@@ -158323,7 +158984,10 @@
     {
      "id": 185,
      "label": "第37关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858524,
+     "pointer_offsets": [
+      5858524
+     ],
      "pointer": 134255954,
      "text_offset": 38226,
      "capacity": 15,
@@ -158334,7 +158998,10 @@
     {
      "id": 186,
      "label": "第37关 · 变体0 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5858532,
+     "pointer_offsets": [
+      5858532
+     ],
      "pointer": 134255981,
      "text_offset": 38253,
      "capacity": 24,
@@ -158345,7 +159012,10 @@
     {
      "id": 187,
      "label": "第37关 · 变体0 · 胜利条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5858540,
+     "pointer_offsets": [
+      5858540
+     ],
      "pointer": 134256021,
      "text_offset": 38293,
      "capacity": 30,
@@ -158356,7 +159026,10 @@
     {
      "id": 188,
      "label": "第37关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858556,
+     "pointer_offsets": [
+      5858556
+     ],
      "pointer": 134256071,
      "text_offset": 38343,
      "capacity": 17,
@@ -158367,7 +159040,10 @@
     {
      "id": 189,
      "label": "第37关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5858564,
+     "pointer_offsets": [
+      5858564
+     ],
      "pointer": 134256100,
      "text_offset": 38372,
      "capacity": 24,
@@ -158378,7 +159054,10 @@
     {
      "id": 190,
      "label": "第37关 · 变体0 · 失败条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5858572,
+     "pointer_offsets": [
+      5858572
+     ],
      "pointer": 134256144,
      "text_offset": 38416,
      "capacity": 34,
@@ -158389,7 +159068,10 @@
     {
      "id": 191,
      "label": "第38关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858728,
+     "pointer_offsets": [
+      5858728
+     ],
      "pointer": 134256200,
      "text_offset": 38472,
      "capacity": 15,
@@ -158400,7 +159082,10 @@
     {
      "id": 192,
      "label": "第38关 · 变体0 · 胜利条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5858736,
+     "pointer_offsets": [
+      5858736
+     ],
      "pointer": 134256227,
      "text_offset": 38499,
      "capacity": 15,
@@ -158411,7 +159096,10 @@
     {
      "id": 193,
      "label": "第38关 · 变体0 · 胜利条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5858744,
+     "pointer_offsets": [
+      5858744
+     ],
      "pointer": 134256254,
      "text_offset": 38526,
      "capacity": 24,
@@ -158422,7 +159110,10 @@
     {
      "id": 194,
      "label": "第38关 · 变体0 · 胜利条件3",
-     "pointer_offset": null,
+     "pointer_offset": 5858752,
+     "pointer_offsets": [
+      5858752
+     ],
      "pointer": 134256294,
      "text_offset": 38566,
      "capacity": 30,
@@ -158433,7 +159124,10 @@
     {
      "id": 195,
      "label": "第38关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858760,
+     "pointer_offsets": [
+      5858760
+     ],
      "pointer": 134256344,
      "text_offset": 38616,
      "capacity": 17,
@@ -158444,7 +159138,10 @@
     {
      "id": 196,
      "label": "第38关 · 变体0 · 失败条件1",
-     "pointer_offset": null,
+     "pointer_offset": 5858768,
+     "pointer_offsets": [
+      5858768
+     ],
      "pointer": 134256373,
      "text_offset": 38645,
      "capacity": 21,
@@ -158455,7 +159152,10 @@
     {
      "id": 197,
      "label": "第38关 · 变体0 · 失败条件2",
-     "pointer_offset": null,
+     "pointer_offset": 5858776,
+     "pointer_offsets": [
+      5858776
+     ],
      "pointer": 134256408,
      "text_offset": 38680,
      "capacity": 24,
@@ -158466,7 +159166,10 @@
     {
      "id": 198,
      "label": "第38关 · 变体0 · 失败条件3",
-     "pointer_offset": null,
+     "pointer_offset": 5858784,
+     "pointer_offsets": [
+      5858784
+     ],
      "pointer": 134256452,
      "text_offset": 38724,
      "capacity": 34,
@@ -158477,7 +159180,10 @@
     {
      "id": 199,
      "label": "第39关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858932,
+     "pointer_offsets": [
+      5858932
+     ],
      "pointer": 134256508,
      "text_offset": 38780,
      "capacity": 19,
@@ -158488,7 +159194,10 @@
     {
      "id": 200,
      "label": "第39关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5858964,
+     "pointer_offsets": [
+      5858964
+     ],
      "pointer": 134256533,
      "text_offset": 38805,
      "capacity": 17,
@@ -158499,7 +159208,10 @@
     {
      "id": 201,
      "label": "第39关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859068,
+     "pointer_offsets": [
+      5859068
+     ],
      "pointer": 134256562,
      "text_offset": 38834,
      "capacity": 15,
@@ -158510,7 +159222,10 @@
     {
      "id": 202,
      "label": "第39关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859100,
+     "pointer_offsets": [
+      5859100
+     ],
      "pointer": 134256583,
      "text_offset": 38855,
      "capacity": 17,
@@ -158521,7 +159236,10 @@
     {
      "id": 203,
      "label": "第40关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859136,
+     "pointer_offsets": [
+      5859136
+     ],
      "pointer": 134256612,
      "text_offset": 38884,
      "capacity": 11,
@@ -158532,7 +159250,10 @@
     {
      "id": 204,
      "label": "第40关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859168,
+     "pointer_offsets": [
+      5859168
+     ],
      "pointer": 134256631,
      "text_offset": 38903,
      "capacity": 17,
@@ -158543,7 +159264,10 @@
     {
      "id": 205,
      "label": "第41关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859340,
+     "pointer_offsets": [
+      5859340
+     ],
      "pointer": 134256660,
      "text_offset": 38932,
      "capacity": 15,
@@ -158554,7 +159278,10 @@
     {
      "id": 206,
      "label": "第41关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859372,
+     "pointer_offsets": [
+      5859372
+     ],
      "pointer": 134256685,
      "text_offset": 38957,
      "capacity": 17,
@@ -158565,7 +159292,10 @@
     {
      "id": 207,
      "label": "第42关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859544,
+     "pointer_offsets": [
+      5859544
+     ],
      "pointer": 134256714,
      "text_offset": 38986,
      "capacity": 15,
@@ -158576,7 +159306,10 @@
     {
      "id": 208,
      "label": "第42关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859576,
+     "pointer_offsets": [
+      5859576
+     ],
      "pointer": 134256739,
      "text_offset": 39011,
      "capacity": 17,
@@ -158587,7 +159320,10 @@
     {
      "id": 209,
      "label": "第43关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859748,
+     "pointer_offsets": [
+      5859748
+     ],
      "pointer": 134256768,
      "text_offset": 39040,
      "capacity": 15,
@@ -158598,7 +159334,10 @@
     {
      "id": 210,
      "label": "第43关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859780,
+     "pointer_offsets": [
+      5859780
+     ],
      "pointer": 134256793,
      "text_offset": 39065,
      "capacity": 17,
@@ -158609,7 +159348,10 @@
     {
      "id": 211,
      "label": "第44关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859952,
+     "pointer_offsets": [
+      5859952
+     ],
      "pointer": 134256822,
      "text_offset": 39094,
      "capacity": 11,
@@ -158620,7 +159362,10 @@
     {
      "id": 212,
      "label": "第44关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5859984,
+     "pointer_offsets": [
+      5859984
+     ],
      "pointer": 134256841,
      "text_offset": 39113,
      "capacity": 17,
@@ -158631,7 +159376,10 @@
     {
      "id": 213,
      "label": "第45关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5860156,
+     "pointer_offsets": [
+      5860156
+     ],
      "pointer": 134256870,
      "text_offset": 39142,
      "capacity": 19,
@@ -158642,7 +159390,10 @@
     {
      "id": 214,
      "label": "第45关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5860188,
+     "pointer_offsets": [
+      5860188
+     ],
      "pointer": 134256895,
      "text_offset": 39167,
      "capacity": 17,
@@ -158653,7 +159404,10 @@
     {
      "id": 215,
      "label": "第46关 · 变体0 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5860360,
+     "pointer_offsets": [
+      5860360
+     ],
      "pointer": 134256924,
      "text_offset": 39196,
      "capacity": 13,
@@ -158664,7 +159418,10 @@
     {
      "id": 216,
      "label": "第46关 · 变体0 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5860392,
+     "pointer_offsets": [
+      5860392
+     ],
      "pointer": 134256945,
      "text_offset": 39217,
      "capacity": 17,
@@ -158675,7 +159432,10 @@
     {
      "id": 217,
      "label": "第46关 · 变体2 · 胜利条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5860496,
+     "pointer_offsets": [
+      5860496
+     ],
      "pointer": 134256974,
      "text_offset": 39246,
      "capacity": 13,
@@ -158686,7 +159446,10 @@
     {
      "id": 218,
      "label": "第46关 · 变体2 · 失败条件0",
-     "pointer_offset": null,
+     "pointer_offset": 5860528,
+     "pointer_offsets": [
+      5860528
+     ],
      "pointer": 134256995,
      "text_offset": 39267,
      "capacity": 17,

@@ -1969,11 +1969,17 @@ def build_text_tables(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any
     out.append(build_inline_text_table(
         rom, mapping, "speaker_names", "story", "说话人名表（内联）",
         SPEAKER_NAME_BASE, SPEAKER_NAME_COUNT, SPEAKER_NAME_STRIDE,
+        convert="speaker_names",
         note="剧情 VM 的 0x08 指令按 id 指向这张表：每条 12 字节，"
              "字形码直接写在里面（不是指针表）。共 64 条（id 0..63），"
              "id 0..62 是角色名，id 63 是「没有」。\n"
+             "**可以变长**：整张表可以转换成「指针表 + 变长串池」"
+             "（转换要改 ROM 里的 12 个读者，见 `pack.conversions.speaker_names`；"
+             "只有改了名字才会转换，没改过的内容包重建仍与原版逐字节相同）。\n"
              "**同一批字节还有第二种读法**：`tools/table_registry.py` 把它登记成"
-             "「调色板源表」（每条 = 一个 u32 色值 + 8 字节 0，12 个原生读者）。"
+             "「调色板源表」（每条 = 一个 u32 色值 + 8 字节 0，12 个原生读者）"
+             "—— **那一处登记是误分类**：那 12 个读者**全是取名读者**"
+             "（见 notes/evidence/speaker-name-table-20261023.md）。"
              "两种读法描述的是同一片地址，按说话人名表呈现。",
     ))
 
@@ -1992,6 +1998,13 @@ def build_battle_objectives(
 
     这些句子的地址会被从「全 ROM 文本索引」里剔除 —— 同一段字节只能有一个
     归属，否则两个表都写同一处地址就会互相覆盖。
+
+    **可变长（第十八轮起）**：那些「绝对地址指针」其实就躺在胜负条件表的
+    **数据区**里（4 字节对齐的 u32 槽）—— 219 条说明文字**一条不缺**都能
+    找到自己的槽。所以它跟另外 9 张指针表驱动��文本表**同构**：改长了就把
+    正文搬到空闲区、把**那些槽**改掉即可，不需要动任何代码。
+    （实测：219 条记录全部有 4 字节对齐的槽；其中 11 条有两个槽 —— 被
+    好几条战斗目标共用；另有 5 处「未对齐命中」是代码里的巧合字节，不是指针。）
     """
     pointers: dict[int, dict[str, Any]] = {}
     for s in range(BATTLE_RULE_COUNT):
@@ -2002,18 +2015,21 @@ def build_battle_objectives(
             for g in range(2):
                 for k in range(4):
                     field = 0x04 + g * 0x20 + k * 8
-                    (ptr,) = struct.unpack_from("<I", rom, base + field + 4)
+                    slot = base + field + 4
+                    (ptr,) = struct.unpack_from("<I", rom, slot)
                     if not ptr:
                         continue
                     offset = ptr - 0x08000000
                     entry = pointers.setdefault(offset, {
                         "pointer": ptr,
                         "bindings": [],
+                        "slots": [],
                     })
                     entry["bindings"].append({
                         "rule": rule_id, "stage": s, "variant": u,
                         "group": g, "index": k,
                     })
+                    entry["slots"].append(slot)
 
     records = []
     bindings = []
@@ -2038,7 +2054,9 @@ def build_battle_objectives(
         records.append({
             "id": record_id,
             "label": label,
-            "pointer_offset": None,
+            # 指向这句文字的**全部**槽（共用时不止一个）。
+            "pointer_offset": entry["slots"][0] if entry["slots"] else None,
+            "pointer_offsets": list(entry["slots"]),
             "pointer": entry["pointer"],
             "text_offset": offset,
             "capacity": len(raw) + 1,
@@ -2060,12 +2078,13 @@ def build_battle_objectives(
         "label": "战斗目标说明文字",
         "pointer_table_offset": None,
         "count": len(records),
-        "relocatable": False,
+        "relocatable": True,
         "nul_terminated": True,
         "note": "胜负条件表里每条条件都带一个绝对地址指针，指向游戏内「条件」页"
                 "显示的那句话（例：「打败业头・冥头了」）。\n"
-                "**只能等长改写**：这些地址被 ROM 里的代码写死，改长了没有地方放。"
-                "\n这些句子不在「全 ROM 文本索引」里，以免同一段字节有两个归属。",
+                "**可以变长**：那些指针就躺在胜负条件表的数据区里（4 字节对齐的"
+                "u32 槽），改长了就把正文搬到空闲区、把槽改掉即可 —— 不用动代码。\n"
+                "这些句子不在「全 ROM 文本索引」里，以免同一段字节有两个归属。",
         "records": records,
         "bindings": bindings,
     }
@@ -2082,6 +2101,7 @@ def build_inline_text_table(
     count: int,
     stride: int,
     note: str = "",
+    convert: str = "",
 ) -> dict[str, Any]:
     """A table whose records hold the font codes *inline* (no pointer).
 
@@ -2118,6 +2138,10 @@ def build_inline_text_table(
         "inline_records": True,
         "records": records,
     }
+    if convert:
+        # 这张表「结构上」改不了长度，但**可以转换成能改的形态**
+        # （见 `build_conversions`：说话人名表 → 指针表 + 变长串池）。
+        table["convert"] = convert
     if note:
         table["note"] = note
     readers = load_consumer_readers().get(base)
@@ -2409,6 +2433,74 @@ def build_derived(rom: bytes, structures: list[dict[str, Any]],
     }
 
 
+def build_conversions(rom: bytes) -> dict[str, Any]:
+    """**可选的结构转换**：把「结构上改不了长度」的表变成能改的。
+
+    目前只有一处：说话人名表（`SPEAKER_NAME_BASE`，每条 12 字节内联槽）。
+
+    事实依据：`notes/evidence/speaker-name-table-20261023.md`
+    （12 个原生读者**全是取名读者**，全都按「读到 0x00 为止」消费 ⇒
+    **变长在读者层面本来就支持**，缺的只是「槽的定长结构」）。
+
+    转换做三件事：
+      1. **改 ROM 里的 12 个读者**：它们按 `基址 + id*12` 取名字
+         （步长 12 是 `(id*2+id)*4` 三条指令算出来的），改成
+         `基址 + id*4` 再解引用 ⇒ 变成查一张指针表。
+         **指令数与字节数都不变** ⇒ 不挪动任何后续代码。
+      2. 在**原表自己的位置**（0x085A57C4）放那张指针表（64 × 4 字节）——
+         读者的基址常量一个字都不用改。
+      3. 把 64 条名字搬到空闲区（串池），指针表指向它们。
+
+    ⚠️ 指针表会盖住原表的前 256 字节 ⇒ 名字**必须全部搬走**。
+    ⚠️ `基址 + 63*12 = 0x085A5AB8` 是**说话人全名表**的第 0 条（另有 3 个读者）
+    —— 指针表只占 `0x085A57C4..0x085A58C3`，**碰不到它** ✓。
+
+    转换是**可选**的：只有作者改了名字，构建时才转换 ——
+    没改过的内容包重建出来仍然与原版逐字节相同。
+    """
+    patch_file = Path(__file__).resolve().parent / "data" / "speaker_name_code_patches.json"
+    if not patch_file.exists():
+        return {}
+    data = json.loads(patch_file.read_text(encoding="utf-8"))
+    patches = []
+    for entry in data.get("patches", []):
+        offset = int(str(entry["rom_offset"]), 0)
+        before = bytes.fromhex(entry["before_hex"])
+        actual = rom[offset:offset + len(before)]
+        if actual != before:
+            raise ValueError(
+                f"说话人名表补丁 {entry.get('site', offset)} 的原始字节不匹配："
+                f"ROM {actual.hex()} ≠ 清单 {before.hex()}"
+            )
+        after = bytes.fromhex(entry["after_hex"])
+        if len(after) != len(before):
+            raise ValueError(
+                f"说话人名表补丁 {entry.get('site', offset)} 长度变了"
+                "（那会挪动后续代码）"
+            )
+        patches.append({
+            "offset": offset,
+            "before_hex": entry["before_hex"],
+            "after_hex": entry["after_hex"],
+            "label": f"说话人名表读者 {entry.get('reader', '?')}"
+                     f"（{entry.get('site', '')}）",
+        })
+    if not patches:
+        return {}
+    return {
+        "speaker_names": {
+            "kind": "inline_to_pointer",
+            "base": SPEAKER_NAME_BASE,
+            "count": SPEAKER_NAME_COUNT,
+            "code_patches": patches,
+            "note": "把「定长内联槽」的说话人名表转换成「指针表 + 变长串池」："
+                    "改 ROM 里的 12 个读者（指令数与字节数不变），在原表的位置上"
+                    "放指针表，64 条名字搬到空闲区。"
+                    "只有作者改了名字时才转换 —— 没改过的内容包重建仍与原版逐字节相同。",
+        }
+    }
+
+
 def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
     rom = rom_path.read_bytes()
     mapping, report = text_codec.load_mapping(rom_path)
@@ -2456,6 +2548,7 @@ def build_pack(rom_path: Path, with_text_index: bool = True) -> dict[str, Any]:
         "format": PACK_FORMAT,
         "version": PACK_VERSION,
         "generated": None,
+        "conversions": build_conversions(rom),
         "rom": {
             "name": rom_path.name,
             "size": len(rom),

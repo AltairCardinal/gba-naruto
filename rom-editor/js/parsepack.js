@@ -131,15 +131,32 @@ function decodeTextTokens(tokens, font) {
  * 前两种的 `raw` 记的是**内容**（不含结尾 NUL），`capacity` 含 NUL；
  * 第三种的 `raw` 是整个槽、`capacity` 就是槽大小 ——
  * 判据是模板里 `raw` 的长度与 `capacity` 是否相等。
+ *
+ * 「可转换」的表（说话人名表）两种形态都可能是：
+ * **转换前**是定长内联槽（12 字节一条），**转换后**是指针表 + 串池 ——
+ * 由 **ROM 里的样子**决定（基址处那个 u32 是不是合法 ROM 地址）。
  */
-function parseTextTable(table, rom, font) {
+function parseTextTable(table, rom, font, conversions) {
   let records = 0;
   let changed = 0;
+  const conversion = (conversions && conversions[table.convert]) || null;
   for (const record of table.records || []) {
     // 形态判定与导出器同源（`pack.js::textSlotKind`）：
     // 指针表驱动 / 定长内联槽 / 绝对地址引用。
     const kind = textSlotKind(table, record);
-    const fixedSlot = kind === 'fixed';
+    // 「可转换」的表（说话人名表）：ROM 里可能是**转换前**（内联槽）也可能是
+    // **转换后**（指针表 + 串池）。看基址处那个 u32 是不是一个合法的 ROM 地址
+    // 就知道了 —— 转换前那里是字形码（lead 0x80–0x9F），不是地址。
+    //
+    // ⚠️ 这个判定**必须排在 `fixedSlot` 前面**：转换前的形态本身就是
+    // 「定长内联槽」（说话人名表每条 12 字节）。形态判错 ⇒ 掉进最后的
+    // 「绝对地址引用」分支（把内联槽当 C 串读）⇒ 槽容量变成「名字长度 + 1」，
+    // 12 字节的槽显示成 5 字节 —— 那不是 ROM 的事实。
+    const converted = kind === 'convertible' && !!conversion
+      && looksLikePointerTable(rom, conversion);
+    // **没转换**的「可转换」表 = 定长内联槽（整槽原样：内容 + NUL + 填充）。
+    // `fixedSlot` 与 `converted` 互斥：转换过了走指针表，没转换走内联槽。
+    const fixedSlot = kind === 'fixed' || (kind === 'convertible' && !converted);
     let bytes = null;
 
     if (record.pointer_offset !== null && record.pointer_offset !== undefined) {
@@ -157,6 +174,20 @@ function parseTextTable(table, rom, font) {
       const size = record.capacity || 0;
       if (record.text_offset + size > rom.length) continue;
       bytes = rom.slice(record.text_offset, record.text_offset + size);
+      // 内联槽**没有指针** —— 清掉（模板里本来就是 null，这里只是不让
+      // 「上一轮解析过的形态」残留下来）。
+      record.pointer = null;
+    } else if (converted) {
+      // 已转换成指针表：名字在串池里，基址处那张表是指针。
+      const slot = conversion.base + record.id * 4;
+      const pointer = readU32(rom, slot);
+      const at = pointer - ROM_BASE;
+      if (at < 0 || at >= rom.length) continue;
+      const withNul = readCString(rom, at);
+      bytes = withNul.subarray(0, withNul.length - 1);
+      record.pointer = pointer;
+      record.text_offset = at;
+      record.capacity = bytes.length + 1;
     } else {
       // 绝对地址引用：NUL 结尾的内容。
       const at = record.text_offset;
@@ -177,6 +208,22 @@ function parseTextTable(table, rom, font) {
     if (before !== record.raw) changed += 1;
   }
   return { records, changed };
+}
+
+/**
+ * 这个转换后的表，指针表已经就位了吗？
+ *
+ * 转换前：基址处是**内联的字形码**（lead 0x80–0x9F）。
+ * 转换后：基址处是一个 **u32 指针**（指向空闲区里的串池）。
+ *
+ * 所以看基址处那个 u32 是不是一个落在 ROM 内的地址就知道。
+ */
+function looksLikePointerTable(rom, conversion) {
+  if (!conversion || conversion.base === undefined) return false;
+  const at = conversion.base;
+  if (at + 4 > rom.length) return false;
+  const value = readU32(rom, at);
+  return value >= ROM_BASE && value < ROM_BASE + rom.length;
 }
 
 /**
@@ -272,11 +319,21 @@ function parseScripts(rom) {
  * @param {Uint8Array} rom
  * @param {object} options { name, sha256 }
  * @returns {{pack: object, report: object}} 新内容包的**数据**（还没进 ContentPack）
+ *   `report.textsRead[表 id]` = 那张表**实际从 ROM 读到了几条记录**
+ *   （见下面 `textsRead` 的说明 —— 这个计数是「形态判对没」的判据）。
  */
 export function parsePackFromRom(template, rom, options = {}) {
   const report = {
     structures: 0, records: 0, recordsChanged: 0,
     texts: 0, textsChanged: 0, scripts: 0,
+    // **每张表实际从 ROM 读到了几条记录**（表 id → 条数）。
+    //
+    // 「读到了多少条」比「读到了什么」更能分辨两件事：
+    //   * 真从 ROM 里读出来的；
+    //   * 形态判错（比如把原版 ROM 误判成「已转换」）之后
+    //     **静默把模板里的值留着** —— 那种情况下包里的一切看着都「对」
+    //     （模板值本来就等于 ROM 值），但**一条也没真读过** ⇒ 这个计数是 0。
+    textsRead: {},
     errors: [],
   };
 
@@ -298,9 +355,11 @@ export function parsePackFromRom(template, rom, options = {}) {
       ...table,
       records: (table.records || []).map((record) => ({ ...record })),
     };
-    const result = parseTextTable(clone, rom, font);
+    const result = parseTextTable(clone, rom, font, template.conversions);
     report.texts += 1;
     report.textsChanged += result.changed;
+    // 实际读到的条数（形态判错 ⇒ 全部被 `continue` 跳过 ⇒ 0）。
+    report.textsRead[table.id] = result.records;
     return clone;
   });
 
@@ -326,6 +385,7 @@ export function parsePackFromRom(template, rom, options = {}) {
     structures,
     texts,
     scripts,
+    conversions: template.conversions || {},
     // **补丁不跟着 ROM 走** —— 补丁是「作者的改动」，不是 ROM 的内容。
     patches: [],
     notes: template.notes,

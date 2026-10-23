@@ -19,6 +19,7 @@ import { textSlotKind } from '../pack.js';
  */
 export function lengthStrategyLabel(table) {
   if (table.relocatable) return '可重定位（可变长）';
+  if (table.convert) return '定长内联槽（可转换 → 可变长）';
   const record = (table.records || [])[0];
   if (!record) return '等长改写';
   const kind = textSlotKind(table, record);

@@ -1,0 +1,441 @@
+{
+  "schema": "speaker-name-code-patches/1",
+  "generated": "2026-10-23",
+  "summary": "把 12 个『说话人名表』原生读者从『按 12 字节步长取内联名字』改成『按 4 字节步长取指针再解引用』。共 14 处代码补丁（读者 8 与读者 12 各有 2 处）。每处补丁的新序列与旧序列等长，不挪动任何后续代码。 每处补丁末尾的填充指令是 `0x46C0`（`mov r8, r8`）；**不能是 `0xBF00`**（ARMv4T 上是未定义指令 ⇒ 无限异常循环 ⇒ 卡死）。",
+  "rom": {
+    "path": "rom/base.gba",
+    "sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+    "size": 6291456,
+    "rom_base": "0x08000000",
+    "address_rule": "ROM 地址 = 文件偏移 + 0x08000000",
+    "address_field_rule": "本文件里所有地址都是十六进制字符串：'rom_addr' 是 ROM 地址，'rom_offset' 是文件偏移。"
+  },
+  "table": {
+    "base_rom_addr": "0x085A57C4",
+    "base_file_offset": "0x5A57C4",
+    "old_stride_bytes": 12,
+    "old_entry_count": 63,
+    "old_content": "每条 = 最多 5 个双字节字形码（lead 0x80-0x9F）+ 单字节 0x00 终止符 + 0x00 填充",
+    "new_stride_bytes": 4,
+    "new_entry_count": 64,
+    "new_pointer_table_rom_addr": [
+      "0x085A57C4",
+      "0x085A58C4"
+    ],
+    "new_pointer_table_file_offset": [
+      "0x5A57C4",
+      "0x5A58C4"
+    ],
+    "new_pointer_table_size": 256,
+    "literal_value_unchanged": "0x085A57C4",
+    "literal_note": "14 处补丁都不改字面量字本身；基址常量仍是 0x085A57C4，新指针表就原地放在 0x085A57C4。",
+    "protected_region_rom_addr": [
+      "0x085A5AB8",
+      "0x085A5F78"
+    ],
+    "protected_region_file_offset": [
+      "0x5A5AB8",
+      "0x5A5F78"
+    ],
+    "protected_note": "0x085A5AB8 起是『说话人全名表』（19 字节/条）的第 0 条，另有 3 个读者（0x08077EE2 / 0x0808B036 / 0x080939D6）。新指针表只占 0x085A57C4..0x085A58C3，与它不相交；14 处代码补丁也都不落在该区域内。"
+  },
+  "conventions": {
+    "old_disasm": "补丁前 16 位 Thumb 指令的 capstone 反汇编（capstone 原样文本，逗号后带空格）",
+    "new_disasm": "补丁后 16 位 Thumb 指令的**语义等价人工可读写法**（逗号后带空格），**不是** capstone 原样打印：立即数偏移的解引用这里写成 `ldr rX, [rX, #0]`，而本机 Capstone 5.0.7 原样打印成 `ldr rX, [rX]` —— **同一编码、语义相同**（Thumb-1 `LDR (imm)` T1，imm5=0 ⇒ 读 *(rX)；capstone detail 显示 `MEM base=rX, index=None, disp=0`），**不是**寄存器偏移那种 2×rX；除这一行外，本清单 `new_disasm` 的其余指令与 capstone 原样文本逐字一致（逐条比对：14/14 处**只差这一行**）。写 `#0` 是为了让人一眼看出「立即数偏移 0」而不是寄存器偏移（这正是『第十八轮更正』修掉的那个坑）。注：`old_disasm` 才是逐字等于 capstone 原样输出的那一份。",
+    "ldr_reg_form": "capstone 把寄存器偏移 LDR 打印成 'ldr rX, [rX,rX]'：Rm=Rn=rX，等价于 'ldr rX, [rX]'。",
+    "site": "同一读者内的第几处 id 计算；'vm_0x08' / 'vm_0x0E_second_name' 指剧情 VM 的两个操作码分支。",
+    "variant": "旧序列的形状分类：A=id 在 r7、结果在 r0；B=id 在 r1/r4、结果在 r0；C=id 在 r0、结果在 r1；D=基址已在寄存器里、只有 4 条指令。",
+    "instruction_text": "同一 ROM 地址处的指令文本（16 位 Thumb），用于人工核对",
+    "filler": "补丁末尾的填充指令固定是 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法、不写标志位、不改变任何寄存器、2 字节（长度不变 ⇒ 不挪动后续代码）。**禁用 `0xBF00`** —— ARMv4T 的 Thumb 状态上它就是未定义指令（hint 指令是 ARMv5T 才有的）⇒ Undefined Instruction ⇒ BIOS 异常向量 ⇒ 无限异常循环（实测卡死）。"
+  },
+  "patches": [
+    {
+      "reader": 1,
+      "site": "battle_msg_name",
+      "variant": "A",
+      "rom_addr": "0x08079086",
+      "rom_offset": "0x079086",
+      "byte_length": 10,
+      "before_hex": "7800c01980001e494018",
+      "after_hex": "b8001f4940180068c046",
+      "old_disasm": [
+        "lsls r0, r7, #1",
+        "adds r0, r0, r7",
+        "lsls r0, r0, #2",
+        "ldr r1, [pc, #0x78]",
+        "adds r0, r0, r1"
+      ],
+      "new_disasm": [
+        "lsls r0, r7, #2",
+        "ldr r1, [pc, #0x7c]",
+        "adds r0, r0, r1",
+        "ldr r0, [r0, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08079108",
+      "literal_value": "0x085A57C4",
+      "id_source": "r7（战斗消息 id，0x08079082 处 cmp r7,#0 判过）",
+      "note": "id 在 r7 里，旧算法 (r7*2 + r7)*4 = id*12。新序列 lsls r0,r7,#2 直接算 id*4；ldr 的 PC 基准前移 4 字节，imm8 由 0x1E 加 1 变 0x1F（即 0x78→0x7c），字面量地址仍是 0x08079108。末条 adds 沿用原字节，腾出的位置放 ldr r0,[r0] 解引用 + nop 补齐。r1 仍装基址，与旧代码寄存器状态一致。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r0, [r0, 0]`，那算的是 0 + 0 = 2×r0，**不是** *(r0)*；已改成立即数偏移形式 `ldr r0, [r0, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 2,
+      "site": "cmd_msg_name",
+      "variant": "B",
+      "rom_addr": "0x080811CC",
+      "rom_offset": "0x0811CC",
+      "byte_length": 10,
+      "before_hex": "48004018800014494018",
+      "after_hex": "8800154940180068c046",
+      "old_disasm": [
+        "lsls r0, r1, #1",
+        "adds r0, r0, r1",
+        "lsls r0, r0, #2",
+        "ldr r1, [pc, #0x50]",
+        "adds r0, r0, r1"
+      ],
+      "new_disasm": [
+        "lsls r0, r1, #2",
+        "ldr r1, [pc, #0x54]",
+        "adds r0, r0, r1",
+        "ldr r0, [r0, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08081224",
+      "literal_value": "0x085A57C4",
+      "id_source": "r1（0x080811CA 的 ldrb r1,[r0]）",
+      "note": "id 也在 r1，而基址同样要装进 r1——所以新序列必须先 lsls 消耗掉 id，再 ldr 覆盖 r1。旧代码本来就是这个顺序（ldrb 在窗口外、ldrb 之后的 lsls 先于 ldr），所以寄存器安全性不变。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r0, [r0, 0]`，那算的是 0 + 0 = 2×r0，**不是** *(r0)*；已改成立即数偏移形式 `ldr r0, [r0, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 3,
+      "site": "cmd_msg_name_copy",
+      "variant": "C",
+      "rom_addr": "0x08081238",
+      "rom_offset": "0x081238",
+      "byte_length": 10,
+      "before_hex": "41000918890005480918",
+      "after_hex": "8100064809180968c046",
+      "old_disasm": [
+        "lsls r1, r0, #1",
+        "adds r1, r1, r0",
+        "lsls r1, r1, #2",
+        "ldr r0, [pc, #0x14]",
+        "adds r1, r1, r0"
+      ],
+      "new_disasm": [
+        "lsls r1, r0, #2",
+        "ldr r0, [pc, #0x18]",
+        "adds r1, r1, r0",
+        "ldr r1, [r1, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08081254",
+      "literal_value": "0x085A57C4",
+      "id_source": "r0（0x08081236 的 ldrb r0,[r0]）",
+      "note": "结果寄存器是 r1：旧代码 r1 = 基址 + id*12（字符串首地址），新代码 r1 = *(基址 + id*4)（字符串首地址）。下游 0x08081244 的 bl 0x0809C4DC（strcpy）拿到的仍是同一个语义的指针。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r1, [r1, 1]`，那算的是 1 + 1 = 2×r1，**不是** *(r1)*；已改成立即数偏移形式 `ldr r1, [r1, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 4,
+      "site": "battle_log_name",
+      "variant": "C",
+      "rom_addr": "0x08086042",
+      "rom_offset": "0x086042",
+      "byte_length": 10,
+      "before_hex": "4100091889001d480918",
+      "after_hex": "81001e4809180968c046",
+      "old_disasm": [
+        "lsls r1, r0, #1",
+        "adds r1, r1, r0",
+        "lsls r1, r1, #2",
+        "ldr r0, [pc, #0x74]",
+        "adds r1, r1, r0"
+      ],
+      "new_disasm": [
+        "lsls r1, r0, #2",
+        "ldr r0, [pc, #0x78]",
+        "adds r1, r1, r0",
+        "ldr r1, [r1, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x080860C0",
+      "literal_value": "0x085A57C4",
+      "id_source": "r0（0x08086040 的 ldrb r0,[r2]）",
+      "note": "形状与读者 3/5/6/9/11/12 一致（结果在 r1、基址在 r0）。该读者把名字逐字节抄进按列数组，遇到 NUL 停——变长天然支持，但『每字形一列』的列数组容量仍需单独确认（见简报未闭合项）。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r1, [r1, 1]`，那算的是 1 + 1 = 2×r1，**不是** *(r1)*；已改成立即数偏移形式 `ldr r1, [r1, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 5,
+      "site": "battle_log_name_2",
+      "variant": "C",
+      "rom_addr": "0x0808880E",
+      "rom_offset": "0x08880E",
+      "byte_length": 10,
+      "before_hex": "4100091889001b480918",
+      "after_hex": "81001c4809180968c046",
+      "old_disasm": [
+        "lsls r1, r0, #1",
+        "adds r1, r1, r0",
+        "lsls r1, r1, #2",
+        "ldr r0, [pc, #0x6c]",
+        "adds r1, r1, r0"
+      ],
+      "new_disasm": [
+        "lsls r1, r0, #2",
+        "ldr r0, [pc, #0x70]",
+        "adds r1, r1, r0",
+        "ldr r1, [r1, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08088884",
+      "literal_value": "0x085A57C4",
+      "id_source": "r0（0x0808880C 的 ldrb r0,[r6]）",
+      "note": "同读者 4：逐字节抄写型消费者，变长后仍按 NUL 终止。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r1, [r1, 1]`，那算的是 1 + 1 = 2×r1，**不是** *(r1)*；已改成立即数偏移形式 `ldr r1, [r1, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 6,
+      "site": "cmd_msg_name_copy_2",
+      "variant": "C",
+      "rom_addr": "0x08088DAC",
+      "rom_offset": "0x088DAC",
+      "byte_length": 10,
+      "before_hex": "41000918890026480918",
+      "after_hex": "8100274809180968c046",
+      "old_disasm": [
+        "lsls r1, r0, #1",
+        "adds r1, r1, r0",
+        "lsls r1, r1, #2",
+        "ldr r0, [pc, #0x98]",
+        "adds r1, r1, r0"
+      ],
+      "new_disasm": [
+        "lsls r1, r0, #2",
+        "ldr r0, [pc, #0x9c]",
+        "adds r1, r1, r0",
+        "ldr r1, [r1, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08088E4C",
+      "literal_value": "0x085A57C4",
+      "id_source": "r0（0x08088DAA 的 ldrb r0,[r0]）",
+      "note": "下游 0x08088DB8 的 bl 0x0809C4DC 是 strcpy：r0 = 目标缓冲、r1 = 源指针。改后 r1 = 解引用后的字符串首地址，语义一致。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r1, [r1, 1]`，那算的是 1 + 1 = 2×r1，**不是** *(r1)*；已改成立即数偏移形式 `ldr r1, [r1, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 7,
+      "site": "name_cell_count",
+      "variant": "B",
+      "rom_addr": "0x0808935C",
+      "rom_offset": "0x08935C",
+      "byte_length": 10,
+      "before_hex": "60000019800075494018",
+      "after_hex": "a000764940180068c046",
+      "old_disasm": [
+        "lsls r0, r4, #1",
+        "adds r0, r0, r4",
+        "lsls r0, r0, #2",
+        "ldr r1, [pc, #0x1d4]",
+        "adds r0, r0, r1"
+      ],
+      "new_disasm": [
+        "lsls r0, r4, #2",
+        "ldr r1, [pc, #0x1d8]",
+        "adds r0, r0, r1",
+        "ldr r0, [r0, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08089538",
+      "literal_value": "0x085A57C4",
+      "id_source": "r4（0x0808935A 的 adds r4, r5, #0）",
+      "note": "id 在 r4，且 r4 在 0x08089374 之后还要用于另一张表（lsls r0,r4,#3 → id*9*16）。本补丁不写 r4，r4 的生命周期不变。注意字面量 0x08089538 与旁边 0x0808937A 的 ldr 字面量 0x0808953C 只差 4 字节，是两张不同的表，别混。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r0, [r0, 0]`，那算的是 0 + 0 = 2×r0，**不是** *(r0)*；已改成立即数偏移形式 `ldr r0, [r0, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 8,
+      "site": "name_len",
+      "variant": "B",
+      "rom_addr": "0x0808D294",
+      "rom_offset": "0x08D294",
+      "byte_length": 10,
+      "before_hex": "480040188000274d4019",
+      "after_hex": "8800284d40190068c046",
+      "old_disasm": [
+        "lsls r0, r1, #1",
+        "adds r0, r0, r1",
+        "lsls r0, r0, #2",
+        "ldr r5, [pc, #0x9c]",
+        "adds r0, r0, r5"
+      ],
+      "new_disasm": [
+        "lsls r0, r1, #2",
+        "ldr r5, [pc, #0xa0]",
+        "adds r0, r0, r5",
+        "ldr r0, [r0, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x0808D338",
+      "literal_value": "0x085A57C4",
+      "id_source": "r1（0x0808D292 的 ldrb r1,[r0]）",
+      "note": "基址装在 r5（不是 r1）。r5 在 0x0808D29E 的 bl strlen 之后仍要供第 9 处使用；按 AAPCS r4-r11 是被调用者保存寄存器，原代码本来就依赖这一点，改后 r5 的装值时机提前 4 字节、跨 call 的存活关系不变。r0 从『基址+id*12』变成『解引用后的字符串首地址』，正是 strlen 的入参。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r0, [r0, 0]`，那算的是 0 + 0 = 2×r0，**不是** *(r0)*；已改成立即数偏移形式 `ldr r0, [r0, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 8,
+      "site": "name_draw",
+      "variant": "D",
+      "rom_addr": "0x0808D2B6",
+      "rom_offset": "0x08D2B6",
+      "byte_length": 8,
+      "before_hex": "4800401880004019",
+      "after_hex": "880040190068c046",
+      "old_disasm": [
+        "lsls r0, r1, #1",
+        "adds r0, r0, r1",
+        "lsls r0, r0, #2",
+        "adds r0, r0, r5"
+      ],
+      "new_disasm": [
+        "lsls r0, r1, #2",
+        "adds r0, r0, r5",
+        "ldr r0, [r0, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x0808D338",
+      "literal_value": "0x085A57C4",
+      "id_source": "r1（0x0808D2B4 的 ldrb r1,[r0]）",
+      "note": "同一读者的第二处 id 计算。基址已在 r5 里（旧代码没有 ldr 字面量），所以旧序列只有 4 条指令，新序列同样 4 条（lsls / adds / ldr 解引用 / nop），长度不变（8 字节），不需要重算任何 PC 相对偏移。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r0, [r0, 0]`，那算的是 0 + 0 = 2×r0，**不是** *(r0)*；已改成立即数偏移形式 `ldr r0, [r0, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 9,
+      "site": "cmd_msg_name_copy_3",
+      "variant": "C",
+      "rom_addr": "0x0809014C",
+      "rom_offset": "0x09014C",
+      "byte_length": 10,
+      "before_hex": "41000918890005480918",
+      "after_hex": "8100064809180968c046",
+      "old_disasm": [
+        "lsls r1, r0, #1",
+        "adds r1, r1, r0",
+        "lsls r1, r1, #2",
+        "ldr r0, [pc, #0x14]",
+        "adds r1, r1, r0"
+      ],
+      "new_disasm": [
+        "lsls r1, r0, #2",
+        "ldr r0, [pc, #0x18]",
+        "adds r1, r1, r0",
+        "ldr r1, [r1, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08090168",
+      "literal_value": "0x085A57C4",
+      "id_source": "r0（0x08090146 的 ldrb r0,[r1]，且 0x08090148 判过 0）",
+      "note": "同读者 3：下游 0x08090158 的 bl 0x0809C4DC 是 strcpy。id 为 0 时旧代码根本不走这里（0x0809014A 的 beq 跳过），新代码同样跳过。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r1, [r1, 1]`，那算的是 1 + 1 = 2×r1，**不是** *(r1)*；已改成立即数偏移形式 `ldr r1, [r1, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 10,
+      "site": "battle_msg_name_2",
+      "variant": "A",
+      "rom_addr": "0x0809550E",
+      "rom_offset": "0x09550E",
+      "byte_length": 10,
+      "before_hex": "7800c019800020494018",
+      "after_hex": "b800214940180068c046",
+      "old_disasm": [
+        "lsls r0, r7, #1",
+        "adds r0, r0, r7",
+        "lsls r0, r0, #2",
+        "ldr r1, [pc, #0x80]",
+        "adds r0, r0, r1"
+      ],
+      "new_disasm": [
+        "lsls r0, r7, #2",
+        "ldr r1, [pc, #0x84]",
+        "adds r0, r0, r1",
+        "ldr r0, [r0, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08095598",
+      "literal_value": "0x085A57C4",
+      "id_source": "r7（战斗消息 id）",
+      "note": "形状与读者 1 相同（id 在 r7、结果在 r0、基址在 r1）。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r0, [r0, 0]`，那算的是 0 + 0 = 2×r0，**不是** *(r0)*；已改成立即数偏移形式 `ldr r0, [r0, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 11,
+      "site": "cmd_msg_name_append",
+      "variant": "C",
+      "rom_addr": "0x08095CF0",
+      "rom_offset": "0x095CF0",
+      "byte_length": 10,
+      "before_hex": "4100091889003e480918",
+      "after_hex": "81003f4809180968c046",
+      "old_disasm": [
+        "lsls r1, r0, #1",
+        "adds r1, r1, r0",
+        "lsls r1, r1, #2",
+        "ldr r0, [pc, #0xf8]",
+        "adds r1, r1, r0"
+      ],
+      "new_disasm": [
+        "lsls r1, r0, #2",
+        "ldr r0, [pc, #0xfc]",
+        "adds r1, r1, r0",
+        "ldr r1, [r1, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08095DF0",
+      "literal_value": "0x085A57C4",
+      "id_source": "r0（0x080095CEE 的 ldrb r0,[r0]）",
+      "note": "下游 0x08095CFC 的 bl 0x08068660 是尾部 strcpy/追加。改后 r1 = 解引用后的字符串首地址。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r1, [r1, 1]`，那算的是 1 + 1 = 2×r1，**不是** *(r1)*；已改成立即数偏移形式 `ldr r1, [r1, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 12,
+      "site": "vm_0x08",
+      "variant": "C",
+      "rom_addr": "0x08097A0C",
+      "rom_offset": "0x097A0C",
+      "byte_length": 10,
+      "before_hex": "4100091889000b4c0919",
+      "after_hex": "81000c4c09190968c046",
+      "old_disasm": [
+        "lsls r1, r0, #1",
+        "adds r1, r1, r0",
+        "lsls r1, r1, #2",
+        "ldr r4, [pc, #0x2c]",
+        "adds r1, r1, r4"
+      ],
+      "new_disasm": [
+        "lsls r1, r0, #2",
+        "ldr r4, [pc, #0x30]",
+        "adds r1, r1, r4",
+        "ldr r1, [r1, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08097A40",
+      "literal_value": "0x085A57C4",
+      "id_source": "r0（0x08097A0A 的 ldrb r0,[r7,#1]，即剧情脚本的操作数字节）",
+      "note": "剧情 VM 的 op 0x08（设说话人名）。基址装在 r4，且 r4 要跨 0x08097A18 的 bl（文本渲染器 0x0806626C）活到第 14 处；AAPCS 下 r4 被调用者保存，性质与旧代码一致。旧代码把『基址+id*12』直接当字符串首地址交给渲染器；新代码先取指针表项再解引用。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r1, [r1, 1]`，那算的是 1 + 1 = 2×r1，**不是** *(r1)*；已改成立即数偏移形式 `ldr r1, [r1, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    },
+    {
+      "reader": 12,
+      "site": "vm_0x0E_second_name",
+      "variant": "D",
+      "rom_addr": "0x08097A2A",
+      "rom_offset": "0x097A2A",
+      "byte_length": 8,
+      "before_hex": "4100091889000919",
+      "after_hex": "810009190968c046",
+      "old_disasm": [
+        "lsls r1, r0, #1",
+        "adds r1, r1, r0",
+        "lsls r1, r1, #2",
+        "adds r1, r1, r4"
+      ],
+      "new_disasm": [
+        "lsls r1, r0, #2",
+        "adds r1, r1, r4",
+        "ldr r1, [r1, #0]",
+        "mov r8, r8"
+      ],
+      "literal_rom_addr": "0x08097A40",
+      "literal_value": "0x085A57C4",
+      "id_source": "r0（0x08097A28 的 ldrb r0,[r7,#2]）",
+      "note": "op 0x0E 的第二个名字（id 取操作数第 2 字节）。基址已在 r4 里，旧序列只有 4 条指令，新序列同样 4 条，长度不变（8 字节）。 【第十八轮更正】解引用原本写成 Thumb-1 的寄存器偏移形式 `ldr r1, [r1, 1]`，那算的是 1 + 1 = 2×r1，**不是** *(r1)*；已改成立即数偏移形式 `ldr r1, [r1, #0]`。 【第十九轮修正·关键】补丁末尾的填充指令**不能用 `0xBF00`（`nop`）**：ARMv4T（GBA 的 ARM7TDMI）上 `0xBFxx` 本身就是**未定义指令**（`NOP/YIELD/WFE/WFI/SEV` 这些 hint 指令是 ARMv5T 才有的；mGBA 自己的反汇编器在补丁那一格打出来的就是 `BF00: ill`）⇒ 一执行就抛 Undefined Instruction 异常 ⇒ 进 BIOS 异常向量 `0x00000008` ⇒ 异常返回按 Thumb 地址的**偶数**回跳 ⇒ CPU 切进 **ARM 状态** ⇒ 再执行 `0xBF000000` ⇒ 又是未定义指令 ⇒ **无限异常循环** ⇒ 画面永远不再推进（实测：转换版一进剧情就卡死）。已改成 `0x46C0`（Thumb `mov r8, r8`）：ARMv4T 合法的 Thumb 高寄存器 MOV，**不写任何标志位**、**不改变任何寄存器**、仍是 **2 字节**（⇒ 不挪动任何后续代码，字面量地址也不用动）。**任何新的补丁都别再拿 `0xBF00` 补齐。**"
+    }
+  ]
+}

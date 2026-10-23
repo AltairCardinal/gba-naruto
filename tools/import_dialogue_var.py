@@ -48,6 +48,52 @@ FREE_SPACE_START = 0x5DFBEC  # first 0xFF-filled byte after all game data (128 K
 FREE_SPACE_END   = 0x5FFFFF  # last byte of ROM
 
 
+def find_ff_run(data: bytes, size: int, start: int, limit: int) -> int:
+    """Find an **4-byte aligned** offset inside a 0xFF run of at least `size` bytes.
+
+    为什么必须扫 0xFF 而不是「从 FREE_SPACE_START 顺序往后写」：
+
+    编辑器（`rom-editor/js/rom.js::allocate`）也往这一段空闲区里写东西 ——
+    变长的文本表正文、**搬迁过去的剧情剧本**。两个分配器**互不知情**，
+    顺序写的那一个会直接踩到另一个已经写进去的内容。
+
+    改成**两边都只写 0xFF 区**之后，冲突在结构上消失：
+    谁先写谁把那段变成非 0xFF，另一个自动避开它。
+    （前提是后跑的那个跑在前一个的**输出**上 —— 这是正常的串行流程。）
+
+    `size` 是**对齐之后**仍然需要的字节数。
+    """
+    n = min(len(data), limit)
+    i = max(0, start)
+    while i < n:
+        if data[i] == 0xFF:
+            j = i
+            while j < n and data[j] == 0xFF:
+                j += 1
+            aligned = (i + 3) & ~3
+            if j - aligned >= size:
+                return aligned
+            i = j
+        else:
+            i += 1
+    raise ValueError(
+        f"no 0xFF run of {size} bytes found in [0x{start:X}, 0x{limit:X}]"
+    )
+
+
+def load_rom_bytes(rom_path: Path | None) -> bytes:
+    """The ROM the free-space scan has to look at."""
+    if rom_path is not None:
+        path = Path(rom_path)
+        if not path.is_absolute():
+            path = ROOT / path
+        if path.exists():
+            return path.read_bytes()
+    from tools import text_codec
+
+    return text_codec.resolve_rom(None).read_bytes()
+
+
 def import_dialogue_variable(
     bank_path: Path,
     content_path: Path,
@@ -62,6 +108,9 @@ def import_dialogue_variable(
     3. If length differs, generate:
        - a bytes patch to write new text into free space
        - a pointer_redirect patch to update the pointer table
+
+    空闲区的落点**扫 0xFF 段**（`find_ff_run`）—— 见那里的说明：
+    编辑器也往这一段写，两边都只写 0xFF ⇒ 互不踩踏。
     """
     bank = load_json(bank_path)
     content = load_json(content_path)
@@ -70,6 +119,7 @@ def import_dialogue_variable(
     patches = []
     text_cursor = free_space_start
     mapping: dict[int, str] | None = None
+    rom_bytes = b""
 
     for entry in content["entries"]:
         entry_id = entry["id"]
@@ -114,10 +164,21 @@ def import_dialogue_variable(
                     f"but has no table_offset in bank"
                 )
 
-            # Align to 4 bytes
-            text_cursor = (text_cursor + 3) & ~3
-
             after_bytes = encoded + b"\x00"
+
+            # 落点：扫 0xFF 段（4 字节对齐），**跳过别人已经写进去的东西**。
+            if not rom_bytes:
+                rom_bytes = load_rom_bytes(rom_path)
+            text_cursor = find_ff_run(
+                rom_bytes, len(after_bytes), text_cursor, FREE_SPACE_END + 1
+            )
+            # 落点自己占掉的那几个字节不再是 0xFF 了 —— 后面的条目要避开它。
+            rom_bytes = (
+                rom_bytes[:text_cursor]
+                + b"\x00" * len(after_bytes)
+                + rom_bytes[text_cursor + len(after_bytes):]
+            )
+
             patches.append(
                 {
                     "id": f"dialogue.{entry_id}.write_text",
@@ -145,7 +206,7 @@ def import_dialogue_variable(
                 }
             )
 
-            text_cursor += len(encoded) + 1  # +1 for null terminator
+            text_cursor += len(after_bytes)  # 这一段已经不是 0xFF 了
 
     return patches
 
