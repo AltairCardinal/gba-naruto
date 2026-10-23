@@ -5402,6 +5402,125 @@
         }
       ]
     },
+    "0x085A5F65": {
+      "name": "location_name_table",
+      "file_offset": "0x5A5F65",
+      "raw_occurrences": [
+        "0x08CE30"
+      ],
+      "consumers": [
+        {
+          "reader": "0x0808CD8E",
+          "mode": "thumb",
+          "function": "0x0808CD40",
+          "usage": "indexed",
+          "usage_detail": "base + 18*idx",
+          "stride": 18,
+          "evidence": [
+            "0808CD8E  ldr r0, [pc, #0xa0]  ; base = 0x085A5F65",
+            "0808CD90  adds r1, r1, r0"
+          ],
+          "disasm": [
+            "0808CD40  push {r4, r5, r6, r7, lr}",
+            "0808CD42  mov r7, sl",
+            "0808CD44  mov r6, sb",
+            "0808CD46  mov r5, r8",
+            "0808CD48  push {r5, r6, r7}",
+            "0808CD4A  sub sp, #0x14",
+            "0808CD4C  lsls r0, r0, #0x10",
+            "0808CD4E  lsrs r7, r0, #0x10",
+            "0808CD50  ldr r0, [pc, #0xd0]",
+            "0808CD52  movs r1, #0x80",
+            "0808CD54  lsls r1, r1, #1",
+            "0808CD56  adds r0, r0, r1",
+            "0808CD58  mov sl, r0",
+            "0808CD5A  ldr r1, [pc, #0xcc]",
+            "0808CD5C  ldr r0, [pc, #0xcc]",
+            "0808CD5E  ldrb r0, [r0, #0x14]",
+            "0808CD60  lsls r0, r0, #2",
+            "0808CD62  adds r0, r0, r1",
+            "0808CD64  ldr r6, [r0]",
+            "0808CD66  movs r1, #0",
+            "0808CD68  mov r8, r1",
+            "0808CD6A  ldrb r0, [r6]",
+            "0808CD6C  cmp r0, #0xff",
+            "0808CD6E  beq #0x808cdf6"
+          ]
+        }
+      ],
+      "neighbors": [
+        {
+          "value": "0x085A5F65",
+          "delta": 0,
+          "readers": 1
+        },
+        {
+          "value": "0x085A63E8",
+          "delta": 1155,
+          "readers": 2
+        },
+        {
+          "value": "0x085A5AB8",
+          "delta": -1197,
+          "readers": 3
+        },
+        {
+          "value": "0x085A65C8",
+          "delta": 1635,
+          "readers": 2
+        },
+        {
+          "value": "0x085A65EC",
+          "delta": 1671,
+          "readers": 2
+        },
+        {
+          "value": "0x085A57C4",
+          "delta": -1953,
+          "readers": 12
+        },
+        {
+          "value": "0x085A68B0",
+          "delta": 2379,
+          "readers": 1
+        },
+        {
+          "value": "0x085A68DC",
+          "delta": 2423,
+          "readers": 1
+        },
+        {
+          "value": "0x085A693C",
+          "delta": 2519,
+          "readers": 1
+        },
+        {
+          "value": "0x085A6954",
+          "delta": 2543,
+          "readers": 1
+        },
+        {
+          "value": "0x085A69E0",
+          "delta": 2683,
+          "readers": 1
+        },
+        {
+          "value": "0x085A6A68",
+          "delta": 2819,
+          "readers": 1
+        },
+        {
+          "value": "0x085A6A84",
+          "delta": 2847,
+          "readers": 1
+        },
+        {
+          "value": "0x085A6D04",
+          "delta": 3487,
+          "readers": 4
+        }
+      ]
+    },
     "0x0853F140": {
       "name": "map_object_table",
       "file_offset": "0x53F140",
@@ -7796,529 +7915,6 @@
         }
       ]
     },
-    "0x085A57C4": {
-      "name": "palette_source_table",
-      "file_offset": "0x5A57C4",
-      "raw_occurrences": [
-        "0x079108",
-        "0x081224",
-        "0x081254",
-        "0x0860C0",
-        "0x088884",
-        "0x088E4C",
-        "0x089538",
-        "0x08D338",
-        "0x090168",
-        "0x095598",
-        "0x095DF0",
-        "0x097A40"
-      ],
-      "consumers": [
-        {
-          "reader": "0x0807908C",
-          "mode": "thumb",
-          "function": "0x08078E38",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "0807908C  ldr r1, [pc, #0x78]  ; base = 0x085A57C4",
-            "0807908E  adds r0, r0, r1"
-          ],
-          "disasm": [
-            "08078E38  push {r4, r5, r6, r7, lr}",
-            "08078E3A  mov r7, sl",
-            "08078E3C  mov r6, sb",
-            "08078E3E  mov r5, r8",
-            "08078E40  push {r5, r6, r7}",
-            "08078E42  sub sp, #8",
-            "08078E44  adds r6, r0, #0",
-            "08078E46  ldr r0, [pc, #0x28]",
-            "08078E48  mov sl, r0",
-            "08078E4A  adds r5, r6, #0",
-            "08078E4C  adds r5, #0x2c",
-            "08078E4E  ldrb r0, [r5, #8]",
-            "08078E50  bl #0x80655b4",
-            "08078E54  adds r3, r0, #0",
-            "08078E56  ldrh r0, [r5, #6]",
-            "08078E58  cmp r0, #0",
-            "08078E5A  bne #0x8078e62",
-            "08078E5C  ldr r0, [pc, #0x14]",
-            "08078E5E  ldr r0, [r0]",
-            "08078E60  mov sb, r0",
-            "08078E62  ldrh r0, [r6, #0x2c]",
-            "08078E64  cmp r0, #0",
-            "08078E66  beq #0x8078e78",
-            "08078E68  cmp r0, #1"
-          ]
-        },
-        {
-          "reader": "0x080811D2",
-          "mode": "thumb",
-          "function": "0x080810B0",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "080811D2  ldr r1, [pc, #0x50]  ; base = 0x085A57C4",
-            "080811D4  adds r0, r0, r1"
-          ],
-          "disasm": [
-            "080810B0  push {r4, r5, r6, r7, lr}",
-            "080810B2  sub sp, #0x10",
-            "080810B4  ldr r6, [pc, #0x88]",
-            "080810B6  movs r0, #0x94",
-            "080810B8  lsls r0, r0, #2",
-            "080810BA  adds r7, r6, r0",
-            "080810BC  ldr r0, [pc, #0x84]",
-            "080810BE  bl #0x8067158",
-            "080810C2  adds r0, r6, #0",
-            "080810C4  bl #0x808fd38",
-            "080810C8  movs r0, #0xff",
-            "080810CA  str r0, [sp]",
-            "080810CC  str r0, [sp, #4]",
-            "080810CE  str r0, [sp, #8]",
-            "080810D0  movs r0, #1",
-            "080810D2  str r0, [sp, #0xc]",
-            "080810D4  adds r0, r6, #0",
-            "080810D6  movs r1, #1",
-            "080810D8  movs r2, #0",
-            "080810DA  movs r3, #0",
-            "080810DC  bl #0x8090220",
-            "080810E0  ldr r0, [pc, #0x64]",
-            "080810E2  bl #0x8067158",
-            "080810E6  ldr r0, [pc, #0x64]"
-          ]
-        },
-        {
-          "reader": "0x0808123E",
-          "mode": "thumb",
-          "function": "0x080810B0",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "0808123E  ldr r0, [pc, #0x14]  ; base = 0x085A57C4",
-            "08081240  adds r1, r1, r0"
-          ],
-          "disasm": [
-            "080810B0  push {r4, r5, r6, r7, lr}",
-            "080810B2  sub sp, #0x10",
-            "080810B4  ldr r6, [pc, #0x88]",
-            "080810B6  movs r0, #0x94",
-            "080810B8  lsls r0, r0, #2",
-            "080810BA  adds r7, r6, r0",
-            "080810BC  ldr r0, [pc, #0x84]",
-            "080810BE  bl #0x8067158",
-            "080810C2  adds r0, r6, #0",
-            "080810C4  bl #0x808fd38",
-            "080810C8  movs r0, #0xff",
-            "080810CA  str r0, [sp]",
-            "080810CC  str r0, [sp, #4]",
-            "080810CE  str r0, [sp, #8]",
-            "080810D0  movs r0, #1",
-            "080810D2  str r0, [sp, #0xc]",
-            "080810D4  adds r0, r6, #0",
-            "080810D6  movs r1, #1",
-            "080810D8  movs r2, #0",
-            "080810DA  movs r3, #0",
-            "080810DC  bl #0x8090220",
-            "080810E0  ldr r0, [pc, #0x64]",
-            "080810E2  bl #0x8067158",
-            "080810E6  ldr r0, [pc, #0x64]"
-          ]
-        },
-        {
-          "reader": "0x08086048",
-          "mode": "thumb",
-          "function": "0x08085F50",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "08086048  ldr r0, [pc, #0x74]  ; base = 0x085A57C4",
-            "0808604A  adds r1, r1, r0"
-          ],
-          "disasm": [
-            "08085F50  push {r4, r5, r6, r7, lr}",
-            "08085F52  mov r7, sl",
-            "08085F54  mov r6, sb",
-            "08085F56  mov r5, r8",
-            "08085F58  push {r5, r6, r7}",
-            "08085F5A  sub sp, #0x2c",
-            "08085F5C  lsls r0, r0, #0x18",
-            "08085F5E  lsrs r6, r0, #0x18",
-            "08085F60  lsls r1, r1, #0x18",
-            "08085F62  lsrs r1, r1, #0x18",
-            "08085F64  ldr r0, [pc, #0x10]",
-            "08085F66  mov r8, r0",
-            "08085F68  cmp r1, #1",
-            "08085F6A  bhi #0x8085f7c",
-            "08085F6C  adds r1, #1",
-            "08085F6E  lsls r0, r1, #2",
-            "08085F70  adds r0, r0, r1",
-            "08085F72  lsls r0, r0, #1",
-            "08085F74  b #0x8085f7e",
-            "08085F76  movs r0, r0",
-            "08085F7C  movs r0, #0xd",
-            "08085F7E  lsls r1, r0, #0x18",
-            "08085F80  lsrs r1, r1, #0x18",
-            "08085F82  movs r0, #0xa"
-          ]
-        },
-        {
-          "reader": "0x08088814",
-          "mode": "thumb",
-          "function": "0x08088798",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "08088814  ldr r0, [pc, #0x6c]  ; base = 0x085A57C4",
-            "08088816  adds r1, r1, r0"
-          ],
-          "disasm": [
-            "08088798  push {r4, r5, r6, r7, lr}",
-            "0808879A  mov r7, r8",
-            "0808879C  push {r7}",
-            "0808879E  sub sp, #0x28",
-            "080887A0  lsls r0, r0, #0x18",
-            "080887A2  lsrs r5, r0, #0x18",
-            "080887A4  lsls r1, r1, #0x18",
-            "080887A6  lsrs r1, r1, #0x18",
-            "080887A8  ldr r6, [pc, #0xc]",
-            "080887AA  cmp r1, #1",
-            "080887AC  bhi #0x80887bc",
-            "080887AE  adds r1, #1",
-            "080887B0  lsls r0, r1, #2",
-            "080887B2  adds r0, r0, r1",
-            "080887B4  lsls r0, r0, #1",
-            "080887B6  b #0x80887be",
-            "080887BC  movs r0, #0xd",
-            "080887BE  lsls r1, r0, #0x18",
-            "080887C0  lsrs r1, r1, #0x18",
-            "080887C2  movs r0, #0xa",
-            "080887C4  str r0, [sp]",
-            "080887C6  movs r0, #0x80",
-            "080887C8  str r0, [sp, #4]",
-            "080887CA  adds r0, r5, #0"
-          ]
-        },
-        {
-          "reader": "0x08088DB2",
-          "mode": "thumb",
-          "function": "0x08088914",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "08088DB2  ldr r0, [pc, #0x98]  ; base = 0x085A57C4",
-            "08088DB4  adds r1, r1, r0"
-          ],
-          "disasm": [
-            "08088914  push {r4, r5, r6, r7, lr}",
-            "08088916  mov r7, sl",
-            "08088918  mov r6, sb",
-            "0808891A  mov r5, r8",
-            "0808891C  push {r5, r6, r7}",
-            "0808891E  sub sp, #0x3c",
-            "08088920  ldr r2, [pc, #0xf4]",
-            "08088922  ldrh r1, [r2]",
-            "08088924  ldr r0, [pc, #0xf4]",
-            "08088926  ands r0, r1",
-            "08088928  strh r0, [r2]",
-            "0808892A  movs r4, #0",
-            "0808892C  str r4, [sp, #0x34]",
-            "0808892E  add r0, sp, #0x34",
-            "08088930  ldr r2, [pc, #0xec]",
-            "08088932  add r1, sp, #0x14",
-            "08088934  bl #0x809c0e0",
-            "08088938  movs r0, #0",
-            "0808893A  bl #0x808da90",
-            "0808893E  ldr r0, [pc, #0xe4]",
-            "08088940  ldr r1, [pc, #0xe4]",
-            "08088942  bl #0x809c0e8",
-            "08088946  ldr r0, [pc, #0xe4]",
-            "08088948  ldr r1, [pc, #0xe4]"
-          ]
-        },
-        {
-          "reader": "0x08089362",
-          "mode": "thumb",
-          "function": "0x08089310",
-          "usage": "offset",
-          "usage_detail": "base + 0",
-          "stride": null,
-          "evidence": [
-            "08089362  ldr r1, [pc, #0x1d4]  ; base = 0x085A57C4",
-            "08089364  adds r0, r0, r1"
-          ],
-          "disasm": [
-            "08089310  push {r4, r5, r6, r7, lr}",
-            "08089312  mov r7, sl",
-            "08089314  mov r6, sb",
-            "08089316  mov r5, r8",
-            "08089318  push {r5, r6, r7}",
-            "0808931A  sub sp, #0x4c",
-            "0808931C  ldr r0, [pc, #0x200]",
-            "0808931E  ldr r1, [pc, #0x204]",
-            "08089320  bl #0x809c0e8",
-            "08089324  ldr r0, [pc, #0x200]",
-            "08089326  ldr r1, [pc, #0x204]",
-            "08089328  movs r2, #0x10",
-            "0808932A  bl #0x809c0e0",
-            "0808932E  movs r0, #0",
-            "08089330  str r0, [sp, #0x28]",
-            "08089332  add r0, sp, #0x28",
-            "08089334  ldr r2, [pc, #0x1f8]",
-            "08089336  add r1, sp, #0x14",
-            "08089338  bl #0x809c0e0",
-            "0808933C  ldr r0, [pc, #0x1f4]",
-            "0808933E  bl #0x8067158",
-            "08089342  movs r7, #0",
-            "08089344  add r0, sp, #0x2c",
-            "08089346  mov r8, r0"
-          ]
-        },
-        {
-          "reader": "0x0808D29A",
-          "mode": "thumb",
-          "function": "0x0808D230",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "0808D29A  ldr r5, [pc, #0x9c]  ; base = 0x085A57C4",
-            "0808D29C  adds r0, r0, r5"
-          ],
-          "disasm": [
-            "0808D230  push {r4, r5, r6, r7, lr}",
-            "0808D232  mov r7, sb",
-            "0808D234  mov r6, r8",
-            "0808D236  push {r6, r7}",
-            "0808D238  sub sp, #0xc",
-            "0808D23A  mov r8, r2",
-            "0808D23C  lsls r0, r0, #0x18",
-            "0808D23E  lsrs r0, r0, #0x18",
-            "0808D240  lsls r1, r1, #0x18",
-            "0808D242  lsrs r6, r1, #0x18",
-            "0808D244  ldr r1, [pc, #0xe8]",
-            "0808D246  adds r0, r0, r1",
-            "0808D248  ldrb r0, [r0]",
-            "0808D24A  cmp r0, #1",
-            "0808D24C  bne #0x808d250",
-            "0808D24E  movs r6, #1",
-            "0808D250  ldr r7, [pc, #0xe0]",
-            "0808D252  lsls r1, r6, #2",
-            "0808D254  adds r0, r1, r6",
-            "0808D256  lsls r0, r0, #2",
-            "0808D258  adds r0, #0x52",
-            "0808D25A  adds r7, r0, r7",
-            "0808D25C  movs r5, #0",
-            "0808D25E  mov sb, r1"
-          ]
-        },
-        {
-          "reader": "0x08090152",
-          "mode": "thumb",
-          "function": "0x08090098",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "08090152  ldr r0, [pc, #0x14]  ; base = 0x085A57C4",
-            "08090154  adds r1, r1, r0"
-          ],
-          "disasm": [
-            "08090098  push {r4, r5, r6, r7, lr}",
-            "0809009A  sub sp, #0x10",
-            "0809009C  ldr r7, [pc, #0x88]",
-            "0809009E  movs r0, #0x94",
-            "080900A0  lsls r0, r0, #2",
-            "080900A2  adds r6, r7, r0",
-            "080900A4  ldr r0, [pc, #0x84]",
-            "080900A6  bl #0x8067158",
-            "080900AA  adds r0, r7, #0",
-            "080900AC  bl #0x808fd38",
-            "080900B0  movs r0, #0xff",
-            "080900B2  str r0, [sp]",
-            "080900B4  str r0, [sp, #4]",
-            "080900B6  str r0, [sp, #8]",
-            "080900B8  movs r0, #1",
-            "080900BA  str r0, [sp, #0xc]",
-            "080900BC  adds r0, r7, #0",
-            "080900BE  movs r1, #1",
-            "080900C0  movs r2, #0",
-            "080900C2  movs r3, #0",
-            "080900C4  bl #0x8090220",
-            "080900C8  ldr r0, [pc, #0x64]",
-            "080900CA  bl #0x8067158",
-            "080900CE  ldr r0, [pc, #0x64]"
-          ]
-        },
-        {
-          "reader": "0x08095514",
-          "mode": "thumb",
-          "function": "0x080952C8",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "08095514  ldr r1, [pc, #0x80]  ; base = 0x085A57C4",
-            "08095516  adds r0, r0, r1"
-          ],
-          "disasm": [
-            "080952C8  push {r4, r5, r6, r7, lr}",
-            "080952CA  mov r7, sl",
-            "080952CC  mov r6, sb",
-            "080952CE  mov r5, r8",
-            "080952D0  push {r5, r6, r7}",
-            "080952D2  sub sp, #8",
-            "080952D4  adds r6, r0, #0",
-            "080952D6  adds r4, r6, #0",
-            "080952D8  adds r4, #0x2c",
-            "080952DA  ldrb r0, [r4, #8]",
-            "080952DC  bl #0x80655b4",
-            "080952E0  adds r3, r0, #0",
-            "080952E2  ldrh r0, [r4, #6]",
-            "080952E4  cmp r0, #0",
-            "080952E6  bne #0x8095300",
-            "080952E8  ldr r0, [pc, #0x10]",
-            "080952EA  adds r0, #0x2d",
-            "080952EC  ldrb r0, [r0]",
-            "080952EE  str r3, [sp, #4]",
-            "080952F0  bl #0x8092018",
-            "080952F4  mov sb, r0",
-            "080952F6  ldr r3, [sp, #4]",
-            "080952F8  b #0x8095304",
-            "080952FA  movs r0, r0"
-          ]
-        },
-        {
-          "reader": "0x08095CF6",
-          "mode": "thumb",
-          "function": "0x08095A88",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "08095CF6  ldr r0, [pc, #0xf8]  ; base = 0x085A57C4",
-            "08095CF8  adds r1, r1, r0"
-          ],
-          "disasm": [
-            "08095A88  push {r4, r5, r6, r7, lr}",
-            "08095A8A  mov r7, sl",
-            "08095A8C  mov r6, sb",
-            "08095A8E  mov r5, r8",
-            "08095A90  push {r5, r6, r7}",
-            "08095A92  sub sp, #0x80",
-            "08095A94  lsls r0, r0, #0x18",
-            "08095A96  lsrs r0, r0, #0x18",
-            "08095A98  str r0, [sp, #0x68]",
-            "08095A9A  movs r5, #0",
-            "08095A9C  str r5, [sp, #0x64]",
-            "08095A9E  add r0, sp, #0x64",
-            "08095AA0  ldr r2, [pc, #0x190]",
-            "08095AA2  add r1, sp, #0x14",
-            "08095AA4  bl #0x809c0e0",
-            "08095AA8  movs r0, #4",
-            "08095AAA  str r0, [sp]",
-            "08095AAC  str r5, [sp, #4]",
-            "08095AAE  ldr r0, [sp, #0x68]",
-            "08095AB0  movs r1, #0",
-            "08095AB2  movs r2, #0",
-            "08095AB4  movs r3, #0x13",
-            "08095AB6  bl #0x8066ae8",
-            "08095ABA  ldr r0, [sp, #0x68]"
-          ]
-        },
-        {
-          "reader": "0x08097A12",
-          "mode": "thumb",
-          "function": "0x080977B8",
-          "usage": "indexed",
-          "usage_detail": "base + 12*idx",
-          "stride": 12,
-          "evidence": [
-            "08097A12  ldr r4, [pc, #0x2c]  ; base = 0x085A57C4",
-            "08097A14  adds r1, r1, r4"
-          ],
-          "disasm": [
-            "080977B8  push {r4, r5, r6, r7, lr}",
-            "080977BA  mov r7, sl",
-            "080977BC  mov r6, sb",
-            "080977BE  mov r5, r8",
-            "080977C0  push {r5, r6, r7}",
-            "080977C2  sub sp, #0x30",
-            "080977C4  adds r7, r0, #0",
-            "080977C6  lsls r1, r1, #0x18",
-            "080977C8  lsrs r1, r1, #0x18",
-            "080977CA  str r1, [sp, #0x28]",
-            "080977CC  str r1, [sp, #0x2c]",
-            "080977CE  ldr r0, [pc, #0x1c]",
-            "080977D0  movs r1, #0",
-            "080977D2  str r1, [r0, #4]",
-            "080977D4  str r1, [r0]",
-            "080977D6  mov sl, r1",
-            "080977D8  ldrb r0, [r7]",
-            "080977DA  cmp r0, #0x39",
-            "080977DC  bls #0x80977e0",
-            "080977DE  b #0x8097e2c",
-            "080977E0  lsls r0, r0, #2",
-            "080977E2  ldr r1, [pc, #0xc]",
-            "080977E4  adds r0, r0, r1",
-            "080977E6  ldr r0, [r0]"
-          ]
-        }
-      ],
-      "neighbors": [
-        {
-          "value": "0x085A57C4",
-          "delta": 0,
-          "readers": 12
-        },
-        {
-          "value": "0x085A5AB8",
-          "delta": 756,
-          "readers": 3
-        },
-        {
-          "value": "0x085A5F65",
-          "delta": 1953,
-          "readers": 1
-        },
-        {
-          "value": "0x085A4DEC",
-          "delta": -2520,
-          "readers": 1
-        },
-        {
-          "value": "0x085A4DE4",
-          "delta": -2528,
-          "readers": 1
-        },
-        {
-          "value": "0x085A4CE8",
-          "delta": -2780,
-          "readers": 7
-        },
-        {
-          "value": "0x085A63E8",
-          "delta": 3108,
-          "readers": 2
-        },
-        {
-          "value": "0x085A65C8",
-          "delta": 3588,
-          "readers": 2
-        },
-        {
-          "value": "0x085A65EC",
-          "delta": 3624,
-          "readers": 2
-        }
-      ]
-    },
     "0x08545068": {
       "name": "per_character_skills",
       "file_offset": "0x545068",
@@ -9587,6 +9183,736 @@
           "value": "0x08465778",
           "delta": -1016,
           "readers": 3
+        }
+      ]
+    },
+    "0x085A5AB8": {
+      "name": "speaker_full_name_table",
+      "file_offset": "0x5A5AB8",
+      "raw_occurrences": [
+        "0x078080",
+        "0x08B084",
+        "0x093C58"
+      ],
+      "consumers": [
+        {
+          "reader": "0x08077EE2",
+          "mode": "thumb",
+          "function": "0x08077C90",
+          "usage": "indexed-2d",
+          "usage_detail": "base + 16*idx + 4*idx + -1*idx",
+          "stride": 16,
+          "evidence": [
+            "08077EE2  ldr r1, [pc, #0x19c]  ; base = 0x085A5AB8",
+            "08077EE4  adds r0, r0, r1"
+          ],
+          "disasm": [
+            "08077C90  push {r4, r5, r6, r7, lr}",
+            "08077C92  mov r7, sl",
+            "08077C94  mov r6, sb",
+            "08077C96  mov r5, r8",
+            "08077C98  push {r5, r6, r7}",
+            "08077C9A  sub sp, #0x5c",
+            "08077C9C  str r1, [sp, #0x34]",
+            "08077C9E  lsls r0, r0, #0x18",
+            "08077CA0  lsrs r0, r0, #0x18",
+            "08077CA2  str r0, [sp, #0x30]",
+            "08077CA4  lsls r2, r2, #0x18",
+            "08077CA6  lsrs r2, r2, #0x18",
+            "08077CA8  str r2, [sp, #0x38]",
+            "08077CAA  lsls r3, r3, #0x18",
+            "08077CAC  lsrs r3, r3, #0x18",
+            "08077CAE  str r3, [sp, #0x3c]",
+            "08077CB0  movs r0, #1",
+            "08077CB2  str r0, [sp, #0x48]",
+            "08077CB4  movs r2, #0",
+            "08077CB6  ldrb r0, [r1, #0x14]",
+            "08077CB8  ldr r3, [pc, #0x84]",
+            "08077CBA  mov r1, sp",
+            "08077CBC  adds r1, #0x2c",
+            "08077CBE  str r1, [sp, #0x58]"
+          ]
+        },
+        {
+          "reader": "0x0808B036",
+          "mode": "thumb",
+          "function": "0x0808AFE0",
+          "usage": "indexed",
+          "usage_detail": "base + 19*idx",
+          "stride": 19,
+          "evidence": [
+            "0808B036  ldr r1, [pc, #0x4c]  ; base = 0x085A5AB8",
+            "0808B038  adds r0, r0, r1"
+          ],
+          "disasm": [
+            "0808AFE0  push {r4, r5, r6, r7, lr}",
+            "0808AFE2  mov r7, r8",
+            "0808AFE4  push {r7}",
+            "0808AFE6  sub sp, #0xc",
+            "0808AFE8  mov r8, r0",
+            "0808AFEA  adds r6, r1, #0",
+            "0808AFEC  lsls r2, r2, #0x18",
+            "0808AFEE  lsrs r5, r2, #0x18",
+            "0808AFF0  adds r0, r5, #0",
+            "0808AFF2  bl #0x8066d14",
+            "0808AFF6  bl #0x806571c",
+            "0808AFFA  movs r0, #1",
+            "0808AFFC  bl #0x809c574",
+            "0808B000  ldrb r0, [r6, #3]",
+            "0808B002  lsls r0, r0, #3",
+            "0808B004  ldr r1, [pc, #0x74]",
+            "0808B006  adds r0, r0, r1",
+            "0808B008  movs r1, #0",
+            "0808B00A  str r1, [sp]",
+            "0808B00C  adds r2, r5, #0",
+            "0808B00E  movs r3, #8",
+            "0808B010  bl #0x8066758",
+            "0808B014  ldr r1, [pc, #0x68]",
+            "0808B016  ldrb r0, [r6, #1]"
+          ]
+        },
+        {
+          "reader": "0x080939D6",
+          "mode": "thumb",
+          "function": "0x08093818",
+          "usage": "indexed",
+          "usage_detail": "base + 19*idx",
+          "stride": 19,
+          "evidence": [
+            "080939D6  ldr r1, [pc, #0x280]  ; base = 0x085A5AB8",
+            "080939D8  adds r0, r0, r1"
+          ],
+          "disasm": [
+            "08093818  push {r4, r5, r6, r7, lr}",
+            "0809381A  mov r7, sl",
+            "0809381C  mov r6, sb",
+            "0809381E  mov r5, r8",
+            "08093820  push {r5, r6, r7}",
+            "08093822  sub sp, #0x48",
+            "08093824  lsls r0, r0, #0x18",
+            "08093826  lsrs r0, r0, #0x18",
+            "08093828  str r0, [sp, #0x30]",
+            "0809382A  ldr r0, [pc, #0x3dc]",
+            "0809382C  adds r0, #0x2d",
+            "0809382E  ldrb r0, [r0]",
+            "08093830  bl #0x8092018",
+            "08093834  mov sl, r0",
+            "08093836  ldrb r1, [r0]",
+            "08093838  movs r5, #0",
+            "0809383A  str r5, [sp]",
+            "0809383C  movs r0, #0xff",
+            "0809383E  movs r2, #0",
+            "08093840  movs r3, #0",
+            "08093842  bl #0x8096168",
+            "08093846  ldr r0, [pc, #0x3c4]",
+            "08093848  ldr r1, [pc, #0x3c4]",
+            "0809384A  movs r2, #0x28"
+          ]
+        }
+      ],
+      "neighbors": [
+        {
+          "value": "0x085A5AB8",
+          "delta": 0,
+          "readers": 3
+        },
+        {
+          "value": "0x085A57C4",
+          "delta": -756,
+          "readers": 12
+        },
+        {
+          "value": "0x085A5F65",
+          "delta": 1197,
+          "readers": 1
+        },
+        {
+          "value": "0x085A63E8",
+          "delta": 2352,
+          "readers": 2
+        },
+        {
+          "value": "0x085A65C8",
+          "delta": 2832,
+          "readers": 2
+        },
+        {
+          "value": "0x085A65EC",
+          "delta": 2868,
+          "readers": 2
+        },
+        {
+          "value": "0x085A4DEC",
+          "delta": -3276,
+          "readers": 1
+        },
+        {
+          "value": "0x085A4DE4",
+          "delta": -3284,
+          "readers": 1
+        },
+        {
+          "value": "0x085A4CE8",
+          "delta": -3536,
+          "readers": 7
+        },
+        {
+          "value": "0x085A68B0",
+          "delta": 3576,
+          "readers": 1
+        },
+        {
+          "value": "0x085A68DC",
+          "delta": 3620,
+          "readers": 1
+        },
+        {
+          "value": "0x085A693C",
+          "delta": 3716,
+          "readers": 1
+        },
+        {
+          "value": "0x085A6954",
+          "delta": 3740,
+          "readers": 1
+        },
+        {
+          "value": "0x085A69E0",
+          "delta": 3880,
+          "readers": 1
+        },
+        {
+          "value": "0x085A6A68",
+          "delta": 4016,
+          "readers": 1
+        },
+        {
+          "value": "0x085A6A84",
+          "delta": 4044,
+          "readers": 1
+        }
+      ]
+    },
+    "0x085A57C4": {
+      "name": "speaker_short_name_table",
+      "file_offset": "0x5A57C4",
+      "raw_occurrences": [
+        "0x079108",
+        "0x081224",
+        "0x081254",
+        "0x0860C0",
+        "0x088884",
+        "0x088E4C",
+        "0x089538",
+        "0x08D338",
+        "0x090168",
+        "0x095598",
+        "0x095DF0",
+        "0x097A40"
+      ],
+      "consumers": [
+        {
+          "reader": "0x0807908C",
+          "mode": "thumb",
+          "function": "0x08078E38",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "0807908C  ldr r1, [pc, #0x78]  ; base = 0x085A57C4",
+            "0807908E  adds r0, r0, r1"
+          ],
+          "disasm": [
+            "08078E38  push {r4, r5, r6, r7, lr}",
+            "08078E3A  mov r7, sl",
+            "08078E3C  mov r6, sb",
+            "08078E3E  mov r5, r8",
+            "08078E40  push {r5, r6, r7}",
+            "08078E42  sub sp, #8",
+            "08078E44  adds r6, r0, #0",
+            "08078E46  ldr r0, [pc, #0x28]",
+            "08078E48  mov sl, r0",
+            "08078E4A  adds r5, r6, #0",
+            "08078E4C  adds r5, #0x2c",
+            "08078E4E  ldrb r0, [r5, #8]",
+            "08078E50  bl #0x80655b4",
+            "08078E54  adds r3, r0, #0",
+            "08078E56  ldrh r0, [r5, #6]",
+            "08078E58  cmp r0, #0",
+            "08078E5A  bne #0x8078e62",
+            "08078E5C  ldr r0, [pc, #0x14]",
+            "08078E5E  ldr r0, [r0]",
+            "08078E60  mov sb, r0",
+            "08078E62  ldrh r0, [r6, #0x2c]",
+            "08078E64  cmp r0, #0",
+            "08078E66  beq #0x8078e78",
+            "08078E68  cmp r0, #1"
+          ]
+        },
+        {
+          "reader": "0x080811D2",
+          "mode": "thumb",
+          "function": "0x080810B0",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "080811D2  ldr r1, [pc, #0x50]  ; base = 0x085A57C4",
+            "080811D4  adds r0, r0, r1"
+          ],
+          "disasm": [
+            "080810B0  push {r4, r5, r6, r7, lr}",
+            "080810B2  sub sp, #0x10",
+            "080810B4  ldr r6, [pc, #0x88]",
+            "080810B6  movs r0, #0x94",
+            "080810B8  lsls r0, r0, #2",
+            "080810BA  adds r7, r6, r0",
+            "080810BC  ldr r0, [pc, #0x84]",
+            "080810BE  bl #0x8067158",
+            "080810C2  adds r0, r6, #0",
+            "080810C4  bl #0x808fd38",
+            "080810C8  movs r0, #0xff",
+            "080810CA  str r0, [sp]",
+            "080810CC  str r0, [sp, #4]",
+            "080810CE  str r0, [sp, #8]",
+            "080810D0  movs r0, #1",
+            "080810D2  str r0, [sp, #0xc]",
+            "080810D4  adds r0, r6, #0",
+            "080810D6  movs r1, #1",
+            "080810D8  movs r2, #0",
+            "080810DA  movs r3, #0",
+            "080810DC  bl #0x8090220",
+            "080810E0  ldr r0, [pc, #0x64]",
+            "080810E2  bl #0x8067158",
+            "080810E6  ldr r0, [pc, #0x64]"
+          ]
+        },
+        {
+          "reader": "0x0808123E",
+          "mode": "thumb",
+          "function": "0x080810B0",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "0808123E  ldr r0, [pc, #0x14]  ; base = 0x085A57C4",
+            "08081240  adds r1, r1, r0"
+          ],
+          "disasm": [
+            "080810B0  push {r4, r5, r6, r7, lr}",
+            "080810B2  sub sp, #0x10",
+            "080810B4  ldr r6, [pc, #0x88]",
+            "080810B6  movs r0, #0x94",
+            "080810B8  lsls r0, r0, #2",
+            "080810BA  adds r7, r6, r0",
+            "080810BC  ldr r0, [pc, #0x84]",
+            "080810BE  bl #0x8067158",
+            "080810C2  adds r0, r6, #0",
+            "080810C4  bl #0x808fd38",
+            "080810C8  movs r0, #0xff",
+            "080810CA  str r0, [sp]",
+            "080810CC  str r0, [sp, #4]",
+            "080810CE  str r0, [sp, #8]",
+            "080810D0  movs r0, #1",
+            "080810D2  str r0, [sp, #0xc]",
+            "080810D4  adds r0, r6, #0",
+            "080810D6  movs r1, #1",
+            "080810D8  movs r2, #0",
+            "080810DA  movs r3, #0",
+            "080810DC  bl #0x8090220",
+            "080810E0  ldr r0, [pc, #0x64]",
+            "080810E2  bl #0x8067158",
+            "080810E6  ldr r0, [pc, #0x64]"
+          ]
+        },
+        {
+          "reader": "0x08086048",
+          "mode": "thumb",
+          "function": "0x08085F50",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "08086048  ldr r0, [pc, #0x74]  ; base = 0x085A57C4",
+            "0808604A  adds r1, r1, r0"
+          ],
+          "disasm": [
+            "08085F50  push {r4, r5, r6, r7, lr}",
+            "08085F52  mov r7, sl",
+            "08085F54  mov r6, sb",
+            "08085F56  mov r5, r8",
+            "08085F58  push {r5, r6, r7}",
+            "08085F5A  sub sp, #0x2c",
+            "08085F5C  lsls r0, r0, #0x18",
+            "08085F5E  lsrs r6, r0, #0x18",
+            "08085F60  lsls r1, r1, #0x18",
+            "08085F62  lsrs r1, r1, #0x18",
+            "08085F64  ldr r0, [pc, #0x10]",
+            "08085F66  mov r8, r0",
+            "08085F68  cmp r1, #1",
+            "08085F6A  bhi #0x8085f7c",
+            "08085F6C  adds r1, #1",
+            "08085F6E  lsls r0, r1, #2",
+            "08085F70  adds r0, r0, r1",
+            "08085F72  lsls r0, r0, #1",
+            "08085F74  b #0x8085f7e",
+            "08085F76  movs r0, r0",
+            "08085F7C  movs r0, #0xd",
+            "08085F7E  lsls r1, r0, #0x18",
+            "08085F80  lsrs r1, r1, #0x18",
+            "08085F82  movs r0, #0xa"
+          ]
+        },
+        {
+          "reader": "0x08088814",
+          "mode": "thumb",
+          "function": "0x08088798",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "08088814  ldr r0, [pc, #0x6c]  ; base = 0x085A57C4",
+            "08088816  adds r1, r1, r0"
+          ],
+          "disasm": [
+            "08088798  push {r4, r5, r6, r7, lr}",
+            "0808879A  mov r7, r8",
+            "0808879C  push {r7}",
+            "0808879E  sub sp, #0x28",
+            "080887A0  lsls r0, r0, #0x18",
+            "080887A2  lsrs r5, r0, #0x18",
+            "080887A4  lsls r1, r1, #0x18",
+            "080887A6  lsrs r1, r1, #0x18",
+            "080887A8  ldr r6, [pc, #0xc]",
+            "080887AA  cmp r1, #1",
+            "080887AC  bhi #0x80887bc",
+            "080887AE  adds r1, #1",
+            "080887B0  lsls r0, r1, #2",
+            "080887B2  adds r0, r0, r1",
+            "080887B4  lsls r0, r0, #1",
+            "080887B6  b #0x80887be",
+            "080887BC  movs r0, #0xd",
+            "080887BE  lsls r1, r0, #0x18",
+            "080887C0  lsrs r1, r1, #0x18",
+            "080887C2  movs r0, #0xa",
+            "080887C4  str r0, [sp]",
+            "080887C6  movs r0, #0x80",
+            "080887C8  str r0, [sp, #4]",
+            "080887CA  adds r0, r5, #0"
+          ]
+        },
+        {
+          "reader": "0x08088DB2",
+          "mode": "thumb",
+          "function": "0x08088914",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "08088DB2  ldr r0, [pc, #0x98]  ; base = 0x085A57C4",
+            "08088DB4  adds r1, r1, r0"
+          ],
+          "disasm": [
+            "08088914  push {r4, r5, r6, r7, lr}",
+            "08088916  mov r7, sl",
+            "08088918  mov r6, sb",
+            "0808891A  mov r5, r8",
+            "0808891C  push {r5, r6, r7}",
+            "0808891E  sub sp, #0x3c",
+            "08088920  ldr r2, [pc, #0xf4]",
+            "08088922  ldrh r1, [r2]",
+            "08088924  ldr r0, [pc, #0xf4]",
+            "08088926  ands r0, r1",
+            "08088928  strh r0, [r2]",
+            "0808892A  movs r4, #0",
+            "0808892C  str r4, [sp, #0x34]",
+            "0808892E  add r0, sp, #0x34",
+            "08088930  ldr r2, [pc, #0xec]",
+            "08088932  add r1, sp, #0x14",
+            "08088934  bl #0x809c0e0",
+            "08088938  movs r0, #0",
+            "0808893A  bl #0x808da90",
+            "0808893E  ldr r0, [pc, #0xe4]",
+            "08088940  ldr r1, [pc, #0xe4]",
+            "08088942  bl #0x809c0e8",
+            "08088946  ldr r0, [pc, #0xe4]",
+            "08088948  ldr r1, [pc, #0xe4]"
+          ]
+        },
+        {
+          "reader": "0x08089362",
+          "mode": "thumb",
+          "function": "0x08089310",
+          "usage": "offset",
+          "usage_detail": "base + 0",
+          "stride": null,
+          "evidence": [
+            "08089362  ldr r1, [pc, #0x1d4]  ; base = 0x085A57C4",
+            "08089364  adds r0, r0, r1"
+          ],
+          "disasm": [
+            "08089310  push {r4, r5, r6, r7, lr}",
+            "08089312  mov r7, sl",
+            "08089314  mov r6, sb",
+            "08089316  mov r5, r8",
+            "08089318  push {r5, r6, r7}",
+            "0808931A  sub sp, #0x4c",
+            "0808931C  ldr r0, [pc, #0x200]",
+            "0808931E  ldr r1, [pc, #0x204]",
+            "08089320  bl #0x809c0e8",
+            "08089324  ldr r0, [pc, #0x200]",
+            "08089326  ldr r1, [pc, #0x204]",
+            "08089328  movs r2, #0x10",
+            "0808932A  bl #0x809c0e0",
+            "0808932E  movs r0, #0",
+            "08089330  str r0, [sp, #0x28]",
+            "08089332  add r0, sp, #0x28",
+            "08089334  ldr r2, [pc, #0x1f8]",
+            "08089336  add r1, sp, #0x14",
+            "08089338  bl #0x809c0e0",
+            "0808933C  ldr r0, [pc, #0x1f4]",
+            "0808933E  bl #0x8067158",
+            "08089342  movs r7, #0",
+            "08089344  add r0, sp, #0x2c",
+            "08089346  mov r8, r0"
+          ]
+        },
+        {
+          "reader": "0x0808D29A",
+          "mode": "thumb",
+          "function": "0x0808D230",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "0808D29A  ldr r5, [pc, #0x9c]  ; base = 0x085A57C4",
+            "0808D29C  adds r0, r0, r5"
+          ],
+          "disasm": [
+            "0808D230  push {r4, r5, r6, r7, lr}",
+            "0808D232  mov r7, sb",
+            "0808D234  mov r6, r8",
+            "0808D236  push {r6, r7}",
+            "0808D238  sub sp, #0xc",
+            "0808D23A  mov r8, r2",
+            "0808D23C  lsls r0, r0, #0x18",
+            "0808D23E  lsrs r0, r0, #0x18",
+            "0808D240  lsls r1, r1, #0x18",
+            "0808D242  lsrs r6, r1, #0x18",
+            "0808D244  ldr r1, [pc, #0xe8]",
+            "0808D246  adds r0, r0, r1",
+            "0808D248  ldrb r0, [r0]",
+            "0808D24A  cmp r0, #1",
+            "0808D24C  bne #0x808d250",
+            "0808D24E  movs r6, #1",
+            "0808D250  ldr r7, [pc, #0xe0]",
+            "0808D252  lsls r1, r6, #2",
+            "0808D254  adds r0, r1, r6",
+            "0808D256  lsls r0, r0, #2",
+            "0808D258  adds r0, #0x52",
+            "0808D25A  adds r7, r0, r7",
+            "0808D25C  movs r5, #0",
+            "0808D25E  mov sb, r1"
+          ]
+        },
+        {
+          "reader": "0x08090152",
+          "mode": "thumb",
+          "function": "0x08090098",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "08090152  ldr r0, [pc, #0x14]  ; base = 0x085A57C4",
+            "08090154  adds r1, r1, r0"
+          ],
+          "disasm": [
+            "08090098  push {r4, r5, r6, r7, lr}",
+            "0809009A  sub sp, #0x10",
+            "0809009C  ldr r7, [pc, #0x88]",
+            "0809009E  movs r0, #0x94",
+            "080900A0  lsls r0, r0, #2",
+            "080900A2  adds r6, r7, r0",
+            "080900A4  ldr r0, [pc, #0x84]",
+            "080900A6  bl #0x8067158",
+            "080900AA  adds r0, r7, #0",
+            "080900AC  bl #0x808fd38",
+            "080900B0  movs r0, #0xff",
+            "080900B2  str r0, [sp]",
+            "080900B4  str r0, [sp, #4]",
+            "080900B6  str r0, [sp, #8]",
+            "080900B8  movs r0, #1",
+            "080900BA  str r0, [sp, #0xc]",
+            "080900BC  adds r0, r7, #0",
+            "080900BE  movs r1, #1",
+            "080900C0  movs r2, #0",
+            "080900C2  movs r3, #0",
+            "080900C4  bl #0x8090220",
+            "080900C8  ldr r0, [pc, #0x64]",
+            "080900CA  bl #0x8067158",
+            "080900CE  ldr r0, [pc, #0x64]"
+          ]
+        },
+        {
+          "reader": "0x08095514",
+          "mode": "thumb",
+          "function": "0x080952C8",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "08095514  ldr r1, [pc, #0x80]  ; base = 0x085A57C4",
+            "08095516  adds r0, r0, r1"
+          ],
+          "disasm": [
+            "080952C8  push {r4, r5, r6, r7, lr}",
+            "080952CA  mov r7, sl",
+            "080952CC  mov r6, sb",
+            "080952CE  mov r5, r8",
+            "080952D0  push {r5, r6, r7}",
+            "080952D2  sub sp, #8",
+            "080952D4  adds r6, r0, #0",
+            "080952D6  adds r4, r6, #0",
+            "080952D8  adds r4, #0x2c",
+            "080952DA  ldrb r0, [r4, #8]",
+            "080952DC  bl #0x80655b4",
+            "080952E0  adds r3, r0, #0",
+            "080952E2  ldrh r0, [r4, #6]",
+            "080952E4  cmp r0, #0",
+            "080952E6  bne #0x8095300",
+            "080952E8  ldr r0, [pc, #0x10]",
+            "080952EA  adds r0, #0x2d",
+            "080952EC  ldrb r0, [r0]",
+            "080952EE  str r3, [sp, #4]",
+            "080952F0  bl #0x8092018",
+            "080952F4  mov sb, r0",
+            "080952F6  ldr r3, [sp, #4]",
+            "080952F8  b #0x8095304",
+            "080952FA  movs r0, r0"
+          ]
+        },
+        {
+          "reader": "0x08095CF6",
+          "mode": "thumb",
+          "function": "0x08095A88",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "08095CF6  ldr r0, [pc, #0xf8]  ; base = 0x085A57C4",
+            "08095CF8  adds r1, r1, r0"
+          ],
+          "disasm": [
+            "08095A88  push {r4, r5, r6, r7, lr}",
+            "08095A8A  mov r7, sl",
+            "08095A8C  mov r6, sb",
+            "08095A8E  mov r5, r8",
+            "08095A90  push {r5, r6, r7}",
+            "08095A92  sub sp, #0x80",
+            "08095A94  lsls r0, r0, #0x18",
+            "08095A96  lsrs r0, r0, #0x18",
+            "08095A98  str r0, [sp, #0x68]",
+            "08095A9A  movs r5, #0",
+            "08095A9C  str r5, [sp, #0x64]",
+            "08095A9E  add r0, sp, #0x64",
+            "08095AA0  ldr r2, [pc, #0x190]",
+            "08095AA2  add r1, sp, #0x14",
+            "08095AA4  bl #0x809c0e0",
+            "08095AA8  movs r0, #4",
+            "08095AAA  str r0, [sp]",
+            "08095AAC  str r5, [sp, #4]",
+            "08095AAE  ldr r0, [sp, #0x68]",
+            "08095AB0  movs r1, #0",
+            "08095AB2  movs r2, #0",
+            "08095AB4  movs r3, #0x13",
+            "08095AB6  bl #0x8066ae8",
+            "08095ABA  ldr r0, [sp, #0x68]"
+          ]
+        },
+        {
+          "reader": "0x08097A12",
+          "mode": "thumb",
+          "function": "0x080977B8",
+          "usage": "indexed",
+          "usage_detail": "base + 12*idx",
+          "stride": 12,
+          "evidence": [
+            "08097A12  ldr r4, [pc, #0x2c]  ; base = 0x085A57C4",
+            "08097A14  adds r1, r1, r4"
+          ],
+          "disasm": [
+            "080977B8  push {r4, r5, r6, r7, lr}",
+            "080977BA  mov r7, sl",
+            "080977BC  mov r6, sb",
+            "080977BE  mov r5, r8",
+            "080977C0  push {r5, r6, r7}",
+            "080977C2  sub sp, #0x30",
+            "080977C4  adds r7, r0, #0",
+            "080977C6  lsls r1, r1, #0x18",
+            "080977C8  lsrs r1, r1, #0x18",
+            "080977CA  str r1, [sp, #0x28]",
+            "080977CC  str r1, [sp, #0x2c]",
+            "080977CE  ldr r0, [pc, #0x1c]",
+            "080977D0  movs r1, #0",
+            "080977D2  str r1, [r0, #4]",
+            "080977D4  str r1, [r0]",
+            "080977D6  mov sl, r1",
+            "080977D8  ldrb r0, [r7]",
+            "080977DA  cmp r0, #0x39",
+            "080977DC  bls #0x80977e0",
+            "080977DE  b #0x8097e2c",
+            "080977E0  lsls r0, r0, #2",
+            "080977E2  ldr r1, [pc, #0xc]",
+            "080977E4  adds r0, r0, r1",
+            "080977E6  ldr r0, [r0]"
+          ]
+        }
+      ],
+      "neighbors": [
+        {
+          "value": "0x085A57C4",
+          "delta": 0,
+          "readers": 12
+        },
+        {
+          "value": "0x085A5AB8",
+          "delta": 756,
+          "readers": 3
+        },
+        {
+          "value": "0x085A5F65",
+          "delta": 1953,
+          "readers": 1
+        },
+        {
+          "value": "0x085A4DEC",
+          "delta": -2520,
+          "readers": 1
+        },
+        {
+          "value": "0x085A4DE4",
+          "delta": -2528,
+          "readers": 1
+        },
+        {
+          "value": "0x085A4CE8",
+          "delta": -2780,
+          "readers": 7
+        },
+        {
+          "value": "0x085A63E8",
+          "delta": 3108,
+          "readers": 2
+        },
+        {
+          "value": "0x085A65C8",
+          "delta": 3588,
+          "readers": 2
+        },
+        {
+          "value": "0x085A65EC",
+          "delta": 3624,
+          "readers": 2
         }
       ]
     },

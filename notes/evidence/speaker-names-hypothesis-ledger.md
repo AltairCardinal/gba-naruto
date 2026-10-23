@@ -33,12 +33,12 @@
 
 | # | 事实 | 怎么验的 | 复核命令 |
 |---|---|---|---|
-| F1 | 转换机制**能跑**：14 处补丁逐字节落地、长度全变不了、指针表 64 槽全合法、保护区未动、串池内容正确、转换后能解析回来 | `node rom-editor/tools/verify_speaker_conversion.mjs`（**42 条断言**全过） | 同左 |
-| F2 | 14 处补丁的**反汇编**与清单一致，补丁之后 8 字节未被误伤。**长度有两种口径，别混着写**：① **按字节数**（`byte_length`）= **12 条 10 字节 + 2 条 8 字节**（合计 136 字节）；② **按指令条数**（`new_disasm` 的行数）= **12 条 5 条指令 + 2 条 4 条指令** | capstone 逐处反汇编 `build/speaker-test.gba` | `node rom-editor/tools/verify_speaker_conversion.mjs`（42 条断言，exit=0）；逐处 capstone 对拍见下面 ⚠️ 备注 |
+| F1 | 转换机制**能跑**：14 处补丁逐字节落地、长度全变不了、指针表 64 槽全合法、保护区未动、串池内容正确、转换后能解析回来 | `node rom-editor/tools/verify_speaker_conversion.mjs`（**47 条断言**全过〔本轮由 42 增至 47：保护区那 5 条〕） | 同左 |
+| F2 | 14 处补丁的**反汇编**与清单一致，补丁之后 8 字节未被误伤。**长度有两种口径，别混着写**：① **按字节数**（`byte_length`）= **12 条 10 字节 + 2 条 8 字节**（合计 136 字节）；② **按指令条数**（`new_disasm` 的行数）= **12 条 5 条指令 + 2 条 4 条指令** | capstone 逐处反汇编 `build/speaker-test.gba` | `node rom-editor/tools/verify_speaker_conversion.mjs`（47 条断言，exit=0）；逐处 capstone 对拍见下面 ⚠️ 备注 |
 | F3 | 12 处 `ldr [pc,#imm]` 取到的字面量**全是 `0x085A57C4`**；两处 variant D 沿用寄存器里的基址 | 手算 PC 基准 + imm8 | 同 F2 |
 | F4 | 跨调用依赖的 **r4/r5 被保住**（渲染器 `push {r4,r5,r6,r7,lr}`；strlen `push {r4,r5,lr}`） | 反汇编两个被调函数的序言 | 同 F2 |
 | F5 | 指针表 64 槽都在 ROM 内；`id 63 → 池里的「没有」` | 读构建产物 | — |
-| F6 | 保护区（说话人全名表 `0x085A5AB8..0x085A5F78`）**逐字节未动** | 与原版对比 | 同 F1 |
+| F6 | **保护区逐字节未动** —— ⚠️ **本轮已扩到两张表**：现在是 `0x085A5AB8..0x085A6343`（说话人**全名表** + **地点名表**的并集，**2187 字节**，`[start,end)` 口径），不再是只盖全名表的 `0x085A5AB8..0x085A5F78`（见 **F19**） | 与原版对比 | `node rom-editor/tools/verify_speaker_conversion.mjs`（47 条断言，第 5 段） |
 | F7 | **串池奇数起始不是原因**（64 条里 32 条起始地址是奇数）：渲染器全程 `ldrb` 逐字节读字符串，16 位读只发生在 RAM 对象和字体表 | 反汇编 `0x0806626C..0x08066500` | — |
 | F8 | **串池与剧本搬迁不抢 `0x5DFBEC`**：`allocate()` 只找 `0xFF` 段，池写进去后不再是 `0xFF` | 读 `rom-editor/js/rom.js` | `node rom-editor/tools/verify_free_space.mjs`（16 条断言全过） |
 | F9 | **补丁末尾的 `0xBF00` 是唯一的病灶**：只把这 14 个字节换成 `0x46C0`（`mov r8,r8`），别的什么都不动 ⇒ 卡死变能跑 | A/B 对照 | `python tools/mgba_probe/speaker_freeze_trace.py --fix-nop`（§4.1） |
@@ -47,7 +47,8 @@
 | F12 | **标志位语义不受影响**：原序列末条 `adds rX,rX,rY`（写标志）与新序列末条 `ldr`（不写标志）之间，参与 `adds` 的量只差 `id*12` vs `id*4`，和都是 `0x085A57C4 + 小数` ⇒ N/Z/C/V 取值相同 | 理论核对 | 同上 §4.2 |
 
 > ⚠️ **复核命令的口径提示**（2026-10-23 独立验收复查时实测，别照着旧命令跑出红就以为清单坏了）：
-> - **`node rom-editor/tools/verify_speaker_conversion.mjs` = 当前权威门禁**，**42 条断言**、exit=0。
+> - **`node rom-editor/tools/verify_speaker_conversion.mjs` = 当前权威门禁**，**47 条断言**、exit=0
+>   （本轮由 42 增至 47：新增的是**保护区那 5 条** —— 见 F19）。
 >   它只查 `new_disasm` 的**末条**（必须是 `mov r8, r8`、且不再是 `nop`）与 `after_hex` 的末 2 字节
 >   —— **不读**解引用那一行的文本。
 > - **`node tools/probe_speaker_code_patches.mjs`（旧的逐处探针）目前是红的**（检查项 231 / 失败 42）。
@@ -68,7 +69,13 @@
 | F15 | **`rom-editor/js/parsepack.js` 的一个真 bug 已修**：解析**原版** ROM 时 `speaker_names` 的 `capacity` 被读成「名字长度+1」（5/7/3/9）而不是真实的 **12**（定长内联槽）—— 原因是 `fixedSlot` 判定没有覆盖「未转换的可转换表」；修后 `capacity` 全是 12、`raw` 全 12 字节、往返重建仍与原版逐字节相同 | 往返重建对拍 | `node rom-editor/tools/verify_pack.mjs` |
 | F16 | 门禁新增 `report.textsRead`（每张表**实际从 ROM 读到几条记录**）作为「形态判对没」的判据 | 读 `rom-editor/js/parsepack.js` | 同上 |
 | F17 | **产品侧已落地**：清单 `tools/data/speaker_name_code_patches.json` 的 14 处 `after_hex` 末 2 字节已是 `c046`、`new_disasm` 末条已是 `mov r8, r8`，并新增 `conventions.filler`（固定用 `0x46C0`、**禁用 `0xBF00`**）；内容包 `pack.json` / `pack.min.json.gz` 由 `tools/export_content_pack.py` 从清单**重新导出**（清单是唯一真相源）；门禁 `verify_speaker_conversion.mjs` 新增断言（禁用 `0xBF00` / 必须是 `0x46C0` / 清单与内容包逐字节同步）；真机验收脚本 `tools/mgba_probe/speaker_acceptance.py` 已建 | 读产品数据 + 跑门禁 | `notes/evidence/speaker-name-fix-20261023.md`（**该笔记 §3–§5 仍在补**）；`node rom-editor/tools/verify_speaker_conversion.mjs` |
-| **F18** | **真机验收 §A5「读者覆盖」的实测结果：当前按键路线只覆盖 1/14 处读者**（**仅 `vm_0x08`**）；其余 **13 处**属**战斗消息 / 命令消息 / 战斗日志**场景，当前按键路线**到不了**。⇒ 这是**未闭合的覆盖缺口**，**不影响「修复正确」的结论**（修复本身已由 42 条静态断言 + A/B 实测证明有效）。另注：`tools/mgba_probe/speaker_acceptance.py` 在验收期间被**并行修改**过（新增了 A5 读者覆盖）；验收者跑的第 **3** 次（**最新版**）**exit=0** | 真机验收脚本 §A5 的逐处命中统计 | `python tools/mgba_probe/speaker_acceptance.py`（A5 节）；`notes/evidence/speaker-name-fix-20261023.md` |
+| **F18** | **真机验收 §A5「读者覆盖」已闭合**：14 处补丁的覆盖档位 = **A 5 / B 9 / C 0** —— **A** = 自然场景跑到并取证（`vm_0x08`、`vm_0x0E_second_name`、`name_len`、`name_draw`、`name_cell_count`）、**B** = **真实 CPU 上受控触发**取证（其余 9 处）、**C** = 只有静态判定（**C 为 0** ⇒ 没有「连静态都说不清」的）。B 档**不是静态推断**：每一处都在真实 CPU 上单步走完补丁窗口，**14/14** 算出槽位 `0x085A57C4 + id*4`、**14/14** 解引用出的指针落在串池 `0x085DFBEC..0x085DFD3F` 内、**14/14** 读到的名字是**「鸣人测试」**（转换版把 id 1 改长后的那个名字）。判定用的三条路线（`story` 变化 **151** 步 / `scene` **462** 步 / `battle` **59** 步）**都不冻结**，另加**144 场战斗全扫** | 受控触发的寄存器轨迹 + 逐帧画面哈希 + 144 场全扫命中统计 | `notes/evidence/speaker-name-reader-coverage-20261023.md`（探针 `tools/mgba_probe/speaker_reader_coverage.py`，exit 0） |
+| **F18b** | ⚠️ **剩下的是「界面没被打开」，不是「代码没验过」**：9 处 B 档所在的**界面**（**战斗日志** / **指令菜单的子界面** / **另一种消息框类型**）在本轮三条路线 + 144 场战斗全扫里**一次都没被打开** ⇒ 它们的**代码已经在真实 CPU 上验过了**（受控触发 14/14），只是**没有自然触发时的截图**。要补成 A 档，得先找到打开那些界面的按键（战斗日志的按钮 / 战斗入口 `fn 0x080732B4` 在 `0x0807498C` 那条分支 / 让游戏实例化**那种**消息框类型） | 9 处 B 档自然命中 **0** 次；受控触发 **14/14** 通过 | 同上 §3.5（「还差什么才能全 A」） |
+| **F19** | **保护区扩到「两张表」**（N1 的另一半，已闭合）：清单 `tools/data/speaker_name_code_patches.json` 的保护区从 `0x085A5AB8..0x085A5F78`（**只盖全名表**）扩到 **`0x085A5AB8..0x085A6343`** = 全名表（1216 B）+ 地点名表（990 B）− 重叠 19 B = **2187 字节**（`[start,end)` 口径）。门禁第 5 段断言**两张表合起来逐字节未动**，并做**变异测试**：从**清单**侧或**门禁**侧把范围**写小 1 字节** ⇒ **都变红**（断言不是空转） | 2187 字节；2 次变异都 EXIT=1；门禁断言数 42 → **47** | `notes/evidence/speaker-name-registry-20261023.md` §4 / §5.3；`node rom-editor/tools/verify_speaker_conversion.mjs`（47 条断言） |
+| **F20** | **两张表已进内容包**（N2 的另一半，已闭合）：`rom-editor/content/pack.json` 的 `texts[]` **11 → 13**（新增 `speaker_full_names` 64 条 × 19 B、`location_names` 55 条 × 18 B，**都是定长内联槽**）；`text-index.json.gz` 顺带重生成（**119** 条新记录全部带上 `owned_by` ⇒ 一个字节一个归属） | texts 11 → 13；119 条 owned_by | `notes/evidence/speaker-name-contentpack-20261023.md` §4；`python tools/export_content_pack.py --check`（exit 0） |
+| **F21** | **定长内联槽写回的三处真缺口已补**：① 旧写法把槽尾**清零**（会抹掉**别人的**字节）⇒ 改成**整槽原样写回**；② 容量判定用**槽长**而不是**可写长度** ⇒ 改用 `writable_bytes`（全名表 id 63 只有 **18/19**，第 19 字节是地点名表 id 1 的「村」= `0x8a`）；③ 「有没有改过」拿「正文 + **零填充**」去比 ⇒ 改成**比正文**（全名表 id 63 的填充**不是零**） | 变异对照：猴补丁回旧行为 ⇒ `0x5A5F77` 立刻变成 `0x00`（原 `0x8a`）⇒ 断言有牙齿 | `notes/evidence/speaker-name-contentpack-20261023.md` §2.3 / §5.4；`node rom-editor/tools/verify_pack.mjs`（第 11 节） |
+| **F22** | **构建器新增「跨表抢字节」检测**：两张表**声称同一段字节但内容不同** ⇒ **构建报错**（不悄悄丢一处）；地址别名用 `aliased_with`（跨表共用）+ `writable_bytes`（可写长度）如实建模 | 2 处别名改成不同的字 ⇒ 构建报错 | 同上 §3.3 / §5.4 |
+| **F23** | **逐字节不变式仍然成立**：内容包重建出来与 `rom/base.gba` **6,291,456 字节全等**（sha256 `1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b`）；生成器**两次产出逐字节相同**（`pack.json` / `pack.min.json.gz` / `text-index.json.gz` 三个文件都是） | 6,291,456 字节全等；3 个产物两次一致 | `notes/evidence/speaker-name-contentpack-20261023.md` §5.2 / §5.3 |
 
 ---
 
@@ -191,15 +198,19 @@
 
 ## 6. 新事实（这一轮查出来的）
 
-| # | 事实 | 关键数字 | 证据 |
-|---|---|---|---|
-| **N1** | **`0x085A5F65` 起是第三张表 —— 地点名表**（地图地名），**步长 18 字节/条**、**55 条（id 0..54）**、范围 `0x085A5F65..0x085A6342`；它的 id 0「没有」与说话人全名表 id 63 **同址** | 步长 18（符号求值器验证）；读者 `0x0808CD8E` | `notes/evidence/speaker-name-id63-20261023.md` §3.5 / N1 |
-| **N1b** | ⇒ 项目里的「保护区 `0x085A5AB8..0x085A5F78`」**只覆盖了全名表**（`0x085A5AB8..0x085A5F77` = 64 × 19 = 1216 字节），**地点名表的 id 1..54 在保护区之外** | 全名表 64 条、地点名表 55 条 | 同上 §1.3 / §4 |
-| **N2** | **地点名表与说话人全名表都还没登记进 `tools/table_registry.py` 和内容包**（`table_registry.py` 里 `0x5A5AB8` / `0x5A5F65` 都不存在；内容包 116 张结构表里也没有步长 18 / 19 的表） ⇒ **内容包缺口** | — | 同上 §5 的 N2 |
-| **N3** | **`speaker_names` 在原版里其实只有 63 个槽（id 0..62）**；id 63 那一格**没有自己的字节**，它借用了全名表第 0 条的存储 ⇒ 这是作者**刻意的存储别名**，不是 bug | 简称表 63 条 + 全名表 64 条 + 地点名表 55 条；三条「没有」共用同一批字节 `92 59 9a 9a 00` | 同上 §1.1 / §5 的 N1 |
-| **N4** | **三张表在 ROM 里的落点与读者**（完整版）：简称表 `0x085A57C4`（步长 12，**12 个读者**）/ 全名表 `0x085A5AB8`（步长 19，**3 个读者**）/ 地点名表 `0x085A5F65`（步长 18，**1 个读者**）⇒ 全 ROM **只有 16 处** pc 相对字面量落在这片区域 | 12 + 3 + 1 = 16，没有第 17 处 | 同上 §3.5 / §4 |
-| **N5** | **补 `0x46C0` 之后仍待验的三件事**：① 13 处读者在**战斗消息 / 命令消息 / 战斗日志**场景里被执行到（这一轮只跑到剧情开场的 `op 0x08`）；② 名字本身**画得对不对**（只验了「不再卡死」，没逐像素比对「鸣人测试」是否正确画在名字框里）；③ 14 处补丁的标志位语义**未逐处实测** | — | `notes/evidence/speaker-name-freeze-trace-20261023.md` §4.3 / §8 |
-| **N6** | **产品侧落地的位置**（谁改了、怎么改的）：`tools/data/speaker_name_code_patches.json` = **唯一真相源**；内容包由 `python tools/export_content_pack.py --no-rom --no-text-index` 重新导出（不是手改）；`rom-editor/js/rom.js` **不用改**（填充指令来自内容包，目录里 grep `bf00` 零命中） | 213,678 行里只有 **14 行**不同，全是 `after_hex` 那一行 | `notes/evidence/speaker-name-fix-20261023.md` §2 |
+> 状态口径与 §1 / §2 一致：`已确认` = 事实（附复核命令）· `已证伪` = 别再查 · `未验` = 还没做。
+
+| # | 事实 | 关键数字 | 证据 | 状态 |
+|---|---|---|---|---|
+| **N1** | **`0x085A5F65` 起是第三张表 —— 地点名表**（地图地名），**步长 18 字节/条**、**55 条（id 0..54）**、范围 `0x085A5F65..0x085A6342`；它的 id 0「没有」与说话人全名表 id 63 **同址** | 步长 18（符号求值器验证）；读者 `0x0808CD8E`（被**剧情状态机** `fn 0x0808F190` 在 `0x0808F40C` 调用） | `notes/evidence/speaker-name-id63-20261023.md` §3.5 / N1；`notes/evidence/speaker-name-registry-20261023.md` §1 | **已确认** |
+| **N1b** | ⇒ 项目里的「保护区 `0x085A5AB8..0x085A5F78`」**只覆盖了全名表**（`0x085A5AB8..0x085A5F77` = 64 × 19 = 1216 字节），**地点名表的 id 1..54 在保护区之外** ⇒ **已修**：保护区扩到 **`0x085A5AB8..0x085A6343`**（两张表的并集，2187 字节），门禁断言**两张表合起来逐字节未动** + **变异测试**（见 **F19**） | 全名表 64 条、地点名表 55 条；2187 字节 | 同上 §1.3 / §4；`notes/evidence/speaker-name-registry-20261023.md` §4 / §5.3 | **已确认** |
+| **N2** | **地点名表与说话人全名表都还没登记进 `tools/table_registry.py` 和内容包** ⇒ **已修**：登记表里新增 `speaker_full_name_table`（`0x5A5AB8`，19 B × 64）与 `location_name_table`（`0x5A5F65`，18 B × 55）；旧登记 `palette_source_table` **改正**为「说话人**简称**表」（`speaker_short_name_table`），旧名保留成别名条目；两条地址别名写进 `CONFLICTS` 并由 `tools/alias_audit.py` **从 ROM 重新推导**判据（5 条全 PASS）；**两张表也已进内容包**（`texts[]` 11 → 13，见 **F20**） | 2 张表 × 2 处登记 + 5 条别名判据全 PASS；texts 11 → 13 | `notes/evidence/speaker-name-registry-20261023.md` §2 / §3.1；`notes/evidence/speaker-name-contentpack-20261023.md` §4 | **已确认** |
+| **N3** | **`speaker_names` 在原版里其实只有 63 个槽（id 0..62）**；id 63 那一格**没有自己的字节**，它借用了全名表第 0 条的存储 ⇒ 这是作者**刻意的存储别名**，不是 bug。**本轮补了机器判据**：两条别名（`0x5a5ab8` / `0x5a5f65`）写进 `tools/table_registry.py::CONFLICTS`，`tools/alias_audit.py` 会**从 ROM 重新推导**「哪个读者还在读那个基址」⇒ 哪条不再成立，判据立刻失败（不是靠人记住） | 简称表 63 条 + 全名表 64 条 + 地点名表 55 条；三条「没有」共用同一批字节 `92 59 9a 9a 00`；别名判据 5 条全 PASS、未裁决冲突 0 | `notes/evidence/speaker-name-id63-20261023.md` §1.1 / §5 的 N1；`notes/evidence/speaker-name-registry-20261023.md` §3.1 | **已确认** |
+| **N4** | **三张表在 ROM 里的落点与读者**（完整版）：简称表 `0x085A57C4`（步长 12，**12 个读者**）/ 全名表 `0x085A5AB8`（步长 19，**3 个读者**）/ 地点名表 `0x085A5F65`（步长 18，**1 个读者**）⇒ 全 ROM **只有 16 处** pc 相对字面量落在这片区域 | 12 + 3 + 1 = 16，没有第 17 处 | 同上 §3.5 / §4 | **已确认** |
+| **N5①** | **13 处读者在战斗消息 / 命令消息 / 战斗日志场景里被执行到** —— **已闭合**：14 处补丁**全部**在**真实 CPU** 上单步走完补丁窗口，**14/14** 算出槽位 `0x085A57C4 + id*4`、**14/14** 解引用出的指针落在串池 `0x085DFBEC..0x085DFD3F` 内、**14/14** 读到的名字是**「鸣人测试」**。档位 **A 5 / B 9 / C 0**（C = 0）。三条判定路线（`story` 151 步 / `scene` 462 步 / `battle` 59 步）**都不冻结**，另加 **144 场战斗全扫** | 14/14 受控触发正确；A 5 / B 9 / C 0 | `notes/evidence/speaker-name-reader-coverage-20261023.md` §4.1 / §4.2（探针 `tools/mgba_probe/speaker_reader_coverage.py`） | **已确认** |
+| **N5②** | **名字本身画得对不对** —— **已闭合**（逐像素）：同一按键序列下原版与转换版逐帧相减，差分矩形 **`x[40,55] × y[105,119]`**、**196** 个差分像素；原版名字所占的 **`x[24,39] × y[105,119]`**（16×15）在两张图里**逐字节相同** ⇒「鸣人」**没被重排**、「测试」是**追加**；**框外差分 0**；正文 `y[120,159] × x[0,239]` **逐字节相同** | 196 个差分像素全在名字框内；名字墨色 142 → 338 px | `notes/evidence/speaker-name-namebox-verification-20261023.md` §3 / §4（探针 `tools/mgba_probe/speaker_namebox_check.py`，12 条断言） | **已确认** |
+| **N5③** | **14 处补丁的标志位语义** —— **已闭合**：**14 处都没有改变标志位语义**。离开窗口时 OLD/NEW 的 N/Z/C/V **完全相同**（都恒为 `N=0 Z=0 C=0 V=0`，对 id ∈ 0..255 的**每一个**取值都成立）；窗口后唯一的读标志者（`vm_0x08` 的 `bne`，依赖 Z）在到达前**已被 `cmp r0,#0xe` 覆盖** ⇒ **不依赖**补丁留下的标志位。真机实测：`vm_0x08` 在两版**同一帧**（**159 / 252 / 360**）执行同一段代码，离开窗口时 CPSR **两版都是 `0x0000003F`**（**6 个样本全同**） | 14/14 等价；12 处的标志位在窗口后 1–2 条指令内就被游戏自己覆盖 | `notes/evidence/speaker-name-flag-semantics-20261023.md` §2 / §3.3 / §4.2（探针 `tools/mgba_probe/speaker_flag_check.py`） | **已确认** |
+| **N6** | **产品侧落地的位置**（谁改了、怎么改的）：`tools/data/speaker_name_code_patches.json` = **唯一真相源**；内容包由 `python tools/export_content_pack.py --no-rom --no-text-index` 重新导出（不是手改）；`rom-editor/js/rom.js` **不用改**（填充指令来自内容包，目录里 grep `bf00` 零命中） | 213,678 行里只有 **14 行**不同，全是 `after_hex` 那一行 | `notes/evidence/speaker-name-fix-20261023.md` §2 | **已确认** |
 
 ---
 
@@ -251,6 +262,12 @@
 | `notes/evidence/speaker-name-read-paths-20261023.md` | **全 ROM 读名路径普查** —— U1 |
 | `notes/evidence/speaker-name-id63-20261023.md` | **id 63 语义考证（兼 N1/N2/N3）** —— U4 |
 | `notes/evidence/speaker-name-fix-20261023.md` | **产品侧落地 + 门禁 + 真机验收脚本**（§3–§5 仍在补） |
+| `notes/evidence/speaker-name-reader-coverage-20261023.md` | **14 处读者的场景覆盖取证**（A 5 / B 9 / C 0；受控触发 14/14）—— N5① / F18 |
+| `notes/evidence/speaker-name-namebox-verification-20261023.md` | **逐像素名字框核对**（「鸣人测试」画对了没有）—— N5② |
+| `notes/evidence/speaker-name-flag-semantics-20261023.md` | **14 处补丁的标志位语义核对**（离开窗口时 N/Z/C/V 两版全同）—— N5③ |
+| `notes/evidence/speaker-name-registry-20261023.md` | **登记表闭合 + 保护区扩到两张表**（2187 字节 + 变异测试）—— N1 / N2 |
+| `notes/evidence/speaker-name-contentpack-20261023.md` | **两张表进内容包**（texts 11 → 13）+ 定长槽写回的三处缺口 —— N2 |
+| `notes/evidence/speaker-name-closure-20261023.md` | **本轮收口**：5 项回填 + 两处过时说明的修正 + 门禁复验 |
 | `tools/data/speaker_name_code_patches.json` | 补丁清单（机器可读） |
 | `tools/mgba_probe/speaker_bisect.py` | 补丁级二分（U5） |
 | `tools/mgba_probe/speaker_relocate_probe.py` | 指针表搬家实验 |
