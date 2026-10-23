@@ -100,7 +100,7 @@ ROUND-TRIP: PASS (fields -> bytes == raw == ROM for every record)
 | `mission_titles` | 任务标题表 | `0x59AA5C` | 112 | u32 指针表 |
 | `mission_descriptions` | 任务说明表 | `0x59D214` | 112 | u32 指针表 |
 | `mission_hints` | 任务提示表 | `0x59E920` | 112 | u32 指针表 |
-| `dialogue_slots` | 对白槽位表 | `0x461CE8` | 1,524 | u32 指针表 |
+| `quiz_questions` | 忍者问题表 | `0x461CE8` | 1,524 | u32 指针表 |
 | `speaker_names` | 说话人名表（内联） | — | 32 | **内联 12 字节/条**，不是指针表 |
 
 另外单独产出 **`text-index.json`**：全 ROM 文本索引，**16,008 条**。

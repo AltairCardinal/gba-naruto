@@ -14,7 +14,7 @@
 
 **本仓库此前对游戏文本编码的判断是错的。**
 
-`notes/dialogue-format.md` 原先写"Encoding: cp932 (Shift-JIS with extensions)"，
+`notes/quiz-format.md` 原先写"Encoding: cp932 (Shift-JIS with extensions)"，
 并据此产出了乱码样例：
 
 ```

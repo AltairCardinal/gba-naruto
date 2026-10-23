@@ -53,7 +53,7 @@
 ```
 character_names  pointer | training_names  pointer | jutsu_names      pointer
 ninjutsu_names   pointer | material_names  pointer | mission_titles   pointer
-mission_descriptions pointer | mission_hints pointer | dialogue_slots  pointer
+mission_descriptions pointer | mission_hints pointer | quiz_questions  pointer
 battle_objectives pointer          ← 10 张指针表
 speaker_names      convertible      ← 1 张可转换（19? 不，12 B × 64 条）
 speaker_full_names fixed 19 B × 64  ← 2 张定长内联槽
@@ -62,12 +62,12 @@ location_names     fixed 18 B × 55
 
 ### 1.2 `rom-editor/js/modules/story.js` —— 过时说明（二）+ 两张新表的归属
 
-**引言（`intro`）**原来写「指针表驱动的文本（对白槽位表、任务表、**名字表**）…；
+**引言（`intro`）**原来写「指针表驱动的文本（忍者问题表、任务表、**名字表**）…；
 定长内联槽（**说话人名表**）与被代码用**绝对地址引用**的文本只能等长改写」——
 两处不准（`speaker_names` 不是指针表驱动、它**可转换**；「绝对地址引用」那张表
 早就改成指针表了）。改成与内容包一致的说法。
 
-**`texts:` 列表**：`['dialogue_slots', 'speaker_names', 'rom_text_index']`
+**`texts:` 列表**：`['quiz_questions', 'speaker_names', 'rom_text_index']`
 ⇒ **加上 `speaker_full_names` 与 `location_names`**，并在代码注释里写清归属依据（见 §4.1）。
 
 ### 1.3 `notes/evidence/speaker-names-hypothesis-ledger.md`

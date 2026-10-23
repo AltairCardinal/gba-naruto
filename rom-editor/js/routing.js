@@ -5,7 +5,7 @@
 //   #route/stage/3                              剧情路线的第 3 关
 //   #battle/stage/40/0                          战斗的第 40 关、变体 0
 //   #characters/structure/character_template/1   角色定义表的第 1 条
-//   #characters/text/dialogue_slots/12           对白槽位表的第 12 条
+//   #characters/text/quiz_questions/12           忍者问题表的第 12 条
 //
 // 表格与记录级也能寻址，浏览器后退键才是在编辑器里后退，而不是退出编辑器。
 

@@ -500,7 +500,7 @@ store("guy_portrait_result",result);generatedImage(result);
 用它做指纹校验后确认：**游戏文本是自定义双字节字形码，不是 Shift-JIS**，
 而本仓库此前把全部游戏文本当 cp932 处理，产出的都是乱码。
 
-这直接推翻了 `notes/dialogue-format.md` 的核心结论，并波及一整组工具
+这直接推翻了 `notes/quiz-format.md` 的核心结论，并波及一整组工具
 （详见 `notes/font-encoding.md` §7 的影响表）。
 其中 `tools/patch_sjis.py` / `tools/import_dialogue.py` /
 `tools/import_dialogue_var.py` 是**写回**路径，用 cp932 编码中文会写坏 ROM，

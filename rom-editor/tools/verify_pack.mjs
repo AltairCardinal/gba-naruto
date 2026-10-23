@@ -169,7 +169,7 @@ console.log('\n3b) 字库缺字会被如实报告（不会静默吞掉）');
 console.log('\n4) 变长文本：指针表驱动的文本可重定位');
 {
   const p4 = ContentPack.fromJSON(JSON.parse(readFileSync(packPath, 'utf8')));
-  const table = p4.textTable('dialogue_slots');
+  const table = p4.textTable('quiz_questions');
   const record = table.records.find((r) => r.text);
   const long = record.text + '这是一段明显更长的追加文本用于验证重定位能力';
   p4.setText(table, record, long);

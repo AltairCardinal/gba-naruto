@@ -204,7 +204,7 @@ after.53  根 0x47F42：              0x1B 播放音乐 → 0x02 … → 0x01 �
 
 | 形态 | 表 | 变长 |
 |---|---|---|
-| `pointer`（指针表驱动） | **9 张**：`character_names` / `training_names` / `jutsu_names` / `ninjutsu_names` / `material_names` / `mission_titles` / `mission_descriptions` / `mission_hints` / `dialogue_slots` | **能** —— 正文搬到空闲区、指针改掉（这条能力早就有，本轮补了**逐表**验收） |
+| `pointer`（指针表驱动） | **9 张**：`character_names` / `training_names` / `jutsu_names` / `ninjutsu_names` / `material_names` / `mission_titles` / `mission_descriptions` / `mission_hints` / `quiz_questions` | **能** —— 正文搬到空闲区、指针改掉（这条能力早就有，本轮补了**逐表**验收） |
 | `fixed`（定长内联槽，12 字节一条写死在表里） | `speaker_names`（说话人名表） | **不能** —— 没有指针可以改 |
 | `absolute`（绝对地址引用，地址在代码里写死） | `battle_objectives`（战斗目标说明文字） | **不能** —— 改地址就得改代码 |
 

@@ -364,14 +364,44 @@ console.log('\n5) 域首页：四张根表合成一行、字形段表与字宽�
   const leaked = singles.filter((label) => firstCells.includes(label));
   check('六张表不再单独占一行', leaked.length === 0,
     leaked.length ? `仍然单独出现：${leaked.join('、')}` : '都合成组行了');
-  check('对白槽位表 / 说话人名表 / 剧情底图表仍是独立行',
-    firstCells.some((t) => t.includes('对白槽位表')) &&
+  check('忍者问题表 / 说话人名表 / 剧情底图表仍是独立行',
+    firstCells.some((t) => t.includes('忍者问题表')) &&
     firstCells.some((t) => t.includes('说话人名表')) &&
     firstCells.some((t) => t.includes('剧情底图表')),
     firstCells.join(' | '));
   check('页面文本里没有字面星号', !host.textContent.includes('**'));
 }
 
+console.log('\n5b) 忍者问答表不许再被叫成「对白」（2026-10-24）');
+{
+  // 0x461CE8 那张表是游戏里的**忍者问答**（一道题 + 三个选项），
+  // 真正的剧情对白内联在剧情脚本的字节流里。
+  // 2026-07 之前它一直被叫「对白槽位表」，界面上把作者引到了错误的地方。
+  const host = render(renderStory);
+  const text = host.textContent || '';
+  check('域首页说「忍者问题」', text.includes('忍者问题'));
+  check('域首页不再说「对白槽位表」', !text.includes('对白槽位表'));
+  const buttons = host.descendants().filter((n) => n.tagName === 'BUTTON');
+  check('问答那一项的按钮叫「去改忍者问题」',
+    buttons.some((b) => b.textContent === '去改忍者问题'),
+    buttons.map((b) => b.textContent).join(' / '));
+  check('真正的对白编辑器仍然在（第一张卡片）',
+    buttons.some((b) => b.textContent === '打开对白编辑器'),
+    buttons.map((b) => b.textContent).join(' / '));
+
+  const table = pack.textTable('quiz_questions');
+  check('内容包里的 id 是 quiz_questions', !!table, table ? table.label : '没有这张表');
+  check('内容包里的标签是「忍者问题表」', table && table.label === '忍者问题表',
+    table ? table.label : '—');
+  check('这张表没有已证实的原生读者（不写假的宣称）',
+    table && !(table.consumers || []).length,
+    table ? JSON.stringify(table.consumers || []) : '—');
+  check('这张表有证据出处（notes/quiz-format.md）',
+    table && (table.sources || []).includes('notes/quiz-format.md'),
+    table ? JSON.stringify(table.sources || []) : '—');
+  check('内容包里不再有 dialogue_slots 这个 id',
+    !pack.texts.some((t) => t.id === 'dialogue_slots'));
+}
 console.log('\n6) 域首页的入口按钮跳到新视图');
 {
   const host = render(renderStory);

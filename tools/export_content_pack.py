@@ -184,9 +184,9 @@ MISSION_TITLE_BASE = 0x59AA5C
 MISSION_DESC_BASE = 0x59D214
 MISSION_HINT_BASE = 0x59E920
 MISSION_ENTRY_COUNT = 112      # 下标 = mission_index[stage] + sub
-DIALOGUE_TABLE_BASE = 0x461CE8
-DIALOGUE_SLOT_COUNT = 1524      # 305 组 × (4 条 + 1 个 NULL 分隔)
-DIALOGUE_GROUP_SIZE = 4
+QUIZ_TABLE_BASE = 0x461CE8
+QUIZ_SLOT_COUNT = 1524      # 305 组 × (4 条 + 1 个 NULL 分隔)
+QUIZ_GROUP_SIZE = 4
 SPEAKER_NAME_BASE = 0x5A57C4
 SPEAKER_NAME_STRIDE = 12
 # 记录数：**64 条**（id 0..63），已实测确证 ——
@@ -466,9 +466,15 @@ DOCUMENTED_CONSUMERS: dict[str, list[str]] = {
     # notes/evidence/units-offset-table-20261020.md：0x53F2EE 是独立的一张表，
     # 独立读者 0x08080AE0。
     "unit_delta_table": ["0x08080AE0"],
-    # notes/dialogue-format.md：打开对白的运行时路径 0x080968A0（调用者 0x08096633）。
-    "dialogue_slots": ["0x080968A0", "0x08096633"],
 }
+# **注意**：0x461CE8 那张指针表（游戏里的**忍者问答**）**没有**登记原生读者 ——
+# 它是 2026-07 之前被误当成「对白表」的时候，顺手把「打开对白的运行时路径
+# 0x080968A0 / 0x08096633」挂到了它头上。
+# 但 2026-10-20 的 VM 指令考证证明：0x080968A0 是**剧情脚本 VM 的「普通画法」指令**
+# （notes/evidence/story-vm-opcodes-20261020.md），读的是**脚本里内联的对白**，
+# 与那张问答表没有关系。问答表自己的读者**至今没有定位**
+# （扫全 ROM：没有任何字面量指向 0x08591CE8，也没有指向第 0 题的文本 0x08599414）。
+# ⇒ 不再把它写成「原生读者」—— 那是假的宣称。事实记在 notes/quiz-format.md。
 
 
 def tile(entry_size: int, fields: list[dict[str, Any]]) -> list[dict[str, Any]]:
@@ -558,6 +564,7 @@ def build_text_table(
     note: str = "",
     nul_terminated: bool = True,
     id_prefix: str = "",
+    sources: list[str] | None = None,
 ) -> dict[str, Any]:
     """A u32 pointer table whose entries point at font-coded strings."""
     records = []
@@ -601,6 +608,12 @@ def build_text_table(
     }
     if note:
         table["note"] = note
+    # 证据出处：这张表的结构/语义写在哪些笔记里。
+    # 有些表（如忍者问题表）**没有已证实的原生读者**，
+    # 但结构与解码结论有据可查 —— 没有这一项，
+    # 溯源门禁会把它算成「无处可查」。
+    if sources:
+        table["sources"] = list(sources)
     if texts:
         table["text_span"] = {
             "start": min(texts),
@@ -1976,12 +1989,21 @@ def build_text_tables(rom: bytes, mapping: dict[int, str]) -> list[dict[str, Any
         ))
 
     out.append(build_text_table(
-        rom, mapping, "dialogue_slots", "story", "对白槽位表",
-        DIALOGUE_TABLE_BASE, DIALOGUE_SLOT_COUNT,
-        note="游戏自己的对白指针表（0x461CE8）：1524 个槽位 = 305 组 × "
-             "（4 条 + 1 个 NULL 分隔）。每组 4 条是「一道题 + 三个选项」。"
-             "槽位号与组号不是一回事：第 g 组的 4 条落在槽 5g..5g+3。",
+        rom, mapping, "quiz_questions", "story", "忍者问题表",
+        QUIZ_TABLE_BASE, QUIZ_SLOT_COUNT,
+        note="**游戏里的忍者问答（quiz），不是剧情对白** —— "
+             "指针表 0x461CE8：1524 个槽位 = 305 组 ×（4 条 + 1 个 NULL 分隔），"
+             "每组 4 条是「一道题 + 三个选项」。"
+             "槽位号与组号不是一回事：第 g 组的 4 条落在槽 5g..5g+3。\n"
+             "真正的剧情对白**内联在剧情脚本的字节流里**"
+             "（见 notes/story-script-vm.md），不在这张表里。\n"
+             "**原生读者尚未定位**：扫全 ROM 没有任何字面量指向 0x08591CE8，"
+             "也没有指向第 0 题的文本 0x08599414。"
+             "此前记在这张表上的 0x080968A0 / 0x08096633 是"
+             "**剧情脚本 VM 的画框指令**（notes/evidence/story-vm-opcodes-20261020.md），"
+             "读的是脚本内联对白，与本表无关。",
         id_prefix="槽",
+        sources=["notes/quiz-format.md"],
     ))
 
     out.append(build_inline_text_table(
@@ -2429,7 +2451,7 @@ def build_dominant_text_index(rom: bytes, mapping: dict[int, str],
         "nul_terminated": True,
         "note": "用 ROM 自带的字库扫描全卡带得到的所有字符串。"
                 "这些字符串被代码里的绝对地址引用，**不能改变长度**；"
-                "变长请改用「对白槽位表」等指针表驱动的文本表。",
+                "变长请改用「忍者问题表」等指针表驱动的文本表。",
         "records": records,
     }
 

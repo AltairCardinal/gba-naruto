@@ -46,7 +46,10 @@ const textNoSource = [];
 for (const table of pack.texts) {
   const withSources = (table.records || []).filter((r) =>
     recordSources(pack, { kind: 'text', id: table.id, recordId: r.id }).length > 0);
-  if (!withSources.length && !(table.consumers || []).length) {
+  // 三条路算「有出处」：别的表指向它 / 它有已证实的原生读者 /
+  // 它的结构与结论有笔记可查（sources —— 例如忍者问题表：
+  // 原生读者至今没定位，但结构与解码结论写在 notes/quiz-format.md 里）。
+  if (!withSources.length && !(table.consumers || []).length && !(table.sources || []).length) {
     textNoSource.push(`${table.id}（${table.label}）`);
   }
 }

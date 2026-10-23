@@ -4,7 +4,7 @@
 The ROM renders Chinese text from its own baked-in bitmap font. A text byte
 pair whose *first* byte is 0x80..0x9F is a **font code** (code = hi*256+lo),
 not a Shift-JIS character. Decoding those bytes as cp932 produces mojibake;
-that is what earlier versions of notes/dialogue-format.md did.
+that is what earlier versions of notes/quiz-format.md did.
 
 This module provides the pieces needed to read the game's text properly:
 

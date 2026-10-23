@@ -203,7 +203,7 @@ editable structure in `rom/base.gba`:
 
 * 40 structures / 6,676 records (角色定义表、忍术记录表、道具记录表、奖励表、
   战场描述符、编成矩阵、战斗目标、剧情脚本四根根表、任务索引表、字形段表 …);
-* 11 text tables / 2,418 texts (对白槽位表 1,524 槽、任务三张文本表、各类名字表、
+* 11 text tables / 2,418 texts (忍者问题表 1,524 槽、任务三张文本表、各类名字表、
   **战斗目标说明文字 219 条** …);
 * the font code table, in both directions (decode + **canonical** encode);
 * the base ROM, gzip-compressed, for the editor to rebuild from.

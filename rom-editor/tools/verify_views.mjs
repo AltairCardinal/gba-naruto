@@ -785,7 +785,7 @@ console.log('\n7) 文本表编辑器：写回规则 / 控制码分段 / 标记 /
   }
 
   // 7e. 没有 ROM 位置的槽位不可编辑
-  const slots = pack.textTable('dialogue_slots');
+  const slots = pack.textTable('quiz_questions');
   const nullSlot = slots.records.find((r) => r.text_offset === null);
   if (!nullSlot) {
     check('无位置的槽位不可编辑', false, '没有找到空指针槽');
@@ -906,7 +906,7 @@ console.log('\n9) 导航：URL 可寻址 + 跨域引用可点');
     ['#battle/stage/40/0', 'battle', 'map'],
     ['#battle/map/40/0', 'battle', 'map'],
     ['#characters/structure/character_template/1', 'characters', 'structure'],
-    ['#characters/text/dialogue_slots/12', 'characters', 'text'],
+    ['#characters/text/quiz_questions/12', 'characters', 'text'],
   ];
   for (const [hash, module, kind] of cases) {
     const parsed = routing.parseHash(hash);
@@ -1144,7 +1144,7 @@ console.log('\n12) 表说明可见 / 超长当场拦 / 搜索不被过滤与行�
 console.log('\n13) 对白按组呈现：305 组「一道题 + 三个选项」');
 {
   const { TextTableEditor } = await import('../js/editors.js');
-  const slots = pack.textTable('dialogue_slots');
+  const slots = pack.textTable('quiz_questions');
   const host = new StubNode('div');
   const editor = new TextTableEditor(pack, slots, { onChange: ctx.onChange });
   editor.render(host);

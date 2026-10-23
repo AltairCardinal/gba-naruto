@@ -36,7 +36,7 @@ BREAKTHROUGH commit (`473a737`) 声称："IWRAM 0x03000078 = 当前 dialogue ROM
 
 ## State 0 vs Group0 对比
 
-- Group0 dialogue at ROM 0x459414 (per `notes/dialogue-format.md`):
+- Group0 dialogue at ROM 0x459414 (per `notes/quiz-format.md`):
   - 解码完美："什么！？……真拿你没办法\n最后一次哦！！"
   - 用现有 20 条 mapping 完全 ok
 - Chapter 1 intro at ROM 0x8DF0-0xB8EB (IWRAM 0x78):

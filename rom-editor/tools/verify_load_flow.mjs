@@ -189,7 +189,7 @@ head('\n4) 从 ROM 解析出的内容包：原版 ROM（说话人名表**未转�
   // 「相同」。所以要单独断「真的读了那么多条」。
   //
   // 读到的条数 = 该表**有内容的**槽数（空槽没有字节可读，本来就该跳过：
-  // `dialogue_slots` 1524 条里有 304 个空槽）。
+  // `quiz_questions` 1524 条里有 304 个空槽）。
   const slotsWithText = (tt) => (tt.records || [])
     .filter((r) => r.raw && base64ToBytes(r.raw).length > 0).length;
   const readCounts = template.texts

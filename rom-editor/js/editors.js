@@ -82,6 +82,10 @@ export function renderSourcesBlock(onJump, refs, options = {}) {
   const structure = options.structure || null;
   const table = options.table || null;
   const consumers = (structure && structure.consumers) || (table && table.consumers) || [];
+  // 证据出处：这张表的结构/语义写在哪些笔记里。
+  // 有些表（忍者问题表）**没有已证实的原生读者**，但结论有据可查 ——
+  // 不把这一项显示出来，作者会以为这张表谁都没研究过。
+  const sources = (table && table.sources) || [];
   const block = el('div', { class: 'xref-block' });
 
   if (!refs.length && !consumers.length) {
@@ -90,6 +94,7 @@ export function renderSourcesBlock(onJump, refs, options = {}) {
       class: 'xref-hint',
       text: '没有别的字段指向这条记录 —— 改它只影响这张表自己。',
     }));
+    if (sources.length) block.appendChild(sourcesBlock(sources));
     return block;
   }
 
@@ -136,7 +141,24 @@ export function renderSourcesBlock(onJump, refs, options = {}) {
       ]));
     }
   }
+  if (sources.length) block.appendChild(sourcesBlock(sources));
   return block;
+}
+
+/** 证据出处：这张表的结论写在哪些笔记里。 */
+function sourcesBlock(sources) {
+  const box = el('div', {});
+  box.appendChild(el('div', { class: 'xref-title', text: '证据出处' }));
+  box.appendChild(el('div', {
+    class: 'xref-hint',
+    text: '这张表的结构与解码结论记在这些笔记里：',
+  }));
+  for (const path of sources) {
+    box.appendChild(el('div', { class: 'xref-row' }, [
+      el('span', { text: path }),
+    ]));
+  }
+  return box;
 }
 
 /** Jump to the record that points at the current one. */

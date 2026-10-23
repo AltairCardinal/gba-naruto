@@ -16,14 +16,15 @@ export function renderStory(container, ctx) {
   }
 
   const pack = ctx.pack;
-  const slots = pack.textTable('dialogue_slots');
+  const slots = pack.textTable('quiz_questions');
   const index = pack.textTable('rom_text_index');
   const nonEmpty = slots ? slots.records.filter((r) => r.text).length : 0;
   const scripts = (pack.scripts || []).length;
 
   const extra = el('div', {}, [
     el('div', { class: 'card-grid' }, [
-      stat('对白槽位', slots ? slots.count : 0, `其中 ${nonEmpty} 条有内容`),
+      stat('忍者问题', slots ? '305 道' : '—',
+        slots ? `${slots.count} 个槽位 · ${nonEmpty} 条有内容` : '内容包里没有这张表'),
       stat('全 ROM 文本', index ? index.count : '按需载入',
         index ? '用 ROM 自带字库扫出' : '进入该表时自动下载索引'),
       stat('字形段', pack.structure('font_segments')?.entry_count || 0, '决定能画出哪些字'),
@@ -42,12 +43,13 @@ export function renderStory(container, ctx) {
   });
 
   const secondary = entryCard(ctx, {
-    title: '按对白改',
-    headline: '305 组对白（1 道题 + 3 个选项）',
-    desc: '对白指针表 0x461CE8：305 组，每组 4 条 + 1 个空指针分隔。' +
+    title: '按忍者问题改',
+    headline: '305 道忍者问题（1 道题 + 3 个选项）',
+    desc: '忍者问题指针表 0x461CE8：游戏里的**问答小游戏**（不是剧情对白），' +
+      '305 组，每组 4 条 + 1 个空指针分隔。' +
       '这一组是可重定位的，改长会重定位并改写指针。',
-    panel: { kind: 'text', id: 'dialogue_slots' },
-    actionLabel: '去改对白',
+    panel: { kind: 'text', id: 'quiz_questions' },
+    actionLabel: '去改忍者问题',
   });
 
   const tertiary = entryCard(ctx, {
@@ -67,16 +69,18 @@ export function renderStory(container, ctx) {
     module: 'story',
     title: '剧情与对白',
     subtitle: [
-      el('span', { text: '对白槽位表 ROM 0x461CE8' }),
+      el('span', { text: '忍者问题指针表 ROM 0x461CE8' }),
       el('span', { text: '字形码 ' + pack.font.codeToChar.size }),
     ],
     intro:
-      '对白文本在 ROM 里是字形码流（每个汉字 2 字节，lead 0x80–0x9F），不是 Shift-JIS。' +
-      '指针表驱动的文本（对白槽位表、任务表、战斗目标表）可以改变长度——构建时会重定位到空闲区并改写指针；' +
+      '这些文本在 ROM 里是字形码流（每个汉字 2 字节，lead 0x80–0x9F），不是 Shift-JIS。' +
+      '指针表驱动的文本（忍者问题表、任务表、战斗目标表）可以改变长度——构建时会重定位到空闲区并改写指针；' +
       '说话人名表是定长内联槽，但可以转换成指针表 + 变长串池；' +
       '说话人全名表与地点名表也是定长内联槽，结构上只能等长改写。' +
-      '对白指针表 0x461CE8 共 1524 个槽位 = 305 组 ×（4 条 + 1 个 NULL 分隔），' +
-      '每组 4 条是「一道题 + 三个选项」；第 g 组的 4 条落在槽 5g..5g+3。',
+      '忍者问题指针表 0x461CE8 共 1524 个槽位 = 305 组 ×（4 条 + 1 个 NULL 分隔），' +
+      '每组 4 条是「一道题 + 三个选项」；第 g 组的 4 条落在槽 5g..5g+3。' +
+      '**真正的剧情对白在上面第一张卡片里**（可视化对白编辑器）——它读的是剧情脚本，' +
+      '不是这张问答表。',
     extra,
     // 本域的文本表 —— 这是**策展顺序**，不是可达性清单：
     // `common.js::domainTableRows()` 会把内容包里 `module === 'story'` 的表
@@ -93,7 +97,7 @@ export function renderStory(container, ctx) {
     //    还 `bl 0x0808F4D4` 派发场景）⇒ 它是**剧情侧**的数据，不是战斗/地图侧的；
     //  · 内容包自己也这么标：两张表的 `module` 都是 `story`。
     texts: [
-      'dialogue_slots',
+      'quiz_questions',
       'speaker_names',
       'speaker_full_names',
       'location_names',

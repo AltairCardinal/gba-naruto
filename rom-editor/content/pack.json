@@ -138855,9 +138855,9 @@
    }
   },
   {
-   "id": "dialogue_slots",
+   "id": "quiz_questions",
    "module": "story",
-   "label": "对白槽位表",
+   "label": "忍者问题表",
    "pointer_table_offset": 4594920,
    "count": 1524,
    "relocatable": true,
@@ -155628,15 +155628,14 @@
      "raw": "glCCUA=="
     }
    ],
-   "note": "游戏自己的对白指针表（0x461CE8）：1524 个槽位 = 305 组 × （4 条 + 1 个 NULL 分隔）。每组 4 条是「一道题 + 三个选项」。槽位号与组号不是一回事：第 g 组的 4 条落在槽 5g..5g+3。",
+   "note": "**游戏里的忍者问答（quiz），不是剧情对白** —— 指针表 0x461CE8：1524 个槽位 = 305 组 ×（4 条 + 1 个 NULL 分隔），每组 4 条是「一道题 + 三个选项」。槽位号与组号不是一回事：第 g 组的 4 条落在槽 5g..5g+3。\n真正的剧情对白**内联在剧情脚本的字节流里**（见 notes/story-script-vm.md），不在这张表里。\n**原生读者尚未定位**：扫全 ROM 没有任何字面量指向 0x08591CE8，也没有指向第 0 题的文本 0x08599414。此前记在这张表上的 0x080968A0 / 0x08096633 是**剧情脚本 VM 的画框指令**（notes/evidence/story-vm-opcodes-20261020.md），读的是脚本内联对白，与本表无关。",
+   "sources": [
+    "notes/quiz-format.md"
+   ],
    "text_span": {
     "start": 4559892,
     "end": 4594908
-   },
-   "consumers": [
-    "0x080968A0",
-    "0x08096633"
-   ]
+   }
   },
   {
    "id": "speaker_names",
