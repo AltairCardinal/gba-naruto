@@ -113,7 +113,8 @@ globalThis.window = {
   removeEventListener() {},
 };
 
-const { ContentPack } = await import('../js/pack.js');
+const { ContentPack, textSlotKind } = await import('../js/pack.js');
+const { bytesToBase64 } = await import('../js/bytes.js');
 const { renderStory } = await import('../js/modules/story.js');
 const { renderItems } = await import('../js/modules/items.js');
 const { renderCharacters } = await import('../js/modules/characters.js');
@@ -626,6 +627,49 @@ console.log('\n6) 写回安全性：越界拒绝 / 有符号原值 / 指针解�
   }
 }
 
+// --- 门禁用的测试表 ---------------------------------------------------------
+//
+// 转换完成后，当前内容包（`content/pack.json`）里 11 张文本表**没有一张**
+// 是 `fixed` / `absolute`：10 张 `pointer` + 1 张 `convertible`（`speaker_names`）。
+// 这两种形态对**真实内容包**已经不可达，但它们是**产品行为**
+// （`editors.js` 里那两条分支不能删）—— 覆盖不能因为内容包变了就丢，
+// 所以门禁自己造一张表把它们测回来。
+//
+// 形态由 `pack.js::textSlotKind` 判定，判定顺序：
+//   1. `table.convert` 有值              → `convertible`（定长槽，但能转成指针表）
+//   2. `record.pointer_offset` 有值     → `pointer`（指针表驱动）
+//   3. 原始字节数 == `record.capacity`  → `fixed`（定长内联槽，改不了长度）
+//   4. 其它                              → `absolute`（代码里写死绝对地址）
+//
+// 造表：原始字节用 ASCII "AAAA…"（每个字 1 字节，和 `textcodec` 的编码一致），
+// 于是 `fixed` = 容量等于原始字节数，`absolute` = 容量**不等于**原始字节数。
+function makeTestTable(id, { capacity, rawLength }) {
+  const raw = bytesToBase64(new Uint8Array(rawLength).fill(0x41));
+  return {
+    id,
+    label: `测试表 ${id}`,
+    count: 1,
+    nul_terminated: true,
+    records: [{
+      id: 0,
+      label: '测试槽',
+      text: 'A'.repeat(rawLength),
+      text_offset: 0x08000000,
+      pointer_offset: null,
+      capacity,
+      raw,
+    }],
+  };
+}
+
+/** 面板上那张「写回规则」说明卡的正文（不是整个面板的文本）。 */
+function writeBackRuleText(host) {
+  const rule = host.descendants().find((n) => (n.className || '') === 'rule-note'
+    && n.descendants().some((c) => (c.className || '') === 'rule-title'
+      && (c.textContent || '') === '写回规则'));
+  return rule ? (rule.textContent || '') : '';
+}
+
 console.log('\n7) 文本表编辑器：写回规则 / 控制码分段 / 标记 / 行数上限 / 无位置槽');
 {
   const { TextTableEditor } = await import('../js/editors.js');
@@ -639,12 +683,63 @@ console.log('\n7) 文本表编辑器：写回规则 / 控制码分段 / 标记 /
     (host.textContent || '').includes('长度可变'),
     (host.textContent || '').slice(0, 40));
   const objectives = pack.textTable('battle_objectives');
-  const fixed = new TextTableEditor(pack, objectives, { onChange: ctx.onChange });
+  check('战斗目标说明现在是可重定位的（可变长）',
+    objectives.relocatable === true, String(objectives.relocatable));
+  // 现在说话人名表是**可转换**的形态（定长内联槽，但整张表能转成指针表 + 变长串池）——
+  // 界面必须说清楚**为什么**（不是编辑器偷懒）。
+  const speakerNames = pack.textTable('speaker_names');
+  const conv = new TextTableEditor(pack, speakerNames, { onChange: ctx.onChange });
   const host2 = new StubNode('div');
-  fixed.render(host2);
-  check('等长表说明写回规则',
-    (host2.textContent || '').includes('长度不能变'),
-    (host2.textContent || '').includes('长度不能变') ? '已说明' : '没有说明');
+  conv.render(host2);
+  const convRule = writeBackRuleText(host2);
+  check('说话人名表是「可转换」形态（定长槽，但能转成指针表）',
+    textSlotKind(speakerNames, speakerNames.records[0]) === 'convertible',
+    textSlotKind(speakerNames, speakerNames.records[0]));
+  check('可转换的表说明写回规则：能变长、会转换成指针表',
+    convRule.includes('可以变长') && convRule.includes('转换成「指针表'),
+    convRule.slice(0, 60));
+  // ⚠️ 这里**故意没有**「说明里没有 `**`」这条断言：
+  // 「写回规则」那张卡是 `rule-note`（prose 容器）⇒ `ui.js::el()` 会把子树里的
+  // `**` **剥掉**再显示 ⇒ 那条断言**永远为真**，给的是虚假的安全感。
+  // 「界面上不许露出星号」由 `verify_wording.mjs`（查内容包里的说明原文）
+  // 与 `verify_views.mjs` §16b（查 `el()` 的 prose 剥离行为）负责。
+
+  // `fixed` / `absolute` 两种形态当前内容包里没有（见上面 makeTestTable 的说明），
+  // 但分支还在 —— 门禁自己造一张表，把这两条**产品行为**测回来。
+  const fixedTable = makeTestTable('__test_fixed__', { capacity: 4, rawLength: 4 });
+  const fixedEditor = new TextTableEditor(pack, fixedTable, { onChange: ctx.onChange });
+  const hostFixed = new StubNode('div');
+  fixedEditor.render(hostFixed);
+  const fixedRule = writeBackRuleText(hostFixed);
+  check('定长槽位的表说明写回规则',
+    fixedRule.includes('长度不能变'), fixedRule.includes('长度不能变') ? '已说明' : '没有说明');
+  check('定长槽位的表说明写清为什么（定长内联槽）',
+    fixedRule.includes('定长内联槽'), '已说明');
+
+  const absoluteTable = makeTestTable('__test_absolute__', { capacity: 8, rawLength: 4 });
+  const absoluteEditor = new TextTableEditor(pack, absoluteTable, { onChange: ctx.onChange });
+  const hostAbsolute = new StubNode('div');
+  absoluteEditor.render(hostAbsolute);
+  const absoluteRule = writeBackRuleText(hostAbsolute);
+  check('绝对地址引用的表说明写回规则',
+    absoluteRule.includes('长度不能变') && absoluteRule.includes('绝对地址'),
+    absoluteRule.slice(0, 60));
+
+  // 面板副标题（形态角标）也得**按形态分**：
+  // 可转换的表不是「等长」—— 它变长时整张表会转成指针表。
+  const badgeText = (hostNode) => {
+    const badge = hostNode.descendants().find((n) => (n.className || '') === 'panel-sub');
+    return badge ? (badge.textContent || '') : '';
+  };
+  check('可重定位的表在面板上标成「可变长」',
+    badgeText(host).includes('可变长'), badgeText(host));
+  check('可转换的表在面板上不被标成「等长」',
+    badgeText(host2).includes('可转换成指针表') && !badgeText(host2).includes('等长'),
+    badgeText(host2));
+  check('定长槽位的表在面板上标成「等长」',
+    badgeText(hostFixed).includes('定长内联槽（等长）'), badgeText(hostFixed));
+  check('绝对地址引用的表在面板上标成「绝对地址引用」',
+    badgeText(hostAbsolute).includes('绝对地址引用（等长）'), badgeText(hostAbsolute));
 
   // 7b. 控制码分段条
   const desc = pack.textTable('mission_descriptions');
@@ -966,7 +1061,9 @@ console.log('\n12) 表说明可见 / 超长当场拦 / 搜索不被过滤与行�
     (host2.textContent || '').includes('47 关'),
     (host2.textContent || '').includes('47 关') ? '已显示' : '没有');
 
-  // 12b. 等长表超长**当场拦**（以前只在构建时才炸）
+  // 12b. 超长时**按形态各说各话**：
+  //   * `convertible`（说话人名表）—— **不拦**：变长时整张表会转成指针表；
+  //   * `fixed` / `absolute` —— **当场拦**：结构上就放不下。
   const speakers = pack.textTable('speaker_names');
   const host3 = new StubNode('div');
   const editor3 = new TextTableEditor(pack, speakers, { onChange: ctx.onChange });
@@ -978,18 +1075,51 @@ console.log('\n12) 表说明可见 / 超长当场拦 / 搜索不被过滤与行�
   check('找到说话人名的文本框', !!area, area ? '有' : '没有');
   if (area) {
     const counter = editor3.detail.descendants().find((n) => (n.className || '') === 'text-counter');
-    const toastTexts = () => globalThis.document.body.descendants()
-      .map((n) => n.textContent || '').join('\n');
-    const beforeToast = toastTexts();
+    const mark = globalThis.document.body.children.length;
     area.listeners.change[0]({
       target: { value: '一二三四五六' },   // 6 个字 = 12 字节 > 11 字节可用
     });
-    check('等长表超长被当场拒绝（记录没变）',
-      record.text === before,
+    const toasts = globalThis.document.body.children.slice(mark)
+      .map((n) => n.textContent || '').join('\n');
+    check('可转换的表超长不被当场拒绝（记录改了）',
+      record.text === '一二三四五六',
       `原值「${before}」，现在「${record.text}」`);
-    check('超长时给出「放不下」的明确提示',
-      toastTexts() !== beforeToast && /放不下|定长槽/.test(toastTexts()),
-      (toastTexts().match(/[^。]{0,60}放不下[^。]{0,40}/) || ['没有提示'])[0]);
+    check('可转换的表超长时不说「放不下」',
+      !/放不下|定长槽/.test(toasts), toasts.slice(0, 60) || '没有提示');
+    check('可转换的表超长时字节预算说「会转换成指针表」',
+      (counter?.textContent || '').includes('构建时会把整张表转换成指针表'),
+      (counter?.textContent || '').slice(-40));
+    // 复原：这一条是真的改了内容包（构建时整张转成指针表），门禁不能留下改动。
+    pack.undo();
+    check('复原后说话人名回到原值', record.text === before,
+      `原值「${before}」，现在「${record.text}」`);
+  }
+
+  // `fixed` / `absolute` 当前内容包里没有（见 makeTestTable 的说明），
+  // 但「当场拦」是这两种形态**仅剩**的行为 —— 门禁自己造一张表测回来。
+  const fixedLengthTables = [
+    { name: '定长槽位', id: '__test_fixed__', opts: { capacity: 4, rawLength: 4 } },
+    { name: '绝对地址引用', id: '__test_absolute__', opts: { capacity: 8, rawLength: 4 } },
+  ];
+  for (const shape of fixedLengthTables) {
+    const table = makeTestTable(shape.id, shape.opts);
+    const editor = new TextTableEditor(pack, table, { onChange: ctx.onChange });
+    const host = new StubNode('div');
+    editor.render(host);
+    const rec = table.records[0];
+    editor.openDetail(rec);
+    const box = editor.detail.descendants().find((n) => n.tagName === 'TEXTAREA');
+    const original = rec.text;
+    const mark = globalThis.document.body.children.length;
+    if (box) box.listeners.change[0]({ target: { value: '一二三四五六' } });
+    const toasts = globalThis.document.body.children.slice(mark)
+      .map((n) => n.textContent || '').join('\n');
+    check(`${shape.name}的表超长被当场拒绝（记录没变）`,
+      !!box && rec.text === original,
+      `原值「${original}」，现在「${rec.text}」`);
+    check(`${shape.name}的表超长时给出「放不下」的明确提示`,
+      /放不下|定长槽/.test(toasts),
+      (toasts.match(/[^。]{0,60}放不下[^。]{0,40}/) || ['没有提示'])[0]);
   }
 
   // 12c. 搜索不被「已归属」过滤与 200 行上限挡住

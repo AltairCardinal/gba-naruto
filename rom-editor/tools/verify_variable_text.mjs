@@ -367,10 +367,13 @@ head('\n10) 撤销之后内容包回到未改状态');
   check('撤销后不再搬迁', out.report.movedScripts.length === 0);
 }
 
-head('\n11) 别的文本表：9 张可重定位的都能变长，2 张结构上不行');
+head('\n11) 别的文本表：11 张**全部**能变长（没有「结构上变不了」的表了）');
 {
-  // 11 张表逐张过一遍：指针表驱动的 → 变长后搬到空闲区、指针改掉；
-  // 定长内联槽 / 绝对地址引用的 → 结构上只能等长。
+  // 11 张表逐张过一遍：
+  //   指针表驱动的 → 变长后搬到空闲区、指针改掉；
+  //   「可转换」的（说话人名表）→ 整张表转成指针表 + 串池（转换本身由
+  //   `verify_speaker_conversion.mjs` 逐条验收）；
+  //   定长内联槽 / 绝对地址引用的 → 结构上只能等长 —— **这一档现在是空的**。
   const kinds = new Map();
   for (const table of packData.texts) {
     const record = (table.records || [])[0];
@@ -380,12 +383,18 @@ head('\n11) 别的文本表：9 张可重定位的都能变长，2 张结构上�
   }
   check('11 张文本表都在', kinds.size === 11, `${kinds.size} 张`);
   const pointerTables = [...kinds.entries()].filter(([, k]) => k === 'pointer').map(([id]) => id);
+  const convertibleTables = [...kinds.entries()].filter(([, k]) => k === 'convertible').map(([id]) => id);
   const fixedTables = [...kinds.entries()].filter(([, k]) => k === 'fixed').map(([id]) => id);
   const absoluteTables = [...kinds.entries()].filter(([, k]) => k === 'absolute').map(([id]) => id);
-  check('9 张是指针表驱动（可变长）', pointerTables.length === 9, pointerTables.join('、'));
-  check('说话人名表是定长内联槽', fixedTables.join('、') === 'speaker_names', fixedTables.join('、'));
-  check('战斗目标说明是绝对地址引用',
-    absoluteTables.join('、') === 'battle_objectives', absoluteTables.join('、'));
+  check('10 张是指针表驱动（可变长）', pointerTables.length === 10, pointerTables.join('、'));
+  check('战斗目标说明已改成指针槽（原来它是「绝对地址引用」）',
+    pointerTables.includes('battle_objectives'), pointerTables.join('、'));
+  check('说话人名表是「可转换」（定长内联槽 → 指针表 + 串池）',
+    convertibleTables.join('、') === 'speaker_names', convertibleTables.join('、'));
+  check('没有「定长内联槽」形态的表了（说话人名表已可转换）',
+    fixedTables.length === 0, fixedTables.join('、'));
+  check('没有「绝对地址引用」形态的表了（战斗目标说明已改成指针槽）',
+    absoluteTables.length === 0, absoluteTables.join('、'));
 
   // 每一张指针表驱动的表都试一次「变长」。
   for (const id of pointerTables) {
@@ -410,7 +419,39 @@ head('\n11) 别的文本表：9 张可重定位的都能变长，2 张结构上�
       `${expected.length} 字节 @0x${at.toString(16).toUpperCase()}`);
   }
 
-  // 两张结构上不行的表：变长必须**被拒**（构建时报错），不能悄悄写坏。
+  // 「可转换」的表（说话人名表）：变长**不再被拒** —— 整张表转成指针表 + 串池。
+  // （转换本身的逐条验收在 `verify_speaker_conversion.mjs`。）
+  for (const id of convertibleTables) {
+    const pack = freshPack();
+    const table = pack.textTable(id);
+    const record = (table.records || [])[0];
+    pack.setText(table, record, `${record.text ?? ''}测试测试`);
+    let error = null;
+    let out = null;
+    try {
+      out = buildRom(pack, rom);
+    } catch (err) {
+      error = err;
+    }
+    check(`${id}：变长**不再被拒**（结构上已经能变长了）`, !error,
+      error ? String(error.message || error).slice(0, 80) : '构建通过');
+    check(`${id}：触发了结构转换`,
+      !!out && (out.report.conversions || []).some((c) => c.table === id),
+      out ? JSON.stringify(out.report.conversions || []) : '');
+    const moved = out && out.report.movedTexts.find((m) => m.table === id);
+    check(`${id}：名字搬到了空闲区`, !!moved,
+      moved ? `→ 0x${moved.to.toString(16).toUpperCase()}` : '没有搬迁');
+    if (moved) {
+      // 串池里写的是**不带槽填充**的内容字节（槽填充在转换后没有意义了）。
+      const expected = pack.textContentBytes(record);
+      const written = out.bytes.subarray(moved.to, moved.to + expected.length);
+      check(`${id}：新地址上的名字逐字节就是新文本`,
+        bytesToHex(written) === bytesToHex(expected),
+        `${expected.length} 字节 @0x${moved.to.toString(16).toUpperCase()}`);
+    }
+  }
+
+  // 剩下还有「结构上真的不行」的表时，变长必须**被拒**（构建时报错），不能悄悄写坏。
   for (const id of [...fixedTables, ...absoluteTables]) {
     const pack = freshPack();
     const table = pack.textTable(id);
@@ -426,6 +467,35 @@ head('\n11) 别的文本表：9 张可重定位的都能变长，2 张结构上�
     check(`${id}：变长被构建器拒绝`,
       !!error && /超长|放不下/.test(message),
       message.slice(0, 80) || '没有报错');
+  }
+
+  // 被**好几个槽**指向的那条文字：槽都要改（漏一个，共用它的那条战斗目标
+  // 就还指着旧地址 ⇒ 界面和游戏对不上）。
+  {
+    const pack = freshPack();
+    const table = pack.textTable('battle_objectives');
+    const shared = (table.records || []).find((r) => (r.pointer_offsets || []).length > 1);
+    check('找得到一条被多个槽指向的战斗目标说明', !!shared,
+      shared ? `${(shared.pointer_offsets || []).length} 个槽` : '没有');
+    if (shared) {
+      const slots = shared.pointer_offsets.slice();
+      pack.setText(table, shared, `${shared.text ?? ''}测试测试`);
+      const out = buildRom(pack, rom);
+      const moved = out.report.movedTexts.find((m) => m.table === 'battle_objectives'
+        && m.id === shared.id);
+      check('变长后搬到了空闲区', !!moved, moved ? `→ 0x${moved.to.toString(16).toUpperCase()}` : '没有搬迁');
+      if (moved) {
+        const allPoint = slots.every((slot) => {
+          const value = (out.bytes[slot] | (out.bytes[slot + 1] << 8)
+            | (out.bytes[slot + 2] << 16) | (out.bytes[slot + 3] << 24)) >>> 0;
+          return value === ROM_BASE + moved.to;
+        });
+        check(`**每一个**槽都改到了新地址（${slots.length} 个）`, allPoint,
+          slots.map((s) => '0x' + s.toString(16).toUpperCase()).join('、'));
+        check('报告里记了槽数', moved.slots === slots.length,
+          `${moved.slots} / ${slots.length}`);
+      }
+    }
   }
 }
 

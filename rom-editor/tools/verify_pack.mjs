@@ -19,7 +19,7 @@ import { dirname, join } from 'node:path';
 import { ContentPack } from '../js/pack.js';
 import { buildRom } from '../js/rom.js';
 import { scanTokens, encodeTokens } from '../js/textcodec.js';
-import { base64ToBytes } from '../js/bytes.js';
+import { base64ToBytes, hexToBytes } from '../js/bytes.js';
 
 /** How many control codes (0x01 / 0x02) a byte run carries. */
 function countCtrl(bytes) {
@@ -43,6 +43,19 @@ function check(name, ok, detail = '') {
   const mark = ok ? 'PASS' : 'FAIL';
   if (!ok) failures += 1;
   console.log(`  [${mark}] ${name}${detail ? ' — ' + detail : ''}`);
+}
+
+/**
+ * `buildRom` 在构建有 error 时会**抛异常**（`rom.js` 的 `BuildError`）。
+ * 门禁要**干净地红**，不能崩在半路 —— 这里把异常变成一条普通的失败。
+ */
+function safeBuild(pack, baseBytes) {
+  try {
+    const out = buildRom(pack, baseBytes);
+    return { ok: true, bytes: out.bytes, report: out.report };
+  } catch (err) {
+    return { ok: false, bytes: null, report: { errors: [String((err && err.message) || err)] } };
+  }
 }
 
 console.log('载入内容包与原版 ROM…');
@@ -441,19 +454,125 @@ console.log('\n9) 文本表的数据完整性：容量判定 / 共用字节 / �
     p11.texts.push(index11);
   } catch (err) { index11 = null; }
 
-  // 9a. 改一条说话人名必须能构建（容量判定要用**内容长度**，
-  //     拿补齐后的长度比槽位会把「4 字节的字 + 12 字节的槽」误判成超长）
+  // 9a. 改一条说话人名 ⇒ 整张表**转换**成「指针表 + 变长串池」。
+  //     「只动那一处」是**定长内联槽**时代的世界；现在「一处」是
+  //     **一整张表的转换 footprint**，断言也跟着改成 footprint：
+  //       · 构建无错误（容量判定要用**内容长度**：拿补齐后的长度比槽位
+  //         会把「4 字节的字 + 12 字节的槽」误判成超长）；
+  //       · 指针表写在**原表的位置**上，64 个槽都是 ROM 内的合法指针；
+  //       · 64 条名字都搬到了**原表范围之外**（串池），逐字节等于新文本；
+  //       · 保护区（说话人全名表）一个字节都没动；
+  //       · 14 处「取名读者」的代码补丁逐字节落地；
+  //       · **除这些之外没有任何字节被改动**。
   {
     const table = p11.textTable('speaker_names');
-    const record = table.records.find((r) => r.text);
-    p11.setText(table, record, record.text + '！');
-    const out = buildRom(p11, rom);
+    const record = table.records.find((r) => r.id === 1);
+    p11.setText(table, record, `${record.text}测试`);
+    const out = safeBuild(p11, rom);
+    const buildOk = out.ok && out.report.errors.length === 0;
+    // 构建失败时用原 ROM 占位 —— 每条断言都带 buildOk 门槛，不会误判成通过
+    const bytes = out.bytes || rom;
+
+    const conversion = (p11.conversions || {})[table.convert] || {};
+    const base = conversion.base;                 // 0x5A57C4：原表的位置
+    const pointerEnd = base + 64 * 4;             // 0x5A58C4
+    const fullnameBase = base + 63 * 12;          // 0x5A5AB8：说话人全名表第 0 条（保护区）
+    const ROM_BASE = 0x08000000;
+    const moved = (out.report.movedTexts || []).filter((m) => m.table === table.id);
     const changed = [];
-    for (let i = 0; i < out.bytes.length; i++) if (out.bytes[i] !== rom[i]) changed.push(i);
-    check('改说话人名能构建且只动那一处',
-      out.report.errors.length === 0 && changed.length > 0 &&
-      changed.every((i) => i >= record.text_offset && i < record.text_offset + 12),
-      out.report.errors.join('; ') || `改动 ${changed.length} 字节 @0x${record.text_offset.toString(16)}`);
+    for (let i = 0; i < rom.length; i++) if (bytes[i] !== rom[i]) changed.push(i);
+
+    check('改说话人名能构建（转换不报错）',
+      buildOk && (out.report.conversions || []).some((c) => c.table === table.id),
+      out.report.errors.join('; ') ||
+      `转换 ${(out.report.conversions || []).length} 次，共改 ${changed.length} 字节`);
+
+    // 指针表：写在原表的位置上，64 个槽都是 ROM 内的合法指针，
+    // 而且指针表本身**没有超出原表的范围**（不能碰到保护区）。
+    const pointers = [];
+    for (let id = 0; id < 64; id++) {
+      const at = base + id * 4;
+      pointers.push((bytes[at] | (bytes[at + 1] << 8) |
+        (bytes[at + 2] << 16) | (bytes[at + 3] << 24)) >>> 0);
+    }
+    check('指针表写在原表位置，64 个槽都是合法指针',
+      buildOk &&
+      pointers.every((v) => v >= ROM_BASE && v < ROM_BASE + rom.length) &&
+      pointerEnd <= fullnameBase,
+      `指针表 0x${base.toString(16)}–0x${pointerEnd.toString(16)}，` +
+      `保护区起点 0x${fullnameBase.toString(16)}`);
+
+    // 64 条名字：正文都搬到了原表范围之外（串池），逐字节等于新文本，后面跟一个 NUL。
+    let namesOk = moved.length === 64;
+    let namesDetail = `${moved.length} 条进了串池`;
+    for (const r of table.records) {
+      const m = moved.find((x) => x.id === r.id);
+      if (!m) { namesOk = false; namesDetail = `id ${r.id} 没有进串池`; break; }
+      const at = m.to;
+      const expected = p11.textContentBytes(r);
+      const written = bytes.subarray(at, at + expected.length);
+      if (written.length !== expected.length ||
+          !written.every((b, i) => b === expected[i])) {
+        namesOk = false; namesDetail = `id ${r.id} @0x${at.toString(16)} 内容不符`; break;
+      }
+      if (bytes[at + expected.length] !== 0) {
+        namesOk = false; namesDetail = `id ${r.id} @0x${at.toString(16)} 后面缺 NUL`; break;
+      }
+      if (at >= base && at < fullnameBase) {
+        namesOk = false; namesDetail = `id ${r.id} 还留在原表里（0x${at.toString(16)}）`; break;
+      }
+    }
+    check('64 条名字都搬到了原表范围之外，内容逐字节等于新文本', buildOk && namesOk, namesDetail);
+
+    // 指针表必须**指着**串池里的那一条名字（光「是合法指针」不够 ——
+    // 指针指回旧内联槽的话，游戏读到的还是原地那份，转换等于没做）。
+    let bound = true;
+    let boundDetail = `${moved.length} 条都对上了`;
+    for (const m of moved) {
+      const target = pointers[m.id] - ROM_BASE;
+      if (target !== m.to) {
+        bound = false;
+        boundDetail = `id ${m.id} 的指针指向 0x${target.toString(16)}，名字却在 0x${m.to.toString(16)}`;
+        break;
+      }
+    }
+    check('指针表指着串池里的那一条名字', buildOk && bound && moved.length === 64, boundDetail);
+
+    // 保护区：说话人全名表（0x085A5AB8 起 512 字节）一个字节都没动。
+    const protectSize = 0x200;
+    let protectSame = true;
+    for (let i = 0; i < protectSize; i++) {
+      if (rom[fullnameBase + i] !== bytes[fullnameBase + i]) { protectSame = false; break; }
+    }
+    check('保护区（说话人全名表）逐字节未动', buildOk && protectSame,
+      `0x${fullnameBase.toString(16)} 起 ${protectSize} 字节`);
+
+    // 14 处「取名读者」的代码补丁逐字节落地（不落地的话游戏读的还是旧内联槽）。
+    const codePatches = conversion.code_patches || [];
+    const badPatches = [];
+    for (const cp of codePatches) {
+      const after = hexToBytes(cp.after_hex || '');
+      const actual = bytes.subarray(cp.offset, cp.offset + after.length);
+      if (actual.length !== after.length || !actual.every((b, i) => b === after[i])) {
+        badPatches.push(cp.label || `0x${cp.offset.toString(16)}`);
+      }
+    }
+    check(`${codePatches.length} 处取名读者的代码补丁逐字节落地`,
+      buildOk && codePatches.length > 0 && badPatches.length === 0, badPatches.join('、'));
+
+    // 除「指针表 + 串池 + 读者补丁」这个 footprint 之外，**没有任何字节被改动**。
+    const allowed = [];
+    allowed.push([base, pointerEnd]);
+    for (const m of moved) allowed.push([m.to, m.to + m.bytes + 1]);
+    for (const cp of codePatches) {
+      allowed.push([cp.offset, cp.offset + (cp.before_hex || '').length / 2]);
+    }
+    const unexpected = changed.filter((i) => !allowed.some(([s, e]) => i >= s && i < e));
+    check('除转换 footprint 外没有别的改动', buildOk && unexpected.length === 0,
+      unexpected.length
+        ? `${unexpected.length} 个意外字节 @ ${unexpected.slice(0, 8).map((i) => '0x' + i.toString(16)).join(',')}`
+        : `共改 ${changed.length} 字节：指针表 ${pointerEnd - base} + 串池 ${moved.length} 条 + 读者补丁 ${codePatches.length} 处`);
+
     p11.resetText(table, record);
   }
 
