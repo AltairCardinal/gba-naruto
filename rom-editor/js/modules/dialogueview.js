@@ -2,8 +2,9 @@
 //
 // 这一页是**看与改对白的地方**，不是字节码表：
 //   * 左边是**舞台** —— 背景、立绘、对白框、正文，按游戏里的比例画；
-//   * 右边是**对白列表** —— 这一场的每一句，点一下就跳到那一句；
-//   * 下面是**播放条** —— 按脚本顺序一句一句推进，可以暂停、可以单步。
+//   * 右边是**对白列表** —— 这一场的每一条消息（一行 = 一个对白框：
+//     上面是名字行，下面是正文），点一下就跳到那一条；
+//   * 下面是**播放条** —— 按脚本顺序一条一条推进，可以暂停、可以单步。
 //
 // 文字**可以就地改，长度不限**：正文内联在字节流里，而脚本里的分支目标是
 // 绝对 ROM 地址 —— 等长的直接原地改写；变长 / 变短的话，构建时会把**整个剧本**
@@ -23,6 +24,10 @@ import {
   buildDialogueModel, jumpTo, stepDelayMs, DEFAULT_STEP_MS,
   STAGE_W, STAGE_H, ROOT_LABELS,
 } from '../dialogue.js';
+import {
+  ENTRY_SCENE, SCENE_ID_NOTE, sceneHint, sceneLabel, sceneOptionGroups,
+  sceneTag,
+} from '../sceneid.js';
 import { renderStage } from '../stage.js';
 import { textSegmentCell } from './scriptview.js';
 
@@ -57,7 +62,9 @@ export function renderDialogueView(container, ctx, params) {
   const pack = ctx.pack;
   const rom = ctx.rom || ctx.baseRom;
   const root = ROOTS.includes(params && params.root) ? params.root : 'before';
-  const scene = Number(params && params.scene) || 1;
+  // 没指定场景时落在**主线入口**（场景 54）—— 那才是玩家在游戏里最先看到的一场。
+  // 场景号不是「第几场」，所以「第一场」不等于场景 1（场景 1 是第 1 关的战前剧情）。
+  const scene = Number(params && params.scene) || ENTRY_SCENE;
   const state = stateOf(root, scene);
 
   const model = buildDialogueModel(rom, pack, root, scene);
@@ -84,20 +91,25 @@ export function renderDialogueView(container, ctx, params) {
       root, scene: Number(e.target.value),
     }),
   });
-  const sceneCount = structure ? structure.records.length : 0;
-  for (let s = 1; s < sceneCount; s++) {
-    sceneSelect.appendChild(el('option', {
-      value: String(s), text: `第 ${s} 场`, selected: s === scene,
-    }));
+  // 下拉按「作者找得到」的顺序分组：主线入口在最前，然后是关卡场景，
+  // 最后是其余特殊场景 —— 组内仍按场景号升序（场景号是键，顺序不能乱）。
+  for (const group of sceneOptionGroups(structure, scene)) {
+    const groupNode = el('optgroup', { label: group.label });
+    for (const s of group.scenes) {
+      groupNode.appendChild(el('option', {
+        value: String(s), text: sceneLabel(s), selected: s === scene,
+      }));
+    }
+    sceneSelect.appendChild(groupNode);
   }
 
   container.appendChild(el('div', { class: 'panel-head' }, [
     el('div', {}, [
-      el('h2', { text: `对白 · 第 ${scene} 场` }),
+      el('h2', { text: `对白 · ${sceneLabel(scene)}` }),
       el('div', { class: 'panel-sub' }, [
         el('span', { text: `${ROOT_LABELS[root]}剧本` }),
         el('span', { text: model.pointer ? `ROM 0x${model.pointer.toString(16).toUpperCase()}` : '无剧本' }),
-        el('span', { text: `${model.counts.lines} 句对白` }),
+        el('span', { text: `${model.counts.lines} 条消息` }),
       ]),
     ]),
     el('div', { class: 'panel-tools' }, [
@@ -109,7 +121,7 @@ export function renderDialogueView(container, ctx, params) {
         onclick: () => ctx.onJump({
           module: 'story', kind: 'script', id: 'script',
           params: { root, scene },
-          label: `${ROOT_LABELS[root]} · 第 ${scene} 场`,
+          label: `${ROOT_LABELS[root]} · ${sceneLabel(scene)}`,
         }),
       }),
     ]),
@@ -119,7 +131,10 @@ export function renderDialogueView(container, ctx, params) {
     el('span', { class: 'rule-title', text: '说明' }),
     el('span', {
       text: '左边是这一场戏的画面：背景、立绘、对白框、正文，按游戏里的比例画。' +
-        '右边是这一场的每一句对白，点一下就跳到那一句。' +
+        '右边是这一场的每一条消息，点一下就跳到那一条。' +
+        '**一条消息 = 一个对白框**：上面一行是**名字行**，下面是正文。' +
+        '名字行有两个来源 —— 说话人名表里的名字（脚本里的 0x08），' +
+        '或者 0x20 指令自带的内联文本（那种名字行就在这条消息里，标着「名字行」，也能改）。' +
         '正文**可以就地改，长度不限** —— 正文内联在脚本字节流里，' +
         '而脚本里的分支目标是绝对地址，所以等长的直接原地改写；' +
         '**变长 / 变短**的话，构建时会把**整个剧本**搬到 ROM 的空闲区，' +
@@ -128,6 +143,15 @@ export function renderDialogueView(container, ctx, params) {
         '以及这一改会不会搬动剧本。',
     }),
   ]));
+
+  // 这一场**是什么** + 场景号到底怎么读 —— 这一段是本轮补的：
+  // 以前场景下拉写「第 N 场」，把场景号说成了顺序，于是**游戏开局
+  // （场景 54）看起来像最后一场**，占位场景 55 还排在它前面。
+  const hint = sceneHint(scene);
+  container.appendChild(el('p', { class: 'section-note', text: [
+    hint ? `这一场：${sceneTag(scene)}。${hint}` : '',
+    SCENE_ID_NOTE,
+  ].filter(Boolean).join(' ') }));
 
   if (!model.hasScript) {
     container.appendChild(el('div', { class: 'empty' }, [
@@ -161,13 +185,13 @@ function stagePanel(ctx, model, state) {
 
   // --- 播放条 ------------------------------------------------------------
   const playButton = el('button', { class: 'btn btn-tiny', text: '播放' });
-  const prevButton = el('button', { class: 'btn btn-tiny', text: '上一句' });
-  const nextButton = el('button', { class: 'btn btn-tiny', text: '下一句' });
-  const delayLabel = el('span', { class: 'dlg-delay-label', text: `每句 ${state.delayMs} 毫秒` });
+  const prevButton = el('button', { class: 'btn btn-tiny', text: '上一条' });
+  const nextButton = el('button', { class: 'btn btn-tiny', text: '下一条' });
+  const delayLabel = el('span', { class: 'dlg-delay-label', text: `每条 ${state.delayMs} 毫秒` });
   const delayInput = el('input', {
     class: 'num-input', type: 'text', style: { width: '64px' },
     value: String(state.delayMs),
-    title: '播放时每句停留多久（毫秒）。这不是 ROM 里的值 —— ' +
+    title: '播放时每条消息停留多久（毫秒）。这不是 ROM 里的值 —— ' +
       '对白在游戏里是等玩家按键才翻页的，停留多久由作者定。',
     onchange: (e) => {
       const value = Number(e.target.value);
@@ -177,7 +201,7 @@ function stagePanel(ctx, model, state) {
         return;
       }
       state.delayMs = Math.round(value);
-      delayLabel.textContent = `每句 ${state.delayMs} 毫秒`;
+      delayLabel.textContent = `每条 ${state.delayMs} 毫秒`;
     },
   });
 
@@ -200,8 +224,8 @@ function stagePanel(ctx, model, state) {
     const line = model.lines[state.index] || null;
     paintStage(ctx, canvas, boxNode, nameNode, textNode, model, line);
     progress.textContent = model.lines.length
-      ? `第 ${state.index + 1} / ${model.lines.length} 句`
-      : '没有对白';
+      ? `第 ${state.index + 1} / ${model.lines.length} 条消息`
+      : '没有消息';
     clear(position);
     position.appendChild(el('span', {
       class: 'dlg-state',
@@ -279,7 +303,7 @@ function describeState(line) {
     portraits.push(`头像 ${line.portraitB}`);
   }
   parts.push(portraits.length ? `立绘：${portraits.join(' + ')}` : '立绘：无');
-  parts.push(line.speakerName ? `说话人：${line.speakerName}` : '说话人：无名牌');
+  parts.push(line.nameText ? `名字行：${line.nameText}` : '名字行：无');
   if (line.waitFrames !== null && line.waitFrames !== undefined) {
     parts.push(`脚本在这里等 ${line.waitFrames} 帧`);
   }
@@ -320,7 +344,7 @@ function paintStage(ctx, canvas, boxNode, nameNode, textNode, model, line) {
   clear(textNode);
   boxNode.classList.toggle('empty', !line);
   if (!line) return;
-  nameNode.textContent = line.speakerName || '';
+  nameNode.textContent = line.nameText || '';
   nameNode.style.display = line.speakerName ? '' : 'none';
   // 正文里的换行（0x0A）在界面上显示成 ↵；这里换成真正的换行。
   textNode.textContent = line.text.split('↵').join('\n');
@@ -329,15 +353,16 @@ function paintStage(ctx, canvas, boxNode, nameNode, textNode, model, line) {
 /**
  * 右边的对白列表。
  *
- * 一行 = 一句。每行：序号 + 说话人 + 正文输入框 + 字节预算。
- * 点序号那一块就跳到那一句（舞台跟着换）。
+ * 一行 = **一条消息**（= 游戏里的一个对白框）。
+ * 每行：序号 + 名字 + 地址 + 名字行输入框（只有 `0x20` 内联名字时才有）+ 正文输入框 + 字节预算。
+ * 点序号那一块就跳到那一条（舞台跟着换）。
  */
 function listPanel(ctx, model, state, stage) {
   const list = el('div', { class: 'dlg-list' });
   const node = el('div', { class: 'dlg-side' }, [
     el('div', { class: 'dlg-list-head' }, [
-      el('span', { text: `这一场 ${model.counts.lines} 句` }),
-      el('span', { class: 'stat-hint', text: '点序号跳到那一句' }),
+      el('span', { text: `这一场 ${model.counts.lines} 条消息` }),
+      el('span', { class: 'stat-hint', text: '点序号跳到那一条' }),
     ]),
     list,
   ]);
@@ -361,10 +386,26 @@ function listPanel(ctx, model, state, stage) {
       onclick: select,
     }, [
       el('span', { class: 'dlg-row-no', text: `#${line.index + 1}` }),
-      el('span', { class: 'dlg-row-speaker', text: line.speakerName || '（无名牌）' }),
+      el('span', { class: 'dlg-row-speaker', text: line.nameText || '（无名牌）' }),
       el('span', { class: 'dlg-row-addr', text: '0x' + (line.offset + 0x08000000).toString(16).toUpperCase() }),
     ]);
     const body = el('div', { class: 'dlg-row-body' });
+    // **名字行**（`0x20` 自带的内联文本）—— 它是这条消息的一部分，
+    // 在游戏里画在消息框顶上那一行（名牌位、名牌色），也能就地改。
+    for (const segment of line.nameSegments || []) {
+      body.appendChild(el('div', { class: 'dlg-row-name' }, [
+        el('span', {
+          class: 'dlg-row-name-tag',
+          title: '这一行的名字来自脚本里的 0x20 指令（它自带一段内联文本）。' +
+            '游戏把它画在消息框顶上那一行 —— 与说话人名表里的名字**同一个位置、同一套颜色**。',
+          text: '名字行',
+        }),
+        textSegmentCell(ctx, segment, () => {
+          line.nameText = line.nameSegments.map((s) => s.text).join('');
+          stage.paint();
+        }),
+      ]));
+    }
     for (const segment of line.segments) {
       body.appendChild(textSegmentCell(ctx, segment, () => {
         // 改完正文：这一句的文本变了，舞台与计数都要跟上。

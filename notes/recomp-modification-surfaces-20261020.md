@@ -100,6 +100,38 @@ gba_mod_register_function_entry_plugin("example.replace-draw", 0x08003000u, 1, r
   （引擎容量上限 896，含 32:9=569、50:9=889；**默认仍是 240**，每个游戏自己设上限）
 - `gba_mod_publish_foreign_obj_focus()`：外来 OBJ 的焦点/缩放描述符
 
+#### 层 4 补全（2026-10-23，直接核对框架源码 `build/gbarecomp-src`）
+
+本文原来只记了 3 个呈现层接口。**框架实际提供的 mod 接口清单**（grep
+`build/gbarecomp-src/src` + `platform` + `docs` 得到）比这多得多：
+
+| 类别 | 接口 | 能力 |
+|---|---|---|
+| **屏幕叠加层** | `gba_mod_publish_foreign_screen_overlay()` / `gba_mod_clear_foreign_screen_overlay()` | **在 guest 画面上盖一层自己画的 UI**。契约见 `docs/FOREIGN_SCREEN_OVERLAY.md`：裁剪到 240×160、在原生 BG/backdrop 之后、**guest OBJ 之上之前**；可被 WIN0/WIN1/OBJ window 遮住；参与 BG2 的 `BLDCNT` 淡入淡出。**这是"新增 UI"最省的一条路——不用写一行 Thumb** |
+| 呈现 | `gba_mod_publish_foreign_background()` / `_obj_focus()` / 对应的 clear | 外来背景层 / 外来 OBJ 的焦点描述符 |
+| 函数 hook | `gba_mod_register_function_entry_plugin()` / `gba_mod_set_function_hook_enabled()` / `gba_mod_disable_all_function_hooks()` / `gba_mod_function_hook_hits()` | 整段替换 guest 函数；可统计命中次数 |
+| 激活时机 | `gba_mod_register_activation_plugin()` / `gba_mod_register_reset_callback()` | 插件在**运行期**被激活/复位 |
+| 音频 | `gba_mod_audio_play()` / `gba_mod_audio_register_pcm_s()` / `gba_mod_audio_stream_play()` / `gba_mod_audio_stream_register_s()` / `gba_mod_audio_mix()` | 新音乐/新音效（PCM 流） |
+| 分辨率 | `gba_mod_set_internal_resolution()` / `gba_mod_internal_resolution()` / `gba_mod_set_adaptive_view_enabled()` | 内部分辨率（不是简单拉伸，是真的按更高分辨率渲染） |
+| 选项 | `gba_mod_option_value()` | 读 `.gbamod` manifest 里的 `[[option]]` → **mod 自带可调参数**（例：分身数量 1..5 做成一个选项） |
+| 资源 | `gba_mod_required_asset_path()` | 插件声明自己需要的资源路径 |
+| 诊断 | `gba_mod_set_diagnostic_replay_enabled()` / `gba_mod_diagnostic_replay_enabled()` | 诊断回放开关 |
+
+**信任模型（决定"谁能把原生代码放进去"）**（`docs/MOD_PACKAGES.md` L59-64）：
+
+- **trusted plugin = 游戏自有的原生行为，静态链接进游戏二进制** ⇒
+  **我们自己编译的 exe 里可以放任意 C++**（这就是"改到什么程度"的天花板）。
+- `.gbamod` 包 = ZIP + `manifest.toml`，**"Archives contain data only"**：
+  不能带原生代码 / DLL / 符号 / 库路径。
+
+**hook 契约的硬保证**（`docs/TOML_SCHEMA.md` L200-225）：
+
+- `[[mod_function_hook]]` 的 `addr`+`mode` 必须**正好命中一个静态函数根**，
+  否则是**硬 codegen 错误**（不是警告）⇒ 不会出现"地址漂移导致 mod 静默失效"。
+- 回调默认禁用；可以拒绝本次调用（走原函数体）；一旦接管，
+  **必须自己写好返回后的 `ArmCpuState`（含调用者返回 PC）**，原函数体不再执行。
+- 静态 ROM 根**必须**在 TOML 里声明；self-heal/解释器路径另走 trusted registry。
+
 ### 发补丁包：`.gbamod`
 
 - ZIP + 根 `manifest.toml`，含 `[[target]]`（game_id + rom_sha1）、`[[feature]]`、`[[option]]`
@@ -207,7 +239,26 @@ gba_mod_register_function_entry_plugin("example.replace-draw", 0x08003000u, 1, r
 
 ### 6.5 为什么本项目不做反编译
 
-反编译的价值在于"拿到可读、可维护、可任意重写的源码"。但本项目要的是**续作**，
+> ⚠️ **2026-10-23 更正：本节的前提已被推翻。**
+> 本节的理由是「**本项目要的是续作，不是复刻**」。
+> 但ano 重制版的存在意图已被明确为——
+> **「获得一份与原版完全一致并且可进行任意修改的源码」**，
+> 也就是**复刻**，不是续作。
+> ⇒ 本节与 §6.6 的裁决**按新前提重排**，见
+> `docs/butano-fidelity-roadmap.md` §2.3。摘要：
+>
+> | 用途 | 新裁决 |
+> |---|---|
+> | 行为真值 / 对拍 oracle | **静态重编译**（100% 静态、确定性、可 hook、540–600 fps）——**不是全量反编译** |
+> | 规格来源（读不懂时） | **按需局部反编译 + 读 recomp 生成码**（103 MB 生成 C++ 已含完整语义） |
+> | 可交付的最终源码 | **Butano C++**（用户要的那份"可任意修改的源码"） |
+>
+> ⇒ 反编译从"**不做**"变成"**按需局部用**"，并附一条纪律：
+> **局部反编译的产物只作规格，不直接进 Butano 树**（否则变成两份实现）。
+> ⇒ 不采纳"全量 + matching"：48 MB ROM 的全量 matching 产出 275 万行**重建源码**，
+> 它满足"可读可改"但**不是 Butano 实现**，等于作废 Butano 重制再重做一遍。
+
+反编译的价值在于"拿到可读、可维护、可任意重写的源码"。但**当时**本项目要的是**续作**，
 不是复刻。用反编译要付出全游戏量级的匹配成本，换来的却是：
 
 * 一份 275 万行的"重建源码"——比生成码可读，但仍不等于原作者的代码
@@ -219,12 +270,18 @@ gba_mod_register_function_entry_plugin("example.replace-draw", 0x08003000u, 1, r
 
 ### 6.6 选型判据（目标 → 手段）
 
+> ⚠️ **2026-10-23 更正**：下表「1:1 复刻原版」那一行的裁决**部分采纳**——
+> 反编译由"全量 + matching"降为"**按需局部**"；
+> **行为真值改用静态重编译**（它已经是 100% 静态覆盖、确定性、可 hook 的可执行原版，
+> 比 275 万行重建源码更适合当对拍 oracle）。
+> 完整裁决见 `docs/butano-fidelity-roadmap.md` §2.3。
+
 | 目标 | 该用哪条路 | 是否需要反编译 |
 |---|---|---|
 | 改中文文本 / 数值 / 图块 | 数据注入（改 ROM）+ 现有 `tools/` | ❌ 不需要 |
 | 改单个行为（伤害公式、掉落率） | `[[mod_function_hook]]` + native plugin | ❌ 不需要 |
 | 读懂原版某段逻辑以重做 | 逆向：定位地址 → 局部反编译 → 验证 | 局部需要 |
-| 1:1 复刻原版（教学/存档研究） | 全量反编译 + matching | ✅ 需要，成本最高 |
+| **1:1 复刻原版（教学/存档研究）** | ~~全量反编译 + matching~~ → **静态重编译当真值 + 按需局部反编译当规格** | **局部需要**（不再全量） |
 | 把原版搬到 PC/移动端跑 | 静态重编译 | ❌ 不需要 |
 
 **结论**：反编译是"手段"而不是"终点"。本项目的终点是续作，

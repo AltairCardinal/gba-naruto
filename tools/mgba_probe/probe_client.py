@@ -85,6 +85,8 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--rom", required=True, help="ROM to load")
+    ap.add_argument("--bios", help="real GBA BIOS to use instead of mGBA's HLE one "
+                                   "(needed to reproduce captures taken with a real BIOS)")
     ap.add_argument("--script", help="script file with one command per line")
     ap.add_argument("--cmd", action="append", default=[],
                     help="inline command (may be repeated)")
@@ -109,8 +111,11 @@ def main() -> int:
               file=sys.stderr)
         return 2
 
+    command = [str(exe), str(args.rom)]
+    if args.bios:
+        command += ["--bios", str(args.bios)]
     proc = subprocess.Popen(
-        [str(exe), str(args.rom)],
+        command,
         stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         text=True, encoding="utf-8", errors="replace", bufsize=1,
     )

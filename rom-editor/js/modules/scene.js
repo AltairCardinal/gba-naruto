@@ -17,6 +17,7 @@ import { splitPane } from '../split.js';
 import { CardStack } from '../cards.js';
 import { backButton } from './common.js';
 import { ROOTS } from './scriptview.js';
+import { SCENE_ID_NOTE, sceneLabel, sceneTag } from '../sceneid.js';
 
 /** 四张剧情脚本根表 = 同一个场景的四个剧本入口（root id 与剧本查看器一致）。 */
 export const SCENE_ROOTS = ROOTS;
@@ -98,7 +99,8 @@ class SceneView {
       '左边按场景号列出（槽号就是场景号）；右边是这一场的四个剧本入口 —— ' +
       '战前 / 战后 / 战场事件逻辑 / 战场事件，各占一张卡片，四个指针都能直接改，' +
       '点「看剧本」就跳到这一场的反汇编。' +
-      '四张根表在 ROM 里是分开存的，但它们说的是同一场戏。' }));
+      '四张根表在 ROM 里是分开存的，但它们说的是同一场戏。' +
+      SCENE_ID_NOTE }));
 
     this.listWrap = el('div', { class: 'table-wrap scene-list' });
     this.detailWrap = el('div', { class: 'detail-panel scene-detail' });
@@ -142,7 +144,7 @@ class SceneView {
         },
       }, [
         el('td', { class: 'col-id', text: String(scene) }),
-        el('td', { text: `场景 ${scene}` }),
+        el('td', { text: sceneLabel(scene) }),
         el('td', { class: 'text-cell', text: state.summary, title: state.detail }),
         el('td', { class: 'col-num', text: state.changed ? `● ${state.changed}` : '—' }),
       ]));
@@ -244,10 +246,11 @@ class SceneView {
     const state = this.sceneState(scene);
 
     host.appendChild(el('div', { class: 'detail-head' }, [
-      el('h3', { text: `场景 ${scene}` }),
+      el('h3', { text: sceneLabel(scene) }),
     ]));
     host.appendChild(el('div', { class: 'detail-sub' }, [
       el('span', { text: `槽号 ${scene}` }),
+      el('span', { text: sceneTag(scene) }),
       el('span', { text: `${this.roots.length} 张根表` }),
       el('span', { text: state.changed ? `已改 ${state.changed} 处` : '还没有改动' }),
     ]));

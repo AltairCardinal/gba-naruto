@@ -19,8 +19,15 @@
 
 外部依赖（不在本仓库内）：
 
-- mGBA 源码 `D:/Shell/toolchain/mgba-0.10.5`（可用 `$KONOHA_MGBA_SRC` 覆盖）
-- mGBA 构建树 `D:/Shell/toolchain/mgba-build`（`$KONOHA_MGBA_BUILD`）
+- mGBA 源码 `D:/Shell/toolchain/mgba-dev`（可用 `$KONOHA_MGBA_SRC` 覆盖），
+  **必须检出到钉死的提交**
+  `d8bad14b4540f9114246c0281d74985cf81adc68`
+  —— 这正是项目自己在 `tools/macos_mgba_toolchain_profile.py` 里钉的那个 mGBA，
+  它的 **GBA 存档版本是 `0x0000000A`**，与 Butano 重制线既有的 `.ss9` 一致
+  （格式与 BIOS 都对上）；`build.py` 会校验 HEAD，不符就**失败关闭**。
+- mGBA 构建树 `D:/Shell/toolchain/mgba-build-d8bad14b`（`$KONOHA_MGBA_BUILD`）
+- Lua 5.4 静态库 `D:/Shell/toolchain/lua-5.4.7-build/lua54.lib`（`$KONOHA_LUA_LIB`），
+  由 `tools/build_lua_lib.ps1` 从源码编出
 - MSVC Build Tools 2022 + 便携 CMake 3.31.7
 
 ---
@@ -37,9 +44,15 @@ python tools/mgba_probe/build.py --rebuild-mgba   # 强制重建 mGBA 静态库
 
 `build.py` 会**从 CMake 生成的 `mgba.vcxproj` 里读出 mGBA 静态库实际使用的
 预处理宏**再传给 `cl.exe`。这一步不是多余的：`struct mCore` 内嵌
-`#ifdef USE_DEBUGGERS` 成员，宏不一致会让宿主与库的 ABI 不同（详见
-`notes/mgba-probe-build-20261020.md`）。`host_main.c` 里另有 `_Static_assert`
-指纹，宏一旦漂移就是**编译错误**而不是运行期崩溃。
+`#ifdef ENABLE_DEBUGGERS` 成员，宏不一致会让宿主与库的 ABI 不同
+（指纹由 `abi_probe.c` 实测得出，见 `notes/mgba-probe-build-20261020.md`）。
+`host_main.c` 里另有 `_Static_assert` 指纹，宏一旦漂移就是**编译错误**
+而不是运行期崩溃。
+
+> **`LIBMGBA_ONLY` 不能用**：新版 mGBA 里它会连带关掉
+> `ENABLE_DEBUGGERS` / `USE_LUA` / `USE_PNG` / `USE_ZLIB`，
+> 而探针需要调试器（断点）、脚本引擎和 PNG 截图。
+> 改为逐个关掉图形前端（`BUILD_QT=OFF` / `BUILD_SDL=OFF`）。
 
 ---
 
@@ -98,7 +111,26 @@ python tools/mgba_probe/probe_client.py --rom rom/base.gba \
 | `dump <addr> <len>` | 十六进制导出任意区域 |
 | `save <path>` | 写 savestate 到文件 |
 | `load <path>` | 从文件读 savestate |
+| `poke <addr> <val>` / `poke16 <addr> <val>` | 往模拟地址空间写字节 / 半字 |
+| `shot <path>` | 写当前帧的 **PNG** |
+| `rawshot <path>` | 写当前帧的原始 **RGBA**（240×160，无损，不经 PNG） |
+| `cont [budget]` | 跑到断点命中（默认 600 帧上限） |
+| **`script <path>`** | **加载 Lua 脚本**；`callbacks:add("frame", …)` 每完成一帧触发一次（2026-10-23 新增） |
 | `echo <token>` | 回显一个 token（客户端哨兵用） |
+
+> `script` 需要宿主带 Lua 支持构建：`tools/build_lua_lib.ps1` 先把 Lua 5.4 编成
+> 静态库，`build.py` 检测到它就加 `-DUSE_LUA=ON -DENABLE_SCRIPTING=ON`。
+> 重制线的 Lua 探针脚本（如 `mgba_original_input_frame_sequence.lua`）
+> **原样可用**，产物格式（`frame-*.png` / `*.ss9` / `audit.json`）一致。
+> 详见 `docs/local-toolchain-20261023.md`。
+
+### 无窗口、无声
+
+宿主只链接 libmgba 的 **core**（`BUILD_QT=OFF` / `BUILD_SDL=OFF`），
+**导入表里没有 USER32 / winmm / avrt / SDL / OpenAL** ⇒
+进程在物理上不可能开窗或开音频设备；`emu:screenshot` 只写文件。
+`python tools/mgba_probe/verify_headless_recording.py` 是这条性质的门禁：
+它解析导入表、并在一次真实录制期间枚举该进程的全部顶层窗口。
 
 mGBA 自带（经 `CLIDebuggerRunCommand`）：`status`、`b`/`break`、`c`/`continue`、
 `x/1` `x/2` `x/4`、`w/1` `w/2` `w/4`、`r/1` `r/2` `r/4`、`watch`/`watch/r`/`watch/w`、

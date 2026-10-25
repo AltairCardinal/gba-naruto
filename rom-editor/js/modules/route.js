@@ -25,6 +25,7 @@ import {
   renderRouteGraph, STAGE_COUNT, MAX_SCENE, OP_AFTER, OP_CURSOR,
   afterSceneSet, collectEdges, scriptLabel, edgeTable,
 } from './route-graph.js';
+import { sceneLabel } from '../sceneid.js';
 
 export { renderRouteGraph };
 
@@ -571,6 +572,9 @@ function routeSection(ctx, stage) {
  *
  * 选项只列 `story_after_root` 里指针非空、场景号落在 1..55 的场景；
  * 当前值不在表内时补一项，免得作者看见一个空白的当前值。
+ *
+ * **场景号不是「第几场」** —— 1..46 是关卡场景，47..55 是关卡之外的特殊场景
+ * （54 是主线入口 / 游戏开局）。所以这里用 `sceneLabel()`，不写「第 N 关」。
  */
 function sceneSelect(ctx, operand, afterSet) {
   const current = Number(operand.value);
@@ -592,13 +596,13 @@ function sceneSelect(ctx, operand, afterSet) {
   }));
   for (const n of [...afterSet].sort((a, b) => a - b)) {
     select.appendChild(el('option', {
-      value: String(n), text: `${n} · 第 ${n} 关 · after 剧本`, selected: current === n,
+      value: String(n), text: `${sceneLabel(n)} · after 剧本`, selected: current === n,
     }));
   }
   if (current !== 0 && !afterSet.has(current)) {
     select.appendChild(el('option', {
       value: String(current),
-      text: `${current} · 当前值（该场景没有 after 剧本）`,
+      text: `${sceneLabel(current)} · 当前值（该场景没有 after 剧本）`,
       selected: true,
     }));
   }

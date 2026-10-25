@@ -13,6 +13,7 @@ import { OPCODE_NAMES } from '../storyvm.js';
 import {
   ONE_BASED_NOTE, buildTriggerModel, targetText,
 } from '../battletriggers.js';
+import { sceneLabel } from '../sceneid.js';
 
 const { RULES_BASE, RULE_STAGE_STRIDE, RULE_SUB_STRIDE } = BATTLE_LAYOUT;
 
@@ -431,7 +432,7 @@ function storyLink(ctx, root, scene, label) {
       kind: 'script',
       id: 'script',
       params: { root, scene },
-      label: `${label}（第 ${scene} 场）`,
+      label: `${label}（${sceneLabel(scene)}）`,
     }),
   });
 }

@@ -83,3 +83,14 @@
 .dlg-row-addr { margin-left: auto; font-family: var(--mono); color: var(--fg-dim); font-size: 10.5px; }
 .dlg-row-body { margin-top: 2px; }
 .dlg-row-body .script-text-run { margin-bottom: 2px; }
+/* 名字行（0x20 自带的内联文本）：它属于这条消息，在游戏里画在框顶那一行。 */
+.dlg-row-name {
+  display: flex; gap: 6px; align-items: flex-start;
+  margin-bottom: 4px; padding-left: 2px;
+}
+.dlg-row-name .script-text-run { flex: 1 1 auto; min-width: 0; }
+.dlg-row-name-tag {
+  flex: 0 0 auto; margin-top: 4px; padding: 1px 5px;
+  border: 1px solid #6a4a8a; border-radius: 3px;
+  color: #f0a8f0; font-size: 10px; white-space: nowrap;
+}

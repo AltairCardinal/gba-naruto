@@ -72,9 +72,14 @@ export function renderStage(rom, line) {
   }
   // 3. 对白框
   blit(pixels, width, height, renderDialogueBox(width, height), 0, 0);
-  // 4. 说话人名牌（同一套字形，换一组颜色）
-  if (line.speakerCodes && line.speakerCodes.length) {
-    const nameTokens = line.speakerCodes.map((code) => ({ k: 't', c: code }));
+  // 4. 名字行（消息框顶上那一行，同一套字形、换一组颜色）
+  //    名字行有两个来源，**画在同一处、用同一套颜色**：
+  //      · `0x08` —— 说话人名表里的名字
+  //      · `0x20` —— 指令自带的内联文本
+  //    真机实测两者都在 x=24、y=104 起，用名牌色（#bdadde / #7321ff）。
+  //    依据：notes/evidence/dialogue-name-row-20261024.md
+  if (line.nameCodes && line.nameCodes.length) {
+    const nameTokens = line.nameCodes.map((code) => ({ k: 't', c: code }));
     blit(pixels, width, height, renderText(rom, nameTokens, {
       width, height, x: NAME_X0, y: NAME_Y0, colors: NAME_COLORS, pitch: 8,
     }), 0, 0);

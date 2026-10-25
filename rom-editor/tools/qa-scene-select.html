@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>QA · 场景号口径（真浏览器）</title>
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../css/dialogue.css">
+<link rel="stylesheet" href="../css/scene.css">
+<style>
+  body { padding: 16px; font: 13px/1.6 system-ui, sans-serif; background: #101418; color: #d8e0e6; }
+  #out { white-space: pre-wrap; background: #0b0f13; border: 1px solid #22303a; padding: 12px; margin-top: 12px; }
+  #host { border: 1px solid #22303a; padding: 8px; margin-top: 12px; }
+  .ok { color: #7fd18a; }
+  .bad { color: #e88f8f; }
+</style>
+</head>
+<body>
+<!--
+  真浏览器里复核「场景号口径」（2026-10-24）。
+
+  为什么要单独一页：无头门禁（verify_dialogue_view.mjs）用 DOM 桩，
+  断的是**结构与文案**；这一页断的是**真浏览器里 <select><optgroup> 的渲染**
+  —— 分组下拉在真浏览器里长什么样、下拉框当前显示的是哪一项。
+
+  用法：
+    node rom-editor/tools/serve.mjs 8000
+    打开 http://localhost:8000/rom-editor/tools/qa-scene-select.html
+-->
+<div id="status">正在载入内容包与 ROM…</div>
+<div id="out"></div>
+<div id="host"></div>
+
+<script type="module">
+import { ContentPack } from '../js/pack.js';
+import { editorUrl, fetchJsonSmart } from '../js/loader.js';
+import { renderDialogueView } from '../js/modules/dialogueview.js';
+
+const out = document.getElementById('out');
+const lines = [];
+let failures = 0;
+function check(name, ok, detail = '') {
+  if (!ok) failures += 1;
+  const line = `[${ok ? 'PASS' : 'FAIL'}] ${name}${detail ? ' — ' + detail : ''}`;
+  lines.push(line);
+  out.innerHTML = lines.map((l) => (l.startsWith('[FAIL]')
+    ? `<span class="bad">${l}</span>` : `<span class="ok">${l}</span>`)).join('\n');
+}
+
+function say(text) { document.getElementById('status').textContent = text; }
+
+/** 取一份大文件，**读 body 也在超时之内**（否则卡住的 body 会永远挂着）。 */
+async function fetchBytes(url, timeoutMs) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, { cache: 'no-cache', signal: controller.signal });
+    if (!response.ok) throw new Error(url + ': HTTP ' + response.status);
+    return new Uint8Array(await response.arrayBuffer());
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+try {
+  // 内容包（压缩 330 KB）：这一页要断的**标签与下拉**只需要它。
+  say('正在取内容包…');
+  const packData = await fetchJsonSmart(editorUrl('content/pack.min.json'), 25000);
+  const pack = ContentPack.fromJSON(packData);
+
+  // ROM（6 MB）：**默认不取**。
+  // 这一页要断的是**标签与下拉** —— 那些只靠内容包就够了。
+  // 想看整幅画面（舞台、135 句对白）就加 `?rom=1`：
+  // 嵌入浏览器对单文档的下载量有上限，6 MB 偶尔会卡住，不能让它拖住整页。
+  // `?rom=<路径>` 可以指定别的 ROM（例如 `?rom=/build/mini-rom.bin`
+  // 是一份只含脚本段的截断副本，够渲染列表，够不着字库）。
+  let rom = null;
+  const romParam = new URLSearchParams(location.search).get('rom');
+  if (romParam) {
+    try {
+      say('正在取 ROM…');
+      const url = romParam === '1' ? editorUrl('../rom/base.gba') : romParam;
+      rom = await Promise.race([
+        fetchBytes(url, 20000),
+        new Promise((resolve) => setTimeout(() => resolve(null), 20000)),
+      ]);
+    } catch (err) {
+      rom = null;
+    }
+  }
+  const host = document.getElementById('host');
+  const ctx = {
+    pack,
+    rom,
+    baseRom: rom,
+    state: { view: { panel: null } },
+    onChange() {},
+    openPanel() {},
+    goModule() {},
+    render() {},
+    setStatus() {},
+    onJump() {},
+  };
+
+  renderDialogueView(host, ctx, { root: 'before', scene: 54 });
+
+  const select = host.querySelector('select.search:not(:first-of-type)') ||
+    [...host.querySelectorAll('select')].pop();
+  const groups = [...select.querySelectorAll('optgroup')];
+  const options = [...select.querySelectorAll('option')];
+  const header = host.querySelector('h2');
+
+  check('场景下拉分成组', groups.length >= 2,
+    groups.map((g) => g.getAttribute('label')).join(' / '));
+  check('第一组是「主线入口（游戏从这里开始）」',
+    (groups[0] || {}).getAttribute && groups[0].getAttribute('label').includes('主线入口'),
+    groups[0] ? groups[0].getAttribute('label') : '没有分组');
+  check('主线入口组里就是场景 54',
+    groups[0] && groups[0].querySelector('option').textContent === '场景 54 · 主线入口（游戏开局）',
+    groups[0] ? groups[0].querySelector('option').textContent : '没有');
+  check('下拉当前选中的是场景 54（不是第一项）',
+    select.value === '54', `value = ${select.value}`);
+  check('下拉里没有「第 N 场」',
+    !options.some((o) => /第 \d+ 场/.test(o.textContent)),
+    options.filter((o) => /第 \d+ 场/.test(o.textContent)).map((o) => o.textContent).join(' / ') || '没有');
+  check('关卡场景仍带关卡名',
+    options.some((o) => o.textContent === '场景 1（第 1 关）'),
+    options.find((o) => o.textContent.includes('场景 1'))?.textContent || '没有');
+  check('标题写的是「场景 54 · 主线入口（游戏开局）」',
+    header && header.textContent.includes('场景 54 · 主线入口（游戏开局）'),
+    header ? header.textContent : '没有标题');
+
+  // 切到「战场事件逻辑」（那张根表只有 46 个槽）—— 当前场景 54 不在表内，
+  // 下拉必须补出这一项，而不是显示成第一项。
+  const host2 = document.createElement('div');
+  renderDialogueView(host2, ctx, { root: 'logic', scene: 54 });
+  const select2 = [...host2.querySelectorAll('select')].pop();
+  check('切到没有这一槽的根表时，下拉仍选中场景 54',
+    select2.value === '54', `value = ${select2.value}`);
+
+  say(failures === 0 ? '全部通过' : `${failures} 项失败`);
+  // 结果也上报给本地服务器（与 selftest.html 同一套）——
+  // 浏览器标签页关掉之后，跑过什么还留在 build/selftest-report.jsonl 里。
+  try {
+    await fetch('/__report', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ page: 'qa-scene-select', failures, lines }),
+    });
+  } catch (err) {
+    say('（上报失败：' + err.message + '）');
+  }
+} catch (err) {
+  say('失败：' + (err && err.message ? err.message : err));
+  check('页面跑起来了', false, String(err));
+}
+</script>
+</body>
+</html>

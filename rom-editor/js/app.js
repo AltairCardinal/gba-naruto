@@ -17,6 +17,7 @@ import { parsePackFromRom } from './parsepack.js';
 import { buildRom } from './rom.js';
 import { loadBundledRom } from './romsource.js';
 import { openRomGate } from './romgate.js';
+import { createRomLoader } from './romload.js';
 import { loadPackWithProgress, loadPackInFrame } from './loader.js';
 import { ensureTextIndex } from './textindex.js';
 import { parseHash as parseHashRaw, hashFor } from './routing.js';
@@ -89,7 +90,34 @@ function showProgress(phase) {
 function hideProgress() {
   if (dom.loadProgress) dom.loadProgress.classList.add('hidden');
   if (dom.retryButton) dom.retryButton.classList.add('hidden');
+  // 复位：进度条收起来之后，动画与宽度也要清掉 ——
+  // 否则下一次显示时，动画状态是上一次留下的。
+  if (dom.loadProgressFill) {
+    dom.loadProgressFill.classList.remove('indeterminate');
+    dom.loadProgressFill.style.width = '0%';
+  }
+  if (dom.loadProgressText) dom.loadProgressText.textContent = '';
 }
+
+/**
+ * 载入 ROM 的**唯一入口**（流程在 `js/romload.js`）。
+ *
+ * 两条来源（内置 / 本地文件）共用它，所以：
+ *   * 门禁里选「载入内置 ROM」**也会**写状态（以前只取字节、忘了写 ⇒ 弹窗关了
+ *     但编辑器里没有 ROM —— 用户报的第一个 bug）；
+ *   * 载入结束**一定**把顶栏的进度条撤掉（以前没人撤 ⇒ 顶栏一直转 ——
+ *     用户报第二个 bug）。
+ */
+const romLoader = createRomLoader({
+  fetchBundled: fetchBundledRom,
+  readLocalFile: readFile,
+  apply: applyRom,
+  indicator: {
+    show: showProgress,
+    hide: hideProgress,
+    showError: (text) => showProgress({ error: true, label: text }),
+  },
+});
 
 export function markDirty() {
   const count = state.pack ? state.pack.changedCount() : 0;
@@ -587,8 +615,7 @@ async function importPackFile(file) {
 
 async function loadRomFile(file) {
   try {
-    const bytes = await readFile(file);
-    await applyRom(bytes, 'file', file.name || 'base.gba');
+    await romLoader.loadFile(file, { bar: true });
     if (state.pack && state.pack.rom.sha256 && state.romSha
         && state.pack.rom.sha256 !== state.romSha) {
       toast('载入的 ROM 与内容包记录的基线不同 —— '
@@ -869,12 +896,10 @@ function requestRom(reason) {
   return openRomGate({
     reason,
     closable: false,
-    loadBundled: (onProgress) => fetchBundledRom(onProgress),
-    loadFile: async (file) => {
-      const bytes = await readFile(file);
-      await applyRom(bytes, 'file', file.name || 'base.gba');
-      return bytes;
-    },
+    // 两条路都走 `romLoader` —— 它负责「取字节 → 写状态」。
+    // （以前内置那条只取字节、不写状态 ⇒ 弹窗关了但 ROM 没进来。）
+    loadBundled: (onProgress) => romLoader.loadBundled(onProgress),
+    loadFile: (file) => romLoader.loadFile(file),
   });
 }
 
@@ -885,15 +910,11 @@ async function loadBundledRomAction() {
     return;
   }
   console.log('[editor] loading bundled rom…');
-  showProgress({ stage: 'download', label: '正在载入内置原版 ROM…', percent: undefined });
   try {
-    const rom = await fetchBundledRom((msg) => {
-      showProgress({ stage: 'download', label: msg, percent: undefined });
-    });
-    await applyRom(rom, 'bundled', 'base.gba');
+    // `bar: true` ⇒ 顶栏显示进度条；载入结束时流程**一定**把它撤掉。
+    await romLoader.loadBundled(null, { bar: true });
     toast('内置原版 ROM 已载入', 'ok');
   } catch (err) {
-    showProgress({ error: true, label: `内置 ROM 载入失败：${err.message}` });
     setStatus('内置 ROM 载入失败');
   }
 }

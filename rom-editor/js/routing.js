@@ -9,6 +9,8 @@
 //
 // 表格与记录级也能寻址，浏览器后退键才是在编辑器里后退，而不是退出编辑器。
 
+import { ENTRY_SCENE } from './sceneid.js';
+
 /** The domains the editor knows about (must match app.js::MODULES). */
 export const DOMAIN_IDS = [
   'overview', 'story', 'items', 'characters', 'ninjutsu', 'battle', 'route',
@@ -122,7 +124,7 @@ export function parseHash(hash) {
       panel: {
         kind: 'script',
         id: 'script',
-        params: { root: parts[2], scene: Number(parts[3]) || 1 },
+        params: { root: parts[2], scene: Number(parts[3]) || ENTRY_SCENE },
       },
     };
   }
@@ -133,7 +135,7 @@ export function parseHash(hash) {
       panel: {
         kind: 'dialogue',
         id: '对白',
-        params: { root: parts[2], scene: Number(parts[3]) || 1 },
+        params: { root: parts[2], scene: Number(parts[3]) || ENTRY_SCENE },
       },
     };
   }
@@ -163,11 +165,11 @@ export function hashFor(view) {
   }
   if (panel.kind === 'script') {
     const { root, scene } = panel.params || {};
-    return `#${module}/script/${root || 'before'}/${scene || 1}`;
+    return `#${module}/script/${root || 'before'}/${scene || ENTRY_SCENE}`;
   }
   if (panel.kind === 'dialogue') {
     const { root, scene } = panel.params || {};
-    return `#${module}/dialogue/${root || 'before'}/${scene || 1}`;
+    return `#${module}/dialogue/${root || 'before'}/${scene || ENTRY_SCENE}`;
   }
   if (panel.kind === 'graph') {
     return `#${module}/graph`;

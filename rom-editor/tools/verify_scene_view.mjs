@@ -231,7 +231,8 @@ console.log('\n1) 场景视图：左边列表的行数 = 场景数');
   const rows = bodyRows(list && list.children.find((n) => n.tagName === 'TABLE'));
   check('场景视图渲染出来了', host.textContent.length > 100, `${host.textContent.length} 字符`);
   check(`左边列表 ${sceneCount} 行`, rows.length === sceneCount, `${rows.length} 行`);
-  check('第一行是「场景 1」', rows.length > 0 && rows[0].children[1].textContent === '场景 1',
+  check('第一行是「场景 1（第 1 关）」',
+    rows.length > 0 && rows[0].children[1].textContent === '场景 1（第 1 关）',
     rows.length ? rows[0].children[1].textContent : '没有行');
   check('页面文本里没有字面星号', !host.textContent.includes('**'));
 }

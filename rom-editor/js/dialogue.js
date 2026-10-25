@@ -16,7 +16,25 @@
 //   * `notes/evidence/portrait-render-chain-20261022.md`（立绘渲染链）
 //   * `notes/evidence/story-background-chain-20261022.md`（背景渲染链）
 //
-// **一条对白 = 一条带文字的指令**（0x01 / 0x05 / 0x20 / 0x13）。
+// **一条对白 = 一个消息框**（名字行 + 正文），不是「一条带文字的指令」。
+//
+// 消息框的**名字行**（顶上那一行）有两个来源，都是**粘性状态**：
+//   · `0x08` —— 说话人名表 `0x085A57C4`（12 字节内联字形码）
+//   · `0x20` —— 这条指令**自带一段内联文本**，画在名字行上
+//     （正文从 +2 起；handler `0x08097A66` 并不读 +1 那个字节）
+// 而 `0x20` 后面那条 `0x01` 是**同一条消息**的正文：
+// 全 ROM 190 处 `0x20`，下一条文本指令**全部**是 `0x01`；
+// 真机画面上两者在**同一个消息框**里（名字行 y=104、正文行 y=120，同一套名牌色）。
+// ⇒ 所以 `0x20` **不单独成行**，它只是把名字行填上。
+//
+// 依据：
+//   * `notes/story-vm-opcodes-20261020.md` §3（44 条操作码的语义，**权威**）
+//   * `notes/evidence/story-scene-l3-20261020.md`（mGBA 真机画面）
+//   * `notes/evidence/dialogue-name-row-20261024.md`（`0x20` = 名字行 + 真机取证）
+//   * `notes/evidence/portrait-render-chain-20261022.md`（立绘）
+//   * `notes/evidence/story-background-chain-20261022.md`（背景）
+//   * `notes/evidence/dialogue-font-render-20261022.md`（对白字形）
+//
 // 列表按**脚本里的字节顺序**排 —— 那是作者读脚本时的自然顺序，
 // 也是「快速跳转」要的那个顺序。播放则按同一条顺序推进。
 
@@ -52,6 +70,41 @@ export const ROOT_LABELS = {
 
 /** 带文字的指令。 */
 export const TEXT_OPS = new Set([0x01, 0x05, 0x20, 0x13]);
+
+/** 名字行的来源。 */
+export const NAME_ROW_NONE = 'none';
+export const NAME_ROW_TABLE = 'table';   // `0x08`：从说话人名表取
+export const NAME_ROW_TEXT = 'text';     // `0x20`：这条指令自带的内联文本
+
+/**
+ * 名字行现在长什么样：**显示文本** + 画在名牌位上的**字形码**。
+ *
+ * 名字行是**粘性状态**（游戏里的对话框状态一直留着），两个来源：
+ *   · `0x08` —— 说话人名表 `0x085A57C4`（12 字节内联字形码，最多 3 个字）
+ *   · `0x20` —— 这条指令自带的**一段内联文本**（正文从 +2 起）
+ *
+ * 两种来源在真机上是**同一个位置、同一套颜色**（名牌色 #7321ff / #bdadde，
+ * x=24、y=104 起）⇒ 界面上统一当成「名字行」。
+ *
+ * 依据：`notes/evidence/dialogue-name-row-20261024.md`。
+ */
+export function nameRowInfo(pack, rom, nameRow) {
+  if (!nameRow || nameRow.kind === NAME_ROW_NONE) return { text: null, codes: null };
+  if (nameRow.kind === NAME_ROW_TABLE) {
+    return {
+      text: speakerName(pack, nameRow.id),
+      codes: speakerNameCodes(rom, nameRow.id),
+    };
+  }
+  // 内联文本（`0x20`）：字形码直接来自那段文本的 token 流。
+  const segments = nameRow.segments || [];
+  const text = segments.map((s) => s.text).join('');
+  const codes = [];
+  for (const segment of segments) {
+    for (const token of segment.tokens) if (token.k === 't') codes.push(token.c);
+  }
+  return { text: text || null, codes: codes.length ? codes : null };
+}
 
 /** 这一场戏的剧本首地址（0 表示没有剧本）。 */
 export function scriptPointer(pack, root, scene) {
@@ -182,6 +235,14 @@ export function buildDialogueModel(rom, pack, root, scene) {
     speaker2: null,
     waitFrames: null,
   };
+  // 名字行（消息框顶上那一行）是**粘性状态**，两个来源：
+  //   · `0x08` —— 说话人名表里的名字
+  //   · `0x20` —— 这条指令自带的内联文本（**它不是正文，是名字行**）
+  // `0x20` 后面那条 `0x01` 是**同一条消息**的正文 ——
+  // 全 ROM 190 处 `0x20`，下一条文本指令**全部**是 `0x01`；
+  // 真机上两者画在**同一个消息框**里（名字行 y=104 / 正文行 y=120）。
+  // 依据：notes/evidence/dialogue-name-row-20261024.md
+  let nameRow = { kind: NAME_ROW_NONE, id: null, segments: null };
   const lines = [];
   const branches = [];
 
@@ -203,14 +264,20 @@ export function buildDialogueModel(rom, pack, root, scene) {
       }
       continue;
     }
-    if (op === 0x08) {                     // 只设说话人名字（头像 id）
+    if (op === 0x08) {                     // 名字行：从说话人名表取
       state.speaker = b1;
+      nameRow = { kind: NAME_ROW_TABLE, id: b1, segments: null };
       continue;
     }
     if (op === 0x0e) {                     // 设两个名字（第二个写进 obj+0x0C）
       state.speaker = b1;
       state.speaker2 = b2;
+      nameRow = { kind: NAME_ROW_TABLE, id: b1, segments: null };
       continue;
+    }
+    if (op === 0x20) {                     // 名字行：这条指令自带内联文本
+      nameRow = { kind: NAME_ROW_TEXT, id: null, segments: textSegments(rom, pack, instruction) };
+      continue;                            // ← 不单独成行：它与后面那条 0x01 是同一条消息
     }
     if (op === 0x11) {                     // 清立绘：操作数 = 槽号，0xFF = 两个都清
       if (b1 === 0xff) { state.portraits[0] = null; state.portraits[1] = null; }
@@ -231,17 +298,24 @@ export function buildDialogueModel(rom, pack, root, scene) {
     }
     if (!TEXT_OPS.has(op)) continue;
 
-    // --- 一句对白 ---------------------------------------------------------
+    // --- 一句对白（= 一个消息框：名字行 + 正文） -------------------------
     const segments = textSegments(rom, pack, instruction);
     const text = segments.map((s) => s.text).join('');
+    const name = nameRowInfo(pack, rom, nameRow);
     lines.push({
       index: lines.length,
       op,
       offset: instruction.offset,
-      kind: op === 0x05 ? 'menu' : op === 0x13 ? 'dual' : op === 0x20 ? 'dialogue' : 'text',
+      kind: op === 0x05 ? 'menu' : op === 0x13 ? 'dual' : 'text',
       speaker: state.speaker,
       speakerName: speakerName(pack, state.speaker),
       speakerCodes: speakerNameCodes(rom, state.speaker),
+      /** 名字行：显示文本 + 画在名牌位上的字形码。 */
+      nameKind: nameRow.kind,
+      nameText: name.text,
+      nameCodes: name.codes,
+      /** 名字行的**可编辑段**（只有 `0x20` 的内联文本有；名字表来源是另一张表）。 */
+      nameSegments: nameRow.kind === NAME_ROW_TEXT ? nameRow.segments : null,
       portraits: state.portraits.map((p) => (p ? { ...p } : null)),
       mapId: state.mapId,
       backgroundId: state.backgroundId,

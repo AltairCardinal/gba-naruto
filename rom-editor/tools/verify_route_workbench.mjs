@@ -118,6 +118,7 @@ try {
 const base = new Uint8Array(0x600000);
 base.fill(0xff, 0x5dfbec);
 const calls = [];
+const jumps = [];
 const ctx = {
   pack,
   rom: base,
@@ -126,6 +127,9 @@ const ctx = {
   onChange() {},
   openPanel(kind, id, params) { calls.push({ kind, id, params }); },
   goModule(id) { calls.push({ module: id }); },
+  // 关卡之外的场景（47..55，比如主线入口 54）没有「第 N 关」可跳 ——
+  // 「目标」列会跳到剧情域的对白编辑器，所以这里要有 onJump。
+  onJump(target) { jumps.push(target); },
   render() {},
   setStatus() {},
 };
@@ -210,9 +214,15 @@ console.log('\n2) 「下一场景 id」是下拉');
     `${selects.length} 个下拉 / ${inputs.length} 个输入框`);
   const options = selects.flatMap((s) => s.children.map((o) => o.textContent));
   check('选项文案同时含场景号与关卡名',
-    options.some((t) => /^\d+ · 第 \d+ 关 · after 剧本$/.test(t)),
+    options.some((t) => /^场景 \d+（第 \d+ 关） · after 剧本$/.test(t)),
     options.find((t) => t.includes('after 剧本')) || '没有');
   check('有「0 · 场景 0」这一项', options.includes('0 · 场景 0'));
+  // 场景号**不是「第几场」**：47..55 是关卡之外的特殊场景，其中 54 是主线入口
+  // （游戏开局）。下拉里必须按场景号说话，不能把 54 说成「第 54 关」。
+  check('关卡之外的场景按场景号说话（54 = 主线入口，不是「第 54 关」）',
+    options.some((t) => t.includes('场景 54') && t.includes('主线入口')) &&
+    !options.some((t) => t.includes('第 54 关')),
+    options.find((t) => t.includes('场景 54')) || '没有');
   const operand = (pack.scripts || []).filter((s) => s.scene === 40)
     .flatMap((s) => s.operands || []).find((o) => o.label === '下一场景 id');
   check('下拉覆盖了操作数的当前值',
@@ -441,6 +451,41 @@ console.log('\n8) 右侧卡片：主界面是路线走向，其它配置按类�
   pack.setText(titles, titles.records[base40], before);
   const badge2 = badgeOf('任务文案');
   check('改回原值后角标消失', !badge2.includes('1'), badge2.join(' / ') || '没有角标');
+}
+
+// --- 9) 场景号口径：关卡之外的场景不能被说成「第 N 关」 --------------------
+console.log('\n9) 场景号口径：主线入口 / 进度分支不是「第 N 关」');
+{
+  ctx.state.view = { module: 'route', panel: { kind: 'graph', id: 'graph', params: {} } };
+  const graphHost = new StubNode('div');
+  renderRoute(graphHost, ctx);
+  const graphText = graphHost.textContent;
+
+  // 内容包里真有指向 50 / 51 的路线边（3 + 1 条）—— 它们是关卡之外的场景。
+  const edgeTargets = new Set();
+  for (const script of pack.scripts || []) {
+    for (const edge of script.route || []) edgeTargets.add(edge.scene);
+  }
+  check('内容包里有指向关卡之外场景（>46）的路线边', [...edgeTargets].some((s) => s > 46),
+    [...edgeTargets].sort((a, b) => a - b).join('、'));
+
+  check('总览不把关卡之外的场景说成「第 N 关」',
+    !graphText.includes('第 50 关') && !graphText.includes('第 51 关'),
+    '第 50 关 / 第 51 关');
+  check('总览写得出「场景 50」是什么', graphText.includes('场景 50 · 主线分支'),
+    (graphText.match(/场景 50[^·\n]{0,12}/) || [''])[0]);
+
+  // 点「场景 50」那一格 —— 它没有「第 50 关」可跳，要跳对白编辑器。
+  const link = all(graphHost, (n) => String(n.className || '').includes('xref-link'))
+    .find((n) => String(n.textContent || '').includes('场景 50'));
+  check('「场景 50」是可点的目标', !!link, link ? link.textContent : '没有');
+  jumps.length = 0;
+  if (link) link.listeners.click[0]({ target: link });
+  const jump = jumps[0];
+  check('点关卡之外的场景跳到剧情域的对白编辑器（不是不存在的「第 50 关」）',
+    !!jump && jump.module === 'story' && jump.kind === 'dialogue'
+    && jump.params && jump.params.scene === 50,
+    jump ? JSON.stringify(jump) : '没有跳转');
 }
 
 console.log(failures === 0 ? '\n全部通过' : `\n${failures} 项失败`);

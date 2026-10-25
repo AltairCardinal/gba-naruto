@@ -18,6 +18,10 @@ import {
   OPCODE_NAMES, KNOWN_OPERANDS, OPERAND_LABELS, ROM_BASE,
   branchTargets, editableOperands, instructionLength, scanScript,
 } from '../storyvm.js';
+import {
+  ENTRY_SCENE, SCENE_ID_NOTE, sceneHint, sceneLabel, sceneOptionGroups,
+  sceneTag,
+} from '../sceneid.js';
 import { textSegments, segmentBudget, commitSegment } from '../scripttext.js';
 
 const ROOTS = [
@@ -33,7 +37,9 @@ export function renderScriptView(container, ctx) {
   const rom = ctx.rom || ctx.baseRom;
   const params = (ctx.state.view.panel && ctx.state.view.panel.params) || {};
   const rootId = params.root || 'before';
-  const scene = Number(params.scene) || 1;
+  // 没指定场景时落在**主线入口**（场景 54）—— 场景号不是「第几场」，
+  // 「第一场」是场景 54，不是场景 1（场景 1 是第 1 关的战前剧情）。
+  const scene = Number(params.scene) || ENTRY_SCENE;
   const root = ROOTS.find((r) => r.id === rootId) || ROOTS[0];
 
   if (!rom) {
@@ -66,16 +72,21 @@ export function renderScriptView(container, ctx) {
       root: root.id, scene: Number(e.target.value),
     }),
   });
-  const count = structure ? structure.records.length : 0;
-  for (let s = 0; s < count; s++) {
-    sceneSelect.appendChild(el('option', {
-      value: String(s), text: `第 ${s} 场`, selected: s === scene,
-    }));
+  // 下拉按「作者找得到」的顺序分组：主线入口在最前，然后是关卡场景，
+  // 最后是其余特殊场景 —— 组内仍按场景号升序（场景号是键，顺序不能乱）。
+  for (const group of sceneOptionGroups(structure, scene)) {
+    const groupNode = el('optgroup', { label: group.label });
+    for (const s of group.scenes) {
+      groupNode.appendChild(el('option', {
+        value: String(s), text: sceneLabel(s), selected: s === scene,
+      }));
+    }
+    sceneSelect.appendChild(groupNode);
   }
 
   container.appendChild(el('div', { class: 'panel-head' }, [
     el('div', {}, [
-      el('h2', { text: `${root.label} · 第 ${scene} 场` }),
+      el('h2', { text: `${root.label} · ${sceneLabel(scene)}` }),
       el('div', { class: 'panel-sub' }, [
         el('span', { text: `ROM ${pointer ? '0x' + pointer.toString(16).toUpperCase() : '—'}` }),
         el('span', { text: `文件偏移 0x${offset.toString(16).toUpperCase()}` }),
@@ -83,6 +94,13 @@ export function renderScriptView(container, ctx) {
     ]),
     el('div', { class: 'panel-tools' }, [rootSelect, sceneSelect]),
   ]));
+
+  // 这一场**是什么** + 场景号怎么读（与对白编辑器同一套说法）。
+  const hint = sceneHint(scene);
+  container.appendChild(el('p', { class: 'section-note', text: [
+    hint ? `这一场：${sceneTag(scene)}。${hint}` : '',
+    SCENE_ID_NOTE,
+  ].filter(Boolean).join(' ') }));
 
   container.appendChild(el('div', { class: 'rule-note' }, [
     el('span', { class: 'rule-title', text: '说明' }),
@@ -176,14 +194,14 @@ export function textSegmentCell(ctx, segment, onEdited) {
   const meta = el('div', { class: 'script-text-meta' });
 
   if (segment.speaker !== null && segment.speaker !== undefined) {
-    const name = speakerName(pack, segment.speaker);
     meta.appendChild(el('span', {
       class: 'script-text-speaker',
-      title: '0x20 的第 2 字节是这条指令自带的说话人/头像 id' +
-        '（说话人名表 0x5A57C4，步长 12 字节）。本 ROM 里它恒为 1；' +
-        '游戏显示的名牌取自对话框状态（由 0x08 指令设置），' +
-        '所以这类对白的说话人通常写在正文里。',
-      text: `说话人 #${segment.speaker}${name ? `（${name}）` : ''}`,
+      title: '这是 `0x20` 指令自带的**一段内联文本** —— 游戏把它画在消息框' +
+        '**顶上那一行（名字行）**，与说话人名表里的名字同一个位置、同一套颜色；' +
+        '它后面那条 `0x01` 是**同一条消息**的正文。' +
+        '（`0x20` 的第 2 字节 handler `0x08097A66` 并不读，本 ROM 里它恒为 1。）' +
+        '依据：notes/evidence/dialogue-name-row-20261024.md',
+      text: '名字行（0x20 内联文本）',
     }));
   }
   for (const token of segment.controls) {
@@ -276,14 +294,6 @@ export function textSegmentCell(ctx, segment, onEdited) {
 
   refresh();
   return cell;
-}
-
-/** The name of a speaker id (the inline 12-byte table at 0x5A57C4). */
-function speakerName(pack, id) {
-  const table = pack.textTable('speaker_names');
-  if (!table) return null;
-  const record = (table.records || []).find((r) => r.id === id);
-  return record ? record.text : null;
 }
 
 /** An editable operand: a proved fixed-width field inside the instruction. */

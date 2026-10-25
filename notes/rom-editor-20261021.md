@@ -1503,6 +1503,113 @@ master 的既有门禁（`verify_load_flow` 37 条、`verify_dialogue_view` 56 �
 
 ---
 
+### 6.19 第二十二轮（2026-10-24）：载入 ROM 的两个 bug —— 弹窗里选了内置 ROM 却没载入，顶栏一直转
+
+> 用户反馈（两条，原话）：
+> 1. **「打开 html rom 编辑器时，在弹出的界面选择内置 ROM 后，内置 ROM 实际上没有被加载」**
+> 2. **「再点击 ROM【木叶战记熊组汉化版原版】后，ROM 已经完成加载了顶部还一直显示加载中的滚动条」**
+>
+> 这两条是**同一个根因的两半**：第十九轮（门禁）把「载入 ROM」拆成了
+> 「取字节」与「收下 ROM」两步，但**两条来源各写一遍**，其中一遍漏了后半截。
+
+#### 6.19.1 事实：两条来源不对称
+
+第十九轮的门禁接线（`app.js::requestRom`）：
+
+```js
+loadBundled: (onProgress) => fetchBundledRom(onProgress),        // ← 只取字节，**不写状态**
+loadFile: async (file) => {
+  const bytes = await readFile(file);
+  await applyRom(bytes, 'file', file.name || 'base.gba');        // ← 这条写了状态
+  return bytes;
+},
+```
+
+规格里本来就写了「载入成功的**后续动作**……合并成一个函数 `applyLoadedRom()`，
+两条路径共用」（`notes/specs/rom-gate-20261023.md` §2.3），
+**实现时只接上了本地文件那条**。
+
+⇒ 门禁的「载入内置 ROM」按流程走完了（字节取到了、门禁关了），
+但 `state.rom` 还是 `null`：**ROM 一个字节都没进到编辑器里**。
+用户看到的现象：弹窗关掉以后，载入状态条仍然是
+「ROM　木叶战记熊组汉化版原版　│　在本地浏览上传」—— 没有 √。
+
+`app.js` 里那句注释「载入条与门禁走的是同一条路 —— 区别只在**谁来调它**」
+当时是**假宣称**：代码里是**两段各写一遍的代码**，而且其中一段少了「收下 ROM」。
+
+#### 6.19.2 事实：顶栏进度条没人撤
+
+载入状态条上那个【木叶战记熊组汉化版原版】按钮走的
+`loadBundledRomAction()`：`showProgress(...)` → 取字节 → `applyRom(...)` → toast。
+**从头到尾没有 `hideProgress()`** ⇒ 顶栏那个 `indeterminate` 的
+「加载中」滚动条一直转下去。
+
+进度条的「显示」与「撤掉」分写在两处，漏一处就永远转 ——
+而内容包装载那条路（`loadPack()`）是成对写的，所以这个洞只在 ROM 这条路上露出来。
+
+#### 6.19.3 改法：流程只有一条
+
+新增 `rom-editor/js/romload.js`（无 DOM 依赖，纯流程）：
+
+| | 改前 | 改后 |
+|---|---|---|
+| 来源 | 两条路各写一遍（内置 / 本地） | 两条路只提供「怎么取字节」，其余同一条流程 |
+| 写状态 | 本地那条写了，内置那条没写 | **流程里必定调 `apply()`**，漏不掉 |
+| 进度条 | 显示在一处、撤掉在另一处 | 显示与撤掉**成对**在流程里（成功撤、失败变红留在屏幕上） |
+| 取不到字节 | 门禁自己判「没有读到任何字节」 | 流程里统一判（`没有读到任何字节`） |
+
+`app.js` 的三处接线全部收敛到 `romLoader`：
+
+```js
+const romLoader = createRomLoader({
+  fetchBundled: fetchBundledRom,
+  readLocalFile: readFile,
+  apply: applyRom,
+  indicator: { show: showProgress, hide: hideProgress,
+               showError: (text) => showProgress({ error: true, label: text }) },
+});
+```
+
+- 门禁：`loadBundled: (onProgress) => romLoader.loadBundled(onProgress)`、
+  `loadFile: (file) => romLoader.loadFile(file)` —— **两条都写状态**（BUG-1 修好）。
+- 载入状态条：`romLoader.loadBundled(null, { bar: true })` —— 载入结束**一定**撤条（BUG-2 修好）。
+- 顺带：`hideProgress()` 现在会把 `indeterminate` 动画态与宽度**复位**
+  （以前只是加了个 `hidden`，动画状态留在 fill 上，下一次显示时是上一次的残留）。
+
+#### 6.19.4 验证
+
+新增 `rom-editor/tools/verify_rom_load.mjs`（**38 条**），三段：
+
+1. **流程模块**（`js/romload.js`）：两条来源都写状态、参数对；
+   带进度条的那条路结束时**一定**撤条；失败时**不撤**（要让作者看得见没载入成功）。
+2. **端到端**：**真的 import `js/app.js`**（桩 DOM + 桩 fetch），
+   在门禁里点「载入内置 ROM」⇒ `state.rom` 真的有 6,291,456 字节、
+   载入状态条上有 √、顶栏进度条收着。
+3. **端到端**：先让内置 ROM **第一次**取不到（门禁如实报错、窗口留着），
+   于是去点载入状态条上的【木叶战记熊组汉化版原版】⇒ ROM 载入了，
+   **顶栏的滚动条撤掉了**、进度条没停在 `indeterminate` 动画态。
+
+**旧代码上会红**（把 `app.js` 临时还原到 8563df2e 再跑）：**8 项失败** ——
+`state.rom 还是空的` / 载入状态条上没有 √ / `class=""`（进度条没收）
+/ `class="indeterminate"`（动画还在转）。
+⇒ 这道门禁**真的**能抓住这两个 bug，不是空转。
+
+**回归**：22 道既有门禁全过（`verify_pack` / `verify_views` / `verify_load_flow` 37 条 /
+`verify_rom_gate` / `verify_sources` / `verify_labels` / `verify_syntax` 81 个文件）。
+
+#### 6.19.5 踩到的三个坑
+
+1. **ESM 在 Node 里按 URL 缓存** ⇒ 两段端到端要各跑一份干净的 `app.js` 实例，
+   办法是查询串：`import('../js/app.js?case=gate')` / `?case=loadbar`。
+2. **`state.rom` 不能当「载入完成」的信号** —— `applyRom()` 是**开头**就设它的，
+   而 `renderLoadBar()` 与撤进度条在**后面** ⇒ 测试会跑在界面刷新**前面**。
+   真正的完成信号是**载入成功的 toast**（它在整条流程之后才出现）。
+3. **门禁把外壳置了 `inert`** —— 桩 DOM 不会真的挡住点击，
+   所以第三段可以直接点载入状态条上的按钮；
+   「点不到窗口后面的东西」那件事由 `verify_rom_gate.mjs` 负责（G10）。
+
+---
+
 ## 7. 现在重要的文件
 
 | 文件 | 作用 |
@@ -1513,6 +1620,8 @@ master 的既有门禁（`verify_load_flow` 37 条、`verify_dialogue_view` 56 �
 | `rom-editor/content/text-index.json(.gz)` | 全 ROM 文本索引（16,915 条，按需载入） |
 | `rom-editor/content/base-rom/` | 内置原版 ROM（gzip）+ 载入器页面 |
 | `rom-editor/js/rom.js` | ROM 构建器（结构写回 + 文本重定位 + 空闲区分配） |
+| `rom-editor/js/romload.js` | 载入 ROM 的**唯一流程**（取字节 → 写状态 → 管顶栏进度条；内置/本地两条来源共用） |
+| `rom-editor/js/romgate.js` | 载入 ROM 门禁（窗口形状、关不掉、焦点锁） |
 | `rom-editor/js/pack.js` | 内容包模型（记录重编码、脏标记） |
 | `rom-editor/js/textcodec.js` | 字形码编解码 |
 | `rom-editor/js/textindex.js` | 全 ROM 文本索引的按需载入（战斗目标说明文字已独立成表） |
@@ -1520,6 +1629,8 @@ master 的既有门禁（`verify_load_flow` 37 条、`verify_dialogue_view` 56 �
 | `rom-editor/js/modules/*.js` | 六个域 + 音频 + 素材与资源 + 概览 + 原始字节 |
 | `rom-editor/tools/verify_pack.mjs` | 命令行自检（重建 + 逐域落点 + 战斗目标说明文字） |
 | `rom-editor/tools/verify_views.mjs` | 无头视图自检（九个模块渲染 + 战斗视图断言） |
+| `rom-editor/tools/verify_rom_load.mjs` | 载入 ROM 的回归验收（流程模块 + 两段端到端：门禁内置 ROM / 载入状态条，共 38 条） |
+| `rom-editor/tools/verify_rom_gate.mjs` | 门禁的契约自检（G1–G12，27 条） |
 | `rom-editor/tools/selftest.html` | 浏览器内自检（所有模块渲染 + 面板打开 + 逐域落点 + 原始字节补丁 + 剧情 VM 操作数 + 控制码保留 + 战斗目标说明文字） |
 | `rom-editor/tools/serve.mjs` | 静态服务器（兼收自检结果上报 `POST /__report`） |
 | `rom-editor/js/battletriggers.js` | 战斗域的「剧情触发」模型（触发块 / 剧情段 / 跳转目标 / 人话摘要，纯计算无 DOM） |
@@ -1535,6 +1646,7 @@ python tools\export_content_pack.py          # 重新导出内容包
 python tools\export_content_pack.py --check  # 校验内容包 == 当前 ROM
 node rom-editor\tools\verify_pack.mjs        # 命令行自检（30 项）
 node rom-editor\tools\verify_views.mjs       # 无头视图自检（30 项）
+node rom-editor\tools\verify_rom_load.mjs    # 载入 ROM 的回归验收（38 条：门禁内置 ROM / 载入状态条）
 node rom-editor\tools\serve.mjs 8765         # 起编辑器
 # 浏览器打开 http://localhost:8765/rom-editor/tools/selftest.html（45 项）
 #   本机内置浏览器会在页面加载后约 210 ms 自动重载，跑不完是环境问题；

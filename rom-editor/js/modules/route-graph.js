@@ -9,6 +9,7 @@
 
 import { el, clear } from '../ui.js';
 import { backButton, summaryTable } from './common.js';
+import { LEVEL_SCENE_MAX, sceneLabel } from '../sceneid.js';
 
 /** 关卡数（任务索引表 0..47，其中 1..46 是有效关卡）。 */
 export const STAGE_COUNT = 46;
@@ -27,10 +28,16 @@ const SCRIPT_ROOTS = {
   events: '战场事件表',
 };
 
-/** 「战前剧情（第 40 关）」 */
+/**
+ * 「战前剧情 · 场景 40（第 40 关）」
+ *
+ * **场景号不是「第几场」** —— 1..46 是关卡场景（场景号 = 关卡号），
+ * 47..55 是关卡之外的特殊场景，其中 54 是主线入口（游戏开局）。
+ * 所以这里用 `sceneLabel()`：关卡场景仍带「第 N 关」，特殊场景带它是什么。
+ */
 export function scriptLabel(script) {
   const root = SCRIPT_ROOTS[script.root] || script.root;
-  return `${root}（第 ${script.scene} 关）`;
+  return `${root} · ${sceneLabel(script.scene)}`;
 }
 
 /** 指令的「走向」：0x16 转到 after 剧本，0x1A 推进路线游标。 */
@@ -78,15 +85,36 @@ export function collectEdges(pack) {
 /** 目标场景的文字：after 剧本在不在，决定说「after 剧本」还是「无 after 剧本」。 */
 export function targetText(scene, afterSet) {
   if (scene === 0) return '0 · 场景 0';
-  if (afterSet.has(scene)) return `第 ${scene} 关 · after 剧本`;
-  return `第 ${scene} 关 · 无 after 剧本`;
+  const label = sceneLabel(scene);
+  return afterSet.has(scene) ? `${label} · after 剧本` : `${label} · 无 after 剧本`;
 }
 
-/** 可点的「目标」：跳到那一关。 */
+/**
+ * 可点的「目标」。
+ *
+ * 关卡场景（1..46）跳到那一关的关卡工作台；
+ * 关卡之外的场景（47..55，比如主线入口 54）**没有「第 N 关」**，
+ * 跳到剧情域的对白编辑器才是对的地方 —— 跳关卡工作台会落在一张空页上。
+ */
 export function targetLink(ctx, scene, afterSet) {
+  const text = targetText(scene, afterSet);
+  if (scene > LEVEL_SCENE_MAX) {
+    return el('span', {
+      class: 'xref-link',
+      text,
+      title: `跳到对白编辑器：${sceneLabel(scene)}`,
+      onclick: () => ctx.onJump({
+        module: 'story',
+        kind: 'dialogue',
+        id: '对白',
+        params: { root: 'before', scene },
+        label: sceneLabel(scene),
+      }),
+    });
+  }
   return el('span', {
     class: 'xref-link',
-    text: targetText(scene, afterSet),
+    text,
     title: `跳到第 ${scene} 关`,
     onclick: () => ctx.openPanel('stage', 'stage', { stage: scene }),
   });

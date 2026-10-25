@@ -12,6 +12,7 @@
 import { idRelationName } from './fields.js';
 import { indexKey } from './indexkey.js';
 import { idSpace } from './idspace.js';
+import { sceneLabel } from './sceneid.js';
 
 export { idSpace };
 
@@ -360,10 +361,15 @@ function buildSourceIndex(pack) {
   return index;
 }
 
-/** 「战前剧情 第 3 场」 */
+/**
+ * 「战前剧情 · 场景 3（第 3 关）」
+ *
+ * 场景号是 ROM 里的键，**不是「第几场」** —— 1..46 是关卡场景，
+ * 47..55 是关卡之外的特殊场景（54 是主线入口 / 游戏开局）。
+ */
 function scriptLabel(script) {
   const root = { before: '战前剧情', after: '战后剧情', logic: '战场事件逻辑', events: '战场事件' };
-  return `${root[script.root] || script.root} 第 ${script.scene} 场`;
+  return `${root[script.root] || script.root} · ${sceneLabel(script.scene)}`;
 }
 
 /**

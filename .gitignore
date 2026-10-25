@@ -41,6 +41,11 @@ build/tiles/
 .venv/
 references/
 
+# 编译中间产物（探针本地编译产生，可由构建脚本重建）
+*.obj
+*.pdb
+*.ilk
+
 # Experiment outputs
 rom/experiment-*.gba
 rom/experiment-*.sav
