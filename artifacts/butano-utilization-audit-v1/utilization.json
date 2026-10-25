@@ -1,0 +1,156 @@
+{
+ "schema": "konoha.butano-reverse-utilization-audit.v1",
+ "inputs": {
+  "butano_root": "D:\\Shell\\Github\\gba-naruto-butano",
+  "gap_receipt": "artifacts\\butano-reverse-gap-v1\\gap.json",
+  "backlog_receipt": "artifacts\\butano-usable-backlog-v1\\backlog.json",
+  "wiring_receipt": "artifacts\\butano-wiring-coverage-v1\\wiring.json",
+  "notes_index": "artifacts\\reverse-notes-index-v1\\notes-index.json",
+  "reverse_commit": "821d0937e058245aa7e6d29f23f96c7fc78e7375",
+  "reverse_dirty": false,
+  "rom_sha256": "1198ece781aaf629db1f0c6628b4f9f1849ecc4a2eac6a55d32748c2a459d05b",
+  "gap_generated_at": "2026-10-23T09:12:29.286688+00:00",
+  "backlog_generated_at": "2026-10-23T09:12:40.552667+00:00",
+  "wiring_generated_at": "2026-10-23T09:12:46.654618+00:00",
+  "notes_generated_at": "2026-10-23T09:13:54.487389+00:00"
+ },
+ "artifact_families": {
+  "total": 264,
+  "in_build_chain": 164,
+  "not_in_build_chain": 100,
+  "in_build_chain_by_state": {
+   "imported-and-gated": 109,
+   "local-rederived-identical": 41,
+   "verified-against": 2,
+   "wired-and-gated": 12
+  },
+  "not_in_build_chain_by_state": {
+   "no-material": 37,
+   "not-importable": 51,
+   "unclassified": 12
+  },
+  "lineage_of_wired": {
+   "declared_and_gated": 121,
+   "local_rederived_identical": 41,
+   "verified_against_only": 2
+  },
+  "accepted_closed": 201,
+  "accepted_and_consumed": 127,
+  "shelf_closed_with_payload_unwired": 65,
+  "shelf_by_tier": {
+   "analysis-only": 51,
+   "asset-direct": 1,
+   "table-direct": 1,
+   "unclassified": 12
+  },
+  "shelf_importable_unwired": [
+   "character-runtime-unit-oam-bindings-v1",
+   "overview-gradient-overlay-v1"
+  ],
+  "shelf_importable_untouched": [],
+  "by_category": {
+   "audio": {
+    "test": 1
+   },
+   "battle": {
+    "build": 3
+   },
+   "map": {
+    "build": 15
+   },
+   "other": {
+    "build": 9
+   },
+   "overview": {
+    "build": 2
+   },
+   "presentation": {
+    "build": 14
+   },
+   "residual": {
+    "build": 13
+   },
+   "rom": {
+    "build": 34,
+    "doc": 81,
+    "none": 10,
+    "test": 1
+   },
+   "runtime": {
+    "build": 5
+   },
+   "scenario": {
+    "build": 5,
+    "test": 1
+   },
+   "visual": {
+    "build": 64,
+    "doc": 6
+   }
+  }
+ },
+ "notes": {
+  "total": 436,
+  "by_bucket": {
+   "implemented_in_code": 29,
+   "missing_evidence": 19,
+   "needs_guard": 332,
+   "needs_human_review": 13,
+   "not_applicable": 43
+  },
+  "implemented_in_code": 29,
+  "needs_guard": 332,
+  "decided_total": 361,
+  "finished_total": 393,
+  "out_of_scope": 43,
+  "needs_guard_without_any_test_reference": 314
+ },
+ "ratios": {
+  "R1_importable_closed_unwired": {
+   "numerator": 2,
+   "denominator": 201,
+   "denominator_label": "accepted (closed) artifact families",
+   "percent": 1.0,
+   "family_ids": [
+    "character-runtime-unit-oam-bindings-v1",
+    "overview-gradient-overlay-v1"
+   ],
+   "of_which_read_as_evidence_only": [
+    "character-runtime-unit-oam-bindings-v1",
+    "overview-gradient-overlay-v1"
+   ],
+   "of_which_never_touched": []
+  },
+  "R1b_importable_closed_never_touched": {
+   "numerator": 0,
+   "denominator": 201,
+   "denominator_label": "accepted (closed) artifact families",
+   "percent": 0.0,
+   "family_ids": []
+  },
+  "R2_finished_conclusions_not_gated": {
+   "numerator": 332,
+   "denominator": 436,
+   "denominator_label": "all reverse notes",
+   "percent": 76.1
+  },
+  "R2b_finished_conclusions_not_gated_of_decided": {
+   "numerator": 332,
+   "denominator": 361,
+   "denominator_label": "notes that are decided (implemented or needs_guard)",
+   "percent": 92.0
+  },
+  "R3_payload_families_not_in_build_chain": {
+   "numerator": 65,
+   "denominator": 264,
+   "denominator_label": "all artifact families",
+   "percent": 24.6
+  },
+  "R4_all_families_not_in_build_chain": {
+   "numerator": 100,
+   "denominator": 264,
+   "denominator_label": "all artifact families",
+   "percent": 37.9
+  }
+ }
+}
