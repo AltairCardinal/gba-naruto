@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 """Y1 (wave 13): catch the stack overflow with a write watchpoint.
 
 The GBA user stack lives at 0x03007F00 (``__sp_usr``) and the IWRAM data
