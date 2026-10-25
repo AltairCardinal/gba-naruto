@@ -1,0 +1,132 @@
+Y4 dialogue typewriter -- the wiring points.
+
+The feature itself is in the three Y4 owned headers
+(battle_presentation_script.h, battle_presentation_text_layout.h,
+battle_presentation_content.h).  These five points are the only
+wiring it needs; they are in game/src/battle_runtime_scene.cpp (Y1)
+and game/include/konoha/battle_scene_controller.h (unowned).
+
+Apply from the root of the remake checkout with:
+    git apply notes/s49-fidelity/Y4-dialogue-typewriter-wiring.patch
+
+--- a/butano-sequel/game/src/battle_runtime_scene.cpp
++++ b/butano-sequel/game/src/battle_runtime_scene.cpp
+@@ -4438,17 +4438,21 @@
+     // exactly that state, so the icon lives here.  create_sprite takes the
+     // centre, and the icon's ink starts at its cell's top left corner, so the
+     // measured screen box (217,139)-(231,148) maps to (105, 67).
+-    bn::sprite_ptr advance_icon =
+-            bn::sprite_items::battle_ui_dialogue_advance_icon
+-                    .create_sprite(105, 67);
+-    advance_icon.set_bg_priority(0);
+-    sprites.push_back(
+-            static_cast<bn::sprite_ptr&&>(
+-                    advance_icon));
++    if(! state.script.typewriter_active)
++    {
++        bn::sprite_ptr advance_icon =
++                bn::sprite_items::battle_ui_dialogue_advance_icon
++                        .create_sprite(105, 67);
++        advance_icon.set_bg_priority(0);
++        sprites.push_back(
++                static_cast<bn::sprite_ptr&&>(
++                        advance_icon));
++    }
+     const int dialogue_label_graphics_index =
+             battle_unit_dialogue_label_graphics_index(
+                     state.script.speaker);
+-    if(dialogue_label_graphics_index >= 0)
++    if(state.script.visible_glyph_count > 0 &&
++            dialogue_label_graphics_index >= 0)
+     {
+         bn::sprite_ptr label =
+                 bn::sprite_items::
+@@ -4462,7 +4466,8 @@
+                 static_cast<bn::sprite_ptr&&>(
+                         label));
+     }
+-    else if(dialogue_name[0] != '\0')
++    else if(state.script.visible_glyph_count > 0 &&
++            dialogue_name[0] != '\0')
+     {
+         story_text_generator.set_left_alignment();
+         story_text_generator.set_palette_item(
+@@ -4478,7 +4483,9 @@
+                         .palette_item());
+     }
+     for(std::size_t index = 0;
+-            index < layout.glyph_count(); ++index)
++            index < layout.glyph_count() &&
++                    index < state.script.visible_glyph_count;
++            ++index)
+     {
+         const battle_presentation_glyph& glyph =
+                 *layout.glyph(index);
+@@ -5984,9 +5991,16 @@
+                     battle_scene_phase::script_blocked &&
+             ! presentation_busy)
+     {
+-        renderer.update(
+-                state.script.portraits,
+-                scratch);
++        if(state.script.portraits_revealed)
++        {
++            renderer.update(
++                    state.script.portraits,
++                    scratch);
++        }
++        else
++        {
++            renderer.reset();
++        }
+     }
+     else
+     {
+@@ -7952,7 +7966,8 @@
+             // presentation events.  Otherwise a dialogue can keep
+             // reporting wait_for_input while its confirmation is
+             // starved by a presentation queued on the same boundary.
+-            if(! script_confirmation_latched &&
++            if(! state.script.typewriter_active &&
++                    ! script_confirmation_latched &&
+                     bn::keypad::a_held())
+             {
+                 script_confirmation_latched = true;
+@@ -8147,6 +8162,15 @@
+         rejection_changed =
+                 rejection.update(
+                         handled, result.success());
++        if(state.phase ==
++                        battle_scene_phase::script_blocked &&
++                state.script.phase ==
++                        battle_presentation_script_phase::
++                                wait_for_input &&
++                state.script.typewriter_active)
++        {
++            controller.advance_typewriter();
++        }
+         state = controller.snapshot();
+         object_state = controller.object_snapshot();
+         map_movement.observe(state);
+--- a/butano-sequel/game/include/konoha/battle_scene_controller.h
++++ b/butano-sequel/game/include/konoha/battle_scene_controller.h
+@@ -1058,6 +1058,19 @@
+         }
+     }
+ 
++    // Advance the dialogue typewriter by one frame.
++    //
++    // The original reveals a dialogue line one character at a time; the
++    // runtime calls this once per frame while the script waits for input.
++    [[nodiscard]] bool advance_typewriter()
++    {
++        if(_phase != battle_scene_phase::script_blocked)
++        {
++            return false;
++        }
++        return _script.advance_typewriter();
++    }
++
+     [[nodiscard]] battle_scene_control_result tick()
+     {
+         if(_phase == battle_scene_phase::script_blocked)

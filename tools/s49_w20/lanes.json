@@ -1,0 +1,43 @@
+{
+  "shared_tree": "D:\\Shell\\Github\\gba-naruto-butano\\butano-sequel",
+  "lane_root": "D:\\Github\\gba-naruto\\build",
+  "parent_owned": [
+    "game/include/konoha/battle_scene_presentation.h"
+  ],
+  "ignore": [
+    "game/tests/e2_dbg.cpp",
+    "game/src/battle_runtime_scene.cpp",
+    "game/include/konoha/battle_scene_controller.h",
+    "game/include/konoha/battle_mission_rules.h"
+  ],
+  "lanes": {
+    "w20-e1": {
+      "topic": "wave22-D1 transition (round banner -> prepare box -> camera pan -> unit selection)",
+      "owned": [
+        "game/src/battle_runtime_scene.cpp",
+        "game/include/konoha/battle_visual_resource_coordinator.h",
+        "game/include/konoha/battle_scene_controller.h"
+      ]
+    },
+    "w20-e2": {
+      "topic": "wave22-D5 battle-14 direct attack + wave20-E2 experience award test",
+      "owned": [
+        "game/include/konoha/battle_mission_rules.h",
+        "game/tests/test_battle_experience_award.cpp"
+      ]
+    },
+    "w20-e3": {
+      "topic": "wave21-C4 measured presentation timing table",
+      "owned": [
+        "game/include/konoha/battle_map_visual_projection.h",
+        "game/include/konoha/battle_map_content.h",
+        "game/include/konoha/battle_scene_presentation.h",
+        "game/include/konoha/battle_original_states.h"
+      ]
+    },
+    "w20-e4": {
+      "topic": "wave20-E4 reverse forensics (no product files)",
+      "owned": []
+    }
+  }
+}

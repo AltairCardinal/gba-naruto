@@ -1,0 +1,17 @@
+{
+  "schema": "konoha.s49-victory-route.v1",
+  "note": "Exploration route: battle-14 intro dialogue, then open the action menu's jutsu list and pick the cross shuriken.",
+  "start_state": "D:\\Shell\\Github\\gba-naruto-butano\\artifacts\\runtime-checkpoints\\scenario-49-battle-14-entry.ss9",
+  "segments": [
+    {
+      "label": "intro",
+      "settle": 90,
+      "keys": "A*18"
+    },
+    {
+      "label": "jutsu",
+      "settle": 60,
+      "keys": "Down,A,Down,Down,Down,A"
+    }
+  ]
+}

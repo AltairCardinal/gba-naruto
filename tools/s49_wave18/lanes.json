@@ -1,0 +1,82 @@
+{
+  "shared_tree": "D:\\Shell\\Github\\gba-naruto-butano\\butano-sequel",
+  "lane_root": "D:\\Github\\gba-naruto\\build",
+  "parent_owned": [
+    "game/include/konoha/battle_range_ui_style.h",
+    "game/tests/test_battle_range_ui_style.cpp"
+  ],
+  "lanes": {
+    "w18-w1": {
+      "topic": "stack-overflow",
+      "owned": [
+        "game/include/konoha/battle_action_system.h",
+        "game/include/konoha/battle_encounter_runtime.h",
+        "game/include/konoha/battle_action_combinations.h",
+        "game/include/konoha/battle_turn_flow.h"
+      ]
+    },
+    "w18-w2": {
+      "topic": "confirm-yes",
+      "owned": [
+        "game/include/konoha/battle_scene_controller.h",
+        "game/include/konoha/battle_player_action_flow.h",
+        "game/include/konoha/battle_action_execution.h"
+      ]
+    },
+    "w18-w3": {
+      "topic": "black-fade",
+      "owned": [
+        "game/include/konoha/battle_opening_title.h",
+        "src/main.cpp",
+        "game/src/battle_preparation_scene.cpp",
+        "game/include/konoha/battle_black_field.h",
+        "game/include/konoha/battle_black_field_timing.h",
+        "game/include/konoha/battle_black_field_star.h"
+      ]
+    },
+    "w18-w4": {
+      "topic": "settlement-tail",
+      "owned": [
+        "game/src/battle_runtime_scene.cpp",
+        "game/include/konoha/battle_result_content.h",
+        "game/include/konoha/battle_presentation_content.h",
+        "game/include/konoha/battle_ui_model.h"
+      ]
+    },
+    "w18-w5": {
+      "topic": "walk-divergence",
+      "owned": []
+    },
+    "w19-a": {
+      "topic": "opening-title",
+      "owned": [
+        "game/include/konoha/battle_opening_title.h",
+        "game/src/battle_runtime_scene.cpp",
+        "game/tests/test_battle_opening_title.cpp"
+      ]
+    },
+    "w19-b": {
+      "topic": "settlement-tail",
+      "owned": [
+        "game/include/konoha/battle_result_content.h",
+        "game/include/konoha/battle_presentation_content.h",
+        "game/include/konoha/battle_ui_model.h"
+      ]
+    },
+    "w19-c": {
+      "topic": "black-fade",
+      "owned": [
+        "game/include/konoha/battle_visual_resource_coordinator.h",
+        "game/include/konoha/battle_black_field_star_mask.h",
+        "game/include/konoha/battle_black_field_timing.h",
+        "game/include/konoha/battle_black_field.h",
+        "game/src/battle_preparation_scene.cpp",
+        "src/main.cpp"
+      ]
+    },
+    "w19-d": {
+      "topic": "real-settlement-chain",
+      "owned": []
+    }
+  }
+}
